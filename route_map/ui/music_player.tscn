@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://route_map/ui/theme.tres" id="1_tpxsv"]
+[ext_resource type="Script" path="res://route_map/ui/music_player.gd" id="2_ldngq"]
+
+[node name="MusicPlayer" type="PanelContainer" unique_id=1726617555]
+theme = ExtResource("1_tpxsv")
+script = ExtResource("2_ldngq")
+
+[node name="Player" type="AudioStreamPlayer" parent="." unique_id=1797277170]
+volume_db = -3.0980392
+
+[node name="Body" type="VBoxContainer" parent="." unique_id=255922265]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Body" unique_id=1648829540]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.1, 0.11, 0.13, 0.6)
+clip_text = true
+
+[node name="Controls" type="HBoxContainer" parent="Body" unique_id=189179539]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Prev" type="Button" parent="Body/Controls" unique_id=939825794]
+custom_minimum_size = Vector2(34, 26)
+layout_mode = 2
+tooltip_text = "Previous"
+text = "|◀"
+
+[node name="Play" type="Button" parent="Body/Controls" unique_id=1847555417]
+custom_minimum_size = Vector2(34, 26)
+layout_mode = 2
+tooltip_text = "Play / pause"
+text = "▶"
+
+[node name="Next" type="Button" parent="Body/Controls" unique_id=113684458]
+custom_minimum_size = Vector2(34, 26)
+layout_mode = 2
+tooltip_text = "Next"
+text = "▶|"
+
+[node name="Volume" type="HSlider" parent="Body/Controls" unique_id=1773286298]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Volume"
+max_value = 1.0
+step = 0.01
+value = 0.7

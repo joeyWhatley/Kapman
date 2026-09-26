@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kāpman — Paper Prototype v0.1</title>
+<!--
+  Kāpman paper prototype. All tunable numbers live in the DATA block below.
+  Edit, then re-print with build_pdf.ps1 (or open in a browser and Print → Save as PDF, margins "Default", no headers/footers).
+-->
+<style>
+  @page { size: letter; margin: 0.4in; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", Arial, sans-serif; font-size: 9.6pt; line-height: 1.3; color: #000; }
+  .page { width: 7.7in; height: 10.15in; overflow: hidden; break-after: page; position: relative; }
+  .page:last-child { break-after: auto; }
+  h1 { font-family: Georgia, serif; font-size: 18pt; margin: 0 0 2pt; letter-spacing: 0.5pt; }
+  h2 { font-family: Georgia, serif; font-size: 11pt; margin: 7pt 0 2pt; border-bottom: 1px solid #000; padding-bottom: 1pt; }
+  h3 { font-size: 9.6pt; margin: 5pt 0 1pt; }
+  p { margin: 2pt 0; }
+  ul, ol { margin: 1pt 0 2pt; padding-left: 15pt; }
+  li { margin: 0.5pt 0; }
+  .sub { font-size: 8.5pt; color: #444; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #000; margin-bottom: 4pt; }
+  .head .tag { font-size: 8pt; color: #444; }
+  .cols { display: flex; gap: 0.22in; }
+  .cols > div { flex: 1; min-width: 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #000; padding: 2pt 4pt; vertical-align: top; }
+  th { background: #e6e6e6; text-align: left; }
+  .num { text-align: center; }
+  .box { border: 1.5px solid #000; padding: 4pt 6pt; margin: 4pt 0; }
+  .grey { background: #efefef; }
+  b.k { font-variant: small-caps; }
+  .tiny { font-size: 7.5pt; }
+
+  /* Market grid */
+  .market td.cell { height: 0.62in; width: 0.95in; padding: 0; position: relative; }
+  .market .base { position: absolute; left: 4pt; top: 2pt; font-size: 15pt; font-weight: 700; }
+  .market .note { position: absolute; right: 3pt; top: 3pt; font-size: 6.5pt; text-align: right; line-height: 1.1; }
+  .market .marks { position: absolute; left: 3pt; right: 3pt; bottom: 3pt; height: 0.2in; border: 1px dashed #777; font-size: 6pt; color: #777; padding-left: 2pt; }
+  .market .none { background: repeating-linear-gradient(45deg,#fff,#fff 5px,#ddd 5px,#ddd 6px); }
+  .market th.port { width: 1.1in; }
+  .market th.port .fac { font-weight: 400; font-size: 7.5pt; display:block; }
+
+  /* Tracker */
+  .days { display: grid; grid-template-columns: 1.25in repeat(15, 1fr); border-left: 1px solid #000; border-top: 1px solid #000; }
+  .days div { border-right: 1px solid #000; border-bottom: 1px solid #000; height: 0.33in; font-size: 7pt; padding: 1pt 2pt; position: relative; }
+  .days .lab { font-size: 7.5pt; font-weight: 700; line-height: 1.1; }
+  .days .lab span { font-weight: 400; display: block; font-size: 6.5pt; }
+  .days .due { background: #000; color: #fff; font-weight: 700; }
+  .days .shade { background: #eee; }
+  .pips { display: inline-flex; gap: 3pt; vertical-align: middle; }
+  .pips i { display: inline-block; width: 0.2in; height: 0.2in; border: 1.5px solid #000; font-style: normal; font-size: 6.5pt; text-align: center; line-height: 0.18in; }
+  .pips i.x { background: #ddd; border-style: dashed; }
+  .ledger td { height: 0.235in; }
+
+  /* Cards */
+  .cards { display: grid; border-top: 1px dashed #000; border-left: 1px dashed #000; }
+  .card { border-right: 1px dashed #000; border-bottom: 1px dashed #000; padding: 0.14in; overflow: hidden; display: flex; flex-direction: column; }
+  .card .ct { font-family: Georgia, serif; font-size: 13pt; font-weight: 700; line-height: 1.1; }
+  .card .cy { font-size: 8pt; color: #444; margin-bottom: 3pt; }
+  .card .cf { font-style: italic; font-size: 8pt; margin: 2pt 0 4pt; color: #222; }
+  .card .ce { font-size: 8.5pt; }
+  .card .ce ul { padding-left: 11pt; }
+  .card .foot { margin-top: auto; font-size: 7pt; color: #555; border-top: 1px solid #999; padding-top: 2pt; }
+  .card .kind { font-size: 7pt; letter-spacing: 1pt; text-transform: uppercase; color: #555; }
+
+  svg text { font-family: "Segoe UI", Arial, sans-serif; }
+</style>
+</head>
+<body>
+
+<script>
+/* ============================ DATA (tune here) ============================ */
+const GOODS = [
+  { id: "grain",  name: "Grain",  note: "staple" },
+  { id: "cloth",  name: "Cloth",  note: "Frisian cloth" },
+  { id: "wine",   name: "Wine",   note: "Rhenish · seasonal" },
+  { id: "furs",   name: "Furs",   note: "luxury · winter demand" },
+  { id: "amber",  name: "Amber",  note: "luxury" },
+  { id: "swords", name: "Swords", note: "CONTRABAND" },
+];
+
+// fac: F = Frankish (contraband checks, can't sell swords), E = English, D = Danish
+// prices per LOT, in silver (s). swords: number = price, "buy" suffix handled by swordRule.
+const PORTS = {
+  Dorestad:  { fac: "F", x: 479, y: 492, lab: "right", tag: "HOME · the reeve", prices: [6, 10,  8, 20, 24, 12], swords: "buy" },
+  Medemblik: { fac: "F", x: 468, y: 396, lab: "right", tag: "Frisian cloth",    prices: [5,  7, 10, 19, 23, null], swords: "none" },
+  Quentovic: { fac: "F", x: 292, y: 672, lab: "right", tag: "Frankish mint",    prices: [5, 10,  9, 20, 25, 13], swords: "buy" },
+  Lundenwic: { fac: "E", x: 198, y: 552, lab: "left", tag: "Mercia",           prices: [8, 13, 14, 17, 27, 22], swords: "sell" },
+  Hamwic:    { fac: "E", x: 130, y: 624, lab: "below", tag: "Wessex",           prices: [7, 13, 14, 18, 27, 22], swords: "sell" },
+  Eoforwic:  { fac: "E", x: 146, y: 252, lab: "left", tag: "Northumbria",      prices: [9, 15, 17, 15, 26, 24], swords: "sell" },
+  Ribe:      { fac: "D", x: 661, y: 96,  lab: "above",  tag: "Danish",           prices: [9, 13, 15, 13, 19, 28], swords: "sell" },
+  Hedeby:    { fac: "D", x: 703, y: 192, lab: "below", tag: "Danish · Baltic",  prices: [11, 15, 17, 10, 14, 30], swords: "sell" },
+};
+
+// type: coastal (encounter on 1), open (1-2), land (no encounters, cart hire 1s per lot)
+const ROUTES = [
+  ["Dorestad",  "Medemblik", 2, "coastal"],
+  ["Dorestad",  "Quentovic", 3, "coastal"],
+  ["Dorestad",  "Lundenwic", 4, "open"],
+  ["Medemblik", "Ribe",      4, "coastal"],
+  ["Medemblik", "Eoforwic",  5, "open"],
+  ["Quentovic", "Lundenwic", 2, "open"],
+  ["Quentovic", "Hamwic",    3, "open"],
+  ["Lundenwic", "Hamwic",    3, "coastal"],
+  ["Lundenwic", "Eoforwic",  4, "coastal"],
+  ["Eoforwic",  "Ribe",      6, "open"],
+  ["Ribe",      "Hedeby",    2, "land"],
+];
+
+const START = { silver: 30, debt: 100, hull: 8, crew: 6, crewMax: 8, morale: 5, hold: 6, due: 60, graceUntil: 75 };
+/* ========================================================================== */
+</script>
+
+<!-- ============================== PAGE 1: RULES ============================== -->
+<section class="page">
+  <div class="head"><h1>KĀPMAN — Rules</h1><span class="tag">Paper prototype v0.1 · core loop only · 1 player · ~45 min</span></div>
+  <p><i>c. 790. Frisia lies under Frankish rule. You borrowed <b>100 silver</b> from the Count's reeve at Dorestad to buy a small trading ship. Pay him back in full, in Dorestad, by <b>day 60</b> — or lose the ship and your freedom.</i></p>
+  <p><b>You need:</b> this packet, <b>one d6</b>, a pencil and eraser, and a coin for your ship. Write everything in pencil.</p>
+
+  <div class="cols">
+  <div>
+    <h2>Setup</h2>
+    <ol>
+      <li>Ship coin on <b>Dorestad</b>. Day marker on <b>day 1</b> (Tracker sheet).</li>
+      <li>Silver <b>30</b>. Debt <b>100</b>. Hull <b>8</b>, Crew <b>6</b>, Morale <b>5</b>. Hold empty (<b>6 lots</b>).</li>
+      <li>Spring card face up. Shuffle the 6 event cards and draw 1: it applies all Spring.</li>
+    </ol>
+
+    <h2>A turn = one port visit, then one voyage</h2>
+    <h3>In port (takes no days)</h3>
+    <ol>
+      <li><b>Arrive.</b> Pay upkeep for the voyage just sailed: <b>1s per day</b>, plus <b>1s</b> for each crew above 6. Can't pay? Add the shortfall <b>+2</b> to your debt.</li>
+      <li><b>New season?</b> If the day marker entered a new season since your last port: flip to that season card, add <b>interest</b> (10% of debt, round up), <b>erase all marks</b> on the Market sheet, discard the event and <b>draw a new one</b>.</li>
+      <li><b>Market mood.</b> Roll d6 twice. 1st roll: that good <b>+3</b> here this visit. 2nd roll: that good <b>−3</b>. (Goods are numbered 1–6. Same number twice = no mood.)</li>
+      <li><b>Do business</b>, any order: sell, buy, repair Hull (<b>3s</b>/point), hire Crew (<b>5s</b> each, max 8), pay debt (<b>Dorestad only</b>).</li>
+      <li><i>Optional:</i> <b>wait a day</b> — +1 day, pay 1s, re-roll market mood.</li>
+    </ol>
+    <h3>Voyage</h3>
+    <ol start="6">
+      <li>Choose a route from this port (Map). Leaving a Frankish port with swords? <b>Contraband check</b>.</li>
+      <li>Move the day marker forward by the route's days (+1 if Crew is under 4; +1 in Winter by sea).</li>
+      <li><b>Encounter roll</b> (sea routes only): roll d6. Encounter if the roll is ≤ the route's danger: <b>coastal 1</b>, <b>open sea 1–2</b>. Summer and events can raise this. Then roll on the Encounter table.</li>
+      <li>Arrive at the new port → step 1.</li>
+    </ol>
+    <p class="sub">Overland (Ribe–Hedeby): no encounter roll; pay 1s per lot carried for carts.</p>
+
+    <h2>Encounter table (d6)</h2>
+    <table>
+      <tr><td class="num"><b>1–3</b></td><td><b>Viking raiders</b> — fight (Battle sheet). <i>Winter: Storm instead.</i></td></tr>
+      <tr><td class="num"><b>4</b></td><td><b>Storm</b> — Hull −1 and +1 day. <i>Winter: Hull −2.</i></td></tr>
+      <tr><td class="num"><b>5</b></td><td><b>Frankish patrol</b> — carrying swords? Contraband check. Otherwise nothing.</td></tr>
+      <tr><td class="num"><b>6</b></td><td><b>Frisian trader</b> — look at the top event card (put it back). You may swap 1 lot of cargo for 1 lot of any other good.</td></tr>
+    </table>
+  </div>
+  <div>
+    <h2>Prices</h2>
+    <p><b>Price = base + your marks + season + event + mood.</b> Minimum 1. You <b>buy and sell at the same price</b>, one lot at a time.</p>
+    <ul>
+      <li>After each lot you <b>buy</b>, mark <b>+1</b> on that good at that port.</li>
+      <li>After each lot you <b>sell</b>, mark <b>−1</b>.</li>
+      <li>Marks stay until the next season starts (markets recover).</li>
+    </ul>
+    <p class="sub">So 3 lots bought at base 7 cost 7 + 8 + 9 = 24. Big single-good cargoes eat their own profit; mix goods.</p>
+
+    <h2>Contraband: swords</h2>
+    <ul>
+      <li>Buy only at <b>Dorestad</b> and <b>Quentovic</b>, <b>max 3 lots</b> per visit. Cannot be sold at Frankish ports.</li>
+      <li><b>Contraband check</b> every time you <b>leave or enter</b> a Frankish port (Dorestad, Medemblik, Quentovic) with swords aboard, and on a Patrol encounter: roll d6, <b>1–2 = caught</b>: all swords confiscated, <b>10s fine</b> (added to debt if you can't pay).</li>
+      <li>Before rolling you may <b>bribe 5s</b>: then you're caught only on a 1.</li>
+    </ul>
+
+    <h2>Ship</h2>
+    <ul>
+      <li><b>Hull 0</b>: your ship sinks. Game over.</li>
+      <li><b>Crew under 4</b>: every voyage takes +1 day.</li>
+      <li><b>Morale</b> matters only in battle; it resets to 5 at any port.</li>
+    </ul>
+
+    <h2>Seasons &amp; events</h2>
+    <p>Days <b>1–15 Spring</b>, <b>16–30 Summer</b>, <b>31–45 Autumn</b>, <b>46–60 Winter</b>. Each season card lists its effects. One event is active at a time, for one season. <span class="sub">Events are shuffled, not in date order: this is a prototype.</span></p>
+
+    <h2>Debt</h2>
+    <ul>
+      <li>Interest at the start of Summer, Autumn and Winter: <b>+10% of current debt</b> (round up). Paying early saves interest but ties up trading silver.</li>
+      <li>Pay any amount, any time you're in Dorestad.</li>
+      <li><b>Due:</b> be in Dorestad with the debt cleared by the <b>end of day 60</b>. For missing it, see the Tracker sheet (Reeve's grace).</li>
+    </ul>
+
+    <div class="box">
+      <p><b>WIN</b> — Debt cleared in Dorestad by day 60. <b>Score</b> = silver left (compare runs).</p>
+      <p><b>BITTER WIN</b> — Cleared during the Reeve's grace (days 61–75).</p>
+      <p><b>LOSE</b> — Deadline missed without grace, grace failed, ship sunk (Hull 0), or crew taken in battle (Crew 0).</p>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ============================== PAGE 2: MAP ============================== -->
+<section class="page">
+  <div class="head"><h1>KĀPMAN — Map</h1><span class="tag">Route network · days are sailing days · not to scale</span></div>
+  <div id="map"></div>
+  <div class="cols" style="margin-top:4pt">
+    <div>
+      <table class="tiny" id="routeTable"></table>
+    </div>
+    <div class="tiny">
+      <p><b>Legend</b></p>
+      <p><svg width="46" height="8"><line x1="0" y1="4" x2="46" y2="4" stroke="#000" stroke-width="2.5"/></svg> Coastal: encounter on <b>1</b></p>
+      <p><svg width="46" height="8"><line x1="0" y1="4" x2="46" y2="4" stroke="#000" stroke-width="2.5" stroke-dasharray="7 4"/></svg> Open sea: encounter on <b>1–2</b></p>
+      <p><svg width="46" height="8"><line x1="0" y1="4" x2="46" y2="4" stroke="#000" stroke-width="2.5" stroke-dasharray="1 4" stroke-linecap="round"/></svg> Overland cart road: no encounters, 1s per lot</p>
+      <p style="margin-top:4pt"><b>F</b> Frankish port: contraband checks; swords can't be sold. <b>E</b> English. <b>D</b> Danish.</p>
+      <p>Summer: +1 danger on all sea routes. Winter: +1 day on all sea routes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PAGE 3: MARKET ============================== -->
+<section class="page">
+  <div class="head"><h1>KĀPMAN — Market</h1><span class="tag">Base price per lot, in silver · pencil your marks in the dashed box</span></div>
+  <table class="market" id="market"></table>
+  <div class="cols" style="margin-top:6pt">
+    <div>
+      <h2>How to read a price</h2>
+      <p><b>Price = base + marks + season + event + mood</b> (minimum 1). Same price to buy or sell.</p>
+      <ul>
+        <li><b>Marks:</b> each lot bought here <b>+1</b>, each lot sold here <b>−1</b>. Keep a running total in the dashed box. Erase all at each new season.</li>
+        <li><b>Mood</b> (on arrival): roll d6 twice. 1st = that good <b>+3</b>, 2nd = <b>−3</b>, this visit only. Goods are numbered 1–6 across the top.</li>
+        <li><b>Hold:</b> 6 lots total.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Season modifiers (quick reference)</h2>
+      <table class="tiny">
+        <tr><th>Season</th><th>Price effect</th></tr>
+        <tr><td><b>Spring</b></td><td>Grain +2 everywhere</td></tr>
+        <tr><td><b>Summer</b></td><td>Furs −2 everywhere</td></tr>
+        <tr><td><b>Autumn</b></td><td>Grain −2 everywhere; Wine −3 at Frankish ports</td></tr>
+        <tr><td><b>Winter</b></td><td>Grain, Wine, Furs +4 at English &amp; Danish ports</td></tr>
+      </table>
+      <p class="sub" style="margin-top:4pt">Hatched cell = not traded there. "buy only" = swords can be bought but not sold here (max 3 lots per visit).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PAGE 4: TRACKER ============================== -->
+<section class="page">
+  <div class="head"><h1>KĀPMAN — Tracker</h1><span class="tag">Days · debt · ship · hold</span></div>
+
+  <h2>Days <span class="sub" style="font-weight:400">— cross off each day as it passes</span></h2>
+  <div class="days" id="days"></div>
+
+  <div class="cols">
+    <div>
+      <h2>The debt</h2>
+      <p>Owed to the Count's reeve at Dorestad. Starts at <b>100s</b>. Interest <b>+10%</b> (round up) at the start of Summer, Autumn and Winter.</p>
+      <div class="box">
+        <p><b>Due: in Dorestad, end of day 60.</b></p>
+        <p><b>Reeve's grace.</b> If you're in Dorestad on day 60 but can't clear the debt, pay <b>at least half</b> of it now. The reeve takes the rest ×1.5 (round up), due in Dorestad by <b>day 75</b>. Play on under Winter rules. Clearing it = <i>bitter win</i>.</p>
+        <p><b>Otherwise</b> (not in Dorestad by day 60, can't pay half, or miss day 75): the reeve seizes your ship and you work off the debt in bondage. <b>You lose.</b></p>
+      </div>
+      <h2>Ship</h2>
+      <p><b>Hull</b> &nbsp;<span class="pips" id="hull"></span></p>
+      <p style="margin-top:4pt"><b>Crew</b> &nbsp;<span class="pips" id="crew"></span> <span class="sub">dashed = can hire</span></p>
+      <p style="margin-top:4pt"><b>Morale</b> <span class="pips" id="morale"></span> <span class="sub">resets in port</span></p>
+    </div>
+    <div>
+      <h2>Hold <span class="sub" style="font-weight:400">— 6 lots</span></h2>
+      <table id="hold"></table>
+      <h2>Purse &amp; debt</h2>
+      <table class="ledger" id="ledger"></table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PAGE 5: BATTLE ============================== -->
+<section class="page">
+  <div class="head"><h1>KĀPMAN — Battle</h1><span class="tag">One enemy type: Viking raiders · one d6</span></div>
+
+  <div class="cols">
+    <div>
+      <h2>Starting numbers</h2>
+      <table>
+        <tr><th></th><th class="num">Hull</th><th class="num">Crew</th><th class="num">Morale</th></tr>
+        <tr><td><b>You</b></td><td class="num">current (8)</td><td class="num">current (6)</td><td class="num">5</td></tr>
+        <tr><td><b>Viking raiders</b></td><td class="num">6</td><td class="num">7</td><td class="num">5</td></tr>
+      </table>
+      <h2>Range</h2>
+      <p>Battles start at <b>FAR</b>. Once <b>CLOSE</b>, the range stays close. Some moves need CLOSE.</p>
+      <h2>Round order</h2>
+      <ol>
+        <li><b>You</b> pick one move and resolve it.</li>
+        <li>If the battle isn't over, the <b>raiders</b> roll d6 on their table.</li>
+        <li>Check the end conditions.</li>
+      </ol>
+      <h2>Morale</h2>
+      <ul>
+        <li>A side that loses Crew in a round also loses <b>1 Morale</b> (once per round per side).</li>
+        <li>Morale never goes above 5.</li>
+      </ul>
+      <h2>End of battle</h2>
+      <table>
+        <tr><td><b>Raiders' Morale 0, Crew ≤ 2, or Hull 0</b></td><td>They break off. <b>You win.</b> Loot: d6 × 3 silver (none if they sank).</td></tr>
+        <tr><td><b>Your Morale 0</b></td><td>Your crew surrenders. Raiders take <b>all cargo</b>. You sail on.</td></tr>
+        <tr><td><b>Your Crew 0</b></td><td>You're taken as slaves. <b>Game over.</b></td></tr>
+        <tr><td><b>Your Hull 0</b></td><td>You sink. <b>Game over.</b></td></tr>
+        <tr><td><b>Row Hard succeeds / Tribute paid</b></td><td>Battle ends. Voyage continues.</td></tr>
+      </table>
+      <p class="sub" style="margin-top:3pt">After battle, lost Crew and Hull stay lost until you hire and repair in port.</p>
+    </div>
+    <div>
+      <h2>Your moves</h2>
+      <table>
+        <tr><th>Move</th><th>Range</th><th>Effect (roll d6)</th></tr>
+        <tr><td><b>Loose Arrows</b></td><td>any</td><td>4–5: raider Crew −1. 6: −2.</td></tr>
+        <tr><td><b>Spear Volley</b></td><td>CLOSE</td><td>3–4: raider Crew −1. 5–6: −2.</td></tr>
+        <tr><td><b>Board</b></td><td>CLOSE</td><td><b>Boarding fight</b> (below). Win by 4+ and the raiders break at once.</td></tr>
+        <tr><td><b>Shield Wall</b></td><td>any</td><td>No roll. Until your next move: raider Crew damage −1 per hit, and <b>+2</b> to your boarding rolls.</td></tr>
+        <tr><td><b>Rally</b></td><td>any</td><td>1–2: Morale +1. 3–6: Morale +2.</td></tr>
+        <tr><td><b>Row Hard</b> (flee)</td><td>any</td><td>FAR: escape on <b>3+</b>. CLOSE: escape on <b>5+</b>. −1 to the roll if Crew is under 4. Escape = voyage +1 day.</td></tr>
+        <tr><td><b>Pay Tribute</b></td><td>any</td><td>No roll. Pay <b>15s</b>, or hand over your <b>2 most valuable lots</b>. Battle ends.</td></tr>
+      </table>
+
+      <h2>Raider table (d6, every round)</h2>
+      <table>
+        <tr><td class="num"><b>1</b></td><td><b>Jeer and circle</b>: nothing happens.</td></tr>
+        <tr><td class="num"><b>2</b></td><td><b>Arrow storm</b>: your Crew −1.</td></tr>
+        <tr><td class="num"><b>3</b></td><td><b>Close in</b>: range becomes CLOSE. Already close? Treat as 5.</td></tr>
+        <tr><td class="num"><b>4</b></td><td><b>Ram</b>: range becomes CLOSE. Your Hull −2, their Hull −1.</td></tr>
+        <tr><td class="num"><b>5</b></td><td><b>Spears</b>: at CLOSE your Crew −2. At FAR they close in instead.</td></tr>
+        <tr><td class="num"><b>6</b></td><td><b>Board!</b> At CLOSE: boarding fight. At FAR: close in, and a war cry costs you 1 Morale.</td></tr>
+      </table>
+
+      <h2>Boarding fight</h2>
+      <p>Each side rolls d6 + its current Crew (you roll twice, once per side). The higher total wins. The loser loses Crew equal to the difference (<b>max 3</b>). Tie: both lose 1 Crew.</p>
+    </div>
+  </div>
+
+  <h2>Battle tracker <span class="sub" style="font-weight:400">— pencil in, erase after</span></h2>
+  <table>
+    <tr><th style="width:1.3in"></th><th>Hull</th><th>Crew</th><th>Morale</th><th style="width:1.6in">Range</th></tr>
+    <tr style="height:0.38in"><td><b>You</b></td><td></td><td></td><td></td><td rowspan="2" style="vertical-align:middle">&#9744; FAR &nbsp;&nbsp; &#9744; CLOSE</td></tr>
+    <tr style="height:0.38in"><td><b>Viking raiders</b></td><td>6</td><td>7</td><td>5</td></tr>
+  </table>
+</section>
+
+<!-- ============================== PAGE 6: SEASON CARDS ============================== -->
+<section class="page">
+  <div class="head"><h1>KĀPMAN — Season cards</h1><span class="tag">Cut along dashed lines · 4 cards · not shuffled, play in order</span></div>
+  <div class="cards" id="seasons" style="grid-template-columns: repeat(2, 3.6in); grid-auto-rows: 4.3in;"></div>
+</section>
+
+<!-- ============================== PAGE 7: EVENT CARDS ============================== -->
+<section class="page">
+  <div class="head"><h1>KĀPMAN — Event cards</h1><span class="tag">Cut along dashed lines · 6 cards · shuffle; draw 1 each season</span></div>
+  <div class="cards" id="events" style="grid-template-columns: repeat(3, 2.5in); grid-auto-rows: 3.5in;"></div>
+  <p class="sub" style="margin-top:6pt">An event applies until the next season starts, then it's discarded. You'll see 4 of the 6 each run. Dates are real but shuffled: in this prototype, history happens out of order.</p>
+</section>
+
+<!-- ============================== PAGE 8: PLAYTEST LOG ============================== -->
+<section class="page">
+  <div class="head"><h1>KĀPMAN — Playtest log</h1><span class="tag">This is for tuning: write down what felt wrong</span></div>
+  <h2>Run results</h2>
+  <table id="runs"></table>
+
+  <div class="cols">
+    <div>
+      <h2>After each run, ask:</h2>
+      <ol>
+        <li>Did clearing the debt feel <b>earned</b>, or lucky or trivial? At what day did you know you'd make it (or not)?</li>
+        <li>Was there a real choice at each port, or one obvious best route?</li>
+        <li>Did you ever <b>fear</b> a voyage? Which route, and why?</li>
+        <li>Did you run swords? Was the risk worth it, or never worth it?</li>
+        <li>Battles: did you ever pick a move besides the best one? Did you flee or pay tribute?</li>
+        <li>Did any season or event change your plans?</li>
+        <li>Where was bookkeeping tedious? (That tells the Godot build what to automate or cut.)</li>
+        <li>Did you pay the debt early to save interest, or hold silver for trading?</li>
+      </ol>
+    </div>
+    <div>
+      <h2>Tuning knobs (v0.1 values)</h2>
+      <table class="tiny">
+        <tr><th>Knob</th><th class="num">v0.1</th><th class="num">Try</th></tr>
+        <tr><td>Starting silver / debt</td><td class="num">30 / 100</td><td></td></tr>
+        <tr><td>Interest per season</td><td class="num">10%</td><td></td></tr>
+        <tr><td>Deadline / grace</td><td class="num">day 60 / 75</td><td></td></tr>
+        <tr><td>Hold size (lots)</td><td class="num">6</td><td></td></tr>
+        <tr><td>Price shift per lot traded</td><td class="num">1</td><td></td></tr>
+        <tr><td>Market mood swing</td><td class="num">±3</td><td></td></tr>
+        <tr><td>Upkeep per day</td><td class="num">1s</td><td></td></tr>
+        <tr><td>Encounter: coastal / open</td><td class="num">1 / 1–2</td><td></td></tr>
+        <tr><td>Raiders on encounter table</td><td class="num">1–3</td><td></td></tr>
+        <tr><td>Raider Hull/Crew/Morale</td><td class="num">6 / 7 / 5</td><td></td></tr>
+        <tr><td>Sword caught on / fine</td><td class="num">1–2 / 10s</td><td></td></tr>
+        <tr><td>Sword buy limit per visit</td><td class="num">3</td><td></td></tr>
+        <tr><td>Tribute</td><td class="num">15s</td><td></td></tr>
+      </table>
+    </div>
+  </div>
+  <h2>Notes</h2>
+  <div style="height:1.4in; background: repeating-linear-gradient(#fff, #fff 0.27in, #999 0.27in, #999 0.28in);"></div>
+</section>
+
+<script>
+/* ============================ SEASON & EVENT CARDS ============================ */
+const SEASONS = [
+  { t: "Spring", d: "Days 1–15", f: "The sea opens. Granaries are nearly empty.",
+    e: ["<b>Grain +2</b> at every port.", "Encounters: normal danger.", "(Your first event is drawn at setup.)"] },
+  { t: "Summer", d: "Days 16–30", f: "Raiding season. The dragon-ships are out.",
+    e: ["On arrival: <b>interest +10%</b> of debt.", "<b>Danger +1</b> on every sea route (coastal 1–2, open 1–3).", "<b>Furs −2</b> at every port."] },
+  { t: "Autumn", d: "Days 31–45", f: "Harvest and vintage. Barns full, casks new.",
+    e: ["On arrival: <b>interest +10%</b> of debt.", "<b>Grain −2</b> at every port.", "<b>Wine −3</b> at Frankish ports (Dorestad, Medemblik, Quentovic)."] },
+  { t: "Winter", d: "Days 46–60 · DEBT DUE DAY 60", f: "Storms and short days. The raiders have gone home to their halls, but the sea is cruel.",
+    e: ["On arrival: <b>interest +10%</b> of debt.", "Every sea voyage <b>+1 day</b>.", "Open-sea danger <b>1–3</b>. Raider results become <b>Storms</b>; a Storm costs Hull −2.", "Scarcity: <b>Grain, Wine, Furs +4</b> at English &amp; Danish ports."] },
+];
+
+const EVENTS = [
+  { t: "Charlemagne's Embargo", y: "c. 790", f: "Charles quarrels with King Offa of Mercia and closes his ports to English ships.",
+    e: ["<b>CLOSED:</b> Dorestad–Lundenwic, Quentovic–Lundenwic, Quentovic–Hamwic.", "<b>Cloth +4</b> at Lundenwic and Hamwic."] },
+  { t: "Famine in Francia", y: "792–793", f: "The harvest fails across the Frankish realm. Bread is dear from the Rhine to the Canche.",
+    e: ["<b>Grain +5</b> at Dorestad, Medemblik and Quentovic."] },
+  { t: "Lindisfarne", y: "8 June 793", f: "Northmen fall on the holy island. Every English coast fears the sea.",
+    e: ["<b>CLOSED:</b> Eoforwic–Ribe.", "<b>Danger +1</b> on Lundenwic–Eoforwic and Medemblik–Eoforwic.", "<b>Swords +5</b> at English ports."] },
+  { t: "Capitulary of Thionville", y: "805", f: "Charlemagne forbids merchants to carry weapons and mail beyond the frontier.",
+    e: ["Contraband checks catch you on <b>1–3</b> (bribe: 1–2).", "<b>Swords +4</b> at Ribe and Hedeby."] },
+  { t: "Godfred Moves the Merchants", y: "808", f: "King Godfred razes Reric and moves its traders to Hedeby. The market swells.",
+    e: ["At Hedeby: <b>Furs and Amber −3</b>.", "At Hedeby: <b>Cloth and Wine +3</b>."] },
+  { t: "Dorestad Burns", y: "834", f: "Danes sail up the Rhine and burn the lower town.",
+    e: ["<b>If you're at Dorestad now:</b> roll d6. 1–3: lose 1 lot of your choice.", "<b>Grain, Cloth, Wine +4</b> at Dorestad.", "<b>Danger +1</b> on all routes to or from Dorestad."] },
+];
+
+/* ============================ BUILDERS ============================ */
+const $ = id => document.getElementById(id);
+
+// Map
+(function () {
+  const W = 800, H = 740;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="height:6.9in;border:1.5px solid #000">`;
+  // region labels
+  const reg = [["NORTH SEA", 380, 230, 26], ["ENGLAND", 40, 440, 16], ["FRANCIA", 560, 640, 16], ["FRISIA", 560, 420, 14], ["JUTLAND", 690, 300, 14], ["THE NARROW SEA", 110, 720, 12]];
+  for (const [t, x, y, fs] of reg) s += `<text x="${x}" y="${y}" font-size="${fs}" fill="#bbb" letter-spacing="4" font-weight="700">${t}</text>`;
+  // routes
+  for (const [a, b, days, type] of ROUTES) {
+    const A = PORTS[a], B = PORTS[b];
+    const dash = type === "open" ? 'stroke-dasharray="12 7"' : type === "land" ? 'stroke-dasharray="1 8" stroke-linecap="round" stroke-width="4"' : "";
+    s += `<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" stroke="#000" stroke-width="3" ${dash}/>`;
+    const mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+    s += `<rect x="${mx - 17}" y="${my - 12}" width="34" height="24" rx="4" fill="#fff" stroke="#000" stroke-width="1.5"/>`;
+    s += `<text x="${mx}" y="${my + 6}" font-size="16" font-weight="700" text-anchor="middle">${days}d</text>`;
+  }
+  // ports
+  for (const [name, p] of Object.entries(PORTS)) {
+    const home = name === "Dorestad";
+    s += `<circle cx="${p.x}" cy="${p.y}" r="${home ? 13 : 10}" fill="#fff" stroke="#000" stroke-width="3"/>`;
+    s += `<text x="${p.x}" y="${p.y + 4.5}" font-size="11" font-weight="700" text-anchor="middle">${p.fac}</text>`;
+    let tx = p.x + 18, ty = p.y - 4, anc = "start";
+    if (p.lab === "left") { tx = p.x - 18; anc = "end"; }
+    if (p.lab === "below") { tx = p.x; ty = p.y + 30; anc = "middle"; }
+    if (p.lab === "above") { tx = p.x; ty = p.y - 34; anc = "middle"; }
+    s += `<text x="${tx}" y="${ty}" font-size="17" font-weight="700" text-anchor="${anc}">${name}</text>`;
+    s += `<text x="${tx}" y="${ty + 15}" font-size="11.5" fill="#333" text-anchor="${anc}">${p.tag}</text>`;
+  }
+  s += `</svg>`;
+  $("map").innerHTML = s;
+
+  let t = `<tr><th>Route</th><th class="num">Days</th><th>Type</th><th class="num">Encounter on</th></tr>`;
+  for (const [a, b, days, type] of ROUTES)
+    t += `<tr><td>${a} – ${b}</td><td class="num">${days}</td><td>${type === "open" ? "open sea" : type}</td><td class="num">${type === "open" ? "1–2" : type === "coastal" ? "1" : "—"}</td></tr>`;
+  $("routeTable").innerHTML = t;
+})();
+
+// Market grid
+(function () {
+  let t = `<tr><th class="port">Port</th>` + GOODS.map((g, i) => `<th class="num">${i + 1}. ${g.name}<br><span class="tiny" style="font-weight:400">${g.note}</span></th>`).join("") + `</tr>`;
+  for (const [name, p] of Object.entries(PORTS)) {
+    const fac = { F: "Frankish", E: "English", D: "Danish" }[p.fac];
+    t += `<tr><th class="port">${name}<span class="fac">${fac}</span></th>`;
+    p.prices.forEach((v, i) => {
+      if (v === null) { t += `<td class="cell none"></td>`; return; }
+      let note = "";
+      if (i === 5) note = p.swords === "buy" ? "buy only<br>max 3" : "sell only";
+      t += `<td class="cell"><span class="base">${v}</span><span class="note">${note}</span><span class="marks">marks</span></td>`;
+    });
+    t += `</tr>`;
+  }
+  $("market").innerHTML = t;
+})();
+
+// Day track
+(function () {
+  const rows = [
+    ["Spring", "Grain +2", 1],
+    ["Summer", "+10% interest · danger +1", 16],
+    ["Autumn", "+10% interest · harvest", 31],
+    ["Winter", "+10% interest · storms", 46],
+    ["Reeve's grace", "only if granted", 61],
+  ];
+  let h = "";
+  for (const [name, sub, start] of rows) {
+    h += `<div class="lab${start === 61 ? " shade" : ""}">${name}<span>${sub}</span></div>`;
+    for (let d = start; d < start + 15; d++) {
+      const cls = d === START.due || d === START.graceUntil ? "due" : start === 61 ? "shade" : "";
+      h += `<div class="${cls}">${d}${d === START.due || d === START.graceUntil ? "<br>DUE" : ""}</div>`;
+    }
+  }
+  $("days").innerHTML = h;
+
+  const pips = (n, filled) => Array.from({ length: n }, (_, i) => `<i class="${i < filled ? "" : "x"}">${i + 1}</i>`).join("");
+  $("hull").innerHTML = pips(START.hull, START.hull);
+  $("crew").innerHTML = pips(START.crewMax, START.crew);
+  $("morale").innerHTML = pips(START.morale, START.morale);
+
+  let hold = `<tr><th class="num" style="width:0.3in">#</th><th>Good</th><th class="num">Paid</th><th>Bought at</th></tr>`;
+  for (let i = 1; i <= START.hold; i++) hold += `<tr style="height:0.25in"><td class="num">${i}</td><td></td><td></td><td></td></tr>`;
+  $("hold").innerHTML = hold;
+
+  let led = `<tr><th class="num" style="width:0.4in">Day</th><th>Port / note</th><th class="num" style="width:0.6in">Silver</th><th class="num" style="width:0.6in">Debt</th></tr>`;
+  led += `<tr><td class="num">1</td><td>Start: Dorestad</td><td class="num">${START.silver}</td><td class="num">${START.debt}</td></tr>`;
+  for (let i = 0; i < 17; i++) led += `<tr><td></td><td></td><td></td><td></td></tr>`;
+  $("ledger").innerHTML = led;
+})();
+
+// Cards
+(function () {
+  $("seasons").innerHTML = SEASONS.map(c => `<div class="card"><span class="kind">Season</span><div class="ct" style="font-size:20pt">${c.t}</div><div class="cy">${c.d}</div><div class="cf">${c.f}</div><div class="ce" style="font-size:10pt"><ul>${c.e.map(x => `<li>${x}</li>`).join("")}</ul></div><div class="foot">Kāpman · season card · resolve on first arrival in port</div></div>`).join("");
+  $("events").innerHTML = EVENTS.map(c => `<div class="card"><span class="kind">Event</span><div class="ct">${c.t}</div><div class="cy">${c.y}</div><div class="cf">${c.f}</div><div class="ce"><b>This season:</b><ul>${c.e.map(x => `<li>${x}</li>`).join("")}</ul></div><div class="foot">Kāpman · event card · lasts one season</div></div>`).join("");
+})();
+
+// Playtest runs table
+(function () {
+  let t = `<tr><th class="num">Run</th><th>Result</th><th class="num">Day ended</th><th class="num">Silver left</th><th class="num">Battles (won/fled/paid/lost)</th><th class="num">Sword runs (ok/caught)</th><th class="num">Minutes</th></tr>`;
+  for (let i = 1; i <= 6; i++) t += `<tr style="height:0.3in"><td class="num">${i}</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+  $("runs").innerHTML = t;
+})();
+</script>
+</body>
+</html>

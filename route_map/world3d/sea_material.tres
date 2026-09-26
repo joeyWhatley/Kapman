@@ -1,0 +1,63 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://route_map/world3d/ocean.gdshader" id="1_cjpox"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_drm66"]
+noise_type = 2
+frequency = 0.03
+fractal_octaves = 3
+cellular_return_type = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q0kfy"]
+noise = SubResource("FastNoiseLite_drm66")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_86pi4"]
+seed = 1
+frequency = 0.018
+fractal_octaves = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wa8xv"]
+noise = SubResource("FastNoiseLite_86pi4")
+seamless = true
+as_normal_map = true
+bump_strength = 2.5
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5yh06"]
+seed = 2
+frequency = 0.03
+fractal_octaves = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b8fed"]
+noise = SubResource("FastNoiseLite_5yh06")
+seamless = true
+as_normal_map = true
+bump_strength = 2.5
+
+[resource]
+render_priority = 1
+shader = ExtResource("1_cjpox")
+shader_parameter/slice_rect = null
+shader_parameter/coarse_size = null
+shader_parameter/origin_map = null
+shader_parameter/m_per_unit = null
+shader_parameter/noise_off = null
+shader_parameter/wave_a = null
+shader_parameter/wave_b = null
+shader_parameter/wind_dir = null
+shader_parameter/sea_state = null
+shader_parameter/ripple_a = SubResource("NoiseTexture2D_wa8xv")
+shader_parameter/ripple_b = SubResource("NoiseTexture2D_b8fed")
+shader_parameter/ripple_off_a = null
+shader_parameter/ripple_off_b = null
+shader_parameter/foam_tex = SubResource("NoiseTexture2D_q0kfy")
+shader_parameter/foam_off = null
+shader_parameter/deep_col = null
+shader_parameter/mid_col = null
+shader_parameter/shallow_col = null
+shader_parameter/foam_col = null
+shader_parameter/crest_col = null
+shader_parameter/ship_frame = null
+shader_parameter/ship_half = null
+shader_parameter/wake = null
+shader_parameter/wake_count = null

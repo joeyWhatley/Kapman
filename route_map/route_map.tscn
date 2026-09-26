@@ -1,0 +1,1072 @@
+[gd_scene format=3 uid="uid://bhogyixq7gq6u"]
+
+[ext_resource type="Script" uid="uid://r7o56o0f5lyl" path="res://route_map/route_map.gd" id="1_7n8ty"]
+[ext_resource type="Script" uid="uid://crcait1atjb4d" path="res://route_map/layers/sheet_layer.gd" id="2_6oboc"]
+[ext_resource type="Shader" uid="uid://b1urq40mwmfij" path="res://route_map/vellum.gdshader" id="2_obuwm"]
+[ext_resource type="Script" uid="uid://dfx6f8n11j4hr" path="res://route_map/layers/coast_layer.gd" id="3_2wcgh"]
+[ext_resource type="Script" uid="uid://wqrhtkexd2dd" path="res://route_map/layers/sea_layer.gd" id="3_iwy5d"]
+[ext_resource type="Script" uid="uid://bpfrkyg8ncmeq" path="res://route_map/nodes/border_node.gd" id="4_6m473"]
+[ext_resource type="Script" uid="uid://c6h2v0yppwwps" path="res://route_map/nodes/land_patch.gd" id="4_td5ka"]
+[ext_resource type="Shader" uid="uid://1itr8lc34sel" path="res://route_map/sea.gdshader" id="5_6m473"]
+[ext_resource type="Script" uid="uid://dfm45jbi547eg" path="res://route_map/nodes/hazard_node.gd" id="5_iwy5d"]
+[ext_resource type="Texture2D" uid="uid://b4w2tw2gmwiuv" path="res://route_map/data/sea_distance.png" id="6_2geop"]
+[ext_resource type="Script" uid="uid://cfv4hy0ldl2nu" path="res://route_map/layers/hazard_layer.gd" id="6_hri4x"]
+[ext_resource type="Script" uid="uid://dimlsovhririe" path="res://route_map/nodes/port_node.gd" id="7_tft00"]
+[ext_resource type="Script" uid="uid://bgacp3ux7bcm3" path="res://route_map/nodes/current_node.gd" id="8_hri4x"]
+[ext_resource type="Script" uid="uid://blscilp0pprgo" path="res://route_map/layers/port_layer.gd" id="8_n3v3d"]
+[ext_resource type="Script" uid="uid://c6nhqkgjdh6w2" path="res://route_map/nodes/cartouche_node.gd" id="9_2geop"]
+[ext_resource type="Script" uid="uid://bqsok6flyj47e" path="res://route_map/layers/route_layer.gd" id="9_ohkhk"]
+[ext_resource type="Script" uid="uid://bfmloms7tbwaf" path="res://route_map/nodes/region_label_node.gd" id="10_4nlvk"]
+[ext_resource type="PackedScene" path="res://route_map/ui/hud.tscn" id="10_obuwm"]
+[ext_resource type="Script" uid="uid://l3eh4nbpyqs6" path="res://route_map/layers/ambient_layer.gd" id="10_tft00"]
+[ext_resource type="Script" uid="uid://xo4mdexca7yi" path="res://route_map/nodes/marginalia_node.gd" id="11_xfigk"]
+[ext_resource type="Script" uid="uid://dpx4r6x56r8n5" path="res://route_map/layers/compass_layer.gd" id="99_compass"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xu0mt"]
+frequency = 0.02
+fractal_octaves = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wsqbb"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_xu0mt")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g7a6r"]
+shader = ExtResource("2_obuwm")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_wsqbb")
+shader_parameter/chart = Vector4(0, 0, 7314.4907, 3870.373)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6m473"]
+frequency = 0.02
+fractal_octaves = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2geop"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_6m473")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4nlvk"]
+shader = ExtResource("5_6m473")
+shader_parameter/dist_tex = ExtResource("6_2geop")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_2geop")
+shader_parameter/map_size = Vector2(7315, 3875)
+shader_parameter/ink = Color(0.1, 0.11, 0.13, 1)
+shader_parameter/wind = Vector2(0.7, -0.7)
+shader_parameter/wind_strength = 0.2
+shader_parameter/flow_offset = Vector2(0, 0)
+shader_parameter/zoom = 1.0
+shader_parameter/dist_units = 425.0
+shader_parameter/storms = [Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0), Vector4(0, 0, 0, 0)]
+shader_parameter/fog_size = Vector2(4950, 3140)
+
+[node name="RouteMap" type="Node2D" unique_id=27518468]
+script = ExtResource("1_7n8ty")
+
+[node name="Map" type="Node2D" parent="." unique_id=1086121992]
+
+[node name="Paper" type="Node2D" parent="Map" unique_id=304810877]
+material = SubResource("ShaderMaterial_g7a6r")
+script = ExtResource("2_6oboc")
+rect = Rect2(0, 0, 7314.4907, 3870.373)
+color = Color(0.937, 0.905, 0.83, 1)
+outside = Color(0.24, 0.19, 0.15, 1)
+
+[node name="Border" type="Node2D" parent="Map" unique_id=895869757]
+script = ExtResource("4_6m473")
+rect = Rect2(0, 0, 7314.4907, 3870.373)
+fill = Color(0.89952, 0.8687999, 0.79679996, 1)
+
+[node name="Sea" type="Node2D" parent="Map" unique_id=1228498022]
+material = SubResource("ShaderMaterial_4nlvk")
+script = ExtResource("3_iwy5d")
+
+[node name="FogWash" type="Node2D" parent="Map" unique_id=1787598792]
+script = ExtResource("2_6oboc")
+rect = Rect2(0, 0, 7314.4907, 3870.373)
+color = Color(0.74, 0.69, 0.6, 1)
+
+[node name="Compass" type="Node2D" parent="Map" unique_id=253451221]
+position = Vector2(2987.552, 2017.1967)
+script = ExtResource("99_compass")
+ink = Color(0.15, 0.11, 0.08, 1)
+paper = Color(0.937, 0.905, 0.83, 1)
+accent = Color(0.66, 0.2, 0.1, 1)
+
+[node name="CoastRough" type="Node2D" parent="Map" unique_id=467384181]
+script = ExtResource("3_2wcgh")
+source = "rough"
+color = Color(0.15, 0.11, 0.08, 0.42)
+width_px = 1.4
+sketch = true
+
+[node name="CoastDetail" type="Node2D" parent="Map" unique_id=797836735]
+script = ExtResource("3_2wcgh")
+color = Color(0.15, 0.11, 0.08, 1)
+width_px = 1.7
+
+[node name="Lakes" type="Node2D" parent="Map" unique_id=10928781]
+script = ExtResource("3_2wcgh")
+source = "lakes"
+color = Color(0.15, 0.11, 0.08, 0.75)
+width_px = 1.0
+
+[node name="Corrections" type="Node2D" parent="Map" unique_id=953081620]
+
+[node name="WantsumChannel" type="Polygon2D" parent="Map/Corrections" unique_id=1087842514]
+position = Vector2(3661.3208, 2679.3108)
+color = Color(0.2, 0.5, 0.9, 0.45)
+polygon = PackedVector2Array(-6.366211, -5.0021973, -3.489746, -1.1870117, 0.60839844, 2.9885254, 4.1499023, 6.1418457, 7.3095703, 4.8239746, 2.8691406, 1.1315918, -0.93725586, -2.7294922, -4.1435547, -6.165283)
+script = ExtResource("4_td5ka")
+note = "In the 700s-800s Thanet was an island; the Wantsum Channel was the usual route into the Thames."
+
+[node name="Bosporus" type="Polygon2D" parent="Map/Corrections" unique_id=364373102]
+position = Vector2(5692.7373, 3391.8286)
+color = Color(0.2, 0.5, 0.9, 0.45)
+polygon = PackedVector2Array(-5.1469727, -14.294922, -1.6523438, -9.096191, -0.33740234, -0.9555664, -1.5595703, 9.17749, -2.725586, 14.981445, 1.5615234, 15.595215, 2.380371, 8.8359375, 3.2226563, -0.08618164, 3.336914, -8.745117, 0.9248047, -15.411377)
+script = ExtResource("4_td5ka")
+note = "The Bosporus is barely a kilometre wide: opened here so ships can reach Miklagard from the Black Sea."
+
+[node name="Dardanelles" type="Polygon2D" parent="Map/Corrections" unique_id=1961889892]
+position = Vector2(5533.8613, 3540.7778)
+color = Color(0.2, 0.5, 0.9, 0.45)
+polygon = PackedVector2Array(8.968262, -27.009766, 1.1025391, -8.473145, -8.14209, 13.677734, -16.21582, 26.894531, -7.476074, 20.936523, -1.6547852, 8.415527, 7.629883, -8.431152, 15.791504, -26.013184)
+script = ExtResource("4_td5ka")
+note = "The Hellespont, opened a little wider than it is so it survives the chart grid."
+
+[node name="Rivers" type="Node2D" parent="Map" unique_id=485574114]
+script = ExtResource("3_2wcgh")
+source = "custom"
+color = Color(0.15, 0.11, 0.08, 0.45)
+width_px = 1.0
+
+[node name="Decor" type="Node2D" parent="Map" unique_id=796055905]
+
+[node name="Cartouche" type="Node2D" parent="Map/Decor" unique_id=1893952715]
+position = Vector2(2413.0679, 3025.179)
+script = ExtResource("9_2geop")
+fill = Color(0.90889, 0.87785, 0.8051, 1)
+
+[node name="RegionNames" type="Node2D" parent="Map/Decor" unique_id=196131124]
+
+[node name="MareFresicum" type="Node2D" parent="Map/Decor/RegionNames" unique_id=648759515]
+position = Vector2(3790.9136, 2264.8384)
+rotation = -0.13962634
+script = ExtResource("10_4nlvk")
+size = 62.0
+ink = Color(0.15, 0.11, 0.08, 0.3)
+
+[node name="OceanusOccidentalis" type="Node2D" parent="Map/Decor/RegionNames" unique_id=365458418]
+position = Vector2(2877.668, 1492.7163)
+script = ExtResource("10_4nlvk")
+text = "OCEANUS OCCIDENTALIS"
+size = 70.0
+ink = Color(0.15, 0.11, 0.08, 0.3)
+
+[node name="MareOrientale" type="Node2D" parent="Map/Decor/RegionNames" unique_id=1669999198]
+position = Vector2(4639.62, 2012.1989)
+rotation = -1.1868238
+script = ExtResource("10_4nlvk")
+text = "MARE ORIENTALE"
+size = 48.0
+ink = Color(0.15, 0.11, 0.08, 0.3)
+
+[node name="Fresia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=1477278891]
+position = Vector2(3985.8196, 2516.2083)
+rotation = -0.06981317
+script = ExtResource("10_4nlvk")
+text = "FRESIA"
+size = 30.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Francia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=733319123]
+position = Vector2(3759.9375, 2955.0732)
+script = ExtResource("10_4nlvk")
+text = "FRANCIA"
+size = 58.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Saxonia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=1815786354]
+position = Vector2(4180.953, 2591.0923)
+script = ExtResource("10_4nlvk")
+text = "SAXONIA"
+size = 32.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Britannia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=541753172]
+position = Vector2(3478.5486, 2541.1853)
+rotation = -1.2566371
+script = ExtResource("10_4nlvk")
+text = "BRITANNIA"
+size = 44.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Hibernia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=933186379]
+position = Vector2(3128.1123, 2431.038)
+rotation = -1.0821041
+script = ExtResource("10_4nlvk")
+text = "HIBERNIA"
+size = 38.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Dania" type="Node2D" parent="Map/Decor/RegionNames" unique_id=517311215]
+position = Vector2(4121.585, 2209.9373)
+rotation = -1.3962634
+script = ExtResource("10_4nlvk")
+text = "DANIA"
+size = 30.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Northmannia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=1034100679]
+position = Vector2(4060.6106, 1669.6985)
+rotation = -0.9773844
+script = ExtResource("10_4nlvk")
+text = "NORTHMANNIA"
+size = 46.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Sueonia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=2001940010]
+position = Vector2(4399.9326, 1774.5094)
+rotation = -1.0821041
+script = ExtResource("10_4nlvk")
+text = "SUEONIA"
+size = 42.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Sclavia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=1924208762]
+position = Vector2(4584.2563, 2443.5952)
+script = ExtResource("10_4nlvk")
+text = "SCLAVIA"
+size = 46.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Gardariki" type="Node2D" parent="Map/Decor/RegionNames" unique_id=1048894563]
+position = Vector2(5354.154, 1765.2424)
+script = ExtResource("10_4nlvk")
+text = "GARDARIKI"
+size = 58.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Thule" type="Node2D" parent="Map/Decor/RegionNames" unique_id=1267257367]
+position = Vector2(2909.348, 1177.6896)
+script = ExtResource("10_4nlvk")
+text = "THULE"
+size = 30.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="PontusEuxinus" type="Node2D" parent="Map/Decor/RegionNames" unique_id=914540971]
+position = Vector2(5985.1885, 3035.0466)
+script = ExtResource("10_4nlvk")
+text = "PONTUS EUXINUS"
+size = 56.0
+ink = Color(0.15, 0.11, 0.08, 0.3)
+
+[node name="MareCaspium" type="Node2D" parent="Map/Decor/RegionNames" unique_id=195346633]
+position = Vector2(6879.1777, 2329.1309)
+rotation = -1.2217305
+script = ExtResource("10_4nlvk")
+text = "MARE CASPIUM"
+size = 36.0
+ink = Color(0.15, 0.11, 0.08, 0.3)
+
+[node name="Khazaria" type="Node2D" parent="Map/Decor/RegionNames" unique_id=1788754090]
+position = Vector2(6414.5547, 2290.3328)
+script = ExtResource("10_4nlvk")
+text = "KHAZARIA"
+size = 46.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Romania" type="Node2D" parent="Map/Decor/RegionNames" unique_id=375926300]
+position = Vector2(5346.469, 3451.8486)
+script = ExtResource("10_4nlvk")
+text = "ROMANIA"
+size = 44.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Italia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=217997940]
+position = Vector2(4415.816, 3448.5122)
+rotation = -0.9075712
+script = ExtResource("10_4nlvk")
+text = "ITALIA"
+size = 48.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Hispania" type="Node2D" parent="Map/Decor/RegionNames" unique_id=2073465203]
+position = Vector2(3170.7173, 3638.2393)
+script = ExtResource("10_4nlvk")
+text = "HISPANIA"
+size = 54.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Groenlandia" type="Node2D" parent="Map/Decor/RegionNames" unique_id=953496628]
+position = Vector2(2115.0078, 611.8855)
+script = ExtResource("10_4nlvk")
+text = "GROENLANDIA"
+size = 58.0
+ink = Color(0.15, 0.11, 0.08, 0.4)
+sea = false
+
+[node name="Marginalia" type="Node2D" parent="Map/Decor" unique_id=1821069240]
+
+[node name="Serpent1" type="Node2D" parent="Map/Decor/Marginalia" unique_id=1351592862]
+position = Vector2(3440.7068, 1220.0024)
+script = ExtResource("11_xfigk")
+size = 1.3
+fill = Color(0.91826, 0.8869, 0.8134, 1)
+
+[node name="Whale2" type="Node2D" parent="Map/Decor/Marginalia" unique_id=390940933]
+position = Vector2(2571.8145, 1622.5415)
+script = ExtResource("11_xfigk")
+kind = 1
+size = 1.2
+fill = Color(0.91826, 0.8869, 0.8134, 1)
+
+[node name="Ship3" type="Node2D" parent="Map/Decor/Marginalia" unique_id=1420891386]
+position = Vector2(2980.021, 2703.327)
+script = ExtResource("11_xfigk")
+kind = 2
+size = 1.2
+fill = Color(0.91826, 0.8869, 0.8134, 1)
+
+[node name="Serpent4" type="Node2D" parent="Map/Decor/Marginalia" unique_id=1265456524]
+position = Vector2(3855.3076, 881.33777)
+script = ExtResource("11_xfigk")
+fill = Color(0.91826, 0.8869, 0.8134, 1)
+
+[node name="Hazards" type="Node2D" parent="Map" unique_id=1555952521]
+
+[node name="FrisianShallows" type="Polygon2D" parent="Map/Hazards" unique_id=269260136]
+position = Vector2(3967.1306, 2467.3186)
+color = Color(0.85, 0.7, 0.3, 0.35)
+polygon = PackedVector2Array(148.5481, -47.937256, 145.04175, -41.471924, 131.64917, -32.18506, 109.285645, -20.707764, 79.478516, -7.817871, 44.261475, 5.61084, 6.0358887, 18.666016, -32.593506, 30.46045, -68.995605, 40.189453, -100.69287, 47.187744, -125.528076, 50.974365, -141.81128, 51.286865, -148.43457, 48.100586, -144.94604, 41.63086, -131.58228, 32.31958, -109.250244, 20.802246, -79.46924, 7.8688965, -44.26587, -5.595215, -6.0375977, -18.668945, 32.60962, -30.459229, 69.04053, -40.163086, 100.76929, -47.121582, 125.630615, -50.864746, 141.92749, -51.141357)
+script = ExtResource("5_iwy5d")
+display_name = "The Frisian shallows"
+known_at_start = 2
+rumor = "Frisian pilots say the sands here move every spring."
+known_text = "The Frisian shallows. Sandbanks and tidal flats; easy to run aground."
+
+[node name="GoodwinSands" type="Polygon2D" parent="Map/Hazards" unique_id=1783859478]
+position = Vector2(3679.272, 2687.6384)
+color = Color(0.85, 0.7, 0.3, 0.35)
+polygon = PackedVector2Array(12.094971, 3.0048828, 11.293945, 4.4677734, 9.723389, 5.6259766, 7.48999, 6.400879, 4.746338, 6.739746, 1.6794434, 6.6191406, -1.5019531, 6.0473633, -4.581299, 5.063965, -7.3483887, 3.7351074, -9.614502, 2.1523438, -11.22583, 0.42260742, -12.071777, -1.3361816, -12.095459, -3.0039063, -11.294678, -4.466797, -9.724121, -5.6254883, -7.4907227, -6.400635, -4.746826, -6.739502, -1.6794434, -6.6191406, 1.5021973, -6.0476074, 4.581787, -5.064209, 7.348877, -3.7351074, 9.61499, -2.1513672, 11.226074, -0.42138672, 12.071777, 1.3374023)
+script = ExtResource("5_iwy5d")
+display_name = "The Goodwin Sands"
+severity = 3
+rumor = "Kentish fishermen point at ribs showing through the sand at low tide."
+known_text = "The Goodwin Sands. They have swallowed whole ships."
+
+[node name="NorfolkBanks" type="Polygon2D" parent="Map/Hazards" unique_id=453569045]
+position = Vector2(3709.9783, 2523.1846)
+color = Color(0.85, 0.7, 0.3, 0.35)
+polygon = PackedVector2Array(36.046143, -26.219482, 37.260498, -21.966797, 35.934814, -16.217773, 32.160645, -9.36377, 26.194824, -1.8723145, 18.444824, 5.7460938, 9.438721, 12.973389, -0.20922852, 19.316895, -9.842041, 24.344482, -18.803955, 27.713135, -26.483887, 29.19458, -32.35962, 28.686523, -36.030518, 26.223389, -37.246582, 21.973389, -35.92505, 16.225342, -32.15503, 9.371094, -26.193604, 1.8779297, -18.44629, -5.7436523, -9.440674, -12.973877, 0.20947266, -19.319824, 9.845947, -24.348633, 18.812256, -27.717041, 26.496338, -29.19629, 32.37451, -28.685059)
+script = ExtResource("5_iwy5d")
+display_name = "The Norfolk banks"
+rumor = "The water off the East Angles' coast turns brown and shallow without warning."
+known_text = "The Norfolk banks. Long, shifting sandbanks off the East Anglian coast."
+
+[node name="HornsReef" type="Polygon2D" parent="Map/Hazards" unique_id=2076997128]
+position = Vector2(4044.1848, 2268.0303)
+color = Color(0.85, 0.7, 0.3, 0.35)
+polygon = PackedVector2Array(14.812744, 30.536621, 12.436279, 30.403809, 9.2126465, 28.199707, 5.361328, 24.07373, 1.144043, 18.307617, -3.1516113, 11.293213, -7.23291, 3.5095215, -10.8220215, -4.51416, -13.673828, -12.230469, -15.593994, -19.114258, -16.451416, -24.695313, -16.1875, -28.593506, -14.8203125, -30.542969, -12.442871, -30.410889, -9.217041, -28.206055, -5.3635254, -24.07837, -1.1442871, -18.310547, 3.1520996, -11.294189, 7.2331543, -3.5090332, 10.821045, 4.5148926, 13.670898, 12.230713, 15.588867, 19.113037, 16.44458, 24.691895, 16.179688, 28.588135)
+script = ExtResource("5_iwy5d")
+display_name = "Horns Reef"
+rumor = "Ribe men give the point west of their coast a wide berth."
+known_text = "Horns Reef. A long stony reef reaching out from Jutland."
+
+[node name="TheSkaw" type="Polygon2D" parent="Map/Hazards" unique_id=2075976189]
+position = Vector2(4185.2207, 2042.5156)
+color = Color(0.85, 0.7, 0.3, 0.35)
+polygon = PackedVector2Array(13.323242, 9.0546875, 11.307129, 11.044922, 8.520508, 12.282471, 5.1533203, 12.683105, 1.4345703, 12.219482, -2.3813477, 10.92334, -6.0356445, 8.8828125, -9.278809, 6.2370605, -11.88916, 3.166504, -13.689941, -0.12036133, -14.557617, -3.3989258, -14.433105, -6.446167, -13.325195, -9.053833, -11.309082, -11.044678, -8.521973, -12.283081, -5.1538086, -12.68396, -1.4345703, -12.220459, 2.3823242, -10.924072, 6.0371094, -8.883057, 9.279785, -6.2365723, 11.890137, -3.164795, 13.689941, 0.12219238, 14.557129, 3.4006348, 14.431641, 6.44751)
+script = ExtResource("5_iwy5d")
+display_name = "The Skaw"
+severity = 3
+rumor = "Where the two seas meet at the tip of Jutland, the currents fight."
+known_text = "The Skaw. Sand reefs and cross-currents at the tip of Jutland."
+
+[node name="AutumnGales" type="Polygon2D" parent="Map/Hazards" unique_id=225539186]
+position = Vector2(3813.9531, 2225.969)
+color = Color(0.3, 0.4, 0.8, 0.3)
+polygon = PackedVector2Array(190.21509, 9.549316, 214.19238, 58.006348, 204.44092, 98.9436, 161.84253, 121.31421, 108.1958, 142.85107, 60.342773, 152.82983, -15.448975, 181.72412, -119.32544, 161.75781, -182.94165, 126.60132, -226.60205, 82.34131, -238.16309, 39.634033, -247.82861, -13.284912, -248.78394, -50.166016, -221.70337, -96.06299, -181.6753, -133.34912, -135.4104, -159.28687, -80.890625, -183.08093, -32.493652, -189.19092, 18.304688, -191.52759, 69.51904, -189.8805, 123.94629, -176.53589, 194.19775, -164.802, 214.87256, -138.92651, 196.39673, -66.03052, 196.93433, -22.114502)
+script = ExtResource("5_iwy5d")
+display_name = "The autumn gales"
+kind = 1
+seasons = 12
+rumor = "Nobody sane crosses the open sea after Michaelmas."
+known_text = "The autumn gales. Open water here turns violent from autumn into winter."
+
+[node name="SkagerrakStorms" type="Polygon2D" parent="Map/Hazards" unique_id=100509991]
+position = Vector2(4074.7766, 2044.8104)
+color = Color(0.3, 0.4, 0.8, 0.3)
+polygon = PackedVector2Array(132.51782, 21.40149, 125.966064, 33.24231, 110.83472, 42.813843, 88.15552, 49.467407, 59.47339, 52.754272, 26.740967, 52.454712, -7.8154297, 48.5907, -41.84326, 41.42639, -73.02612, 31.447632, -99.23926, 19.3302, -118.696045, 5.896118, -130.06812, -7.9438477, -132.57715, -21.248657, -126.04883, -33.111816, -110.92578, -42.723022, -88.23755, -49.422974, -59.53125, -52.75049, -26.765625, -52.47461, 7.823242, -48.611572, 41.874756, -41.424805, 73.065674, -31.405884, 99.269775, -19.242554, 118.701904, -5.7678223, 130.04126, 8.095825)
+script = ExtResource("5_iwy5d")
+display_name = "The Skagerrak storms"
+kind = 1
+severity = 3
+seasons = 12
+rumor = "Norse traders wait out the dark months rather than run the Skagerrak."
+known_text = "The Skagerrak storms. Winter westerlies funnel between Norway and Jutland."
+
+[node name="DoggerFogs" type="Polygon2D" parent="Map/Hazards" unique_id=1590264892]
+position = Vector2(3732.1428, 2341.7131)
+color = Color(0.6, 0.6, 0.6, 0.35)
+polygon = PackedVector2Array(122.30591, 54.44629, 112.49902, 65.245605, 95.03174, 71.596924, 71.09302, 73.07129, 42.31201, 69.57178, 10.6467285, 61.33911, -21.749268, 48.935547, -52.67041, 33.2041, -80.01123, 15.214844, -101.90796, -3.8100586, -116.86548, -22.57837, -123.86084, -39.81299, -122.41382, -54.340576, -112.61987, -65.16968, -95.14502, -71.559326, -71.18091, -73.07031, -42.362793, -69.59595, -10.658936, -61.36963, 21.766357, -48.952393, 52.70044, -33.19165, 80.03369, -15.1640625, 101.904785, 3.897461, 116.825195, 22.690918, 123.78223, 39.931885)
+script = ExtResource("5_iwy5d")
+display_name = "The Dogger fogs"
+kind = 2
+severity = 1
+seasons = 3
+rumor = "In spring a grey wall stands over the shallow middle of the sea."
+known_text = "The Dogger fogs. Warm air over cold shallows; days lost feeling your way."
+
+[node name="JutlandRaiders" type="Polygon2D" parent="Map/Hazards" unique_id=108286575]
+position = Vector2(4038.5364, 2194.3394)
+color = Color(0.8, 0.2, 0.15, 0.3)
+polygon = PackedVector2Array(48.904053, -5.027832, 50.0708, 22.756592, 47.826416, 48.9834, 42.325928, 71.86694, 33.945313, 89.851074, 23.255615, 101.713135, 10.983887, 106.64673, -2.0356445, 104.31714, -14.917969, 94.88281, -26.787354, 78.984375, -36.835693, 57.70288, -44.378662, 32.485596, -48.90039, 5.04834, -50.091064, -22.73999, -47.867188, -48.986084, -42.37793, -71.898926, -33.996338, -89.91382, -23.293457, -101.80054, -11.000488, -106.74609, 2.043213, -104.41235, 14.946045, -94.958496, 26.826416, -79.031494, 36.87378, -57.71875, 44.403564, -32.476807)
+script = ExtResource("5_iwy5d")
+display_name = "Raiders off Jutland"
+kind = 3
+seasons = 2
+rumor = "Summer boats out of the Jutland creeks don't carry trade goods."
+known_text = "Raiders off Jutland. Summer raiding boats work this coast."
+
+[node name="LimfjordMouth" type="Polygon2D" parent="Map/Hazards" unique_id=718771807]
+position = Vector2(4060.4487, 2102.789)
+color = Color(0.8, 0.2, 0.15, 0.3)
+polygon = PackedVector2Array(35.595703, -3.6533203, 35.326904, 5.683838, 32.651123, 14.63208, 27.750977, 22.583008, 20.960693, 28.99414, 12.743164, 33.43042, 3.657959, 35.588867, -5.6762695, 35.323242, -14.624268, 32.65161, -22.576416, 27.755615, -28.99121, 20.967773, -33.431152, 12.751221, -35.59375, 3.6645508, -35.33081, -5.67334, -32.659912, -14.625244, -27.762207, -22.581299, -20.971191, -28.99878, -12.750244, -33.439453, -3.659668, -35.600586, 5.680664, -35.333984, 14.633301, -32.658936, 22.58789, -27.757568, 29.001953, -20.963867, 33.43872, -12.742432)
+script = ExtResource("5_iwy5d")
+display_name = "The Limfjord mouth"
+kind = 3
+severity = 3
+seasons = 7
+rumor = "Fleets gather in the Limfjord before they sail west."
+known_text = "The Limfjord mouth. War fleets muster here."
+
+[node name="NorthumbrianCoast" type="Polygon2D" parent="Map/Hazards" unique_id=714742329]
+position = Vector2(3549.531, 2280.6953)
+color = Color(0.8, 0.2, 0.15, 0.3)
+polygon = PackedVector2Array(53.28247, -5.7043457, 52.817383, 7.1311035, 48.753418, 19.478516, 41.36841, 30.496582, 31.16626, 39.436035, 18.842773, 45.68872, 5.2365723, 48.8291, -8.72583, 48.644043, -22.093994, 45.146484, -33.958008, 38.573486, -43.51001, 29.372803, -50.098877, 18.170166, -53.275146, 5.727539, -52.821533, -7.107422, -48.768066, -19.460205, -41.38916, -30.488281, -31.187744, -39.439697, -18.858643, -45.70215, -5.242676, -48.848877, 8.731445, -48.66455, 22.109863, -45.16089, 33.97998, -38.57837, 43.53247, -29.36621, 50.115967, -18.152832)
+script = ExtResource("5_iwy5d")
+display_name = "The Northumbrian coast"
+kind = 3
+seasons = 7
+rumor = "Since the holy island burned, the monks watch the sea with dread."
+known_text = "The Northumbrian coast. Raiders strike here since Lindisfarne."
+
+[node name="Thanet" type="Polygon2D" parent="Map/Hazards" unique_id=272267904]
+position = Vector2(3645.245, 2661.0317)
+scale = Vector2(2.308008, 0.95553535)
+color = Color(0.8, 0.2, 0.15, 0.3)
+polygon = PackedVector2Array(30.990723, -7.933838, 30.215576, -1.2470703, 27.381348, 5.522949, 22.68164, 11.916016, 16.436768, 17.497314, 9.072388, 21.887451, 1.0904541, 24.78833, -6.965454, 26.00293, -14.546875, 25.447754, -21.136963, 23.160889, -26.287231, 19.29663, -29.646606, 14.116943, -30.986084, 7.974121, -30.21399, 1.2861328, -27.382813, -5.4907227, -22.685059, -11.894531, -16.440674, -17.487305, -9.075195, -21.887207, -1.0909424, -24.792969, 6.9682617, -26.006348, 14.55249, -25.44458, 21.144775, -23.146973, 26.295532, -19.270752, 29.653809, -14.081543)
+script = ExtResource("5_iwy5d")
+display_name = "Thanet and the Kentish flats"
+kind = 3
+severity = 1
+seasons = 6
+rumor = "Strange ships have been seen wintering off the Isle of Thanet."
+known_text = "Thanet. Raiders lie in wait for Thames-bound traders."
+
+[node name="Fositesland" type="Polygon2D" parent="Map/Hazards" unique_id=883788507]
+position = Vector2(4057.0024, 2402.5352)
+color = Color(0.5, 0.2, 0.6, 0.3)
+polygon = PackedVector2Array(23.077148, -2.373291, 22.810059, 2.7614746, 20.988525, 7.7075195, 17.73706, 12.12793, 13.277344, 15.722168, 7.913086, 18.245117, 2.0097656, 19.524658, -4.0302734, 19.474121, -9.796143, 18.096924, -14.894287, 15.486816, -18.978027, 11.821045, -21.768799, 7.3498535, -23.076172, 2.3774414, -22.811035, -2.7573242, -20.99121, -7.70459, -17.740479, -12.127197, -13.280518, -15.7229, -7.915039, -18.247314, -2.010254, -19.528076, 4.0319824, -19.477295, 9.799316, -18.098877, 14.898193, -15.487061, 18.98169, -11.819336, 21.771484, -7.3464355)
+script = ExtResource("5_iwy5d")
+display_name = "Fositesland"
+kind = 4
+rumor = "An island holy to Fosite. Frisians say you draw water there only in silence."
+known_text = "Fositesland. Holy to Fosite; crews grow afraid, and some do not come back."
+
+[node name="SilverPit" type="Polygon2D" parent="Map/Hazards" unique_id=177088165]
+position = Vector2(3672.175, 2452.2786)
+color = Color(0.5, 0.2, 0.6, 0.3)
+polygon = PackedVector2Array(25.641113, -12.535645, 26.186768, -9.20459, 24.947266, -5.2470703, 22.007813, -0.93188477, 17.568848, 3.4465332, 11.93335, 7.590088, 5.484619, 11.216064, -1.3374023, 14.078613, -8.067871, 15.981445, -14.248535, 16.796143, -19.458252, 16.466064, -23.342041, 15.013916, -25.635498, 12.5390625, -26.182373, 9.208984, -24.944824, 5.251465, -22.007324, 0.935791, -17.569824, -3.444336, -11.93457, -7.5893555, -5.4855957, -11.217285, 1.3376465, -14.080322, 8.070068, -15.983643, 14.252441, -16.797363, 19.463623, -16.46582, 23.348145, -15.012207)
+script = ExtResource("5_iwy5d")
+display_name = "The Silver Pit"
+kind = 4
+severity = 1
+rumor = "Fishermen whisper of a deep hole in the sea, and of what lives in it."
+known_text = "The Silver Pit. A deep trench; the crew will not sleep over it."
+
+[node name="CuronianRaiders" type="Polygon2D" parent="Map/Hazards" unique_id=329482694]
+position = Vector2(4713.8945, 2076.8225)
+color = Color(0.8, 0.2, 0.15, 0.3)
+polygon = PackedVector2Array(53.393555, -5.162842, 53.796875, 18.042236, 50.535156, 40.01294, 43.833984, 59.253662, 34.149902, 74.45581, 22.141602, 84.58594, 8.626953, 88.954834, -5.476074, 87.265625, -19.208008, 79.63257, -31.634277, 66.57422, -41.90918, 48.978027, -49.33203, 28.041016, -53.394043, 5.1879883, -53.81787, -18.023926, -50.571777, -40.012817, -43.87549, -59.278076, -34.18506, -74.50391, -22.161133, -84.651245, -8.624512, -89.02576, 5.4995117, -87.32971, 19.246094, -79.67822, 31.677734, -66.59595, 41.94629, -48.97583, 49.35254, -28.021729)
+script = ExtResource("5_iwy5d")
+display_name = "Curonian raiders"
+kind = 3
+seasons = 7
+rumor = "Men from the Curonian shore raid as far as the Danish islands."
+known_text = "Curonian raiders. The Kurs strike at anyone rich enough to rob."
+
+[node name="OeselRaiders" type="Polygon2D" parent="Map/Hazards" unique_id=1307125152]
+position = Vector2(4773.1206, 1890.5645)
+color = Color(0.8, 0.2, 0.15, 0.3)
+polygon = PackedVector2Array(71.3042, -6.822754, 70.08496, 6.095703, 64.09131, 18.596436, 53.73291, 29.828491, 39.715332, 39.028564, 22.99414, 45.571167, 4.7075195, 49.01184, -13.900391, 49.115967, -31.5625, 45.876465, -47.07666, 39.51245, -59.38623, 30.456055, -67.65088, 19.322876, -71.30713, 6.869751, -70.103516, -6.053955, -64.12109, -18.56836, -53.766113, -29.817993, -39.743164, -39.035156, -23.009277, -45.589966, -4.7060547, -49.034058, 13.91748, -49.132813, 31.591309, -45.87976, 47.108887, -39.49829, 59.412598, -30.424805, 67.66504, -19.279297)
+script = ExtResource("5_iwy5d")
+display_name = "The Oeselians"
+kind = 3
+seasons = 6
+rumor = "The island men of Eysýsla row out when a sail comes too close."
+known_text = "The Oeselians. Islanders of Saaremaa who raid the Baltic lanes."
+
+[node name="GulfIce" type="Polygon2D" parent="Map/Hazards" unique_id=1548582487]
+position = Vector2(4936.291, 1669.5906)
+color = Color(0.3, 0.4, 0.8, 0.3)
+polygon = PackedVector2Array(223.19385, -20.729248, 216.86426, -6.169922, 195.76367, 8.796875, 161.33203, 23.160645, 115.916504, 35.95581, 62.60742, 46.321655, 5.0341797, 53.560913, -52.88672, 57.182983, -107.211914, 56.937378, -154.24268, 52.830566, -190.77393, 45.130615, -214.31396, 34.349365, -223.25342, 21.212402, -216.97754, 6.6118164, -195.90771, -8.453735, -161.47656, -22.947144, -116.0293, -35.86841, -62.666504, -46.322388, -5.03125, -53.588867, 52.94336, -57.169678, 107.299805, -56.82495, 154.33008, -52.588623, 190.83008, -44.763184, 214.3164, -33.89331)
+script = ExtResource("5_iwy5d")
+display_name = "Winter ice in the Gulf"
+kind = 1
+severity = 3
+seasons = 8
+rumor = "Rus traders haul their boats up before the Gulf freezes."
+known_text = "Winter ice in the Gulf of Finland. Floes that crush hulls."
+
+[node name="BothnianIce" type="Polygon2D" parent="Map/Hazards" unique_id=225996606]
+position = Vector2(4566.9688, 1481.895)
+color = Color(0.3, 0.4, 0.8, 0.3)
+polygon = PackedVector2Array(125.49902, 9.858032, 116.09277, 74.447266, 98.80664, 133.92932, 74.82324, 184.26892, 45.773438, 222.0553, 13.625, 244.72998, -19.446777, 250.75635, -51.2041, 239.72351, -79.49512, 212.37305, -102.399414, 170.55225, -118.35254, 117.089966, -126.25781, 55.612305, -125.56006, -9.702759, -116.28906, -74.40454, -99.06152, -134.07361, -75.04443, -184.62402, -45.876953, -222.5896, -13.558594, -245.36255, 19.689453, -251.38013, 51.58203, -240.23462, 79.93164, -212.69653, 102.80127, -170.6648, 118.63721, -117.02417, 126.37256, -55.44861)
+script = ExtResource("5_iwy5d")
+display_name = "Bothnian ice"
+kind = 1
+severity = 3
+seasons = 8
+rumor = "The northern gulf is a white field half the year."
+known_text = "Bothnian ice. Frozen solid in winter."
+
+[node name="AlandSkerries" type="Polygon2D" parent="Map/Hazards" unique_id=2067805631]
+position = Vector2(4631.659, 1731.3943)
+color = Color(0.85, 0.7, 0.3, 0.35)
+polygon = PackedVector2Array(62.49756, -6.041626, 61.592773, 6.8719482, 56.492188, 19.314941, 47.54492, 30.44043, 35.36035, 39.491943, 20.768066, 45.854126, 4.762207, 49.093994, -11.568359, 48.9917, -27.112305, 45.553467, -40.811035, 39.012695, -51.731445, 29.81372, -59.128906, 18.581177, -62.499023, 6.0803223, -61.609375, -6.8377686, -56.51953, -19.292725, -47.575684, -30.433838, -35.38672, -39.50049, -20.783203, -45.87378, -4.762207, -49.117676, 11.583008, -49.010864, 27.137695, -45.56079, 40.840332, -39.004272, 51.756348, -29.789795, 59.143066, -18.546387)
+script = ExtResource("5_iwy5d")
+display_name = "The Åland skerries"
+rumor = "Thousands of rocks between Svealand and the Finnish shore."
+known_text = "The Åland skerries. A maze of islets; bring a pilot."
+
+[node name="Stad" type="Polygon2D" parent="Map/Hazards" unique_id=1807770378]
+position = Vector2(3891.0408, 1614.6011)
+color = Color(0.3, 0.4, 0.8, 0.3)
+polygon = PackedVector2Array(53.640137, -5.5810547, 52.77295, 3.8640137, 48.309814, 13.044189, 40.556152, 21.334229, 30.040527, 28.169922, 17.479736, 33.08716, 3.729004, 35.75183, -10.2751465, 35.982056, -23.579834, 33.762207, -35.27881, 29.243896, -44.57544, 22.733032, -50.836426, 14.672607, -53.634033, 5.610718, -52.777344, -3.8354492, -48.322998, -13.021484, -40.57422, -21.321777, -30.05835, -28.168945, -17.491943, -33.095215, -3.7321777, -35.76465, 10.282715, -35.994263, 23.595947, -33.76831, 35.30005, -29.239746, 44.59619, -22.717407, 50.851563, -14.647705)
+script = ExtResource("5_iwy5d")
+display_name = "Stad"
+kind = 1
+severity = 3
+seasons = 12
+rumor = "Where Norway turns north, the sea never rests."
+known_text = "Stad. The worst headland on the Norwegian coast."
+
+[node name="PentlandFirth" type="Polygon2D" parent="Map/Hazards" unique_id=312568294]
+position = Vector2(3477.1396, 1934.6072)
+color = Color(0.85, 0.7, 0.3, 0.35)
+polygon = PackedVector2Array(28.499512, -3.0811768, 27.827148, -0.21032715, 25.2583, 2.6749268, 20.968506, 5.3774414, 15.25, 7.713379, 8.492676, 9.524414, 1.1567383, 10.686279, -6.2578125, 11.12085, -13.245605, 10.7977295, -19.331299, 9.739258, -24.09961, 8.017456, -27.225586, 5.7487793, -28.496826, 3.088745, -27.825928, 0.2175293, -25.25879, -2.6687012, -20.96997, -5.373047, -15.251709, -7.711426, -8.4938965, -9.524292, -1.1569824, -10.687256, 6.259033, -11.121582, 13.248535, -10.797119, 19.335205, -9.736816, 24.10376, -8.012451, 27.229492, -5.7424316)
+script = ExtResource("5_iwy5d")
+display_name = "The Pentland Firth"
+severity = 3
+rumor = "Tides run between Caithness and the Orkneys faster than any oarsman."
+known_text = "The Pentland Firth. Tide races and whirlpools."
+
+[node name="IrishSeaRaiders" type="Polygon2D" parent="Map/Hazards" unique_id=903310452]
+position = Vector2(3315, 2412)
+color = Color(0.8, 0.2, 0.15, 0.3)
+polygon = PackedVector2Array(70.94824, -7.7351074, 71.52539, 20.071533, 67.22876, 46.50293, 58.354248, 69.75952, 45.508545, 88.25903, 29.567383, 100.744385, 11.615723, 106.367676, -7.1254883, 104.7478, -25.381836, 95.99512, -41.913086, 80.70459, -55.59375, 59.915527, -65.49243, 35.041748, -70.933105, 7.774658, -71.54297, -20.029297, -67.276855, -46.47583, -58.422363, -69.761475, -45.581055, -88.2959, -29.627441, -100.812744, -11.649658, -106.45581, 7.1242676, -104.83862, 25.411377, -96.0708, 41.962402, -80.751465, 55.64746, -59.927734, 65.53369, -35.021973)
+script = ExtResource("5_iwy5d")
+display_name = "Irish Sea raiders"
+kind = 3
+seasons = 7
+rumor = "Norse longphorts line the Irish coast, and their ships hunt the sea between."
+known_text = "Irish Sea raiders. Ships out of the longphorts."
+
+[node name="WesternOcean" type="Polygon2D" parent="Map/Hazards" unique_id=196296383]
+position = Vector2(3198.1277, 1559.4604)
+color = Color(0.3, 0.4, 0.8, 0.3)
+polygon = PackedVector2Array(402.2124, -44.061523, 393.9734, 8.328369, 358.90186, 60.07251, 299.42822, 107.67114, 219.63135, 147.92505, 124.95654, 178.13965, 21.843262, 196.2981, -82.710205, 201.18774, -181.61646, 192.47815, -268.17358, 170.74329, -336.51294, 137.42627, -381.99097, 94.75122, -401.50342, 45.582275, -393.6941, -6.7614746, -359.05444, -58.72278, -299.90015, -106.74487, -220.22461, -147.51538, -125.43994, -178.20251, -22.013916, -196.66211, 82.97168, -201.59998, 182.3125, -192.67163, 269.18896, -170.51025, 337.64746, -136.6753, 383.01318, -93.52881)
+script = ExtResource("5_iwy5d")
+display_name = "The western ocean"
+kind = 1
+severity = 3
+seasons = 12
+rumor = "Beyond the Faroes the waves are the size of halls."
+known_text = "The western ocean. Open Atlantic; autumn and winter are death."
+
+[node name="Maelstrom" type="Polygon2D" parent="Map/Hazards" unique_id=1980635547]
+position = Vector2(4184.704, 1038.0094)
+color = Color(0.5, 0.2, 0.6, 0.3)
+polygon = PackedVector2Array(25.200684, -2.5308838, 24.855469, 2.6801758, 22.817383, 7.7071533, 19.22461, 12.209106, 14.322266, 15.879517, 8.444824, 18.467285, 1.9916992, 19.79773, -4.5966797, 19.779785, -10.87207, 18.414307, -16.407715, 15.793945, -20.825195, 12.097778, -23.82373, 7.5775146, -25.199707, 2.539795, -24.858398, -2.6722412, -22.822266, -7.701538, -19.230957, -12.206909, -14.327637, -15.879883, -8.448242, -18.470947, -1.9921875, -19.802368, 4.5996094, -19.783447, 10.877441, -18.41565, 16.414063, -15.792725, 20.831055, -12.09314, 23.827637, -7.56958)
+script = ExtResource("5_iwy5d")
+display_name = "The Maelstrom"
+kind = 4
+severity = 3
+rumor = "Off the Lofoten wall the sea turns in a great wheel and swallows ships."
+known_text = "The Maelstrom (Moskstraumen). The sea itself turns against you."
+
+[node name="Currents" type="Node2D" parent="Map" unique_id=982009270]
+
+[node name="NorwegianCoastal" type="Line2D" parent="Map/Currents" unique_id=1029049365]
+position = Vector2(1415.0662, 642.87427)
+points = PackedVector2Array(2684.7986, 1380.8414, 2580.7131, 1395.1965, 2496.5283, 1327.6282, 2461.0698, 1209.2239, 2452.3418, 1041.0336, 2587.6965, 860.44604, 2724.9216, 632.12854, 2808.8274, 370.0863, 2914.781, 168.5614)
+width = 3.0
+default_color = Color(0.15, 0.45, 0.75, 0.6)
+script = ExtResource("8_hri4x")
+strength = 0.5
+width_km = 45.0
+note = "The Norwegian coastal current runs north along the whole coast."
+
+[node name="BalticOutflow" type="Line2D" parent="Map/Currents" unique_id=28302554]
+position = Vector2(1415.0662, 642.87427)
+points = PackedVector2Array(2906.7825, 1604.1663, 2880.6072, 1542.6384, 2841.1814, 1477.3728, 2797.6501, 1412.1584, 2748.0789, 1386.5297, 2694.9304, 1375.3066)
+width = 3.0
+default_color = Color(0.15, 0.45, 0.75, 0.6)
+script = ExtResource("8_hri4x")
+strength = 0.45
+width_km = 25.0
+note = "Fresh Baltic water pours out through the Sound and the Kattegat."
+
+[node name="DoverStrait" type="Line2D" parent="Map/Currents" unique_id=2084527429]
+position = Vector2(1415.0662, 642.87427)
+points = PackedVector2Array(2186.7112, 2121.4138, 2248.7195, 2080.558, 2290.864, 2043.0322, 2329.5715, 1995.1536, 2367.6934, 1937.0984)
+width = 3.0
+default_color = Color(0.15, 0.45, 0.75, 0.6)
+script = ExtResource("8_hri4x")
+width_km = 28.0
+note = "The net tidal stream sets north-east through the Dover Strait into the North Sea."
+
+[node name="EastBritishCoast" type="Line2D" parent="Map/Currents" unique_id=1257669615]
+position = Vector2(1415.0662, 642.87427)
+points = PackedVector2Array(2106.6653, 1308.5629, 2124.2754, 1448.987, 2128.6401, 1577.9829, 2157.6443, 1699.0671, 2225.3513, 1802.6309, 2304.017, 1875.7673)
+width = 3.0
+default_color = Color(0.15, 0.45, 0.75, 0.6)
+script = ExtResource("8_hri4x")
+strength = 0.25
+width_km = 55.0
+note = "Water drifts south along the Scottish and English east coast."
+
+[node name="ContinentalCoastal" type="Line2D" parent="Map/Currents" unique_id=914701217]
+position = Vector2(1415.0662, 642.87427)
+points = PackedVector2Array(2427.8452, 1938.2224, 2458.2656, 1859.6033, 2546.042, 1814.6987, 2626.4717, 1778.0132, 2639.7236, 1678.9287, 2633.9795, 1541.1855, 2677.5957, 1440.4678, 2727.8616, 1397.8667)
+width = 3.0
+default_color = Color(0.15, 0.45, 0.75, 0.6)
+script = ExtResource("8_hri4x")
+strength = 0.3
+note = "Along the Frisian and Jutland coast the water sets north-east."
+
+[node name="AtlanticDrift" type="Line2D" parent="Map/Currents" unique_id=127008198]
+position = Vector2(1415.0662, 642.87427)
+points = PackedVector2Array(1533.5947, 1313.5455, 1822.8496, 1207.3027, 2090.7288, 1088.2407, 2313.1045, 987.4668, 2475.9746, 872.3999)
+width = 3.0
+default_color = Color(0.15, 0.45, 0.75, 0.6)
+script = ExtResource("8_hri4x")
+strength = 0.3
+width_km = 90.0
+note = "Warm Atlantic water flows north-east past the Faroes toward Norway."
+
+[node name="PentlandRace" type="Line2D" parent="Map/Currents" unique_id=770104928]
+position = Vector2(1415.0662, 642.87427)
+points = PackedVector2Array(2030.8308, 1293.9043, 2082.4275, 1294.0537)
+width = 3.0
+default_color = Color(0.15, 0.45, 0.75, 0.6)
+script = ExtResource("8_hri4x")
+strength = 0.85
+width_km = 10.0
+note = "The tide races through the Pentland Firth."
+
+[node name="HazardMarks" type="Node2D" parent="Map" unique_id=844881022]
+script = ExtResource("6_hri4x")
+
+[node name="Ambient" type="Node2D" parent="Map" unique_id=858203979]
+script = ExtResource("10_tft00")
+
+[node name="CloudShadows" type="Node2D" parent="Map" unique_id=688641103]
+script = ExtResource("2_6oboc")
+
+[node name="Ports" type="Node2D" parent="Map" unique_id=179471589]
+
+[node name="Dorestad" type="Node2D" parent="Map/Ports" unique_id=1128882645]
+position = Vector2(3911.7034, 2623.7312)
+script = ExtResource("7_tft00")
+display_name = "Dorestad"
+tier = 1
+faction = "F"
+tag = "HOME · the reeve"
+approach_note = "the old Rhine, past Leiden and Utrecht"
+prices = PackedInt32Array(6, 10, 8, 20, 24, 12)
+swords = 0
+home_port = true
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Dorestad" unique_id=1015298801]
+points = PackedVector2Array(-62.95459, -24.820557, -55.720947, -22.78125, -51.5188, -18.803223, -13.390381, -11.79248, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Medemblik" type="Node2D" parent="Map/Ports" unique_id=1406096050]
+position = Vector2(3897.0046, 2544.8914)
+script = ExtResource("7_tft00")
+display_name = "Medemblik"
+tier = 3
+faction = "F"
+tag = "Frisian cloth"
+approach_note = "through the Vlie into the Almere"
+prices = PackedInt32Array(5, 7, 10, 19, 23, -1)
+swords = 2
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Medemblik" unique_id=2053183037]
+points = PackedVector2Array(-8.905518, -56.17212, 1.1247559, -39.425293, 5.912842, -17.754883, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Quentovic" type="Node2D" parent="Map/Ports" unique_id=799376324]
+position = Vector2(3680.4045, 2766.8052)
+script = ExtResource("7_tft00")
+display_name = "Quentovic"
+faction = "F"
+tag = "Frankish mint"
+approach_note = "the Canche estuary"
+prices = PackedInt32Array(5, 10, 9, 20, 25, 13)
+swords = 0
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Quentovic" unique_id=527519990]
+points = PackedVector2Array(-9.026123, -8.359863, -4.1550293, -5.149414, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Lundenwic" type="Node2D" parent="Map/Ports" unique_id=1046660260]
+position = Vector2(3576.8298, 2657.6035)
+script = ExtResource("7_tft00")
+display_name = "Lundenwic"
+tier = 1
+faction = "E"
+tag = "Mercia"
+approach_note = "up the Thames"
+prices = PackedInt32Array(8, 13, 14, 17, 27, 22)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Lundenwic" unique_id=395675187]
+points = PackedVector2Array(80.85913, 6.179199, 45.099854, 7.0407715, 25.401123, 6.74292, 8.435791, 2.5930176, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Hamwic" type="Node2D" parent="Map/Ports" unique_id=381370240]
+position = Vector2(3492.945, 2711.0737)
+script = ExtResource("7_tft00")
+display_name = "Hamwic"
+faction = "E"
+tag = "Wessex"
+approach_note = "through the Solent"
+prices = PackedInt32Array(7, 13, 14, 18, 27, 22)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Hamwic" unique_id=1246682123]
+points = PackedVector2Array(21.527344, 25.728516, 12.246094, 16.97876, 5.220703, 11.388184, 0.87890625, 4.0480957, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Eoforwic" type="Node2D" parent="Map/Ports" unique_id=1108562140]
+position = Vector2(3539.1313, 2412.2551)
+script = ExtResource("7_tft00")
+display_name = "Eoforwic"
+faction = "E"
+tag = "Northumbria"
+approach_note = "up the Humber and the Ouse"
+prices = PackedInt32Array(9, 15, 17, 15, 26, 24)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Eoforwic" unique_id=967930642]
+points = PackedVector2Array(78.37549, 43.61621, 55.32373, 38.04663, 28.645996, 27.112549, 10.548584, 26.613525, 3.685791, 11.197266, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Ribe" type="Node2D" parent="Map/Ports" unique_id=641079807]
+position = Vector2(4101.5527, 2287.031)
+script = ExtResource("7_tft00")
+display_name = "Ribe"
+tag = "Danish"
+approach_note = "the Ribe river, behind the Wadden flats"
+prices = PackedInt32Array(9, 13, 15, 13, 19, 28)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Ribe" unique_id=1010530238]
+points = PackedVector2Array(-20.138428, 1.0373535, -7.8308105, 0.41601563, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Hedeby" type="Node2D" parent="Map/Ports" unique_id=68083442]
+position = Vector2(4152.272, 2366.8577)
+script = ExtResource("7_tft00")
+display_name = "Hedeby"
+tier = 1
+tag = "Danish · Baltic"
+approach_note = "up the Eider and Treene, then carts from Hollingstedt"
+prices = PackedInt32Array(11, 15, 17, 10, 14, 30)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Hedeby" unique_id=1464314502]
+points = PackedVector2Array(-53.01953, 26.800781, -34.33789, 20.851807, -21.555664, 13.198486, -13.51709, 3.8259277, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Kaupang" type="Node2D" parent="Map/Ports" unique_id=748971557]
+position = Vector2(4146.0737, 1916.9475)
+script = ExtResource("7_tft00")
+display_name = "Kaupang"
+faction = "N"
+tag = "Skiringssal · Norse"
+approach_note = "the mouth of the Vestfold fjords"
+prices = PackedInt32Array(10, 14, 17, 11, 17, 26)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Kaupang" unique_id=929176926]
+points = PackedVector2Array(5.4257813, 11.475098, 1.8769531, 4.8101807, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Birka" type="Node2D" parent="Map/Ports" unique_id=1089592554]
+position = Vector2(4518.9224, 1841.3109)
+script = ExtResource("7_tft00")
+display_name = "Birka"
+tier = 1
+faction = "N"
+tag = "Svear · Lake Mälaren"
+approach_note = "through the skerries and the Södertälje strait into Mälaren"
+prices = PackedInt32Array(11, 15, 18, 9, 12, 28)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Birka" unique_id=1485908819]
+points = PackedVector2Array(43.25537, 35.564087, 25.499512, 23.88147, 10.241211, 16.685913, 6.3652344, 12.38147, 2.6020508, 3.0368652, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Wolin" type="Node2D" parent="Map/Ports" unique_id=1009661337]
+position = Vector2(4448.408, 2400.8691)
+script = ExtResource("7_tft00")
+display_name = "Wolin"
+faction = "S"
+tag = "Wendish · Oder mouth"
+approach_note = "the Dziwna channel off the Oder lagoon"
+prices = PackedInt32Array(7, 14, 16, 12, 13, 26)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Wolin" unique_id=784765325]
+points = PackedVector2Array(-5.350586, -30.084473, 4.5942383, -21.531006, 3.0996094, -11.373779, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Truso" type="Node2D" parent="Map/Ports" unique_id=978671157]
+position = Vector2(4719.0977, 2330.6333)
+script = ExtResource("7_tft00")
+display_name = "Truso"
+faction = "B"
+tag = "Prussian · amber coast"
+approach_note = "through the Vistula lagoon"
+prices = PackedInt32Array(8, 15, 17, 10, 9, 28)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Truso" unique_id=1220608380]
+points = PackedVector2Array(4.621582, -66.43286, 12.684082, -56.083984, 2.9375, -38.878906, -2.4145508, -22.641846, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Grobiņa" type="Node2D" parent="Map/Ports" unique_id=618287582]
+position = Vector2(4761.223, 2071.9968)
+script = ExtResource("7_tft00")
+display_name = "Grobiņa"
+tier = 3
+faction = "B"
+tag = "Curonian · Seeburg"
+approach_note = "a short way inland from the Curonian coast"
+prices = PackedInt32Array(9, 15, 18, 9, 10, 28)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Grobiņa" unique_id=824731597]
+points = PackedVector2Array(-16.473633, 5.88208, -8.76123, 3.0742188, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Aldeigjuborg" type="Node2D" parent="Map/Ports" unique_id=291204096]
+position = Vector2(5205.6665, 1572.1077)
+script = ExtResource("7_tft00")
+display_name = "Aldeigjuborg"
+faction = "R"
+tag = "Staraya Ladoga · Rus"
+approach_note = "by the rivers themselves"
+prices = PackedInt32Array(12, 17, 21, 7, 12, 32)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Aldeigjuborg" unique_id=2103908784]
+points = PackedVector2Array(0.5, 0, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Holmgard" type="Node2D" parent="Map/Ports" unique_id=861720105]
+position = Vector2(5212.4604, 1725.9006)
+script = ExtResource("7_tft00")
+display_name = "Holmgard"
+faction = "R"
+tag = "Novgorod · Rus"
+approach_note = "by the rivers themselves"
+prices = PackedInt32Array(11, 17, 22, 6, 13, 33)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Holmgard" unique_id=1263766030]
+points = PackedVector2Array(0.5, 0, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Kænugarðr" type="Node2D" parent="Map/Ports" unique_id=34207033]
+position = Vector2(5461.231, 2482.637)
+script = ExtResource("7_tft00")
+display_name = "Kænugarðr"
+tier = 1
+faction = "R"
+tag = "Kiev · the road to the Greeks"
+approach_note = "by the rivers themselves"
+prices = PackedInt32Array(9, 18, 22, 8, 14, 34)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Kænugarðr" unique_id=1929636887]
+points = PackedVector2Array(0.5, 0, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Dyflin" type="Node2D" parent="Map/Ports" unique_id=1138368584]
+position = Vector2(3230.9858, 2434.6563)
+script = ExtResource("7_tft00")
+display_name = "Dyflin"
+faction = "N"
+tag = "Dublin · Norse-Irish"
+approach_note = "into the Liffey"
+prices = PackedInt32Array(8, 15, 17, 14, 22, 24)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Dyflin" unique_id=419207534]
+points = PackedVector2Array(18.507324, 3.4794922, 5.225586, 0.8508301, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Miklagard" type="Node2D" parent="Map/Ports" unique_id=1149792996]
+position = Vector2(5688.642, 3402.9941)
+script = ExtResource("7_tft00")
+display_name = "Miklagard"
+tier = 1
+faction = "G"
+tag = "Constantinople · the Queen of Cities"
+approach_note = "the Golden Horn, behind the chain"
+prices = PackedInt32Array(12, 17, 7, 28, 32, 30)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Miklagard" unique_id=1672373855]
+points = PackedVector2Array(0.71972656, -0.25854492, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Cherson" type="Node2D" parent="Map/Ports" unique_id=1369345175]
+position = Vector2(5865.3037, 2944.4023)
+script = ExtResource("7_tft00")
+display_name = "Cherson"
+tier = 3
+faction = "G"
+tag = "Chersonesos · Roman Crimea"
+approach_note = "the harbour below the walls"
+prices = PackedInt32Array(9, 15, 8, 22, 26, 28)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Cherson" unique_id=2021936879]
+points = PackedVector2Array(-13.6171875, 2.6154785, -3.6669922, 0.4987793, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Bolghar" type="Node2D" parent="Map/Ports" unique_id=1573923583]
+position = Vector2(6217.7817, 1564.8799)
+script = ExtResource("7_tft00")
+display_name = "Bolghar"
+faction = "K"
+tag = "Volga Bulgars · the fur market"
+approach_note = "the bank of the Volga"
+prices = PackedInt32Array(10, 18, 21, 5, 18, 32)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Bolghar" unique_id=123183866]
+points = PackedVector2Array(-0.4555664, 0.3343506, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Atil" type="Node2D" parent="Map/Ports" unique_id=435735492]
+position = Vector2(6659.669, 2293.4395)
+script = ExtResource("7_tft00")
+display_name = "Atil"
+faction = "K"
+tag = "Khazar khagan's city · silver road"
+approach_note = "the Volga delta"
+prices = PackedInt32Array(8, 17, 18, 9, 22, 34)
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Atil" unique_id=164627853]
+points = PackedVector2Array(-1.6972656, -0.016601563, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Parisius" type="Node2D" parent="Map/Ports" unique_id=1844540101]
+position = Vector2(3718.3018, 2928.592)
+script = ExtResource("7_tft00")
+display_name = "Parisius"
+faction = "F"
+tag = "Paris · Frankish"
+approach_note = "up the Seine"
+prices = PackedInt32Array(5, 11, 9, 21, 25, 13)
+swords = 0
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Parisius" unique_id=1964544125]
+points = PackedVector2Array(-0.64404297, -0.22290039, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Rotomagus" type="Node2D" parent="Map/Ports" unique_id=1430626855]
+position = Vector2(3640.1494, 2866.714)
+script = ExtResource("7_tft00")
+display_name = "Rotomagus"
+tier = 3
+faction = "F"
+tag = "Rouen · Frankish"
+approach_note = "the lower Seine"
+prices = PackedInt32Array(5, 10, 10, 20, 24, 13)
+swords = 0
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Rotomagus" unique_id=1011967769]
+points = PackedVector2Array(-1.2854004, -0.072265625, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Colonia" type="Node2D" parent="Map/Ports" unique_id=719603605]
+position = Vector2(4013.6243, 2723.7085)
+script = ExtResource("7_tft00")
+display_name = "Colonia"
+faction = "F"
+tag = "Cologne · Rhenish swords"
+approach_note = "up the Rhine"
+prices = PackedInt32Array(6, 10, 6, 21, 24, 11)
+swords = 0
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Colonia" unique_id=1407129413]
+points = PackedVector2Array(-0.6220703, 0.017578125, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="Hammaburg" type="Node2D" parent="Map/Ports" unique_id=783138515]
+position = Vector2(4182.875, 2457.5605)
+script = ExtResource("7_tft00")
+display_name = "Hammaburg"
+tier = 3
+faction = "F"
+tag = "Hamburg · Saxon march"
+approach_note = "up the Elbe"
+prices = PackedInt32Array(7, 12, 11, 17, 20, -1)
+swords = 2
+
+[node name="Approach" type="Line2D" parent="Map/Ports/Hammaburg" unique_id=568997385]
+points = PackedVector2Array(-1.1323242, 0.5749512, 0, 0)
+width = 2.0
+default_color = Color(0.7, 0.2, 0.12, 0.8)
+
+[node name="PortGlyphs" type="Node2D" parent="Map" unique_id=377485857]
+script = ExtResource("8_n3v3d")
+
+[node name="Route" type="Node2D" parent="Map" unique_id=408214860]
+script = ExtResource("9_ohkhk")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1365326660]
+
+[node name="HUD" parent="." unique_id=31991241 instance=ExtResource("10_obuwm")]

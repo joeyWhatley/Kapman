@@ -1,0 +1,183 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://route_map/ui/hud.gd" id="1_ehywe"]
+[ext_resource type="Theme" path="res://route_map/ui/theme.tres" id="2_4altl"]
+[ext_resource type="FontFile" path="res://route_map/fonts/Inter-Medium.ttf" id="3_lb64j"]
+[ext_resource type="PackedScene" path="res://route_map/ui/port_panel.tscn" id="4_ydl3d"]
+[ext_resource type="Script" path="res://route_map/ui/port_panel.gd" id="5_8k0c6"]
+[ext_resource type="PackedScene" path="res://route_map/ui/music_player.tscn" id="6_11gjb"]
+[ext_resource type="Script" path="res://route_map/ui/music_player.gd" id="7_28qy4"]
+[ext_resource type="PackedScene" path="res://route_map/ui/incident_card.tscn" id="8_p6pnk"]
+[ext_resource type="Script" path="res://route_map/ui/incident_card.gd" id="9_kd7dp"]
+[ext_resource type="PackedScene" path="res://route_map/battle/battle_screen.tscn" id="10_k2fwb"]
+[ext_resource type="Script" path="res://route_map/battle/battle_screen.gd" id="11_qxhac"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4fv6f"]
+content_margin_left = 10.0
+content_margin_top = 7.0
+content_margin_right = 10.0
+content_margin_bottom = 7.0
+bg_color = Color(0.985, 0.98, 0.968, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.1, 0.11, 0.13, 0.22)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.1)
+shadow_size = 10
+shadow_offset = Vector2(0, 3)
+
+[node name="HUD" type="CanvasLayer" unique_id=31991241]
+script = ExtResource("1_ehywe")
+
+[node name="Root" type="Control" parent="." unique_id=324647955]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource("2_4altl")
+
+[node name="Strip" type="PanelContainer" parent="Root" unique_id=709076333]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 20.0
+offset_bottom = 18.0
+
+[node name="Status" type="Label" parent="Root/Strip" unique_id=301019837]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_lb64j")
+
+[node name="TimeControls" type="PanelContainer" parent="Root" unique_id=1702822540]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = 18.0
+offset_right = -20.0
+offset_bottom = 18.0
+grow_horizontal = 0
+
+[node name="Row" type="HBoxContainer" parent="Root/TimeControls" unique_id=1840964747]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Play" type="Button" parent="Root/TimeControls/Row" unique_id=284835303]
+custom_minimum_size = Vector2(38, 28)
+layout_mode = 2
+tooltip_text = "Start / resume (Space)"
+text = "▶"
+
+[node name="Pause" type="Button" parent="Root/TimeControls/Row" unique_id=1539886616]
+custom_minimum_size = Vector2(38, 28)
+layout_mode = 2
+tooltip_text = "Pause (Space)"
+text = "❚❚"
+
+[node name="Fast" type="Button" parent="Root/TimeControls/Row" unique_id=946171255]
+custom_minimum_size = Vector2(38, 28)
+layout_mode = 2
+tooltip_text = "Fast forward"
+text = "▶▶"
+
+[node name="Speed" type="Label" parent="Root/TimeControls/Row" unique_id=1809731554]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.1, 0.11, 0.13, 0.6)
+horizontal_alignment = 1
+
+[node name="ActionBar" type="PanelContainer" parent="Root" unique_id=1939035510]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Body" type="VBoxContainer" parent="Root/ActionBar" unique_id=1754470042]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Root/ActionBar/Body" unique_id=1922915619]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_lb64j")
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Root/ActionBar/Body" unique_id=899565885]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.1, 0.11, 0.13, 0.6)
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Root/ActionBar/Body" unique_id=1421802226]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="PortPanel" type="PanelContainer" parent="Root" unique_id=1212879134 instance=ExtResource("4_ydl3d")]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = 70.0
+offset_right = -20.0
+offset_bottom = 70.0
+grow_horizontal = 0
+theme = ExtResource("2_4altl")
+script = ExtResource("5_8k0c6")
+
+[node name="MusicPlayer" type="PanelContainer" parent="Root" unique_id=1726617555 instance=ExtResource("6_11gjb")]
+layout_mode = 0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -18.0
+offset_right = -20.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_4altl")
+script = ExtResource("7_28qy4")
+
+[node name="Toast" type="Label" parent="Root" unique_id=2089324018]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 70.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_lb64j")
+theme_override_font_sizes/font_size = 14
+
+[node name="Tip" type="PanelContainer" parent="Root" unique_id=284233656]
+layout_mode = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4fv6f")
+
+[node name="Text" type="Label" parent="Root/Tip" unique_id=758704174]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+
+[node name="IncidentCard" type="Control" parent="Root" unique_id=1826858554 instance=ExtResource("8_p6pnk")]
+anchors_preset = 0
+theme = ExtResource("2_4altl")
+script = ExtResource("9_kd7dp")
+
+[node name="BattleScreen" type="Control" parent="Root" unique_id=812620269 instance=ExtResource("10_k2fwb")]
+anchors_preset = 0
+theme = ExtResource("2_4altl")
+script = ExtResource("11_qxhac")

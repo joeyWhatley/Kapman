@@ -1,0 +1,208 @@
+KĀPMAN — DEVLOG
+Frisian trading-ship game, 700–900 CE. You start in debt. Godot 4.7.2 (GDScript).
+Project folder: C:\Users\joeyw\OneDrive\Documents\kāpman      Big terrain data: G:\kapman_data
+(Disk names use plain "kapman"; the game's display name is "Kāpman".)
+Last updated: 2026-09-26 (v0.2)
+
+
+==============================================================================
+VERSION HISTORY
+==============================================================================
+v0.2 — 2026-09-26 (afternoon)
+- Whole-map 3D terrain baked: 145,355 tiles (Copernicus 30/90 m + EMODnet seabed), streamed live.
+- Map cleanup (baker): period corrections (Bosporus, Dardanelles, Wantsum) no longer draw fake
+  beaches and foam lines in open water (52 non-shore edges removed); fjords and inlets with no
+  seabed survey now slope down smoothly from the shore instead of stair-stepped blocks.
+- Baker memory fix: source cache emptied every row (was climbing to ~27 GB, now ~4 GB).
+- Cel-shaded look, so everything blends as one painted picture:
+  - shared three-band toon lighting (toon.gdshaderinc) on land, trees, ship hull and sail;
+    warm light, cool shade; foliage uses softer bands;
+  - ink outlines (Camera/Outlines, outline.gdshader) on the ship, rigging, trees and ridges,
+    fading with distance so the zoom-out hands over cleanly to the 2D chart;
+  - painted sea: depth bands, crisp white foam, the chart's water-lines drawn parallel to the
+    shore, small stepped sun-glints;
+  - crisp painted clouds and cloud shadows; stronger sun, lower fill light; meadows toned down.
+- New tools: route_map/tools/apply_cel_look.gd; hull now uses toon_vcol.gdshader.
+- Known issue: a thin sandy spit left in the middle of the Bosporus (widen the Bosporus
+  correction polygon and rebake that area).
+
+v0.1 — 2026-09-26 (morning)
+- Everything in sections 1–4 below up to the first whole-map bake: 2D route map, the 3D sea view
+  (Dorestad slice → whole map), editable scene, North Sea mood, tree levels of detail, ship marker,
+  data downloads and the C# terrain baker.
+
+
+==============================================================================
+1. EARLY WORK
+==============================================================================
+- Reviewed and fixed world_map.gd (the original milestone-1 map).
+- Milestone 2: goods and prices.
+- Print-and-play paper prototype: map, goods/prices, debt tracker, season and event deck,
+  battle sheet, one-page rules, PDF (design/paper_prototype/, build_pdf.ps1).
+- Paper-look tabletop prototype in Godot: paper_game.tscn + scripts/ (data.gd, game_state.gd,
+  paper_game.gd, ui/*). FROZEN — kept as-is for separate playtesting; not touched since.
+
+
+==============================================================================
+2. THE ROUTE MAP (2D chart) — route_map/route_map.tscn  (main scene, F5)
+==============================================================================
+Direction: sleek, inky, sharp lines; minimal HUD (ship name, hold, silver, date), details on
+hover/select; one modern typeface (Inter), no medieval fonts; smooth motion.
+
+Voyages
+- New voyage → pick your vessel → click a destination → a direct route is drawn → you edit it
+  (drag waypoints) to avoid weather, dangerous waters and cursed areas; subtle warnings.
+- Route charters are planned before leaving and sailed automatically; interrupted by events,
+  battles and negotiations. Start / pause / fast-forward.
+- Trade by hand at ports (port panel), shipwright repairs and hiring crew.
+- Battles (battle_rules.gd, battle_screen): crew surrenders at 2 or fewer; morale rules.
+- Music player in a corner (human-made, copyright-free, PS2-style — shortlist still to do).
+
+Fog of war
+- Everything starts fogged; the fog shows a rougher, vaguer version of the map; hazards stay
+  hidden until explored (fog.gd, fog_mask.gdshader).
+
+The world
+- Map scaled up ~10x: Greenland to the Volga, Lofoten to Constantinople ("Constantinople is the
+  edge"). CK3-like scale with many more navigable rivers.
+- Projection: Lambert conformal conic (geo.gd), 1 map unit ≈ 1.112 km.
+- Navigable rivers (Rhine, Seine, Elbe, Vistula, Neva, Volkhov, Lovat, Dnieper, Don, Volga,
+  Danube, Dvina…) and 4 portages (Lovat–Dnieper, Volga–Don, Hollingstedt–Hedeby, Vyshny
+  Volochyok). Route finding with AStarGrid2D across sea, rivers and portages.
+- Period corrections as editable polygons: Wantsum Channel, Bosporus, Dardanelles.
+- World ports added: Miklagard, Cherson, Bolghar, Atil, Parisius, Rotomagus, Colonia, Hammaburg.
+- All 24 routes from Dorestad verified valid (e.g. Kiev via Neva–Volkhov–Lovat–portage–Dnieper).
+- Fixed a scanline bug in build_coast.gd that had put a false wall of land across the Black Sea.
+
+Look and feel
+- Coastline overhaul: tiled, smoothed, level-of-detail coast drawing, hairline water-lines.
+- Living ink sea shader, drifting cloud shadows, day/night with port lights.
+- Idle life: gulls, other sails, port life, ship at anchor.
+- Sailing model: points of sail for a square sail, rowing into the wind, currents, moving
+  weather systems, river flow, portage speed.
+- 2.5D tilt when zoomed in; "old Frisian" chart style (vellum and iron-gall ink), keeping Inter.
+- Performance: ~190 fps idle and sailing.
+
+Editable layers (route_map/nodes, route_map/layers, route_map/ui)
+- Ports, hazards, land patches, currents, borders, cartouche, region labels, marginalia are all
+  nodes you can place and edit in the Godot editor. UI scenes: HUD, port panel, music player,
+  incident card, battle screen, theme.tres.
+
+
+==============================================================================
+3. THE 3D WORLD — route_map/world3d/sea_view.tscn  (open it, press F6)
+==============================================================================
+Goal: "insanely detailed zoomed all the way in, 3D, interactive realistic sea, the trading vessel
+to scale rocking on the waves, and a flat 2D map when zoomed out." Style chosen: A — stylised
+realism (Sea of Thieves / Tiny Glade feel), painterly, old Frisian palette.
+
+History
+- First: a low-poly 3D preview from ETOPO1 (route_map/terrain3d/) — judged too rough.
+- Then: a high-detail Dorestad vertical slice (47 m AWS Terrain Tiles).
+- Now: the whole map, streamed from Copernicus 30/90 m + EMODnet seabed (section 4).
+
+What's in the scene (every part is a node you can edit)
+- SeaView: settings — start position, wind, sea state, cloud cover, cloud shadows, mist, zoom
+  distances, render scale, where the terrain tiles are.
+- Look: cel shading throughout (toon.gdshaderinc) with ink outlines (Camera/Outlines).
+- WorldEnvironment + Sun: the North Sea mood — overcast sky shader with moving layered clouds,
+  a warm break low toward the sun, sea mist, muted colour grading ("wholesome, dark, dreary but
+  hopeful").
+- Terrain and Sea: geometry clipmaps (fine near the camera, coarse far away), 1 unit = 1 metre,
+  floating origin so nothing jitters. Their look lives in terrain_material.tres / sea_material.tres.
+- Sea: Gerstner waves shaped by the wind (the same maths moves the ship), calm in shallows, clear
+  water over sandbanks, foam on crests and surf, a wake behind the ship, cloud shadows. Rivers
+  and lakes are the same water surface at their own levels, joining the sea seamlessly.
+- Land: real heights plus made-up fine relief (never at the shoreline), coastal dune ridges,
+  land cover of 800 AD — beaches, grey-green dunes, salt marsh, wet meadow, peat bog, heather,
+  oak/alder/birch woods. Stylised relief shading, darker wood edges.
+- Plants (Plants/Trees, TreesMid, TreesFar, Bushes, Grass, Reeds): placed on the GPU by the same
+  rules as the ground colours. Trees keep their spot at every distance: detailed models near
+  (with shadows), simpler ones to 750 m, bigger sparser ones to 1.5 km, then a "canopy shell" —
+  the woods become a raised, painted canopy so forests read as forests from any height.
+  Oak / alder / birch from one model shaped per species. Meshes in world3d/meshes/*.res — swap
+  in your own models.
+- Ship: an 18 m Frisian cog at true scale — tarred planking, barrels and cloth bales, crew,
+  steering oar, striped wool sail that fills and braces to the wind. Floats on the real waves
+  (heave, pitch, roll, heel), sails by the chart's points-of-sail rule, runs aground in shallows,
+  sails up rivers. Hull and Sail are nodes (cog_hull.res, cog_sail.res).
+- Ship marker: an ink glyph with name and heading when the ship is too small to see (all the way
+  out onto the chart); an arrow with distance at the screen edge when she's off-screen.
+- Zoom: one continuous move from the waterline to the 2D chart — the camera levels to top-down,
+  north-up, and the real route_map chart fades in exactly aligned.
+- Rendering: supersampled (render scale 1.33), about 70 fps at 1080p on an RTX 4070.
+- Controls: wheel zoom · right-drag orbit · left-drag pan · F follow ship · A/D steer ·
+  W/S sail · 1–4 wind · Q/E turn wind.
+
+Key files (route_map/world3d/)
+- sea_view.gd (wires everything), clipmap.gd, terrain.gdshader, ocean.gdshader, sky.gdshader,
+  world_height.gdshaderinc, landcover.gdshaderinc, clouds.gdshaderinc, waves.gd, cog.gd,
+  sail.gdshader, plants.gd, scatter.gd, scatter.gdshader, scatter_place.gdshader,
+  toon.gdshaderinc, toon_vcol.gdshader, outline.gdshader,
+  ship_marker.gd, terrain_stream.gd, CREDITS.md.
+- Tools (route_map/tools/): build_sea_view.gd (builds/repairs the scene, keeps your edits),
+  apply_north_sea_mood.gd, apply_cel_look.gd, export_vectors.gd, list_detail_tiles.gd, bake_slice.gd (old slice).
+
+
+==============================================================================
+4. TERRAIN DATA PIPELINE (G:\kapman_data — kept off OneDrive)
+==============================================================================
+- Choice: "balanced" — Copernicus GLO-90 (90 m) for all land, GLO-30 (30 m) on every 1° tile
+  with sea coast, EMODnet 2024 for the seabed (~115 m). About 12 GB raw.
+- download.ps1: resumable background downloader (queue.txt, progress in status.txt).
+  Downloaded: 1929 GLO-90 tiles, 726 GLO-30 tiles, 58 EMODnet tiles (H1 skipped).
+- export_vectors.gd → vectors.txt: the chart's coastline, lakes, rivers and period corrections.
+- Baker (baker\Baker.cs, C# 5, built with the .NET Framework compiler — no extra installs):
+  reads the GeoTIFFs directly, reprojects into the game's map projection, and bakes a tile
+  pyramid tiles\L0–L8 (30 m … 7.7 km per pixel, 256×256 tiles; height, water level, distance to
+  shore). It shapes the data with the chart: smooth true coastline, lakes at their surface level,
+  every river cut in with a channel, levees and its own water level, every river mouth joined to
+  the sea. Hand-traced rivers of 800 AD: the Oude Rijn (Dorestad–Utrecht–Katwijk, the Rhine's main
+  mouth then) and the Vecht.
+- bake_all.ps1 runs the whole bake unattended; progress in bake_status.txt ("BAKE DONE").
+- terrain_stream.gd streams nine levels around the camera into the 3D scene.
+
+
+==============================================================================
+5. STILL TO DO
+==============================================================================
+- Fix the Bosporus sand spit; fly-test far regions (Baltic, Russian rivers, Iceland, Greenland).
+- Settlements: Dorestad itself, terps and farmsteads, fields; livestock and people.
+- Wire the 3D world into the main game (real voyages on this sea; ports, route, fog, hazards in 3D).
+- Weather from the game's weather system driving the 3D wind and sea.
+- In-game credits screen (see section 6).
+- Music shortlist (human-made, copyright-free, PS2-style) with licences.
+- Historical events and the reeve's debt deadline on the route map; period coastline fixes (Almere).
+
+
+==============================================================================
+6. SOURCES AND CREDITS
+==============================================================================
+Elevation and bathymetry
+- Copernicus DEM GLO-30 and GLO-90 (ESA / Copernicus programme), via AWS Open Data
+  (copernicus-dem-30m / copernicus-dem-90m). Required credit: "Produced using Copernicus
+  WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under
+  COPERNICUS by the European Union and ESA; all rights reserved." (same wording with WorldDEM-90
+  for GLO-90). Commercial use allowed with this credit.
+- EMODnet Digital Bathymetry (DTM 2024), European Marine Observation and Data Network,
+  https://emodnet.ec.europa.eu/en/bathymetry — free use with attribution: "EMODnet Bathymetry
+  Consortium (2024): EMODnet Digital Bathymetry (DTM 2024)."
+- ETOPO1 Global Relief Model, NOAA National Centers for Environmental Information (public domain),
+  via the ERDDAP mirror at upwell.pfeg.noaa.gov.
+- AWS Terrain Tiles (Mapzen/Tilezen, zoom 11) — used for the earlier Dorestad slice. Credit:
+  "Elevation: Mapzen Terrain Tiles; contains SRTM (NASA), ETOPO1 (NOAA), EU-DEM (produced using
+  Copernicus data and information funded by the European Union) and other sources."
+  (no longer used by the whole-map 3D world; credit only if the slice is kept)
+
+Map geography
+- Natural Earth 1:10m land, lakes, rivers and lake centrelines, rivers Europe (public domain),
+  https://www.naturalearthdata.com — coastlines, lakes and rivers of the chart and 3D world.
+- Hand-traced by us: Lovat river, the four portages, Oude Rijn, Vecht, and the Wantsum Channel,
+  Bosporus and Dardanelles corrections.
+
+Fonts and tools
+- Inter typeface (SIL Open Font License).
+- Godot Engine 4.7 (MIT). .NET Framework C# compiler (built into Windows) for the terrain baker.
+
+Everything else — code, shaders, the cog, trees, sky, sea and all procedural art — was made for
+this project.

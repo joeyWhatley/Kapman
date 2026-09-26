@@ -1,0 +1,222 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://route_map/world3d/sea_view.gd" id="1"]
+[ext_resource type="Script" path="res://route_map/world3d/clipmap.gd" id="2_3ganc"]
+[ext_resource type="Shader" path="res://route_map/world3d/sky.gdshader" id="2_of8ho"]
+[ext_resource type="Material" path="res://route_map/world3d/terrain_material.tres" id="3_of8ho"]
+[ext_resource type="Material" path="res://route_map/world3d/sea_material.tres" id="4_rtiuo"]
+[ext_resource type="Script" path="res://route_map/world3d/scatter.gd" id="5_gew1n"]
+[ext_resource type="ArrayMesh" path="res://route_map/world3d/meshes/oak.res" id="6_2g1wo"]
+[ext_resource type="ArrayMesh" path="res://route_map/world3d/meshes/oak_far.res" id="8_rtiuo"]
+[ext_resource type="ArrayMesh" path="res://route_map/world3d/meshes/bush.res" id="9_0kefo"]
+[ext_resource type="ArrayMesh" path="res://route_map/world3d/meshes/grass.res" id="10_xdvfy"]
+[ext_resource type="ArrayMesh" path="res://route_map/world3d/meshes/reeds.res" id="11_hup0g"]
+[ext_resource type="Script" path="res://route_map/world3d/cog.gd" id="12_bn1ld"]
+[ext_resource type="Material" path="res://route_map/world3d/hull_material.tres" id="13_74bq0"]
+[ext_resource type="ArrayMesh" path="res://route_map/world3d/meshes/cog_hull.res" id="14_mstg2"]
+[ext_resource type="Material" path="res://route_map/world3d/sail_material.tres" id="15_wped5"]
+[ext_resource type="ArrayMesh" path="res://route_map/world3d/meshes/cog_sail.res" id="16_ekdem"]
+[ext_resource type="Theme" path="res://route_map/ui/theme.tres" id="17_7vxse"]
+[ext_resource type="Material" path="res://route_map/world3d/outline_material.tres" id="17_of8ho"]
+[ext_resource type="Script" path="res://route_map/world3d/ship_marker.gd" id="18_wig2l"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gew1n"]
+seed = 7
+frequency = 0.004
+fractal_gain = 0.55
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2g1wo"]
+width = 1024
+height = 1024
+noise = SubResource("FastNoiseLite_gew1n")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p3cut"]
+shader = ExtResource("2_of8ho")
+shader_parameter/zenith = null
+shader_parameter/horizon = null
+shader_parameter/cloud_lit = null
+shader_parameter/cloud_dark = null
+shader_parameter/sun_glow = null
+shader_parameter/coverage = null
+shader_parameter/glow_strength = null
+shader_parameter/cloud_noise = SubResource("NoiseTexture2D_2g1wo")
+shader_parameter/drift = null
+
+[sub_resource type="Sky" id="Sky_kgv2l"]
+sky_material = SubResource("ShaderMaterial_p3cut")
+radiance_size = 2
+
+[sub_resource type="Environment" id="Environment_0kefo"]
+background_mode = 2
+sky = SubResource("Sky_kgv2l")
+ambient_light_source = 3
+ambient_light_energy = 0.62
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 1.05
+tonemap_white = 1.2
+glow_enabled = true
+glow_bloom = 0.03
+glow_hdr_threshold = 0.9
+fog_enabled = true
+fog_light_color = Color(0.6, 0.64, 0.66, 1)
+fog_sun_scatter = 0.25
+fog_density = 5e-05
+fog_aerial_perspective = 0.5
+fog_sky_affect = 0.35
+fog_height = 12.0
+fog_height_density = 0.0012
+adjustment_enabled = true
+adjustment_contrast = 1.06
+adjustment_saturation = 0.8
+
+[sub_resource type="QuadMesh" id="QuadMesh_rtiuo"]
+size = Vector2(2, 2)
+
+[node name="SeaView" type="Node3D" unique_id=1184644819]
+script = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1137595868]
+environment = SubResource("Environment_0kefo")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=605572485]
+transform = Transform3D(-0.46947157, 0.25814888, -0.84436697, 0, 0.9563048, 0.2923717, 0.88294756, 0.1372602, -0.44895792, 0, 0, 0)
+light_color = Color(1, 0.86, 0.68, 1)
+light_energy = 1.25
+shadow_enabled = true
+shadow_blur = 1.6
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.25
+directional_shadow_blend_splits = true
+
+[node name="Terrain" type="Node3D" parent="." unique_id=1920208391]
+script = ExtResource("2_3ganc")
+levels = 13
+material = ExtResource("3_of8ho")
+
+[node name="Sea" type="Node3D" parent="." unique_id=138063254]
+script = ExtResource("2_3ganc")
+base = 0.5
+material = ExtResource("4_rtiuo")
+cast_shadows = false
+
+[node name="Plants" type="Node3D" parent="." unique_id=1480872965]
+
+[node name="Trees" type="Node3D" parent="Plants" unique_id=2092320359]
+script = ExtResource("5_gew1n")
+mesh = ExtResource("6_2g1wo")
+grid_n = 96
+shadows = true
+tints = Array[Color]([Color(1, 1, 1, 1), Color(0.8, 0.9, 0.84, 1), Color(1.18, 1.14, 0.82, 1), Color(1, 1, 1, 1)])
+sway = 0.004
+translucency = 0.2
+band_max = 300.0
+trees = true
+
+[node name="TreesMid" type="Node3D" parent="Plants" unique_id=929591566]
+script = ExtResource("5_gew1n")
+mesh = ExtResource("8_rtiuo")
+grid_n = 200
+tints = Array[Color]([Color(1, 1, 1, 1), Color(0.8, 0.9, 0.84, 1), Color(1.18, 1.14, 0.82, 1), Color(1, 1, 1, 1)])
+sway = 0.004
+translucency = 0.2
+band_min = 300.0
+band_max = 750.0
+trees = true
+
+[node name="TreesFar" type="Node3D" parent="Plants" unique_id=1323632142]
+script = ExtResource("5_gew1n")
+mesh = ExtResource("8_rtiuo")
+grid_n = 200
+spacing = 16.0
+tints = Array[Color]([Color(1, 1, 1, 1), Color(0.8, 0.9, 0.84, 1), Color(1.18, 1.14, 0.82, 1), Color(1, 1, 1, 1)])
+sway = 0.004
+translucency = 0.2
+band_min = 750.0
+band_max = 1500.0
+shrink_start = 1300.0
+size_mul = 1.45
+trees = true
+
+[node name="Bushes" type="Node3D" parent="Plants" unique_id=1529261672]
+script = ExtResource("5_gew1n")
+kind = 1
+mesh = ExtResource("9_0kefo")
+grid_n = 96
+spacing = 9.0
+shadows = true
+tints = Array[Color]([Color(1, 1, 1, 1), Color(0.9, 0.95, 0.8, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1)])
+sway = 0.01
+translucency = 0.25
+
+[node name="Grass" type="Node3D" parent="Plants" unique_id=338121138]
+script = ExtResource("5_gew1n")
+kind = 2
+mesh = ExtResource("10_xdvfy")
+grid_n = 160
+spacing = 1.1
+tints = Array[Color]([Color(1, 1, 1, 1), Color(0.95, 1, 0.78, 1), Color(0.85, 0.62, 0.68, 1), Color(0.98, 0.9, 0.66, 1)])
+sway = 0.12
+translucency = 0.45
+
+[node name="Reeds" type="Node3D" parent="Plants" unique_id=1942758814]
+script = ExtResource("5_gew1n")
+kind = 3
+mesh = ExtResource("11_hup0g")
+grid_n = 96
+spacing = 1.6
+sway = 0.05
+translucency = 0.35
+
+[node name="Ship" type="Node3D" parent="." unique_id=1333400758]
+script = ExtResource("12_bn1ld")
+
+[node name="Hull" type="MeshInstance3D" parent="Ship" unique_id=1803241488]
+material_override = ExtResource("13_74bq0")
+mesh = ExtResource("14_mstg2")
+
+[node name="Sail" type="MeshInstance3D" parent="Ship" unique_id=2039631538]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.4, -1.2)
+material_override = ExtResource("15_wped5")
+mesh = ExtResource("16_ekdem")
+
+[node name="Camera" type="Camera3D" parent="." unique_id=2147333943]
+transform = Transform3D(0.83867055, -0.11323683, 0.5327374, 0, 0.9781476, 0.2079117, -0.54463905, -0.17436942, 0.8203436, 60, 25, 90)
+fov = 50.0
+
+[node name="Outlines" type="MeshInstance3D" parent="Camera" unique_id=1946595097]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+material_override = ExtResource("17_of8ho")
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_rtiuo")
+
+[node name="Chart" type="CanvasLayer" parent="." unique_id=1148537018]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1040213920]
+layer = 2
+
+[node name="Status" type="Label" parent="HUD" unique_id=371663596]
+offset_left = 18.0
+offset_top = 14.0
+offset_right = 18.0
+offset_bottom = 14.0
+theme = ExtResource("17_7vxse")
+theme_override_colors/font_color = Color(0.97, 0.95, 0.9, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.55)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+
+[node name="Marker" type="CanvasLayer" parent="." unique_id=754910991]
+layer = 3
+
+[node name="ShipMarker" type="Control" parent="Marker" unique_id=1222117856]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("18_wig2l")

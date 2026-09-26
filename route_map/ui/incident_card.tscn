@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://route_map/ui/theme.tres" id="1_sho05"]
+[ext_resource type="Script" path="res://route_map/ui/incident_card.gd" id="2_vfogv"]
+[ext_resource type="FontFile" path="res://route_map/fonts/Inter-SemiBold.ttf" id="3_smemo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uyarg"]
+content_margin_left = 22.0
+content_margin_top = 15.4
+content_margin_right = 22.0
+content_margin_bottom = 15.4
+bg_color = Color(0.985, 0.98, 0.968, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.1, 0.11, 0.13, 0.22)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.1)
+shadow_size = 10
+shadow_offset = Vector2(0, 3)
+
+[node name="IncidentCard" type="Control" unique_id=1826858554]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1_sho05")
+script = ExtResource("2_vfogv")
+
+[node name="Card" type="PanelContainer" parent="." unique_id=2014717962]
+layout_mode = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uyarg")
+
+[node name="Body" type="VBoxContainer" parent="Card" unique_id=456069824]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Kind" type="Label" parent="Card/Body" unique_id=1936054010]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.1, 0.11, 0.13, 0.6)
+
+[node name="Title" type="Label" parent="Card/Body" unique_id=9416870]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_smemo")
+theme_override_font_sizes/font_size = 22
+
+[node name="Text" type="Label" parent="Card/Body" unique_id=994811843]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Options" type="VBoxContainer" parent="Card/Body" unique_id=1109174739]
+layout_mode = 2
+theme_override_constants/separation = 6

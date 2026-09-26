@@ -1,0 +1,75 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://route_map/ui/theme.tres" id="1_s2pc1"]
+[ext_resource type="Script" path="res://route_map/ui/port_panel.gd" id="2_ihi6r"]
+[ext_resource type="FontFile" path="res://route_map/fonts/Inter-SemiBold.ttf" id="3_2heyb"]
+[ext_resource type="FontFile" path="res://route_map/fonts/Inter-Regular.ttf" id="4_aiooc"]
+
+[node name="PortPanel" type="PanelContainer" unique_id=1212879134]
+custom_minimum_size = Vector2(340, 0)
+theme = ExtResource("1_s2pc1")
+script = ExtResource("2_ihi6r")
+
+[node name="Body" type="VBoxContainer" parent="." unique_id=2112145603]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Top" type="HBoxContainer" parent="Body" unique_id=1533318829]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Body/Top" unique_id=2054578105]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_2heyb")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.1, 0.11, 0.13, 1)
+text = "Port"
+
+[node name="Close" type="Button" parent="Body/Top" unique_id=1376345203]
+custom_minimum_size = Vector2(28, 26)
+layout_mode = 2
+text = "✕"
+
+[node name="Sub" type="Label" parent="Body" unique_id=1153031353]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_aiooc")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.1, 0.11, 0.13, 0.6)
+autowrap_mode = 3
+
+[node name="Sep" type="HSeparator" parent="Body" unique_id=958801701]
+layout_mode = 2
+
+[node name="Prices" type="GridContainer" parent="Body" unique_id=477592257]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 4
+columns = 5
+
+[node name="Shipwright" type="HBoxContainer" parent="Body" unique_id=1204823561]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ShipState" type="Label" parent="Body/Shipwright" unique_id=1407283024]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("4_aiooc")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.1, 0.11, 0.13, 0.6)
+
+[node name="Repair" type="Button" parent="Body/Shipwright" unique_id=530022125]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Repair"
+
+[node name="Hire" type="Button" parent="Body/Shipwright" unique_id=863887538]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Hire"
+
+[node name="Foot" type="Label" parent="Body" unique_id=2007361108]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_aiooc")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.1, 0.11, 0.13, 0.6)
+autowrap_mode = 3
