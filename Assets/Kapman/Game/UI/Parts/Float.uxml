@@ -1,0 +1,32 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:k="Kapman.Game.Frame" editor-extension-mode="False">
+    <Style src="../Frame.uss" />
+    <!-- A PART OF THE FRAME that is made many times over. The code takes a copy of the element named "float" and fills in
+         its words; a part inside it that is not wanted this time is taken out of the copy. Move, restyle or reorder
+         the parts as you like, but keep their names. The element "preview" is only here so the part looks right in
+         UI Builder (the frame's look hangs on the class frame-root): the game does not use it. -->
+    <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 1100px; height: 300px;">
+        <!-- WHAT IS SAID, AND A POP-UP WINDOW: a talk, a card, an alert (these stand in the foot, class "docked") or a
+             window of the game (it floats). Its bar (its name, its cross where it may be shut); who speaks (face, who,
+             about); the words (the code puts the lines into "scroll"); the choices (put into "options"); a hint. -->
+        <ui:VisualElement name="float" class="frame-slip frame-float">
+            <ui:VisualElement name="bar" class="frame-float-bar">
+                <ui:Label name="title" text="Title" class="frame-float-title" />
+                <ui:Button name="shut" tooltip="Shut  [Esc]" class="frame-float-shut">
+                    <k:FrameGlyph kind="Cross" />
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement name="body" class="frame-float-body">
+                <ui:VisualElement name="top" class="frame-float-top">
+                    <k:FrameFace name="face" class="frame-float-face" />
+                    <ui:VisualElement name="words" class="frame-float-words">
+                        <ui:Label name="who" text="Who speaks" class="frame-float-who" />
+                        <ui:Label name="about" text="What they are" class="frame-float-about" />
+                        <ui:ScrollView name="scroll" mode="Vertical" horizontal-scroller-visibility="Hidden" class="frame-float-scroll" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="options" class="frame-float-options" />
+            </ui:VisualElement>
+            <ui:Label name="hint" class="frame-float-hint" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

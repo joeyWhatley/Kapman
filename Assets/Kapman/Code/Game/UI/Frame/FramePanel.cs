@@ -231,14 +231,15 @@ namespace Kapman.Game.Frame
         /// <summary>A line: its name, small print under it (or none), and what stands at its right end (figures, tags, buttons).</summary>
         public static VisualElement Ln(string name, string small, params VisualElement[] right)
         {
-            var row = new VisualElement();
-            row.AddToClassList("frame-ln");
-            var left = new VisualElement();
-            left.AddToClassList("frame-ln-left");
-            left.Add(Words(name, "frame-ln-name"));
-            if (!string.IsNullOrEmpty(small))
-                left.Add(Words(small, "frame-ln-small"));
-            row.Add(left);
+            // (laid out in Game/UI/Parts/Line.uxml)
+            var parts = FrameParts.Current;
+            var row = FrameParts.Make<VisualElement>(parts != null ? parts.line : null, "line");
+            FrameParts.In<Label>(row, "name").text = name ?? "";
+            var print = FrameParts.In<Label>(row, "small");
+            if (string.IsNullOrEmpty(small))
+                print.RemoveFromHierarchy();
+            else
+                print.text = small;
             if (right != null)
                 foreach (var r in right)
                     if (r != null)
@@ -249,21 +250,17 @@ namespace Kapman.Game.Frame
         /// <summary>A line that is a button: clicking anywhere on it does the thing (a port to pick, a choice to make).</summary>
         public static Button LnButton(string name, string small, Action click, params VisualElement[] right)
         {
-            var b = new Button(click);
-            b.AddToClassList("frame-ln");
-            b.AddToClassList("frame-ln-button");
-            var left = new VisualElement { pickingMode = PickingMode.Ignore };
-            left.AddToClassList("frame-ln-left");
-            var n = Words(name, "frame-ln-name");
-            n.pickingMode = PickingMode.Ignore;
-            left.Add(n);
-            if (!string.IsNullOrEmpty(small))
-            {
-                var s = Words(small, "frame-ln-small");
-                s.pickingMode = PickingMode.Ignore;
-                left.Add(s);
-            }
-            b.Add(left);
+            // (laid out in Game/UI/Parts/LineButton.uxml)
+            var parts = FrameParts.Current;
+            var b = FrameParts.Make<Button>(parts != null ? parts.lineButton : null, "line");
+            if (click != null)
+                b.clicked += click;
+            FrameParts.In<Label>(b, "name").text = name ?? "";
+            var print = FrameParts.In<Label>(b, "small");
+            if (string.IsNullOrEmpty(small))
+                print.RemoveFromHierarchy();
+            else
+                print.text = small;
             if (right != null)
                 foreach (var r in right)
                     if (r != null)

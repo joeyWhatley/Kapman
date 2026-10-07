@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:k="Kapman.Game.Frame" editor-extension-mode="False">
+    <Style src="../Frame.uss" />
+    <!-- A PART OF THE FRAME that is made many times over. The code takes a copy of the element named "line" and fills in
+         its words; a part inside it that is not wanted this time is taken out of the copy. Move, restyle or reorder
+         the parts as you like, but keep their names. The element "preview" is only here so the part looks right in
+         UI Builder (the frame's look hangs on the class frame-root): the game does not use it. -->
+    <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 420px; height: 70px;">
+        <!-- A LINE THAT IS A BUTTON: a click anywhere on it does the thing (a port to pick, a choice to make). -->
+        <ui:Button name="line" class="frame-ln frame-ln-button">
+            <ui:VisualElement name="left" class="frame-ln-left" picking-mode="Ignore">
+                <ui:Label name="name" text="A line to click" class="frame-ln-name" picking-mode="Ignore" />
+                <ui:Label name="small" text="Small print under it" class="frame-ln-small" picking-mode="Ignore" />
+            </ui:VisualElement>
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>

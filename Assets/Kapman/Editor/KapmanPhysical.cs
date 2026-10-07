@@ -13,7 +13,8 @@ namespace Kapman.EditorTools
     /// not in code that runs at the start. A step can be run again: it leaves alone what is already there.
     ///   Kapman > Make physical > 1. Systems into the scene
     ///   Kapman > Make physical > 2. The frame's layout file
-    /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame)
+    ///   Kapman > Make physical > 2b. The frame's parts
+    /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame, .Step2Parts)
     /// </summary>
     public static class KapmanPhysical
     {
@@ -75,6 +76,39 @@ namespace Kapman.EditorTools
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log("Kapman, made physical, step 2: the Frame's UI Document has " + FrameLayout + " as its Source Asset.");
+        }
+
+        public const string PartsFolder = "Assets/Kapman/Game/UI/Parts/";
+        public const string PartsAsset = "Assets/Kapman/Game/Resources/FrameParts.asset";
+
+        /// <summary>The asset that names the files of the frame's repeated parts (Resources/FrameParts): made if it is not
+        /// there, and each of its fields given its file of Game/UI/Parts.</summary>
+        [MenuItem("Kapman/Make physical/2b. The frame's parts")]
+        public static void Step2Parts()
+        {
+            var parts = AssetDatabase.LoadAssetAtPath<FrameParts>(PartsAsset);
+            if (parts == null)
+            {
+                parts = ScriptableObject.CreateInstance<FrameParts>();
+                AssetDatabase.CreateAsset(parts, PartsAsset);
+            }
+            parts.window = Layout("Window");
+            parts.floatBox = Layout("Float");
+            parts.option = Layout("Option");
+            parts.line = Layout("Line");
+            parts.lineButton = Layout("LineButton");
+            parts.logLine = Layout("LogLine");
+            EditorUtility.SetDirty(parts);
+            AssetDatabase.SaveAssets();
+            Debug.Log("Kapman, made physical, step 2b: " + PartsAsset + " names the six files of " + PartsFolder + ".");
+        }
+
+        static UnityEngine.UIElements.VisualTreeAsset Layout(string file)
+        {
+            var a = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(PartsFolder + file + ".uxml");
+            if (a == null)
+                throw new System.InvalidOperationException(PartsFolder + file + ".uxml is missing or did not import.");
+            return a;
         }
 
         static bool Put<T>(Transform parent, string name) where T : Component

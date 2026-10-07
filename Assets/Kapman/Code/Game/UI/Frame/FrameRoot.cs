@@ -609,7 +609,9 @@ namespace Kapman.Game.Frame
         {
             string id = w.slots[index];
             var panel = FramePanels.Get(id);
-            var win = Slip("frame-win");
+            // (laid out in Game/UI/Parts/Window.uxml)
+            var parts = FrameParts.Current;
+            var win = FrameParts.Make<VisualElement>(parts != null ? parts.window : null, "window");
             win.EnableInClassList("focus", index == w.focus);
             win.EnableInClassList("last", last);
             win.AddToClassList("size-" + Windows.SizeOf(index));         // (small 0, medium 1, large 2: the look of each is the brief faces' builder's)
@@ -617,28 +619,19 @@ namespace Kapman.Game.Frame
             // a click anywhere in a window gives it the focus (the buttons under the click still get it)
             win.RegisterCallback<PointerDownEvent>(_ => Windows.Focus(index), TrickleDown.TrickleDown);
 
-            var head = Box("frame-win-head");
-            head.Add(HeadButton(FrameGlyph.Kind.Left, "The panel before", () => { pick = -1; Windows.Step(index, -1); }));
-            var title = new Button(() => pick = pick == index ? -1 : index) { tooltip = "Choose a panel for this window" };
-            title.AddToClassList("frame-win-title");
-            var name = new Label(panel != null ? panel.Title : id) { pickingMode = PickingMode.Ignore };
-            name.AddToClassList("frame-win-name");
-            title.Add(name);
-            title.Add(new FrameGlyph(FrameGlyph.Kind.Down));
-            head.Add(title);
-            head.Add(HeadButton(FrameGlyph.Kind.Right, "The next panel", () => { pick = -1; Windows.Step(index, 1); }));
+            FrameParts.In<Button>(win, "before").clicked += () => { pick = -1; Windows.Step(index, -1); };
+            FrameParts.In<Button>(win, "title").clicked += () => pick = pick == index ? -1 : index;
+            FrameParts.In<Label>(win, "name").text = panel != null ? panel.Title : id;
+            FrameParts.In<Button>(win, "next").clicked += () => { pick = -1; Windows.Step(index, 1); };
+            // (the cross is kept for the key and for a look that shows it; the look of 7 Oct 2026 puts it away: "not so
+            // many X's". With one window there is nothing to close.)
+            var shut = FrameParts.In<Button>(win, "shut");
             if (w.slots.Count > 1)
-            {
-                // (kept for the key and for a look that shows it; the look of 7 Oct 2026 puts it away: "not so many X's")
-                var shut = HeadButton(FrameGlyph.Kind.Cross, "Close this window  [X]", () => { pick = -1; Windows.Close(index); });
-                shut.AddToClassList("frame-head-shut");
-                head.Add(shut);
-            }
-            win.Add(head);
+                shut.clicked += () => { pick = -1; Windows.Close(index); };
+            else
+                shut.RemoveFromHierarchy();
 
-            var scroll = new ScrollView(ScrollViewMode.Vertical) { horizontalScrollerVisibility = ScrollerVisibility.Hidden };
-            scroll.AddToClassList("frame-win-scroll");
-            win.Add(scroll);
+            var scroll = FrameParts.In<ScrollView>(win, "scroll");
             if (pick == index)
             {
                 var list = Box("frame-picker");
@@ -663,14 +656,6 @@ namespace Kapman.Game.Frame
             }
             windowEls.Add(win);
             return win;
-        }
-
-        static Button HeadButton(FrameGlyph.Kind kind, string tip, System.Action click)
-        {
-            var b = new Button(click) { tooltip = tip };
-            b.AddToClassList("frame-head-button");
-            b.Add(new FrameGlyph(kind));
-            return b;
         }
 
         /// <summary>The gold edge follows the focus without the windows being built again (so a click that gives a window
@@ -920,27 +905,23 @@ namespace Kapman.Game.Frame
             logDrawn = FrameLog.Version;
             logDay = today;
             logScroll.Clear();
+            var logParts = FrameParts.Current;                             // (a line is laid out in Game/UI/Parts/LogLine.uxml)
             int from = Mathf.Max(0, FrameLog.Lines.Count - 40);
             for (int i = from; i < FrameLog.Lines.Count; i++)
             {
                 var l = FrameLog.Lines[i];
-                var row = Box("frame-log-line");
+                var row = FrameParts.Make<VisualElement>(logParts != null ? logParts.logLine : null, "log-line");
                 row.EnableInClassList("last", i == FrameLog.Lines.Count - 1);
-                var stamp = Text("frame-log-stamp");
                 string when = (int)System.Math.Floor(l.day) == today ? l.part : l.date;
-                stamp.text = when.Length > 0 ? char.ToUpperInvariant(when[0]) + when.Substring(1) : "";
-                var words = Text("frame-log-text");
-                words.text = l.text;
-                row.Add(stamp);
-                row.Add(words);
+                FrameParts.In<Label>(row, "stamp").text = when.Length > 0 ? char.ToUpperInvariant(when[0]) + when.Substring(1) : "";
+                FrameParts.In<Label>(row, "text").text = l.text;
                 logScroll.Add(row);
             }
             if (FrameLog.Lines.Count == 0)
             {
-                var row = Box("frame-log-line");
-                var words = Text("frame-log-text");
-                words.text = "Nothing said yet.";
-                row.Add(words);
+                var row = FrameParts.Make<VisualElement>(logParts != null ? logParts.logLine : null, "log-line");
+                FrameParts.In<Label>(row, "stamp").RemoveFromHierarchy();
+                FrameParts.In<Label>(row, "text").text = "Nothing said yet.";
                 logScroll.Add(row);
             }
             // (down to the newest, once the lines have their places: for the next few frames, in Update. Setting the place

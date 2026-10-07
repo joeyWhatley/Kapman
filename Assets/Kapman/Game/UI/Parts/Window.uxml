@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:k="Kapman.Game.Frame" editor-extension-mode="False">
+    <Style src="../Frame.uss" />
+    <!-- A PART OF THE FRAME that is made many times over. The code takes a copy of the element named "window" and fills in
+         its words; a part inside it that is not wanted this time is taken out of the copy. Move, restyle or reorder
+         the parts as you like, but keep their names. The element "preview" is only here so the part looks right in
+         UI Builder (the frame's look hangs on the class frame-root): the game does not use it. -->
+    <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 440px; height: 520px;">
+        <!-- A SIDE WINDOW: its head (the panel before, its name, the next panel, its cross) and the scroll its panel is
+             put in. The cross is only there when the side holds more than one window. -->
+        <ui:VisualElement name="window" class="frame-slip frame-win">
+            <ui:VisualElement name="head" class="frame-win-head">
+                <ui:Button name="before" tooltip="The panel before" class="frame-head-button">
+                    <k:FrameGlyph kind="Left" />
+                </ui:Button>
+                <ui:Button name="title" tooltip="Choose a panel for this window" class="frame-win-title">
+                    <ui:Label name="name" text="Window" class="frame-win-name" picking-mode="Ignore" />
+                    <k:FrameGlyph kind="Down" />
+                </ui:Button>
+                <ui:Button name="next" tooltip="The next panel" class="frame-head-button">
+                    <k:FrameGlyph kind="Right" />
+                </ui:Button>
+                <ui:Button name="shut" tooltip="Close this window  [X]" class="frame-head-button frame-head-shut">
+                    <k:FrameGlyph kind="Cross" />
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:ScrollView name="scroll" mode="Vertical" horizontal-scroller-visibility="Hidden" class="frame-win-scroll" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

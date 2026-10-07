@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:k="Kapman.Game.Frame" editor-extension-mode="False">
+    <Style src="../Frame.uss" />
+    <!-- A PART OF THE FRAME that is made many times over. The code takes a copy of the element named "option" and fills in
+         its words; a part inside it that is not wanted this time is taken out of the copy. Move, restyle or reorder
+         the parts as you like, but keep their names. The element "preview" is only here so the part looks right in
+         UI Builder (the frame's look hangs on the class frame-root): the game does not use it. -->
+    <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 460px; height: 80px;">
+        <!-- ONE CHOICE of a talk or a card: its number, its words (and under them why it cannot be taken, when it
+             cannot), its odds, and the key that takes it when it is the usual one. -->
+        <ui:Button name="option" class="frame-option">
+            <ui:Label name="number" text="1." class="frame-option-number" picking-mode="Ignore" />
+            <ui:VisualElement name="words" class="frame-option-words" picking-mode="Ignore">
+                <ui:Label name="label" text="A choice" class="frame-option-label" />
+                <ui:Label name="rule" text="Why it cannot be taken" class="frame-option-rule" />
+            </ui:VisualElement>
+            <ui:Label name="odds" text="likely" class="frame-option-odds" picking-mode="Ignore" />
+            <ui:Label name="key" text="Enter" class="frame-option-key" picking-mode="Ignore" />
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>

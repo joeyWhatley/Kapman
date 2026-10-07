@@ -267,7 +267,9 @@ namespace Kapman.Game.Frame
         VisualElement Build(Float f)
         {
             var spec = f.spec;
-            var el = Slip("frame-float");
+            // (laid out in Game/UI/Parts/Float.uxml; a choice in Option.uxml)
+            var parts = FrameParts.Current;
+            var el = FrameParts.Make<VisualElement>(parts != null ? parts.floatBox : null, "float");
             if (!string.IsNullOrEmpty(spec.look))
                 el.AddToClassList(spec.look);
             // each a little down and to the right of the last, in the chart's free middle
@@ -287,36 +289,29 @@ namespace Kapman.Game.Frame
             el.RegisterCallback<PointerDownEvent>(_ => ToFront(f), TrickleDown.TrickleDown);
 
             // its bar: its name, and its cross where it may be shut (a window that floats is the one kind with a bar)
-            var bar = Box("frame-float-bar");
-            var title = Text("frame-float-title");
-            title.text = spec.title ?? "";
-            bar.Add(title);
+            FrameParts.In<Label>(el, "title").text = spec.title ?? "";
+            var shut = FrameParts.In<Button>(el, "shut");
             if (!spec.mustAnswer)
-            {
-                var shut = new Button(() => Shut(f)) { tooltip = "Shut  [Esc]" };
-                shut.AddToClassList("frame-float-shut");
-                shut.Add(new FrameGlyph(FrameGlyph.Kind.Cross));
-                bar.Add(shut);
-            }
-            el.Add(bar);
-            var top = Box("frame-float-top");
+                shut.clicked += () => Shut(f);
+            else
+                shut.RemoveFromHierarchy();
+            // who speaks: the face, the name, what they are (each taken out where there is none)
+            var face = FrameParts.In<FrameFace>(el, "face");
             if (spec.face != null)
-                top.Add(new FrameFace("frame-float-face") { Who = spec.face });
-            var words = Box("frame-float-words");
+                face.Who = spec.face;
+            else
+                face.RemoveFromHierarchy();
+            var who = FrameParts.In<Label>(el, "who");
             if (!string.IsNullOrEmpty(spec.who))
-            {
-                var who = Text("frame-float-who");
                 who.text = spec.who;
-                words.Add(who);
-            }
+            else
+                who.RemoveFromHierarchy();
+            var about = FrameParts.In<Label>(el, "about");
             if (!string.IsNullOrEmpty(spec.about))
-            {
-                var about = Text("frame-float-about");
                 about.text = spec.about;
-                words.Add(about);
-            }
-            var scroll = new ScrollView(ScrollViewMode.Vertical) { horizontalScrollerVisibility = ScrollerVisibility.Hidden };
-            scroll.AddToClassList("frame-float-scroll");
+            else
+                about.RemoveFromHierarchy();
+            var scroll = FrameParts.In<ScrollView>(el, "scroll");
             if (spec.content != null)
                 scroll.Add(spec.content);
             foreach (var turn in spec.turns)
@@ -354,69 +349,55 @@ namespace Kapman.Game.Frame
                 small.text = spec.small;
                 scroll.Add(small);
             }
-            words.Add(scroll);
-            top.Add(words);
             // (the words and the choices in one body: one over the other in a window that floats, side by side in the foot)
-            var body = Box("frame-float-body");
-            body.Add(top);
-            el.Add(body);
             Speak(f, scroll);
             el.EnableInClassList("paged", f.reveal != null && f.reveal.OneAtATime);
             f.optionsBox = null;
 
+            var list = FrameParts.In<VisualElement>(el, "options");
             if (spec.options.Count > 0)
             {
-                var list = Box("frame-float-options");
                 for (int i = 0; i < spec.options.Count; i++)
                 {
                     var o = spec.options[i];
                     int index = i;
-                    var b = new Button(() => Pick(f, index));
-                    b.AddToClassList("frame-option");
+                    var b = FrameParts.Make<Button>(parts != null ? parts.option : null, "option");
+                    b.clicked += () => Pick(f, index);
                     b.SetEnabled(o.enabled);
-                    var number = Text("frame-option-number");
-                    number.text = (i + 1) + ".";
-                    b.Add(number);
-                    var w = Box("frame-option-words");
-                    var label = Text("frame-option-label");
+                    FrameParts.In<Label>(b, "number").text = (i + 1) + ".";
                     // (a choice whose own words end with its odds in brackets, "... (doubtful)", is not given them twice:
                     // the odds stand at the line's right end)
                     string said = o.label ?? "";
                     if (!string.IsNullOrEmpty(o.odds) && said.EndsWith(" (" + o.odds + ")", StringComparison.Ordinal))
                         said = said.Substring(0, said.Length - o.odds.Length - 3);
-                    label.text = (string.IsNullOrEmpty(o.tag) ? "" : "[" + o.tag + "] ") + said;
-                    w.Add(label);
+                    FrameParts.In<Label>(b, "label").text = (string.IsNullOrEmpty(o.tag) ? "" : "[" + o.tag + "] ") + said;
+                    var rule = FrameParts.In<Label>(b, "rule");
                     if (!o.enabled && !string.IsNullOrEmpty(o.rule))
-                    {
-                        var rule = Text("frame-option-rule");
                         rule.text = o.rule;
-                        w.Add(rule);
-                    }
-                    b.Add(w);
+                    else
+                        rule.RemoveFromHierarchy();
+                    var odds = FrameParts.In<Label>(b, "odds");
                     if (!string.IsNullOrEmpty(o.odds))
-                    {
-                        var odds = Text("frame-option-odds");
                         odds.text = o.odds;
-                        b.Add(odds);
-                    }
+                    else
+                        odds.RemoveFromHierarchy();
+                    var key = FrameParts.In<Label>(b, "key");
                     if (o.isDefault && o.enabled)
-                    {
-                        var key = Text("frame-option-key");
                         key.text = "Enter";
-                        b.Add(key);
-                    }
+                    else
+                        key.RemoveFromHierarchy();
                     foreach (var child in b.Children())
                         child.pickingMode = PickingMode.Ignore;
                     list.Add(b);
                 }
-                body.Add(list);
                 f.optionsBox = list;
             }
-            f.hint = Text("frame-float-hint");
+            else
+                list.RemoveFromHierarchy();
+            f.hint = FrameParts.In<Label>(el, "hint");
             f.more = f.reveal != null && f.reveal.OneAtATime && !f.reveal.Done;
             f.hint.text = StandingHint(f);
             HintShown(f);
-            el.Add(f.hint);
             if (f.optionsBox != null && f.more)
                 f.optionsBox.style.display = DisplayStyle.None;
             return el;
