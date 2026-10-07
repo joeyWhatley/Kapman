@@ -7,11 +7,28 @@ namespace Kapman.Game.Frame
 {
     /// <summary>A small drawn mark for a button (an arrow, a cross, a plus): drawn, not typed, so it needs no font. It takes
     /// the text colour of its place, so the stylesheet sets it.</summary>
-    public sealed class FrameGlyph : VisualElement
+    [UxmlElement]
+    public sealed partial class FrameGlyph : VisualElement
     {
         public enum Kind { Left, Right, Down, Cross, Plus }
 
-        readonly Kind kind;
+        Kind kind;
+
+        /// <summary>Which mark it is. In a UI file: kind="Cross".</summary>
+        [UxmlAttribute("kind")]
+        public Kind Mark
+        {
+            get => kind;
+            set
+            {
+                kind = value;
+                MarkDirtyRepaint();
+            }
+        }
+
+        public FrameGlyph() : this(Kind.Left)
+        {
+        }
 
         public FrameGlyph(Kind kind)
         {
@@ -100,15 +117,22 @@ namespace Kapman.Game.Frame
     /// face with no slot yet (a card's speaker: the cards' people are not joined to the places files' people) is a plain
     /// empty shape of a head and shoulders, the same for everyone, that says only "a face goes here".
     /// </summary>
-    public sealed class FrameFace : VisualElement
+    [UxmlElement]
+    public sealed partial class FrameFace : VisualElement
     {
         string who = "", slot = "";
         Texture2D picture;
 
+        /// <summary>From a UI file: its class is given there (class="frame-face").</summary>
+        public FrameFace() : this(null)
+        {
+        }
+
         public FrameFace(string cls)
         {
             pickingMode = PickingMode.Ignore;
-            AddToClassList(cls);
+            if (!string.IsNullOrEmpty(cls))
+                AddToClassList(cls);
             style.backgroundSize = new StyleBackgroundSize(new BackgroundSize(BackgroundSizeType.Cover));
             style.backgroundPositionX = new StyleBackgroundPosition(new BackgroundPosition(BackgroundPositionKeyword.Center));
             style.backgroundPositionY = new StyleBackgroundPosition(new BackgroundPosition(BackgroundPositionKeyword.Center));
@@ -182,7 +206,8 @@ namespace Kapman.Game.Frame
     /// roofs, nothing at sea), her sail furled in port, and fog and rain over it all. Set <see cref="State"/> and it
     /// draws; it moves a little all the time (FrameRoot asks for a repaint some times a second).
     /// </summary>
-    public sealed class FrameShipView : VisualElement
+    [UxmlElement]
+    public sealed partial class FrameShipView : VisualElement
     {
         public enum Place { Sea, River, Port }
 

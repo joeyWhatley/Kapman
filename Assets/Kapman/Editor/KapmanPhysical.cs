@@ -12,7 +12,8 @@ namespace Kapman.EditorTools
     /// assets once, through the editor, so that what the game is made of stands in the Hierarchy and the Inspector and
     /// not in code that runs at the start. A step can be run again: it leaves alone what is already there.
     ///   Kapman > Make physical > 1. Systems into the scene
-    /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1
+    ///   Kapman > Make physical > 2. The frame's layout file
+    /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame)
     /// </summary>
     public static class KapmanPhysical
     {
@@ -52,6 +53,28 @@ namespace Kapman.EditorTools
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log("Kapman, made physical, step 1: " + made + " parts put into " + GameScene + " (" + SystemsName + ").");
+        }
+
+        public const string FrameLayout = "Assets/Kapman/Game/UI/Frame.uxml";
+
+        /// <summary>The frame's UI Document is given its layout file as its Source Asset (Game/UI/Frame.uxml): the frame is
+        /// then laid out in UI Builder, and FrameRoot only fills it in.</summary>
+        [MenuItem("Kapman/Make physical/2. The frame's layout file")]
+        public static void Step2Frame()
+        {
+            var scene = EditorSceneManager.OpenScene(GameScene, OpenSceneMode.Single);
+            var layout = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(FrameLayout);
+            if (layout == null)
+                throw new System.InvalidOperationException(FrameLayout + " is missing or did not import.");
+            var frame = Object.FindAnyObjectByType<FrameRoot>(FindObjectsInactive.Include);
+            if (frame == null)
+                throw new System.InvalidOperationException(GameScene + " has no FrameRoot.");
+            var doc = frame.GetComponent<UnityEngine.UIElements.UIDocument>();
+            doc.visualTreeAsset = layout;
+            EditorUtility.SetDirty(doc);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("Kapman, made physical, step 2: the Frame's UI Document has " + FrameLayout + " as its Source Asset.");
         }
 
         static bool Put<T>(Transform parent, string name) where T : Component

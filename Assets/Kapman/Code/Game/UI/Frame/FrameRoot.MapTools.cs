@@ -18,30 +18,28 @@ namespace Kapman.Game.Frame
         partial void MapToolsBuild()
         {
             modeButtons.Clear();
-            mapTools = new VisualElement { pickingMode = PickingMode.Ignore };
-            mapTools.AddToClassList("frame-maptools");
-            var measure = new Button(() => Do(FrameIcon.Kind.Measure));
-            measure.AddToClassList("frame-verb");
-            measure.AddToClassList("frame-tool");
-            measure.Add(new FrameIcon(FrameIcon.Kind.Measure));
-            var label = new Label("Measure") { pickingMode = PickingMode.Ignore };
-            label.AddToClassList("frame-verb-name");
-            measure.Add(label);
-            mapTools.Add(measure);
-            rack.Add(new Verb { button = measure, label = label, kind = FrameIcon.Kind.Measure });
-            foreach (var (mode, name, tip) in new[]
+            // (they stand in the layout file, Frame.uxml, under "maptools")
+            mapTools = Part<VisualElement>("maptools");
+            var measure = Part<Button>("tool-measure");
+            measure.clicked += () => Do(FrameIcon.Kind.Measure);
+            var label = measure.Q<Label>(className: "frame-verb-name");
+            if (label == null)
             {
-                (MapMode.Land, "Land", "The chart as it is drawn."), (MapMode.Realms, "Realms", "Whose each port is."),
-                (MapMode.Faith, "Faith", "The faith of each port."), (MapMode.Peoples, "Peoples", "The people of each port."),
+                label = new Label { pickingMode = PickingMode.Ignore };
+                label.AddToClassList("frame-verb-name");
+                measure.Add(label);
+            }
+            rack.Add(new Verb { button = measure, label = label, kind = FrameIcon.Kind.Measure });
+            foreach (var (mode, partName) in new[]
+            {
+                (MapMode.Land, "mode-land"), (MapMode.Realms, "mode-realms"), (MapMode.Faith, "mode-faith"), (MapMode.Peoples, "mode-peoples"),
             })
             {
                 var m = mode;
-                var b = FrameUi.Btn(name, () => MapView.Current?.SetMode(m), tip);
-                b.AddToClassList("frame-tool");
-                mapTools.Add(b);
+                var b = Part<Button>(partName);
+                b.clicked += () => MapView.Current?.SetMode(m);
                 modeButtons.Add((mode, b));
             }
-            root.Add(mapTools);
         }
 
         partial void MapToolsUpdate()

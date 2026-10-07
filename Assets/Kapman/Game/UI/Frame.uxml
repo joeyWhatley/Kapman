@@ -1,0 +1,168 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:k="Kapman.Game.Frame" editor-extension-mode="False">
+    <Style src="Frame.uss" />
+    <!-- THE FRAME: the screen the game is run from. This file is its layout: open it in UI Builder to move, resize or
+         restyle any part. The code (Code/Game/UI/Frame/FrameRoot*.cs) finds each part by its NAME and fills in the
+         words and numbers, so a part may be moved anywhere and given any look, but must keep its name.
+         Order matters: what is lower in this list is drawn over what is higher. -->
+    <ui:VisualElement name="frame" class="frame-root" picking-mode="Ignore">
+        <!-- the body of the frame: a side down the left, a side down the right, and the foot -->
+        <ui:VisualElement name="pane-left" class="frame-pane frame-pane-left" />
+        <ui:VisualElement name="pane-right" class="frame-pane frame-pane-right" />
+        <ui:VisualElement name="pane-foot" class="frame-pane frame-pane-foot" />
+        <!-- the line round the world in the middle (the chart, the picture of the port or the ship shows through it) -->
+        <ui:VisualElement name="viewport" class="frame-viewport" picking-mode="Ignore">
+            <ui:VisualElement class="frame-viewport-line" picking-mode="Ignore" />
+            <ui:VisualElement class="frame-corner tl" picking-mode="Ignore" />
+            <ui:VisualElement class="frame-corner tr" picking-mode="Ignore" />
+            <ui:VisualElement class="frame-corner bl" picking-mode="Ignore" />
+            <ui:VisualElement class="frame-corner br" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <!-- the top bar: the menu and the date; silver, bread and the debt; what is looked at, and the clock -->
+        <ui:VisualElement name="top" class="frame-slip frame-top">
+            <ui:VisualElement name="top-left" class="frame-top-group frame-top-left">
+                <ui:Button name="menu" text="Menu" tooltip="Save, load, a new game, quit  [Esc]" class="frame-k frame-start" />
+                <ui:Label name="date" class="frame-top-date" />
+                <ui:Label name="part" class="frame-top-part" />
+            </ui:VisualElement>
+            <ui:VisualElement name="top-mid" class="frame-top-group frame-top-mid">
+                <ui:VisualElement name="figure-silver" tooltip="Your silver, in deniers&apos; worth: all your coin and cut silver together." class="frame-top-figure">
+                    <ui:Label name="silver" class="frame-num" />
+                    <ui:Label text="silver" class="frame-top-word" />
+                </ui:VisualElement>
+                <ui:VisualElement name="figure-bread" tooltip="How long the bread and the other food aboard will feed the crew." class="frame-top-figure">
+                    <ui:Label name="bread" class="frame-top-word" />
+                </ui:VisualElement>
+                <ui:VisualElement name="figure-debt" tooltip="What you owe, and when it falls due." class="frame-top-figure">
+                    <ui:Label name="debt" class="frame-top-word" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="top-right" class="frame-top-group frame-top-right">
+                <!-- (the picture of the port and the view of the ship put their own buttons in here: Chart or Port, Swap, Look) -->
+                <ui:VisualElement name="views" class="frame-top-views" />
+                <ui:Button name="speed-pause" text="Pause" tooltip="Pause and go on  [Space]" class="frame-k" />
+                <ui:Button name="speed-1" text="1" class="frame-k" />
+                <ui:Button name="speed-2" text="2" class="frame-k" />
+                <ui:Button name="speed-3" text="3" class="frame-k" />
+                <ui:Button name="speed-4" text="4" class="frame-k" />
+                <ui:Button name="speed-5" text="5" class="frame-k" />
+                <ui:Label name="state" class="frame-top-state" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <!-- the left side: three rows of buttons, the one window under them -->
+        <ui:VisualElement name="left" class="frame-left" picking-mode="Ignore">
+            <!-- A button does what its sign says (the "kind" of its FrameIcon). The class at-port or at-sea shows it
+                 only there; with neither it always shows. The code changes the word on a button as things stand. -->
+            <ui:VisualElement name="rack" class="frame-rack" picking-mode="Ignore">
+                <ui:Button name="verb-cast-off" class="frame-verb">
+                    <k:FrameIcon kind="CastOff" />
+                    <ui:Label text="Cast off" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-voyage" class="frame-verb">
+                    <k:FrameIcon kind="Voyage" />
+                    <ui:Label text="Voyage" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-crew" class="frame-verb">
+                    <k:FrameIcon kind="Crew" />
+                    <ui:Label text="Crew" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-hold" class="frame-verb">
+                    <k:FrameIcon kind="Hold" />
+                    <ui:Label text="Hold" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-trade" class="frame-verb at-port">
+                    <k:FrameIcon kind="Trade" />
+                    <ui:Label text="Trade" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-alehouse" class="frame-verb at-port">
+                    <k:FrameIcon kind="Alehouse" />
+                    <ui:Label text="Alehouse" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-holy" class="frame-verb at-port">
+                    <k:FrameIcon kind="Offer" />
+                    <ui:Label text="Minster" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-rest-port" class="frame-verb at-port">
+                    <k:FrameIcon kind="Rest" />
+                    <ui:Label text="Rest" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-look-out" class="frame-verb at-sea">
+                    <k:FrameIcon kind="LookOut" />
+                    <ui:Label text="Look out" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-sound" class="frame-verb at-sea">
+                    <k:FrameIcon kind="Sound" />
+                    <ui:Label text="Sound" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-hail" class="frame-verb at-sea">
+                    <k:FrameIcon kind="Hail" />
+                    <ui:Label text="Hail" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-rest-sea" class="frame-verb at-sea">
+                    <k:FrameIcon kind="Rest" />
+                    <ui:Label text="Rest" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-wares" class="frame-verb">
+                    <k:FrameIcon kind="Wares" />
+                    <ui:Label text="Wares" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-journey" class="frame-verb">
+                    <k:FrameIcon kind="Journey" />
+                    <ui:Label text="Journey" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-errands" class="frame-verb">
+                    <k:FrameIcon kind="Errands" />
+                    <ui:Label text="Errands" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+                <ui:Button name="verb-book" class="frame-verb">
+                    <k:FrameIcon kind="Book" />
+                    <ui:Label text="Book" class="frame-verb-name" picking-mode="Ignore" />
+                </ui:Button>
+            </ui:VisualElement>
+            <!-- (the window the buttons choose is put in here by the code) -->
+            <ui:VisualElement name="tiles" class="frame-tiles" picking-mode="Ignore" />
+            <ui:VisualElement name="wmbar" class="frame-wmbar" />
+        </ui:VisualElement>
+        <!-- the foot, left: who you are (or who is speaking) -->
+        <ui:VisualElement name="who" class="frame-slip frame-who">
+            <k:FrameFace name="face" class="frame-face" />
+            <ui:VisualElement name="who-text" class="frame-who-text">
+                <ui:Label name="who-name" class="frame-who-name" />
+                <ui:Label name="who-line-1" class="frame-who-line" />
+                <ui:Label name="who-line-2" class="frame-who-line" />
+                <ui:Label name="who-line-3" class="frame-who-line" />
+                <ui:Label name="who-say" class="frame-who-say" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <!-- the foot, right: the window of the ship (the 3D view is drawn into ship-view) and its two lines -->
+        <ui:VisualElement name="ship" class="frame-slip frame-ship">
+            <k:FrameShipView name="ship-view" />
+            <ui:VisualElement name="ship-cap" class="frame-ship-cap">
+                <ui:Label name="ship-where" class="frame-ship-where" />
+                <ui:Label name="ship-wind" class="frame-ship-wind" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <!-- the foot, middle: the log of the days (what is said to you stands here too, over it) -->
+        <ui:VisualElement name="log" class="frame-slip frame-log">
+            <ui:ScrollView name="log-scroll" mode="Vertical" horizontal-scroller-visibility="Hidden" style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <!-- the slip of the measure (shown while the measure is in hand) -->
+        <ui:VisualElement name="rule" class="frame-slip frame-rule">
+            <ui:Button name="rule-button" text="Measure" tooltip="The way between two places on the chart, in days  [D]" class="frame-k" />
+            <ui:Label name="rule-figure" class="frame-num" />
+            <ui:Label name="rule-text" class="frame-rule-text" />
+        </ui:VisualElement>
+        <!-- the tools of the chart, bottom right of the world: the measure, and what the chart is read by -->
+        <ui:VisualElement name="maptools" class="frame-maptools" picking-mode="Ignore">
+            <ui:Button name="tool-measure" class="frame-verb frame-tool">
+                <k:FrameIcon kind="Measure" />
+                <ui:Label text="Measure" class="frame-verb-name" picking-mode="Ignore" />
+            </ui:Button>
+            <ui:Button name="mode-land" text="Land" tooltip="The chart as it is drawn." class="frame-k frame-tool" />
+            <ui:Button name="mode-realms" text="Realms" tooltip="Whose each port is." class="frame-k frame-tool" />
+            <ui:Button name="mode-faith" text="Faith" tooltip="The faith of each port." class="frame-k frame-tool" />
+            <ui:Button name="mode-peoples" text="Peoples" tooltip="The people of each port." class="frame-k frame-tool" />
+        </ui:VisualElement>
+        <!-- (talk, cards and pop-up windows are put in here by the code) -->
+        <ui:VisualElement name="floats" class="frame-floats" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -165,32 +165,35 @@ namespace Kapman.Game.Frame
         partial void BuildRack(VisualElement column)
         {
             rack.Clear();
-            var box = new VisualElement { pickingMode = PickingMode.Ignore };
-            box.AddToClassList("frame-rack");
             // THREE ROWS OF FOUR (the user's ruling of 7 Oct 2026, late, by the picker, after "what even is happening up
             // there"): the ship (Cast off, Voyage, Crew, Hold); where she is (in port: Trade, Alehouse, Minster or
             // Grove, Rest; at sea that row is Look out, Sound, Hail, Rest); what is known (Wares, Journey, Errands,
             // Book). A button that names a window brings that window up; one that names a place goes into it
             // (FramePlace); the orders of the sea act at once, as before. Measure went down to the chart's own tools.
-            foreach (var (kind, name, group) in new[]
+            // THE BUTTONS STAND IN THE LAYOUT FILE (Frame.uxml, under "rack"): each does what the sign in it says (its
+            // FrameIcon's kind), and the class at-port or at-sea shows it only there. So a button can be moved, taken
+            // out or added in UI Builder with no change here.
+            var box = Part<VisualElement>("rack");
+            box.Query<Button>(className: "frame-verb").ForEach(b =>
             {
-                (FrameIcon.Kind.CastOff, "Cast off", ""), (FrameIcon.Kind.Voyage, "Voyage", ""), (FrameIcon.Kind.Crew, "Crew", ""), (FrameIcon.Kind.Hold, "Hold", ""),
-                (FrameIcon.Kind.Trade, "Trade", "port"), (FrameIcon.Kind.Alehouse, "Alehouse", "port"), (FrameIcon.Kind.Offer, "Minster", "port"), (FrameIcon.Kind.Rest, "Rest", "port"),
-                (FrameIcon.Kind.LookOut, "Look out", "sea"), (FrameIcon.Kind.Sound, "Sound", "sea"), (FrameIcon.Kind.Hail, "Hail", "sea"), (FrameIcon.Kind.Rest, "Rest", "sea"),
-                (FrameIcon.Kind.Wares, "Wares", ""), (FrameIcon.Kind.Journey, "Journey", ""), (FrameIcon.Kind.Errands, "Errands", ""), (FrameIcon.Kind.Book, "Book", ""),
-            })
-            {
-                var k = kind;
-                var b = new Button(() => Do(k));
-                b.AddToClassList("frame-verb");
-                b.Add(new FrameIcon(kind));
-                var label = new Label(name) { pickingMode = PickingMode.Ignore };
-                label.AddToClassList("frame-verb-name");
-                b.Add(label);
-                box.Add(b);
-                rack.Add(new Verb { button = b, label = label, kind = kind, group = group });
-            }
-            column.Add(box);
+                var icon = b.Q<FrameIcon>();
+                if (icon == null)
+                {
+                    Debug.LogError("Kapman frame: the button \"" + b.name + "\" of the rack (Frame.uxml) has no FrameIcon in it: its sign says what it does.");
+                    return;
+                }
+                var k = icon.Sign;
+                var label = b.Q<Label>(className: "frame-verb-name");
+                if (label == null)
+                {
+                    label = new Label { pickingMode = PickingMode.Ignore };
+                    label.AddToClassList("frame-verb-name");
+                    b.Add(label);
+                }
+                b.clicked += () => Do(k);
+                string group = b.ClassListContains("at-port") ? "port" : b.ClassListContains("at-sea") ? "sea" : "";
+                rack.Add(new Verb { button = b, label = label, kind = k, group = group });
+            });
             nextRack = 0f;
             PanelClock.Waiting = () => FrameWait.On;                      // (waiting runs the clock though she lies in port)
             VoyagePlanner.Moored = () => FrameGame.PortHere != null;      // (a course set in port waits for the Cast off button)

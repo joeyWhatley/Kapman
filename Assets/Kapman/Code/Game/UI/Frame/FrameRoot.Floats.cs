@@ -485,9 +485,7 @@ namespace Kapman.Game.Frame
         {
             floats.Clear();
             floatSlots = 0;
-            floatLayer = new VisualElement { pickingMode = PickingMode.Ignore };
-            floatLayer.AddToClassList("frame-floats");
-            root.Add(floatLayer);
+            floatLayer = Part<VisualElement>("floats");                    // (the layout file, Frame.uxml: "floats")
             cardShown = null;
             talkVersion = -1;
         }

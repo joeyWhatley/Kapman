@@ -76,7 +76,9 @@ namespace Kapman.Game.Frame
         {
             Current = this;
             var docRoot = GetComponent<UIDocument>().rootVisualElement;
-            root?.RemoveFromHierarchy();
+            // (ours from before, if this component alone was switched off and on: Build then takes a fresh copy of the layout)
+            if (root != null && ReferenceEquals(root.userData, this))
+                root.RemoveFromHierarchy();
             if (style != null && !docRoot.styleSheets.Contains(style))
                 docRoot.styleSheets.Add(style);
             docRoot.style.position = Position.Absolute;
@@ -96,7 +98,6 @@ namespace Kapman.Game.Frame
             foreach (var p in FramePanels.All)
                 p.Frame = this;
             Build();
-            docRoot.Add(root);
             UiTyping.Watch(root);
             drawnKey = null;
             keyNow = null;
@@ -185,124 +186,101 @@ namespace Kapman.Game.Frame
 
         // ------------------------------------------------------------------ building
 
+        /// <summary>The name of the frame's root element in its layout file.</summary>
+        public const string RootName = "frame";
+
+        /// <summary>
+        /// THE FRAME IS LAID OUT IN A FILE, NOT BUILT HERE (KAPMAN, step 2; the user, 7 Oct 2026: "make it like people
+        /// usually make it, not just all in script"; by the picker: UI Builder files). The file is the UI Document's
+        /// own Source Asset, Game/UI/Frame.uxml: open it in UI Builder to move, resize or restyle any part. This finds
+        /// each part by its name and gives it its words, its numbers and what a click on it does. A part may stand
+        /// anywhere in the file and look like anything, but must keep its name: one that is gone is said so in the
+        /// Console, and a plain stand-in is made so the game still runs.
+        /// </summary>
         void Build()
         {
-            root = new VisualElement { pickingMode = PickingMode.Ignore };
-            root.AddToClassList("frame-root");
+            var doc = GetComponent<UIDocument>();
+            var docRoot = doc.rootVisualElement;
+            // the document's own copy of the layout, made when it was switched on, if nobody has filled it yet; else a
+            // fresh copy (this component alone was switched off and on)
+            root = docRoot.Q<VisualElement>(RootName);
+            if (root == null || root.userData != null)
+            {
+                root?.RemoveFromHierarchy();
+                root = doc.visualTreeAsset != null ? doc.visualTreeAsset.Instantiate().Q<VisualElement>(RootName) : null;
+                if (root == null)
+                {
+                    Debug.LogError("Kapman frame: the UI Document of '" + name + "' has no Source Asset with an element named \"" + RootName +
+                                   "\" (it should be Assets/Kapman/Game/UI/Frame.uxml). The frame is empty.");
+                    root = new VisualElement { name = RootName };
+                    root.AddToClassList("frame-root");
+                }
+                root.RemoveFromHierarchy();
+                docRoot.Add(root);
+            }
+            root.userData = this;                                         // (filled: it is not filled twice)
+            root.pickingMode = PickingMode.Ignore;
             floorClass = null;                                            // (a new root has no floor class yet)
             barHeight = -1f;
-            panelSettings = GetComponent<UIDocument>().panelSettings;
-
-            // ---- the frame itself (the look of 7 Oct 2026): a side down the left, a side down the right and a foot, in one
-            // piece with the bar; and the line round the world that shows in the middle. They lie under everything else
-            // of the frame, and the sides and the foot take the clicks that fall on them (the chart is not under them
-            // to be clicked through).
-            foreach (string part in new[] { "frame-pane-left", "frame-pane-right", "frame-pane-foot" })
-            {
-                var pane = Box("frame-pane");
-                pane.AddToClassList(part);
-                root.Add(pane);
-            }
-            var viewport = Box("frame-viewport");
-            viewport.pickingMode = PickingMode.Ignore;
-            // (its dress: a thin gold line inside the dark one, and a small piece at each corner)
-            var line = Box("frame-viewport-line");
-            line.pickingMode = PickingMode.Ignore;
-            viewport.Add(line);
-            foreach (string corner in new[] { "tl", "tr", "bl", "br" })
-            {
-                var piece = Box("frame-corner");
-                piece.AddToClassList(corner);
-                piece.pickingMode = PickingMode.Ignore;
-                viewport.Add(piece);
-            }
-            root.Add(viewport);
+            panelSettings = doc.panelSettings;
 
             // ---- the top bar
-            var top = topBar = Slip("frame-top");
-            var topLeft = Box("frame-top-group");
-            topLeft.AddToClassList("frame-top-left");
-            var menu = FrameUi.Btn("Menu", () => MainMenu.Current?.Pause(), "Save, load, a new game, quit  [Esc]");
-            menu.AddToClassList("frame-start");
-            topLeft.Add(menu);
-            date = Text("frame-top-date");
-            part = Text("frame-top-part");
-            topLeft.Add(date);
-            topLeft.Add(part);
-            top.Add(topLeft);
-            var topMid = Box("frame-top-group");
-            topMid.AddToClassList("frame-top-mid");
-            silver = FrameUi.Num("");
-            topMid.Add(Figure(silver, "silver", "Your silver, in deniers' worth: all your coin and cut silver together."));
-            bread = Text("frame-top-word");
-            topMid.Add(Figure(null, bread, "How long the bread and the other food aboard will feed the crew."));
-            debt = Text("frame-top-word");
-            topMid.Add(Figure(null, debt, "What you owe, and when it falls due."));
-            top.Add(topMid);
-            var topRight = Box("frame-top-group");
-            topRight.AddToClassList("frame-top-right");
-            viewButtons = Box("frame-top-views");
-            topRight.Add(viewButtons);
+            topBar = Part<VisualElement>("top");
+            Part<Button>("menu").clicked += () => MainMenu.Current?.Pause();
+            date = Part<Label>("date");
+            part = Part<Label>("part");
+            silver = Part<Label>("silver");
+            bread = Part<Label>("bread");
+            debt = Part<Label>("debt");
+            viewButtons = Part<VisualElement>("views");
             speedButtons.Clear();
-            topRight.Add(Speed("Pause", -1, "Pause and go on  [Space]"));
+            Speed(Part<Button>("speed-pause"), -1, null);
             for (int i = 0; i < GameSpeed.Count; i++)
-                topRight.Add(Speed((i + 1).ToString(), i, GameSpeed.Tips[i] + (i == 0 ? "  [-]" : "  [+]")));
-            state = Text("frame-top-state");
-            topRight.Add(state);
-            top.Add(topRight);
-            root.Add(top);
+                Speed(Part<Button>("speed-" + (i + 1)), i, GameSpeed.Tips[i] + (i == 0 ? "  [-]" : "  [+]"));
+            state = Part<Label>("state");
 
-            // ---- the left side: the windows, and the bar under them
-            left = new VisualElement { pickingMode = PickingMode.Ignore };
-            left.AddToClassList("frame-left");
+            // ---- the left side: the buttons, the window, and the bar under it
+            left = Part<VisualElement>("left");
             BuildRack(left);                                              // (the function buttons, over the windows: FrameRoot.Rack.cs)
-            tiles = new VisualElement { pickingMode = PickingMode.Ignore };
-            tiles.AddToClassList("frame-tiles");
-            left.Add(tiles);
-            wmbar = Box("frame-wmbar");
-            left.Add(wmbar);
-            root.Add(left);
+            tiles = Part<VisualElement>("tiles");
+            wmbar = Part<VisualElement>("wmbar");
 
-            // ---- top right: the portrait's place
-            who = Slip("frame-who");
-            face = new FrameFace("frame-face");
-            who.Add(face);
-            var whoText = Box("frame-who-text");
-            whoName = Text("frame-who-name");
-            whoText.Add(whoName);
+            // ---- the portrait's place
+            who = Part<VisualElement>("who");
+            face = Part<FrameFace>("face");
+            whoName = Part<Label>("who-name");
             for (int i = 0; i < whoLines.Length; i++)
-            {
-                whoLines[i] = Text("frame-who-line");
-                whoText.Add(whoLines[i]);
-            }
-            whoSay = Text("frame-who-say");
-            whoText.Add(whoSay);
-            who.Add(whoText);
-            root.Add(who);
+                whoLines[i] = Part<Label>("who-line-" + (i + 1));
+            whoSay = Part<Label>("who-say");
 
-            // ---- bottom right: the ship window's place
-            shipBox = Slip("frame-ship");
-            shipView = new FrameShipView();
-            shipBox.Add(shipView);
-            var cap = Box("frame-ship-cap");
-            shipWhere = Text("frame-ship-where");
-            shipWind = Text("frame-ship-wind");
-            cap.Add(shipWhere);
-            cap.Add(shipWind);
-            shipBox.Add(cap);
-            root.Add(shipBox);
+            // ---- the ship window's place
+            shipBox = Part<VisualElement>("ship");
+            shipView = Part<FrameShipView>("ship-view");
+            shipWhere = Part<Label>("ship-where");
+            shipWind = Part<Label>("ship-wind");
 
-            // ---- under the chart: the message log
-            logBox = Slip("frame-log");
-            logScroll = new ScrollView(ScrollViewMode.Vertical) { horizontalScrollerVisibility = ScrollerVisibility.Hidden };
-            logScroll.style.flexGrow = 1f;
-            logBox.Add(logScroll);
-            root.Add(logBox);
+            // ---- the message log
+            logBox = Part<VisualElement>("log");
+            logScroll = Part<ScrollView>("log-scroll");
             logDrawn = -1;
 
             MeasureBuild();
             MapToolsBuild();
             FloatsBuild();
+        }
+
+        /// <summary>A part of the frame, by its name in the layout file. If the file has none such (taken out or renamed
+        /// in UI Builder), that is said in the Console and a plain one is made, so the game still runs.</summary>
+        T Part<T>(string partName) where T : VisualElement, new()
+        {
+            var e = root.Q<T>(partName);
+            if (e != null)
+                return e;
+            Debug.LogError("Kapman frame: the layout (Frame.uxml) has no " + typeof(T).Name + " named \"" + partName +
+                           "\". A plain one is made so the game runs: put the part back in UI Builder (it may stand anywhere, under that name).");
+            e = new T { name = partName };
+            root.Add(e);
+            return e;
         }
 
         /// <summary>The rack of function buttons, at the top of the left column.</summary>
@@ -329,26 +307,10 @@ namespace Kapman.Game.Frame
             return l;
         }
 
-        static VisualElement Figure(Label figure, object words, string tip)
+        /// <summary>A button of the clock: Pause (level -1) or one of its speeds. `tip`: its hover words (null: the file's own).</summary>
+        void Speed(Button b, int level, string tip)
         {
-            var box = Box("frame-top-figure");
-            box.tooltip = tip;
-            if (figure != null)
-                box.Add(figure);
-            if (words is Label label)
-                box.Add(label);
-            else if (words is string s)
-            {
-                var l = Text("frame-top-word");
-                l.text = s;
-                box.Add(l);
-            }
-            return box;
-        }
-
-        Button Speed(string label, int level, string tip)
-        {
-            var b = FrameUi.Btn(label, () =>
+            b.clicked += () =>
             {
                 if (level < 0)
                 {
@@ -358,10 +320,11 @@ namespace Kapman.Game.Frame
                 }
                 else
                     GameSpeed.SetLevel(level);
-            }, tip);
+            };
+            if (tip != null)
+                b.tooltip = tip;
             b.userData = level;
             speedButtons.Add(b);
-            return b;
         }
 
         // ------------------------------------------------------------------ each frame

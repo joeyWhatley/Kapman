@@ -113,14 +113,12 @@ namespace Kapman.Game.Frame
 
         partial void MeasureBuild()
         {
-            ruleBox = Slip("frame-rule");
-            ruleButton = FrameUi.Btn("Measure", () => SetMeasuring(!Measuring), "The way between two places on the chart, in days  [D]");
-            ruleBox.Add(ruleButton);
-            ruleFigure = FrameUi.Num("");
-            ruleBox.Add(ruleFigure);
-            ruleText = Text("frame-rule-text");
-            ruleBox.Add(ruleText);
-            root.Add(ruleBox);
+            // (it stands in the layout file, Frame.uxml, under "rule")
+            ruleBox = Part<VisualElement>("rule");
+            ruleButton = Part<Button>("rule-button");
+            ruleButton.clicked += () => SetMeasuring(!Measuring);
+            ruleFigure = Part<Label>("rule-figure");
+            ruleText = Part<Label>("rule-text");
             Measuring = false;
             measurePoints.Clear();
             measureLine.Clear();

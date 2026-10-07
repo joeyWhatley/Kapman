@@ -6,12 +6,30 @@ namespace Kapman.Game.Frame
     /// <summary>
     /// The small drawn signs of the function buttons (the mockup's, on a 24 by 24 grid): a boat under sail, a clock, a
     /// rule, an eye, a lead, a horn, a bed, a cross with a flame. Drawn in lines of the element's own text colour.
+    /// In a UI file (UI Builder: Library, Project, Kapman.Game.Frame): FrameIcon with kind="CastOff".
     /// </summary>
-    public sealed class FrameIcon : VisualElement
+    [UxmlElement]
+    public sealed partial class FrameIcon : VisualElement
     {
         public enum Kind { CastOff, Wait, Measure, LookOut, Sound, Hail, Rest, Offer, Voyage, Crew, Hold, Trade, Alehouse, Wares, Journey, Errands, Book }
 
-        readonly Kind kind;
+        Kind kind;
+
+        /// <summary>Which sign it is (a button of the frame does what its sign says).</summary>
+        [UxmlAttribute("kind")]
+        public Kind Sign
+        {
+            get => kind;
+            set
+            {
+                kind = value;
+                MarkDirtyRepaint();
+            }
+        }
+
+        public FrameIcon() : this(Kind.CastOff)
+        {
+        }
 
         public FrameIcon(Kind kind)
         {

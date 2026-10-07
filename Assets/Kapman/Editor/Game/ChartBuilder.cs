@@ -28,7 +28,20 @@ namespace Kapman.EditorTools
         /// <summary>The frame's look.</summary>
         public const string FrameStyle = "Assets/Kapman/Game/UI/Frame.uss";
 
-        [MenuItem("Kapman/Levels/Build the chart game (2D)")]
+        // (KAPMAN: the scene is laid out by hand now and is the one true copy. This makes it anew from nothing, as it was
+        // first made: everything set or moved in it by hand since is lost. So the menu asks first.)
+        [MenuItem("Kapman/Old/Make the game scene anew from code (loses hand changes)")]
+        public static void BuildAsked()
+        {
+            if (EditorUtility.DisplayDialog("Make the game scene anew?",
+                    "This throws away " + ScenePath + " as it is and makes it again from code, as it was first made. Everything set, added or moved in the scene by hand is lost.", "Make it anew", "Leave it"))
+            {
+                Build();
+                KapmanPhysical.Step1();
+                KapmanPhysical.Step2Frame();
+            }
+        }
+
         public static void Build()
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
