@@ -234,6 +234,11 @@ namespace Kapman.Tests
                 Assert.AreEqual("marks", show.Stage, "the first click was not answered by the marks");
                 yield return ChartPlay.Settle(0.75f);
                 yield return play.Shot("open_12_marks", 0f);
+                // (and they fly down to where Ravn is about to stand: the user, 8 Oct 2026)
+                yield return ChartPlay.Until(() => show.MarksFlying, 5f);
+                Assert.IsTrue(show.MarksFlying, "the marks did not set off for Ravn's portrait");
+                yield return ChartPlay.Frames(10);
+                yield return play.Shot("open_12b_marks_fly_to_ravn", 0f);
                 yield return ChartPlay.Until(() => play.Frame.FloatOpen("ravn.first"), 6f);
                 Assert.IsTrue(play.Frame.FloatOpen("ravn.first"), "Ravn did not speak after the marks");
                 Assert.IsTrue(Showtime.OpeningByGraph, "the opening ran from code: no graph of the scene listened for it (the Showtime object's Script Machine, \"Opening - the lender, the boat, the first morning\")");

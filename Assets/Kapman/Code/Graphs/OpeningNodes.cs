@@ -129,7 +129,7 @@ namespace Kapman.Graphs
         protected override IEnumerator Part(Showtime show) => show.OpeningFirstClick();
     }
 
-    /// <summary>"!!!" pop up where the click fell, shake and blink out.</summary>
+    /// <summary>"!!!" pop up where the click fell, shake, and fly down to where Ravn's face is about to stand.</summary>
     [UnitTitle("Opening: the marks")]
     [UnitCategory("Kapman/Opening")]
     public sealed class OpeningTheMarks : OpeningPart

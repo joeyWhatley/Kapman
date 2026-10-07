@@ -1374,7 +1374,25 @@ namespace Kapman.Game
 
         // ------------------------------------------------------------------ the first click: !!!, and Ravn
 
-        /// <summary>The marks: "!!!" pop up where the first click fell, shake and blink out.</summary>
+        /// <summary>Where Ravn's face stands when he speaks (the left of the foot of the frame), in the marks' own place on
+        /// the screen: the marks fly to it.</summary>
+        /// <summary>The marks are on their way down to Ravn now (for a test, a picture).</summary>
+        public bool MarksFlying { get; private set; }
+
+        Vector2 RavnPlace()
+        {
+            var frame = FrameRoot.Current;
+            var who = frame != null && frame.Root != null ? frame.Root.Q<VisualElement>("who") : null;
+            if (who != null && who.panel != null && who.worldBound.width > 1f)
+            {
+                var box = who.worldBound;
+                return marks.WorldToLocal(new Vector2(box.xMin + box.width * 0.215f, box.yMin + box.height * 0.5f));
+            }
+            return new Vector2(W * 0.282f, H * 0.885f);
+        }
+
+        /// <summary>The marks: "!!!" pop up where the first click fell, shake, and fly down to where Ravn's face is about to
+        /// stand.</summary>
         public IEnumerator OpeningMarks()
         {
             Vector2 at = firstClickAt;
@@ -1450,14 +1468,45 @@ namespace Kapman.Game
                 }
                 yield return null;
             }
-            // and they blink out, as such marks do
-            for (int b = 0; b < 3; b++)
+            // AND THEY GO DOWN TO RAVN (the user, 8 Oct 2026: "they start out like that and need to travel back down to
+            // Ravn's portrait"): one after another each leaves its place and flies to where his face is about to
+            // stand, in the foot of the frame, growing small as it goes. There it is gone; and then he speaks.
+            Vector2 to = RavnPlace();
+            var fromLeft = new List<float>();
+            var fromTop = new List<float>();
+            foreach (var m in made)
             {
-                marks.style.visibility = Visibility.Hidden;
-                yield return Wait(0.06f);
-                marks.style.visibility = Visibility.Visible;
-                yield return Wait(0.07f);
+                fromLeft.Add(m.resolvedStyle.left);
+                fromTop.Add(m.resolvedStyle.top);
             }
+            const float flight = 0.42f, apart = 0.06f;
+            float flown = 0f, whole = flight + apart * Mathf.Max(0, made.Count - 1);
+            MarksFlying = true;
+            while (flown < whole)
+            {
+                flown += Time.unscaledDeltaTime;
+                for (int i = 0; i < made.Count; i++)
+                {
+                    float k = Mathf.Clamp01((flown - apart * i) / flight);
+                    if (k <= 0f)
+                        continue;
+                    var m = made[i];
+                    if (k >= 1f)
+                    {
+                        Hide(m);
+                        continue;
+                    }
+                    float go = k * k;                                     // (slow away, fast in)
+                    float w = m.resolvedStyle.width, tall = m.resolvedStyle.height;
+                    m.style.translate = new Translate(0f, 0f);
+                    m.style.left = Mathf.Lerp(fromLeft[i], to.x - w * 0.5f, go);
+                    m.style.top = Mathf.Lerp(fromTop[i], to.y - tall * 0.5f, go);
+                    m.style.rotate = new Rotate(new Angle(Mathf.Lerp(turns[i], 0f, go), AngleUnit.Degree));
+                    m.style.scale = new Scale(Vector3.one * Mathf.Lerp(1f, 0.3f, go));
+                }
+                yield return null;
+            }
+            MarksFlying = false;
             marks.style.visibility = StyleKeyword.Null;
             marks.Clear();
             marks.style.opacity = StyleKeyword.Null;

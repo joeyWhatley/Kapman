@@ -704,20 +704,73 @@ namespace Kapman.Game
                 if (!Course.IsSet || Course.Points.Count < 2 || map.mpp <= 0.0)
                     return;
                 var p = ctx.painter2D;
-                p.strokeColor = new Color(0.08f, 0.08f, 0.1f, 0.85f);
-                p.lineWidth = 2f;
+                p.strokeColor = new Color(0.08f, 0.08f, 0.1f, 0.9f);
+                p.lineWidth = 3f;
                 p.lineJoin = LineJoin.Round;
-                p.BeginPath();
-                var ship = ShipWorld();
-                p.MoveTo(Px(ship));
+                p.lineCap = LineCap.Butt;
+                // THE WAY AHEAD IN SPACED STROKES (the user, 8 Oct 2026: "make the map trail for the ship icon to be spaced
+                // lines like -  -  -"). The strokes are counted from the berth back to her, so they lie still on the
+                // water and she comes up to them one by one; only what is on the screen is drawn.
+                line.Clear();
+                line.Add(Px(ShipWorld()));
                 for (int i = Mathf.Max(1, Course.Next); i < Course.Points.Count; i++)
-                    p.LineTo(Px(Course.Points[i]));
+                    line.Add(Px(Course.Points[i]));
+                const float stroke = 9f, space = 11f, period = stroke + space, edge = 24f;
+                float wide = contentRect.width, high = contentRect.height;
+                double along = 0.0;                                       // pixels from the berth, along the line
+                p.BeginPath();
+                for (int i = line.Count - 1; i > 0; i--)
+                {
+                    Vector2 from = line[i], to = line[i - 1];
+                    float len = Vector2.Distance(from, to);
+                    if (len < 0.001f || float.IsNaN(len) || float.IsInfinity(len))
+                        continue;
+                    // the part of the leg that is on the screen (a leg can run far off it when the chart is close in)
+                    float t0 = 0f, t1 = len;
+                    Vector2 dir = (to - from) / len;
+                    if (Clip(from.x, dir.x, -edge, wide + edge, ref t0, ref t1) && Clip(from.y, dir.y, -edge, high + edge, ref t0, ref t1))
+                    {
+                        // (stroke by stroke by its number from the berth: each step is a whole stroke on, so it always ends)
+                        double s0 = along + t0, s1 = along + t1;
+                        long k = (long)System.Math.Floor(s0 / period);
+                        for (int guard = 0; k * (double)period < s1 && guard < 4000; k++, guard++)
+                        {
+                            double a0 = System.Math.Max(s0, k * (double)period), a1 = System.Math.Min(s1, k * (double)period + stroke);
+                            if (a1 - a0 > 0.25)
+                            {
+                                p.MoveTo(from + dir * (float)(a0 - along));
+                                p.LineTo(from + dir * (float)(a1 - along));
+                            }
+                        }
+                    }
+                    along += len;
+                }
                 p.Stroke();
                 // the berth: a ring
                 var end = Px(Course.Points[Course.Points.Count - 1]);
                 p.BeginPath();
                 p.Arc(end, 6f, 0f, 360f);
                 p.Stroke();
+            }
+
+            readonly List<Vector2> line = new List<Vector2>();
+
+            /// <summary>Narrows the stretch t0..t1 of a line (start + dir * t, along one axis) to where it lies between two
+            /// bounds. False when none of it does.</summary>
+            static bool Clip(float start, float dir, float low, float high, ref float t0, ref float t1)
+            {
+                if (Mathf.Abs(dir) < 1e-6f)
+                    return start >= low && start <= high;
+                float a = (low - start) / dir, b = (high - start) / dir;
+                if (a > b)
+                {
+                    float swap = a;
+                    a = b;
+                    b = swap;
+                }
+                t0 = Mathf.Max(t0, a);
+                t1 = Mathf.Min(t1, b);
+                return t0 < t1;
             }
 
             Vector2 Px(Kapman.Game.Sim.WorldXZ w) =>
