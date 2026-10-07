@@ -636,6 +636,16 @@ def collect_opening():
              + "Size: %d x %d pixels. File to replace: title/%s.png (same name, same size)." % (cv.w, cv.h, sid),
              "Assets/Kapman/Code/Game/UI/Showtime.cs (the title)", size=(cv.w, cv.h),
              draw=lambda ch=ch, i=i: artscene.draw_title_letter(ch, i))
+    # the mark of the first morning ("!!!"): of the same making as the name's letters (the user, 8 Oct 2026)
+    mark = artscene.draw_title_letter("!", 9)
+    FIRST_HOUR.add(safe_id("title.mark"))
+    slot("title.mark", "title", "The mark of the first morning: !",
+         "The exclamation mark that pops up, seven at once, where the player first clicks on the first morning, shakes and blinks out before Ravn speaks. "
+         + "The user, 8 Oct 2026: \"make them the same colour and style as the title screen\": so it is painted as the name's letters are, the worn faded green slab "
+         + "with its dark line and its shadow. One picture, clear all round it; the game sets each one's size, lean and place. "
+         + "Size: %d x %d pixels. File to replace: title/title.mark.png (same name, same size)." % (mark.w, mark.h),
+         "Assets/Kapman/Code/Game/UI/Showtime.cs (OpeningMarks)", size=(mark.w, mark.h),
+         draw=lambda: artscene.draw_title_letter("!", 9))
     FIRST_HOUR.add(safe_id("person.lender"))                  # the first face of the game
     portrait_slot("person.lender", lender, "Assets/Kapman/Code/Game/UI/Showtime.cs (the opening; his name and byname are placeholders: Trade.LenderName, Trade.LenderByname)",
                   extra="He is the first face of the game: he asks the new player's people, name, faith and past, and then says what is owed. The player's creditor wherever the game begins.")

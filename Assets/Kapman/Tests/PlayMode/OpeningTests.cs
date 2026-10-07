@@ -319,7 +319,7 @@ namespace Kapman.Tests
                 Assert.IsTrue(FrameWindows.OneWindow, "the side has more than one window for a new player");
                 Assert.AreEqual(1, play.Frame.Windows.Space.slots.Count, "the side has more than one window");
                 string screen = ChartPlay.Read(play.Frame.Root);
-                StringAssert.Contains("Rotten along the foot", screen, "the Port window does not offer to mend the sail");
+                StringAssert.Contains("Sails tattered", screen, "the Port window does not offer to mend the sail");
                 play.Frame.Windows.Show("people");
                 yield return ChartPlay.Settle(0.6f);
                 screen = ChartPlay.Read(play.Frame.Root);

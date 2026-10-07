@@ -1390,12 +1390,29 @@ namespace Kapman.Game
             marks.Clear();
             Show(marks);
             float h = H;
-            var made = new List<Label>();
+            var made = new List<VisualElement>();
             var turns = new List<float>();
+            // THE MARKS ARE OF THE TITLE'S OWN MAKING (the user, 8 Oct 2026: "same with the !!!, make them the same colour and
+            // style as the title screen"): the picture title/title.mark.png, painted as the name's letters are (the worn
+            // faded green slab with its dark line and its shadow); with no picture, a plain mark in that green.
+            var markPicture = FrameArt.Load("title/title.mark.png");
             for (int i = 0; i < 7; i++)
             {
-                var m = Text("show-mark", "!");
-                m.style.fontSize = h * (0.11f + 0.07f * (float)dice.NextDouble());
+                float tall = h * (0.11f + 0.07f * (float)dice.NextDouble());
+                VisualElement m;
+                if (markPicture != null && markPicture.height > 0)
+                {
+                    var drawn = new Image { image = markPicture, scaleMode = ScaleMode.StretchToFill, pickingMode = PickingMode.Ignore };
+                    drawn.AddToClassList("show-mark-picture");
+                    drawn.style.height = tall * 1.25f;
+                    drawn.style.width = tall * 1.25f * markPicture.width / markPicture.height;
+                    m = drawn;
+                }
+                else
+                {
+                    m = Text("show-mark", "!");
+                    m.style.fontSize = tall;
+                }
                 m.style.left = Mathf.Clamp(at.x + ((float)dice.NextDouble() - 0.5f) * h * 0.34f, 20f, W - 60f);
                 m.style.top = Mathf.Clamp(at.y - h * 0.08f + ((float)dice.NextDouble() - 0.5f) * h * 0.22f, 20f, H - 120f);
                 float turn = ((float)dice.NextDouble() - 0.5f) * 30f;
@@ -1469,14 +1486,14 @@ namespace Kapman.Game
             spec.Say($"There you are! {char.ToUpperInvariant(you[0]) + you.Substring(1)}, is it? Ravn. I come with the boat. He did not say? No. He would not.");
             spec.Say("He does not say much, that one. He counts. [[>ship]]I have been over her for you, keel to masthead. She floats! That is the good news. That is most of the good news.");
             if (FirstJobs.Active && FirstJobs.SailWorn)
-                spec.Say($"[[>text:Mend it]]The sail is rotten along the foot. The first real wind would have it off her. Have it mended before we put out: the Port window, {FirstJobs.MendCost:0} d and six hours. I would sew it myself, but you have not seen my sewing. Keep it so.");
+                spec.Say($"[[>mend-sail]]The sail is rotten along the foot. The first real wind would have it off her. Have it mended before we put out: the Port window, {FirstJobs.MendCost:0} d and six hours. I would sew it myself, but you have not seen my sewing. Keep it so.");
             if (FirstJobs.Active && FirstJobs.HandsShort > 0)
                 spec.Say($"And two of us cannot row six oars. I can hardly row one. She wants {(FirstJobs.HandsShort == 3 ? "three" : FirstJobs.HandsShort.ToString())} more shipmen. [[>verb-alehouse]]They sit in the alehouse: the Alehouse button. [[>figure-silver]]The hiring silver is {FirstJobs.HandMoney:0} d a man.");
             spec.Say("[[>rack]]The buttons up there are yours. [[>verb-cast-off verb-voyage verb-crew verb-hold]]The top row is the ship: Cast off, Voyage, Crew, Hold. [[>verb-trade verb-alehouse verb-holy verb-rest-port]]The middle row is where we are: Trade, the alehouse, the minster, Rest. [[>verb-wares verb-journey verb-errands verb-book]]The bottom row is what you know: Wares, Journey, Errands, the Book. [[>speed-pause speed-1 speed-2 speed-3 speed-4 speed-5]]The clock is at the very top: Space stops it, and the numbers hurry it.");
             string tip = FirstTip();
             if (tip.Length > 0)
                 spec.Say("[[>verb-trade]]" + tip);
-            spec.Say("So. [[>text:Mend it]]Mend the sail, [[>verb-alehouse]]find the men, [[>verb-trade]]buy well. [[>verb-voyage]]Then Voyage, pick a port, [[>verb-cast-off]]and Cast off. [[>verb-errands]]If you forget, it is all under Errands. I forget things. That is how I know where it is kept.");
+            spec.Say("So. [[>mend-sail]]Mend the sail, [[>verb-alehouse]]find the men, [[>verb-trade]]buy well. [[>verb-voyage]]Then Voyage, pick a port, [[>verb-cast-off]]and Cast off. [[>verb-errands]]If you forget, it is all under Errands. I forget things. That is how I know where it is kept.");
             spec.options.Add(new FloatOption { label = "Go on", isDefault = true, pick = () => RavnDone(frame) });
             spec.shut = () => RavnDone(frame);
             ravnUp = true;

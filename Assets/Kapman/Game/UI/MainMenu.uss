@@ -371,11 +371,17 @@
     color: rgb(241, 232, 214);
 }
 
+/* the marks of the first morning: the picture title/title.mark.png, of the same making as the name's letters; without
+   it, a plain mark in the name's faded green */
 .show-mark {
     position: absolute;
     -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
-    color: rgb(240, 210, 122);
+    color: rgb(148, 178, 142);
     text-shadow: 0 4px 0 rgb(38, 26, 44);
+}
+
+.show-mark-picture {
+    position: absolute;
 }
 
 /* texture and depth, as the frame has them (Frame.uss, its last block; the pictures: Bake/art/make_ui_textures.py) */

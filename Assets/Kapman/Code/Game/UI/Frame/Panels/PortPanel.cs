@@ -44,7 +44,9 @@ namespace Kapman.Game.Frame
                     body.Add(FrameUi.Ln("The sail", "Ashore, being mended. Let the clock run: it is six hours' work."));
                 else
                 {
-                    var mend = FrameUi.Btn($"Mend it: {FirstJobs.MendCost:0} d", () =>
+                    // (the user's own words, 8 Oct 2026: "Sails tattered.... / Needs to be repaired." Then the cost next to it:
+                    // the cost is the button)
+                    var mend = FrameUi.Btn($"{FirstJobs.MendCost:0} d", () =>
                     {
                         var game = KapmanGame.Current;
                         FirstJobs.Mend(game != null ? game.Day : 0.0, out string fact);
@@ -52,7 +54,9 @@ namespace Kapman.Game.Frame
                             FrameLog.Add(fact);
                     });
                     mend.SetEnabled(FrameGame.Silver >= FirstJobs.MendCost);
-                    body.Add(FrameUi.Ln("The sail", "Rotten along the foot. She cannot put out under it. Six hours' work.", mend));
+                    mend.name = "mend-sail";                              // (Ravn points at it by this name)
+                    mend.tooltip = $"Have the sails repaired: {FirstJobs.MendCost:0} d, and six hours' work.";
+                    body.Add(FrameUi.Ln("Sails tattered....", "Needs to be repaired.", mend));
                 }
             }
             if (!FrameGame.PortMenuOpen)
