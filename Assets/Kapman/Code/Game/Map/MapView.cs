@@ -146,6 +146,12 @@ namespace Kapman.Game
         bool showAllShips;                                            // [G]: every ship of the world, through the fog (dev)
         int chronicleShown = -1;                                      // how many entries the list was filled with
         Image fog;
+        VisualElement paper;
+        /// <summary>The side of one tile of the chart's paper on the screen, in panel pixels (as .map-paper's background-size).</summary>
+        public const float PaperTile = 768f;
+        /// <summary>A picture of the chart shown smaller than it is by more than this is drawn smoothed (its pixels run
+        /// together), not pixel by pixel: seen from far out, every fourth pixel alone made the land a hard speckle.</summary>
+        public const double SmoothFrom = 1.3;
         MapTable table;                                               // the top bar, the alerts, the outliner, the chest
         Label title, subtitle, scaleText, hint;
         MapRenderer renderer;
@@ -206,11 +212,18 @@ namespace Kapman.Game
             layer.AddToClassList("map-layer");
             under = Layer("map-tiles");
             over = Layer("map-tiles");
+            // THE PAPER OF THE CHART (the user, 8 Oct 2026: "give the map more texture on the colours so they are not
+            // so hard"): one clear tile of specks, patches and fibres over all the colours of the chart, under the fog,
+            // the names and the marks (Game/UI/Map/paper.png, made by Bake/art/make_map_textures.py; laid by the style
+            // sheet, .map-paper). It goes with the land as the chart is moved: Draw sets where its first tile begins.
+            paper = new VisualElement { pickingMode = PickingMode.Ignore };
+            paper.AddToClassList("map-paper");
             fog = new Image { scaleMode = ScaleMode.StretchToFill, pickingMode = PickingMode.Ignore };
             fog.AddToClassList("map-fog");
             overlays = Layer("map-overlays");
             layer.Add(under);
             layer.Add(over);
+            layer.Add(paper);
             layer.Add(fog);
             layer.Add(overlays);
             courseLine = new CourseLine(this) { pickingMode = PickingMode.Ignore };
@@ -923,6 +936,13 @@ namespace Kapman.Game
                 images[g].RemoveFromHierarchy();
                 images.Remove(g);
             }
+            // the paper goes with the land (it is laid in screen pixels, so its grain is one size at every zoom)
+            if (paper != null)
+            {
+                float px = Mathf.Round((float)(-(viewWest / mpp) % PaperTile)), py = Mathf.Round((float)((viewNorth / mpp) % PaperTile));
+                paper.style.backgroundPositionX = new BackgroundPosition(BackgroundPositionKeyword.Left, new Length(px));
+                paper.style.backgroundPositionY = new BackgroundPosition(BackgroundPositionKeyword.Top, new Length(py));
+            }
             // the fog over the unknown
             if (Exploration.Ready)
             {
@@ -987,6 +1007,7 @@ namespace Kapman.Game
                     artOverview.AddToClassList("map-tile");
                     over.Add(artOverview);
                 }
+                Smooth(art.Overview, mpp > (art.East - art.West) / Mathf.Max(1, art.Overview.width) * SmoothFrom);
                 PlaceCut(artOverview, art.West, art.North, art.East, art.South, viewWest, viewNorth, W, H);
             }
             artUsed.Clear();
@@ -1033,6 +1054,7 @@ namespace Kapman.Game
                         covers = false;
                         continue;
                     }
+                    Smooth(tex, mpp > lv.metresPerPixel * SmoothFrom);
                     int key = MapArt.Key(level, r, c);
                     if (!artImages.TryGetValue(key, out var img) || img.image != tex)
                     {
@@ -1048,6 +1070,15 @@ namespace Kapman.Game
                     PlaceCut(img, w, n, w + size, n - size, viewWest, viewNorth, W, H);
                 }
             return covers;
+        }
+
+        /// <summary>A picture of the chart drawn smoothed (shown smaller than it is: its pixels run together) or pixel by
+        /// pixel (shown at its own size or larger: the pixels stay hard-edged, as they are painted).</summary>
+        static void Smooth(Texture tex, bool smooth)
+        {
+            var want = smooth ? FilterMode.Bilinear : FilterMode.Point;
+            if (tex != null && tex.filterMode != want)
+                tex.filterMode = want;
         }
 
         /// <summary>Finer tiles lie over coarser ones, whatever order they were read in (a key's high bits are its level).</summary>

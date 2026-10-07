@@ -44,6 +44,20 @@
     position: absolute;
 }
 
+/* the paper of the chart: one clear tile of specks, soft patches and fibres over all its colours (8 Oct 2026: "more
+   texture on the colours so they are not so hard"). Two screen pixels to one of its own, as the frame's grain is.
+   MapView moves its first tile with the land (background-position). */
+.map-paper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: url("Map/paper.png");
+    background-repeat: repeat;
+    background-size: 768px 768px;
+}
+
 .map-port {
     position: absolute;
     flex-direction: row;
