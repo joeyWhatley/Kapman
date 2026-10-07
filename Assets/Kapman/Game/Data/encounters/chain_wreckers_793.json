@@ -1,0 +1,1729 @@
+{
+ "about": "THE CHAIN wreckers (Design/content/CHAINS.md; the page is Design/content/chains/wreckers.md): a light on a shore where no light should be. From 811 the emperor's fire burns on the old tower at Boulogne (Annales regni Francorum 811), and masters bound for the Canche learn to steer by it. Between 812 and 823 a second fire, low on the bare sand south of the river, puts a ship of the abbess of Thanet on the banks; by the custom of the strand her cargo is the shore lord's and her living men are held for their keep, as Earl Harold was on this same coast in 1064. Fourteen cards (thirteen harbour, one sea): the drowned steersman, the custom of the strand, the evening ebb, the south sand, the lord of the strand, the abbess at Sarre, the byre, what the men saw, the salt-boiler, the second ship, and four finales. Endings: ch_wreckers_end_ransom (what happened: the men bought back, the custom stands), ch_wreckers_end_judgement (the emperor's judges; on the hard road changed_canche_strand_peace and a true fire on the saint's hill), ch_wreckers_end_club (changed_quentovic_wreck_club: the skippers' agreement of help in shipwreck, lawful under Herstal 779 c. 16), ch_wreckers_end_share (a third of the strand). Costs that last: ch_wreckers_lord_enemy, ch_wreckers_blood_silver, ch_wreckers_owes_lord, ch_wreckers_bought. Real and named: Cwenthryth, abbess of Minster in Thanet (811 to 827), King Charles's letter to Offa of 796. Invented: Hunfrith, Eadhelm, Sigehere and Wiga of the lost ship, Ealdred her master, Gundbert the fisherman, Ragenulf the salt-boiler, Adalwin the steward, Odalric the lord of the strand, Winrad the guest-master, Liudbrand of Dorestad. No source of these centuries records a false light: the fire here is a salt pan that became a trap, and the page says so. Every option's outcome text is a writing key named in its note. A draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_wreckers.s01_drowned_man",
+   "note": "Step 1, the start: Quentovic, 812 to 823, drawn on a call. A Kentish steersman is brought up the river by fishermen: the abbess of Thanet's ship is on the banks south of the Canche, steered there by a fire her master took for a known one. Sources: the emperor had the old lighthouse at Boulogne restored and a fire lit on it by night in 811 (Annales regni Francorum 811; story/works_793.json 'beacon'); the hill of Saint-Josse south of the river is a sea-mark (dossiers/quentovic.md); the minster in Thanet held toll-free ships under the Mercian kings' charters (Sawyer 86, 87, 91, 29; places/sarre.json). That the monks ever burned furze on the hill for an expected ship is invented (?). A seaman shuns a light he cannot name (en.wikipedia 'Wrecking (shipwreck)', read 6 Oct 2026: 'there is no clear evidence' that false lights were ever used): so this fire works only by being taken for a known one. Hunfrith, Ealdred the master and Gundbert the fisherman are invented. Sets ch_wreckers_1; ch_wreckers_kind; ch_wreckers_warned.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and year < 824 and not flag.ch_wreckers_1 and not flag.ch_wreckers_seen and not flag.ch_wreckers_done",
+   "weight": 3.0,
+   "cooldown_days": 25,
+   "actors": {
+    "survivor": {
+     "role": "survivor",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      50
+     ],
+     "fixed": true,
+     "note": "Hunfrith (Hun- + -frith), invented: steersman of the abbess's ship"
+    },
+    "fisherman": {
+     "role": "fisherman",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      45,
+      65
+     ],
+     "fixed": true,
+     "note": "Gundbert (Gund- + -bert), invented: a fisherman of the river mouth"
+    }
+   },
+   "title_key": "chain_wreckers.s01.title",
+   "title": "A man on a hatch board",
+   "intention_key": "chain_wreckers.s01.intention",
+   "intention": "Two fishermen are carrying a man up the bank on a hatch board. He is alive, blue to the lips, and he will not let go of the board.",
+   "lines": [
+    {
+     "who": "fisherman",
+     "key": "chain_wreckers.s01.found"
+    },
+    {
+     "who": "survivor",
+     "key": "chain_wreckers.s01.ship"
+    },
+    {
+     "who": "survivor",
+     "key": "chain_wreckers.s01.fire"
+    },
+    {
+     "who": "survivor",
+     "key": "chain_wreckers.s01.wrong"
+    },
+    {
+     "who": "fisherman",
+     "key": "chain_wreckers.s01.quiet"
+    }
+   ],
+   "options": [
+    {
+     "key": "hear",
+     "label_key": "chain_wreckers.s01.opt_hear",
+     "label": "Have him carried to the guest hall at Saint Josse, and hear all of it",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_wreckers_1",
+      "npc survivor feeling +6 heard"
+     ],
+     "note": "outcome: chain_wreckers.s01.out_hear (time only: the story begins)"
+    },
+    {
+     "key": "cloak",
+     "label_key": "chain_wreckers.s01.opt_cloak",
+     "label": "Give him your second cloak and eight pennies, and hear all of it",
+     "check": "silver >= 8",
+     "cost": "silver 8",
+     "effects": [
+      "flag ch_wreckers_1",
+      "flag ch_wreckers_kind",
+      "deed gave_alms",
+      "npc survivor feeling +12 clothed"
+     ],
+     "note": "outcome: chain_wreckers.s01.out_cloak (8 d: alms, and Hunfrith remembers)"
+    },
+    {
+     "key": "ask",
+     "label_key": "chain_wreckers.s01.opt_ask",
+     "label": "Ask the fishermen first what they make of it",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_warned",
+      "flag ch_wreckers_seen for 2"
+     ],
+     "note": "outcome: chain_wreckers.s01.out_ask (time only: opens the ale-house card, and this card comes again)"
+    },
+    {
+     "key": "pass",
+     "label_key": "chain_wreckers.s01.opt_pass",
+     "label": "A wreck is a wreck. Go about your trade",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_seen for 30"
+     ],
+     "note": "outcome: chain_wreckers.s01.out_pass (time only: he is still at Saint Josse next month)"
+    }
+   ],
+   "memory": {
+    "hear": "heard the steersman out",
+    "cloak": "gave the steersman a cloak",
+    "ask": "asked the fishermen",
+    "pass": "went by"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s02_custom_of_the_strand",
+   "note": "Step 2 (optional, and the warning before the danger): the ale-house at Quentovic. The custom of the strand, who holds the south shore, and what happens to people who ask about the fire. Sources: what the sea throws up belongs to the lord of the shore, and men thrown up with it can be held (lore/law_tolls.md 12; lore/sea_lore.md 13; de.wikipedia 'Strandrecht'); William of Poitiers says of Harold's seizure in Ponthieu in 1064 that it was the custom of that coast (LATE, and this very shore) (?); Wilfrid's stranded ship attacked as a matter of course about 666 (Vita Wilfridi c. 13). The finders' third is the later northern rule (Gulathing, Gragas: LATER) used here as local custom (?). The wet years: the Royal Frankish Annals under 820 tell of constant rain, a sickness of men and cattle and a failed harvest (from memory (?)); the line shows from 820. The banks and the gut are invented: the mouth of 793 is unknown (dossiers/quentovic.md). Odalric and his steward Adalwin are invented; no count is named at Quentovic. Sets ch_wreckers_2; ch_wreckers_banks; ch_wreckers_knows_lord; ch_wreckers_2_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and (flag.ch_wreckers_1 or flag.ch_wreckers_warned) and not flag.ch_wreckers_2_done and not flag.ch_wreckers_5 and not flag.ch_wreckers_done",
+   "weight": 12,
+   "cooldown_days": 3,
+   "actors": {
+    "fisherman": {
+     "role": "fisherman",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      45,
+      65
+     ],
+     "fixed": true,
+     "note": "Gundbert, invented"
+    }
+   },
+   "title_key": "chain_wreckers.s02.title",
+   "title": "The custom of the strand",
+   "intention_key": "chain_wreckers.s02.intention",
+   "intention": "Gundbert the fisherman has the end of the bench nearest the door. He talks into his cup, so that it could be said afterwards he was talking to the ale.",
+   "lines": [
+    {
+     "who": "fisherman",
+     "key": "chain_wreckers.s02.custom"
+    },
+    {
+     "who": "fisherman",
+     "key": "chain_wreckers.s02.men"
+    },
+    {
+     "who": "fisherman",
+     "key": "chain_wreckers.s02.third"
+    },
+    {
+     "who": "fisherman",
+     "key": "chain_wreckers.s02.hunger",
+     "when": "year >= 820"
+    },
+    {
+     "who": "fisherman",
+     "key": "chain_wreckers.s02.warn"
+    }
+   ],
+   "options": [
+    {
+     "key": "banks",
+     "label_key": "chain_wreckers.s02.opt_banks",
+     "label": "Fill his cup and ask how the banks lie south of the river",
+     "check": "silver >= 4 and not flag.ch_wreckers_banks",
+     "cost": "silver 4",
+     "effects": [
+      "flag ch_wreckers_2",
+      "flag ch_wreckers_banks",
+      "npc fisherman feeling +5 ale"
+     ],
+     "note": "outcome: chain_wreckers.s02.out_banks (4 d: the gut between the banks, which makes the night watch and the torch sure)"
+    },
+    {
+     "key": "who",
+     "label_key": "chain_wreckers.s02.opt_who",
+     "label": "Ask who holds the south strand",
+     "check": "not flag.ch_wreckers_knows_lord",
+     "effects": [
+      "flag ch_wreckers_2",
+      "flag ch_wreckers_knows_lord",
+      "npc fisherman feeling +1 asked"
+     ],
+     "note": "outcome: chain_wreckers.s02.out_who (costs nothing: the lord's name and his steward's)"
+    },
+    {
+     "key": "leave",
+     "label_key": "chain_wreckers.s02.opt_leave",
+     "label": "You have heard enough. Thank him",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_wreckers_2",
+      "flag ch_wreckers_2_done",
+      "npc fisherman feeling +2 heard"
+     ],
+     "note": "outcome: chain_wreckers.s02.out_leave (time only)"
+    }
+   ],
+   "memory": {
+    "banks": "asked about the banks",
+    "who": "asked who holds the strand",
+    "leave": "heard the warning"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s03_evening_ebb",
+   "note": "Step 3: from Quentovic, down the river on the evening ebb to lie off the south sand for a night (a harbour card, so that it happens on this coast and no other). The fire is seen. Sources: the lit tower at Boulogne from 811, about 29 km north of the river (dossiers/quentovic.md); a pan of brine boiled over a fire on the shore is how salt was made on the Channel sands (economy/wine_salt.md; salt pans on this very strand are a guess (?)). The Roman jurists already knew the trick: fishermen are not to show a light at night as if marking a harbour and so bring ships to danger (Digest 47.9.10, from memory (?)); the Digest was not read in Francia in these years, and nobody in the cards cites it. Sets ch_wreckers_3 and ch_wreckers_saw_fire; ch_wreckers_place if the place is fixed.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and flag.ch_wreckers_1 and not flag.ch_wreckers_3 and not flag.ch_wreckers_seen3 and not flag.ch_wreckers_done",
+   "weight": 25,
+   "cooldown_days": 2,
+   "actors": {
+    "survivor": {
+     "role": "survivor",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      50
+     ],
+     "fixed": true,
+     "note": "Hunfrith (Hun- + -frith), invented: steersman of the abbess's ship"
+    }
+   },
+   "title_key": "chain_wreckers.s03.title",
+   "title": "The evening ebb",
+   "intention_key": "chain_wreckers.s03.intention",
+   "intention": "You can drop down the river on the evening ebb and lie off the south sand for a night. Hunfrith asks to come. He says he would like to see it from a ship that is not sinking.",
+   "lines": [
+    {
+     "who": "survivor",
+     "key": "chain_wreckers.s03.tower"
+    },
+    {
+     "who": "survivor",
+     "key": "chain_wreckers.s03.murk"
+    },
+    {
+     "who": "survivor",
+     "key": "chain_wreckers.s03.second"
+    },
+    {
+     "who": "survivor",
+     "key": "chain_wreckers.s03.gut",
+     "when": "flag.ch_wreckers_banks"
+    }
+   ],
+   "options": [
+    {
+     "key": "watch",
+     "label_key": "chain_wreckers.s03.opt_watch",
+     "label": "Anchor well off and watch it till dawn",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_wreckers_3",
+      "flag ch_wreckers_saw_fire"
+     ],
+     "note": "outcome: chain_wreckers.s03.out_watch (time only: the fire is seen)"
+    },
+    {
+     "key": "lead",
+     "label_key": "chain_wreckers.s03.opt_lead",
+     "label": "Creep in with the lead and fix which dune it burns on",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.55,
+       "by": "crew.seamanship_best",
+       "success": [
+        "flag ch_wreckers_place",
+        "morale +0.04"
+       ],
+       "failure": [
+        "health -0.04",
+        "morale -0.03"
+       ]
+      },
+      "flag ch_wreckers_3",
+      "flag ch_wreckers_saw_fire"
+     ],
+     "note": "outcome: chain_wreckers.s03.out_lead_success / out_lead_failure (likely with a good steersman: the place fixed; a failure is a night aground and bruises)"
+    },
+    {
+     "key": "gut",
+     "label_key": "chain_wreckers.s03.opt_gut",
+     "label": "Lie in the gut between the banks, close enough to count the men",
+     "check": "flag.ch_wreckers_banks",
+     "effects": [
+      "flag ch_wreckers_3",
+      "flag ch_wreckers_saw_fire",
+      "flag ch_wreckers_place",
+      "morale +0.03"
+     ],
+     "note": "outcome: chain_wreckers.s03.out_gut (sure, because you know the gut: the place fixed)"
+    },
+    {
+     "key": "no",
+     "label_key": "chain_wreckers.s03.opt_no",
+     "label": "It is a fire on a beach. Stay in the river",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_seen3 for 10"
+     ],
+     "note": "outcome: chain_wreckers.s03.out_no (time only: the card comes again)"
+    }
+   ],
+   "memory": {
+    "watch": "watched the fire from the offing",
+    "lead.success": "fixed the dune the fire burns on",
+    "lead.failure": "went aground under the fire",
+    "gut": "lay in the gut and counted the men",
+    "no": "stayed in the river"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s04_the_south_sand",
+   "note": "Step 4: the south sand at low water, the morning after. The wreck is being carried up by the people of the shore under the steward's tally. Sources: the custom of the strand as step 2; English lead for Frankish church roofs was landed on the Canche (Lupus of Ferrieres asks for lead to be brought to Stapulas, about 852: dossiers/quentovic.md; thirty years LATER); the abbess of Repton's lead at Wirksworth paid a rent in lead to Christ Church, Canterbury (Sawyer 1624, of 835 (?)), so Kentish houses had lead to send. A cross cut in each pig is invented (Roman pigs were lettered). The price of English cloth at Quentovic falls for twenty days: the true rumour. Adalwin (Adal- + -win) and the woman are invented. Sets ch_wreckers_4 and the wait ch_wreckers_4_wait (12 days, before the fire-keeper comes); ch_wreckers_mark, ch_wreckers_bought or ch_wreckers_keeper_known.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and flag.ch_wreckers_3 and not flag.ch_wreckers_4 and not flag.ch_wreckers_done",
+   "weight": 40,
+   "cooldown_days": 1,
+   "actors": {
+    "steward": {
+     "role": "steward",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Adalwin, invented: steward of the vassal Odalric"
+    },
+    "wife": {
+     "role": "farm_wife",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "f",
+     "age": [
+      30,
+      50
+     ],
+     "fixed": true,
+     "note": "a woman of the south sand, unnamed"
+    }
+   },
+   "title_key": "chain_wreckers.s04.title",
+   "title": "The south sand",
+   "intention_key": "chain_wreckers.s04.intention",
+   "intention": "At low water the abbess's ship lies on her side a bowshot from the dunes with her planks sprung. Women and children carry bolts of wet cloth up the sand. A man with a bundle of tally sticks stands by an ox cart and cuts a notch for every load.",
+   "lines": [
+    {
+     "who": "steward",
+     "key": "chain_wreckers.s04.greet"
+    },
+    {
+     "who": "steward",
+     "key": "chain_wreckers.s04.right"
+    },
+    {
+     "who": "steward",
+     "key": "chain_wreckers.s04.men"
+    },
+    {
+     "who": "wife",
+     "key": "chain_wreckers.s04.cloth"
+    },
+    {
+     "who": "steward",
+     "key": "chain_wreckers.s04.fire",
+     "when": "flag.ch_wreckers_saw_fire"
+    }
+   ],
+   "options": [
+    {
+     "key": "look",
+     "label_key": "chain_wreckers.s04.opt_look",
+     "label": "Walk round the wreck and look at what is hers",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_wreckers_4",
+      "flag ch_wreckers_mark",
+      "flag ch_wreckers_4_wait for 12",
+      "price_shock quentovic wool_cloth x0.8 for 20"
+     ],
+     "note": "outcome: chain_wreckers.s04.out_look (time only: the minster's mark on the lead, which is proof; and English cloth will be cheap at Quentovic for twenty days)"
+    },
+    {
+     "key": "buy",
+     "label_key": "chain_wreckers.s04.opt_buy",
+     "label": "Buy from the steward's cart: six bolts of cloth and two pigs of lead for 60 pennies",
+     "check": "silver >= 60",
+     "cost": "silver 60",
+     "effects": [
+      "goods wool_cloth +6",
+      "goods lead +2",
+      "flag ch_wreckers_4",
+      "flag ch_wreckers_bought",
+      "flag ch_wreckers_4_wait for 12",
+      "npc steward feeling +6 bought",
+      "price_shock quentovic wool_cloth x0.8 for 20"
+     ],
+     "note": "outcome: chain_wreckers.s04.out_buy (60 d for about 138 d of goods, and a stain: ch_wreckers_bought (it can be given back to the abbess))"
+    },
+    {
+     "key": "talk",
+     "label_key": "chain_wreckers.s04.opt_talk",
+     "label": "Carry a bolt up the sand for the woman, and ask her who keeps the fire",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_4",
+      "flag ch_wreckers_keeper_known",
+      "flag ch_wreckers_4_wait for 12",
+      "npc wife feeling +4 asked",
+      "price_shock quentovic wool_cloth x0.8 for 20"
+     ],
+     "note": "outcome: chain_wreckers.s04.out_talk (time only: the fire-keeper's name, and that he is told when to light it)"
+    }
+   ],
+   "memory": {
+    "look": "looked over the wreck",
+    "buy": "bought wrecked goods of the steward",
+    "talk": "asked who keeps the fire"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s05_lord_of_the_strand",
+   "note": "Step 5: the hall of the lord of the strand, half a day south of Quentovic. Three of the crew are held for their keep. Sources: a stranded stranger could be seized and held for ransom (Count Guy and Earl Harold at Beaurain on the Canche, 1064: Bayeux Tapestry; William of Poitiers (?); dossiers/quentovic.md); a king's vassal held land for his service as a benefice; the sale of Christians out of the realm was forbidden (the capitularies; reputation_793.json 'sold_captives'), which is why the lord speaks of keep and not of price. A slave dealer on the Amiens road is a guess (?). Odalric (Odal- + -ric) is invented, and so are the seamen Eadhelm and Sigehere and the boy Wiga. Sets ch_wreckers_5 and the wait ch_wreckers_5_wait (20 days, before the lord's own offer); ch_wreckers_freed (ransomed now) or ch_wreckers_pledged (till Martinmas).",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and flag.ch_wreckers_4 and not flag.ch_wreckers_5 and not flag.ch_wreckers_done",
+   "weight": 30,
+   "cooldown_days": 2,
+   "actors": {
+    "lord": {
+     "role": "lords_man",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Odalric, invented: a vassal of the emperor who holds the shore from the Canche to the next river as his benefice"
+    },
+    "captive": {
+     "role": "captive",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "Eadhelm (Ead- + -helm), invented: a seaman of the abbess's ship"
+    }
+   },
+   "title_key": "chain_wreckers.s05.title",
+   "title": "The lord of the strand",
+   "intention_key": "chain_wreckers.s05.intention",
+   "intention": "Odalric's hall stands behind the dunes among wind-bent thorn, with a new roof. He has you in at once, and sends for ale, and for the three Englishmen from the byre so that you can see they are whole.",
+   "lines": [
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s05.greet"
+    },
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s05.keep"
+    },
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s05.martinmas"
+    },
+    {
+     "who": "captive",
+     "key": "chain_wreckers.s05.eadhelm"
+    },
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s05.fire",
+     "when": "flag.ch_wreckers_asked_right"
+    }
+   ],
+   "options": [
+    {
+     "key": "ransom",
+     "label_key": "chain_wreckers.s05.opt_ransom",
+     "label": "Pay their keep now: 150 pennies for the three",
+     "check": "silver >= 150",
+     "cost": "silver 150",
+     "effects": [
+      "flag ch_wreckers_5",
+      "flag ch_wreckers_freed",
+      "flag ch_wreckers_5_wait for 20",
+      "npc lord feeling +6 paid",
+      "npc captive feeling +15 freed"
+     ],
+     "note": "outcome: chain_wreckers.s05.out_ransom (150 d: the three men are free today)"
+    },
+    {
+     "key": "pledge",
+     "label_key": "chain_wreckers.s05.opt_pledge",
+     "label": "Give your word to carry the news to their abbess and come back before Martinmas",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_wreckers_5",
+      "flag ch_wreckers_pledged",
+      "flag ch_wreckers_5_wait for 20",
+      "npc lord feeling +1 pledged",
+      "npc captive feeling +6 word"
+     ],
+     "note": "outcome: chain_wreckers.s05.out_pledge (costs nothing now: the abbess is at Sarre, and the men wait)"
+    },
+    {
+     "key": "right",
+     "label_key": "chain_wreckers.s05.opt_right",
+     "label": "Ask him by what right, and about the fire on his sand",
+     "check": "not flag.ch_wreckers_asked_right",
+     "effects": [
+      "flag ch_wreckers_asked_right",
+      "npc lord feeling -3 asked"
+     ],
+     "note": "outcome: chain_wreckers.s05.out_right (pride only: his answer, and the card comes again)"
+    }
+   ],
+   "memory": {
+    "ransom": "paid the keep of three seamen",
+    "pledge": "gave his word till Martinmas",
+    "right": "asked by what right"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s06_the_abbess",
+   "note": "Step 6: Sarre, the abbess's ship-house. The owner of the lost ship. Sources: Cwenthryth, daughter of King Coenwulf of Mercia, abbess of Winchcombe, Reculver and Minster in Thanet; Archbishop Wulfred went to law against her in 825 and had the houses by 827, after which she is not recorded (en.wikipedia 'Cwenthryth', read 6 Oct 2026; places/sarre.json sarre.cwenthryth). The minster's toll-free ships, and the clause that if a ship is broken, worn out with great age or lost by wreck another may take her place under the same freedom (Sawyer 91, 29; places/sarre.json 'sarre.third_ship'). King Charles to King Offa, 796: merchants shall have the king's protection in his realm by the old custom of trading, and if they are wronged anywhere they may appeal to him or to his judges (MGH Epistolae IV no. 100; chronicle '796-spring-offa-letter'). That the letter was pleaded in a wreck is invented. Sets ch_wreckers_6, ch_wreckers_writ and the wait ch_wreckers_court_wait (40 days, till the judges sit); ch_wreckers_abbess_silver; ch_wreckers_returned.",
+   "stage": "harbour",
+   "when": "moored and port.id = sarre and year >= 812 and year < 828 and flag.ch_wreckers_4 and not flag.ch_wreckers_6 and not flag.ch_wreckers_done",
+   "weight": 40,
+   "cooldown_days": 2,
+   "actors": {
+    "abbess": {
+     "role": "abbess",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "f",
+     "age": [
+      30,
+      50
+     ],
+     "fixed": true,
+     "note": "Cwenthryth, historical (places/sarre.json sarre.cwenthryth): abbess of Minster in Thanet 811 to 827"
+    },
+    "nun": {
+     "role": "nun",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "f",
+     "age": [
+      25,
+      60
+     ],
+     "fixed": true,
+     "note": "the nun at her elbow, unnamed"
+    }
+   },
+   "title_key": "chain_wreckers.s06.title",
+   "title": "The abbess's ship",
+   "intention_key": "chain_wreckers.s06.intention",
+   "intention": "In the ship-house at Serrae there are rollers on the floor and no ship on them. The abbess stands where the stem would be. A nun with a wax tablet stands half a pace behind her.",
+   "lines": [
+    {
+     "who": "nun",
+     "key": "chain_wreckers.s06.count"
+    },
+    {
+     "who": "abbess",
+     "key": "chain_wreckers.s06.charter"
+    },
+    {
+     "who": "abbess",
+     "key": "chain_wreckers.s06.letter"
+    },
+    {
+     "who": "abbess",
+     "key": "chain_wreckers.s06.wulfred",
+     "when": "year >= 817"
+    },
+    {
+     "who": "nun",
+     "key": "chain_wreckers.s06.bought",
+     "when": "flag.ch_wreckers_bought"
+    }
+   ],
+   "options": [
+    {
+     "key": "both",
+     "label_key": "chain_wreckers.s06.opt_both",
+     "label": "Take her silver for the men's keep, and her sealed complaint for the emperor's judges",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "silver +180",
+      "flag ch_wreckers_6",
+      "flag ch_wreckers_writ",
+      "flag ch_wreckers_abbess_silver",
+      "flag ch_wreckers_court_wait for 40",
+      "deed carried_letters",
+      "npc abbess feeling +6 took"
+     ],
+     "note": "outcome: chain_wreckers.s06.out_both (180 d (the ransom and 30 over) and the sealed complaint; the judges sit in forty days)"
+    },
+    {
+     "key": "writ",
+     "label_key": "chain_wreckers.s06.opt_writ",
+     "label": "Take the sealed complaint and leave her silver in her chest till the men stand here",
+     "check": "not flag.ch_wreckers_bought",
+     "effects": [
+      "flag ch_wreckers_6",
+      "flag ch_wreckers_writ",
+      "flag ch_wreckers_court_wait for 40",
+      "deed carried_letters",
+      "deed fair_dealing",
+      "commission rhenish_wine 4 by 240 premium 1.6",
+      "npc abbess feeling +12 trusted"
+     ],
+     "note": "outcome: chain_wreckers.s06.out_writ (costs nothing but the ransom out of your own purse: the complaint, her trust, and a wine order at a premium)"
+    },
+    {
+     "key": "returned",
+     "label_key": "chain_wreckers.s06.opt_returned",
+     "label": "Say what you bought on the sand, and lay it at her feet",
+     "check": "flag.ch_wreckers_bought and hold.wool_cloth >= 6 and hold.lead >= 2",
+     "cost": [
+      "goods wool_cloth 6",
+      "goods lead 2"
+     ],
+     "effects": [
+      "silver +240",
+      "flag ch_wreckers_bought = 0",
+      "flag ch_wreckers_returned",
+      "flag ch_wreckers_mark",
+      "flag ch_wreckers_6",
+      "flag ch_wreckers_writ",
+      "flag ch_wreckers_abbess_silver",
+      "flag ch_wreckers_court_wait for 40",
+      "deed fair_dealing",
+      "deed carried_letters",
+      "npc abbess feeling +18 returned"
+     ],
+     "note": "outcome: chain_wreckers.s06.out_returned (the goods given back: 240 d (your 60 and the 180), the complaint, the marked pig as proof, and the stain gone)"
+    }
+   ],
+   "memory": {
+    "both": "took her silver and her complaint",
+    "writ": "took her complaint and left her silver",
+    "returned": "brought back what he bought on the sand"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s07_the_byre",
+   "note": "Step 7 (only on the pledged road): back at the lord's hall with the ransom, or without it. Sources: as step 5; haggling over a ransom is as old as ransom; a debt was kept on a split tally stick. Martinmas (11 November) is the term. A failed haggle leaves a debt to the lord, ch_wreckers_owes_lord: 70 d owed on a tally. 'Pay nothing yet' costs only pride, and the card comes again after thirty days: the men are never lost. Sets ch_wreckers_7; ch_wreckers_freed.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and flag.ch_wreckers_pledged and not flag.ch_wreckers_freed and not flag.ch_wreckers_7_hold and not flag.ch_wreckers_done",
+   "weight": 30,
+   "cooldown_days": 3,
+   "actors": {
+    "lord": {
+     "role": "lords_man",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Odalric, invented"
+    },
+    "captive": {
+     "role": "captive",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "Eadhelm, invented"
+    }
+   },
+   "title_key": "chain_wreckers.s07.title",
+   "title": "The byre",
+   "intention_key": "chain_wreckers.s07.intention",
+   "intention": "The three Englishmen are mucking out Odalric's byre. They have been given work, so that it can be said they were given work. The boy has a cough.",
+   "lines": [
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s07.back"
+    },
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s07.sum"
+    },
+    {
+     "who": "captive",
+     "key": "chain_wreckers.s07.saw"
+    },
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s07.judges",
+     "when": "flag.ch_wreckers_writ"
+    }
+   ],
+   "options": [
+    {
+     "key": "pay",
+     "label_key": "chain_wreckers.s07.opt_pay",
+     "label": "Pay the hundred and fifty",
+     "check": "silver >= 150",
+     "default": true,
+     "cost": "silver 150",
+     "effects": [
+      "flag ch_wreckers_freed",
+      "flag ch_wreckers_7",
+      "npc lord feeling +4 paid",
+      "npc captive feeling +15 freed"
+     ],
+     "note": "outcome: chain_wreckers.s07.out_pay (150 d: the three men are free)"
+    },
+    {
+     "key": "haggle",
+     "label_key": "chain_wreckers.s07.opt_haggle",
+     "label": "Offer a hundred, and argue the rest",
+     "check": "silver >= 100",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "crew.trade_best",
+       "success": [
+        "silver -100",
+        "npc lord feeling -2 haggled"
+       ],
+       "failure": [
+        "silver -100",
+        "flag ch_wreckers_owes_lord",
+        "npc lord feeling -6 haggled"
+       ]
+      },
+      "flag ch_wreckers_freed",
+      "flag ch_wreckers_7",
+      "npc captive feeling +15 freed"
+     ],
+     "note": "outcome: chain_wreckers.s07.out_haggle_success / out_haggle_failure (doubtful: 100 d if it works; if not, 100 d now and a tally for 70 more (ch_wreckers_owes_lord). The men are free either way)"
+    },
+    {
+     "key": "leave",
+     "label_key": "chain_wreckers.s07.opt_leave",
+     "label": "Pay nothing yet. Tell him that free men in a byre are a thing judges ask about",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_7",
+      "flag ch_wreckers_7_hold for 30",
+      "npc lord feeling -8 threatened",
+      "npc captive feeling -4 left"
+     ],
+     "note": "outcome: chain_wreckers.s07.out_leave (pride and time: the men wait for the judgement, and the card comes again in thirty days)"
+    }
+   ],
+   "memory": {
+    "pay": "paid the keep of three seamen",
+    "haggle.success": "beat the ransom down",
+    "haggle.failure": "haggled and was tallied for more",
+    "leave": "left the men and spoke of judges"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s08_what_they_saw",
+   "note": "Step 8: Quentovic, the guest hall of Saint Josse, once the three are free. What they saw, and what becomes of them. Sources: the cell of Saint Josse cared for 'those from over the sea and other poor' (Lupus of Ferrieres, letters 11 and 71; dossiers/quentovic.md); in a Frankish court a claim is proved by the claimant's oath with oath-helpers, and a stranger has none unless he brings them (lore/law_tolls.md rule 7), so three seamen who will swear are worth more than the cargo; Exeter Book riddle 16, the anchor (riddles_793.json riddle_exeter_16_anchor; the book is of about 975, the riddles older (?)). The turn of the chain: a steersman who knows the Kentish shore and the Canche, or three oaths. Sets ch_wreckers_8; ch_wreckers_men_aboard, ch_wreckers_hunfrith or ch_wreckers_witness.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and flag.ch_wreckers_freed and not flag.ch_wreckers_8 and not flag.ch_wreckers_done",
+   "weight": 40,
+   "cooldown_days": 1,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      50
+     ],
+     "fixed": true,
+     "note": "Hunfrith, invented: the steersman of step 1"
+    },
+    "crewman": {
+     "role": "crewman",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "Eadhelm, invented"
+    },
+    "guest_master": {
+     "role": "guest_master",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "Winrad (Win- + -rad), invented: the brother who has the guests at Saint Josse after Osmund"
+    }
+   },
+   "title_key": "chain_wreckers.s08.title",
+   "title": "What they saw",
+   "intention_key": "chain_wreckers.s08.intention",
+   "intention": "At Saint Josse the four Englishmen sit along the south wall of the guest hall in the sun, the three from the byre and Hunfrith. They have been comparing what each of them saw, the way a crew does after a bad night.",
+   "lines": [
+    {
+     "who": "crewman",
+     "key": "chain_wreckers.s08.oxen"
+    },
+    {
+     "who": "steersman",
+     "key": "chain_wreckers.s08.pitch"
+    },
+    {
+     "who": "crewman",
+     "key": "chain_wreckers.s08.ealdred"
+    },
+    {
+     "who": "guest_master",
+     "key": "chain_wreckers.s08.blind"
+    },
+    {
+     "who": "crewman",
+     "key": "chain_wreckers.s08.riddle"
+    }
+   ],
+   "options": [
+    {
+     "key": "home",
+     "label_key": "chain_wreckers.s08.opt_home",
+     "label": "Take the three home to Serrae in your own boat",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_wreckers_8",
+      "flag ch_wreckers_men_aboard",
+      "passenger crewman to sarre",
+      "tongue old_english = 0.5",
+      "give_riddle riddle_exeter_16_anchor",
+      "npc crewman feeling +10 home"
+     ],
+     "note": "outcome: chain_wreckers.s08.out_home (time only: three passengers for Sarre, a start in English, the anchor riddle)"
+    },
+    {
+     "key": "hire",
+     "label_key": "chain_wreckers.s08.opt_hire",
+     "label": "Send the three home by the next Kentish keel, and take Hunfrith at your steering oar",
+     "check": "crew < crew_full",
+     "effects": [
+      "flag ch_wreckers_8",
+      "flag ch_wreckers_hunfrith",
+      "hire steersman",
+      "give_riddle riddle_exeter_16_anchor",
+      "npc steersman feeling +10 hired"
+     ],
+     "note": "outcome: chain_wreckers.s08.out_hire (the turn: a hired steersman who knows the Kentish shore; the anchor riddle)"
+    },
+    {
+     "key": "stay",
+     "label_key": "chain_wreckers.s08.opt_stay",
+     "label": "Ask all four to wait here and swear to it before the emperor's judges",
+     "check": "flag.ch_wreckers_writ",
+     "effects": [
+      "flag ch_wreckers_8",
+      "flag ch_wreckers_witness",
+      "give_riddle riddle_exeter_16_anchor",
+      "npc crewman feeling +6 asked",
+      "npc steersman feeling +6 asked"
+     ],
+     "note": "outcome: chain_wreckers.s08.out_stay (time only: the four will swear; the anchor riddle)"
+    }
+   ],
+   "memory": {
+    "home": "took the seamen home",
+    "hire": "hired the steersman",
+    "stay": "asked them to swear"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s09_the_salt_boiler",
+   "note": "Step 9: Quentovic, twelve days or more after the south sand. The man who keeps the fire comes by night. Sources: salt was boiled from brine over fires on the Channel and North Sea sands (economy/wine_salt.md); penance and the refusal of absolution while a sin goes on are the ordinary discipline of the time; the hunger after 820 as step 2 (?). Ragenulf (Ragen- + -ulf) and the girl are invented. That a salt fire was ever turned to this use is invented: no source of these centuries records a false light, and the cards do not pretend one does. 'Let it burn' is the wreckers' road: wine comes off the next wreck and the stain ch_wreckers_bought is set. Sets ch_wreckers_9; ch_wreckers_dark; ch_wreckers_let_burn.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and flag.ch_wreckers_4 and not flag.ch_wreckers_4_wait and not flag.ch_wreckers_9 and not flag.ch_wreckers_seen9 and not flag.ch_wreckers_done",
+   "weight": 20,
+   "cooldown_days": 5,
+   "actors": {
+    "keeper": {
+     "role": "salter",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      55,
+      70
+     ],
+     "fixed": true,
+     "note": "Ragenulf, invented: a salt-boiler of the south sand, Gundbert's brother"
+    },
+    "child": {
+     "role": "child",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "f",
+     "age": [
+      8,
+      11
+     ],
+     "fixed": true,
+     "note": "his granddaughter, unnamed"
+    }
+   },
+   "title_key": "chain_wreckers.s09.title",
+   "title": "The salt-boiler",
+   "intention_key": "chain_wreckers.s09.intention",
+   "intention": "After dark a girl of nine or ten finds you on the bank and says her grandfather is behind the boat sheds and will not come nearer the houses. He is an old man with burnt forearms and salt in the cracks of his hands.",
+   "lines": [
+    {
+     "who": "keeper",
+     "key": "chain_wreckers.s09.name"
+    },
+    {
+     "who": "keeper",
+     "key": "chain_wreckers.s09.first"
+    },
+    {
+     "who": "keeper",
+     "key": "chain_wreckers.s09.told"
+    },
+    {
+     "who": "keeper",
+     "key": "chain_wreckers.s09.priest"
+    },
+    {
+     "who": "keeper",
+     "key": "chain_wreckers.s09.next"
+    }
+   ],
+   "options": [
+    {
+     "key": "out",
+     "label_key": "chain_wreckers.s09.opt_out",
+     "label": "Tell him to do as he is told. You will be out there in the gut, between his fire and the ships",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_wreckers_9",
+      "npc keeper feeling +4 heard"
+     ],
+     "note": "outcome: chain_wreckers.s09.out_out (time only: the next thick night at sea, the second ship comes)"
+    },
+    {
+     "key": "dark",
+     "label_key": "chain_wreckers.s09.opt_dark",
+     "label": "Give him thirty pennies for the winter's bread, and ask him to leave the pan cold",
+     "check": "silver >= 30",
+     "cost": "silver 30",
+     "effects": [
+      "flag ch_wreckers_9",
+      "flag ch_wreckers_dark",
+      "deed gave_alms",
+      "npc keeper feeling +12 bread"
+     ],
+     "note": "outcome: chain_wreckers.s09.out_dark (30 d: alms; the old man will keep his fire dark and will speak before the judges)"
+    },
+    {
+     "key": "burn",
+     "label_key": "chain_wreckers.s09.opt_burn",
+     "label": "Tell him to boil his salt, and say you will be on the sand in the morning with silver",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_9",
+      "flag ch_wreckers_let_burn",
+      "flag ch_wreckers_bought",
+      "goods rhenish_wine +3",
+      "morale -0.05",
+      "npc keeper feeling -10 burn"
+     ],
+     "note": "outcome: chain_wreckers.s09.out_burn (three casks of Rhine wine for almost nothing, a crew that looks away from you, and the wreckers' road: ch_wreckers_let_burn)"
+    },
+    {
+     "key": "later",
+     "label_key": "chain_wreckers.s09.opt_later",
+     "label": "Not tonight. Tell the girl you will think on it",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_seen9 for 15"
+     ],
+     "note": "outcome: chain_wreckers.s09.out_later (time only: he comes again)"
+    }
+   ],
+   "memory": {
+    "out": "said he would lie between the fire and the ships",
+    "dark": "paid for a cold pan",
+    "burn": "told him to light it",
+    "later": "put him off"
+   }
+  },
+  {
+   "id": "sea.chain_wreckers.s10_second_ship",
+   "note": "Step 10 (at sea, the first passage after the salt-boiler's warning; once). A Frisian wine ship of Dorestad stands in toward the fire. Sources: the Frisians carried Rhine wine by sea to the Channel ports (goods_793.json rhenish_wine; economy/wine_salt.md); a torch of pitch on a pole is what a boat had to show; a ship saved from a strand owed her saver by custom, not by law (the Rhodian rule of shared loss was known only from books: lore/sea_lore.md 12). Liudbrand (Liud- + -brand) is invented. With ch_wreckers_dark the old man's pan is cold and the steward's men have lit a fire of their own. The torch is sure only for a master who knows the gut (ch_wreckers_banks) or fixed the dune (ch_wreckers_place). A failure costs bruises and still saves the men. Sets ch_wreckers_10 and the wait ch_wreckers_10_wait (14 days); ch_wreckers_saved_ship or ch_wreckers_took_off; ch_wreckers_first_on_sand.",
+   "stage": "sea",
+   "when": "under_way and year >= 812 and year < 828 and flag.ch_wreckers_9 and not flag.ch_wreckers_let_burn and not flag.ch_wreckers_10 and not flag.ch_wreckers_done",
+   "rate": 0.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "master": {
+     "role": "master",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Liudbrand, invented: master of a Dorestad wine ship"
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "your own steersman"
+    }
+   },
+   "title_key": "chain_wreckers.s10.title",
+   "title": "The second ship",
+   "intention_key": "chain_wreckers.s10.intention",
+   "intention": "The murk came down at dusk, as the girl said it would. You are off the south sand with the tower's fire gone. A fire is burning on the dunes. To seaward, a big hull under a reefed sail is standing in for it, deep in the water.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "chain_wreckers.s10.frisian"
+    },
+    {
+     "who": "steersman",
+     "key": "chain_wreckers.s10.pan",
+     "when": "not flag.ch_wreckers_dark"
+    },
+    {
+     "who": "steersman",
+     "key": "chain_wreckers.s10.other",
+     "when": "flag.ch_wreckers_dark"
+    },
+    {
+     "who": "steersman",
+     "key": "chain_wreckers.s10.time"
+    }
+   ],
+   "options": [
+    {
+     "key": "torch",
+     "label_key": "chain_wreckers.s10.opt_torch",
+     "label": "Hold your place in the gut, burn a pitch torch at the masthead and wave her off to seaward",
+     "check": "flag.ch_wreckers_banks or flag.ch_wreckers_place",
+     "effects": [
+      {
+       "chance": 0.85,
+       "by": "crew.seamanship_best",
+       "success": [
+        "flag ch_wreckers_saved_ship",
+        "silver +120",
+        "goods rhenish_wine +2",
+        "morale +0.06",
+        "npc master feeling +25 saved"
+       ],
+       "failure": [
+        "flag ch_wreckers_took_off",
+        "health -0.03",
+        "npc master feeling +10 took_off"
+       ]
+      },
+      "flag ch_wreckers_10",
+      "flag ch_wreckers_10_wait for 14"
+     ],
+     "note": "outcome: chain_wreckers.s10.out_torch_success / out_torch_failure (sure, because you know the water: the ship saved, 120 d and two casks; a failure loses the ship and saves her men)"
+    },
+    {
+     "key": "hail",
+     "label_key": "chain_wreckers.s10.opt_hail",
+     "label": "Run down across her bows with a torch and hail her",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.55,
+       "by": "crew.seamanship_best",
+       "success": [
+        "flag ch_wreckers_saved_ship",
+        "silver +120",
+        "goods rhenish_wine +2",
+        "morale +0.06",
+        "npc master feeling +25 saved"
+       ],
+       "failure": [
+        "flag ch_wreckers_took_off",
+        "health -0.05",
+        "morale -0.02",
+        "npc master feeling +10 took_off"
+       ]
+      },
+      "flag ch_wreckers_10",
+      "flag ch_wreckers_10_wait for 14"
+     ],
+     "note": "outcome: chain_wreckers.s10.out_hail_success / out_hail_failure (likely: the ship saved, 120 d and two casks; a failure loses the ship, costs bruises and saves her men)"
+    },
+    {
+     "key": "anchor",
+     "label_key": "chain_wreckers.s10.opt_anchor",
+     "label": "Anchor in deep water and stand by to take her men off",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_wreckers_10",
+      "flag ch_wreckers_took_off",
+      "flag ch_wreckers_10_wait for 14",
+      "npc master feeling +8 took_off"
+     ],
+     "note": "outcome: chain_wreckers.s10.out_anchor (time only: the ship is lost, her nine men are saved)"
+    },
+    {
+     "key": "follow",
+     "label_key": "chain_wreckers.s10.opt_follow",
+     "label": "Let her strike, and be first on the sand in the morning",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_10",
+      "flag ch_wreckers_first_on_sand",
+      "flag ch_wreckers_bought",
+      "goods rhenish_wine +4",
+      "morale -0.06",
+      "flag ch_wreckers_10_wait for 14"
+     ],
+     "note": "outcome: chain_wreckers.s10.out_follow (four casks of Rhine wine for the price of one, a crew that looks away from you, and the wreckers' road)"
+    }
+   ],
+   "memory": {
+    "torch.success": "waved a ship off the banks",
+    "torch.failure": "took nine men off a wreck",
+    "hail.success": "hailed a ship off the banks",
+    "hail.failure": "took nine men off a wreck",
+    "anchor": "took nine men off a wreck",
+    "follow": "let a ship strike"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s11_the_judges",
+   "note": "ENDING 'judgement' (flag ch_wreckers_end_judgement; on the hard road history changed: changed_canche_strand_peace): Quentovic, forty days or more after the abbess's complaint was sealed. The emperor's judges sit. Sources: the missi dominici rode in pairs, a churchman and a count, to do justice above all to churches, widows, orphans, pilgrims and strangers (the general capitulary for the missi, 802, from memory (?); npc_roles_793.json kings_man); the letter of 796 gives wronged merchants an appeal to the king or his judges (MGH Epistolae IV no. 100); proof is by oath with helpers, or by a sworn inquest of the neighbours ordered by the king's men (the Carolingian inquisitio (?)); the king's ban, sixty solidi, is the fine for breaking his word. No judgement on wreck survives from these years: the custom of the strand stood on this shore in 1064 and long after. The judgement here is invented, and is the change. The hard road needs the saved ship (ch_wreckers_saved_ship), the three men free (ch_wreckers_freed) and one proof (ch_wreckers_mark, ch_wreckers_keeper_known or ch_wreckers_dark). Grand rewards: unlock_title_kings_protection (story/unlocks_793.json); on the hard road also unlock_work_quentovic_beacon (the work 'beacon', story/works_793.json: a fire on the saint's hill). The cost: ch_wreckers_lord_enemy. A lost case sets ch_wreckers_lost_case and the story goes on by the abbess, the skippers or the lord.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and flag.ch_wreckers_writ and flag.ch_wreckers_5 and not flag.ch_wreckers_court_wait and not flag.ch_wreckers_lost_case and not flag.ch_wreckers_court_seen and not flag.ch_wreckers_done",
+   "weight": 30,
+   "cooldown_days": 5,
+   "actors": {
+    "judge": {
+     "role": "kings_man",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      40,
+      60
+     ],
+     "fixed": true,
+     "note": "one of the emperor's two judges on their round, a count; unnamed (the missi of this district are not known)"
+    },
+    "lord": {
+     "role": "lords_man",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Odalric, invented"
+    },
+    "clerk": {
+     "role": "clerk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true,
+     "note": "the toll clerk who reads the leaf (Hildric, places/quentovic.json quentovic.hildric, until 826)"
+    }
+   },
+   "title_key": "chain_wreckers.s11.title",
+   "title": "The emperor's judges",
+   "intention_key": "chain_wreckers.s11.intention",
+   "intention": "The emperor's two judges, an abbot and a count, sit on a bench before Saint Peter's with the men of the wic standing round. Odalric is there in his good cloak with twelve neighbours behind him. The toll clerk has the abbess's leaf open and is waiting to be told to read.",
+   "lines": [
+    {
+     "who": "clerk",
+     "key": "chain_wreckers.s11.reads"
+    },
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s11.answer"
+    },
+    {
+     "who": "judge",
+     "key": "chain_wreckers.s11.ask"
+    },
+    {
+     "who": "judge",
+     "key": "chain_wreckers.s11.inquest"
+    }
+   ],
+   "options": [
+    {
+     "key": "oaths",
+     "label_key": "chain_wreckers.s11.opt_oaths",
+     "label": "Call them: the Frisian master whose ship you turned, the English seamen, and the proof of the fire",
+     "check": "flag.ch_wreckers_saved_ship and flag.ch_wreckers_freed and (flag.ch_wreckers_mark or flag.ch_wreckers_keeper_known or flag.ch_wreckers_dark)",
+     "effects": [
+      "silver +1100",
+      "flag ch_wreckers_end_judgement",
+      "flag changed_canche_strand_peace",
+      "flag unlock_title_kings_protection",
+      "flag unlock_work_quentovic_beacon",
+      "flag ch_wreckers_lord_enemy",
+      "flag ch_wreckers_done",
+      "deed won_case",
+      "toll eased 365",
+      "npc judge feeling +10 proved",
+      "npc lord feeling -40 judged",
+      "news chain_wreckers.news.judgement at quentovic",
+      "news chain_wreckers.news.judgement at sarre",
+      "news chain_wreckers.news.judgement at dorestad"
+     ],
+     "note": "outcome: chain_wreckers.s11.out_oaths (sure, with a saved ship, free men and a proof: 1,100 d, the emperor's protection, a true fire on the saint's hill, half toll at Quentovic for a year; and the lord of the strand is your enemy)"
+    },
+    {
+     "key": "plead",
+     "label_key": "chain_wreckers.s11.opt_plead",
+     "label": "Lay the abbess's leaf and your own oath before them, and let them weigh it",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "crew.trade_best",
+       "success": [
+        "silver +600",
+        "flag ch_wreckers_end_judgement",
+        "flag unlock_title_kings_protection",
+        "flag ch_wreckers_freed",
+        "flag ch_wreckers_lord_enemy",
+        "flag ch_wreckers_done",
+        "deed won_case",
+        "npc lord feeling -25 judged",
+        "news chain_wreckers.news.settled at quentovic",
+        "news chain_wreckers.news.settled at sarre"
+       ],
+       "failure": [
+        "silver -30",
+        "flag ch_wreckers_lost_case",
+        "deed lost_case",
+        "npc lord feeling -10 sued"
+       ]
+      }
+     ],
+     "note": "outcome: chain_wreckers.s11.out_plead_success / out_plead_failure (doubtful: 600 d and the emperor's protection if they believe you; if not, 30 d, a lost case, and the story goes on by another road)"
+    },
+    {
+     "key": "wait",
+     "label_key": "chain_wreckers.s11.opt_wait",
+     "label": "Not at this sitting. You have not the oaths yet",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_wreckers_court_seen for 60"
+     ],
+     "note": "outcome: chain_wreckers.s11.out_wait (time only: the judges sit again in sixty days)"
+    }
+   ],
+   "memory": {
+    "oaths": "won the abbess's suit with witnesses",
+    "plead.success": "won the abbess's suit",
+    "plead.failure": "lost the abbess's suit",
+    "wait": "let the sitting pass"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s12_the_ship_in_her_place",
+   "note": "ENDING 'ransom', what really happened on such shores (flag ch_wreckers_end_ransom): Sarre, with the three men free. The men were bought back, as Earl Harold was in 1064; the custom of the strand stands and the fire is nobody's business. Sources: the charter's clause that a ship lost by wreck may be replaced under the same freedom (Sawyer 91, 29; places/sarre.json 'sarre.third_ship'): the abbess names your keel as the ship in her place, which is the grand reward unlock_charter_sarre ('The abbess's ships at Sarre', story/unlocks_793.json); or she has a new coaster built and gives you the mastering of her, unlock_ship_coaster_minster_ship. Saint Mildrith's day is 13 July. 'Not yet' keeps the story open for the judges or the skippers. Sets ch_wreckers_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = sarre and year >= 812 and year < 828 and flag.ch_wreckers_freed and flag.ch_wreckers_6 and not flag.ch_wreckers_e1_wait and not flag.ch_wreckers_done",
+   "weight": 40,
+   "cooldown_days": 2,
+   "actors": {
+    "abbess": {
+     "role": "abbess",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "f",
+     "age": [
+      30,
+      50
+     ],
+     "fixed": true,
+     "note": "Cwenthryth, historical (places/sarre.json sarre.cwenthryth)"
+    },
+    "nun": {
+     "role": "nun",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "f",
+     "age": [
+      25,
+      60
+     ],
+     "fixed": true,
+     "note": "the nun at her elbow, unnamed"
+    }
+   },
+   "title_key": "chain_wreckers.s12.title",
+   "title": "The ship in her place",
+   "intention_key": "chain_wreckers.s12.intention",
+   "intention": "The three seamen are home: the boy's mother has him by the ear on the strand and will not let go. In the ship-house the rollers are still empty. The abbess has the old charter out of its box, which the nun says she has not done since the archbishop last asked to see it.",
+   "lines": [
+    {
+     "who": "abbess",
+     "key": "chain_wreckers.s12.home"
+    },
+    {
+     "who": "abbess",
+     "key": "chain_wreckers.s12.clause"
+    },
+    {
+     "who": "nun",
+     "key": "chain_wreckers.s12.silver",
+     "when": "not flag.ch_wreckers_abbess_silver"
+    },
+    {
+     "who": "nun",
+     "key": "chain_wreckers.s12.owes",
+     "when": "flag.ch_wreckers_owes_lord"
+    },
+    {
+     "who": "abbess",
+     "key": "chain_wreckers.s12.fire",
+     "when": "not flag.ch_wreckers_saved_ship"
+    }
+   ],
+   "options": [
+    {
+     "key": "charter",
+     "label_key": "chain_wreckers.s12.opt_charter",
+     "label": "Let your own keel be the ship in her place, free of toll on this strand",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "silver +650",
+      "flag unlock_charter_sarre",
+      "flag ch_wreckers_end_ransom",
+      "flag ch_wreckers_done",
+      "deed kept_commission",
+      "npc abbess feeling +20 home",
+      "news chain_wreckers.news.home at sarre",
+      "news chain_wreckers.news.home at quentovic"
+     ],
+     "note": "outcome: chain_wreckers.s12.out_charter (the finale: 650 d and the freedom of the abbess's ship at Sarre)"
+    },
+    {
+     "key": "ship",
+     "label_key": "chain_wreckers.s12.opt_ship",
+     "label": "Ask for the mastering of the ship she will build, and the right to one like her",
+     "check": "true",
+     "effects": [
+      "silver +600",
+      "flag unlock_ship_coaster_minster_ship",
+      "flag ch_wreckers_end_ransom",
+      "flag ch_wreckers_done",
+      "deed kept_commission",
+      "npc abbess feeling +16 home",
+      "news chain_wreckers.news.home at sarre",
+      "news chain_wreckers.news.home at quentovic"
+     ],
+     "note": "outcome: chain_wreckers.s12.out_ship (the finale: 600 d and the right to a minster's coaster)"
+    },
+    {
+     "key": "nothing",
+     "label_key": "chain_wreckers.s12.opt_nothing",
+     "label": "Ask nothing. They were seamen on a sand",
+     "check": "true",
+     "effects": [
+      "silver +300",
+      "goods wool_cloth +20",
+      "flag unlock_charter_sarre",
+      "flag ch_wreckers_end_ransom",
+      "flag ch_wreckers_done",
+      "deed gave_alms",
+      "deed kept_commission",
+      "npc abbess feeling +30 home",
+      "news chain_wreckers.news.home at sarre",
+      "news chain_wreckers.news.home at quentovic"
+     ],
+     "note": "outcome: chain_wreckers.s12.out_nothing (pride only: the freedom of the abbess's ship all the same, 300 d and twenty bolts of cloth)"
+    },
+    {
+     "key": "notyet",
+     "label_key": "chain_wreckers.s12.opt_notyet",
+     "label": "Not yet. There is still the fire",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_e1_wait for 60"
+     ],
+     "note": "outcome: chain_wreckers.s12.out_notyet (time only: the ending waits sixty days)"
+    }
+   ],
+   "memory": {
+    "charter": "took the freedom of the abbess's ship",
+    "ship": "took the mastering of a new ship",
+    "nothing": "asked nothing for bringing her men home",
+    "notyet": "would not end it yet"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s13_help_in_shipwreck",
+   "note": "ENDING 'club', history changed by the merchants themselves (flags ch_wreckers_end_club, changed_quentovic_wreck_club): Quentovic, fourteen days after the second ship. Sources: the capitulary of Herstal, 779, c. 16: nobody is to swear a sworn fellowship (gildonia), but men may make agreements among themselves for alms, for fire and for shipwreck, so long as nobody swears to them (MGH Capitularia I no. 20; lore/law_tolls.md). So an agreement of skippers to help each other in shipwreck was lawful in Francia from 779, and none is recorded: this one is invented, and is the change. A pilot boat with a horn at a bar in thick weather is invented and plain sense. Grand rewards: unlock_title_wreck_club (new: a lost keel of the house is half made good from the common box) and unlock_pilot_canche (story/unlocks_793.json: the masters share their marks for the bar); with silver put in, unlock_factor_quentovic (the house that keeps the box keeps your goods). Liudbrand is invented. Sets ch_wreckers_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and flag.ch_wreckers_10 and not flag.ch_wreckers_first_on_sand and not flag.ch_wreckers_10_wait and not flag.ch_wreckers_club_wait and not flag.ch_wreckers_done",
+   "weight": 30,
+   "cooldown_days": 3,
+   "actors": {
+    "master": {
+     "role": "master",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Liudbrand, invented: master of the Dorestad wine ship"
+    },
+    "skipper": {
+     "role": "skipper",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "a Kentish skipper of the wic, unnamed"
+    }
+   },
+   "title_key": "chain_wreckers.s13.title",
+   "title": "Help in shipwreck",
+   "intention_key": "chain_wreckers.s13.intention",
+   "intention": "The ale-house is full of shipmasters, Frisian at one end and English at the other, and for once they are sitting at one table. Liudbrand has a small oak box in front of him with nothing in it yet.",
+   "lines": [
+    {
+     "who": "master",
+     "key": "chain_wreckers.s13.saved",
+     "when": "flag.ch_wreckers_saved_ship"
+    },
+    {
+     "who": "master",
+     "key": "chain_wreckers.s13.lost",
+     "when": "flag.ch_wreckers_took_off"
+    },
+    {
+     "who": "master",
+     "key": "chain_wreckers.s13.law"
+    },
+    {
+     "who": "skipper",
+     "key": "chain_wreckers.s13.box"
+    },
+    {
+     "who": "skipper",
+     "key": "chain_wreckers.s13.strand"
+    }
+   ],
+   "options": [
+    {
+     "key": "first",
+     "label_key": "chain_wreckers.s13.opt_first",
+     "label": "Put two hundred pennies in the box, and your name first on the stick",
+     "check": "silver >= 200",
+     "default": true,
+     "cost": "silver 200",
+     "effects": [
+      "silver +900",
+      "flag unlock_title_wreck_club",
+      "flag unlock_pilot_canche",
+      "flag unlock_factor_quentovic",
+      "flag ch_wreckers_end_club",
+      "flag changed_quentovic_wreck_club",
+      "flag ch_wreckers_done",
+      "deed fair_dealing",
+      "npc master feeling +20 first",
+      "npc skipper feeling +12 first",
+      "news chain_wreckers.news.club at quentovic",
+      "news chain_wreckers.news.club at dorestad",
+      "news chain_wreckers.news.club at sarre"
+     ],
+     "note": "outcome: chain_wreckers.s13.out_first (200 d in, 900 d from the Frisians of Dorestad: a seat in the agreement, the marks of the bar, and a host at Quentovic who keeps your goods)"
+    },
+    {
+     "key": "name",
+     "label_key": "chain_wreckers.s13.opt_name",
+     "label": "Put your name on the stick and no silver: you have paid in already",
+     "check": "true",
+     "effects": [
+      "silver +600",
+      "flag unlock_title_wreck_club",
+      "flag unlock_pilot_canche",
+      "flag ch_wreckers_end_club",
+      "flag changed_quentovic_wreck_club",
+      "flag ch_wreckers_done",
+      "npc master feeling +12 name",
+      "npc skipper feeling +4 name",
+      "news chain_wreckers.news.club at quentovic",
+      "news chain_wreckers.news.club at dorestad"
+     ],
+     "note": "outcome: chain_wreckers.s13.out_name (costs nothing: a seat in the agreement, the marks of the bar, and 600 d from the Frisians of Dorestad)"
+    },
+    {
+     "key": "notyet",
+     "label_key": "chain_wreckers.s13.opt_notyet",
+     "label": "A box does not put a fire out. Not yet",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_club_wait for 30"
+     ],
+     "note": "outcome: chain_wreckers.s13.out_notyet (time only: the table sits again in thirty days)"
+    }
+   ],
+   "memory": {
+    "first": "put the first silver in the shipwreck box",
+    "name": "put his name to the shipwreck agreement",
+    "notyet": "would not join yet"
+   }
+  },
+  {
+   "id": "harbour.chain_wreckers.s14_the_lords_table",
+   "note": "ENDING 'share', the wreckers' road (flag ch_wreckers_end_share; the cost ch_wreckers_blood_silver): Quentovic, twenty days or more after the lord's hall, for a merchant who bought on the sand and kept it, let the fire burn, or let a ship strike. Nothing in history is changed: the right of the strand was a lord's income on this coast for centuries, and somebody sold what it brought in. Sources: as step 2; a lord's protection of a merchant who serves him (story/unlocks_793.json unlock_title_lords_protection). The danger is said before the choice: a man who eats at this table and then goes to the judges will not be shown the gut. The three seamen, if still held, are let go as a gift. To refuse costs only his goodwill, and clears nothing you have already done. Sets ch_wreckers_done, or ch_wreckers_refused_share.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 812 and year < 828 and flag.ch_wreckers_5 and not flag.ch_wreckers_5_wait and (flag.ch_wreckers_bought or flag.ch_wreckers_let_burn or flag.ch_wreckers_first_on_sand) and not flag.ch_wreckers_refused_share and not flag.ch_wreckers_done",
+   "weight": 25,
+   "cooldown_days": 3,
+   "actors": {
+    "lord": {
+     "role": "lords_man",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Odalric, invented"
+    },
+    "steward": {
+     "role": "steward",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Adalwin, invented"
+    }
+   },
+   "title_key": "chain_wreckers.s14.title",
+   "title": "The lord's table",
+   "intention_key": "chain_wreckers.s14.intention",
+   "intention": "Odalric has sent a horse for you. At his table there is roast heron, and wine that came by sea and paid no toll. Adalwin the steward stands behind his lord's bench with his tally sticks, like a man waiting to be asked a sum.",
+   "lines": [
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s14.plain"
+    },
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s14.trade"
+    },
+    {
+     "who": "steward",
+     "key": "chain_wreckers.s14.sum"
+    },
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s14.offer"
+    },
+    {
+     "who": "lord",
+     "key": "chain_wreckers.s14.warn"
+    }
+   ],
+   "options": [
+    {
+     "key": "share",
+     "label_key": "chain_wreckers.s14.opt_share",
+     "label": "Take the third, and his hand over you",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "silver +900",
+      "goods wool_cloth +10",
+      "flag unlock_title_lords_protection",
+      "flag unlock_pilot_canche",
+      "flag ch_wreckers_end_share",
+      "flag ch_wreckers_blood_silver",
+      "flag ch_wreckers_freed",
+      "flag ch_wreckers_done",
+      "npc lord feeling +25 partner",
+      "npc steward feeling +10 partner"
+     ],
+     "note": "outcome: chain_wreckers.s14.out_share (the finale: 900 d, ten bolts of cloth, a lord's protection and the gut of the Canche; and ch_wreckers_blood_silver, which Kent and the church will read)"
+    },
+    {
+     "key": "once",
+     "label_key": "chain_wreckers.s14.opt_once",
+     "label": "Sell this year's for him, once, and take silver and no stick",
+     "check": "true",
+     "effects": [
+      "silver +650",
+      "flag unlock_title_lords_protection",
+      "flag ch_wreckers_end_share",
+      "flag ch_wreckers_blood_silver",
+      "flag ch_wreckers_freed",
+      "flag ch_wreckers_done",
+      "npc lord feeling +10 once",
+      "npc steward feeling +2 once"
+     ],
+     "note": "outcome: chain_wreckers.s14.out_once (the finale: 650 d and a lord's protection, and the same stain)"
+    },
+    {
+     "key": "refuse",
+     "label_key": "chain_wreckers.s14.opt_refuse",
+     "label": "Thank him for the heron, and say you sell only what was bought",
+     "check": "true",
+     "effects": [
+      "flag ch_wreckers_refused_share",
+      "deed fair_dealing",
+      "npc lord feeling -8 refused"
+     ],
+     "note": "outcome: chain_wreckers.s14.out_refuse (pride only: no share, no enemy; the other roads stay open)"
+    }
+   ],
+   "memory": {
+    "share": "took a third of the strand",
+    "once": "sold the strand's goods once",
+    "refuse": "refused a share of the strand"
+   }
+  }
+ ]
+}

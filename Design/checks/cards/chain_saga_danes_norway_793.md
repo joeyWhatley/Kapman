@@ -1,0 +1,10 @@
+chain_saga_danes_norway_793.json
+
+Cards seen: 6 in the first 250 lines (the sixth is cut off after its second option; the file's own note says thirteen cards).
+
+- harbour.chain_saga_danes_norway.s01_count_of_the_dead — asks: sell your cargo to the new kings part on a split stick, or buy the ale-wife a cup and ask where the beaten men went, or ask only what wine fetches. At stake: silver (+30 now, the rest owed on the stick), goods (the hold), standing with the kings' man and the ale-wife.
+- harbour.chain_saga_danes_norway.s02_stick_in_skane — asks: carry a beaten man's rune stick to Sliesthorp, have it read aloud and leave it, or refuse and talk amber. At stake: silver (+20), standing (with the beaten man and Hebbi; carrying it ties the house to Godfred's sons), a little rune learning, the amber price.
+- harbour.chain_saga_danes_norway.s03_hall_feast — asks: take the fleet's order for rope, lay your half of the split stick on the trestle, or sit low and listen to the skald. At stake: silver (+140 for the tally), goods (8 coils of rope owed), time (due in 110 days), standing with the steward or the skald.
+- harbour.chain_saga_danes_norway.s04_asgrims_question — asks: take the chief's daughter and one chest round to the Karmsund, tell him what the Danes really want, or say no. At stake: silver (+40), a man (the girl as passenger), goods (4 whetstones for the counsel), standing with the chief, the whetstone price.
+- harbour.chain_saga_danes_norway.s05_karmsund — asks: hand over the girl and know nothing, tell a ship's chief where the Danish host lies, or stay three days to learn the sound. At stake: silver (+60, or +90 for telling), time (three days), standing (the raider up, the woman with the keys down; a lasting mark for sending raiders at Frisia), the captive price at Ripa.
+- harbour.chain_saga_danes_norway.s06_host_in_the_fjord — asks: sell the Danish host bread, ale and carriage at the kings' price, or go up and stand witness when the chief swears (further options not seen). At stake: silver (+180), time (a day), standing (the kings' man against the chief and the Vik).

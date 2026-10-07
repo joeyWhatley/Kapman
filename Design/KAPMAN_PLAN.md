@@ -1,0 +1,96 @@
+# KAPMAN: the project built the usual way
+
+The user, 7 Oct 2026: "prepare to turn the entire project into a new project called all caps KAPMAN, and make it like
+people usually make it, not just all in script, build it physically and everywhere you can make it visual scripting."
+
+This is the plan for that, to be read and ruled on before anything is moved. Nothing is built yet.
+
+## Where the project stands today (counted 7 Oct 2026)
+
+- About 72,000 lines of C# in 295 files. Most of the game is made by code as it starts.
+- The screen is built wholly in code: 236 places make a window, a label or a button; there is not one UI file that can
+  be opened and moved in the editor.
+- 53 places make a game object in code as the game runs, and 9 parts start themselves when a scene loads (the opening,
+  the music, the notes, the port's picture, the ship's 3D view and others): none of them is in a scene to be seen.
+- The scenes are built by editor tools from data, not laid out by hand.
+- Visual scripting is already in use: 12 graphs run the ports, the market, the meetings at sea, events and the world's
+  step, with 12 files of nodes of our own.
+- 203 data files (ports, goods, cards, people, texts), 113 prefabs, 421 edit-mode tests and 25 play tests.
+
+## What "the usual way" means here
+
+1. **A new project, KAPMAN**, in its own folder (G:\KAPMAN: see Ruled, 4), Unity 6000.6.3f1 with HDRP as now, holding
+   only what the game uses: no demo scenes of bought packs, no old levels, no dead code. Kapman2 stays as it is until
+   KAPMAN passes the same tests.
+2. **Scenes you can open and see.** Three: Boot (the loader), Title (the sea and the name), Game (the chart, the
+   frame, the ship). Everything the game has stands in the Hierarchy as an object with its settings in the Inspector:
+   cameras, lights, the sea, the ship, the screen's documents, the sound sources, and one Systems object for the parts
+   that today start themselves unseen.
+3. **A screen you can open and move.** Every window, pop-up, the menu, the opening's balloon and the frame itself
+   become UI files (UXML, edited in Unity's UI Builder) with the stylesheets we have. Code only fills in the words and
+   numbers; it no longer builds the screen.
+4. **Prefabs for what repeats**: the ship, the jetty, a crewman, a port's mark, a pop-up window, a row of a list, the
+   exclamation mark, the rain.
+5. **Settings as assets**: what one tunes by hand (the clock's speeds, the music's cues, the title's weathers, the
+   opening's lines, the first jobs' costs) becomes assets with fields in the Inspector. The big tables stay data files
+   (they are made and checked by scripts, and the tests read them).
+6. **Visual scripting for everything that is a flow**, and Timeline for what is timed:
+   the slow start, the title, the opening's talk, the showroom, the first morning, the first jobs, coming in and
+   leaving a port, meetings, events, the music's cues, the cuts through black. Each is a graph one can open and read
+   from left to right. The node library grows to serve them.
+7. **Code stays where it is sums and rules**: the world's traders, prices, the weather, sailing, the calendar, saving,
+   reading data, the talking text. Each offers nodes to the graphs. (Rules written as graphs would run slower, could
+   not be tested as they are today, and would be far harder to keep right: this is where most projects stop too.)
+8. **Animation the usual way** where it serves: an Animator and clips for the rowers and for the screen's own motions
+   (the box coming up, the letters going under), in place of code that moves them.
+
+## The order of work
+
+Each step ends with a game that runs, its tests passing, and a commit.
+
+| Step | What | Seen by the user at its end |
+|---|---|---|
+| 0 | The new project: settings, packages, folders; only the assets the game uses copied in; the code moved as it is | KAPMAN opens and plays as Kapman2 does today |
+| 1 | Scenes made physical: Boot, Title, Game laid out with real objects; the nine self-starting parts become components on scene objects | Open a scene and everything is in the Hierarchy |
+| 2 | The screen as UI files, in the Windows XP look in Byzantium (the frame all round, thinner sides) | Open any window in UI Builder and move it |
+| 3 | Flows as graphs and timelines: the start, the opening, the first jobs; then ports, meetings, events (which are graphs already) tidied onto the same pattern | Open a graph and read the opening left to right |
+| 4 | Prefabs and animation: ship, crew, jetty, rain, marks | Drag a prefab into a scene and it works |
+| 5 | Settings as assets | Change the title's weather or the music's cues in the Inspector |
+| 6 | Clearing out: dead code, a page that says where everything is | A project a newcomer could find their way in |
+
+## What it costs, and the risks
+
+- It is a large piece of work: steps 1 to 3 are most of it. Step 2 alone replaces 236 code-built pieces of screen.
+- Until step 0 is done and its tests pass, nothing of Kapman2 is thrown away.
+- The play tests click real buttons by their words; they carry over if the windows keep their names. They are the
+  guard that nothing was lost in the move.
+- Graphs are made by me as files, as the twelve we have were. I cannot look at them as you can in the editor: after
+  each one I shall ask you to open it once and say whether it reads well.
+- What you have asked for tonight and not yet seen built (the frame in the XP look) would be done once, in step 2,
+  not twice.
+
+## Ruled (the user, 7 Oct 2026, night, by the picker)
+
+"Build what you can, start on the new project, move over to everything visual scripting etc., built like an actual
+Unity project. I'm happy with the vision we've made so let's move forward."
+
+1. **The XP frame** was built in Kapman2 that evening; its style sheets carry over.
+2. **Visual scripting goes as far as the rules themselves** ("Rules as graphs too"): not only the flows (the start,
+   the opening, a port visit, the alehouse, meetings, events, the music's cues, the first jobs) but the rules too,
+   wherever a graph can hold them: a deal's sums, the toll, hiring and pay, bread and heart, standing, what a card's
+   choice does. What stays code, and shows in the graphs as nodes: the world's own clockwork that runs thousands of
+   times a step (the other ships and their trade, the routes over the lanes, the weather, the tides), the reading of
+   data files, saving, and drawing. Each rule moved gets a test that runs the graph and checks its sums against the
+   code it replaces, before the code is taken out.
+3. **The screens are UI Builder files** (UXML, with the style sheets as they are): every window, pop-up, the menu,
+   the opening's balloon and the frame itself can be opened in UI Builder and moved. Code fills in words and
+   numbers and no longer builds the screen.
+4. **It lives at G:\KAPMAN** (G:\kapman_unity\KAPMAN is the first build's folder, Kapman, under another case: Windows
+   takes them for one). It starts from Kapman2 as it stands when the fixes of 7 Oct are committed. Kapman2 is then
+   the archive: nothing more is built there. The history starts fresh; Kapman2's stays where it is.
+
+## What changes in the order of work
+
+Step 3 grows: after the flows, the rules. In this order, each with its test against the code it replaces:
+the toll and a deal's sums; hand money and pay; bread, health and heart; standing at a port; what a card's choice
+does (the effects are half way there: they are a small language already); the debt and its day; the first jobs.

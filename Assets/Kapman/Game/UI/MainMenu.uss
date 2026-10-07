@@ -1,0 +1,450 @@
+/* THE GLASS (the user, 2026-10-03: "make all the UI transparent"): every panel is rgba(34, 22, 40, 0.96), see-through; the text has a soft shadow so it reads over the light chart and the sea. Change the 0.6 to tune it. */
+
+/* THE MAIN MENU - the title and the pause menu, in the text panel's look: black see-through glass, a hard thin black
+   line, square corners, light text in Gentium Book Plus (SIL Open Font License, Fonts/GentiumBookPlus-OFL.txt).
+   The pause menu sits in the middle over the frosted scene; the title stands at the left, the ship clear beside it. */
+
+.menu-root {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    /* the four sizes of text, as the frame has them (Frame.uss; Design/text_size_audit.md). The game's own name on the
+       title is the one thing larger: it is a sign, to be a drawn piece one day, and it scales with the screen */
+    /* (Hearth is a pixel face of 8: crisp at 16 and 24. Its letters are tall for their size: 16 of it stands as
+       high as 19 of the old face) */
+    --t-quiet: 16px;
+    --t-body: 16px;
+    --t-name: 24px;
+    --t-title: 24px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-root.menu-title-screen {
+    align-items: flex-start;
+    padding-left: 8%;
+}
+
+.menu-box {
+    width: 620px;
+    max-width: 90%;
+    /* a dialog of the Windows XP years, in Byzantium: a pale body, a Byzantium line round it, hard corners */
+    background-color: rgb(168, 191, 159);
+    border-radius: 0;
+    border-width: 3px;
+    border-color: rgb(112, 41, 99);
+    padding: 16px 18px 14px 18px;
+    color: rgb(112, 41, 99);
+}
+
+.menu-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-title);
+    color: rgb(112, 41, 99);
+    margin-bottom: 4px;
+    white-space: normal;
+}
+
+.menu-title-screen .menu-title {
+    font-size: 44px;
+}
+
+.menu-sub {
+    font-size: var(--t-quiet);
+    color: rgba(112, 41, 99, 0.92);
+    margin-bottom: 10px;
+    white-space: normal;
+}
+
+.menu-list {
+    flex-direction: column;
+}
+
+.menu-option {
+    background-color: rgb(203, 213, 189);
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    border-width: 1px;
+    border-color: rgb(74, 28, 74);
+    border-radius: 0;
+    color: rgb(112, 41, 99);
+    font-size: var(--t-body);
+    -unity-text-align: middle-left;
+    white-space: normal;
+    padding: 6px 10px;
+    margin: 2px 0;
+}
+
+.menu-option:hover {
+    background-image: url("Xp/grain.png");
+    background-color: rgb(112, 41, 99);
+    color: rgb(255, 255, 255);
+}
+
+.menu-note {
+    font-size: var(--t-quiet);
+    color: rgb(112, 41, 99);
+    white-space: normal;
+    margin-top: 8px;
+}
+
+/* ---------------------------------------------------------------- the floor: no text under 18 true px (TextFloor.cs;
+   the same classes as Frame.uss has: the number is the least size in panel px for the panel's scale now) */
+.menu-root.t-floor-20 { --t-quiet: 20px; --t-body: 20px; }
+.menu-root.t-floor-22 { --t-quiet: 22px; --t-body: 22px; }
+.menu-root.t-floor-24 { --t-quiet: 24px; --t-body: 24px; }
+.menu-root.t-floor-26 { --t-quiet: 26px; --t-body: 26px; --t-name: 26px; --t-title: 26px; }
+.menu-root.t-floor-28 { --t-quiet: 28px; --t-body: 28px; --t-name: 28px; --t-title: 28px; }
+.menu-root.t-floor-30 { --t-quiet: 30px; --t-body: 30px; --t-name: 30px; --t-title: 30px; }
+.menu-root.t-floor-32 { --t-quiet: 32px; --t-body: 32px; --t-name: 32px; --t-title: 32px; }
+.menu-root.t-floor-34 { --t-quiet: 34px; --t-body: 34px; --t-name: 34px; --t-title: 34px; }
+.menu-root.t-floor-36 { --t-quiet: 36px; --t-body: 36px; --t-name: 36px; --t-title: 36px; }
+
+/* ---------------------------------------------------------------- the beginning (Showtime.cs): the slow start, the
+   purple, the name, the lender's box, the showroom's plate, a place's card, the marks */
+.show-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    /* the interface face of the Windows XP years, in an open licence: DejaVu Sans Condensed (Fonts/DejaVu-LICENSE.txt) */
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    color: rgb(241, 232, 214);
+}
+
+.show-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.show-black {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(12, 7, 14);
+}
+
+.show-name {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.show-letter-picture {
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.show-letter {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    -unity-text-align: middle-center;
+    color: rgb(241, 232, 214);
+    margin: 0 3px;
+    padding: 0;
+    text-shadow: 0 6px 0 rgba(20, 8, 22, 0.9);
+}
+
+.show-loader {
+    position: absolute;
+    right: 3%;
+    bottom: 5%;
+    align-items: flex-start;
+}
+
+.show-loader-ship {
+    border-width: 4px;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.show-loader-word {
+    margin-top: 8px;
+    margin-left: 6px;
+    -unity-text-align: middle-left;
+    color: rgb(241, 232, 214);
+}
+
+/* the title's menu as the show dresses it: under the name, in the middle, its own name and date put away */
+.menu-root.menu-title-screen.show-title {
+    align-items: center;
+    justify-content: flex-end;
+    padding-left: 0;
+    padding-bottom: 12%;
+}
+
+.show-title .menu-title,
+.show-title .menu-sub {
+    display: none;
+}
+
+.show-title .menu-box {
+    width: 520px;
+}
+
+.show-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    overflow: hidden;
+    /* a speech balloon as the Windows XP years drew a balloon tip: pale, a thin dark line round it, hard corners */
+    background-color: rgb(203, 213, 189);
+    border-width: 3px;
+    border-color: rgb(46, 18, 51);
+    border-radius: 0;
+    color: rgb(112, 41, 99);
+}
+
+.show-box-row {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 20px 24px 16px 24px;
+}
+
+.show-tail {
+    position: absolute;
+}
+
+.show-speaker {
+    position: absolute;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.show-face {
+    width: 120px;
+    height: 150px;
+    flex-shrink: 0;
+    margin-right: 16px;
+    border-width: 3px;
+    border-color: rgb(246, 239, 224);
+    border-radius: 0;
+    background-color: rgb(74, 28, 74);
+}
+
+.show-box-col {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.show-who {
+    color: rgb(246, 239, 224);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    margin-bottom: 10px;
+    white-space: normal;
+    text-shadow: 2px 2px 0 rgb(20, 8, 22);
+}
+
+.show-words {
+    white-space: normal;
+    color: rgb(112, 41, 99);
+    margin-bottom: 12px;
+}
+
+.show-list {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.show-choice {
+    margin: 3px 0;
+    padding: 6px 12px;
+    /* a button of those years: a pale face, a thin dark line, hard corners; the pointer on it turns it Byzantium */
+    border-width: 2px;
+    border-color: rgb(74, 28, 74);
+    border-radius: 0;
+    background-color: rgb(214, 221, 199);
+    color: rgb(112, 41, 99);
+    -unity-text-align: middle-left;
+    white-space: normal;
+}
+
+.show-choice:hover {
+    background-color: rgb(112, 41, 99);
+    color: rgb(255, 255, 255);
+}
+
+.show-choice:disabled {
+    opacity: 0.45;
+}
+
+.show-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.show-choice-side {
+    margin-right: 8px;
+}
+
+.show-field {
+    margin: 2px 0 4px 0;
+}
+
+.show-field .unity-base-text-field__input {
+    min-height: 46px;
+    padding: 6px 12px;
+    border-width: 2px;
+    border-color: rgb(154, 74, 138);
+    border-radius: 0;
+    background-color: rgb(214, 221, 199);
+    color: rgb(112, 41, 99);
+}
+
+.show-quiet {
+    margin-top: 8px;
+    color: rgb(112, 41, 99);
+    white-space: normal;
+    min-height: 56px;
+}
+
+.show-go {
+    align-self: flex-end;
+    padding: 1px 10px 2px 10px;
+    border-width: 2px;
+    border-color: rgb(74, 28, 74);
+    border-radius: 0;
+    background-color: rgb(214, 221, 199);
+    color: rgb(74, 28, 74);
+}
+
+.show-plate {
+    position: absolute;
+    left: 4%;
+    bottom: 6%;
+    padding: 12px 18px;
+    background-color: rgba(20, 8, 22, 0.78);
+    border-left-width: 4px;
+    border-left-color: rgb(240, 210, 122);
+}
+
+.show-plate-line {
+    color: rgb(241, 232, 214);
+}
+
+.show-plate-quiet {
+    margin-top: 8px;
+    color: rgb(240, 210, 122);
+}
+
+.show-card {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 37%;
+    align-items: center;
+    padding: 16px 0 18px 0;
+    background-color: rgba(14, 8, 17, 0.66);
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-top-color: rgba(240, 210, 122, 0.6);
+    border-bottom-color: rgba(240, 210, 122, 0.6);
+}
+
+.show-card-big {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    color: rgb(240, 210, 122);
+    letter-spacing: 3px;
+}
+
+.show-card-small {
+    color: rgb(241, 232, 214);
+}
+
+.show-mark {
+    position: absolute;
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    color: rgb(240, 210, 122);
+    text-shadow: 0 4px 0 rgb(38, 26, 44);
+}
+
+/* texture and depth, as the frame has them (Frame.uss, its last block; the pictures: Bake/art/make_ui_textures.py) */
+.menu-box,
+.show-box {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+}
+
+.menu-box {
+    border-width: 4px;
+    border-top-color: rgb(150, 76, 136);
+    border-left-color: rgb(150, 76, 136);
+    border-right-color: rgb(58, 18, 52);
+    border-bottom-color: rgb(58, 18, 52);
+}
+
+.menu-option,
+.show-choice {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    border-width: 2px;
+    border-top-color: rgb(238, 244, 228);
+    border-left-color: rgb(238, 244, 228);
+    border-right-color: rgb(86, 112, 88);
+    border-bottom-color: rgb(86, 112, 88);
+}
+
+.menu-option:hover,
+.show-choice:hover {
+    background-image: url("Xp/grain.png");
+    border-top-color: rgb(176, 104, 160);
+    border-left-color: rgb(176, 104, 160);
+    border-right-color: rgb(58, 18, 52);
+    border-bottom-color: rgb(58, 18, 52);
+}
+
+/* the faces to choose the player's own from, at the very start (Showtime.AskTheFace) */
+.show-faces {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 6px;
+}
+
+.show-face-pick {
+    width: 78px;
+    height: 98px;
+    margin: 3px;
+    padding: 0;
+    border-width: 2px;
+    border-top-color: rgb(58, 18, 52);
+    border-left-color: rgb(58, 18, 52);
+    border-right-color: rgb(176, 104, 160);
+    border-bottom-color: rgb(176, 104, 160);
+    border-radius: 0;
+    background-color: rgb(74, 28, 74);
+}
+
+.show-face-pick:hover {
+    border-top-color: rgb(247, 227, 160);
+    border-left-color: rgb(247, 227, 160);
+    border-right-color: rgb(150, 104, 40);
+    border-bottom-color: rgb(150, 104, 40);
+}
+
+.show-face-picture {
+    width: 100%;
+    height: 100%;
+}

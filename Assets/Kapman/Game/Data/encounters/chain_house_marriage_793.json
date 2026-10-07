@@ -1,0 +1,677 @@
+{
+ "about": "THE CHAIN house_marriage (Design/content/CHAINS.md; the page is Design/content/chains/house_marriage.md), written 4 Oct 2026: a marriage for the house. Fourteen cards. The widow on the dam at Dorestad (the spine's cast.thiadburg) offers to ask about a wife; four houses would hear a suitor: a Frisian one on the mounds at Winaldum, a Frankish one at Traiectum under Saint Martin, an English one at Eoforwic (the kin of the youth killed in the year the Frisians fled York: the spine's thread york_blood, cast.ecgwulf) and a Danish one at Ripa. Each road has an asking (s05) and a wedding (s06) with its own ending flag (ch_house_marriage_end_frisian, _end_frankish, _end_english, _end_danish), then the morning gift (s07) and, a year on, the keel come home (s08). Only the first card is drawn; every other is scheduled by the card before it or follows by 'then', so each has weight 0. Progress is flags ch_house_marriage_1 to _8. Words are in writing/chain_house_marriage.json under the keys ch_house_marriage.*; the picture for each card is the writing key art.<card id>. The people are forged by the engine (their names are the forge's), so no line names its speaker; the bride is a 'weaver' fixed at her port, so she is the same woman at the asking, the wedding and the morning after, and her feeling toward the merchant opens the best choices. Sources are in each card's note; (?) marks what was not verified; LATER marks a source written long after 793.",
+ "cards": [
+  {
+   "id": "harbour.chain_house_marriage.s01_empty_house",
+   "note": "Step 1, the start: drawn at Dorestad once the merchant has come home twice, before 804. The widow is the spine's cast.thiadburg (invented; the widow with a storehouse on the dam). A go-between and friends who speak for a suitor are the custom of the later English text 'Be wifmannes beweddunge' (c. 1000-1030, LATER) (?). Sets ch_house_marriage_1 and schedules step 2 for a fortnight later; 'not this year' sets ch_house_marriage_wait for 120 days and the card can come again.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year < 804 and port.visits >= 2 and not flag.ch_house_marriage_1 and not flag.ch_house_marriage_wait",
+   "weight": 0.3,
+   "wants": "good_name",
+   "cooldown_days": 45,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s01.title",
+   "title": "An empty house",
+   "intention_key": "ch_house_marriage.s01.intention",
+   "intention": "The widow who keeps the storehouse on the dam stops you at the dam head. She says a house with one man in it is not a house, and offers to ask about a wife for you.",
+   "lines": [
+    { "who": "widow", "key": "ch_house_marriage.s01.greet" },
+    { "who": "widow", "key": "ch_house_marriage.s01.debt", "when": "debt > 0" },
+    { "who": "widow", "key": "ch_house_marriage.s01.clear", "when": "debt = 0" },
+    { "who": "widow", "key": "ch_house_marriage.s01.offer" },
+    { "who": "widow", "key": "ch_house_marriage.s01.friend", "when": "npc.widow.feeling >= friendly" }
+   ],
+   "options": [
+    { "key": "listen", "label_key": "ch_house_marriage.s01.listen", "label": "Let her ask", "check": "true",
+      "effects": [ "flag ch_house_marriage_1", "npc widow feeling +3 asked", "schedule harbour.chain_house_marriage.s02_four_houses in 14 at dorestad" ] },
+    { "key": "gift", "label_key": "ch_house_marriage.s01.gift", "label": "Give her twelve pennies to ask properly", "check": "silver >= 12",
+      "cost": "silver 12",
+      "effects": [ "flag ch_house_marriage_1", "flag ch_house_marriage_asked_well", "npc widow feeling +8 gift", "schedule harbour.chain_house_marriage.s02_four_houses in 14 at dorestad" ] },
+    { "key": "later", "label_key": "ch_house_marriage.s01.later", "label": "Not this year", "check": "true",
+      "effects": [ "flag ch_house_marriage_wait for 120", "npc widow feeling -1 put_off" ] }
+   ],
+   "memory": {
+    "listen": "let her ask about a wife for him",
+    "gift": "paid her to ask about a wife for him",
+    "later": "put off talk of a wife"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s02_four_houses",
+   "note": "Step 2, scheduled at Dorestad a fortnight after step 1: the widow names four houses and the merchant chooses the road. Sets ch_house_marriage_2 and one of ch_house_marriage_road_frisian, _road_frankish, _road_english, _road_danish; schedules the crew's card (step 4) and the asking (step 5) at the kin's port; then step 3 follows at once. The English choice also sets the spine's flag yk_feud_known, because she then tells the story of 773 (step 3). Sources: Lex Frisionum IX.11 (the kin's will); Capitulary of 802 c. 35 (the priest asks into the blood; the rule itself is older); Altfrid, Vita Liudgeri I.11 (the Frisians' flight from York about 773); Rimbert, Vita Anskarii c. 24 (Danes and the sign of the cross, 850s, LATER). 'To the fourth knee': degrees of kin were counted as knees (Old English cneow; Northumbrian Priests' Law 61, c. 1020, LATER).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_marriage_1 and not flag.ch_house_marriage_2",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s02.title",
+   "title": "Four houses",
+   "intention_key": "ch_house_marriage.s02.intention",
+   "intention": "The widow has asked on the dams and among the ships. Four houses would hear a suitor from Dorestad: a Frisian, a Frankish, an English and a Danish one. Each wants something that is not silver.",
+   "lines": [
+    { "who": "widow", "key": "ch_house_marriage.s02.open" },
+    { "who": "widow", "key": "ch_house_marriage.s02.frisian" },
+    { "who": "widow", "key": "ch_house_marriage.s02.frankish" },
+    { "who": "widow", "key": "ch_house_marriage.s02.english" },
+    { "who": "widow", "key": "ch_house_marriage.s02.english_warn" },
+    { "who": "widow", "key": "ch_house_marriage.s02.danish" },
+    { "who": "widow", "key": "ch_house_marriage.s02.asked_well", "when": "flag.ch_house_marriage_asked_well" }
+   ],
+   "options": [
+    { "key": "frisian", "label_key": "ch_house_marriage.s02.go_frisian", "label": "Go to Winaldum, to the Frisian house", "check": "true",
+      "effects": [ "flag ch_house_marriage_2", "flag ch_house_marriage_road_frisian", "npc widow feeling +2 chose",
+                   "schedule crew.chain_house_marriage.s04_crew_counsel in 2",
+                   "schedule harbour.chain_house_marriage.s05_frisian_mound in 5 at wijnaldum" ],
+      "then": "harbour.chain_house_marriage.s03_forespeaker" },
+    { "key": "frankish", "label_key": "ch_house_marriage.s02.go_frankish", "label": "Go to Traiectum, to the steward's house", "check": "true",
+      "effects": [ "flag ch_house_marriage_2", "flag ch_house_marriage_road_frankish", "npc widow feeling +2 chose",
+                   "schedule crew.chain_house_marriage.s04_crew_counsel in 2",
+                   "schedule harbour.chain_house_marriage.s05_frankish_table in 3 at traiectum" ],
+      "then": "harbour.chain_house_marriage.s03_forespeaker" },
+    { "key": "english", "label_key": "ch_house_marriage.s02.go_english", "label": "Go to Eoforwic, to the dead man's kin", "check": "true",
+      "effects": [ "flag ch_house_marriage_2", "flag ch_house_marriage_road_english", "flag yk_feud_known", "npc widow feeling +6 chose_york",
+                   "schedule crew.chain_house_marriage.s04_crew_counsel in 2",
+                   "schedule harbour.chain_house_marriage.s05_english_uncle in 10 at eoforwic" ],
+      "then": "harbour.chain_house_marriage.s03_forespeaker" },
+    { "key": "danish", "label_key": "ch_house_marriage.s02.go_danish", "label": "Go to Ripa, to the Danish host's house", "check": "true",
+      "effects": [ "flag ch_house_marriage_2", "flag ch_house_marriage_road_danish", "npc widow feeling +2 chose",
+                   "schedule crew.chain_house_marriage.s04_crew_counsel in 2",
+                   "schedule harbour.chain_house_marriage.s05_danish_hearth in 8 at ripa" ],
+      "then": "harbour.chain_house_marriage.s03_forespeaker" }
+   ],
+   "memory": {
+    "frisian": "chose the Frisian house at Winaldum",
+    "frankish": "chose the steward's house at Traiectum",
+    "english": "chose to ask the dead man's kin at Eoforwic",
+    "danish": "chose the Danish host's house at Ripa"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s03_forespeaker",
+   "note": "Step 3, follows step 2 at once ('then'): who speaks for the suitor. Sets ch_house_marriage_3 and one of ch_house_marriage_spoke_widow, _spoke_priest, _spoke_self, which change the lines and open choices at the asking (the widow's tally at Winaldum and Eoforwic, the priest's letter at Traiectum and Eoforwic). Sources: the bridegroom promises and his friends go surety ('Be wifmannes beweddunge' 1, c. 1000-1030, LATER) (?); the split tally stick as a record of a pledge is the spine's (cast.hartwin). The killing at York is Altfrid, Vita Liudgeri I.11; the widow's husband as the killer is the spine's invention.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_marriage_2 and not flag.ch_house_marriage_3",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true },
+    "priest": { "role": "priest", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s03.title",
+   "title": "Who speaks for you",
+   "intention_key": "ch_house_marriage.s03.intention",
+   "intention": "A suitor does not ask for himself. Someone must say he will keep her as a wife should be kept, and go surety for it. The widow offers her word and half a tally; the priest offers a letter.",
+   "lines": [
+    { "who": "widow", "key": "ch_house_marriage.s03.custom" },
+    { "who": "widow", "key": "ch_house_marriage.s03.story_english", "when": "flag.ch_house_marriage_road_english" },
+    { "who": "widow", "key": "ch_house_marriage.s03.token", "when": "not flag.ch_house_marriage_road_english and not flag.ch_house_marriage_road_danish" },
+    { "who": "widow", "key": "ch_house_marriage.s03.token_english", "when": "flag.ch_house_marriage_road_english" },
+    { "who": "widow", "key": "ch_house_marriage.s03.token_danish", "when": "flag.ch_house_marriage_road_danish" },
+    { "who": "priest", "key": "ch_house_marriage.s03.letter", "when": "not flag.ch_house_marriage_road_danish" },
+    { "who": "priest", "key": "ch_house_marriage.s03.letter_danish", "when": "flag.ch_house_marriage_road_danish" }
+   ],
+   "options": [
+    { "key": "widow_word", "label_key": "ch_house_marriage.s03.widow_word", "label": "Carry the widow's half-tally", "check": "true",
+      "effects": [ "flag ch_house_marriage_3", "flag ch_house_marriage_spoke_widow", "npc widow feeling +3 surety" ] },
+    { "key": "letter", "label_key": "ch_house_marriage.s03.take_letter", "label": "Give twelve pennies to the church and carry the priest's letter", "check": "silver >= 12",
+      "cost": "silver 12",
+      "effects": [ "flag ch_house_marriage_3", "flag ch_house_marriage_spoke_priest", "deed gave_alms", "npc priest feeling +5 letter" ] },
+    { "key": "self", "label_key": "ch_house_marriage.s03.self", "label": "Speak for yourself", "check": "true",
+      "effects": [ "flag ch_house_marriage_3", "flag ch_house_marriage_spoke_self", "npc widow feeling -2 alone" ] }
+   ],
+   "memory": {
+    "widow_word": "carried her word and half her tally to the bride's kin",
+    "letter": "had the priest write a letter for his suit",
+    "self": "went to ask for a wife with nobody to speak for him"
+   }
+  },
+  {
+   "id": "crew.chain_house_marriage.s04_crew_counsel",
+   "note": "Step 4, a crew card scheduled two days after step 2, wherever the boat is. The steersman is the spine's cast.crew.aldger at the start of the game (the boy on the ship that fled York in 773: his line is true of him and harmless in another steersman's mouth); the mate is cast.crew.brunger. Sets ch_house_marriage_4; asking him, or a cask, sets ch_house_marriage_counsel, which brings his advice back at the asking and opens the best choice there.",
+   "stage": "crew",
+   "when": "flag.ch_house_marriage_2 and not flag.ch_house_marriage_4",
+   "cooldown_days": 30,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian" },
+    "mate": { "role": "mate", "people": "saxon", "faith": "christian" }
+   },
+   "title_key": "ch_house_marriage.s04.title",
+   "title": "The crew has heard",
+   "intention_key": "ch_house_marriage.s04.intention",
+   "intention": "Word of the match is aboard before you are. The men have opinions, and the steersman knows something of the people you are going to.",
+   "lines": [
+    { "who": "mate", "key": "ch_house_marriage.s04.open" },
+    { "who": "steersman", "key": "ch_house_marriage.s04.frisian", "when": "flag.ch_house_marriage_road_frisian" },
+    { "who": "steersman", "key": "ch_house_marriage.s04.frankish", "when": "flag.ch_house_marriage_road_frankish" },
+    { "who": "steersman", "key": "ch_house_marriage.s04.english", "when": "flag.ch_house_marriage_road_english" },
+    { "who": "steersman", "key": "ch_house_marriage.s04.danish", "when": "flag.ch_house_marriage_road_danish" },
+    { "who": "mate", "key": "ch_house_marriage.s04.share" }
+   ],
+   "options": [
+    { "key": "ask", "label_key": "ch_house_marriage.s04.ask", "label": "Ask the steersman what else he knows", "check": "true",
+      "effects": [ "flag ch_house_marriage_4", "flag ch_house_marriage_counsel", "npc steersman feeling +4 asked" ] },
+    { "key": "cask", "label_key": "ch_house_marriage.s04.cask", "label": "Stand them a cask of ale and listen", "check": "hold.ale >= 1",
+      "cost": "goods ale 1",
+      "effects": [ "flag ch_house_marriage_4", "flag ch_house_marriage_counsel", "morale +0.08", "npc mate feeling +4 cask", "npc steersman feeling +2 cask" ] },
+    { "key": "business", "label_key": "ch_house_marriage.s04.business", "label": "Tell them to mind the oars", "check": "true",
+      "effects": [ "flag ch_house_marriage_4", "morale -0.03" ] }
+   ],
+   "memory": {
+    "ask": "asked his counsel about the match",
+    "cask": "stood the crew a cask on the match",
+    "business": "told the crew the match was none of theirs"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s05_frisian_mound",
+   "note": "Step 5, the Frisian road: the asking at Winaldum, scheduled five days after step 2. Sets ch_house_marriage_5, then ch_house_marriage_agreed or ch_house_marriage_hard, and schedules the wedding (60, 75 or 120 days on). Sources: Lex Frisionum IX.11 (who takes a free woman as wife without the will of her parents or of those who have power over her pays her guardian 20 solidi; K. Nieuwenhuijsen's text and translation) and Additio sapientum II.24 (the woman who weaves fresum is priced a quarter higher). The mother's brother as the one to ask rests on Tacitus, Germania 20, of the first century (?) for Frisians of 793. The place is Design/content/dossiers/wijnaldum.md: one great farmstead on a sod mound, sunken weaving huts, no church, boats on the creek bank. The pound of pennies is the game's figure; the Frisian word for the bride-price, wetma, is written down only later (?). Querns of Eifel lava are goods_793.json quernstones.",
+   "stage": "harbour",
+   "when": "moored and port.id = wijnaldum and flag.ch_house_marriage_road_frisian and not flag.ch_house_marriage_5",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "father": { "role": "farmer", "people": "frisian", "faith": "christian", "age": [45, 60], "fixed": true },
+    "uncle": { "role": "lawman", "people": "frisian", "faith": "christian", "fixed": true },
+    "bride": { "role": "weaver", "people": "frisian", "faith": "christian", "sex": "f", "age": [17, 24], "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s05f.title",
+   "title": "The mound at Winaldum",
+   "intention_key": "ch_house_marriage.s05f.intention",
+   "intention": "Her father receives you on the house mound, above the salt marsh. Her mother's brother sits beside him and has not spoken yet. The daughter is at the loom in the sunken hut, and the shuttle has stopped.",
+   "lines": [
+    { "who": "father", "key": "ch_house_marriage.s05f.greet" },
+    { "who": "father", "key": "ch_house_marriage.s05f.widow", "when": "flag.ch_house_marriage_spoke_widow" },
+    { "who": "father", "key": "ch_house_marriage.s05f.letter", "when": "flag.ch_house_marriage_spoke_priest" },
+    { "who": "father", "key": "ch_house_marriage.s05f.self", "when": "flag.ch_house_marriage_spoke_self" },
+    { "who": "uncle", "key": "ch_house_marriage.s05f.law" },
+    { "who": "uncle", "key": "ch_house_marriage.s05f.price" },
+    { "who": "bride", "key": "ch_house_marriage.s05f.loom" },
+    { "key": "ch_house_marriage.s05f.counsel", "when": "flag.ch_house_marriage_counsel" }
+   ],
+   "options": [
+    { "key": "cloth", "label_key": "ch_house_marriage.s05f.cloth", "label": "Go to the loom and ask her what the cloth sells for", "check": "flag.ch_house_marriage_counsel",
+      "effects": [ "flag ch_house_marriage_5", "flag ch_house_marriage_agreed", "npc bride feeling +30 cloth", "npc father feeling +5 cloth",
+                   "goods frisian_cloth +2", "commission rhenish_wine 4 by 75 premium 1.5", "price_shock wijnaldum rhenish_wine x1.3 for 75",
+                   "schedule harbour.chain_house_marriage.s06_frisian_bride_ale in 75 at wijnaldum" ] },
+    { "key": "tally", "label_key": "ch_house_marriage.s05f.tally", "label": "Lay the widow's half-tally in the father's hand", "check": "flag.ch_house_marriage_spoke_widow",
+      "effects": [ "flag ch_house_marriage_5", "flag ch_house_marriage_agreed", "npc father feeling +8 tally",
+                   "commission rhenish_wine 4 by 60 premium 1.5", "price_shock wijnaldum rhenish_wine x1.3 for 60",
+                   "schedule harbour.chain_house_marriage.s06_frisian_bride_ale in 60 at wijnaldum" ] },
+    { "key": "stones", "label_key": "ch_house_marriage.s05f.stones", "label": "Promise the uncle black stones from the Rhine", "check": "true",
+      "effects": [ "flag ch_house_marriage_5", "flag ch_house_marriage_agreed", "flag ch_house_marriage_promised_stones", "npc uncle feeling +10 promised",
+                   "commission rhenish_wine 4 by 75 premium 1.5", "price_shock wijnaldum rhenish_wine x1.3 for 75",
+                   "schedule harbour.chain_house_marriage.s06_frisian_bride_ale in 75 at wijnaldum" ] },
+    { "key": "plain", "label_key": "ch_house_marriage.s05f.plain", "label": "Ask plainly and offer the pound", "check": "true",
+      "effects": [ "flag ch_house_marriage_5",
+                   { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "flag ch_house_marriage_agreed", "npc father feeling +5 plain", "commission rhenish_wine 4 by 75 premium 1.5",
+                                  "schedule harbour.chain_house_marriage.s06_frisian_bride_ale in 75 at wijnaldum" ],
+                     "failure": [ "flag ch_house_marriage_hard", "npc uncle feeling -8 plain",
+                                  "schedule harbour.chain_house_marriage.s06_frisian_bride_ale in 120 at wijnaldum" ] } ] }
+   ],
+   "memory": {
+    "cloth": "asked the daughter what her cloth sells for",
+    "tally": "showed the widow's tally",
+    "stones": "promised the uncle quernstones from the Rhine",
+    "plain.success": "asked plainly and was heard",
+    "plain.failure": "asked badly and was made to wait"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s05_frankish_table",
+   "note": "Step 5, the Frankish road: the asking at Traiectum, scheduled three days after step 2. Sets ch_house_marriage_5 and schedules the wedding (40 to 90 days on). Sources: Capitulary of 802 c. 35, tr. E. F. Henderson 1896 ('let them not presume to be wedded until the bishops and priests, together with the elders of the people, shall diligently inquire into the degree of blood-relationship'); weddings in public for noble and common alike, Council of Ver 755 c. 15 (?); the dower by a written deed, Lex Ribuaria 37 (?); spiritual kinship at the font as a bar (Northumbrian Priests' Law 61, LATER, for the same rule). The steward is invented: Design/content/dossiers/traiectum.md allows no named layman at Utrecht in 793 and the engine's forge names him. That the church buys wax is the dossier's guess (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_house_marriage_road_frankish and not flag.ch_house_marriage_5",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "father": { "role": "steward", "people": "frankish", "faith": "christian", "fixed": true },
+    "priest": { "role": "priest", "faith": "christian", "fixed": true },
+    "bride": { "role": "weaver", "people": "frankish", "faith": "christian", "sex": "f", "age": [17, 24], "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s05k.title",
+   "title": "The steward's table",
+   "intention_key": "ch_house_marriage.s05k.intention",
+   "intention": "Inside the old stone fort at Traiectum the bishop's steward hears you at his own table. A priest sits by with a wax tablet, to ask after your kin. The daughter pours the ale and stays to listen.",
+   "lines": [
+    { "who": "father", "key": "ch_house_marriage.s05k.greet" },
+    { "who": "father", "key": "ch_house_marriage.s05k.widow", "when": "flag.ch_house_marriage_spoke_widow" },
+    { "who": "father", "key": "ch_house_marriage.s05k.letter", "when": "flag.ch_house_marriage_spoke_priest" },
+    { "who": "father", "key": "ch_house_marriage.s05k.self", "when": "flag.ch_house_marriage_spoke_self" },
+    { "who": "priest", "key": "ch_house_marriage.s05k.knees" },
+    { "who": "priest", "key": "ch_house_marriage.s05k.law802", "when": "year >= 802" },
+    { "who": "father", "key": "ch_house_marriage.s05k.terms" },
+    { "who": "bride", "key": "ch_house_marriage.s05k.read" },
+    { "key": "ch_house_marriage.s05k.counsel", "when": "flag.ch_house_marriage_counsel" }
+   ],
+   "options": [
+    { "key": "letter", "label_key": "ch_house_marriage.s05k.give_letter", "label": "Hand the priest your letter", "check": "flag.ch_house_marriage_spoke_priest",
+      "effects": [ "flag ch_house_marriage_5", "npc priest feeling +8 letter", "npc father feeling +5 letter",
+                   "commission wax 6 by 40 premium 1.4",
+                   "schedule harbour.chain_house_marriage.s06_frankish_deed in 40 at traiectum" ] },
+    { "key": "wax", "label_key": "ch_house_marriage.s05k.wax", "label": "Lay two cakes of wax on the table for Saint Martin's altar", "check": "flag.ch_house_marriage_counsel and hold.wax >= 2",
+      "cost": "goods wax 2",
+      "effects": [ "flag ch_house_marriage_5", "deed gave_alms", "npc father feeling +12 wax", "npc bride feeling +10 wax",
+                   "goods glass_vessels +1", "commission wax 6 by 60 premium 1.4",
+                   "schedule harbour.chain_house_marriage.s06_frankish_deed in 60 at traiectum" ] },
+    { "key": "ask_her", "label_key": "ch_house_marriage.s05k.ask_her", "label": "Ask the daughter what a dower should hold", "check": "true",
+      "effects": [ "flag ch_house_marriage_5", "npc bride feeling +30 asked", "npc father feeling -3 asked_her",
+                   "commission wax 6 by 90 premium 1.4",
+                   "schedule harbour.chain_house_marriage.s06_frankish_deed in 90 at traiectum" ] },
+    { "key": "recite", "label_key": "ch_house_marriage.s05k.recite", "label": "Name your kin and let them ask at Dorestad", "check": "true",
+      "effects": [ "flag ch_house_marriage_5", "npc priest feeling +2 recited",
+                   "schedule harbour.chain_house_marriage.s06_frankish_deed in 75 at traiectum" ] }
+   ],
+   "memory": {
+    "letter": "brought a priest's letter for his suit",
+    "wax": "gave wax to Saint Martin's altar when he came courting",
+    "ask_her": "asked the daughter herself what a dower should hold",
+    "recite": "named his kin and waited for the asking"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s05_english_uncle",
+   "note": "Step 5, the English road: the asking at Eoforwic, scheduled ten days after step 2. The uncle is the spine's cast.ecgwulf (invented; the brother of the youth killed about 773: Altfrid, Vita Liudgeri I.11); the monk is cast.sigewine; the niece, the dead youth's daughter born after his death, is this chain's invention. Sets ch_house_marriage_5; telling the truth sets ch_house_marriage_honest and the spine's flag yk_named; a failed concealment sets ch_house_marriage_found_out and yk_named; the monk's road sets ch_house_marriage_church_peace. Reads the spine's flag yk_paid. Sources: Æthelberht 77 (tr. B. Thorpe 1840, as printed in Thatcher 1907: 'If a man buy a maiden with cattle, let the bargain stand, if it be without guile; but if there be guile, let him bring her home again, and let his property be restored to him'), put in the monk's mouth as old Kentish law; Anglo-Saxon Chronicle 792 (Ingram 1823): King Æthelred 'took unto himself a new wife, whose name was Elfleda', Offa's daughter. The text given on the honest road is texts_793.json deor. The danger is warned of at steps 2, 3 and 4.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_house_marriage_road_english and not flag.ch_house_marriage_5",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "monk": { "role": "monk", "people": "english", "faith": "christian", "fixed": true },
+    "uncle": { "role": "lords_man", "people": "english", "faith": "christian", "fixed": true },
+    "bride": { "role": "weaver", "people": "english", "faith": "christian", "sex": "f", "age": [18, 24], "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s05e.title",
+   "title": "The dead man's brother",
+   "intention_key": "ch_house_marriage.s05e.intention",
+   "intention": "At Eoforwic a Frisian hull is looked at twice. The man who holds the girl's hand is brother to the youth killed in the year the Frisians ran. He hears you standing, a monk beside him to see it done properly, and the niece at the back of the hall among the women.",
+   "lines": [
+    { "who": "uncle", "key": "ch_house_marriage.s05e.greet" },
+    { "who": "uncle", "key": "ch_house_marriage.s05e.king", "when": "year < 796" },
+    { "who": "uncle", "key": "ch_house_marriage.s05e.paid", "when": "flag.yk_paid" },
+    { "who": "uncle", "key": "ch_house_marriage.s05e.unpaid", "when": "not flag.yk_paid" },
+    { "who": "monk", "key": "ch_house_marriage.s05e.law" },
+    { "who": "monk", "key": "ch_house_marriage.s05e.letter", "when": "flag.ch_house_marriage_spoke_priest" },
+    { "key": "ch_house_marriage.s05e.niece" },
+    { "key": "ch_house_marriage.s05e.counsel", "when": "flag.ch_house_marriage_counsel" }
+   ],
+   "options": [
+    { "key": "honest", "label_key": "ch_house_marriage.s05e.honest", "label": "Show the widow's tally and say whose house stands behind you", "check": "flag.ch_house_marriage_spoke_widow",
+      "effects": [ "flag ch_house_marriage_5", "flag ch_house_marriage_honest", "flag yk_named", "npc uncle feeling -10 named", "npc bride feeling +30 honest",
+                   "give_text deor", "commission rhenish_wine 6 by 120 premium 1.6",
+                   "schedule harbour.chain_house_marriage.s06_english_peace in 120 at eoforwic" ] },
+    { "key": "plain", "label_key": "ch_house_marriage.s05e.plain", "label": "Say you are a merchant of Dorestad, and no more", "check": "true",
+      "effects": [ "flag ch_house_marriage_5",
+                   { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "npc uncle feeling +5 plain", "commission rhenish_wine 4 by 90 premium 1.6",
+                                  "schedule harbour.chain_house_marriage.s06_english_peace in 90 at eoforwic" ],
+                     "failure": [ "flag ch_house_marriage_found_out", "flag yk_named", "npc uncle feeling -25 found_out",
+                                  "schedule harbour.chain_house_marriage.s06_english_peace in 150 at eoforwic" ] } ] },
+    { "key": "church", "label_key": "ch_house_marriage.s05e.church", "label": "Ask the monk to lay it before the archbishop's man first", "check": "flag.ch_house_marriage_spoke_priest",
+      "effects": [ "flag ch_house_marriage_5", "flag ch_house_marriage_church_peace", "npc monk feeling +8 church",
+                   "commission rhenish_wine 4 by 120 premium 1.6",
+                   "schedule harbour.chain_house_marriage.s06_english_peace in 120 at eoforwic" ] }
+   ],
+   "memory": {
+    "honest": "said in the hall whose house stood behind him",
+    "plain.success": "said he was a merchant of Dorestad and no more",
+    "plain.failure": "hid whose house stood behind him, and was found out",
+    "church": "put his suit under the archbishop's peace"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s05_danish_hearth",
+   "note": "Step 5, the Danish road: the asking at Ripa, scheduled eight days after step 2. Sets ch_house_marriage_5, then ch_house_marriage_agreed or ch_house_marriage_hard, and schedules the wedding (100 or 160 days on). Sources: a stranger needs a host who answers for him, and a bargain is a handclasp before witnesses (Design/content/peoples/norse.md, from Grágás, LATER); the bride-price (mundr), what she takes from home (heimanfylgja), the ale within the year and six men who see the pair to bed are the Icelandic and Norwegian laws of the 12th and 13th centuries, LATER, and (?) for Danes of 793; silver by weight, no coin in the north before about 825 (Design/content/BRIEF.md); lots cast with marked twigs from a fruit-bearing tree, Tacitus, Germania 10, and lots among the Danes and Svear, Rimbert, Vita Anskarii c. 19, 27; Sigfred as king of the Danes, Annales regni Francorum 777, 782, 798 (?), so that line ends in 798. Ripa is ports_793.json and npc_roles_793.json: plots laid out about 700-710, busy with Frisian ships.",
+   "stage": "harbour",
+   "when": "moored and port.id = ripa and flag.ch_house_marriage_road_danish and not flag.ch_house_marriage_5",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "father": { "role": "host", "people": "danish", "faith": "old_gods", "fixed": true },
+    "seer": { "role": "wise_woman", "people": "danish", "faith": "old_gods", "fixed": true },
+    "bride": { "role": "weaver", "people": "danish", "faith": "old_gods", "sex": "f", "age": [17, 24], "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s05d.title",
+   "title": "The host's fire at Ripa",
+   "intention_key": "ch_house_marriage.s05d.intention",
+   "intention": "The Dane who answers for Frisian ships at Ripa hears you by his own fire. His daughter is at the door with the scales, weighing the day's silver. An old woman has been sent for, to ask by lot whether the luck of the house leaves with the girl.",
+   "lines": [
+    { "who": "father", "key": "ch_house_marriage.s05d.greet" },
+    { "key": "ch_house_marriage.s05d.tongue", "when": "tongue.old_norse < 0.5" },
+    { "who": "father", "key": "ch_house_marriage.s05d.king", "when": "year < 799" },
+    { "who": "father", "key": "ch_house_marriage.s05d.terms" },
+    { "who": "father", "key": "ch_house_marriage.s05d.price" },
+    { "who": "seer", "key": "ch_house_marriage.s05d.lots" },
+    { "who": "father", "key": "ch_house_marriage.s05d.gods" },
+    { "key": "ch_house_marriage.s05d.counsel", "when": "flag.ch_house_marriage_counsel" }
+   ],
+   "options": [
+    { "key": "weigh", "label_key": "ch_house_marriage.s05d.weigh", "label": "Put your purse on her scale and say nothing", "check": "flag.ch_house_marriage_counsel and silver >= 60",
+      "effects": [ "flag ch_house_marriage_5", "flag ch_house_marriage_agreed", "npc bride feeling +30 weighed", "npc father feeling +5 weighed",
+                   "goods amber +2", "commission rhenish_wine 4 by 100 premium 1.6", "price_shock ripa rhenish_wine x1.3 for 100",
+                   "schedule harbour.chain_house_marriage.s06_danish_handclasp in 100 at ripa" ] },
+    { "key": "cask", "label_key": "ch_house_marriage.s05d.cask", "label": "Give the father a cask of Rhine wine and name no price", "check": "hold.rhenish_wine >= 1",
+      "cost": "goods rhenish_wine 1",
+      "effects": [ "flag ch_house_marriage_5", "flag ch_house_marriage_agreed", "npc father feeling +15 cask",
+                   "goods amber +3", "commission rhenish_wine 4 by 100 premium 1.6", "price_shock ripa rhenish_wine x1.3 for 100",
+                   "schedule harbour.chain_house_marriage.s06_danish_handclasp in 100 at ripa" ] },
+    { "key": "haggle", "label_key": "ch_house_marriage.s05d.haggle", "label": "Offer a mark and a half", "check": "true",
+      "effects": [ "flag ch_house_marriage_5",
+                   { "chance": 0.3, "by": "crew.trade_best",
+                     "success": [ "flag ch_house_marriage_agreed", "npc father feeling -2 haggled",
+                                  "schedule harbour.chain_house_marriage.s06_danish_handclasp in 100 at ripa" ],
+                     "failure": [ "flag ch_house_marriage_hard", "npc father feeling -12 haggled", "npc bride feeling -5 haggled",
+                                  "schedule harbour.chain_house_marriage.s06_danish_handclasp in 160 at ripa" ] } ] }
+   ],
+   "memory": {
+    "weigh": "let the daughter weigh his silver herself",
+    "cask": "gave a cask of wine and named no price",
+    "haggle.success": "haggled over the bride-price and got away with it",
+    "haggle.failure": "haggled over the bride-price as if for a cow"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s06_frisian_bride_ale",
+   "note": "Step 6, the Frisian wedding and the ending ch_house_marriage_end_frisian: what the sources show, a Frisian sailor with a Frisian wife (Exeter Book, Maxims I, 'the Frisian wife'). Scheduled at Winaldum by step 5; 'one more season' schedules it again. Finale: 20 bolts of Frisian cloth (her own goods), the flags unlock_kin_wife_frisian and unlock_partner_winaldum_brother (her brother sails a second boat with the house); with the uncle's stones as a gift, 30 bolts and unlock_factor_wijnaldum as well. A man who promised the stones at step 5 must bring them or wait. Sources: the price counted before the kin standing in a ring, and the bringing home, are the common custom of a marriage by guardianship (de.wikipedia 'Muntehe', after S. C. Saar 2002); the bride-ale by that name is Anglo-Saxon Chronicle 1075 (Ingram 1823), LATER; no church on the mound and a priest from outside, Design/content/dossiers/wijnaldum.md; what the bride brings from home is hers (Æthelberht 81 for the English; (?) for Frisians).",
+   "stage": "harbour",
+   "when": "moored and port.id = wijnaldum and flag.ch_house_marriage_5 and flag.ch_house_marriage_road_frisian and not flag.ch_house_marriage_6",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "father": { "role": "farmer", "people": "frisian", "faith": "christian", "age": [45, 60], "fixed": true },
+    "uncle": { "role": "lawman", "people": "frisian", "faith": "christian", "fixed": true },
+    "bride": { "role": "weaver", "people": "frisian", "faith": "christian", "sex": "f", "age": [17, 24], "fixed": true },
+    "brother": { "role": "skipper", "people": "frisian", "faith": "christian", "age": [22, 35], "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s06f.title",
+   "title": "The bride-ale on the mound",
+   "intention_key": "ch_house_marriage.s06f.intention",
+   "intention": "Her kin stand in a ring on the mound, father's side and mother's. The price is to be counted where they can see it, her hand given, and the ale drunk. Her brother has brought his boat round on the tide.",
+   "lines": [
+    { "who": "father", "key": "ch_house_marriage.s06f.ring" },
+    { "who": "uncle", "key": "ch_house_marriage.s06f.agreed", "when": "flag.ch_house_marriage_agreed" },
+    { "who": "uncle", "key": "ch_house_marriage.s06f.hard", "when": "flag.ch_house_marriage_hard" },
+    { "who": "uncle", "key": "ch_house_marriage.s06f.stones_missing", "when": "flag.ch_house_marriage_promised_stones and hold.quernstones < 2" },
+    { "who": "uncle", "key": "ch_house_marriage.s06f.stones_here", "when": "hold.quernstones >= 2" },
+    { "key": "ch_house_marriage.s06f.priest" },
+    { "who": "brother", "key": "ch_house_marriage.s06f.partner" },
+    { "who": "bride", "key": "ch_house_marriage.s06f.word", "when": "npc.bride.feeling >= friendly" },
+    { "who": "bride", "key": "ch_house_marriage.s06f.word_plain", "when": "npc.bride.feeling < friendly" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "ch_house_marriage.s06f.pay", "label": "Count out a pound of pennies before the kin",
+      "check": "silver >= 240 and (not flag.ch_house_marriage_promised_stones or hold.quernstones >= 2)",
+      "cost": "silver 240",
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_frisian", "flag unlock_kin_wife_frisian", "flag unlock_partner_winaldum_brother",
+                   "goods frisian_cloth +20", "npc father feeling +10 wed", "npc brother feeling +10 kin", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "stones", "label_key": "ch_house_marriage.s06f.stones", "label": "Count out the pound, and set down two pairs of black stones for the uncle as a gift",
+      "check": "silver >= 240 and hold.quernstones >= 2",
+      "cost": [ "silver 240", "goods quernstones 2" ],
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_frisian", "flag unlock_kin_wife_frisian", "flag unlock_partner_winaldum_brother",
+                   "flag unlock_factor_wijnaldum", "goods frisian_cloth +30", "npc uncle feeling +25 stones", "npc father feeling +12 wed",
+                   "npc brother feeling +12 kin", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "season", "label_key": "ch_house_marriage.s06f.season", "label": "Ask for one more season", "check": "true",
+      "effects": [ "npc father feeling -3 waited", "schedule harbour.chain_house_marriage.s06_frisian_bride_ale in 60 at wijnaldum" ] }
+   ],
+   "memory": {
+    "pay": "counted out the bride-price before the kin and took her home",
+    "stones": "paid the price and gave the uncle querns from the Rhine",
+    "season": "asked the kin to wait another season"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s06_frankish_deed",
+   "note": "Step 6, the Frankish wedding and the ending ch_house_marriage_end_frankish. Scheduled at Traiectum by step 5; 'one more season' schedules it again. Finale: 300 d, six crates of glass and six of Tating jugs from her father, a start in letters (she reads), unlock_kin_wife_frankish; under Saint Martin unlock_plot_dorestad with the lasting cost ch_house_marriage_owes_st_martin (a pound of wax a year and the bishop's letters carried); or, keeping the house the count's, unlock_factor_traiectum. Sources: Saint Martin's bank plots at Dorestad, whose men owed no bank due and in whose houses no one might lodge, Louis the Pious's confirmation of 18 March 815 (Oorkondenboek van het Sticht Utrecht I no. 56, in Design/content/dossiers/dorestad.md); the king's tenth on sales was still taken, even from the emperor's own merchants (828), so this is a plot and not a toll charter; the widow's dower, a third of what the pair gained together and the morning gift, Lex Ribuaria 37 (?); the pledge 'by a shilling and a penny' is the Salian betrothal of the formularies (?); public weddings, Council of Ver 755 c. 15 (?); no weddings in Lent is the later church rule (?); a yearly due of wax from a church's dependants is attested from the 9th and 10th centuries (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_house_marriage_5 and flag.ch_house_marriage_road_frankish and not flag.ch_house_marriage_6",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "father": { "role": "steward", "people": "frankish", "faith": "christian", "fixed": true },
+    "priest": { "role": "priest", "faith": "christian", "fixed": true },
+    "bride": { "role": "weaver", "people": "frankish", "faith": "christian", "sex": "f", "age": [17, 24], "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s06k.title",
+   "title": "The deed and the blessing",
+   "intention_key": "ch_house_marriage.s06k.intention",
+   "intention": "At the door of Saint Martin's the dower is read out before the bishop's people, the earnest is laid in her father's hand, and a priest blesses the pair. The bishop has given his leave, on a condition.",
+   "lines": [
+    { "who": "priest", "key": "ch_house_marriage.s06k.deed" },
+    { "who": "father", "key": "ch_house_marriage.s06k.earnest" },
+    { "who": "father", "key": "ch_house_marriage.s06k.bishop" },
+    { "who": "father", "key": "ch_house_marriage.s06k.bishop_gain" },
+    { "who": "father", "key": "ch_house_marriage.s06k.bishop_free" },
+    { "who": "bride", "key": "ch_house_marriage.s06k.word", "when": "npc.bride.feeling >= friendly" },
+    { "who": "bride", "key": "ch_house_marriage.s06k.word_plain", "when": "npc.bride.feeling < friendly" },
+    { "key": "ch_house_marriage.s06k.door" }
+   ],
+   "options": [
+    { "key": "martin", "label_key": "ch_house_marriage.s06k.martin", "label": "Give the earnest, fill her chest, and take Saint Martin's condition", "check": "silver >= 253",
+      "cost": "silver 253",
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_frankish", "flag unlock_kin_wife_frankish", "flag unlock_plot_dorestad",
+                   "flag ch_house_marriage_owes_st_martin", "silver +300", "goods glass_vessels +6", "goods tating_ware +6", "learn latin +0.25",
+                   "npc father feeling +12 wed", "npc priest feeling +5 wed", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "free", "label_key": "ch_house_marriage.s06k.free", "label": "Give the earnest and fill her chest, but keep your house the count's", "check": "silver >= 253",
+      "cost": "silver 253",
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_frankish", "flag unlock_kin_wife_frankish", "flag unlock_factor_traiectum",
+                   "silver +300", "goods glass_vessels +6", "goods tating_ware +6", "learn latin +0.25",
+                   "npc father feeling +4 wed_free", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "season", "label_key": "ch_house_marriage.s06k.season", "label": "Ask for one more season", "check": "true",
+      "effects": [ "npc father feeling -3 waited", "schedule harbour.chain_house_marriage.s06_frankish_deed in 60 at traiectum" ] }
+   ],
+   "memory": {
+    "martin": "wed the steward's daughter and put his house under Saint Martin",
+    "free": "wed the steward's daughter and kept his house the count's",
+    "season": "asked the steward to wait another season"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s06_english_peace",
+   "note": "Step 6, the English wedding and the ending ch_house_marriage_end_english: HISTORY CHANGED. The Frisians fled York about 773 and no source says they came back (Altfrid, Vita Liudgeri I.11); here a marriage puts a Frisian house back in the city under the dead youth's own kin, and the flag changed_york_773 says so. Scheduled at Eoforwic by step 5; 'one more season' schedules it again. Three prices: a pound and a half for the man who told the truth (with her regard this is the hard and honest road: 960 d, cloth and jet from her father's share, unlock_plot_eoforwic and unlock_title_northumbrian_kin); two pounds for a stranger or a man found out; a pound held by the archbishop's man for a year and a day (lasting cost: ch_house_marriage_owes_archbishop). All set unlock_kin_wife_english and unlock_plot_eoforwic. The marriage does not pay the blood-price: the spine's thread york_blood stays open and its flag yk_paid is only read here. Sources: the bridegroom's promise, his sureties, what he gives for her rearing, what he grants her and what is hers if she outlives him, and the care of her kin when she is taken into another land, 'Be wifmannes beweddunge' 1-7 (c. 1000-1030, Thorpe 1840 'Of betrothing a woman'), LATER and not re-read tonight (?); a woman given in marriage to end a feud is the peace-weaver of Beowulf 1942 and of Hrothgar's daughter Freawaru (texts_793.json beowulf_29, beowulf_30); Whitby jet, goods_793.json jet; the wic by the Foss, the Fishergate digs (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_house_marriage_5 and flag.ch_house_marriage_road_english and not flag.ch_house_marriage_6",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "uncle": { "role": "lords_man", "people": "english", "faith": "christian", "fixed": true },
+    "monk": { "role": "monk", "people": "english", "faith": "christian", "fixed": true },
+    "bride": { "role": "weaver", "people": "english", "faith": "christian", "sex": "f", "age": [18, 24], "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s06e.title",
+   "title": "The peace-weaving",
+   "intention_key": "ch_house_marriage.s06e.intention",
+   "intention": "Her kin and the archbishop's man stand witness in the wic by the Foss. You are to say before them how you will keep her, what you give for her, and what is hers if she outlives you, and your sureties must be named. The dead man is named first.",
+   "lines": [
+    { "who": "uncle", "key": "ch_house_marriage.s06e.name_unpaid", "when": "not flag.yk_paid" },
+    { "who": "uncle", "key": "ch_house_marriage.s06e.name_paid", "when": "flag.yk_paid" },
+    { "who": "monk", "key": "ch_house_marriage.s06e.terms" },
+    { "who": "monk", "key": "ch_house_marriage.s06e.terms_abroad" },
+    { "who": "uncle", "key": "ch_house_marriage.s06e.honest", "when": "flag.ch_house_marriage_honest" },
+    { "who": "uncle", "key": "ch_house_marriage.s06e.found", "when": "flag.ch_house_marriage_found_out" },
+    { "who": "uncle", "key": "ch_house_marriage.s06e.stranger", "when": "not flag.ch_house_marriage_honest and not flag.ch_house_marriage_found_out" },
+    { "who": "uncle", "key": "ch_house_marriage.s06e.church", "when": "flag.ch_house_marriage_church_peace" },
+    { "who": "monk", "key": "ch_house_marriage.s06e.song", "when": "flag.ch_house_marriage_honest" },
+    { "who": "bride", "key": "ch_house_marriage.s06e.word", "when": "npc.bride.feeling >= friendly" },
+    { "who": "bride", "key": "ch_house_marriage.s06e.word_plain", "when": "npc.bride.feeling < friendly" },
+    { "key": "ch_house_marriage.s06e.steersman" }
+   ],
+   "options": [
+    { "key": "weave", "label_key": "ch_house_marriage.s06e.weave", "label": "Promise her first son the dead man's name, and count out a pound and a half",
+      "check": "flag.ch_house_marriage_honest and silver >= 360",
+      "cost": "silver 360",
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_english", "flag changed_york_773", "flag unlock_kin_wife_english",
+                   "flag unlock_plot_eoforwic", "flag unlock_title_northumbrian_kin", "silver +960", "goods wool_cloth +20", "goods jet +6",
+                   "tongue old_english = 1", "npc uncle feeling +30 peace", "npc bride feeling +10 peace", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "pay", "label_key": "ch_house_marriage.s06e.pay", "label": "Count out two pounds and name your sureties", "check": "silver >= 480",
+      "cost": "silver 480",
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_english", "flag changed_york_773", "flag unlock_kin_wife_english",
+                   "flag unlock_plot_eoforwic", "silver +480", "goods wool_cloth +20", "goods jet +5",
+                   "tongue old_english = 1", "npc uncle feeling +8 wed", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "church", "label_key": "ch_house_marriage.s06e.church_pay", "label": "Lay a pound in the archbishop's man's hand for a year and a day",
+      "check": "flag.ch_house_marriage_church_peace and silver >= 240",
+      "cost": "silver 240",
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_english", "flag changed_york_773", "flag unlock_kin_wife_english",
+                   "flag unlock_plot_eoforwic", "flag ch_house_marriage_owes_archbishop", "silver +360", "goods wool_cloth +14",
+                   "tongue old_english = 1", "npc monk feeling +10 wed", "npc uncle feeling +4 wed", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "season", "label_key": "ch_house_marriage.s06e.season", "label": "Ask for one more season", "check": "true",
+      "effects": [ "npc uncle feeling -3 waited", "schedule harbour.chain_house_marriage.s06_english_peace in 90 at eoforwic" ] }
+   ],
+   "memory": {
+    "weave": "wed the dead man's daughter and promised her son his name",
+    "pay": "paid a stranger's price for the dead man's daughter",
+    "church": "wed the dead man's daughter under the archbishop's peace",
+    "season": "asked the kin to wait another season"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s06_danish_handclasp",
+   "note": "Step 6, the Danish wedding and the ending ch_house_marriage_end_danish. Scheduled at Ripa by step 5; 'one more season' schedules it again. Finale: weighed silver, amber and marten from her father's house, the Danes' tongue, unlock_kin_wife_danish and unlock_plot_ripa. If she keeps her gods untouched: ch_house_marriage_wife_heathen and the lasting cost ch_house_marriage_watchful_bishop (warned of on this card). If she likes him well enough to take the sign of the cross as a guest's courtesy: ch_house_marriage_wife_signed and a second grand reward, unlock_title_danish_guest_right (her father answers for the house on that coast). Sources: two marks is about 428 g, some 250 pennies of 1.7 g; the mark as a weight is written first about 880 (the treaty of Alfred and Guthrum) (?) for 793; the hammer laid in the bride's lap to hallow her, Thrymskvitha 30 (H. A. Bellows 1923; the manuscript is of about 1270, LATER) (?); Danes who 'willingly signed with the cross' and put off baptism, Rimbert, Vita Anskarii c. 24 (of the 850s, LATER); that the bishops forbade a Christian to wed a heathen is the general rule of the councils (?); lots as at step 5.",
+   "stage": "harbour",
+   "when": "moored and port.id = ripa and flag.ch_house_marriage_5 and flag.ch_house_marriage_road_danish and not flag.ch_house_marriage_6",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "father": { "role": "host", "people": "danish", "faith": "old_gods", "fixed": true },
+    "seer": { "role": "wise_woman", "people": "danish", "faith": "old_gods", "fixed": true },
+    "bride": { "role": "weaver", "people": "danish", "faith": "old_gods", "sex": "f", "age": [17, 24], "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s06d.title",
+   "title": "The handclasp",
+   "intention_key": "ch_house_marriage.s06d.intention",
+   "intention": "Witnesses stand round the host's fire at Ripa. The silver is to be weighed, hands clasped on the bargain, and the bridal ale drunk. Then there is the question of whose gods bless it, and what the priest at home will be told.",
+   "lines": [
+    { "who": "father", "key": "ch_house_marriage.s06d.clasp" },
+    { "who": "father", "key": "ch_house_marriage.s06d.hard", "when": "flag.ch_house_marriage_hard" },
+    { "who": "seer", "key": "ch_house_marriage.s06d.lots" },
+    { "who": "seer", "key": "ch_house_marriage.s06d.hallow" },
+    { "who": "father", "key": "ch_house_marriage.s06d.priests" },
+    { "who": "father", "key": "ch_house_marriage.s06d.priests_peace" },
+    { "key": "ch_house_marriage.s06d.warn" },
+    { "who": "bride", "key": "ch_house_marriage.s06d.word", "when": "npc.bride.feeling >= friendly" },
+    { "who": "bride", "key": "ch_house_marriage.s06d.word_plain", "when": "npc.bride.feeling < friendly" }
+   ],
+   "options": [
+    { "key": "old_way", "label_key": "ch_house_marriage.s06d.old_way", "label": "Weigh out two marks, clasp hands, and let her gods come with her", "check": "silver >= 260",
+      "cost": "silver 260",
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_danish", "flag unlock_kin_wife_danish", "flag unlock_plot_ripa",
+                   "flag ch_house_marriage_wife_heathen", "flag ch_house_marriage_watchful_bishop", "silver +360", "goods amber +8", "goods marten +2",
+                   "tongue old_norse = 1", "npc father feeling +15 wed", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "sign", "label_key": "ch_house_marriage.s06d.sign", "label": "Weigh out two marks, and ask her to take the sign of the cross as a guest", "check": "npc.bride.feeling >= friendly and silver >= 260",
+      "cost": "silver 260",
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_danish", "flag unlock_kin_wife_danish", "flag unlock_plot_ripa",
+                   "flag unlock_title_danish_guest_right", "flag ch_house_marriage_wife_signed", "silver +480", "goods amber +8", "goods marten +3",
+                   "tongue old_norse = 1", "npc father feeling +10 wed", "npc bride feeling +5 signed", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "kind", "label_key": "ch_house_marriage.s06d.kind", "label": "Pay in Frankish goods: three casks of wine and a crate of glass", "check": "hold.rhenish_wine >= 3 and hold.glass_vessels >= 1",
+      "cost": [ "goods rhenish_wine 3", "goods glass_vessels 1" ],
+      "effects": [ "flag ch_house_marriage_6", "flag ch_house_marriage_end_danish", "flag unlock_kin_wife_danish", "flag unlock_plot_ripa",
+                   "flag ch_house_marriage_wife_heathen", "flag ch_house_marriage_watchful_bishop", "silver +360", "goods amber +8", "goods marten +2",
+                   "tongue old_norse = 1", "npc father feeling +18 wed", "passenger bride to dorestad" ],
+      "then": "harbour.chain_house_marriage.s07_morning_gift" },
+    { "key": "season", "label_key": "ch_house_marriage.s06d.season", "label": "Ask for one more season", "check": "true",
+      "effects": [ "npc father feeling -3 waited", "schedule harbour.chain_house_marriage.s06_danish_handclasp in 90 at ripa" ] }
+   ],
+   "memory": {
+    "old_way": "weighed out the bride-price and left her gods alone",
+    "sign": "weighed out the bride-price, and she took the sign of the cross as a guest",
+    "kind": "paid the bride-price in wine and glass and left her gods alone",
+    "season": "asked the host to wait another season"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s07_morning_gift",
+   "note": "Step 7, follows every wedding at once ('then'), at the bride's own port, so the bride (the fixed weaver there) is the same woman. Sets ch_house_marriage_7 and one of ch_house_marriage_gift_keys, _gift_silver, _gift_fine, and schedules step 8 at Dorestad 300 days on. Sources: the morning gift is the wife's own. Æthelberht 81 (Thorpe 1840): 'If she bear no child, let her paternal kindred have the fioh and the morgengyfe'; Lex Ribuaria 37, the morgangeba beside the dower and the third (?); the Treaty of Andelot, 587, in Gregory of Tours IX.20, has both dos and morganegiba (?); among the Northmen the linen fee and bench gift of the later laws, LATER (?); for Frisians the word is written down only later (?). Keys at a wife's belt are in women's graves of the north (Design/content/peoples/norse.md) and in the spine's own picture of the widow.",
+   "stage": "harbour",
+   "when": "moored and flag.ch_house_marriage_6 and not flag.ch_house_marriage_7",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "bride": { "role": "weaver", "sex": "f", "age": [17, 24], "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s07.title",
+   "title": "The morning gift",
+   "intention_key": "ch_house_marriage.s07.intention",
+   "intention": "On the morning after, a husband gives his wife a gift that is hers alone, whatever becomes of him. Every people on this sea has the custom and a word for it. What you give now is what she has if the sea keeps you.",
+   "lines": [
+    { "key": "ch_house_marriage.s07.custom" },
+    { "who": "bride", "key": "ch_house_marriage.s07.frisian", "when": "flag.ch_house_marriage_end_frisian" },
+    { "who": "bride", "key": "ch_house_marriage.s07.frankish", "when": "flag.ch_house_marriage_end_frankish" },
+    { "who": "bride", "key": "ch_house_marriage.s07.english", "when": "flag.ch_house_marriage_end_english" },
+    { "who": "bride", "key": "ch_house_marriage.s07.danish", "when": "flag.ch_house_marriage_end_danish" }
+   ],
+   "options": [
+    { "key": "keys", "label_key": "ch_house_marriage.s07.keys", "label": "The keys of the house, and a third of all you gain together", "check": "true",
+      "effects": [ "flag ch_house_marriage_7", "flag ch_house_marriage_gift_keys", "npc bride feeling +15 keys",
+                   "schedule harbour.chain_house_marriage.s08_keel_home in 300 at dorestad" ] },
+    { "key": "silver", "label_key": "ch_house_marriage.s07.silver", "label": "Sixty pennies in a purse of her own", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "flag ch_house_marriage_7", "flag ch_house_marriage_gift_silver", "npc bride feeling +8 purse",
+                   "schedule harbour.chain_house_marriage.s08_keel_home in 300 at dorestad" ] },
+    { "key": "brooches", "label_key": "ch_house_marriage.s07.brooches", "label": "A pair of brooches from the hold", "check": "hold.brooches >= 1",
+      "cost": "goods brooches 1",
+      "effects": [ "flag ch_house_marriage_7", "flag ch_house_marriage_gift_fine", "npc bride feeling +12 brooches",
+                   "schedule harbour.chain_house_marriage.s08_keel_home in 300 at dorestad" ] }
+   ],
+   "memory": {
+    "keys": "gave her the keys and a third as her morning gift",
+    "silver": "gave her a purse of her own as her morning gift",
+    "brooches": "gave her a pair of brooches as her morning gift"
+   }
+  },
+  {
+   "id": "harbour.chain_house_marriage.s08_keel_home",
+   "note": "Step 8, the close, scheduled at Dorestad 300 days after the morning gift: a year of the marriage, told by the widow (cast.thiadburg) and the priest, with a line for each ending. Sets ch_house_marriage_8, ch_house_marriage_done and ch_house_marriage_child (for the chain house_heir to read). The verse is quoted from the Exeter Book's Gnomic Verses (Maxims I, lines 94-99 in later editions), tr. Benjamin Thorpe, Codex Exoniensis (London 1842), p. 339, read at archive.org/details/codexexoniensisc00sociuoft: the book was copied about 970 and the verse is English, so for 793 it is (?) and the card says only that the English have it. A wife who keeps the keys and trades while her man is at sea: the spine's widow; Frideburg and Catla of Birka (Rimbert, Vita Anskarii c. 20) for women holding and moving silver. A heathen wife as a hearer who stands at the back of the church: catechumens signed with the cross might enter the church (Rimbert c. 24, LATER).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_marriage_7 and not flag.ch_house_marriage_done",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true },
+    "priest": { "role": "priest", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_marriage.s08.title",
+   "title": "The keel comes home",
+   "intention_key": "ch_house_marriage.s08.intention",
+   "intention": "A year on. The boat lies at the dam and there is a light in the house. The English have a verse about a Frisian's wife and her man's ship, and for once it is about you.",
+   "lines": [
+    { "key": "ch_house_marriage.s08.verse" },
+    { "who": "widow", "key": "ch_house_marriage.s08.frisian", "when": "flag.ch_house_marriage_end_frisian" },
+    { "who": "widow", "key": "ch_house_marriage.s08.frankish_martin", "when": "flag.ch_house_marriage_owes_st_martin" },
+    { "who": "widow", "key": "ch_house_marriage.s08.frankish_free", "when": "flag.ch_house_marriage_end_frankish and not flag.ch_house_marriage_owes_st_martin" },
+    { "who": "widow", "key": "ch_house_marriage.s08.english", "when": "flag.ch_house_marriage_end_english" },
+    { "who": "widow", "key": "ch_house_marriage.s08.danish", "when": "flag.ch_house_marriage_end_danish" },
+    { "who": "priest", "key": "ch_house_marriage.s08.heathen", "when": "flag.ch_house_marriage_wife_heathen" },
+    { "who": "priest", "key": "ch_house_marriage.s08.signed", "when": "flag.ch_house_marriage_wife_signed" },
+    { "key": "ch_house_marriage.s08.keys", "when": "flag.ch_house_marriage_gift_keys" },
+    { "key": "ch_house_marriage.s08.cradle" }
+   ],
+   "options": [
+    { "key": "home", "label_key": "ch_house_marriage.s08.home", "label": "Go in", "check": "true",
+      "effects": [ "flag ch_house_marriage_8", "flag ch_house_marriage_done", "flag ch_house_marriage_child", "silver +120", "morale +0.1" ] },
+    { "key": "third", "label_key": "ch_house_marriage.s08.third", "label": "Go in, and count what she has made of her third", "check": "flag.ch_house_marriage_gift_keys",
+      "effects": [ "flag ch_house_marriage_8", "flag ch_house_marriage_done", "flag ch_house_marriage_child", "silver +300", "morale +0.1" ] },
+    { "key": "thank", "label_key": "ch_house_marriage.s08.thank", "label": "First take the widow sixty pennies for her trouble", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "flag ch_house_marriage_8", "flag ch_house_marriage_done", "flag ch_house_marriage_child", "silver +120", "morale +0.1",
+                   "npc widow feeling +25 thanked" ] }
+   ],
+   "memory": {
+    "home": "came home to a wife and a cradle",
+    "third": "came home and counted what his wife had made of her third",
+    "thank": "thanked her with silver for finding him a wife"
+   }
+  }
+ ]
+}

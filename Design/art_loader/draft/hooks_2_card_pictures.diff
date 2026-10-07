@@ -1,0 +1,21 @@
+--- a/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.Floats.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.Floats.cs
+@@ -244,6 +244,8 @@
+             }
+             words.Add(scroll);
+             top.Add(words);
++            if (!string.IsNullOrEmpty(spec.picture) || !string.IsNullOrEmpty(spec.pictureAny))
++                el.Add(ArtSlots.Shared.Banner(spec.picture, spec.pictureAny, 2f));   // (192 x 108 shown at twice its size; no room taken when there is none)
+             el.Add(top);
+ 
+             if (spec.options.Count > 0)
+@@ -504,6 +506,9 @@
+         public static FloatSpec CardSpec(EncounterDirector d, EncounterSession s)
+         {
+             var spec = new FloatSpec { id = CardId, title = s.Title, holdsClock = !s.Chosen, mustAnswer = !s.Chosen };
++            // (the card's own picture, else its stage's stand-in; card_rules_793.json's "picture" goes here when it is loaded)
++            spec.picture = ArtSlots.Card(s.card.id);
++            spec.pictureAny = ArtSlots.CardAny(s.card.stage.ToString());
+             Npc first = null;
+             var others = new List<string>();
+             foreach (var who in s.People)

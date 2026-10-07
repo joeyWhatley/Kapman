@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Trade - markets each day
+  m_EditorClassIdentifier: Unity.VisualScripting.Flow::Unity.VisualScripting.ScriptGraphAsset
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":"Trade - markets each day","summary":"Each game day every market makes and uses its goods: stock settles back, gluts fade, and the prices move with them.","pan":{"x":0.0,"y":0.0},"zoom":1.0,"elements":[{"coroutine":false,"defaultValues":{},"position":{"x":0.0,"y":0.0},"guid":"73087607-be3d-42fa-9a7a-67fa518ad69a","$version":"A","$type":"Kapman.Graphs.OnGameDay","$id":"9"},{"defaultValues":{},"position":{"x":300.0,"y":0.0},"guid":"4e57d6c4-1af5-497b-8b4a-104e51137ba4","$version":"A","$type":"Kapman.Graphs.MarketsNextDay","$id":"11"},{"sourceUnit":{"$ref":"9"},"sourceKey":"trigger","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"e656fffe-6737-4052-a57c-2ab618cd1c4a","$type":"Unity.VisualScripting.ControlConnection"},{"position":{"xMin":-40.0,"yMin":-60.0,"xMax":860.0,"yMax":240.0},"label":"1. A new day in the markets","comment":"On game day -> Markets: Next day.","color":{"r":0.32,"g":0.55,"b":0.32,"a":1.0},"guid":"c4a9c500-ff4e-43a0-a1f2-53b189f985c7","$version":"A","$type":"Unity.VisualScripting.GraphGroup"},{"position":{"xMin":560.0,"yMin":0.0,"xMax":860.0,"yMax":180.0},"title":"Traders to come","body":"The AI traders'' buying and selling (moving prices between ports) will hook in here too.","colorTheme":"Classic","guid":"310748c2-7bfd-436a-96b9-95bd0551a6c9","$type":"Unity.VisualScripting.StickyNote"}],"$version":"A"}}'
+    _objectReferences: []

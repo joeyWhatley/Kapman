@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Voyage - each day
+  m_EditorClassIdentifier: Unity.VisualScripting.Flow::Unity.VisualScripting.ScriptGraphAsset
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":"Voyage - each day","summary":"The crew''s day: they eat and drink from the stores in the hold, are owed their pay, and the sea works on them (Data/voyage_rules.json). In port the casks are filled and the men paid (Ports - in port: Voyage: In port).","pan":{"x":0.0,"y":0.0},"zoom":1.0,"elements":[{"coroutine":false,"defaultValues":{},"position":{"x":0.0,"y":0.0},"guid":"d5ad199e-d773-4be9-9795-d13ce55e4992","$version":"A","$type":"Kapman.Graphs.OnGameDay","$id":"9"},{"defaultValues":{},"position":{"x":300.0,"y":0.0},"guid":"a2022e6f-6dc3-4975-a2e6-68fc735adbbf","$version":"A","$type":"Kapman.Graphs.VoyageDay","$id":"11"},{"sourceUnit":{"$ref":"9"},"sourceKey":"trigger","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"4270348d-28eb-45ce-800e-de713b307db1","$type":"Unity.VisualScripting.ControlConnection"},{"position":{"xMin":-40.0,"yMin":-60.0,"xMax":860.0,"yMax":240.0},"label":"1. A day aboard","comment":"On game day -> Voyage: Day. What comes of it shows as plain facts (Notices).","color":{"r":0.32,"g":0.55,"b":0.32,"a":1.0},"guid":"7612e2f4-b2e8-4bba-9f97-336f7ba67234","$version":"A","$type":"Unity.VisualScripting.GraphGroup"},{"position":{"xMin":560.0,"yMin":0.0,"xMax":900.0,"yMax":220.0},"title":"What tunes it","body":"Data/voyage_rules.json: the crew (men, pay), their rations (food kg and drink litres a man a day, which goods count), the water casks, hunger, thirst, seasickness and heart.\nVoyage: Crew gives the numbers for your own events (e.g. a man falls sick when health is low).","colorTheme":"Classic","guid":"891ff463-fc9f-48c4-a755-0a89bcc946e3","$type":"Unity.VisualScripting.StickyNote"}],"$version":"A"}}'
+    _objectReferences: []

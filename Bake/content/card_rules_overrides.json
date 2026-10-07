@@ -1,0 +1,853 @@
+{
+ "about": "HAND CORRECTIONS for Bake/content/card_rules.py (7 October 2026). 'cards': for a card id, any of: urgency (ordinary or pressing), patience_hours (a pressing card's own time, 1 to 72), holds_ship (true or false; a pressing card holds her unless this says false), default (the KEY of the option the card takes by itself), fallbacks (option keys to try next, in order, if the default's check does not hold), why (a few plain words), speaker (a person's id, or role:<role> to say the speaker is nobody of the places files), note. 'read_and_right': cards a person read and found the rule's answer right; they are marked by 'hand' in the output with nothing changed. Every card that could open in the first release on 7 October 2026 is in one list or the other. Edit this file by hand and run card_rules.py again; a card id or an option key that no longer exists is reported as a PROBLEM and skipped.",
+ "cards": {
+  "harbour.chain_black_stones.s02_reeve": {
+   "default": "wait",
+   "why": "Lie off and wait: the card's own usual answer. Going round by Hamwic leads out of the twelve ports."
+  },
+  "harbour.chain_black_stones.s04_letter": {
+   "default": "carry",
+   "why": "The card's own usual answer. To refuse shuts the letter's road for good."
+  },
+  "sea.chain_black_stones.s05_kings_boat": {
+   "urgency": "pressing",
+   "patience_hours": 2,
+   "holds_ship": true,
+   "default": "search",
+   "why": "Freeze, and the king's boat comes alongside and searches her."
+  },
+  "harbour.chain_house_debt.s03_michaelmas": {
+   "default": "grace",
+   "fallbacks": [
+    "pledge"
+   ],
+   "why": "Ask for time; if the count will not give it, the boat is his pledge. No silver leaves the purse unasked."
+  },
+  "harbour.chain_house_debt.s06_bid": {
+   "default": "sold",
+   "why": "Give no reason, and the count sells the stick."
+  },
+  "sea.chain_house_heir.s05_first_watch": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": true,
+   "default": "leave",
+   "why": "Say nothing, and the oar stays in the boy's hands."
+  },
+  "harbour.chain_house_heir.s07_the_day": {
+   "default": "wait",
+   "why": "Not yet: one more season. The card comes again."
+  },
+  "harbour.chain_house_heir.s08_two_keels": {
+   "default": "martin",
+   "fallbacks": [
+    "strand",
+    "hearth",
+    "cold"
+   ],
+   "why": "Part as friends, by the road the boy took. The cold parting only if the house is already broken."
+  },
+  "harbour.chain_house_marriage.s02_four_houses": {
+   "default": "frankish",
+   "why": "The card has no way to say not yet. The nearest road, and inside the twelve ports."
+  },
+  "harbour.chain_house_marriage.s07_morning_gift": {
+   "speaker": "role:weaver",
+   "note": "The bride is the card's own person, not the weaver of whichever port the card opens at."
+  },
+  "sea.chain_house_rival.s08_on_the_bank": {
+   "urgency": "pressing",
+   "patience_hours": 3,
+   "holds_ship": true,
+   "default": "leave",
+   "why": "Freeze, and the fishing boats take the men off while the bank goes under."
+  },
+  "harbour.chain_house_rival.s09_reckoning": {
+   "default": "law",
+   "fallbacks": [
+    "fellowship",
+    "feud"
+   ],
+   "why": "Let it run as the law has it. A feud is declared by a word, not by silence."
+  },
+  "sea.chain_kentish_revolt_796.s05_watch_boat": {
+   "urgency": "pressing",
+   "patience_hours": 2,
+   "holds_ship": true,
+   "default": "search",
+   "why": "Freeze, and the eight oars come alongside and turn the hold over."
+  },
+  "sea.chain_old_gods.s01_storm": {
+   "urgency": "pressing",
+   "patience_hours": 2,
+   "holds_ship": true,
+   "default": "bail",
+   "why": "No vow is made by saying nothing. The men bail."
+  },
+  "harbour.chain_old_gods.s14_end_broken": {
+   "default": "share",
+   "why": "The share is weighed out to you. To give it away is a choice."
+  },
+  "harbour.chain_pilgrim_road.end_minster": {
+   "default": "book",
+   "why": "The card's own usual answer, and the least asked for."
+  },
+  "harbour.chain_pilgrim_road.end_praen": {
+   "default": "pennies",
+   "why": "The card's own usual answer: silver, and nothing with your name on it."
+  },
+  "sea.chain_riddle_trail.s03_fog_hail": {
+   "urgency": "pressing",
+   "patience_hours": 2,
+   "holds_ship": true,
+   "default": "hold",
+   "why": "Hold your course, and the stranger passes."
+  },
+  "sea.chain_storm_vow.s01_storm": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": true,
+   "default": "oar",
+   "why": "No vow is made by saying nothing. The men try for a rope on the oar."
+  },
+  "crew.chain_storm_vow.s02_what_was_said": {
+   "default": "stand_saint",
+   "fallbacks": [
+    "stand_thor",
+    "bargain",
+    "deny"
+   ],
+   "why": "Stand by what was said. To deny it breaks the vow."
+  },
+  "sea.chain_storm_vow.s14_second_storm": {
+   "urgency": "pressing",
+   "patience_hours": 2,
+   "holds_ship": true,
+   "default": "steer",
+   "why": "Say nothing. Steer."
+  },
+  "crew.pay.promise_due": {
+   "default": "pay",
+   "fallbacks": [
+    "cloth",
+    "none"
+   ],
+   "why": "The word was given, and keeping it harms no one. With nothing to give, the men are told so."
+  },
+  "crew.pay.martinmas": {
+   "default": "plain",
+   "fallbacks": [
+    "easter"
+   ],
+   "why": "The season is paid as the tally says, and no more. With no silver it waits till Easter."
+  },
+  "crew.pay.wage_or_share": {
+   "default": "wage",
+   "why": "Nothing changes: a wage stays a wage."
+  },
+  "crew.home.michaelmas": {
+   "default": "go",
+   "fallbacks": [
+    "stay",
+    "break"
+   ],
+   "why": "The word was given. Breaking it can lose a man."
+  },
+  "crew.home.returns": {
+   "default": "take",
+   "why": "His oar is his. To turn him away is a choice."
+  },
+  "crew.sick.fever": {
+   "urgency": "pressing",
+   "patience_hours": 24,
+   "holds_ship": false,
+   "default": "rest",
+   "why": "No order: he lies in the stern. She sails on, and no landing is made for him."
+  },
+  "crew.death.body": {
+   "default": "church",
+   "why": "Nothing is done: he stays aboard until a landing."
+  },
+  "crew.hunger.short_bread": {
+   "urgency": "pressing",
+   "patience_hours": 48,
+   "holds_ship": false,
+   "default": "halve",
+   "why": "No order: the mate shares out what is left."
+  },
+  "crew.cold.ice": {
+   "urgency": "pressing",
+   "patience_hours": 72,
+   "holds_ship": true,
+   "default": "leave",
+   "why": "Nothing is done, and the ice has its way or not."
+  },
+  "crew.fight.blows": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": false,
+   "default": "apart",
+   "why": "No word from you: the steersman keeps them apart, and nothing is settled."
+  },
+  "crew.tongue.norse": {
+   "default": "let",
+   "why": "Let them be."
+  },
+  "crew.leave.bigger_ship": {
+   "default": "match",
+   "fallbacks": [
+    "word",
+    "bless"
+   ],
+   "why": "Eight pennies keep the hand. Holding him to his word can lose him."
+  },
+  "harbour.whose_guest.ripa": {
+   "default": "bench",
+   "fallbacks": [
+    "own",
+    "gift",
+    "sons"
+   ],
+   "why": "As before, if you are his guest already; else your own man. No silver is given unasked."
+  },
+  "harbour.short_ell.ripa": {
+   "default": "pay",
+   "fallbacks": [
+    "ring",
+    "cross",
+    "host"
+   ],
+   "why": "Six pennies end it: no oath sworn, no case won or lost."
+  },
+  "harbour.toll_post.sarre": {
+   "default": "pay",
+   "fallbacks": [
+    "sales",
+    "cross",
+    "slack"
+   ],
+   "why": "The card's own usual answer: two pennies by the ship. With an empty purse the toll is taken on the sales."
+  },
+  "harbour.duck_on_the_shelf.sarre": {
+   "default": "silent",
+   "why": "The cloth stays shut. The card comes again."
+  },
+  "harbour.quentovic.gerwin_pot": {
+   "default": "asked",
+   "why": "The purse stays shut."
+  },
+  "harbour.first_question.dorestad": {
+   "default": "take",
+   "fallbacks": [
+    "plainer",
+    "answer"
+   ],
+   "why": "The card's own usual answer: the riddle goes in the chest, unanswered."
+  },
+  "harbour.ships_overland.dorestad": {
+   "default": "haul",
+   "why": "Say nothing, and the count's men take the boat for the hauling."
+  },
+  "sea.calm.falls": {
+   "default": "wait",
+   "why": "Nothing is ordered: she lies quiet."
+  },
+  "sea.swell.long": {
+   "urgency": "pressing",
+   "patience_hours": 6,
+   "holds_ship": true,
+   "default": "hold",
+   "why": "Freeze, and she holds on under full sail into the weather."
+  },
+  "sea.gale.breaks": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": true,
+   "default": "full",
+   "fallbacks": [
+    "lie",
+    "run"
+   ],
+   "why": "Freeze, and the gale finds her with the sail up."
+  },
+  "sea.squall.line": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": true,
+   "default": "ride",
+   "why": "Freeze, and the squall hits with the sail up."
+  },
+  "sea.fog.bank": {
+   "urgency": "pressing",
+   "patience_hours": 3,
+   "holds_ship": true,
+   "default": "on",
+   "why": "Freeze, and she sails on into it with no marks taken."
+  },
+  "sea.fog.shut": {
+   "urgency": "pressing",
+   "patience_hours": 3,
+   "holds_ship": true,
+   "default": "creep",
+   "fallbacks": [
+    "stop",
+    "feel"
+   ],
+   "why": "No order to stop: she creeps on blind."
+  },
+  "sea.fog.horn": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": true,
+   "default": "silent",
+   "why": "Say nothing, and the other ship passes unseen."
+  },
+  "sea.surf.heard": {
+   "urgency": "pressing",
+   "patience_hours": 2,
+   "holds_ship": true,
+   "default": "sound",
+   "why": "No order to turn away: she goes on toward the sound, feeling for the bottom."
+  },
+  "sea.bar.ebb": {
+   "urgency": "pressing",
+   "patience_hours": 2,
+   "holds_ship": true,
+   "default": "now",
+   "fallbacks": [
+    "wait",
+    "cut"
+   ],
+   "why": "Freeze, and the ebb takes her onto the bar."
+  },
+  "sea.shoal.lead": {
+   "urgency": "pressing",
+   "patience_hours": 2,
+   "holds_ship": true,
+   "default": "on",
+   "why": "Freeze, and she holds her course over the brown water."
+  },
+  "sea.wreck.survivors": {
+   "urgency": "pressing",
+   "patience_hours": 3,
+   "holds_ship": true,
+   "default": "take",
+   "why": "Every choice takes them off. This one asks nothing of them."
+  },
+  "sea.ice.floes": {
+   "urgency": "pressing",
+   "patience_hours": 6,
+   "holds_ship": true,
+   "default": "wait",
+   "why": "No order: she lies off the ice."
+  },
+  "sea.ice.river": {
+   "urgency": "pressing",
+   "patience_hours": 6,
+   "holds_ship": true,
+   "default": "poles",
+   "why": "No order to haul out: she keeps the stream, among the ice."
+  },
+  "sea.leak.seam": {
+   "urgency": "pressing",
+   "patience_hours": 12,
+   "holds_ship": false,
+   "default": "bail",
+   "why": "Nothing is done to the seam: a man bails and she carries on."
+  },
+  "sea.leak.gains": {
+   "urgency": "pressing",
+   "patience_hours": 3,
+   "holds_ship": true,
+   "default": "run",
+   "fallbacks": [
+    "heel",
+    "beach"
+   ],
+   "why": "No order to beach her or heel her: all hands bail."
+  },
+  "sea.sail.seam": {
+   "default": "leave",
+   "why": "Nothing is done: it waits for port."
+  },
+  "sea.sail.splits": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": true,
+   "default": "run",
+   "why": "Freeze, and she runs on under what is left."
+  },
+  "sea.cargo.shifts": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": true,
+   "default": "trim",
+   "fallbacks": [
+    "restow",
+    "stones"
+   ],
+   "why": "No order to restow: the men lean out and she sails on."
+  },
+  "sea.overboard.cry": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": true,
+   "default": "line",
+   "fallbacks": [
+    "wear",
+    "row"
+   ],
+   "why": "Freeze, and somebody throws the bailer on its line. The sail is not struck."
+  },
+  "sea.overboard.chilled": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": false,
+   "default": "ale",
+   "fallbacks": [
+    "wrap",
+    "oar"
+   ],
+   "why": "No order: the men give him ale if there is any, else their cloaks."
+  },
+  "sea.sick.fever": {
+   "urgency": "pressing",
+   "patience_hours": 24,
+   "holds_ship": false,
+   "default": "rest",
+   "why": "No order: he lies in the stern. She sails on, and no landing is made for him."
+  },
+  "sea.sick.worse": {
+   "urgency": "pressing",
+   "patience_hours": 12,
+   "holds_ship": false,
+   "default": "vow",
+   "fallbacks": [
+    "bleed",
+    "land"
+   ],
+   "why": "No landing and no knife: the men nurse him as they can."
+  },
+  "sea.water.thirst": {
+   "urgency": "pressing",
+   "patience_hours": 24,
+   "holds_ship": false,
+   "default": "dew",
+   "why": "No landing is ordered: she holds on and hopes for rain."
+  },
+  "sea.quarrel.blows": {
+   "urgency": "pressing",
+   "patience_hours": 1,
+   "holds_ship": true,
+   "default": "part",
+   "why": "The boat is steering herself. The oar is taken and they are parted; no more is done."
+  },
+  "sea.herring.shoal": {
+   "urgency": "ordinary",
+   "default": "through",
+   "why": "She sails through. It is fish, not a shoal of sand."
+  },
+  "sea.bird.aboard": {
+   "default": "rest",
+   "why": "Let it rest."
+  },
+  "sea.raven.yard": {
+   "default": "watch",
+   "why": "Do neither."
+  },
+  "sea.whale.blow": {
+   "default": "hold",
+   "why": "Hold the course and let it pass."
+  },
+  "sea.seals.bank": {
+   "default": "mark",
+   "why": "Pass quietly."
+  },
+  "harbour.chain_black_stones.s06_quentovic": {
+   "speaker": "quentovic.hildric",
+   "note": "The abbot's clerk at the toll house is Hildric of the places file (the pilgrim road's step 3 names him at the same table)."
+  },
+  "harbour.chain_house_new_ship.s01_wright": {
+   "speaker": "dorestad.gerbrand",
+   "note": "The wright at the dam heads is Gerbrand, the one wright of the Dorestad file."
+  },
+  "harbour.chain_house_new_ship.s04_iron": {
+   "speaker": "daventre.einbert",
+   "note": "The smith on the bank at Daventre is Einbert of the places file."
+  },
+  "harbour.chain_kentish_revolt_796.s03_new_pennies": {
+   "speaker": "fordwic.eoba",
+   "note": "A Canterbury moneyer who struck for Offa and strikes for Eadberht: that is Eoba of the places file."
+  },
+  "harbour.chain_old_gods.s02_stone": {
+   "speaker": "walichrum.bernhild",
+   "note": "The sheep farmer's wife of Walichrum is Bernhild of the places file (sixty ewes on the marsh)."
+  },
+  "harbour.chain_old_gods.s10_dune": {
+   "speaker": "walichrum.bernhild",
+   "note": "The sheep farmer's wife of Walichrum is Bernhild of the places file (sixty ewes on the marsh)."
+  },
+  "harbour.chain_old_gods.s11_end_buried": {
+   "speaker": "walichrum.bernhild",
+   "note": "The sheep farmer's wife of Walichrum is Bernhild of the places file (sixty ewes on the marsh)."
+  },
+  "harbour.chain_old_gods.s13_end_custom": {
+   "speaker": "walichrum.bernhild",
+   "note": "The sheep farmer's wife of Walichrum is Bernhild of the places file (sixty ewes on the marsh)."
+  },
+  "harbour.chain_old_gods.s05_dane": {
+   "speaker": "ripa.skipper",
+   "note": "The places file gives Roulf the same words: a skipper of the Danish isles who carries for the lord at Hleidr."
+  },
+  "harbour.chain_riddle_trail.s02_carter": {
+   "speaker": "ripa.carter",
+   "note": "The carter at Ripa with this riddle is Alli of the places file (the same riddle in cattle_ground.ripa)."
+  },
+  "harbour.chain_storm_vow.s08_thors_man": {
+   "speaker": "role:skipper",
+   "note": "An old shipmaster who no longer sails: not Roulf, who is about thirty."
+  }
+ },
+ "read_and_right": [
+  "harbour.chain_amber_road.s01_beadmaker",
+  "harbour.chain_black_stones.s01_unsold_stones",
+  "harbour.chain_black_stones.end_peace",
+  "harbour.chain_dirham_hoard.s01_dying_gute",
+  "harbour.chain_dirham_hoard.s02_ashes",
+  "harbour.chain_house_debt.s01_tally",
+  "harbour.chain_house_debt.s02_rival",
+  "harbour.chain_house_debt.s04_bread",
+  "harbour.chain_house_debt.s05_new_penny",
+  "harbour.chain_house_debt.s07_bishop",
+  "harbour.chain_house_debt.s08_host",
+  "harbour.chain_house_debt.s09_hawk",
+  "harbour.chain_house_debt.s10_envoys",
+  "harbour.chain_house_debt.s11_friend",
+  "harbour.chain_house_debt.s12_enemy",
+  "harbour.chain_house_debt.s13_st_martin",
+  "harbour.chain_house_debt.s14_sold",
+  "harbour.chain_house_heir.s01_three_roofs",
+  "harbour.chain_house_heir.s02_school",
+  "harbour.chain_house_heir.s02_strand",
+  "harbour.chain_house_heir.s02_hearth",
+  "harbour.chain_house_heir.s03_word",
+  "harbour.chain_house_heir.s04_school_door",
+  "harbour.chain_house_heir.s04_strand_tide",
+  "harbour.chain_house_heir.s04_hearth_spring",
+  "harbour.chain_house_heir.s06_quarrel",
+  "harbour.chain_house_heir.s08_oar",
+  "harbour.chain_house_heir.s08_written",
+  "harbour.chain_house_marriage.s01_empty_house",
+  "harbour.chain_house_marriage.s03_forespeaker",
+  "crew.chain_house_marriage.s04_crew_counsel",
+  "harbour.chain_house_marriage.s05_frankish_table",
+  "harbour.chain_house_marriage.s05_danish_hearth",
+  "harbour.chain_house_marriage.s06_frankish_deed",
+  "harbour.chain_house_marriage.s06_danish_handclasp",
+  "harbour.chain_house_marriage.s08_keel_home",
+  "harbour.chain_house_rival.s01_short_cloaks",
+  "harbour.chain_house_rival.s02_false_measure",
+  "harbour.chain_house_rival.s03_dam_head",
+  "harbour.chain_house_rival.s04_cut_rope",
+  "harbour.chain_house_rival.s05_cutter",
+  "harbour.chain_house_rival.s06_thing",
+  "harbour.chain_house_rival.s07_widow",
+  "harbour.chain_house_rival.end_partner",
+  "harbour.chain_house_rival.end_ruin",
+  "harbour.chain_house_rival.end_feud",
+  "harbour.chain_kentish_revolt_796.s01_two_tallies",
+  "harbour.chain_kentish_revolt_796.s02_reeve_asks",
+  "harbour.chain_kentish_revolt_796.s04_alcuins_letter",
+  "harbour.chain_kentish_revolt_796.s06_church_door",
+  "harbour.chain_kentish_revolt_796.s08_popes_answer",
+  "harbour.chain_kentish_revolt_796.s09_night_at_sarre",
+  "harbour.chain_kentish_revolt_796.s10_as_far_as_the_marsh",
+  "harbour.chain_kentish_revolt_796.end_mercia",
+  "harbour.chain_kentish_revolt_796.end_kent",
+  "harbour.chain_kentish_revolt_796.end_both",
+  "harbour.chain_kentish_revolt_796.end_spared",
+  "harbour.chain_lindisfarne_book.s01_strip_of_gilt",
+  "crew.chain_old_gods.s03_quarrel",
+  "harbour.chain_old_gods.s04_reader",
+  "sea.chain_old_gods.s06_owed",
+  "harbour.chain_old_gods.s09_heard",
+  "harbour.chain_old_gods.s12_end_church",
+  "harbour.chain_pilgrim_road.s01_waiting",
+  "sea.chain_pilgrim_road.s02_mid_channel",
+  "harbour.chain_pilgrim_road.s03_no_letter",
+  "harbour.chain_pilgrim_road.s04_saint_josse",
+  "harbour.chain_pilgrim_road.s05_half_penny",
+  "harbour.chain_pilgrim_road.s07_word_from_rome",
+  "harbour.chain_pilgrim_road.s08_what_she_brought",
+  "crew.chain_pilgrim_road.s09_third_day",
+  "harbour.chain_pilgrim_road.s10_sealed_leaf",
+  "harbour.chain_pilgrim_road.end_quiet_kent",
+  "harbour.chain_pilgrim_road.s12_after_the_marsh",
+  "harbour.chain_pilots_secret.s01_ask_the_water",
+  "harbour.chain_pilots_secret.s02_far_mark",
+  "harbour.chain_pilots_secret.s03_price",
+  "harbour.chain_pilots_secret.s04_spring_bar",
+  "harbour.chain_pilots_secret.s05_thiadbod",
+  "harbour.chain_pilots_secret.s06_north",
+  "sea.chain_pilots_secret.s07_dune_marks",
+  "harbour.chain_pilots_secret.s08_vlie",
+  "harbour.chain_pilots_secret.s09_leaf",
+  "harbour.chain_pilots_secret.s10_count",
+  "harbour.chain_pilots_secret.s11_dark",
+  "harbour.chain_pilots_secret.end_boy",
+  "harbour.chain_pilots_secret.end_book",
+  "harbour.chain_pilots_secret.end_sold",
+  "harbour.chain_riddle_trail.s01_stick",
+  "harbour.chain_saga_rhine_frisia.s01_lots",
+  "harbour.chain_saxon_exiles_804.s01_column",
+  "harbour.chain_silver_road.s01_faceless_coin",
+  "crew.chain_storm_vow.s03_dipping",
+  "harbour.chain_storm_vow.s04_buyer",
+  "crew.chain_storm_vow.s05_both_ways",
+  "crew.chain_storm_vow.s10_overdue",
+  "harbour.chain_storm_vow.end_commuted",
+  "harbour.chain_wine_fleet.s01_second_keel",
+  "crew.pay.reckoning",
+  "crew.pay.count_or_crew",
+  "crew.home.asks",
+  "crew.home.frisian_wife",
+  "crew.faith.lent_meat",
+  "crew.faith.offering",
+  "crew.faith.radbod",
+  "crew.faith.vow",
+  "crew.faith.thunder",
+  "crew.sick.cough",
+  "crew.sick.leech",
+  "crew.death.churchyard",
+  "crew.death.kin",
+  "crew.death.danes_word",
+  "crew.hunger.shore",
+  "crew.hunger.wheat",
+  "crew.cold.watch",
+  "crew.cold.seafarer",
+  "crew.bored.calm",
+  "crew.bored.tafl",
+  "crew.bored.wonders",
+  "crew.heart.deor",
+  "crew.fight.strand",
+  "crew.fight.one_must_go",
+  "crew.theft.missing",
+  "crew.theft.caught",
+  "crew.friend.one_cloak",
+  "crew.friend.gift",
+  "crew.tongue.norse_more",
+  "crew.tongue.english",
+  "crew.tongue.letters",
+  "crew.tongue.runes",
+  "crew.riddle.fog",
+  "crew.riddle.dew",
+  "crew.riddle.anchor",
+  "crew.riddle.hail",
+  "crew.riddle.wind",
+  "crew.riddle.answered",
+  "crew.read.rune_stick",
+  "crew.read.latin_leaf",
+  "crew.hire.second_son",
+  "crew.hire.dane",
+  "crew.leave.widow",
+  "crew.winter.haul_out",
+  "crew.winter.lodging",
+  "crew.winter.long_nights",
+  "crew.winter.yule",
+  "crew.winter.spring",
+  "crew.silver.three_kinds",
+  "crew.cargo.swords",
+  "crew.cargo.book",
+  "crew.council.wind",
+  "crew.song.fitt_01",
+  "crew.song.fitt_02",
+  "crew.song.fitt_03",
+  "crew.song.fitt_04",
+  "crew.song.fitt_05",
+  "crew.song.fitt_06",
+  "crew.song.fitt_07",
+  "crew.song.fitt_08",
+  "crew.song.fitt_09",
+  "crew.song.fitt_10",
+  "crew.song.fitt_11",
+  "crew.song.fitt_12",
+  "crew.song.fitt_13",
+  "crew.song.fitt_14",
+  "crew.song.fitt_15",
+  "crew.song.fitt_16",
+  "crew.song.fitt_17",
+  "crew.song.fitt_18",
+  "crew.song.fitt_19",
+  "crew.song.fitt_20",
+  "crew.song.fitt_21",
+  "crew.song.fitt_22",
+  "crew.song.fitt_23",
+  "crew.song.fitt_24",
+  "crew.song.fitt_25",
+  "crew.song.fitt_26",
+  "crew.song.fitt_27",
+  "crew.song.fitt_28",
+  "crew.song.fitt_29",
+  "crew.song.fitt_30",
+  "crew.song.fitt_31",
+  "crew.song.fitt_32",
+  "crew.song.fitt_33",
+  "crew.song.fitt_34",
+  "crew.song.fitt_35",
+  "crew.song.fitt_36",
+  "crew.song.fitt_37",
+  "crew.song.fitt_38",
+  "crew.song.fitt_39",
+  "crew.song.fitt_40",
+  "crew.song.fitt_41",
+  "crew.song.fitt_42",
+  "crew.song.fitt_43",
+  "crew.song.paid",
+  "harbour.silver_has_one_face.ripa",
+  "harbour.leaves_by_the_handful.ripa",
+  "harbour.word_at_the_well.ripa",
+  "harbour.blue_for_toki.ripa",
+  "harbour.cattle_ground.ripa",
+  "harbour.grain_over_the_flats.ripa",
+  "harbour.dead_guest.ripa",
+  "harbour.wine_over_the_side.lundenwic",
+  "harbour.reeves_ice.lundenwic",
+  "harbour.sworn_at_the_hall.lundenwic",
+  "harbour.moneyers_pan.lundenwic",
+  "harbour.black_stones_wanted.lundenwic",
+  "harbour.leofruns_looms.lundenwic",
+  "harbour.cloaks_off_the_loom.lundenwic",
+  "harbour.comb_pit.lundenwic",
+  "harbour.three_nights.lundenwic",
+  "harbour.wynflaeds_stick.lundenwic",
+  "harbour.breaking_beach.lundenwic",
+  "harbour.hounds_at_the_pens.lundenwic",
+  "harbour.grave_on_the_rise.lundenwic",
+  "harbour.priest_of_saint_pauls.lundenwic",
+  "harbour.heavier_than_sins.sarre",
+  "harbour.tidburhs_oysters.sarre",
+  "harbour.wine_for_the_minster.sarre",
+  "harbour.little_scale.sarre",
+  "harbour.saint_mildriths_day.sarre",
+  "harbour.hulls_from_the_down.sarre",
+  "harbour.tatwines_leaf.fordwic",
+  "harbour.herd_of_calves.fordwic",
+  "harbour.leaves_for_canterbury.fordwic",
+  "harbour.blank_tally.fordwic",
+  "harbour.eobas_bench.fordwic",
+  "harbour.ten_chickens.fordwic",
+  "harbour.haywards_horn.fordwic",
+  "harbour.letters_in_the_porch.fordwic",
+  "harbour.kings_graves.fordwic",
+  "harbour.carts_for_the_city.fordwic",
+  "harbour.two_who_watch.sarre",
+  "harbour.tollman.frankish",
+  "long.offa_quarrel.ports_shut",
+  "harbour.years_arms.mail_buyer",
+  "long.frankfurt.kings_price",
+  "harbour.years_coin.old_pennies",
+  "long.offa_letter.796",
+  "long.arms_ban.border_posts",
+  "harbour.years_famine.corn_805",
+  "harbour.quentovic.sealed_wool",
+  "harbour.quentovic.oath_helper",
+  "harbour.quentovic.sails_off_the_bar",
+  "harbour.quentovic.salt_leaf",
+  "harbour.quentovic.abbeys_fish",
+  "harbour.quentovic.lent_at_the_cell",
+  "harbour.quentovic.sigewine_waits",
+  "harbour.quentovic.old_deacon",
+  "harbour.quentovic.pilgrims_grave",
+  "harbour.quentovic.wulfgifus_fire",
+  "harbour.widows_store.dorestad",
+  "harbour.thiadbods_dam.dorestad",
+  "harbour.kings_mint.dorestad",
+  "harbour.book_for_utrecht.dorestad",
+  "harbour.counts_court.dorestad",
+  "harbour.breaking_beach.dorestad",
+  "harbour.black_haired_merchant.dorestad",
+  "harbour.aldswiths_bench.dorestad",
+  "harbour.grave_at_de_heul.dorestad",
+  "harbour.midsummer_fires.dorestad",
+  "harbour.salter_on_the_dams.dorestad",
+  "harbour.school_chest.traiectum",
+  "harbour.priors_store.traiectum",
+  "harbour.bishops_hall.traiectum",
+  "harbour.priest_for_the_ems.traiectum",
+  "harbour.lent_table.traiectum",
+  "harbour.vecht_hand.traiectum",
+  "harbour.vecht_crossing.traiectum",
+  "harbour.saint_martins_plate.traiectum",
+  "harbour.hathugards_question.daventre",
+  "harbour.host_buyer.daventre",
+  "harbour.north_of_the_grave.daventre",
+  "harbour.hollow_on_the_heest.daventre",
+  "harbour.heath_iron.daventre",
+  "harbour.wiltruds_house.walichrum",
+  "harbour.brooch_hearth.walichrum",
+  "harbour.side_room.walichrum",
+  "harbour.salt_hearths.walichrum",
+  "harbour.pilots_shed.witla",
+  "harbour.five_cows.witla",
+  "harbour.dice_at_wilsuits.witla",
+  "harbour.eel_stakes.medemelacha",
+  "harbour.door_post.medemelacha",
+  "harbour.stone_ground.medemelacha",
+  "harbour.knot_of_pennies.doccinga",
+  "harbour.fifth_of_june.doccinga",
+  "harbour.aalsum_cloth.doccinga",
+  "harbour.bread_for_cloth.frisia",
+  "harbour.gate_bench.traiectum",
+  "harbour.creek_strand.walichrum",
+  "harbour.monk_with_a_tablet.walichrum",
+  "harbour.plank_coffin.walichrum",
+  "harbour.menders_bank.walichrum",
+  "harbour.sheep_on_the_dune.walichrum",
+  "harbour.tan_pits.walichrum",
+  "harbour.who_crossed.daventre",
+  "harbour.across_one_cloth.daventre",
+  "harbour.mass_at_the_cross.witla",
+  "harbour.racks_and_salt_fires.witla",
+  "harbour.spring_on_the_mound.doccinga",
+  "harbour.painted_leaf.dorestad",
+  "harbour.saxon_at_the_bench.dorestad",
+  "harbour.leaf_for_the_school.traiectum",
+  "harbour.tenth_counted.traiectum",
+  "harbour.eel_weirs.daventre",
+  "harbour.lebuins_day.daventre",
+  "harbour.saints_tenth.medemelacha",
+  "sea.calm.stories",
+  "sea.calm.beside_early",
+  "sea.sky.ring",
+  "sea.frost.dawn",
+  "sea.wreck.mast",
+  "sea.spar.drift",
+  "sea.smoke.ashore",
+  "sea.light.ashore",
+  "sea.sail.far",
+  "sea.fisher.boat",
+  "sea.anchor.english",
+  "sea.pilgrims.adrift",
+  "sea.dead.man",
+  "sea.birds.land",
+  "sea.porpoise.roll",
+  "sea.geese.skeins",
+  "sea.rat.bread",
+  "sea.night.light",
+  "sea.lights.north",
+  "sea.fire.water",
+  "sea.feast.day",
+  "sea.fast.nofish",
+  "sea.wine.weeps",
+  "sea.water.foul",
+  "sea.quarrel.oar",
+  "sea.watch.asleep",
+  "sea.sun.noon",
+  "sea.star.ship",
+  "sea.land.wrong",
+  "sea.land.smell",
+  "sea.river.weir",
+  "sea.river.tow",
+  "sea.river.mist"
+ ]
+}

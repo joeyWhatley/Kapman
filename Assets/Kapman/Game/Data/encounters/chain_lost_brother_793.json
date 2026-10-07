@@ -1,0 +1,683 @@
+{
+ "about": "CHAIN lost_brother (Design/content/chains/lost_brother.md): a kinsman taken in a raid and sold, followed port by port. Fourteen cards. In the summer of 810 King Godfred's two hundred ships fall on the Frisian islands (Annales regni Francorum 810). The merchant's brother Liafbern, who farms their mother's kin's mound by Doccinga, is rowed off with his son Wibern, a boy of ten. At Sliesthorp the dealer remembers the lot and how it was split: the grown men south with a Saxon drover, down the Hellweg to the Rhine and Mainz, where the Verdun men buy for Spain; the young east with a Svea to Birka, and from there to Aldeigja when the ships go. The southern road is far and its time is short (200 days); the eastern is near and its time is long (420 days): the house can reach one surely, both only by haste, and in the spring of 811 it can stand on the Eider where twelve Franks and twelve Danes swear peace and ask for something no annal records. Five endings: both home (end_both, the hard road); the brother home and the boy a Svea's boy on the east road (end_brother); the boy home and his father gone to Spain (end_boy); nobody home and a share of a mound (end_empty_bench, as it really went for the islands); and the peace sworn with the islands' people in it (end_peace, history changed: changed_eider_peace_captives). Progress is flags ch_lost_brother_1 to _9; the named flags, the timers, the endings and the grand rewards are listed in the chain page. A road that is never sailed closes by itself when ch_lost_brother_search runs out (1,300 days from the first card), so the chain always ends. The words are in Data/writing/chain_lost_brother.json; each option's note names the writing key of its outcome text (the engine shows the effects' own facts; the outcome keys are for the integrator). Nobody in the speech says 'slave trade' or 'Viking': they are the taken, a lot, a head, the heathen men, the Danes. Liafbern, Wibern, Frethburg, Ingimar and Gundbert are invented; cast.asulf, cast.dragomir, cast.holmfast are the spine's invented cast; cast.landric and Archbishop Riculf are real. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_lost_brother.s01_word",
+   "note": "Step 1, the start (drawn at any of six Frisian landings from midsummer 810 to the end of 812). A man off the islands brings word: the mound burned, the brother and his boy rowed off alive. Sources: Annales regni Francorum 810 (a fleet of two hundred ships from the Northmen's land; all the islands off the Frisian shore wasted; three battles; a hundred pounds of silver already paid as tribute; the king marches to the Aller and Weser; Godfred killed by one of his own following; the elephant Abul Abbas dies at Lippeham the same summer). Chronicle entries: chronicle_793.json 810-summer-frisia-raid-810, 810-summer-godfred-murdered, 810-summer-elephant-dies. That people were carried off in 810 is not in the annal (?); it is said outright of the next raid on Frisia, in 813, when the Northmen carried off men, women and much booty (Chronicle of Moissac 813; chronicle_793.json 813-frisia-raid-813). Liafbern and Wibern are invented. Sets ch_lost_brother_1 and the long timer ch_lost_brother_search (1,300 days).",
+   "stage": "harbour",
+   "when": "moored and (port.id = doccinga or port.id = emuthon or port.id = wijnaldum or port.id = medemelacha or port.id = dorestad or port.id = traiectum) and ((year = 810 and month >= 6) or year = 811 or year = 812) and not flag.ch_lost_brother_1",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "survivor": { "role": "survivor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 55], "fixed": false, "note": "a man of the islands with a burned hand (invented)" },
+    "countsman": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [25, 50], "fixed": false, "note": "one of the count's riders, back from the muster" }
+   },
+   "title_key": "chain_lost_brother.s01.title",
+   "title": "Word from the islands",
+   "intention_key": "chain_lost_brother.s01.intention",
+   "intention": "A man with a burned hand is asking along the landing for your house by name. He is off the islands. He was your brother's neighbour, and he has been walking for nine days.",
+   "lines": [
+    { "who": "survivor", "key": "chain_lost_brother.s01.survivor_ships" },
+    { "who": "survivor", "key": "chain_lost_brother.s01.survivor_brother" },
+    { "who": "survivor", "key": "chain_lost_brother.s01.survivor_boy" },
+    { "who": "countsman", "key": "chain_lost_brother.s01.countsman_king", "when": "year = 810" },
+    { "who": "countsman", "key": "chain_lost_brother.s01.countsman_peace", "when": "year >= 811" }
+   ],
+   "options": [
+    { "key": "bread", "label_key": "chain_lost_brother.s01.opt_bread", "label": "Give him bread, a place by the fire and six pennies, and hear all of it",
+      "check": "silver >= 6", "cost": "silver 6",
+      "effects": [ "deed gave_alms", "npc survivor feeling +10 fed", "flag ch_lost_brother_search for 1300", "flag ch_lost_brother_1" ],
+      "note": "outcome: chain_lost_brother.s01.out_bread" },
+    { "key": "ask", "label_key": "chain_lost_brother.s01.opt_ask", "label": "Ask the count's rider whether the king will buy the taken back",
+      "check": "true",
+      "effects": [ "npc countsman feeling +2 asked", "news chain_lost_brother.news.raid at here", "flag ch_lost_brother_search for 1300", "flag ch_lost_brother_1" ],
+      "note": "outcome: chain_lost_brother.s01.out_ask (a true rumour: nobody is buying anyone back)" },
+    { "key": "go", "label_key": "chain_lost_brother.s01.opt_go", "label": "Thank him and say nothing more",
+      "check": "true", "default": true,
+      "effects": [ "npc survivor feeling +2 heard", "flag ch_lost_brother_search for 1300", "flag ch_lost_brother_1" ],
+      "note": "outcome: chain_lost_brother.s01.out_go" }
+   ],
+   "memory": {
+    "bread": "fed him and heard him out",
+    "ask": "asked the count's rider about ransom",
+    "go": "thanked him and said nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s02_mound",
+   "note": "Step 2 (drawn at Doccinga after step 1). The mound by the creek: the byre burned, the looms standing, the brother's wife Frethburg (invented) and the priest. She tells the marks to know them by. The priest tells the story of Imma. Sources: Bede, Historia ecclesiastica IV.22 (Imma, a thegn taken after the battle on the Trent in 679, whose bonds fell off whenever his brother the priest said Mass for him, and who was sold in London to a Frisian; retold in our own words, nothing quoted); the wooden church of St Paul and St Boniface on its mound at Doccinga (dossiers/doccinga.md); Frisian cloth woven on the mounds (goods_793.json frisian_cloth). The priest is cast.landric (real: Altfrid, Vita Liudgeri I.22; all he says is ours). Sets ch_lost_brother_2 and one of ch_lost_brother_names, ch_lost_brother_vow, ch_lost_brother_band.",
+   "stage": "harbour",
+   "when": "moored and port.id = doccinga and flag.ch_lost_brother_1 and not flag.ch_lost_brother_2",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 40], "fixed": true, "note": "Frethburg, Liafbern's wife (invented)" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 46], "fixed": true, "note": "cast.landric" }
+   },
+   "title_key": "chain_lost_brother.s02.title",
+   "title": "The mound by the creek",
+   "intention_key": "chain_lost_brother.s02.intention",
+   "intention": "The byre is black posts. The house stands, because it was raining. Your brother's wife is at the loom as if nothing else could be trusted to stay where it is put. The priest has walked over from the church with a wax tablet.",
+   "lines": [
+    { "who": "wife", "key": "chain_lost_brother.s02.wife_taken" },
+    { "who": "wife", "key": "chain_lost_brother.s02.wife_marks" },
+    { "who": "wife", "key": "chain_lost_brother.s02.wife_band" },
+    { "who": "priest", "key": "chain_lost_brother.s02.priest_names" },
+    { "who": "priest", "key": "chain_lost_brother.s02.priest_imma" }
+   ],
+   "options": [
+    { "key": "names", "label_key": "chain_lost_brother.s02.opt_names", "label": "Have the priest write down every name the islands lost, and carry the list",
+      "check": "true",
+      "effects": [ "flag ch_lost_brother_names", "learn latin +0.05", "npc priest feeling +6 names", "npc wife feeling +3 names", "flag ch_lost_brother_2" ],
+      "note": "outcome: chain_lost_brother.s02.out_names (forty-three names; the list is what the clerk on the Eider can use, step 4)" },
+    { "key": "silver", "label_key": "chain_lost_brother.s02.opt_silver", "label": "Take the silver the mound has dug up for the buying back, and give your word on it",
+      "check": "true",
+      "effects": [ "silver +90", "flag ch_lost_brother_vow", "npc wife feeling +5 vow", "flag ch_lost_brother_2" ],
+      "note": "outcome: chain_lost_brother.s02.out_silver (ninety pennies in cut silver and old coin, and a word given before neighbours)" },
+    { "key": "band", "label_key": "chain_lost_brother.s02.opt_band", "label": "Take only the end of the band she wove for the boy's belt, and promise nothing",
+      "check": "true", "default": true,
+      "effects": [ "flag ch_lost_brother_band", "npc wife feeling +2 band", "flag ch_lost_brother_2" ],
+      "note": "outcome: chain_lost_brother.s02.out_band (the boy will know the pattern; it can go east without you, step 9)" }
+   ],
+   "memory": {
+    "names": "carried the list of the taken",
+    "silver": "took the mound's silver and gave his word",
+    "band": "took the end of the boy's band"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s03_pen",
+   "note": "Step 3 (drawn at Sliesthorp in the sailing months, after step 1). The dealer's pen behind the booths. He remembers every lot and has no reason to lie: the island lot was split. Sources: Godfred carried the merchants of Reric to Sliesthorp in 808 (Annales regni Francorum 808; spine thread godfreds_market); captives sold at Sliaswich (Vita Rimberti c. 18, of the 870s: later, used for the place only); iron shackles from Hedeby's harbour (economy/furs_amber_ivory_slaves.md 5.10); lots sold from Lammas to Martinmas (the same file, 5.4). The southern road, by the Hellweg to the Rhine and to Verdun, is attested for the tenth century (Liudprand, Antapodosis VI.6, of about 949) and read back to 810 (?). Cast: cast.asulf, cast.dragomir. A blade given here breaks the king's law (Thionville 805 c. 7); the toll man's own card is the danger, not this one. Sets ch_lost_brother_3 and the two timers: ch_lost_brother_south_open (200 days) and ch_lost_brother_east_open (420 days; 540 with the blade, because he sends word east).",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_lost_brother_1 and not flag.ch_lost_brother_3 and year < 816",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [4, 5, 6, 7, 8, 9, 10, 11],
+   "actors": {
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [50, 60], "fixed": true, "note": "cast.asulf" },
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "age": [45, 60], "fixed": true, "note": "cast.dragomir, set down here from Reric in 808" }
+   },
+   "title_key": "chain_lost_brother.s03.title",
+   "title": "A man who remembers every sale",
+   "intention_key": "chain_lost_brother.s03.intention",
+   "intention": "Asulf's pen is a fenced yard with a roof along one side and a trough. He feeds his lots; it is cheaper than burying them. He has a hazel switch in his hand and a row of notched sticks on a peg, one for each ship that sold to him this year.",
+   "lines": [
+    { "who": "dealer", "key": "chain_lost_brother.s03.dealer_remembers" },
+    { "who": "dealer", "key": "chain_lost_brother.s03.dealer_split" },
+    { "who": "dealer", "key": "chain_lost_brother.s03.dealer_king", "when": "year <= 811 and not flag.ch_lost_brother_peace" },
+    { "who": "dealer", "key": "chain_lost_brother.s03.dealer_peace", "when": "flag.ch_lost_brother_peace" },
+    { "who": "wend", "key": "chain_lost_brother.s03.wend_south" }
+   ],
+   "options": [
+    { "key": "blade", "label_key": "chain_lost_brother.s03.opt_blade", "label": "Lay a Frankish blade on his table for the whole telling and his own stick",
+      "check": "hold.sword_blades > 0", "cost": "goods sword_blades 1",
+      "effects": [ "npc dealer feeling +10 blade", "flag ch_lost_brother_tally", "flag ch_lost_brother_south_open for 200", "flag ch_lost_brother_east_open for 540",
+                   "price_shock sliesthorp sword_blades x1.3 for 120", "flag ch_lost_brother_3" ],
+      "note": "outcome: chain_lost_brother.s03.out_blade (his notched stick, which the Svear know; he sends word east that the boy is asked for, so the east road stays open longer; the price word is true)" },
+    { "key": "silver", "label_key": "chain_lost_brother.s03.opt_silver", "label": "Weigh him two ounces of silver for the telling and his stick",
+      "check": "silver >= 24", "cost": "silver 24",
+      "effects": [ "npc dealer feeling +4 paid", "flag ch_lost_brother_tally", "flag ch_lost_brother_south_open for 200", "flag ch_lost_brother_east_open for 420", "flag ch_lost_brother_3" ],
+      "note": "outcome: chain_lost_brother.s03.out_silver" },
+    { "key": "water", "label_key": "chain_lost_brother.s03.opt_water", "label": "Carry water in his pen for a day, and listen",
+      "check": "true", "default": true,
+      "effects": [ "morale -0.02", "npc dealer feeling +2 water", "npc wend feeling +4 water", "flag ch_lost_brother_south_open for 200", "flag ch_lost_brother_east_open for 420", "flag ch_lost_brother_3" ],
+      "note": "outcome: chain_lost_brother.s03.out_water (pride and a day; he tells it anyway, without the stick)" }
+   ],
+   "memory": {
+    "blade": "paid for a telling with a Frankish blade",
+    "silver": "paid for a telling in weighed silver",
+    "water": "carried water in the pen for a day"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s04_eider",
+   "note": "Step 4, the turn that can change history (drawn at Sliesthorp from March to June 811 only, after step 1; it does not need step 3, and the chain never waits for it). The peace of the Eider. Sources: Annales regni Francorum 811: the peace between the emperor and Hemming, sworn on weapons over the hard winter, is confirmed when the roads open by twelve great men of each people meeting on the river Eider; the Frankish twelve are led by Count Wala, son of Bernhard, the Danes by Hemming's brothers Hankwin and Angandeo (chronicle_793.json 811-spring-eider-peace). The annal gives no terms beyond the peace itself. A clause for the return of the taken is our invention and is the change: changed_eider_peace_captives. The clerk and the king's man are invented; Wala and Hemming are real and are spoken of, not met. On 'list' (needs the priest's list from step 2) the clause is likely sworn; failing, the king's man gives his token for the dealer. On 'speak' (needs half the Northmen's tongue and a name known here) it is sworn. Sets ch_lost_brother_4.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year = 811 and flag.ch_lost_brother_1 and not flag.ch_lost_brother_4",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [3, 4, 5, 6],
+   "actors": {
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [25, 45], "fixed": false, "note": "a clerk in Count Wala's following (invented)" },
+    "dane": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 55], "fixed": false, "note": "one of King Hemming's men (invented)" }
+   },
+   "title_key": "chain_lost_brother.s04.title",
+   "title": "Twelve and twelve",
+   "intention_key": "chain_lost_brother.s04.intention",
+   "intention": "The town is full of horses. A day's ride west, on the Eider, twelve great men of the Franks and twelve of the Danes are to swear the peace the kings made over the winter. A Frankish clerk is buying fish and writing down what it cost. One of King Hemming's men is watching him write.",
+   "lines": [
+    { "who": "clerk", "key": "chain_lost_brother.s04.clerk_twelve" },
+    { "who": "clerk", "key": "chain_lost_brother.s04.clerk_list", "when": "flag.ch_lost_brother_names" },
+    { "who": "clerk", "key": "chain_lost_brother.s04.clerk_nolist", "when": "not flag.ch_lost_brother_names" },
+    { "who": "dane", "key": "chain_lost_brother.s04.dane_sold" },
+    { "who": "dane", "key": "chain_lost_brother.s04.dane_hemming" }
+   ],
+   "options": [
+    { "key": "list", "label_key": "chain_lost_brother.s04.opt_list", "label": "Give the clerk the list of names, and forty pennies to see it reaches his count",
+      "check": "flag.ch_lost_brother_names and silver >= 40", "cost": "silver 40",
+      "effects": [ { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "flag ch_lost_brother_peace", "flag changed_eider_peace_captives", "npc clerk feeling +10 list",
+                                  "news chain_lost_brother.news.eider_clause at dorestad" ],
+                     "failure": [ "flag ch_lost_brother_tally", "npc clerk feeling +3 list", "npc dane feeling +3 list" ] },
+                   "flag ch_lost_brother_4" ],
+      "note": "outcome: chain_lost_brother.s04.out_list_success / out_list_failure (failing, the list is read and not sworn; the king's man cuts you his token, which the dealer and the Svear honour as they do the dealer's own stick)" },
+    { "key": "speak", "label_key": "chain_lost_brother.s04.opt_speak", "label": "Ride to the Eider and say it yourself, in their tongue, before both twelves",
+      "check": "tongue.old_norse >= 0.5 and standing >= known",
+      "effects": [ "flag ch_lost_brother_peace", "flag changed_eider_peace_captives", "npc dane feeling +8 spoke", "npc clerk feeling +4 spoke",
+                   "news chain_lost_brother.news.eider_clause at dorestad", "flag ch_lost_brother_4" ],
+      "note": "outcome: chain_lost_brother.s04.out_speak" },
+    { "key": "watch", "label_key": "chain_lost_brother.s04.opt_watch", "label": "Stand in the crowd and watch them swear",
+      "check": "true", "default": true,
+      "effects": [ "npc dane feeling +2 watched", "news chain_lost_brother.news.eider_sworn at dorestad", "flag ch_lost_brother_4" ],
+      "note": "outcome: chain_lost_brother.s04.out_watch (as it really went: a peace with nobody's kin in it)" }
+   ],
+   "memory": {
+    "list": "brought a list of the taken to the Eider",
+    "speak": "spoke for the islands before the twelve",
+    "watch": "watched the peace sworn"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s05_hellweg",
+   "note": "Step 5, a side step on the southern road (drawn at Diusburg after step 3, while the brother's road is open). The ferry at the Ruhr's mouth, where the Hellweg from Saxony comes down to the Rhine. The ferryman counted the drover's lot across and saw one of the 'Wends' cross himself. Sources: Diusburg at the west end of the Hellweg (dossiers/diusburg.md); Herstal 779 c. 19: a sale of people is made before the bishop or the count, the archdeacon, the hundred-man or the count's judge, or before well-known witnesses, and nobody sells one beyond the march (MGH Capit. I no. 20). That a lot from Sliesthorp walked this road in 810 is our invention (?). Sets ch_lost_brother_5; 'witness' sets ch_lost_brother_witness, which makes the oath at Mainz sure.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and flag.ch_lost_brother_3 and not flag.ch_lost_brother_5 and not flag.ch_lost_brother_brother_free and not flag.ch_lost_brother_brother_lost",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "ferryman": { "role": "ferryman", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [35, 60], "fixed": true, "note": "the ferryman at the Ruhr's mouth (invented)" }
+   },
+   "title_key": "chain_lost_brother.s05.title",
+   "title": "One who crossed himself",
+   "intention_key": "chain_lost_brother.s05.intention",
+   "intention": "The road from Saxony comes down to the water here, and whatever walks it crosses in this man's boat. He counts everything he carries, because he is paid by the head, for oxen and for people alike.",
+   "lines": [
+    { "who": "ferryman", "key": "chain_lost_brother.s05.ferryman_count" },
+    { "who": "ferryman", "key": "chain_lost_brother.s05.ferryman_cross" },
+    { "who": "ferryman", "key": "chain_lost_brother.s05.ferryman_mainz" }
+   ],
+   "options": [
+    { "key": "witness", "label_key": "chain_lost_brother.s05.opt_witness", "label": "Pay him thirty pennies to come up the river and say it under oath",
+      "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "flag ch_lost_brother_witness", "passenger ferryman to mogontia", "npc ferryman feeling +6 hired", "flag ch_lost_brother_5" ],
+      "note": "outcome: chain_lost_brother.s05.out_witness (a well-known witness, as the law of Herstal asks)" },
+    { "key": "ask", "label_key": "chain_lost_brother.s05.opt_ask", "label": "Ask him what else the road has brought down, and go on",
+      "check": "true", "default": true,
+      "effects": [ "npc ferryman feeling +2 asked", "price_shock mogontia frisian_cloth x1.15 for 90", "flag ch_lost_brother_5" ],
+      "note": "outcome: chain_lost_brother.s05.out_ask (a true price word: the cloth boats are late and Mainz is paying over)" }
+   ],
+   "memory": {
+    "witness": "hired him as a witness for Mainz",
+    "ask": "asked after a lot of Wends"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s06_yard",
+   "note": "Step 6, the southern road in time (drawn at Mogontia within 200 days of step 3). The lot stands in a Verdun merchant's yard by the Frisians' quarter, to be sold on before the archbishop's steward as the law asks. The brother is in it, sworn a heathen Wend by the drover. Sources: Herstal 779 c. 19 (as step 5); Lex Frisionum XXI, on man-stealing: who sells a free man out of the country pays for him as if he had killed him, or brings him back (the law was set down about 802; the wording is from memory (?)); the test of a Christian by what he can say (the nun who sang psalms at Sliaswich, Vita Rimberti c. 18: later, the idea only); Archbishop Riculf of Mainz, 787 to 9 August 813, then Haistulf (dossiers/mogontia.md); the Frisian quarter at Mainz (ports_793.json; Annales Fuldenses 886 for its burning: later). Verdun's merchants and the road to Spain: Liudprand, Antapodosis VI.6 (about 949), read back (?). Gundbert and the steward are invented. A man's price of 300 d is the top of the evidence (120 to 240 d) and a Verdun price. The share of 160 d paid to the kinsman who proves the wrong is ours (?). Sets ch_lost_brother_6, ch_lost_brother_brother_free and the wait ch_lost_brother_wait_home (40 days); 'witness' and a won 'oath' set the lasting cost ch_lost_brother_verdun_grudge; 'alms' and a lost 'oath' set ch_lost_brother_church_debt.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and flag.ch_lost_brother_3 and flag.ch_lost_brother_south_open and not flag.ch_lost_brother_brother_free and not flag.ch_lost_brother_brother_lost",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "buyer": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [35, 55], "fixed": true, "note": "Gundbert of Verdun (invented)" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "the archbishop's steward, before whom sales are made (invented)" },
+    "brother": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [32, 40], "fixed": true, "note": "Liafbern (invented)" }
+   },
+   "title_key": "chain_lost_brother.s06.title",
+   "title": "Eleven Wends and a Frisian",
+   "intention_key": "chain_lost_brother.s06.intention",
+   "intention": "A walled yard behind the Frisians' quarter. Twelve men sit along the wall with a rope through their belts. Eleven are Wends. The twelfth has a broken front tooth and a white scar across his left hand, and he has seen you and is being careful not to look.",
+   "lines": [
+    { "who": "buyer", "key": "chain_lost_brother.s06.buyer_price" },
+    { "who": "buyer", "key": "chain_lost_brother.s06.buyer_sworn" },
+    { "who": "brother", "key": "chain_lost_brother.s06.brother_first" },
+    { "who": "steward", "key": "chain_lost_brother.s06.steward_law" },
+    { "who": "steward", "key": "chain_lost_brother.s06.steward_riculf", "when": "year <= 813" },
+    { "who": "steward", "key": "chain_lost_brother.s06.steward_haistulf", "when": "year > 813" },
+    { "who": "steward", "key": "chain_lost_brother.s06.steward_witness", "when": "flag.ch_lost_brother_witness" }
+   ],
+   "options": [
+    { "key": "buy", "label_key": "chain_lost_brother.s06.opt_buy", "label": "Buy him at the Verdun man's price",
+      "check": "silver >= 300", "cost": "silver 300",
+      "effects": [ "npc buyer feeling +4 bought", "flag ch_lost_brother_brother_free", "passenger brother to doccinga",
+                   "flag ch_lost_brother_wait_home for 40", "flag ch_lost_brother_6" ],
+      "note": "outcome: chain_lost_brother.s06.out_buy" },
+    { "key": "witness", "label_key": "chain_lost_brother.s06.opt_witness", "label": "Swear him a free Frisian before the steward, with the ferryman's oath beside yours",
+      "check": "flag.ch_lost_brother_witness",
+      "effects": [ "silver +160", "deed won_case", "npc steward feeling +6 oath", "npc buyer feeling -20 oath", "flag ch_lost_brother_verdun_grudge",
+                   "flag ch_lost_brother_brother_free", "passenger brother to doccinga", "flag ch_lost_brother_wait_home for 40", "flag ch_lost_brother_6" ],
+      "note": "outcome: chain_lost_brother.s06.out_witness (the turn's reward: he walks out free, and the kinsman's share of the wrong is weighed out)" },
+    { "key": "oath", "label_key": "chain_lost_brother.s06.opt_oath", "label": "Swear him a free Frisian with your crew as oath-helpers",
+      "check": "crew >= 3",
+      "effects": [ { "chance": 0.55, "by": "crew.trade_best",
+                     "success": [ "silver +160", "deed won_case", "npc steward feeling +6 oath", "npc buyer feeling -20 oath", "flag ch_lost_brother_verdun_grudge" ],
+                     "failure": [ "deed lost_case", "npc steward feeling +2 oath", "flag ch_lost_brother_church_debt" ] },
+                   "flag ch_lost_brother_brother_free", "passenger brother to doccinga", "flag ch_lost_brother_wait_home for 40", "flag ch_lost_brother_6" ],
+      "note": "outcome: chain_lost_brother.s06.out_oath_success / out_oath_failure (failing, the oath falls for want of a helper who knew him before; the steward, who believes you, buys him with the archbishop's alms and writes your debt to the church)" },
+    { "key": "alms", "label_key": "chain_lost_brother.s06.opt_alms", "label": "Kneel to the steward and ask for the church's alms for the taken",
+      "check": "true", "default": true,
+      "effects": [ "npc steward feeling -3 begged", "flag ch_lost_brother_church_debt", "commission wax 4 by 300 premium 1.0",
+                   "flag ch_lost_brother_brother_free", "passenger brother to doccinga", "flag ch_lost_brother_wait_home for 40", "flag ch_lost_brother_6" ],
+      "note": "outcome: chain_lost_brother.s06.out_alms (pride: bought with the altar's silver; the church wants four cakes of wax within the year and remembers who knelt)" }
+   ],
+   "memory": {
+    "buy": "bought a Frisian out of his lot",
+    "witness": "swore a man out of his lot with a witness",
+    "oath.failure": "lost an oath in the steward's court",
+    "oath": "swore a man out of his lot",
+    "alms": "begged the church's alms for his brother"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s07_gone_south",
+   "note": "Step 7, the southern road too late (drawn at Mogontia once the 200 days have run). The yard is empty: the lot went up the Mosel road to Verdun, and from Verdun such lots go down the Saone and Rhone to Spain. Sources: Liudprand, Antapodosis VI.6 (about 949: Verdun's merchants and Spain; read back (?)); Agobard of Lyon's letters of about 826 tell of a man who came back from Cordoba twenty-four years after he was stolen and sold as a boy (from memory (?); later; the idea only). What becomes of the letter or the writ is not told here: the house learns it at its own door (steps 10 to 14). Sets ch_lost_brother_7 and either ch_lost_brother_brother_free or ch_lost_brother_brother_lost, with a long wait.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and flag.ch_lost_brother_3 and not flag.ch_lost_brother_south_open and not flag.ch_lost_brother_brother_free and not flag.ch_lost_brother_brother_lost",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "the archbishop's steward (invented)" },
+    "carrier": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [30, 55], "fixed": false, "note": "a wine carrier who goes to Verdun and Metz every season (invented)" }
+   },
+   "title_key": "chain_lost_brother.s07.title",
+   "title": "An empty yard",
+   "intention_key": "chain_lost_brother.s07.intention",
+   "intention": "The yard behind the Frisians' quarter has been swept. There is a ring in the wall and nothing tied to it. The archbishop's steward remembers the lot: it was sold before him, as the law asks, and nobody stood up to say a word.",
+   "lines": [
+    { "who": "steward", "key": "chain_lost_brother.s07.steward_gone" },
+    { "who": "steward", "key": "chain_lost_brother.s07.steward_road" },
+    { "who": "carrier", "key": "chain_lost_brother.s07.carrier_offer" },
+    { "who": "steward", "key": "chain_lost_brother.s07.steward_masses" }
+   ],
+   "options": [
+    { "key": "letter", "label_key": "chain_lost_brother.s07.opt_letter", "label": "Send a pound of silver after him with the carrier, and the marks to know him by",
+      "check": "silver >= 240", "cost": "silver 240",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "flag ch_lost_brother_brother_free" ],
+                     "failure": [ "flag ch_lost_brother_brother_lost" ] },
+                   "npc carrier feeling +4 trusted", "flag ch_lost_brother_wait_home for 240", "flag ch_lost_brother_7" ],
+      "note": "outcome: chain_lost_brother.s07.out_letter (nothing is known today; the wait is the carrier's season)" },
+    { "key": "writ", "label_key": "chain_lost_brother.s07.opt_writ", "label": "Ask for the archbishop's letter to the bishop of Verdun, and owe the church for it",
+      "check": "true",
+      "effects": [ { "chance": 0.3, "by": "crew.trade_best",
+                     "success": [ "flag ch_lost_brother_brother_free" ],
+                     "failure": [ "flag ch_lost_brother_brother_lost" ] },
+                   "flag ch_lost_brother_church_debt", "npc steward feeling +3 writ", "flag ch_lost_brother_wait_home for 300", "flag ch_lost_brother_7" ],
+      "note": "outcome: chain_lost_brother.s07.out_writ (doubtful: a letter travels slower than a lot)" },
+    { "key": "let_go", "label_key": "chain_lost_brother.s07.opt_let_go", "label": "Pay for a Mass at Saint Alban's, and turn the boat",
+      "check": "true", "default": true,
+      "effects": [ "flag ch_lost_brother_brother_lost", "flag ch_lost_brother_masses", "npc steward feeling +2 mass",
+                   "flag ch_lost_brother_wait_home for 60", "flag ch_lost_brother_7" ],
+      "note": "outcome: chain_lost_brother.s07.out_let_go" }
+   ],
+   "memory": {
+    "letter": "sent silver to Verdun after a kinsman",
+    "writ": "asked a letter of the archbishop",
+    "let_go": "had a Mass said and turned the boat"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s08_booth",
+   "note": "Step 8, the eastern road in time (drawn at Birka in the open months, within 420 days of step 3, or 540 with the dealer's word). The boy herds a Svea shipman's sheep on the island and bails his boat. Sources: Birka a market for people as for furs, and Christian captives there glad of a priest in 829 (Rimbert, Vita Anskarii c. 11); a bondwoman at one mark of silver (Laxdaela saga c. 12: thirteenth century, of about 950; the only northern price), so about 125 d; wine dear at Birka (goods_793.json rhenish_wine wanted svealand 3). Cast: cast.holmfast, who points the way and vouches for a stick. Ingimar is invented (Ingi- and -mar, both on the rune stones of Uppland). Sets ch_lost_brother_8, ch_lost_brother_boy_free and the wait ch_lost_brother_wait_home (40 days); a paid option brings the turn's reward, an order for cloth at a premium.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and flag.ch_lost_brother_3 and flag.ch_lost_brother_east_open and not flag.ch_lost_brother_boy_free and not flag.ch_lost_brother_boy_lost",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [4, 5, 6, 7, 8, 9, 10],
+   "actors": {
+    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [50, 60], "fixed": true, "note": "cast.holmfast" },
+    "owner": { "role": "owner", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [35, 55], "fixed": true, "note": "Ingimar, a shipman with a farm on the island (invented)" },
+    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [10, 12], "fixed": true, "note": "Wibern, Liafbern's son (invented)" }
+   },
+   "title_key": "chain_lost_brother.s08.title",
+   "title": "The boy with the sheep",
+   "intention_key": "chain_lost_brother.s08.intention",
+   "intention": "Holmfast walks you over the hill behind the town to a farm above the water. A boy is driving sheep off a boat's nets with a stick. He has grown a hand's width and his hair is cut the Svea way. He sees your cloak before he sees your face, and stops.",
+   "lines": [
+    { "who": "svea", "key": "chain_lost_brother.s08.svea_knows" },
+    { "who": "owner", "key": "chain_lost_brother.s08.owner_boy" },
+    { "who": "owner", "key": "chain_lost_brother.s08.owner_price" },
+    { "who": "svea", "key": "chain_lost_brother.s08.svea_tally", "when": "flag.ch_lost_brother_tally or flag.ch_lost_brother_peace" },
+    { "who": "boy", "key": "chain_lost_brother.s08.boy_father" }
+   ],
+   "options": [
+    { "key": "buy", "label_key": "chain_lost_brother.s08.opt_buy", "label": "Weigh out a mark of silver for him",
+      "check": "silver >= 130", "cost": "silver 130",
+      "effects": [ "npc owner feeling +4 paid", "commission frisian_cloth 6 by 365 premium 1.4", "flag ch_lost_brother_boy_free", "passenger boy to doccinga",
+                   "flag ch_lost_brother_wait_home for 40", "flag ch_lost_brother_8" ],
+      "note": "outcome: chain_lost_brother.s08.out_buy" },
+    { "key": "tally", "label_key": "chain_lost_brother.s08.opt_tally", "label": "Show the stick, and pay what he gave and no more",
+      "check": "(flag.ch_lost_brother_tally or flag.ch_lost_brother_peace) and silver >= 70", "cost": "silver 70",
+      "effects": [ "npc owner feeling +2 stick", "npc svea feeling +4 stick", "commission frisian_cloth 6 by 365 premium 1.4", "flag ch_lost_brother_boy_free",
+                   "passenger boy to doccinga", "flag ch_lost_brother_wait_home for 40", "flag ch_lost_brother_8" ],
+      "note": "outcome: chain_lost_brother.s08.out_tally" },
+    { "key": "wine", "label_key": "chain_lost_brother.s08.opt_wine", "label": "Give three casks of Rhine wine for him",
+      "check": "hold.rhenish_wine >= 3", "cost": "goods rhenish_wine 3",
+      "effects": [ "silver +40", "npc owner feeling +8 wine", "commission frisian_cloth 6 by 365 premium 1.4", "flag ch_lost_brother_boy_free",
+                   "passenger boy to doccinga", "flag ch_lost_brother_wait_home for 40", "flag ch_lost_brother_8" ],
+      "note": "outcome: chain_lost_brother.s08.out_wine (he counts the casks twice and gives silver back: he will not be said to have taken too much)" },
+    { "key": "hand", "label_key": "chain_lost_brother.s08.opt_hand", "label": "Give your hand to carry his skins to Sliesthorp this summer for nothing",
+      "check": "true", "default": true,
+      "effects": [ "morale -0.03", "npc owner feeling +6 hand", "flag ch_lost_brother_svea_errand for 150", "flag ch_lost_brother_boy_free",
+                   "passenger boy to doccinga", "flag ch_lost_brother_wait_home for 40", "flag ch_lost_brother_8" ],
+      "note": "outcome: chain_lost_brother.s08.out_hand (time and pride: a Frisian house hauling a Svea's skins unpaid; the crew does not like it)" }
+   ],
+   "memory": {
+    "buy": "bought a boy back for a mark",
+    "tally": "bought a boy back at the price on the stick",
+    "wine": "gave three casks for a boy",
+    "hand": "gave his hand to carry skins for a boy"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s09_gone_east",
+   "note": "Step 9, the eastern road too late (drawn at Birka once the days have run). The shipman took the boy east as his ship's boy after midsummer; he winters at Aldeigja. Sources: the east road from Birka to Aldeigjuborg and the dirhams from about 800 (spine thread silver_road; realms/rus.json); Findan of Leinster, taken about 845 and passed from ship to ship (his Life: later; the idea that a taken boy becomes a ship's boy). Cast: cast.holmfast, who will carry silver or a token and take a fee. What the boy answers is not told here: the house learns it at its own door. Sets ch_lost_brother_9 and either ch_lost_brother_boy_free or ch_lost_brother_boy_lost with ch_lost_brother_boy_east, and a long wait.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and flag.ch_lost_brother_3 and not flag.ch_lost_brother_east_open and not flag.ch_lost_brother_boy_free and not flag.ch_lost_brother_boy_lost",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [4, 5, 6, 7, 8, 9, 10],
+   "actors": {
+    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [50, 62], "fixed": true, "note": "cast.holmfast" }
+   },
+   "title_key": "chain_lost_brother.s09.title",
+   "title": "Gone with the summer ships",
+   "intention_key": "chain_lost_brother.s09.intention",
+   "intention": "The farm above the water is shut and the boat shed is empty. Holmfast has the reckoning ready before you ask: the shipman went east after midsummer with four in the boat, and one of the four was a boy who bails.",
+   "lines": [
+    { "who": "svea", "key": "chain_lost_brother.s09.svea_gone" },
+    { "who": "svea", "key": "chain_lost_brother.s09.svea_winter" },
+    { "who": "svea", "key": "chain_lost_brother.s09.svea_offer" },
+    { "who": "svea", "key": "chain_lost_brother.s09.svea_band", "when": "flag.ch_lost_brother_band" }
+   ],
+   "options": [
+    { "key": "silver", "label_key": "chain_lost_brother.s09.opt_silver", "label": "Weigh Holmfast a mark and a quarter to buy the boy at Aldeigja and send him west",
+      "check": "silver >= 150", "cost": "silver 150",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "flag ch_lost_brother_boy_free" ],
+                     "failure": [ "flag ch_lost_brother_boy_lost", "flag ch_lost_brother_boy_east" ] },
+                   "npc svea feeling +4 trusted", "flag ch_lost_brother_wait_home for 330", "flag ch_lost_brother_9" ],
+      "note": "outcome: chain_lost_brother.s09.out_silver (nothing is known today; the wait is a winter and a passage)" },
+    { "key": "band", "label_key": "chain_lost_brother.s09.opt_band", "label": "Send the end of his mother's band east, and let him choose",
+      "check": "flag.ch_lost_brother_band",
+      "effects": [ { "chance": 0.4, "by": "crew.trade_best",
+                     "success": [ "flag ch_lost_brother_boy_free" ],
+                     "failure": [ "flag ch_lost_brother_boy_lost", "flag ch_lost_brother_boy_east" ] },
+                   "npc svea feeling +2 band", "flag ch_lost_brother_wait_home for 330", "flag ch_lost_brother_9" ],
+      "note": "outcome: chain_lost_brother.s09.out_band (doubtful: it costs nothing, and it asks a boy of eleven to cross two seas on a strip of wool)" },
+    { "key": "let_go", "label_key": "chain_lost_brother.s09.opt_let_go", "label": "Ask Holmfast to say the boy is remembered, and turn the boat",
+      "check": "true", "default": true,
+      "effects": [ "flag ch_lost_brother_boy_lost", "flag ch_lost_brother_boy_east", "npc svea feeling +1 asked",
+                   "flag ch_lost_brother_wait_home for 60", "flag ch_lost_brother_9" ],
+      "note": "outcome: chain_lost_brother.s09.out_let_go" }
+   ],
+   "memory": {
+    "silver": "sent silver east after a boy",
+    "band": "sent a strip of weaving east after a boy",
+    "let_go": "left a boy on the east road"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s10_end_both",
+   "note": "FINALE, ending end_both: the hard road (drawn at Doccinga when both are free and the wait has run, if the peace clause was not sworn; with the clause the finale is step 14). Brother and boy at the mound. What a Frisian of 810 could really win: a brother as a sworn partner in a second boat (kin partnerships are the ordinary Frisian house); a brother's son fostered into the boat; a store on the mound and its weaving. Sources: Frisian cloth (goods_793.json); the kin's duty to ransom and the kin's share (Lex Frisionum, in general (?)). Sets ch_lost_brother_end_both and ch_lost_brother_done; grand rewards: unlock_partner_liafbern and unlock_kin_wibern on 'partner' and 'nothing' (two, the hard road), 'nothing' adds unlock_plot_doccinga; 'weave' gives unlock_factor_doccinga and unlock_kin_wibern.",
+   "stage": "harbour",
+   "when": "moored and port.id = doccinga and flag.ch_lost_brother_brother_free and flag.ch_lost_brother_boy_free and not flag.ch_lost_brother_wait_home and not flag.ch_lost_brother_peace and not flag.ch_lost_brother_done",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 42], "fixed": true, "note": "Frethburg (invented)" },
+    "brother": { "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [32, 42], "fixed": true, "note": "Liafbern (invented)" },
+    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [10, 13], "fixed": true, "note": "Wibern (invented)" }
+   },
+   "title_key": "chain_lost_brother.s10.title",
+   "title": "Two at the table",
+   "intention_key": "chain_lost_brother.s10.intention",
+   "intention": "There is a new byre on the mound, built of driftwood and one good oak post. Your brother is roofing it. The boy is handing him turves and speaking to the dog in the Svea tongue. Frethburg has set four bowls and is looking at them.",
+   "lines": [
+    { "who": "wife", "key": "chain_lost_brother.s10.wife_bowls" },
+    { "who": "brother", "key": "chain_lost_brother.s10.brother_debt" },
+    { "who": "brother", "key": "chain_lost_brother.s10.brother_church", "when": "flag.ch_lost_brother_church_debt" },
+    { "who": "brother", "key": "chain_lost_brother.s10.brother_grudge", "when": "flag.ch_lost_brother_verdun_grudge" },
+    { "who": "boy", "key": "chain_lost_brother.s10.boy_boat" }
+   ],
+   "options": [
+    { "key": "partner", "label_key": "chain_lost_brother.s10.opt_partner", "label": "One purse and two boats: take your brother as a sworn partner, and the boy to bail",
+      "check": "true",
+      "effects": [ "silver +700", "goods frisian_cloth +12", "hire boy", "npc brother feeling +15 partner",
+                   "flag unlock_partner_liafbern", "flag unlock_kin_wibern", "flag ch_lost_brother_end_both", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_both at dorestad" ],
+      "note": "outcome: chain_lost_brother.s10.out_partner (the mound's silver and twelve bolts of its cloth, about 1,280 d; two grand rewards)" },
+    { "key": "weave", "label_key": "chain_lost_brother.s10.opt_weave", "label": "Leave them the land; take the mound's weaving for the house, year on year",
+      "check": "true",
+      "effects": [ "silver +500", "goods frisian_cloth +16", "npc wife feeling +10 weave",
+                   "flag unlock_factor_doccinga", "flag unlock_kin_wibern", "flag ch_lost_brother_end_both", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_both at dorestad" ],
+      "note": "outcome: chain_lost_brother.s10.out_weave (about 1,270 d; the looms of the mound sell to the house first)" },
+    { "key": "nothing", "label_key": "chain_lost_brother.s10.opt_nothing", "label": "Take nothing: kin is not cargo",
+      "check": "true", "default": true,
+      "effects": [ "silver +300", "goods frisian_cloth +10", "deed fair_dealing", "npc brother feeling +20 kin", "npc wife feeling +15 kin",
+                   "flag unlock_partner_liafbern", "flag unlock_kin_wibern", "flag unlock_plot_doccinga", "flag ch_lost_brother_end_both", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_both at dorestad" ],
+      "note": "outcome: chain_lost_brother.s10.out_nothing (the honest road: your brother pays back what the buying cost whether you will or not, gives you ground for a store beside his own, and sails with you; three grand rewards and about 780 d)" }
+   ],
+   "memory": {
+    "partner": "brought both home and took his brother as partner",
+    "weave": "brought both home and took the mound's weaving",
+    "nothing": "brought both home and asked nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s11_end_brother",
+   "note": "FINALE, ending end_brother (drawn at Doccinga when the brother is free and the boy's road is closed, by step 9 or by time, if the peace clause was not sworn). The father is home and the son is a Svea's boy on the east road. Sources: as step 9; boys taken young and grown into their takers' people are the commonest case in every Life that mentions them (Findan; Rimbert c. 15 on boys bought by Anskar). Sets ch_lost_brother_end_brother and ch_lost_brother_done; grand reward unlock_partner_liafbern ('partner', 'east') or unlock_factor_doccinga ('land'); 'east' sets ch_lost_brother_east_vow, a debt of honour for later cards.",
+   "stage": "harbour",
+   "when": "moored and port.id = doccinga and flag.ch_lost_brother_brother_free and not flag.ch_lost_brother_boy_free and (flag.ch_lost_brother_boy_lost or not flag.ch_lost_brother_search) and not flag.ch_lost_brother_wait_home and not flag.ch_lost_brother_peace and not flag.ch_lost_brother_done",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 42], "fixed": true, "note": "Frethburg (invented)" },
+    "brother": { "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [32, 42], "fixed": true, "note": "Liafbern (invented)" }
+   },
+   "title_key": "chain_lost_brother.s11.title",
+   "title": "The father's bowl",
+   "intention_key": "chain_lost_brother.s11.intention",
+   "intention": "Your brother is mending a net on the bench by the door. He works as he always did, quickly and without looking. There is a small wooden bowl on the shelf above him that nobody has moved.",
+   "lines": [
+    { "who": "brother", "key": "chain_lost_brother.s11.brother_bench" },
+    { "who": "brother", "key": "chain_lost_brother.s11.brother_boy_east", "when": "flag.ch_lost_brother_boy_east" },
+    { "who": "brother", "key": "chain_lost_brother.s11.brother_boy_unknown", "when": "not flag.ch_lost_brother_boy_east" },
+    { "who": "wife", "key": "chain_lost_brother.s11.wife_bowl" }
+   ],
+   "options": [
+    { "key": "partner", "label_key": "chain_lost_brother.s11.opt_partner", "label": "One purse and two boats: take your brother as a sworn partner",
+      "check": "true",
+      "effects": [ "silver +450", "goods frisian_cloth +8", "npc brother feeling +12 partner",
+                   "flag unlock_partner_liafbern", "flag ch_lost_brother_end_brother", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_brother at dorestad" ],
+      "note": "outcome: chain_lost_brother.s11.out_partner (about 830 d)" },
+    { "key": "east", "label_key": "chain_lost_brother.s11.opt_east", "label": "Give him your hand on it: the summer the house sails east, he is in the boat",
+      "check": "true",
+      "effects": [ "silver +300", "goods frisian_cloth +8", "npc brother feeling +18 east", "npc wife feeling +8 east",
+                   "flag unlock_partner_liafbern", "flag ch_lost_brother_east_vow", "flag ch_lost_brother_end_brother", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_brother at dorestad" ],
+      "note": "outcome: chain_lost_brother.s11.out_east (about 680 d, a partner, and a debt of honour that later cards may call in at Birka or Aldeigjuborg)" },
+    { "key": "land", "label_key": "chain_lost_brother.s11.opt_land", "label": "Leave him to his land; take the mound's weaving for the house",
+      "check": "true", "default": true,
+      "effects": [ "goods frisian_cloth +14", "npc wife feeling +8 weave",
+                   "flag unlock_factor_doccinga", "flag ch_lost_brother_end_brother", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_brother at dorestad" ],
+      "note": "outcome: chain_lost_brother.s11.out_land (fourteen bolts, about 670 d)" }
+   ],
+   "memory": {
+    "partner": "brought his brother home and took him as partner",
+    "east": "promised his brother a place in the boat east",
+    "land": "brought his brother home and left him his land"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s12_end_boy",
+   "note": "FINALE, ending end_boy (drawn at Doccinga when the boy is free and the brother's road is closed, by step 7 or by time, if the peace clause was not sworn). The boy is home and his father has gone down the road to Spain. Sources: as step 7; fostering and a father's brother as guardian of a fatherless boy and his land are the ordinary Germanic custom (?). Sets ch_lost_brother_end_boy and ch_lost_brother_done; grand reward unlock_kin_wibern ('foster'), unlock_plot_doccinga ('guardian') or unlock_factor_doccinga ('leave').",
+   "stage": "harbour",
+   "when": "moored and port.id = doccinga and flag.ch_lost_brother_boy_free and not flag.ch_lost_brother_brother_free and (flag.ch_lost_brother_brother_lost or not flag.ch_lost_brother_search) and not flag.ch_lost_brother_wait_home and not flag.ch_lost_brother_peace and not flag.ch_lost_brother_done",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 42], "fixed": true, "note": "Frethburg (invented)" },
+    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [10, 13], "fixed": true, "note": "Wibern (invented)" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 50], "fixed": true, "note": "cast.landric" }
+   },
+   "title_key": "chain_lost_brother.s12.title",
+   "title": "His father's knife",
+   "intention_key": "chain_lost_brother.s12.intention",
+   "intention": "The boy is cutting reed on the creek bank with a knife too big for his hand. It was found in the ash of the byre. He has ground the burn off it himself. He does everything now as if somebody were about to tell him to stop.",
+   "lines": [
+    { "who": "boy", "key": "chain_lost_brother.s12.boy_knife" },
+    { "who": "wife", "key": "chain_lost_brother.s12.wife_husband" },
+    { "who": "priest", "key": "chain_lost_brother.s12.priest_spain" },
+    { "who": "priest", "key": "chain_lost_brother.s12.priest_masses", "when": "flag.ch_lost_brother_masses" }
+   ],
+   "options": [
+    { "key": "foster", "label_key": "chain_lost_brother.s12.opt_foster", "label": "Take the boy into the boat and the house, before witnesses, as your own",
+      "check": "true",
+      "effects": [ "silver +300", "goods frisian_cloth +8", "hire boy", "npc wife feeling +6 foster",
+                   "flag unlock_kin_wibern", "flag ch_lost_brother_end_boy", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_boy at dorestad" ],
+      "note": "outcome: chain_lost_brother.s12.out_foster (about 680 d and a ship's boy who speaks the Svea tongue)" },
+    { "key": "guardian", "label_key": "chain_lost_brother.s12.opt_guardian", "label": "Stand guardian of his father's share until he is a man, and build a store on it",
+      "check": "true",
+      "effects": [ "silver +200", "goods frisian_cloth +10", "npc wife feeling +2 guardian",
+                   "flag unlock_plot_doccinga", "flag ch_lost_brother_end_boy", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_boy at dorestad" ],
+      "note": "outcome: chain_lost_brother.s12.out_guardian (about 680 d and ground on the mound)" },
+    { "key": "leave", "label_key": "chain_lost_brother.s12.opt_leave", "label": "Leave him with his mother; take the mound's weaving for the house",
+      "check": "true", "default": true,
+      "effects": [ "goods frisian_cloth +13", "npc wife feeling +10 left",
+                   "flag unlock_factor_doccinga", "flag ch_lost_brother_end_boy", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_boy at dorestad" ],
+      "note": "outcome: chain_lost_brother.s12.out_leave (thirteen bolts, about 620 d)" }
+   ],
+   "memory": {
+    "foster": "brought the boy home and fostered him",
+    "guardian": "brought the boy home and stood guardian of his land",
+    "leave": "brought the boy home to his mother"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s13_end_empty_bench",
+   "note": "FINALE, ending end_empty_bench: as it really went (drawn at Doccinga when neither is free and both roads are closed, by choice or by time, if the peace clause was not sworn). No annal says that anyone taken from the islands in 810 came home. The lost man's share of the mound falls to his kin. Sources: Annales regni Francorum 810 and 811 (no return of anyone is recorded); the church of St Paul and St Boniface at Doccinga (dossiers/doccinga.md); Masses for the absent as in Bede IV.22. That a brother inherits before a wife is our reading of Frisian custom (?). Sets ch_lost_brother_end_empty_bench and ch_lost_brother_done; grand reward unlock_plot_doccinga ('share'), unlock_factor_doccinga ('widow') or unlock_title_st_bonifaces_man ('masses').",
+   "stage": "harbour",
+   "when": "moored and port.id = doccinga and flag.ch_lost_brother_1 and not flag.ch_lost_brother_brother_free and not flag.ch_lost_brother_boy_free and ((flag.ch_lost_brother_brother_lost and flag.ch_lost_brother_boy_lost) or not flag.ch_lost_brother_search) and not flag.ch_lost_brother_wait_home and not flag.ch_lost_brother_peace and not flag.ch_lost_brother_done",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 44], "fixed": true, "note": "Frethburg (invented)" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 50], "fixed": true, "note": "cast.landric" }
+   },
+   "title_key": "chain_lost_brother.s13.title",
+   "title": "The empty bench",
+   "intention_key": "chain_lost_brother.s13.intention",
+   "intention": "The neighbours have come up the mound in their good cloaks. Nobody has died, so it is not a burial, and nobody knows what else to call it. The priest has the tablet with the names. Your brother's place on the bench has a folded cloak on it.",
+   "lines": [
+    { "who": "wife", "key": "chain_lost_brother.s13.wife_bench" },
+    { "who": "wife", "key": "chain_lost_brother.s13.wife_vow", "when": "flag.ch_lost_brother_vow" },
+    { "who": "priest", "key": "chain_lost_brother.s13.priest_law" },
+    { "who": "priest", "key": "chain_lost_brother.s13.priest_east", "when": "flag.ch_lost_brother_boy_east" }
+   ],
+   "options": [
+    { "key": "share", "label_key": "chain_lost_brother.s13.opt_share", "label": "Take your brother's share of the mound, as the law gives it",
+      "check": "true",
+      "effects": [ "silver +260", "goods frisian_cloth +8", "npc wife feeling -8 share",
+                   "flag unlock_plot_doccinga", "flag ch_lost_brother_end_empty_bench", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_empty_bench at dorestad" ],
+      "note": "outcome: chain_lost_brother.s13.out_share (about 640 d and ground on the mound; she does not forget who took it)" },
+    { "key": "widow", "label_key": "chain_lost_brother.s13.opt_widow", "label": "Leave the land to Frethburg; take her weaving for the house",
+      "check": "true", "default": true,
+      "effects": [ "goods frisian_cloth +14", "npc wife feeling +12 land",
+                   "flag unlock_factor_doccinga", "flag ch_lost_brother_end_empty_bench", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_empty_bench at dorestad" ],
+      "note": "outcome: chain_lost_brother.s13.out_widow (fourteen bolts, about 670 d; a woman who is neither wife nor widow keeps her house)" },
+    { "key": "masses", "label_key": "chain_lost_brother.s13.opt_masses", "label": "Give your share to Saint Boniface's church, for a Mass for the two of them every year",
+      "check": "true",
+      "effects": [ "silver +150", "goods frisian_cloth +10", "deed gave_alms", "toll eased 365", "npc priest feeling +15 gift", "npc wife feeling +6 gift",
+                   "flag unlock_title_st_bonifaces_man", "flag ch_lost_brother_masses", "flag ch_lost_brother_end_empty_bench", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_empty_bench at dorestad" ],
+      "note": "outcome: chain_lost_brother.s13.out_masses (the neighbours will not let you leave empty: about 630 d; the church's man, known as that in every Frisian landing)" }
+   ],
+   "memory": {
+    "share": "took his lost brother's share of the mound",
+    "widow": "left his lost brother's land to the wife",
+    "masses": "gave his lost brother's share to the church"
+   }
+  },
+  {
+   "id": "harbour.chain_lost_brother.s14_end_peace",
+   "note": "FINALE, ending end_peace: history changed (drawn at Doccinga after the clause was sworn on the Eider, once both roads of the house's own kin are closed one way or the other). What is real: the peace of 811 has no known terms, Hemming died in 812, and nobody taken in 810 is known to have come home. What is changed (changed_eider_peace_captives): the peace binds the Danish king to give back the islands' people still in his kingdom and to make good the price of those sold out of it; boats come from the Eider at Lammas; the mounds are peopled again. The house's own two were sold beyond the Danes before the oath, so the clause brings silver for them and not the people: who is at the table depends on steps 6 to 9. The Danish king's peace for one Frisian boat at Sliesthorp is modelled on the later talks of 873, when the Danes asked that merchants might cross the march in peace (Annales Fuldenses 873). Sets ch_lost_brother_end_peace and ch_lost_brother_done; grand reward unlock_title_islands_spokesman on every option; 'charter' adds unlock_charter_sliesthorp, 'partner' adds unlock_partner_liafbern.",
+   "stage": "harbour",
+   "when": "moored and port.id = doccinga and flag.ch_lost_brother_peace and (flag.ch_lost_brother_brother_free or flag.ch_lost_brother_brother_lost or not flag.ch_lost_brother_search) and (flag.ch_lost_brother_boy_free or flag.ch_lost_brother_boy_lost or not flag.ch_lost_brother_search) and not flag.ch_lost_brother_wait_home and not flag.ch_lost_brother_done",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 44], "fixed": true, "note": "Frethburg (invented)" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 50], "fixed": true, "note": "cast.landric" },
+    "dane": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 55], "fixed": false, "note": "the Danish king's man who brought the boats (invented)" }
+   },
+   "title_key": "chain_lost_brother.s14.title",
+   "title": "The boats from the Eider",
+   "intention_key": "chain_lost_brother.s14.intention",
+   "intention": "There is smoke from every mound along the creek. The boats came at Lammas: thirty-one people of the forty-three on the priest's tablet, thin, and counted off the gunwale by a Dane with a tally stick. He is still here. He has a bag of weighed silver for the names that could not be found, and two of those names are yours.",
+   "lines": [
+    { "who": "priest", "key": "chain_lost_brother.s14.priest_boats" },
+    { "who": "wife", "key": "chain_lost_brother.s14.wife_both", "when": "flag.ch_lost_brother_brother_free and flag.ch_lost_brother_boy_free" },
+    { "who": "wife", "key": "chain_lost_brother.s14.wife_one", "when": "(flag.ch_lost_brother_brother_free or flag.ch_lost_brother_boy_free) and not (flag.ch_lost_brother_brother_free and flag.ch_lost_brother_boy_free)" },
+    { "who": "wife", "key": "chain_lost_brother.s14.wife_none", "when": "not flag.ch_lost_brother_brother_free and not flag.ch_lost_brother_boy_free" },
+    { "who": "dane", "key": "chain_lost_brother.s14.dane_silver" },
+    { "who": "dane", "key": "chain_lost_brother.s14.dane_offer" }
+   ],
+   "options": [
+    { "key": "charter", "label_key": "chain_lost_brother.s14.opt_charter", "label": "Take the silver for your two names, and the Danish king's peace for your boat at Sliesthorp",
+      "check": "true",
+      "effects": [ "silver +900", "goods frisian_cloth +10", "npc dane feeling +10 peace",
+                   "flag unlock_title_islands_spokesman", "flag unlock_charter_sliesthorp", "flag ch_lost_brother_end_peace", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_peace at dorestad", "news chain_lost_brother.news.end_peace_north at sliesthorp" ],
+      "note": "outcome: chain_lost_brother.s14.out_charter (the hardest road's double: about 1,380 d and two grand rewards)" },
+    { "key": "partner", "label_key": "chain_lost_brother.s14.opt_partner", "label": "Take the silver, and your brother as a sworn partner in a second boat",
+      "check": "flag.ch_lost_brother_brother_free",
+      "effects": [ "silver +800", "goods frisian_cloth +10", "npc wife feeling +6 partner",
+                   "flag unlock_title_islands_spokesman", "flag unlock_partner_liafbern", "flag ch_lost_brother_end_peace", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_peace at dorestad", "news chain_lost_brother.news.end_peace_north at sliesthorp" ],
+      "note": "outcome: chain_lost_brother.s14.out_partner (about 1,280 d and two grand rewards)" },
+    { "key": "share", "label_key": "chain_lost_brother.s14.opt_share", "label": "Have the silver shared among the mounds that got nobody back",
+      "check": "true",
+      "effects": [ "silver +300", "goods frisian_cloth +16", "deed gave_alms", "npc priest feeling +15 shared", "npc wife feeling +10 shared",
+                   "flag unlock_title_islands_spokesman", "flag ch_lost_brother_end_peace", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_peace at dorestad", "news chain_lost_brother.news.end_peace_north at sliesthorp" ],
+      "note": "outcome: chain_lost_brother.s14.out_share (twelve mounds bring cloth to the boat: about 1,070 d)" },
+    { "key": "kin", "label_key": "chain_lost_brother.s14.opt_kin", "label": "Take what is counted out for your two names, and nothing else",
+      "check": "true", "default": true,
+      "effects": [ "silver +600", "goods frisian_cloth +6",
+                   "flag unlock_title_islands_spokesman", "flag ch_lost_brother_end_peace", "flag ch_lost_brother_done",
+                   "news chain_lost_brother.news.end_peace at dorestad", "news chain_lost_brother.news.end_peace_north at sliesthorp" ],
+      "note": "outcome: chain_lost_brother.s14.out_kin (about 890 d; the islands name you their spokesman whether you asked or not)" }
+   ],
+   "memory": {
+    "charter": "took the Danish king's peace for his boat",
+    "partner": "took his brother as partner after the peace",
+    "share": "shared the Danes' silver among the mounds",
+    "kin": "took the silver for his two names"
+   }
+  }
+ ]
+}

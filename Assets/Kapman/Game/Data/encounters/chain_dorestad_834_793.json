@@ -1,0 +1,544 @@
+{
+ "about": "CHAIN dorestad_834: the four summers of the fleet at Dorestad, 834 to 837 (the spine's thread dorestad_falls, its first part). Fourteen cards: ten steps and four endings (the bank holds: history changed; the tribute of 837: what happened; the house gone up the river to Daventre; the storehouse in ashes). Words: Data/writing/chain_dorestad_834.json. Page: Design/content/chains/dorestad_834.md. Written 6 Oct 2026; a draft for the user to overwrite. Flags: ch_dorestad_834_<n> for the steps, the road flags _road_wall, _wall_1, _wall_2, _road_flight, _burned, the spine's df_warned, df_buried and df_moved, and the endings ch_dorestad_834_end_wall, _end_tribute, _end_flight, _end_ashes. History changed: changed_dorestad_834_warned, changed_dorestad_837.",
+ "cards": [
+  {
+   "id": "harbour.chain_dorestad_834.s01_sails",
+   "note": "Step 1, the start (drawn in the delta, April to June 834). A coast fisherman has seen a fleet of Danes in Frisia. Sources: Annales Bertiniani 834 (a fleet of Danes came into Frisia and laid waste a part of it, and from there came by Utrecht to Dorestad); the coast watch ordered by Charles from 800 and let go while the emperor's sons held him, 833 to 1 March 834 (Design/content/realms/frisia_lotharingia.md: 'the coast guard stops'; the lapse itself is the realm file's reading (?)). The month of the raid is not recorded (?): the game puts it between Pentecost and Lammas. The fisherman is invented and unnamed. Sets ch_dorestad_834_1; _warn if the word is carried; _count if the ships were asked after.",
+   "stage": "harbour",
+   "when": "moored and (port.id = dorestad or port.id = traiectum or port.id = witla or port.id = walichrum or port.id = medemelacha) and year = 834 and month >= 4 and month <= 6 and not flag.ch_dorestad_834_1 and not flag.ch_dorestad_834_4",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "fisher": { "role": "fisherman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 55], "fixed": false, "note": "a fisherman of the outer coast; invented, unnamed" }
+   },
+   "title_key": "chain_dorestad_834.s01.title",
+   "title": "Sails in Frisia",
+   "intention_key": "chain_dorestad_834.s01.intention",
+   "intention": "A fisherman from the outer coast has rowed two days to sell nothing. He has seen a fleet of the Danes come in among the islands, and smoke behind it.",
+   "lines": [
+    { "who": "fisher", "key": "chain_dorestad_834.s01.fisher_saw" },
+    { "who": "fisher", "key": "chain_dorestad_834.s01.fisher_guard" },
+    { "who": "fisher", "key": "chain_dorestad_834.s01.fisher_river" },
+    { "who": "", "key": "chain_dorestad_834.s01.narr_dams", "when": "port.id = dorestad" },
+    { "who": "", "key": "chain_dorestad_834.s01.narr_blades", "when": "flag.sw_ran_blades" }
+   ],
+   "options": [
+    { "key": "warn", "label_key": "chain_dorestad_834.s01.opt_warn", "label": "Take his word to the dams at Dorestad, now, as he gave it", "check": "true",
+      "effects": [ "npc fisher feeling +3 believed", "flag ch_dorestad_834_warn", "flag ch_dorestad_834_1", "news chain_dorestad_834.news.fleet at here", "schedule harbour.chain_dorestad_834.s02_dams in 1 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s01.out_warn (a day; the word is a fisherman's word)" },
+    { "key": "ask", "label_key": "chain_dorestad_834.s01.opt_ask", "label": "Give him ale and bread and ask it all twice: how many, how laden, which mouth; then carry it", "check": "true", "default": true,
+      "effects": [ "npc fisher feeling +6 fed", "flag ch_dorestad_834_warn", "flag ch_dorestad_834_count", "flag ch_dorestad_834_1", "news chain_dorestad_834.news.fleet at here", "schedule harbour.chain_dorestad_834.s02_dams in 3 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s01.out_ask (three days; a counted word a man can swear to)" },
+    { "key": "trade", "label_key": "chain_dorestad_834.s01.opt_trade", "label": "Finish your business first; Frisia is wide and fishermen see fleets every spring", "check": "true",
+      "effects": [ "flag ch_dorestad_834_1", "schedule harbour.chain_dorestad_834.s02_dams in 6 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s01.out_trade (costs nothing; the word reaches the dams without you)" }
+   ],
+   "memory": { "warn": "carried his word up the river", "ask": "fed him and asked it twice", "trade": "went on with his trading" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.s02_dams",
+   "note": "Step 2 (Dorestad, scheduled 1, 3 or 6 days after step 1). Who believes a warning. Sources: Dorestad has no wall or rampart and no count is named there, only the king's agents, 'procuratores rei publicae' (dossiers/dorestad.md); the upper church of Saint Martin (charter of 8 June 777); the emperor put down by his sons in 833 and restored on 1 March 834, Lothar still in arms that summer (Annales Bertiniani 833-834). Cast: cast.thiadbod's son Thiadlef (places/dorestad.json, dorestad.thiadlef: 'has buried silver twice and dug it up once'); the agent and the priest are invented and unnamed. Sets ch_dorestad_834_2; the spine's df_warned; _believed with changed_dorestad_834_warned when the dams take the word; _church; _profit.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year = 834 and flag.ch_dorestad_834_1 and not flag.ch_dorestad_834_2",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "agent": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 55], "fixed": true, "note": "the king's agent who takes the dues on the dams; invented, unnamed" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [48, 56], "fixed": true, "note": "Thiadlef, Thiadbod's son (dorestad.thiadlef)" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 50], "fixed": true, "note": "the priest of the upper church in the 830s; invented, unnamed" }
+   },
+   "title_key": "chain_dorestad_834.s02.title",
+   "title": "A fisherman's story",
+   "intention_key": "chain_dorestad_834.s02.intention",
+   "intention": "An hour's walk of open bank, a storehouse on every dam, and not so much as a ditch between the river and the richest market in the north. The dams are busy with the summer.",
+   "lines": [
+    { "who": "", "key": "chain_dorestad_834.s02.narr_late", "when": "not flag.ch_dorestad_834_warn" },
+    { "who": "agent", "key": "chain_dorestad_834.s02.agent_sons" },
+    { "who": "agent", "key": "chain_dorestad_834.s02.agent_count", "when": "flag.ch_dorestad_834_count" },
+    { "who": "rival", "key": "chain_dorestad_834.s02.rival_buried" },
+    { "who": "rival", "key": "chain_dorestad_834.s02.rival_810" },
+    { "who": "priest", "key": "chain_dorestad_834.s02.priest_listen" }
+   ],
+   "options": [
+    { "key": "swear", "label_key": "chain_dorestad_834.s02.opt_swear", "label": "Swear to the king's agent: the count of ships, the day, the mouth they lay in", "check": "flag.ch_dorestad_834_count",
+      "effects": [ "npc agent feeling +8 sworn", "flag df_warned", "flag ch_dorestad_834_believed", "flag changed_dorestad_834_warned", "flag ch_dorestad_834_2", "news chain_dorestad_834.news.fleet at dorestad", "schedule harbour.chain_dorestad_834.s03_past_utrecht in 5 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s02.out_swear (sure, for the man who asked it all twice)" },
+    { "key": "cry", "label_key": "chain_dorestad_834.s02.opt_cry", "label": "Cry it on the dams yourself, storehouse by storehouse", "check": "flag.ch_dorestad_834_warn",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "flag ch_dorestad_834_believed", "flag changed_dorestad_834_warned", "npc rival feeling +4 warned" ],
+                     "failure": [ "morale -0.05", "npc rival feeling -3 croaker" ] },
+                   "flag df_warned", "flag ch_dorestad_834_2", "news chain_dorestad_834.news.fleet at dorestad", "schedule harbour.chain_dorestad_834.s03_past_utrecht in 5 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s02.out_cry_success / out_cry_failure (doubtful; laughed at, the word is still on the dams and is remembered afterwards)" },
+    { "key": "church", "label_key": "chain_dorestad_834.s02.opt_church", "label": "Tell the priest, and the women who know which of the poor are truly poor", "check": "true", "default": true,
+      "effects": [ "npc priest feeling +8 told", "flag df_warned", "flag ch_dorestad_834_church", "flag ch_dorestad_834_2", "schedule harbour.chain_dorestad_834.s03_past_utrecht in 5 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s02.out_church (costs nothing; the plate and the people with no boat go inland)" },
+    { "key": "quiet", "label_key": "chain_dorestad_834.s02.opt_quiet", "label": "Say no more. Buy three bolts from a nervous man at 20 d the bolt", "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "goods frisian_cloth +3", "flag ch_dorestad_834_profit", "flag ch_dorestad_834_2", "schedule harbour.chain_dorestad_834.s03_past_utrecht in 5 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s02.out_quiet (cloth at less than half its price)" }
+   ],
+   "memory": { "swear": "swore to the count of ships", "cry.success": "cried the warning and was heard", "cry.failure": "cried a warning nobody believed", "church": "told the priest first", "quiet": "bought cheap and said nothing" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.s03_past_utrecht",
+   "note": "Step 3 (Dorestad, five days after step 2): the eve of the first sack. Sources: Annales Bertiniani 834: the fleet came by Utrecht (per Vetus Treiectum) to the emporium called Dorestad and plundered everything; some of the people were killed, some carried off, and a part of the place burned (our rendering); Annales Xantenses 834. The choice is the place file's beat (places/dorestad.json, story dorestad.river_leaves: load and run up the Lek, put the silver in the ground, or stay with the storehouse). The graves at De Heul are a site of the place file. No burnt layer was found by the diggers (dossiers/dorestad.md): how much burned is not known (?). Reads sw_ran_blades (chain sword_smuggle) and changed_dorestad_dane_yard (chain house_new_ship). Sets ch_dorestad_834_3; _ran_834; the spine's df_buried with _buried, and _saw; _stood.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year = 834 and flag.ch_dorestad_834_2 and not flag.ch_dorestad_834_3",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [48, 56], "fixed": true, "note": "Thiadlef (dorestad.thiadlef)" }
+   },
+   "title_key": "chain_dorestad_834.s03.title",
+   "title": "They are past Utrecht",
+   "intention_key": "chain_dorestad_834.s03.intention",
+   "intention": "A boy comes running down the bank road from the Utrecht side. They are past the bishop's town with their masts down, rowing. They will be here with the morning.",
+   "lines": [
+    { "who": "", "key": "chain_dorestad_834.s03.narr_believed", "when": "flag.ch_dorestad_834_believed" },
+    { "who": "", "key": "chain_dorestad_834.s03.narr_not_believed", "when": "not flag.ch_dorestad_834_believed" },
+    { "who": "rival", "key": "chain_dorestad_834.s03.rival_stand" },
+    { "who": "rival", "key": "chain_dorestad_834.s03.rival_oars" },
+    { "who": "", "key": "chain_dorestad_834.s03.narr_blades", "when": "flag.sw_ran_blades" },
+    { "who": "", "key": "chain_dorestad_834.s03.narr_dane_yard", "when": "flag.changed_dorestad_dane_yard" }
+   ],
+   "options": [
+    { "key": "run", "label_key": "chain_dorestad_834.s03.opt_run", "label": "Load what she will carry, take the neighbour's children, and run up the Lek tonight", "check": "true", "default": true,
+      "effects": [ "npc rival feeling +2 children", "flag ch_dorestad_834_ran_834", "flag ch_dorestad_834_3", "schedule harbour.chain_dorestad_834.s04_aftermath in 8 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s03.out_run (costs pride only)" },
+    { "key": "bury", "label_key": "chain_dorestad_834.s03.opt_bury", "label": "Put the house's chest in the ground at De Heul and lie in the alders to watch", "check": "true",
+      "effects": [ { "chance": 0.7, "by": "crew.eyes_best",
+                     "success": [ "flag ch_dorestad_834_saw", "give_riddle riddle_exeter_83_ore" ],
+                     "failure": [ "health -0.08", "morale -0.05" ] },
+                   "flag df_buried", "flag ch_dorestad_834_buried", "flag ch_dorestad_834_3", "schedule harbour.chain_dorestad_834.s04_aftermath in 8 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s03.out_bury_success / out_bury_failure (likely; found by a forager, you get away wet and beaten and the chest is not found)" },
+    { "key": "stand", "label_key": "chain_dorestad_834.s03.opt_stand", "label": "Stand on the dam head with Thiadlef's twelve men", "check": "true",
+      "effects": [ { "chance": 0.4, "by": "crew.fight_best",
+                     "success": [ "silver +40", "npc rival feeling +15 stood", "give_riddle riddle_exeter_05_shield" ],
+                     "failure": [ "health -0.15", "morale -0.1", "npc rival feeling +8 stood" ] },
+                   "deed fought_raiders", "flag ch_dorestad_834_stood", "flag ch_dorestad_834_3", "schedule harbour.chain_dorestad_834.s04_aftermath in 8 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s03.out_stand_success / out_stand_failure (doubtful, and he says so; one dam head is held for an hour or it is not, and either way the man who stood is known for it)" }
+   ],
+   "memory": { "run": "ran up the Lek with the children", "bury.success": "lay in the alders and counted", "bury.failure": "hid and was beaten", "stand.success": "held the dam head with him", "stand.failure": "stood on the dam head and was hurt" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.s04_aftermath",
+   "note": "Step 4 (Dorestad, eight days after step 3; also drawn there from July 834 through 835 for a house that was away: the second way into the chain). After the first sack. Sources: Annales Bertiniani 834 (killed, carried off, burned in part); the place file's beat for 834-848 (plate and cloth sold cheap by men who do not say where they got them; a widow selling a dam head; survivors asking after kin sold at Sliesthorp); the spine's hook at Sliesthorp (men in the harbour sell Dorestad cloth and Dorestad people). Rijswijk with its church is a neighbour village (charter of 777, dossiers/dorestad.md). Thiadlef's daughter Hildswith is invented (Hild- + -swith, as in Aldswith). Sets ch_dorestad_834_4; _seek; _plate; and the timer for the girl at Sliesthorp.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and not flag.ch_dorestad_834_4 and year <= 835 and (flag.ch_dorestad_834_3 or (year = 834 and month >= 7) or year = 835)",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [48, 56], "fixed": true, "note": "Thiadlef (dorestad.thiadlef)" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [25, 45], "fixed": true, "note": "a widow of this summer with a dam head to sell; invented, unnamed" }
+   },
+   "title_key": "chain_dorestad_834.s04.title",
+   "title": "What the fleet left",
+   "intention_key": "chain_dorestad_834.s04.intention",
+   "intention": "This year the heathen men came by Traiectum to Dorestad. Some of the people they killed, some they carried off, and a part of the place they burned.",
+   "lines": [
+    { "who": "", "key": "chain_dorestad_834.s04.narr_believed", "when": "flag.ch_dorestad_834_believed" },
+    { "who": "", "key": "chain_dorestad_834.s04.narr_church", "when": "flag.ch_dorestad_834_church" },
+    { "who": "", "key": "chain_dorestad_834.s04.narr_buried", "when": "flag.ch_dorestad_834_buried" },
+    { "who": "", "key": "chain_dorestad_834.s04.narr_plot", "when": "flag.unlock_plot_dorestad" },
+    { "who": "rival", "key": "chain_dorestad_834.s04.rival_daughter" },
+    { "who": "rival", "key": "chain_dorestad_834.s04.rival_where" },
+    { "who": "widow", "key": "chain_dorestad_834.s04.widow_sell" }
+   ],
+   "options": [
+    { "key": "seek", "label_key": "chain_dorestad_834.s04.opt_seek", "label": "Tell Thiadlef you will ask after the girl at Sliesthorp", "check": "true", "default": true,
+      "effects": [ "npc rival feeling +6 promised", "flag ch_dorestad_834_seek", "flag ch_dorestad_834_4", "news chain_dorestad_834.news.sack_834 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s04.out_seek (costs nothing; the story waits at Sliesthorp until 836)" },
+    { "key": "alms", "label_key": "chain_dorestad_834.s04.opt_alms", "label": "Give thirty pennies for shrouds and bread, and help carry", "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "deed gave_alms", "npc widow feeling +8 carried", "flag ch_dorestad_834_4", "news chain_dorestad_834.news.sack_834 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s04.out_alms" },
+    { "key": "loot", "label_key": "chain_dorestad_834.s04.opt_loot", "label": "Buy what is offered behind the ale-house: a silver cup with a cross filed off it, 90 d", "check": "silver >= 90", "cost": "silver 90",
+      "effects": [ "goods church_plate +1", "flag ch_dorestad_834_plate", "flag ch_dorestad_834_4", "news chain_dorestad_834.news.sack_834 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s04.out_loot (worth 240 d anywhere a priest will not ask; the flag is for a later card to read)" }
+   ],
+   "memory": { "seek": "promised to ask after his daughter", "alms": "paid for shrouds and carried the dead", "loot": "bought plate from the fire" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.s05_horiks_harbour",
+   "note": "Step 5, a turn (Sliesthorp, drawn 834 to 836 for anyone past step 4). Dorestad's cloth and Dorestad's people on King Horik's landing. Sources: Horik's envoys told the emperor in 836 that the king had no part in the raids, and complained of envoys of his killed near Cologne (Annales Bertiniani 836; the day and place of the assembly not checked tonight (?)); in 838 he said he had taken and killed the pirate chiefs (Annales Bertiniani 838); merchants of Dorestad at Sliaswich (Rimbert, Vita Anskarii 24); a Christian captive seen for sale at Sliaswich and ransomed (Vita Rimberti 18: LATER, about 870-888). Silver passes by weight (Hedeby's own coin from about 825 is rare). The dealer Ulf and the king's man are invented; no price for a ransom is recorded: 180 d is the game's (goods_793.json has a captive at 48 d; a rich man's daughter is another matter). Sets ch_dorestad_834_5; _ransomed with the girl as a passenger for Dorestad; _knows.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year >= 834 and year <= 836 and flag.ch_dorestad_834_4 and not flag.ch_dorestad_834_5",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "Ulf, who sells what the ships bring; invented" },
+    "kingsman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "a man of King Horik's who keeps the landing; invented, unnamed (cast.horik is spoken of, not met)" },
+    "girl": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [14, 16], "fixed": true, "note": "Hildswith, Thiadlef's daughter; invented" }
+   },
+   "title_key": "chain_dorestad_834.s05.title",
+   "title": "Cloth with the seal still on it",
+   "intention_key": "chain_dorestad_834.s05.intention",
+   "intention": "On the landing a Dane sells Frisian cloth by the bolt, a Dorestad seal of lead still hanging from one of them. Behind the cloth, on a bench, sit the people who came in the same ships.",
+   "lines": [
+    { "who": "dealer", "key": "chain_dorestad_834.s05.dealer_cloth" },
+    { "who": "dealer", "key": "chain_dorestad_834.s05.dealer_girl" },
+    { "who": "girl", "key": "chain_dorestad_834.s05.girl_ship" },
+    { "who": "kingsman", "key": "chain_dorestad_834.s05.kingsman_early", "when": "year < 836" },
+    { "who": "kingsman", "key": "chain_dorestad_834.s05.kingsman_836", "when": "year = 836" },
+    { "who": "", "key": "chain_dorestad_834.s05.narr_frisians" }
+   ],
+   "options": [
+    { "key": "ransom", "label_key": "chain_dorestad_834.s05.opt_ransom", "label": "Weigh out his price for the girl: 180 pennies' weight", "check": "silver >= 180", "cost": "silver 180",
+      "effects": [ "deed gave_alms", "npc dealer feeling +4 paid", "passenger girl to dorestad", "flag ch_dorestad_834_ransomed", "flag ch_dorestad_834_5", "schedule harbour.chain_dorestad_834.s06_homecoming in 10 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s05.out_ransom" },
+    { "key": "haggle", "label_key": "chain_dorestad_834.s05.opt_haggle", "label": "Bargain in his own tongue: a father's price, not a market's. 110", "check": "tongue.old_norse >= 0.5 and silver >= 110", "cost": "silver 110",
+      "effects": [ "deed gave_alms", "npc dealer feeling +8 bargained", "passenger girl to dorestad", "flag ch_dorestad_834_ransomed", "flag ch_dorestad_834_5", "schedule harbour.chain_dorestad_834.s06_homecoming in 10 at dorestad" ],
+      "note": "outcome: chain_dorestad_834.s05.out_haggle (needs Norse aboard)" },
+    { "key": "ask", "label_key": "chain_dorestad_834.s05.opt_ask", "label": "Buy nothing. Drink with the king's man and ask when ships like those sail again", "check": "true", "default": true,
+      "effects": [ "npc kingsman feeling +4 drank", "flag ch_dorestad_834_knows", "flag ch_dorestad_834_5", "news chain_dorestad_834.news.horik at here" ],
+      "note": "outcome: chain_dorestad_834.s05.out_ask (costs nothing; a true word: they come again every summer the emperor's house is divided, after the sowing; the girl can still come home with the tribute of 837)" }
+   ],
+   "memory": { "ransom": "paid the full price for a Frisian girl", "haggle": "bargained a ransom in Danish", "ask": "drank and asked about the fleets" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.s06_homecoming",
+   "note": "Step 6, the turn's payout (Dorestad, ten days after the ransom, or on the first call there with her aboard). Thiadlef has his daughter back and will not be in debt to anyone for long. Sources: none beyond the custom of repaying a ransom; redeeming captives is a work of mercy the bishops urged and Anskar and Rimbert practised (Vita Anskarii 15, 35; Vita Rimberti 17-18). Sets ch_dorestad_834_6; _thiadlef_owes if nothing is taken.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_dorestad_834_ransomed and not flag.ch_dorestad_834_6",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [48, 58], "fixed": true, "note": "Thiadlef (dorestad.thiadlef)" },
+    "girl": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [14, 17], "fixed": true, "note": "Hildswith; invented" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [28, 45], "fixed": false, "note": "Thiadlef's best steersman, who knows the Lek and the Crooked Rhine by night; invented, unnamed" }
+   },
+   "title_key": "chain_dorestad_834.s06.title",
+   "title": "The third ship",
+   "intention_key": "chain_dorestad_834.s06.intention",
+   "intention": "Thiadlef is on his dam head before your rope is. He does not look at you at all until the girl is ashore.",
+   "lines": [
+    { "who": "girl", "key": "chain_dorestad_834.s06.girl_belt" },
+    { "who": "rival", "key": "chain_dorestad_834.s06.rival_debt" },
+    { "who": "rival", "key": "chain_dorestad_834.s06.rival_offer" },
+    { "who": "rival", "key": "chain_dorestad_834.s06.rival_father" }
+   ],
+   "options": [
+    { "key": "twice", "label_key": "chain_dorestad_834.s06.opt_twice", "label": "Take what he counts out: the price twice over", "check": "true",
+      "effects": [ "silver +360", "npc rival feeling +5 repaid", "flag ch_dorestad_834_6" ],
+      "note": "outcome: chain_dorestad_834.s06.out_twice" },
+    { "key": "share", "label_key": "chain_dorestad_834.s06.opt_share", "label": "Take the price once, and his order for ten casks of Rhine wine at half as much again", "check": "true",
+      "effects": [ "silver +180", "commission rhenish_wine 10 by 120 premium 0.5", "npc rival feeling +10 partner", "flag ch_dorestad_834_6" ],
+      "note": "outcome: chain_dorestad_834.s06.out_share" },
+    { "key": "nothing", "label_key": "chain_dorestad_834.s06.opt_nothing", "label": "Take nothing. Tell him it was a neighbour's errand", "check": "true", "default": true,
+      "effects": [ "hire steersman", "npc rival feeling +25 nothing", "flag ch_dorestad_834_thiadlef_owes", "flag ch_dorestad_834_6" ],
+      "note": "outcome: chain_dorestad_834.s06.out_nothing (he cannot bear it, and sends his steersman to sail with you; the debt is remembered at the endings)" }
+   ],
+   "memory": { "twice": "took the ransom back twice over", "share": "took the ransom and a wine order", "nothing": "brought his daughter home and took nothing" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.s07_second_summer",
+   "note": "Step 7 (Dorestad, drawn from March 835 to March 836): the second summer, and the choice of a road. Sources: Annales Bertiniani 835: the Northmen fell on Dorestad again and laid it waste; the emperor, angered, came to Aachen and set guards along the coasts (our rendering; wording from memory (?)); Annales Xantenses 835. Dorestad never had a wall (dossiers/dorestad.md): the bank and ditch proposed here are ours, fifty years before the ring forts of the Zeeland coast (about 880-890: LATER). Daventre: Lebuin's church of about 770 and a landing on the IJssel (dossiers/daventre.md). Reads changed_dorestad_fellowship (chain house_rival). Sets ch_dorestad_834_7 and one road: _road_wall with _wall_1, or _road_flight, or neither.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_dorestad_834_4 and not flag.ch_dorestad_834_7 and ((year = 835 and month >= 3) or (year = 836 and month < 4))",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "agent": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 56], "fixed": true, "note": "the king's agent; invented, unnamed" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [49, 58], "fixed": true, "note": "Thiadlef (dorestad.thiadlef)" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 51], "fixed": true, "note": "the priest of the upper church; invented, unnamed" }
+   },
+   "title_key": "chain_dorestad_834.s07.title",
+   "title": "Earth or silver",
+   "intention_key": "chain_dorestad_834.s07.intention",
+   "intention": "The men who hold dam heads meet in the upper church, because it is the only roof big enough. There are three opinions, and each of them costs something.",
+   "lines": [
+    { "who": "", "key": "chain_dorestad_834.s07.narr_before", "when": "year = 835 and month < 6" },
+    { "who": "", "key": "chain_dorestad_834.s07.narr_after", "when": "year = 836 or month >= 6" },
+    { "who": "agent", "key": "chain_dorestad_834.s07.agent_aachen" },
+    { "who": "priest", "key": "chain_dorestad_834.s07.priest_bank" },
+    { "who": "rival", "key": "chain_dorestad_834.s07.rival_silver" },
+    { "who": "", "key": "chain_dorestad_834.s07.narr_third" },
+    { "who": "", "key": "chain_dorestad_834.s07.narr_fellowship", "when": "flag.changed_dorestad_fellowship" },
+    { "who": "", "key": "chain_dorestad_834.s07.narr_knows", "when": "flag.ch_dorestad_834_knows" }
+   ],
+   "options": [
+    { "key": "wall", "label_key": "chain_dorestad_834.s07.opt_wall", "label": "Put in the first share for the ditch and the bank: 300 pennies", "check": "silver >= 300", "cost": "silver 300",
+      "effects": [ "npc priest feeling +8 share", "npc agent feeling +6 share", "toll eased 60", "flag ch_dorestad_834_road_wall", "flag ch_dorestad_834_wall_1", "flag ch_dorestad_834_7" ],
+      "note": "outcome: chain_dorestad_834.s07.out_wall (the agent halves the toll for sixty days for those who dig; the palace at Noviomagus can now be asked for leave and oak)" },
+    { "key": "move", "label_key": "chain_dorestad_834.s07.opt_move", "label": "Start sending looms, scales and stock up the river to Daventre, a boatload a month", "check": "true",
+      "effects": [ "npc rival feeling -4 leaving", "flag ch_dorestad_834_road_flight", "flag ch_dorestad_834_7" ],
+      "note": "outcome: chain_dorestad_834.s07.out_move (costs standing on the bank and nothing else)" },
+    { "key": "short", "label_key": "chain_dorestad_834.s07.opt_short", "label": "Do neither. Keep the stock short and the boat loaded, and sleep aboard from Pentecost to Lammas", "check": "true", "default": true,
+      "effects": [ "flag ch_dorestad_834_7" ],
+      "note": "outcome: chain_dorestad_834.s07.out_short (what most houses did; costs nothing)" }
+   ],
+   "memory": { "wall": "paid a share toward the bank", "move": "began moving up the river", "short": "kept his stock short" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.s08_palace",
+   "note": "Step 8, a turn on the wall's road (Noviomagus, drawn 835 to 837 once a share is paid). Leave for a bank on the king's ground, and oak from the king's wood. Sources: the palace at Nijmegen, where the emperor comes in 837 and holds his inquiry (Annales Bertiniani 837) and where he is 'quick to forgive and slow to arrive' (places/noviomagus.json, noviomagus.louis); a fortification needs the king's word: the Edict of Pitres of 864 orders down every fort raised without it (LATER; that the rule held in the 830s is our reading (?)). The emperor is spoken of, not met; the clerk is invented and unnamed. Sets ch_dorestad_834_8; _leave.",
+   "stage": "harbour",
+   "when": "moored and port.id = noviomagus and year >= 835 and year <= 837 and flag.ch_dorestad_834_road_wall and not flag.ch_dorestad_834_8 and not flag.ch_dorestad_834_end_wall and not flag.ch_dorestad_834_end_tribute",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [25, 50], "fixed": true, "note": "a clerk of the count who keeps the palace; invented, unnamed" }
+   },
+   "title_key": "chain_dorestad_834.s08.title",
+   "title": "A gate on the king's ground",
+   "intention_key": "chain_dorestad_834.s08.intention",
+   "intention": "The palace on its hill above the Waal is half empty: the emperor is wherever his sons are. A clerk in the gatehouse has the keeping of what may and may not be built between here and the sea.",
+   "lines": [
+    { "who": "clerk", "key": "chain_dorestad_834.s08.clerk_gate" },
+    { "who": "clerk", "key": "chain_dorestad_834.s08.clerk_warned", "when": "flag.df_warned" },
+    { "who": "clerk", "key": "chain_dorestad_834.s08.clerk_oak" },
+    { "who": "clerk", "key": "chain_dorestad_834.s08.clerk_emperor" }
+   ],
+   "options": [
+    { "key": "petition", "label_key": "chain_dorestad_834.s08.opt_petition", "label": "Ask leave for the bank as the man who brought the warning in the first summer", "check": "flag.df_warned",
+      "effects": [ "goods oak_timber +6", "learn latin +0.05", "npc clerk feeling +6 petition", "flag ch_dorestad_834_leave", "flag ch_dorestad_834_8" ],
+      "note": "outcome: chain_dorestad_834.s08.out_petition (leave written, and six loads of the king's oak, worth 180 d)" },
+    { "key": "gift", "label_key": "chain_dorestad_834.s08.opt_gift", "label": "Ask leave, with sixty pennies for the clerk's trouble", "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "deed bribed_officer", "goods oak_timber +3", "npc clerk feeling +3 gift", "flag ch_dorestad_834_leave", "flag ch_dorestad_834_8" ],
+      "note": "outcome: chain_dorestad_834.s08.out_gift" },
+    { "key": "listen", "label_key": "chain_dorestad_834.s08.opt_listen", "label": "Ask nothing. Hear what has been ordered for the coast, and go home", "check": "true", "default": true,
+      "effects": [ "npc clerk feeling +1 listened", "flag ch_dorestad_834_8", "news chain_dorestad_834.news.guard at here" ],
+      "note": "outcome: chain_dorestad_834.s08.out_listen (costs nothing; the bank can still be built, without leave)" }
+   ],
+   "memory": { "petition": "asked leave for a bank as the man who warned", "gift": "paid for leave to build a bank", "listen": "listened and asked nothing" }
+  },
+  {
+   "id": "sea.chain_dorestad_834.s09_fleet_at_sea",
+   "note": "Step 9, optional (at sea, May to August 836). The fleet of the third summer seen standing in for the Maas. Sources: Annales Fuldenses 836: the Northmen burned Antwerp, and likewise Witla, the emporium by the mouth of the Maas, and took tribute of the Frisians; Annales Bertiniani 836 has Dorestad and Frisia laid waste again (realms/frisia_lotharingia.md notes which annal has which). Selling food to a fleet is ours; no law against it is known before the capitularies on arms (?). The Dane in the straggler is invented. Sets ch_dorestad_834_9; df_warned and _warned_836; _saw; _fed_fleet with _knows.",
+   "stage": "sea",
+   "when": "under_way and year = 836 and month >= 5 and month <= 8 and flag.ch_dorestad_834_4 and not flag.ch_dorestad_834_9",
+   "rate": 0.03,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "raider": { "role": "raider", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [22, 45], "fixed": false, "note": "the steersman of a ship that hangs back from the fleet; invented, unnamed" }
+   },
+   "title_key": "chain_dorestad_834.s09.title",
+   "title": "More than twice your hands",
+   "intention_key": "chain_dorestad_834.s09.intention",
+   "intention": "Sails under the land to the south, more than you can count on your hands twice, standing in for the mouth of the Maas. One of them hangs back, low in the water, and turns her head toward you. She has more oars than you have men.",
+   "lines": [
+    { "who": "", "key": "chain_dorestad_834.s09.narr_witla" },
+    { "who": "raider", "key": "chain_dorestad_834.s09.raider_thirst" },
+    { "who": "raider", "key": "chain_dorestad_834.s09.raider_reasonable" }
+   ],
+   "options": [
+    { "key": "run", "label_key": "chain_dorestad_834.s09.opt_run", "label": "Put about and run for the Lek with the word: they are on the Maas", "check": "true",
+      "effects": [ "encounter run",
+                   { "chance": 0.55, "by": "crew.seamanship_best",
+                     "success": [ "flag df_warned", "flag ch_dorestad_834_warned_836", "news chain_dorestad_834.news.maas at dorestad" ],
+                     "failure": [ "deed paid_raiders", "morale -0.08" ] },
+                   "flag ch_dorestad_834_9" ],
+      "note": "outcome: chain_dorestad_834.s09.out_run_success / out_run_failure (likely; caught, they take a toll of your stores and let you go, and the word comes late)" },
+    { "key": "hide", "label_key": "chain_dorestad_834.s09.opt_hide", "label": "Drop the sail, lie under the dunes and count them as they pass", "check": "true", "default": true,
+      "effects": [ "flag ch_dorestad_834_saw", "flag ch_dorestad_834_9", "news chain_dorestad_834.news.maas at traiectum" ],
+      "note": "outcome: chain_dorestad_834.s09.out_hide (costs a tide)" },
+    { "key": "sell", "label_key": "chain_dorestad_834.s09.opt_sell", "label": "Lie to, sell him two casks of ale at three times the price, and ask where they are bound", "check": "hold.ale >= 2", "cost": "goods ale 2",
+      "effects": [ "encounter close_and_hail", "silver +60", "npc raider feeling +6 sold", "flag ch_dorestad_834_fed_fleet", "flag ch_dorestad_834_knows", "flag ch_dorestad_834_9" ],
+      "note": "outcome: chain_dorestad_834.s09.out_sell (he tells the truth: Witla, then the Scheldt, then the Rhine; a cost that lasts: ch_dorestad_834_fed_fleet, for a priest or a count's man to hear of)" }
+   ],
+   "memory": { "run.success": "outran us with the news", "run.failure": "ran and was caught", "sell": "sold ale to the fleet" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.s10_third_summer",
+   "note": "Step 10 (Dorestad, drawn from April 836 to May 837): the third summer, and the branch to the endings. Sources: Annales Bertiniani 836 (Dorestad and Frisia again); Annales Fuldenses 836 (Antwerp and Witla burned); the realm file's summary of how houses lived through it ('stock kept short, silver buried, and the careful houses moving up the river': SCHEMAS.md, war delta_834). The gate, the watch-house and the twelve watchmen are ours. Sets ch_dorestad_834_10 and: _wall_2 (the bank finished: ending end_wall); or _road_flight (end_flight); or, by a lost gamble, _burned with df_buried (end_ashes); or nothing (end_tribute).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_dorestad_834_4 and not flag.ch_dorestad_834_10 and ((year = 836 and month >= 4) or (year = 837 and month < 6))",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [31, 52], "fixed": true, "note": "the priest of the upper church; invented, unnamed" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [50, 59], "fixed": true, "note": "Thiadlef (dorestad.thiadlef)" }
+   },
+   "title_key": "chain_dorestad_834.s10.title",
+   "title": "The third summer",
+   "intention_key": "chain_dorestad_834.s10.intention",
+   "intention": "Nobody on the dams says 'if' any more. They say 'when they come', and name the feast. Wine and cloth go for whatever a man will give who is fool enough to keep them here.",
+   "lines": [
+    { "who": "", "key": "chain_dorestad_834.s10.narr_annal", "when": "year = 837 or month >= 7" },
+    { "who": "", "key": "chain_dorestad_834.s10.narr_warned_836", "when": "flag.ch_dorestad_834_warned_836" },
+    { "who": "priest", "key": "chain_dorestad_834.s10.priest_half", "when": "flag.ch_dorestad_834_wall_1" },
+    { "who": "priest", "key": "chain_dorestad_834.s10.priest_leave", "when": "flag.ch_dorestad_834_wall_1 and flag.ch_dorestad_834_leave" },
+    { "who": "priest", "key": "chain_dorestad_834.s10.priest_no_bank", "when": "not flag.ch_dorestad_834_wall_1" },
+    { "who": "rival", "key": "chain_dorestad_834.s10.rival_chest" },
+    { "who": "", "key": "chain_dorestad_834.s10.narr_flight", "when": "flag.ch_dorestad_834_road_flight" },
+    { "who": "", "key": "chain_dorestad_834.s10.narr_cheap" }
+   ],
+   "options": [
+    { "key": "gate", "label_key": "chain_dorestad_834.s10.opt_gate", "label": "Pay the second share: the gate, the watch-house and twelve men's bread. 500 pennies", "check": "flag.ch_dorestad_834_wall_1 and silver >= 500", "cost": "silver 500",
+      "effects": [ "npc priest feeling +10 gate", "toll eased 90", "flag ch_dorestad_834_wall_2", "flag ch_dorestad_834_10" ],
+      "note": "outcome: chain_dorestad_834.s10.out_gate (the bank is closed to the river before the next Pentecost: ending end_wall)" },
+    { "key": "leave", "label_key": "chain_dorestad_834.s10.opt_leave", "label": "Take the rest up the river now, and leave the store to the mice", "check": "true",
+      "effects": [ "npc rival feeling -3 left", "flag ch_dorestad_834_road_flight", "flag ch_dorestad_834_10" ],
+      "note": "outcome: chain_dorestad_834.s10.out_leave (costs pride, and whatever was paid toward the bank: ending end_flight at Daventre)" },
+    { "key": "fill", "label_key": "chain_dorestad_834.s10.opt_fill", "label": "Fill the store while others empty theirs: 150 pennies buys what was worth 400. Bury the chest first", "check": "silver >= 150", "cost": "silver 150",
+      "effects": [ { "chance": 0.5,
+                     "success": [ "silver +420", "flag ch_dorestad_834_filled" ],
+                     "failure": [ "flag ch_dorestad_834_burned", "flag df_buried", "morale -0.08" ] },
+                   "flag ch_dorestad_834_10" ],
+      "note": "outcome: chain_dorestad_834.s10.out_fill_success / out_fill_failure (doubtful, and the card says so: an even chance. Won, the stock is sold at Martinmas for 420 d; lost, the store burns with everything in it and the chest stays in the ground: ending end_ashes)" },
+    { "key": "short", "label_key": "chain_dorestad_834.s10.opt_short", "label": "Change nothing: stock short, boat loaded, one eye on the river", "check": "true", "default": true,
+      "effects": [ "flag ch_dorestad_834_10" ],
+      "note": "outcome: chain_dorestad_834.s10.out_short (costs nothing: ending end_tribute)" }
+   ],
+   "memory": { "gate": "paid for the gate and the watch", "leave": "took his house up the river", "fill.success": "filled his store and was lucky", "fill.failure": "filled his store and lost it", "short": "kept his stock short" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.end_wall",
+   "note": "ENDING: the bank holds, HISTORY CHANGED (Dorestad, drawn from June 837 through 838, when the second share was paid). Flags ch_dorestad_834_end_wall, changed_dorestad_837, unlock_work_dorestad_wall; a cost that lasts, ch_dorestad_834_watch_due (the house owes the watch a man and his bread every summer). Grand rewards: unlock_charter_dorestad, or unlock_title_doomsman_dorestad, or both on the hard road (the warning brought and the emperor's leave had). What really happened: on 17 June 837 the Northmen took Walcheren, killed Count Eggihard and Hemming, Halfdan's son, took tribute there, and came on to Dorestad and took tribute in the same way; the emperor gave up his journey to Rome and hurried to Nijmegen, the fleet withdrew on hearing of it, and his inquiry found the coast lost partly because it could not be held and partly because some would not obey (Annales Bertiniani 837; the names and the day are Annales Fuldenses 837). The freedom from the tenth is the more striking for the emperor's own rule of 828 that his merchants pay toll nowhere except at Quentovic, Dorestad and the Clusae (Praeceptum negotiatorum, Formulae imperiales 37). The seat among those who find judgment is the count's court of chain house_debt. The emperor is spoken of, not met.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_dorestad_834_wall_2 and not flag.ch_dorestad_834_end_wall and ((year = 837 and month >= 6) or year = 838)",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "agent": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [37, 58], "fixed": true, "note": "the king's agent; invented, unnamed" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [51, 60], "fixed": true, "note": "Thiadlef (dorestad.thiadlef)" }
+   },
+   "title_key": "chain_dorestad_834.end_wall.title",
+   "title": "The gate was shut",
+   "intention_key": "chain_dorestad_834.end_wall.intention",
+   "intention": "This year the heathen men took Walcheren and killed its count, and came up the river to Dorestad as in other years. There was a ditch there now, and a bank, and a gate on the bank road, and it was shut.",
+   "lines": [
+    { "who": "", "key": "chain_dorestad_834.end_wall.narr_two_days" },
+    { "who": "rival", "key": "chain_dorestad_834.end_wall.rival_wrong" },
+    { "who": "agent", "key": "chain_dorestad_834.end_wall.agent_nijmegen" },
+    { "who": "agent", "key": "chain_dorestad_834.end_wall.agent_leave", "when": "flag.ch_dorestad_834_leave" },
+    { "who": "agent", "key": "chain_dorestad_834.end_wall.agent_no_leave", "when": "not flag.ch_dorestad_834_leave" },
+    { "who": "agent", "key": "chain_dorestad_834.end_wall.agent_watch" }
+   ],
+   "options": [
+    { "key": "charter", "label_key": "chain_dorestad_834.end_wall.opt_charter", "label": "Ask the emperor's writing: your house free of the tenth at Dorestad", "check": "true",
+      "effects": [ "silver +1500", "toll none", "npc agent feeling +12 held", "flag unlock_charter_dorestad", "flag unlock_work_dorestad_wall", "flag changed_dorestad_837", "flag ch_dorestad_834_watch_due", "flag ch_dorestad_834_end_wall", "news chain_dorestad_834.news.held at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_wall.out_charter (1,500 d: the dam heads repay the shares with a third over)" },
+    { "key": "seat", "label_key": "chain_dorestad_834.end_wall.opt_seat", "label": "Ask a seat among the seven who find judgment on the bank", "check": "true", "default": true,
+      "effects": [ "silver +1200", "toll eased 365", "npc agent feeling +12 held", "npc rival feeling +8 held", "flag unlock_title_doomsman_dorestad", "flag unlock_work_dorestad_wall", "flag changed_dorestad_837", "flag ch_dorestad_834_watch_due", "flag ch_dorestad_834_end_wall", "news chain_dorestad_834.news.held at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_wall.out_seat" },
+    { "key": "both", "label_key": "chain_dorestad_834.end_wall.opt_both", "label": "You brought the first warning and you had his leave: let the agent name you at Nijmegen, and ask both", "check": "flag.ch_dorestad_834_leave and flag.df_warned",
+      "effects": [ "silver +2400", "toll none", "npc agent feeling +15 held", "npc rival feeling +8 held", "flag unlock_charter_dorestad", "flag unlock_title_doomsman_dorestad", "flag unlock_work_dorestad_wall", "flag changed_dorestad_837", "flag ch_dorestad_834_end_wall_hard", "flag ch_dorestad_834_watch_due", "flag ch_dorestad_834_end_wall", "news chain_dorestad_834.news.held at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_wall.out_both (the hard road: twice the finale and a second grand reward)" }
+   ],
+   "memory": { "charter": "held the bank and took the emperor's writing", "seat": "held the bank and took a seat in judgment", "both": "was named to the emperor for the bank" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.end_tribute",
+   "note": "ENDING: the tribute of 837, WHAT REALLY HAPPENED (Dorestad, drawn from June 837 through 838, for a house that neither finished the bank, nor left, nor burned). Flag ch_dorestad_834_end_tribute. Grand rewards, one by the option: unlock_work_dorestad_jetty (a dam head pledged for the silver advanced), unlock_factor_sliesthorp (the dealer who spoke between), unlock_kin_thiadlef (a betrothal between the houses), unlock_pilot_lek (four summers of running the Lek by night). Sources: Annales Bertiniani 837: the Northmen fell on Walcheren, killed many and plundered more, stayed a while, took such tribute as they chose, and came with the same fury to Dorestad and took tribute in the same way; the emperor, hearing it, gave up his journey to Rome and came to the fort at Nijmegen near Dorestad; they withdrew; his inquiry laid it partly to what could not be done and partly to the disobedience of some, and he ordered a fleet built (our rendering); Annales Fuldenses 837 for Eggihard, Hemming and 17 June. How the tribute was raised and how much it was are not recorded (?). The chain thread_02 tells Walcheren and the inquiry. The chief is invented and unnamed.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_dorestad_834_4 and not flag.ch_dorestad_834_wall_2 and not flag.ch_dorestad_834_burned and not flag.ch_dorestad_834_road_flight and not flag.ch_dorestad_834_end_tribute and ((year = 837 and month >= 6) or year = 838)",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [51, 60], "fixed": true, "note": "Thiadlef (dorestad.thiadlef)" },
+    "chief": { "role": "raider_chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": false, "note": "a chief of the fleet of 837; invented, unnamed" },
+    "agent": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [37, 58], "fixed": true, "note": "the king's agent; invented, unnamed" }
+   },
+   "title_key": "chain_dorestad_834.end_tribute.title",
+   "title": "Weighed out on the dam head",
+   "intention_key": "chain_dorestad_834.end_tribute.intention",
+   "intention": "This year the heathen men took Walcheren and killed its count, and took what tribute they chose. Then they came up the river to Dorestad and took tribute there in the same way.",
+   "lines": [
+    { "who": "", "key": "chain_dorestad_834.end_tribute.narr_half_bank", "when": "flag.ch_dorestad_834_wall_1" },
+    { "who": "chief", "key": "chain_dorestad_834.end_tribute.chief_reasonable" },
+    { "who": "rival", "key": "chain_dorestad_834.end_tribute.rival_cheaper" },
+    { "who": "rival", "key": "chain_dorestad_834.end_tribute.rival_owes", "when": "flag.ch_dorestad_834_thiadlef_owes" },
+    { "who": "agent", "key": "chain_dorestad_834.end_tribute.agent_rage" },
+    { "who": "", "key": "chain_dorestad_834.end_tribute.narr_bench" }
+   ],
+   "options": [
+    { "key": "advance", "label_key": "chain_dorestad_834.end_tribute.opt_advance", "label": "Advance 300 pennies for the houses that cannot find their share, against their pledges", "check": "silver >= 300", "cost": "silver 300",
+      "effects": [ "deed paid_raiders", "goods frisian_cloth +12", "goods rhenish_wine +8", "npc rival feeling +6 advanced", "flag unlock_work_dorestad_jetty", "flag ch_dorestad_834_end_tribute", "news chain_dorestad_834.news.tribute at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_tribute.out_advance (the pledges fall in: twelve bolts and eight casks, worth about 1,050 d, and a forfeited dam head)" },
+    { "key": "speak", "label_key": "chain_dorestad_834.end_tribute.opt_speak", "label": "Carry the silver down to the ships yourself, and speak for the people on the benches", "check": "tongue.old_norse >= 0.5 or flag.ch_dorestad_834_5",
+      "effects": [ "silver +650", "deed gave_alms", "npc chief feeling +5 spoke", "flag ch_dorestad_834_spoke", "flag unlock_factor_sliesthorp", "flag ch_dorestad_834_end_tribute", "news chain_dorestad_834.news.tribute at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_tribute.out_speak (needs Norse aboard, or to have stood on the landing at Sliesthorp; the families pay 650 d for the people brought back, and Ulf's kinsman at Sliesthorp will keep goods for you)" },
+    { "key": "kin", "label_key": "chain_dorestad_834.end_tribute.opt_kin", "label": "Pay your share, and take what Thiadlef has been waiting to offer since you brought his daughter home", "check": "flag.ch_dorestad_834_ransomed",
+      "effects": [ "silver +900", "deed paid_raiders", "npc rival feeling +15 kin", "flag unlock_kin_thiadlef", "flag ch_dorestad_834_end_tribute", "news chain_dorestad_834.news.tribute at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_tribute.out_kin (a betrothal between the two houses and 900 d with her)" },
+    { "key": "share", "label_key": "chain_dorestad_834.end_tribute.opt_share", "label": "Pay your share and no more, and carry bread and ale down the Lek by night to a town with no silver left", "check": "true", "default": true,
+      "effects": [ "silver +600", "deed paid_raiders", "flag unlock_pilot_lek", "flag ch_dorestad_834_end_tribute", "news chain_dorestad_834.news.tribute at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_tribute.out_share (costs nothing: 600 d of carrying in a season when nobody else will, and the Lek learned in the dark)" }
+   ],
+   "memory": { "advance": "advanced the tribute for his neighbours", "speak": "spoke to us for his people", "kin": "bound his house to Thiadlef's", "share": "paid his share of the tribute" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.end_flight",
+   "note": "ENDING: up the river (Daventre, drawn from June 837 through 838, for a house that moved). Flags ch_dorestad_834_end_flight and the spine's df_moved; a cost that lasts, ch_dorestad_834_left_early (the bank at Dorestad remembers who went first). Grand rewards: unlock_plot_daventre, or unlock_factor_daventre, or the plot with unlock_partner_thiadlef for a house Thiadlef has cause to follow. Sources: the news is Annales Bertiniani 837; Daventre is where Dorestad's trade goes in the end, 'new plots on the IJssel, old Dorestad names on them' (the spine's hook, from 863): to go in 837 is a lifetime early, which is a private change and not one of the annals'. Lebuin's church there (Altfrid's Life of Liudger; dossiers/daventre.md). The man who paces out plots for the church is invented; whose the ground was in 837 is not recorded (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = daventre and flag.ch_dorestad_834_road_flight and not flag.ch_dorestad_834_burned and not flag.ch_dorestad_834_wall_2 and not flag.ch_dorestad_834_end_flight and ((year = 837 and month >= 6) or year = 838)",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "port", "faith": "christian", "tongue": "port", "sex": "m", "age": [30, 60], "fixed": true, "note": "the man who paces out ground by the church of Lebuin; invented, unnamed" },
+    "skipper": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [25, 50], "fixed": false, "note": "a Dorestad skipper with the news; invented, unnamed" }
+   },
+   "title_key": "chain_dorestad_834.end_flight.title",
+   "title": "A new river",
+   "intention_key": "chain_dorestad_834.end_flight.intention",
+   "intention": "Your looms and scales stand under a hired roof on the IJssel. A boat from the Rhine ties up beside yours and her skipper tells the bank what this summer cost Dorestad.",
+   "lines": [
+    { "who": "skipper", "key": "chain_dorestad_834.end_flight.skipper_news" },
+    { "who": "skipper", "key": "chain_dorestad_834.end_flight.skipper_first" },
+    { "who": "steward", "key": "chain_dorestad_834.end_flight.steward_ground" },
+    { "who": "steward", "key": "chain_dorestad_834.end_flight.steward_flood" },
+    { "who": "", "key": "chain_dorestad_834.end_flight.narr_dear" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_dorestad_834.end_flight.opt_plot", "label": "Sell the stock while it is dear and take ground of your own by the church", "check": "true", "default": true,
+      "effects": [ "silver +700", "npc steward feeling +8 plot", "flag unlock_plot_daventre", "flag df_moved", "flag ch_dorestad_834_left_early", "flag ch_dorestad_834_end_flight", "news chain_dorestad_834.news.moved at daventre" ],
+      "note": "outcome: chain_dorestad_834.end_flight.out_plot" },
+    { "key": "factor", "label_key": "chain_dorestad_834.end_flight.opt_factor", "label": "Keep the house afloat: sell dear, and leave a sworn man here with the scales and a hired roof", "check": "true",
+      "effects": [ "silver +900", "flag unlock_factor_daventre", "flag df_moved", "flag ch_dorestad_834_left_early", "flag ch_dorestad_834_end_flight", "news chain_dorestad_834.news.moved at daventre" ],
+      "note": "outcome: chain_dorestad_834.end_flight.out_factor" },
+    { "key": "fetch", "label_key": "chain_dorestad_834.end_flight.opt_fetch", "label": "Take two plots side by side, and send the boat back down for Thiadlef's household", "check": "flag.ch_dorestad_834_ransomed or flag.ch_dorestad_834_stood",
+      "effects": [ "silver +1100", "npc steward feeling +8 plot", "flag unlock_plot_daventre", "flag unlock_partner_thiadlef", "flag df_moved", "flag ch_dorestad_834_end_flight_hard", "flag ch_dorestad_834_end_flight", "news chain_dorestad_834.news.moved at daventre" ],
+      "note": "outcome: chain_dorestad_834.end_flight.out_fetch (the hard road: only for the house that stood beside him or brought his daughter home; nobody says who went first when both went)" }
+   ],
+   "memory": { "plot": "took ground at Daventre", "factor": "left a man at Daventre", "fetch": "brought Thiadlef's house up the river" }
+  },
+  {
+   "id": "harbour.chain_dorestad_834.end_ashes",
+   "note": "ENDING: the storehouse in ashes (Dorestad, drawn from June 837 through 838, for the house whose full store burned). Flags ch_dorestad_834_end_ashes; the spine's df_buried is cleared (the chest is dug up). Grand rewards: unlock_work_dorestad_jetty (the widow's dam head), with a cost that lasts, ch_dorestad_834_bought_cheap; or unlock_partner_thiadlef; or unlock_heirloom_dorestad_scales. Sources: the tribute of 837 (Annales Bertiniani 837); the place file's beat (a widow selling a dam head; houses mended between raids); the harbour dams were built out and mended all through these years and stayed in use to about 875 (dossiers/dorestad.md); lead and bronze scale weights are common finds on the dams (the dossier's digs; the pan balance as a merchant's mark (?)). The widow is the widow of step 4.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_dorestad_834_burned and not flag.ch_dorestad_834_wall_2 and not flag.ch_dorestad_834_end_ashes and ((year = 837 and month >= 6) or year = 838)",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [28, 48], "fixed": true, "note": "the widow with a dam head to sell; invented, unnamed" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [51, 60], "fixed": true, "note": "Thiadlef (dorestad.thiadlef)" }
+   },
+   "title_key": "chain_dorestad_834.end_ashes.title",
+   "title": "What is in the ground",
+   "intention_key": "chain_dorestad_834.end_ashes.intention",
+   "intention": "The posts of your storehouse stand black to the height of a man. This summer the fleet took silver instead of fire, and the houses that kept their stock short have kept their roofs as well.",
+   "lines": [
+    { "who": "", "key": "chain_dorestad_834.end_ashes.narr_chest" },
+    { "who": "widow", "key": "chain_dorestad_834.end_ashes.widow_head" },
+    { "who": "rival", "key": "chain_dorestad_834.end_ashes.rival_roof" },
+    { "who": "rival", "key": "chain_dorestad_834.end_ashes.rival_owes", "when": "flag.ch_dorestad_834_thiadlef_owes" },
+    { "who": "", "key": "chain_dorestad_834.end_ashes.narr_scales" }
+   ],
+   "options": [
+    { "key": "head", "label_key": "chain_dorestad_834.end_ashes.opt_head", "label": "Dig up the chest and buy the widow's dam head at the price she is frightened enough to take", "check": "true",
+      "effects": [ "silver +750", "commission oak_timber 10 by 120 premium 0.5", "npc widow feeling -6 cheap", "flag df_buried = 0", "flag unlock_work_dorestad_jetty", "flag ch_dorestad_834_bought_cheap", "flag ch_dorestad_834_end_ashes", "news chain_dorestad_834.news.tribute at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_ashes.out_head (the chest less her price: 750 d; a berth of your own at the head; the bank remembers the price)" },
+    { "key": "yard", "label_key": "chain_dorestad_834.end_ashes.opt_yard", "label": "Dig up the chest and build one roof with Thiadlef on his dam: two marks on one door", "check": "true",
+      "effects": [ "silver +700", "commission oak_timber 10 by 120 premium 0.5", "npc rival feeling +15 roof", "flag df_buried = 0", "flag unlock_partner_thiadlef", "flag ch_dorestad_834_end_ashes", "news chain_dorestad_834.news.tribute at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_ashes.out_yard" },
+    { "key": "scales", "label_key": "chain_dorestad_834.end_ashes.opt_scales", "label": "Dig up the chest, rake the ashes for the house's scales and its stick of names, and build small", "check": "true", "default": true,
+      "effects": [ "silver +900", "npc widow feeling +4 fair", "flag df_buried = 0", "flag unlock_heirloom_dorestad_scales", "flag ch_dorestad_834_end_ashes", "news chain_dorestad_834.news.tribute at dorestad" ],
+      "note": "outcome: chain_dorestad_834.end_ashes.out_scales (the whole chest, 900 d, and the pans and weights that went through the fire: a thing an heir keeps)" }
+   ],
+   "memory": { "head": "bought a widow's dam head cheap after the fire", "yard": "built one roof with Thiadlef", "scales": "raked his scales out of the ashes" }
+  }
+ ]
+}

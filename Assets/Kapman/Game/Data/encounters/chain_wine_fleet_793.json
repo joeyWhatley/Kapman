@@ -1,0 +1,655 @@
+{
+ "about": "CHAIN wine_fleet (Design/content/chains/wine_fleet.md): the wine fleet to the fair of Saint-Denis, 796 to about 805. Fourteen cards. Radbern, an old Frisian shipman of Dorestad (invented), asks the player's boat to sail as the second keel of his October voyage up the Seine; the king's toll at Rotomagus, the abbey's tolls and the count's old head-penny at the fair, the choice of new wine or settled wine in the abbey's cellar, the partner's fever and his casks left in the player's hands, the frost on the way home, and the broaching: a winter's profit (s08) or a spoiled cargo (s09). A year later, at the next fair, three roads and three endings: fellowship with Radbern's house (end_fellowship), the abbot's errand to Lundenwic (end_abbey), or the trade taken for oneself with an Englishman of Hamwic (end_own). Progress is flags ch_wine_fleet_1 to _10; branch flags, endings, grand rewards and the two 'changed_' flags are listed in the chain page. Cards with weight 30 or 40 are drawn on a call at their port in their months (the fair opens on Saint Denis's day, 9 October), so the waits are real; cards with weight 0 are reached only by 'schedule'. The forge names the people; the words call them Radbern, Aldburg, Leofstan, Waldric and Ursio (invented, attested name parts), Abbot Fardulf and the reeve Wighelm (cast.wighelm). The words are in Data/writing/chain_wine_fleet.json; each option's note names the writing key of its outcome text. Sources in the notes and in the chain page: the judgments and charters for Saint-Denis of 710, 753, about 775 and 779 (Tardif, Monuments historiques, nos. 44, 55, 77, 81, as read in Design/content/dossiers/parisius.md). Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_wine_fleet.s01_second_keel",
+   "note": "Step 1, the start: Dorestad, July to September of 796 to 802, drawn on a call there once the house has made two calls. Radbern (invented: Rad- + -bern), who has gone up the Seine twenty Octobers, wants a second keel; Aldburg (Ald- + -burg), his daughter, keeps his tally. Sources: Saxon and Frisian merchants at the fair of Saint-Denis, coming to buy wine 'in the ports and on the rivers' and bringing wool and cloth (Pippin's judgment of 8 July 753, Tardif no. 55; Saint-Denis archaeology unit, 'The Saint-Denis fair'); peace for merchants between the two kings from 796 (chronicle_793.json 796-spring-offa-letter), which is why the chain begins in 796. Sets ch_wine_fleet_1 and one of ch_wine_fleet_share, ch_wine_fleet_own_purse. Saying no costs nothing and he asks again next summer.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year >= 796 and year < 803 and port.visits >= 2 and not flag.ch_wine_fleet_1",
+   "months": [7, 8, 9],
+   "weight": 0.9,
+   "wants": "good_name",
+   "cooldown_days": 300,
+   "actors": {
+    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": true, "note": "Radbern, invented" },
+    "daughter": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg, invented" }
+   },
+   "title_key": "chain_wine_fleet.s01.title",
+   "title": "A second keel",
+   "intention_key": "chain_wine_fleet.s01.intention",
+   "intention": "An old shipman who goes to the fair of Saint-Denis every October has lost his second boat, and looks at yours.",
+   "lines": [
+    { "who": "partner", "key": "chain_wine_fleet.s01.partner_twenty" },
+    { "who": "partner", "key": "chain_wine_fleet.s01.partner_small_boat" },
+    { "who": "partner", "key": "chain_wine_fleet.s01.partner_peace", "when": "year < 798" },
+    { "who": "partner", "key": "chain_wine_fleet.s01.partner_offer" },
+    { "who": "daughter", "key": "chain_wine_fleet.s01.daughter_tally" }
+   ],
+   "options": [
+    { "key": "share", "label_key": "chain_wine_fleet.s01.opt_share", "label": "Join hands: sail as his second keel for a share",
+      "check": "true",
+      "effects": [ "goods frisian_cloth +4", "npc partner feeling +8 joined", "npc daughter feeling +3 joined", "flag ch_wine_fleet_share", "flag ch_wine_fleet_1" ],
+      "note": "outcome: chain_wine_fleet.s01.out_share" },
+    { "key": "own", "label_key": "chain_wine_fleet.s01.opt_own", "label": "Sail in his company, but for your own purse",
+      "check": "true",
+      "effects": [ "silver +20", "goods frisian_cloth +2", "npc partner feeling +2 own_purse", "flag ch_wine_fleet_own_purse", "flag ch_wine_fleet_1" ],
+      "note": "outcome: chain_wine_fleet.s01.out_own (he pays 20 d for the carrying of two bolts)" },
+    { "key": "later", "label_key": "chain_wine_fleet.s01.opt_later", "label": "Not this year. Ask him what cloth fetches at the fair",
+      "check": "true",
+      "effects": [ "price_shock parisius frisian_cloth x1.2 for 90", "npc partner feeling +1 asked" ],
+      "note": "outcome: chain_wine_fleet.s01.out_later (a true price word; he asks again next summer)" }
+   ],
+   "memory": {
+    "share": "joined hands for the wine voyage",
+    "own": "sailed in company for his own purse",
+    "later": "said not this year"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.s02_tide_and_toll",
+   "note": "Step 2 (optional: step 3 does not need it): Rotomagus, September to November, drawn on a call there. The boats gather under the south wall; the king's toll is taken here by the men of Abbot Gervold of Saint-Wandrille (cast.gervold, procurator of the Channel tolls 787 to 806: Gesta abbatum Fontanellensium c. 12), and the boats of Saint-Germain pass free (Charles's charter of 27 March 779, Tardif no. 81: toll-free at Rouen, Quentovic, Amiens, Maastricht, Dorestad and Paris). Merchants who dress as pilgrims to slip the toll: Charles's letter to Offa, 796 (chronicle 796-spring-offa-letter), in our own words. The tide carries ships to the city (Nithard on 841, LATER; dossiers/rotomagus.md 1); the wave at Caudebec is known from later centuries (?). Leofstan of Hamwic (Leof- + -stan) is invented. Sets ch_wine_fleet_2 and one of ch_wine_fleet_river_word, ch_wine_fleet_pilgrim.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and flag.ch_wine_fleet_1 and not flag.ch_wine_fleet_2 and not flag.ch_wine_fleet_3",
+   "months": [9, 10, 11],
+   "weight": 30,
+   "cooldown_days": 30,
+   "actors": {
+    "tollman": { "role": "tollman", "people": "port", "faith": "port", "tongue": "port", "age": [30, 60], "fixed": true, "note": "a man of Abbot Gervold's (to 806)" },
+    "english": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic, invented" },
+    "pilot": { "role": "pilot", "people": "port", "faith": "port", "tongue": "port", "age": [35, 60], "fixed": true, "note": "a river man of the Seine, unnamed" }
+   },
+   "title_key": "chain_wine_fleet.s02.title",
+   "title": "The tide and the toll",
+   "intention_key": "chain_wine_fleet.s02.intention",
+   "intention": "Under the south wall of Rotomagus the boats for the fair wait for the flood. The king's toll man works along them with his tally.",
+   "lines": [
+    { "who": "tollman", "key": "chain_wine_fleet.s02.tollman_cloth" },
+    { "who": "tollman", "key": "chain_wine_fleet.s02.tollman_germain" },
+    { "who": "english", "key": "chain_wine_fleet.s02.english_hamwic" },
+    { "who": "english", "key": "chain_wine_fleet.s02.english_pilgrims" },
+    { "who": "pilot", "key": "chain_wine_fleet.s02.pilot_loops" }
+   ],
+   "options": [
+    { "key": "declare", "label_key": "chain_wine_fleet.s02.opt_declare", "label": "Show the cloth and pay the king's toll",
+      "check": "silver >= 6", "cost": "silver 6", "default": true,
+      "effects": [ "npc tollman feeling +4 honest", "toll eased 30", "flag ch_wine_fleet_2" ],
+      "note": "outcome: chain_wine_fleet.s02.out_declare" },
+    { "key": "pilgrim", "label_key": "chain_wine_fleet.s02.opt_pilgrim", "label": "Put the bolts under a pilgrim's bundle and say you are bound for the saint",
+      "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "npc english feeling +3 pilgrim", "flag ch_wine_fleet_pilgrim" ],
+                     "failure": [ "silver -12", "deed goods_seized", "npc tollman feeling -15 caught" ] },
+                   "flag ch_wine_fleet_2" ],
+      "note": "outcome: chain_wine_fleet.s02.out_pilgrim_success / out_pilgrim_failure (doubtful; the fine is twice the toll)" },
+    { "key": "river", "label_key": "chain_wine_fleet.s02.opt_river", "label": "Lie over a tide and have the river man tell you the loops",
+      "check": "true",
+      "effects": [ "npc pilot feeling +6 listened", "flag ch_wine_fleet_river_word", "flag ch_wine_fleet_2" ],
+      "note": "outcome: chain_wine_fleet.s02.out_river (costs a tide; the toll man has gone up the line by then)" }
+   ],
+   "memory": {
+    "declare": "paid the king's toll on his cloth",
+    "pilgrim.success": "passed as a pilgrim",
+    "pilgrim.failure": "caught with cloth under a pilgrim's bundle",
+    "river": "lay over a tide to learn the river"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.s03_saints_day",
+   "note": "Step 3: Parisius (the abbey's strand at Saint-Denis), October and November, drawn on a call there. The fair opens on Saint Denis's day, 9 October; from his Mass until the market ends every toll in the district of Paris is the abbey's (Tardif nos. 55 and 77). The count's man asks four pennies a head, as the counts did in Charles Martel's day: King Pippin struck that tax down on 8 July 753 because the merchants were staying away, and a slave paid five, having first sworn that he was one (Tardif no. 55). That a man of Count Stephen (779 to 811/815) tried it again in the 790s is INVENTED; in 710 a count had claimed half the toll and lost (Tardif no. 44). Coming up from Rotomagus a boat reaches Saint-Denis before the city (dossiers/parisius.md 1). The 245 feet and 101 windows are the description of 799 (line only from 799). Sets ch_wine_fleet_3 and one of ch_wine_fleet_paid_head, ch_wine_fleet_spoke_753, ch_wine_fleet_abbey_ear; schedules step 4.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and flag.ch_wine_fleet_1 and not flag.ch_wine_fleet_3",
+   "months": [10, 11],
+   "weight": 40,
+   "cooldown_days": 20,
+   "actors": {
+    "countsman": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [25, 45], "fixed": false, "note": "a man of Count Stephen of Paris, invented" },
+    "tollman": { "role": "tollman", "people": "port", "faith": "port", "tongue": "port", "age": [30, 60], "fixed": true, "note": "the abbey's toll man for the weeks of the fair" },
+    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern" }
+   },
+   "title_key": "chain_wine_fleet.s03.title",
+   "title": "Saint Denis's Mass",
+   "intention_key": "chain_wine_fleet.s03.intention",
+   "intention": "The strand below the abbey is full of boats. The abbey's man takes the toll; a man of the count's wants four pennies a head besides.",
+   "lines": [
+    { "who": "partner", "key": "chain_wine_fleet.s03.partner_strand" },
+    { "who": "partner", "key": "chain_wine_fleet.s03.partner_windows", "when": "year >= 799" },
+    { "who": "tollman", "key": "chain_wine_fleet.s03.tollman_all_tolls" },
+    { "who": "countsman", "key": "chain_wine_fleet.s03.countsman_heads" },
+    { "who": "countsman", "key": "chain_wine_fleet.s03.countsman_slave" },
+    { "who": "partner", "key": "chain_wine_fleet.s03.partner_pippin" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_wine_fleet.s03.opt_pay", "label": "Pay the sixteen pennies for your four heads",
+      "check": "silver >= 16", "cost": "silver 16",
+      "effects": [ "npc countsman feeling +6 paid", "npc tollman feeling -3 paid_count", "flag ch_wine_fleet_paid_head", "flag ch_wine_fleet_3",
+                   "schedule harbour.chain_wine_fleet.s04_cellar in 3 at parisius" ],
+      "note": "outcome: chain_wine_fleet.s03.out_pay" },
+    { "key": "judgment", "label_key": "chain_wine_fleet.s03.opt_judgment", "label": "Say aloud, before the abbey's man, that King Pippin struck this tax down",
+      "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "npc tollman feeling +10 spoke", "npc countsman feeling -10 spoke", "deed won_case", "toll eased 30", "flag ch_wine_fleet_spoke_753" ],
+                     "failure": [ "silver -8", "npc countsman feeling -6 spoke", "flag ch_wine_fleet_paid_head" ] },
+                   "flag ch_wine_fleet_3", "schedule harbour.chain_wine_fleet.s04_cellar in 3 at parisius" ],
+      "note": "outcome: chain_wine_fleet.s03.out_judgment_success / out_judgment_failure (likely; on a failure he takes half and goes)" },
+    { "key": "gate", "label_key": "chain_wine_fleet.s03.opt_gate", "label": "Pay nobody yet. Walk up to the abbey gate and ask whose toll it is",
+      "check": "true",
+      "effects": [ "npc tollman feeling +4 asked", "flag ch_wine_fleet_abbey_ear", "flag ch_wine_fleet_3",
+                   "schedule harbour.chain_wine_fleet.s04_cellar in 3 at parisius" ],
+      "note": "outcome: chain_wine_fleet.s03.out_gate (costs the first day of the fair; the cellarer hears of it)" }
+   ],
+   "memory": {
+    "pay": "paid the count's head-penny",
+    "judgment.success": "named King Pippin's judgment at the strand",
+    "judgment.failure": "named a judgment and paid half all the same",
+    "gate": "asked at the abbey gate whose the toll was"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.s04_cellar",
+   "note": "Step 4 (scheduled three days after step 3, at Parisius): the buying. Brother Waldric, cellarer of Saint-Denis (invented: Wald- + -ric). The abbey sold its grain and spare wine and honey, and Saxons and Frisians brought wool and woollen cloth (Saint-Denis archaeology unit, 'The Saint-Denis fair'). The vintage is at Saint Remigius's Mass (1 October) (?), so the wine of the year is still working in the cask at the fair: a bung driven tight on working wine starts the staves, and a cask not kept full turns sour (the vintner's common knowledge, from memory (?)). This is the chain's warning before its danger. The cellarer sets Aldhelm's riddle of the wine cask (riddles_793.json riddle_aldhelm_78_cupa_vinaria). A pitch among the graves at two pennies is the fair's later custom (?). Sets ch_wine_fleet_4 and one of ch_wine_fleet_new_wine, ch_wine_fleet_old_wine, ch_wine_fleet_abbey_wine; schedules step 5. The 90 d is the house's part of the cloth sold (a turn payout).",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and flag.ch_wine_fleet_3 and not flag.ch_wine_fleet_4",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "cellarer": { "role": "cellarer", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Brother Waldric, invented" },
+    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern" }
+   },
+   "title_key": "chain_wine_fleet.s04.title",
+   "title": "The cellarer's wine",
+   "intention_key": "chain_wine_fleet.s04.intention",
+   "intention": "The cloth is sold. In the abbey's storehouse the cellarer shows three sorts of wine, and Radbern leaves the choosing of your casks to you.",
+   "lines": [
+    { "who": "cellarer", "key": "chain_wine_fleet.s04.cellarer_three" },
+    { "who": "cellarer", "key": "chain_wine_fleet.s04.cellarer_bung" },
+    { "who": "cellarer", "key": "chain_wine_fleet.s04.cellarer_full" },
+    { "who": "cellarer", "key": "chain_wine_fleet.s04.cellarer_gate", "when": "flag.ch_wine_fleet_abbey_ear or flag.ch_wine_fleet_spoke_753" },
+    { "who": "partner", "key": "chain_wine_fleet.s04.partner_choose" },
+    { "who": "cellarer", "key": "chain_wine_fleet.s04.cellarer_riddle" }
+   ],
+   "options": [
+    { "key": "new", "label_key": "chain_wine_fleet.s04.opt_new", "label": "The wine of this year: cheap, three casks, still working",
+      "check": "true",
+      "effects": [ "silver +90", "goods frankish_wine +3", "give_riddle riddle_aldhelm_78_cupa_vinaria", "flag ch_wine_fleet_new_wine", "flag ch_wine_fleet_4",
+                   "schedule harbour.chain_wine_fleet.s05_fever in 12 at parisius" ],
+      "note": "outcome: chain_wine_fleet.s04.out_new" },
+    { "key": "old", "label_key": "chain_wine_fleet.s04.opt_old", "label": "Last year's wine: dear, two casks, settled",
+      "check": "true",
+      "effects": [ "silver +90", "goods frankish_wine +2", "give_riddle riddle_aldhelm_78_cupa_vinaria", "flag ch_wine_fleet_old_wine", "flag ch_wine_fleet_4",
+                   "schedule harbour.chain_wine_fleet.s05_fever in 12 at parisius" ],
+      "note": "outcome: chain_wine_fleet.s04.out_old" },
+    { "key": "abbey", "label_key": "chain_wine_fleet.s04.opt_abbey", "label": "The abbot's own casks, under the abbey's mark, on trust",
+      "check": "flag.ch_wine_fleet_abbey_ear or flag.ch_wine_fleet_spoke_753 or learned.latin > 0",
+      "effects": [ "silver +90", "goods frankish_wine +2", "give_riddle riddle_aldhelm_78_cupa_vinaria", "npc cellarer feeling +8 trusted",
+                   "flag ch_wine_fleet_abbey_wine", "flag ch_wine_fleet_old_wine", "flag ch_wine_fleet_4",
+                   "schedule harbour.chain_wine_fleet.s05_fever in 12 at parisius" ],
+      "note": "outcome: chain_wine_fleet.s04.out_abbey (settled wine; the abbey is paid when it is sold, and remembers who carried it)" }
+   ],
+   "memory": {
+    "new": "bought the wine of the year",
+    "old": "bought last year's wine",
+    "abbey": "took the abbot's casks on trust"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.s05_fever",
+   "note": "Step 5 (scheduled twelve days after step 4, at Parisius): the partner's casks. Radbern takes a fever and lies in the abbey's hospice at the gate (the monastery had a hospice at its gate: dossiers/parisius.md 2). He puts his tally and his best casks in the player's hands for his daughter at Dorestad; Leofstan offers ready silver for them. Staying until the fever turns saves the man and loses the mild weather (the fair runs to Saint Andrew's; Martinmas, 11 November, is the old day for tasting the new wine (?)). The dead of the abbey's great graveyard lay in plaster coffins used again and again (dossiers/parisius.md 2). Sets ch_wine_fleet_5 and ch_wine_fleet_trust (carry, stay) or ch_wine_fleet_sold_english (sell); stay also sets ch_wine_fleet_radbern_lives and ch_wine_fleet_late. If the player neither stays nor comes back, Radbern dies at Martinmas.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and flag.ch_wine_fleet_4 and not flag.ch_wine_fleet_5",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern" },
+    "english": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic" },
+    "monk": { "role": "guest_master", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [35, 60], "fixed": true, "note": "the brother who keeps the hospice at the gate, unnamed" }
+   },
+   "title_key": "chain_wine_fleet.s05.title",
+   "title": "The partner's casks",
+   "intention_key": "chain_wine_fleet.s05.intention",
+   "intention": "Radbern lies in the hospice at the abbey gate with a fever. His tally and his best casks are in your boat, and an Englishman has silver in his hand.",
+   "lines": [
+    { "who": "monk", "key": "chain_wine_fleet.s05.monk_fever" },
+    { "who": "partner", "key": "chain_wine_fleet.s05.partner_tally" },
+    { "who": "partner", "key": "chain_wine_fleet.s05.partner_share", "when": "flag.ch_wine_fleet_share" },
+    { "who": "partner", "key": "chain_wine_fleet.s05.partner_own", "when": "flag.ch_wine_fleet_own_purse" },
+    { "who": "english", "key": "chain_wine_fleet.s05.english_offer" },
+    { "who": "monk", "key": "chain_wine_fleet.s05.monk_frost" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_wine_fleet.s05.opt_carry", "label": "Take his tally and his casks, and sail for Dorestad while the weather holds",
+      "check": "true",
+      "effects": [ "npc partner feeling +10 carried", "flag ch_wine_fleet_trust", "flag ch_wine_fleet_5" ],
+      "note": "outcome: chain_wine_fleet.s05.out_carry" },
+    { "key": "stay", "label_key": "chain_wine_fleet.s05.opt_stay", "label": "Stay by him until the fever turns, and sail late",
+      "check": "true",
+      "effects": [ "npc partner feeling +20 stayed", "npc monk feeling +6 stayed", "learn latin +0.05", "morale -0.05",
+                   "flag ch_wine_fleet_trust", "flag ch_wine_fleet_radbern_lives", "flag ch_wine_fleet_late", "flag ch_wine_fleet_5" ],
+      "note": "outcome: chain_wine_fleet.s05.out_stay (he lives; you sail after Martinmas, into the frost)" },
+    { "key": "sell", "label_key": "chain_wine_fleet.s05.opt_sell", "label": "Sell his casks to the Englishman here for ready silver",
+      "check": "true",
+      "effects": [ "silver +240", "npc english feeling +10 sold", "npc partner feeling -8 sold", "flag ch_wine_fleet_sold_english", "flag ch_wine_fleet_5" ],
+      "note": "outcome: chain_wine_fleet.s05.out_sell (240 d that are his until the reckoning at Dorestad)" }
+   ],
+   "memory": {
+    "carry": "took the tally and the casks for Dorestad",
+    "stay": "stayed until the fever turned",
+    "sell": "sold the sick man's casks for ready silver"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.s06_cooper",
+   "note": "Step 6 (optional): Rotomagus on the way down, October to March, drawn on a call there. Ursio the cooper (invented; the name is an attested Frankish one (?)) tops the casks up and drives the hoops: a cask kept full does not turn (?). Hiring him is the chain's man with a skill. Wine casks of the time are of oak or silver fir with willow hoops (the Dorestad well casks: Design/economy_and_trade.md). The price word is true: wine is dear over the sea before Christmas. Sets ch_wine_fleet_6, and ch_wine_fleet_topped on the first two options.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and flag.ch_wine_fleet_5 and not flag.ch_wine_fleet_6 and not flag.ch_wine_fleet_8",
+   "months": [10, 11, 12, 1, 2, 3],
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "cooper": { "role": "craftsman", "people": "romance", "faith": "christian", "tongue": "romance", "age": [28, 50], "fixed": false, "note": "Ursio the cooper, invented" }
+   },
+   "title_key": "chain_wine_fleet.s06.title",
+   "title": "The cooper under the wall",
+   "intention_key": "chain_wine_fleet.s06.intention",
+   "intention": "A cooper works along the boats under the wall of Rotomagus with a mallet and a jug. He raps your casks and listens.",
+   "lines": [
+    { "who": "cooper", "key": "chain_wine_fleet.s06.cooper_hollow" },
+    { "who": "cooper", "key": "chain_wine_fleet.s06.cooper_new", "when": "flag.ch_wine_fleet_new_wine" },
+    { "who": "cooper", "key": "chain_wine_fleet.s06.cooper_old", "when": "not flag.ch_wine_fleet_new_wine" },
+    { "who": "cooper", "key": "chain_wine_fleet.s06.cooper_hire" }
+   ],
+   "options": [
+    { "key": "top", "label_key": "chain_wine_fleet.s06.opt_top", "label": "Have him fill the casks to the bung and drive the hoops",
+      "check": "silver >= 12", "cost": "silver 12",
+      "effects": [ "npc cooper feeling +5 work", "flag ch_wine_fleet_topped", "flag ch_wine_fleet_6" ],
+      "note": "outcome: chain_wine_fleet.s06.out_top" },
+    { "key": "hire", "label_key": "chain_wine_fleet.s06.opt_hire", "label": "Hire him for the winter: he wants to see the sea",
+      "check": "silver >= 30 and crew < crew_full", "cost": "silver 30",
+      "effects": [ "hire cooper", "flag ch_wine_fleet_topped", "flag ch_wine_fleet_cooper", "flag ch_wine_fleet_6" ],
+      "note": "outcome: chain_wine_fleet.s06.out_hire (a turn reward: a hired man with a skill)" },
+    { "key": "pass", "label_key": "chain_wine_fleet.s06.opt_pass", "label": "Keep your pennies. Ask him what the English boats said of the price",
+      "check": "true",
+      "effects": [ "price_shock lundenwic frankish_wine x1.2 for 40", "flag ch_wine_fleet_6" ],
+      "note": "outcome: chain_wine_fleet.s06.out_pass (a true price word)" }
+   ],
+   "memory": {
+    "top": "had his casks filled and hooped",
+    "hire": "hired the cooper",
+    "pass": "kept his pennies and asked the price"
+   }
+  },
+  {
+   "id": "sea.chain_wine_fleet.s07_frost",
+   "note": "Step 7 (optional): at sea with the wine aboard, November to March. A hard north-east wind and frost in the narrow sea; a cask weeps at the bung. The warning was the cellarer's (step 4) and the cooper's (step 6): working wine wants a loose bung, any wine wants a still, full cask. Winters in which the rivers froze are in the annals (the Seine in 821/822: chronicle 821-winter-rivers-frozen, LATER than this chain and used only as the kind of thing that happened). Sets ch_wine_fleet_7 and one of ch_wine_fleet_careful, ch_wine_fleet_fast, ch_wine_fleet_shaken, ch_wine_fleet_bunged. Whether the wine is sound is settled from these flags at the broaching (steps 8 and 9).",
+   "stage": "sea",
+   "when": "under_way and flag.ch_wine_fleet_5 and not flag.ch_wine_fleet_7 and not flag.ch_wine_fleet_8",
+   "months": [11, 12, 1, 2, 3],
+   "rate": 0.3,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "mate": { "role": "mate", "people": "saxon", "faith": "christian", "tongue": "old_frisian", "age": [25, 50], "fixed": true, "note": "your own mate (cast.crew.brunger)" }
+   },
+   "title_key": "chain_wine_fleet.s07.title",
+   "title": "Frost on the bung",
+   "intention_key": "chain_wine_fleet.s07.intention",
+   "intention": "The wind has gone north-east and hard. There is ice on the sheets, the casks work against their chocks, and one weeps at the bung.",
+   "lines": [
+    { "who": "mate", "key": "chain_wine_fleet.s07.mate_weeps" },
+    { "who": "mate", "key": "chain_wine_fleet.s07.mate_new", "when": "flag.ch_wine_fleet_new_wine" },
+    { "who": "mate", "key": "chain_wine_fleet.s07.mate_old", "when": "not flag.ch_wine_fleet_new_wine" },
+    { "who": "mate", "key": "chain_wine_fleet.s07.mate_late", "when": "flag.ch_wine_fleet_late" }
+   ],
+   "options": [
+    { "key": "nurse", "label_key": "chain_wine_fleet.s07.opt_nurse", "label": "Shorten sail, bed the casks in the cloaks and ease the bungs",
+      "check": "true",
+      "effects": [ "morale -0.05", "flag ch_wine_fleet_careful", "flag ch_wine_fleet_7" ],
+      "note": "outcome: chain_wine_fleet.s07.out_nurse (a slow, cold day; the wine lies still)" },
+    { "key": "run", "label_key": "chain_wine_fleet.s07.opt_run", "label": "Carry all sail and get in before the frost does",
+      "check": "true",
+      "effects": [ { "chance": 0.55, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05", "flag ch_wine_fleet_fast" ],
+                     "failure": [ "health -0.05", "flag ch_wine_fleet_shaken" ] },
+                   "flag ch_wine_fleet_7" ],
+      "note": "outcome: chain_wine_fleet.s07.out_run_success / out_run_failure (likely; on a failure the casks are shaken and the lees are through the wine)" },
+    { "key": "tight", "label_key": "chain_wine_fleet.s07.opt_tight", "label": "Drive every bung home with the mallet and hold your course",
+      "check": "true",
+      "effects": [ "flag ch_wine_fleet_bunged", "flag ch_wine_fleet_7" ],
+      "note": "outcome: chain_wine_fleet.s07.out_tight (right for settled wine; working wine starts its staves)" }
+   ],
+   "memory": {
+    "nurse": "nursed the casks through the frost",
+    "run.success": "ran in before the frost",
+    "run.failure": "shook the casks running before the frost",
+    "tight": "drove the bungs home"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.s08_broach_sound",
+   "note": "Step 8a, a winter's profit: the first call at Dorestad, Lundenwic, Hamwic or Quentovic with the wine aboard, when it has kept. The wine is sound unless: it was new wine and the bungs were driven tight; or the casks were shaken and never topped; or it was new wine, sailed late, and neither nursed nor topped (the same test, turned round, opens step 9). Wine is the lord's and the Mass's drink (BRIEF.md rule 2): a cask to the church is a real gift. The 180 d is the house's part of the casks sold from Radbern's ship (a turn payout); the player's own casks are still in the hold to sell at the market. Sets ch_wine_fleet_8 and ch_wine_fleet_sound; schedules the reckoning at Dorestad.",
+   "stage": "harbour",
+   "when": "moored and (port.id = dorestad or port.id = lundenwic or port.id = hamwic or port.id = quentovic) and flag.ch_wine_fleet_5 and not flag.ch_wine_fleet_8 and not ((flag.ch_wine_fleet_new_wine and flag.ch_wine_fleet_bunged) or (flag.ch_wine_fleet_shaken and not flag.ch_wine_fleet_topped) or (flag.ch_wine_fleet_new_wine and flag.ch_wine_fleet_late and not flag.ch_wine_fleet_careful and not flag.ch_wine_fleet_topped))",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "buyer": { "role": "steward", "people": "port", "faith": "port", "tongue": "port", "age": [35, 60], "fixed": true, "note": "a lord's steward buying for the Christmas feast" },
+    "priest": { "role": "priest", "people": "port", "faith": "christian", "tongue": "port", "age": [30, 65], "fixed": true }
+   },
+   "title_key": "chain_wine_fleet.s08.title",
+   "title": "The first cup",
+   "intention_key": "chain_wine_fleet.s08.intention",
+   "intention": "The first cask is broached on the quay. The wine runs clear and smells of the cellar it came from. A steward and a priest are both watching the cup.",
+   "lines": [
+    { "who": "buyer", "key": "chain_wine_fleet.s08.buyer_taste" },
+    { "who": "buyer", "key": "chain_wine_fleet.s08.buyer_feast", "when": "month >= 11 or month <= 1" },
+    { "who": "buyer", "key": "chain_wine_fleet.s08.buyer_lent", "when": "month >= 2 and month <= 4" },
+    { "who": "priest", "key": "chain_wine_fleet.s08.priest_mass" }
+   ],
+   "options": [
+    { "key": "quay", "label_key": "chain_wine_fleet.s08.opt_quay", "label": "Sell the fleet's casks on the quay today",
+      "check": "true",
+      "effects": [ "silver +180", "price_shock here frankish_wine x0.9 for 20", "npc buyer feeling +5 sold",
+                   "flag ch_wine_fleet_sound", "flag ch_wine_fleet_8", "schedule harbour.chain_wine_fleet.s10_reckoning in 4 at dorestad" ],
+      "note": "outcome: chain_wine_fleet.s08.out_quay" },
+    { "key": "order", "label_key": "chain_wine_fleet.s08.opt_order", "label": "Sell half, and take the steward's order for more at his price",
+      "check": "true",
+      "effects": [ "silver +110", "commission frankish_wine 3 by 120 premium 0.5", "npc buyer feeling +8 order",
+                   "flag ch_wine_fleet_sound", "flag ch_wine_fleet_8", "schedule harbour.chain_wine_fleet.s10_reckoning in 4 at dorestad" ],
+      "note": "outcome: chain_wine_fleet.s08.out_order (an order for three casks at half as much again, within 120 days)" },
+    { "key": "mass", "label_key": "chain_wine_fleet.s08.opt_mass", "label": "Give one cask to the church for the Mass, and sell the rest",
+      "check": "hold.frankish_wine >= 1", "cost": "goods frankish_wine 1",
+      "effects": [ "silver +150", "deed gave_alms", "npc priest feeling +12 gift",
+                   "flag ch_wine_fleet_sound", "flag ch_wine_fleet_8", "schedule harbour.chain_wine_fleet.s10_reckoning in 4 at dorestad" ],
+      "note": "outcome: chain_wine_fleet.s08.out_mass" }
+   ],
+   "memory": {
+    "quay": "sold sound wine on the quay",
+    "order": "took an order for wine",
+    "mass": "gave a cask for the Mass"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.s09_broach_sour",
+   "note": "Step 8b, a spoiled cargo: the same call as step 8, when the wine has turned (the test is in step 8's note). Not a card that only punishes: sour wine is vinegar, and vinegar is a ware (the Emperor's men pay part of their London toll in vinegar about 1000: IV Aethelred 2, LATER; the salters and the kitchens buy it). Spiced and honeyed wine is the Roman 'conditum' of Symphosius's riddle 82 (texts_793.json symphosius_82_conditum), which the spicing option gives; selling it as sound wine is a cheat and may be found out. Sets ch_wine_fleet_8 and ch_wine_fleet_sour, and ch_wine_fleet_spiced or ch_wine_fleet_owned_fault; schedules the reckoning at Dorestad.",
+   "stage": "harbour",
+   "when": "moored and (port.id = dorestad or port.id = lundenwic or port.id = hamwic or port.id = quentovic) and flag.ch_wine_fleet_5 and not flag.ch_wine_fleet_8 and ((flag.ch_wine_fleet_new_wine and flag.ch_wine_fleet_bunged) or (flag.ch_wine_fleet_shaken and not flag.ch_wine_fleet_topped) or (flag.ch_wine_fleet_new_wine and flag.ch_wine_fleet_late and not flag.ch_wine_fleet_careful and not flag.ch_wine_fleet_topped))",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "buyer": { "role": "steward", "people": "port", "faith": "port", "tongue": "port", "age": [35, 60], "fixed": true, "note": "a lord's steward buying for the Christmas feast" },
+    "salter": { "role": "salter", "people": "port", "faith": "port", "tongue": "port", "age": [25, 60], "fixed": false, "note": "a man who salts fish and buys vinegar" }
+   },
+   "title_key": "chain_wine_fleet.s09.title",
+   "title": "The first cup",
+   "intention_key": "chain_wine_fleet.s09.intention",
+   "intention": "The first cask is broached on the quay. The steward tastes, and looks for somewhere to spit.",
+   "lines": [
+    { "who": "buyer", "key": "chain_wine_fleet.s09.buyer_spit" },
+    { "who": "buyer", "key": "chain_wine_fleet.s09.buyer_staves", "when": "flag.ch_wine_fleet_bunged" },
+    { "who": "buyer", "key": "chain_wine_fleet.s09.buyer_lees", "when": "flag.ch_wine_fleet_shaken" },
+    { "who": "salter", "key": "chain_wine_fleet.s09.salter_offer" }
+   ],
+   "options": [
+    { "key": "vinegar", "label_key": "chain_wine_fleet.s09.opt_vinegar", "label": "Call it vinegar and sell it to the salter as vinegar",
+      "check": "true",
+      "effects": [ "silver +45", "npc salter feeling +5 vinegar", "flag ch_wine_fleet_sour", "flag ch_wine_fleet_8",
+                   "schedule harbour.chain_wine_fleet.s10_reckoning in 4 at dorestad" ],
+      "note": "outcome: chain_wine_fleet.s09.out_vinegar" },
+    { "key": "spice", "label_key": "chain_wine_fleet.s09.opt_spice", "label": "Mend it with honey and pepper and sell it up the coast as spiced wine",
+      "check": "silver >= 10", "cost": "silver 10",
+      "effects": [ "give_text symphosius_82_conditum",
+                   { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "silver +140", "flag ch_wine_fleet_spiced" ],
+                     "failure": [ "silver +20", "npc buyer feeling -20 cheated", "flag ch_wine_fleet_spiced" ] },
+                   "flag ch_wine_fleet_sour", "flag ch_wine_fleet_8", "schedule harbour.chain_wine_fleet.s10_reckoning in 4 at dorestad" ],
+      "note": "outcome: chain_wine_fleet.s09.out_spice_success / out_spice_failure (doubtful)" },
+    { "key": "truth", "label_key": "chain_wine_fleet.s09.opt_truth", "label": "Pour a cup for anyone who asks, and say whose hand was on the bung",
+      "check": "true",
+      "effects": [ "silver +30", "deed fair_dealing", "npc buyer feeling +8 honest", "flag ch_wine_fleet_owned_fault", "flag ch_wine_fleet_sour", "flag ch_wine_fleet_8",
+                   "schedule harbour.chain_wine_fleet.s10_reckoning in 4 at dorestad" ],
+      "note": "outcome: chain_wine_fleet.s09.out_truth (costs pride; the steward remembers an honest man)" }
+   ],
+   "memory": {
+    "vinegar": "sold sour wine as vinegar",
+    "spice.success": "sold mended wine as spiced wine",
+    "spice.failure": "was found selling mended wine",
+    "truth": "owned the spoiled cargo aloud"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.s10_reckoning",
+   "note": "Step 9 (scheduled four days after the broaching, at Dorestad): the reckoning with Radbern's house. Aldburg has the notched half of the tally (a split tally stick is the reckoning of men who do not write (?)). If the player stayed at the hospice Radbern is home, thin and alive; if not, word has come by a later boat that he died at Martinmas and lies in the abbey's graveyard. Three roads: the tally and the casks laid down (needs ch_wine_fleet_trust), the Englishman's 240 d counted out (needs ch_wine_fleet_sold_english and the silver), or a short reckoning, which is always open and costs only honour. Sets ch_wine_fleet_9, ch_wine_fleet_honest or ch_wine_fleet_kept, and the timer ch_wine_fleet_rest (200 days), so that step 10 waits for the next fair.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_wine_fleet_8 and not flag.ch_wine_fleet_9",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "daughter": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg" },
+    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": true, "note": "Radbern; his lines only if he lives" }
+   },
+   "title_key": "chain_wine_fleet.s10.title",
+   "title": "The two halves of the tally",
+   "intention_key": "chain_wine_fleet.s10.intention",
+   "intention": "Aldburg lays her half of the tally stick on the table in her father's house and waits for yours.",
+   "lines": [
+    { "who": "daughter", "key": "chain_wine_fleet.s10.daughter_dead", "when": "not flag.ch_wine_fleet_radbern_lives" },
+    { "who": "partner", "key": "chain_wine_fleet.s10.partner_alive", "when": "flag.ch_wine_fleet_radbern_lives" },
+    { "who": "daughter", "key": "chain_wine_fleet.s10.daughter_sound", "when": "flag.ch_wine_fleet_sound" },
+    { "who": "daughter", "key": "chain_wine_fleet.s10.daughter_sour", "when": "flag.ch_wine_fleet_sour" },
+    { "who": "daughter", "key": "chain_wine_fleet.s10.daughter_english", "when": "flag.ch_wine_fleet_sold_english" },
+    { "who": "daughter", "key": "chain_wine_fleet.s10.daughter_tally" }
+   ],
+   "options": [
+    { "key": "tally", "label_key": "chain_wine_fleet.s10.opt_tally", "label": "Lay your half beside hers, and every cask and penny with it",
+      "check": "flag.ch_wine_fleet_trust",
+      "effects": [ "silver +120", "deed kept_commission", "npc daughter feeling +15 true_tally", "flag ch_wine_fleet_honest", "flag ch_wine_fleet_9",
+                   "flag ch_wine_fleet_rest for 200" ],
+      "note": "outcome: chain_wine_fleet.s10.out_tally (she pays your part: 120 d)" },
+    { "key": "silver", "label_key": "chain_wine_fleet.s10.opt_silver", "label": "Count the Englishman's two hundred and forty pennies onto her table",
+      "check": "flag.ch_wine_fleet_sold_english and silver >= 240", "cost": "silver 240",
+      "effects": [ "silver +100", "deed kept_commission", "npc daughter feeling +10 counted", "flag ch_wine_fleet_honest", "flag ch_wine_fleet_9",
+                   "flag ch_wine_fleet_rest for 200" ],
+      "note": "outcome: chain_wine_fleet.s10.out_silver (she gives back your part: 100 d)" },
+    { "key": "short", "label_key": "chain_wine_fleet.s10.opt_short", "label": "Give her a short reckoning: casks leak, and the dead keep no tally",
+      "check": "true",
+      "effects": [ "silver +90", "npc daughter feeling -20 short", "flag ch_wine_fleet_kept", "flag ch_wine_fleet_9", "flag ch_wine_fleet_rest for 200" ],
+      "note": "outcome: chain_wine_fleet.s10.out_short (you keep what was hers; she counts the notches when you have gone)" }
+   ],
+   "memory": {
+    "tally": "laid a true tally on the table",
+    "silver": "counted out the Englishman's silver",
+    "short": "gave a short reckoning"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.s11_next_october",
+   "note": "Step 10: Parisius, October and November of the next year (the 200-day timer of step 9 must have run out), drawn on a call there. Three roads are offered at the fair, and each leads to its own ending. Radbern's house (needs the honest reckoning): the ending comes at the close of the fair. The abbot's errand (needs the abbey's ear, the abbey's wine, the judgment of 753 spoken, or some Latin): Abbot Fardulf (historical, abbot 793 to 806, a Lombard given the abbey for uncovering the plot of Pippin the Hunchback in 792: Annales regni Francorum 792, revised text) wants a landing place over the sea; the abbey's later charter of King Offa, dated 790, for land 'in the port called Lundenuuic' is a forgery, perhaps on a true base (Sawyer 133): the errand is ours, built on that claim. Your own purse, with Leofstan: always open. Sets ch_wine_fleet_10 and one of ch_wine_fleet_road_fellow, ch_wine_fleet_road_abbey, ch_wine_fleet_road_own.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and flag.ch_wine_fleet_9 and not flag.ch_wine_fleet_rest and not flag.ch_wine_fleet_10",
+   "months": [10, 11],
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "cellarer": { "role": "cellarer", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Brother Waldric" },
+    "english": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic" },
+    "daughter": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg, come up with her father's ship" }
+   },
+   "title_key": "chain_wine_fleet.s11.title",
+   "title": "The next October",
+   "intention_key": "chain_wine_fleet.s11.intention",
+   "intention": "Saint Denis's Mass again, and the same strand. This year three people want your boat, and you can only sail for one.",
+   "lines": [
+    { "who": "daughter", "key": "chain_wine_fleet.s11.daughter_honest", "when": "flag.ch_wine_fleet_honest" },
+    { "who": "daughter", "key": "chain_wine_fleet.s11.daughter_kept", "when": "flag.ch_wine_fleet_kept" },
+    { "who": "cellarer", "key": "chain_wine_fleet.s11.cellarer_abbot" },
+    { "who": "cellarer", "key": "chain_wine_fleet.s11.cellarer_sour", "when": "flag.ch_wine_fleet_sour" },
+    { "who": "english", "key": "chain_wine_fleet.s11.english_offer" }
+   ],
+   "options": [
+    { "key": "house", "label_key": "chain_wine_fleet.s11.opt_house", "label": "Sail with Radbern's house again",
+      "check": "flag.ch_wine_fleet_honest",
+      "effects": [ "npc daughter feeling +10 again", "flag ch_wine_fleet_road_fellow", "flag ch_wine_fleet_10",
+                   "schedule harbour.chain_wine_fleet.end_fellowship in 14 at parisius" ],
+      "note": "outcome: chain_wine_fleet.s11.out_house (the ending comes at the close of the fair)" },
+    { "key": "abbey", "label_key": "chain_wine_fleet.s11.opt_abbey", "label": "Take the abbot's casks and his letter over the sea to Lundenwic",
+      "check": "flag.ch_wine_fleet_abbey_wine or flag.ch_wine_fleet_abbey_ear or flag.ch_wine_fleet_spoke_753 or learned.latin > 0",
+      "effects": [ "goods frankish_wine +2", "npc cellarer feeling +10 errand", "deed carried_letters", "flag ch_wine_fleet_road_abbey", "flag ch_wine_fleet_10" ],
+      "note": "outcome: chain_wine_fleet.s11.out_abbey (the ending is at Lundenwic)" },
+    { "key": "own", "label_key": "chain_wine_fleet.s11.opt_own", "label": "Buy for yourself this year, with the Englishman's silver beside yours",
+      "check": "true",
+      "effects": [ "goods frankish_wine +2", "npc english feeling +10 own", "npc daughter feeling -6 own", "flag ch_wine_fleet_road_own", "flag ch_wine_fleet_10" ],
+      "note": "outcome: chain_wine_fleet.s11.out_own (the ending is at Rotomagus on the way down)" }
+   ],
+   "memory": {
+    "house": "sailed with Radbern's house again",
+    "abbey": "took the abbot's errand",
+    "own": "bought for his own purse with the Englishman"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.end_fellowship",
+   "note": "ENDING 1, fellowship (scheduled fourteen days after step 10, at Parisius: the close of the fair). Flag ch_wine_fleet_end_fellowship. Hands are joined without an oath, for the king forbids sworn bands but allows agreements about alms, fire and shipwreck (Capitulary of Herstal, 779, c. 16: MGH Capit. I no. 20; from memory (?), as in chain house_rival). Grand rewards: unlock_partner_radberns_house (a second boat sails with yours) and unlock_pilot_seine. THE HARD ROAD (needs sound wine, and the abbey's ear or the judgment spoken): the Frisians and the English together ask Abbot Fardulf for a fixed strand and a toll by the keel, written down: HISTORY CHANGED, flag changed_saint_denis_strand, with unlock_plot_parisius as the second grand reward. In truth the abbey kept every toll of the fair and no merchants' strand is recorded; the option 'share' is what really happened (the Frisians and Saxons came each October and went home). Fardulf's guest house for the king at Saint-Denis is from his own verses (from memory (?)).",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and flag.ch_wine_fleet_road_fellow and not flag.ch_wine_fleet_end_fellowship",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "daughter": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg" },
+    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern; his lines only if he lives" },
+    "abbot": { "role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [45, 65], "fixed": true, "note": "Fardulf, historical, abbot 793 to 806; a Lombard" }
+   },
+   "title_key": "chain_wine_fleet.end_fellowship.title",
+   "title": "Hands on the strand",
+   "intention_key": "chain_wine_fleet.end_fellowship.intention",
+   "intention": "The fair is closing. The casks are stowed in two boats, and Radbern's house offers you its hand before the other shipmen.",
+   "lines": [
+    { "who": "partner", "key": "chain_wine_fleet.end_fellowship.partner_alive", "when": "flag.ch_wine_fleet_radbern_lives" },
+    { "who": "daughter", "key": "chain_wine_fleet.end_fellowship.daughter_alone", "when": "not flag.ch_wine_fleet_radbern_lives" },
+    { "who": "daughter", "key": "chain_wine_fleet.end_fellowship.daughter_no_oath" },
+    { "who": "daughter", "key": "chain_wine_fleet.end_fellowship.daughter_sour", "when": "flag.ch_wine_fleet_sour" },
+    { "who": "abbot", "key": "chain_wine_fleet.end_fellowship.abbot_strand", "when": "flag.ch_wine_fleet_sound and (flag.ch_wine_fleet_abbey_ear or flag.ch_wine_fleet_spoke_753)" }
+   ],
+   "options": [
+    { "key": "hands", "label_key": "chain_wine_fleet.end_fellowship.opt_hands", "label": "Join hands: one reckoning, two boats, no oath",
+      "check": "true",
+      "effects": [ "silver +900", "npc daughter feeling +20 fellowship", "flag unlock_partner_radberns_house", "flag unlock_pilot_seine",
+                   "flag ch_wine_fleet_end_fellowship", "news chain_wine_fleet.news_fellowship at dorestad" ],
+      "note": "outcome: chain_wine_fleet.end_fellowship.out_hands" },
+    { "key": "strand", "label_key": "chain_wine_fleet.end_fellowship.opt_strand", "label": "Join hands, and go with the English to ask the abbot for a strand of your own",
+      "check": "flag.ch_wine_fleet_sound and (flag.ch_wine_fleet_abbey_ear or flag.ch_wine_fleet_spoke_753)",
+      "effects": [ "silver +1500", "npc daughter feeling +20 fellowship", "npc abbot feeling +10 strand", "flag unlock_partner_radberns_house", "flag unlock_pilot_seine",
+                   "flag unlock_plot_parisius", "flag changed_saint_denis_strand", "flag ch_wine_fleet_end_fellowship",
+                   "news chain_wine_fleet.news_strand at parisius", "news chain_wine_fleet.news_fellowship at dorestad" ],
+      "note": "outcome: chain_wine_fleet.end_fellowship.out_strand (the hard road; history changed)" },
+    { "key": "share", "label_key": "chain_wine_fleet.end_fellowship.opt_share", "label": "Take your share in silver and stay your own man",
+      "check": "true",
+      "effects": [ "silver +1100", "npc daughter feeling +5 share", "flag unlock_pilot_seine", "flag ch_wine_fleet_end_fellowship" ],
+      "note": "outcome: chain_wine_fleet.end_fellowship.out_share (what really happened: they came each October and went home)" }
+   ],
+   "memory": {
+    "hands": "joined hands with Radbern's house",
+    "strand": "won the merchants a strand at Saint-Denis",
+    "share": "took his share and stayed his own man"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.end_abbey",
+   "note": "ENDING 2, the abbey's man: Lundenwic, November to April, drawn on a call there with the abbot's casks and letter. Flag ch_wine_fleet_end_abbey. The reeve is Wighelm (cast.wighelm, wic-reeve to 810); King Offa died on 29 July 796 and Coenwulf is king. The abbey's charter of Offa, dated 790, naming land 'in the port called Lundenuuic', is a forgery, perhaps on a true base (Sawyer 133: https://esawyer.lib.cam.ac.uk/charter/133.html): in truth Saint-Denis held no proved plot on the Strand. HISTORY CHANGED on the first option: the plot is granted before witnesses and the player is its keeper: flag changed_saint_denis_lundenwic, grand rewards unlock_plot_lundenwic and unlock_title_saint_denis_man, with the lasting cost ch_wine_fleet_abbey_due (a cask a year to the abbey, and an abbot who counts). The second option is what really happened (no plot; the abbey's own merchants go toll-free in the Frankish ports, as Saint-Germain's did by the charter of 779, Tardif no. 81): unlock_charter_parisius. The third takes a wage and a keeper for one's goods in the abbey's storehouse: unlock_factor_parisius.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and flag.ch_wine_fleet_road_abbey and not flag.ch_wine_fleet_end_abbey",
+   "months": [11, 12, 1, 2, 3, 4],
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 60], "fixed": true, "note": "cast.wighelm" },
+    "clerk": { "role": "clerk", "people": "english", "faith": "christian", "tongue": "old_english", "age": [20, 40], "fixed": false, "note": "a clerk of Saint Paul's who reads the abbot's letter aloud, unnamed" }
+   },
+   "title_key": "chain_wine_fleet.end_abbey.title",
+   "title": "The saint's landing place",
+   "intention_key": "chain_wine_fleet.end_abbey.intention",
+   "intention": "On the Strand at Lundenwic the reeve has the abbot's letter read to him twice, with a cup of the abbot's wine in his hand.",
+   "lines": [
+    { "who": "clerk", "key": "chain_wine_fleet.end_abbey.clerk_letter" },
+    { "who": "reeve", "key": "chain_wine_fleet.end_abbey.reeve_offa" },
+    { "who": "reeve", "key": "chain_wine_fleet.end_abbey.reeve_wine" },
+    { "who": "reeve", "key": "chain_wine_fleet.end_abbey.reeve_surety" },
+    { "who": "clerk", "key": "chain_wine_fleet.end_abbey.clerk_choice" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_wine_fleet.end_abbey.opt_plot", "label": "Stand surety yourself: the plot for the saint, and you its keeper",
+      "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "silver +1300", "npc reeve feeling +10 surety", "flag unlock_plot_lundenwic", "flag unlock_title_saint_denis_man", "flag changed_saint_denis_lundenwic",
+                   "flag ch_wine_fleet_abbey_due", "flag ch_wine_fleet_end_abbey", "news chain_wine_fleet.news_plot at lundenwic" ],
+      "note": "outcome: chain_wine_fleet.end_abbey.out_plot (the hard road; history changed; 60 d for the witnesses' ale and the reeve's gift)" },
+    { "key": "charter", "label_key": "chain_wine_fleet.end_abbey.opt_charter", "label": "Leave the plot to the kings. Ask the abbot's writing for yourself at the fair",
+      "check": "true",
+      "effects": [ "silver +900", "npc reeve feeling +4 plain", "flag unlock_charter_parisius", "flag ch_wine_fleet_end_abbey" ],
+      "note": "outcome: chain_wine_fleet.end_abbey.out_charter (what really happened: no plot; you go toll-free at the fair as the abbey's merchant)" },
+    { "key": "wage", "label_key": "chain_wine_fleet.end_abbey.opt_wage", "label": "Sell the wine, carry the silver back, and take a carrier's wage",
+      "check": "true",
+      "effects": [ "silver +600", "deed kept_commission", "flag unlock_factor_parisius", "flag ch_wine_fleet_end_abbey" ],
+      "note": "outcome: chain_wine_fleet.end_abbey.out_wage (the cellarer keeps a corner of the storehouse for your goods)" }
+   ],
+   "memory": {
+    "plot": "stood surety for the saint's plot",
+    "charter": "carried the abbot's letter and asked nothing of the king",
+    "wage": "sold the abbot's wine for a wage"
+   }
+  },
+  {
+   "id": "harbour.chain_wine_fleet.end_own",
+   "note": "ENDING 3, your own purse: Rotomagus on the way down, October to March, drawn on a call there. Flag ch_wine_fleet_end_own. Leofstan of Hamwic offers a shared cellar under the south wall and a second boat on the Hamwic side. Rouen is where the wine of the Paris basin meets the sea ships (dossiers/rotomagus.md 4), and about 1000 the men of Rouen carry wine to London (IV Aethelred 2, LATER): a cellar here is the trade's right place. Grand rewards: unlock_plot_rotomagus and unlock_partner_leofstan; or, if Radbern is dead and his daughter must sell, his sea ship: unlock_ship_north_sea_merchant_ship. What becomes of Radbern's house is the difference: left cold (ch_wine_fleet_house_cold), ended (ch_wine_fleet_house_ended), or mended by a third sent unasked (ch_wine_fleet_house_mended). Nothing here changes history: a merchant who goes alone is the commonest thing in it.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and flag.ch_wine_fleet_road_own and not flag.ch_wine_fleet_end_own",
+   "months": [10, 11, 12, 1, 2, 3],
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "english": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 50], "fixed": false, "note": "the man who steers Radbern's ship for Aldburg, unnamed" }
+   },
+   "title_key": "chain_wine_fleet.end_own.title",
+   "title": "A cellar under the wall",
+   "intention_key": "chain_wine_fleet.end_own.intention",
+   "intention": "At Rotomagus the Englishman shows you a vaulted cellar under the south wall, dry, with a door on the strand. Radbern's ship lies three berths down.",
+   "lines": [
+    { "who": "english", "key": "chain_wine_fleet.end_own.english_cellar" },
+    { "who": "english", "key": "chain_wine_fleet.end_own.english_two_boats" },
+    { "who": "steersman", "key": "chain_wine_fleet.end_own.steersman_cold", "when": "flag.ch_wine_fleet_kept" },
+    { "who": "steersman", "key": "chain_wine_fleet.end_own.steersman_plain", "when": "not flag.ch_wine_fleet_kept" },
+    { "who": "steersman", "key": "chain_wine_fleet.end_own.steersman_sell", "when": "not flag.ch_wine_fleet_radbern_lives" }
+   ],
+   "options": [
+    { "key": "cellar", "label_key": "chain_wine_fleet.end_own.opt_cellar", "label": "Take the cellar with the Englishman, half and half",
+      "check": "true",
+      "effects": [ "silver +800", "npc english feeling +15 cellar", "npc steersman feeling -10 cellar", "flag unlock_plot_rotomagus", "flag unlock_partner_leofstan",
+                   "flag ch_wine_fleet_house_cold", "flag ch_wine_fleet_end_own" ],
+      "note": "outcome: chain_wine_fleet.end_own.out_cellar" },
+    { "key": "ship", "label_key": "chain_wine_fleet.end_own.opt_ship", "label": "Buy the dead man's ship from his daughter, at a price she cannot refuse",
+      "check": "not flag.ch_wine_fleet_radbern_lives and silver >= 400", "cost": "silver 400",
+      "effects": [ "npc steersman feeling -15 ship", "flag unlock_ship_north_sea_merchant_ship", "flag unlock_plot_rotomagus",
+                   "flag ch_wine_fleet_house_ended", "flag ch_wine_fleet_end_own", "news chain_wine_fleet.news_house_ended at dorestad" ],
+      "note": "outcome: chain_wine_fleet.end_own.out_ship (a sea ship for 400 d, worth several times that; Radbern's house leaves the water)" },
+    { "key": "third", "label_key": "chain_wine_fleet.end_own.opt_third", "label": "Take the cellar, and send Aldburg a third of the first winter unasked",
+      "check": "true",
+      "effects": [ "silver +600", "deed fair_dealing", "npc english feeling +8 cellar", "npc steersman feeling +10 third", "flag unlock_plot_rotomagus",
+                   "flag ch_wine_fleet_house_mended", "flag ch_wine_fleet_end_own" ],
+      "note": "outcome: chain_wine_fleet.end_own.out_third" }
+   ],
+   "memory": {
+    "cellar": "took a cellar at Rotomagus with an Englishman",
+    "ship": "bought a dead man's ship from his daughter",
+    "third": "sent a third to Radbern's house unasked"
+   }
+  }
+ ]
+}

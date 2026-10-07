@@ -1,0 +1,43 @@
+{
+ "id": "katwijk_mouth",
+ "name": "The Old Rhine mouth at Katwijk",
+ "status": "trial: a first config to prove the sea on the nl_793 source (EMODnet under the 800 sea, today's ground capped where the raster has nothing, beach and dunes); the river's last 2.5 km to the sea is a hand-drawn guess",
+ "about": "The Old Rhine's mouth through the dunes at Katwijk c. 800, choking but open, at true size",
+ "source": "nl_793",
+ "centre": [87700.0, 469600.0],
+ "centre_about": "RD New: the gap in the 800 dunes between the two Vos dune units, the Old Rhine's valley to the east",
+ "n": 2049,
+ "cell": 2.5,
+ "margin": 600.0,
+ "port": null,
+ "out": "G:/kapman_unity/data/levels/_trial_katwijk_mouth",
+ "rivers": [
+  {"name": "North Sea", "kind": "sea", "class": 20, "depth": 3.0, "ramp_m": 200.0, "mask": {"vos_units": ["buitenwater"]},
+   "about": "the 800 sea: the Vos 800 AD map's outer water; at least 3 m under the mean level 200 m out, EMODnet's bed where deeper"},
+  {"name": "Old Rhine", "kind": "river", "class": 3, "depth": 2.5,
+   "mask": {"info_class": [3], "line": [[90141.0, 469432.0], [89300.0, 470000.0], [88600.0, 470500.0], [88000.0, 471200.0]], "width_m": 70.0},
+   "about": "nl_793's 800 channel where it has one, and a hand line (a guess) from the end of the Vos 800 watercourse at Rijnsburg through the dune gap to the sea; 70 m wide (north_sea_core old_rhine_traiectum: c. 70 m at Utrecht)"}
+ ],
+ "tide": {"mean": -0.9, "range": 1.6,
+          "about": "Research/water_levels/north_sea_core.json holland_coast: mean range 1.6 m (springs 2.0), the sea c. 800 0.5-1 m lower than today (estimate). Today's mean sea level is about NAP 0, the raster's datum NAP - 0.2, so c. 800 about -0.2 - 0.7 = -0.9 m (derived, an estimate)"},
+ "water_mask": "below_level",
+ "water_level": {"rule": "tide_mean"},
+ "shore": {"bank_rise": 0},
+ "outer": {"about": "AHN4 today (CC0), moved to the raster's datum (-0.2 m, nl_datum.json), 70 m median, capped at 6 m: the Younger Dunes on top are after c. 1000 (the cap is a guess)",
+           "shift_m": -0.2, "median_m": 70.0, "cap_m": 6.0, "blend_m": 200.0},
+ "sea": {"datum": {"rule": "match_outer", "band": [0.0, 3.0], "m": 0.0},
+         "about": "EMODnet DTM 2024 under the 800 sea, its datum matched to today's beach where both have data"},
+ "coast": {"dune_units": ["duin", "strandwal"], "marsh_units": ["getijdenzone", "kwelderrug"], "sandy_reach_m": 600.0},
+ "channel": {"name": "Old Rhine", "line": [[90141.0, 469432.0], [89300.0, 470000.0], [88600.0, 470500.0], [88000.0, 471200.0], [87500.0, 471900.0]],
+             "min_step_m": 10.0, "smooth_m": 150.0},
+ "anchors": [
+  {"id": "up", "kind": "join", "at": "channel_start", "inset_m": 120.0, "heading": "auto", "about": "up the Old Rhine toward Traiectum (a placeholder)"},
+  {"id": "sea", "kind": "join", "at": "channel_end", "inset_m": 120.0, "heading": "auto", "about": "out to the North Sea (a placeholder)"}
+ ],
+ "sources": [
+  "The Netherlands c. 800 from AHN4 lidar (CC0), the first build's Bake/realground/nl_793.py; today's AHN4 (CC0) where it has nothing, capped",
+  "Vos et al., paleogeographic map 800 AD (the 800 sea, the dunes)",
+  "EMODnet Bathymetry Consortium (2024): EMODnet Digital Bathymetry (DTM 2024) (CC BY 4.0)",
+  "Research/water_levels/north_sea_core.json (holland_coast): the tide"
+ ]
+}

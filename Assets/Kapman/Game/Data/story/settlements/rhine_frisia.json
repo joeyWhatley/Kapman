@@ -1,0 +1,1428 @@
+{
+ "about": "THE TOWNS OF THE RHINE DELTA, ZEELAND AND FRISIA, 793-1066 (the ten ports the places files call rhine_frisia): people, bread, what helps and what opens. Written 7 Oct 2026 by a content writer, from Design/content/dossiers and SCHEMAS.md section 1. Every head-count is an estimate: the source of each row says whose it is, and (?) marks our own guess. A draft for the user to overwrite.",
+ "region": "rhine_frisia",
+ "regions": ["rhine_delta", "zeeland", "frisia"],
+ "how_the_figures_were_made": [
+  "Nobody counted these places. Where a scholar has given a figure it is used and named: Dorestad 'a few thousand' (Van der Tuuk 2005) and 2,000 to 3,000 (the project's dossier, after Van Es and Verwers); Medemblik 'about twenty houses and 120 to 200 people' (Van Leeuwen 2014); Nijmegen 450 to 650 in the 5th and 6th centuries, from its graves (nl.wikipedia, Geschiedenis van Nijmegen).",
+  "Where there is only a dug plan, the figure is houses x 6 people: a house row's length divided by the pitch of its plots (Medemblik: plots proven over 100 m, reckoned at 300 to 450 m; Walichrum: a strip of 1,300 m with houses 5-10 by 14 m; Dorestad: 18 m parcels on the harbour and 'hundreds of houses' over 3 km). That is our reckoning, not a scholar's, and is marked (?).",
+  "Graves check the order of size only. Dorestad has at least 2,350 known burials from about 150 years (Van Es and Verwers 1985): at 30 years to a life that is some 470 people living at one time from the dug graveyards alone, and most of the graveyards are not dug. Walichrum has about 116 seen graves from four fields that the sea had mostly taken.",
+  "Where nothing is dug (Witla) or the place is one farmstead among several mounds (Wijnaldum), the low and high figures are set wide apart and the best figure is a judgement.",
+  "Later rows (after about 900) rest on what was built: a wall 1.9 km long at Deventer, 420 m of revetments at Utrecht, a mint, a chapter of twenty canons. No scholar's figure for these towns before 1066 was found: all are our guesses (?)."
+ ],
+ "settlements": [
+  {
+   "port": "dorestad",
+   "region": "rhine_delta",
+   "people": [
+    { "age": "age1", "year": 793, "low": 1500, "high": 3000, "best": 2500, "source": "Design/content/dossiers/dorestad.md [N, T9]: an estimated 2,000 to 3,000 souls; L. van der Tuuk 2005: 'a few thousand' (nl.wikipedia, Dorestad); the low figure is ours, from at least 2,350 known burials over about 150 years (Van Es and Verwers 1985, p. 223) (?)", "note": "In the graves two men to each woman: a town of shippers and incomers. A famine year: the poor crowd the church door." },
+    { "age": "age1", "year": 820, "low": 1800, "high": 3500, "best": 2700, "source": "our guess: the great storehouses on the newest ground of the dams are of about 750 to 830, and the Christiana religio pennies were struck here from some 450 dies (dossier [N, M]) (?)", "note": "As rich as the place will ever be." },
+    { "age": "age2", "year": 834, "low": 1800, "high": 3000, "best": 2500, "source": "our guess: the town before the first sack (?)" },
+    { "age": "age2", "year": 838, "low": 1000, "high": 2000, "best": 1500, "source": "our guess after four raids in four years, AB 834 to 837; no burnt layer was found, so the loss may be less (dossier [T7]) (?)" },
+    { "age": "age2", "year": 850, "low": 800, "high": 1600, "best": 1200, "source": "our guess: burned 846 or 847 (Ann. Xant.), held by Rorik from 850 (AB) (?)" },
+    { "age": "age2", "year": 862, "low": 500, "high": 1400, "best": 900, "source": "our guess: Rorik's town, stormed by other Danes in 857 (AF, AB); Rimbert still writes of 'many churches, priests, and clergy, and a multitude of poor people' about 850 (Vita Anskarii 20, tr. Robinson 1921) (?)" },
+    { "age": "age2", "year": 864, "low": 200, "high": 700, "best": 400, "source": "our guess: sacked in January 863, the Frisian merchants killed in a village where they had fled (AB 863); not named again as a trading place (?)" },
+    { "age": "age3", "year": 875, "low": 100, "high": 400, "best": 200, "source": "our guess: the harbour given up about 875, flood clay over De Horden after 870 (dossier [T2, T8]) (?)" },
+    { "age": "age4", "year": 900, "low": 50, "high": 200, "best": 100, "source": "our guess: a farm village; a charter of Otto I, 1 April 948, speaks of the place once called Dorestad and now Wik (OSU 111)" },
+    { "age": "age5", "year": 955, "low": 50, "high": 150, "best": 80, "source": "our guess (?)" },
+    { "age": "age6", "year": 991, "low": 50, "high": 150, "best": 80, "source": "our guess (?)" },
+    { "age": "age7", "year": 1042, "low": 50, "high": 150, "best": 80, "source": "our guess: Wijk's church and estate pass to Deutz abbey, 1016 to 1019 (dossier [S, T12]) (?)" }
+   ],
+   "household": { "size": 6, "low": 5, "high": 8, "source": "Design/content/dossiers/medemelacha.md [W61 6.3]: households of six to ten with a grandparent or servants; fewer here, where many are single men (?)" },
+   "bread": {
+    "by_keel": 0.25, "after_harvest": 9,
+    "eats": ["rye", "barley", "wheat", "oats", "flour"],
+    "source": "our guess: some thirty farms with granaries stood behind the vicus and the Kromme Rijn bank fed most of it; a quarter came down the river and from the Betuwe by boat (dossier [N]) (?)"
+   },
+   "makes": [
+    { "good": "combs", "a_year": 400, "season": "all year", "source": "bone and antler working in the vicus: Van Es and Verwers, Excavations at Dorestad (dossier [N, T9])" },
+    { "good": "quernstones", "a_year": 600, "season": "spring to autumn: rough-outs come down the Rhine and are finished here", "source": "Mayen lava querns as roughouts (dossier [N, T5])" },
+    { "good": "iron_tools", "a_year": 120, "season": "all year", "source": "smithing of Veluwe iron on the plots; knives among the goods sent out (dossier [N, T5])" },
+    { "good": "wool_cloth", "a_year": 200, "season": "winter weaving, sold from Lady Day", "source": "2,889 loomweights from the vicus (dossier [N, T9])" },
+    { "good": "amber_beads", "a_year": 150, "season": "all year", "source": "Baltic amber worked into beads, lyre bridges and gaming pieces (dossier [N, T9])" },
+    { "good": "ships_bread", "a_year": 300, "season": "spring and summer, for crews waiting on a cargo", "source": "our guess: goods_793.json makes it in the rhine_delta (?)" }
+   ],
+   "needs": [
+    { "good": "rye", "a_year": 2600, "why": "bread for a quarter of the town", "source": "0.7 kg a head a day (voyage_rules.json), 60 kg a sack" },
+    { "good": "oak_timber", "a_year": 150, "why": "the dams are built further out every few years after the river: 10,000 posts to 100 m of bank", "source": "dossier [N, T8]; Rhineland oak" },
+    { "good": "antler", "a_year": 200, "why": "the comb makers", "source": "as under makes" },
+    { "good": "sea_salt", "a_year": 300, "why": "meat and fish for winter", "source": "salt and fish from the Frisian coast (dossier [N, T5]); the amount is our guess (?)" },
+    { "good": "herring", "a_year": 150, "why": "Lent, and the poor", "source": "7 to 9 in 100 of the fish eaten at Utrecht and Dorestad came from the sea (Dijkstra 2011, 308-315, in dossiers/witla.md)" },
+    { "good": "whetstones", "a_year": 80, "why": "every knife and sickle on the bank", "source": "Scandinavian whetstones in the finds (dossier [N])" },
+    { "good": "tar", "a_year": 60, "why": "the boats on the breaking beach", "source": "ship nails and a dismantled clinker hull at the dam heads (dossier [N]); the amount is our guess (?)" }
+   ],
+   "stores": [
+    { "good": "rhenish_wine", "months": 4, "where": "dorestad.quay", "note": "Casks from Rheinhessen and Alsace wait here for the sea crossing.", "source": "some 650 wells lined with Rhenish wine casks, felled 685 to 835 (dossier [N, W])" },
+    { "good": "quernstones", "months": 8, "where": "dorestad.workshops", "note": "Mayen lava querns, roughed out up the river and finished here.", "source": "dossier [N, T5]" },
+    { "good": "badorf_ware", "months": 6, "where": "dorestad.widows_store", "note": "Three pots in four on the bank are Badorf ware.", "source": "dossier [N, T9]" },
+    { "good": "glass_vessels", "months": 5, "where": "dorestad.widows_store", "note": "Rhenish glass packed in straw.", "source": "dossier [N]" }
+   ],
+   "grows": [
+    { "cause": "calls", "by": 0.01, "note": "The toll and the mint draw every ship of the Rhine and the coast.", "source": "the king's tenth taken at Quentovic, Dorestad and the Clusae (828); dossier [S]" },
+    { "cause": "mint", "by": 0.004, "note": "Foreign coin must be struck again here, at the king's profit: every stranger with silver comes to the mint.", "source": "dossier [M, T7]" },
+    { "cause": "incomers", "by": 0.006, "note": "Single men from the coast and the Rhine: two men to each woman in the graves.", "source": "dossier [T6]" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "famine", "years": [793, 805, 806, 823], "turns": true, "source": "chronicle_793.json: 793-great-famine, 805-famine-805, 823-famine-epidemic" },
+    { "cause": "raid", "years": [834, 835, 836, 837, 857, 863], "turns": true, "source": "AB 834 to 837, 857, 863; AF 857" },
+    { "cause": "burning", "years": [846], "turns": true, "source": "Ann. Xant. 846; AB 846" },
+    { "cause": "silting", "years": [850, 900], "turns": false, "note": "The Kromme Rijn leaves the town; the trade goes to Tiel and Daventre.", "source": "Design/content/dossiers/dorestad.md [T2, T8]" },
+    { "cause": "flood", "years": [838, 863], "turns": false, "source": "AB 839 (the flood of 26 December 838); AB 863, a winter of floods" }
+   ],
+   "fixed": [
+    { "what": "The river leaves Dorestad", "from": 850, "to": 900, "text": "The old Rhine is a ditch a man can wade. No wall and no silver brings the water back.", "source": "Design/content/dossiers/dorestad.md" }
+   ],
+   "help": [
+    {
+     "id": "dorestad.help.feed", "by": "sale", "what": "Sell grain or flour here while the town is hungry.",
+     "when": "flag.st_dorestad_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed (the game reckons it from bread.by_keel). The dear price is the pay. One small boat is a day and a half of bread here: it takes a house of ships to feed Dorestat."
+    },
+    {
+     "id": "dorestad.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the king's man on the dam that a fleet is coming.",
+     "when": "flag.here_word_band and not flag.st_dorestad_warned", "cost": "",
+     "effects": ["npc lords_man feeling +10 warned"], "world": ["state dorestad warned for 10"],
+     "then": "The stock is hidden and the boats are sent up the river. A raid within ten days takes no captives and half as much."
+    },
+    {
+     "id": "dorestad.help.mend", "by": "job", "job": "mend_burned", "what": "Bring oak, iron and tar after a burning.",
+     "when": "flag.st_dorestad_burned", "cost": "", "effects": [], "world": [],
+     "then": "As the job mend_burned says: the town heals at 25 in 100 that year."
+    },
+    {
+     "id": "dorestad.help.wall", "by": "work", "work": "dorestad.work.wall_share", "what": "Pay for a stretch of ditch and bank, and men to watch it.",
+     "when": "standing >= known and year >= 834", "cost": "silver 500",
+     "effects": ["deed gave_alms"], "world": ["work dorestad wall_share", "mark dorestad +0.05"],
+     "gift": { "defence": 60, "raid_takes_x": 0.5 },
+     "then": "A band must be stronger to try the town. A stretch paid each year for three years counts as the wall of the hinge dorestad_863."
+    },
+    {
+     "id": "dorestad.help.poor", "by": "work", "work": "dorestad.work.hospice", "what": "Build a house for the poor by the upper church.",
+     "when": "standing >= known", "cost": "silver 900",
+     "effects": ["deed gave_alms", "npc priest feeling +15 poor_house"], "world": ["work dorestad hospice", "mark dorestad +0.04"],
+     "gift": { "sickness_x": 0.5 },
+     "then": "A sickness takes half of what it would. The poor of the bank know your boat."
+    },
+    {
+     "id": "dorestad.help.ransom", "by": "card", "card": "harbour.town.bring_home", "what": "Bring its people home from the raiders' market.",
+     "when": "hold.captives > 0 and flag.st_dorestad_heads < 2000", "cost": "",
+     "effects": ["deed bought_captives", "npc priest feeling +15 ransomed"], "world": ["people dorestad +captives"],
+     "then": "They are set down free. Kin pay what they can; the church pays for those with none."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_dorestad_hungry >= 1", "goods": ["rye", "barley", "flour"], "units": [20, 60], "premium": [0.4, 0.8], "days": [20, 40] },
+    { "job": "mend_burned", "when": "flag.st_dorestad_burned", "goods": ["oak_timber", "bar_iron", "tar"], "units": [6, 20], "premium": [0.3, 0.5], "days": [30, 60] },
+    { "job": "ransom_captives", "when": "flag.st_dorestad_heads < 1800 and year >= 834", "goods": [], "units": [2, 8], "premium": [0.3, 0.6], "days": [60, 120] },
+    { "job": "carry_refuge", "when": "flag.st_dorestad_war and year >= 857", "goods": [], "units": [4, 12], "premium": [0.2, 0.4], "days": [10, 30] }
+   ],
+   "opens": [
+    {
+     "id": "dorestad.open.great_ships", "what": "great_ships",
+     "when": "flag.st_dorestad_households >= 400 and flag.unlock_work_dorestad_jetty",
+     "opens": ["ship:north_sea_merchant_ship", "act:build_ship@dorestad.beach"], "keeps": false,
+     "text": "The wrights of the breaking beach will lay the keel of a sea-going trader, if the oak comes.",
+     "lost_text": "The wrights have gone down the river to Tiel. Nobody here builds more than a boat now.",
+     "source": "a dismantled clinker hull and ship nails at the dam heads (dossier [N]); ships.md (?)"
+    },
+    {
+     "id": "dorestad.open.mint_closed", "what": "mint_closed",
+     "when": "flag.st_dorestad_households < 150", "opens": [], "closes": ["act:change_coin@dorestad.mint", "site:dorestad.mint"], "keeps": true,
+     "text": "The moneyers have gone. Old pennies are silver by weight here now.",
+     "source": "the last Dorestad pennies are poor ones in Lothar's name, from about 850 (dossier [M])"
+    },
+    {
+     "id": "dorestad.open.dams_empty", "what": "dams_empty",
+     "when": "flag.st_dorestad_households < 60", "opens": [], "closes": ["site:dorestad.market", "site:dorestad.widows_store", "site:dorestad.toll"], "keeps": true,
+     "text": "Nobody sells on the dams now. The houses that are left are selling their timber.",
+     "source": "the harbour given up about 875 (dossier [T8])"
+    }
+   ],
+   "endings": [
+    {
+     "id": "toll_town", "at": 864, "real": false, "when": "flag.changed_dorestad_863",
+     "text": "The Danes did not come a last time. The river went all the same, a hand's breadth a year, and Dorestat grew small behind its bank: a toll, a church, a ferry, and men who remembered whose silver had paid for the wall.",
+     "world": ["mark dorestad +0.1"], "effects": ["flag st_end_dorestad_toll_town"],
+     "picture": "A low earth bank and a gate above a narrow river; one boat at a short jetty; a wooden church behind."
+    },
+    {
+     "id": "moved", "at": 864, "real": false, "when": "not flag.changed_dorestad_863 and flag.st_dorestad_heads >= 600 and flag.st_dorestad_helped >= 3",
+     "text": "Before the last fleet came the people of the bank had gone, with their looms, their scales and their dead men's names, to Daventre and to the bishop's town. The Danes burned empty houses.",
+     "world": ["people daventre +300", "people traiectum +200"], "effects": ["flag st_end_dorestad_moved"],
+     "picture": "River barges piled with household goods going down a grey river in rain; smoke far astern."
+    },
+    {
+     "id": "ashes", "at": 864, "real": true, "when": "true",
+     "text": "This year the heathen men came to Dorestat once more and went on up the Rhine. After this it is not named as a place of trade.",
+     "world": [], "effects": ["flag st_end_dorestad_ashes"],
+     "picture": "Burned jetty posts standing in mud at low water; reeds; no boats."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/dorestad.md and its references (L. van der Tuuk, Dorestad onthuld, http://www.dorestadonthuld.nl/H1.html to H12.html; W.A. van Es and W.J.H. Verwers, Excavations at Dorestad 1 to 4)",
+    "https://nl.wikipedia.org/wiki/Dorestad (read 7 Oct 2026): 'een paar duizend' inhabitants (Van der Tuuk 2005); about three kilometres long with hundreds of houses (Van Es and Verwers 2000, p. 33); at least 2,350 buried (Van Es and Verwers 1985, p. 223); about 70 ha dug",
+    "Research/dorestad_c800_notes.md: De Geer II over 500 individuals; De Heul at most about 300 in nine grave groups",
+    "Annales Bertiniani 834 to 837, 846, 850, 857, 863; Annales Xantenses 834, 846; Annales Fuldenses 857",
+    "Rimbert, Vita Anskarii 20, tr. C. H. Robinson (1921)"
+   ]
+  },
+  {
+   "port": "traiectum",
+   "region": "rhine_delta",
+   "people": [
+    { "age": "age1", "year": 793, "low": 150, "high": 400, "best": 280, "source": "Research/traiectum_c800_notes.md: 'the population is a guess: 150-400 people in 800'; our own best figure within it (?)", "note": "A stone fort of under two hectares with two churches, a school and the bishop's household; a few boatmen, fishers and craftsmen on the strand. Not a market." },
+    { "age": "age2", "year": 834, "low": 180, "high": 450, "best": 300, "source": "our guess: the fleet of 834 comes by Utrecht to Dorestad (AB 834) (?)" },
+    { "age": "age2", "year": 856, "low": 180, "high": 450, "best": 300, "source": "our guess: the year before the sack (?)" },
+    { "age": "age2", "year": 858, "low": 30, "high": 150, "best": 70, "source": "our guess: Danes sack Utrecht in 857, the churches are destroyed and Bishop Hunger flees; a yellow flood clay lies over the strand with nothing lived on it from about 850 to after 900 (dossier [3, 6, 42]) (?)" },
+    { "age": "age3", "year": 865, "low": 30, "high": 150, "best": 70, "source": "our guess: the clergy sit at Sint-Odiliënberg and then at Deventer (dossier [42]) (?)" },
+    { "age": "age4", "year": 900, "low": 30, "high": 150, "best": 80, "source": "our guess (?)" },
+    { "age": "age4", "year": 925, "low": 200, "high": 500, "best": 320, "source": "our guess: about 920 Bishop Balderik brings the see home and mends churches, school and walls (dossier [2, 23]) (?)" },
+    { "age": "age5", "year": 955, "low": 500, "high": 1200, "best": 800, "source": "our guess: Otto I gives the mint and Muiden with its toll in 953; the Stathe and the Vecht side fill with timber houses, 420 m of revetments dug (dossier [1, 23, 30]) (?)" },
+    { "age": "age6", "year": 991, "low": 800, "high": 1800, "best": 1200, "source": "our guess (?)" },
+    { "age": "age6", "year": 1005, "low": 900, "high": 2000, "best": 1400, "source": "our guess: the merchants below the fort are many enough in 1007 to burn their own quarter and to be written of (Alpert of Metz, in dossier [2, 3]) (?)" },
+    { "age": "age6", "year": 1008, "low": 800, "high": 1800, "best": 1200, "source": "our guess: the quarter burned by its own people; no attack follows (?)" },
+    { "age": "age7", "year": 1042, "low": 1300, "high": 3000, "best": 2000, "source": "our guess: a new cathedral (1023), the emperor's palace Lofen, Bernold's three churches begun 1039 to 1050, twenty canons at Saint Salvator's alone (dossier [6, 7, 27]) (?)" },
+    { "age": "age7", "year": 1066, "low": 1500, "high": 4000, "best": 2500, "source": "our guess: five chapters and a merchants' church; the fort enlarged to about 175 by 200 m from the mid 11th century (dossier [2]) (?)" }
+   ],
+   "household": { "size": 6, "low": 5, "high": 8, "source": "as Dorestad; the clergy are counted as heads, and the game shows them among the households (?)" },
+   "bread": {
+    "by_keel": 0.15, "after_harvest": 9,
+    "eats": ["rye", "barley", "wheat", "oats", "flour"],
+    "source": "our guess: the church is fed from its own lands (Leusden, the Vecht farms: the grants of 723 and 777, dossier [28, 31]); what comes by boat is the tenth from Dorestad and the levee farms (?)"
+   },
+   "makes": [
+    { "good": "books", "a_year": 3, "season": "winter, in the school", "source": "the school where Liudger learned and Gregory taught (dossier [15, 32]); the number is our guess (?)" },
+    { "good": "ships_bread", "a_year": 60, "season": "summer", "source": "our guess: the prior's store (?)" },
+    { "good": "herring", "a_year": 120, "season": "autumn, from about 1000", "source": "herring goes out of Utrecht about 1000 to 1122 (dossier [11])" }
+   ],
+   "needs": [
+    { "good": "rye", "a_year": 180, "why": "the share of its bread that comes by boat", "source": "0.7 kg a head a day, 60 kg a sack, by_keel 0.15" },
+    { "good": "wax", "a_year": 30, "why": "lights before two altars", "source": "dossier [40] (a guess of the project's)" },
+    { "good": "rhenish_wine", "a_year": 40, "why": "the Mass and the bishop's table: Frisia pours neither oil nor wine", "source": "Alcuin, carmen 4 (MGH Poetae I 220-223), our paraphrase" },
+    { "good": "parchment", "a_year": 12, "why": "the school", "source": "as under makes (?)" },
+    { "good": "oak_timber", "a_year": 40, "why": "churches of timber and tuff that burn in 857 and 1017 and are built again", "source": "dossier [6]" },
+    { "good": "incense", "a_year": 6, "why": "the feasts of Saint Martin and Saint Willibrord", "source": "dossier [37, 43] (?)" }
+   ],
+   "stores": [
+    { "good": "wax", "months": 10, "where": "traiectum.cellar", "note": "Bought once a year and kept in the prior's store.", "source": "our guess (?)" },
+    { "good": "rhenish_wine", "months": 8, "where": "traiectum.cellar", "note": "The new wine comes down at Martinmas, the church's own feast.", "source": "dossier [37]" },
+    { "good": "honey", "months": 9, "where": "traiectum.cellar", "note": "Hadda's table: honey, porridge and butter.", "source": "Alcuin, carmen 4, our paraphrase" }
+   ],
+   "grows": [
+    { "cause": "see", "by": 0.004, "note": "A bishop's seat feeds clerks, schoolboys, builders and beggars.", "source": "dossier [1, 4]" },
+    { "cause": "trade_moved_here", "by": 0.012, "note": "From about 920 the trade Dorestat lost comes to the strand under the wall; from 953 goods must be sold here.", "source": "dossier [3, 11, 23]" },
+    { "cause": "mint", "by": 0.004, "note": "The bishop's mint, from 953.", "source": "dossier [23, 30]; 936 by [11]" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "raid", "years": [857], "turns": true, "source": "dossier [6, 19, 42]: Danes sack Utrecht while Rorik is away" },
+    { "cause": "lord_gone", "years": [858, 920], "turns": false, "note": "The bishop and his clergy live at Deventer for some sixty years.", "source": "dossier [21, 22, 42]" },
+    { "cause": "flood", "years": [850, 900], "turns": false, "note": "Flood clay over the strand.", "source": "dossier [3]" },
+    { "cause": "burning", "years": [1006], "turns": true, "note": "The merchants burn their own quarter rather than leave it to the Northmen. Alpert's year is 1007; the game's chronicle tells it under 1006.", "source": "chronicle_793.json 1006-tiel-burned; dossier [2, 3]" },
+    { "cause": "burning", "years": [1017], "turns": false, "note": "Fire takes the cathedral and the bishop's house.", "source": "dossier [2, 6]" }
+   ],
+   "fixed": [
+    { "what": "The bishop sits at Daventre", "from": 858, "to": 920, "text": "The bishop is at Daventre and so are his clerks. He will come back when a king can keep the river, and not for a merchant's asking.", "source": "dossier [21, 22, 23]" },
+    { "what": "The Rhine at Traiectum grows shallow", "from": 950, "to": 1066, "text": "The old Rhine carries less water every year. The big boats lie on the Vecht side now.", "source": "the Vecht-side port of the 10th to 12th century (dossier [1]); the river's failing is our reading (?)" }
+   ],
+   "help": [
+    {
+     "id": "traiectum.help.feed", "by": "sale", "what": "Sell grain here while the fort is hungry.",
+     "when": "flag.st_traiectum_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed. In 793 one small boat is a month of the bread that comes here by water."
+    },
+    {
+     "id": "traiectum.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the prior that ships are coming up the river.",
+     "when": "flag.here_word_band and not flag.st_traiectum_warned", "cost": "",
+     "effects": ["npc priest feeling +10 warned"], "world": ["state traiectum warned for 10"],
+     "then": "The books and the plate go inside the wall and the boats up the Vecht. A raid within ten days takes no captives and half as much."
+    },
+    {
+     "id": "traiectum.help.lamp", "by": "work", "work": "traiectum.work.lamp", "what": "Keep a lamp burning before Saint Martin's altar.",
+     "when": "year <= 857", "cost": "silver 120",
+     "effects": ["deed gave_alms", "npc bishop feeling +10 lamp"], "world": ["mark traiectum +0.02"],
+     "then": "The house is prayed for by name. It costs little and the bishop's people remember it on every river."
+    },
+    {
+     "id": "traiectum.help.gate", "by": "work", "work": "traiectum.work.gate", "what": "Pay for stone for Bishop Balderik's gate.",
+     "when": "year >= 920 and year <= 940 and standing >= known", "cost": "silver 900",
+     "effects": ["deed gave_alms", "npc bishop feeling +20 gate"], "world": ["work traiectum wall_share", "mark traiectum +0.08"],
+     "gift": { "defence": 80, "raid_takes_x": 0.5 },
+     "then": "The fort can be held again, and the merchants under it have somewhere to run. The bishop's toll is forgiven the house for ten years."
+    },
+    {
+     "id": "traiectum.help.mend", "by": "job", "job": "mend_burned", "what": "Bring oak, iron and tar after a burning.",
+     "when": "flag.st_traiectum_burned", "cost": "", "effects": [], "world": [],
+     "then": "The town heals at 25 in 100 that year. After 1006 it is the merchants' own quarter that is built again."
+    },
+    {
+     "id": "traiectum.help.ransom", "by": "card", "card": "harbour.town.bring_home", "what": "Bring its people home from the raiders' market.",
+     "when": "hold.captives > 0 and flag.st_traiectum_heads < 300 and year >= 857", "cost": "",
+     "effects": ["deed bought_captives", "npc bishop feeling +15 ransomed"], "world": ["people traiectum +captives"],
+     "then": "They are set down free under the wall. The church pays what it can and writes the rest in its book of the living."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_traiectum_hungry >= 1", "goods": ["rye", "barley", "wheat"], "units": [6, 40], "premium": [0.4, 0.8], "days": [20, 40] },
+    { "job": "mend_burned", "when": "flag.st_traiectum_burned", "goods": ["oak_timber", "bar_iron", "lead"], "units": [4, 16], "premium": [0.3, 0.5], "days": [30, 60] },
+    { "job": "carry_letter", "when": "year < 858 or year >= 920", "goods": [], "units": [1, 1], "premium": [0.2, 0.4], "days": [20, 60] },
+    { "job": "carry_refuge", "when": "flag.st_traiectum_war", "goods": [], "units": [2, 8], "premium": [0.2, 0.4], "days": [10, 30] }
+   ],
+   "opens": [
+    {
+     "id": "traiectum.open.stathe", "what": "stathe",
+     "when": "year >= 920 and flag.st_traiectum_households >= 50",
+     "opens": ["site:traiectum.stathe"], "keeps": true,
+     "text": "Boats are sold from on the strand under the wall now, and people have begun to call it the Stathe.",
+     "source": "the vicus Stathe, lived on again after about 900 (dossier [3, 11])"
+    },
+    {
+     "id": "traiectum.open.mint", "what": "mint",
+     "when": "year >= 953 and flag.st_traiectum_households >= 120",
+     "opens": ["site:traiectum.mint", "act:change_coin@traiectum.mint"], "keeps": false,
+     "text": "The king has given the bishop a mint. Silver is struck inside the fort.",
+     "lost_text": "The bishop's moneyer has shut his bench: there is too little trade to feed a die.",
+     "source": "Otto I's grant of 953 (dossier [23, 30])"
+    },
+    {
+     "id": "traiectum.open.vecht_side", "what": "vecht_side",
+     "when": "year >= 950 and flag.st_traiectum_households >= 180",
+     "opens": ["site:traiectum.vecht_quay", "work:traiectum.work.berth", "ship:logboat_expanded"], "keeps": false,
+     "text": "Timber has been driven along the Vecht side. A laden barge can lie there and load in a day.",
+     "lost_text": "The revetment on the Vecht side has slumped and nobody has mended it.",
+     "source": "420 m of revetments, timber houses and ships of the 10th to 12th century at the Waterstraat; the Utrecht ship, 997 to 1027 (dossier [1, 33])"
+    },
+    {
+     "id": "traiectum.open.buurkerk", "what": "buurkerk",
+     "when": "year >= 1000 and flag.st_traiectum_households >= 250",
+     "opens": ["work:traiectum.work.buurkerk"], "keeps": true,
+     "text": "The merchants of the Stathe mean to build a church of their own, outside the bishop's wall.",
+     "source": "the Buurkerk, 10th or early 11th century (dossier [3, 27])"
+    }
+   ],
+   "endings": [
+    {
+     "id": "merchants_town", "at": 1066, "real": false, "when": "flag.st_traiectum_heads >= 3200 and flag.st_traiectum_helped >= 5",
+     "text": "In these years Traiectum was reckoned the first port of the Rhine, before Tiel. The merchants of the Stathe had their own church and their own bell, and the bishop asked their leave before he raised a toll.",
+     "world": [], "effects": ["flag st_end_traiectum_merchants_town"],
+     "picture": "A crowded timber waterfront below a tuff wall with five church roofs behind; a broad barge unloading casks; a small church with a bell among the merchants' houses."
+    },
+    {
+     "id": "fort_and_churches", "at": 1066, "real": false, "when": "flag.st_traiectum_heads < 1200",
+     "text": "The bishop built his churches in a cross, and there were more canons in Traiectum than merchants. The boats went by to Tiel.",
+     "world": [], "effects": ["flag st_end_traiectum_fort_and_churches"],
+     "picture": "Great stone churches standing among fields and a few thatched roofs; an empty strand; one boat passing without stopping."
+    },
+    {
+     "id": "bishops_city", "at": 1066, "real": true, "when": "true",
+     "text": "This year William was bishop at Traiectum and count in West Frisia. The town had its mint, its toll, five great churches and a merchants' quarter on the Vecht side, and the emperor kept Easter there when he chose.",
+     "world": [], "effects": ["flag st_end_traiectum_bishops_city"],
+     "picture": "A walled fort with a tall new cathedral; below it a strand full of boats and a row of merchants' houses; evening light."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/traiectum.md and its references (Research/traiectum_c800_notes.md; B. de Bruijn, De burcht Trecht and De vicus Stathe, http://www.broerendebruijn.nl/Burcht.html)",
+    "Alcuin, carmen 4 (MGH Poetae I 220-223)",
+    "Annales Bertiniani 834; Alpert of Metz, De diversitate temporum, for 1007 (through the dossier)"
+   ]
+  },
+  {
+   "port": "walichrum",
+   "region": "zeeland",
+   "people": [
+    { "age": "age1", "year": 793, "low": 250, "high": 900, "best": 500, "source": "our reckoning (?): the lived-on strip was about 1,300 m long (Frederiks 1866, in M. de Man 1899), with houses mostly 5-10 by 14 m in family groups; a group every 15 to 30 m in one row gives 45 to 85 houses, at 6 to a house 270 to 510 people, more if the row was double. No scholar gives a figure (dossier: 'numbers of houses and people: unknown')", "note": "Settled, not seasonal: men, women and children lie in the four grave fields. About 116 graves were seen before the sea took the rest (ten Harkel and others 2023)." },
+    { "age": "age2", "year": 836, "low": 250, "high": 900, "best": 500, "source": "our guess: coin finds peak in the eighth century, so it may already be less (dossier [TH]) (?)" },
+    { "age": "age2", "year": 838, "low": 150, "high": 650, "best": 350, "source": "our guess: 17 June 837, 'killed many and plundered more'; 'led many women away captive' (AB 837; Ann. Xant. 837) (?)" },
+    { "age": "age2", "year": 842, "low": 120, "high": 550, "best": 300, "source": "our guess: the flood of 26 December 838 came almost to the tops of the dunes (AB 839); from 841 the island is the Dane Harald's (AB 841) (?)" },
+    { "age": "age2", "year": 850, "low": 100, "high": 450, "best": 250, "source": "our guess: the table's last year of trade; De Man saw no burnt houses: the timbers were taken down and the people drew inland (?)" },
+    { "age": "age3", "year": 875, "low": 60, "high": 250, "best": 130, "source": "our guess: the traders have gone by about 875 (Ufkes 2012); five timber byre-houses are farmed inside the ring wall, about 875 to 950 (?)" },
+    { "age": "age4", "year": 900, "low": 50, "high": 200, "best": 100, "source": "our guess: the beach site still used, more thinly, in the tenth century (ten Harkel and others 2023) (?)" },
+    { "age": "age5", "year": 955, "low": 30, "high": 120, "best": 60, "source": "our guess: the farms in the ring wall end about 950 (Ufkes 2012) (?)" },
+    { "age": "age6", "year": 1000, "low": 10, "high": 80, "best": 30, "source": "our guess: about 1000 sand drives the last people inland (dossier [KZ1]) (?)" },
+    { "age": "age7", "year": 1042, "low": 10, "high": 80, "best": 30, "source": "our guess: a sea flood wrecks the island on 28 September 1014; churches of Saint Willibrord are built inland in the early 11th century (dossier [W7, W8]) (?)" }
+   ],
+   "household": { "size": 6, "low": 5, "high": 8, "source": "as Medemblik [W61 6.3]; houses of 5-10 by 14 m with a central room and side rooms (De Man 1899) (?)" },
+   "bread": {
+    "by_keel": 0.2, "after_harvest": 8,
+    "eats": ["barley", "rye", "oats", "wheat", "flour"],
+    "source": "our guess: sheep farmers on salt marsh 'eating mostly from the land' (ten Harkel and others 2023), but corn grows poorly on unbanked marsh; a fifth comes over from the Scheldt lands (?)"
+   },
+   "makes": [
+    { "good": "sea_salt", "a_year": 400, "season": "summer burning, sold in autumn", "source": "salt boiled from salt-soaked soil (dossier [KZ1]); the season is the project's guess" },
+    { "good": "raw_wool", "a_year": 150, "season": "June, at the shearing", "source": "sheep on the salt marsh; the abbeys of Ghent and Echternach held land round the Scheldt mouth (dossier [TH])" },
+    { "good": "cheese", "a_year": 600, "season": "summer", "source": "goods_793.json: zeeland makes cheese; ewes' milk (?)" },
+    { "good": "leather", "a_year": 80, "season": "all year", "source": "tanning pits with leather strips and ox horns (De Man 1899)" },
+    { "good": "brooches", "a_year": 60, "season": "all year, to 850", "source": "brooch-making in copper alloy (ten Harkel and others 2023)" }
+   ],
+   "needs": [
+    { "good": "barley", "a_year": 420, "why": "the fifth of its bread that the marsh does not grow", "source": "0.7 kg a head a day, 55 kg a sack, by_keel 0.2" },
+    { "good": "oak_timber", "a_year": 60, "why": "houses and coffins are of oak, and no oak grows behind the dunes: old Rhine barges are cut up for both", "source": "coffins of reused boat planks; a coffin made from a Rhine barge (dossier [TH, UF])" },
+    { "good": "badorf_ware", "a_year": 120, "why": "every pot on the island comes down the Rhine", "source": "Rhenish pottery and quernstones (dossier [TH])" },
+    { "good": "quernstones", "a_year": 40, "why": "a quern to a house", "source": "dossier [TH]" }
+   ],
+   "stores": [
+    { "good": "sea_salt", "months": 6, "where": "walichrum.salt_pans", "note": "Sacked at the hearths and kept dry for the autumn boats.", "source": "dossier [KZ1] (?)" },
+    { "good": "raw_wool", "months": 4, "where": "walichrum.marsh", "note": "The June clip waits for the cloth-makers' boats.", "source": "dossier [TH] (?)" }
+   ],
+   "grows": [
+    { "cause": "calls", "by": 0.008, "note": "The outlet to the sea for Dorestat: boats bound for Flanders and the English ports lie here for a tide.", "source": "Metcalf and Op den Velde 2009 (dossier [MO])" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "raid", "years": [837], "turns": true, "source": "AB 837; AF 837; Ann. Xant. 837" },
+    { "cause": "flood", "years": [838, 1014], "turns": false, "source": "AB 839; dossier [W7]" },
+    { "cause": "tribute", "years": [841, 850], "turns": false, "note": "Harald's men plunder Christians as they please.", "source": "AB 841" },
+    { "cause": "trade_moved_away", "years": [850, 875], "turns": true, "note": "The boats go by to Ghent, Antwerp and Tiel.", "source": "Ufkes 2012 (?)" },
+    { "cause": "silting", "years": [875, 1000], "turns": false, "note": "Blown sand buries the houses.", "source": "dossier [KZ1, KZ2]" }
+   ],
+   "fixed": [
+    { "what": "The sand and the sea take Walichrum", "from": 875, "to": 1066, "text": "The dune walks inland a pace a year and the sea comes behind it. You can wall out Danes. Nobody walls out sand.", "source": "dossier [KZ1, KZ2; DM]" }
+   ],
+   "help": [
+    {
+     "id": "walichrum.help.feed", "by": "sale", "what": "Sell corn here while the island is hungry.",
+     "when": "flag.st_walichrum_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed. One small boat is three weeks of the corn that comes here by water."
+    },
+    {
+     "id": "walichrum.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the count's man on the island that a fleet is in the Scheldt mouth.",
+     "when": "flag.here_word_band and not flag.st_walichrum_warned", "cost": "",
+     "effects": ["npc lords_man feeling +10 warned"], "world": ["state walichrum warned for 10"],
+     "then": "The women and the flocks go inland over the creeks. In 837 they fell on the island unprepared: a raid within ten days takes no captives and half as much."
+    },
+    {
+     "id": "walichrum.help.beacon", "by": "work", "work": "walichrum.work.beacon", "what": "Pay for a fire and a watcher on the high dune.",
+     "when": "year <= 875", "cost": "silver 200",
+     "effects": ["deed gave_alms"], "world": ["work walichrum beacon", "mark walichrum +0.03"],
+     "gift": { "warning_days": 1 },
+     "then": "A fleet is seen a day sooner, and a boat coming in by dusk finds the creek."
+    },
+    {
+     "id": "walichrum.help.ransom", "by": "card", "card": "harbour.town.bring_home", "what": "Bring the women of the island home from the raiders' market.",
+     "when": "hold.captives > 0 and year >= 837 and flag.st_walichrum_heads < 450", "cost": "",
+     "effects": ["deed bought_captives", "npc lords_man feeling +15 ransomed"], "world": ["people walichrum +captives"],
+     "then": "They are set down on the strand. The island pays in wool and salt, for it has little silver left."
+    },
+    {
+     "id": "walichrum.help.wall", "by": "work", "work": "walichrum.work.wall_share", "what": "Pay for your stretch of the ring wall of sods.",
+     "when": "year >= 838 and standing >= known", "cost": "silver 500",
+     "effects": ["deed gave_alms"], "world": ["work walichrum wall_share", "mark walichrum +0.06"],
+     "gift": { "defence": 50, "raid_takes_x": 0.5 },
+     "then": "The island has somewhere to drive its beasts and stand. Goods left inside the wall are not reached by a raid."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_walichrum_hungry >= 1", "goods": ["barley", "rye", "oats"], "units": [8, 30], "premium": [0.4, 0.8], "days": [20, 40] },
+    { "job": "ransom_captives", "when": "year >= 837 and year <= 850 and flag.st_walichrum_heads < 450", "goods": [], "units": [2, 10], "premium": [0.3, 0.6], "days": [60, 120] },
+    { "job": "mend_burned", "when": "flag.st_walichrum_burned", "goods": ["oak_timber", "bar_iron"], "units": [4, 12], "premium": [0.3, 0.5], "days": [30, 60] }
+   ],
+   "opens": [
+    {
+     "id": "walichrum.open.ring_wall", "what": "ring_wall",
+     "when": "year >= 838 and flag.st_walichrum_households >= 40",
+     "opens": ["site:walichrum.ring_wall", "work:walichrum.work.wall_share"], "keeps": true,
+     "text": "They are cutting sods for a ring wall behind the dunes, with a moat and two roads crossing in it.",
+     "source": "the ring fort of Domburg, 4.5 ha: begun 835 to 838 on Ufkes's dating, later on others' (dossier [UF, TH, KZ1])"
+    },
+    {
+     "id": "walichrum.open.menders", "what": "menders",
+     "when": "flag.st_walichrum_households >= 80",
+     "opens": ["act:buy_ship@walichrum.boat_strand", "act:careen@walichrum.boat_strand"], "keeps": false,
+     "text": "There are men enough on the menders' bank to sell you an old hull and make her tight.",
+     "lost_text": "The menders have gone over to the Scheldt towns. Old boats here are cut up for coffins.",
+     "source": "planks of an English clinker ship and of Rhine barges reused on the island (dossier [TH, UF])"
+    },
+    {
+     "id": "walichrum.open.street_empty", "what": "street_empty",
+     "when": "flag.st_walichrum_households < 25", "opens": [], "closes": ["site:walichrum.street", "site:walichrum.brooch_hearth", "site:walichrum.alehouse"], "keeps": true,
+     "text": "The long street is house-posts in the sand. What is sold here now is sold from a farm door.",
+     "source": "the traders gone by about 875 (Ufkes 2012)"
+    }
+   ],
+   "endings": [
+    {
+     "id": "walled_island", "at": 850, "real": false, "when": "flag.unlock_work_walichrum_wall_share and flag.st_walichrum_heads >= 400",
+     "text": "The islanders of Walacria built their wall of sods and kept their market inside it. Fleets went by eight times in those years and did not land. When the sand took the old street they sold their salt and wool at the wall gate.",
+     "world": ["mark walichrum +0.1"], "effects": ["flag st_end_walichrum_walled_island"],
+     "picture": "A round sod rampart with a moat in flat marsh; inside it thatched houses and a small market at the crossing of two roads; dunes and sea beyond."
+    },
+    {
+     "id": "over_the_water", "at": 850, "real": false, "when": "flag.st_walichrum_heads >= 250 and flag.st_walichrum_helped >= 3",
+     "text": "The traders of Walacria would not serve a heathen lord. They took down their houses, as their fathers had, loaded the timbers and went up the Scheldt to Ganda and Andoverpis. The shepherds stayed.",
+     "world": ["people ganda +80", "people andoverpis +80"], "effects": ["flag st_end_walichrum_over_the_water"],
+     "picture": "House timbers and a loom being loaded into barges on a creek at low water; sheep watching from the marsh."
+    },
+    {
+     "id": "sand", "at": 850, "real": true, "when": "true",
+     "text": "Lothar gave Walacria to Harald the Dane, and the annalist called it a thing to be detested. After this the traders are heard of no more. The farmers drew inland, and the sand covered the houses and the graves.",
+     "world": [], "effects": ["flag st_end_walichrum_sand"],
+     "picture": "Oak house-posts and the corner of a coffin showing in a blown dune; grey sea; nobody."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/walichrum.md and its references: P. ten Harkel and others, Medieval Archaeology 67 (2023), https://hdl.handle.net/1887/3715906; M. de Man, 'Que sait-on de la plage de Dombourg?' (1899); T. Ufkes, Paleo-aktueel 23 (2012); D. M. Metcalf and W. Op den Velde (2009)",
+    "Annales Bertiniani 837, 839, 841; Annales Fuldenses 837; Annales Xantenses 837"
+   ]
+  },
+  {
+   "port": "witla",
+   "region": "rhine_delta",
+   "people": [
+    { "age": "age1", "year": 793, "low": 40, "high": 300, "best": 120, "source": "our judgement (?): nothing of Witla has been dug and no scholar gives a figure (Dijkstra 2011, 324: known from one sentence). The low figure is the one thing on record near it, the farm at Witle with grazing for five cows and four serfs, and a few neighbours; the high is Medemblik's house row and half again (Van Leeuwen 2014: twenty houses, 120 to 200 people); the best takes it for a strand market of Medemblik's kind", "note": "An emporium only in the annal that burns it. Stock farmers, a toll-taker (likely, not proven), fishers, salt burners." },
+    { "age": "age2", "year": 835, "low": 40, "high": 300, "best": 120, "source": "our guess: five pennies of Louis the Pious (822 to 840) dredged from the mouth show the place alive to the end (Dijkstra 2011, 451-452) (?)" },
+    { "age": "age2", "year": 837, "low": 10, "high": 120, "best": 50, "source": "our guess: burned in 836 with Antwerp, and tribute taken from the Frisians (AF 836) (?)" },
+    { "age": "age2", "year": 839, "low": 0, "high": 60, "best": 15, "source": "our guess: the storm flood of 26 December 838 (AB 839) is thought to be its death blow (Dijkstra 2011, 324: an idea, not a record) (?)" },
+    { "age": "age3", "year": 865, "low": 0, "high": 40, "best": 10, "source": "our guess: a farm or two; the toll and the harbour pass in time to Vlaardingen on the north bank (Dijkstra 2011, 324) (?)" },
+    { "age": "age4", "year": 900, "low": 0, "high": 30, "best": 0, "source": "our guess: 'later washed away by the sea' (Dijkstra 2011, 383) (?)" }
+   ],
+   "household": { "size": 6, "low": 5, "high": 8, "source": "as Medemblik [W61 6.3] (?)" },
+   "bread": {
+    "by_keel": 0.2, "after_harvest": 8,
+    "eats": ["barley", "rye", "oats", "wheat", "flour"],
+    "source": "our guess: salt marsh silted above the storm line carries cattle and sheep, and corn only on the creek ridges; grain comes down the Maas and Waal with everything else (Dijkstra 2011, 38-39, 308-315) (?)"
+   },
+   "makes": [
+    { "good": "sea_salt", "a_year": 120, "season": "summer burning", "source": "in South Holland only the islands in the Maas mouth were fit for burning salt from salted peat (Dijkstra 2011, 308-315)" },
+    { "good": "dried_fish", "a_year": 150, "season": "spring and autumn", "source": "sea fish dried, smoked or salted for Utrecht and Dorestad (Dijkstra 2011, 308-315)" },
+    { "good": "raw_wool", "a_year": 40, "season": "June", "source": "the coast's herds are rich in sheep; the sheep pasture given with Vlaardingen's church in 726/727 (Dijkstra 2011, 282, 314-315)" }
+   ],
+   "needs": [
+    { "good": "barley", "a_year": 110, "why": "the fifth of its bread the marsh does not grow", "source": "0.7 kg a head a day, 55 kg a sack, by_keel 0.2" },
+    { "good": "oak_timber", "a_year": 15, "why": "no tree stands between the dunes and the fen", "source": "Dijkstra 2011, 38-39 (?)" },
+    { "good": "quernstones", "a_year": 10, "why": "a quern to a house", "source": "lava querns from Mayen on this coast (Dijkstra 2011, 308-315)" }
+   ],
+   "stores": [
+    { "good": "sea_salt", "months": 5, "where": "witla.salt", "note": "Sacked on the ridge above the spring tides.", "source": "our guess (?)" },
+    { "good": "dried_fish", "months": 4, "where": "witla.racks", "note": "On the racks until the Rhine boats come for it.", "source": "our guess (?)" }
+   ],
+   "grows": [
+    { "cause": "calls", "by": 0.01, "note": "The two river roads that do not pass Dorestat, the Maas and the Waal, come out here.", "source": "Dijkstra 2011, 324: his reading, not a record" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "burning", "years": [836], "turns": true, "source": "Annales Fuldenses 836 (the game's chronicle entry 836-witla-antwerp-burned cites AB)" },
+    { "cause": "tribute", "years": [836, 837], "turns": false, "source": "AF 836, 837" },
+    { "cause": "flood", "years": [838], "turns": false, "source": "AB 839" }
+   ],
+   "fixed": [
+    { "what": "The sea takes the old land south of the Maas", "from": 838, "to": 1066, "text": "The creek is not where it was when my father set his nets. One winter the sea will have the ridge as well, and then where was Witla?", "source": "Dijkstra 2011, 39, 81, 383: the land drowned and cut by channels, in the main in the 12th century" }
+   ],
+   "help": [
+    {
+     "id": "witla.help.feed", "by": "sale", "what": "Sell corn here while the strand is hungry.",
+     "when": "flag.st_witla_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed. One small boat feeds the whole strand for three months: here a single hold is the difference."
+    },
+    {
+     "id": "witla.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the king's man at the post that ships are off the mouth.",
+     "when": "flag.here_word_band and not flag.st_witla_warned", "cost": "",
+     "effects": ["npc tollman feeling +10 warned"], "world": ["state witla warned for 10"],
+     "then": "The beasts are driven into the fen and the boats run up the creeks. The houses may still burn; the people are not in them."
+    },
+    {
+     "id": "witla.help.beacon", "by": "work", "work": "witla.work.beacon", "what": "Pay for a fire on the mark on the dune.",
+     "when": "year <= 836", "cost": "silver 200",
+     "effects": ["deed gave_alms"], "world": ["work witla beacon", "mark witla +0.05"],
+     "gift": { "warning_days": 1 },
+     "then": "A fleet in the mouth is seen a day sooner, and a boat coming in at dusk finds the creek."
+    },
+    {
+     "id": "witla.help.carry", "by": "job", "job": "carry_refuge", "what": "Carry its families up the river before or after the burning.",
+     "when": "flag.st_witla_warned or flag.st_witla_burned", "cost": "", "effects": [], "world": [],
+     "then": "As the job carry_refuge says: the heads you carry are saved and are counted where you land them."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_witla_hungry >= 1", "goods": ["barley", "rye", "oats"], "units": [3, 10], "premium": [0.4, 0.8], "days": [20, 40] },
+    { "job": "carry_refuge", "when": "flag.st_witla_warned or flag.st_witla_burned", "goods": [], "units": [4, 10], "premium": [0.2, 0.4], "days": [5, 20] },
+    { "job": "mend_burned", "when": "flag.st_witla_burned", "goods": ["oak_timber", "tar"], "units": [3, 8], "premium": [0.3, 0.5], "days": [30, 60] }
+   ],
+   "opens": [
+    {
+     "id": "witla.open.pilots", "what": "pilots",
+     "when": "flag.st_witla_households >= 25",
+     "opens": ["act:hire_pilot@witla.pilot_shed"], "keeps": false,
+     "text": "There are men enough at the net shed that one will always take you over the bar for a penny.",
+     "lost_text": "The net shed is shut. You find your own way over the bar now.",
+     "source": "our guess: a bar, a strong ebb and a double low water at the Maas mouth (Research/water_levels/north_sea_core.md) (?)"
+    }
+   ],
+   "endings": [
+    {
+     "id": "rebuilt", "at": 837, "real": false, "when": "flag.st_witla_heads >= 80 and flag.st_witla_helped >= 3",
+     "text": "The Northmen burned Witla, the market at the mouth of the Maas. Its people had gone into the fen with their beasts, and before winter they built again on the ridge with oak brought down the river.",
+     "world": ["mark witla +0.1"], "effects": ["flag st_end_witla_rebuilt"],
+     "picture": "New pale timber frames going up among black posts on a creek strand; a barge unloading planks; marsh behind."
+    },
+    {
+     "id": "north_bank", "at": 837, "real": false, "when": "flag.st_witla_helped >= 1 and flag.st_witla_heads >= 40",
+     "text": "After the burning the people of Witla crossed the Maas with what they had and settled by the church on the north bank, where the ground stands higher. The toll went with them.",
+     "world": [], "effects": ["flag st_end_witla_north_bank"],
+     "picture": "Small boats crossing a wide grey river mouth with cattle standing in them; a wooden church on the far bank."
+    },
+    {
+     "id": "one_sentence", "at": 837, "real": true, "when": "true",
+     "text": "This year the Northmen burned Andwerpa, and likewise Witla, the market near the mouth of the river Maas, and took tribute from the Frisians. Nothing more is written of it.",
+     "world": [], "effects": ["flag st_end_witla_one_sentence"],
+     "picture": "A burned strand at low water: charred posts, a broken boat, gulls; the far bank very small."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/witla.md and its references: M. Dijkstra, Rondom de mondingen van Rijn & Maas (Leiden 2011), https://www.sidestone.com/books/rondom-de-mondingen-van-rijn-maas",
+    "Annales Fuldenses 836, 837 (Latin after Rau, https://www.gjallar.nl/Bronnen_AF.htm); Annales Bertiniani 839"
+   ]
+  },
+  {
+   "port": "medemelacha",
+   "region": "frisia",
+   "people": [
+    { "age": "age1", "year": 793, "low": 120, "high": 200, "best": 150, "source": "J. van Leeuwen, Middeleeuws Medemblik (West-Friese Archeologische Rapporten 61, 2014) 6.3: about twenty houses and 120 to 200 people in the 9th century, from one row of houses proven over 100 m and reckoned at 300 to 450 m", "note": "The lake hamlet a kilometre south (a house of 6 by 20 m, given up before 900) is not counted." },
+    { "age": "age2", "year": 834, "low": 120, "high": 220, "best": 160, "source": "as 793; our guess for the year (?)" },
+    { "age": "age2", "year": 840, "low": 100, "high": 200, "best": 145, "source": "our guess: what the flood of 26 December 838 did here is unknown [W61]; a tenth lost is the game's rule of thumb halved (?)" },
+    { "age": "age3", "year": 865, "low": 120, "high": 240, "best": 170, "source": "our guess: Medemblik lives on when Dorestad ends, perhaps because of its toll [W61 6.4] (?)" },
+    { "age": "age4", "year": 900, "low": 130, "high": 260, "best": 190, "source": "our guess: the king's tenth 'in Medemolaca' is written down about 900 [W61 2.2.2.1] (?)" },
+    { "age": "age5", "year": 955, "low": 160, "high": 350, "best": 250, "source": "our guess: more houses in the 10th century, and the clearing of the peat behind gets going [W61 6.4] (?)" },
+    { "age": "age6", "year": 991, "low": 200, "high": 420, "best": 300, "source": "our guess: Otto III's charter of 985 names toll, mint and cens at 'villa Medemelacha' [W61 2.2.2.2] (?)" },
+    { "age": "age7", "year": 1042, "low": 220, "high": 500, "best": 350, "source": "our guess (?)" },
+    { "age": "age7", "year": 1066, "low": 250, "high": 600, "best": 400, "source": "our guess: by about 1100 it builds a tuff church of over 20 by 45 m [W61 6.4] (?)" }
+   ],
+   "household": { "size": 7, "low": 6, "high": 10, "source": "Van Leeuwen 2014 [W61 6.3]: households of six to ten, with a grandparent or a few slaves or servants" },
+   "bread": {
+    "by_keel": 0.2, "after_harvest": 8,
+    "eats": ["rye", "barley", "oats", "wheat", "flour"],
+    "source": "our guess: rye grew at the lake hamlet [W61 3.1.4], but the place lies in wet peat and lives by passing boats (?)"
+   },
+   "makes": [
+    { "good": "cattle_hides", "a_year": 60, "season": "Martinmas, at the slaughter", "source": "farmers of the lake hamlets bring live cattle to be slaughtered and salted for ships [W61 5.5]" },
+    { "good": "raw_wool", "a_year": 50, "season": "June", "source": "the sheep grow more numerous and older in Carolingian layers [W61 6.3]" },
+    { "good": "eels", "a_year": 40, "season": "Michaelmas to Martinmas", "source": "goods_793.json: frisia makes eels; a peat river and a lake (?)" },
+    { "good": "quernstones", "a_year": 20, "season": "summer, to about 900", "source": "a half-made quern, found 1982: perhaps a finisher of rough stones [W61 6.3]" }
+   ],
+   "needs": [
+    { "good": "rye", "a_year": 130, "why": "the fifth of its bread that comes by boat", "source": "0.7 kg a head a day, 60 kg a sack, by_keel 0.2" },
+    { "good": "oak_timber", "a_year": 20, "why": "each plot-holder keeps up his own bank, and the peat coast has no timber", "source": "[W61 3.1.6, 5.4.1, 6.2]" },
+    { "good": "bar_iron", "a_year": 15, "why": "the coast lacks iron", "source": "[W61 5.4.1]" },
+    { "good": "sea_salt", "a_year": 60, "why": "the beef salted for ships at Martinmas", "source": "[W61 5.5]; the amount is our guess (?)" },
+    { "good": "badorf_ware", "a_year": 40, "why": "pots and wine jars: 7,000 sherds at the lake hamlet alone", "source": "[W61 3.1.4, 4.7]" }
+   ],
+   "stores": [
+    { "good": "cattle_hides", "months": 5, "where": "medemelacha.row", "note": "Salted at Martinmas and kept for the spring boats.", "source": "[W61 5.5] (?)" },
+    { "good": "badorf_ware", "months": 6, "where": "medemelacha.bank", "note": "Rhineland pots wait here for the run to the mounds of Frisia.", "source": "much Frankish ware found in the northern markets must have passed here [W61 5.4.2]" }
+   ],
+   "grows": [
+    { "cause": "calls", "by": 0.008, "note": "The king takes toll from every trader sailing past: every boat between the Rhine and the Vlie lies here a night.", "source": "[A13; W61 6.3]" },
+    { "cause": "trade_moved_here", "by": 0.004, "note": "After 863 the boats that used Dorestat still need a toll bank on the Almere.", "source": "[W61 6.4]: 'perhaps because of its toll'" },
+    { "cause": "incomers", "by": 0.006, "note": "From the 10th century men come to cut and drain the peat behind.", "source": "[W61 6.4]" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "flood", "years": [838], "turns": false, "source": "AB 839; its effect here is unknown [W61]" },
+    { "cause": "tribute", "years": [841, 885], "turns": false, "note": "Danish lords over western Frisia. No raid, fire or Danish settlement here is recorded or dug: a raid at Medemelacha is the game's own (raiders_793.json lists it as a target), and a warning turns it.", "source": "[W61 2.3.3]" }
+   ],
+   "fixed": [
+    { "what": "The peat sinks where it is drained", "from": 800, "to": 1066, "text": "Cut a ditch in the moss and the ground drops under your feet. The houses by the lake stood dry in my grandfather's day.", "source": "the houses of 675 to 800 stood on peat and vanished with it; the lake hamlet given up before 900 [A13; W61 3.1.4]" }
+   ],
+   "help": [
+    {
+     "id": "medemelacha.help.feed", "by": "sale", "what": "Sell rye here while the row is hungry.",
+     "when": "flag.st_medemelacha_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed. One small boat is a month of the bread that comes here by water."
+    },
+    {
+     "id": "medemelacha.help.well", "by": "work", "work": "medemelacha.work.sweet_well", "what": "Dig a sweet well with a new cask after the flood.",
+     "when": "year >= 839 and year <= 845", "cost": "silver 90",
+     "effects": ["deed gave_alms"], "world": ["work medemelacha well", "heal medemelacha", "mark medemelacha +0.04"],
+     "gift": { "sickness_x": 0.5 },
+     "then": "The row has water that cattle and brewers can use a year before the old wells clear. It is the cheapest good turn on the Almere."
+    },
+    {
+     "id": "medemelacha.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the king's toll-gatherer that ships are in the Vlie.",
+     "when": "flag.here_word_band and not flag.st_medemelacha_warned", "cost": "",
+     "effects": ["npc tollman feeling +10 warned"], "world": ["state medemelacha warned for 10"],
+     "then": "The boats go up the peat river where no keel follows. A raid within ten days takes no captives and half as much."
+    },
+    {
+     "id": "medemelacha.help.jetty", "by": "work", "work": "medemelacha.work.jetty", "what": "Build a jetty where there is only a soft bank.",
+     "when": "standing >= known", "cost": "silver 240",
+     "effects": [], "world": ["mark medemelacha +0.03"],
+     "gift": { "berths": 2 },
+     "then": "Two more boats can lie and load at once, and other skippers pay you a little to use it."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_medemelacha_hungry >= 1", "goods": ["rye", "barley", "oats"], "units": [3, 12], "premium": [0.4, 0.8], "days": [20, 40] },
+    { "job": "mend_burned", "when": "flag.st_medemelacha_burned", "goods": ["oak_timber", "bar_iron", "tar"], "units": [3, 8], "premium": [0.3, 0.5], "days": [30, 60] },
+    { "job": "find_out_port", "when": "year >= 834 and year <= 885", "goods": [], "units": [1, 1], "premium": [0.2, 0.4], "days": [15, 40] }
+   ],
+   "opens": [
+    {
+     "id": "medemelacha.open.salting", "what": "salting",
+     "when": "flag.st_medemelacha_households >= 25",
+     "opens": ["work:medemelacha.work.salting_house", "act:provision@medemelacha.row"], "keeps": false,
+     "text": "There are hands enough on the row at Martinmas to slaughter and salt for any ship that asks.",
+     "lost_text": "Too few are left on the row to salt for strangers. They kill for themselves.",
+     "source": "cattle brought in to be slaughtered and salted for ships [W61 5.5]"
+    },
+    {
+     "id": "medemelacha.open.second_row", "what": "second_row",
+     "when": "year >= 900 and flag.st_medemelacha_households >= 40",
+     "opens": ["act:buy_plot@medemelacha.bank", "work:medemelacha.work.bank"], "keeps": true,
+     "text": "They are building a second row behind the first, with turf walls and a byre at one end. There is bank to be had by a man the toll-gatherer knows.",
+     "source": "more houses in the 10th century, with thin turf walls and a three-aisled end [W61 6.4]"
+    }
+   ],
+   "endings": [
+    {
+     "id": "kings_bank", "at": 1066, "real": false, "when": "flag.st_medemelacha_heads >= 600 and flag.st_medemelacha_helped >= 4",
+     "text": "In these years Medemelacha was the market of all the land between the Vlie and the Kennemer dunes. Men came to it over the cleared moss with butter and wool, and the bishop's toll there was worth more than the count's goodwill.",
+     "world": [], "effects": ["flag st_end_medemelacha_kings_bank"],
+     "picture": "Two rows of turf-walled houses along a timbered river bank with several boats; cattle being driven in over flat green land."
+    },
+    {
+     "id": "soft_bank", "at": 1066, "real": false, "when": "flag.st_medemelacha_heads < 180",
+     "text": "The boats found another way to the Vlie, and at Medemelacha the bank fell in plot by plot. The toll was still written in the bishop's book. Nobody was there to pay it.",
+     "world": [], "effects": ["flag st_end_medemelacha_soft_bank"],
+     "picture": "A slumped river bank with rotten revetment stakes; three houses; reeds; a heron."
+    },
+    {
+     "id": "bishops_toll", "at": 1066, "real": true, "when": "true",
+     "text": "This year the bishop of Traiectum held the king's toll at Medemelacha, as he had since Ansfried's day, and the count's rights in Westflinge besides. The row stood on its bank as it had for four hundred years.",
+     "world": [], "effects": ["flag st_end_medemelacha_bishops_toll"],
+     "picture": "A single long row of thatched houses on a low ridge beside a peat river; a wooden church at one end; a toll boat lying across the stream."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/medemelacha.md and its references: J. van Leeuwen, Middeleeuws Medemblik: een centrum in de periferie, West-Friese Archeologische Rapporten 61 (Hoorn 2014) [W61], https://archeologiewestfriesland.nl/publicatie/war-61/; the same, De oudste stad van West-Friesland (2014) [A13]",
+    "Annales Bertiniani 839"
+   ]
+  },
+  {
+   "port": "wijnaldum",
+   "region": "frisia",
+   "people": [
+    { "age": "age1", "year": 793, "low": 60, "high": 220, "best": 120, "source": "our reckoning (?): seven mounds in a row over 2 km; the one that is dug (Tjitsma, its centre only) held one farmstead in every period, a leading family with its dependants (Besteman, Bos and Heidinga, Paleo-aktueel 3 and 4). One to three farmsteads a mound at eight to ten people gives 56 to 210. The excavators give no figure: 'numbers are unknown' (dossier)", "note": "No king sits here. The gold is a hundred and sixty years old; in 793 it is a rich farm on a mound, with weavers, a smith and a bead-maker." },
+    { "age": "age2", "year": 834, "low": 60, "high": 220, "best": 125, "source": "our guess: the Carolingian phase, 750 to 850, still rich in imports (?)" },
+    { "age": "age2", "year": 840, "low": 50, "high": 200, "best": 105, "source": "our guess: the flood of 26 December 838, when 2,437 were counted drowned in Frisia (AB 839) (?)" },
+    { "age": "age2", "year": 847, "low": 45, "high": 180, "best": 95, "source": "our guess: 'the Northmen laid waste Ostracia and Westracia' (Ann. Xant. 846): the one annal that names Westergo; no raid on this mound is recorded (?)" },
+    { "age": "age2", "year": 850, "low": 45, "high": 180, "best": 100, "source": "our guess: the table's last year of trade. The sunken weaving huts end about 850; the mound is lived on (?)" },
+    { "age": "age3", "year": 865, "low": 45, "high": 180, "best": 100, "source": "our guess: the last dug phase, 850 to 900/950: wells, bone skates, no more amulets (dossier [RIV; JALC]) (?)" },
+    { "age": "age4", "year": 900, "low": 50, "high": 180, "best": 100, "source": "our guess (?)" },
+    { "age": "age5", "year": 955, "low": 60, "high": 220, "best": 120, "source": "our guess: the dug part falls out of use 900 to 950, but the mound grows to 2.5 or 5 ha by the 11th century (dossier [JALC; PA91]) (?)" },
+    { "age": "age6", "year": 991, "low": 70, "high": 260, "best": 150, "source": "our guess (?)" },
+    { "age": "age7", "year": 1042, "low": 80, "high": 300, "best": 180, "source": "our guess: a farm village under the Brunswick counts of Westergo (?)" }
+   ],
+   "household": { "size": 8, "low": 6, "high": 10, "source": "a main house, outbuildings and sunken huts: a leading family with its dependants (Paleo-aktueel 3, 4); the size is ours, as Medemblik's upper figure [W61 6.3] (?)" },
+   "bread": {
+    "by_keel": 0.15, "after_harvest": 7,
+    "eats": ["barley", "oats", "rye", "wheat", "flour"],
+    "source": "our guess: one wide salt marsh without dikes, flooded at times: barley and oats on the ridge, the rest bought with cloth. A village by the rule, but the mound country wants grain keenly in goods_793.json (?)"
+   },
+   "makes": [
+    { "good": "frisian_cloth", "a_year": 60, "season": "woven in winter, sold from Lady Day", "source": "loom weights and spindle whorls gather in the sunken huts (Paleo-aktueel 4); Fulda drew 855 Frisian cloaks a year about 830 (dossier [FCT3])" },
+    { "good": "raw_wool", "a_year": 80, "season": "June", "source": "sheep bones 2,881 against cattle 1,601 and horse 86 (Prummel and others 2011, table 3)" },
+    { "good": "cheese", "a_year": 400, "season": "summer", "source": "goods_793.json: frisia; the herds as above (?)" },
+    { "good": "amber_beads", "a_year": 30, "season": "all year, to about 900", "source": "raw amber knapped into beads here; a crucible with yellow glass (Paleo-aktueel 4; Sablerolles 1994)" },
+    { "good": "horses", "a_year": 4, "season": "autumn", "source": "horses bred here, by the bones (Prummel and others 2011)" }
+   ],
+   "needs": [
+    { "good": "barley", "a_year": 80, "why": "bread and ale beyond what the ridge grows", "source": "0.7 kg a head a day, 55 kg a sack, by_keel 0.15" },
+    { "good": "oak_timber", "a_year": 10, "why": "houses are of sods because there is no wood; posts, looms and boats still need it", "source": "sod houses in every period (Paleo-aktueel 4)" },
+    { "good": "bar_iron", "a_year": 10, "why": "the smith forges from bars and scrap", "source": "iron bars of Scandinavian kinds; a smith into the 10th century (Aalders and others 2004)" },
+    { "good": "antler", "a_year": 20, "why": "combs and pins", "source": "red deer and elk antler brought in (Prummel and others 2011)" },
+    { "good": "woad", "a_year": 15, "why": "the blue of the cloaks", "source": "goods_793.json: frisia wants woad; coloured Frisian cloaks in Notker (?)" },
+    { "good": "glass_vessels", "a_year": 3, "why": "the head house drinks from Rhenish glass", "source": "thirteen Carolingian cups and funnel beakers (Sablerolles 1994)" }
+   ],
+   "stores": [
+    { "good": "frisian_cloth", "months": 5, "where": "wijnaldum.weaving_huts", "note": "The winter's weaving lies folded until a boat comes up the Ried.", "source": "Paleo-aktueel 4 (?)" },
+    { "good": "raw_wool", "months": 6, "where": "wijnaldum.folds", "note": "The June clip, kept for the looms.", "source": "as under makes (?)" }
+   ],
+   "grows": [
+    { "cause": "calls", "by": 0.004, "note": "A boat that will bring iron, wood and dye and take cloth makes a mound richer than its neighbours.", "source": "an unusually high share of Rhineland pottery (Paleo-aktueel 3)" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "flood", "years": [838], "turns": false, "source": "AB 839" },
+    { "cause": "raid", "years": [846], "turns": true, "note": "Westergo is wasted; nothing says this mound was.", "source": "Ann. Xant. 846; AB 846" },
+    { "cause": "tribute", "years": [846, 852], "turns": false, "source": "AB 846; AB 852: 252 ships take payment in Frisia and leave" },
+    { "cause": "silting", "years": [800, 950], "turns": false, "note": "The marsh ridge shuts the channel north of the mounds; the Ried creek is all that is left.", "source": "Aalders and others 2004, after Vos 1999 (?)" },
+    { "cause": "trade_moved_away", "years": [850, 950], "turns": false, "note": "The cloth goes out by other landings.", "source": "our reading: imports thin after 850 (dossier [RIV; JALC]) (?)" }
+   ],
+   "fixed": [
+    { "what": "No king sits at Winaldum", "from": 793, "to": 1066, "text": "The old people say gold was worked on this mound. That was before the Franks. The lord's man comes for the king's due now, and the gold is under the sods.", "source": "the jeweller's workshop and the great brooch are of about 630 (Paleo-aktueel 4; dossier section 8)" },
+    { "what": "The Ried creek closes", "from": 850, "to": 950, "text": "Every spring tide leaves a little more mud in the creek. A boat that came up it laden in my youth comes up it light.", "source": "Aalders and others 2004, after Vos 1999 (?)" }
+   ],
+   "help": [
+    {
+     "id": "wijnaldum.help.feed", "by": "sale", "what": "Sell barley here while the mound is hungry.",
+     "when": "flag.st_wijnaldum_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed. One small boat is three months of the corn they buy: a single hold saves the mound."
+    },
+    {
+     "id": "wijnaldum.help.sods", "by": "work", "work": "wijnaldum.work.sod_layer", "what": "Pay for a new layer of sods on the mound after the great flood.",
+     "when": "year >= 839 and year <= 1000", "cost": "silver 480",
+     "effects": ["deed gave_alms"], "world": ["mark wijnaldum +0.08", "heal wijnaldum"],
+     "gift": { "carry_store": 3 },
+     "then": "The stock and the stores come through the next flood year whole. The house on the mound remembers who paid for the layer."
+    },
+    {
+     "id": "wijnaldum.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the head of the house that ships are in the Vlie.",
+     "when": "flag.here_word_band and not flag.st_wijnaldum_warned", "cost": "",
+     "effects": ["npc chief feeling +10 warned"], "world": ["state wijnaldum warned for 10"],
+     "then": "The flocks are driven to the far mounds and the cloth is buried. A raid within ten days takes no captives and half as much."
+    },
+    {
+     "id": "wijnaldum.help.ransom", "by": "card", "card": "harbour.town.bring_home", "what": "Bring its people home from the raiders' market.",
+     "when": "hold.captives > 0 and year >= 846 and flag.st_wijnaldum_heads < 110", "cost": "",
+     "effects": ["deed bought_captives", "npc chief feeling +15 ransomed"], "world": ["people wijnaldum +captives"],
+     "then": "They are set down at the foot of the mound. The house pays in cloth, a cloak a head and more for a weaver."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_wijnaldum_hungry >= 1", "goods": ["barley", "oats", "rye"], "units": [3, 10], "premium": [0.4, 0.8], "days": [20, 40] },
+    { "job": "mend_burned", "when": "flag.st_wijnaldum_burned", "goods": ["oak_timber", "bar_iron"], "units": [2, 6], "premium": [0.3, 0.5], "days": [30, 60] }
+   ],
+   "opens": [
+    {
+     "id": "wijnaldum.open.weavers", "what": "weavers",
+     "when": "flag.st_wijnaldum_households >= 18",
+     "opens": ["act:commission@wijnaldum.weaving_huts", "work:wijnaldum.work.store_hut"], "keeps": false,
+     "text": "There are women enough in the huts to weave to order: say the colour and the length, and come back at Lady Day.",
+     "lost_text": "The huts have fallen in. What cloth is made here is made for the house.",
+     "source": "the sunken weaving huts, to about 850; the law's 'woman who weaves fresum' (Lex Frisionum, Additio II 24)"
+    },
+    {
+     "id": "wijnaldum.open.creek_shut", "what": "creek_shut",
+     "when": "year >= 850 and flag.st_wijnaldum_households < 10", "opens": [], "closes": ["site:wijnaldum.foot", "site:wijnaldum.bead_bench"], "keeps": true,
+     "text": "Nobody sells at the foot of the mound now. They do not look up when a boat comes.",
+     "source": "the dug part of the mound out of use by 900 to 950 (dossier [JALC])"
+    }
+   ],
+   "endings": [
+    {
+     "id": "cloth_mound", "at": 850, "real": false, "when": "flag.st_wijnaldum_heads >= 170 and flag.st_wijnaldum_helped >= 3",
+     "text": "In Westracia the mound called Winaldum kept its looms through flood and tribute, for boats still came up the creek for its cloth. Its cloaks were known by their blue as far as the Rhine.",
+     "world": ["mark wijnaldum +0.1"], "effects": ["flag st_end_wijnaldum_cloth_mound"],
+     "picture": "A broad green mound with sod houses and open-fronted weaving huts; blue cloth drying on poles; a boat on the mud of a creek below."
+    },
+    {
+     "id": "left_to_sheep", "at": 850, "real": false, "when": "flag.st_wijnaldum_heads < 55",
+     "text": "After the flood and the Northmen the people of the mound went to their kin on the higher mounds inland. Sheep grazed over the house places.",
+     "world": [], "effects": ["flag st_end_wijnaldum_left_to_sheep"],
+     "picture": "A bare grassy mound with slumped sod walls; sheep; a silted creek; wide sky."
+    },
+    {
+     "id": "farm_on_a_mound", "at": 850, "real": true, "when": "true",
+     "text": "Nothing is written of Winaldum in these years. The house on the mound dug wells, kept sheep and forged its own iron, and the boats that had brought glass from the Rhine went to other landings.",
+     "world": [], "effects": ["flag st_end_wijnaldum_farm_on_a_mound"],
+     "picture": "A sod farmhouse and a well with a sweep on a low mound; a child on bone skates on a frozen pool; no boats."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/wijnaldum.md and its references: J. C. Besteman, J. M. Bos and H. A. Heidinga, Paleo-aktueel 3 (1992) and the 1992 campaign report (1993); W. Prummel and others, Journal of Archaeology in the Low Countries 3 (2011), https://www.vliz.be/imisdocs/publications/ocrd/296410.pdf; Aalders and others, Nagels en plaatjes uit Wijnaldum, Paleo-aktueel (2004); Y. Sablerolles, De glasvondsten van Wijnaldum, Paleo-aktueel (1994)",
+    "Annales Xantenses 846; Annales Bertiniani 839, 846, 852; Lex Frisionum (http://www.keesn.nl/lex/lex_en_text.htm)"
+   ]
+  },
+  {
+   "port": "doccinga",
+   "region": "frisia",
+   "people": [
+    { "age": "age1", "year": 793, "low": 40, "high": 150, "best": 80, "source": "our judgement (?): a wooden church, a clergy house and a graveyard on a mound raised after 754, with a dwelling mound touching it whose age is unknown (zoning-plan study of Dokkum 2008 [BP]). A priest with four to eight clerks and servants, and five to twenty farm households on the two mounds. 'No numbers exist' (dossier)", "note": "A mission church and a pilgrims' place, not a market. The great mound of Aalsum just north, about 4 ha, is not counted." },
+    { "age": "age2", "year": 834, "low": 40, "high": 160, "best": 85, "source": "our guess (?)" },
+    { "age": "age2", "year": 840, "low": 35, "high": 150, "best": 75, "source": "our guess: the flood of 26 December 838 (AB 839); the church mound was built against such tides (Willibald, ch. 9) (?)" },
+    { "age": "age3", "year": 874, "low": 40, "high": 170, "best": 90, "source": "our guess: in June 873 the Frisians of Oostergo kill Rodulf and 500 or 800 of his men; the place of the fight is not given (AF 873; AB 873) (?)" },
+    { "age": "age4", "year": 900, "low": 50, "high": 200, "best": 100, "source": "our guess: a bishop's community from Utrecht, the seat of church rule for the district [BP] (?)" },
+    { "age": "age5", "year": 955, "low": 60, "high": 250, "best": 130, "source": "our guess (?)" },
+    { "age": "age6", "year": 1000, "low": 90, "high": 350, "best": 190, "source": "our guess: the name written Doccinga about 1000; the first sea dikes along the arm, and a market, in the 11th century [BP] (?)" },
+    { "age": "age7", "year": 1042, "low": 180, "high": 600, "best": 350, "source": "our guess: Count Bruno's pennies reading DOCC/VGGA, 1038 to 1057, a toll, a tuff church for canons and pilgrims and a parish church of Saint Martin [BP; numista 48388] (?)" },
+    { "age": "age7", "year": 1066, "low": 200, "high": 700, "best": 400, "source": "our guess (?)" }
+   ],
+   "household": { "size": 6, "low": 5, "high": 8, "source": "as Medemblik [W61 6.3]; the clergy house is counted by heads (?)" },
+   "bread": {
+    "by_keel": 0.15, "after_harvest": 7,
+    "eats": ["barley", "oats", "rye", "wheat", "flour"],
+    "source": "our guess: unembanked salt marsh, flooded by the sea, with dikes only in the 11th century [BP]; the mission of 754 brought its own food by ship (Willibald, ch. 8) (?)"
+   },
+   "makes": [
+    { "good": "butter", "a_year": 60, "season": "summer", "source": "the mound coast sells butter, cheese, hides and wool (Design/research_trade_seasons_and_hints.md 2.2)" },
+    { "good": "cheese", "a_year": 250, "season": "summer", "source": "as butter" },
+    { "good": "frisian_cloth", "a_year": 20, "season": "woven in winter", "source": "the oak weaving sword from Aalsum; the law's 'woman who makes fresum' (dossier [nlwp Aalsum; LF])" }
+   ],
+   "needs": [
+    { "good": "barley", "a_year": 55, "why": "bread and ale beyond what the marsh grows", "source": "0.7 kg a head a day, 55 kg a sack, by_keel 0.15" },
+    { "good": "wax", "a_year": 8, "why": "lights for the martyr's church, most of all on the fifth of June", "source": "our guess (?)" },
+    { "good": "rhenish_wine", "a_year": 6, "why": "the Mass: the mission of 754 carried its own wine", "source": "Willibald, ch. 8" },
+    { "good": "oak_timber", "a_year": 10, "why": "the church is of wood and the marsh has none", "source": "timber traces of the church, 1950 to 1978 [BP]" }
+   ],
+   "stores": [
+    { "good": "cheese", "months": 5, "where": "doccinga.long_mound", "note": "The summer's cheese, kept for Lent and for the autumn boats.", "source": "our guess (?)" }
+   ],
+   "grows": [
+    { "cause": "fair", "by": 0.006, "note": "Pilgrims at the feast of Boniface, the fifth of June.", "source": "likely, not recorded (dossier section 4) (?)" },
+    { "cause": "see", "by": 0.003, "note": "The clergy house rules the churches of Oostergo for the bishop.", "source": "[BP]" },
+    { "cause": "mint", "by": 0.004, "note": "Count Bruno's mint, 1038 to 1057: its pennies go to the Baltic.", "source": "numista 48388; [BP]" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "flood", "years": [838], "turns": false, "source": "AB 839" },
+    { "cause": "tribute", "years": [873], "turns": true, "note": "Rodulf demands tribute of Oostergo and is killed for it.", "source": "AF 873; AB 873" }
+   ],
+   "fixed": [
+    { "what": "The martyr's body is not at Doccinga", "from": 793, "to": 1066, "text": "He lies at Fulda, far up the Rhine. We have the place, the spring and the day. Do not ask us for a bone.", "source": "Willibald, ch. 8: the body went by Utrecht and Mainz to Fulda" }
+   ],
+   "help": [
+    {
+     "id": "doccinga.help.feed", "by": "sale", "what": "Sell barley here while the mound is hungry.",
+     "when": "flag.st_doccinga_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed. One small boat is four months of the corn they buy."
+    },
+    {
+     "id": "doccinga.help.alms", "by": "act", "act": "alms", "what": "Give at the church door on the martyr's day.",
+     "when": "month = 6", "cost": "", "effects": ["deed gave_alms", "npc priest feeling +5 alms"], "world": ["mark doccinga +0.005"],
+     "then": "It costs what you choose to give. The priest tells the pilgrims whose boat it was."
+    },
+    {
+     "id": "doccinga.help.guest_house", "by": "work", "work": "doccinga.work.guest_house", "what": "Build a house for pilgrims on the long mound.",
+     "when": "standing >= known", "cost": "silver 420",
+     "effects": ["deed gave_alms", "npc priest feeling +20 guest_house"], "world": ["work doccinga hospice", "mark doccinga +0.08"],
+     "gift": { "sickness_x": 0.5 },
+     "then": "More pilgrims come and stay longer, so more is bought at the landing in May and June. Your crew lodge and are healed there free."
+    },
+    {
+     "id": "doccinga.help.dike", "by": "work", "work": "doccinga.work.dike", "what": "Pay for a length of the sea dike along the arm.",
+     "when": "year >= 1000 and standing >= known", "cost": "silver 600",
+     "effects": [], "world": ["mark doccinga +0.1"],
+     "gift": { "carry_store": 3 },
+     "then": "Corn can be grown behind it, and a flood year no longer takes the hay. A plot of dry pasture is held in the house's name."
+    },
+    {
+     "id": "doccinga.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the priest that ships are off the Lauwers mouth.",
+     "when": "flag.here_word_band and not flag.st_doccinga_warned", "cost": "",
+     "effects": ["npc priest feeling +10 warned"], "world": ["state doccinga warned for 10"],
+     "then": "The books go into the reeds, as they did once before, and the country is called out. A raid within ten days takes no captives and half as much."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_doccinga_hungry >= 1", "goods": ["barley", "oats", "rye"], "units": [2, 8], "premium": [0.4, 0.8], "days": [20, 40] },
+    { "job": "carry_letter", "when": "true", "goods": [], "units": [1, 1], "premium": [0.2, 0.4], "days": [20, 60] }
+   ],
+   "opens": [
+    {
+     "id": "doccinga.open.market", "what": "market",
+     "when": "year >= 1000 and flag.st_doccinga_households >= 30",
+     "opens": ["site:doccinga.market"], "keeps": false,
+     "text": "There is a market on the long mound now, on the days the count allows.",
+     "lost_text": "The market on the long mound is not held. Too few come.",
+     "source": "mint, market and toll in the 11th century [BP]"
+    },
+    {
+     "id": "doccinga.open.mint", "what": "mint",
+     "when": "year >= 1038 and year <= 1057 and flag.st_doccinga_households >= 50",
+     "opens": ["site:doccinga.mint", "act:change_coin@doccinga.mint"], "keeps": false,
+     "text": "Count Bruno has set a moneyer at Doccinga. The pennies are light, as Frisians like them.",
+     "lost_text": "The count's moneyer has gone to Bolsward.",
+     "source": "Bruno's pennies, about 0.7 g, Dannenberg 499 and 501 (numista 48388)"
+    },
+    {
+     "id": "doccinga.open.canons", "what": "canons",
+     "when": "year >= 1000 and flag.st_doccinga_households >= 40 and flag.unlock_work_doccinga_hospice",
+     "opens": ["act:read_text@doccinga.clergy_house", "act:copy_text@doccinga.clergy_house"], "keeps": true,
+     "text": "The clergy house has a book chest again, and a clerk who will let a giver read.",
+     "source": "a tuff church for canons and pilgrims in the 11th century [BP]; the book chest is our own (?)"
+    }
+   ],
+   "endings": [
+    {
+     "id": "pilgrim_town", "at": 1066, "real": false, "when": "flag.st_doccinga_heads >= 600 and flag.unlock_work_doccinga_hospice",
+     "text": "In these years so many came to Doccinga on the martyr's day that the landing could not hold their boats. There was a house for them on the long mound, and a market that lasted the week.",
+     "world": [], "effects": ["flag st_end_doccinga_pilgrim_town"],
+     "picture": "A crowd with staves and bundles climbing a green mound to a stone church; boats packed along a creek; booths and awnings."
+    },
+    {
+     "id": "church_alone", "at": 1066, "real": false, "when": "flag.st_doccinga_heads < 200",
+     "text": "The church of the martyr stood on its mound with a priest and his clerk. The count struck his pennies elsewhere, and the pilgrims were few.",
+     "world": [], "effects": ["flag st_end_doccinga_church_alone"],
+     "picture": "A small church alone on a mound in a wide marsh; one priest at the door; rain coming."
+    },
+    {
+     "id": "counts_mint", "at": 1066, "real": true, "when": "true",
+     "text": "This year Egbert was count in Oostergo. At Doccinga there was a church of tuff for the canons and another for the people, a market, a toll, and a dike along the water. Pennies struck there had gone as far as the land of the Rus.",
+     "world": [], "effects": ["flag st_end_doccinga_counts_mint"],
+     "picture": "Two tuff churches on a mound, a market below, a low dike along a tidal creek with boats on the mud."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/doccinga.md and its references: Cultuurhistorische verkenning binnenstad Dokkum (2008) [BP]; Willibald, Life of Saint Boniface, tr. G. W. Robinson (1916), chapters 8 and 9; https://en.numista.com/48388",
+    "Annales Fuldenses 873; Annales Bertiniani 839, 873"
+   ]
+  },
+  {
+   "port": "emuthon",
+   "region": "frisia",
+   "people": [
+    { "age": "age1", "year": 793, "low": 0, "high": 60, "best": 25, "source": "our judgement (?): in June 793 it is new at best. The first mound is about 40 m across with a ditch of 'around AD 800' (J. M. Grimm 2010, pp. 12, 18, after Haarnagel and Brandt); street houses there are 2.6 to 3.3 m wide. Six to ten such houses fill it: 30 to 60 people when all are lived in, none if it is still a summer landing", "note": "Perhaps only a seasonal landing of Frisian merchants this year. The East Frisians are in revolt and the priests are driven out." },
+    { "age": "age1", "year": 805, "low": 25, "high": 80, "best": 45, "source": "our guess: the ditch round the first mound; people live on it (Grimm 2010, p. 18) (?)" },
+    { "age": "age2", "year": 834, "low": 30, "high": 100, "best": 55, "source": "our guess: 'population density was low' until the 11th century (Grimm 2010, pp. 12, 18) (?)" },
+    { "age": "age2", "year": 840, "low": 25, "high": 90, "best": 50, "source": "our guess: the flood of 26 December 838 (AB 839) (?)" },
+    { "age": "age3", "year": 870, "low": 40, "high": 140, "best": 80, "source": "our guess: the mound enlarged northward with clay sods and the first street laid, mid 9th to early 10th century; in 870 the Ems mouth falls to the East Frankish kingdom and Emden is 'established as a regional market' (Grimm 2010, pp. 13, 17, 18) (?)" },
+    { "age": "age4", "year": 900, "low": 60, "high": 200, "best": 120, "source": "our guess: a second mound to the north with a house and byre of about 900; the mound 'generously enlarged' under the counts of Werl (Grimm 2010; de.wikipedia, Geschichte Emdens) (?)" },
+    { "age": "age5", "year": 966, "low": 100, "high": 350, "best": 200, "source": "our guess: a timber church after 941 and a second in 966, by tree rings; it outgrows Groothusen and Hatzum in the 10th century (Grimm 2010, pp. 14, 17) (?)" },
+    { "age": "age6", "year": 991, "low": 120, "high": 420, "best": 250, "source": "our guess (?)" },
+    { "age": "age6", "year": 1020, "low": 180, "high": 600, "best": 350, "source": "our guess: pennies reading AMVTHON from about 1020 (K. Giesen, Jaarboek voor Munt- en Penningkunde 95, 2008) (?)" },
+    { "age": "age7", "year": 1042, "low": 220, "high": 750, "best": 450, "source": "our guess (?)" },
+    { "age": "age7", "year": 1066, "low": 250, "high": 850, "best": 500, "source": "our guess: a count's place with toll and mint; the mounds have not yet grown into the one of 250 by 300 m (Grimm 2010, p. 18) (?)" }
+   ],
+   "household": { "size": 6, "low": 5, "high": 8, "source": "street houses too small for a byre: dwellings and workshops (Grimm 2010, pp. 12-13); the size is ours (?)" },
+   "bread": {
+    "by_keel": 0.2, "after_harvest": 7,
+    "eats": ["barley", "oats", "rye", "wheat", "flour"],
+    "source": "our guess: founded by traders, not grown from a farm village, on a shore that flooded regularly; beasts were kept on the mound but corn was bought (Grimm 2010, p. 19, ch. 7) (?)"
+   },
+   "makes": [
+    { "good": "raw_wool", "a_year": 30, "season": "June", "source": "sheep the main animal kept, in large ewe flocks run for wool, manure and milk (Grimm 2010, ch. 7)" },
+    { "good": "wool_cloth", "a_year": 15, "season": "new cloth in March and April", "source": "spindle whorls and wool cloth scraps (Grimm 2010, ch. 7); the season from Design/research_trade_seasons_and_hints.md 2.2" },
+    { "good": "cattle_hides", "a_year": 10, "season": "October and November", "source": "cattle on the hoof, hides, leather (Grimm 2010, ch. 7)" },
+    { "good": "combs", "a_year": 10, "season": "all year, from about 860", "source": "workers in bone, antler and horn in the street houses (Grimm 2010, ch. 7)" }
+   ],
+   "needs": [
+    { "good": "barley", "a_year": 25, "why": "bread and ale: the mound grows none", "source": "0.7 kg a head a day, 55 kg a sack, by_keel 0.2; it grows with the place" },
+    { "good": "oak_timber", "a_year": 8, "why": "posts and planks for houses, and from 941 a church: there is no tree in the marsh", "source": "Grimm 2010, pp. 12-14" },
+    { "good": "quernstones", "a_year": 4, "why": "a quern to a house", "source": "the mound coast lacks querns (Design/research_trade_seasons_and_hints.md 2.2)" },
+    { "good": "bar_iron", "a_year": 4, "why": "the coast has no iron", "source": "as querns" }
+   ],
+   "stores": [
+    { "good": "raw_wool", "months": 5, "where": "emuthon.sheep_house", "note": "The clip waits in the sheep-house for a boat bound up the Ems or west along the coast.", "source": "our guess (?)" }
+   ],
+   "grows": [
+    { "cause": "incomers", "by": 0.015, "note": "A new place on a new mound: traders settle where there was a summer landing.", "source": "Haarnagel, in Grimm 2010, p. 19" },
+    { "cause": "calls", "by": 0.008, "note": "It lies on the coast run between Dorestat and Sliesthorp, and at the foot of the Ems road into Westphalia.", "source": "Grimm 2010, p. 17" },
+    { "cause": "trade_moved_here", "by": 0.006, "note": "From 870 the king's market for the Ems mouth is here, not at Groothusen or Hatzum.", "source": "Grimm 2010, p. 17" },
+    { "cause": "mint", "by": 0.004, "note": "The count's die, about 1020 to 1051.", "source": "Giesen 2008" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "raid", "years": [810], "turns": true, "note": "Two hundred Danish ships on the Frisian islands; a hundred pounds of silver paid. Nothing says they came up the Ems.", "source": "ARF 810; chronicle_793.json 810-summer-frisia-raid-810" },
+    { "cause": "flood", "years": [838], "turns": false, "source": "AB 839" },
+    { "cause": "burning", "years": [1050], "turns": false, "note": "Burnt posts and charcoal in the 11th-century levels: the year is not known, and 1050 is a peg for it.", "source": "Grimm 2010, pp. 12-13, 19 (?)" }
+   ],
+   "fixed": [
+    { "what": "The sea takes Bant", "from": 793, "to": 1066, "text": "There was an island off the mouth with a church on it in the bishop's day. Each winter there is less of it. The channel is where the sea leaves it, not where a pilot would like it.", "source": "de.wikipedia, Bant (Insel): a district of Liudger's mission, now a sandbank" }
+   ],
+   "help": [
+    {
+     "id": "emuthon.help.feed", "by": "sale", "what": "Sell corn here while the mound is hungry.",
+     "when": "flag.st_emuthon_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed. In the first years one sack in the hold is a week of bread for everyone here."
+    },
+    {
+     "id": "emuthon.help.watch", "by": "work", "work": "emuthon.work.watch_fire", "what": "Set a watch pole and a fire on the Nesse.",
+     "when": "true", "cost": "silver 120",
+     "effects": [], "world": ["work emuthon beacon", "mark emuthon +0.04"],
+     "gift": { "warning_days": 1 },
+     "then": "Word of a fleet reaches the mound in time to drive the beasts up. The loyal Frisians owe the king a watch at the river mouths: this is theirs, paid for."
+    },
+    {
+     "id": "emuthon.help.sods", "by": "work", "work": "emuthon.work.sods", "what": "Take a share in raising the mound.",
+     "when": "year >= 850 and year <= 920", "cost": "silver 500",
+     "effects": [], "world": ["mark emuthon +0.1"],
+     "gift": { "carry_store": 2 },
+     "then": "There is dry ground for more houses along the street, and the stores come through a flood winter. The house has a plot on the street."
+    },
+    {
+     "id": "emuthon.help.way", "by": "work", "work": "emuthon.work.brushwood_way", "what": "Lay a brushwood way over the mud to where boats lie.",
+     "when": "true", "cost": "silver 160",
+     "effects": [], "world": ["work emuthon causeway", "mark emuthon +0.03"],
+     "gift": { "berths": 1 },
+     "then": "Loading takes half the time for every boat, so more of them put in here and fewer at Groothusen."
+    },
+    {
+     "id": "emuthon.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the people of the mound that ships are off the Ems mouth.",
+     "when": "flag.here_word_band and not flag.st_emuthon_warned", "cost": "",
+     "effects": ["npc merchant feeling +10 warned"], "world": ["state emuthon warned for 10"],
+     "then": "The beasts go up, the boats go up the river and the wool goes into the ground. A raid within ten days takes no captives and half as much."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_emuthon_hungry >= 1", "goods": ["barley", "oats", "rye"], "units": [2, 12], "premium": [0.4, 0.8], "days": [20, 45] },
+    { "job": "find_out_fleet", "when": "year >= 800 and year <= 890", "goods": [], "units": [1, 1], "premium": [0.2, 0.4], "days": [10, 30] }
+   ],
+   "opens": [
+    {
+     "id": "emuthon.open.wintering", "what": "wintering",
+     "when": "flag.st_emuthon_households >= 6",
+     "opens": ["act:lodge@emuthon.tettas_house", "act:store@emuthon.tettas_house"], "keeps": false,
+     "text": "People winter on the mound now. A boat can leave goods here and find them in spring.",
+     "lost_text": "Nobody winters on the mound. It is a summer landing again.",
+     "source": "from a seasonal landing to a village of traders and farmers (Rasink, in Grimm 2010, p. 19)"
+    },
+    {
+     "id": "emuthon.open.street", "what": "street",
+     "when": "year >= 860 and flag.st_emuthon_households >= 14",
+     "opens": ["site:emuthon.street", "work:emuthon.work.sods"], "keeps": true,
+     "text": "The mound has been widened to the north and a street runs along it, with houses fronting it.",
+     "source": "the forerunner of the Schulstraße, laid in the enlargement of the mid 9th to early 10th century (Grimm 2010, pp. 13, 18)"
+    },
+    {
+     "id": "emuthon.open.toll", "what": "toll",
+     "when": "year >= 870 and flag.st_emuthon_households >= 20",
+     "opens": ["site:emuthon.toll_post"], "keeps": false,
+     "text": "The count has set a man on the mound to take the king's due.",
+     "lost_text": "The count's man has gone. There is too little here to take a tenth of.",
+     "source": "a royal place with toll and mint (Grimm 2010, p. 17); the toll is first written of in 1244, and 870 is our peg (?)"
+    },
+    {
+     "id": "emuthon.open.church", "what": "church",
+     "when": "year >= 941 and flag.st_emuthon_households >= 30",
+     "opens": ["site:emuthon.church", "work:emuthon.work.church_oak"], "keeps": true,
+     "text": "They are raising a timber church on the west mound, apart from the houses, with a graveyard round it.",
+     "source": "tree rings: the first church 'most likely' after 941, the second 966 (Grimm 2010, p. 14)"
+    },
+    {
+     "id": "emuthon.open.mint", "what": "mint",
+     "when": "year >= 1020 and year <= 1051 and flag.st_emuthon_households >= 55",
+     "opens": ["site:emuthon.mint", "act:change_coin@emuthon.mint"], "keeps": false,
+     "text": "Count Hermann strikes pennies here with the name of the place on them: AMVTHON.",
+     "lost_text": "The count's die is put away. Nobody brings silver enough to strike.",
+     "source": "Dannenberg 772-773; mean weight 0.75 g from 88 coins (Giesen 2008)"
+    }
+   ],
+   "endings": [
+    {
+     "id": "ems_market", "at": 1066, "real": false, "when": "flag.st_emuthon_heads >= 800 and flag.st_emuthon_helped >= 4",
+     "text": "In these years Amuthon at the mouth of the Ems was the market of all the Frisians east of the Lauwers. Its mounds had grown into one, and Saxons came down the river to it with iron and went home with cloth.",
+     "world": [], "effects": ["flag st_end_emuthon_ems_market"],
+     "picture": "One great mound crowded with small houses along a street; a timber church on its west end; a dozen boats on the mud of a creek mouth; a wide river."
+    },
+    {
+     "id": "farm_mound", "at": 1066, "real": false, "when": "flag.st_emuthon_heads < 200",
+     "text": "The traders went to Groothusen and to the Weser. On the mound at the mouth of the A there was a farmer with a byre and a great many sheep.",
+     "world": [], "effects": ["flag st_end_emuthon_farm_mound"],
+     "picture": "A small mound with one long house and a byre; ewes on the salt marsh; an empty creek."
+    },
+    {
+     "id": "counts_market", "at": 1066, "real": true, "when": "true",
+     "text": "This year Archbishop Adalbert fell from his power, and the county on the Ems that the king had given him stayed in dispute. At Amuthon there was a church, a street, a toll and a market, and light pennies with its name on them lay in hoards beyond the Baltic.",
+     "world": [], "effects": ["flag st_end_emuthon_counts_market"],
+     "picture": "Two mounds at a creek mouth, one with a street of narrow houses, one with a timber church; boats on the mud at low water; evening."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/emuthon.md and its references: J. M. Grimm, Animal keeping and the use of animal products in medieval Emden (thesis, Groningen 2010), chapters 1 and 7, https://pure.rug.nl/ws/portalfiles/portal/2611577/01c1.pdf; K. Giesen, Jaarboek voor Munt- en Penningkunde 95 (2008); https://de.wikipedia.org/wiki/Geschichte_Emdens",
+    "Annales regni Francorum 810; Annales Bertiniani 839"
+   ]
+  },
+  {
+   "port": "daventre",
+   "region": "rhine_delta",
+   "people": [
+    { "age": "age1", "year": 793, "low": 60, "high": 250, "best": 120, "source": "our judgement (?): 'a small fishing and trading settlement with a wooden church' (Rijksdienst voor de Monumentenzorg 1986 [RDMZ]); one house of the 7th or 8th century is dug. Ten to forty households on the river dune. 'Size is unknown; the first house count is of 952' (dossier)", "note": "The road east to the Saxons is unsafe this year. The church is Liudger's third building of it." },
+    { "age": "age1", "year": 806, "low": 80, "high": 300, "best": 160, "source": "our guess: the Saxon war ends in 804 and the land road to Westphalia opens (?)" },
+    { "age": "age2", "year": 834, "low": 100, "high": 350, "best": 200, "source": "our guess: no raid here in 834 to 837 is recorded (dossier section 8) (?)" },
+    { "age": "age2", "year": 858, "low": 150, "high": 500, "best": 300, "source": "our guess: about 857 the Utrecht clergy flee here; a bishop's court for some 65 years [W-Gesch]; the oldest timber revetment on the bank is 9th-century [RDMZ] (?)" },
+    { "age": "age3", "year": 865, "low": 200, "high": 650, "best": 400, "source": "our guess: after Dorestad's last sack the trade moves to Tiel, Utrecht, Deventer and Stavoren; that Dorestad's merchants fled here is 'probable' only [RDMZ; W-Gesch] (?)" },
+    { "age": "age3", "year": 881, "low": 300, "high": 900, "best": 550, "source": "our guess: a 'portus' in 877, where Saint-Bertin alone holds seven manses (Cartulaire de Saint-Bertin, p. 124-125) (?)" },
+    { "age": "age3", "year": 883, "low": 150, "high": 600, "best": 330, "source": "our guess: late in 882 the Northmen burn the port 'where Saint Liobomus rests', killing many (AF 882); a burn layer 20 cm thick lies under the wall [Canon-Wal] (?)" },
+    { "age": "age4", "year": 900, "low": 350, "high": 1000, "best": 600, "source": "our reckoning (?): an earth wall 1.9 km long finished before 890 [Canon-Wal], and the king's toll by 896. A wall is built to hold what is there and what is hoped for: much of the ground inside was open" },
+    { "age": "age5", "year": 955, "low": 500, "high": 1400, "best": 850, "source": "our reckoning (?): the charters of 952, 956 and 960 give Magdeburg the king's own property here: a court, two farmsteads and some thirty dwellings, and call the place urbs or civitas [RDMZ]. Thirty dwellings are 180 people on the king's ground alone, beside the bishop's and Saint-Bertin's" },
+    { "age": "age6", "year": 991, "low": 700, "high": 2000, "best": 1200, "source": "our guess: a mint from about 990; about 1000 Tiel and Deventer are the chief mints of these lands (Jaarboek voor Munt- en Penningkunde 67, 1980) (?)" },
+    { "age": "age7", "year": 1042, "low": 1000, "high": 2800, "best": 1800, "source": "our guess: Bernold's basilica of about 1040 with a chapter of twenty canons; quays faced with old barges in 990 and 1035 [MaSS; Canon-Kerk] (?)" },
+    { "age": "age7", "year": 1066, "low": 1200, "high": 3200, "best": 2000, "source": "our guess: of some 9,000 coins of 1040 to 1100 found in the Netherlands and East Frisia, 1,639 are Deventer's (nl.wikipedia, Geschiedenis van Deventer) (?)" }
+   ],
+   "household": { "size": 6, "low": 5, "high": 8, "source": "as Dorestad (?)" },
+   "bread": {
+    "by_keel": 0.12, "after_harvest": 9,
+    "eats": ["rye", "barley", "oats", "wheat", "flour"],
+    "source": "our guess: sand ridges with fields round the place and the bishop's head farm at Colmschate [RDMZ]; as it grows into a town more comes down the IJssel by barge (?)"
+   },
+   "makes": [
+    { "good": "eels", "a_year": 60, "season": "Michaelmas to Martinmas, at the weirs", "source": "a fishing settlement [RDMZ]; the weirs at the brook mouth are the places file's" },
+    { "good": "iron_tools", "a_year": 40, "season": "all year", "source": "our guess: Veluwe iron across the river, a forge on the bank (goods_793.json: bar_iron is made in the rhine_delta) (?)" },
+    { "good": "bar_iron", "a_year": 150, "season": "summer, carted from the Veluwe", "source": "Veluwe iron in the finds at Dorestad (dossiers/dorestad.md [N, T5]); that it was shipped from Deventer is our guess (?)" },
+    { "good": "ships_bread", "a_year": 80, "season": "spring, when the host and the boats gather", "source": "our guess (?)" }
+   ],
+   "needs": [
+    { "good": "rye", "a_year": 60, "why": "the share of its bread that comes by barge; ten times that by 1000", "source": "0.7 kg a head a day, 60 kg a sack, by_keel 0.12" },
+    { "good": "oak_timber", "a_year": 40, "why": "three timber revetments on the bank, a palisade on the wall, a church burned three times", "source": "[RDMZ; Canon-Wal; VL]; Ardennes oak in the barges [MaSS]" },
+    { "good": "sea_salt", "a_year": 40, "why": "no salt inland; fish and meat for the road east", "source": "our guess (?)" },
+    { "good": "rhenish_wine", "a_year": 25, "why": "the bishop's table from 857; the Mass", "source": "Rhineland pottery in the 9th-century layers [Canon-Wal] (?)" },
+    { "good": "herring", "a_year": 30, "why": "Lent in a bishop's household", "source": "goods_793.json: the rhine_delta wants herring (?)" }
+   ],
+   "stores": [
+    { "good": "bar_iron", "months": 6, "where": "daventre.smithy", "note": "Carted over from the Veluwe in summer and shipped when the river is high.", "source": "our guess (?)" },
+    { "good": "rhenish_wine", "months": 6, "where": "daventre.bank", "note": "Casks for Westphalia wait here for carts.", "source": "the road to Westphalia and Münsterland crosses here [RDMZ] (?)" }
+   ],
+   "grows": [
+    { "cause": "peace", "by": 0.006, "note": "With the Saxons baptised the road east is a trade road.", "source": "ARF 804" },
+    { "cause": "see", "by": 0.006, "note": "The bishop of Traiectum and his clerks live here, about 857 to 920.", "source": "[W-Gesch; W-Radboud]" },
+    { "cause": "trade_moved_here", "by": 0.015, "note": "What Dorestat loses, Tiel and Daventre gain.", "source": "[RDMZ]; chronicle_793.json 863-dorestad-last" },
+    { "cause": "mint", "by": 0.005, "note": "The king's mint from about 990, the bishop's from 1046.", "source": "[Canon-Munt]" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "burning", "years": [882], "turns": true, "source": "Annales Fuldenses 882 (ed. Kurze, p. 99)" },
+    { "cause": "lord_gone", "years": [920], "turns": false, "note": "Balderik takes the see home to Traiectum.", "source": "[W-Balderik]" }
+   ],
+   "fixed": [
+    { "what": "The see goes home to Traiectum", "from": 918, "to": 925, "text": "The bishop was only ever a guest here. He has his own fort to mend, and Saint Martin is not Saint Lebuin.", "source": "[W-Balderik; W-Gesch]" }
+   ],
+   "help": [
+    {
+     "id": "daventre.help.feed", "by": "sale", "what": "Sell rye here while the bank is hungry.",
+     "when": "flag.st_daventre_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed. In 793 one small boat is two months of the bread that comes here by water; by 1000 it is a week."
+    },
+    {
+     "id": "daventre.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the bishop's man that ships are coming up the IJssel.",
+     "when": "flag.here_word_band and not flag.st_daventre_warned", "cost": "",
+     "effects": ["npc lords_man feeling +10 warned"], "world": ["state daventre warned for 10"],
+     "then": "The barges go up the river and the people over the ford to the Veluwe. In 882 many were killed in the port: warned, a raid takes no captives and half as much."
+    },
+    {
+     "id": "daventre.help.mend", "by": "job", "job": "mend_burned", "what": "Bring oak, iron and tar after the burning.",
+     "when": "flag.st_daventre_burned", "cost": "", "effects": [], "world": [],
+     "then": "The town heals at 25 in 100 that year, and the wall is begun on the ashes."
+    },
+    {
+     "id": "daventre.help.wall", "by": "work", "work": "daventre.work.wall_share", "what": "Pay for your stretch of the earth wall.",
+     "when": "year >= 883 and year <= 889 and standing >= known", "cost": "silver 500",
+     "effects": ["deed gave_alms", "npc bishop feeling +15 wall"], "world": ["work daventre wall_share", "mark daventre +0.08"],
+     "gift": { "defence": 80, "raid_takes_x": 0.5 },
+     "then": "The wall is closed a year sooner. A band must be strong to try the town, and the plot-holders count the house as one of themselves."
+    },
+    {
+     "id": "daventre.help.incomers", "by": "job", "job": "carry_refuge", "what": "Carry families from the lower river to the IJssel bank.",
+     "when": "year >= 834 and year <= 870", "cost": "", "effects": [], "world": [],
+     "then": "As the job carry_refuge says: heads landed here are counted here. A house that brings Dorestat's craftsmen has friends on this bank for a lifetime."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_daventre_hungry >= 1", "goods": ["rye", "barley", "oats"], "units": [4, 40], "premium": [0.4, 0.8], "days": [20, 40] },
+    { "job": "mend_burned", "when": "flag.st_daventre_burned", "goods": ["oak_timber", "bar_iron", "tar"], "units": [6, 20], "premium": [0.3, 0.5], "days": [30, 60] },
+    { "job": "supply_muster", "when": "year <= 804 and month >= 4 and month <= 6", "goods": ["oats", "ships_bread", "salt_pork"], "units": [6, 20], "premium": [0.3, 0.6], "days": [15, 30] },
+    { "job": "carry_letter", "when": "year >= 857 and year <= 920", "goods": [], "units": [1, 1], "premium": [0.2, 0.4], "days": [20, 60] }
+   ],
+   "opens": [
+    {
+     "id": "daventre.open.plots", "what": "plots",
+     "when": "year >= 850 and flag.st_daventre_households >= 30",
+     "opens": ["work:daventre.work.plot", "act:buy_plot@daventre.bank"], "keeps": true,
+     "text": "The bank below the church is being measured out in plots, each with its own timber front to the river.",
+     "source": "the timber revetments on the line of the Polstraat, the oldest 9th-century [RDMZ]"
+    },
+    {
+     "id": "daventre.open.barges", "what": "barges",
+     "when": "flag.st_daventre_households >= 50",
+     "opens": ["ship:river_barge", "act:build_ship@daventre.slip"], "keeps": false,
+     "text": "The men at the slip will build you a flat-bottomed barge of oak, caulked with moss.",
+     "lost_text": "The slip is empty. The barge-wrights have gone down the river.",
+     "source": "Deventer 1 (felled spring 990), 2 and 3: flat-bottomed oak barges, moss caulking, wooden pegs [MaSS]"
+    },
+    {
+     "id": "daventre.open.toll", "what": "toll",
+     "when": "year >= 896 and flag.st_daventre_households >= 80",
+     "opens": ["site:daventre.toll"], "keeps": false,
+     "text": "The king takes toll at Daventre now, and the bishop's people pass it free.",
+     "lost_text": "The king's toll-taker has gone back to Tiel: the bank does not pay his keep.",
+     "source": "Zwentibold's charter of 896 on the toll at Deventer and Tiel (Oorkondenboek Sticht Utrecht I no. 88)"
+    },
+    {
+     "id": "daventre.open.mint", "what": "mint",
+     "when": "year >= 990 and flag.st_daventre_households >= 150",
+     "opens": ["site:daventre.mint", "act:change_coin@daventre.mint"], "keeps": false,
+     "text": "Pennies are struck at Daventre in the king's name. Northmen and Wends take them gladly.",
+     "lost_text": "The moneyers have shut their bench. The king's silver is struck at Tiel.",
+     "source": "the mint from about 990 [Canon-Munt]; ODDO REX and DAVNER/A (Künker)"
+    }
+   ],
+   "endings": [
+    {
+     "id": "first_port", "at": 1066, "real": false, "when": "flag.st_daventre_heads >= 3200 and flag.st_daventre_helped >= 5",
+     "text": "In these years Daventre on the IJssel was a greater port than Tiel. Its wall had been closed before the Northmen came, and the sons of the men of Dorestat sat on its bank and struck more pennies than any town between the Rhine and the Elbe.",
+     "world": [], "effects": ["flag st_end_daventre_first_port"],
+     "picture": "A long timbered river front crowded with barges under a high earth wall with a palisade; a stone basilica rising behind; carts crossing a ford."
+    },
+    {
+     "id": "church_on_the_dune", "at": 1066, "real": false, "when": "flag.st_daventre_heads < 700",
+     "text": "The port that was burned in the year of the great fleet did not come back to what it had been. Saint Lebuin's church stood on its dune with fishers' houses round it, and the Saxon road was grass.",
+     "world": [], "effects": ["flag st_end_daventre_church_on_the_dune"],
+     "picture": "A church on a river dune with a dozen thatched houses; eel weirs in a brook mouth; an overgrown earth bank."
+    },
+    {
+     "id": "bishops_port", "at": 1066, "real": true, "when": "true",
+     "text": "This year Daventre was the bishop of Traiectum's town, by King Henry's gift of twenty years before, with its toll, its mint and its court. Bernold's church stood over Saint Lebuin, and pennies of Daventre were weighed in the markets of the Northmen and the Rus.",
+     "world": [], "effects": ["flag st_end_daventre_bishops_port"],
+     "picture": "A stone basilica with a westwork above an earth wall and a busy river bank; barges unloading casks; a moneyer's bench under an awning."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/daventre.md and its references: Rijksdienst voor de Monumentenzorg, Toelichting beschermd stadsgezicht Deventer (1986) [RDMZ]; Canon van Deventer (windows verdedigingswal, deventer-munt, lebuinuskerk); Rijksdienst voor het Cultureel Erfgoed, Deventer 1 to 3 [MaSS]; Guérard, Cartulaire de l'abbaye de Saint-Bertin (1840), p. 124-125",
+    "Annales Fuldenses 882; https://nl.wikipedia.org/wiki/Geschiedenis_van_Deventer (read 7 Oct 2026: it gives no head-count before 1200)"
+   ]
+  },
+  {
+   "port": "noviomagus",
+   "region": "rhine_delta",
+   "people": [
+    { "age": "age1", "year": 793, "low": 200, "high": 600, "best": 350, "source": "our judgement (?), set against one scholar's figure for an earlier time: from its graves the place is put at 450 to 650 people in the 5th and 6th centuries, and about 1,200 a century before (nl.wikipedia, Geschiedenis van Nijmegen); the great grave fields close about 700. In 793 it is 'a small settlement on the bank below' a king's house that may not be finished (dossier [Canon; VP])", "note": "This is the bank and the palace's own keepers. When the court comes there are a few hundred more for some weeks, and they are not counted." },
+    { "age": "age1", "year": 808, "low": 250, "high": 700, "best": 420, "source": "our guess: the palace is thought finished about 804; Charles keeps Lent and Easter here in 806 and 808 (ARF) (?)" },
+    { "age": "age2", "year": 834, "low": 250, "high": 700, "best": 420, "source": "our guess: Louis the Pious is here seven times, 817 to 838 (ARF; AB) (?)" },
+    { "age": "age3", "year": 879, "low": 220, "high": 650, "best": 380, "source": "our guess: the settlement of the 9th and 10th centuries lies west of the hill, by the river (dossier [GN]) (?)" },
+    { "age": "age3", "year": 882, "low": 100, "high": 400, "best": 220, "source": "our guess: a Northmen's fleet winters in the palace, 880 to 881, is besieged, and burns palace and works on leaving (AF 880; Regino 881); burn traces at the eastern Waalkade are put to it, not certainly (?)" },
+    { "age": "age4", "year": 900, "low": 120, "high": 450, "best": 260, "source": "our guess: Charles the Simple is here in 898 (Regino) (?)" },
+    { "age": "age5", "year": 955, "low": 200, "high": 600, "best": 350, "source": "our guess: Otto I's assembly of 949 (?)" },
+    { "age": "age6", "year": 991, "low": 250, "high": 800, "best": 480, "source": "our guess: Otto III is here six times, 985 to 997; the empress Theophanu dies here on 15 June 991 (Thietmar) (?)" },
+    { "age": "age7", "year": 1042, "low": 350, "high": 1000, "best": 620, "source": "our guess: the eight-sided chapel of about 1030; Conrad II and Henry III keep courts and a wedding here, 1031 to 1044; on the river Tiel leads and Nijmegen follows (dossier [VP; VvG]) (?)" },
+    { "age": "age7", "year": 1048, "low": 250, "high": 800, "best": 450, "source": "our guess: the palace burned in 1047 in Godfrey the Bearded's rising (dossier [VP; DV]) (?)" },
+    { "age": "age7", "year": 1066, "low": 280, "high": 850, "best": 500, "source": "our guess: the palace lies unmended until 1155 (?)" }
+   ],
+   "household": { "size": 6, "low": 5, "high": 8, "source": "as Dorestad (?)" },
+   "bread": {
+    "by_keel": 0.15, "after_harvest": 9,
+    "eats": ["rye", "wheat", "barley", "oats", "flour"],
+    "source": "our guess: the king's farms of the later Realm of Nijmegen and the Betuwe across the ferry feed the court and the bank (dossier [Canon; Ket]); a court of hundreds eats more than they send (?)"
+   },
+   "makes": [
+    { "good": "ships_bread", "a_year": 100, "season": "Lent and Easter, when the court's boats are provisioned", "source": "our guess: the king's barns (?)" },
+    { "good": "salmon", "a_year": 20, "season": "spring run", "source": "fishermen on the bank (dossier [GN]); salmon in the Waal is our guess (?)" },
+    { "good": "swords", "a_year": 6, "season": "all year, while a court smith is kept", "source": "goods_793.json: swords are made in the rhine_delta; an ADALFRIID blade said to come from the Waal (dossier [VP]) (?)" }
+   ],
+   "needs": [
+    { "good": "rye", "a_year": 220, "why": "the share of its bread that comes by boat, and three times that in a court year", "source": "0.7 kg a head a day, 60 kg a sack, by_keel 0.15" },
+    { "good": "rhenish_wine", "a_year": 120, "why": "a court of hundreds in Lent and at Easter", "source": "Charles came by ship down Moselle and Rhine in 806 (ARF); the amount is our guess (?)" },
+    { "good": "herring", "a_year": 60, "why": "the king keeps Lent here: forty days of fish", "source": "ARF 806, 808" },
+    { "good": "wax", "a_year": 30, "why": "the palace chapel and the hall", "source": "our guess (?)" },
+    { "good": "oak_timber", "a_year": 30, "why": "the palace works, and after 881 and 1047 the mending", "source": "Gerward in charge of the palace works about 828 (Einhard, Translatio); AF 880" },
+    { "good": "cattle", "a_year": 60, "why": "meat for the court after Easter", "source": "goods_793.json: the rhine_delta wants cattle (?)" }
+   ],
+   "stores": [
+    { "good": "rhenish_wine", "months": 6, "where": "noviomagus.cellar", "note": "Laid in before Lent, in case the king comes.", "source": "our guess (?)" },
+    { "good": "oats", "months": 8, "where": "noviomagus.cellar", "note": "For the court's horses: the barns are kept full whether he comes or not.", "source": "our guess (?)" }
+   ],
+   "grows": [
+    { "cause": "court", "by": 0.012, "note": "A year the king keeps Easter here is a year of building, buying and newcomers.", "source": "ARF 806, 808, 817 to 827; AB 830 to 838" },
+    { "cause": "calls", "by": 0.004, "note": "After Dorestat the Waal is the trade's road: Tiel leads, Noviomagus follows.", "source": "dossier [VvG]" },
+    { "cause": "works", "by": 0.002, "note": "Each town work standing, to five.", "source": "living_world.md 1" }
+   ],
+   "fails": [
+    { "cause": "burning", "years": [881], "turns": true, "note": "The Northmen burn palace and works on leaving. The bank below can be warned and mended; the palace cannot be saved by a merchant.", "source": "AF 880; Regino 881" },
+    { "cause": "siege", "years": [880, 881], "turns": false, "note": "It is the Northmen who are besieged, in the king's own house, in a hard winter.", "source": "AF 880; Regino 881" },
+    { "cause": "lord_gone", "years": [840, 948], "turns": false, "note": "After Louis the Pious the kings come seldom, and a palace without a court is a cold house.", "source": "the visits listed in the dossier, section 3" },
+    { "cause": "burning", "years": [1047], "turns": false, "source": "dossier [VP; DV]" }
+   ],
+   "fixed": [
+    { "what": "The king comes when he chooses", "from": 793, "to": 1066, "text": "He was here two Lents running and then not for nine years. You cannot buy a court with wine. You can only have the wine here when it comes.", "source": "ARF 806, 808, 817" },
+    { "what": "The palace burns in 1047", "from": 1047, "to": 1066, "text": "The duke's men burned the king's house to spite the king. It will stand roofless till another emperor wants it.", "source": "dossier [VP; DV]: rebuilt only in 1155" }
+   ],
+   "help": [
+    {
+     "id": "noviomagus.help.feed", "by": "sale", "what": "Sell grain here while the bank is hungry.",
+     "when": "flag.st_noviomagus_hungry >= 1", "cost": "", "effects": [], "world": [],
+     "then": "The store rises by what is landed. The king's price for grain was made in this house in Lent 806: in a famine year sell at it or under it, and be seen to."
+    },
+    {
+     "id": "noviomagus.help.poor_table", "by": "work", "work": "noviomagus.work.poor_table", "what": "Keep a table for the poor in Lent.",
+     "when": "month >= 2 and month <= 4", "cost": "silver 240",
+     "effects": ["deed gave_alms", "npc priest feeling +15 poor_table"], "world": ["store noviomagus +1", "mark noviomagus +0.03"],
+     "then": "Each lord is to feed his own poor, says the law made here. You feed the ones with no lord, and the priest speaks for you."
+    },
+    {
+     "id": "noviomagus.help.bell", "by": "work", "work": "noviomagus.work.bell", "what": "Give a bell to the church by the palace.",
+     "when": "standing >= known", "cost": "silver 420",
+     "effects": ["deed gave_alms", "npc priest feeling +20 bell"], "world": ["work noviomagus bell", "mark noviomagus +0.04"],
+     "gift": { "warning_days": 1 },
+     "then": "The bank is warned of ships on the Waal in time to climb the hill. Your dead are named here every year."
+    },
+    {
+     "id": "noviomagus.help.warn", "by": "card", "card": "harbour.town.warn_reeve", "what": "Tell the keeper of the king's house that a fleet is in the Waal.",
+     "when": "flag.here_word_band and not flag.st_noviomagus_warned", "cost": "",
+     "effects": ["npc steward feeling +10 warned"], "world": ["state noviomagus warned for 10"],
+     "then": "The people of the bank go over the ferry into the Betuwe with their beasts. A raid within ten days takes no captives and half as much."
+    },
+    {
+     "id": "noviomagus.help.mend", "by": "job", "job": "mend_burned", "what": "Bring oak, iron and tar after a burning.",
+     "when": "flag.st_noviomagus_burned", "cost": "", "effects": [], "world": [],
+     "then": "The bank heals at 25 in 100 that year. The palace waits for a king."
+    },
+    {
+     "id": "noviomagus.help.ransom", "by": "job", "job": "ransom_captives", "what": "Carry silver for a captive held by the Northmen, and bring him back.",
+     "when": "flag.st_noviomagus_war or (hold.captives > 0 and flag.st_noviomagus_heads < 350)", "cost": "", "effects": [], "world": [],
+     "then": "As the job ransom_captives says. In 881 a count's son taken here was bought back by his mother at a great price: kin pay well."
+    }
+   ],
+   "asks": [
+    { "job": "feed_hungry", "when": "flag.st_noviomagus_hungry >= 1", "goods": ["rye", "wheat", "barley"], "units": [8, 40], "premium": [0.4, 0.8], "days": [20, 40] },
+    { "job": "supply_muster", "when": "month >= 2 and month <= 4 and (year <= 840 or year >= 985)", "goods": ["rhenish_wine", "herring", "wax", "oats"], "units": [6, 30], "premium": [0.3, 0.6], "days": [15, 40] },
+    { "job": "mend_burned", "when": "flag.st_noviomagus_burned", "goods": ["oak_timber", "bar_iron", "lead"], "units": [6, 20], "premium": [0.3, 0.5], "days": [30, 60] },
+    { "job": "ransom_captives", "when": "flag.st_noviomagus_war", "goods": [], "units": [1, 4], "premium": [0.4, 0.8], "days": [40, 100] },
+    { "job": "carry_envoy", "when": "flag.st_noviomagus_war or year = 837 or year = 870", "goods": [], "units": [1, 1], "premium": [0.3, 0.6], "days": [15, 40] }
+   ],
+   "opens": [
+    {
+     "id": "noviomagus.open.barge_bank", "what": "barge_bank",
+     "when": "flag.st_noviomagus_households >= 60",
+     "opens": ["ship:river_barge", "act:build_ship@noviomagus.barge_bank"], "keeps": false,
+     "text": "The wrights on the barge bank have work enough to keep a slip: they will build to order.",
+     "lost_text": "The barge bank is mud and old ribs. Go to Tiel for a hull.",
+     "source": "our guess: Charles orders ships built on the rivers in 810 (ARF); a harbour at the hill's foot since Roman times (dossier [DV]) (?)"
+    },
+    {
+     "id": "noviomagus.open.court_market", "what": "court_market",
+     "when": "flag.st_noviomagus_households >= 80",
+     "opens": ["job:supply_muster", "act:audience@noviomagus.palace"], "keeps": false,
+     "text": "The bank below the wall is big enough now that the king's steward buys from it first, and knows the sellers by name.",
+     "lost_text": "The steward sends to Tiel for what the court needs. Nobody here has it.",
+     "source": "the 'palace market' among the headings of the capitulary of April 808 (dossier [Cap808])"
+    },
+    {
+     "id": "noviomagus.open.chapel", "what": "chapel",
+     "when": "year >= 1030 and year <= 1046 and flag.st_noviomagus_households >= 90",
+     "opens": ["work:noviomagus.work.chapel_stone"], "keeps": true,
+     "text": "The emperor is building an eight-sided chapel in the palace, after the one at Aachen, of tuff and old Roman tile. Stone is wanted.",
+     "source": "the Saint Nicholas chapel, about 1030 to 1040 (dossier [NK; DV])"
+    }
+   ],
+   "endings": [
+    {
+     "id": "town_under_the_hill", "at": 1066, "real": false, "when": "flag.st_noviomagus_heads >= 1200 and flag.st_noviomagus_helped >= 4",
+     "text": "The king's house at Noviomagus lay burned, but the town under the hill did not need it. It had its own bell, its own barge-wrights and a market that the men of Tiel came up the Waal to.",
+     "world": [], "effects": ["flag st_end_noviomagus_town_under_the_hill"],
+     "picture": "A busy river bank of timber houses and barges below a hill; on the hill a roofless stone hall and a small eight-sided chapel."
+    },
+    {
+     "id": "ruin_on_the_hill", "at": 1066, "real": false, "when": "flag.st_noviomagus_heads < 250",
+     "text": "Nobody kept the king's house after the fire. A ferryman and some fishers lived under the old wall, and travellers asked them whose great hall that had been.",
+     "world": [], "effects": ["flag st_end_noviomagus_ruin_on_the_hill"],
+     "picture": "A ferry and three huts under a high tuff wall; above, broken walls against the sky; crows."
+    },
+    {
+     "id": "kings_house_burned", "at": 1066, "real": true, "when": "true",
+     "text": "The palace at Noviomagus, which Charles built and the Northmen burned and the Ottos mended, was burned again in Duke Godfrey's rising and lay so in this year. The bank below it lived by the ferry and the river, and waited for an emperor.",
+     "world": [], "effects": ["flag st_end_noviomagus_kings_house_burned"],
+     "picture": "A fire-blackened stone palace and a small standing chapel on a hill above the Waal; a quiet landing below with two barges."
+    }
+   ],
+   "sources": [
+    "Design/content/dossiers/noviomagus.md and its references: Annales regni Francorum 777 to 827; Annales Bertiniani 830 to 870; Annales Fuldenses 880; Regino of Prüm 881, 885; Thietmar of Merseburg; the capitularies of Nijmegen, March 806 and April 808; https://nl.wikipedia.org/wiki/Valkhofpalts",
+    "https://nl.wikipedia.org/wiki/Geschiedenis_van_Nijmegen (read 7 Oct 2026): 'vooral op basis van de grafvondsten is het inwonertal in deze tijd geschat op 450 à 650', a century earlier about 1,200; more than 2,000 graves found, from the fourth century to about 700"
+   ]
+  }
+ ],
+ "sources": [
+  "as under each settlement",
+  "Design/living_world.md section 1; Design/content/SCHEMAS.md section 1",
+  "Assets/Kapman/Game/Data/ports_793.json, goods_793.json, chronicle_793.json, voyage_rules.json, story/works_793.json, story/ages_793.json, places/<port>.json (site and work ids)",
+  "https://nl.wikipedia.org/wiki/Dorestad and https://nl.wikipedia.org/wiki/Geschiedenis_van_Nijmegen (read 7 Oct 2026) for the scholars' figures quoted"
+ ],
+ "needs": [
+  "The file name and its ten ports follow the places files' region 'rhine_frisia'; ports_793.json has no such trade region (its regions here are rhine_delta, zeeland and frisia). Each settlement carries its own 'region', and the loader should read ports from every file in the folder rather than expect one file a trade region.",
+  "Cards harbour.town.warn_reeve and harbour.town.bring_home (named in SCHEMAS.md's worked example) are used by every port here and are not written yet. In Frankish ports the man warned is not a reeve: the effects here use lords_man, tollman, priest, steward, chief or merchant.",
+  "The work dorestad.work.wall_share (a stretch of ditch and bank, 500 d, from 834): the hinge dorestad_863 and the help row dorestad.help.wall need it, and places/dorestad.json does not have it.",
+  "A town work kind 'granary' in story/works_793.json (a common store of grain): the table has the house's storehouse only, so no port here could be given the granary help of living_world.md 1.",
+  "Town work kinds for a raised mound and a sea dike in story/works_793.json ('terp' there is a house work): wijnaldum.work.sod_layer, emuthon.work.sods and doccinga.work.dike give a town gift (carry_store) here but have no kind for 'work <port> <kind>', so those rows set no unlock_work flag.",
+  "The jobs feed_hungry, mend_burned, ransom_captives, carry_refuge, carry_letter, carry_envoy, supply_muster, find_out_port and find_out_fleet in story/storyteller_793.json: the file does not exist yet. For carry and find_out jobs the 'premium' in a town's asks is meant as a share over the job's pay_d.",
+  "A hinge for Traiectum in 1006/1007 (SCHEMAS.md names it utrecht_1006) and place hinges for Witla 836, Walichrum 837 and Daventre 882: each 'fails' row marked turns: true has a help row here, but only Dorestad has a hinge. The endings here test heads and helped only, so they work without those hinges.",
+  "The line of Dorestad has a row at 862 (best 900) so that the hinge's test 'st_dorestad_heads >= 1200' can be reached with a mark of about +0.35; on the worked example's line (1,200 in 850 falling straight to 400 in 864) it could not be reached at all.",
+  "ports_793.json: Wijnaldum's kind 'royal seat', its end year 850 and Walichrum's end year 850 do not fit the evidence (dossiers, section 8): both places are lived on, as farms, long after. The lines here go on past 850 and the endings are told at 850 because the table says so.",
+  "A chronicle entry for the burning of Deventer in late 882 (Annales Fuldenses 882) and for the Northmen wintering in the palace at Nijmegen, 880 to 881 (AF 880; Regino 881): the 'fails' rows here name those years and chronicle_793.json has neither."
+
+ ]
+}

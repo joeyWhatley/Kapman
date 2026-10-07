@@ -1,0 +1,522 @@
+{
+ "about": "THE SELF (Design/fate_faith_and_self.md sections 1, 2 and 6a): the three picks before the first morning, people, faith and past, and the five stats, as data. Written 7 Oct 2026; every dated fact was checked against Design/content (realms, peoples, lore, dossiers, spine.json), chronicle_793.json and, where named, the web; Design/content/fate_notes.md lists what was changed and why. Conditions are in the encounter engine's language (Code/Core/Encounters/Cond.cs) with the new variables under 'variables'; effects are its verbs (Effects.cs). Port and person ids are those of ports_793.json, Design/content/spine.json (cast.*) and Data/places/<port>.json. 'invented' true means the thing is the game's and rests on the source only as far as the source line says. (?) marks what could not be checked; LATER marks a source written long after the thing it tells. The first release is one life, 793 to about 805, on twelve ports (GAME_MAKER.md stages 1 and 2): dorestad, traiectum, walichrum, lundenwic, witla, medemelacha, doccinga, daventre, quentovic, sarre, fordwic, ripa. So four peoples can start (frisian, frankish, english, danish), and the user has still to rule whether the prime-signed and the Jewish merchant are offered (fate, section 7.1). A draft for the user to overwrite.",
+ "variables": {
+  "me.tongue": "number 1 to 5: talking a thing through",
+  "me.name": "number 1 to 5: how you look and who stands behind you",
+  "me.nerve": "number 1 to 5: holding firm",
+  "me.lore": "number 1 to 5: what you have read, heard and can quote",
+  "me.troth": "number 1 to 5: how well you keep the way of your own faith",
+  "me.people": "text: frisian, frankish, english, danish, norse, svea, wendish, irish (the ids of npc_roles_793.json and MapPalette.cs)",
+  "me.faith": "text: christian, christian_irish, old_gods, prime_signed, slavic_gods, jewish, muslim, christian_greek",
+  "me.past": "text: steersmans_child, minster_schooled, freed_thrall, toll_clerk, hall_child, boat_widow, captive_home, foundling",
+  "in_a_chance": "A check is a chance object with \"by\": \"me.tongue\" (or another of the five). The engine's rule already fits pips: odds = chance + 0.05 x (stat - 3), kept within 0.05 and 0.95, shown as sure, likely or doubtful (knowing_793.json). The other person's resistance is written into 'chance': 0.75 against one who resists that stat little, 0.55 middling, 0.35 against one who resists it hard.",
+  "what_the_engine_lacks": "No verb changes a stat yet. In this file and in hours_793.json a stat change is written beside the effects as \"stats\": {\"name\": 1}; a verb 'me <stat> +n' is the least code that would carry it. Until then the effects lists are valid as they stand."
+ },
+ "start": {
+  "every_stat": 1,
+  "troth": 3,
+  "note": "Each stat begins at 1 and Troth at 3 (you begin in good standing with your own faith, and can lose it). The past adds its tilt. A stat rises by use, never by spending points.",
+  "source": "Design/fate_faith_and_self.md section 2"
+ },
+ "peoples": [
+  {
+   "id": "frisian", "name": "Frisian", "home": "dorestad", "in_first_release": true,
+   "palette": {"name": "Tide", "byzantium": "the sea", "colours": ["#3b1540", "#702963", "#a8619b", "#e6c9a8", "#7d8442", "#b3b56a", "#4a5a2c", "#f1e8d6"]},
+   "first_tongue": "old_frisian",
+   "half_known": {"old_english": 0.5, "old_frankish": 0.5, "old_saxon": 0.5},
+   "usual_faiths": ["christian", "old_gods", "prime_signed"],
+   "greeted": [
+    {"where": "port.people = frisian", "how": "As one of their own: the toll man knows your father's name and asks after the boat.", "standing": 10},
+    {"where": "port.realm = franks and port.people != frisian", "how": "As the usual thing: on the Rhine and the Channel a Frisian is a trader until he shows otherwise. Nobody is surprised and nobody is kind.", "standing": 0},
+    {"where": "port.people = english", "how": "Known and watched. Frisians have sold on the Thames for a hundred years, and until 796 the king's quarrel with Charles lies on every cargo from the Frankish side.", "standing": -5},
+    {"where": "port.people = danish", "how": "Welcome for the cloth, the wine and the quernstones, and for nothing else. No one asks your faith; no one will bury you by it.", "standing": 0},
+    {"where": "port.kind = monastery", "how": "As a tenant's son: the church of Dorestat is Saint Martin's of Traiectum's, and a letter from one house opens the next.", "standing": 5}
+   ],
+   "hard": "Nothing more than the count's day: this is the plain start, and the others are measured against it. The year itself is hard: the harvest of 792 failed, grain is dear on every quay, and the English shore is half shut until 796.",
+   "debt": {"sum_d": 1920, "reckoned_as": "eight pounds of the king's pennies, by tale", "to": "cast.folcbert", "to_office": "the count over the Dorestat district (the office is real, the man invented)", "due": "Michaelmas, 29 September 793", "why": "The boat was bought on the count's silver."},
+   "first_chain": "house_debt",
+   "sources": ["Design/DECISIONS.md no. 10; trade_rules.json (1,920 d, creditor.count: ruling 30 of 7 Oct 2026; it was 480 d)", "Bede, Historia ecclesiastica IV.22 (a Frisian buys a captive in London, 679)", "Altfrid, Vita Liudgeri I.11-12 (Frisian merchants at York, about 773)", "Annales Fuldenses 886 (the Frisians' quarter at Mainz); Ermoldus Nigellus, In honorem Hludowici (about 826: Frisians buying Rhine wine with dyed cloaks) (?)", "Design/content/peoples/frisian.md; Code/Game/Map/MapPalette.cs"]
+  },
+  {
+   "id": "frankish", "name": "Frank", "home": "quentovic", "in_first_release": true,
+   "palette": {"name": "Vineyard", "byzantium": "the family of the whole palette (violet sea, wine woods); the exact #702963 is not among its eight colours", "colours": ["#2b1233", "#5a2970", "#9466ab", "#f0d27a", "#9a4a5a", "#cf9a6a", "#70293f", "#f6efe0"]},
+   "first_tongue": "old_frankish",
+   "half_known": {"romance": 0.75, "old_frisian": 0.5, "old_english": 0.25},
+   "usual_faiths": ["christian", "jewish"],
+   "greeted": [
+    {"where": "port.realm = franks and port.people = frankish", "how": "As the king's own: your oath is taken in his courts without an interpreter.", "standing": 10},
+    {"where": "port.people = frisian", "how": "As the tenth walking in: a Frank on a Frisian quay is taken for a toll man's kin until he pays for the ale.", "standing": -5},
+    {"where": "port.people = english and year < 796", "how": "As the other side of the quarrel. Until the kings write to each other again you land on a reeve's word, and he can take it back.", "standing": -10},
+    {"where": "port.people = english and year >= 796", "how": "Under the king's own promise of protection, which the reeve can quote.", "standing": 5},
+    {"where": "port.people = danish", "how": "As the king's eyes. Coolly at first; after 804, with a man set to watch you.", "standing": -5},
+    {"where": "port.kind = monastery", "how": "As a son of the house: every abbey between the Seine and the Rhine has a yard at Quentovic.", "standing": 10}
+   ],
+   "hard": "The crossing is your living and until 796 the English shore is shut to you by your own king's order. The tenth is taken at your own quay, by the man you owe. Your crews are English and Frisian and talk past you.",
+   "debt": {"sum_d": 1920, "reckoned_as": "eight pounds of pennies of the Quentovic mint", "to": "cast.gervold", "to_office": "the abbot of Saint-Wandrille, who takes the king's tolls at Quentovic (the man and the office are real, the debt invented)", "due": "Michaelmas, 29 September 793", "why": "The boat was fitted out from the abbey's store on the bank."},
+   "first_chain": "black_stones",
+   "sources": ["Gesta abbatum Fontanellensium c. 12 (Gervold procurator 'for many years', chiefly at Quentovic; the ban on English merchants)", "Alcuin, letter 100 (Charles to Offa, 796: each king's merchants protected in the other's realm)", "Council of Tours 813 c. 17 (sermons to be put into the Roman country speech or the German: two tongues in one realm)", "Design/content/dossiers/quentovic.md; Design/content/peoples/frankish.md"]
+  },
+  {
+   "id": "english", "name": "English", "home": "lundenwic", "in_first_release": true,
+   "palette": {"name": "Minster", "byzantium": "the sea", "colours": ["#2e1233", "#702963", "#a070a6", "#ece5cc", "#5f8a5c", "#9fbf7a", "#297036", "#dfe8e0"]},
+   "first_tongue": "old_english",
+   "half_known": {"old_frisian": 0.5, "old_saxon": 0.5, "old_frankish": 0.25},
+   "usual_faiths": ["christian"],
+   "greeted": [
+    {"where": "port.realm = mercia", "how": "As the king's man in the king's wic: your buying is witnessed by the wic-reeve and holds in law.", "standing": 10},
+    {"where": "port.realm = kent", "how": "As a Mercian, which in Kent is not a kind word: after 796 it can shut a door, and after 798 it opens every one, because people are afraid.", "standing": -5},
+    {"where": "port.realm = franks and year < 796", "how": "Turned back or let in by favour: king Charles has forbidden the Gaulish shore to merchants from Britain.", "standing": -15},
+    {"where": "port.realm = franks and year >= 796", "how": "Under the king's protection 'according to the old custom of trading', if you pay the toll and are no false pilgrim.", "standing": 5},
+    {"where": "port.people = frisian", "how": "As near kin in speech: a Frisian and an Englishman can bargain without a third man.", "standing": 5},
+    {"where": "port.people = danish", "how": "After the summer of 793, as someone who has reason to hate them. They watch your hands.", "standing": -5},
+    {"where": "port.kind = monastery", "how": "As a countryman of Boniface and Willibrord: English names are over half the altars of Frisia.", "standing": 10}
+   ],
+   "hard": "The Frankish ports are shut to you until 796. Your king's new heavy penny is not yet trusted abroad. Your town burns in 798 and again in 801, and after July 796 the king who made your port is dead.",
+   "debt": {"sum_d": 1920, "reckoned_as": "sixty-four mancuses, or eight pounds of Offa's new heavy pennies", "to": "cast.wighelm", "to_office": "the king's wic-reeve of Lundenwic (the office is real, the man invented)", "due": "Michaelmas, 29 September 793", "why": "The boat was bought with a loan witnessed at the king's hall in the wic."},
+   "first_chain": "black_stones",
+   "sources": ["Laws of Hlothhere and Eadric c. 16 (buying in Lundenwic before the king's wic-reeve)", "Gesta abbatum Fontanellensium c. 12; Alcuin, letter 100 (796)", "Historia regum 798, 801 (the fires of London)", "chronicle_793.json 793-offa-heavy-penny; the mancus of thirty pence (?)", "Design/content/dossiers/lundenwic.md; Design/content/peoples/english.md"]
+  },
+  {
+   "id": "danish", "name": "Dane", "home": "ripa", "in_first_release": true,
+   "palette": {"name": "Amber", "byzantium": "the woods", "colours": ["#14323a", "#296370", "#73a7ad", "#f3dfa8", "#a07c2c", "#d9a441", "#702963", "#f6efe0"]},
+   "first_tongue": "old_norse",
+   "half_known": {"old_frisian": 0.5, "old_saxon": 0.5},
+   "usual_faiths": ["old_gods", "prime_signed"],
+   "greeted": [
+    {"where": "port.people = danish", "how": "As kin: the host of the plot knows your kindred four fathers back.", "standing": 10},
+    {"where": "port.people = frisian", "how": "As a customer of long standing and a heathen. They sell to you and count the spoons.", "standing": -5},
+    {"where": "port.realm = franks and port.people != frisian", "how": "As a stranger from over the border whose king shelters the king's enemies. From 804, as a spy until proved otherwise.", "standing": -10},
+    {"where": "port.people = english and year < 794", "how": "As a foreign trader, a little strange. Until the news from the holy island comes.", "standing": 0},
+    {"where": "port.people = english and year >= 794", "how": "As one of the men who did it. You are asked to leave your axe in the boat.", "standing": -20},
+    {"where": "port.kind = monastery", "how": "At the gate, not past it, unless you have taken the first signing.", "standing": -15}
+   ],
+   "hard": "Among the twelve ports only Ripa is yours, and it is full only in summer. In every other port your oath is worth nothing in court, no abbey is your host, and you cannot be buried as you would wish. After 8 June 793 your speech frightens people.",
+   "debt": {"sum_d": 1920, "reckoned_as": "eight pounds of silver by weight, cut and weighed, or Ripa's own small pennies", "to": "ripa.hroald", "to_office": "the host of the plot and your partner in the venture (invented)", "due": "when the summer market ends, 12 August 793; and each summer after", "why": "Half the boat is his kindred's: this is a fellowship, not a loan, and he is owed his half of what she earns."},
+   "first_chain": "house_debt",
+   "sources": ["Design/content/dossiers/ripa.md (the plots, the seasonal market, the small pennies struck or used at Ribe)", "ARF 777, 782, 798, 804 (the Danish kings and the Frankish border)", "Anglo-Saxon Chronicle (D, E) 793", "Rimbert, Vita Anskarii c. 24 (the first signing, of the 850s: for 793 a guess (?))", "Design/content/peoples/danish.md"]
+  },
+  {
+   "id": "norse", "name": "Norseman", "home": "ogvaldsnes", "in_first_release": false,
+   "palette": {"name": "Fjord", "byzantium": "the heath", "colours": ["#171a38", "#34407c", "#8494c6", "#cbbccb", "#702963", "#5fa08a", "#1f4a44", "#f4f1fa"]},
+   "first_tongue": "old_norse",
+   "half_known": {"finnic": 0.25, "old_english": 0.25},
+   "usual_faiths": ["old_gods", "prime_signed"],
+   "greeted": [
+    {"where": "port.people = norse", "how": "As a man of a known farm on the strait.", "standing": 10},
+    {"where": "port.people = danish or port.people = svea", "how": "As a cousin whose speech is a little rough.", "standing": 5},
+    {"where": "port.faith = christian", "how": "As a raider who has not yet drawn. Every door is counted behind you.", "standing": -20}
+   ],
+   "hard": "You are the people the news is about. The lord you owe is one who also raids, and what he asks of a merchant is to say which houses are rich.",
+   "debt": {"sum_d": 1920, "reckoned_as": "silver by weight, or hides and rope at the lord's price", "to": "cast.thorleif", "to_office": "a chieftain on the Karmsund (invented)", "due": "the start of winter, mid October", "why": "The ship is his and you sail her on shares."},
+   "first_chain": "swords_north",
+   "sources": ["Anglo-Saxon Chronicle 787 (=789): three ships from Hordaland; (D, E) 793", "Design/content/dossiers/ogvaldsnes.md (a king's manor there is saga tradition for about 870 and after: LATER (?))", "Ohthere, in the Old English Orosius (about 890), for the tribute of the Finnas"]
+  },
+  {
+   "id": "svea", "name": "Svea or Gotlander", "home": "birka", "in_first_release": false,
+   "palette": {"name": "Silver", "byzantium": "the heath", "colours": ["#241a2e", "#4a3d5c", "#8f82a3", "#e8e4ee", "#702963", "#a9b08a", "#4f5a4a", "#faf8fc"]},
+   "first_tongue": "old_norse",
+   "half_known": {"finnic": 0.5, "slavic": 0.25, "baltic": 0.25},
+   "usual_faiths": ["old_gods", "prime_signed"],
+   "greeted": [
+    {"where": "port.people = svea or port.people = gute", "how": "As a booth-holder's kin.", "standing": 10},
+    {"where": "port.people = danish", "how": "As a rival for the same silver.", "standing": 0},
+    {"where": "port.faith = christian", "how": "As a far heathen who pays in furs. Dorestat has seen your kind and kept the peace with them.", "standing": -5}
+   ],
+   "hard": "The lake is shut by ice from about December to April, and everything you want is a month away.",
+   "debt": {"sum_d": 1920, "reckoned_as": "silver by weight on a folding scale", "to": "cast.holmfast", "to_office": "a merchant of Birka who stands for your kindred (invented)", "due": "the first ice", "why": "A share in the venture, weighed out before witnesses."},
+   "first_chain": "silver_road",
+   "sources": ["Rimbert, Vita Anskarii c. 27 (men of Birka had been to Dorestat; of about 852)", "Design/content/dossiers/birka.md; Design/content/peoples/svea_gotlandic.md"]
+  },
+  {
+   "id": "wendish", "name": "Wend", "home": "reric", "in_first_release": false,
+   "palette": {"name": "Grove", "byzantium": "the sea", "colours": ["#2e1233", "#702963", "#b06aa0", "#dccba0", "#637029", "#94a23c", "#414c1a", "#efe9d0"]},
+   "first_tongue": "slavic",
+   "half_known": {"old_saxon": 0.5, "old_norse": 0.5},
+   "usual_faiths": ["slavic_gods"],
+   "greeted": [
+    {"where": "port.people = wendish", "how": "As a man of the prince's market.", "standing": 10},
+    {"where": "port.people = danish", "how": "As one who pays their king toll, and is reminded of it.", "standing": -5},
+    {"where": "port.realm = franks", "how": "As an ally's man: the Obodrites fight for king Charles against the Saxons. A heathen all the same.", "standing": 0}
+   ],
+   "hard": "Your market pays its toll to the Danish king. In 808 he destroys it and carries its merchants to his own.",
+   "debt": {"sum_d": 1920, "reckoned_as": "silver by weight, wax or furs", "to": "cast.thrasco", "to_office": "the prince of the Obodrites (Witzan until he is killed in 795, then Thrasco: both real; the debt invented)", "due": "the harvest feast", "why": "The prince's share of what his market earns."},
+   "first_chain": "godfreds_market",
+   "sources": ["ARF 795, 798, 804, 808, 809", "Design/content/dossiers/reric.md; Design/content/peoples/wendish.md"]
+  },
+  {
+   "id": "irish", "name": "Irish", "home": "hi", "in_first_release": false,
+   "palette": {"name": "Vellum", "byzantium": "the high ground", "colours": ["#1f2a44", "#2f5d7a", "#82b3ba", "#f3e7c4", "#c9553a", "#d8c27a", "#3f7029", "#702963"]},
+   "first_tongue": "irish",
+   "half_known": {"old_english": 0.5},
+   "latin": 0.5,
+   "usual_faiths": ["christian_irish"],
+   "greeted": [
+    {"where": "port.people = irish or port.people = gaelic", "how": "As a boat of Colum Cille's house: fed first, questioned after.", "standing": 15},
+    {"where": "port.kind = monastery", "how": "As a brother's servant: the Irish houses reach from the Isles to the Alps.", "standing": 10},
+    {"where": "port.people = english", "how": "As a pilgrim more than a trader, and given a pilgrim's allowance.", "standing": 5},
+    {"where": "port.faith = old_gods", "how": "As a man from the place with the unguarded silver.", "standing": -10}
+   ],
+   "hard": "The boat is the monastery's and so is what she earns. The island is plundered in 795, burned in 802, and in 806 sixty-eight of the community are killed.",
+   "debt": {"sum_d": 0, "reckoned_as": "not silver: a vow of service, and a tenth of every cargo to the island", "to": "cast.bresal", "to_office": "the abbot of Hi (Bresal to 801, Cellach from 802: both real; the vow invented)", "due": "the feast of Colum Cille, 9 June, each year", "why": "You sail for the house."},
+   "first_chain": "book_road",
+   "sources": ["Annals of Ulster 801.4, 802.9, 806.8; Annals of Inisfallen 795.2", "Bede, Historia ecclesiastica III.3 (Irish and English at one board, with a king to interpret)", "Design/content/dossiers/hi.md; Design/content/peoples/irish_gaelic.md"]
+  }
+ ],
+ "faiths": [
+  {
+   "id": "christian", "name": "Christian, of Rome", "counts_as": "christian", "in_first_release": true,
+   "by_calendar": [
+    {"asks": "No loading, selling or carting on a Sunday; no court sits.", "law": "Admonitio generalis 789 c. 81; Lex Frisionum XVIII; Wihtred 9-11; Ine 3. The king forbids Sunday markets in Francia only from 809: before that a Sunday sale is the priest's business, not the count's."},
+    {"asks": "Keep the feasts: no work or market on them.", "law": "Council of Mainz 813 c. 36 (the list, written down eight years after this life); Council of Clofesho 747 c. 13, 17 for the English"},
+    {"asks": "No meat in Lent, on Fridays, on the eves of great feasts or on the Rogation days.", "law": "Capitulatio de partibus Saxoniae c. 4 (death in Saxony for breaking Lent in contempt); Wihtred 14-15 (a fine in Kent); Council of Clofesho 747 c. 16"},
+    {"asks": "A tenth of what you gain to the church.", "law": "Capitulary of Herstal 779 c. 7"},
+    {"asks": "Be shriven at the start of Lent. A blessing before a long crossing is custom, not law.", "law": "Theodulf of Orleans, Capitula I.36 (about 800) (?)"}
+   ],
+   "by_cargo": [
+    {"asks": "Sell no Christian to heathens or out of the realm.", "law": "Council of Estinnes 743 c. 3; Capitulary of Herstal 779 c. 19 (slaves sold only before the bishop or count, never beyond the march); Lex Frisionum XVII.5; Ine 11"},
+    {"asks": "Carry no byrnies or swords out of the realm.", "law": "Capitulary of Herstal 779 c. 20; capitulary for the missi 803 c. 7; Thionville 805 c. 7"},
+    {"asks": "Lend without gain; do not buy a harvest cheap to sell it dear.", "law": "Admonitio generalis 789 c. 5; Capitulary of Nijmegen 806 c. 11-18"},
+    {"asks": "Do not eat horse, and do not sit down to an offering.", "law": "Gregory III to Boniface, about 732 (Boniface, letter 28); the legates' report of 786 c. 19"},
+    {"asks": "Do not buy church treasure from a needy priest.", "law": "Capitulary of Nijmegen 806 c. 4"}
+   ],
+   "opens": [
+    {"what": "Abbeys as hosts and as keepers of silver: a guest is to be received as Christ.", "law": "Rule of Benedict c. 53"},
+    {"what": "Sanctuary: a man who reaches a church has his life.", "law": "Capitulatio de partibus Saxoniae c. 2; Ine 5"},
+    {"what": "An oath on relics that a court will take, with oath-helpers.", "law": "Lex Frisionum I, III, XIV; Wihtred 16-21"},
+    {"what": "Toll-free passage as a true pilgrim.", "law": "Alcuin, letter 100 (Charles to Offa, 796): pilgrims pass free, traders among them pay"},
+    {"what": "A grave in hallowed ground.", "law": "Capitulatio de partibus Saxoniae c. 22"}
+   ],
+   "swears": "On relics, the altar or the Gospel book, with free men of your rank swearing after you that your oath is clean. In Kent a stranger clears himself at the altar; in Lundenwic a purchase is good if the king's wic-reeve saw it.",
+   "swears_law": "Lex Frisionum I, III, XIV (oaths 'in reliquiis sanctorum'); Wihtred 16-21; Hlothhere and Eadric 16",
+   "buries": "Unburned, in the churchyard, with nothing in the grave, as near the saint as silver allows. A man dead at sea is brought to the next churchyard if he will keep, and given to the sea with a prayer if he will not.",
+   "buries_law": "Capitulatio de partibus Saxoniae c. 7 (death for burning a body), c. 22 (the dead to the church's graveyard, not the heathens' mounds)",
+   "safe": "port.faith = christian",
+   "hidden": "false",
+   "hidden_note": "Nowhere among the twelve. At Ripa you are a guest without a church: the first is built there about 860.",
+   "troth_up": ["keeps a Sunday in port when a sale was to be had", "keeps Lent aboard", "gives alms at a feast", "pays the tenth unasked", "keeps a vow made in a storm"],
+   "troth_down": ["sells on a Sunday or a feast", "eats meat in Lent before the crew", "sits down to horse at a heathen board", "sells a Christian to heathens", "leaves a vow unpaid past its day"],
+   "sources": ["MGH Capitularia I nos. 20, 22, 26, 40, 44, 46", "Lex Frisionum (about 802)", "The laws of Wihtred, Ine, Hlothhere and Eadric (Attenborough 1922)", "Rimbert, Vita Anskarii c. 32 (the church at Ribe) (?)", "Design/content/lore/gods_cult.md section 10; law_tolls.md"]
+  },
+  {
+   "id": "christian_irish", "name": "Christian, of the Irish houses", "counts_as": "christian", "in_first_release": false,
+   "by_calendar": [
+    {"asks": "The same feasts and the same Easter as Rome: Iona took the Roman reckoning in 716.", "law": "Bede, Historia ecclesiastica V.22"},
+    {"asks": "Fast every Wednesday and Friday, and keep three Lents in the year.", "law": "the Old Irish day names; the Tallaght documents (9th century) (?)"},
+    {"asks": "From Saturday evening to Monday morning no journey, no buying, no selling.", "law": "Cain Domnaig, the Law of Sunday (8th or 9th century)"}
+   ],
+   "by_cargo": [
+    {"asks": "Carry no women, children or clerics as plunder, and harm none.", "law": "Cain Adomnain, the Law of the Innocents (697)"},
+    {"asks": "A tenth of every cargo to the house you sail for.", "law": "the game's rule for the Irish start"}
+   ],
+   "opens": [
+    {"what": "Every Irish house as a friend, from Iona to Bobbio, and the hermits on the far rocks.", "law": "Dicuil, Liber de mensura orbis terrae VII.11-15 (825); Jonas, Vita Columbani"},
+    {"what": "Exile for God's sake as an honoured road: a boat put to sea without oars, to land where God wills.", "law": "Anglo-Saxon Chronicle 891 (three Irishmen come to king Alfred so)"}
+   ],
+   "swears": "On the relics, bell or staff of the house's saint (?).",
+   "swears_law": "later Irish custom; for the 790s (?)",
+   "buries": "In the saint's own graveyard if the body can be brought there; otherwise where a cross can be set.",
+   "buries_law": "Adomnan, Vita Columbae III (the graves of Hi)",
+   "safe": "port.faith = christian",
+   "hidden": "false",
+   "troth_up": ["keeps the Wednesday fast", "carries a brother or a book for nothing", "lies to over the Sunday"],
+   "troth_down": ["sails or sells between Saturday evening and Monday", "takes a fare from a pilgrim"],
+   "sources": ["Bede, Historia ecclesiastica III.3-5, V.22", "Dicuil VII.11-15", "Design/content/peoples/irish_gaelic.md; saints_calendar.md section 9"]
+  },
+  {
+   "id": "old_gods", "name": "The old gods", "counts_as": "old_gods", "in_first_release": true,
+   "by_calendar": [
+    {"asks": "Offer at the turns of the year: the start of winter, midwinter, the start of summer.", "law": "the fact is of the period (Haraldskvaedi, about 900: Yule is 'drunk'; Thietmar I.17; Adam of Bremen IV.27); the names and days are Snorri's, about 1230: LATER"},
+    {"asks": "Cast the lots before a voyage, and go by them.", "law": "Rimbert, Vita Anskarii c. 18-19, 27, 30"},
+    {"asks": "Honour your dead at their graves.", "law": "Indiculus superstitionum, heads 1-2 (what the priests forbade the newly baptised)"}
+   ],
+   "by_cargo": [
+    {"asks": "Never turn a guest from your fire or your board.", "law": "Adam of Bremen IV.21 (among the Svear it is the worst shame to refuse a traveller); Havamal 2-4 (written about 1270, the verses older: texts_793.json havamal_002 to havamal_004)"},
+    {"asks": "Nothing is forbidden to carry. Horse is eaten at the feasts.", "law": "Gregory III to Boniface, about 732, forbids Christians the horse because the heathen eat it"}
+   ],
+   "opens": [
+    {"what": "Halls and markets in the north, where a Christian is a guest and you are a neighbour.", "law": "Design/content/peoples/danish.md"},
+    {"what": "A crew that trusts your luck, because the lots fell well.", "law": "Rimbert c. 19, 30"}
+   ],
+   "swears": "On a ring reddened or held, before witnesses. The Danes swore so to king Alfred in 876, 'on the holy ring, which they would not do before for any people'.",
+   "swears_law": "Anglo-Saxon Chronicle 876",
+   "buries": "Burned on a pyre or laid in a mound with goods for the road; a great one in a ship. No priest is needed, only kin.",
+   "buries_law": "the graves of Ribe and the ship in the mound at Oseberg (834); forbidden to the king's subjects by Capitulatio de partibus Saxoniae c. 7, 22",
+   "safe": "port.faith = old_gods",
+   "hidden": "port.faith = christian and me.people != danish and me.people != norse and me.people != svea",
+   "hidden_note": "The law is not what the fate page said. There is no ban 'since 785 south of the Eider' on everyone. The first Saxon capitulary (about 782 to 785, softened in 797) makes it death for a Saxon to refuse baptism, to burn his dead or to offer a man, and a fine to make vows at springs, trees and groves; Frisians live under the priests' lists and their own law. So a Frisian, Saxon or Frank who keeps the old gods is the king's subject breaking the king's law and must hide it. A Dane is a foreign heathen: he may trade in a Frankish or English port, but he may not offer in sight of it, his oath counts for nothing and no churchyard will have him.",
+   "troth_up": ["makes the offering at the turn of the year", "goes by the lots when they fall ill", "feeds a guest in a lean week", "sets a stone or a mound for a dead crewman"],
+   "troth_down": ["lets a priest sign him to please a buyer", "sails against the lots", "turns a guest away", "leaves a dead man to the Christians' ground against his wish"],
+   "sources": ["Capitulatio de partibus Saxoniae c. 4, 7, 8, 9, 21 (MGH Capit. I no. 26); Capitulare Saxonicum of 28 October 797 (no. 27)", "Karlmann's capitulary of 742 c. 5; Admonitio generalis 789 c. 65", "Lex Frisionum, Additio sapientum XI (the robber of a shrine given to the sea)", "Indiculus superstitionum et paganiarum", "Design/content/lore/gods_cult.md sections 2-9"]
+  },
+  {
+   "id": "prime_signed", "name": "Prime-signed", "counts_as": "old_gods", "in_first_release": true,
+   "by_calendar": [
+    {"asks": "You have taken the sign of the cross as a learner, not baptism. In a Christian port you keep Sunday and stand in the church porch; you leave before the mystery.", "law": "Rimbert, Vita Anskarii c. 24 (at Sliaswich, of the 850s: many took the sign of the cross to become learners, so that they might enter the church, and put off baptism to the end of life); the rite is the old first step of baptism"},
+    {"asks": "At home you still pour at the turns of the year.", "law": "Egils saga c. 50 (about 1230: 'a common custom among merchants and those who took service with Christians': LATER)"}
+   ],
+   "by_cargo": [
+    {"asks": "Eat with either. Each side notices what you leave on the board.", "law": "Egils saga c. 50: LATER"}
+   ],
+   "opens": [
+    {"what": "The porch, the market and the table of Christians, and the halls of the north: both worlds, half trusted by each.", "law": "Rimbert c. 24"},
+    {"what": "Baptism at the last, which washes everything: a card that comes once.", "law": "Rimbert c. 24"}
+   ],
+   "swears": "Neither oath is whole. A Christian court takes your oath only with baptised men to swear after you; a hall takes the ring from you and remembers the cross.",
+   "swears_law": "the game's rule, from Lex Frisionum's oath-helpers and Anglo-Saxon Chronicle 876",
+   "buries": "Not in the churchyard unless you were baptised dying. Kin in the north will mound you if the body reaches them.",
+   "buries_law": "Rimbert c. 24",
+   "safe": "true",
+   "hidden": "false",
+   "hidden_note": "Shown for 793 this is a guess carried back sixty years from Rimbert (?). It is offered to Danes, and to a Frisian only as a man born heathen east of the Lauwers.",
+   "troth_up": ["keeps both calendars in one month", "stands in the porch on a feast and pours at home that winter"],
+   "troth_down": ["every winter that passes without choosing, by a little", "is seen at an offering by a Christian partner", "is seen at mass by the hall"],
+   "sources": ["Rimbert, Vita Anskarii c. 24", "Design/content/lore/gods_cult.md 10.6-10.7; saints_calendar.md section 8"]
+  },
+  {
+   "id": "slavic_gods", "name": "The gods of the Wends", "counts_as": "slavic_gods", "in_first_release": false,
+   "by_calendar": [
+    {"asks": "Offer at the grove and go by the lots and the holy horse.", "law": "Thietmar of Merseburg VI.23-25 (written 1012-1018, of the temple at Riedegost: lots, and a horse led over crossed spears); Helmold I.52, I.84 (about 1170); Saxo XIV (about 1200, Arkona): all LATER. Nothing is written of it in the 790s."}
+   ],
+   "by_cargo": [
+    {"asks": "Nothing is forbidden to carry.", "law": "none known"}
+   ],
+   "opens": [
+    {"what": "The Wendish shore and its lords.", "law": "ARF 798, 804, 808 name the princes and nothing of their gods"}
+   ],
+   "swears": "Unwillingly: an oath is close to a curse. By trees, springs and stones (?).",
+   "swears_law": "Helmold I.84: LATER",
+   "buries": "Burned. Boniface, about 746, holds up the Wends to an English king for the faith of their wives, who will not outlive their husbands.",
+   "buries_law": "Boniface, letter 73 (to Aethelbald of Mercia, 746-747)",
+   "safe": "port.faith = slavic_gods",
+   "hidden": "port.faith = christian",
+   "troth_up": ["offers at the grove before the season"],
+   "troth_down": ["swears lightly"],
+   "sources": ["Design/content/lore/gods_cult.md 1.7, 3.6", "Design/content/peoples/wendish.md"]
+  },
+  {
+   "id": "jewish", "name": "A Jew, a merchant of the palace", "counts_as": "jewish", "in_first_release": true,
+   "by_calendar": [
+    {"asks": "From Friday dusk to Saturday dusk no buying, selling, loading or fire. Do not put to sea in the three days before the Sabbath; once at sea you may sail on.", "law": "Exodus 20:8-11; 35:3; Mishnah Shabbat 7:2; Babylonian Talmud, Shabbat 19a (?)"},
+    {"asks": "Keep Passover, the Day of Atonement and the other appointed days: calendar_793.json gives them for each year.", "law": "Leviticus 23"}
+   ],
+   "by_cargo": [
+    {"asks": "Your own food and your own wine: no pork, no eel, no shellfish, no meat you did not see killed. So your own stores, and a longer lading.", "law": "Leviticus 11; Deuteronomy 14"},
+    {"asks": "Whether you may deal in other men's wine is argued; the masters of the Rhine allow taking it for a debt, two centuries on.", "law": "Talmud, Avodah Zarah; the rulings of Gershom of Mainz and Rashi (about 1000 to 1100): LATER (?)"},
+    {"asks": "You may buy heathen slaves and sell them in the realm. A slave of yours who is baptised is not thereby free; a Christian may not be sold out of the realm by anyone.", "law": "Louis the Pious's letters of protection, about 825 (Formulae imperiales 30, 31, 52): a generation after this life (?)"},
+    {"asks": "Take no church plate in pledge.", "law": "Capitulary of Nijmegen 806 c. 4 (church treasure is not to be sold off to Jewish and other merchants, who boast they can buy what they like)"}
+   ],
+   "opens": [
+    {"what": "A chain of kin and letters from the Rhine to Spain and beyond, who lend on your name alone.", "law": "Ibn Khordadbeh, Book of Roads and Kingdoms (about 847, revised about 885), on the merchants called Radhanites: a lifetime after this one"},
+    {"what": "The king's word. In 797 Charles sends Isaac the Jew to the caliph with two Franks; Isaac alone comes home, in 801 and 802, with the elephant.", "law": "ARF 801, 802"},
+    {"what": "Six tongues in one family: Arabic, Persian, Greek, Frankish, Spanish, Slavic.", "law": "Ibn Khordadbeh"}
+   ],
+   "swears": "By the Law of Moses, in your own form. A Christian court may take it or not as the count pleases; no rule is written yet.",
+   "swears_law": "the 'Capitula de Iudaeis' that go under Charles's name are of doubtful date (?)",
+   "buries": "Among your own, at once, unburned, in ground that is yours. None is known at any of the twelve ports: a dead man of your house must be carried up the Rhine (?).",
+   "buries_law": "custom; no Jewish graveyard is recorded in the north in the 790s (?)",
+   "safe": "port.realm = franks",
+   "hidden": "false",
+   "hidden_note": "Three corrections to the fate page. (1) 'Of the Rhineland' is a guess: Jews are at Cologne in a law of 321 and again in the 11th century, with nothing written between; the Jewish merchants of the 790s that the sources show are men of the court and of the south (Narbonne, Lyon). The start is at Dorestat like the others, as a merchant with a letter to the palace. (2) There is no 'letter of the emperor's protection' before 825, and no emperor before Christmas 800: in the chest is a letter from a palace officer. (3) No Jews are recorded in England before 1066: in an English port you are a stranger with no one to stand for you.",
+   "troth_up": ["lies to over a Sabbath when a tide was to be had", "keeps Passover aboard", "ransoms a captive of your own people"],
+   "troth_down": ["sells on the Sabbath", "eats at a Christian's table to close a bargain", "sails on the Day of Atonement by choice"],
+   "sources": ["Codex Theodosianus 16.8.3 (Cologne, 321)", "ARF 801, 802", "MGH Capit. I no. 46 c. 4", "Formulae imperiales 30, 31, 52; Agobard of Lyon, De insolentia Iudaeorum (about 826-827)", "Design/content/lore/law_tolls.md (lines on the Jewish merchants)"]
+  },
+  {
+   "id": "muslim", "name": "A Muslim of al-Andalus", "counts_as": "muslim", "in_first_release": false,
+   "by_calendar": [
+    {"asks": "Five prayers a day; the fast of Ramadan, which moves back through the seasons by eleven days a year; alms.", "law": "Quran 2:183-185; 2:43"}
+   ],
+   "by_cargo": [
+    {"asks": "No wine in your hold and no pork.", "law": "Quran 5:90; 2:173"}
+   ],
+   "opens": [
+    {"what": "The silver and silk of Cordoba.", "law": "the dirhams in the northern hoards (hoards_793.json)"}
+   ],
+   "swears": "By God, in your own words.",
+   "swears_law": "custom",
+   "buries": "At once, unburned, facing Mecca.",
+   "buries_law": "custom",
+   "safe": "false",
+   "hidden": "false",
+   "hidden_note": "A later start. The embassy of the poet al-Ghazal to the 'king of the Majus' about 845 is told only by Ibn Dihya, who died in 1235, and many hold it a confusion with his embassy to Constantinople: (?) and LATER. A traveller from Tortosa was at Mainz and Hedeby about 965.",
+   "troth_up": ["keeps the fast at sea"],
+   "troth_down": ["carries wine"],
+   "sources": ["Ibn Dihya, al-Mutrib (13th century)", "Ibrahim ibn Yaqub al-Turtushi (about 965)"]
+  },
+  {
+   "id": "christian_greek", "name": "A Greek Christian", "counts_as": "christian", "in_first_release": false,
+   "by_calendar": [
+    {"asks": "The same Easter as the Latins; your own fasts and your own images.", "law": "the council of Nicaea, 787; the Frankish bishops reject it at Frankfurt in June 794, so in Francia a Greek is 'one who bows to pictures'"}
+   ],
+   "by_cargo": [
+    {"asks": "Silk goes out only by the emperor's leave and under his seal.", "law": "the Rus treaties of 911 and 944 in the Primary Chronicle (the 'treaty of 907' is doubted (?))"}
+   ],
+   "opens": [
+    {"what": "Constantinople.", "law": "ARF 798, 802, 803 (the Greek envoys at Aachen and Salz)"}
+   ],
+   "swears": "On the Gospels and the cross.",
+   "swears_law": "the treaty of 944",
+   "buries": "As the Latins do.",
+   "buries_law": "custom",
+   "safe": "port.faith = christian",
+   "hidden": "false",
+   "troth_up": ["keeps the fasts"],
+   "troth_down": ["hides an image to please a Frank"],
+   "sources": ["chronicle_793.json 794-06-frankfurt-synod", "Design/content/realms/rus.md"]
+  }
+ ],
+ "pasts": [
+  {
+   "id": "steersmans_child", "name": "The steersman's child", "invented": true,
+   "tilt": {"nerve": 2, "lore": 2},
+   "gift": {"flag": "me_sea_born", "what": "You read water. A check 'by crew.seamanship_best' counts one pip better while you are aboard."},
+   "tilt_note": "The fate page gave 'Sea 3', but there is no Sea among the five stats. Changed to Nerve 2 and Lore 2 (the marks, the soundings, the old men's talk) and a flag.",
+   "chest": {"thing": "Your father's lead and line", "what": "A lead with a hollow for tallow, to bring up the bottom, on a line knotted at the fathom. The knots are his."},
+   "knows_you": {"person": "cast.gerlef", "place_id": "witla.gerlef", "why": "The pilot at Witla sailed with your father and taught you the bars."},
+   "ghost": {"name": "The wreck he never spoke of", "beats": [
+    {"when": "793-10", "where": "witla", "what": "Gerlef knows the line by its knots and says whose it was before your father's.", "flag": "gh_wreck_1"},
+    {"when": "799", "where": "walichrum", "what": "In the year of the great wrecks a timber comes up on the strand with a mark you know.", "flag": "gh_wreck_2", "real": "Historia regum 799: many ships wrecked with their crews by a violent storm in the British sea"},
+    {"when": "801-01", "where": "lundenwic", "what": "After the Christmas Eve gale an old hand in Tatberht's yard tells what happened that night: who cut the tow, and why. You can ask, or let him keep it.", "flag": "gh_wreck_3", "real": "Historia regum 800: the gale and the sea flood of 24 December 800"}
+   ]},
+   "sources": ["Design/fate_faith_and_self.md section 1", "Design/research_trade_seasons_and_hints.md 4 (the lead and the pole)", "chronicle_793.json 799-british-sea-storm, 800-12-24-christmas-eve-gale"]
+  },
+  {
+   "id": "minster_schooled", "name": "Schooled at the minster, and left", "invented": true,
+   "tilt": {"lore": 3},
+   "gift": {"effects": ["learn latin +0.5"], "what": "Latin letters: you read a charter, a toll list and a psalm."},
+   "chest": {"thing": "A psalter leaf", "what": "One leaf, the psalm of those who go down to the sea in ships and see the works of the Lord in the deep (Psalm 106 in the Latin count)."},
+   "knows_you": {"person": "traiectum.schoolmaster", "place_id": "traiectum.schoolmaster", "why": "The master of the school at Saint Martin's, who still writes to you."},
+   "ghost": {"name": "The vow you did not take", "beats": [
+    {"when": "794-02", "where": "traiectum", "what": "In Lent the master writes that your place in the choir has not been given away.", "flag": "gh_vow_1"},
+    {"when": "797", "where": "traiectum", "what": "The bishop's hall needs a hand that can copy a grant. Yours is known. To write it you must stand a week among the brothers.", "flag": "gh_vow_2"},
+    {"when": "804-07", "where": "traiectum", "what": "Word comes up the Rhine that Alcuin is dead at Tours. The master, old now, asks once more, and says he will not ask again.", "flag": "gh_vow_3", "real": "Alcuin died on 19 May 804 (Annales Petaviani)"}
+   ]},
+   "sources": ["Altfrid, Vita Liudgeri I.9-10 (the school at Utrecht under abbot Gregory, where Liudger learned)", "Psalm 106:23-30 (Vulgate)", "chronicle_793.json 804-05-19-alcuin-dies"]
+  },
+  {
+   "id": "freed_thrall", "name": "A freed thrall", "invented": true,
+   "tilt": {"nerve": 3},
+   "gift": {"effects": ["tongue old_norse = 0.5"], "what": "A second tongue, learned on the bench. For a Dane it is old_frisian. And a line no one else can say to a dealer in people."},
+   "chest": {"thing": "A cut tally", "what": "Half a notched stick: the price that was paid for you."},
+   "knows_you": {"person": "dorestad.priest", "place_id": "dorestad.priest", "why": "The priest of the upper church paid it from the alms, and has the other half.", "also": "cast.asulf, the dealer at Sliesthorp, remembers what you fetched."},
+   "ghost": {"name": "The kin still unfree", "beats": [
+    {"when": "793-07", "where": "ripa", "what": "In the summer market a dealer's man names the farm where your sister was sold.", "flag": "gh_kin_1"},
+    {"when": "798-08", "where": "daventre", "what": "Sixteen hundred hostages are led out of Saxony. One in the line calls you by your childhood name.", "flag": "gh_kin_2", "real": "ARF 798: from Minden the king took 1,600 hostages"},
+    {"when": "804-08", "where": "daventre", "what": "The land beyond the Elbe is emptied of men, women and children. A price is named for your kin, and it is the price on your tally.", "flag": "gh_kin_3", "real": "ARF 804"}
+   ]},
+   "sources": ["Wihtred 8 (a man freed at the altar); the Frankish freeing 'by the penny' before the king (Lex Ribuaria 57 (?))", "chronicle_793.json 798-summer-minden, 804-summer-nordalbingia-emptied", "Design/DECISIONS.md, 7 October, ruling 4 (the slave trade)"]
+  },
+  {
+   "id": "toll_clerk", "name": "The toll-keeper's clerk", "invented": true,
+   "tilt": {"tongue": 3},
+   "gift": {"flag": "me_knows_tolls", "what": "You know every toll between the sea and Colonia by heart: the toll panel shows the due before you land."},
+   "chest": {"thing": "A false weight you kept", "what": "A lead weight a tenth light, from the toll house scale."},
+   "knows_you": {"person": "cast.hartwin", "place_id": "dorestad.hartwin", "why": "The count's steward. You kept his tallies for six years."},
+   "ghost": {"name": "What you saw him take", "beats": [
+    {"when": "794-07", "where": "dorestad", "what": "The new penny and the new public measure come down from Frankfurt, and the old weights are called in to be broken. Yours is asked for.", "flag": "gh_weight_1", "real": "Synod of Frankfurt, June 794, c. 4-5"},
+    {"when": "802-04", "where": "dorestad", "what": "Every free man over twelve swears to the emperor, and the emperor's envoys sit to hear who has been wronged by a count's man. You could speak.", "flag": "gh_weight_2", "real": "Capitulare missorum generale, 802"},
+    {"when": "806-01", "where": "dorestad", "what": "Only the old, just tolls may be taken: new ones are forbidden. Hartwin comes to you with a price for the weight, and then with something other than a price.", "flag": "gh_weight_3", "real": "Capitulary of Thionville, December 805, c. 13"}
+   ]},
+   "sources": ["Admonitio generalis 789 c. 74 (equal and just weights and measures)", "MGH Capit. I no. 28 c. 4-5; no. 33; no. 44 c. 13", "chronicle_793.json 794-06-frankfurt-new-denier, 802-spring-oath-of-802, 805-12-thionville-tolls"]
+  },
+  {
+   "id": "hall_child", "name": "A younger child of a hall", "invented": true,
+   "tilt": {"name": 3},
+   "gift": {"what": "A name that opens a hall door once before anyone asks what you carry."},
+   "chest": {"thing": "A good cloak and a brooch", "what": "A cloak of the long old cut and a gilded brooch: worn, they are a pip of Name on a first meeting."},
+   "knows_you": {"person": "self.brother", "place_id": "", "why": "A brother who has the land. No one in the cast fits: a new person, to be written at the people's home (for a Frisian, a terp in Westergo near the dim port wijnaldum)."},
+   "ghost": {"name": "The feud that goes with the name", "beats": [
+    {"when": "793-10", "where": "doccinga", "what": "East of the Lauwers the churches burn. Your brother gave hostages to the king; the other kindred did not. Both sides ask where you stand.", "flag": "gh_feud_1", "real": "ARF 793; Altfrid, Vita Liudgeri I.22 (the rising of the East Frisians)"},
+    {"when": "797-11", "where": "dorestad", "what": "The king softens the law for the conquered: what was death is now a price. The other kindred offer the price for the man of yours they killed. Taking it ends the feud and says what he was worth.", "flag": "gh_feud_2", "real": "Capitulare Saxonicum, 28 October 797"},
+    {"when": "802-11", "where": "dorestad", "what": "The Frisians' law is written down, the man-price with it. Your brother is dying and sends for you to hold the land.", "flag": "gh_feud_3", "real": "the assembly at Aachen, October 802; Lex Frisionum I"}
+   ]},
+   "sources": ["Lex Frisionum I, XV (the man-prices by rank)", "chronicle_793.json 793-autumn-saxon-revolt, 797-10-28-capitulare-saxonicum, 802-10-aachen-laws-802"]
+  },
+  {
+   "id": "boat_widow", "name": "The widow who kept the boat", "invented": true,
+   "tilt": {"tongue": 2, "nerve": 2},
+   "gift": {"what": "The emperor's envoys are told to see widows righted first: once in the life a count's man must hear you out of turn."},
+   "chest": {"thing": "His ring", "what": "A ring with his mark cut in it, which sealed his bargains. Men who dealt with him know it."},
+   "knows_you": {"person": "cast.thiadbod", "place_id": "dorestad.thiadbod", "why": "His partner, who wants the boat and can buy the debt (flag db_bought)."},
+   "ghost": {"name": "His debts, not all of them written", "beats": [
+    {"when": "793-09-29", "where": "dorestad", "what": "At the Michaelmas reckoning a second tally is laid on the table, one you never saw.", "flag": "gh_debts_1"},
+    {"when": "796-08", "where": "lundenwic", "what": "The kings have written to each other and the Thames is open. A host there holds goods of your husband's on trust. Or says your husband owed him.", "flag": "gh_debts_2", "real": "Alcuin, letter 100 (796)"},
+    {"when": "801", "where": "lundenwic", "what": "A great part of the town burns, and the yard where the last pledge lay with it. Nothing can be proved now, either way.", "flag": "gh_debts_3", "real": "Historia regum 801"}
+   ]},
+   "sources": ["Capitulare missorum generale 802 c. 1, 5 (widows, orphans and strangers under the emperor's protection)", "chronicle_793.json 796-spring-offa-letter, 801-london-fire-801", "Design/content/spine.json thread counts_day"]
+  },
+  {
+   "id": "captive_home", "name": "A captive come home", "invented": true,
+   "tilt": {"nerve": 3},
+   "gift": {"effects": ["tongue old_norse = 0.75"], "what": "A third tongue, learned among those who held you. For a Dane it is slavic or irish, by where he was held."},
+   "chest": {"thing": "An iron ring", "what": "The neck ring you wore, kept. The scar it left is on the portrait."},
+   "knows_you": {"person": "cast.thiadburg", "place_id": "dorestad.thiadburg", "why": "The widow with the storehouse paid your ransom and has never said why."},
+   "ghost": {"name": "Those left behind", "beats": [
+    {"when": "793-06-22", "where": "dorestad", "what": "The news from the holy island comes by ship: boys were carried off. You know where such boys are taken, and by what road.", "flag": "gh_left_1", "real": "8 June 793; Alcuin, letter 20, on the boys led into captivity"},
+    {"when": "795-07", "where": "ripa", "what": "In the summer market, a face from the same bench.", "flag": "gh_left_2"},
+    {"when": "804-08", "where": "ripa", "what": "The king of the Danes has called out every ship. The men who held you are with him. So is the one who shared your chain, and he is not on the bench now.", "flag": "gh_left_3", "real": "ARF 804"}
+   ]},
+   "sources": ["Alcuin, letter 20 (to Higbald, 793)", "iron neck and ankle rings from Hedeby and Birka (finds)", "Design/content/spine.json thread holy_island (flags lf_trail_north, lf_boy_found)"]
+  },
+  {
+   "id": "foundling", "name": "A foundling of the house of God", "invented": true,
+   "tilt": {"lore": 2, "name": 1},
+   "gift": {"flag": "me_church_kin", "what": "The Church for kin: an abbey's guest house takes you in as its own, and its cellarer lends on your word."},
+   "chest": {"thing": "A scrap of cloth", "what": "The cloth you were found in: a strip of fine twill with a woven border."},
+   "knows_you": {"person": "traiectum.cellarer", "place_id": "traiectum.cellarer", "why": "Hadda, who keeps the store at Saint Martin's, took you in at the gate. (The name is a real prior of Utrecht in a poem of Alcuin's; the man here is ours.)"},
+   "ghost": {"name": "Who left you", "beats": [
+    {"when": "793", "where": "lundenwic", "what": "A weaver knows the border: it is made on one estate, and she names it.", "flag": "gh_cloth_1"},
+    {"when": "798", "where": "traiectum", "what": "The same border, on an altar cloth given to Saint Martin's by a great lady who asked that her name not be written.", "flag": "gh_cloth_2"},
+    {"when": "803", "where": "traiectum", "what": "Hadda is failing. He will tell you what the porter saw that night, if you ask. He would rather you did not.", "flag": "gh_cloth_3"}
+   ]},
+   "sources": ["Council of Vaison 442 c. 9-10 (a child left at a church is announced from the altar, and after ten days is the finder's)", "Rule of Benedict c. 59 (children offered to a house)", "Alcuin, Carmen 4 (the prior Hadda at Utrecht)"]
+  }
+ ],
+ "stats": [
+  {
+   "id": "tongue", "var": "me.tongue", "name": "Tongue", "what": "Talking a thing through: the haggle, the plea, the soft answer.",
+   "raises": ["a talk option tagged Tongue succeeds against someone who resisted it (chance 0.55 or less)", "a quarrel between two others is settled by your word", "a toll is talked down before witnesses"],
+   "lowers": [],
+   "limits": "It does not carry into a tongue you cannot speak: with tongue.<name> below 0.5 a Tongue check is made as if two pips lower, and below 0.25 it is not offered unless a crewman speaks for you.",
+   "levels": ["halting", "plain", "ready", "persuasive", "silver"],
+   "source": "Design/fate_faith_and_self.md section 2"
+  },
+  {
+   "id": "name", "var": "me.name", "name": "Name", "what": "How you look and who stands behind you: your cloak, your washed hair, the men who vouch.",
+   "raises": ["a deed is told of you in a port you have not yet reached", "a gift is given well: the right thing, to the right person, before the right witnesses", "a lord receives you at his board", "an hour of history is witnessed (hours_793.json)"],
+   "lowers": ["a broken oath that is known", "a winter ended in debt", "a tale told against you that you did not answer", "being seen to deal in what a port holds shameful"],
+   "for_the_day": "A wash, a comb and a clean shirt before a hall count one pip that day; a week at sea unwashed counts one pip less.",
+   "levels": ["unknown", "known on the quay", "vouched for", "of good name", "named in halls"],
+   "source": "Design/fate_faith_and_self.md section 2; calendar_793.json washing_day"
+  },
+  {
+   "id": "nerve", "var": "me.nerve", "name": "Nerve", "what": "Holding firm: facing a reeve down, not altering course, naming a price and keeping silent.",
+   "raises": ["you hold through a danger at sea without altering course", "a talk option tagged Nerve succeeds against someone who resisted it", "you stand surety for another and it is called"],
+   "lowers": ["you are seen to run from men you could have faced", "you give way twice in one season to the same person"],
+   "levels": ["easily turned", "steady enough", "firm", "hard to move", "unbending"],
+   "source": "Design/fate_faith_and_self.md section 2"
+  },
+  {
+   "id": "lore", "var": "me.lore", "name": "Lore", "what": "What you have read, heard and can quote: law, scripture, verse, the old stories, runes.",
+   "raises": ["you read a text in the chest through (text.<id> becomes true)", "you solve a riddle", "a learned person teaches you", "a Quote is chosen rightly: the right line to the right ear"],
+   "lowers": [],
+   "quote": "A Quote option opens the chest. The right line wins outright; a wrong one is worse than silence (the person's feeling falls and no check is rolled).",
+   "levels": ["unlettered", "has heard things", "well taught", "learned", "deep"],
+   "source": "Design/fate_faith_and_self.md section 2; texts_793.json"
+  },
+  {
+   "id": "troth", "var": "me.troth", "name": "Troth", "what": "How well you keep the way of your own faith.",
+   "raises": ["the things listed under troth_up for your faith, one step for about three kept in a year"],
+   "lowers": ["the things listed under troth_down for your faith, one step for each that is seen, and one for each two that are not"],
+   "what_it_does": "People of your own faith resist you less (their chance is 0.1 better at Troth 4 or 5, 0.1 worse at 1 or 2). The crew's hearts follow it in a storm. A vow costs less to make and more to break.",
+   "levels": ["lapsed", "slack", "observant", "faithful", "devout"],
+   "source": "Design/fate_faith_and_self.md sections 2 and 3"
+  }
+ ],
+ "sources": [
+  "Design/fate_faith_and_self.md (sections 1, 2, 6a); Design/GAME_MAKER.md (stages 1 to 3); Design/DECISIONS.md (7 October)",
+  "Design/content/spine.json (cast, gods_and_faith); Data/places/<port>.json for the people's ids",
+  "Design/content/lore/gods_cult.md, law_tolls.md, saints_calendar.md",
+  "Code/Game/Map/MapPalette.cs (the eight palettes); Code/Core/Encounters/Cond.cs, Effects.cs"
+ ]
+}

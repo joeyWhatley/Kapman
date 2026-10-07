@@ -1,0 +1,524 @@
+{
+ "about": "CHAIN saxon_exiles_804 (Design/content/CHAINS.md; page Design/content/chains/saxon_exiles_804.md; words Data/writing/chain_saxon_exiles_804.json). The last deportation of the Saxon war: in the summer of 804 the emperor moves every Saxon of Wihmodia and beyond the Elbe into Francia with wives and children and gives the land beyond the Elbe to the Obodrites (Annales regni Francorum 804; Einhard, Vita Karoli c. 7). One family of Wihmodia has reached the Ems mouth and wants passage; the count's men watch the rivers; and a people remembers who helped. Fourteen cards, 804 to about 811. The spine's thread saxon_end: its flag sx_carried_fugitive is set here where its meaning is met. Step flags ch_saxon_exiles_804_1 .. _10; state flags _hired, _bread, _kept, _turned_away, _took, _to_priest, _told, _watched, _bought_time, _taken, _hidden, _surety, _spoke, _exodus_plan, _run, _exodus_done, _exodus_half, _redeemed, _letter, _bant; waits are flags that run out (_wait_north, _wait_end, _wait_church, _wait_given). Endings: ch_saxon_exiles_804_end_north (what happened to those who fled: with the hard road, history changed: changed_wihmodia_exodus), ch_saxon_exiles_804_end_given (what happened to most), ch_saxon_exiles_804_end_church, ch_saxon_exiles_804_end_home (history changed: changed_wihmodia_resettled), ch_saxon_exiles_804_end_terp. Every ending also sets ch_saxon_exiles_804_done. Every option's note names its outcome text. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_saxon_exiles_804.s01_column",
+   "note": "Step 1, one of two ways in (drawn at Diusburg, Colonia or Daventre from the summer of 804 to the end of 805). The deported come down to the Rhine on foot under guard and an officer wants hulls. Sources: Annales regni Francorum 804 (all the Saxons beyond the Elbe and in Wihmodia moved into Francia with women and children); Einhard, Vita Karoli c. 7 (ten thousand, settled in many groups through Gaul and Germany); chronicle_793.json 804-summer-nordalbingia-emptied; the spine's hooks for Diusburg and Colonia. That boats were hired for them is the spine's placing (?). The officer is an ordinary invented man, unnamed. Sets ch_saxon_exiles_804_1.",
+   "stage": "harbour",
+   "when": "moored and (port.id = diusburg or port.id = colonia or port.id = daventre) and ((year = 804 and month >= 7) or year = 805) and not flag.ch_saxon_exiles_804_1 and not flag.ch_saxon_exiles_804_2",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "officer": { "role": "commander", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 50], "fixed": false, "note": "an officer of the host with the column; invented, unnamed" },
+    "woman": { "role": "farm_wife", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "f", "age": [30, 45], "fixed": false, "note": "a woman of Wihmodia in the column, sister of Aldburg; invented, unnamed" }
+   },
+   "title_key": "chain_saxon_exiles_804.s01.title",
+   "title": "The people on the bank",
+   "intention_key": "chain_saxon_exiles_804.s01.intention",
+   "intention": "Some hundreds of Saxons sit on the river bank under guard, with their children and what they could carry. An officer walks along the boats asking for hulls.",
+   "lines": [
+    { "who": "officer", "key": "chain_saxon_exiles_804.s01.officer_hulls" },
+    { "who": "officer", "key": "chain_saxon_exiles_804.s01.officer_order" },
+    { "who": "officer", "key": "chain_saxon_exiles_804.s01.officer_804", "when": "year = 804" },
+    { "who": "officer", "key": "chain_saxon_exiles_804.s01.officer_805", "when": "year = 805" },
+    { "who": "woman", "key": "chain_saxon_exiles_804.s01.woman_ems" }
+   ],
+   "options": [
+    { "key": "hire", "label_key": "chain_saxon_exiles_804.s01.opt_hire", "label": "Take the officer's hire and carry a boatload over", "check": "true",
+      "effects": [ "silver +24", "npc officer feeling +5 hired", "flag ch_saxon_exiles_804_hired", "flag ch_saxon_exiles_804_1", "news chain_saxon_exiles_804.news.column at here", "schedule harbour.chain_saxon_exiles_804.s02_sheep_house in 5 at emuthon" ],
+      "note": "outcome: chain_saxon_exiles_804.s01.out_hire" },
+    { "key": "bread", "label_key": "chain_saxon_exiles_804.s01.opt_bread", "label": "Buy bread and have it carried down the line", "check": "silver >= 8", "cost": "silver 8",
+      "effects": [ "deed gave_alms", "npc woman feeling +8 bread", "flag ch_saxon_exiles_804_bread", "flag ch_saxon_exiles_804_1", "news chain_saxon_exiles_804.news.column at here", "schedule harbour.chain_saxon_exiles_804.s02_sheep_house in 5 at emuthon" ],
+      "note": "outcome: chain_saxon_exiles_804.s01.out_bread" },
+    { "key": "watch", "label_key": "chain_saxon_exiles_804.s01.opt_watch", "label": "Say your hold is full, and stand and look", "check": "true", "default": true,
+      "effects": [ "npc officer feeling -1 refused", "flag ch_saxon_exiles_804_1", "news chain_saxon_exiles_804.news.column at here", "schedule harbour.chain_saxon_exiles_804.s02_sheep_house in 5 at emuthon" ],
+      "note": "outcome: chain_saxon_exiles_804.s01.out_watch (costs nothing; the story goes on at Emuthon)" }
+   ],
+   "memory": { "hire": "carried deported Saxons for hire", "bread": "sent bread down the line", "watch": "would not lend his boat" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s02_sheep_house",
+   "note": "Step 2, the other way in and the heart of it (scheduled by step 1; also drawn at Emuthon from the summer of 804 to the end of 805 by anyone). A family of Wihmodia, eleven nights through the marsh, lies hidden in the sheep house on the terp (places/emuthon.json emuthon.sheep_house) and wants passage to the father's brother among the Danes. Sources: Annales regni Francorum 804, which also say that the emperor sent an embassy to Godfred about the return of fugitives, so Saxons did flee to the Danes that summer; Widukind fled to the Danes in 777 and 782 (ARF). The Ems mouth as their road is the game's placing (?): Wihmodia lies between the lower Weser and the Elbe, and Rustringen and the Jade lie between it and Emuthon. Cast: Tetta the host is places/emuthon.json emuthon.tetta. Meginward, Aldburg his wife, Ricswind his mother, Folcward the boy and Gerburg the girl are ordinary invented people (Old Saxon name parts Megin-, -ward, Ald-, -burg, Ric-, -swind, Folc-, Ger-). The danger is told before it comes: the host names the guard boat at the river mouth. Sets ch_saxon_exiles_804_2 and either _took (with the spine's sx_carried_fugitive) or _kept.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and ((year = 804 and month >= 7) or year = 805) and not flag.ch_saxon_exiles_804_2",
+   "weight": 2.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [40, 60], "fixed": true, "note": "emuthon.tetta" },
+    "father": { "role": "farmer", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [34, 42], "fixed": true, "note": "Meginward of Wihmodia; invented" },
+    "mother": { "role": "farm_wife", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "f", "age": [30, 38], "fixed": true, "note": "Aldburg, his wife; invented" }
+   },
+   "title_key": "chain_saxon_exiles_804.s02.title",
+   "title": "Five in the sheep house",
+   "intention_key": "chain_saxon_exiles_804.s02.intention",
+   "intention": "Tetta brings you to the sheep house after dark. Behind the hurdles sit a man, his wife, his old mother, a boy and a small girl, Saxons, with marsh mud dried on them to the hip.",
+   "lines": [
+    { "who": "host", "key": "chain_saxon_exiles_804.s02.host_who" },
+    { "who": "host", "key": "chain_saxon_exiles_804.s02.host_heard", "when": "flag.ch_saxon_exiles_804_1" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s02.father_road" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s02.father_brother" },
+    { "who": "mother", "key": "chain_saxon_exiles_804.s02.mother_sister", "when": "flag.ch_saxon_exiles_804_bread or flag.ch_saxon_exiles_804_hired" },
+    { "who": "host", "key": "chain_saxon_exiles_804.s02.host_warning" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_saxon_exiles_804.s02.opt_take", "label": "Take them aboard on the night tide, for Ripa", "check": "true",
+      "effects": [ "passenger father to ripa", "silver +18", "npc father feeling +10 carried", "npc host feeling +3 carried", "flag ch_saxon_exiles_804_took", "flag sx_carried_fugitive", "flag ch_saxon_exiles_804_2" ],
+      "note": "outcome: chain_saxon_exiles_804.s02.out_take (he cuts 18 d of silver from an arm ring; the guard boat, card s04, may come while they are aboard)" },
+    { "key": "keep", "label_key": "chain_saxon_exiles_804.s02.opt_keep", "label": "Pay Tetta for their keep and say you will think on it", "check": "silver >= 10", "cost": "silver 10",
+      "effects": [ "npc host feeling +4 paid_keep", "npc father feeling +3 paid_keep", "flag ch_saxon_exiles_804_kept", "flag ch_saxon_exiles_804_2", "schedule harbour.chain_saxon_exiles_804.s03_counts_man in 3 at emuthon" ],
+      "note": "outcome: chain_saxon_exiles_804.s02.out_keep" },
+    { "key": "refuse", "label_key": "chain_saxon_exiles_804.s02.opt_refuse", "label": "Tell them you carry cloth, not people", "check": "true",
+      "effects": [ "npc father feeling -4 refused", "npc host feeling -2 refused", "flag ch_saxon_exiles_804_turned_away", "flag ch_saxon_exiles_804_kept", "flag ch_saxon_exiles_804_2", "schedule harbour.chain_saxon_exiles_804.s03_counts_man in 3 at emuthon" ],
+      "note": "outcome: chain_saxon_exiles_804.s02.out_refuse (costs nothing; they stay in the sheep house and the count's man comes all the same)" }
+   ],
+   "memory": { "take": "took the five aboard by night", "keep": "paid for their keep", "refuse": "said he carried cloth, not people" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s03_counts_man",
+   "note": "Step 3 (scheduled by step 2 or by turning back in step 4; drawn at Emuthon while the family is kept there). The count's man reads out the order at the toll post (places/emuthon.json emuthon.toll_post). Sources: the order of 804 as step 1; Emuthon is the king's own place in the district Emisga (dossiers/emuthon.md); no officer there is named in any source, so Gundhart is invented (Frankish Gund- + -hart). The reward for a finder and the penalty for a carrier are the game's (?): no capitulary on hiding the deported survives; the half share to the finder is borrowed from Thionville 805 c. 7 on arms. Sets ch_saxon_exiles_804_3; telling sets _told and leads to the ending end_given.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and flag.ch_saxon_exiles_804_kept and not flag.ch_saxon_exiles_804_3 and not flag.ch_saxon_exiles_804_took and year < 807",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "man": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 45], "fixed": true, "note": "Gundhart, the count's man over the Ems landings; invented" }
+   },
+   "title_key": "chain_saxon_exiles_804.s03.title",
+   "title": "The count's man counts heads",
+   "intention_key": "chain_saxon_exiles_804.s03.intention",
+   "intention": "At the toll post a Frank with six spearmen reads the emperor's order to every shipman on the creek, and then asks each one alone what he has seen.",
+   "lines": [
+    { "who": "man", "key": "chain_saxon_exiles_804.s03.man_order" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s03.man_price" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s03.man_carrier" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s03.man_hired", "when": "flag.ch_saxon_exiles_804_hired" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s03.man_ask" }
+   ],
+   "options": [
+    { "key": "tell", "label_key": "chain_saxon_exiles_804.s03.opt_tell", "label": "Tell him: five, in the sheep house on the mound", "check": "true",
+      "effects": [ "npc man feeling +10 told", "flag ch_saxon_exiles_804_told", "flag ch_saxon_exiles_804_kept = 0", "flag ch_saxon_exiles_804_3", "flag ch_saxon_exiles_804_wait_given for 90", "schedule harbour.chain_saxon_exiles_804.s12_end_given in 90 at emuthon" ],
+      "note": "outcome: chain_saxon_exiles_804.s03.out_tell (the pay is at the count's court, a season on)" },
+    { "key": "nothing", "label_key": "chain_saxon_exiles_804.s03.opt_nothing", "label": "You carry cloth. You have seen sheep", "check": "true", "default": true,
+      "effects": [ { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "npc man feeling +1 saw_nothing", "flag ch_saxon_exiles_804_3", "schedule harbour.chain_saxon_exiles_804.s05_night_after in 1 at emuthon" ],
+                     "failure": [ "npc man feeling -6 doubted", "flag ch_saxon_exiles_804_watched", "flag ch_saxon_exiles_804_3", "schedule harbour.chain_saxon_exiles_804.s05_night_after in 1 at emuthon" ] } ],
+      "note": "outcome: chain_saxon_exiles_804.s03.out_nothing_success or chain_saxon_exiles_804.s03.out_nothing_failure (costs nothing; if he doubts you he only watches)" },
+    { "key": "gift", "label_key": "chain_saxon_exiles_804.s03.opt_gift", "label": "Give him something for his trouble on this wet coast", "check": "silver >= 30 and npc.man.feeling >= wary", "cost": "silver 30",
+      "effects": [ "deed bribed_officer", "npc man feeling +6 gift", "toll eased 30", "flag ch_saxon_exiles_804_bought_time", "flag ch_saxon_exiles_804_3", "schedule harbour.chain_saxon_exiles_804.s05_night_after in 1 at emuthon" ],
+      "note": "outcome: chain_saxon_exiles_804.s03.out_gift" }
+   ],
+   "memory": { "tell": "told where the Saxons lay", "nothing.success": "said he had seen sheep", "nothing.failure": "said he had seen sheep, and was not believed", "gift": "gave a gift" }
+  },
+  {
+   "id": "sea.chain_saxon_exiles_804.s04_guard_boat",
+   "note": "Step 4 (drawn under way while the five are aboard). The count's men who watch the rivers: a guard boat hails. Sources: Einhard, Vita Karoli c. 17 (a fleet built against the Northmen and watches set at the harbours and the mouths of the rivers, from about 800); chronicle_793.json 802-spring-coast-ships-802. That such a watch was used to stop fugitives is the game's reading (?). The danger was told in step 2 and step 5. A failure costs a fine and the passengers, who go into the column; the story then goes on by the bishop's road (step 9). Sets ch_saxon_exiles_804_4.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_saxon_exiles_804_took and not flag.ch_saxon_exiles_804_4 and not flag.ch_saxon_exiles_804_6 and not flag.ch_saxon_exiles_804_9",
+   "rate": 0.08,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "captain": { "role": "commander", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [28, 50], "fixed": false, "note": "the captain of the guard boat; invented, unnamed" }
+   },
+   "title_key": "chain_saxon_exiles_804.s04.title",
+   "title": "The guard boat",
+   "intention_key": "chain_saxon_exiles_804.s04.intention",
+   "intention": "A boat of twelve oars pulls out from under the bank and a man in the bow holds up a spear crosswise: stop. The five are lying on the bottom boards under the spare sail.",
+   "lines": [
+    { "who": "captain", "key": "chain_saxon_exiles_804.s04.captain_hail" },
+    { "who": "captain", "key": "chain_saxon_exiles_804.s04.captain_order" },
+    { "who": "captain", "key": "chain_saxon_exiles_804.s04.captain_watched", "when": "flag.ch_saxon_exiles_804_watched" }
+   ],
+   "options": [
+    { "key": "heave_to", "label_key": "chain_saxon_exiles_804.s04.opt_heave_to", "label": "Heave to and let them look, with the cloth piled on the sail", "check": "true",
+      "effects": [ "encounter heave_to",
+                   { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "npc captain feeling +3 searched", "flag ch_saxon_exiles_804_4" ],
+                     "failure": [ "silver -40", "deed goods_seized", "npc captain feeling -10 caught", "flag ch_saxon_exiles_804_took = 0", "flag ch_saxon_exiles_804_taken", "flag ch_saxon_exiles_804_watched", "flag ch_saxon_exiles_804_4", "schedule harbour.chain_saxon_exiles_804.s09_priest in 10 at daventre" ] } ],
+      "note": "outcome: chain_saxon_exiles_804.s04.out_heave_to_success or chain_saxon_exiles_804.s04.out_heave_to_failure" },
+    { "key": "run", "label_key": "chain_saxon_exiles_804.s04.opt_run", "label": "Run over the flats on the ebb: she draws more than you", "check": "true",
+      "effects": [ "encounter run",
+                   { "chance": 0.65, "by": "crew.seamanship_best",
+                     "success": [ "deed fled_kings_men", "flag ch_saxon_exiles_804_watched", "flag ch_saxon_exiles_804_4" ],
+                     "failure": [ "health -0.1", "morale -0.1", "deed fled_kings_men", "flag ch_saxon_exiles_804_took = 0", "flag ch_saxon_exiles_804_taken", "flag ch_saxon_exiles_804_watched", "flag ch_saxon_exiles_804_4", "schedule harbour.chain_saxon_exiles_804.s09_priest in 10 at daventre" ] } ],
+      "note": "outcome: chain_saxon_exiles_804.s04.out_run_success or chain_saxon_exiles_804.s04.out_run_failure" },
+    { "key": "back", "label_key": "chain_saxon_exiles_804.s04.opt_back", "label": "Put about for Emuthon before she is near, and set them ashore again", "check": "true",
+      "effects": [ "morale -0.05", "flag ch_saxon_exiles_804_took = 0", "flag ch_saxon_exiles_804_to_priest = 0", "flag ch_saxon_exiles_804_kept", "flag ch_saxon_exiles_804_5 = 0", "flag ch_saxon_exiles_804_4", "schedule harbour.chain_saxon_exiles_804.s03_counts_man in 2 at emuthon", "schedule harbour.chain_saxon_exiles_804.s05_night_after in 3 at emuthon" ],
+      "note": "outcome: chain_saxon_exiles_804.s04.out_back (costs time and pride only; the story goes on at Emuthon)" }
+   ],
+   "memory": { "heave_to.success": "hove to and was searched", "heave_to.failure": "was caught carrying Saxons", "run.success": "ran from the guard boat", "run.failure": "ran, grounded and was taken", "back": "put about" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s05_night_after",
+   "note": "Step 5 (scheduled by step 3 or 4; drawn at Emuthon while the family is kept there and has not been given up). The host cannot keep them: three roads. North to the Danes; up the river to Liudger, who is priest and teacher of these districts and of the western Saxons at Mimigernaford (Altfrid, Vita Liudgeri I.22-23) and can ask for them in the open; or hidden as Frisians on the outer terp. Sources: Bant, the island district of Liudger's mission (Altfrid I.22), is now a sandbank (dossiers/emuthon.md); hiding Saxons as Frisians is invented, and rests on the two tongues being half understood by each other (npc_text_encounters.md 2.6). Cast: emuthon.tetta, cast.liudger named. Sets ch_saxon_exiles_804_5 and _took (with _to_priest for the river road) or _hidden.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and flag.ch_saxon_exiles_804_3 and flag.ch_saxon_exiles_804_kept and not flag.ch_saxon_exiles_804_told and not flag.ch_saxon_exiles_804_5 and year < 807",
+   "weight": 5.0,
+   "cooldown_days": 20,
+   "actors": {
+    "host": { "role": "host", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [40, 60], "fixed": true, "note": "emuthon.tetta" },
+    "father": { "role": "farmer", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [34, 42], "fixed": true, "note": "Meginward; invented" }
+   },
+   "title_key": "chain_saxon_exiles_804.s05.title",
+   "title": "The night after",
+   "intention_key": "chain_saxon_exiles_804.s05.intention",
+   "intention": "The count's man has gone up the coast and will be back with the next spring tide. Tetta says the sheep house will not hide five people twice.",
+   "lines": [
+    { "who": "host", "key": "chain_saxon_exiles_804.s05.host_tide" },
+    { "who": "host", "key": "chain_saxon_exiles_804.s05.host_watched", "when": "flag.ch_saxon_exiles_804_watched" },
+    { "who": "host", "key": "chain_saxon_exiles_804.s05.host_priest" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s05.father_asks" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s05.father_turned", "when": "flag.ch_saxon_exiles_804_turned_away" },
+    { "who": "host", "key": "chain_saxon_exiles_804.s05.host_warning" }
+   ],
+   "options": [
+    { "key": "north", "label_key": "chain_saxon_exiles_804.s05.opt_north", "label": "Take them north to the Danes, tonight", "check": "true",
+      "effects": [ "passenger father to ripa", "silver +18", "npc father feeling +10 carried", "flag ch_saxon_exiles_804_took", "flag ch_saxon_exiles_804_kept = 0", "flag sx_carried_fugitive", "flag ch_saxon_exiles_804_5" ],
+      "note": "outcome: chain_saxon_exiles_804.s05.out_north" },
+    { "key": "priest", "label_key": "chain_saxon_exiles_804.s05.opt_priest", "label": "Take them up the river to the priest Liudger", "check": "true", "default": true,
+      "effects": [ "passenger father to daventre", "npc father feeling +6 carried", "flag ch_saxon_exiles_804_took", "flag ch_saxon_exiles_804_to_priest", "flag ch_saxon_exiles_804_kept = 0", "flag sx_carried_fugitive", "flag ch_saxon_exiles_804_5" ],
+      "note": "outcome: chain_saxon_exiles_804.s05.out_priest (costs time only; the lawful road)" },
+    { "key": "hide", "label_key": "chain_saxon_exiles_804.s05.opt_hide", "label": "Make Frisians of them: the outer terp, Tetta's name, and your silver for their keep", "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "npc host feeling +6 trusted", "npc father feeling +8 hidden", "flag ch_saxon_exiles_804_hidden", "flag ch_saxon_exiles_804_kept = 0", "flag ch_saxon_exiles_804_5" ],
+      "note": "outcome: chain_saxon_exiles_804.s05.out_hide (the long road: step 10 comes from 806, the ending from 810)" }
+   ],
+   "memory": { "north": "took them north", "priest": "took them to the priest", "hide": "hid them as Frisians" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s06_strand",
+   "note": "Step 6 (drawn on the first call at Ripa or Sliesthorp with the five aboard). A stranger among the Danes has no peace unless a man of the place stands for him; Meginfrid, the brother, is away. Sources: Annales regni Francorum 804 (Godfred with his fleet and all the horsemen of his kingdom at Sliesthorp, on the border of his realm and Saxony); the guest's need of a host among the Northmen is in Rimbert, Vita Anskarii c. 24-27 (merchants under a king's or a chief's peace) and in Hávamál's opening stanzas; a lawman at Ripa is invented (?). Meginfrid is invented (Megin- + -frid). Sets ch_saxon_exiles_804_6 and a wait of thirty days.",
+   "stage": "harbour",
+   "when": "moored and (port.id = ripa or port.id = sliesthorp) and flag.ch_saxon_exiles_804_took and not flag.ch_saxon_exiles_804_to_priest and not flag.ch_saxon_exiles_804_6 and year < 808",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "lawman": { "role": "lawman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 65], "fixed": true, "note": "the man who speaks the law at the landing; invented, unnamed" },
+    "father": { "role": "farmer", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [34, 42], "fixed": true, "note": "Meginward; invented" }
+   },
+   "title_key": "chain_saxon_exiles_804.s06.title",
+   "title": "Whose guests are these",
+   "intention_key": "chain_saxon_exiles_804.s06.intention",
+   "intention": "The five stand on the strand among the booths. An old Dane with a staff asks, through a boy who has some Frisian, who answers for them here.",
+   "lines": [
+    { "who": "lawman", "key": "chain_saxon_exiles_804.s06.lawman_whose" },
+    { "who": "lawman", "key": "chain_saxon_exiles_804.s06.lawman_brother_804", "when": "year = 804" },
+    { "who": "lawman", "key": "chain_saxon_exiles_804.s06.lawman_brother_later", "when": "year > 804" },
+    { "who": "lawman", "key": "chain_saxon_exiles_804.s06.lawman_law" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s06.father_nothing" }
+   ],
+   "options": [
+    { "key": "surety", "label_key": "chain_saxon_exiles_804.s06.opt_surety", "label": "Answer for them yourself until the brother comes", "check": "true",
+      "effects": [ "npc lawman feeling +6 surety", "npc father feeling +8 surety", "flag ch_saxon_exiles_804_surety", "flag ch_saxon_exiles_804_took = 0", "flag ch_saxon_exiles_804_6", "flag ch_saxon_exiles_804_wait_north for 30", "news chain_saxon_exiles_804.news.fleet at here" ],
+      "note": "outcome: chain_saxon_exiles_804.s06.out_surety (costs nothing now; your name is bound to theirs)" },
+    { "key": "host", "label_key": "chain_saxon_exiles_804.s06.opt_host", "label": "Pay a householder to take them under his roof", "check": "silver >= 24", "cost": "silver 24",
+      "effects": [ "npc lawman feeling +3 paid_host", "npc father feeling +5 paid_host", "flag ch_saxon_exiles_804_took = 0", "flag ch_saxon_exiles_804_6", "flag ch_saxon_exiles_804_wait_north for 30", "news chain_saxon_exiles_804.news.fleet at here" ],
+      "note": "outcome: chain_saxon_exiles_804.s06.out_host" },
+    { "key": "ashore", "label_key": "chain_saxon_exiles_804.s06.opt_ashore", "label": "You were paid to the strand. Here is the strand", "check": "true",
+      "effects": [ "npc lawman feeling -3 left_them", "npc father feeling -4 left_them", "flag ch_saxon_exiles_804_left_ashore", "flag ch_saxon_exiles_804_took = 0", "flag ch_saxon_exiles_804_6", "flag ch_saxon_exiles_804_wait_north for 30", "news chain_saxon_exiles_804.news.fleet at here" ],
+      "note": "outcome: chain_saxon_exiles_804.s06.out_ashore (costs nothing; the brother finds them all the same)" }
+   ],
+   "memory": { "surety": "answered for the Saxons", "host": "paid for a roof for them", "ashore": "left them on the strand" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s07_spokesman",
+   "note": "Step 7, the turn (drawn at Ripa or Sliesthorp a month after step 6). The king's spokesman asks the Frisian what he saw; Meginfrid pays his brother's passage. Sources: Annales regni Francorum 804: Godfred promised to come to a meeting with the emperor and did not, kept back by the counsel of his men; the emperor sat at Hollenstedt on the Elbe and sent an embassy to him about the return of fugitives (pro perfugis reddendis). What Godfred answered is not recorded; the game lets him keep them, as nothing says they were returned (?). Godfred speaks to merchants through a spokesman (spine: cast.godfred, who is named and not met). The hard road opens here: Meginward's kin, forty people, still lie in the reeds by the Jade (invented). Sets ch_saxon_exiles_804_7 and a wait, or _exodus_plan.",
+   "stage": "harbour",
+   "when": "moored and (port.id = ripa or port.id = sliesthorp) and flag.ch_saxon_exiles_804_6 and not flag.ch_saxon_exiles_804_wait_north and not flag.ch_saxon_exiles_804_7 and year < 809",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "spokesman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "a man who speaks for King Godfred (cast.godfred) to merchants; invented, unnamed" },
+    "brother": { "role": "skipper", "people": "saxon", "faith": "old_gods", "tongue": "old_saxon", "sex": "m", "age": [38, 48], "fixed": true, "note": "Meginfrid, Meginward's elder brother, among the Danes since 798; invented" }
+   },
+   "title_key": "chain_saxon_exiles_804.s07.title",
+   "title": "What the Frisian saw",
+   "intention_key": "chain_saxon_exiles_804.s07.intention",
+   "intention": "Meginfrid has come, a Saxon in a Dane's cloak, with a purse for you. With him is a man who speaks for the king and wants to hear, from a man with no side in it, what the Franks are doing with the Saxons.",
+   "lines": [
+    { "who": "brother", "key": "chain_saxon_exiles_804.s07.brother_thanks" },
+    { "who": "brother", "key": "chain_saxon_exiles_804.s07.brother_left", "when": "flag.ch_saxon_exiles_804_left_ashore" },
+    { "who": "spokesman", "key": "chain_saxon_exiles_804.s07.spokesman_804", "when": "year = 804" },
+    { "who": "spokesman", "key": "chain_saxon_exiles_804.s07.spokesman_later", "when": "year > 804" },
+    { "who": "spokesman", "key": "chain_saxon_exiles_804.s07.spokesman_ask" },
+    { "who": "brother", "key": "chain_saxon_exiles_804.s07.brother_kin" }
+   ],
+   "options": [
+    { "key": "tell", "label_key": "chain_saxon_exiles_804.s07.opt_tell", "label": "Tell it as you saw it, on the Rhine and on the Ems", "check": "true",
+      "effects": [ "silver +60", "goods marten +1", "npc spokesman feeling +8 told", "npc brother feeling +6 told", "flag ch_saxon_exiles_804_spoke", "flag ch_saxon_exiles_804_7", "flag ch_saxon_exiles_804_wait_end for 45" ],
+      "note": "outcome: chain_saxon_exiles_804.s07.out_tell (the brother's purse, 60 d, and a timber of marten from the king's man)" },
+    { "key": "silent", "label_key": "chain_saxon_exiles_804.s07.opt_silent", "label": "You are a guest here and the emperor's man at home: you saw the weather", "check": "true", "default": true,
+      "effects": [ "silver +80", "npc spokesman feeling -2 silent", "flag ch_saxon_exiles_804_7", "flag ch_saxon_exiles_804_wait_end for 45" ],
+      "note": "outcome: chain_saxon_exiles_804.s07.out_silent (costs nothing; the brother pays all the same)" },
+    { "key": "kin", "label_key": "chain_saxon_exiles_804.s07.opt_kin", "label": "Offer to go back for the forty in the reeds", "check": "true",
+      "effects": [ "silver +80", "npc brother feeling +12 offered", "npc spokesman feeling +4 offered", "flag ch_saxon_exiles_804_exodus_plan", "flag ch_saxon_exiles_804_7", "schedule harbour.chain_saxon_exiles_804.s08_marsh_run in 10 at emuthon" ],
+      "note": "outcome: chain_saxon_exiles_804.s07.out_kin (the hard road: step 8 at Emuthon)" }
+   ],
+   "memory": { "tell": "told the king's man what he saw", "silent": "said he saw the weather", "kin": "offered to fetch the kin" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s08_marsh_run",
+   "note": "Step 8, the hard road (scheduled by step 7; drawn at Emuthon). Forty of Meginward's kin on a reed island at the edge of the Jade, and a boat that holds five. Sources: the Gislinge boat's load (BRIEF.md); the pilot Folcger is places/emuthon.json emuthon.folcger; the Jade and the Weser mouth were open tidal marsh with channels only local men knew (dossiers/emuthon.md on the Ems flats; the Jade by likeness (?)). The danger is told first by the pilot. A failure brings half of them out and the guard boat's notice; the story goes on to the same ending by the lesser door. Sets ch_saxon_exiles_804_run and _exodus_done or _exodus_half.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and flag.ch_saxon_exiles_804_exodus_plan and not flag.ch_saxon_exiles_804_run and year < 809",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "pilot": { "role": "pilot", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [35, 60], "fixed": true, "note": "emuthon.folcger" }
+   },
+   "title_key": "chain_saxon_exiles_804.s08.title",
+   "title": "Forty in the reeds",
+   "intention_key": "chain_saxon_exiles_804.s08.intention",
+   "intention": "Folcger the pilot has been out to look. They are there: forty people on a reed island at the edge of the Jade, eating mussels, two tides east of here. Your boat holds five.",
+   "lines": [
+    { "who": "pilot", "key": "chain_saxon_exiles_804.s08.pilot_found" },
+    { "who": "pilot", "key": "chain_saxon_exiles_804.s08.pilot_sum" },
+    { "who": "pilot", "key": "chain_saxon_exiles_804.s08.pilot_warning" },
+    { "who": "pilot", "key": "chain_saxon_exiles_804.s08.pilot_watched", "when": "flag.ch_saxon_exiles_804_watched" },
+    { "who": "pilot", "key": "chain_saxon_exiles_804.s08.pilot_price" }
+   ],
+   "options": [
+    { "key": "boats", "label_key": "chain_saxon_exiles_804.s08.opt_boats", "label": "Hire Folcger and three eel boats: one night, one tide", "check": "silver >= 90", "cost": "silver 90",
+      "effects": [ "npc pilot feeling +8 hired", "flag ch_saxon_exiles_804_exodus_done", "flag ch_saxon_exiles_804_run", "flag ch_saxon_exiles_804_wait_end for 30" ],
+      "note": "outcome: chain_saxon_exiles_804.s08.out_boats (sure)" },
+    { "key": "own", "label_key": "chain_saxon_exiles_804.s08.opt_own", "label": "Do it with your own boat: eight runs, four nights", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05", "npc pilot feeling +4 own_boat", "flag ch_saxon_exiles_804_exodus_done", "flag ch_saxon_exiles_804_run", "flag ch_saxon_exiles_804_wait_end for 30" ],
+                     "failure": [ "health -0.1", "morale -0.1", "deed fled_kings_men", "flag ch_saxon_exiles_804_watched", "flag ch_saxon_exiles_804_exodus_half", "flag ch_saxon_exiles_804_run", "flag ch_saxon_exiles_804_wait_end for 30" ] } ],
+      "note": "outcome: chain_saxon_exiles_804.s08.out_own_success or chain_saxon_exiles_804.s08.out_own_failure" },
+    { "key": "leave", "label_key": "chain_saxon_exiles_804.s08.opt_leave", "label": "Forty is a levy, not a cargo. Send them word of the road and no more", "check": "true",
+      "effects": [ "npc pilot feeling -1 left", "flag ch_saxon_exiles_804_run", "flag ch_saxon_exiles_804_wait_end for 30" ],
+      "note": "outcome: chain_saxon_exiles_804.s08.out_leave (costs pride only; the ending at Ripa still comes)" }
+   ],
+   "memory": { "boats": "hired the eel boats", "own.success": "brought forty out in his own boat", "own.failure": "was seen on the fourth night", "leave": "sent word and no more" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s09_priest",
+   "note": "Step 9, the lawful road (drawn at Daventre or Diusburg with the five aboard, or after they were taken from the boat; scheduled by a failure in step 4). Liudger asks for them. Sources: Altfrid, Vita Liudgeri I.22-24: teacher of the Frisian districts from 787 and of the western Saxons at Mimigernaford, founder of Werden on the Ruhr about 799, bishop from 30 March 805, died 26 March 809; the deported were set down in groups on royal and church land (Einhard c. 7), so a bishop asking for one family for his own house's land is within the order and not against it, though no such case is recorded (?); ransoming captives as a good work (reputation_793.json bought_captives, gave_alms); the Old Saxon baptismal vow (texts_793.json saxon_vow), which the spine has a priest read to the deported again. Cast: cast.liudger (places: daventre, diusburg). Sets ch_saxon_exiles_804_9, a wait of sixty days, and _redeemed, _letter or _surety.",
+   "stage": "harbour",
+   "when": "moored and (port.id = daventre or port.id = diusburg) and (flag.ch_saxon_exiles_804_taken or flag.ch_saxon_exiles_804_took) and not flag.ch_saxon_exiles_804_6 and not flag.ch_saxon_exiles_804_9 and year < 809",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [60, 67], "fixed": true, "note": "cast.liudger" }
+   },
+   "title_key": "chain_saxon_exiles_804.s09.title",
+   "title": "The priest asks for them",
+   "intention_key": "chain_saxon_exiles_804.s09.intention",
+   "intention": "Liudger hears it through without a word, leading his horse. Then he says the emperor's order tells where Saxons may not live. It does not tell whose land they must live on.",
+   "lines": [
+    { "who": "priest", "key": "chain_saxon_exiles_804.s09.priest_aboard", "when": "flag.ch_saxon_exiles_804_took" },
+    { "who": "priest", "key": "chain_saxon_exiles_804.s09.priest_taken", "when": "flag.ch_saxon_exiles_804_taken" },
+    { "who": "priest", "key": "chain_saxon_exiles_804.s09.priest_order" },
+    { "who": "priest", "key": "chain_saxon_exiles_804.s09.priest_before_805", "when": "year = 804" },
+    { "who": "priest", "key": "chain_saxon_exiles_804.s09.priest_bishop", "when": "year >= 805" },
+    { "who": "priest", "key": "chain_saxon_exiles_804.s09.priest_price" }
+   ],
+   "options": [
+    { "key": "redeem", "label_key": "chain_saxon_exiles_804.s09.opt_redeem", "label": "Lay down the count's price for five heads yourself", "check": "silver >= 120", "cost": "silver 120",
+      "effects": [ "deed gave_alms", "give_text saxon_vow", "npc priest feeling +12 redeemed", "flag ch_saxon_exiles_804_redeemed", "flag ch_saxon_exiles_804_took = 0", "flag ch_saxon_exiles_804_9", "flag ch_saxon_exiles_804_wait_church for 60" ],
+      "note": "outcome: chain_saxon_exiles_804.s09.out_redeem (the honest road at its dearest: it opens the double ending)" },
+    { "key": "letter", "label_key": "chain_saxon_exiles_804.s09.opt_letter", "label": "Carry his letter to the count and let the Church pay", "check": "true", "default": true,
+      "effects": [ "deed carried_letters", "commission wax 4 by 120 premium 0.5", "npc priest feeling +6 letter", "flag ch_saxon_exiles_804_letter", "flag ch_saxon_exiles_804_took = 0", "flag ch_saxon_exiles_804_9", "flag ch_saxon_exiles_804_wait_church for 60" ],
+      "note": "outcome: chain_saxon_exiles_804.s09.out_letter (costs time only; he orders wax for the altar)" },
+    { "key": "surety", "label_key": "chain_saxon_exiles_804.s09.opt_surety", "label": "Swear for them before him: they will work Werden's land, and you answer if they run", "check": "true",
+      "effects": [ "give_text saxon_vow", "learn latin +0.1", "npc priest feeling +8 surety", "flag ch_saxon_exiles_804_surety", "flag ch_saxon_exiles_804_took = 0", "flag ch_saxon_exiles_804_9", "flag ch_saxon_exiles_804_wait_church for 60" ],
+      "note": "outcome: chain_saxon_exiles_804.s09.out_surety (costs nothing now; your name is bound to theirs)" }
+   ],
+   "memory": { "redeem": "paid the price of five heads", "letter": "carried the letter", "surety": "swore for the Saxons" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s10_second_search",
+   "note": "Step 10, the turn of the long road (drawn at Emuthon from 806 to 809 while the family lives hidden as Frisians). The count's man comes back with a list. Sources: lists of Saxons by name were kept: the Indiculus obsidum Saxonum Moguntiam deducendorum of about 805 names 37 hostages and their keepers (MGH Capitularia I no. 115) (?); a list of the missing of Wihmodia is invented. An oath with oath-helpers clears a man in Frisian law (Lex Frisionum, passim). Bant as step 5. The boy Folcward, fourteen now, comes aboard as a hand; Aldburg and Ricswind have woven three bolts in two winters (the weaver's trade at Emuthon: places/emuthon.json emuthon.imma). Sets ch_saxon_exiles_804_10.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and flag.ch_saxon_exiles_804_hidden and not flag.ch_saxon_exiles_804_10 and year >= 806 and year < 810",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "man": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 45], "fixed": true, "note": "Gundhart; invented" },
+    "host": { "role": "host", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [40, 60], "fixed": true, "note": "emuthon.tetta" },
+    "boy": { "role": "crewman", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [14, 15], "fixed": true, "note": "Folcward, Meginward's son; invented" }
+   },
+   "title_key": "chain_saxon_exiles_804.s10.title",
+   "title": "The list",
+   "intention_key": "chain_saxon_exiles_804.s10.intention",
+   "intention": "Gundhart is back on the creek, older and wetter, with a clerk and a list of the people of Wihmodia who were never counted onto the road. He has heard of a shepherd on the outer terp whose Frisian is odd.",
+   "lines": [
+    { "who": "man", "key": "chain_saxon_exiles_804.s10.man_list" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s10.man_remembers", "when": "flag.ch_saxon_exiles_804_watched" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s10.man_gift_before", "when": "flag.ch_saxon_exiles_804_bought_time" },
+    { "who": "host", "key": "chain_saxon_exiles_804.s10.host_kin" },
+    { "who": "boy", "key": "chain_saxon_exiles_804.s10.boy_asks" },
+    { "who": "host", "key": "chain_saxon_exiles_804.s10.host_cloth" }
+   ],
+   "options": [
+    { "key": "oath", "label_key": "chain_saxon_exiles_804.s10.opt_oath", "label": "Swear beside Tetta that they are her dead brother's people", "check": "true",
+      "effects": [ "goods frisian_cloth +3", "hire boy", "tongue old_saxon = 0.5",
+                   { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "deed won_case", "npc man feeling +2 oath", "npc host feeling +8 oath", "flag ch_saxon_exiles_804_10" ],
+                     "failure": [ "silver -30", "deed lost_case", "npc man feeling -8 oath_doubted", "flag ch_saxon_exiles_804_watched", "flag ch_saxon_exiles_804_bant", "flag ch_saxon_exiles_804_10" ] } ],
+      "note": "outcome: chain_saxon_exiles_804.s10.out_oath_success or chain_saxon_exiles_804.s10.out_oath_failure (a failed oath is fined 30 d and the family goes to Bant by night; the road goes on)" },
+    { "key": "bant", "label_key": "chain_saxon_exiles_804.s10.opt_bant", "label": "Say nothing, and move them to the island of Bant before he walks out there", "check": "true", "default": true,
+      "effects": [ "goods frisian_cloth +3", "hire boy", "tongue old_saxon = 0.5", "morale -0.05", "npc host feeling +4 moved", "flag ch_saxon_exiles_804_bant", "flag ch_saxon_exiles_804_10" ],
+      "note": "outcome: chain_saxon_exiles_804.s10.out_bant (costs a night's work only)" },
+    { "key": "pay", "label_key": "chain_saxon_exiles_804.s10.opt_pay", "label": "Pay him to find the list complete", "check": "silver >= 40 and npc.man.feeling >= wary", "cost": "silver 40",
+      "effects": [ "goods frisian_cloth +3", "hire boy", "tongue old_saxon = 0.5", "deed bribed_officer", "npc man feeling +5 gift", "flag ch_saxon_exiles_804_10" ],
+      "note": "outcome: chain_saxon_exiles_804.s10.out_pay" }
+   ],
+   "memory": { "oath.success": "swore they were Frisians, and was believed", "oath.failure": "swore they were Frisians, and was not believed", "bant": "moved them to Bant", "pay": "paid for a complete list" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s11_end_north",
+   "note": "ENDING end_north (drawn at Ripa or Sliesthorp when the wait after step 7 or 8 has run out). The ones who went north: what happened to the Saxons who fled to the Danes in 804, of whom nothing more is written. With the hard road done it is history changed (changed_wihmodia_exodus): forty-five people of one kin get out together and keep their name and law among the Danes. Sources as steps 6 to 8; guest right and a booth place at a Danish market (Rimbert, Vita Anskarii c. 24: the king gives a place for a church and leave to trade at Sliaswic, by likeness); the felag, a sworn partnership, is named on later rune stones (CHAINS.md) (?) for 804. Grand rewards: unlock_title_danish_guest_right; with the forty, also unlock_partner_meginfrid; or unlock_plot_ripa. Lasting cost: ch_saxon_exiles_804_watched, if set, stays (the count's men know the boat). Sets ch_saxon_exiles_804_end_north and ch_saxon_exiles_804_done.",
+   "stage": "harbour",
+   "when": "moored and (port.id = ripa or port.id = sliesthorp) and flag.ch_saxon_exiles_804_7 and (flag.ch_saxon_exiles_804_run or not flag.ch_saxon_exiles_804_exodus_plan) and not flag.ch_saxon_exiles_804_wait_end and not flag.ch_saxon_exiles_804_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "brother": { "role": "skipper", "people": "saxon", "faith": "old_gods", "tongue": "old_saxon", "sex": "m", "age": [38, 50], "fixed": true, "note": "Meginfrid; invented" },
+    "father": { "role": "farmer", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [34, 44], "fixed": true, "note": "Meginward; invented" }
+   },
+   "title_key": "chain_saxon_exiles_804.s11.title",
+   "title": "Saxons under a Danish roof",
+   "intention_key": "chain_saxon_exiles_804.s11.intention",
+   "intention": "There is a new long house behind the booths with smoke coming through the thatch, and Saxon is spoken in it. The brothers have set a bench for you by the fire and have something to say about what is owed.",
+   "lines": [
+    { "who": "brother", "key": "chain_saxon_exiles_804.s11.brother_king" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s11.father_five", "when": "not flag.ch_saxon_exiles_804_exodus_done and not flag.ch_saxon_exiles_804_exodus_half" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s11.father_forty", "when": "flag.ch_saxon_exiles_804_exodus_done" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s11.father_half", "when": "flag.ch_saxon_exiles_804_exodus_half" },
+    { "who": "brother", "key": "chain_saxon_exiles_804.s11.brother_watched", "when": "flag.ch_saxon_exiles_804_watched" },
+    { "who": "brother", "key": "chain_saxon_exiles_804.s11.brother_offer" }
+   ],
+   "options": [
+    { "key": "felag", "label_key": "chain_saxon_exiles_804.s11.opt_felag", "label": "Lay your hand to Meginfrid's: one purse, two boats", "check": "flag.ch_saxon_exiles_804_exodus_done",
+      "effects": [ "silver +900", "goods marten +4", "npc brother feeling +20 felag", "npc father feeling +15 felag", "flag unlock_title_danish_guest_right", "flag unlock_partner_meginfrid", "flag changed_wihmodia_exodus", "flag ch_saxon_exiles_804_end_north", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s11.out_felag (the hard road: about 1,380 d and two grand rewards; history changed)" },
+    { "key": "silver", "label_key": "chain_saxon_exiles_804.s11.opt_silver", "label": "Take what they have weighed out, and their word", "check": "true", "default": true,
+      "effects": [ "silver +520", "goods marten +1", "npc brother feeling +10 paid", "npc father feeling +10 paid", "flag unlock_title_danish_guest_right", "flag ch_saxon_exiles_804_end_north", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s11.out_silver (about 640 d and guest right among the Danes)" },
+    { "key": "plot", "label_key": "chain_saxon_exiles_804.s11.opt_plot", "label": "Leave them their silver: ask for a booth place on the bank beside theirs", "check": "true",
+      "effects": [ "goods marten +5", "npc brother feeling +12 neighbour", "npc father feeling +12 neighbour", "flag unlock_plot_ripa", "flag ch_saxon_exiles_804_end_north", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s11.out_plot (five timbers of marten, about 600 d, and a booth place at Ripa)" }
+   ],
+   "memory": { "felag": "became Meginfrid's partner", "silver": "was paid in weighed silver", "plot": "asked for a booth place beside them" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s12_end_given",
+   "note": "ENDING end_given (scheduled by telling in step 3; drawn at Emuthon or Dorestad ninety days on). What happened to most: the five are counted onto the road and set down on abbey land far to the west. Sources: Annales regni Francorum 804; Einhard c. 7; the spine sets such families on abbey land by Rotomagus (places/rotomagus.json story rotomagus.weser_man; no source for Rouen (?)). A count's favour to a shipman as pay is the game's (the finder's share as step 3 (?)). Grand rewards: unlock_title_counts_shipman, or unlock_charter_emuthon. Lasting cost: ch_saxon_exiles_804_saxons_remember (Saxons know the boat that gave five up; later cards may read it), and the crew's heart. Sets ch_saxon_exiles_804_end_given and ch_saxon_exiles_804_done.",
+   "stage": "harbour",
+   "when": "moored and (port.id = emuthon or port.id = dorestad) and flag.ch_saxon_exiles_804_told and not flag.ch_saxon_exiles_804_wait_given and not flag.ch_saxon_exiles_804_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "man": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 45], "fixed": true, "note": "Gundhart; invented" }
+   },
+   "title_key": "chain_saxon_exiles_804.s12.title",
+   "title": "Counted onto the road",
+   "intention_key": "chain_saxon_exiles_804.s12.intention",
+   "intention": "Gundhart has come from the count's court with a clerk and a bag. The five were counted onto the road with the last column before the frost. He has your share, and the count's good word if you want that more.",
+   "lines": [
+    { "who": "man", "key": "chain_saxon_exiles_804.s12.man_counted" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s12.man_where" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s12.man_hired", "when": "flag.ch_saxon_exiles_804_hired" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s12.man_offer" },
+    { "who": "man", "key": "chain_saxon_exiles_804.s12.man_saxons" }
+   ],
+   "options": [
+    { "key": "silver", "label_key": "chain_saxon_exiles_804.s12.opt_silver", "label": "Take the bag, and the name of count's shipman", "check": "true", "default": true,
+      "effects": [ "silver +900", "morale -0.15", "npc man feeling +6 paid", "flag unlock_title_counts_shipman", "flag ch_saxon_exiles_804_saxons_remember", "flag ch_saxon_exiles_804_end_given", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s12.out_silver (900 d and a title; the Saxons remember)" },
+    { "key": "charter", "label_key": "chain_saxon_exiles_804.s12.opt_charter", "label": "Take less silver and a toll-free landing on this creek, in writing", "check": "true",
+      "effects": [ "silver +600", "morale -0.15", "npc man feeling +4 paid", "flag unlock_charter_emuthon", "flag ch_saxon_exiles_804_saxons_remember", "flag ch_saxon_exiles_804_end_given", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s12.out_charter (600 d and a charter at Emuthon; the Saxons remember)" },
+    { "key": "together", "label_key": "chain_saxon_exiles_804.s12.opt_together", "label": "Take the least, and ask that the five be set down on one piece of land together", "check": "true",
+      "effects": [ "silver +600", "morale -0.05", "npc man feeling +2 asked", "flag unlock_title_counts_shipman", "flag ch_saxon_exiles_804_kept_together", "flag ch_saxon_exiles_804_saxons_remember", "flag ch_saxon_exiles_804_end_given", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s12.out_together (600 d and the title; costs 300 d of the share; the family stays one household at Rotomagus)" }
+   ],
+   "memory": { "silver": "took the finder's share", "charter": "took a charter for the finding", "together": "asked that the five be kept together" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s13_end_church",
+   "note": "ENDING end_church (drawn at Daventre or Diusburg sixty days after step 9). The lawful road: the five are the Church's people on Werden's land on the Ruhr, a day above Diusburg, inside the emperor's order. Not recorded of any family, and not against anything recorded (?). Sources: Werden founded by Liudger about 799 on his own land (Altfrid I.21 (?) for the chapter; the oldest Werden charters, from 793, are land gifts on the Ruhr and the lower Rhine); abbeys kept men at river landings to see to their trade (the toll freedoms of Saint-Germain and Saint-Denis; Werden's own later rights at Diusburg (?)). Wax and honey are what a Saxon holding paid its church. Grand rewards: unlock_title_lords_protection (the bishop's), unlock_factor_diusburg (Meginward keeps the abbey's landing and your goods); both, if the merchant paid the price himself. Sets ch_saxon_exiles_804_end_church and ch_saxon_exiles_804_done.",
+   "stage": "harbour",
+   "when": "moored and (port.id = daventre or port.id = diusburg) and flag.ch_saxon_exiles_804_9 and not flag.ch_saxon_exiles_804_wait_church and not flag.ch_saxon_exiles_804_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [60, 67], "fixed": true, "note": "cast.liudger" },
+    "father": { "role": "farmer", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [34, 44], "fixed": true, "note": "Meginward; invented" }
+   },
+   "title_key": "chain_saxon_exiles_804.s13.title",
+   "title": "Werden's people",
+   "intention_key": "chain_saxon_exiles_804.s13.intention",
+   "intention": "The count has answered: five Saxons more or less on the bishop's land are the bishop's business. Meginward stands at the landing in a clean tunic with a tally stick in his belt, and Liudger has the look of a man who has won a small case.",
+   "lines": [
+    { "who": "priest", "key": "chain_saxon_exiles_804.s13.priest_answer" },
+    { "who": "priest", "key": "chain_saxon_exiles_804.s13.priest_redeemed", "when": "flag.ch_saxon_exiles_804_redeemed" },
+    { "who": "priest", "key": "chain_saxon_exiles_804.s13.priest_surety", "when": "flag.ch_saxon_exiles_804_surety" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s13.father_land" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s13.father_taken", "when": "flag.ch_saxon_exiles_804_taken" },
+    { "who": "priest", "key": "chain_saxon_exiles_804.s13.priest_offer" }
+   ],
+   "options": [
+    { "key": "both", "label_key": "chain_saxon_exiles_804.s13.opt_both", "label": "Take back your silver with the Church's thanks, the bishop's hand over your house, and Meginward at the landing", "check": "flag.ch_saxon_exiles_804_redeemed",
+      "effects": [ "silver +420", "goods wax +10", "goods honey +6", "toll eased 365", "npc priest feeling +15 thanked", "npc father feeling +20 thanked", "flag unlock_title_lords_protection", "flag unlock_factor_diusburg", "flag ch_saxon_exiles_804_end_church", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s13.out_both (the honest road: about 960 d in silver, wax and honey, and two grand rewards)" },
+    { "key": "protection", "label_key": "chain_saxon_exiles_804.s13.opt_protection", "label": "Ask for the bishop's hand over your house", "check": "true", "default": true,
+      "effects": [ "silver +260", "goods wax +9", "npc priest feeling +10 thanked", "npc father feeling +10 thanked", "flag unlock_title_lords_protection", "flag ch_saxon_exiles_804_end_church", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s13.out_protection (about 620 d and a lord's protection)" },
+    { "key": "factor", "label_key": "chain_saxon_exiles_804.s13.opt_factor", "label": "Ask for Meginward at the landing, to keep your goods with the abbey's", "check": "true",
+      "effects": [ "silver +100", "goods wax +10", "goods honey +6", "npc priest feeling +6 thanked", "npc father feeling +15 thanked", "flag unlock_factor_diusburg", "flag ch_saxon_exiles_804_end_church", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s13.out_factor (about 640 d and a trusted man at Diusburg)" }
+   ],
+   "memory": { "both": "was thanked by the bishop and the Saxons", "protection": "took the bishop's protection", "factor": "asked for Meginward at the landing" }
+  },
+  {
+   "id": "harbour.chain_saxon_exiles_804.s14_end_home",
+   "note": "ENDINGS end_home and end_terp (drawn at Emuthon from 810, after step 10). HISTORY CHANGED (changed_wihmodia_resettled): in the record the people of Wihmodia are scattered through Gaul and Germany and are not heard of again as a people; here one hamlet is lived in again by the people who left it. Sources: Annales regni Francorum 808-811: Godfred falls on the Obodrites (808), the Franks take the north back and build Esesfeld on the Stor (begun 15 March 809), Godfred's two hundred ships take a hundred pounds of silver from the Frisians and he is killed (810), peace is sworn on the Eider by twelve men of each side (811); that the deported were then allowed home is a modern guess for the land beyond the Elbe ('vermutlich', de.wikipedia Nordalbingien, read 6 Oct 2026) and Louis the Pious is said to have given Saxons and Frisians back the right to their fathers' land in 814 (the Astronomer, Vita Hludowici c. 24) (?). Silver buried before a flight is the common reason for a hoard (npc_text_encounters.md 1.5; hoards_793.json). Grand rewards: unlock_pilot_weser (the gullies of the Jade and the Weser mouth), unlock_heirloom_weser_arm_ring (with the hard option), or unlock_factor_emuthon if they stay Frisians (ending end_terp, history not changed). Sets ch_saxon_exiles_804_end_home or ch_saxon_exiles_804_end_terp, and ch_saxon_exiles_804_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and flag.ch_saxon_exiles_804_10 and year >= 810 and not flag.ch_saxon_exiles_804_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "father": { "role": "farmer", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [40, 50], "fixed": true, "note": "Meginward; invented" },
+    "host": { "role": "host", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [46, 66], "fixed": true, "note": "emuthon.tetta" }
+   },
+   "title_key": "chain_saxon_exiles_804.s14.title",
+   "title": "The empty land",
+   "intention_key": "chain_saxon_exiles_804.s14.intention",
+   "intention": "Six winters a Frisian shepherd, Meginward has heard what every shipman is saying: the Wends have lost the north, the emperor's counts are building on the far side of the Elbe, and nobody is counting heads on the Weser marsh any more.",
+   "lines": [
+    { "who": "father", "key": "chain_saxon_exiles_804.s14.father_news" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s14.father_810", "when": "year = 810" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s14.father_peace", "when": "year >= 811" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s14.father_buried" },
+    { "who": "host", "key": "chain_saxon_exiles_804.s14.host_stay" },
+    { "who": "father", "key": "chain_saxon_exiles_804.s14.father_bant", "when": "flag.ch_saxon_exiles_804_bant" }
+   ],
+   "options": [
+    { "key": "seed", "label_key": "chain_saxon_exiles_804.s14.opt_seed", "label": "Carry them home, and buy them seed corn, an axe, a plough iron and a cow", "check": "silver >= 80", "cost": "silver 80",
+      "effects": [ "silver +1100", "npc father feeling +25 home", "npc host feeling +5 home", "flag unlock_pilot_weser", "flag unlock_heirloom_weser_arm_ring", "flag changed_wihmodia_resettled", "flag ch_saxon_exiles_804_end_home", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s14.out_seed (the hard road: 1,100 d of buried silver for 80 d laid out, and two grand rewards; history changed)" },
+    { "key": "carry", "label_key": "chain_saxon_exiles_804.s14.opt_carry", "label": "Carry them home across the Jade on a quiet tide", "check": "true", "default": true,
+      "effects": [ "silver +700", "npc father feeling +18 home", "flag unlock_pilot_weser", "flag changed_wihmodia_resettled", "flag ch_saxon_exiles_804_end_home", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s14.out_carry (costs a tide; 700 d and the knowledge of the Weser mouth; history changed)" },
+    { "key": "stay", "label_key": "chain_saxon_exiles_804.s14.opt_stay", "label": "Tell him what Tetta says: there is nothing there but his silver. Fetch it, and stay", "check": "true",
+      "effects": [ "silver +360", "goods frisian_cloth +6", "npc host feeling +12 stayed", "npc father feeling +8 stayed", "flag unlock_factor_emuthon", "flag ch_saxon_exiles_804_end_terp", "flag ch_saxon_exiles_804_done" ],
+      "note": "outcome: chain_saxon_exiles_804.s14.out_stay (ending end_terp: about 650 d in silver and cloth, and a trusted man at Emuthon)" }
+   ],
+   "memory": { "seed": "carried them home with seed and iron", "carry": "carried them home", "stay": "told them to stay Frisians" }
+  }
+ ]
+}

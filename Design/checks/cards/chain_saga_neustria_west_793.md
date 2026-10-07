@@ -1,0 +1,11 @@
+chain_saga_neustria_west_793.json
+
+Cards seen: 7 in the first 250 lines (the seventh cut off before its options; the file's own note says fourteen).
+
+- harbour.chain_saga_neustria_west.s01_wall — asks: take the abbot's order for four loads of oak, lend the crew to the wall for a day, or just load salt. At stake: goods (an oak commission at a premium), time (a day), standing with the abbot and the salt brother; a riddle to gain.
+- harbour.chain_saga_neustria_west.s02_oil — asks: carry four jars of lamp oil north on trust, buy six jars for yourself, or carry only a letter of demand. At stake: silver (+24 freight, -190 to buy, +6 for the letter), goods (6 olive oil), standing with the oil seller.
+- harbour.chain_saga_neustria_west.s03_feast — asks: stand at the west gate against the Northmen, ferry the rakers' children over the lagoon, or keep off and help bury the dead. At stake: a man (health -0.2 on a lost fight, 70% by best fighter), silver (+40), standing with count, abbot and salter; a day and some pride.
+- harbour.chain_saga_neustria_west.s04_council — asks: offer your ship to move the saint, pay to prove the channel can be marked and held, or say nothing and go tell the island. At stake: silver (+120 earnest, or -150 for the marks), standing with abbot and count; picks the road of the whole chain.
+- harbour.chain_saga_neustria_west.s05_marks — asks: bring the count's horsemen over on the half tide, pay rakers to sound the channel first, or tell the abbot he was right. At stake: silver (+150 on success, -60 on failure, -80 to sound), standing with count, salter and abbot; failure throws you back on the saint's road.
+- harbour.chain_saga_neustria_west.s05_rakers — asks: tell the islanders everything and hide the third salt heap, tell them and plead with the abbot for what he will leave, or only hint. At stake: standing (the salter's trust against the abbot's lasting coolness), goods (+4 sea salt); the plea is a 60% chance.
+- harbour.chain_saga_neustria_west.s06_riwal — asks: a Breton skipper's offer about the monks' lead in the shed at Furca, which can be refused (options not seen in the first 250 lines). At stake: not seen; by the card's note, the lead road or a warning to the abbot's man, so standing with the abbey.

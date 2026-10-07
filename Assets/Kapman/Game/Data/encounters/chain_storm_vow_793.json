@@ -1,0 +1,616 @@
+{
+ "about": "THE CHAIN storm_vow (Design/content/CHAINS.md; the page is Design/content/chains/storm_vow.md): a vow made in a storm to a saint or to Thor, and the long way to keeping it. The steering oar's withy parts on a lee shore; the lookout cries to Saint Cuthbert (a candle the master's own height, carried by himself to the saint's island, and the best thing in the hold), the Norse hand says Thor wants the best thing in the hold and no wax. The saint's road: the crew dips the candle from two cakes of wax, a mother with a sick son wants to buy it, the sand to Lindisfarena is walked at the ebb, and at the coffin the bishop asks for the rest of the vow. Thor's road: an old shipmaster says where and how a thing is given (at a feast, before men), and at winter's start a lord's hall at Skiringssal or Ogvaldsnes sees it paid. An unpaid vow runs out after a year and a day; a broken one can be paid in another coin at the church on the mound at Doccinga. In the spring of 794 a house on the chain that lies at Gyrwe when long ships are seen off the Coquet may carry Bede's books up the river and change what the Chronicle says of that year. Fourteen cards (eight harbour, four crew, two sea), four endings: ch_storm_vow_end_saint, ch_storm_vow_end_thor, ch_storm_vow_end_commuted, ch_storm_vow_end_gyrwe (history changed: changed_jarrow_794). The vow is three flags from the first card (ch_storm_vow_saint, ch_storm_vow_thor, ch_storm_vow_none); its term is the timer ch_storm_vow_year (400 days, renewed once for 200 with ch_storm_vow_late). The hard road in each finale asks that the vow was kept as it was said: within the first term, to the one who was promised (not ch_storm_vow_both), not bargained down (ch_storm_vow_small), and for the saint barefoot over the sand with clean wax that was never sold. Lasting costs: ch_storm_vow_two_lords (paid both, and a priest may hear), ch_storm_vow_forsworn (refused the penance), ch_storm_vow_again (vowed a second time). It keeps clear of the chain old_gods (a vow to Saint Martin or to the sea, and the stone at Walichrum): the first card waits while ch_old_gods_owe_wait runs, and the steersman has a line for a man who already owes Saint Martin. Cast (Design/content/spine.json and the places files): cast.crew.beornwine (the lookout), cast.crew.ravn (the hand), cast.crew.aldger (the steersman), cast.crew.brunger (the mate), or men of the forge in their seats; lindisfarena.eadstan, lindisfarena.higbald (cast.higbald) to 803, gyrwe.abbot, gyrwe.guest_master, gyrwe.fisherman, doccinga.meinward. Everyone else is an ordinary invented person whom the forge names. Sea and crew cards are drawn by 'rate' (per game hour), harbour cards by 'weight'. Every option's 'note' names its outcome text (chain_storm_vow.<card>.out_<option>). Words: Data/writing/chain_storm_vow.json. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "sea.chain_storm_vow.s01_storm",
+   "note": "Step 1, the start: at sea in a full storm, any year before 870 (Saint Cuthbert's body leaves Lindisfarne in 875). The danger is named first by the steersman, as the brief asks. Sources: vows in danger among heathens and Christians alike (Rimbert, Vita Anskarii c. 19, 27, 30); the Christian vow of wax, a fast, a pilgrimage or a gift to a named saint's house (lore/gods_cult.md 9 and 10.2; lore/sea_lore.md 11.3: 'a candle of his own weight in wax'); a candle of a man's own measure is a miracle-book habit, best attested later than 793 (?). Cuthbert and the sea: as a boy he prayed and the wind turned for the monks' rafts driven out of the Tyne, while the country people jeered (Bede, prose Life of Cuthbert c. 3); a storm stilled among the Picts (c. 11). Thor for weather: Adam of Bremen IV.26 (about 1075: LATER, and of the Svear), and the settler who was Christian ashore and called on Thor at sea (Landnamabok, Helgi the Lean: LATER (?)). The steering oar held to the hull by a withy: the ship finds (Design/content/ships.md). Cast: cast.crew.aldger, cast.crew.beornwine, cast.crew.ravn, or men of the forge. Sets ch_storm_vow_1 and one of ch_storm_vow_saint, ch_storm_vow_thor, ch_storm_vow_none.",
+   "stage": "sea",
+   "when": "under_way and storm >= 0.6 and year < 870 and not flag.ch_storm_vow_1 and not flag.ch_old_gods_owe_wait",
+   "rate": 0.12,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger, or a Frisian steersman of the forge" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_frisian", "age": [17, 40], "fixed": false, "note": "cast.crew.beornwine, schooled as an oblate at Gyrwe, or an English lookout of the forge" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_frisian", "age": [25, 55], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_storm_vow.s01.title",
+   "title": "The withy parts",
+   "intention_key": "chain_storm_vow.s01.intention",
+   "intention": "Full dark and a full storm. The twisted withy that holds the steering oar to her side has parted, and she lies across the sea with two men hanging on the loom. Three of your crew are shouting, and only one of them is shouting about the oar.",
+   "lines": [
+    { "who": "steersman", "key": "chain_storm_vow.s01.steersman_worst" },
+    { "who": "steersman", "key": "chain_storm_vow.s01.steersman_now" },
+    { "who": "lookout", "key": "chain_storm_vow.s01.lookout_cuthbert" },
+    { "who": "hand", "key": "chain_storm_vow.s01.hand_thor" },
+    { "who": "lookout", "key": "chain_storm_vow.s01.lookout_best" },
+    { "who": "steersman", "key": "chain_storm_vow.s01.steersman_martin", "when": "flag.ch_old_gods_vow_martin" }
+   ],
+   "options": [
+    { "key": "saint", "label_key": "chain_storm_vow.s01.opt_saint", "label": "Vow Saint Cuthbert a candle your own height, carried to his island, and the best thing in the hold", "check": "true", "default": true,
+      "effects": [ "flag ch_storm_vow_1", "flag ch_storm_vow_saint", "morale +0.05", "npc lookout feeling +5 vowed_to_cuthbert", "npc hand feeling -1 vowed_to_cuthbert" ],
+      "note": "outcome: chain_storm_vow.s01.out_saint" },
+    { "key": "thor", "label_key": "chain_storm_vow.s01.opt_thor", "label": "Vow Thor the best thing in the hold", "check": "true",
+      "effects": [ "flag ch_storm_vow_1", "flag ch_storm_vow_thor", "morale +0.03", "npc hand feeling +5 vowed_to_thor", "npc lookout feeling -4 vowed_to_thor", "npc steersman feeling -3 vowed_to_thor" ],
+      "note": "outcome: chain_storm_vow.s01.out_thor" },
+    { "key": "oar", "label_key": "chain_storm_vow.s01.opt_oar", "label": "Promise nobody anything: get a rope on the oar", "check": "true",
+      "effects": [ "flag ch_storm_vow_1", "flag ch_storm_vow_none",
+                   { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.02" ],
+                     "failure": [ "health -0.05", "morale -0.03" ] } ],
+      "note": "outcome: chain_storm_vow.s01.out_oar (success) or chain_storm_vow.s01.out_oar_hurt (failure: a crushed hand, and the chain goes on: the men have vowed for the boat)" }
+   ],
+   "memory": {
+    "saint": "vowed a candle and the best of the hold to Saint Cuthbert",
+    "thor": "vowed the best of the hold to Thor",
+    "oar": "vowed nothing and took the oar",
+    "oar.failure": "vowed nothing, and a man was hurt at the oar"
+   }
+  },
+  {
+   "id": "crew.chain_storm_vow.s02_what_was_said",
+   "note": "Step 2: the first quiet watch after the storm, under way or moored. The crew says the vow back in full, and its term is set: a year and a day by custom (?) (the term is ours; a vow with a due date is lore/gods_cult.md 10.2). A man who vowed nothing hears that his men vowed for the boat and may take up either vow. Sources: a vow binds and a broken one needs penance (the penitentials of Theodore and Egbert (?); lore/gods_cult.md 10.2, 10.3); Thor has no priesthood or temple a merchant can pay at: the attested act is a beast killed and eaten together in a lord's hall, with a share set aside (lore/gods_cult.md 4). Sets ch_storm_vow_2, the timer ch_storm_vow_year (400 days), and may set ch_storm_vow_small or ch_storm_vow_broken.",
+   "stage": "crew",
+   "when": "flag.ch_storm_vow_1 and not flag.ch_storm_vow_2 and storm < 0.2 and year < 871",
+   "rate": 0.5,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_frisian", "age": [17, 40], "fixed": false, "note": "cast.crew.beornwine" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_frisian", "age": [25, 55], "fixed": false, "note": "cast.crew.ravn" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger" }
+   },
+   "title_key": "chain_storm_vow.s02.title",
+   "title": "What was said",
+   "intention_key": "chain_storm_vow.s02.intention",
+   "intention": "The sea has gone down and the oar hangs on a new withy. Nobody has spoken of the night. Now the lookout does, because he cannot leave a thing alone, and the others stop what they are doing to listen.",
+   "lines": [
+    { "who": "lookout", "key": "chain_storm_vow.s02.lookout_recite", "when": "flag.ch_storm_vow_saint" },
+    { "who": "steersman", "key": "chain_storm_vow.s02.steersman_cost", "when": "flag.ch_storm_vow_saint" },
+    { "who": "hand", "key": "chain_storm_vow.s02.hand_recite", "when": "flag.ch_storm_vow_thor" },
+    { "who": "hand", "key": "chain_storm_vow.s02.hand_where", "when": "flag.ch_storm_vow_thor" },
+    { "who": "lookout", "key": "chain_storm_vow.s02.lookout_none", "when": "flag.ch_storm_vow_none" },
+    { "who": "hand", "key": "chain_storm_vow.s02.hand_none", "when": "flag.ch_storm_vow_none" },
+    { "who": "steersman", "key": "chain_storm_vow.s02.steersman_term" },
+    { "who": "steersman", "key": "chain_storm_vow.s02.steersman_wind" }
+   ],
+   "options": [
+    { "key": "stand_saint", "label_key": "chain_storm_vow.s02.opt_stand_saint", "label": "Stand by it: the candle, the journey and the best of the hold", "check": "flag.ch_storm_vow_saint or flag.ch_storm_vow_none", "default": true,
+      "effects": [ "flag ch_storm_vow_2", "flag ch_storm_vow_saint", "flag ch_storm_vow_year for 400", "morale +0.05", "npc lookout feeling +4 stood_by_it", "npc steersman feeling +2 stood_by_it" ],
+      "note": "outcome: chain_storm_vow.s02.out_stand_saint" },
+    { "key": "stand_thor", "label_key": "chain_storm_vow.s02.opt_stand_thor", "label": "Stand by it: the best thing in the hold, given in the north", "check": "flag.ch_storm_vow_thor or flag.ch_storm_vow_none",
+      "effects": [ "flag ch_storm_vow_2", "flag ch_storm_vow_thor", "flag ch_storm_vow_year for 400", "morale +0.03", "npc hand feeling +4 stood_by_it" ],
+      "note": "outcome: chain_storm_vow.s02.out_stand_thor" },
+    { "key": "bargain", "label_key": "chain_storm_vow.s02.opt_bargain", "label": "Say you promised a gift, and a gift can be small", "check": "flag.ch_storm_vow_saint or flag.ch_storm_vow_thor",
+      "effects": [ "flag ch_storm_vow_2", "flag ch_storm_vow_small", "flag ch_storm_vow_year for 400", "morale -0.03", "npc lookout feeling -2 bargained", "npc hand feeling -2 bargained" ],
+      "note": "outcome: chain_storm_vow.s02.out_bargain (pride only: the road is the same, the hard road is closed)" },
+    { "key": "deny", "label_key": "chain_storm_vow.s02.opt_deny", "label": "Say the wind made the words", "check": "true",
+      "effects": [ "flag ch_storm_vow_2", "flag ch_storm_vow_broken", "morale -0.05", "npc lookout feeling -6 denied", "npc hand feeling -4 denied", "npc steersman feeling -3 denied" ],
+      "note": "outcome: chain_storm_vow.s02.out_deny (the chain goes on by the church at Doccinga: end_commuted)" }
+   ],
+   "memory": {
+    "stand_saint": "stood by the vow to Saint Cuthbert",
+    "stand_thor": "stood by the vow to Thor",
+    "bargain": "bargained the vow down in the calm",
+    "deny": "said the wind made the vow"
+   }
+  },
+  {
+   "id": "crew.chain_storm_vow.s03_dipping",
+   "note": "Step 3, the saint's road: moored, any port. The lookout, who was a monastery boy, measures the master with a tarred line and dips the candle. It comes again every twenty days until the wax is found, and again if the candle is sold (step 4). Sources: wax is the Church's light and altar candles must be wax, not tallow (economy/food.md 5); the great Easter candle (Bede, De temporum ratione c. 47, tells of English monks reading the year off the candles at Rome in 701 (?)); two ten-kilo cakes make a candle a man's height and as thick as his forearm (our reckoning); the riddle is Eusebius 31, De cera: 'now I hold words, now I drive back the darkness' (riddles_793.json riddle_eusebius_31_cera; Eusebius is usually taken for Hwaetberht, abbot of Wearmouth-Jarrow (?)), given here in our own words. Sets ch_storm_vow_3 and ch_storm_vow_candle, the timer ch_storm_vow_cure (the candle hangs a week before it will bear carrying), and ch_storm_vow_tallow for the cheat.",
+   "stage": "crew",
+   "when": "moored and flag.ch_storm_vow_2 and flag.ch_storm_vow_saint and not flag.ch_storm_vow_3 and not flag.ch_storm_vow_broken and not flag.ch_storm_vow_end_saint and year < 871",
+   "rate": 0.5,
+   "cooldown_days": 20,
+   "actors": {
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_frisian", "age": [17, 40], "fixed": false, "note": "cast.crew.beornwine" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_frisian", "age": [25, 55], "fixed": false, "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_storm_vow.s03.title",
+   "title": "Heel to crown",
+   "intention_key": "chain_storm_vow.s03.intention",
+   "intention": "The boat lies quiet. The lookout has borrowed a trough, a pot and somebody's fire, and stands you against the mast with a tarred line in his hand. He dipped the great candle for Easter when he was a boy, and has been waiting to be good at something aboard.",
+   "lines": [
+    { "who": "lookout", "key": "chain_storm_vow.s03.lookout_measure" },
+    { "who": "lookout", "key": "chain_storm_vow.s03.lookout_wax" },
+    { "who": "lookout", "key": "chain_storm_vow.s03.lookout_again", "when": "flag.ch_storm_vow_sold" },
+    { "who": "lookout", "key": "chain_storm_vow.s03.lookout_tallow" },
+    { "who": "hand", "key": "chain_storm_vow.s03.hand_bees" },
+    { "who": "lookout", "key": "chain_storm_vow.s03.lookout_riddle" }
+   ],
+   "options": [
+    { "key": "clean", "label_key": "chain_storm_vow.s03.opt_clean", "label": "Give him two cakes of clean wax from the hold", "check": "hold.wax >= 2", "cost": "goods wax 2",
+      "effects": [ "flag ch_storm_vow_3", "flag ch_storm_vow_candle", "flag ch_storm_vow_cure for 7", "give_riddle riddle_eusebius_31_cera", "npc lookout feeling +3 clean_wax", "morale +0.02" ],
+      "note": "outcome: chain_storm_vow.s03.out_clean" },
+    { "key": "tallow", "label_key": "chain_storm_vow.s03.opt_tallow", "label": "One cake, and mutton fat at the heart", "check": "hold.wax >= 1", "cost": "goods wax 1",
+      "effects": [ "flag ch_storm_vow_3", "flag ch_storm_vow_candle", "flag ch_storm_vow_tallow", "flag ch_storm_vow_cure for 7", "npc lookout feeling -3 tallow" ],
+      "note": "outcome: chain_storm_vow.s03.out_tallow (forty pennies saved; the bishop has a nose, and the hard road is closed)" },
+    { "key": "bought", "label_key": "chain_storm_vow.s03.opt_bought", "label": "Send ashore for wax at whatever is asked: a hundred and ten pennies", "check": "silver >= 110", "cost": "silver 110",
+      "effects": [ "flag ch_storm_vow_3", "flag ch_storm_vow_candle", "flag ch_storm_vow_cure for 7", "give_riddle riddle_eusebius_31_cera", "npc lookout feeling +2 bought_wax" ],
+      "note": "outcome: chain_storm_vow.s03.out_bought" },
+    { "key": "wait", "label_key": "chain_storm_vow.s03.opt_wait", "label": "Not yet. Wax first, where it is cheap", "check": "true", "default": true,
+      "effects": [ "npc lookout feeling -1 put_off" ],
+      "note": "outcome: chain_storm_vow.s03.out_wait (time only: he asks again in twenty days)" }
+   ],
+   "memory": {
+    "clean": "gave clean wax for the saint's candle",
+    "tallow": "put mutton fat in the saint's candle",
+    "bought": "bought wax dear for the saint's candle",
+    "wait": "put the candle off"
+   }
+  },
+  {
+   "id": "harbour.chain_storm_vow.s04_buyer",
+   "note": "Step 4, the saint's road, the first turn: any English port but the island, with the candle aboard and cured. A mother with a sick son wants to buy it. Sources: lights before an altar for the sick, and wax scarce and dear before the great feasts (lore/saints_calendar.md: Candlemas and Easter; economy/food.md 5); a thing vowed is the saint's from the vow (lore/gods_cult.md 10.2). The woman is invented and the forge names her. Mercy that shortens the candle is not counted against the hard road; selling it is. Sets ch_storm_vow_4 and one of ch_storm_vow_short or ch_storm_vow_sold (which clears ch_storm_vow_candle and ch_storm_vow_3, so that step 3 comes again).",
+   "stage": "harbour",
+   "when": "moored and port.people = english and port.id != lindisfarena and flag.ch_storm_vow_candle and not flag.ch_storm_vow_cure and not flag.ch_storm_vow_4 and not flag.ch_storm_vow_end_saint and year < 871",
+   "weight": 12,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "mother": { "role": "widow", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [30, 45], "fixed": true, "note": "invented: a thegn's widow of the district with one son" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_frisian", "age": [17, 40], "fixed": false, "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_storm_vow.s04.title",
+   "title": "A hand's length",
+   "intention_key": "chain_storm_vow.s04.intention",
+   "intention": "The candle lies along the thwarts in a wrapping of old sailcloth, and it has been seen. A woman in a good cloak gone thin at the hem has come down to the boat. She has stood there since the tide turned and does not mean to go.",
+   "lines": [
+    { "who": "mother", "key": "chain_storm_vow.s04.mother_son" },
+    { "who": "mother", "key": "chain_storm_vow.s04.mother_price" },
+    { "who": "lookout", "key": "chain_storm_vow.s04.lookout_whose" },
+    { "who": "mother", "key": "chain_storm_vow.s04.mother_piece" },
+    { "who": "lookout", "key": "chain_storm_vow.s04.lookout_measure" }
+   ],
+   "options": [
+    { "key": "piece", "label_key": "chain_storm_vow.s04.opt_piece", "label": "Cut her a hand's length from the foot, for nothing", "check": "true",
+      "effects": [ "flag ch_storm_vow_4", "flag ch_storm_vow_short", "deed gave_alms", "npc mother feeling +12 cut_a_piece", "morale +0.03" ],
+      "note": "outcome: chain_storm_vow.s04.out_piece (the candle is a hand short of a man; the bishop counts it whole)" },
+    { "key": "sell", "label_key": "chain_storm_vow.s04.opt_sell", "label": "Sell her the candle for a hundred and fifty pennies, and dip another", "check": "true",
+      "effects": [ "silver +150", "flag ch_storm_vow_4", "flag ch_storm_vow_sold", "flag ch_storm_vow_candle = 0", "flag ch_storm_vow_3 = 0", "npc mother feeling +6 sold_it", "npc lookout feeling -8 sold_it", "morale -0.03" ],
+      "note": "outcome: chain_storm_vow.s04.out_sell (the turn's silver: 150 d; the candle must be dipped again, and the hard road is closed)" },
+    { "key": "alms", "label_key": "chain_storm_vow.s04.opt_alms", "label": "Keep it whole, and give her twelve pennies to send down the coast for wax", "check": "silver >= 12", "cost": "silver 12",
+      "effects": [ "flag ch_storm_vow_4", "deed gave_alms", "npc mother feeling +5 gave_pennies", "npc lookout feeling +2 gave_pennies" ],
+      "note": "outcome: chain_storm_vow.s04.out_alms" },
+    { "key": "refuse", "label_key": "chain_storm_vow.s04.opt_refuse", "label": "It is not yours to cut or to sell", "check": "true", "default": true,
+      "effects": [ "flag ch_storm_vow_4", "npc mother feeling -4 refused", "npc lookout feeling +3 refused" ],
+      "note": "outcome: chain_storm_vow.s04.out_refuse (pride only)" }
+   ],
+   "memory": {
+    "piece": "cut a hand's length from the saint's candle for a sick boy",
+    "sell": "sold the saint's candle",
+    "alms": "gave pennies for wax and kept the candle whole",
+    "refuse": "would not cut or sell the candle"
+   }
+  },
+  {
+   "id": "crew.chain_storm_vow.s05_both_ways",
+   "note": "Step 5, a side step on either road: a slack watch under way. The Saxon mate, baptised under the law of 'baptism or death', asks which of them was meant and says how it was done at home. Sources: the Old Saxon baptismal vow names Thunaer, Uuoden and Saxnote (MGH Capitularia I no. 107; texts_793.json saxon_vow; lore/gods_cult.md 1.1); vows at springs, trees and groves forbidden (Capitulatio de partibus Saxoniae c. 21); a trader who vows to Thor against one thing and to Christ against another and counts both paid (lore/gods_cult.md, 'may show'); Helgi the Lean (Landnamabok: LATER (?)). Cast: cast.crew.brunger, cast.crew.aldger. Sets ch_storm_vow_5; 'both' sets ch_storm_vow_both, both vow flags and the lasting cost ch_storm_vow_two_lords.",
+   "stage": "crew",
+   "when": "under_way and storm < 0.2 and flag.ch_storm_vow_2 and not flag.ch_storm_vow_5 and not flag.ch_storm_vow_broken and not flag.ch_storm_vow_end_saint and not flag.ch_storm_vow_end_thor and year < 871",
+   "rate": 0.1,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "mate": { "role": "mate", "people": "saxon", "faith": "christian", "tongue": "old_frisian", "age": [24, 50], "fixed": false, "note": "cast.crew.brunger, or a Saxon mate of the forge" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger" }
+   },
+   "title_key": "chain_storm_vow.s05.title",
+   "title": "Which of them",
+   "intention_key": "chain_storm_vow.s05.intention",
+   "intention": "A slack afternoon with the sail asleep. The mate, who speaks perhaps ten times in a voyage, has been looking at you since noon the way a man looks at a knot he means to undo.",
+   "lines": [
+    { "who": "mate", "key": "chain_storm_vow.s05.mate_which" },
+    { "who": "mate", "key": "chain_storm_vow.s05.mate_home" },
+    { "who": "mate", "key": "chain_storm_vow.s05.mate_both" },
+    { "who": "steersman", "key": "chain_storm_vow.s05.steersman_two" },
+    { "who": "mate", "key": "chain_storm_vow.s05.mate_words" }
+   ],
+   "options": [
+    { "key": "one", "label_key": "chain_storm_vow.s05.opt_one", "label": "One debt, one creditor", "check": "true", "default": true,
+      "effects": [ "flag ch_storm_vow_5", "npc steersman feeling +2 one_creditor" ],
+      "note": "outcome: chain_storm_vow.s05.out_one" },
+    { "key": "both", "label_key": "chain_storm_vow.s05.opt_both", "label": "Pay both: a candle to the saint and a thing from the hold to the thunderer", "check": "true",
+      "effects": [ "flag ch_storm_vow_5", "flag ch_storm_vow_both", "flag ch_storm_vow_saint", "flag ch_storm_vow_thor", "flag ch_storm_vow_two_lords", "npc mate feeling +5 paid_both", "npc steersman feeling -4 paid_both" ],
+      "note": "outcome: chain_storm_vow.s05.out_both (both roads open and both finales can be reached; neither hard road can; ch_storm_vow_two_lords stays)" },
+    { "key": "words", "label_key": "chain_storm_vow.s05.opt_words", "label": "Ask him to say the words they made him say", "check": "true",
+      "effects": [ "flag ch_storm_vow_5", "give_text saxon_vow", "tongue old_saxon = 0.5", "npc mate feeling +3 asked_the_words" ],
+      "note": "outcome: chain_storm_vow.s05.out_words (time only: the Saxon vow for the chest, and some of his tongue)" }
+   ],
+   "memory": {
+    "one": "kept to the one who was promised",
+    "both": "meant to pay the saint and the thunderer both",
+    "words": "asked to hear the Saxon vow"
+   }
+  },
+  {
+   "id": "harbour.chain_storm_vow.s06_sand",
+   "note": "Step 6, the saint's road: the mainland shore opposite the island, with the candle aboard and cured. Sources: Lindisfarne is cut off twice a day and the sand to it is dry twice a day (Bede, Historia ecclesiastica III.3; places/lindisfarena.json site lindisfarena.sand); pilgrims and the sick came to the coffin, raised above the floor in 698 (Bede, prose Life of Cuthbert c. 42 to 46; Historia ecclesiastica IV.30 to 32); the doors and the 8th of June 793 (Anglo-Saxon Chronicle 793; Alcuin, letters 16 and 20). That pilgrims crossed barefoot is later custom, not recorded for these years (?). Cast: lindisfarena.eadstan, the house's boatman (to 812; after him a boatman of the forge); cast.crew.beornwine. Sets ch_storm_vow_6 and ch_storm_vow_barefoot or ch_storm_vow_sent; every option goes on to the coffin (then: end_saint).",
+   "stage": "harbour",
+   "when": "moored and port.id = lindisfarena and flag.ch_storm_vow_candle and not flag.ch_storm_vow_cure and not flag.ch_storm_vow_broken and not flag.ch_storm_vow_6 and year < 871",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "boatman": { "role": "pilot", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 65], "fixed": true, "note": "lindisfarena.eadstan to 812" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_frisian", "age": [17, 40], "fixed": false, "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_storm_vow.s06.title",
+   "title": "The pilgrims' sand",
+   "intention_key": "chain_storm_vow.s06.intention",
+   "intention": "The island lies a mile off across wet sand that shines like a shield. The house's boatman stands at the edge of it with a pole taller than he is. He looks at the candle, and then at your shoes.",
+   "lines": [
+    { "who": "boatman", "key": "chain_storm_vow.s06.boatman_tide" },
+    { "who": "boatman", "key": "chain_storm_vow.s06.boatman_way" },
+    { "who": "boatman", "key": "chain_storm_vow.s06.boatman_doors", "when": "year < 796" },
+    { "who": "boatman", "key": "chain_storm_vow.s06.boatman_short", "when": "flag.ch_storm_vow_short" },
+    { "who": "lookout", "key": "chain_storm_vow.s06.lookout_send" }
+   ],
+   "options": [
+    { "key": "barefoot", "label_key": "chain_storm_vow.s06.opt_barefoot", "label": "Take off your shoes and carry it over the sand at his heels", "check": "true", "default": true,
+      "effects": [ "flag ch_storm_vow_6", "flag ch_storm_vow_barefoot", "npc boatman feeling +6 walked_the_sand", "morale +0.03" ],
+      "then": "harbour.chain_storm_vow.end_saint",
+      "note": "outcome: chain_storm_vow.s06.out_barefoot (time and cold feet only)" },
+    { "key": "boat", "label_key": "chain_storm_vow.s06.opt_boat", "label": "Bring her round into the Ouse and carry it up from the landing", "check": "true",
+      "effects": [ "flag ch_storm_vow_6", "npc boatman feeling +1 came_by_boat" ],
+      "then": "harbour.chain_storm_vow.end_saint",
+      "note": "outcome: chain_storm_vow.s06.out_boat (the hard road is closed)" },
+    { "key": "send", "label_key": "chain_storm_vow.s06.opt_send", "label": "Let the lookout carry it over; see to the boat", "check": "true",
+      "effects": [ "flag ch_storm_vow_6", "flag ch_storm_vow_sent", "npc lookout feeling +3 carried_it", "npc boatman feeling -3 sent_a_boy" ],
+      "then": "harbour.chain_storm_vow.end_saint",
+      "note": "outcome: chain_storm_vow.s06.out_send (the bishop notes it; the hard road is closed)" }
+   ],
+   "memory": {
+    "barefoot": "walked the sand barefoot with the candle",
+    "boat": "brought the candle by the harbour",
+    "send": "sent a boy over the sand with the candle"
+   }
+  },
+  {
+   "id": "harbour.chain_storm_vow.end_saint",
+   "note": "ENDING 1, the vow kept to the saint: Lindisfarena, at the coffin, after step 6 (it opens at once by that step's 'then', or on the next call). The candle is lit and the bishop asks for the rest: the best thing in the hold. Sources: the oak coffin above the floor at the right of the altar, the body found whole in 698 (Bede, prose Life c. 42; Historia ecclesiastica IV.30); the cloths taken off the body then were kept and kissed as relics (prose Life c. 42); earth from the place where the washing water was poured healed a boy (c. 41; places/lindisfarena.json site lindisfarena.well); silk for wrapping the holy dead (goods_793.json silk); wine for the Mass and wax for the altar are what Bishop Higbald wants in 793 (places/lindisfarena.json); the heathen took the metal off the books and left the books (the story lindisfarena.missing_cover); names written in a house's book to be prayed for (the Durham Liber Vitae, begun about 840, perhaps on this island (?)). Cast: cast.higbald (lindisfarena.higbald) to 803; after him Ecgberht, Heathured, Ecgred, Eanberht and Eardulf (?), never named in the words. Sets ch_storm_vow_end_saint; grand rewards unlock_relic_cuthberts_cloth (or unlock_relic_cuthberts_earth for the man who gives the candle only) and, by the hard road, unlock_title_st_cuthberts_brother. The timer ch_storm_vow_rest (200 days) holds back the last card.",
+   "stage": "harbour",
+   "when": "moored and port.id = lindisfarena and flag.ch_storm_vow_6 and not flag.ch_storm_vow_end_saint and year < 871",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "age": [45, 70], "fixed": true, "note": "cast.higbald to 803; his successors after" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_frisian", "age": [17, 40], "fixed": false, "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_storm_vow.end_saint.title",
+   "title": "The tallest light in the church",
+   "intention_key": "chain_storm_vow.end_saint.intention",
+   "intention": "The candle stands by the carved oak coffin at the right of the altar and is lit at the evening office. It is the tallest light in the church. When the brothers have gone out the bishop stays where he is, and asks what else was said in the storm.",
+   "lines": [
+    { "who": "bishop", "key": "chain_storm_vow.end_saint.bishop_light_793", "when": "year < 796" },
+    { "who": "bishop", "key": "chain_storm_vow.end_saint.bishop_light", "when": "year >= 796" },
+    { "who": "bishop", "key": "chain_storm_vow.end_saint.bishop_tallow", "when": "flag.ch_storm_vow_tallow" },
+    { "who": "bishop", "key": "chain_storm_vow.end_saint.bishop_short", "when": "flag.ch_storm_vow_short" },
+    { "who": "bishop", "key": "chain_storm_vow.end_saint.bishop_sent", "when": "flag.ch_storm_vow_sent" },
+    { "who": "bishop", "key": "chain_storm_vow.end_saint.bishop_best" },
+    { "who": "bishop", "key": "chain_storm_vow.end_saint.bishop_wine" },
+    { "who": "lookout", "key": "chain_storm_vow.end_saint.lookout_silk", "when": "hold.silk > 0" }
+   ],
+   "options": [
+    { "key": "silk", "label_key": "chain_storm_vow.end_saint.opt_silk", "label": "Lay the bolt of silk on the coffin: the best, as it was said and by the road it was said", "check": "hold.silk >= 1 and flag.ch_storm_vow_barefoot and flag.ch_storm_vow_year and not flag.ch_storm_vow_late and not flag.ch_storm_vow_tallow and not flag.ch_storm_vow_sold and not flag.ch_storm_vow_small and not flag.ch_storm_vow_both", "cost": "goods silk 1",
+      "effects": [ "goods books +2", "silver +240", "commission rhenish_wine 6 by 240 premium 1.0", "commission wax 6 by 240 premium 1.0", "flag unlock_relic_cuthberts_cloth", "flag unlock_title_st_cuthberts_brother", "flag ch_storm_vow_end_saint", "flag ch_storm_vow_rest for 200", "news chain_storm_vow.news.candle at eoforwic", "npc bishop feeling +20 gave_the_best", "npc lookout feeling +10 gave_the_best", "morale +0.1" ],
+      "note": "outcome: chain_storm_vow.end_saint.out_silk (the hard road: two books and 240 d of the saint's rents, the house's wine and wax to fetch at double price, a strip of the old grave cloth, and the house's name in the book)" },
+    { "key": "wine", "label_key": "chain_storm_vow.end_saint.opt_wine", "label": "Give two casks of Rhenish for the altar", "check": "hold.rhenish_wine >= 2", "cost": "goods rhenish_wine 2",
+      "effects": [ "goods books +1", "silver +120", "commission rhenish_wine 6 by 240 premium 1.0", "flag unlock_relic_cuthberts_cloth", "flag ch_storm_vow_end_saint", "flag ch_storm_vow_rest for 200", "news chain_storm_vow.news.candle at eoforwic", "npc bishop feeling +12 gave_wine", "npc lookout feeling +5 gave_wine", "morale +0.05" ],
+      "note": "outcome: chain_storm_vow.end_saint.out_wine (finale: a book, 120 d, the wine order and a strip of the grave cloth)" },
+    { "key": "silver", "label_key": "chain_storm_vow.end_saint.opt_silver", "label": "Lay a hundred pennies on the altar in place of goods", "check": "silver >= 100", "cost": "silver 100",
+      "effects": [ "goods books +1", "commission rhenish_wine 6 by 240 premium 1.0", "flag unlock_relic_cuthberts_cloth", "flag ch_storm_vow_end_saint", "flag ch_storm_vow_rest for 200", "news chain_storm_vow.news.candle at eoforwic", "npc bishop feeling +8 gave_silver", "morale +0.03" ],
+      "note": "outcome: chain_storm_vow.end_saint.out_silver (finale: a book, the wine order and a strip of the grave cloth)" },
+    { "key": "candle", "label_key": "chain_storm_vow.end_saint.opt_candle", "label": "The candle was the vow. Ask his blessing and go", "check": "true",
+      "effects": [ "commission rhenish_wine 6 by 240 premium 1.0", "commission wax 6 by 240 premium 1.0", "flag unlock_relic_cuthberts_earth", "flag ch_storm_vow_end_saint", "flag ch_storm_vow_rest for 200", "npc bishop feeling +2 candle_only", "npc lookout feeling -3 candle_only" ],
+      "note": "outcome: chain_storm_vow.end_saint.out_candle (pride only: the house's wine and wax to fetch at double price, and a pinch of the earth every pilgrim may take)" }
+   ],
+   "memory": {
+    "silk": "laid silk on Saint Cuthbert's coffin for a vow kept whole",
+    "wine": "gave wine for the saint's altar",
+    "silver": "laid silver on the saint's altar",
+    "candle": "gave the candle and kept the hold"
+   }
+  },
+  {
+   "id": "harbour.chain_storm_vow.s08_thors_man",
+   "note": "Step 8, Thor's road: any Danish or Norse port. The hand brings an old shipmaster who says where and how a thing is given. Sources: no temple or priest a merchant can pay at; the usual offering is a beast killed and eaten together in the lord's own hall with a share set aside (lore/gods_cult.md 4, 6); weapons and tools thrown into the lake at Tisso (lore/gods_cult.md 4); a great hall of these years stood at Huseby above the market of Skiringssal (D. Skre, Kaupang in Skiringssal, 2007 (?)), and Ogvaldsnes on the Karmsund was a lord's seat (ports_793.json); the autumn feast at winter's start (Sigvat's verses of about 1019: LATER; lore/gods_cult.md 7). The old man's joke answers Dudo of Saint-Quentin (about 1015: LATER, a polemic), who says the Northmen killed a man to Thor for a fair wind: here it is 'what the Franks say'. Everyone is invented; the forge names them. Sets ch_storm_vow_8 and, if the sword is named, ch_storm_vow_marked. Step payout: some of the Norse tongue, and a true price word (wine is wanted at Skiringssal before the feast).",
+   "stage": "harbour",
+   "when": "moored and (port.people = norse or port.people = danish) and flag.ch_storm_vow_2 and flag.ch_storm_vow_thor and not flag.ch_storm_vow_8 and not flag.ch_storm_vow_broken and not flag.ch_storm_vow_end_thor and year < 871",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "elder": { "role": "skipper", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [58, 75], "fixed": true, "note": "invented: an old shipmaster who no longer sails" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_frisian", "age": [25, 55], "fixed": false, "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_storm_vow.s08.title",
+   "title": "No house with a door",
+   "intention_key": "chain_storm_vow.s08.intention",
+   "intention": "The hand has brought an old shipmaster down to the boat: a man with a rope-burned palm and a stick, who looks into your hold before he looks at you, and takes his time over both.",
+   "lines": [
+    { "who": "hand", "key": "chain_storm_vow.s08.hand_him" },
+    { "who": "elder", "key": "chain_storm_vow.s08.elder_house" },
+    { "who": "elder", "key": "chain_storm_vow.s08.elder_where" },
+    { "who": "elder", "key": "chain_storm_vow.s08.elder_franks" },
+    { "who": "elder", "key": "chain_storm_vow.s08.elder_best" }
+   ],
+   "options": [
+    { "key": "blade", "label_key": "chain_storm_vow.s08.opt_blade", "label": "Say it was the sword, and let him put his mark on the scabbard", "check": "hold.swords >= 1",
+      "effects": [ "flag ch_storm_vow_8", "flag ch_storm_vow_marked", "tongue old_norse = 0.5", "price_shock skiringssal rhenish_wine x1.3 for 150", "npc elder feeling +6 named_the_blade", "npc hand feeling +3 named_the_blade" ],
+      "note": "outcome: chain_storm_vow.s08.out_blade (the sword is promised by name: the hard road at the hall asks for it)" },
+    { "key": "drink", "label_key": "chain_storm_vow.s08.opt_drink", "label": "Say it was the wine", "check": "true", "default": true,
+      "effects": [ "flag ch_storm_vow_8", "tongue old_norse = 0.5", "price_shock skiringssal rhenish_wine x1.3 for 150", "npc elder feeling +2 named_the_wine" ],
+      "note": "outcome: chain_storm_vow.s08.out_drink" },
+    { "key": "see", "label_key": "chain_storm_vow.s08.opt_see", "label": "Say you will know it when you stand in the hall", "check": "true",
+      "effects": [ "flag ch_storm_vow_8", "tongue old_norse = 0.5", "npc elder feeling -1 would_not_say" ],
+      "note": "outcome: chain_storm_vow.s08.out_see (pride only)" }
+   ],
+   "memory": {
+    "blade": "named a Frankish sword as the thunderer's",
+    "drink": "named the wine as the thunderer's",
+    "see": "would not say what was best in the hold"
+   }
+  },
+  {
+   "id": "harbour.chain_storm_vow.end_thor",
+   "note": "ENDING 2, the vow kept to Thor: Skiringssal or Ogvaldsnes, in the ninth, tenth or eleventh month, after step 8. Sources: as step 8; the feast is the lord's own, in his hall, with drink going round (lore/gods_cult.md 4: nothing is recorded of words spoken, so none are written); a gift given before witnesses and a gift given back (Havamal 41 and 44, texts_793.json: LATER in writing, the custom older); guest-right in a lord's hall is what a foreign trader in the north lived by (Rimbert, Vita Anskarii c. 19, 24: the merchants under King Bjorn's and King Horik's protection); the sheltered way north inside the islands is the 'north way' Ohthere described to King Alfred about 890 (texts_793.json ohthere: LATER); furs and walrus ivory as a northern lord's wealth (the same). A Frankish sword carried north breaks the king's ban on arms (Herstal 779, Thionville 805: goods_793.json swords): the card gives it to a tarn, not to a buyer, and no deed is set. In the autumn of 793 the lord says who else has sat at his board: men who were west over the sea (cast.thorleif's kind), going again in spring (the raid of 794, chronicle 794-summer-donemuthe-raid). Sets ch_storm_vow_end_thor; grand rewards unlock_title_norse_guest_right and, by the hard road, unlock_pilot_nordvegr. Keeping the gift back sets ch_storm_vow_broken and the story goes on at Doccinga.",
+   "stage": "harbour",
+   "when": "moored and (port.id = skiringssal or port.id = ogvaldsnes) and flag.ch_storm_vow_8 and not flag.ch_storm_vow_end_thor and not flag.ch_storm_vow_broken and year < 871",
+   "weight": 30,
+   "once": true,
+   "months": [9, 10, 11],
+   "cooldown_days": 0,
+   "actors": {
+    "lord": { "role": "chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [35, 60], "fixed": true, "note": "invented: the lord of the hall" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_frisian", "age": [25, 55], "fixed": false, "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_storm_vow.end_thor.title",
+   "title": "Winter's start",
+   "intention_key": "chain_storm_vow.end_thor.intention",
+   "intention": "The beasts are down from the hill, an ox has been killed in the yard and the hall is full of the steam of it. The lord of the place has heard why a Frisian is at his door, and has had a bench cleared near the fire.",
+   "lines": [
+    { "who": "lord", "key": "chain_storm_vow.end_thor.lord_seat" },
+    { "who": "lord", "key": "chain_storm_vow.end_thor.lord_how" },
+    { "who": "lord", "key": "chain_storm_vow.end_thor.lord_marked", "when": "flag.ch_storm_vow_marked" },
+    { "who": "lord", "key": "chain_storm_vow.end_thor.lord_west", "when": "year < 794" },
+    { "who": "hand", "key": "chain_storm_vow.end_thor.hand_loud" }
+   ],
+   "options": [
+    { "key": "blade", "label_key": "chain_storm_vow.end_thor.opt_blade", "label": "Say the vow before the hall, and give the marked sword to the tarn", "check": "hold.swords >= 1 and flag.ch_storm_vow_marked and flag.ch_storm_vow_year and not flag.ch_storm_vow_late and not flag.ch_storm_vow_small and not flag.ch_storm_vow_both", "cost": "goods swords 1",
+      "effects": [ "goods marten +4", "goods walrus_ivory +2", "goods sable +1", "tongue old_norse = 0.75", "flag unlock_title_norse_guest_right", "flag unlock_pilot_nordvegr", "flag ch_storm_vow_end_thor", "flag ch_storm_vow_rest for 200", "news chain_storm_vow.news.blade at ripa", "npc lord feeling +20 gave_the_blade", "npc hand feeling +8 gave_the_blade", "morale +0.1" ],
+      "note": "outcome: chain_storm_vow.end_thor.out_blade (the hard road: four timbers of marten, two pairs of tusks and a timber of sable, about 1,140 d; guest-right in the lord's hall and his own pilot for the inner way north)" },
+    { "key": "wine", "label_key": "chain_storm_vow.end_thor.opt_wine", "label": "Say the vow, and broach two casks of Rhenish for the hall, his horn first", "check": "hold.rhenish_wine >= 2", "cost": "goods rhenish_wine 2",
+      "effects": [ "goods marten +4", "goods walrus_ivory +2", "flag unlock_title_norse_guest_right", "flag ch_storm_vow_end_thor", "flag ch_storm_vow_rest for 200", "npc lord feeling +12 gave_wine", "npc hand feeling +4 gave_wine", "morale +0.05" ],
+      "note": "outcome: chain_storm_vow.end_thor.out_wine (finale: four timbers of marten and two pairs of tusks, about 660 d, and guest-right)" },
+    { "key": "silver", "label_key": "chain_storm_vow.end_thor.opt_silver", "label": "Say the vow, and throw a hundred pennies' weight of silver into the tarn", "check": "silver >= 100", "cost": "silver 100",
+      "effects": [ "goods marten +3", "goods walrus_ivory +3", "flag unlock_title_norse_guest_right", "flag ch_storm_vow_end_thor", "flag ch_storm_vow_rest for 200", "npc lord feeling +8 gave_silver", "npc hand feeling +3 gave_silver", "morale +0.03" ],
+      "note": "outcome: chain_storm_vow.end_thor.out_silver (finale: three timbers of marten and three pairs of tusks, about 630 d, and guest-right)" },
+    { "key": "keep", "label_key": "chain_storm_vow.end_thor.opt_keep", "label": "Eat his ox, and say the thing is not aboard this voyage", "check": "true",
+      "effects": [ "flag ch_storm_vow_broken", "npc lord feeling -10 kept_it_back", "npc hand feeling -8 kept_it_back", "morale -0.05" ],
+      "note": "outcome: chain_storm_vow.end_thor.out_keep (pride only: the vow is broken before witnesses and the story goes on at Doccinga)" }
+   ],
+   "memory": {
+    "blade": "gave a Frankish sword to the tarn for a vow kept whole",
+    "wine": "gave wine to the hall for a vow",
+    "silver": "gave silver to the tarn for a vow",
+    "keep": "ate the ox and kept the gift back"
+   }
+  },
+  {
+   "id": "crew.chain_storm_vow.s10_overdue",
+   "note": "Step 10: the term has run out (ch_storm_vow_year lapsed) and nothing is paid. It warns, and it comes again every sixty days while the vow stands unpaid and unrenewed. Sources: a vow is a contract with a due date, a broken one is a sin needing penance, and the saint is believed to collect (lore/gods_cult.md 10.2); counting days by knots in a cord is ours (the guest-master of Gyrwe keeps his tally of ships so: places/gyrwe.json). Cast: cast.crew.aldger, cast.crew.ravn. 'renew' restarts the timer for 200 days and sets ch_storm_vow_late (the hard road is closed); the other two set ch_storm_vow_broken and send the story to Doccinga.",
+   "stage": "crew",
+   "when": "flag.ch_storm_vow_2 and not flag.ch_storm_vow_year and not flag.ch_storm_vow_broken and not flag.ch_storm_vow_end_saint and not flag.ch_storm_vow_end_thor and storm < 0.3 and year < 872",
+   "rate": 0.3,
+   "cooldown_days": 60,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_frisian", "age": [25, 55], "fixed": false, "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_storm_vow.s10.title",
+   "title": "The cord is full",
+   "intention_key": "chain_storm_vow.s10.intention",
+   "intention": "A year and a day have gone by since the night the withy parted. The men have counted; they keep a cord by the mast with a knot for every day, and today there is no cord left to knot.",
+   "lines": [
+    { "who": "steersman", "key": "chain_storm_vow.s10.steersman_count" },
+    { "who": "steersman", "key": "chain_storm_vow.s10.steersman_ways" },
+    { "who": "hand", "key": "chain_storm_vow.s10.hand_thor", "when": "flag.ch_storm_vow_thor" },
+    { "who": "steersman", "key": "chain_storm_vow.s10.steersman_late", "when": "flag.ch_storm_vow_late" },
+    { "who": "steersman", "key": "chain_storm_vow.s10.steersman_wind" }
+   ],
+   "options": [
+    { "key": "renew", "label_key": "chain_storm_vow.s10.opt_renew", "label": "Swear it again before the crew: before this sailing season is out", "check": "true", "default": true,
+      "effects": [ "flag ch_storm_vow_year for 200", "flag ch_storm_vow_late", "morale -0.02", "npc steersman feeling +2 swore_again" ],
+      "note": "outcome: chain_storm_vow.s10.out_renew (pride only: two hundred days more)" },
+    { "key": "priest", "label_key": "chain_storm_vow.s10.opt_priest", "label": "Ask what an unkept vow costs: lay a course for Doccinga", "check": "true",
+      "effects": [ "flag ch_storm_vow_broken", "flag ch_storm_vow_asked", "npc steersman feeling +3 went_to_the_priest" ],
+      "note": "outcome: chain_storm_vow.s10.out_priest (the story goes on at Doccinga: end_commuted)" },
+    { "key": "wind", "label_key": "chain_storm_vow.s10.opt_wind", "label": "The wind made the words. Cut the cord down", "check": "true",
+      "effects": [ "flag ch_storm_vow_broken", "morale -0.08", "npc steersman feeling -5 cut_the_cord", "npc hand feeling -5 cut_the_cord" ],
+      "note": "outcome: chain_storm_vow.s10.out_wind (the men remember; the door at Doccinga stays open)" }
+   ],
+   "memory": {
+    "renew": "swore the vow a second time",
+    "priest": "went to ask what a broken vow costs",
+    "wind": "cut the cord down and called the vow wind"
+   }
+  },
+  {
+   "id": "harbour.chain_storm_vow.end_commuted",
+   "note": "ENDING 3, the vow paid in another coin: Doccinga, any call once the vow is broken (denied in the calm, cut down with the cord, kept back at the hall, or brought to the priest). Sources: penance by the book, a term of fasting on bread, water and salt, turned into alms, silver or a work by commutation, which churchmen complained of and took (the penitentials of Theodore and Egbert, Halitgar about 830 (?); lore/gods_cult.md 10.3); a vow to the old gods is itself the sin (Indiculus superstitionum; Capitulatio de partibus Saxoniae c. 21); the wooden church on a raised mound in the salt marsh where Boniface was killed in 754, with its spring (Willibald, Vita Bonifatii c. 9 (?); places/doccinga.json); the fifth of June, when the church needs wax and wine carried in (story doccinga.fifth_of_june); a light kept for seamen: King Charles had the old lighthouse at Boulogne restored and a fire lit on it at night in 811 (Annales regni Francorum 811); that a marsh church kept a lantern on storm nights is invented (?). Cast: doccinga.meinward (to 822; a priest of the forge after), cast.crew.aldger, who was baptised here. Sets ch_storm_vow_end_commuted; grand rewards unlock_work_doccinga_light or unlock_factor_doccinga, both by the hard road. Refusing sets the lasting cost ch_storm_vow_forsworn and the card comes again after sixty days.",
+   "stage": "harbour",
+   "when": "moored and port.id = doccinga and flag.ch_storm_vow_broken and not flag.ch_storm_vow_end_commuted and not flag.ch_storm_vow_end_saint and not flag.ch_storm_vow_end_thor and year < 880",
+   "weight": 30,
+   "cooldown_days": 60,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 65], "fixed": true, "note": "doccinga.meinward to 822" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger, baptised in this church" }
+   },
+   "title_key": "chain_storm_vow.end_commuted.title",
+   "title": "Another coin",
+   "intention_key": "chain_storm_vow.end_commuted.intention",
+   "intention": "The wooden church on its mound in the salt marsh, where the old bishop was killed. The priest is mending a sheep hurdle by the door. He hears the whole of it without putting the hurdle down.",
+   "lines": [
+    { "who": "priest", "key": "chain_storm_vow.end_commuted.priest_saint", "when": "flag.ch_storm_vow_saint" },
+    { "who": "priest", "key": "chain_storm_vow.end_commuted.priest_thor", "when": "flag.ch_storm_vow_thor" },
+    { "who": "priest", "key": "chain_storm_vow.end_commuted.priest_none", "when": "not flag.ch_storm_vow_saint and not flag.ch_storm_vow_thor" },
+    { "who": "priest", "key": "chain_storm_vow.end_commuted.priest_forsworn", "when": "flag.ch_storm_vow_forsworn" },
+    { "who": "priest", "key": "chain_storm_vow.end_commuted.priest_work" },
+    { "who": "priest", "key": "chain_storm_vow.end_commuted.priest_fast" },
+    { "who": "steersman", "key": "chain_storm_vow.end_commuted.steersman_home" }
+   ],
+   "options": [
+    { "key": "light", "label_key": "chain_storm_vow.end_commuted.opt_light", "label": "Pay for the light on the mound: a hundred and fifty pennies", "check": "silver >= 150", "cost": "silver 150",
+      "effects": [ "goods frisian_cloth +8", "commission rhenish_wine 6 by 300 premium 1.0", "commission wax 6 by 300 premium 1.0", "flag unlock_work_doccinga_light", "flag ch_storm_vow_end_commuted", "flag ch_storm_vow_rest for 200", "deed gave_alms", "news chain_storm_vow.news.light at dorestad", "npc priest feeling +15 paid_for_the_light", "npc steersman feeling +6 paid_for_the_light", "morale +0.08" ],
+      "note": "outcome: chain_storm_vow.end_commuted.out_light (finale: eight bolts of the marsh's cloth, about 380 d, the church's wine and wax to fetch at double price, and the light, which is a work)" },
+    { "key": "fast", "label_key": "chain_storm_vow.end_commuted.opt_fast", "label": "Keep the forty days on bread, water and salt, and carry for the church for nothing", "check": "true", "default": true,
+      "effects": [ "health -0.05", "goods frisian_cloth +6", "commission rhenish_wine 6 by 300 premium 1.0", "commission wax 6 by 300 premium 1.0", "flag unlock_factor_doccinga", "flag ch_storm_vow_end_commuted", "flag ch_storm_vow_rest for 200", "npc priest feeling +10 kept_the_fast", "npc steersman feeling +4 kept_the_fast", "morale +0.03" ],
+      "note": "outcome: chain_storm_vow.end_commuted.out_fast (finale, for time and pride only: six bolts of cloth, the church's orders, and the widow of the long mound as the house's keeper here)" },
+    { "key": "both", "label_key": "chain_storm_vow.end_commuted.opt_both", "label": "Pay for the light, and keep the fast as well", "check": "silver >= 150 and not flag.ch_storm_vow_forsworn", "cost": "silver 150",
+      "effects": [ "health -0.05", "goods frisian_cloth +12", "silver +200", "commission rhenish_wine 6 by 300 premium 1.0", "commission wax 6 by 300 premium 1.0", "flag unlock_work_doccinga_light", "flag unlock_factor_doccinga", "flag ch_storm_vow_end_commuted", "flag ch_storm_vow_rest for 200", "deed gave_alms", "news chain_storm_vow.news.light at dorestad", "npc priest feeling +20 light_and_fast", "npc steersman feeling +10 light_and_fast", "morale +0.1" ],
+      "note": "outcome: chain_storm_vow.end_commuted.out_both (the hard road: twelve bolts and the mound's two hundred pennies toward the oil, the orders, the light and the keeper)" },
+    { "key": "neither", "label_key": "chain_storm_vow.end_commuted.opt_neither", "label": "A vow to the wind is wind. Thank him and go", "check": "true",
+      "effects": [ "flag ch_storm_vow_forsworn", "npc priest feeling -6 refused_penance", "npc steersman feeling -6 refused_penance", "morale -0.05" ],
+      "note": "outcome: chain_storm_vow.end_commuted.out_neither (pride only: he asks again on a later call)" }
+   ],
+   "memory": {
+    "light": "paid for a light on the church mound in place of a vow",
+    "fast": "kept a forty days' fast in place of a vow",
+    "both": "paid for the light and kept the fast",
+    "neither": "refused the penance for a broken vow"
+   }
+  },
+  {
+   "id": "harbour.chain_storm_vow.s12_sails",
+   "note": "Step 12, the side road that can change history: Gyrwe, from the fourth to the sixth month of 794, for a house on the chain. Long ships have been seen lying off the Coquet. Sources: 'the heathen ravaged among the Northumbrians and plundered Ecgfrith's monastery at the mouth of the Don; there one of their leaders was killed, and some of their ships were broken by bad weather, and many of the men drowned, and those who came alive to the shore were killed at the river mouth' (Anglo-Saxon Chronicle D and E, 794, in our own words; chronicle_793.json 794-summer-donemuthe-raid: the season is not given, the table fires it on 15 July); Alcuin's letter of 793 to the brothers of Wearmouth and Jarrow, 'you live by the sea, from which this plague first came' (letter 19, our rendering); Benedict Biscop's library, which he ordered kept whole (Bede, Lives of the Abbots c. 11); the abbot's asking a merchant to come back if sails are seen is the places file's (places/gyrwe.json story gyrwe.wreck_on_the_bar, flag gy_warned). That a fisher saw the ships a day ahead is invented. Cast: gyrwe.abbot (Friduin), gyrwe.guest_master (Wynhelm), cast.crew.beornwine, whose house this was. Sets ch_storm_vow_12; warning sets ch_storm_vow_warned, carrying the chests ch_storm_vow_carried (and ch_storm_vow_wet if the shoals are misjudged).",
+   "stage": "harbour",
+   "when": "moored and port.id = gyrwe and year = 794 and month >= 4 and month <= 6 and flag.ch_storm_vow_2 and not flag.ch_storm_vow_12",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "age": [50, 68], "fixed": true, "note": "gyrwe.abbot, Friduin" },
+    "guest_master": { "role": "guest_master", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 60], "fixed": true, "note": "gyrwe.guest_master, Wynhelm" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_frisian", "age": [17, 40], "fixed": false, "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_storm_vow.s12.title",
+   "title": "A new knot",
+   "intention_key": "chain_storm_vow.s12.intention",
+   "intention": "The guest-master has a new knot in his cord of ships and has not ladled anything. A fisher of the house came in over the bar at first light: long ships lying under the island off the Coquet, a day's sail to the north. The abbot has come down to the mud himself.",
+   "lines": [
+    { "who": "guest_master", "key": "chain_storm_vow.s12.guest_knot" },
+    { "who": "abbot", "key": "chain_storm_vow.s12.abbot_letter" },
+    { "who": "abbot", "key": "chain_storm_vow.s12.abbot_warned", "when": "flag.gy_warned" },
+    { "who": "abbot", "key": "chain_storm_vow.s12.abbot_ask" },
+    { "who": "lookout", "key": "chain_storm_vow.s12.lookout_books" },
+    { "who": "guest_master", "key": "chain_storm_vow.s12.guest_shoals" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_storm_vow.s12.opt_carry", "label": "Take the book chests up the river on this tide, and tell him to send for the reeve's men", "check": "true",
+      "effects": [ "flag ch_storm_vow_12", "flag ch_storm_vow_warned", "flag ch_storm_vow_carried", "npc lookout feeling +8 carried_the_books",
+                   { "chance": 0.7, "by": "crew.seamanship_best",
+                     "success": [ "npc abbot feeling +15 carried_the_books" ],
+                     "failure": [ "flag ch_storm_vow_wet", "health -0.03", "npc abbot feeling +8 carried_the_books" ] } ],
+      "note": "outcome: chain_storm_vow.s12.out_carry (success) or chain_storm_vow.s12.out_carry_wet (failure: she touches on the shoals and one chest takes water; the books still go up the river)" },
+    { "key": "advise", "label_key": "chain_storm_vow.s12.opt_advise", "label": "Tell him: plate in the ground, boys inland, and the reeve's spears in the reeds by the bar", "check": "true", "default": true,
+      "effects": [ "flag ch_storm_vow_12", "flag ch_storm_vow_warned", "npc abbot feeling +8 gave_counsel" ],
+      "note": "outcome: chain_storm_vow.s12.out_advise (time only)" },
+    { "key": "pray", "label_key": "chain_storm_vow.s12.opt_pray", "label": "Kneel with the brothers, and sail on the tide", "check": "true",
+      "effects": [ "flag ch_storm_vow_12", "npc abbot feeling +1 prayed_and_left", "npc lookout feeling -6 prayed_and_left", "morale -0.02" ],
+      "note": "outcome: chain_storm_vow.s12.out_pray (what happened: the house is plundered that summer, and the storm comes after)" }
+   ],
+   "memory": {
+    "carry": "carried the master's books up the river before the heathen came",
+    "carry.failure": "carried the books up the river and wetted a chest on the shoals",
+    "advise": "told the abbot what to do with a day's warning",
+    "pray": "prayed with the brothers and sailed"
+   }
+  },
+  {
+   "id": "harbour.chain_storm_vow.end_gyrwe",
+   "note": "ENDING 4, history changed: Gyrwe, from the eighth month of 794 to the end of 799, for a house that warned it. In the Chronicle the monastery is plundered, a leader of the heathen is killed, a storm breaks their ships and the men who reach the shore are killed. Here the leader and the storm are as they were (no merchant changes the weather), but the raiders find the church swept, the chests gone and armed men waiting: the house is not plundered. Symeon of Durham (about 1107: LATER) has the storm as Saint Cuthbert's vengeance (Libellus de exordio II.5 (?)); the abbot's answer is ours. King Aethelred, who has the Tyne in 794, is killed on 18 April 796 (Anglo-Saxon Chronicle 794 for 796): his thanks are a writing of toll freedom on the strand at Eoforwic, as kings gave to minsters' ships in the south (Sawyer 29, 86, 91); no Northumbrian writing of the kind survives (?). Cast: gyrwe.abbot, gyrwe.fisherman (Dudda), cast.crew.beornwine. Sets ch_storm_vow_end_gyrwe and changed_jarrow_794; grand rewards unlock_factor_gyrwe and, for the house that carried the chests, unlock_charter_eoforwic.",
+   "stage": "harbour",
+   "when": "moored and port.id = gyrwe and flag.ch_storm_vow_warned and not flag.ch_storm_vow_end_gyrwe and ((year = 794 and month >= 8) or (year >= 795 and year < 800))",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "age": [50, 68], "fixed": true, "note": "gyrwe.abbot, Friduin" },
+    "fisher": { "role": "fisherman", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 60], "fixed": true, "note": "gyrwe.fisherman, Dudda" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_frisian", "age": [17, 40], "fixed": false, "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_storm_vow.end_gyrwe.title",
+   "title": "A roof on both",
+   "intention_key": "chain_storm_vow.end_gyrwe.intention",
+   "intention": "Broken ships lie on the south sand at the river mouth, ribs up, with gulls on them. The two stone churches stand on their rise as they stood, and there is a roof on both. The abbot walks you to the door and counts on his fingers what is still inside.",
+   "lines": [
+    { "who": "abbot", "key": "chain_storm_vow.end_gyrwe.abbot_what" },
+    { "who": "fisher", "key": "chain_storm_vow.end_gyrwe.fisher_storm" },
+    { "who": "abbot", "key": "chain_storm_vow.end_gyrwe.abbot_weather" },
+    { "who": "abbot", "key": "chain_storm_vow.end_gyrwe.abbot_chests", "when": "flag.ch_storm_vow_carried and not flag.ch_storm_vow_wet" },
+    { "who": "abbot", "key": "chain_storm_vow.end_gyrwe.abbot_wet", "when": "flag.ch_storm_vow_wet" },
+    { "who": "abbot", "key": "chain_storm_vow.end_gyrwe.abbot_king", "when": "year < 796 or (year = 796 and month < 4)" },
+    { "who": "abbot", "key": "chain_storm_vow.end_gyrwe.abbot_king_dead", "when": "year > 796 or (year = 796 and month >= 4)" }
+   ],
+   "options": [
+    { "key": "books", "label_key": "chain_storm_vow.end_gyrwe.opt_books", "label": "Take what the house gives: two books, the reeve's silver and the cellarer's key", "check": "true", "default": true,
+      "effects": [ "goods books +2", "silver +150", "give_riddle riddle_exeter_02_storm_sea", "flag unlock_factor_gyrwe", "flag ch_storm_vow_end_gyrwe", "flag changed_jarrow_794", "news chain_storm_vow.news.gyrwe_held at eoforwic", "npc abbot feeling +10 took_the_gift", "npc lookout feeling +6 took_the_gift", "morale +0.08" ],
+      "note": "outcome: chain_storm_vow.end_gyrwe.out_books (finale: two books and 150 d, about 870 d; the cellarer keeps the house's goods at Gyrwe)" },
+    { "key": "king", "label_key": "chain_storm_vow.end_gyrwe.opt_king", "label": "Take the house's gift, and the king's writing for the strand at Eoforwic", "check": "flag.ch_storm_vow_carried",
+      "effects": [ "goods books +3", "silver +300", "give_riddle riddle_exeter_02_storm_sea", "flag unlock_factor_gyrwe", "flag unlock_charter_eoforwic", "flag ch_storm_vow_end_gyrwe", "flag changed_jarrow_794", "news chain_storm_vow.news.gyrwe_held at eoforwic", "npc abbot feeling +15 took_the_writing", "npc lookout feeling +8 took_the_writing", "morale +0.1" ],
+      "note": "outcome: chain_storm_vow.end_gyrwe.out_king (the hard road, for the house that carried the chests: three books and 300 d, about 1,380 d; the cellarer's key and freedom from toll at Eoforwic)" },
+    { "key": "prayers", "label_key": "chain_storm_vow.end_gyrwe.opt_prayers", "label": "Ask only that the boat be named in the house's prayers on the master's day", "check": "true",
+      "effects": [ "goods books +2", "give_riddle riddle_exeter_02_storm_sea", "flag unlock_factor_gyrwe", "flag ch_storm_vow_end_gyrwe", "flag changed_jarrow_794", "news chain_storm_vow.news.gyrwe_held at eoforwic", "npc abbot feeling +20 asked_for_prayers", "npc lookout feeling +12 asked_for_prayers", "morale +0.12" ],
+      "note": "outcome: chain_storm_vow.end_gyrwe.out_prayers (finale: the books are pressed on you all the same, the key with them, and the boat is named on the twenty-sixth of May while the house stands)" }
+   ],
+   "memory": {
+    "books": "took the house's gift for the warning of 794",
+    "king": "took the king's writing for the warning of 794",
+    "prayers": "asked only for prayers for the warning of 794"
+   }
+  },
+  {
+   "id": "sea.chain_storm_vow.s14_second_storm",
+   "note": "Step 14, the close: at sea in hard weather again, at least two hundred days after any ending of the vow itself (saint, Thor or the other coin). Nobody shouts a name this time. Sources: the Exeter Book's storm riddle asks who it is that sends the storm out from under the sea (riddles_793.json riddle_exeter_02_storm_sea; the Old English in Tupper 1910, the English of Thorpe 1842 in texts_793.json; the story lindisfarena.storm_leaf has a leaf of it on the island in 793); a house keeps a thing and an heir inherits it (CHAINS.md). The cord of knots is this chain's own. Cast: cast.crew.aldger, cast.crew.beornwine, cast.crew.ravn. Sets ch_storm_vow_done; the heirloom unlock_heirloom_vow_cord for the man who vows nothing more; ch_storm_vow_again for the man who does.",
+   "stage": "sea",
+   "when": "under_way and storm >= 0.5 and (flag.ch_storm_vow_end_saint or flag.ch_storm_vow_end_thor or flag.ch_storm_vow_end_commuted) and not flag.ch_storm_vow_rest and not flag.ch_storm_vow_done",
+   "rate": 0.15,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_frisian", "age": [17, 40], "fixed": false, "note": "cast.crew.beornwine" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_frisian", "age": [25, 55], "fixed": false, "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_storm_vow.s14.title",
+   "title": "The same sea",
+   "intention_key": "chain_storm_vow.s14.intention",
+   "intention": "Hard weather again, and the same sea coming over the same quarter. This time nobody on the thwarts shouts a name at you. They bail. Now and then one of them looks aft, and then goes on bailing.",
+   "lines": [
+    { "who": "steersman", "key": "chain_storm_vow.s14.steersman_worst" },
+    { "who": "lookout", "key": "chain_storm_vow.s14.lookout_saint", "when": "flag.ch_storm_vow_end_saint" },
+    { "who": "hand", "key": "chain_storm_vow.s14.hand_thor", "when": "flag.ch_storm_vow_end_thor" },
+    { "who": "steersman", "key": "chain_storm_vow.s14.steersman_light", "when": "flag.ch_storm_vow_end_commuted" },
+    { "who": "lookout", "key": "chain_storm_vow.s14.lookout_riddle" }
+   ],
+   "options": [
+    { "key": "steer", "label_key": "chain_storm_vow.s14.opt_steer", "label": "Say nothing. Steer", "check": "true", "default": true,
+      "effects": [ "flag ch_storm_vow_done", "flag unlock_heirloom_vow_cord", "give_riddle riddle_exeter_02_storm_sea", "morale +0.1", "npc steersman feeling +5 steered" ],
+      "note": "outcome: chain_storm_vow.s14.out_steer" },
+    { "key": "thank", "label_key": "chain_storm_vow.s14.opt_thank", "label": "Say thanks aloud for the last time, and promise nothing", "check": "true",
+      "effects": [ "flag ch_storm_vow_done", "flag unlock_heirloom_vow_cord", "give_riddle riddle_exeter_02_storm_sea", "morale +0.08", "npc lookout feeling +3 gave_thanks", "npc hand feeling +3 gave_thanks" ],
+      "note": "outcome: chain_storm_vow.s14.out_thank" },
+    { "key": "again", "label_key": "chain_storm_vow.s14.opt_again", "label": "Vow again", "check": "true",
+      "effects": [ "flag ch_storm_vow_done", "flag ch_storm_vow_again", "give_riddle riddle_exeter_02_storm_sea", "morale +0.02", "npc steersman feeling -3 vowed_again" ],
+      "note": "outcome: chain_storm_vow.s14.out_again (pride only: the steersman's opinion, and a flag a later card may read)" }
+   ],
+   "memory": {
+    "steer": "said nothing in the second storm, and steered",
+    "thank": "gave thanks in the second storm and promised nothing",
+    "again": "vowed a second time"
+   }
+  }
+ ]
+}

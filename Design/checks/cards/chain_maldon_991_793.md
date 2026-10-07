@@ -1,0 +1,11 @@
+chain_maldon_991_793.json
+
+Cards seen: 7 in the first 250 lines (6 whole, the 7th cut off before its options; the file says fourteen cards and runs to 540 lines).
+
+- harbour.chain_maldon_991.s01_first_tribute — asks: pay 40 d toward the town's tribute share, buy the minster's chalice for 150 d, or pay nothing and ask where the taken people went. At stake: silver (40 or 150), goods (church plate), standing with the reeve and eased tolls.
+- harbour.chain_maldon_991.s02_rouen_quay — asks: ransom three Ipswich captives for 150 d, shame the duke's man with the sworn peace (a 40% chance), buy the plundered cloth and altar cross for 80 d, or walk on. At stake: silver (150 or 80), three people's freedom, goods (cloth, church plate), standing with the duke's man and the dealer, a little morale.
+- harbour.chain_maldon_991.s03_song_of_the_fight — asks: take the fullers' thanks (only after a ransom), lend the minster 100 d with no day named, or buy the singer ale and hear the song out. At stake: silver (+100 or -100), goods (cloth), standing with the priest and the woman, eased tolls, time (an evening).
+- harbour.chain_maldon_991.s04_london_holds — asks: carry the king's flour and ale to the fleet at Southampton on trust, lay 60 d toward London's share, or just sell and ask what the army is short of. At stake: silver (60), goods (the king's load in the hold), standing with the port-reeve, eased tolls.
+- harbour.chain_maldon_991.s05_winter_camp — asks: hand over the king's food whole for his price, give the fleet first pick of the hold for a purse, or sell nothing and sit by the Hedeby man's fire. At stake: silver (+160 or +220), goods (flour, ale, the hold), standing (the reeves remember who fed the fleet for gain; Toke's friendship), time (an evening).
+- sea.chain_maldon_991.s06_silver_ship — asks: close and sell a cask of ale to a homeward longship, heave to and ask where they will spend the silver, or bear away. At stake: silver (+70, or -20 if overhauled), goods (one cask of ale), morale, time (an hour).
+- harbour.chain_maldon_991.s07_pennies_north — asks: not seen (options fall after line 250); the card shows Hedeby flooded with English pennies and an English moneyer striking for King Swein. At stake: not seen; its note says selling into the silver marks the player as having followed the fleet's silver (standing).

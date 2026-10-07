@@ -1,0 +1,573 @@
+{
+ "about": "CHAIN relic_theft (Design/content/chains/relic_theft.md): the sacred thefts of the ninth century, told from the boat. Fourteen cards, the year 828 and after. In 827 Einhard's notary Ratleic took the bones of the martyrs Marcellinus and Peter out of their tomb at Rome by night; a priest of Abbot Hilduin's stole a share on the road for Saint-Medard at Soissons; Einhard had it back at the palace after Easter 828, and on 3 July 828 a part of the relics reached his own house of Saint Bavo at Ganda, where the sick were healed until the end of September (Einhard, Translatio et miracula sanctorum Marcellini et Petri, books I, II and IV; Design/content/dossiers/ganda.md). Einhard reckoned fifteen days by boat between Ganda and his house on the Main. This chain puts that box in the player's boat. A deacon of Mulinheim (Otbert, invented) hires a Frisian on the Rhine; a priest of Saint-Medard (Gozhelm, invented) offers two thousand pennies for the box to lose its way to the Seine; a seller of bones (Lupicinus, invented) has two bundles that weigh the same; a blind man of the coast (Germar, real: Translatio IV) asks for passage; and on an ebb at the Scheldt mouth the deacon goes up to the church for an hour. Three endings: Saint Bavo (what really happened: ch_relic_theft_end_ganda), Soissons (history changed: ch_relic_theft_end_soissons, changed_marcellinus_ganda), and two saints (both houses have a box: ch_relic_theft_end_two_saints), and a last card in 830 or later, when Einhard's book is being copied. Cards with weight 0 come only when another card names them in 'then'. Words: Data/writing/chain_relic_theft.json (an outcome text for every option, keys '...out_<option>', is named in each option's note). Nothing is quoted from any translation. (?) marks what was not checked against a source. A draft for the user to overwrite. Written 6 Oct 2026.",
+ "cards": [
+  {
+   "id": "harbour.chain_relic_theft.s01_box_from_the_main",
+   "note": "Step 1, the start: drawn at Mogontia, Colonia, Noviomagus, Dorestad or Traiectum from April to December 828. Otbert (Ot- + -bert, invented), a deacon of Mulinheim, Einhard's house on the Main, has a box for Saint Bavo's at Ganda. Sources: Einhard, Translatio IV (relics sent to Saint Bavo's; they came 3 July 828: dossiers/ganda.md); Einhard's letter of 830 reckoning fifteen days by boat from Ganda to the Main (dossiers/ganda.md [5]); pilgrims riding in merchant boats on the Main (dossiers/mogontia.md, from the Translatio). Who carried the Ganda relics, and in what boat, no source says: the hiring of a Frisian is ours (?). Einhard was abbot of Saint Bavo's from 819 and ruled it from the palace. The riddle is Symphosius 4, the key (riddles_793.json). Every option takes the box aboard. Sets ch_relic_theft_1, ch_relic_theft_carrying; ch_relic_theft_knows or ch_relic_theft_alms by the choice.",
+   "stage": "harbour",
+   "when": "moored and (port.id = mogontia or port.id = colonia or port.id = noviomagus or port.id = dorestad or port.id = traiectum) and year = 828 and month >= 4 and not flag.ch_relic_theft_1",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "deacon": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [24, 32], "fixed": false, "note": "Otbert, a deacon of Mulinheim; invented" }
+   },
+   "title_key": "chain_relic_theft.s01.title",
+   "title": "The box from the Main",
+   "intention_key": "chain_relic_theft.s01.intention",
+   "intention": "A young deacon has come down the river from the Main with a box sewn in waxed linen. He is asking along the shore for a Frisian who knows the Scheldt.",
+   "lines": [
+    { "who": "deacon", "key": "chain_relic_theft.s01.deacon_ask" },
+    { "who": "deacon", "key": "chain_relic_theft.s01.deacon_grain_boat", "when": "port.id = mogontia" },
+    { "who": "deacon", "key": "chain_relic_theft.s01.deacon_wine_boat", "when": "port.id != mogontia" },
+    { "who": "deacon", "key": "chain_relic_theft.s01.deacon_box" },
+    { "who": "deacon", "key": "chain_relic_theft.s01.deacon_lord", "note": "Einhard, abbot of Saint Bavo's from 819, at the palace" }
+   ],
+   "options": [
+    { "key": "freight", "label_key": "chain_relic_theft.s01.opt_freight", "label": "Name a freight: thirty pennies now and ninety at Ganda", "check": "true", "default": true,
+      "effects": [ "silver +30", "npc deacon feeling +3 freight", "flag ch_relic_theft_carrying", "flag ch_relic_theft_1" ],
+      "note": "outcome: chain_relic_theft.s01.out_freight" },
+    { "key": "ask", "label_key": "chain_relic_theft.s01.opt_ask", "label": "Ask what is in the box before you name anything", "check": "true",
+      "effects": [ "silver +30", "give_riddle riddle_symphosius_04_clavis", "npc deacon feeling +2 asked", "flag ch_relic_theft_knows", "flag ch_relic_theft_carrying", "flag ch_relic_theft_1" ],
+      "note": "outcome: chain_relic_theft.s01.out_ask (he answers with a riddle first, then with the truth; the same freight)" },
+    { "key": "alms", "label_key": "chain_relic_theft.s01.opt_alms", "label": "Carry him and his box for nothing, for your dead", "check": "true",
+      "effects": [ "deed gave_alms", "npc deacon feeling +10 alms", "flag ch_relic_theft_alms", "flag ch_relic_theft_carrying", "flag ch_relic_theft_1" ],
+      "note": "outcome: chain_relic_theft.s01.out_alms (costs only the freight not asked)" }
+   ],
+   "memory": {
+    "freight": "took the box for a freight",
+    "ask": "asked what was in the box, and took it",
+    "alms": "carried the box for nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s02_man_from_soissons",
+   "note": "Step 2: drawn at Colonia, Noviomagus, Dorestad or Traiectum with the box aboard. Gozhelm (Goz- + -helm, invented), a priest of Saint-Medard at Soissons, Abbot Hilduin's house. Sources: the relics of Saint Sebastian came from Rome to Saint-Medard in 826 by the pope's gift (Annales regni Francorum 826); Hilduin, archchaplain, abbot of Saint-Denis and of Saint-Medard, sent his priest Hunus with Einhard's notary, and Hunus took a share of Marcellinus on the road and carried it to Soissons; Einhard had it back from Hilduin at the palace of Aachen after Easter 828 (Translatio I-II; the week from memory (?)). That thieves of relics said the saint consented, or no man could have lifted him, is the common plea of the translation stories (P. Geary, Furta Sacra, 1978, as a guide only). The fair of Saint-Denis from 9 October and its wine: chain wine_fleet. Gozhelm's offer is ours. Sets ch_relic_theft_2; ch_relic_theft_loyal or ch_relic_theft_earnest by the choice.",
+   "stage": "harbour",
+   "when": "moored and (port.id = colonia or port.id = noviomagus or port.id = dorestad or port.id = traiectum) and flag.ch_relic_theft_carrying and not flag.ch_relic_theft_2",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "gozhelm": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [35, 50], "fixed": false, "note": "Gozhelm, a priest of Saint-Medard at Soissons; invented" }
+   },
+   "title_key": "chain_relic_theft.s02.title",
+   "title": "The man from Soissons",
+   "intention_key": "chain_relic_theft.s02.intention",
+   "intention": "A priest in a good cloak has been waiting where the boats lie. He knows what you carry and from whom. He waits until the deacon has gone to find bread.",
+   "lines": [
+    { "who": "gozhelm", "key": "chain_relic_theft.s02.gozhelm_knows" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s02.gozhelm_house", "note": "Sebastian to Saint-Medard, 826 (ARF 826)" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s02.gozhelm_easter", "note": "Hunus's share handed back at Aachen after Easter 828 (Translatio II)" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s02.gozhelm_offer" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s02.gozhelm_consent", "when": "flag.ch_relic_theft_knows" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s02.gozhelm_alms", "when": "flag.ch_relic_theft_alms" }
+   ],
+   "options": [
+    { "key": "refuse", "label_key": "chain_relic_theft.s02.opt_refuse", "label": "Send him off, and tell the deacon when he comes back with the bread", "check": "true",
+      "effects": [ "flag ch_relic_theft_loyal", "flag ch_relic_theft_2", "schedule harbour.chain_relic_theft.s04_bone_seller in 3" ],
+      "note": "outcome: chain_relic_theft.s02.out_refuse" },
+    { "key": "earnest", "label_key": "chain_relic_theft.s02.opt_earnest", "label": "Take the hundred and twenty, and say you will think about it", "check": "true",
+      "effects": [ "silver +120", "npc gozhelm feeling +5 earnest", "flag ch_relic_theft_earnest", "flag ch_relic_theft_2", "schedule harbour.chain_relic_theft.s04_bone_seller in 3" ],
+      "note": "outcome: chain_relic_theft.s02.out_earnest (turn: 120 d; it closes the honest hard road of step 6)" },
+    { "key": "listen", "label_key": "chain_relic_theft.s02.opt_listen", "label": "Hear him to the end, take nothing, and say nothing to anyone", "check": "true", "default": true,
+      "effects": [ "price_shock parisius rhenish_wine x1.2 for 120", "flag ch_relic_theft_2", "schedule harbour.chain_relic_theft.s04_bone_seller in 3" ],
+      "note": "outcome: chain_relic_theft.s02.out_listen (time only; the price word is true: Rhine wine is dear at the fair of Saint-Denis)" }
+   ],
+   "memory": {
+    "refuse": "refused the priest of Soissons and told the deacon",
+    "earnest": "took a hundred and twenty pennies to think about it",
+    "listen": "heard the offer and said nothing"
+   }
+  },
+  {
+   "id": "crew.chain_relic_theft.s03_what_the_box_does",
+   "note": "Step 3: drawn under way with the box aboard. It may be passed over; nothing later asks for ch_relic_theft_3. Sources: at Michelstadt in the Odenwald, where the relics first lay, the reliquary was wet with a bloody liquid for days and men were told in dreams that the martyrs wished to rest elsewhere; they were moved to Mulinheim on the Main in January 828 (Translatio I). The fever and its breaking are ours. Opening the box is what Hunus did at Rome and on the road. Sets ch_relic_theft_3; ch_relic_theft_opened if the linen is lifted.",
+   "stage": "crew",
+   "when": "under_way and flag.ch_relic_theft_2 and flag.ch_relic_theft_carrying and not flag.ch_relic_theft_stole and not flag.ch_relic_theft_3",
+   "rate": 0.08,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 55], "fixed": false },
+    "hand": { "role": "crewman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [18, 40], "fixed": false },
+    "deacon": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [24, 32], "fixed": false, "note": "Otbert" }
+   },
+   "title_key": "chain_relic_theft.s03.title",
+   "title": "What the box does",
+   "intention_key": "chain_relic_theft.s03.intention",
+   "intention": "The men know what lies under the stern board. The boy has a fever from the river, and the others have been talking.",
+   "lines": [
+    { "who": "steersman", "key": "chain_relic_theft.s03.steersman_blood", "note": "the bloody liquid and the dreams at Michelstadt (Translatio I)" },
+    { "who": "hand", "key": "chain_relic_theft.s03.hand_fever" },
+    { "who": "deacon", "key": "chain_relic_theft.s03.deacon_office" },
+    { "who": "steersman", "key": "chain_relic_theft.s03.steersman_earnest", "when": "flag.ch_relic_theft_earnest" },
+    { "who": "steersman", "key": "chain_relic_theft.s03.steersman_loyal", "when": "flag.ch_relic_theft_loyal" }
+   ],
+   "options": [
+    { "key": "pray", "label_key": "chain_relic_theft.s03.opt_pray", "label": "Let the deacon say his office at the stern, and the men stand near", "check": "true", "default": true,
+      "effects": [ "morale +0.08", { "chance": 0.55, "success": [ "health +0.05" ], "failure": [] }, "flag ch_relic_theft_3" ],
+      "note": "outcome: chain_relic_theft.s03.out_pray_success / out_pray_failure (likely: the fever breaks, or it does not; nobody is worse for it)" },
+    { "key": "forbid", "label_key": "chain_relic_theft.s03.opt_forbid", "label": "The box is freight. Nobody goes near it but the deacon", "check": "true",
+      "effects": [ "morale -0.03", "npc deacon feeling +2 kept_apart", "flag ch_relic_theft_3" ],
+      "note": "outcome: chain_relic_theft.s03.out_forbid" },
+    { "key": "open", "label_key": "chain_relic_theft.s03.opt_open", "label": "Wait until the deacon sleeps, and lift the linen yourself", "check": "flag.ch_relic_theft_earnest or flag.ch_relic_theft_knows",
+      "effects": [ "learn latin +0.03", "flag ch_relic_theft_opened", "flag ch_relic_theft_3" ],
+      "note": "outcome: chain_relic_theft.s03.out_open (two bundles in red silk with written labels; sewn up again with sail twine, which is seen at the end)" }
+   ],
+   "memory": {
+    "pray": "let the men stand by the box at the office",
+    "forbid": "kept the men from the box",
+    "open": "opened the box by night"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s04_bone_seller",
+   "note": "Step 4: scheduled three days after step 2, and drawn at any landing while the box is aboard and before the ebb of step 6. It may be passed over; then the road of two boxes stays shut. Lupicinus (a late Roman name, invented) sells bones with names. Sources: the great capitulary of 789 (Admonitio generalis) c. 42, no false names of martyrs, and c. 79, against wanderers who deceive the people (story/unlocks_793.json unlock_relic_false_bone); from 827 Roman bones came north in number, and the deacon Deusdona went on supplying the abbeys of the Rhine and Main (Translatio; Rudolf of Fulda for the later journeys (?); unlocks_793.json unlock_relic_roman_martyr, 60 d). The wax at Ganda: Einhard's letter asking for wax because the honey was short (dossiers/ganda.md [5]). The two blank bundles are ours. Sets ch_relic_theft_4; ch_relic_theft_false_bone and the shared unlock_relic_false_bone, or the shared unlock_relic_roman_martyr.",
+   "stage": "harbour",
+   "when": "moored and flag.ch_relic_theft_2 and flag.ch_relic_theft_carrying and not flag.ch_relic_theft_stole and not flag.ch_relic_theft_6 and not flag.ch_relic_theft_4",
+   "weight": 6,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "hawker": { "role": "merchant", "people": "romance", "faith": "christian", "tongue": "port", "sex": "m", "age": [40, 60], "fixed": false, "note": "Lupicinus, a seller of bones; invented. He speaks the river's Frankish with a southern mouth." }
+   },
+   "title_key": "chain_relic_theft.s04.title",
+   "title": "The seller of bones",
+   "intention_key": "chain_relic_theft.s04.intention",
+   "intention": "A man with a mule's pack and a southern way of talking sells from a cloth on the landing: a tooth, a knot of hair, a splinter of bone. Each has a name on a strip of parchment.",
+   "lines": [
+    { "who": "hawker", "key": "chain_relic_theft.s04.hawker_wares" },
+    { "who": "hawker", "key": "chain_relic_theft.s04.hawker_knows" },
+    { "who": "hawker", "key": "chain_relic_theft.s04.hawker_offer" },
+    { "who": "hawker", "key": "chain_relic_theft.s04.hawker_law", "note": "Admonitio generalis 789 c. 42 and c. 79" },
+    { "who": "hawker", "key": "chain_relic_theft.s04.hawker_earnest", "when": "flag.ch_relic_theft_earnest" }
+   ],
+   "options": [
+    { "key": "bundles", "label_key": "chain_relic_theft.s04.opt_bundles", "label": "Buy the two blank bundles (12 d)", "check": "silver >= 12", "cost": "silver 12",
+      "effects": [ "flag ch_relic_theft_false_bone", "flag unlock_relic_false_bone", "flag ch_relic_theft_4" ],
+      "note": "outcome: chain_relic_theft.s04.out_bundles (it opens the road of two boxes; until they are given away the house holds a bone that is nobody's)" },
+    { "key": "martyr", "label_key": "chain_relic_theft.s04.opt_martyr", "label": "Buy the rib with a name on it for your own chest (60 d)", "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "flag unlock_relic_roman_martyr", "flag ch_relic_theft_4" ],
+      "note": "outcome: chain_relic_theft.s04.out_martyr (a relic of uncertain name until a bishop proves it: unlocks_793.json)" },
+    { "key": "away", "label_key": "chain_relic_theft.s04.opt_away", "label": "Tell him the deacon has a bishop's ear, and watch him pack", "check": "true", "default": true,
+      "effects": [ "price_shock ganda wax x1.3 for 90", "flag ch_relic_theft_4" ],
+      "note": "outcome: chain_relic_theft.s04.out_away (time only; his parting word is a true price: wax is dear at Ganda)" }
+   ],
+   "memory": {
+    "bundles": "bought two bundles of nobody's bones",
+    "martyr": "bought a rib with a name on it",
+    "away": "sent the bone seller off"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s05_blind_man",
+   "note": "Step 5: drawn at Walichrum or Andoverpis with the box aboard. Germar is REAL: among those healed at Saint Bavo's in the summer of 828 Einhard's fourth book names Germar, a blind man 'from the sea-coast of the Frisians near the mouth of the river Scheldt' (Translatio IV, the Ganda report; dossiers/ganda.md [6]). How he came to Ganda, the child who leads him and his penny are ours. Einhard had the cures written down house by house with names, places and days, and put the sheets into his book. Every option names step 6 for the next day at the same landing. Sets ch_relic_theft_5; ch_relic_theft_germar if he is taken aboard.",
+   "stage": "harbour",
+   "when": "moored and (port.id = walichrum or port.id = andoverpis) and flag.ch_relic_theft_2 and flag.ch_relic_theft_carrying and not flag.ch_relic_theft_stole and not flag.ch_relic_theft_6 and not flag.ch_relic_theft_5",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "germar": { "role": "pilgrim", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 50], "fixed": false, "note": "Germar, real: Translatio IV" },
+    "deacon": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [24, 32], "fixed": false, "note": "Otbert" }
+   },
+   "title_key": "chain_relic_theft.s05.title",
+   "title": "The blind man of the coast",
+   "intention_key": "chain_relic_theft.s05.intention",
+   "intention": "A blind man is led down to the boats by a child. He has heard that saints are going up the river, and he asks every boat whether it is the one.",
+   "lines": [
+    { "who": "germar", "key": "chain_relic_theft.s05.germar_ask" },
+    { "who": "germar", "key": "chain_relic_theft.s05.germar_fare" },
+    { "who": "deacon", "key": "chain_relic_theft.s05.deacon_list", "note": "the sheets of cures, with names, places and days (Translatio IV)" },
+    { "who": "deacon", "key": "chain_relic_theft.s05.deacon_loyal", "when": "flag.ch_relic_theft_loyal" }
+   ],
+   "options": [
+    { "key": "free", "label_key": "chain_relic_theft.s05.opt_free", "label": "Take him aboard for nothing", "check": "true",
+      "effects": [ "deed gave_alms", "morale +0.04", "flag ch_relic_theft_germar", "flag ch_relic_theft_5", "schedule harbour.chain_relic_theft.s06_the_ebb in 1 at here" ],
+      "note": "outcome: chain_relic_theft.s05.out_free" },
+    { "key": "penny", "label_key": "chain_relic_theft.s05.opt_penny", "label": "Take his penny and set him to bail", "check": "true", "default": true,
+      "effects": [ "silver +1", "flag ch_relic_theft_germar", "flag ch_relic_theft_5", "schedule harbour.chain_relic_theft.s06_the_ebb in 1 at here" ],
+      "note": "outcome: chain_relic_theft.s05.out_penny" },
+    { "key": "leave", "label_key": "chain_relic_theft.s05.opt_leave", "label": "Tell him it is some other boat", "check": "true",
+      "effects": [ "flag ch_relic_theft_5", "schedule harbour.chain_relic_theft.s06_the_ebb in 1 at here" ],
+      "note": "outcome: chain_relic_theft.s05.out_leave (time only; he is not in the church at Ganda when the box comes)" }
+   ],
+   "memory": {
+    "free": "carried the blind man for nothing",
+    "penny": "carried the blind man for his penny",
+    "leave": "told the blind man it was another boat"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s06_the_ebb",
+   "note": "Step 6, the turn: Walichrum or Andoverpis, the day after step 5 (scheduled there, and drawn). If the player sails for Ganda before it comes, the box simply arrives (step 10) and the ending is Saint Bavo's. Four roads: wait (to Ganda); cast off with the box (the theft; the lasting cost ch_relic_theft_sacrilege); two boxes (only with the bone seller's bundles: step 7 by 'then'); or go up to the church and tell the deacon (the honest hard road, only for a man who took no earnest: the lasting cost is the enmity of the archchaplain's house while he holds his office, ch_relic_theft_hilduin_enmity for 700 days: Hilduin lost his offices in the autumn of 830). Sources: the church in the fort at Andoverpis is Amand's, of the seventh century; a church at Walichrum is assumed (?). Hilduin's seal and his power at the palace: he was archchaplain from about 819 to 830. That a count's man would not hold a priest with that seal is ours. Sets ch_relic_theft_6 and one of ch_relic_theft_to_ganda, ch_relic_theft_stole, ch_relic_theft_denounced.",
+   "stage": "harbour",
+   "when": "moored and (port.id = walichrum or port.id = andoverpis) and flag.ch_relic_theft_5 and flag.ch_relic_theft_carrying and not flag.ch_relic_theft_stole and not flag.ch_relic_theft_6",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "gozhelm": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [35, 50], "fixed": false, "note": "Gozhelm of Saint-Medard; invented" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 55], "fixed": false }
+   },
+   "title_key": "chain_relic_theft.s06.title",
+   "title": "The ebb",
+   "intention_key": "chain_relic_theft.s06.intention",
+   "intention": "The deacon has gone up to the church to hear the office and will be an hour. The box lies under the stern board. The ebb has begun to run, and the priest of Soissons stands on the strand with a horse and a servant.",
+   "lines": [
+    { "who": "gozhelm", "key": "chain_relic_theft.s06.gozhelm_now" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s06.gozhelm_earnest", "when": "flag.ch_relic_theft_earnest" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s06.gozhelm_plain", "when": "not flag.ch_relic_theft_earnest" },
+    { "who": "steersman", "key": "chain_relic_theft.s06.steersman_tide" },
+    { "key": "chain_relic_theft.s06.bundles_in_chest", "when": "flag.ch_relic_theft_false_bone" },
+    { "key": "chain_relic_theft.s06.blind_man_aboard", "when": "flag.ch_relic_theft_germar" }
+   ],
+   "options": [
+    { "key": "wait", "label_key": "chain_relic_theft.s06.opt_wait", "label": "Wait for the deacon. There will be another ebb", "check": "true", "default": true,
+      "effects": [ "flag ch_relic_theft_to_ganda", "flag ch_relic_theft_6" ],
+      "note": "outcome: chain_relic_theft.s06.out_wait (time only)" },
+    { "key": "sail", "label_key": "chain_relic_theft.s06.opt_sail", "label": "Cast off on the ebb with the box aboard", "check": "true",
+      "effects": [ "morale -0.06", "flag ch_relic_theft_stole", "flag ch_relic_theft_sacrilege", "flag ch_relic_theft_germar = 0", "flag ch_relic_theft_6" ],
+      "note": "outcome: chain_relic_theft.s06.out_sail (the theft; the blind man, if aboard, is set on the strand first)" },
+    { "key": "swap", "label_key": "chain_relic_theft.s06.opt_swap", "label": "Tell him to come to the boat after dark, alone", "check": "flag.ch_relic_theft_false_bone",
+      "effects": [ "flag ch_relic_theft_6" ],
+      "then": "harbour.chain_relic_theft.s07_two_boxes",
+      "note": "outcome: chain_relic_theft.s06.out_swap (step 7 follows)" },
+    { "key": "denounce", "label_key": "chain_relic_theft.s06.opt_denounce", "label": "Go up to the church and tell the deacon who is on the strand", "check": "not flag.ch_relic_theft_earnest",
+      "effects": [ "npc gozhelm feeling -30 denounced", "flag ch_relic_theft_denounced", "flag ch_relic_theft_to_ganda", "flag ch_relic_theft_hilduin_enmity for 700", "flag ch_relic_theft_6" ],
+      "note": "outcome: chain_relic_theft.s06.out_denounce (the hard road: a second grand reward at the end, and a great man's house against you until he falls)" }
+   ],
+   "memory": {
+    "wait": "waited for the deacon",
+    "sail": "sailed on the ebb with the box",
+    "swap": "asked him to the boat after dark",
+    "denounce": "named him to the deacon"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s07_two_boxes",
+   "note": "Step 7 (only by 'then' from step 6, the same night). The bone seller's two bundles and the martyrs' two lie side by side. False to Soissons: the martyrs go on to Ganda as they really did, and Saint-Medard shows nobody's bones (ch_relic_theft_real_at_ganda). True to Soissons: Ganda gets nobody's bones under the true labels (ch_relic_theft_real_at_soissons, changed_marcellinus_ganda, ch_relic_theft_sacrilege). Or neither. Sources: relics were kept in silk with a written label (the authentic) tied to each; the ninth-century labels of Sens and Chelles survive (from memory (?)). That Saint-Medard afterwards claimed to hold relics of Marcellinus and Peter is said of the house's later writings (?). The 900 d is what a horse can carry unnoticed; ours. Sets ch_relic_theft_7 and ch_relic_theft_swapped or ch_relic_theft_to_ganda; clears the shared unlock_relic_false_bone when the bundles leave the boat.",
+   "stage": "harbour",
+   "when": "moored and flag.ch_relic_theft_6 and flag.ch_relic_theft_false_bone and flag.ch_relic_theft_carrying and not flag.ch_relic_theft_stole and not flag.ch_relic_theft_to_ganda and not flag.ch_relic_theft_7",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "gozhelm": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [35, 50], "fixed": false, "note": "Gozhelm of Saint-Medard; invented" }
+   },
+   "title_key": "chain_relic_theft.s07.title",
+   "title": "Two boxes",
+   "intention_key": "chain_relic_theft.s07.intention",
+   "intention": "After dark. The deacon sleeps in the fort. Under the sail on the bottom boards lie four bundles in red silk, two with names on their labels and two without. The priest of Soissons has brought a lamp he does not light, and a bag.",
+   "lines": [
+    { "who": "gozhelm", "key": "chain_relic_theft.s07.gozhelm_dark" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s07.gozhelm_labels" },
+    { "key": "chain_relic_theft.s07.seen_labels", "when": "flag.ch_relic_theft_opened" },
+    { "key": "chain_relic_theft.s07.unseen_labels", "when": "not flag.ch_relic_theft_opened" }
+   ],
+   "options": [
+    { "key": "false_out", "label_key": "chain_relic_theft.s07.opt_false_out", "label": "Give him the two you bought. A blank label is his cellarer's business", "check": "true",
+      "effects": [ "silver +900", "flag unlock_relic_false_bone = 0", "flag ch_relic_theft_false_bone = 0", "flag ch_relic_theft_swapped", "flag ch_relic_theft_real_at_ganda", "flag ch_relic_theft_secret", "flag ch_relic_theft_7" ],
+      "note": "outcome: chain_relic_theft.s07.out_false_out (turn and more: 900 d; the thief is cheated and history stands)" },
+    { "key": "real_out", "label_key": "chain_relic_theft.s07.opt_real_out", "label": "Give him the martyrs, and tie their labels to the two you bought", "check": "true",
+      "effects": [ "silver +900", "morale -0.04", "flag unlock_relic_false_bone = 0", "flag ch_relic_theft_false_bone = 0", "flag ch_relic_theft_swapped", "flag ch_relic_theft_real_at_soissons", "flag changed_marcellinus_ganda", "flag ch_relic_theft_sacrilege", "flag ch_relic_theft_secret", "flag ch_relic_theft_7" ],
+      "note": "outcome: chain_relic_theft.s07.out_real_out (900 d; history changed: the martyrs lie at Soissons and Ganda keeps a box of nobody)" },
+    { "key": "neither", "label_key": "chain_relic_theft.s07.opt_neither", "label": "Give him nothing. Sew the linen shut and send him up the strand", "check": "true", "default": true,
+      "effects": [ "npc gozhelm feeling -15 sent_away", "flag ch_relic_theft_to_ganda", "flag ch_relic_theft_7" ],
+      "note": "outcome: chain_relic_theft.s07.out_neither (pride only; the road to Ganda goes on)" }
+   ],
+   "memory": {
+    "false_out": "gave him two bundles in the dark",
+    "real_out": "gave him two bundles in the dark",
+    "neither": "sent him away with his bag"
+   }
+  },
+  {
+   "id": "sea.chain_relic_theft.s08_weather_in_the_mouths",
+   "note": "Step 8: drawn under way after the ebb of step 6, on any road, while the box is aboard. It may be passed over. The danger is weather only, and it warns: the men speak first, and the sure choice costs a day. For the thief it is the last easy place to turn back (ch_relic_theft_repented: the box goes to Ganda after all, as Hilduin's share went back to Einhard). Sources: the bloody liquid at Michelstadt (Translatio I); a candle of a sick man's own weight or height vowed to a saint is common in the miracle books (chain storm_vow has the custom in full). No Northmen: the first recorded raid on Walcheren is 837. Sets ch_relic_theft_8.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_relic_theft_6 and flag.ch_relic_theft_carrying and not flag.ch_relic_theft_8",
+   "rate": 0.06,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 55], "fixed": false },
+    "hand": { "role": "crewman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [18, 40], "fixed": false }
+   },
+   "title_key": "chain_relic_theft.s08.title",
+   "title": "Weather in the mouths",
+   "intention_key": "chain_relic_theft.s08.intention",
+   "intention": "The wind backs and hardens, and the sea goes the colour of lead over the banks. The men look at the stern board more than at the sky.",
+   "lines": [
+    { "who": "steersman", "key": "chain_relic_theft.s08.steersman_weather", "when": "not flag.ch_relic_theft_stole" },
+    { "who": "steersman", "key": "chain_relic_theft.s08.steersman_stole", "when": "flag.ch_relic_theft_stole" },
+    { "who": "hand", "key": "chain_relic_theft.s08.hand_vow" },
+    { "who": "hand", "key": "chain_relic_theft.s08.hand_put_about", "when": "flag.ch_relic_theft_stole" },
+    { "who": "steersman", "key": "chain_relic_theft.s08.steersman_swapped", "when": "flag.ch_relic_theft_swapped" }
+   ],
+   "options": [
+    { "key": "creep", "label_key": "chain_relic_theft.s08.opt_creep", "label": "Shorten sail, keep the lead going, and lose a day", "check": "true", "default": true,
+      "effects": [ "morale +0.02", "flag ch_relic_theft_8" ],
+      "note": "outcome: chain_relic_theft.s08.out_creep (sure; time only)" },
+    { "key": "stand_on", "label_key": "chain_relic_theft.s08.opt_stand_on", "label": "Stand on under full sail", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best", "success": [ "morale +0.05" ], "failure": [ "health -0.08", "morale -0.05" ] }, "flag ch_relic_theft_8" ],
+      "note": "outcome: chain_relic_theft.s08.out_stand_on_success / out_stand_on_failure (likely; a sea aboard, a hurt man, and the voyage goes on)" },
+    { "key": "vow", "label_key": "chain_relic_theft.s08.opt_vow", "label": "Vow the martyrs a candle of the boy's weight, and lay by 24 d for the wax", "check": "silver >= 24", "cost": "silver 24",
+      "effects": [ "morale +0.1", "deed gave_alms", "flag ch_relic_theft_8" ],
+      "note": "outcome: chain_relic_theft.s08.out_vow" },
+    { "key": "put_about", "label_key": "chain_relic_theft.s08.opt_put_about", "label": "Put about for the Scheldt and take the box where it was sent", "check": "flag.ch_relic_theft_stole",
+      "effects": [ "morale +0.08", "flag ch_relic_theft_stole = 0", "flag ch_relic_theft_sacrilege = 0", "flag ch_relic_theft_repented", "flag ch_relic_theft_8" ],
+      "note": "outcome: chain_relic_theft.s08.out_put_about (the thief turns back; the ending is Saint Bavo's, without the land)" }
+   ],
+   "memory": {
+    "creep": "crept through the weather",
+    "stand_on": "stood on through the weather",
+    "vow": "vowed a candle in the weather",
+    "put_about": "put about for the Scheldt"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s09_question_on_the_coast",
+   "note": "Step 9, the thief's road only: drawn at Quentovic or Rotomagus with the stolen box aboard. It may be passed over by a boat that does not call. The deacon has written to the bishops of the coast. A man who is not believed pays and is marked (ch_relic_theft_marked); the box is not taken from him, for no clerk seizes what goes to the archchaplain's house. He may also give it up here and carry it back (ch_relic_theft_repented). Sources: Quentovic's toll and the king's officer over the Channel ports (ports_793.json; harbour.tollman.frankish); Rotomagus is the archbishop's city. The deacon's letter is ours, in the manner of Einhard's own letters to bishops (dossiers/mogontia.md, letter VIII to Otgar). Sets ch_relic_theft_9.",
+   "stage": "harbour",
+   "when": "moored and (port.id = quentovic or port.id = rotomagus) and flag.ch_relic_theft_stole and not flag.ch_relic_theft_9",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "tollman": { "role": "tollman", "people": "port", "faith": "port", "tongue": "port", "age": [30, 60], "fixed": true },
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [22, 40], "fixed": false, "note": "the bishop's clerk, with a letter" }
+   },
+   "title_key": "chain_relic_theft.s09.title",
+   "title": "A letter on the coast",
+   "intention_key": "chain_relic_theft.s09.intention",
+   "intention": "The toll man has a clerk beside him today, and the clerk has a letter. A deacon on the Scheldt has written to every bishop between the Rhine and the Seine about a Frisian boat and a box in waxed linen.",
+   "lines": [
+    { "who": "tollman", "key": "chain_relic_theft.s09.tollman_no_tenth" },
+    { "who": "clerk", "key": "chain_relic_theft.s09.clerk_reads" },
+    { "who": "clerk", "key": "chain_relic_theft.s09.clerk_seal" },
+    { "who": "tollman", "key": "chain_relic_theft.s09.tollman_known", "when": "port.visits > 0" }
+   ],
+   "options": [
+    { "key": "name", "label_key": "chain_relic_theft.s09.opt_name", "label": "Say whose landing you are bound for, and let the archchaplain's name do the rest", "check": "true",
+      "effects": [ { "chance": 0.65, "by": "crew.trade_best", "success": [], "failure": [ "silver -100", "deed bribed_officer", "flag ch_relic_theft_marked" ] }, "flag ch_relic_theft_9" ],
+      "note": "outcome: chain_relic_theft.s09.out_name_success / out_name_failure (likely; if he is not believed it costs 100 d and his boat is written down)" },
+    { "key": "gift", "label_key": "chain_relic_theft.s09.opt_gift", "label": "Forty pennies for the clerk's poor, before the board is lifted", "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "deed bribed_officer", "npc clerk feeling +4 gift", "flag ch_relic_theft_9" ],
+      "note": "outcome: chain_relic_theft.s09.out_gift (sure)" },
+    { "key": "yield", "label_key": "chain_relic_theft.s09.opt_yield", "label": "Lift the board. Say the deacon missed his tide, and that you will carry the box back yourself", "check": "true", "default": true,
+      "effects": [ "npc clerk feeling +5 yielded", "flag ch_relic_theft_stole = 0", "flag ch_relic_theft_sacrilege = 0", "flag ch_relic_theft_repented", "flag ch_relic_theft_9" ],
+      "note": "outcome: chain_relic_theft.s09.out_yield (pride and time only; the ending is Saint Bavo's, without the land)" }
+   ],
+   "memory": {
+    "name": "passed on the archchaplain's name",
+    "name.failure": "was not believed, and paid",
+    "gift": "gave to the clerk's poor",
+    "yield": "gave up the box to carry it back"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s10_the_bank_at_ganda",
+   "note": "Step 10: Ganda, when the box comes there (every road but the thief's). What really happened: on 3 July 828 the relics of Marcellinus and Peter reached Saint Bavo's, and the sick were healed there until 30 September; among them the blind girl Hartlinda of Furnes, Eberald and Gundrada, serfs of the house, Liodold of Alphen on two crutches, and Germar, blind, from the Frisian coast by the Scheldt mouth (Translatio IV; dossiers/ganda.md [6]). Erembert, the abbot's steward (vicedominus) at Ganda, is real, from Einhard's letters; that he held the office in 828 is assumed (?). If nobody's bones lie in the box (ch_relic_theft_real_at_soissons) Germar is not healed. The balance of the freight is paid; the rest waits sixty days for the abbot's answer (the timed flag ch_relic_theft_wait). Sets ch_relic_theft_10; clears ch_relic_theft_carrying.",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and flag.ch_relic_theft_1 and flag.ch_relic_theft_carrying and not flag.ch_relic_theft_stole and not flag.ch_relic_theft_10",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [40, 60], "fixed": true, "note": "Erembert, the abbot's steward at Ganda; real (Einhard's letters)" },
+    "deacon": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [24, 32], "fixed": false, "note": "Otbert" }
+   },
+   "title_key": "chain_relic_theft.s10.title",
+   "title": "The bank at Ganda",
+   "intention_key": "chain_relic_theft.s10.intention",
+   "intention": "Where the Lys runs into the Scheldt the canons of Saint Bavo stand on the bank with candles in daylight. Somebody has been watching the river for days.",
+   "lines": [
+    { "who": "steward", "key": "chain_relic_theft.s10.steward_greet" },
+    { "who": "deacon", "key": "chain_relic_theft.s10.deacon_overland", "when": "flag.ch_relic_theft_repented" },
+    { "who": "deacon", "key": "chain_relic_theft.s10.deacon_denounced", "when": "flag.ch_relic_theft_denounced" },
+    { "who": "steward", "key": "chain_relic_theft.s10.steward_alms", "when": "flag.ch_relic_theft_alms" },
+    { "key": "chain_relic_theft.s10.germar_sees", "when": "flag.ch_relic_theft_germar and not flag.ch_relic_theft_real_at_soissons", "note": "Germar's cure: Translatio IV" },
+    { "key": "chain_relic_theft.s10.germar_does_not", "when": "flag.ch_relic_theft_germar and flag.ch_relic_theft_real_at_soissons" },
+    { "who": "steward", "key": "chain_relic_theft.s10.steward_wait" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_relic_theft.s10.opt_carry", "label": "Carry the box up to the church with your own men", "check": "true",
+      "effects": [ "silver +90", "morale +0.08", "npc steward feeling +6 carried", "flag ch_relic_theft_carrying = 0", "flag ch_relic_theft_wait for 60", "flag ch_relic_theft_10", "news chain_relic_theft.news_ganda at dorestad" ],
+      "note": "outcome: chain_relic_theft.s10.out_carry (turn: the 90 d of the freight)" },
+    { "key": "bank", "label_key": "chain_relic_theft.s10.opt_bank", "label": "Hand it over at the bank and see to your boat", "check": "true", "default": true,
+      "effects": [ "silver +90", "flag ch_relic_theft_carrying = 0", "flag ch_relic_theft_wait for 60", "flag ch_relic_theft_10", "news chain_relic_theft.news_ganda at dorestad" ],
+      "note": "outcome: chain_relic_theft.s10.out_bank" },
+    { "key": "lead", "label_key": "chain_relic_theft.s10.opt_lead", "label": "Lead the blind man up yourself, behind the box", "check": "flag.ch_relic_theft_germar",
+      "effects": [ "silver +90", "deed gave_alms", "npc steward feeling +8 led_the_blind", "flag ch_relic_theft_carrying = 0", "flag ch_relic_theft_wait for 60", "flag ch_relic_theft_10", "news chain_relic_theft.news_ganda at dorestad" ],
+      "note": "outcome: chain_relic_theft.s10.out_lead" }
+   ],
+   "memory": {
+    "carry": "carried the martyrs' box up to the church",
+    "bank": "handed the box over at the bank",
+    "lead": "led the blind man up behind the box"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s11_end_saint_bavo",
+   "note": "ENDING 'ganda', what really happened: Ganda, sixty days or more after the box came (drawn once the timed flag ch_relic_theft_wait has run out), on the honest roads and the road of the thief who turned back. The martyrs lie at Saint Bavo's and the cures are written down. Sources: Translatio IV (the Ganda report; cures to 30 September; Saint Bavo's feast is 1 October); Einhard ordering the dues of his Ganda abbeys taken 'in full and in good silver', and asking for wax because the honey had been short (letters, dossiers/ganda.md [5]); the lay village on the Scheldt bank by the abbey from the early ninth century, with its bank plots (dossiers/ganda.md [7]); cloths laid on a saint's tomb and given away as relics (brandea) are the old Roman custom (Gregory the Great's letter to Constantina (?)); the emperor's writing for merchants who serve the palace is the praeceptum negotiatorum of 828 (Formulae imperiales no. 37: toll-free except at Quentovic, Dorestad and the passes; from memory (?)). Grand rewards: unlock_plot_ganda, or unlock_relic_marcellinus_cloth; on the hard road unlock_title_kings_protection and the plot. Sets ch_relic_theft_end_ganda.",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and flag.ch_relic_theft_10 and not flag.ch_relic_theft_wait and not flag.ch_relic_theft_swapped and not flag.ch_relic_theft_end_ganda",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [40, 60], "fixed": true, "note": "Erembert; real" },
+    "canon": { "role": "scribe", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [25, 60], "fixed": false, "note": "a canon of Saint Bavo's writing the sheet of cures" }
+   },
+   "title_key": "chain_relic_theft.s11.title",
+   "title": "The abbot's answer",
+   "intention_key": "chain_relic_theft.s11.intention",
+   "intention": "The abbot's answer has come from the palace. The steward reads it to you standing, because it is short. Behind him a canon is writing names on a sheet: who came, from where, and what left them.",
+   "lines": [
+    { "who": "steward", "key": "chain_relic_theft.s11.steward_letter" },
+    { "who": "canon", "key": "chain_relic_theft.s11.canon_cures", "note": "Hartlinda of Furnes, Liodold of Alphen (Translatio IV)" },
+    { "who": "steward", "key": "chain_relic_theft.s11.steward_repented", "when": "flag.ch_relic_theft_repented" },
+    { "who": "steward", "key": "chain_relic_theft.s11.steward_denounced", "when": "flag.ch_relic_theft_denounced", "note": "the praeceptum negotiatorum of 828 (?)" },
+    { "who": "steward", "key": "chain_relic_theft.s11.steward_stitch", "when": "flag.ch_relic_theft_opened" },
+    { "key": "chain_relic_theft.s11.chronicle" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_relic_theft.s11.opt_plot", "label": "Ask for a plot on the bank by the lay village", "check": "not flag.ch_relic_theft_repented",
+      "effects": [ "silver +700", "commission wax 6 by 200 premium 0.5", "deed kept_commission", "npc steward feeling +12 settled", "flag unlock_plot_ganda", "flag ch_relic_theft_end_ganda" ],
+      "note": "outcome: chain_relic_theft.s11.out_plot (finale: 700 d, an order for six loads of wax at half again, and the grand reward unlock_plot_ganda)" },
+    { "key": "cloth", "label_key": "chain_relic_theft.s11.opt_cloth", "label": "Ask for a cloth that has lain on the martyrs", "check": "true", "default": true,
+      "effects": [ "silver +600", "deed kept_commission", "npc steward feeling +10 cloth", "flag unlock_relic_marcellinus_cloth", "flag ch_relic_theft_end_ganda" ],
+      "note": "outcome: chain_relic_theft.s11.out_cloth (finale: 600 d and the grand reward unlock_relic_marcellinus_cloth)" },
+    { "key": "palace", "label_key": "chain_relic_theft.s11.opt_palace", "label": "Ask for your name in the emperor's writing, and the plot besides", "check": "flag.ch_relic_theft_denounced",
+      "effects": [ "silver +1400", "commission wax 6 by 200 premium 0.5", "deed kept_commission", "npc steward feeling +15 palace", "flag unlock_title_kings_protection", "flag unlock_plot_ganda", "flag ch_relic_theft_end_ganda" ],
+      "note": "outcome: chain_relic_theft.s11.out_palace (finale by the hard road: 1,400 d and two grand rewards, unlock_title_kings_protection and unlock_plot_ganda)" }
+   ],
+   "memory": {
+    "plot": "took a plot on the bank at Ganda",
+    "cloth": "took a cloth from the martyrs' tomb",
+    "palace": "had his name put in the emperor's writing"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s12_end_soissons",
+   "note": "ENDING 'soissons', history changed by the player: Parisius, when the stolen box comes to the landing of Saint-Denis (the voyage round by the Channel and up the Seine is the wait). Hilduin was abbot of Saint-Denis as well as of Saint-Medard, and the abbey held the tolls of its October fair (Pippin's judgement of 753; chain wine_fleet, which also sets unlock_title_saint_denis_man and unlock_plot_parisius). In truth Hilduin's house had a stolen share of Marcellinus for some months and gave it back; here it gets the Ganda box and keeps it. Thefts of relics were written up as the saint's own wish: the story Gozhelm is writing is the kind Einhard himself wrote of the night at Rome. Lasting costs: ch_relic_theft_sacrilege, ch_relic_theft_einhard_enmity (the abbot of Ganda knows a Frisian boat did it), changed_marcellinus_ganda. The third choice takes little and leaves the weight behind. Sets ch_relic_theft_end_soissons; clears ch_relic_theft_carrying.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and flag.ch_relic_theft_stole and flag.ch_relic_theft_carrying and not flag.ch_relic_theft_end_soissons",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "cellarer": { "role": "cellarer", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [40, 65], "fixed": true, "note": "the cellarer at the landing of Saint-Denis; unnamed" },
+    "gozhelm": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [35, 50], "fixed": false, "note": "Gozhelm of Saint-Medard; invented" }
+   },
+   "title_key": "chain_relic_theft.s12.title",
+   "title": "The abbey does not ask",
+   "intention_key": "chain_relic_theft.s12.intention",
+   "intention": "At the landing of Saint-Denis the cellarer has a cart waiting with a white cloth in it. He does not ask what road you came. He asks only whether the seals are whole.",
+   "lines": [
+    { "who": "cellarer", "key": "chain_relic_theft.s12.cellarer_seals" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s12.gozhelm_story" },
+    { "who": "cellarer", "key": "chain_relic_theft.s12.cellarer_pay" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s12.gozhelm_marked", "when": "flag.ch_relic_theft_marked" },
+    { "who": "gozhelm", "key": "chain_relic_theft.s12.gozhelm_earnest", "when": "flag.ch_relic_theft_earnest" },
+    { "key": "chain_relic_theft.s12.chronicle" }
+   ],
+   "options": [
+    { "key": "silver", "label_key": "chain_relic_theft.s12.opt_silver", "label": "Take the two thousand, and the abbey's name over yours", "check": "true", "default": true,
+      "effects": [ "silver +2000", "npc cellarer feeling +12 delivered", "flag unlock_title_saint_denis_man", "flag ch_relic_theft_carrying = 0", "flag ch_relic_theft_einhard_enmity", "flag changed_marcellinus_ganda", "flag ch_relic_theft_end_soissons", "news chain_relic_theft.news_soissons at dorestad" ],
+      "note": "outcome: chain_relic_theft.s12.out_silver (finale: 2,000 d and the grand reward unlock_title_saint_denis_man)" },
+    { "key": "fair", "label_key": "chain_relic_theft.s12.opt_fair", "label": "Take thirteen hundred and a plot on the abbot's ground at the fair", "check": "true",
+      "effects": [ "silver +1300", "commission rhenish_wine 3 by 240 premium 0.6", "npc cellarer feeling +12 delivered", "flag unlock_plot_parisius", "flag ch_relic_theft_carrying = 0", "flag ch_relic_theft_einhard_enmity", "flag changed_marcellinus_ganda", "flag ch_relic_theft_end_soissons", "news chain_relic_theft.news_soissons at dorestad" ],
+      "note": "outcome: chain_relic_theft.s12.out_fair (finale: 1,300 d, an order for three casks of Rhine wine at 0.6 over, and the grand reward unlock_plot_parisius)" },
+    { "key": "penance", "label_key": "chain_relic_theft.s12.opt_penance", "label": "Take six hundred for the freight, and ask that the monks name you in their prayers", "check": "true",
+      "effects": [ "silver +600", "npc cellarer feeling +6 delivered", "flag unlock_title_saint_denis_man", "flag ch_relic_theft_sacrilege = 0", "flag ch_relic_theft_carrying = 0", "flag ch_relic_theft_einhard_enmity", "flag changed_marcellinus_ganda", "flag ch_relic_theft_end_soissons", "news chain_relic_theft.news_soissons at dorestad" ],
+      "note": "outcome: chain_relic_theft.s12.out_penance (finale at its least: 600 d and the grand reward; the weight on the crew is lifted)" }
+   ],
+   "memory": {
+    "silver": "brought the martyrs to Saint-Denis for two thousand",
+    "fair": "brought the martyrs to Saint-Denis for a plot at the fair",
+    "penance": "brought the martyrs to Saint-Denis and asked for prayers"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s13_end_two_saints",
+   "note": "ENDING 'two_saints': Ganda, sixty days or more after the box came, on the road of two boxes. Two houses show the martyrs Marcellinus and Peter, and only the shipman knows which has them. With ch_relic_theft_real_at_ganda the cures are at Ganda as they really were and Saint-Medard has nobody's bones; with ch_relic_theft_real_at_soissons it is the other way and history is changed (changed_marcellinus_ganda, set in step 7). Sources: two houses claiming one saint is common in the age (the head of John the Baptist; Saint Denis at Paris and at Regensburg in the eleventh century; from memory (?)); each house wrote its own miracles. The finger bone held back is ours: Hunus held back more. Confessing costs the Soissons silver and wins the abbey's protection (immunity of Saint Bavo's: Louis the Pious, 13 April 819, dossiers/ganda.md [9]). Grand rewards: unlock_relic_peter_finger, or unlock_title_st_bavos_man. The lasting cost of silence is ch_relic_theft_secret. Sets ch_relic_theft_end_two_saints.",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and flag.ch_relic_theft_10 and not flag.ch_relic_theft_wait and flag.ch_relic_theft_swapped and not flag.ch_relic_theft_end_two_saints",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [40, 60], "fixed": true, "note": "Erembert; real" },
+    "canon": { "role": "scribe", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [25, 60], "fixed": false, "note": "a canon of Saint Bavo's writing the sheet of cures" }
+   },
+   "title_key": "chain_relic_theft.s13.title",
+   "title": "Two saints",
+   "intention_key": "chain_relic_theft.s13.intention",
+   "intention": "The abbot's answer has come from the palace, and with it news from the west: the house of Saint-Medard at Soissons is showing the people the martyrs Marcellinus and Peter. The steward does not know what to think. You do.",
+   "lines": [
+    { "who": "steward", "key": "chain_relic_theft.s13.steward_two" },
+    { "who": "canon", "key": "chain_relic_theft.s13.canon_cures", "when": "flag.ch_relic_theft_real_at_ganda" },
+    { "who": "canon", "key": "chain_relic_theft.s13.canon_none", "when": "flag.ch_relic_theft_real_at_soissons" },
+    { "who": "steward", "key": "chain_relic_theft.s13.steward_stitch", "when": "flag.ch_relic_theft_opened" },
+    { "who": "steward", "key": "chain_relic_theft.s13.steward_pay" },
+    { "key": "chain_relic_theft.s13.chronicle_ganda", "when": "flag.ch_relic_theft_real_at_ganda" },
+    { "key": "chain_relic_theft.s13.chronicle_soissons", "when": "flag.ch_relic_theft_real_at_soissons" }
+   ],
+   "options": [
+    { "key": "keep", "label_key": "chain_relic_theft.s13.opt_keep", "label": "Take the steward's silver, and keep the finger bone you held back", "check": "true", "default": true,
+      "effects": [ "silver +600", "npc steward feeling +6 paid", "flag unlock_relic_peter_finger", "flag ch_relic_theft_end_two_saints" ],
+      "note": "outcome: chain_relic_theft.s13.out_keep (finale: 600 d on top of the 900 d of step 7, and the grand reward unlock_relic_peter_finger; the secret stays)" },
+    { "key": "confess", "label_key": "chain_relic_theft.s13.opt_confess", "label": "Tell the steward everything, and lay the Soissons silver on the altar (900 d)", "check": "silver >= 900", "cost": "silver 900",
+      "effects": [ "silver +600", "deed gave_alms", "npc steward feeling +4 confessed", "flag unlock_title_st_bavos_man", "flag ch_relic_theft_secret = 0", "flag ch_relic_theft_sacrilege = 0", "flag ch_relic_theft_confessed", "flag ch_relic_theft_end_two_saints" ],
+      "note": "outcome: chain_relic_theft.s13.out_confess (finale: the steward's 600 d and the grand reward unlock_title_st_bavos_man; nothing is left hanging over the house)" }
+   ],
+   "memory": {
+    "keep": "took his pay and said nothing",
+    "confess": "told the whole of it and gave up the silver"
+   }
+  },
+  {
+   "id": "harbour.chain_relic_theft.s14_the_book",
+   "note": "Step 14, the afterword: drawn from 830 at Ganda, Mogontia, Colonia, Traiectum, Dorestad or Parisius after any ending. Einhard wrote the Translation and Miracles of Marcellinus and Peter in four books about 830 to 831 (the date from memory (?)): the night at the tomb, Hunus's theft, the bloody liquid, the dreams, and the cures house by house. He names no boat and no shipman for Ganda (true). Hilduin took the side of the emperor's sons in 830, lost his offices that autumn and was sent away; he had Saint-Denis again within a year or two (Astronomer, Vita Hludowici c. 45 (?)). Einhard was at Saint Bavo's, sick, in the spring of 830 (dossiers/ganda.md). The riddle is Aldhelm's book chest (riddles_793.json). A lamp before the martyrs clears what the theft left hanging (ch_relic_theft_sacrilege, ch_relic_theft_secret, ch_relic_theft_einhard_enmity). Sets ch_relic_theft_14; unlock_heirloom_einhards_leaf if the leaf is copied.",
+   "stage": "harbour",
+   "when": "moored and year >= 830 and (port.id = ganda or port.id = mogontia or port.id = colonia or port.id = traiectum or port.id = dorestad or port.id = parisius) and (flag.ch_relic_theft_end_ganda or flag.ch_relic_theft_end_soissons or flag.ch_relic_theft_end_two_saints) and not flag.ch_relic_theft_14",
+   "weight": 3,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "monk": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [20, 60], "fixed": false, "note": "a monk copying Einhard's book" }
+   },
+   "title_key": "chain_relic_theft.s14.title",
+   "title": "The book",
+   "intention_key": "chain_relic_theft.s14.intention",
+   "intention": "A monk is copying a new book in the porch for the light: the abbot Einhard's own account of how the martyrs came out of Rome and what they did afterwards. He reads a little of it aloud to anyone who stands still.",
+   "lines": [
+    { "who": "monk", "key": "chain_relic_theft.s14.monk_book" },
+    { "who": "monk", "key": "chain_relic_theft.s14.monk_boat", "when": "flag.ch_relic_theft_end_ganda" },
+    { "who": "monk", "key": "chain_relic_theft.s14.monk_soissons", "when": "flag.ch_relic_theft_end_soissons" },
+    { "who": "monk", "key": "chain_relic_theft.s14.monk_two", "when": "flag.ch_relic_theft_end_two_saints" },
+    { "who": "monk", "key": "chain_relic_theft.s14.monk_hilduin", "when": "year >= 831", "note": "Hilduin's fall, autumn 830" },
+    { "who": "monk", "key": "chain_relic_theft.s14.monk_sick_abbot", "when": "year = 830 and port.id = ganda", "note": "Einhard sick at Saint Bavo's, spring 830" }
+   ],
+   "options": [
+    { "key": "listen", "label_key": "chain_relic_theft.s14.opt_listen", "label": "Ask him to read the part about the river again", "check": "true", "default": true,
+      "effects": [ "learn latin +0.05", "give_riddle riddle_aldhelm_89_arca_libraria", "flag ch_relic_theft_14" ],
+      "note": "outcome: chain_relic_theft.s14.out_listen (time only; a little Latin and a riddle)" },
+    { "key": "leaf", "label_key": "chain_relic_theft.s14.opt_leaf", "label": "Pay him to copy the leaf with the blind man of the coast on it (20 d)", "check": "silver >= 20 and not flag.changed_marcellinus_ganda", "cost": "silver 20",
+      "effects": [ "learn latin +0.1", "flag unlock_heirloom_einhards_leaf", "flag ch_relic_theft_14" ],
+      "note": "outcome: chain_relic_theft.s14.out_leaf (a small heirloom: the leaf of Einhard's book that the house was on, though it is not named)" },
+    { "key": "lamp", "label_key": "chain_relic_theft.s14.opt_lamp", "label": "Send three hundred pennies to Ganda for a lamp before the martyrs, wherever they lie", "check": "silver >= 300 and (flag.ch_relic_theft_sacrilege or flag.ch_relic_theft_secret or flag.ch_relic_theft_einhard_enmity)", "cost": "silver 300",
+      "effects": [ "deed gave_alms", "flag ch_relic_theft_sacrilege = 0", "flag ch_relic_theft_secret = 0", "flag ch_relic_theft_einhard_enmity = 0", "flag ch_relic_theft_14" ],
+      "note": "outcome: chain_relic_theft.s14.out_lamp (the lasting costs of the theft are bought off)" }
+   ],
+   "memory": {
+    "listen": "listened to Einhard's book",
+    "leaf": "had a leaf of Einhard's book copied",
+    "lamp": "sent silver for a lamp before the martyrs"
+   }
+  }
+ ]
+}

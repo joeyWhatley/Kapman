@@ -1,0 +1,4096 @@
+{
+ "about": "HARBOUR CARDS OF THE RHINELAND AND FLANDERS: Colonia, Mogontia, Diusburg, Ganda, Andoverpis (Design/content/BRIEF.md, BRIEF_2.md). Written 6 October 2026 with the weave of the five places files; a draft in the game's own files, for the user to overwrite. Each card is tied to its port with port.id and listed in its site's 'do' in Data/places/<port>.json. Every *_key has real words in Data/writing/rhineland_flanders.json; an option's 'note' names the writing key of its outcome, and art.<card id> says what the picture shows. Flags: the spine's thread flags (sx_, hy_, sw_, bk_, sv_, ms_, df_, en_, bs_) for the steps they name; the rest take their port's name as a prefix. (?) in a note marks what is not attested.",
+ "cards": [
+  {
+   "id": "harbour.colonia.stewards_hulls",
+   "note": "The spine's hook for hungry_years at Colonia: the king's estate (Deutz) sells his own grain below the top price, and the steward wants hulls. Synod of Frankfurt 794 c. 4 (the king's own barley one penny the modius, other men's two at most; chronicle_793.json 794-06-01-frankfurt-prices), so the steward names his price only from 794; the famine of 792-794 and the hunger of 805-807. Wido is places/colonia.json colonia.wido. The barley is delivered by harbour.andoverpis.thin_ale; the wheat is loaded by harbour.mogontia.kings_wheat. A sack is about a modius and a half (goods_793.json).",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and (year < 795 or (year >= 805 and year < 808))",
+   "weight": 0.5,
+   "cooldown_days": 90,
+   "actors": {
+    "steward": {
+     "role": "steward",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      38,
+      62
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.hulls.title",
+   "title": "Hulls for the king's grain",
+   "intention_key": "rhineland_flanders.colonia.hulls.intention",
+   "intention": "A big sunburnt man with a bundle of tally sticks is walking down the strand toward your boat, already talking. The king's barley is in the barn at Deutz, and the bread is short on the Scheldt.",
+   "lines": [
+    {
+     "who": "steward",
+     "key": "rhineland_flanders.colonia.hulls.l.first",
+     "when": "not flag.colonia_carried_for_wido"
+    },
+    {
+     "who": "steward",
+     "key": "rhineland_flanders.colonia.hulls.l.again",
+     "when": "flag.colonia_carried_for_wido"
+    },
+    {
+     "who": "steward",
+     "key": "rhineland_flanders.colonia.hulls.l.dear",
+     "when": "flag.hy_sold_dear"
+    },
+    {
+     "who": "steward",
+     "key": "rhineland_flanders.colonia.hulls.l.price",
+     "when": "year >= 794"
+    },
+    {
+     "who": "steward",
+     "key": "rhineland_flanders.colonia.hulls.l.wheat",
+     "when": "flag.mogontia_kings_wheat and hold.wheat >= 8"
+    }
+   ],
+   "options": [
+    {
+     "key": "carry",
+     "label_key": "rhineland_flanders.colonia.hulls.o.carry",
+     "label": "Load the ten sacks for Andoverpis",
+     "check": "not flag.colonia_kings_barley",
+     "effects": [
+      "goods barley +10",
+      "flag colonia_kings_barley for 120",
+      "npc steward feeling +6 carried"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.hulls.out.carry"
+    },
+    {
+     "key": "wheat",
+     "label_key": "rhineland_flanders.colonia.hulls.o.wheat",
+     "label": "Hand over the wheat from Mogontia",
+     "check": "flag.mogontia_kings_wheat and hold.wheat >= 8",
+     "cost": "goods wheat 8",
+     "effects": [
+      "silver +16",
+      "goods wheat +1",
+      "flag hy_fed_poor",
+      "deed kept_commission",
+      "flag mogontia_kings_wheat = 0",
+      "flag colonia_carried_for_wido",
+      "npc steward feeling +10 full_count"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.hulls.out.wheat"
+    },
+    {
+     "key": "refuse",
+     "label_key": "rhineland_flanders.colonia.hulls.o.refuse",
+     "label": "Tell him the hold is spoken for",
+     "check": "true",
+     "effects": [
+      "npc steward feeling -2 refused"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.hulls.out.refuse"
+    }
+   ],
+   "memory": {
+    "carry": "carried the king's barley for him",
+    "wheat": "brought the Mogontia wheat down whole",
+    "refuse": "would not carry the king's grain"
+   }
+  },
+  {
+   "id": "harbour.colonia.stone_measure",
+   "note": "The spine's hook for black_stones at Colonia: Mayen quern roughouts come down the Rhine, and a stone dealer wants to know what length the English king asked for. Charles's letter to Offa of 796 (the black stones and the cloaks; that the stones were querns is one reading (?)). Meginher is places/colonia.json colonia.meginher. The true measure is had from someone who enforces the ban (the thread's flag bs_ban_heard) or after the peace (bs_peace).",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and year < 800 and not flag.colonia_measure_done",
+   "weight": 0.5,
+   "cooldown_days": 150,
+   "actors": {
+    "dealer": {
+     "role": "merchant",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      40,
+      65
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.stones.title",
+   "title": "A hand-breadth either way",
+   "intention_key": "rhineland_flanders.colonia.stones.intention",
+   "intention": "A heavy man grey with stone dust sits among stacks of round black stones, a notched stick across his knees. He has two hundred querns roughed out for the English, and the English ports are shut.",
+   "lines": [
+    {
+     "who": "dealer",
+     "key": "rhineland_flanders.colonia.stones.l.ask",
+     "when": "not flag.colonia_measure_asked"
+    },
+    {
+     "who": "dealer",
+     "key": "rhineland_flanders.colonia.stones.l.again",
+     "when": "flag.colonia_measure_asked"
+    },
+    {
+     "who": "dealer",
+     "key": "rhineland_flanders.colonia.stones.l.ban",
+     "when": "not flag.bs_peace"
+    },
+    {
+     "who": "dealer",
+     "key": "rhineland_flanders.colonia.stones.l.peace",
+     "when": "flag.bs_peace"
+    }
+   ],
+   "options": [
+    {
+     "key": "tell",
+     "label_key": "rhineland_flanders.colonia.stones.o.tell",
+     "label": "Lay the measure you were given on his stack",
+     "check": "flag.bs_ban_heard or flag.bs_peace",
+     "effects": [
+      "goods quernstones +6",
+      "flag colonia_measure_done",
+      "deed fair_dealing",
+      "npc dealer feeling +25 true_measure"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.stones.out.tell"
+    },
+    {
+     "key": "guess",
+     "label_key": "rhineland_flanders.colonia.stones.o.guess",
+     "label": "Give him a width of your own",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.3,
+       "by": "crew.trade_best",
+       "success": [
+        "silver +30",
+        "flag colonia_measure_done",
+        "npc dealer feeling +6 guessed"
+       ],
+       "failure": [
+        "silver +30",
+        "flag colonia_measure_done",
+        "flag colonia_false_measure",
+        "npc dealer feeling -30 false_measure"
+       ]
+      }
+     ],
+     "note": "outcome: rhineland_flanders.colonia.stones.out.guess"
+    },
+    {
+     "key": "promise",
+     "label_key": "rhineland_flanders.colonia.stones.o.promise",
+     "label": "Promise to ask on the Thames",
+     "check": "true",
+     "effects": [
+      "flag colonia_measure_asked",
+      "npc dealer feeling +2 promised"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.stones.out.promise"
+    }
+   ],
+   "memory": {
+    "tell": "brought him the true measure",
+    "guess.success": "gave him a width that held",
+    "guess.failure": "sold him a false measure",
+    "promise": "promised to ask on the Thames"
+   }
+  },
+  {
+   "id": "harbour.colonia.the_roll",
+   "note": "The spine's hook for saxon_end at Colonia: the archbishop is the king's arch-chaplain and his clerks hold the lists. Sets the thread's flag sx_brother_trail (Brunger's brother, given in 785). Hrotbert is places/colonia.json colonia.hrotbert; the story is colonia.names_on_the_list. The Old Saxon baptismal vow is texts_793.json saxon_vow. That a roll of 785 lay at Colonia is the game's (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and year < 806 and not flag.colonia_roll_read",
+   "weight": 0.35,
+   "cooldown_days": 200,
+   "actors": {
+    "clerk": {
+     "role": "clerk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      28,
+      62
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.roll.title",
+   "title": "The names on the list",
+   "intention_key": "rhineland_flanders.colonia.roll.intention",
+   "intention": "At the river gate a thin clerk sits in the shade with a wax tablet. In the chest behind him are the king's rolls: every Saxon hostage who has come down the river since the first submission, and in whose keeping.",
+   "lines": [
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.colonia.roll.l.rule"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.colonia.roll.l.brunger",
+     "when": "not flag.sx_brother_trail"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.colonia.roll.l.trail",
+     "when": "flag.sx_brother_trail"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.colonia.roll.l.priest",
+     "when": "flag.colonia_carried_gently"
+    }
+   ],
+   "options": [
+    {
+     "key": "priest",
+     "label_key": "rhineland_flanders.colonia.roll.o.priest",
+     "label": "Ask in the old priest's name",
+     "check": "flag.colonia_carried_gently",
+     "effects": [
+      "flag sx_brother_trail",
+      "flag colonia_roll_read",
+      "give_text saxon_vow",
+      "morale +0.05",
+      "npc clerk feeling +6 priests_word"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.roll.out.priest"
+    },
+    {
+     "key": "letters",
+     "label_key": "rhineland_flanders.colonia.roll.o.letters",
+     "label": "Carry the bishop's letters to Traiectum for it",
+     "check": "true",
+     "effects": [
+      "flag sx_brother_trail",
+      "flag colonia_roll_read",
+      "flag colonia_letters_aboard for 120",
+      "deed carried_letters",
+      "npc clerk feeling +8 letters"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.roll.out.letters"
+    },
+    {
+     "key": "leave",
+     "label_key": "rhineland_flanders.colonia.roll.o.leave",
+     "label": "Leave the lists in their chest",
+     "check": "true",
+     "effects": [
+      "npc clerk feeling -1 left"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.roll.out.leave"
+    }
+   ],
+   "memory": {
+    "priest": "asked in the old priest's name",
+    "letters": "carried the bishop's letters for a sight of the roll",
+    "leave": "left the lists alone"
+   }
+  },
+  {
+   "id": "harbour.colonia.bad_pennies",
+   "note": "The spine's hook for silver_road at Colonia: a mint and the archbishop's clerks, new coin for old at the king's rate, and a clerk who reads out the Frankfurt rule to anyone who argues. Synod of Frankfurt 794 c. 5 (chronicle_793.json 794-06-frankfurt-new-denier). Pennies of Charles for Colonia (dossier). The bag is delivered by harbour.mogontia.moneyer; the story is colonia.one_weight. The lesson sets the thread's flag sv_scale. The clerk speaks of the moneyer at Dorestad, so the card ends with Dorestad (gone after 863: ports_793.json).",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and year >= 794 and year < 864 and not flag.colonia_mint_bag and not flag.colonia_mint_done",
+   "weight": 0.3,
+   "cooldown_days": 300,
+   "actors": {
+    "clerk": {
+     "role": "clerk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      28,
+      62
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.pennies.title",
+   "title": "One weight in every market",
+   "intention_key": "rhineland_flanders.colonia.pennies.intention",
+   "intention": "In the cellar that is the king's mint a clerk reads from a tablet to a man who is arguing about a penny. When the man has gone the clerk turns to you, a small sealed bag in his hand.",
+   "lines": [
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.colonia.pennies.l.rule"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.colonia.pennies.l.tin"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.colonia.pennies.l.bag"
+    }
+   ],
+   "options": [
+    {
+     "key": "carry",
+     "label_key": "rhineland_flanders.colonia.pennies.o.carry",
+     "label": "Take the sealed bag up to Mogontia",
+     "check": "true",
+     "effects": [
+      "flag colonia_mint_bag for 365",
+      "npc clerk feeling +5 took_bag"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.pennies.out.carry"
+    },
+    {
+     "key": "lesson",
+     "label_key": "rhineland_flanders.colonia.pennies.o.lesson",
+     "label": "Pay him to show you the nick and the touchstone",
+     "check": "silver >= 6",
+     "cost": "silver 6",
+     "effects": [
+      "flag sv_scale",
+      "npc clerk feeling +3 lesson"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.pennies.out.lesson"
+    },
+    {
+     "key": "decline",
+     "label_key": "rhineland_flanders.colonia.pennies.o.decline",
+     "label": "Say the river is long and bags get wet",
+     "check": "true",
+     "effects": [
+      "npc clerk feeling -1 declined"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.pennies.out.decline"
+    }
+   ],
+   "memory": {
+    "carry": "took the sealed bag for Mogontia",
+    "lesson": "paid for the lesson with the nick",
+    "decline": "would not carry the bag"
+   }
+  },
+  {
+   "id": "harbour.colonia.snow_riddle",
+   "note": "A riddle given: riddles_793.json riddle_symphosius_11_nix ('a schoolmaster of the cathedral', Colonia; Symphosius 11, Nix, ed. Riese 1894: 'Pulvis aquae tenuis'; the plain English in the line is ours). A text wanted: Alcuin's letter on Lindisfarne (texts_793.json alcuin_793). The spine's book_road: the schools of Colonia and Mogontia trade copies with England. 175 books at Saint Peter's in 833 (dossier).",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and not flag.colonia_snow_given",
+   "weight": 0.25,
+   "cooldown_days": 250,
+   "actors": {
+    "schoolmaster": {
+     "role": "schoolmaster",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.school.title",
+   "title": "The dust of water",
+   "intention_key": "rhineland_flanders.colonia.school.intention",
+   "intention": "In Saint Peter's, under the scaffolding, a master is teaching six boys by the light of the west window. He has seen you looking at the book chest and waves you over without stopping the lesson.",
+   "lines": [
+    {
+     "who": "schoolmaster",
+     "key": "rhineland_flanders.colonia.school.l.boys"
+    },
+    {
+     "who": "schoolmaster",
+     "key": "rhineland_flanders.colonia.school.l.letter",
+     "when": "text.alcuin_793"
+    },
+    {
+     "who": "schoolmaster",
+     "key": "rhineland_flanders.colonia.school.l.riddle"
+    },
+    {
+     "who": "schoolmaster",
+     "key": "rhineland_flanders.colonia.school.l.bishop",
+     "when": "year < 819"
+    }
+   ],
+   "options": [
+    {
+     "key": "copy",
+     "label_key": "rhineland_flanders.colonia.school.o.copy",
+     "label": "Let him copy the York letter",
+     "check": "text.alcuin_793",
+     "effects": [
+      "give_riddle riddle_symphosius_11_nix",
+      "learn latin +0.1",
+      "silver +8",
+      "flag colonia_snow_given",
+      "flag bk_knows_worth",
+      "npc schoolmaster feeling +12 lent_letter"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.school.out.copy"
+    },
+    {
+     "key": "riddle",
+     "label_key": "rhineland_flanders.colonia.school.o.riddle",
+     "label": "Take the riddle and a seat with the boys",
+     "check": "true",
+     "effects": [
+      "give_riddle riddle_symphosius_11_nix",
+      "learn latin +0.05",
+      "flag colonia_snow_given",
+      "npc schoolmaster feeling +4 sat"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.school.out.riddle"
+    },
+    {
+     "key": "go",
+     "label_key": "rhineland_flanders.colonia.school.o.go",
+     "label": "Say you only came to hear Mass",
+     "check": "true",
+     "effects": [],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.school.out.go"
+    }
+   ],
+   "memory": {
+    "copy": "lent him the York letter to copy",
+    "riddle": "sat a lesson with his boys"
+   }
+  },
+  {
+   "id": "harbour.colonia.iron_at_dusk",
+   "note": "The spine's hook for swords_north at Colonia: the smiths' street; a blade may be sold to a count's man and to no stranger; a dealer who asks no questions wants silver by weight, not coin. Capitulary of Herstal 779 c. 20; Thionville 805 c. 7. Bero is places/colonia.json colonia.bero; the story is colonia.iron_at_dusk. The bundle is delivered by harbour.diusburg.east_road, which sets sw_ran_blades or sw_marked. With swords aboard, the toll man's own card offers its 'hide' option at every Frankish toll on the way.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and year < 901 and not flag.colonia_bero_bundle and not flag.colonia_told_clerk",
+   "weight": 0.25,
+   "cooldown_days": 240,
+   "actors": {
+    "smith": {
+     "role": "smith",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      65
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.iron.title",
+   "title": "Iron at dusk",
+   "intention_key": "rhineland_flanders.colonia.iron.intention",
+   "intention": "At the quiet end of the smiths' row one shed is closed with hurdles. A spare man with burn-scarred arms is waiting by it as the light goes, a long bundle wrapped in greased wool on the anvil block beside him.",
+   "lines": [
+    {
+     "who": "smith",
+     "key": "rhineland_flanders.colonia.iron.l.first",
+     "when": "not flag.sw_ran_blades"
+    },
+    {
+     "who": "smith",
+     "key": "rhineland_flanders.colonia.iron.l.again",
+     "when": "flag.sw_ran_blades"
+    },
+    {
+     "who": "smith",
+     "key": "rhineland_flanders.colonia.iron.l.law_old",
+     "when": "year < 805"
+    },
+    {
+     "who": "smith",
+     "key": "rhineland_flanders.colonia.iron.l.law_new",
+     "when": "year >= 805"
+    },
+    {
+     "who": "smith",
+     "key": "rhineland_flanders.colonia.iron.l.lay"
+    }
+   ],
+   "options": [
+    {
+     "key": "carry",
+     "label_key": "rhineland_flanders.colonia.iron.o.carry",
+     "label": "Take the bundle for Diusburg",
+     "check": "true",
+     "effects": [
+      "goods swords +4",
+      "silver +16",
+      "flag colonia_bero_bundle for 200",
+      "npc smith feeling +6 carried"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.iron.out.carry"
+    },
+    {
+     "key": "refuse",
+     "label_key": "rhineland_flanders.colonia.iron.o.refuse",
+     "label": "Tell him you carry wine and stones",
+     "check": "true",
+     "effects": [
+      "npc smith feeling +1 kept_quiet"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.iron.out.refuse"
+    },
+    {
+     "key": "tell",
+     "label_key": "rhineland_flanders.colonia.iron.o.tell",
+     "label": "Tell the clerk at the gate what is behind the hurdles",
+     "check": "true",
+     "effects": [
+      "flag colonia_told_clerk",
+      "toll eased 60",
+      "npc smith feeling -40 informed"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.iron.out.tell"
+    }
+   ],
+   "memory": {
+    "carry": "carried a bundle for him and kept quiet",
+    "refuse": "refused and kept quiet",
+    "tell": "told the clerk about the closed shed"
+   }
+  },
+  {
+   "id": "harbour.colonia.bishops_boat",
+   "note": "A commission. The boat bank is places/colonia.json colonia.boat_bank (no yard is recorded: the game's (?)). The boat with two cabins that Bishop Hadebald gave Harald and Anskar in 826: Rimbert, Vita Anskarii c. 7 (tr. Robinson 1921). Moss and tar for caulking river craft: Design/content/ships.md.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia",
+   "weight": 0.2,
+   "cooldown_days": 200,
+   "actors": {
+    "shipwright": {
+     "role": "shipwright",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.tar.title",
+   "title": "Moss and tar",
+   "intention_key": "rhineland_flanders.colonia.tar.intention",
+   "intention": "On the bank below Saint Kunibert's a barge lies on rollers with her side planks off. The wright has the bishop's river boat to caulk before the water drops, and an empty tar trough.",
+   "lines": [
+    {
+     "who": "shipwright",
+     "key": "rhineland_flanders.colonia.tar.l.want"
+    },
+    {
+     "who": "shipwright",
+     "key": "rhineland_flanders.colonia.tar.l.cabins",
+     "when": "year = 826"
+    },
+    {
+     "who": "shipwright",
+     "key": "rhineland_flanders.colonia.tar.l.again",
+     "when": "npc.shipwright.last = order"
+    },
+    {
+     "who": "shipwright",
+     "key": "rhineland_flanders.colonia.tar.l.barge"
+    }
+   ],
+   "options": [
+    {
+     "key": "order",
+     "label_key": "rhineland_flanders.colonia.tar.o.order",
+     "label": "Take his order for tar",
+     "check": "true",
+     "effects": [
+      "commission tar 3 by 150 premium 0.3",
+      "npc shipwright feeling +3 order"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.tar.out.order"
+    },
+    {
+     "key": "rope",
+     "label_key": "rhineland_flanders.colonia.tar.o.rope",
+     "label": "Sell him a coil of rope from your hold",
+     "check": "hold.rope >= 1",
+     "cost": "goods rope 1",
+     "effects": [
+      "silver +14",
+      "npc shipwright feeling +2 rope"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.tar.out.rope"
+    },
+    {
+     "key": "watch",
+     "label_key": "rhineland_flanders.colonia.tar.o.watch",
+     "label": "Watch him split a log, and ask about the river",
+     "check": "true",
+     "effects": [
+      "npc shipwright feeling +1 talked"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.tar.out.watch"
+    }
+   ],
+   "memory": {
+    "order": "took his order for tar",
+    "rope": "sold him rope",
+    "watch": "talked about the river"
+   }
+  },
+  {
+   "id": "harbour.colonia.crossing_vow",
+   "note": "A passenger to carry and a text given. The spine's hook for saxon_end at Colonia: the king's crossing place; in 799 and 804 whole villages wait on the bank to be moved into Francia, and a priest reads them the vow again (Annales regni Francorum 799, 804; chronicle_793.json). The vow is texts_793.json saxon_vow. Erkanbert is places/colonia.json colonia.erkanbert (he dies in 810). Carrying them gently opens the clerk's roll (harbour.colonia.the_roll).",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and (year = 799 or year = 804)",
+   "weight": 0.9,
+   "cooldown_days": 120,
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      55,
+      75
+     ],
+     "fixed": true
+    },
+    "elder": {
+     "role": "farm_wife",
+     "people": "saxon",
+     "faith": "christian",
+     "tongue": "old_saxon",
+     "age": [
+      50,
+      70
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.crossing.title",
+   "title": "The vow, read again",
+   "intention_key": "rhineland_flanders.colonia.crossing.intention",
+   "intention": "The bank by the Deutz ferry is full of Saxon households sitting on their bundles under guard, waiting to be moved into Francia. An old red-faced priest is reading to them from a small book, in their own tongue.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.colonia.crossing.l.vow"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.colonia.crossing.l.ask"
+    },
+    {
+     "who": "elder",
+     "key": "rhineland_flanders.colonia.crossing.l.river"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.colonia.crossing.l.gently",
+     "when": "npc.priest.last = gently"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.colonia.crossing.l.officer",
+     "when": "npc.priest.last = officer"
+    }
+   ],
+   "options": [
+    {
+     "key": "gently",
+     "label_key": "rhineland_flanders.colonia.crossing.o.gently",
+     "label": "Take the old woman and five children upriver for nothing",
+     "check": "true",
+     "effects": [
+      "passenger elder to mogontia",
+      "flag colonia_carried_gently",
+      "deed gave_alms",
+      "give_text saxon_vow",
+      "morale +0.05",
+      "npc priest feeling +15 gently"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.crossing.out.gently"
+    },
+    {
+     "key": "officer",
+     "label_key": "rhineland_flanders.colonia.crossing.o.officer",
+     "label": "Hire the boat to the king's officer instead",
+     "check": "true",
+     "effects": [
+      "silver +36",
+      "passenger elder to mogontia",
+      "flag colonia_hulls_for_king",
+      "morale -0.05",
+      "npc priest feeling -8 officer"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.crossing.out.officer"
+    },
+    {
+     "key": "bread",
+     "label_key": "rhineland_flanders.colonia.crossing.o.bread",
+     "label": "Buy bread for them at the tower and go",
+     "check": "silver >= 4",
+     "cost": "silver 4",
+     "effects": [
+      "deed gave_alms",
+      "npc priest feeling +4 bread"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.crossing.out.bread"
+    }
+   ],
+   "memory": {
+    "gently": "carried the old and the children for nothing",
+    "officer": "hired his boat to the king's officer",
+    "bread": "bought bread for the people on the bank"
+   }
+  },
+  {
+   "id": "harbour.colonia.chipped_cup",
+   "note": "A person of the place with memory, and a rumour that is true (the price of Rhenish pots at Colonia falls for forty days). Adaltrud is places/colonia.json colonia.adaltrud; the house is the game's (?). Badorf ware from the Vorgebirge villages with Colonia its market (de.wikipedia Badorfer Keramik). Her quarrel with Ratburg of Mogontia is the weave's.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia",
+   "weight": 0.35,
+   "cooldown_days": 60,
+   "actors": {
+    "alewife": {
+     "role": "alewife",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      28,
+      65
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.tower.title",
+   "title": "The ale-house in the tower",
+   "intention_key": "rhineland_flanders.colonia.tower.intention",
+   "intention": "Smoke goes up into the hollow of a Roman wall tower. On the benches round the curve of the wall sit boatmen, a dice cup and a dog; a tall woman with a ladle looks you over once.",
+   "lines": [
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.colonia.tower.l.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.colonia.tower.l.again",
+     "when": "port.visits > 0"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.colonia.tower.l.owes",
+     "when": "flag.colonia_tower_tally"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.colonia.tower.l.river"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.colonia.tower.l.pots"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.colonia.tower.l.rival",
+     "when": "year < 825"
+    }
+   ],
+   "options": [
+    {
+     "key": "pay",
+     "label_key": "rhineland_flanders.colonia.tower.o.pay",
+     "label": "Pay for the round and listen",
+     "check": "silver >= 3",
+     "cost": "silver 3",
+     "effects": [
+      "price_shock colonia badorf_ware x0.8 for 40",
+      "morale +0.03",
+      "npc alewife feeling +4 paid"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.tower.out.pay"
+    },
+    {
+     "key": "tally",
+     "label_key": "rhineland_flanders.colonia.tower.o.tally",
+     "label": "Drink on a tally stick",
+     "check": "true",
+     "effects": [
+      "flag colonia_tower_tally",
+      "morale +0.02",
+      "npc alewife feeling -2 tally"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.tower.out.tally"
+    },
+    {
+     "key": "settle",
+     "label_key": "rhineland_flanders.colonia.tower.o.settle",
+     "label": "Settle the old stick",
+     "check": "flag.colonia_tower_tally and silver >= 5",
+     "cost": "silver 5",
+     "effects": [
+      "flag colonia_tower_tally = 0",
+      "npc alewife feeling +8 settled"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.tower.out.settle"
+    }
+   ],
+   "memory": {
+    "pay": "paid for the round",
+    "tally": "drank on a tally stick",
+    "settle": "settled his stick"
+   }
+  },
+  {
+   "id": "harbour.colonia.haulers_grave",
+   "note": "A funeral. Burial by the saints outside the walls, in the old Roman cemeteries; Saint Gereon, 'at the Golden Saints', and the soldiers of the Theban Legion (de.wikipedia St. Gereon, by way of the dossier). Hauling by rope from the bank: Wandalbert, Miracula sancti Goaris. The drowned hauler is invented. The old priest is Erkanbert (colonia.erkanbert), who dies in 810.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia",
+   "weight": 0.15,
+   "cooldown_days": 300,
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      75
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.grave.title",
+   "title": "A grave at the Golden Saints",
+   "intention_key": "rhineland_flanders.colonia.grave.intention",
+   "intention": "Outside the north-west corner of the wall, among Roman tombs and cabbage plots, six boatmen are carrying a seventh on a plank. He went under a barge on the tow below the town. The strand has shut its doors for an hour.",
+   "lines": [
+    {
+     "who": "",
+     "key": "rhineland_flanders.colonia.grave.l.strand"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.colonia.grave.l.old",
+     "when": "year < 811"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.colonia.grave.l.new",
+     "when": "year >= 811"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.colonia.grave.l.saints"
+    }
+   ],
+   "options": [
+    {
+     "key": "carry",
+     "label_key": "rhineland_flanders.colonia.grave.o.carry",
+     "label": "Take a corner of the plank",
+     "check": "true",
+     "effects": [
+      "morale +0.05",
+      "npc priest feeling +6 carried"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.grave.out.carry"
+    },
+    {
+     "key": "mass",
+     "label_key": "rhineland_flanders.colonia.grave.o.mass",
+     "label": "Give twelve pennies for a Mass and the grave",
+     "check": "silver >= 12",
+     "cost": "silver 12",
+     "effects": [
+      "deed gave_alms",
+      "morale +0.03",
+      "npc priest feeling +10 mass"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.grave.out.mass"
+    },
+    {
+     "key": "back",
+     "label_key": "rhineland_flanders.colonia.grave.o.back",
+     "label": "Stand at the back with your cap off",
+     "check": "true",
+     "effects": [
+      "npc priest feeling +1 stood"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.grave.out.back"
+    }
+   ],
+   "memory": {
+    "carry": "helped carry a drowned hauler to his grave",
+    "mass": "paid for a hauler's Mass and grave",
+    "back": "stood at a hauler's burial"
+   }
+  },
+  {
+   "id": "harbour.colonia.green_glass",
+   "note": "A riddle given: riddles_793.json riddle_aldhelm_40_piper, held by 'a dealer in Rhenish glass' at Colonia, the last link of the set salt_to_pepper (Aldhelm, Enigma 40, Piper, ed. Ehwald 1919: 'Sum niger exterius rugoso cortice tectus'; the plain English is ours). It is given when the glass-cup riddle from Mogontia is solved (places/mogontia.json mogontia.born_in_the_furnace). Liutwin is places/colonia.json colonia.wine_factor. Glass beakers from the Rhine at Dorestad and Birka.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and not flag.colonia_pepper_given",
+   "weight": 0.3,
+   "cooldown_days": 180,
+   "actors": {
+    "vintner": {
+     "role": "merchant",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      65
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.colonia.glass.title",
+   "title": "Green glass",
+   "intention_key": "rhineland_flanders.colonia.glass.intention",
+   "intention": "On the market's best pitch a tall narrow man sells wine from the cask and, from a chest of bran, green glass beakers to drink it from. The potter's widow on the next pitch is explaining loudly what glass is for.",
+   "lines": [
+    {
+     "who": "vintner",
+     "key": "rhineland_flanders.colonia.glass.l.taste"
+    },
+    {
+     "who": "vintner",
+     "key": "rhineland_flanders.colonia.glass.l.widow"
+    },
+    {
+     "who": "vintner",
+     "key": "rhineland_flanders.colonia.glass.l.riddle_no",
+     "when": "riddle.riddle_aldhelm_80_calix_vitreus != solved"
+    },
+    {
+     "who": "vintner",
+     "key": "rhineland_flanders.colonia.glass.l.riddle_yes",
+     "when": "riddle.riddle_aldhelm_80_calix_vitreus = solved"
+    }
+   ],
+   "options": [
+    {
+     "key": "leaf",
+     "label_key": "rhineland_flanders.colonia.glass.o.leaf",
+     "label": "Give the answer and take the leaf",
+     "check": "riddle.riddle_aldhelm_80_calix_vitreus = solved",
+     "effects": [
+      "give_riddle riddle_aldhelm_40_piper",
+      "flag colonia_pepper_given",
+      "deed won_riddle",
+      "npc vintner feeling +10 answered"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.glass.out.leaf"
+    },
+    {
+     "key": "beakers",
+     "label_key": "rhineland_flanders.colonia.glass.o.beakers",
+     "label": "Buy a crate of green beakers for the north",
+     "check": "silver >= 60",
+     "cost": "silver 60",
+     "effects": [
+      "goods glass_vessels +1",
+      "npc vintner feeling +3 bought"
+     ],
+     "note": "outcome: rhineland_flanders.colonia.glass.out.beakers"
+    },
+    {
+     "key": "taste",
+     "label_key": "rhineland_flanders.colonia.glass.o.taste",
+     "label": "Taste, praise it, and buy nothing",
+     "check": "true",
+     "effects": [
+      "npc vintner feeling -1 tasted"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.colonia.glass.out.taste"
+    }
+   ],
+   "memory": {
+    "leaf": "answered the glass riddle and took the leaf",
+    "beakers": "bought green beakers",
+    "taste": "tasted and bought nothing"
+   }
+  },
+  {
+   "id": "harbour.mogontia.folcbalds_cask",
+   "note": "A riddle given: riddles_793.json riddle_aldhelm_80_calix_vitreus, held by 'a Frisian wine shipper of the Frisian quarter' at Mogontia, the third link of the set salt_to_pepper (Aldhelm, Enigma 80, Calix vitreus, ed. Ehwald 1919; the plain English is ours). It follows the wine-cask riddle had at Herio. Folcbald is places/mogontia.json mogontia.folcbald; the story is mogontia.born_in_the_furnace. The cloaks: Notker, Gesta Karoli I.34. Wine bespoken at the vintage is collected by harbour.mogontia.martinmas. Frisian traders on the Mainz shore: Landesmuseum Mainz; Annales Fuldenses 886.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and year < 823",
+   "weight": 0.4,
+   "cooldown_days": 90,
+   "actors": {
+    "shipper": {
+     "role": "merchant",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      38,
+      70
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.cask.title",
+   "title": "The cask he does not sell",
+   "intention_key": "rhineland_flanders.mogontia.cask.intention",
+   "intention": "Under the Roman wall a cellar door stands open on casks two deep. A spare Frisian with a tasting cup at his belt is chalking a tally on the door post, and has seen your rope-burned hands.",
+   "lines": [
+    {
+     "who": "shipper",
+     "key": "rhineland_flanders.mogontia.cask.l.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "shipper",
+     "key": "rhineland_flanders.mogontia.cask.l.again",
+     "when": "port.visits > 0"
+    },
+    {
+     "who": "shipper",
+     "key": "rhineland_flanders.mogontia.cask.l.vintage",
+     "when": "month >= 8 and month <= 10 and not flag.mogontia_wine_bespoken"
+    },
+    {
+     "who": "shipper",
+     "key": "rhineland_flanders.mogontia.cask.l.bespoken",
+     "when": "flag.mogontia_wine_bespoken"
+    },
+    {
+     "who": "shipper",
+     "key": "rhineland_flanders.mogontia.cask.l.riddle",
+     "when": "not flag.mogontia_leaf_given"
+    },
+    {
+     "who": "shipper",
+     "key": "rhineland_flanders.mogontia.cask.l.cloak"
+    }
+   ],
+   "options": [
+    {
+     "key": "leaf",
+     "label_key": "rhineland_flanders.mogontia.cask.o.leaf",
+     "label": "Answer the cask riddle and ask for the leaf",
+     "check": "riddle.riddle_aldhelm_78_cupa_vinaria = solved and not flag.mogontia_leaf_given",
+     "effects": [
+      "give_riddle riddle_aldhelm_80_calix_vitreus",
+      "flag mogontia_leaf_given",
+      "npc shipper feeling +8 answered"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.cask.out.leaf"
+    },
+    {
+     "key": "bespeak",
+     "label_key": "rhineland_flanders.mogontia.cask.o.bespeak",
+     "label": "Leave ninety pennies for two casks at Martinmas",
+     "check": "month >= 8 and month <= 10 and silver >= 90 and not flag.mogontia_wine_bespoken",
+     "cost": "silver 90",
+     "effects": [
+      "flag mogontia_wine_bespoken for 200",
+      "npc shipper feeling +5 bespoke"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.cask.out.bespeak"
+    },
+    {
+     "key": "drink",
+     "label_key": "rhineland_flanders.mogontia.cask.o.drink",
+     "label": "Sit, and drink what he pours",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "npc shipper feeling +2 sat"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.cask.out.drink"
+    }
+   ],
+   "memory": {
+    "leaf": "answered the cask riddle",
+    "bespeak": "left silver for wine at the vintage",
+    "drink": "sat and drank with him"
+   }
+  },
+  {
+   "id": "harbour.mogontia.martinmas",
+   "note": "A feast day: Martinmas, 11 November (Feasts.On), the day the new wine is ready and the Frisians go downriver with it (Design/research_trade_seasons_and_hints.md). The goose at Martinmas is an old custom whose age is not checked (?). The bridge that burned in May 813: Einhard, Life of Charles 32. Ratburg and Folcbald are places/mogontia.json.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and feast and month = 11",
+   "weight": 3.0,
+   "cooldown_days": 200,
+   "actors": {
+    "alewife": {
+     "role": "alewife",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      28,
+      65
+     ],
+     "fixed": true
+    },
+    "shipper": {
+     "role": "merchant",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      38,
+      70
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.martinmas.title",
+   "title": "New wine by Martinmas",
+   "intention_key": "rhineland_flanders.mogontia.martinmas.intention",
+   "intention": "It is Saint Martin's day. The bishop's church is full, every cask on the Frisians' shore has a spigot in it, and the haulers who brought you up the river are owed their feast.",
+   "lines": [
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.mogontia.martinmas.l.bench"
+    },
+    {
+     "who": "shipper",
+     "key": "rhineland_flanders.mogontia.martinmas.l.bespoken",
+     "when": "flag.mogontia_wine_bespoken"
+    },
+    {
+     "who": "shipper",
+     "key": "rhineland_flanders.mogontia.martinmas.l.not",
+     "when": "not flag.mogontia_wine_bespoken"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.mogontia.martinmas.l.fire",
+     "when": "year = 813"
+    }
+   ],
+   "options": [
+    {
+     "key": "casks",
+     "label_key": "rhineland_flanders.mogontia.martinmas.o.casks",
+     "label": "Roll your two casks down to the boat",
+     "check": "flag.mogontia_wine_bespoken",
+     "effects": [
+      "goods rhenish_wine +2",
+      "flag mogontia_wine_bespoken = 0",
+      "npc shipper feeling +6 collected"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.martinmas.out.casks"
+    },
+    {
+     "key": "round",
+     "label_key": "rhineland_flanders.mogontia.martinmas.o.round",
+     "label": "Stand the haulers their feast",
+     "check": "silver >= 8",
+     "cost": "silver 8",
+     "effects": [
+      "morale +0.1",
+      "npc alewife feeling +8 feast"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.martinmas.out.round"
+    },
+    {
+     "key": "mass",
+     "label_key": "rhineland_flanders.mogontia.martinmas.o.mass",
+     "label": "Hear the feast's Mass at Saint Martin's and go to bed",
+     "check": "true",
+     "effects": [
+      "morale +0.03"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.martinmas.out.mass"
+    }
+   ],
+   "memory": {
+    "casks": "collected his wine at Martinmas",
+    "round": "stood the haulers their feast"
+   }
+  },
+  {
+   "id": "harbour.mogontia.the_list",
+   "note": "An oath: surety sworn before the bishop. The spine's hook for saxon_end at Mogontia: about 805 the hostages kept in the south are ordered brought here at mid-Lent; Brunger's brother is on the list (sets sx_brother_found; the night road also sets sx_carried_fugitive). Indiculus obsidum Saxonum Moguntiam deducendorum, MGH Capitularia I no. 115 (?). Otbert and Brunric are places/mogontia.json; the stories are mogontia.thirty_seven_names, colonia.names_on_the_list and diusburg.road_of_hostages; the endings by_leave, by_night and his_word are those of the Mogontia story. The surety of 120 d is the game's.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and year >= 804 and year < 807 and flag.sx_brother_trail and not flag.sx_brother_found",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": {
+     "role": "clerk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      65
+     ],
+     "fixed": true
+    },
+    "hostage": {
+     "role": "hostage",
+     "people": "saxon",
+     "faith": "christian",
+     "tongue": "old_saxon",
+     "age": [
+      30,
+      36
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.list.title",
+   "title": "Thirty-seven names",
+   "intention_key": "rhineland_flanders.mogontia.list.intention",
+   "intention": "Mid-Lent in the bishop's hall. A row of men in borrowed cloaks stands before the clerk's table to be counted. The twenty-ninth has a scar through his left eyebrow, and the mate, in the doorway, has stopped breathing.",
+   "lines": [
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.list.l.count"
+    },
+    {
+     "who": "hostage",
+     "key": "rhineland_flanders.mogontia.list.l.tongue"
+    },
+    {
+     "who": "hostage",
+     "key": "rhineland_flanders.mogontia.list.l.choice"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.list.l.leave"
+    }
+   ],
+   "options": [
+    {
+     "key": "leave",
+     "label_key": "rhineland_flanders.mogontia.list.o.leave",
+     "label": "Stand surety before the bishop and take him home openly",
+     "check": "silver >= 120 and npc.clerk.feeling >= easy",
+     "cost": "silver 120",
+     "effects": [
+      "flag sx_brother_found",
+      "flag mogontia_brunric_by_leave",
+      "passenger hostage to daventre",
+      "deed won_case",
+      "morale +0.15",
+      "npc clerk feeling +10 surety"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.list.out.leave"
+    },
+    {
+     "key": "night",
+     "label_key": "rhineland_flanders.mogontia.list.o.night",
+     "label": "Take him aboard after dark and be gone under the piers",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.seamanship_best",
+       "success": [
+        "flag sx_brother_found",
+        "flag sx_carried_fugitive",
+        "flag mogontia_brunric_by_night",
+        "passenger hostage to daventre",
+        "morale +0.15",
+        "npc clerk feeling -25 gap"
+       ],
+       "failure": [
+        "flag sx_brother_found",
+        "flag mogontia_brunric_word",
+        "deed fled_kings_men",
+        "morale -0.1",
+        "npc clerk feeling -35 caught"
+       ]
+      }
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.list.out.night"
+    },
+    {
+     "key": "word",
+     "label_key": "rhineland_flanders.mogontia.list.o.word",
+     "label": "Carry his word and a lock of his hair, and leave him his vines",
+     "check": "true",
+     "effects": [
+      "flag sx_brother_found",
+      "flag mogontia_brunric_word",
+      "morale +0.05",
+      "npc clerk feeling +3 word",
+      "npc hostage feeling +10 word"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.list.out.word"
+    }
+   ],
+   "memory": {
+    "leave": "stood surety for a hostage before the bishop",
+    "night.success": "took a hostage off the list by night",
+    "night.failure": "was caught taking a hostage by night",
+    "word": "carried a hostage's word home"
+   }
+  },
+  {
+   "id": "harbour.mogontia.kings_wheat",
+   "note": "The spine's hook for hungry_years ('also at Mogontia'): the king's estates sell his grain below the cap and want hulls; a dealer offers more than the cap for delivery after dark (sets hy_sold_dear); the public modius (sets hy_new_measure). Synod of Frankfurt 794 c. 4 (wheat four pennies the modius, the king's own at three); in 793, before the synod, the clerk speaks of the king's price and names no figure. Otbert is places/mogontia.json mogontia.otbert; the wheat is counted off by harbour.colonia.stewards_hulls, which sets hy_fed_poor. Mainz grain merchants on the Main: Einhard, Translation (tr. Wendell 1926).",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and (year < 795 or (year >= 805 and year < 808))",
+   "weight": 0.5,
+   "cooldown_days": 100,
+   "actors": {
+    "clerk": {
+     "role": "clerk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      28,
+      65
+     ],
+     "fixed": true
+    },
+    "dealer": {
+     "role": "merchant",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.wheat.title",
+   "title": "The king's wheat",
+   "intention_key": "rhineland_flanders.mogontia.wheat.intention",
+   "intention": "Grain boats lie three deep off the mouth of the Main. On the gravel the bishop's clerk is listing hulls; behind a jetty post a man in a good cloak holds up four fingers and looks at the river.",
+   "lines": [
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.wheat.l.list"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.wheat.l.measure",
+     "when": "year >= 794"
+    },
+    {
+     "who": "dealer",
+     "key": "rhineland_flanders.mogontia.wheat.l.dark"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.wheat.l.mark",
+     "when": "flag.colonia_carried_for_wido"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.wheat.l.moved",
+     "when": "flag.hy_sold_dear"
+    }
+   ],
+   "options": [
+    {
+     "key": "carry",
+     "label_key": "rhineland_flanders.mogontia.wheat.o.carry",
+     "label": "Go on the list: eight sacks for Colonia",
+     "check": "not flag.mogontia_kings_wheat",
+     "effects": [
+      "goods wheat +8",
+      "flag mogontia_kings_wheat for 90",
+      "npc clerk feeling +5 carry"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.wheat.out.carry"
+    },
+    {
+     "key": "dark",
+     "label_key": "rhineland_flanders.mogontia.wheat.o.dark",
+     "label": "Set four sacks down on the dealer's plot after dark",
+     "check": "hold.wheat >= 4",
+     "cost": "goods wheat 4",
+     "effects": [
+      "silver +36",
+      "flag hy_sold_dear",
+      "npc dealer feeling +6 sold",
+      "npc clerk feeling -10 after_dark"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.wheat.out.dark"
+    },
+    {
+     "key": "measure",
+     "label_key": "rhineland_flanders.mogontia.wheat.o.measure",
+     "label": "Have your own measure struck against the king's",
+     "check": "year >= 794 and silver >= 1",
+     "cost": "silver 1",
+     "effects": [
+      "flag hy_new_measure",
+      "npc clerk feeling +2 measure"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.wheat.out.measure"
+    },
+    {
+     "key": "watch",
+     "label_key": "rhineland_flanders.mogontia.wheat.o.watch",
+     "label": "Watch the measuring, and keep your hold for wine",
+     "check": "true",
+     "effects": [
+      "npc clerk feeling -1 watched"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.wheat.out.watch"
+    }
+   ],
+   "memory": {
+    "carry": "went on the list of hulls for the king's wheat",
+    "dark": "sold wheat after dark above the king's price",
+    "measure": "had his measure struck"
+   }
+  },
+  {
+   "id": "harbour.mogontia.moneyer",
+   "note": "The spine's hook for silver_road ('also at Mogontia'). A Mainz penny of Charles's early type: Münzkabinett Berlin 18245022. The new penny and the fine of fifteen shillings: Frankfurt 794 c. 5. Madalger is places/mogontia.json mogontia.madalger; the bag comes from harbour.colonia.bad_pennies and the story is colonia.one_weight. Sets the thread's flag sv_scale.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and year < 870",
+   "weight": 0.3,
+   "cooldown_days": 150,
+   "actors": {
+    "moneyer": {
+     "role": "moneyer",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      70
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.mint.title",
+   "title": "Put it on the cloth",
+   "intention_key": "rhineland_flanders.mogontia.mint.intention",
+   "intention": "The ring of a hammer comes out into the street a beat late. Inside, a thick-set man with burn-scarred forearms is weighing pennies one by one over a cloth, and does not look up.",
+   "lines": [
+    {
+     "who": "moneyer",
+     "key": "rhineland_flanders.mogontia.mint.l.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "moneyer",
+     "key": "rhineland_flanders.mogontia.mint.l.again",
+     "when": "port.visits > 0"
+    },
+    {
+     "who": "moneyer",
+     "key": "rhineland_flanders.mogontia.mint.l.law",
+     "when": "year >= 794"
+    },
+    {
+     "who": "moneyer",
+     "key": "rhineland_flanders.mogontia.mint.l.bag",
+     "when": "flag.colonia_mint_bag"
+    },
+    {
+     "who": "moneyer",
+     "key": "rhineland_flanders.mogontia.mint.l.old"
+    }
+   ],
+   "options": [
+    {
+     "key": "bag",
+     "label_key": "rhineland_flanders.mogontia.mint.o.bag",
+     "label": "Hand over the sealed bag from Colonia",
+     "check": "flag.colonia_mint_bag",
+     "effects": [
+      "flag colonia_mint_bag = 0",
+      "flag colonia_mint_done",
+      "flag sv_scale",
+      "silver +20",
+      "npc moneyer feeling +10 sealed"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.mint.out.bag"
+    },
+    {
+     "key": "learn",
+     "label_key": "rhineland_flanders.mogontia.mint.o.learn",
+     "label": "Ask him to teach you the scale and the nick",
+     "check": "npc.moneyer.feeling >= friendly",
+     "effects": [
+      "flag sv_scale",
+      "npc moneyer feeling +2 lesson"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.mint.out.learn"
+    },
+    {
+     "key": "change",
+     "label_key": "rhineland_flanders.mogontia.mint.o.change",
+     "label": "Change what foreign silver you have, and do not argue",
+     "check": "silver >= 5",
+     "cost": "silver 5",
+     "effects": [
+      "npc moneyer feeling +4 no_argument"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.mint.out.change"
+    },
+    {
+     "key": "watch",
+     "label_key": "rhineland_flanders.mogontia.mint.o.watch",
+     "label": "Watch one penny struck, and go",
+     "check": "true",
+     "effects": [],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.mint.out.watch"
+    }
+   ],
+   "memory": {
+    "bag": "brought the Colonia bag sealed",
+    "learn": "learned the scale and the nick from him",
+    "change": "changed silver without arguing"
+   }
+  },
+  {
+   "id": "harbour.mogontia.psalter",
+   "note": "The spine's hooks for book_road: Liudger's new house at Werden needs a library from nothing ('also at Colonia and Mogontia, whose schools trade copies with England'). Sets the thread's flag bk_knows_worth; the book is delivered by harbour.diusburg.liudger, which sets bk_carried and bk_parchment. Lul of Mainz wrote to Wearmouth-Jarrow for Bede's works (?). Otbert is places/mogontia.json mogontia.otbert; the story is diusburg.books_up_the_ruhr. A book at 360 d is goods_793.json.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and year >= 799 and year < 809 and not flag.mogontia_psalter_sent",
+   "weight": 0.4,
+   "cooldown_days": 300,
+   "actors": {
+    "clerk": {
+     "role": "clerk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.psalter.title",
+   "title": "A psalter for the Ruhr",
+   "intention_key": "rhineland_flanders.mogontia.psalter.intention",
+   "intention": "On the hill south of the wall the great church is rising round a small old one, and a school recites behind it. The bishop's clerk has a book wrapped in waxed linen on the table, and is looking at your hands.",
+   "lines": [
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.psalter.l.house"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.psalter.l.worth"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.psalter.l.open",
+     "when": "learned.latin or chest.latin_count > 0"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.mogontia.psalter.l.bishop",
+     "when": "year >= 805"
+    }
+   ],
+   "options": [
+    {
+     "key": "take",
+     "label_key": "rhineland_flanders.mogontia.psalter.o.take",
+     "label": "Take the psalter for the Ruhr mouth",
+     "check": "true",
+     "effects": [
+      "goods books +1",
+      "flag mogontia_psalter_aboard for 240",
+      "flag mogontia_psalter_sent",
+      "flag bk_knows_worth",
+      "npc clerk feeling +6 took_book"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.psalter.out.take"
+    },
+    {
+     "key": "teach",
+     "label_key": "rhineland_flanders.mogontia.psalter.o.teach",
+     "label": "Ask him what a book is worth, and to whom",
+     "check": "true",
+     "effects": [
+      "flag bk_knows_worth",
+      "learn latin +0.03",
+      "npc clerk feeling +2 asked"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.psalter.out.teach"
+    },
+    {
+     "key": "refuse",
+     "label_key": "rhineland_flanders.mogontia.psalter.o.refuse",
+     "label": "Tell him your hold leaks, which is true",
+     "check": "true",
+     "effects": [
+      "npc clerk feeling +1 honest"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.psalter.out.refuse"
+    }
+   ],
+   "memory": {
+    "take": "took a psalter to carry to the Ruhr",
+    "teach": "asked what a book is worth",
+    "refuse": "said his hold leaked"
+   }
+  },
+  {
+   "id": "harbour.mogontia.riculfs_church",
+   "note": "A commission. Riculf, archbishop 787-813, builder of Saint Alban's (consecrated 1 December 805), where Queen Fastrada was buried in August 794 (Annales Fuldenses 794; de.wikipedia 'Richulf', 'Stift St. Alban vor Mainz'). The comb he sent Alcuin about 796 and Alcuin's riddle in thanks: Things That Talk, after Sorrell (a paraphrase). He is places/mogontia.json mogontia.riculf; the three lines are its unlock mogontia.three_lines.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and year < 814",
+   "weight": 0.25,
+   "cooldown_days": 200,
+   "actors": {
+    "bishop": {
+     "role": "bishop",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      50,
+      75
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.riculf.title",
+   "title": "Lead for the hill",
+   "intention_key": "rhineland_flanders.mogontia.riculf.intention",
+   "intention": "A lean bishop with lime dust on his hem is crossing the yard of Saint Martin's between two clerks, dictating to both. He stops when he sees a rope-scarred stranger, which is to say a boat.",
+   "lines": [
+    {
+     "who": "bishop",
+     "key": "rhineland_flanders.mogontia.riculf.l.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "bishop",
+     "key": "rhineland_flanders.mogontia.riculf.l.again",
+     "when": "port.visits > 0"
+    },
+    {
+     "who": "bishop",
+     "key": "rhineland_flanders.mogontia.riculf.l.queen",
+     "when": "year >= 794 and year < 806"
+    },
+    {
+     "who": "bishop",
+     "key": "rhineland_flanders.mogontia.riculf.l.comb",
+     "when": "year >= 796 and year < 799"
+    },
+    {
+     "who": "bishop",
+     "key": "rhineland_flanders.mogontia.riculf.l.done",
+     "when": "year >= 806"
+    }
+   ],
+   "options": [
+    {
+     "key": "lead",
+     "label_key": "rhineland_flanders.mogontia.riculf.o.lead",
+     "label": "Take his order for roofing lead",
+     "check": "true",
+     "effects": [
+      "commission lead 6 by 200 premium 0.35",
+      "npc bishop feeling +4 order"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.riculf.out.lead"
+    },
+    {
+     "key": "wax",
+     "label_key": "rhineland_flanders.mogontia.riculf.o.wax",
+     "label": "Sell him a cake of wax from your hold",
+     "check": "hold.wax >= 1",
+     "cost": "goods wax 1",
+     "effects": [
+      "silver +48",
+      "npc bishop feeling +5 wax"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.riculf.out.wax"
+    },
+    {
+     "key": "lines",
+     "label_key": "rhineland_flanders.mogontia.riculf.o.lines",
+     "label": "Ask him for three lines to the bishop of Colonia",
+     "check": "npc.bishop.feeling >= friendly",
+     "effects": [
+      "flag mogontia_three_lines",
+      "npc bishop feeling -2 asked"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.riculf.out.lines"
+    },
+    {
+     "key": "bow",
+     "label_key": "rhineland_flanders.mogontia.riculf.o.bow",
+     "label": "Bow, and let him get on",
+     "check": "true",
+     "effects": [],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.riculf.out.bow"
+    }
+   ],
+   "memory": {
+    "lead": "took his order for roofing lead",
+    "wax": "sold him wax for the altar",
+    "lines": "asked him for three lines to Colonia"
+   }
+  },
+  {
+   "id": "harbour.mogontia.alehouse_hands",
+   "note": "A hire, and a rumour that is true (the price of wine at Mogontia falls for sixty days). Ratburg is places/mogontia.json mogontia.ratburg; her house burns with the Frisians' shore in 886 (Annales Fuldenses). Hauling by rope from the bank 'as the custom is': Wandalbert, Miracula sancti Goaris. The Saxon hauler is invented; a crewman who has the tongue teaches a little of it (the engine's tongue verb).",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and year < 887",
+   "weight": 0.35,
+   "cooldown_days": 90,
+   "actors": {
+    "alewife": {
+     "role": "alewife",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      28,
+      65
+     ],
+     "fixed": true
+    },
+    "hauler": {
+     "role": "crewman",
+     "people": "saxon",
+     "faith": "christian",
+     "tongue": "old_saxon",
+     "age": [
+      20,
+      35
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.hands.title",
+   "title": "Rope hands",
+   "intention_key": "rhineland_flanders.mogontia.hands.intention",
+   "intention": "A long low house on the Frisians' shore, its door to the river. On the bench outside, haulers sit with their boots off and their feet in a tub. Inside, the ale-wife is pouring and has not stopped talking.",
+   "lines": [
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.mogontia.hands.l.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.mogontia.hands.l.again",
+     "when": "port.visits > 0"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.mogontia.hands.l.crew",
+     "when": "crew < crew_full"
+    },
+    {
+     "who": "hauler",
+     "key": "rhineland_flanders.mogontia.hands.l.berth",
+     "when": "crew < crew_full"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.mogontia.hands.l.grain"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.mogontia.hands.l.rival",
+     "when": "year < 829"
+    }
+   ],
+   "options": [
+    {
+     "key": "hire",
+     "label_key": "rhineland_flanders.mogontia.hands.o.hire",
+     "label": "Give the Saxon a berth",
+     "check": "crew < crew_full and silver >= 4",
+     "cost": "silver 4",
+     "effects": [
+      "hire hauler",
+      "tongue old_saxon = 0.5",
+      "npc alewife feeling +4 hired",
+      "npc hauler feeling +8 hired"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.hands.out.hire"
+    },
+    {
+     "key": "news",
+     "label_key": "rhineland_flanders.mogontia.hands.o.news",
+     "label": "Pay the score and ask what the Main men say",
+     "check": "silver >= 2",
+     "cost": "silver 2",
+     "effects": [
+      "price_shock mogontia rhenish_wine x0.85 for 60",
+      "npc alewife feeling +3 paid"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.hands.out.news"
+    },
+    {
+     "key": "sit",
+     "label_key": "rhineland_flanders.mogontia.hands.o.sit",
+     "label": "Sit with your feet in the tub and say nothing",
+     "check": "true",
+     "effects": [
+      "morale +0.03"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.hands.out.sit"
+    }
+   ],
+   "memory": {
+    "hire": "hired a hauler from her bench",
+    "news": "paid his score and asked the news"
+   }
+  },
+  {
+   "id": "harbour.mogontia.haulers_claim",
+   "note": "A lawsuit and an oath: a claim for a day's hauling heard at the river gate, settled by payment, by oath-helpers or by a neighbour's word, as Frankish custom had it (the oath with helpers: peoples/frankish.md; the false oath and the hand, capitulary of 802 c. 36). Hauling upriver by gangs and the halt at Saint Goar's cell: Wandalbert, Miracula sancti Goaris (about 839). The custom about lost days is invented in the period's manner (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia",
+   "weight": 0.2,
+   "cooldown_days": 250,
+   "actors": {
+    "tollman": {
+     "role": "tollman",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true
+    },
+    "gangmaster": {
+     "role": "porter",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.claim.title",
+   "title": "A day on the rope",
+   "intention_key": "rhineland_flanders.mogontia.claim.intention",
+   "intention": "Under the river gate the bishop's toll man is hearing a case from his bench, as he does most mornings. The master of the gang that hauled you through the gorge says you owe him a day more than you paid.",
+   "lines": [
+    {
+     "who": "gangmaster",
+     "key": "rhineland_flanders.mogontia.claim.l.claim"
+    },
+    {
+     "who": "tollman",
+     "key": "rhineland_flanders.mogontia.claim.l.custom"
+    },
+    {
+     "who": "tollman",
+     "key": "rhineland_flanders.mogontia.claim.l.false",
+     "when": "npc.tollman.last = swear.failure"
+    },
+    {
+     "who": "tollman",
+     "key": "rhineland_flanders.mogontia.claim.l.paid",
+     "when": "npc.tollman.last = pay"
+    },
+    {
+     "who": "tollman",
+     "key": "rhineland_flanders.mogontia.claim.l.stick",
+     "when": "flag.mogontia_claim_stands"
+    }
+   ],
+   "options": [
+    {
+     "key": "pay",
+     "label_key": "rhineland_flanders.mogontia.claim.o.pay",
+     "label": "Pay the eight pennies",
+     "check": "silver >= 8",
+     "cost": "silver 8",
+     "effects": [
+      "flag mogontia_gangs_friend for 400",
+      "npc gangmaster feeling +8 paid",
+      "npc tollman feeling +2 paid"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.claim.out.pay"
+    },
+    {
+     "key": "swear",
+     "label_key": "rhineland_flanders.mogontia.claim.o.swear",
+     "label": "Swear with your crew that the gang lay drunk, not the river high",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.55,
+       "by": "crew.trade_best",
+       "success": [
+        "deed won_case",
+        "npc tollman feeling +3 swore",
+        "npc gangmaster feeling -12 lost"
+       ],
+       "failure": [
+        "silver -16",
+        "deed lost_case",
+        "npc tollman feeling -8 false",
+        "npc gangmaster feeling -6 won"
+       ]
+      }
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.claim.out.swear"
+    },
+    {
+     "key": "friend",
+     "label_key": "rhineland_flanders.mogontia.claim.o.friend",
+     "label": "Ask a man of the shore to speak for you",
+     "check": "port.best_feeling >= friendly",
+     "effects": [
+      "deed won_case",
+      "npc gangmaster feeling -3 spoken"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.claim.out.friend"
+    },
+    {
+     "key": "stand",
+     "label_key": "rhineland_flanders.mogontia.claim.o.stand",
+     "label": "Ask for the case to stand over until Martinmas",
+     "check": "true",
+     "effects": [
+      "flag mogontia_claim_stands for 200",
+      "npc tollman feeling -2 delayed"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.claim.out.stand"
+    }
+   ],
+   "memory": {
+    "pay": "paid the gang's claim without an oath",
+    "swear.success": "swore the claim down with his crew",
+    "swear.failure": "swore an oath that did not hold",
+    "stand": "had the claim stand over"
+   }
+  },
+  {
+   "id": "harbour.mogontia.ferry_piers",
+   "note": "Einhard, Life of Charles 17 and 32 (tr. Turner 1880): the timber bridge on the old piers, five hundred paces, ten years in the building, burned in three hours in May 813; the king meant to rebuild in stone. Begun about 803 and finished in 813 (de.wikipedia 'Rheinbrücke Karls des Großen', a reckoning from Einhard's ten years (?)): so the ferryman watches it being built from 803 and sees it stand only in the spring of 813. Notker I.30: rascals who robbed the boats that passed beneath. That ferrymen were blamed is a modern retelling, used only as town talk (places/mogontia.json, the story mogontia.three_hours, whose ending 'accident' this card's oath is). The ferryman is Ratburg's brother, unnamed.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and year >= 800 and year < 815",
+   "weight": 0.3,
+   "cooldown_days": 150,
+   "actors": {
+    "ferryman": {
+     "role": "ferryman",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.piers.title",
+   "title": "The old piers",
+   "intention_key": "rhineland_flanders.mogontia.piers.intention",
+   "intention": "Twenty-one stone piers stand in a line across the river to Kastel, brown water piling against each. At the foot of the lane the ferryman is leaning on his pole, looking at them as a man looks at a neighbour's dog.",
+   "lines": [
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.mogontia.piers.l.before",
+     "when": "year >= 803 and year < 813"
+    },
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.mogontia.piers.l.bridge",
+     "when": "year = 813 and month < 5"
+    },
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.mogontia.piers.l.fire",
+     "when": "year = 813 and month >= 5"
+    },
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.mogontia.piers.l.after",
+     "when": "year >= 814"
+    },
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.mogontia.piers.l.pilot"
+    }
+   ],
+   "options": [
+    {
+     "key": "swear",
+     "label_key": "rhineland_flanders.mogontia.piers.o.swear",
+     "label": "Go to the hall and swear what you saw: a fire from the middle, no boat near",
+     "check": "year = 813 and month >= 5",
+     "effects": [
+      "flag mogontia_free_ferry",
+      "deed won_case",
+      "npc ferryman feeling +30 swore"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.piers.out.swear"
+    },
+    {
+     "key": "pilot",
+     "label_key": "rhineland_flanders.mogontia.piers.o.pilot",
+     "label": "Pay him three pennies to take you through the piers",
+     "check": "silver >= 3",
+     "cost": "silver 3",
+     "effects": [
+      "flag mogontia_piers_known",
+      "npc ferryman feeling +4 hired"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.piers.out.pilot"
+    },
+    {
+     "key": "listen",
+     "label_key": "rhineland_flanders.mogontia.piers.o.listen",
+     "label": "Lean on the rail and let him talk",
+     "check": "true",
+     "effects": [
+      "npc ferryman feeling +2 listened"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.piers.out.listen"
+    }
+   ],
+   "memory": {
+    "swear": "swore the bridge fire was mischance",
+    "pilot": "hired him through the piers",
+    "listen": "listened to him"
+   }
+  },
+  {
+   "id": "harbour.mogontia.lent",
+   "note": "A fast day: Lent (the engine's 'fast', and March until the calendar carries the fasts). No flesh, milk or eggs in Lent; fish allowed. The spine's Brunger fears 'a priest asking what he ate in Lent'; eating flesh in Lent is a capital matter in the Saxon capitulary of about 785 (Capitulatio de partibus Saxoniae c. 4, from memory (?)). The mid-Lent counting of the hostages about 805. Saint Alban's as church and monastery with guests: Einhard, Translation (tr. Wendell 1926).",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and (fast or month = 3)",
+   "weight": 0.4,
+   "cooldown_days": 300,
+   "actors": {
+    "guestmaster": {
+     "role": "guest_master",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      65
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.lent.title",
+   "title": "Lenten fare",
+   "intention_key": "rhineland_flanders.mogontia.lent.intention",
+   "intention": "It is the fast before Easter. At the guest house on Saint Alban's hill the board is set with bread, beans, leeks and thin ale, and the guest-master is counting heads. Your mate is counting what is not on the table.",
+   "lines": [
+    {
+     "who": "guestmaster",
+     "key": "rhineland_flanders.mogontia.lent.l.fare"
+    },
+    {
+     "who": "guestmaster",
+     "key": "rhineland_flanders.mogontia.lent.l.saxon",
+     "when": "year < 816"
+    },
+    {
+     "who": "guestmaster",
+     "key": "rhineland_flanders.mogontia.lent.l.hostages",
+     "when": "year >= 804 and year < 807"
+    },
+    {
+     "who": "guestmaster",
+     "key": "rhineland_flanders.mogontia.lent.l.fish"
+    },
+    {
+     "who": "guestmaster",
+     "key": "rhineland_flanders.mogontia.lent.l.seen",
+     "when": "flag.mogontia_lent_seen"
+    }
+   ],
+   "options": [
+    {
+     "key": "keep",
+     "label_key": "rhineland_flanders.mogontia.lent.o.keep",
+     "label": "Keep the fast with the house, crew and all",
+     "check": "true",
+     "effects": [
+      "morale -0.05",
+      "npc guestmaster feeling +8 kept"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.lent.out.keep"
+    },
+    {
+     "key": "fish",
+     "label_key": "rhineland_flanders.mogontia.lent.o.fish",
+     "label": "Buy fish for the boat at the Lenten price",
+     "check": "silver >= 6",
+     "cost": "silver 6",
+     "effects": [
+      "morale +0.05",
+      "npc guestmaster feeling +3 fish"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.lent.out.fish"
+    },
+    {
+     "key": "blind",
+     "label_key": "rhineland_flanders.mogontia.lent.o.blind",
+     "label": "Eat with the house, and do not look into the boat after dark",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "by": "crew.eyes_best",
+       "success": [
+        "morale +0.05"
+       ],
+       "failure": [
+        "morale +0.02",
+        "flag mogontia_lent_seen for 400",
+        "npc guestmaster feeling -10 bacon"
+       ]
+      }
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.lent.out.blind"
+    }
+   ],
+   "memory": {
+    "keep": "kept the Lenten fast with the house",
+    "fish": "bought fish in Lent",
+    "blind.failure": "had bacon aboard in Lent"
+   }
+  },
+  {
+   "id": "harbour.mogontia.blind_pilgrim",
+   "note": "A passenger to carry. Mainz grain merchants who boated grain down the Main and gave a blind man passage: Einhard, Translation of SS. Marcellinus and Peter (tr. Wendell 1926), for about 830, set a generation earlier here as places/mogontia.json does (mogontia.grain_merchant, Gundhart). The Golden Saints at Colonia: Saint Gereon. The pilgrim is invented.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia",
+   "weight": 0.25,
+   "cooldown_days": 200,
+   "actors": {
+    "grainman": {
+     "role": "merchant",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      65
+     ],
+     "fixed": true
+    },
+    "pilgrim": {
+     "role": "pilgrim",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "rhineland_flanders.mogontia.pilgrim.title",
+   "title": "A seat going down",
+   "intention_key": "rhineland_flanders.mogontia.pilgrim.intention",
+   "intention": "By the sacks of Main wheat in the market a big floury man is talking to a pilgrim with a staff and a white stare. The pilgrim is blind. He wants to pray at the Golden Saints at Colonia before winter.",
+   "lines": [
+    {
+     "who": "grainman",
+     "key": "rhineland_flanders.mogontia.pilgrim.l.seat"
+    },
+    {
+     "who": "pilgrim",
+     "key": "rhineland_flanders.mogontia.pilgrim.l.pay"
+    },
+    {
+     "who": "grainman",
+     "key": "rhineland_flanders.mogontia.pilgrim.l.stones",
+     "when": "year < 816"
+    }
+   ],
+   "options": [
+    {
+     "key": "free",
+     "label_key": "rhineland_flanders.mogontia.pilgrim.o.free",
+     "label": "Give him the seat for nothing",
+     "check": "true",
+     "effects": [
+      "passenger pilgrim to colonia",
+      "deed gave_alms",
+      "morale +0.05",
+      "npc grainman feeling +6 seat"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.pilgrim.out.free"
+    },
+    {
+     "key": "pay",
+     "label_key": "rhineland_flanders.mogontia.pilgrim.o.pay",
+     "label": "Take his six pennies",
+     "check": "true",
+     "effects": [
+      "passenger pilgrim to colonia",
+      "silver +6",
+      "npc grainman feeling -2 fare"
+     ],
+     "note": "outcome: rhineland_flanders.mogontia.pilgrim.out.pay"
+    },
+    {
+     "key": "full",
+     "label_key": "rhineland_flanders.mogontia.pilgrim.o.full",
+     "label": "Say the boat is full of casks",
+     "check": "true",
+     "effects": [
+      "npc grainman feeling -1 full"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.mogontia.pilgrim.out.full"
+    }
+   ],
+   "memory": {
+    "free": "gave a blind pilgrim passage for nothing",
+    "pay": "took a blind pilgrim's fare",
+    "full": "would not carry a pilgrim"
+   }
+  },
+  {
+   "id": "harbour.diusburg.hostage_hulls",
+   "note": "A passenger to carry. The spine's hook for saxon_end at Diusburg: the Hellweg meets the Rhine; hostages and deported families come down it on foot under guard, and an officer wants hulls to carry them upriver (Annales regni Francorum 794-804; chronicle_793.json). Raginhard is places/diusburg.json diusburg.raginhard; the story is diusburg.road_of_hostages. Feeding them counts with the priest at Colonia (colonia_carried_gently opens harbour.colonia.the_roll). The fee is the game's.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and year < 806",
+   "weight": 0.5,
+   "cooldown_days": 120,
+   "actors": {
+    "steward": {
+     "role": "steward",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      40,
+      65
+     ],
+     "fixed": true
+    },
+    "hostage": {
+     "role": "hostage",
+     "people": "saxon",
+     "faith": "christian",
+     "tongue": "old_saxon",
+     "age": [
+      20,
+      50
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "rhineland_flanders.diusburg.hulls.title",
+   "title": "Twelve, sitting down",
+   "intention_key": "rhineland_flanders.diusburg.hulls.intention",
+   "intention": "A line of Saxons sits on the mud under the hill with bundles and children, two spearmen over them. The king's steward, tally sticks in his fist, is looking at your boat and counting benches.",
+   "lines": [
+    {
+     "who": "steward",
+     "key": "rhineland_flanders.diusburg.hulls.l.first",
+     "when": "not flag.diusburg_carried_hostages"
+    },
+    {
+     "who": "steward",
+     "key": "rhineland_flanders.diusburg.hulls.l.again",
+     "when": "flag.diusburg_carried_hostages"
+    },
+    {
+     "who": "steward",
+     "key": "rhineland_flanders.diusburg.hulls.l.order"
+    },
+    {
+     "who": "hostage",
+     "key": "rhineland_flanders.diusburg.hulls.l.bread"
+    },
+    {
+     "who": "",
+     "key": "rhineland_flanders.diusburg.hulls.l.mate"
+    }
+   ],
+   "options": [
+    {
+     "key": "carry",
+     "label_key": "rhineland_flanders.diusburg.hulls.o.carry",
+     "label": "Carry the twelve to Colonia for the king's silver",
+     "check": "true",
+     "effects": [
+      "silver +36",
+      "passenger hostage to colonia",
+      "flag diusburg_carried_hostages",
+      "morale -0.08",
+      "npc steward feeling +8 carried"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.hulls.out.carry"
+    },
+    {
+     "key": "bread",
+     "label_key": "rhineland_flanders.diusburg.hulls.o.bread",
+     "label": "Carry them, and feed them from your own stores",
+     "check": "silver >= 6",
+     "cost": "silver 6",
+     "effects": [
+      "silver +36",
+      "passenger hostage to colonia",
+      "flag diusburg_carried_hostages",
+      "flag colonia_carried_gently",
+      "deed gave_alms",
+      "morale +0.02",
+      "npc steward feeling +6 fed"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.hulls.out.bread"
+    },
+    {
+     "key": "refuse",
+     "label_key": "rhineland_flanders.diusburg.hulls.o.refuse",
+     "label": "Tell him the boat is a wine boat",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "npc steward feeling -2 refused"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.diusburg.hulls.out.refuse"
+    }
+   ],
+   "memory": {
+    "carry": "carried hostages to Colonia at the full count",
+    "bread": "carried hostages and fed them",
+    "refuse": "would not carry hostages"
+   }
+  },
+  {
+   "id": "harbour.diusburg.kitchen",
+   "note": "Sets the thread's flag sx_brother_trail (saxon_end: 'set on the Rhine or at Daventre'). Hathuswith is places/diusburg.json diusburg.hathuswith, a hostage of 785 kept in the court kitchen (the spine's placing of hostages at this estate). She is reached through the ale-wife (harbour.diusburg.boatmans_tale sets diusburg_gerlind_sent and leads here). The role is 'hostage', a woman.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and year < 806 and not flag.sx_brother_trail and flag.diusburg_gerlind_sent",
+   "weight": 2.0,
+   "cooldown_days": 120,
+   "actors": {
+    "cook": {
+     "role": "hostage",
+     "people": "saxon",
+     "faith": "christian",
+     "tongue": "old_saxon",
+     "age": [
+      28,
+      55
+     ],
+     "fixed": true,
+     "sex": "f"
+    }
+   },
+   "title_key": "rhineland_flanders.diusburg.kitchen.title",
+   "title": "A pot on",
+   "intention_key": "rhineland_flanders.diusburg.kitchen.intention",
+   "intention": "The court kitchen is a low hall full of smoke at the top of the hill. A tall fair woman with a wooden cross worn outside her dress is stirring a pot big enough to wash a child in, and does not turn round.",
+   "lines": [
+    {
+     "who": "cook",
+     "key": "rhineland_flanders.diusburg.kitchen.l.plain"
+    },
+    {
+     "who": "cook",
+     "key": "rhineland_flanders.diusburg.kitchen.l.sent"
+    },
+    {
+     "who": "cook",
+     "key": "rhineland_flanders.diusburg.kitchen.l.boys"
+    },
+    {
+     "who": "cook",
+     "key": "rhineland_flanders.diusburg.kitchen.l.doors"
+    }
+   ],
+   "options": [
+    {
+     "key": "ask",
+     "label_key": "rhineland_flanders.diusburg.kitchen.o.ask",
+     "label": "Ask her plainly about a boy of thirteen with a split eyebrow",
+     "check": "true",
+     "effects": [
+      "flag sx_brother_trail",
+      "morale +0.08",
+      "npc cook feeling +8 asked"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.diusburg.kitchen.out.ask"
+    },
+    {
+     "key": "salt",
+     "label_key": "rhineland_flanders.diusburg.kitchen.o.salt",
+     "label": "Leave a sack of salt for her kitchen, and ask nothing today",
+     "check": "hold.sea_salt >= 1",
+     "cost": "goods sea_salt 1",
+     "effects": [
+      "deed gave_alms",
+      "npc cook feeling +12 salt"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.kitchen.out.salt"
+    },
+    {
+     "key": "go",
+     "label_key": "rhineland_flanders.diusburg.kitchen.o.go",
+     "label": "Thank her for the bread and go",
+     "check": "true",
+     "effects": [
+      "npc cook feeling +1 bread"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.kitchen.out.go"
+    }
+   ],
+   "memory": {
+    "ask": "asked her about the Weser boys",
+    "salt": "left salt for her kitchen",
+    "go": "took bread and asked nothing"
+   }
+  },
+  {
+   "id": "harbour.diusburg.boatmans_tale",
+   "note": "A rumour that is not true (the salt boats; salt at Mogontia is unchanged) and, in 810, one that is: the emperor's elephant Abul Abaz died at Lippeham, a day downstream, when the host mustered against Godfred (Annales regni Francorum 810; chronicle_793.json 810-summer-elephant-dies), the spine's hook for godfreds_market at Diusburg. Gerlind is places/diusburg.json diusburg.gerlind. The rocks below Saint Goar's cell: Wandalbert, Miracula sancti Goaris. The option 'kitchen' goes on to harbour.diusburg.kitchen.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg",
+   "weight": 0.4,
+   "cooldown_days": 60,
+   "actors": {
+    "alewife": {
+     "role": "alewife",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      28,
+      68
+     ],
+     "fixed": true
+    },
+    "boatman": {
+     "role": "sailor",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      25,
+      55
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "rhineland_flanders.diusburg.tale.title",
+   "title": "Said a second time",
+   "intention_key": "rhineland_flanders.diusburg.tale.intention",
+   "intention": "Under a green bush on a pole: one fire on the floor, boatmen at one end and road people at the other. A bargeman from upriver has the bench by the door and a story, and the ale-wife is watching him tell it.",
+   "lines": [
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.diusburg.tale.l.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.diusburg.tale.l.again",
+     "when": "port.visits > 0"
+    },
+    {
+     "who": "boatman",
+     "key": "rhineland_flanders.diusburg.tale.l.salt"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.diusburg.tale.l.beast",
+     "when": "year = 810 and month >= 7"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.diusburg.tale.l.road",
+     "when": "year < 806"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.diusburg.tale.l.kitchen",
+     "when": "year < 806 and not flag.sx_brother_trail"
+    }
+   ],
+   "options": [
+    {
+     "key": "sell",
+     "label_key": "rhineland_flanders.diusburg.tale.o.sell",
+     "label": "Sell the boatman a sack of salt at his price",
+     "check": "hold.sea_salt >= 1",
+     "cost": "goods sea_salt 1",
+     "effects": [
+      "silver +2",
+      "flag diusburg_salt_tale",
+      "npc boatman feeling +3 sold"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.tale.out.sell"
+    },
+    {
+     "key": "gerlind",
+     "label_key": "rhineland_flanders.diusburg.tale.o.gerlind",
+     "label": "Ask the ale-wife what she thinks of his story",
+     "check": "true",
+     "effects": [
+      "flag diusburg_gerlind_sent",
+      "npc alewife feeling +3 asked",
+      "npc boatman feeling -2 doubted"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.tale.out.gerlind"
+    },
+    {
+     "key": "kitchen",
+     "label_key": "rhineland_flanders.diusburg.tale.o.kitchen",
+     "label": "Go up to the court kitchen with her name",
+     "check": "year < 806 and not flag.sx_brother_trail",
+     "effects": [
+      "flag diusburg_gerlind_sent",
+      "npc alewife feeling +2 went"
+     ],
+     "then": "harbour.diusburg.kitchen",
+     "note": "outcome: rhineland_flanders.diusburg.tale.out.kitchen"
+    },
+    {
+     "key": "drink",
+     "label_key": "rhineland_flanders.diusburg.tale.o.drink",
+     "label": "Drink, and keep your salt",
+     "check": "true",
+     "effects": [
+      "morale +0.02"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.diusburg.tale.out.drink"
+    }
+   ],
+   "memory": {
+    "sell": "sold salt cheap on a boatman's tale",
+    "gerlind": "asked her what she thought of the tale",
+    "kitchen": "went up to the kitchen with her name"
+   }
+  },
+  {
+   "id": "harbour.diusburg.liudger",
+   "note": "The spine's hooks for cross_and_grove and book_road at Diusburg: Liudger is buying land up the Ruhr for his own house of monks at Werden and wants books, a bell and glass; a first cargo of books up the Ruhr. Sets bk_carried and bk_parchment (the psalter comes from harbour.mogontia.psalter) and ms_carried_priest. Liudger: Werden about 799, bishop at Mimigernaford 30 March 805, died 26 March 809; the dream is Altfrid, Vita Liudgeri (?). He is cast.liudger (places/diusburg.json diusburg.liudger); the stories are diusburg.books_up_the_ruhr and diusburg.bell_and_spring.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and year >= 799 and year < 809",
+   "weight": 0.5,
+   "cooldown_days": 120,
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      57,
+      67
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.diusburg.liudger.title",
+   "title": "Books up the Ruhr",
+   "intention_key": "rhineland_flanders.diusburg.liudger.intention",
+   "intention": "At the Ruhr mouth a tall spare priest in a travel-stained cloak is leading his horse down to the ferry, a book satchel on his shoulder. He stops when he sees a Dorestad boat.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.diusburg.liudger.l.first",
+     "when": "not flag.bk_carried"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.diusburg.liudger.l.again",
+     "when": "flag.bk_carried"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.diusburg.liudger.l.needs"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.diusburg.liudger.l.psalter",
+     "when": "flag.mogontia_psalter_aboard and hold.books >= 1"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.diusburg.liudger.l.bishop",
+     "when": "year >= 805"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.diusburg.liudger.l.dream"
+    }
+   ],
+   "options": [
+    {
+     "key": "psalter",
+     "label_key": "rhineland_flanders.diusburg.liudger.o.psalter",
+     "label": "Hand over the psalter from Mogontia",
+     "check": "flag.mogontia_psalter_aboard and hold.books >= 1",
+     "cost": "goods books 1",
+     "effects": [
+      "silver +45",
+      "flag bk_carried",
+      "flag bk_parchment",
+      "flag mogontia_psalter_aboard = 0",
+      "deed kept_commission",
+      "commission wax 2 by 300 premium 0.25",
+      "npc priest feeling +20 psalter"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.liudger.out.psalter"
+    },
+    {
+     "key": "glass",
+     "label_key": "rhineland_flanders.diusburg.liudger.o.glass",
+     "label": "Take his order for window glass from Colonia",
+     "check": "true",
+     "effects": [
+      "commission raw_glass 3 by 240 premium 0.35",
+      "npc priest feeling +4 glass"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.liudger.out.glass"
+    },
+    {
+     "key": "colonia",
+     "label_key": "rhineland_flanders.diusburg.liudger.o.colonia",
+     "label": "Carry him up to Colonia to be made bishop",
+     "check": "year >= 804 and year < 806",
+     "effects": [
+      "passenger priest to colonia",
+      "flag ms_carried_priest",
+      "deed carried_letters",
+      "npc priest feeling +12 carried"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.liudger.out.colonia"
+    },
+    {
+     "key": "blessing",
+     "label_key": "rhineland_flanders.diusburg.liudger.o.blessing",
+     "label": "Ask his blessing on the boat and go",
+     "check": "true",
+     "effects": [
+      "morale +0.04",
+      "npc priest feeling +1 blessed"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.diusburg.liudger.out.blessing"
+    }
+   ],
+   "memory": {
+    "psalter": "brought him a psalter dry",
+    "glass": "took his order for window glass",
+    "colonia": "carried him up to Colonia",
+    "blessing": "asked his blessing"
+   }
+  },
+  {
+   "id": "harbour.diusburg.east_road",
+   "note": "The spine's hook for swords_north ('also at Mogontia and Diusburg, where the king's men watch the road east'). Capitulary of Herstal 779 c. 20; Thionville 805 c. 7 (the search of eastbound goods, half to the finder: chronicle_793.json). A sword with its scabbard at seven solidi (84 d): Lex Ribuaria 40 (36) c. 11. Sets sw_ran_blades or sw_marked. The bundle comes from harbour.colonia.iron_at_dusk; the story is diusburg.blades_on_the_east_road. The dealer is invented.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and year < 901",
+   "weight": 0.25,
+   "cooldown_days": 200,
+   "actors": {
+    "dealer": {
+     "role": "merchant",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": false
+    },
+    "watchman": {
+     "role": "kings_man",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      25,
+      55
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.diusburg.road.title",
+   "title": "The east road",
+   "intention_key": "rhineland_flanders.diusburg.road.intention",
+   "intention": "The smith by the road shoes horses. A man who is not a customer sits on the bench by his door; another, who lodges at the back, has something long wrapped in greased cloth and wants it gone before dinner is over.",
+   "lines": [
+    {
+     "who": "dealer",
+     "key": "rhineland_flanders.diusburg.road.l.bundle",
+     "when": "flag.colonia_bero_bundle and hold.swords >= 4"
+    },
+    {
+     "who": "dealer",
+     "key": "rhineland_flanders.diusburg.road.l.offer",
+     "when": "not flag.colonia_bero_bundle"
+    },
+    {
+     "who": "watchman",
+     "key": "rhineland_flanders.diusburg.road.l.watch",
+     "when": "year >= 805"
+    },
+    {
+     "who": "watchman",
+     "key": "rhineland_flanders.diusburg.road.l.early",
+     "when": "year < 805"
+    },
+    {
+     "who": "watchman",
+     "key": "rhineland_flanders.diusburg.road.l.named",
+     "when": "flag.diusburg_finders_half"
+    }
+   ],
+   "options": [
+    {
+     "key": "deliver",
+     "label_key": "rhineland_flanders.diusburg.road.o.deliver",
+     "label": "Hand the Colonia bundle to the man at the back",
+     "check": "flag.colonia_bero_bundle and hold.swords >= 4",
+     "cost": "goods swords 4",
+     "effects": [
+      {
+       "chance": 0.8,
+       "by": "crew.trade_best",
+       "success": [
+        "silver +20",
+        "flag sw_ran_blades",
+        "flag colonia_bero_bundle = 0",
+        "npc dealer feeling +8 delivered"
+       ],
+       "failure": [
+        "flag sw_marked",
+        "deed goods_seized",
+        "flag colonia_bero_bundle = 0",
+        "npc watchman feeling -20 caught"
+       ]
+      }
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.road.out.deliver"
+    },
+    {
+     "key": "buy",
+     "label_key": "rhineland_flanders.diusburg.road.o.buy",
+     "label": "Buy his two blades by weight, for the north",
+     "check": "silver >= 110 and not flag.colonia_bero_bundle",
+     "cost": "silver 110",
+     "effects": [
+      "goods swords +2",
+      "npc dealer feeling +5 bought"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.road.out.buy"
+    },
+    {
+     "key": "name",
+     "label_key": "rhineland_flanders.diusburg.road.o.name",
+     "label": "Give the dealer's name to the steward for the finder's half",
+     "check": "true",
+     "effects": [
+      "silver +25",
+      "flag diusburg_finders_half",
+      "npc dealer feeling -40 named",
+      "npc watchman feeling +10 named"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.road.out.name"
+    },
+    {
+     "key": "river",
+     "label_key": "rhineland_flanders.diusburg.road.o.river",
+     "label": "Look at the river",
+     "check": "true",
+     "effects": [],
+     "default": true,
+     "note": "outcome: rhineland_flanders.diusburg.road.out.river"
+    }
+   ],
+   "memory": {
+    "deliver.success": "brought a bundle past the watch",
+    "deliver.failure": "was caught with a bundle of blades",
+    "buy": "bought blades by weight",
+    "name": "gave a dealer's name to the steward"
+   }
+  },
+  {
+   "id": "harbour.diusburg.iron_in_the_river",
+   "note": "A riddle given: riddles_793.json riddle_exeter_16_anchor (Exeter Book riddle 16, 'Anchor'; text exeter_16_anchor, Tupper 1910), the unlock diusburg.anchor_riddle of places/diusburg.json. The iron is the lead stock of a Roman anchor stamped L V, found in the Rhine between Duisburg and Homberg in 1968 (Krause, Römische Ankerfunde). The lesson sets the flag diusburg_ruhr_water (the unlock diusburg.ruhr_water). Wolfhelm is diusburg.wolfhelm.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and year < 819",
+   "weight": 0.3,
+   "cooldown_days": 200,
+   "actors": {
+    "ferryman": {
+     "role": "ferryman",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      40,
+      68
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.diusburg.anchor.title",
+   "title": "Iron in the river",
+   "intention_key": "rhineland_flanders.diusburg.anchor.intention",
+   "intention": "Where the Ruhr slides into the Rhine a wide flat ferry lies on a gravel spit. The ferryman, short and very broad, is sounding the mid-stream with a pole twice his height, and has just struck something that rings.",
+   "lines": [
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.diusburg.anchor.l.first",
+     "when": "not flag.diusburg_anchor_given"
+    },
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.diusburg.anchor.l.again",
+     "when": "flag.diusburg_anchor_given"
+    },
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.diusburg.anchor.l.across"
+    },
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.diusburg.anchor.l.colour"
+    },
+    {
+     "who": "ferryman",
+     "key": "rhineland_flanders.diusburg.anchor.l.psalm",
+     "when": "year >= 799 and year < 810"
+    }
+   ],
+   "options": [
+    {
+     "key": "sound",
+     "label_key": "rhineland_flanders.diusburg.anchor.o.sound",
+     "label": "Take the pole and feel the thing for yourself",
+     "check": "not flag.diusburg_anchor_given",
+     "effects": [
+      "give_riddle riddle_exeter_16_anchor",
+      "flag diusburg_anchor_given",
+      "npc ferryman feeling +5 sounded"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.anchor.out.sound"
+    },
+    {
+     "key": "ruhr",
+     "label_key": "rhineland_flanders.diusburg.anchor.o.ruhr",
+     "label": "Pay him six pennies to show you the Ruhr once, slowly",
+     "check": "silver >= 6 and not flag.diusburg_ruhr_water",
+     "cost": "silver 6",
+     "effects": [
+      "flag diusburg_ruhr_water",
+      "npc ferryman feeling +8 ruhr"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.anchor.out.ruhr"
+    },
+    {
+     "key": "watch",
+     "label_key": "rhineland_flanders.diusburg.anchor.o.watch",
+     "label": "Watch him work, and keep to the outside of the bend",
+     "check": "true",
+     "effects": [
+      "npc ferryman feeling +1 watched"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.diusburg.anchor.out.watch"
+    }
+   ],
+   "memory": {
+    "sound": "sounded the iron in the river with him",
+    "ruhr": "paid to be shown the Ruhr",
+    "watch": "watched him work"
+   }
+  },
+  {
+   "id": "harbour.diusburg.two_camps",
+   "note": "A commission. Regino of Prüm, Chronicon 884 (ed. Kurze 1890): Northmen come up the Rhine with Godfrid's consent, take the stronghold of Diusburh, fortify it in their usual way and winter there; Duke Henry camps against them and lets them take no plunder; in spring they burn their camp and go. The spine's thread dorestad_falls; the story diusburg.winter_of_the_northmen (the endings lid_on_the_pot and both_camps). Henry is diusburg.henry. The offers are invented.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and ((year = 883 and month >= 10) or (year = 884 and month <= 3))",
+   "weight": 1.5,
+   "cooldown_days": 60,
+   "actors": {
+    "commander": {
+     "role": "commander",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true
+    },
+    "fortman": {
+     "role": "raider",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "age": [
+      25,
+      50
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "rhineland_flanders.diusburg.camps.title",
+   "title": "The lid on the pot",
+   "intention_key": "rhineland_flanders.diusburg.camps.intention",
+   "intention": "Burnt house posts under the hill. On the wooded height, a new palisade with long ships drawn up below it; across the Ruhr, the tents and horse lines of the duke's camp in the frost. Both have seen your sail.",
+   "lines": [
+    {
+     "who": "commander",
+     "key": "rhineland_flanders.diusburg.camps.l.why"
+    },
+    {
+     "who": "commander",
+     "key": "rhineland_flanders.diusburg.camps.l.pay"
+    },
+    {
+     "who": "fortman",
+     "key": "rhineland_flanders.diusburg.camps.l.silver"
+    },
+    {
+     "who": "commander",
+     "key": "rhineland_flanders.diusburg.camps.l.dry",
+     "when": "npc.commander.last = duke"
+    },
+    {
+     "who": "commander",
+     "key": "rhineland_flanders.diusburg.camps.l.pot"
+    }
+   ],
+   "options": [
+    {
+     "key": "duke",
+     "label_key": "rhineland_flanders.diusburg.camps.o.duke",
+     "label": "Take the duke's order for oats",
+     "check": "true",
+     "effects": [
+      "commission oats 10 by 60 premium 0.5",
+      "flag diusburg_fed_the_duke",
+      "npc commander feeling +8 duke"
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.camps.out.duke"
+    },
+    {
+     "key": "fort",
+     "label_key": "rhineland_flanders.diusburg.camps.o.fort",
+     "label": "Row four sacks of oats to the alder bank after dark",
+     "check": "hold.oats >= 4",
+     "cost": "goods oats 4",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.seamanship_best",
+       "success": [
+        "silver +40",
+        "flag diusburg_sold_to_fort",
+        "npc fortman feeling +10 sold"
+       ],
+       "failure": [
+        "silver -30",
+        "flag diusburg_sold_to_fort",
+        "deed lost_case",
+        "npc commander feeling -40 both_camps"
+       ]
+      }
+     ],
+     "note": "outcome: rhineland_flanders.diusburg.camps.out.fort"
+    },
+    {
+     "key": "neither",
+     "label_key": "rhineland_flanders.diusburg.camps.o.neither",
+     "label": "Sell to neither, and go upstream",
+     "check": "true",
+     "effects": [
+      "npc commander feeling +2 neither"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.diusburg.camps.out.neither"
+    }
+   ],
+   "memory": {
+    "duke": "took the duke's order for oats",
+    "fort.success": "sold oats to the fort unseen",
+    "fort.failure": "was seen selling to the fort",
+    "neither": "sold to neither camp"
+   }
+  },
+  {
+   "id": "harbour.ganda.moth_riddle",
+   "note": "A riddle given and a text wanted: riddles_793.json riddle_symphosius_16_tinea, given by 'the librarian of Saint Bavo's' at Ganda (Symphosius 16, Tinea, ed. Riese 1894: 'Littera me pavit, nec quid sit littera novi'; the plain English is ours); Alcuin's letter on Lindisfarne (texts_793.json alcuin_793). Einold is places/ganda.json ganda.einold; the unlock is ganda.moth_riddle. In 793 the abbeys have canons, not monks; Saint Bavo's is burned in 851 (Annales Bertiniani).",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and year < 851",
+   "weight": 0.4,
+   "cooldown_days": 150,
+   "actors": {
+    "scribe": {
+     "role": "scribe",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      68
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.ganda.moth.title",
+   "title": "What ate the words",
+   "intention_key": "rhineland_flanders.ganda.moth.intention",
+   "intention": "In a side room of Saint Bavo's a book chest stands with its lid propped open to air. A round-shouldered canon with a quill behind his ear is turning leaves over one by one, looking for holes.",
+   "lines": [
+    {
+     "who": "scribe",
+     "key": "rhineland_flanders.ganda.moth.l.first",
+     "when": "not flag.ganda_moth_given"
+    },
+    {
+     "who": "scribe",
+     "key": "rhineland_flanders.ganda.moth.l.again",
+     "when": "flag.ganda_moth_given and riddle.riddle_symphosius_16_tinea != solved"
+    },
+    {
+     "who": "scribe",
+     "key": "rhineland_flanders.ganda.moth.l.solved",
+     "when": "riddle.riddle_symphosius_16_tinea = solved"
+    },
+    {
+     "who": "scribe",
+     "key": "rhineland_flanders.ganda.moth.l.chest"
+    },
+    {
+     "who": "scribe",
+     "key": "rhineland_flanders.ganda.moth.l.letter",
+     "when": "text.alcuin_793"
+    }
+   ],
+   "options": [
+    {
+     "key": "riddle",
+     "label_key": "rhineland_flanders.ganda.moth.o.riddle",
+     "label": "Take the riddle on a wax tablet",
+     "check": "not flag.ganda_moth_given",
+     "effects": [
+      "give_riddle riddle_symphosius_16_tinea",
+      "flag ganda_moth_given",
+      "npc scribe feeling +4 took"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.moth.out.riddle"
+    },
+    {
+     "key": "answer",
+     "label_key": "rhineland_flanders.ganda.moth.o.answer",
+     "label": "Tell him the answer",
+     "check": "riddle.riddle_symphosius_16_tinea = solved and not flag.ganda_moth_answered",
+     "effects": [
+      "flag ganda_moth_answered",
+      "deed won_riddle",
+      "learn latin +0.1",
+      "npc scribe feeling +12 answered"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.moth.out.answer"
+    },
+    {
+     "key": "letter",
+     "label_key": "rhineland_flanders.ganda.moth.o.letter",
+     "label": "Let him mend his copy of the York letter from yours",
+     "check": "text.alcuin_793",
+     "effects": [
+      "silver +6",
+      "flag bk_knows_worth",
+      "npc scribe feeling +8 letter"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.moth.out.letter"
+    },
+    {
+     "key": "damp",
+     "label_key": "rhineland_flanders.ganda.moth.o.damp",
+     "label": "Ask how he keeps the damp out",
+     "check": "true",
+     "effects": [
+      "npc scribe feeling +1 damp"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.ganda.moth.out.damp"
+    }
+   ],
+   "memory": {
+    "riddle": "took the moth riddle",
+    "answer": "answered the moth riddle",
+    "letter": "lent him the York letter"
+   }
+  },
+  {
+   "id": "harbour.ganda.cellarers_count",
+   "note": "Two commissions and a price word. Ansold is places/ganda.json ganda.cellarer; the stories are ganda.wool_before_shearing and (the Mass wine) the weave with mogontia.folcbald. 'The yield of honey has been small these two years' and the pack-load of wax are Einhard's letters (Monumenta Carolina 1867), a generation later; Einhard abbot of Blandinium from 815. The vineyard on the slope of the hill: nl.wikipedia Sint-Pietersabdij (Gent) (?). Saint Peter's is plundered in the winter of 879-80.",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and year < 879",
+   "weight": 0.4,
+   "cooldown_days": 100,
+   "actors": {
+    "cellarer": {
+     "role": "cellarer",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      75
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.ganda.cellarer.title",
+   "title": "Counted twice",
+   "intention_key": "rhineland_flanders.ganda.cellarer.intention",
+   "intention": "On the sand hill above the meeting of the rivers, at the cellar door of Saint Peter's, a thin cleric is counting cheeses onto a board and talking to nobody. He goes on counting when he sees you.",
+   "lines": [
+    {
+     "who": "cellarer",
+     "key": "rhineland_flanders.ganda.cellarer.l.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "cellarer",
+     "key": "rhineland_flanders.ganda.cellarer.l.again",
+     "when": "port.visits > 0"
+    },
+    {
+     "who": "cellarer",
+     "key": "rhineland_flanders.ganda.cellarer.l.wax"
+    },
+    {
+     "who": "cellarer",
+     "key": "rhineland_flanders.ganda.cellarer.l.wine",
+     "when": "year < 864"
+    },
+    {
+     "who": "cellarer",
+     "key": "rhineland_flanders.ganda.cellarer.l.wool",
+     "when": "month >= 3 and month <= 6"
+    },
+    {
+     "who": "cellarer",
+     "key": "rhineland_flanders.ganda.cellarer.l.abbot",
+     "when": "year >= 815 and year < 823"
+    }
+   ],
+   "options": [
+    {
+     "key": "wax",
+     "label_key": "rhineland_flanders.ganda.cellarer.o.wax",
+     "label": "Take his order for wax",
+     "check": "true",
+     "effects": [
+      "commission wax 2 by 200 premium 0.3",
+      "npc cellarer feeling +4 wax"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.cellarer.out.wax"
+    },
+    {
+     "key": "wine",
+     "label_key": "rhineland_flanders.ganda.cellarer.o.wine",
+     "label": "Take his order for the Mass wine",
+     "check": "true",
+     "effects": [
+      "commission rhenish_wine 1 by 240 premium 0.25",
+      "npc cellarer feeling +4 wine"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.cellarer.out.wine"
+    },
+    {
+     "key": "count",
+     "label_key": "rhineland_flanders.ganda.cellarer.o.count",
+     "label": "Count the cheeses with him, aloud",
+     "check": "true",
+     "effects": [
+      "price_shock ganda raw_wool x0.85 for 45",
+      "npc cellarer feeling +3 counted"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.ganda.cellarer.out.count"
+    }
+   ],
+   "memory": {
+    "wax": "took his order for wax",
+    "wine": "took his order for the Mass wine",
+    "count": "counted the cheeses with him"
+   }
+  },
+  {
+   "id": "harbour.ganda.bavos_mass",
+   "note": "A feast day: Saint Bavo's Mass, 1 October, Ganda's own saint's day, when the dues come in (the spine's calendar; Einhard's letters send wax 'after the Mass of Saint Bavo'). The calendar of the game does not yet carry it, so the card comes in the tenth month. Hildrada is places/ganda.json ganda.hildrada; Bavo's Life (he sold his own people, and did penance led in chains): dossier 7. The host's list of 810-811: the story ganda.emperors_ships.",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and month = 10 and year < 851",
+   "weight": 1.2,
+   "cooldown_days": 200,
+   "actors": {
+    "alewife": {
+     "role": "alewife",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      25,
+      68
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.ganda.bavo.title",
+   "title": "Saint Bavo's Mass",
+   "intention_key": "rhineland_flanders.ganda.bavo.intention",
+   "intention": "The first day of the vintage month: Saint Bavo's Mass. The dues are coming in by cart and barge from as far as the sea, the abbot's men are riding home, and every bench on the bank is taken.",
+   "lines": [
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.ganda.bavo.l.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.ganda.bavo.l.again",
+     "when": "port.visits > 0"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.ganda.bavo.l.dues"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.ganda.bavo.l.saint"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.ganda.bavo.l.spears",
+     "when": "year >= 810 and year < 812"
+    }
+   ],
+   "options": [
+    {
+     "key": "mass",
+     "label_key": "rhineland_flanders.ganda.bavo.o.mass",
+     "label": "Hear the Mass at the saint's tomb and leave two pennies",
+     "check": "silver >= 2",
+     "cost": "silver 2",
+     "effects": [
+      "deed gave_alms",
+      "morale +0.05",
+      "npc alewife feeling +2 mass"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.bavo.out.mass"
+    },
+    {
+     "key": "sell",
+     "label_key": "rhineland_flanders.ganda.bavo.o.sell",
+     "label": "Sell to the abbot's men before they ride home",
+     "check": "hold.value > 0",
+     "effects": [
+      "price_shock ganda rhenish_wine x1.25 for 10",
+      "price_shock ganda frisian_cloth x1.15 for 10",
+      "npc alewife feeling +1 sold"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.bavo.out.sell"
+    },
+    {
+     "key": "bench",
+     "label_key": "rhineland_flanders.ganda.bavo.o.bench",
+     "label": "Take your bench and pay in news",
+     "check": "true",
+     "effects": [
+      "morale +0.03",
+      "npc alewife feeling +4 news"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.ganda.bavo.out.bench"
+    }
+   ],
+   "memory": {
+    "mass": "heard Saint Bavo's Mass and gave",
+    "sell": "sold to the abbot's men at the feast",
+    "bench": "paid for his ale in news"
+   }
+  },
+  {
+   "id": "harbour.ganda.emperors_ships",
+   "note": "Two commissions. The spine's hook for godfreds_market at Ganda: in 811 the emperor comes to see the ships he ordered built against the Northmen; shipwrights, timber and pitch are wanted (Annales regni Francorum 811; chronicle_793.json 811-11-ghent-ships; the fleet ordered after the Danish raid on Frisia in 810). Hildgis is places/ganda.json ganda.hildgis; the story is ganda.emperors_ships (the endings in_the_hulls, sold_dear, stood_by). Oak comes from Diusburg (diusburg.raginhard).",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and ((year = 810 and month >= 7) or year = 811)",
+   "weight": 1.2,
+   "cooldown_days": 60,
+   "actors": {
+    "shipwright": {
+     "role": "shipwright",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      40,
+      60
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.ganda.ships.title",
+   "title": "Ships by the dark end of the year",
+   "intention_key": "rhineland_flanders.ganda.ships.intention",
+   "intention": "The wrights' strand is ankle deep in chips. A row of keels stands on blocks, more than this bank has ever seen at once, and a broad man with two short fingers is swearing mildly at a plank of green oak.",
+   "lines": [
+    {
+     "who": "shipwright",
+     "key": "rhineland_flanders.ganda.ships.l.order",
+     "when": "year = 810 or (year = 811 and month < 11)"
+    },
+    {
+     "who": "shipwright",
+     "key": "rhineland_flanders.ganda.ships.l.goods"
+    },
+    {
+     "who": "shipwright",
+     "key": "rhineland_flanders.ganda.ships.l.came",
+     "when": "year = 811 and month >= 11"
+    },
+    {
+     "who": "shipwright",
+     "key": "rhineland_flanders.ganda.ships.l.waiting",
+     "when": "npc.shipwright.last = order"
+    },
+    {
+     "who": "shipwright",
+     "key": "rhineland_flanders.ganda.ships.l.paid",
+     "when": "npc.shipwright.last = dear"
+    }
+   ],
+   "options": [
+    {
+     "key": "order",
+     "label_key": "rhineland_flanders.ganda.ships.o.order",
+     "label": "Take his order for oak and pitch",
+     "check": "true",
+     "effects": [
+      "commission oak_timber 4 by 150 premium 0.5",
+      "commission pitch 2 by 150 premium 0.5",
+      "flag ganda_fleet_order",
+      "npc shipwright feeling +6 order"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.ships.out.order"
+    },
+    {
+     "key": "dear",
+     "label_key": "rhineland_flanders.ganda.ships.o.dear",
+     "label": "Sell him the oak in your hold at the hurry's price",
+     "check": "hold.oak_timber >= 1",
+     "cost": "goods oak_timber 1",
+     "effects": [
+      "silver +60",
+      "npc shipwright feeling -6 dear"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.ships.out.dear"
+    },
+    {
+     "key": "fair",
+     "label_key": "rhineland_flanders.ganda.ships.o.fair",
+     "label": "Sell him the oak at the common price",
+     "check": "hold.oak_timber >= 1",
+     "cost": "goods oak_timber 1",
+     "effects": [
+      "silver +36",
+      "deed fair_dealing",
+      "flag ganda_timber_in_hulls",
+      "npc shipwright feeling +12 fair"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.ships.out.fair"
+    },
+    {
+     "key": "stand",
+     "label_key": "rhineland_flanders.ganda.ships.o.stand",
+     "label": "Carry nothing for the fleet",
+     "check": "true",
+     "effects": [],
+     "default": true,
+     "note": "outcome: rhineland_flanders.ganda.ships.out.stand"
+    }
+   ],
+   "memory": {
+    "order": "took his order for the emperor's ships",
+    "dear": "sold him oak at the hurry's price",
+    "fair": "sold him oak at the common price"
+   }
+  },
+  {
+   "id": "harbour.ganda.winter_army",
+   "note": "A passenger to carry. The spine's hook for price_of_england at Ganda: the army that had sat at Fulham crosses from England and winters here, selling what was taken there (Annales Vedastini 879-881; Anglo-Saxon Chronicle 880, Ingram 1823: 'to Ghent in Frankland, and sat there a year'; chronicle_793.json 879-11-ghent-army). It is not the army King Alfred beat, which the Chronicle sends from Cirencester to East Anglia in the same year. Sets en_followed_silver. Ketil is places/ganda.json ganda.ketil (invented; nobody of the army at Ghent is named); the story is ganda.winter_army. The clerk's line is John 1:1.",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and ((year = 879 and month >= 11) or year = 880 or (year = 881 and month >= 8))",
+   "weight": 2.0,
+   "cooldown_days": 60,
+   "actors": {
+    "seller": {
+     "role": "raider",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "age": [
+      35,
+      50
+     ],
+     "fixed": true
+    },
+    "clerk": {
+     "role": "captive",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "age": [
+      20,
+      45
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "rhineland_flanders.ganda.army.title",
+   "title": "Sat there a year",
+   "intention_key": "rhineland_flanders.ganda.army.intention",
+   "intention": "The burned abbey has a bank and stakes round it and long ships in a row below. In the roofless church men sit among bales and chests and weigh silver on a folding scale. One of them gives you peace for the length of a bargain.",
+   "lines": [
+    {
+     "who": "seller",
+     "key": "rhineland_flanders.ganda.army.l.buyer"
+    },
+    {
+     "who": "seller",
+     "key": "rhineland_flanders.ganda.army.l.books"
+    },
+    {
+     "who": "clerk",
+     "key": "rhineland_flanders.ganda.army.l.word"
+    },
+    {
+     "who": "seller",
+     "key": "rhineland_flanders.ganda.army.l.planks",
+     "when": "year = 881"
+    },
+    {
+     "who": "seller",
+     "key": "rhineland_flanders.ganda.army.l.again",
+     "when": "npc.seller.last = plate"
+    }
+   ],
+   "options": [
+    {
+     "key": "book",
+     "label_key": "rhineland_flanders.ganda.army.o.book",
+     "label": "Buy the book whole, and the clerk with it",
+     "check": "silver >= 200",
+     "cost": "silver 200",
+     "effects": [
+      "goods books +1",
+      "passenger clerk to lundenwic",
+      "deed bought_captives",
+      "deed gave_alms",
+      "flag ganda_book_bought",
+      "npc seller feeling +2 fool"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.army.out.book"
+    },
+    {
+     "key": "plate",
+     "label_key": "rhineland_flanders.ganda.army.o.plate",
+     "label": "Buy plate by weight",
+     "check": "silver >= 120",
+     "cost": "silver 120",
+     "effects": [
+      "goods church_plate +1",
+      "flag en_followed_silver",
+      "npc seller feeling +10 plate"
+     ],
+     "note": "outcome: rhineland_flanders.ganda.army.out.plate"
+    },
+    {
+     "key": "leave",
+     "label_key": "rhineland_flanders.ganda.army.o.leave",
+     "label": "Buy nothing, and go down by his peace",
+     "check": "true",
+     "effects": [
+      "npc seller feeling -1 nothing"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.ganda.army.out.leave"
+    }
+   ],
+   "memory": {
+    "book": "bought a gospel book and its clerk out of the camp",
+    "plate": "bought church plate at the army's camp",
+    "leave": "bought nothing at the camp"
+   }
+  },
+  {
+   "id": "harbour.andoverpis.stag_heads",
+   "note": "A deal and a commission. Comb-making from sawn stag skulls to the finished comb at Antwerp, the makers perhaps travelling men (Bellens 2021). Liafgrim is places/andoverpis.json andoverpis.liafgrim, who comes with the swallows and goes at Martinmas (so the card keeps to the months between); the story is andoverpis.stag_heads. The saw from Colonia is the weave's (colonia.bero).",
+   "stage": "harbour",
+   "when": "moored and port.id = andoverpis and year < 825 and month >= 4 and month <= 11",
+   "weight": 0.4,
+   "cooldown_days": 90,
+   "actors": {
+    "craftsman": {
+     "role": "craftsman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      30,
+      65
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.andoverpis.combs.title",
+   "title": "Stag heads",
+   "intention_key": "rhineland_flanders.andoverpis.combs.intention",
+   "intention": "Under a lean-to of hurdles, stag skulls hang by their eye-holes from a rail. A lean fair man sits astride a bench with a fine saw, the ground white with dust round his feet, and does not look up.",
+   "lines": [
+    {
+     "who": "craftsman",
+     "key": "rhineland_flanders.andoverpis.combs.l.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "craftsman",
+     "key": "rhineland_flanders.andoverpis.combs.l.again",
+     "when": "port.visits > 0"
+    },
+    {
+     "who": "craftsman",
+     "key": "rhineland_flanders.andoverpis.combs.l.bargain"
+    },
+    {
+     "who": "craftsman",
+     "key": "rhineland_flanders.andoverpis.combs.l.danes"
+    },
+    {
+     "who": "craftsman",
+     "key": "rhineland_flanders.andoverpis.combs.l.pupil",
+     "when": "year >= 800"
+    },
+    {
+     "who": "craftsman",
+     "key": "rhineland_flanders.andoverpis.combs.l.saw"
+    }
+   ],
+   "options": [
+    {
+     "key": "swap",
+     "label_key": "rhineland_flanders.andoverpis.combs.o.swap",
+     "label": "Give a bundle of antler for a dozen combs",
+     "check": "hold.antler >= 1",
+     "cost": "goods antler 1",
+     "effects": [
+      "goods combs +1",
+      "npc craftsman feeling +6 antler"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.combs.out.swap"
+    },
+    {
+     "key": "order",
+     "label_key": "rhineland_flanders.andoverpis.combs.o.order",
+     "label": "Take his order for stag antler",
+     "check": "true",
+     "effects": [
+      "commission antler 3 by 200 premium 0.6",
+      "npc craftsman feeling +3 order"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.combs.out.order"
+    },
+    {
+     "key": "buy",
+     "label_key": "rhineland_flanders.andoverpis.combs.o.buy",
+     "label": "Buy a dozen combs for silver",
+     "check": "silver >= 10",
+     "cost": "silver 10",
+     "effects": [
+      "goods combs +1",
+      "npc craftsman feeling +1 bought"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.combs.out.buy"
+    },
+    {
+     "key": "watch",
+     "label_key": "rhineland_flanders.andoverpis.combs.o.watch",
+     "label": "Sit out of his light and watch",
+     "check": "true",
+     "effects": [
+      "npc craftsman feeling +1 watched"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.andoverpis.combs.out.watch"
+    }
+   ],
+   "memory": {
+    "swap": "brought him antler for combs",
+    "order": "took his order for antler",
+    "buy": "bought combs for silver"
+   }
+  },
+  {
+   "id": "harbour.andoverpis.thin_ale",
+   "note": "The spine's thread hungry_years: sets hy_fed_poor or hy_sold_dear. The famine of 792-794 and the false grain of 793 (chronicle_793.json 793-great-famine, 793-spring-false-grain); the top prices of Frankfurt 794 c. 4 (barley two pennies the modius, so about three the sack). Ermentrud and Hildulf are places/andoverpis.json; the story is andoverpis.thin_ale. The steward's barley comes from harbour.colonia.stewards_hulls. Pig bones 46 in a hundred in the digs (Bellens 2021).",
+   "stage": "harbour",
+   "when": "moored and port.id = andoverpis and (year < 795 or (year >= 805 and year < 808))",
+   "weight": 0.7,
+   "cooldown_days": 90,
+   "actors": {
+    "alewife": {
+     "role": "alewife",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      75
+     ],
+     "fixed": true
+    },
+    "priest": {
+     "role": "priest",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      65
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.andoverpis.ale.title",
+   "title": "Thin ale",
+   "intention_key": "rhineland_flanders.andoverpis.ale.intention",
+   "intention": "On the selling bank nobody is selling grain. Poor people from up river sit along the wall of the big house and are given broth. The ale-wife stands at the front with a ladle and waits to hear what is in your sacks.",
+   "lines": [
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.andoverpis.ale.l.thin"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.andoverpis.ale.l.steward",
+     "when": "flag.colonia_kings_barley and hold.barley >= 10"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.andoverpis.ale.l.grain",
+     "when": "year < 795"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.andoverpis.ale.l.price",
+     "when": "year >= 794"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.andoverpis.ale.l.stick",
+     "when": "npc.alewife.last = dear"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.andoverpis.ale.l.thick",
+     "when": "npc.alewife.last = kings or npc.alewife.last = steward"
+    }
+   ],
+   "options": [
+    {
+     "key": "steward",
+     "label_key": "rhineland_flanders.andoverpis.ale.o.steward",
+     "label": "Hand over the steward's ten sacks at the king's price",
+     "check": "flag.colonia_kings_barley and hold.barley >= 10",
+     "cost": "goods barley 10",
+     "effects": [
+      "silver +14",
+      "goods salt_pork +1",
+      "flag hy_fed_poor",
+      "flag colonia_kings_barley = 0",
+      "flag colonia_carried_for_wido",
+      "deed kept_commission",
+      "morale +0.08",
+      "npc alewife feeling +25 steward",
+      "npc priest feeling +10 steward"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.ale.out.steward"
+    },
+    {
+     "key": "kings",
+     "label_key": "rhineland_flanders.andoverpis.ale.o.kings",
+     "label": "Sell four sacks of your own barley at the king's price",
+     "check": "hold.barley >= 4",
+     "cost": "goods barley 4",
+     "effects": [
+      "silver +12",
+      "flag hy_fed_poor",
+      "deed gave_alms",
+      "morale +0.05",
+      "npc alewife feeling +18 kings",
+      "npc priest feeling +8 kings"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.ale.out.kings"
+    },
+    {
+     "key": "dear",
+     "label_key": "rhineland_flanders.andoverpis.ale.o.dear",
+     "label": "Sell four sacks at what a hungry place will bear",
+     "check": "hold.barley >= 4",
+     "cost": "goods barley 4",
+     "effects": [
+      "silver +28",
+      "flag hy_sold_dear",
+      "npc alewife feeling -18 dear",
+      "npc priest feeling -12 dear"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.ale.out.dear"
+    },
+    {
+     "key": "pigs",
+     "label_key": "rhineland_flanders.andoverpis.ale.o.pigs",
+     "label": "You have no grain: ask what else would help",
+     "check": "true",
+     "effects": [
+      "price_shock andoverpis pigs x0.7 for 60",
+      "npc alewife feeling +2 asked"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.andoverpis.ale.out.pigs"
+    }
+   ],
+   "memory": {
+    "steward": "brought the king's barley whole",
+    "kings": "sold barley at the king's price in a hungry year",
+    "dear": "sold barley dear in a hungry year",
+    "pigs": "asked what would help"
+   }
+  },
+  {
+   "id": "harbour.andoverpis.peter_and_paul",
+   "note": "A feast day: Saints Peter and Paul, 29 June (Feasts.On), the feast of this church, in the week after Saint John's day. The church of Peter and Paul given to Willibrord in 726 'for incense and lights', with a third of the toll, and the curse at the end of the charter (Mertens and Torfs I, 1845). The book wanted is a Life of Willibrord (Alcuin's, written before 797 (?)): the story andoverpis.a_life_for_the_feast, whose unlock andoverpis.saints_third this gives; sets the thread's flag bk_carried. Hildulf is andoverpis.hildulf.",
+   "stage": "harbour",
+   "when": "moored and port.id = andoverpis and year < 819 and ((feast and month = 6) or hold.books > 0)",
+   "weight": 1.5,
+   "cooldown_days": 120,
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      65
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.andoverpis.feast.title",
+   "title": "Peter and Paul",
+   "intention_key": "rhineland_flanders.andoverpis.feast.intention",
+   "intention": "The small timber church on the sand rise has its west door open to the river. Two lamps hang before the altar and one is not lit. The priest names the saint whose day it is before he says good morning.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.andoverpis.feast.l.feast",
+     "when": "feast and month = 6"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.andoverpis.feast.l.lamp",
+     "when": "not (feast and month = 6)"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.andoverpis.feast.l.life"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.andoverpis.feast.l.smell",
+     "when": "hold.books > 0"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.andoverpis.feast.l.curse"
+    }
+   ],
+   "options": [
+    {
+     "key": "book",
+     "label_key": "rhineland_flanders.andoverpis.feast.o.book",
+     "label": "Give him the book for his thirty pennies",
+     "check": "hold.books >= 1",
+     "cost": "goods books 1",
+     "effects": [
+      "silver +30",
+      "flag bk_carried",
+      "flag andoverpis_saints_third",
+      "toll eased 365",
+      "deed gave_alms",
+      "morale +0.05",
+      "npc priest feeling +30 book"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.feast.out.book"
+    },
+    {
+     "key": "lamp",
+     "label_key": "rhineland_flanders.andoverpis.feast.o.lamp",
+     "label": "Pay for oil for the second lamp",
+     "check": "silver >= 8",
+     "cost": "silver 8",
+     "effects": [
+      "deed gave_alms",
+      "flag andoverpis_lamp_lit for 365",
+      "npc priest feeling +12 lamp"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.feast.out.lamp"
+    },
+    {
+     "key": "stand",
+     "label_key": "rhineland_flanders.andoverpis.feast.o.stand",
+     "label": "Stand through the Mass at the back",
+     "check": "true",
+     "effects": [
+      "morale +0.03",
+      "npc priest feeling +2 stood"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.andoverpis.feast.out.stand"
+    }
+   ],
+   "memory": {
+    "book": "gave him a book for his church",
+    "lamp": "paid for the second lamp",
+    "stand": "stood through the feast's Mass"
+   }
+  },
+  {
+   "id": "harbour.andoverpis.michaelmas_count",
+   "note": "An oath. The toll at Antwerp and the church's third of it: the charter of 20 October 726 (Mertens and Torfs I, 1845). The perjurer 'shall lose his right hand': capitulary of 802 c. 36 (Henderson 1892, by way of peoples/frankish.md). Adalwin and Hildulf are places/andoverpis.json; that they reckon at Michaelmas is their ties' (29 September, the usual term for dues (?)).",
+   "stage": "harbour",
+   "when": "moored and port.id = andoverpis and year < 815 and month >= 9 and month <= 10",
+   "weight": 0.6,
+   "cooldown_days": 300,
+   "actors": {
+    "tollman": {
+     "role": "tollman",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      40,
+      68
+     ],
+     "fixed": true
+    },
+    "priest": {
+     "role": "priest",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      35,
+      65
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.andoverpis.count.title",
+   "title": "The stick and the door",
+   "intention_key": "rhineland_flanders.andoverpis.count.intention",
+   "intention": "At Michaelmas the toll man's notched stick is laid beside the priest's count of boats, made from the church door. They differ by one. Both men are looking at your boat.",
+   "lines": [
+    {
+     "who": "tollman",
+     "key": "rhineland_flanders.andoverpis.count.l.stick"
+    },
+    {
+     "who": "priest",
+     "key": "rhineland_flanders.andoverpis.count.l.door"
+    },
+    {
+     "who": "tollman",
+     "key": "rhineland_flanders.andoverpis.count.l.ask"
+    },
+    {
+     "who": "tollman",
+     "key": "rhineland_flanders.andoverpis.count.l.stood",
+     "when": "npc.tollman.last = swear"
+    },
+    {
+     "who": "tollman",
+     "key": "rhineland_flanders.andoverpis.count.l.hand"
+    }
+   ],
+   "options": [
+    {
+     "key": "swear",
+     "label_key": "rhineland_flanders.andoverpis.count.o.swear",
+     "label": "Swear that you paid at the post, once, into his hand",
+     "check": "true",
+     "effects": [
+      "deed fair_dealing",
+      "npc tollman feeling +8 swore",
+      "npc priest feeling +2 swore"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.count.out.swear"
+    },
+    {
+     "key": "saint",
+     "label_key": "rhineland_flanders.andoverpis.count.o.saint",
+     "label": "Say only that the saint's third should not be short",
+     "check": "true",
+     "effects": [
+      "npc priest feeling +8 saint",
+      "npc tollman feeling -6 saint"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.count.out.saint"
+    },
+    {
+     "key": "forget",
+     "label_key": "rhineland_flanders.andoverpis.count.o.forget",
+     "label": "Say you cannot remember one tide from another",
+     "check": "true",
+     "effects": [
+      "npc tollman feeling -1 forgot",
+      "npc priest feeling -1 forgot"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.andoverpis.count.out.forget"
+    }
+   ],
+   "memory": {
+    "swear": "swore to his count at the toll post",
+    "saint": "spoke for the saint's third",
+    "forget": "would not say"
+   }
+  },
+  {
+   "id": "harbour.andoverpis.how_many_sails",
+   "note": "The spine's hook for dorestad_falls at Andoverpis: in 836 the Northmen burn the landing on the Scheldt ('Andwerpam civitatem'; no rampart stands there before about 900: places/andoverpis.json) in the same summer as Witla (Annales Fuldenses 836; Dorestad plundered 834, 835, 836: Annales Bertiniani). Sets the thread's flag df_warned. Ansgard is places/andoverpis.json andoverpis.ansgard; the story is andoverpis.the_sticks_first (the endings warned and bought_cheap). The count of Walcheren who counted spears is walichrum.eggihard.",
+   "stage": "harbour",
+   "when": "moored and port.id = andoverpis and ((year = 834 and month >= 7) or year = 835 or (year = 836 and month <= 6)) and not flag.andoverpis_warned",
+   "weight": 2.0,
+   "cooldown_days": 100,
+   "actors": {
+    "alewife": {
+     "role": "alewife",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      20,
+      30
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "rhineland_flanders.andoverpis.sails.title",
+   "title": "How many sails",
+   "intention_key": "rhineland_flanders.andoverpis.sails.intention",
+   "intention": "The big house on posts has a young ale-wife now, with her grandmother's tally sticks at her belt. She asks every skipper the same thing before she pours, and she is asking you.",
+   "lines": [
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.andoverpis.sails.l.ask"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.andoverpis.sails.l.dorestad"
+    },
+    {
+     "who": "alewife",
+     "key": "rhineland_flanders.andoverpis.sails.l.smoke"
+    }
+   ],
+   "options": [
+    {
+     "key": "warn",
+     "label_key": "rhineland_flanders.andoverpis.sails.o.warn",
+     "label": "Tell her plainly: they pass the river mouth every summer, and one flood would bring them here",
+     "check": "true",
+     "effects": [
+      "flag df_warned",
+      "flag andoverpis_warned",
+      "morale -0.02",
+      "npc alewife feeling +25 warned"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.sails.out.warn"
+    },
+    {
+     "key": "fee",
+     "label_key": "rhineland_flanders.andoverpis.sails.o.fee",
+     "label": "Offer to carry her stores and the church's chest inland, for a fee",
+     "check": "true",
+     "effects": [
+      "silver +20",
+      "flag andoverpis_warned",
+      "npc alewife feeling +4 fee"
+     ],
+     "note": "outcome: rhineland_flanders.andoverpis.sails.out.fee"
+    },
+    {
+     "key": "calm",
+     "label_key": "rhineland_flanders.andoverpis.sails.o.calm",
+     "label": "Say the Scheldt is wide and they have richer places to burn",
+     "check": "true",
+     "effects": [
+      "npc alewife feeling -6 calm"
+     ],
+     "default": true,
+     "note": "outcome: rhineland_flanders.andoverpis.sails.out.calm"
+    }
+   ],
+   "memory": {
+    "warn": "warned her of the fleets before the fire",
+    "fee": "carried her stores inland for a fee",
+    "calm": "told her there was nothing to fear"
+   }
+  }
+ ]
+}

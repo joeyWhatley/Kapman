@@ -1,0 +1,160 @@
+--- a/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.cs
+@@ -48,6 +48,9 @@
+         readonly Label[] whoLines = new Label[3];
+         FrameFace face;
+         FrameShipView shipView;
++        FrameSkin skin;
++        /// <summary>The user's own pieces laid over the frame (null before the frame is built).</summary>
++        public FrameSkin Skin => skin;
+         ScrollView logScroll;
+         readonly List<Button> speedButtons = new List<Button>();
+         readonly List<FramePanel> shown = new List<FramePanel>();
+@@ -105,6 +108,8 @@
+             Known.Learned -= Heard;
+             MeasureDisable();
+             FloatsDisable();
++            skin?.Dispose();
++            skin = null;
+             foreach (var p in shown)
+                 p.Detach();
+             shown.Clear();
+@@ -231,6 +236,8 @@
+ 
+             MeasureBuild();
+             FloatsBuild();
++            skin?.Dispose();
++            skin = FrameSkin.ForFrame(root);                             // (Art/hud_assign.json: a piece is used once it is drawn)
+         }
+ 
+         /// <summary>The rack of function buttons, at the top of the left column.</summary>
+@@ -341,6 +348,7 @@
+             SelfUpdate();
+             FloatsUpdate();
+             ArtSlots.Shared.Pump();                                      // (a picture saved again on disk is seen; what is not shown is let go)
++            skin?.Tick();
+         }
+ 
+         /// <summary>The frame's edge and accent follow the world's palette (the player's people).</summary>
+@@ -489,6 +497,7 @@
+                 add.Add(new FrameGlyph(FrameGlyph.Kind.Plus));
+                 wmbar.Add(add);
+             }
++            skin?.Apply(left);
+         }
+ 
+         VisualElement Window(FrameWorkspace w, int index, bool last)
+@@ -499,6 +508,7 @@
+             win.EnableInClassList("focus", index == w.focus);
+             win.EnableInClassList("last", last);
+             win.userData = index;
++            win.AddToClassList("panel-" + id);                           // (so the panel's own icon finds its window)
+             // a click anywhere in a window gives it the focus (the buttons under the click still get it)
+             win.RegisterCallback<PointerDownEvent>(_ => Windows.Focus(index), TrickleDown.TrickleDown);
+ 
+@@ -508,6 +518,7 @@
+             title.AddToClassList("frame-win-title");
+             var name = new Label(panel != null ? panel.Title : id) { pickingMode = PickingMode.Ignore };
+             name.AddToClassList("frame-win-name");
++            title.Add(FrameSkin.Place("frame-win-icon"));               // (no room taken until hud.panel.<id> is drawn)
+             title.Add(name);
+             title.Add(new FrameGlyph(FrameGlyph.Kind.Down));
+             head.Add(title);
+--- a/Assets/Kapman/Code/Game/UI/Frame/FramePanel.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FramePanel.cs
+@@ -74,6 +74,7 @@
+             try
+             {
+                 Fill(Body);
++                Frame?.Skin?.Apply(Body);                                // (the user's own pieces on the new lines at once)
+             }
+             catch (Exception e)
+             {
+--- a/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.Floats.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.Floats.cs
+@@ -140,6 +140,7 @@
+             f.el = Build(f);
+             // (at its own depth: the layer's children are in the list's order)
+             floatLayer.Insert(Mathf.Min(floats.IndexOf(f), floatLayer.childCount), f.el);
++            skin?.Apply(f.el);
+             Fronts();
+             nextFill = 0f;                                               // (whoever speaks stands in the portrait's place at once)
+         }
+--- a/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.Rack.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.Rack.cs
+@@ -109,6 +109,7 @@
+             public Button button;
+             public Label label;
+             public FrameIcon.Kind kind;
++            public string kindName;
+         }
+ 
+         readonly List<Verb> rack = new List<Verb>();
+@@ -135,7 +136,7 @@
+                 label.AddToClassList("frame-verb-name");
+                 b.Add(label);
+                 box.Add(b);
+-                rack.Add(new Verb { button = b, label = label, kind = kind });
++                rack.Add(new Verb { button = b, label = label, kind = kind, kindName = kind.ToString() });
+             }
+             column.Add(box);
+             nextRack = 0f;
+@@ -156,6 +157,7 @@
+             {
+                 Look(v.kind, out string name, out string why, out bool can, out bool on);
+                 v.label.text = name;
++                FrameSkin.Verb(v.button, v.kindName, name);               // (fn-cast_off, fn-lie_to ...: the icon's own piece finds the button)
+                 v.button.tooltip = why;
+                 // (a button that cannot be used now is greyed, not switched off: it still says why, on hover and when pressed)
+                 v.button.EnableInClassList("off", !can);
+--- a/Assets/Kapman/Code/Game/UI/Frame/FrameIcon.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FrameIcon.cs
+@@ -23,6 +23,8 @@
+ 
+         void Paint(MeshGenerationContext ctx)
+         {
++            if (FrameSkin.Skinned(this))
++                return;                                                 // (the user's own picture of this sign is laid on: FrameSkin)
+             var r = contentRect;
+             float s = Mathf.Min(r.width, r.height);
+             if (s < 4f)
+--- a/Assets/Kapman/Code/Game/UI/Frame/FrameDrawn.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FrameDrawn.cs
+@@ -18,11 +18,14 @@
+             this.kind = kind;
+             pickingMode = PickingMode.Ignore;
+             AddToClassList("frame-glyph");
++            AddToClassList("glyph-" + kind.ToString().ToLowerInvariant());   // (so its piece of the frame finds it: FrameSkin)
+             generateVisualContent += Paint;
+         }
+ 
+         void Paint(MeshGenerationContext ctx)
+         {
++            if (FrameSkin.Skinned(this))
++                return;                                                 // (the user's own picture of this mark is laid on)
+             var r = contentRect;
+             float s = Mathf.Min(r.width, r.height);
+             if (s < 2f)
+--- a/Assets/Kapman/Code/Game/UI/WordLine.cs
++++ b/Assets/Kapman/Code/Game/UI/WordLine.cs
+@@ -58,6 +58,8 @@
+ 
+             void Paint(MeshGenerationContext ctx)
+             {
++                if (Kapman.Game.Frame.FrameSkin.Skinned(this))
++                    return;                                             // (the user's own picture of this mark is laid on: FrameSkin)
+                 var r = contentRect;
+                 float s = Mathf.Min(r.width, r.height);
+                 if (s < 2f)
+--- a/Assets/Kapman/Code/Game/UI/Frame/Panels/SelfPanel.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/Panels/SelfPanel.cs
+@@ -41,7 +41,8 @@
+                 int pips = Self.Stat(id);
+                 string name = stat != null ? stat.name : id;
+                 string level = stat != null ? stat.Level(pips) : "";
+-                body.Add(FrameUi.Ln(name, stat != null ? stat.what : null, level.Length > 0 ? FrameUi.Tag(level) : null, FrameUi.Pips(pips)));
++                body.Add(FrameSkin.Mark(FrameUi.Ln(name, stat != null ? stat.what : null, level.Length > 0 ? FrameUi.Tag(level) : null, FrameUi.Pips(pips)),
++                                        "stat-" + id, "frame-stat-icon"));   // (a place for hud.stat.<id>: no room taken until it is drawn)
+             }
+             body.Add(FrameUi.P("A stat rises by use, never by spending: each check you win by it adds a little, more against someone who resisted."));
+             var was = Self.Chosen ? book.Past(Self.Past) : null;

@@ -1,0 +1,99 @@
+{
+ "id": "nore",
+ "name": "The Nore",
+ "status": "trial: a first config to prove the thames_793 source on the estuary (no port, a tide, the sea); the anchors are placeholders until the chain places them",
+ "about": "The Thames mouth c. 800: the Nore, Sheppey's north shore and the Medway's mouth, at true size",
+ "source": "thames_793",
+ "centre": [
+  592500.0,
+  175500.0
+ ],
+ "centre_about": "British National Grid: Sheerness at the Medway's mouth, Grain to the west, the Nore anchorage to the north-east",
+ "n": 2049,
+ "cell": 2.5,
+ "margin": 600.0,
+ "port": null,
+ "out": "G:/kapman_unity/data/levels/_trial_nore",
+ "rivers": [
+  {
+   "name": "Thames estuary and Medway",
+   "kind": "sea",
+   "class": 3,
+   "depth": 4.0,
+   "ramp_m": 60.0,
+   "mask": {
+    "info_class": [
+     3
+    ]
+   },
+   "about": "thames_793's class 3: the estuary's channel (EMODnet's bed, datum-corrected, in the raster) and the Medway; the carve only makes the shallows at least 4 m under the mean level, the raster's bed kept where deeper"
+  }
+ ],
+ "tide": {
+  "hw": 1.25,
+  "range": 4.0,
+  "about": "High water +1.25 m ODN (thames_793.py's HW_793, the level the raster's marsh is set to down the whole estuary); the mean range 4.0 m from Research/water_levels/north_sea_core.json thames_estuary_outer (c. 800 about today's at the mouth, an estimate). Low water = high water - range."
+ },
+ "water_mask": "below_level",
+ "water_level": {
+  "rule": "tide_mean"
+ },
+ "shore": {
+  "bank_rise": 0
+ },
+ "outer": {
+  "about": "the EA LIDAR Composite DTM 2022 of today, 70 m median",
+  "median_m": 70.0,
+  "blend_m": 200.0
+ },
+ "sea": {
+  "datum": {
+   "rule": "thames_lat_odn"
+  },
+  "only_in_sea": true,
+  "about": "EMODnet DTM 2024 under the 800 water where the raster has nothing, its chart datum (LAT) moved to ODN by thames_793.py's LAT_ODN table"
+ },
+ "channel": {
+  "name": "Thames estuary",
+  "path": [
+   [
+    590000.0,
+    176800.0
+   ],
+   [
+    595000.0,
+    177800.0
+   ]
+  ],
+  "min_step_m": 10.0,
+  "smooth_m": 120.0,
+  "about": "GRWL has no centre line in the open estuary: the deep-water path between the two ends"
+ },
+ "cover_names": {
+  "1": "dry ground by the water: the low cliffs' and knolls' tops (fields, hay, sheep)",
+  "7": "London clay hills: dry old high ground (fields, oak and hazel on the driest parts)"
+ },
+ "anchors": [
+  {
+   "id": "up",
+   "kind": "join",
+   "at": "channel_start",
+   "inset_m": 150.0,
+   "heading": "auto",
+   "about": "up the Thames toward Lundenwic (a placeholder)"
+  },
+  {
+   "id": "sea",
+   "kind": "join",
+   "at": "channel_end",
+   "inset_m": 150.0,
+   "heading": "auto",
+   "about": "out to the North Sea past the Nore (a placeholder)"
+  }
+ ],
+ "sources": [
+  "The tidal Thames c. 793 from the EA LIDAR Composite DTM 2022 (Contains Environment Agency information (c) Environment Agency and/or database right 2022, OGL v3), the first build's Bake/realground/thames_793.py",
+  "EMODnet Bathymetry Consortium (2024): EMODnet Digital Bathymetry (DTM 2024) (CC BY 4.0), in the raster and under the sea where it has nothing",
+  "Allen, G. H. & Pavelsky, T. M. (2018), Global extent of rivers and streams, Science 361 (GRWL, CC BY 4.0)"
+ ]
+}

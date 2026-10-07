@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Sim - the world
+  m_EditorClassIdentifier: Unity.VisualScripting.Flow::Unity.VisualScripting.ScriptGraphAsset
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":"Sim - the world","summary":"The world''s other ships: each game hour they sail, arrive, deal and choose where next (Code/Game/Sim; Plans/ai_fleets.md). Their buying and selling moves the same markets as yours.","pan":{"x":0.0,"y":0.0},"zoom":1.0,"elements":[{"coroutine":false,"defaultValues":{},"position":{"x":0.0,"y":0.0},"guid":"e5b4e27f-590b-4873-98ad-2bbec99689e6","$version":"A","$type":"Kapman.Graphs.OnGameHour","$id":"9"},{"defaultValues":{},"position":{"x":300.0,"y":0.0},"guid":"3c568338-a58f-4970-b2cf-1e8dd609f46e","$version":"A","$type":"Kapman.Graphs.SimHour","$id":"11"},{"sourceUnit":{"$ref":"9"},"sourceKey":"trigger","destinationUnit":{"$ref":"11"},"destinationKey":"enter","guid":"49057de4-8f66-45e2-bcf2-abcce450c35d","$type":"Unity.VisualScripting.ControlConnection"},{"position":{"xMin":-40.0,"yMin":-60.0,"xMax":860.0,"yMax":240.0},"label":"1. An hour of the world","comment":"On game hour -> Sim: Hour. Without it the world''s ships stand still.","color":{"r":0.32,"g":0.55,"b":0.32,"a":1.0},"guid":"4dc4a84f-9fb7-48fc-b3c2-bd7ee81e5805","$version":"A","$type":"Unity.VisualScripting.GraphGroup"},{"position":{"xMin":560.0,"yMin":0.0,"xMax":900.0,"yMax":220.0},"title":"What tunes it","body":"Data/traffic_793.json: how many traders each port sends out, in which craft, and the sailing seasons.\nData/ship_classes_793.json: each kind of craft.\nSimRules (Code/Game/Sim/WorldSim.cs): the traders'' rules of thumb.\nTest run: Kapman > Sim > Run a year (headless): spreadsheets in data/work/sim.\nOn the map: [G] shows every ship; [ and ] speed time.","colorTheme":"Classic","guid":"94c74684-2ed7-4fcb-a83e-ecc84daa2355","$type":"Unity.VisualScripting.StickyNote"}],"$version":"A"}}'
+    _objectReferences: []

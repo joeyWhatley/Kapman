@@ -1,0 +1,2589 @@
+/* THE COMMAND FRAME (the user, 7 Oct 2026; Design/ui_mock/template3.html, layout G, frame "Thick rounded", "Map shows
+   through"). The game is run from the frame and the chart is a picture you read: a bar across the top, a tiling window
+   area on the left, the portrait top right, the ship window bottom right, the message log under the chart, and talk and
+   cards as floating windows over the middle. Where no window is, the chart shows.
+
+   THE LOOK: thick rounded dark plum panels with a raised edge (a light edge up and left, a dark one down and right), as
+   MapView.uss has them; gold for what is the player's to spend or to count; Gentium for reading. Two colours follow the
+   world's palette (Game/Map/MapPalette.cs, by the player's people; FrameColours.cs holds the same sum, and a test keeps
+   the two in step): --frame-edge is the palette's sea (what is switched on, the button a window is for) and
+   --frame-accent the hue of its shallows made light (labels, tags, rules). */
+
+.frame-root {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    color: rgb(236, 235, 230);
+    --frame-edge: rgb(112, 41, 99);
+    --frame-accent: rgb(213, 174, 206);
+    --frame-rule: rgba(213, 174, 206, 0.3);
+    --frame-gold: rgb(240, 210, 122);
+    --frame-paper: rgb(236, 235, 230);
+    --frame-mute: rgba(236, 235, 230, 0.62);
+    /* THE FOUR SIZES OF TEXT (7 Oct 2026; Design/text_size_audit.md), at 1080p. Every font-size below is one of them:
+       quiet for hints, ages, tags, keys, small buttons, tabs and the verbs' names; body for all that is read (sentences,
+       rows, numbers, choices, the log, headings in bold); name for the date and the name by the portrait; title for a
+       card's title. On a smaller screen the classes at the foot of this file lift them so that none is under 18 true px. */
+    /* (Hearth is a pixel face of 8: crisp at 16 and 24. Its letters are tall for their size: 16 of it stands as
+       high as 19 of the old face) */
+    --t-quiet: 16px;
+    --t-body: 16px;
+    --t-name: 24px;
+    --t-title: 24px;
+}
+
+.frame-root.pal-frisian { --frame-edge: rgb(112, 41, 99); --frame-accent: rgb(213, 174, 206); --frame-rule: rgba(213, 174, 206, 0.3); }
+.frame-root.pal-frankish { --frame-edge: rgb(112, 41, 99); --frame-accent: rgb(200, 174, 213); --frame-rule: rgba(200, 174, 213, 0.3); }
+.frame-root.pal-english { --frame-edge: rgb(112, 41, 99); --frame-accent: rgb(206, 178, 209); --frame-rule: rgba(206, 178, 209, 0.3); }
+.frame-root.pal-danish { --frame-edge: rgb(56, 113, 126); --frame-accent: rgb(176, 208, 211); --frame-rule: rgba(176, 208, 211, 0.3); }
+.frame-root.pal-norse { --frame-edge: rgb(88, 88, 150); --frame-accent: rgb(177, 174, 213); --frame-rule: rgba(177, 174, 213, 0.3); }
+.frame-root.pal-svea { --frame-edge: rgb(70, 60, 67); --frame-accent: rgb(192, 184, 204); --frame-rule: rgba(192, 184, 204, 0.3); }
+.frame-root.pal-wendish { --frame-edge: rgb(112, 41, 99); --frame-accent: rgb(214, 173, 205); --frame-rule: rgba(214, 173, 205, 0.3); }
+.frame-root.pal-irish { --frame-edge: rgb(44, 103, 143); --frame-accent: rgb(174, 208, 213); --frame-rule: rgba(174, 208, 213, 0.3); }
+.frame-root.pal-painted { --frame-edge: rgb(112, 41, 99); --frame-accent: rgb(225, 163, 214); --frame-rule: rgba(225, 163, 214, 0.3); }
+
+/* a slip: any panel of the frame. Thick, rounded, raised. Solid, not glass: the project blends in linear light, where
+   a dark panel that is four parts in a hundred see-through lets the bright chart show as a ghost a fifth as strong,
+   and one floating window showed through another */
+.frame-root .frame-slip {
+    background-color: rgb(38, 26, 44);
+    border-width: 4px;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+    border-radius: 14px;
+}
+
+/* every button of the frame starts plain: the theme's grey box is taken off, and each kind is dressed below */
+.frame-root Button {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(236, 235, 230);
+    -unity-text-align: middle-left;
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    white-space: normal;
+}
+
+.frame-root Label {
+    margin: 0;
+    padding: 0;
+    white-space: normal;
+}
+
+/* ---------------------------------------------------------------- the top bar */
+
+.frame-root .frame-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    min-height: 54px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.frame-root .frame-top-group {
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    padding: 4px 0;
+}
+
+.frame-root .frame-top-date {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-name);
+    color: rgb(240, 239, 234);
+    margin-left: 16px;
+}
+
+.frame-root .frame-top-part {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    margin-left: 12px;
+}
+
+.frame-root .frame-top-figure {
+    flex-direction: row;
+    align-items: center;
+    margin: 0 14px;
+}
+
+.frame-root .frame-top-figure .frame-num {
+    font-size: var(--t-body);
+    margin-left: 0;
+    margin-right: 6px;
+}
+
+.frame-root .frame-top-word {
+    font-size: var(--t-body);
+    color: rgb(236, 235, 230);
+}
+
+.frame-root .frame-top-word.warn {
+    color: rgb(226, 132, 110);
+}
+
+.frame-root .frame-top-state {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    margin-left: 12px;
+    min-width: 108px;
+}
+
+/* ---------------------------------------------------------------- the eight function buttons, over the windows: each
+   DOES one thing (the user's ruling of 7 Oct: "The panels must be separate function from the 8 buttons above them") */
+
+.frame-root .frame-rack {
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    margin-bottom: 4px;
+}
+
+.frame-root .frame-verb {
+    width: 23.6%;
+    margin: 0 0.7% 6px 0.7%;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 2px 3px 2px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+    border-radius: 12px;
+    background-color: rgba(52, 36, 57, 0.97);
+}
+
+.frame-root .frame-verb:hover {
+    background-color: rgb(82, 59, 87);
+}
+
+.frame-root .frame-verb:active {
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    background-color: rgb(36, 22, 42);
+}
+
+.frame-root .frame-verb.on {
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    background-color: var(--frame-edge);
+}
+
+.frame-root .frame-verb.off,
+.frame-root .frame-verb.off:hover,
+.frame-root .frame-verb.off:active {
+    background-color: rgb(40, 28, 46);
+    border-top-color: rgb(92, 70, 96);
+    border-left-color: rgb(92, 70, 96);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+}
+
+.frame-root .frame-verb.off .frame-icon {
+    color: rgba(240, 210, 122, 0.3);
+}
+
+.frame-root .frame-verb.off .frame-verb-name {
+    color: rgba(236, 235, 230, 0.35);
+}
+
+.frame-root .frame-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--frame-gold);
+}
+
+.frame-root .frame-verb-name {
+    font-size: var(--t-quiet);
+    color: var(--frame-paper);
+    -unity-text-align: middle-center;
+    margin-top: 1px;
+}
+
+.frame-root .frame-verb.on .frame-verb-name {
+    color: var(--frame-gold);
+}
+
+/* ---------------------------------------------------------------- the left side: windows that tile */
+
+.frame-root .frame-left {
+    position: absolute;
+    left: 1%;
+    top: 68px;
+    bottom: 1.6%;
+    width: 29%;
+    flex-direction: column;
+}
+
+.frame-root .frame-left.wide {
+    width: 46%;
+}
+
+.frame-root .frame-tiles {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-height: 0;
+    flex-direction: column;
+}
+
+.frame-root .frame-tiles.cols {
+    flex-direction: row;
+}
+
+.frame-root .frame-win {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-height: 0;
+    min-width: 0;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.frame-root .frame-tiles.cols .frame-win {
+    margin-right: 8px;
+}
+
+.frame-root .frame-tiles.cols .frame-win.last {
+    margin-right: 0;
+}
+
+/* the window in focus: its whole edge in gold */
+.frame-root .frame-win.focus {
+    border-top-color: rgb(240, 210, 122);
+    border-left-color: rgb(240, 210, 122);
+    border-right-color: rgb(184, 150, 70);
+    border-bottom-color: rgb(184, 150, 70);
+}
+
+.frame-root .frame-win-head {
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 3px 8px 3px 6px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--frame-rule);
+}
+
+.frame-root .frame-win-title {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-direction: row;
+    align-items: center;
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-gold);
+    padding: 2px 6px;
+    border-radius: 8px;
+}
+
+.frame-root .frame-win-title:hover {
+    background-color: rgba(240, 210, 122, 0.12);
+}
+
+.frame-root .frame-win-name {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-gold);
+    margin-right: 6px;
+}
+
+.frame-root .frame-head-button {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-head-button:hover {
+    color: var(--frame-gold);
+    background-color: rgba(240, 210, 122, 0.12);
+}
+
+.frame-root .frame-glyph {
+    width: 12px;
+    height: 12px;
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-win-title .frame-glyph {
+    color: var(--frame-gold);
+    width: 10px;
+    height: 10px;
+}
+
+.frame-root .frame-head-button:hover .frame-glyph {
+    color: var(--frame-gold);
+}
+
+.frame-root .frame-win-scroll {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-height: 0;
+}
+
+.frame-root .frame-body {
+    padding: 10px 12px 8px 12px;
+}
+
+/* the tabs of a workspace laid out as tabs */
+.frame-root .frame-tabs {
+    flex-direction: row;
+    flex-shrink: 0;
+    padding: 0 6px;
+}
+
+.frame-root .frame-tab {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    -unity-text-align: middle-center;
+    font-size: var(--t-quiet);
+    padding: 4px 6px;
+    margin: 0 2px;
+    border-width: 3px;
+    border-bottom-width: 0;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: rgba(42, 28, 46, 0.96);
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-tab.on {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+}
+
+/* the bar under the windows: the workspaces and the layouts */
+.frame-root .frame-wmbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: center;
+    background-color: rgb(24, 16, 30);
+    border-width: 2px;
+    border-color: var(--frame-rule);
+    border-radius: 12px;
+    padding: 4px 6px;
+}
+
+.frame-root .frame-wm {
+    font-size: var(--t-quiet);
+    padding: 2px 6px;
+    margin: 1px 1px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0);
+    color: var(--frame-mute);
+    -unity-text-align: middle-center;
+}
+
+.frame-root .frame-wm:hover {
+    border-color: var(--frame-accent);
+}
+
+.frame-root .frame-wm.on {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+}
+
+.frame-root .frame-wm-space {
+    flex-grow: 1;
+}
+
+.frame-root .frame-wm-key {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin: 0 4px 0 8px;
+}
+
+/* choosing a panel for a window */
+.frame-root .frame-picker {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px 8px;
+}
+
+.frame-root .frame-pick {
+    width: 46%;
+    margin: 3px 2%;
+    font-size: var(--t-body);
+    padding: 4px 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+    border-radius: 12px;
+    background-color: rgb(59, 42, 63);
+}
+
+.frame-root .frame-pick:hover {
+    background-color: rgb(78, 56, 83);
+}
+
+.frame-root .frame-pick.on {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+}
+
+.frame-root .frame-pick.used {
+    opacity: 0.5;
+}
+
+/* ---------------------------------------------------------------- what a panel is built from (FrameUi) */
+
+.frame-root .frame-h {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-gold);
+    margin-bottom: 6px;
+}
+
+.frame-root .frame-p {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin: 2px 0 7px 0;
+}
+
+.frame-root .frame-text {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    margin: 0 0 7px 0;
+}
+
+.frame-root .frame-ln {
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.frame-root .frame-ln-button {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.frame-root .frame-ln-button:hover {
+    background-color: rgba(240, 210, 122, 0.1);
+}
+
+.frame-root .frame-ln.sel {
+    border-color: var(--frame-gold);
+}
+
+.frame-root .frame-ln-left {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-width: 42%;
+}
+
+.frame-root .frame-ln-name {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+}
+
+.frame-root .frame-ln-small {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-num {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-gold);
+    margin-left: 8px;
+    flex-shrink: 1;
+    -unity-text-align: middle-right;
+}
+
+.frame-root .frame-tag {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    border-width: 1px;
+    border-color: var(--frame-rule);
+    border-radius: 10px;
+    padding: 0 8px 1px 8px;
+    margin-left: 6px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-k {
+    font-size: var(--t-quiet);
+    padding: 2px 10px 3px 10px;
+    margin-left: 6px;
+    flex-shrink: 0;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+    border-radius: 12px;
+    background-color: rgb(59, 42, 63);
+    color: var(--frame-paper);
+    -unity-text-align: middle-center;
+}
+
+.frame-root .frame-k:hover {
+    background-color: rgb(82, 59, 87);
+}
+
+.frame-root .frame-k:active {
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+}
+
+.frame-root .frame-k:disabled {
+    opacity: 0.45;
+}
+
+.frame-root .frame-k.on {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+}
+
+/* the clock's buttons: the speed she ran at before the clock dropped back by itself (a gold foot: [+] goes back to it),
+   and the speeds a pressing matter keeps her from for now */
+.frame-root .frame-k.was {
+    border-bottom-color: var(--frame-gold);
+}
+
+.frame-root .frame-k.capped {
+    opacity: 0.45;
+}
+
+.frame-root .frame-k.go {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    padding: 7px 16px 8px 16px;
+    margin: 8px 0 4px 0;
+}
+
+.frame-root .frame-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 2px 0 6px 0;
+}
+
+.frame-root .frame-row .frame-k {
+    margin-left: 0;
+    margin-right: 6px;
+    margin-bottom: 4px;
+}
+
+.frame-root .frame-pips {
+    flex-direction: row;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-pip {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-left: 3px;
+    background-color: var(--frame-gold);
+    border-width: 1px;
+    border-color: var(--frame-gold);
+}
+
+.frame-root .frame-pip.off {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: var(--frame-mute);
+}
+
+.frame-root .frame-sep {
+    height: 1px;
+    background-color: var(--frame-rule);
+    margin: 6px 0 8px 0;
+}
+
+/* the word on a good (WordLine), in the frame's light */
+.frame-root .word-line {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 1px 0 0 0;
+}
+
+.frame-root .word-mark {
+    width: 12px;
+    height: 12px;
+    margin: 2px 5px 0 0;
+    flex-shrink: 0;
+    color: var(--frame-accent);
+}
+
+.frame-root .word-mark.law {
+    color: rgb(226, 132, 110);
+}
+
+.frame-root .word-mark.none {
+    color: rgba(236, 235, 230, 0.35);
+}
+
+.frame-root .word-tilt {
+    width: 8px;
+    height: 12px;
+    margin: 2px 5px 0 0;
+    flex-shrink: 0;
+    color: var(--frame-gold);
+}
+
+.frame-root .word-tilt.down {
+    color: rgba(236, 235, 230, 0.5);
+}
+
+.frame-root .word-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    font-size: var(--t-quiet);
+    -unity-font-style: italic;
+    color: var(--frame-mute);
+}
+
+/* ---------------------------------------------------------------- the portrait, top right */
+
+.frame-root .frame-who {
+    position: absolute;
+    right: 1%;
+    top: 68px;
+    width: 24%;
+    flex-direction: row;
+    padding: 8px;
+}
+
+.frame-root .frame-face {
+    width: 120px;
+    height: 150px;
+    flex-shrink: 0;
+    border-width: 3px;
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgb(40, 26, 48);
+}
+
+.frame-root .frame-who-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    margin-left: 12px;
+    justify-content: center;
+}
+
+.frame-root .frame-who-name {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-name);
+    color: var(--frame-gold);
+    margin-bottom: 3px;
+}
+
+.frame-root .frame-who-line {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin-bottom: 2px;
+}
+
+.frame-root .frame-who-say {
+    font-size: var(--t-body);
+    -unity-font-style: italic;
+    color: var(--frame-paper);
+    margin-top: 4px;
+}
+
+/* ---------------------------------------------------------------- the ship window, bottom right */
+
+.frame-root .frame-ship {
+    position: absolute;
+    right: 1%;
+    bottom: 1.6%;
+    width: 24%;
+    padding: 6px;
+}
+
+.frame-root .frame-ship-view {
+    width: 100%;
+    height: 262px;
+    border-width: 3px;
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgb(27, 35, 64);
+}
+
+.frame-root .frame-ship-cap {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 6px 1px 6px;
+}
+
+.frame-root .frame-ship-where {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    flex-shrink: 1;
+}
+
+.frame-root .frame-ship-wind {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    margin-left: 10px;
+    flex-shrink: 1;
+}
+
+/* ---------------------------------------------------------------- the message log, under the chart */
+
+.frame-root .frame-log {
+    position: absolute;
+    left: 31%;
+    right: 26.2%;
+    bottom: 1.6%;
+    height: 146px;
+    padding: 5px 6px 5px 14px;
+}
+
+.frame-root.wide .frame-log {
+    left: 48%;
+}
+
+.frame-root .frame-log-line {
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 2px;
+}
+
+.frame-root .frame-log-stamp {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    min-width: 150px;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-log-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    font-size: var(--t-body);
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-log-line.last .frame-log-text {
+    color: var(--frame-paper);
+}
+
+/* ---------------------------------------------------------------- the measure, over the chart's top left */
+
+.frame-root .frame-rule {
+    position: absolute;
+    left: 31%;
+    top: 68px;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 12px 4px 6px;
+    max-width: 42%;
+    flex-wrap: wrap;
+}
+
+.frame-root .frame-rule > .frame-num {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.frame-root.wide .frame-rule {
+    left: 48%;
+    max-width: 25%;
+}
+
+.frame-root .frame-rule-text {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    margin-left: 8px;
+    flex-shrink: 1;
+}
+
+.frame-root .frame-rule-text .frame-num {
+    margin-left: 0;
+}
+
+.frame-root .frame-rule .frame-k {
+    margin-left: 0;
+}
+
+/* ---------------------------------------------------------------- floating windows: cards and talk, over the middle */
+
+.frame-root .frame-floats {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.frame-root .frame-float {
+    position: absolute;
+    width: 42%;
+    max-height: 78%;
+    translate: -50% -50%;
+}
+
+.frame-root .frame-float.front {
+    border-top-color: rgb(240, 210, 122);
+    border-left-color: rgb(240, 210, 122);
+    border-right-color: rgb(184, 150, 70);
+    border-bottom-color: rgb(184, 150, 70);
+}
+
+.frame-root .frame-float-top {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 14px 16px 10px 16px;
+    flex-shrink: 1;
+    min-height: 0;
+}
+
+.frame-root .frame-float-face {
+    width: 88px;
+    height: 110px;
+    align-self: flex-start;
+    flex-shrink: 0;
+    margin-right: 16px;
+    border-width: 3px;
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgb(40, 26, 48);
+}
+
+.frame-root .frame-float-words {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-height: 0;
+}
+
+.frame-root .frame-float-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-title);
+    color: var(--frame-gold);
+    margin-right: 30px;
+}
+
+.frame-root .frame-float-who {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    margin-top: 1px;
+}
+
+.frame-root .frame-float-scroll {
+    flex-shrink: 1;
+    min-height: 0;
+    margin-top: 8px;
+}
+
+.frame-root .frame-float-line {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    margin-bottom: 8px;
+}
+
+.frame-root .frame-float-line.unwritten {
+    color: var(--frame-mute);
+    -unity-font-style: italic;
+    font-size: var(--t-quiet);
+}
+
+.frame-root .frame-float-small {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin-top: 2px;
+}
+
+.frame-root .frame-float-result {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    margin-top: 6px;
+    padding: 8px 12px;
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+}
+
+.frame-root .frame-float-options {
+    flex-shrink: 0;
+    border-top-width: 1px;
+    border-top-color: var(--frame-rule);
+    padding: 4px 0 6px 0;
+}
+
+.frame-root .frame-option {
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 16px;
+    font-size: var(--t-body);
+}
+
+.frame-root .frame-option:hover {
+    background-color: rgba(240, 210, 122, 0.12);
+}
+
+.frame-root .frame-option:disabled {
+    opacity: 0.5;
+}
+
+.frame-root .frame-option-number {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-accent);
+    min-width: 36px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-option-words {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+}
+
+.frame-root .frame-option-label {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+}
+
+.frame-root .frame-option-rule {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-option-odds {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-quiet);
+    color: var(--frame-gold);
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-option-key {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-float-shut {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.frame-root .frame-float-shut:hover {
+    background-color: rgba(240, 210, 122, 0.12);
+}
+
+.frame-root .frame-float-hint {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    padding: 0 16px 8px 16px;
+}
+
+/* ---------------------------------------------------------------- the scroll bars, slim and plum */
+
+.frame-root .unity-scroller--vertical {
+    width: 10px;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.frame-root .unity-scroller--vertical > .unity-scroller__low-button,
+.frame-root .unity-scroller--vertical > .unity-scroller__high-button {
+    display: none;
+}
+
+.frame-root .unity-scroller--vertical > .unity-scroller__slider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 10px;
+}
+
+.frame-root .unity-scroller--vertical .unity-base-slider__tracker {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-width: 0;
+    border-radius: 5px;
+}
+
+.frame-root .unity-scroller--vertical .unity-base-slider__dragger {
+    background-color: rgb(140, 106, 142);
+    border-width: 0;
+    border-radius: 5px;
+    width: 8px;
+    left: 1px;
+}
+
+.frame-root .unity-scroller--horizontal {
+    display: none;
+}
+
+
+/* ---------------------------------------------------------------- who are you: the three choices of a new game */
+
+/* (as wide as the chart's free middle and no wider: at 54% it lay over the windows on the left and the portrait on the right) */
+.frame-root .frame-float.frame-float-self {
+    width: 42.6%;
+    max-height: 76%;
+}
+
+.frame-root .frame-self-group {
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--frame-rule);
+}
+
+.frame-root .frame-self-group .frame-h {
+    margin-bottom: 4px;
+}
+
+.frame-root .frame-self-line {
+    font-size: var(--t-quiet);
+    white-space: normal;
+    margin-bottom: 2px;
+}
+
+/* ---------------------------------------------------------------- the tongues: a line that turns, and words set apart */
+
+/* a line in the speaker's own tongue: set apart in the accent, slanted; each piece comes back upright and pale as English */
+.frame-root .frame-turn {
+    margin-bottom: 6px;
+    padding: 8px 12px 6px 12px;
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+    border-left-width: 3px;
+    border-left-color: var(--frame-edge);
+}
+
+.frame-root .frame-turn-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.frame-root .frame-turn-piece {
+    font-size: var(--t-body);
+    color: var(--frame-accent);
+    -unity-font-style: italic;
+    margin-right: 7px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+}
+
+.frame-root .frame-turn-piece.eng {
+    color: var(--frame-paper);
+    -unity-font-style: normal;
+}
+
+.frame-root .frame-turn-note {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin-top: 3px;
+    white-space: normal;
+}
+
+/* a line of English with a word of another tongue in it: one label a word, wrapping as text does */
+.frame-root .frame-words,
+.frame-root .frame-float-sprinkle {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    margin-bottom: 8px;
+}
+
+.frame-root .frame-words-w {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    margin-right: 3px;
+}
+
+.frame-root .frame-float-sprinkle .frame-words-w {
+    font-size: var(--t-body);
+}
+
+.frame-root .frame-words-w.glue {
+    margin-left: -3px;
+}
+
+.frame-root .frame-words-w.word {
+    color: var(--frame-accent);
+    -unity-font-style: italic;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--frame-accent);
+}
+
+/* ---------------------------------------------------------------- the floor: no text under 18 true px (7 Oct 2026).
+   The panel scales with the screen (GamePanel: 1920 x 1080 is 1), so on 1280 x 720 a size of 18 is 12 true px.
+   TextFloor.Apply puts one of these on the root when the scale is under 1: the class's number is the least panel px,
+   so that number times the scale is 18 or a little over. Quiet and body meet there; bold and colour still tell them apart. */
+.frame-root.t-floor-20 { --t-quiet: 20px; --t-body: 20px; }
+.frame-root.t-floor-22 { --t-quiet: 22px; --t-body: 22px; }
+.frame-root.t-floor-24 { --t-quiet: 24px; --t-body: 24px; }
+.frame-root.t-floor-26 { --t-quiet: 26px; --t-body: 26px; --t-name: 26px; --t-title: 26px; }
+.frame-root.t-floor-28 { --t-quiet: 28px; --t-body: 28px; --t-name: 28px; --t-title: 28px; }
+.frame-root.t-floor-30 { --t-quiet: 30px; --t-body: 30px; --t-name: 30px; --t-title: 30px; }
+.frame-root.t-floor-32 { --t-quiet: 32px; --t-body: 32px; --t-name: 32px; --t-title: 32px; }
+.frame-root.t-floor-34 { --t-quiet: 34px; --t-body: 34px; --t-name: 34px; --t-title: 34px; }
+.frame-root.t-floor-36 { --t-quiet: 36px; --t-body: 36px; --t-name: 36px; --t-title: 36px; }
+
+/* the ship view's own words (Swap, the look's name): the frame's small size */
+.frame-ship-word {
+    font-size: var(--t-quiet);
+}
+
+/* notes while playing (F2): the picker over the whole screen, the ring round the thing, the hint, and the slip */
+.frame-root .frame-note-veil {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.frame-root .frame-note-mark {
+    position: absolute;
+    border-width: 3px;
+    border-color: rgb(240, 210, 122);
+    border-radius: 6px;
+}
+
+.frame-root .frame-note-hint {
+    position: absolute;
+    left: 50%;
+    top: 14px;
+    translate: -50% 0;
+    padding: 8px 18px 4px 18px;
+}
+
+.frame-root .frame-note-hint .frame-p {
+    color: var(--frame-paper);
+}
+
+.frame-root .frame-note {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 46%;
+    translate: -50% -50%;
+    padding: 16px 20px 12px 20px;
+}
+
+.frame-root .frame-note-quiet {
+    margin-top: 6px;
+}
+
+.frame-root .frame-note-field {
+    margin: 2px 0 8px 0;
+    font-size: var(--t-body);
+}
+
+.frame-root .frame-note-field .unity-base-text-field__input {
+    min-height: 44px;
+    padding: 6px 10px;
+    border-width: 3px;
+    border-color: rgb(140, 106, 142);
+    border-radius: 8px;
+    background-color: rgb(250, 241, 223);
+    color: rgb(38, 26, 44);
+    font-size: var(--t-body);
+    white-space: normal;
+}
+
+.frame-root .frame-note-tall .unity-base-text-field__input {
+    min-height: 132px;
+}
+
+.frame-root .frame-note-row {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+
+/* a floating window that is new eases in (Showtime: off in a batch run); one drawn again is simply there */
+.frame-root .frame-float.easing {
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.frame-root .frame-float.easing.eased {
+    opacity: 1;
+}
+
+/* the port's picture in the chart's place while she lies there (PortView.cs), and the button that puts the chart back */
+.frame-root .frame-port-view {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* ================================================================================================================
+   THE LOOK OF THE WINDOWS XP YEARS, IN BYZANTIUM (the user, 7 Oct 2026: "make all ui stylised winxp era type but make
+   it the colour byzantium"; "the soft edges are bad"; of the mock-up: "connect the entire left side into one piece all
+   the way around the entire frame of the screen, not so many X's in the top right of them all"; "thinner sides").
+   Everything above this line is the frame as it was first dressed (thick rounded dark panels); what follows dresses it
+   again and wins, being later. One frame goes all the way round the screen in one piece: the bar across the top, a
+   side down the left with the orders and the windows in it as sections, a side down the right with the portrait and
+   the boat, and a foot with the log; the world shows in the middle. Hard corners, thin dark lines, pale bodies with
+   dark words, bars and buttons shaded top to bottom (the small pictures in Xp/). No cross on a section: only a window
+   that floats has a bar with one.
+   ================================================================================================================ */
+
+/* THE COLOURS (the user, 7 Oct 2026, late: "change the white colour and replace it with 297036"; "the white as in the
+   UI color, not the font"; "the font colour Byzantium and the background is the other colour I said before"): every
+   pale ground of the frame is the green 297036 and every word on one is Byzantium. The green is faded, as the name on
+   the title is ("far more faded"): at its full strength it is as dark as Byzantium and no word of that colour can be
+   read on it. A body is the green six parts in ten toward warm white (168 191 159); a row or a button in it is lighter
+   (203 213 189); the strip the choices stand on is deeper (152 181 146). The bars stay Byzantium with white words. */
+
+.frame-root {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    color: rgb(112, 41, 99);
+}
+
+.frame-root Button {
+    color: rgb(112, 41, 99);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+/* on the pale bodies the words are dark: what is the player's to count is Byzantium, not gold */
+.frame-root .frame-slip,
+.frame-root .frame-rack {
+    --frame-paper: rgb(112, 41, 99);
+    --frame-mute: rgba(112, 41, 99, 0.92);
+    --frame-gold: rgb(112, 41, 99);
+    --frame-accent: rgb(84, 28, 76);
+    --frame-rule: rgba(74, 28, 74, 0.34);
+}
+
+.frame-root .frame-slip {
+    background-color: rgb(168, 191, 159);
+    border-width: 1px;
+    border-top-color: rgb(46, 18, 51);
+    border-left-color: rgb(46, 18, 51);
+    border-right-color: rgb(46, 18, 51);
+    border-bottom-color: rgb(46, 18, 51);
+    border-radius: 0;
+}
+
+/* ---- the frame itself: the two sides and the foot, in one piece with the bar */
+.frame-root .frame-pane {
+    position: absolute;
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+}
+
+.frame-root .frame-pane-left {
+    left: 0;
+    top: 54px;
+    bottom: 0;
+    width: 24%;
+}
+
+.frame-root.wide .frame-pane-left {
+    width: 47.4%;
+}
+
+/* (the right has no block of its own: the user, 7 Oct 2026, struck out the empty one. A thin edge keeps the frame in
+   one piece all the way round; the portrait and the boat stand over the world, in its corners) */
+.frame-root .frame-pane-right {
+    right: 0;
+    top: 54px;
+    bottom: 0;
+    width: 8px;
+}
+
+.frame-root .frame-pane-foot {
+    left: 24%;
+    right: 0;
+    bottom: 0;
+    height: 136px;
+    background-image: none;
+    background-color: rgb(98, 35, 87);
+}
+
+.frame-root.wide .frame-pane-foot {
+    left: 47.4%;
+}
+
+/* the line round the world in the middle */
+.frame-root .frame-viewport {
+    position: absolute;
+    left: 24%;
+    right: 8px;
+    top: 54px;
+    bottom: 136px;
+    border-width: 3px;
+    border-color: rgb(30, 11, 33);
+}
+
+.frame-root.wide .frame-viewport {
+    left: 47.4%;
+}
+
+/* ---- the bar across the top */
+.frame-root .frame-top {
+    min-height: 54px;
+    padding: 0 12px 0 0;
+    background-image: url("Xp/sheen.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    border-width: 0;
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(46, 18, 51);
+    --frame-paper: rgb(255, 255, 255);
+    --frame-mute: rgba(255, 255, 255, 0.82);
+    --frame-gold: rgb(240, 210, 122);
+    --frame-accent: rgb(236, 208, 230);
+    --frame-rule: rgba(255, 255, 255, 0.3);
+}
+
+.frame-root .frame-top-date {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 0 rgb(46, 18, 51);
+}
+
+.frame-root .frame-top-word {
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 0 rgb(46, 18, 51);
+}
+
+.frame-root .frame-top-word.warn {
+    color: rgb(255, 200, 170);
+}
+
+/* the Menu button: the bar's own first button, in gold */
+.frame-root .frame-k.frame-start {
+    background-image: url("Xp/grain.png");
+    color: rgb(46, 18, 51);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    border-width: 0;
+    border-right-width: 2px;
+    border-right-color: rgb(46, 18, 51);
+    margin-left: 0;
+    padding: 0 22px 0 16px;
+    align-self: stretch;
+}
+
+/* ---- the left side: the orders, then the windows as sections */
+.frame-root .frame-left {
+    left: 0.6%;
+    top: 62px;
+    bottom: 8px;
+    width: 22.8%;
+}
+
+.frame-root .frame-left.wide {
+    width: 46.2%;
+}
+
+.frame-root .frame-rack {
+    background-color: rgb(168, 191, 159);
+    border-width: 1px;
+    border-color: rgb(46, 18, 51);
+    padding: 6px 3px 0 3px;
+    margin-bottom: 8px;
+}
+
+.frame-root .frame-verb {
+    border-width: 1px;
+    border-top-color: rgb(112, 41, 99);
+    border-left-color: rgb(112, 41, 99);
+    border-right-color: rgb(112, 41, 99);
+    border-bottom-color: rgb(112, 41, 99);
+    border-radius: 0;
+    background-color: rgb(203, 213, 189);
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+}
+
+.frame-root .frame-verb:hover {
+    background-image: none;
+    background-color: rgb(250, 236, 190);
+}
+
+.frame-root .frame-verb:active,
+.frame-root .frame-verb.on {
+    background-image: none;
+    background-color: rgb(112, 41, 99);
+    border-top-color: rgb(46, 18, 51);
+    border-left-color: rgb(46, 18, 51);
+    border-right-color: rgb(46, 18, 51);
+    border-bottom-color: rgb(46, 18, 51);
+}
+
+.frame-root .frame-verb.off,
+.frame-root .frame-verb.off:hover,
+.frame-root .frame-verb.off:active {
+    background-image: none;
+    background-color: rgb(158, 182, 150);
+    border-top-color: rgb(160, 150, 165);
+    border-left-color: rgb(160, 150, 165);
+    border-right-color: rgb(160, 150, 165);
+    border-bottom-color: rgb(160, 150, 165);
+}
+
+.frame-root .frame-icon {
+    color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-verb-name {
+    color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-verb.on .frame-verb-name,
+.frame-root .frame-verb:active .frame-verb-name {
+    color: rgb(255, 255, 255);
+}
+
+.frame-root .frame-verb.on .frame-icon,
+.frame-root .frame-verb:active .frame-icon {
+    color: rgb(240, 210, 122);
+}
+
+.frame-root .frame-verb.off .frame-icon {
+    color: rgba(112, 41, 99, 0.3);
+}
+
+.frame-root .frame-verb.off .frame-verb-name {
+    color: rgba(112, 41, 99, 0.45);
+}
+
+/* a window of the side: a section, with a shaded strip for its name and no cross */
+.frame-root .frame-win.focus {
+    border-top-color: rgb(217, 164, 65);
+    border-left-color: rgb(217, 164, 65);
+    border-right-color: rgb(217, 164, 65);
+    border-bottom-color: rgb(217, 164, 65);
+}
+
+.frame-root .frame-win-head {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    padding: 1px 6px 1px 4px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(46, 18, 51);
+}
+
+.frame-root .frame-win-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    color: rgb(112, 41, 99);
+    border-radius: 0;
+}
+
+.frame-root .frame-win-title:hover {
+    background-color: rgba(112, 41, 99, 0.14);
+}
+
+.frame-root .frame-win-name {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-head-button {
+    border-radius: 0;
+}
+
+.frame-root .frame-head-button:hover {
+    background-color: rgba(112, 41, 99, 0.14);
+}
+
+.frame-root .frame-head-shut {
+    display: none;
+}
+
+.frame-root .frame-glyph,
+.frame-root .frame-win-title .frame-glyph,
+.frame-root .frame-head-button:hover .frame-glyph {
+    color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-tab {
+    border-width: 1px;
+    border-bottom-width: 0;
+    border-top-color: rgb(46, 18, 51);
+    border-left-color: rgb(46, 18, 51);
+    border-right-color: rgb(46, 18, 51);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: rgb(152, 181, 146);
+    color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-tab.on {
+    background-color: rgb(168, 191, 159);
+    color: rgb(112, 41, 99);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+/* the bar under the windows stands on the side itself: light words on it */
+.frame-root .frame-wmbar {
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-radius: 0;
+    padding: 2px 0 0 0;
+    --frame-mute: rgba(255, 255, 255, 0.9);
+    --frame-gold: rgb(46, 18, 51);
+    --frame-accent: rgb(240, 210, 122);
+}
+
+.frame-root .frame-wm {
+    border-radius: 0;
+    color: rgb(255, 255, 255);
+}
+
+.frame-root .frame-wm.on {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    background-color: rgb(240, 210, 122);
+    color: rgb(46, 18, 51);
+    border-color: rgb(46, 18, 51);
+}
+
+.frame-root .frame-pick {
+    border-width: 1px;
+    border-top-color: rgb(141, 127, 149);
+    border-left-color: rgb(141, 127, 149);
+    border-right-color: rgb(141, 127, 149);
+    border-bottom-color: rgb(141, 127, 149);
+    border-radius: 0;
+    background-color: rgb(203, 213, 189);
+    color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-pick:hover {
+    background-color: rgb(250, 236, 190);
+}
+
+.frame-root .frame-pick.on {
+    background-color: rgb(112, 41, 99);
+    color: rgb(255, 255, 255);
+}
+
+/* ---- what stands in a window's body */
+.frame-root .frame-h {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+.frame-root .frame-ln,
+.frame-root .frame-ln-button {
+    background-color: rgb(203, 213, 189);
+    border-radius: 0;
+    border-width: 1px;
+    border-color: rgb(141, 127, 149);
+}
+
+.frame-root .frame-ln-button:hover {
+    background-color: rgb(250, 236, 190);
+}
+
+.frame-root .frame-ln.sel {
+    border-color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-num {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+.frame-root .frame-tag {
+    border-radius: 0;
+}
+
+/* a small button: a pale face shaded down, a thin dark line, hard corners */
+.frame-root .frame-k {
+    border-width: 1px;
+    border-top-color: rgb(112, 41, 99);
+    border-left-color: rgb(112, 41, 99);
+    border-right-color: rgb(112, 41, 99);
+    border-bottom-color: rgb(112, 41, 99);
+    border-radius: 0;
+    background-color: rgb(203, 213, 189);
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    color: rgb(112, 41, 99);
+    padding: 2px 12px 3px 12px;
+}
+
+.frame-root .frame-k:hover {
+    background-image: none;
+    background-color: rgb(250, 236, 190);
+}
+
+.frame-root .frame-k:active {
+    background-image: none;
+    background-color: rgb(112, 41, 99);
+    color: rgb(255, 255, 255);
+    border-top-color: rgb(46, 18, 51);
+    border-left-color: rgb(46, 18, 51);
+    border-right-color: rgb(46, 18, 51);
+    border-bottom-color: rgb(46, 18, 51);
+}
+
+.frame-root .frame-k.on {
+    background-image: url("Xp/grain.png");
+    background-color: rgb(240, 210, 122);
+    color: rgb(46, 18, 51);
+}
+
+.frame-root .frame-k.go {
+    background-image: none;
+    background-color: rgb(112, 41, 99);
+    color: rgb(255, 255, 255);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+.frame-root .frame-k.go:hover {
+    background-color: rgb(140, 62, 126);
+}
+
+.frame-root .frame-pip {
+    border-radius: 0;
+}
+
+.frame-root .word-mark.none {
+    color: rgba(112, 41, 99, 0.5);
+}
+
+.frame-root .word-tilt.down {
+    color: rgba(112, 41, 99, 0.7);
+}
+
+.frame-root .word-mark.law {
+    color: rgb(170, 60, 40);
+}
+
+/* ---- the right side: the portrait, and the boat */
+.frame-root .frame-who {
+    right: 18px;
+    top: 64px;
+    width: 18.8%;
+    padding: 8px;
+}
+
+.frame-root .frame-face {
+    width: 96px;
+    height: 120px;
+    border-width: 2px;
+    border-top-color: rgb(112, 41, 99);
+    border-left-color: rgb(112, 41, 99);
+    border-right-color: rgb(112, 41, 99);
+    border-bottom-color: rgb(112, 41, 99);
+    border-radius: 0;
+    background-color: rgb(92, 31, 82);
+}
+
+.frame-root .frame-who-name {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+.frame-root .frame-ship {
+    right: 18px;
+    bottom: 8px;
+    width: 18.8%;
+    padding: 4px;
+}
+
+.frame-root .frame-ship-view {
+    height: 204px;
+    border-width: 1px;
+    border-top-color: rgb(46, 18, 51);
+    border-left-color: rgb(46, 18, 51);
+    border-right-color: rgb(46, 18, 51);
+    border-bottom-color: rgb(46, 18, 51);
+    border-radius: 0;
+}
+
+/* ---- the foot: the log, white as a list of those years */
+.frame-root .frame-log {
+    left: 24.6%;
+    right: 20.6%;
+    bottom: 8px;
+    height: 120px;
+    background-color: rgb(203, 213, 189);
+    padding: 4px 6px 4px 10px;
+}
+
+.frame-root.wide .frame-log {
+    left: 48%;
+}
+
+.frame-root .frame-log-stamp {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+.frame-root .frame-rule {
+    left: 24.8%;
+    top: 62px;
+}
+
+.frame-root.wide .frame-rule {
+    left: 48.2%;
+}
+
+/* ---- a window that floats: the one kind with a bar and a cross */
+.frame-root .frame-float {
+    border-width: 3px;
+    border-top-color: rgb(112, 41, 99);
+    border-left-color: rgb(112, 41, 99);
+    border-right-color: rgb(112, 41, 99);
+    border-bottom-color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-float.front {
+    border-top-color: rgb(217, 164, 65);
+    border-left-color: rgb(217, 164, 65);
+    border-right-color: rgb(217, 164, 65);
+    border-bottom-color: rgb(217, 164, 65);
+}
+
+.frame-root .frame-float-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    min-height: 40px;
+    padding: 0 6px 0 12px;
+    background-image: url("Xp/sheen.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(46, 18, 51);
+}
+
+.frame-root .frame-float-bar .frame-float-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 0 rgb(46, 18, 51);
+    margin: 0;
+    flex-shrink: 1;
+}
+
+.frame-root .frame-float-shut {
+    position: relative;
+    right: 0;
+    top: 0;
+    width: 28px;
+    height: 26px;
+    flex-shrink: 0;
+    border-width: 1px;
+    border-color: rgb(255, 255, 255);
+    border-radius: 0;
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+}
+
+.frame-root .frame-float-shut:hover {
+    background-image: none;
+    background-color: rgb(232, 123, 98);
+}
+
+.frame-root .frame-float-shut .frame-glyph {
+    color: rgb(255, 255, 255);
+}
+
+.frame-root .frame-float-face {
+    border-width: 2px;
+    border-top-color: rgb(112, 41, 99);
+    border-left-color: rgb(112, 41, 99);
+    border-right-color: rgb(112, 41, 99);
+    border-bottom-color: rgb(112, 41, 99);
+    border-radius: 0;
+    background-color: rgb(92, 31, 82);
+}
+
+.frame-root .frame-float-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+.frame-root .frame-float-result {
+    background-color: rgb(203, 213, 189);
+    border-width: 1px;
+    border-color: rgb(141, 127, 149);
+    border-radius: 0;
+}
+
+.frame-root .frame-float-options {
+    background-color: rgb(152, 181, 146);
+    border-top-color: rgb(141, 127, 149);
+}
+
+.frame-root .frame-option:hover {
+    background-color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-option:hover .frame-option-label,
+.frame-root .frame-option:hover .frame-option-number,
+.frame-root .frame-option:hover .frame-option-odds,
+.frame-root .frame-option:hover .frame-option-key,
+.frame-root .frame-option:hover .frame-option-rule {
+    color: rgb(255, 255, 255);
+}
+
+.frame-root .frame-option-number,
+.frame-root .frame-option-odds {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+.frame-root .frame-float-hint {
+    background-color: rgb(152, 181, 146);
+}
+
+.frame-root .frame-turn {
+    background-color: rgb(203, 213, 189);
+    border-radius: 0;
+}
+
+/* ---- the bars that scroll */
+.frame-root .unity-scroller--vertical .unity-base-slider__tracker {
+    background-color: rgb(152, 181, 146);
+    border-radius: 0;
+}
+
+.frame-root .unity-scroller--vertical .unity-base-slider__dragger {
+    background-color: rgb(154, 74, 138);
+    border-radius: 0;
+}
+
+/* ---- the notes' slip and the port's button, with the rest */
+.frame-root .frame-note-mark {
+    border-radius: 0;
+}
+
+.frame-root .frame-note-field .unity-base-text-field__input {
+    border-radius: 0;
+    border-color: rgb(154, 74, 138);
+    background-color: rgb(203, 213, 189);
+}
+
+.frame-root .frame-note-hint .frame-p {
+    color: rgb(112, 41, 99);
+}
+
+/* a window said one paragraph at a time keeps room for four rows, so that it does not jump at every paragraph */
+.frame-root .frame-float.paged .frame-float-scroll {
+    min-height: 128px;
+}
+
+/* ================================================================================================================
+   THE TALL FOOT, AND TEXTURE AND DEPTH (the user, 7 Oct 2026, late).
+   The layout, by the picker: nothing stands on the right; the portrait, the log and the boat's view stand side by
+   side in one tall foot, and the world has the whole width over it. The buttons that change what is looked at
+   (Chart or Port, Swap, Look) are in the top bar by the clock's ("a good addition, just not well placed").
+   The dress: "can you texture the UI colour so it's not so sleek and glossy"; "the layout is good, it just needs more
+   flair, more depth, more style". So no ground is smooth: each has a grain laid over it (Xp/grain.png: specks and
+   scratches); a bar is lit from its top in dots (Xp/sheen.png), not in a smooth shade; a panel and a button stand up
+   from their ground with a light edge up and to the left and a dark one down and to the right, and a row, a well and
+   a picture are let into it the other way; a button pressed goes in. The world has a gold line and a piece at each
+   corner (Xp/corner.png). The pictures are made by Bake/art/make_ui_textures.py.
+   ================================================================================================================ */
+
+/* ---- the layout */
+.frame-root .frame-pane-foot {
+    left: 24%;
+    right: 0;
+    bottom: 0;
+    height: 248px;
+}
+
+.frame-root.wide .frame-pane-foot {
+    left: 47.4%;
+}
+
+.frame-root .frame-viewport {
+    right: 8px;
+    bottom: 248px;
+    border-width: 4px;
+    border-color: rgb(30, 11, 33);
+}
+
+.frame-root .frame-port-view {
+    left: 24%;
+    top: 54px;
+    right: 8px;
+    bottom: 248px;
+}
+
+.frame-root.wide .frame-port-view {
+    left: 47.4%;
+}
+
+.frame-root .frame-who {
+    left: 24.6%;
+    right: auto;
+    top: auto;
+    bottom: 8px;
+    width: 17%;
+    height: 232px;
+    padding: 8px;
+}
+
+.frame-root.wide .frame-who {
+    left: 48%;
+    width: 13.2%;
+}
+
+.frame-root .frame-ship {
+    right: 16px;
+    bottom: 8px;
+    width: 16.4%;
+    height: 232px;
+    padding: 4px;
+}
+
+.frame-root .frame-ship-view {
+    height: 170px;
+}
+
+.frame-root .frame-log {
+    left: 42%;
+    right: 17.8%;
+    bottom: 8px;
+    height: 232px;
+}
+
+.frame-root.wide .frame-log {
+    left: 61.6%;
+}
+
+/* ---- the top bar: its three groups, the view buttons, and the clock's word hung under its right end */
+.frame-root .frame-top-left,
+.frame-root .frame-top-right {
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+}
+
+.frame-root .frame-top-mid {
+    flex-shrink: 1;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+.frame-root .frame-top-views {
+    flex-direction: row;
+    align-items: center;
+    margin-right: 12px;
+    padding-right: 12px;
+    border-right-width: 1px;
+    border-right-color: rgba(255, 255, 255, 0.4);
+}
+
+.frame-root .frame-top-views .frame-k {
+    padding: 1px 9px 2px 9px;
+    margin-left: 4px;
+}
+
+.frame-root .frame-top-state {
+    position: absolute;
+    right: 0;
+    top: 52px;
+    min-width: 0;
+    margin-left: 0;
+    padding: 1px 10px 2px 10px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(112, 41, 99);
+    border-width: 2px;
+    border-top-color: rgb(176, 104, 160);
+    border-left-color: rgb(176, 104, 160);
+    border-right-color: rgb(58, 18, 52);
+    border-bottom-color: rgb(58, 18, 52);
+}
+
+/* ---- a ground: grain over its colour, and standing up from what it lies on */
+.frame-root .frame-slip,
+.frame-root .frame-rack {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    background-position-x: left;
+    background-position-y: top;
+    border-width: 2px;
+    border-top-color: rgb(224, 233, 212);
+    border-left-color: rgb(224, 233, 212);
+    border-right-color: rgb(92, 118, 92);
+    border-bottom-color: rgb(92, 118, 92);
+}
+
+.frame-root .frame-pane {
+    background-color: rgb(104, 38, 92);
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    background-position-x: left;
+    background-position-y: top;
+}
+
+.frame-root .frame-pane-foot {
+    background-color: rgb(98, 35, 87);
+    background-image: url("Xp/grain.png");
+}
+
+/* ---- a bar: lit from its top in dots, a gold rule under the one across the screen */
+.frame-root .frame-top,
+.frame-root .frame-float-bar {
+    background-color: rgb(112, 41, 99);
+    background-image: url("Xp/sheen.png");
+    background-repeat: repeat-x;
+    background-size: 16px 64px;
+    background-position-x: left;
+    background-position-y: top;
+}
+
+.frame-root .frame-top {
+    border-width: 0;
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(184, 150, 70);
+}
+
+.frame-root .frame-win-head {
+    background-color: rgb(176, 196, 166);
+    background-image: url("Xp/sheen.png");
+    background-repeat: repeat-x;
+    background-size: 16px 64px;
+    background-position-x: left;
+    background-position-y: top;
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(112, 41, 99);
+}
+
+/* ---- a button: it stands up; under the pointer it turns pale gold; pressed, or on, it goes in */
+.frame-root .frame-k,
+.frame-root .frame-verb,
+.frame-root .frame-pick,
+.frame-root .frame-tab {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    border-width: 2px;
+    border-top-color: rgb(238, 244, 228);
+    border-left-color: rgb(238, 244, 228);
+    border-right-color: rgb(86, 112, 88);
+    border-bottom-color: rgb(86, 112, 88);
+}
+
+.frame-root .frame-tab {
+    border-bottom-width: 0;
+}
+
+.frame-root .frame-k:hover,
+.frame-root .frame-verb:hover,
+.frame-root .frame-pick:hover,
+.frame-root .frame-ln-button:hover {
+    background-image: url("Xp/grain.png");
+    background-color: rgb(250, 236, 190);
+}
+
+.frame-root .frame-k:active,
+.frame-root .frame-verb:active,
+.frame-root .frame-verb.on,
+.frame-root .frame-pick.on {
+    background-image: url("Xp/grain.png");
+    background-color: rgb(112, 41, 99);
+    border-top-color: rgb(58, 18, 52);
+    border-left-color: rgb(58, 18, 52);
+    border-right-color: rgb(176, 104, 160);
+    border-bottom-color: rgb(176, 104, 160);
+}
+
+.frame-root .frame-k.on,
+.frame-root .frame-wm.on {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    background-color: rgb(240, 210, 122);
+    border-width: 2px;
+    border-top-color: rgb(150, 104, 40);
+    border-left-color: rgb(150, 104, 40);
+    border-right-color: rgb(252, 238, 188);
+    border-bottom-color: rgb(252, 238, 188);
+}
+
+.frame-root .frame-k.go,
+.frame-root .frame-k.go:hover {
+    background-image: url("Xp/grain.png");
+    border-top-color: rgb(176, 104, 160);
+    border-left-color: rgb(176, 104, 160);
+    border-right-color: rgb(58, 18, 52);
+    border-bottom-color: rgb(58, 18, 52);
+}
+
+.frame-root .frame-k.frame-start {
+    background-image: url("Xp/grain.png");
+    background-color: rgb(240, 210, 122);
+    border-width: 2px;
+    border-top-color: rgb(252, 238, 188);
+    border-left-color: rgb(252, 238, 188);
+    border-right-color: rgb(150, 104, 40);
+    border-bottom-color: rgb(150, 104, 40);
+}
+
+.frame-root .frame-k.frame-start:hover {
+    background-color: rgb(250, 228, 150);
+}
+
+.frame-root .frame-verb.off,
+.frame-root .frame-verb.off:hover,
+.frame-root .frame-verb.off:active {
+    background-image: url("Xp/grain.png");
+    background-color: rgb(158, 182, 150);
+    border-top-color: rgb(136, 160, 132);
+    border-left-color: rgb(136, 160, 132);
+    border-right-color: rgb(136, 160, 132);
+    border-bottom-color: rgb(136, 160, 132);
+}
+
+.frame-root .frame-float-shut,
+.frame-root .frame-float-shut:hover {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    background-color: rgb(201, 85, 58);
+    border-width: 2px;
+    border-top-color: rgb(240, 150, 124);
+    border-left-color: rgb(240, 150, 124);
+    border-right-color: rgb(120, 40, 26);
+    border-bottom-color: rgb(120, 40, 26);
+}
+
+.frame-root .frame-float-shut:hover {
+    background-color: rgb(232, 123, 98);
+}
+
+/* ---- a row, a well, a picture: let into the ground */
+.frame-root .frame-ln,
+.frame-root .frame-ln-button,
+.frame-root .frame-float-result,
+.frame-root .frame-turn {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    border-width: 2px;
+    border-top-color: rgb(110, 138, 110);
+    border-left-color: rgb(110, 138, 110);
+    border-right-color: rgb(232, 240, 222);
+    border-bottom-color: rgb(232, 240, 222);
+}
+
+.frame-root .frame-log {
+    border-top-color: rgb(92, 118, 92);
+    border-left-color: rgb(92, 118, 92);
+    border-right-color: rgb(224, 233, 212);
+    border-bottom-color: rgb(224, 233, 212);
+}
+
+.frame-root .frame-face,
+.frame-root .frame-float-face,
+.frame-root .frame-ship-view {
+    border-width: 2px;
+    border-top-color: rgb(58, 18, 52);
+    border-left-color: rgb(58, 18, 52);
+    border-right-color: rgb(176, 104, 160);
+    border-bottom-color: rgb(176, 104, 160);
+}
+
+/* ---- a window that floats: a slab of Byzantium, the one in front of gold */
+.frame-root .frame-float {
+    border-width: 4px;
+    border-top-color: rgb(150, 76, 136);
+    border-left-color: rgb(150, 76, 136);
+    border-right-color: rgb(58, 18, 52);
+    border-bottom-color: rgb(58, 18, 52);
+}
+
+.frame-root .frame-float.front {
+    border-top-color: rgb(247, 227, 160);
+    border-left-color: rgb(247, 227, 160);
+    border-right-color: rgb(150, 104, 40);
+    border-bottom-color: rgb(150, 104, 40);
+}
+
+.frame-root .frame-float-options,
+.frame-root .frame-float-hint {
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+}
+
+.frame-root .frame-float-options {
+    border-top-width: 2px;
+    border-top-color: rgb(98, 124, 98);
+}
+
+/* ---- the world's own frame: a gold line inside the dark one, and a piece at each corner */
+.frame-root .frame-viewport-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-width: 2px;
+    border-color: rgb(184, 150, 70);
+}
+
+.frame-root .frame-corner {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    background-image: url("Xp/corner.png");
+    background-repeat: no-repeat;
+    background-size: 42px 42px;
+}
+
+.frame-root .frame-corner.tl {
+    left: -4px;
+    top: -4px;
+}
+
+.frame-root .frame-corner.tr {
+    right: -4px;
+    top: -4px;
+    rotate: 90deg;
+}
+
+.frame-root .frame-corner.br {
+    right: -4px;
+    bottom: -4px;
+    rotate: 180deg;
+}
+
+.frame-root .frame-corner.bl {
+    left: -4px;
+    bottom: -4px;
+    rotate: 270deg;
+}
+
+/* ---- a name cut into its ground: a pale edge under each letter */
+.frame-root .frame-slip .frame-h,
+.frame-root .frame-win-name,
+.frame-root .frame-who-name {
+    text-shadow: 1px 1px 0 rgba(240, 246, 230, 0.75);
+}
+
+/* ---- the bar is one line at 1080p with the view buttons in it: its figures stand closer, its buttons are narrower,
+   and no word of it breaks */
+.frame-root .frame-top-figure {
+    margin: 0 9px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-top-figure Label,
+.frame-root .frame-top-date,
+.frame-root .frame-top-part {
+    white-space: nowrap;
+}
+
+.frame-root .frame-top-date {
+    margin-left: 12px;
+}
+
+.frame-root .frame-top .frame-k {
+    padding: 1px 8px 2px 8px;
+    margin-left: 4px;
+}
+
+.frame-root .frame-top .frame-k.frame-start {
+    padding: 0 18px 0 14px;
+    margin-left: 0;
+}
+
+.frame-root .frame-top-views {
+    margin-right: 8px;
+    padding-right: 8px;
+}
+
+/* ================================================================================================================
+   WHAT IS SAID STANDS IN THE FOOT (the user, 7 Oct 2026, late: "why is he speaking twice, once in the middle and once
+   at the bottom; expand the bottom one for more wide text space for characters, add their personality type / stats").
+   A window of words (a card, a talk, an alert: FrameRoot.Floats.cs marks it "docked") is not in the middle of the
+   world: it lies in the foot, over the portrait's place and the log, as wide as the two: a bar with its name; under it
+   who speaks at the left (the face, who they are), the words in the middle, and the choices at the right when they
+   come. Nothing stands under it ("you don't have to explain everything"): its last line is there only to say why a
+   choice cannot be taken.
+   ================================================================================================================ */
+.frame-root .frame-float-body {
+    flex-shrink: 1;
+    min-height: 0;
+}
+
+.frame-root .frame-float-about {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin-top: 1px;
+}
+
+/* (it stands on the foot and is as tall as the foot when it has little to say; with many choices or a long word it
+   grows upward over the world, to six tenths of the screen at most, and its words scroll after that) */
+.frame-root .frame-float.docked {
+    left: 24.6%;
+    right: 17.8%;
+    top: auto;
+    bottom: 8px;
+    width: auto;
+    height: auto;
+    min-height: 232px;
+    max-height: 60%;
+    translate: 0 0;
+}
+
+.frame-root.wide .frame-float.docked {
+    left: 48%;
+}
+
+.frame-root .frame-float.docked .frame-float-bar {
+    min-height: 32px;
+}
+
+.frame-root .frame-float.docked .frame-float-body {
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.frame-root .frame-float.docked .frame-float-top {
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 8px 12px 6px 10px;
+}
+
+.frame-root .frame-float.docked .frame-float-face {
+    width: 112px;
+    height: 140px;
+    margin-right: 14px;
+}
+
+.frame-root .frame-float.docked .frame-float-scroll,
+.frame-root .frame-float.docked.paged .frame-float-scroll {
+    min-height: 0;
+    margin-top: 5px;
+}
+
+.frame-root .frame-float.docked .frame-float-options {
+    width: 42%;
+    flex-shrink: 0;
+    justify-content: flex-start;
+    border-top-width: 0;
+    border-left-width: 2px;
+    border-left-color: rgb(98, 124, 98);
+}
+
+.frame-root .frame-float.docked .frame-float-hint {
+    position: absolute;
+    left: 10px;
+    bottom: 2px;
+    padding: 0 8px;
+}
+
+.frame-root .frame-float.docked .frame-option {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+/* ================================================================================================================
+   THE THREE ROWS OF BUTTONS, THE PLACES, THE CHART'S TOOLS (the user, 7 Oct 2026, late; by the picker).
+   The rack holds twelve buttons, four to a row (the ship; where she is; what is known): a little lower each than
+   the eight were, so the windows under them keep their room. A place gone into (FramePlace) shows its picture in
+   the world's frame, or its name on a plain ground until the user has sent one. The chart's own tools (Measure, and
+   its four readings) stand in a small row on the boat's box, at the bottom right.
+   ================================================================================================================ */
+.frame-root .frame-verb {
+    padding: 3px 2px 2px 2px;
+    margin-bottom: 4px;
+}
+
+.frame-root .frame-place-ground {
+    background-color: rgb(74, 28, 74);
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    color: rgb(226, 184, 198);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-title);
+    -unity-text-align: middle-center;
+}
+
+.frame-root .frame-maptools {
+    position: absolute;
+    right: 16px;
+    bottom: 244px;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-end;
+}
+
+.frame-root .frame-maptools .frame-tool {
+    margin: 0 0 0 4px;
+    padding: 1px 9px 2px 9px;
+    width: auto;
+}
+
+.frame-root .frame-maptools .frame-verb.frame-tool {
+    flex-direction: row;
+    align-items: center;
+}
+
+.frame-root .frame-maptools .frame-verb.frame-tool .frame-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+}
+
+.frame-root .frame-book-find {
+    margin: 2px 0 6px 0;
+}
+
+.frame-root .frame-book-find .unity-base-text-field__input {
+    background-color: rgb(214, 221, 199);
+    color: rgb(112, 41, 99);
+    border-width: 2px;
+    border-top-color: rgb(110, 138, 110);
+    border-left-color: rgb(110, 138, 110);
+    border-right-color: rgb(232, 240, 222);
+    border-bottom-color: rgb(232, 240, 222);
+    border-radius: 0;
+    font-size: var(--t-body);
+    padding: 1px 6px;
+}
+
+/* ---- the small box by the pointer on a linked word (WikiLinks, FrameRoot.Links.cs): the page's name, its kind, a brief word */
+.frame-root .frame-link-box {
+    position: absolute;
+    width: 380px;
+    padding: 7px 11px 8px 11px;
+    background-color: rgb(214, 221, 199);
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    border-width: 2px;
+    border-top-color: rgb(238, 244, 228);
+    border-left-color: rgb(238, 244, 228);
+    border-right-color: rgb(58, 18, 52);
+    border-bottom-color: rgb(58, 18, 52);
+}
+
+.frame-root .frame-link-name {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    color: rgb(27, 94, 123);
+}
+
+.frame-root .frame-link-kind {
+    font-size: var(--t-quiet);
+    color: rgba(112, 41, 99, 0.8);
+    margin-bottom: 3px;
+}
+
+.frame-root .frame-link-brief {
+    font-size: var(--t-quiet);
+    color: rgb(112, 41, 99);
+    white-space: normal;
+}
+
+/* ---- the three faces, named here for the code to find (FrameFonts.cs): Hearth; the old face, drawn from for any
+   letter Hearth has not (thorn, eth, the long vowels, Cyrillic); and the runes. Three unseen labels carry them. */
+.font-probe {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.font-probe-main {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+}
+
+.font-probe-more {
+    -unity-font: url("Fonts/DejaVuSansCondensed.ttf");
+}
+
+.font-probe-runes {
+    -unity-font: url("Fonts/NotoSansRunic-Regular.ttf");
+}
+
+/* ---- the boat's caption in Hearth takes up to four rows (where she is, and the wind): her picture gives them the room */
+.frame-root .frame-ship-view {
+    height: 140px;
+}
+
+.frame-root .frame-ship-cap {
+    padding: 3px 6px 0 6px;
+}
+
+.frame-root .frame-ship-wind {
+    margin-left: 0;
+}

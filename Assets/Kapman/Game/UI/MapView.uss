@@ -1,0 +1,1080 @@
+/* THE GLASS (the user, 2026-10-03: "make all the UI transparent"): every panel is rgba(34, 22, 40, 0.96), see-through; the text has a soft shadow so it reads over the light chart and the sea. Change the 0.6 to tune it. */
+
+/* THE MAP VIEW - a silver chart with ink; its labels, card and foot in the panels' look: black see-through glass, a
+   hard thin black line round every edge, square corners, light text (the user, 2026-10-01). Gentium Book Plus. */
+
+.map-root {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    /* the four sizes of text, as the frame has them (Frame.uss; Design/text_size_audit.md). Taken so far by what the
+       chart still shows with the frame up: the ports' names and notes, the scale, the box under the cursor, the
+       measure's figure, a ship's card, a tool's hint. The map's own old panels and the chest keep their old sizes. */
+    /* (Hearth is a pixel face of 8: crisp at 16 and 24. Its letters are tall for their size: 16 of it stands as
+       high as 19 of the old face) */
+    --t-quiet: 16px;
+    --t-body: 16px;
+    --t-name: 24px;
+    --t-title: 24px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.map-layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    background-color: rgb(209, 217, 226);
+}
+
+.map-tiles, .map-overlays {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.map-tile, .map-fog {
+    position: absolute;
+}
+
+.map-port {
+    position: absolute;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.map-port-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: rgb(20, 22, 26);
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.9);
+}
+
+.map-port.here .map-port-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background-color: rgb(170, 60, 44);
+}
+
+/* names on a dark see-through slip, so they read over coast and river alike */
+.map-port-name {
+    font-size: var(--t-quiet);
+    color: rgb(112, 41, 99);
+    margin-left: 5px;
+    margin-top: -6px;
+    padding: 0 6px 1px 6px;
+    border-radius: 0;
+    border-width: 1px;
+    border-color: rgb(46, 18, 51);
+    background-color: rgb(203, 213, 189);
+}
+
+.map-port.here .map-port-name {
+    font-size: var(--t-body);
+}
+
+/* a port only heard of: faded, its dot hollow */
+.map-port.heard {
+    opacity: 0.55;
+}
+
+.map-port.heard .map-port-dot {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.map-port-note {
+    font-size: var(--t-quiet);
+    color: rgba(236, 235, 230, 0.85);
+    margin-left: 5px;
+    margin-top: 2px;
+    padding: 0 6px 1px 6px;
+    border-radius: 0;
+    border-width: 1px;
+    border-color: rgb(46, 18, 51);
+    background-color: rgb(203, 213, 189);
+}
+
+.map-ship {
+    position: absolute;
+    width: 18px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: rgb(20, 22, 26);
+    border-width: 3px;
+    border-color: rgba(255, 255, 255, 0.95);
+}
+
+.map-card {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 12px 16px;
+    color: rgb(232, 231, 226);
+}
+
+.map-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: 24px;
+    color: rgb(240, 239, 234);
+}
+
+.map-subtitle {
+    font-size: 12px;
+    color: rgba(232, 231, 226, 0.6);
+    margin-bottom: 8px;
+}
+
+.map-button {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    border-radius: 10px;
+    color: rgb(232, 231, 226);
+    font-size: 14px;
+    padding: 5px 12px;
+    margin: 2px 0;
+}
+
+.map-button:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.map-foot {
+    position: absolute;
+    left: 18px;
+    bottom: 16px;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 6px 10px;
+}
+
+.map-scalebar {
+    height: 4px;
+    background-color: rgb(232, 231, 226);
+    border-radius: 10px;
+}
+
+.map-scaletext {
+    font-size: var(--t-quiet);
+    color: rgb(232, 231, 226);
+    margin-left: 8px;
+}
+
+.map-hint {
+    font-size: 11px;
+    color: rgba(232, 231, 226, 0.55);
+    margin-left: 14px;
+}
+
+/* the chronicle: what has happened so far, newest first */
+.map-chronicle {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    bottom: 64px;
+    width: 440px;
+    max-width: 38%;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 12px 14px;
+    color: rgb(232, 231, 226);
+}
+
+.map-chronicle-list {
+    flex-grow: 1;
+    margin-top: 8px;
+}
+
+.map-chronicle-row {
+    padding: 6px 4px;
+    border-bottom-width: 1px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+}
+
+.map-chronicle-row:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.map-chronicle-when {
+    font-size: 11px;
+    color: rgba(232, 231, 226, 0.55);
+}
+
+.map-chronicle-title {
+    font-size: 14px;
+    color: rgb(236, 235, 230);
+    white-space: normal;
+}
+
+.map-foot-button {
+    margin: 0 0 0 14px;
+    padding: 2px 10px;
+    font-size: 12px;
+}
+/* the world's other ships (the simulation) */
+.map-sim-ship {
+    position: absolute;
+    width: 14px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: rgb(92, 70, 48);
+    border-width: 3px;
+    border-color: rgba(255, 255, 255, 0.9);
+}
+
+.map-sim-ship.picked {
+    background-color: rgb(170, 60, 44);
+}
+
+.map-ship-card {
+    position: absolute;
+    right: 18px;
+    bottom: 64px;
+    max-width: 320px;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 10px 12px;
+}
+
+.map-ship-card-text {
+    font-size: var(--t-quiet);
+    color: rgb(232, 231, 226);
+    white-space: normal;
+}
+
+/* THE PORT'S CARD, the words under it (MapView.FillPortWords): the month there in one plain line, then the word on
+   the goods you carry (WordLine: the same classes as in MarketPanel.uss, which this document does not load). */
+.map-port-words {
+    margin-top: 6px;
+    padding-top: 5px;
+    border-top-width: 1px;
+    border-color: rgba(0, 0, 0, 0.8);
+}
+
+.word-season {
+    font-size: 12px;
+    color: rgba(232, 231, 226, 0.85);
+    white-space: normal;
+    margin: 0 0 4px 0;
+    padding: 0;
+}
+
+.word-line {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0 0 4px 0;
+}
+
+.word-mark {
+    width: 12px;
+    height: 12px;
+    margin: 1px 5px 0 0;
+    flex-shrink: 0;
+    color: rgba(232, 231, 226, 0.72);
+}
+
+.word-mark.law {
+    color: rgb(222, 118, 100);
+}
+
+.word-mark.none {
+    color: rgba(232, 231, 226, 0.35);
+}
+
+.word-tilt {
+    width: 8px;
+    height: 12px;
+    margin: 1px 5px 0 0;
+    flex-shrink: 0;
+    color: rgba(232, 231, 226, 0.85);
+}
+
+.word-tilt.down {
+    color: rgba(232, 231, 226, 0.5);
+}
+
+.word-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    font-size: 11px;
+    -unity-font-style: italic;
+    color: rgba(232, 231, 226, 0.68);
+    white-space: normal;
+    padding: 0;
+    margin: 0;
+}
+
+.word-line.none .word-text {
+    color: rgba(232, 231, 226, 0.42);
+}
+
+/* ---------------------------------------------------------------- THE TABLE ABOARD (MapTable): the top bar, the
+   alerts, the outliner, the chest. The same black glass, thin black edge, square corners. */
+
+.map-topbar {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 4px 8px;
+}
+
+.map-topbar-date {
+    font-size: 15px;
+    color: rgb(240, 239, 234);
+    margin-right: 12px;
+}
+
+.map-topbar-speed {
+    flex-direction: row;
+    margin-right: 12px;
+}
+
+.map-speed-button {
+    font-size: 13px;
+    padding: 3px 9px;
+    margin: 0 0 0 -1px;
+}
+
+.map-speed-button.on {
+    background-color: rgba(232, 231, 226, 0.85);
+    color: rgb(34, 22, 40);
+}
+
+.map-topbar-figure {
+    font-size: 14px;
+    color: rgb(232, 231, 226);
+    margin-right: 12px;
+}
+
+.map-topbar-figure.warn {
+    color: rgb(222, 118, 100);
+}
+
+.map-topbar-button {
+    font-size: 13px;
+    padding: 3px 10px;
+    margin: 0 0 0 6px;
+}
+
+.map-topbar-button.lit {
+    border-color: rgb(232, 231, 226);
+}
+
+.map-topbar-button.warn {
+    background-color: rgba(170, 60, 44, 0.85);
+}
+
+.map-right {
+    position: absolute;
+    top: 66px;
+    right: 18px;
+    width: 380px;
+    max-height: 80%;
+    align-items: stretch;
+}
+
+.map-alerts {
+    margin-bottom: 6px;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 4px;
+}
+
+.map-alert-row {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    border-radius: 10px;
+    color: rgb(232, 231, 226);
+    font-size: 13px;
+    white-space: normal;
+    -unity-text-align: middle-left;
+    padding: 6px 10px;
+    margin: 2px 0;
+}
+
+.map-alert-row:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.map-alert-row.warn {
+    background-color: rgba(170, 60, 44, 0.75);
+}
+
+.map-outliner {
+    flex-shrink: 1;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 8px 12px;
+}
+
+.map-outliner-heading {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: 13px;
+    color: rgba(232, 231, 226, 0.6);
+    margin-top: 6px;
+}
+
+.map-outliner-text {
+    font-size: 13px;
+    color: rgb(232, 231, 226);
+    white-space: normal;
+    margin-top: 2px;
+}
+
+.map-outliner-hint {
+    font-size: 10px;
+    color: rgba(232, 231, 226, 0.4);
+    margin-top: 8px;
+    -unity-text-align: middle-right;
+}
+
+.map-chest {
+    position: absolute;
+    left: 22%;
+    right: 22%;
+    top: 12%;
+    bottom: 12%;
+    background-color: rgba(28, 18, 34, 0.98);                      /* (darker glass: pages of text over the busy map) */
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 12px 16px;
+}
+
+.map-chest-head {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-chest-tabs {
+    flex-direction: row;
+    margin: 8px 0;
+}
+
+.map-chest-tab {
+    margin: 0 0 0 -1px;
+    font-size: 13px;
+}
+
+.map-chest-tab.on {
+    background-color: rgba(232, 231, 226, 0.85);
+    color: rgb(34, 22, 40);
+}
+
+.map-chest-scroll {
+    flex-grow: 1;
+}
+
+.map-chest-note {
+    font-size: 13px;
+    color: rgba(232, 231, 226, 0.65);
+    white-space: normal;
+    margin: 4px 0 8px 0;
+}
+
+.map-chest-row {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 4px;
+    border-bottom-width: 1px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+}
+
+.map-chest-row:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.map-chest-row-name {
+    font-size: 14px;
+    color: rgb(236, 235, 230);
+}
+
+.map-chest-row-text {
+    font-size: 13px;
+    color: rgba(232, 231, 226, 0.75);
+}
+
+/* ---------------------------------------------------------------- HOVER CARDS (HoverCards): on the shared panel */
+
+.hover-card {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    /* (the card hangs on the panel itself, under none of the roots: it has the quiet size of its own, and its own floor) */
+    --t-quiet: 18px;
+    max-width: 480px;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 7px 10px;
+}
+
+.hover-card-text {
+    font-size: var(--t-quiet);
+    color: rgb(232, 231, 226);
+    white-space: normal;
+}
+
+/* ---------------------------------------------------------------- THE CHEST'S PAGES (ChestPanel): texts, riddles, notes */
+
+.map-chest-area {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.chest-columns {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.chest-list {
+    width: 32%;
+    margin-right: 10px;
+    border-right-width: 1px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+}
+
+.chest-detail {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.chest-scroll {
+    flex-grow: 1;
+}
+
+.chest-list-row {
+    background-color: rgba(255, 255, 255, 0.04);
+    border-width: 0 0 1px 0;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    border-radius: 10px;
+    margin: 0;
+    padding: 6px 8px;
+    align-items: flex-start;
+    color: rgb(232, 231, 226);
+}
+
+.chest-list-row:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.chest-list-row.on {
+    background-color: rgba(232, 231, 226, 0.16);
+    border-left-width: 3px;
+    border-left-color: rgb(232, 231, 226);
+}
+
+.chest-list-title {
+    font-size: 14px;
+    color: rgb(236, 235, 230);
+    white-space: normal;
+}
+
+.chest-list-sub {
+    font-size: 11px;
+    color: rgba(232, 231, 226, 0.55);
+}
+
+.chest-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: 18px;
+    color: rgb(240, 239, 234);
+    white-space: normal;
+}
+
+.chest-subhead {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: 13px;
+    color: rgba(232, 231, 226, 0.6);
+    margin-top: 12px;
+}
+
+.chest-switch {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 6px 0;
+}
+
+.chest-switch .map-button {
+    margin: 0 0 0 -1px;
+    font-size: 13px;
+}
+
+.chest-switch .map-button.on {
+    background-color: rgba(232, 231, 226, 0.85);
+    color: rgb(34, 22, 40);
+}
+
+.chest-why {
+    margin: 0 0 0 10px;
+    flex-shrink: 1;
+}
+
+.chest-text {
+    background-color: rgba(255, 255, 255, 0.04);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 10px 12px;
+    margin: 4px 0;
+}
+
+.chest-text.runic .chest-word {
+    -unity-font: url("Fonts/NotoSansRunic-Regular.ttf");
+    font-size: 20px;
+}
+
+.chest-line {
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 8px;
+}
+
+.chest-word {
+    font-size: 15px;
+    color: rgb(236, 235, 230);
+    margin: 0 5px 2px 0;
+    padding: 0 1px;
+}
+
+.chest-word:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.chest-word.marked {
+    background-color: rgba(196, 160, 72, 0.45);
+    color: rgb(255, 250, 235);
+}
+
+.chest-state {
+    font-size: 14px;
+    color: rgb(232, 231, 226);
+    white-space: normal;
+    margin-top: 8px;
+}
+
+.chest-tried {
+    font-size: 13px;
+    color: rgba(232, 231, 226, 0.6);
+    white-space: normal;
+}
+
+.chest-credit {
+    font-size: 11px;
+}
+
+.chest-drop {
+    margin: 8px 0;
+    min-height: 44px;
+    border-width: 3px;
+    border-color: rgba(232, 231, 226, 0.6);
+    background-color: rgba(255, 255, 255, 0.03);
+    align-items: center;
+    justify-content: center;
+}
+
+.chest-drop Label {
+    font-size: 13px;
+    color: rgba(232, 231, 226, 0.6);
+}
+
+.chest-drop.over {
+    background-color: rgba(196, 160, 72, 0.3);
+    border-color: rgb(232, 231, 226);
+}
+
+.chest-palette {
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 6px 8px;
+}
+
+.chest-palette-head {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chest-palette-head Label {
+    font-size: 12px;
+    color: rgba(232, 231, 226, 0.65);
+}
+
+.chest-search {
+    width: 160px;
+    margin: 0 0 0 8px;
+}
+
+.chest-chips {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.chest-chip-kind {
+    width: 100%;
+    font-size: 11px;
+    color: rgba(232, 231, 226, 0.45);
+    margin-top: 4px;
+}
+
+.chest-chip {
+    font-size: 13px;
+    color: rgb(236, 235, 230);
+    background-color: rgba(255, 255, 255, 0.08);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 2px 8px;
+    margin: 0 4px 4px 0;
+}
+
+.chest-chip:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.chest-chip.ghost {
+    background-color: rgba(196, 160, 72, 0.85);
+    color: rgb(34, 22, 40);
+}
+
+.chest-note {
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    background-color: rgba(214, 196, 150, 0.08);
+    padding: 4px 6px;
+    margin: 4px 0;
+}
+
+.chest-note-field {
+    min-height: 52px;
+}
+
+.chest-note-foot {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.chest-note-foot .map-chest-note {
+    margin: 0 10px 0 0;
+}
+
+.chest-note-foot .map-button {
+    font-size: 12px;
+    padding: 2px 8px;
+    margin: 0 4px 0 0;
+}
+
+/* a note pinned on the map */
+.map-note-pin {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgb(214, 196, 150);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    rotate: 45deg;
+}
+
+/* text boxes in the black-glass look */
+.chest-search > .unity-text-field__input, .chest-note-field > .unity-text-field__input {
+    background-color: rgba(0, 0, 0, 0.35);
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    border-radius: 10px;
+    color: rgb(236, 235, 230);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: 13px;
+}
+
+/* reading runes yourself */
+.rune-puzzle {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 6px 0;
+}
+
+.rune-word {
+    flex-direction: row;
+    margin: 0 14px 8px 0;
+    padding: 4px;
+    border-width: 3px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.rune-word.read {
+    border-color: rgb(240, 210, 122);
+    background-color: rgba(196, 160, 72, 0.15);
+}
+
+.rune-col {
+    align-items: center;
+    margin-right: 2px;
+}
+
+.rune-glyph {
+    -unity-font: url("Fonts/NotoSansRunic-Regular.ttf");
+    font-size: 24px;
+    color: rgb(236, 235, 230);
+}
+
+.rune-sound {
+    min-width: 24px;
+    font-size: 13px;
+    padding: 1px 4px;
+    margin: 0;
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    background-color: rgba(255, 255, 255, 0.08);
+    color: rgb(236, 235, 230);
+}
+
+/* the map's tools: dividers, pins, string */
+.map-foot-button.on {
+    background-color: rgba(232, 231, 226, 0.85);
+    color: rgb(34, 22, 40);
+}
+
+.map-measure {
+    position: absolute;
+    font-size: var(--t-quiet);
+    color: rgb(232, 231, 226);
+    background-color: rgba(34, 22, 40, 0.96);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 2px 7px;
+}
+
+.map-tool-hint {
+    position: absolute;
+    left: 18px;
+    bottom: 56px;
+    font-size: var(--t-quiet);
+    color: rgb(232, 231, 226);
+    background-color: rgba(34, 22, 40, 0.96);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 3px 9px;
+}
+
+/* verses and the old ways in the chest */
+.chest-kenning {
+    flex-direction: row;
+    align-items: center;
+    margin: 2px 0;
+}
+
+.chest-kenning-words {
+    font-size: 15px;
+    color: rgb(236, 235, 230);
+    width: 55%;
+    white-space: normal;
+}
+
+.chest-drop.small {
+    min-height: 26px;
+    flex-grow: 1;
+    margin: 0 0 0 8px;
+}
+
+.chest-drop.done {
+    border-color: rgb(240, 210, 122);
+    background-color: rgba(196, 160, 72, 0.2);
+}
+
+.chest-leg {
+    border-bottom-width: 1px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 4px 0;
+}
+
+.chest-leg.found {
+    border-left-width: 3px;
+    border-left-color: rgba(196, 160, 72, 0.9);
+    padding-left: 6px;
+}
+
+.chest-leg-words {
+    font-size: 14px;
+    color: rgb(236, 235, 230);
+    white-space: normal;
+}
+
+/* laying out an old text's legs on the map */
+.map-layout-card {
+    position: absolute;
+    left: 18px;
+    top: 178px;
+    width: 400px;
+    max-height: 60%;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 8px 10px;
+}
+
+.map-layout-legs {
+    flex-shrink: 1;
+}
+
+.map-layout-row {
+    border-bottom-width: 1px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 4px 0;
+}
+
+.map-layout-words {
+    font-size: 12px;
+    color: rgb(232, 231, 226);
+    white-space: normal;
+}
+
+.map-layout-row .map-button {
+    font-size: 12px;
+    padding: 2px 8px;
+    align-self: flex-start;
+}
+
+.chest-slots {
+    flex-direction: row;
+    margin: 8px 0 4px 0;
+}
+
+.chest-slots .chest-drop.small {
+    margin: 0 8px 0 0;
+}
+
+/* a hoard hunt's landmarks, close in */
+.map-landmark {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-width: 2px;
+    border-color: rgb(92, 70, 48);
+    background-color: rgba(214, 196, 150, 0.9);
+}
+
+.map-landmark-name {
+    position: absolute;
+    font-size: 12px;
+    color: rgb(48, 54, 62);
+    -unity-font-style: italic;
+}
+
+/* ---------------------------------------------------------------- WITH THE FRAME UP (MapView.Framed, 7 Oct 2026):
+   what is left of the map's own cards moves into the chart's free middle, clear of the frame's columns and its log */
+.map-root.framed .map-ship-card {
+    right: 1.6%;
+    bottom: 262px;
+}
+
+.map-root.framed .map-tool-hint {
+    left: 25.4%;
+    bottom: 262px;
+}
+
+.map-root.framed .map-layout-card {
+    left: 25.4%;
+    top: 120px;
+}
+
+/* ---------------------------------------------------------------- the floor: no text under 18 true px (TextFloor.cs;
+   the same classes as Frame.uss has: the number is the least size in panel px for the panel's scale now) */
+.map-root.t-floor-20 { --t-quiet: 20px; --t-body: 20px; }
+.map-root.t-floor-22 { --t-quiet: 22px; --t-body: 22px; }
+.map-root.t-floor-24 { --t-quiet: 24px; --t-body: 24px; }
+.map-root.t-floor-26 { --t-quiet: 26px; --t-body: 26px; --t-name: 26px; --t-title: 26px; }
+.map-root.t-floor-28 { --t-quiet: 28px; --t-body: 28px; --t-name: 28px; --t-title: 28px; }
+.map-root.t-floor-30 { --t-quiet: 30px; --t-body: 30px; --t-name: 30px; --t-title: 30px; }
+.map-root.t-floor-32 { --t-quiet: 32px; --t-body: 32px; --t-name: 32px; --t-title: 32px; }
+.map-root.t-floor-34 { --t-quiet: 34px; --t-body: 34px; --t-name: 34px; --t-title: 34px; }
+.map-root.t-floor-36 { --t-quiet: 36px; --t-body: 36px; --t-name: 36px; --t-title: 36px; }
+.hover-card.t-floor-20 { --t-quiet: 20px; }
+.hover-card.t-floor-22 { --t-quiet: 22px; }
+.hover-card.t-floor-24 { --t-quiet: 24px; }
+.hover-card.t-floor-26 { --t-quiet: 26px; }
+.hover-card.t-floor-28 { --t-quiet: 28px; }
+.hover-card.t-floor-30 { --t-quiet: 30px; }
+.hover-card.t-floor-32 { --t-quiet: 32px; }
+.hover-card.t-floor-34 { --t-quiet: 34px; }
+.hover-card.t-floor-36 { --t-quiet: 36px; }
+
+/* ---------------------------------------------------------------- the chart's other readings: the key (MapView.Modes.cs) */
+.map-mode-key {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    padding: 6px 10px 6px 8px;
+    background-color: rgb(203, 213, 189);
+    border-width: 2px;
+    border-top-color: rgb(238, 244, 228);
+    border-left-color: rgb(238, 244, 228);
+    border-right-color: rgb(86, 112, 88);
+    border-bottom-color: rgb(86, 112, 88);
+}
+
+.map-root.framed .map-mode-key {
+    left: 25.4%;
+    top: 72px;
+}
+
+.map-mode-head {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-quiet);
+    color: rgb(112, 41, 99);
+    margin-bottom: 3px;
+}
+
+.map-mode-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.map-mode-swatch {
+    width: 16px;
+    height: 16px;
+    margin-right: 7px;
+    border-width: 1px;
+    border-color: rgb(46, 18, 51);
+}
+
+.map-mode-name {
+    font-size: var(--t-quiet);
+    color: rgb(112, 41, 99);
+}

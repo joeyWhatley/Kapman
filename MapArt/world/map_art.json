@@ -1,0 +1,33 @@
+{
+ "about": "The chart's picture, in tiles the game shows under its marks (Game/Map/MapArt.cs). Redraw any tile at the same size and the game shows yours. The frame is the game's world frame (Lambert conformal, parallels 45N and 65N, centred 56N 5E; x east, z north, real metres). Tile t_<row>_<col>.png: row 0 is the northernmost, col 0 the westernmost. overview.png is the whole window at one sixth the size, shown when zoomed far out. overview_guide.png has the places of 793 marked: for drawing, not shown in the game.",
+ "west": -1105920.0,
+ "north": 1536000.0,
+ "metresPerPixel": 120.0,
+ "tilePixels": 4096,
+ "cols": 6,
+ "rows": 6,
+ "tiles": "t_{row}_{col}.png",
+ "overview": "overview.png",
+ "overviewPixels": 4096,
+ "palette": "Kapman2/Design/palette_byzantium.gpl",
+ "legend": {
+  "forest": "woodland; carr in the fen",
+  "meadow": "cleared land: fields and pasture about 800; the salt marsh's ground",
+  "grass": "heath and moor; the ground of peat and fen",
+  "grass with patches of forest and flecks of timber and reed light": "peat bog, fen and marsh",
+  "meadow with patches of reed light": "salt marsh",
+  "pale stone with patches of shallows": "tidal flats",
+  "pale sand": "beaches, bars and open dune sand",
+  "stone": "bare rock and mountain",
+  "snow": "snow and ice",
+  "shoal, one pixel": "small rivers and streams"
+ },
+ "made": "Bake/world/make_map_art.py from the world bake (level 2, 120 m), KK10 (1150 BP), ESA WorldCover 2021 and the scale-map bake's rivers and lakes",
+ "credits": [
+  "Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com.",
+  "Paleogeografische kaarten van Nederland, P.C. Vos & S. de Vries (Deltares/TNO), Rijksdienst voor het Cultureel Erfgoed, CC BY 4.0",
+  "HydroRIVERS (Lehner & Grill 2013), HydroSHEDS licence",
+  "Kaplan, J.O. and Krumhardt, K.M. (2011): The KK10 Anthropogenic Land Cover Change scenario, PANGAEA, CC BY 3.0",
+  "© ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium, CC BY 4.0"
+ ]
+}

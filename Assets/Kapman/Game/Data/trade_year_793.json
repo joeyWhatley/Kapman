@@ -1,0 +1,748 @@
+{
+ "about": "THE TRADING YEAR BY REGION (Design/research_trade_seasons_and_hints.md, section 2, as data; edit freely). For each trade region of goods_793.json and each month (1 January to 12 December): 'comes': the goods that come to its markets that month (plenty, and cheap); 'wanted': the goods it wants that month (dear); 'fairs': the fairs, markets and things that draw buyers; 'feasts': the feasts kept; 'closed': why no ship gets there that month (empty: the water is open); 'line': the month in one plain line, shown on the port's card on the map. The word on an item (Known.Word, rule 5, the season) reads 'wanted' and 'comes' for the port's region and month; with neither it falls back on the good's own dear and cheap months in goods_793.json. NOTHING HERE MOVES A PRICE: prices follow goods_793.json (made, wanted, cheap, dear) and seasons_793.json. So that the word never lies, every good under 'comes' is one the region makes in goods_793.json and never in one of its dear months, and every good under 'wanted' is one the region wants there and never in one of its cheap months (the tests check it). Items from the sources are plain; inferences are marked (guess). The fairs' months match fairs_793.json. The lines are placeholders for your words.",
+ "months": "1 January ... 12 December",
+ "regions": {
+  "rhine_delta": {
+   "name": "The Rhine delta: Dorestad, Utrecht",
+   "note": "The player's home. The riverbank toll of 777 and the mint all year. The river is closed only in the chronicle's hard winters (810/11, 813/14, 821/22, 859/60).",
+   "months": {
+    "1": {"comes": [], "wanted": ["stockfish"], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The river is quiet. Fish is wanted for the fast to come; the wine is still cheap."},
+    "2": {"comes": [], "wanted": ["stockfish", "herring", "tar"], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent begins: herring and stockfish sell. The Rhine runs high and little comes down (guess)."},
+    "3": {"comes": ["bar_iron"], "wanted": ["stockfish", "herring", "cattle", "tar"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The first boats move. Iron and the winter's stock go out; cattle are dear."},
+    "4": {"comes": ["bar_iron", "ships_bread"], "wanted": ["cattle"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter: the sailing season opens and the Frisians cross to England."},
+    "5": {"comes": ["bar_iron", "ships_bread"], "wanted": ["cattle"], "fairs": ["The king's assembly: his men buy horses and gifts (guess)"], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The king's men come to buy (guess). The fleets are out."},
+    "6": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Long days, light winds. The old wine is running low and dear."},
+    "7": {"comes": [], "wanted": ["oak_timber"], "fairs": [], "feasts": [], "closed": "", "line": "The best sailing. Wine is dearest now; timber is wanted for the ships."},
+    "8": {"comes": [], "wanted": ["oak_timber"], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest upstream. The quays are full of foreign ships."},
+    "9": {"comes": [], "wanted": ["oak_timber"], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The northern cargo comes south. The vintage starts on the Rhine."},
+    "10": {"comes": ["rhenish_wine"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The new wine comes down the Rhine, and cheap."},
+    "11": {"comes": ["rhenish_wine"], "wanted": ["whale_oil"], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "Martinmas: the new wine is in. The slaughter; the sea closes for most."},
+    "12": {"comes": ["rhenish_wine"], "wanted": ["whale_oil"], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. The ships are hauled up; the wine is cheap."}
+   }
+  },
+  "zeeland": {
+   "name": "The Scheldt and Maas mouths: Walcheren",
+   "note": "Walcheren is in Danish hands from 841 (Harald's grant): the toll becomes a gift in kind.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "Storms on the shoals. Little moves."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent. The salt pans lie under water."},
+    "3": {"comes": [], "wanted": ["badorf_ware"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The first Rhine boats bring pottery."},
+    "4": {"comes": [], "wanted": ["badorf_ware"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. Salt is running low and dear."},
+    "5": {"comes": [], "wanted": ["badorf_ware"], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The sheep are out on the salt marsh. Salt is dear."},
+    "6": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "The pans are dug and the peat is cut. Salt is dearest."},
+    "7": {"comes": ["cheese"], "wanted": ["oak_timber"], "fairs": [], "feasts": [], "closed": "", "line": "The salt making is on. Cheese comes to market."},
+    "8": {"comes": ["cheese"], "wanted": ["oak_timber"], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Cheese is plentiful. Ships want timber for repairs."},
+    "9": {"comes": ["sea_salt", "cheese", "madder"], "wanted": ["oak_timber"], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The new salt is ready, and cheap."},
+    "10": {"comes": ["sea_salt", "madder"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Salt is cheap; the madder is dug (guess)."},
+    "11": {"comes": ["sea_salt"], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The slaughter: everyone wants salt, and here it is cheap."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. Gales and floods on the islands."}
+   }
+  },
+  "frisia": {
+   "name": "Frisia: the mound country from West Frisia to the Ems",
+   "note": "The Frisians are above all carriers: the ships and the men. A ship makes two England runs a season (guess): over on the spring easterlies, home on the westerlies.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The looms are busy in every house. Butter is dear."},
+    "2": {"comes": ["sailcloth"], "wanted": ["tar", "bar_iron"], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "The ships are tarred and mended: tar and iron are wanted."},
+    "3": {"comes": ["frisian_cloth", "wool_cloth", "sailcloth"], "wanted": ["wheat", "rye", "tar", "bar_iron"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The new cloth is ready. Grain is running out on the mounds."},
+    "4": {"comes": ["frisian_cloth", "wool_cloth"], "wanted": ["wheat", "rye", "barley", "honey"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "The spring easterlies: the ships cross to England with cloth."},
+    "5": {"comes": [], "wanted": ["wheat", "rye", "barley", "honey"], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The hungry gap: grain is dear. The cattle go out to the marsh."},
+    "6": {"comes": ["raw_wool", "butter"], "wanted": ["wheat", "rye", "barley", "honey", "rhenish_wine"], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Shearing: the new wool. Butter is at its best."},
+    "7": {"comes": ["raw_wool", "butter", "cheese"], "wanted": ["rhenish_wine", "oak_timber"], "fairs": [], "feasts": [], "closed": "", "line": "Cheese and butter are plentiful. Timber is wanted, as ever."},
+    "8": {"comes": ["raw_wool", "butter", "cheese"], "wanted": ["rhenish_wine", "oak_timber", "quernstones"], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "The ships come home on the westerlies. Cheese is cheap."},
+    "9": {"comes": ["cheese", "cattle", "eels"], "wanted": ["oak_timber", "quernstones"], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The eel runs begin. Cattle are driven to market."},
+    "10": {"comes": ["cattle", "eels", "amber"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Cattle and oxen are sold. Amber is gathered after the gales."},
+    "11": {"comes": ["cattle", "eels", "cattle_hides", "amber"], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The slaughter: hides and horn are plentiful."},
+    "12": {"comes": ["cattle_hides", "amber"], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. The ships are hauled up and the looms start again."}
+   }
+  },
+  "rhineland": {
+   "name": "The Rhineland: Cologne, Mainz, the Eifel's Mayen",
+   "note": "The Frankfurt price caps of 794; the famine rules of Thionville (805) and Nijmegen (806); the Rhine frozen for thirty days in 821/22.",
+   "months": {
+    "1": {"comes": [], "wanted": ["wax"], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The pressed wine rests in the casks. Wax is wanted for Candlemas."},
+    "2": {"comes": [], "wanted": ["wax", "herring"], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent: fish from the coast sells. The potters and stone cutters build their stock."},
+    "3": {"comes": ["quernstones", "badorf_ware", "glass_vessels"], "wanted": ["herring", "cheese", "falcons"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The river opens: querns, pots and glass go down to the delta."},
+    "4": {"comes": ["quernstones", "badorf_ware", "glass_vessels"], "wanted": ["cheese", "falcons"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter: every church wants wine and wax. The boats are busy."},
+    "5": {"comes": ["quernstones", "badorf_ware", "glass_vessels"], "wanted": ["cheese", "falcons"], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The roads dry. The king holds his assembly (guess)."},
+    "6": {"comes": [], "wanted": ["amber"], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "The old wine runs low. Pepper and silk come up from the south."},
+    "7": {"comes": [], "wanted": ["amber"], "fairs": [], "feasts": [], "closed": "", "line": "Hay, and the hungry weeks: grain is dear until the harvest."},
+    "8": {"comes": ["wheat"], "wanted": ["amber", "walrus_ivory"], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest: grain is cheap. The towing paths are busy."},
+    "9": {"comes": ["wheat", "flour", "hops"], "wanted": ["walrus_ivory"], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The vintage begins south of Mainz."},
+    "10": {"comes": ["rhenish_wine", "wheat", "flour", "hops"], "wanted": ["marten", "squirrel", "sable"], "fairs": [], "feasts": [], "closed": "", "line": "The new wine is pressed and racked."},
+    "11": {"comes": ["rhenish_wine"], "wanted": ["marten", "squirrel", "sable"], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "Martinmas: the new wine goes down the river, cheap. Furs are wanted for the winter."},
+    "12": {"comes": ["rhenish_wine"], "wanted": ["marten", "squirrel", "sable"], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. Ice on the river in a hard year."}
+   }
+  },
+  "meuse": {
+   "name": "The Meuse valley: Maastricht, Huy, Dinant",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The founders work at Huy and Dinant. The river is high."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent. Little moves on the river."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The boats start down to the delta."},
+    "4": {"comes": ["brass"], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. Brass goes down river on the spring water."},
+    "5": {"comes": ["brass"], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The brass founders sell to the Rhine and the coast."},
+    "6": {"comes": ["brass"], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Low water begins: the boats load light."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Hay; grain is dear before the harvest."},
+    "8": {"comes": ["wheat"], "wanted": [], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest: wheat is cheap."},
+    "9": {"comes": ["wheat"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The grain goes down to the delta."},
+    "10": {"comes": ["wheat"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The autumn rains bring the water back."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "Martinmas. The slaughter."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. The river runs high and brown."}
+   }
+  },
+  "flanders": {
+   "name": "Flanders and the Scheldt: Ghent",
+   "months": {
+    "1": {"comes": ["salt_pork"], "wanted": ["raw_wool", "stockfish"], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The weavers want wool, and it is dear."},
+    "2": {"comes": [], "wanted": ["raw_wool", "stockfish", "herring"], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent: fish sells. The looms are busy."},
+    "3": {"comes": ["frisian_cloth", "wool_cloth"], "wanted": ["raw_wool", "stockfish", "herring"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The winter's cloth is ready."},
+    "4": {"comes": ["frisian_cloth", "wool_cloth", "linen"], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. Cloth goes to market; linen is bleached on the grass."},
+    "5": {"comes": ["linen"], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The sheep are washed for shearing."},
+    "6": {"comes": [], "wanted": ["frankish_wine"], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Shearing. The old wine is dear."},
+    "7": {"comes": [], "wanted": ["frankish_wine"], "fairs": [], "feasts": [], "closed": "", "line": "The flax is pulled."},
+    "8": {"comes": ["wheat", "flax"], "wanted": ["frankish_wine"], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest: wheat is cheap."},
+    "9": {"comes": ["wheat", "flax"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The flax is retted in the ditches."},
+    "10": {"comes": ["wheat"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The pigs are in the woods for the mast."},
+    "11": {"comes": ["salt_pork"], "wanted": ["woad", "madder", "alum"], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The slaughter: salt pork is laid down. The dyers want woad and madder."},
+    "12": {"comes": ["salt_pork"], "wanted": ["woad", "madder", "alum"], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. Spinning by the fire."}
+   }
+  },
+  "neustria": {
+   "name": "Neustria: Paris and Saint-Denis, the Seine, Rouen, Quentovic",
+   "note": "The breadbasket. Quentovic's mint and its tenth. The Channel short crossing runs most of the year; the Seine froze in 821/22.",
+   "months": {
+    "1": {"comes": [], "wanted": ["wax", "salmon"], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The abbeys' granaries are still full. Wax is wanted for Candlemas."},
+    "2": {"comes": [], "wanted": ["wax", "herring", "salmon"], "fairs": ["The fair of Saint Mathias at Saint-Denis (24 Feb)"], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent, and the fair of Saint Mathias at Saint-Denis."},
+    "3": {"comes": [], "wanted": ["herring", "falcons"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "Lent: salt fish sells at every abbey gate."},
+    "4": {"comes": ["linen"], "wanted": ["falcons"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter: wine for every church. The Channel crossing is busy again."},
+    "5": {"comes": ["horses", "linen"], "wanted": ["falcons"], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The king's men buy horses and hawks (guess)."},
+    "6": {"comes": ["horses"], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Old wine is dear. The hay is cut along the Seine."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The hungry weeks before the harvest."},
+    "8": {"comes": ["wheat", "woad"], "wanted": [], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest in the breadbasket: grain is cheap."},
+    "9": {"comes": ["wheat", "flour", "woad"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The vintage on the Seine begins."},
+    "10": {"comes": ["wheat", "flour", "frankish_wine"], "wanted": ["frisian_cloth", "marten", "ermine", "squirrel"], "fairs": ["The fair of Saint-Denis (from 9 Oct): Frisians and Saxons sell wool and cloth, and buy wine and honey"], "feasts": ["Saint Denis (9 Oct)"], "closed": "", "line": "The fair of Saint-Denis opens on the ninth: wine and honey for wool and cloth."},
+    "11": {"comes": ["frankish_wine"], "wanted": ["frisian_cloth", "marten", "ermine", "squirrel"], "fairs": ["The fair of Saint-Denis (from 9 Oct): Frisians and Saxons sell wool and cloth, and buy wine and honey"], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The fair runs on. The new wine is cheap; furs are wanted."},
+    "12": {"comes": ["frankish_wine"], "wanted": ["salmon", "marten", "ermine", "squirrel"], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. Salmon and furs for the great halls."}
+   }
+  },
+  "loire": {
+   "name": "The Loire and the Bay: Nantes, Noirmoutier's salt",
+   "note": "The Noirmoutier monks fled the Northmen every summer from 819 and left for good in 836. The Irish wine trade starts here.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "Winter gales in the Bay. The salt pans lie flooded."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent. The pans are cleaned out."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The first ships come for last year's salt."},
+    "4": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. Salt is running low and dear."},
+    "5": {"comes": [], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The pans are filled as the sun grows."},
+    "6": {"comes": [], "wanted": ["aquitaine_wine"], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "The salt making begins. Old wine is dear."},
+    "7": {"comes": [], "wanted": ["aquitaine_wine"], "fairs": [], "feasts": [], "closed": "", "line": "The salt is raked in the heat. Salt is still dear."},
+    "8": {"comes": [], "wanted": ["aquitaine_wine"], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "The new salt is heaped on the shore."},
+    "9": {"comes": ["sea_salt"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The salt ships load at Noirmoutier. The vintage begins."},
+    "10": {"comes": ["sea_salt", "frankish_wine"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Salt is cheap. The new wine is pressed."},
+    "11": {"comes": ["sea_salt", "frankish_wine"], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The slaughter everywhere: the last salt ships sail. Wine is cheap."},
+    "12": {"comes": ["frankish_wine"], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. Gales shut the Bay."}
+   }
+  },
+  "aquitaine": {
+   "name": "Aquitaine: Bordeaux and the Garonne",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The wine rests. Few ships cross the Bay in winter."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent. The vines are pruned."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The first ships for Ireland and Britain load wine."},
+    "4": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. Wine goes north for the churches."},
+    "5": {"comes": [], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The vines are in leaf. The sea road is open."},
+    "6": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "The old wine runs low and dear."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The heat. Little wine is left to sell."},
+    "8": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "The casks are made ready for the vintage."},
+    "9": {"comes": ["sea_salt"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The vintage begins on the Garonne."},
+    "10": {"comes": ["aquitaine_wine", "sea_salt"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The new wine is pressed, and cheap."},
+    "11": {"comes": ["aquitaine_wine", "sea_salt"], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The wine ships sail for Ireland before the gales."},
+    "12": {"comes": ["aquitaine_wine"], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. The Bay is shut by storms."}
+   }
+  },
+  "saxony": {
+   "name": "Saxony: Westphalia, Engern, Eastphalia",
+   "note": "The Saxon wars last until 804: a newly baptised country, whose new churches want everything.",
+   "months": {
+    "1": {"comes": ["salt_pork", "oak_timber"], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "Oak is felled in the frost and sledged to the rivers."},
+    "2": {"comes": ["oak_timber"], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent in a newly baptised land. Timber is cheap."},
+    "3": {"comes": ["oak_timber"], "wanted": ["books", "relics", "incense"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The rafts go down the Weser and the Ems. The new churches want books."},
+    "4": {"comes": [], "wanted": ["books", "relics", "incense"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter: the missions want relics, books and incense."},
+    "5": {"comes": [], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The king's army may be on the march (guess): the roads are not safe."},
+    "6": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Midsummer. Honey is dear until the hives are taken."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Hay. The rye stands ripe."},
+    "8": {"comes": ["rye", "honey", "wax"], "wanted": [], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest: rye is cheap. The hives are taken: honey and wax."},
+    "9": {"comes": ["rye", "honey", "wax", "hazelnuts", "cattle"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "Cattle are driven west to market. Nuts are gathered."},
+    "10": {"comes": ["rye", "honey", "wax", "hazelnuts", "cattle"], "wanted": ["rock_salt"], "fairs": [], "feasts": [], "closed": "", "line": "The pigs fatten in the oak woods. Salt is wanted."},
+    "11": {"comes": ["cattle", "salt_pork", "cattle_hides"], "wanted": ["rock_salt"], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The slaughter: salt pork and hides in plenty."},
+    "12": {"comes": ["salt_pork", "cattle_hides"], "wanted": ["incense", "church_plate"], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. The first hard frosts open the woods for felling."}
+   }
+  },
+  "england_south": {
+   "name": "Southern England: London, Hamwic, Kent",
+   "note": "London's tolls are taken by the ship (c. 1000). The Danegeld years drain the silver (991, 994, 1002, 1007, 1012, 1018).",
+   "months": {
+    "1": {"comes": ["salt_pork"], "wanted": ["wax"], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The weavers want wool; the minsters want wax for Candlemas."},
+    "2": {"comes": [], "wanted": ["wax"], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent. The cloaks are finished for the spring ships."},
+    "3": {"comes": ["wool_cloth"], "wanted": ["falcons"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The Frisians come over on the easterlies. Cloth goes to market."},
+    "4": {"comes": ["wool_cloth"], "wanted": ["falcons"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter: every minster and hall wants wine."},
+    "5": {"comes": ["lead"], "wanted": ["falcons"], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The Channel is busy. Lead comes down from the Mendips (guess)."},
+    "6": {"comes": ["raw_wool", "lead"], "wanted": ["frankish_wine", "rhenish_wine"], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Shearing: the new wool is cheap. Old wine is dear."},
+    "7": {"comes": ["raw_wool", "lead"], "wanted": ["frankish_wine", "rhenish_wine"], "fairs": [], "feasts": [], "closed": "", "line": "Wine is dearest now. Wool is plentiful."},
+    "8": {"comes": ["raw_wool", "wheat", "honey"], "wanted": ["frankish_wine", "rhenish_wine", "quernstones"], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest: grain is cheap, and the black stones are wanted to grind it."},
+    "9": {"comes": ["wheat", "honey"], "wanted": ["quernstones"], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The Frisians go home on the westerlies, laden with wool."},
+    "10": {"comes": ["wheat", "honey"], "wanted": ["marten"], "fairs": [], "feasts": [], "closed": "", "line": "The last ships cross before the gales. The new wine is on its way."},
+    "11": {"comes": ["salt_pork"], "wanted": ["marten"], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The slaughter. The new wine comes over, and cheap."},
+    "12": {"comes": ["salt_pork"], "wanted": ["marten", "glass_vessels"], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas: the halls feast. Furs and glass are wanted."}
+   }
+  },
+  "england_east": {
+   "name": "East Anglia and the Fens: Ipswich",
+   "months": {
+    "1": {"comes": [], "wanted": ["stockfish"], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The fens are flooded and frozen. Dried fish is wanted."},
+    "2": {"comes": [], "wanted": ["stockfish", "tar"], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent: last autumn's herring is nearly gone, and dear."},
+    "3": {"comes": ["wool_cloth"], "wanted": ["stockfish", "tar"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The boats are tarred. The winter's cloth goes to market."},
+    "4": {"comes": ["wool_cloth", "ipswich_ware"], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. The potters at Ipswich fire their kilns again (guess)."},
+    "5": {"comes": ["ipswich_ware"], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "Pots go up every river. The sheep are washed."},
+    "6": {"comes": ["raw_wool", "ipswich_ware"], "wanted": ["rhenish_wine", "frankish_wine"], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Shearing: wool is cheap here."},
+    "7": {"comes": ["raw_wool"], "wanted": ["rhenish_wine", "frankish_wine", "whetstones"], "fairs": [], "feasts": [], "closed": "", "line": "Hay: whetstones are wanted for the scythes. Wine is dear."},
+    "8": {"comes": ["raw_wool", "barley"], "wanted": ["rhenish_wine", "frankish_wine", "quernstones", "whetstones"], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest: barley is cheap. Querns are wanted."},
+    "9": {"comes": ["barley", "malt", "herring", "eels"], "wanted": ["quernstones"], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The herring shoals come down the coast. The eel runs begin."},
+    "10": {"comes": ["barley", "malt", "herring", "eels"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Herring is salted by the boatload, and cheap."},
+    "11": {"comes": ["herring", "eels"], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The fen eels are taken in their thousands. The slaughter."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. The malt is brewed for the feast."}
+   }
+  },
+  "northumbria": {
+   "name": "Northumbria: York, Lindisfarne, Whitby",
+   "note": "After 866 the Danish York wants the Norse goods too: soapstone, whetstones, furs, and ties to Dublin.",
+   "months": {
+    "1": {"comes": [], "wanted": ["wax"], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "Snow on the moors. The monks want wax and oil for the long nights."},
+    "2": {"comes": [], "wanted": ["wax"], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent at Lindisfarne and Jarrow."},
+    "3": {"comes": [], "wanted": ["pigments", "incense"], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The scribes want pigments as the light comes back."},
+    "4": {"comes": ["jet"], "wanted": ["pigments", "incense"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. Jet is gathered under the cliffs at Whitby after the winter (guess)."},
+    "5": {"comes": ["jet", "parchment"], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The first ships from Frisia reach the Humber."},
+    "6": {"comes": ["raw_wool", "salmon", "parchment"], "wanted": ["rhenish_wine"], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Shearing. The salmon run in the Tyne and the Tweed."},
+    "7": {"comes": ["raw_wool", "salmon"], "wanted": ["rhenish_wine"], "fairs": [], "feasts": [], "closed": "", "line": "Salmon is cheap. Wine is dear."},
+    "8": {"comes": ["raw_wool", "salmon", "barley", "oats"], "wanted": ["rhenish_wine"], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest in the vale of York."},
+    "9": {"comes": ["barley", "oats"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "Oats and barley are cheap. The autumn gales begin."},
+    "10": {"comes": ["barley", "oats"], "wanted": ["brine_salt"], "fairs": [], "feasts": [], "closed": "", "line": "Salt is wanted for the winter's meat."},
+    "11": {"comes": [], "wanted": ["brine_salt", "olive_oil"], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The slaughter. Few ships come this far north now."},
+    "12": {"comes": [], "wanted": ["incense", "olive_oil"], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. The coast is shut by gales."}
+   }
+  },
+  "mercia_west": {
+   "name": "Western Mercia: Chester, Droitwich",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The salt houses at Droitwich boil on through the winter."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Lent. The pack roads are mud."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The salt ways open as the roads dry."},
+    "4": {"comes": [], "wanted": ["ipswich_ware"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. Pack horses carry salt to every shire."},
+    "5": {"comes": ["lead"], "wanted": ["ipswich_ware"], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "Lead is dug in the hills (guess)."},
+    "6": {"comes": ["brine_salt", "lead"], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "The brine is boiled day and night."},
+    "7": {"comes": ["brine_salt", "lead"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Salt is stacked for the autumn."},
+    "8": {"comes": ["brine_salt", "lead"], "wanted": [], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "Harvest. Lead goes down the Severn."},
+    "9": {"comes": ["brine_salt"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "Carts come from every shire for salt."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Salt is carried off for the slaughter."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The slaughter: the salt houses are emptied."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. The Dee and the Severn run high."}
+   }
+  },
+  "cornwall": {
+   "name": "Cornwall (Dumnonia): tin",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "Winter gales on a hard coast: no ship rounds the Lizard (guess).", "line": "Gales. The tin streams run too full to work."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "Winter gales on a hard coast: no ship rounds the Lizard (guess).", "line": "Winter still. Nobody comes."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The first ships dare the Lizard."},
+    "4": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "The tin streamers go back to the moors."},
+    "5": {"comes": ["tin"], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "Tin is washed from the streams (guess)."},
+    "6": {"comes": ["tin"], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Tin is smelted and run into blocks."},
+    "7": {"comes": ["tin"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Ships from the Loire and Hamwic come for tin."},
+    "8": {"comes": ["tin"], "wanted": [], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "The best of the tin trade."},
+    "9": {"comes": ["tin"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The last tin ships load before the gales."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The streams rise. The work stops."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "Storms. The coast is empty."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "Winter gales on a hard coast: no ship rounds the Lizard (guess).", "line": "Midwinter. Nothing moves."}
+   }
+  },
+  "wales": {
+   "name": "Wales",
+   "months": {
+    "1": {"comes": ["yew_staves"], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "Yew is cut in the hills while the sap is down (guess)."},
+    "2": {"comes": ["yew_staves"], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "", "line": "Staves are split and stacked to season."},
+    "3": {"comes": ["yew_staves"], "wanted": [], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The staves are carried down to the coast."},
+    "4": {"comes": ["bows"], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. The bowyers sell their winter's work."},
+    "5": {"comes": ["bows"], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The cattle go up to the summer dwellings."},
+    "6": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Midsummer. The princes ride between their halls."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Hay on the hill farms."},
+    "8": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "A thin harvest of oats."},
+    "9": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The cattle come down from the hills."},
+    "10": {"comes": [], "wanted": ["brine_salt"], "fairs": [], "feasts": [], "closed": "", "line": "Salt is wanted before the slaughter."},
+    "11": {"comes": [], "wanted": ["brine_salt"], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The slaughter."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Midwinter. The princes feast in their halls."}
+   }
+  },
+  "ireland": {
+   "name": "Ireland",
+   "note": "Dublin from 841: captives are traded northwards (871: two hundred ships of captives).",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "", "line": "The kings keep to their halls. Salmon is dear."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Saint Brigid (1 Feb): the first milk", "Lent begins (in March some years)"], "closed": "", "line": "Saint Brigid's day: the first milk. Lent begins."},
+    "3": {"comes": [], "wanted": ["pigments"], "fairs": [], "feasts": ["Lent: no meat", "Saint Patrick (17 Mar)"], "closed": "", "line": "Lent. The monasteries want pigments for their books."},
+    "4": {"comes": [], "wanted": ["sea_salt", "pigments", "swords"], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. Salt is dear; the wine ships are awaited."},
+    "5": {"comes": [], "wanted": ["sea_salt", "swords"], "fairs": [], "feasts": ["Beltaine (1 May): the cattle go to the summer pastures", "Pentecost"], "closed": "", "line": "Beltaine: the cattle go to the summer pastures."},
+    "6": {"comes": ["butter", "salmon"], "wanted": ["aquitaine_wine", "frankish_wine", "sea_salt"], "fairs": [], "feasts": ["Saint Columba (9 Jun)", "Saint John (24 Jun)"], "closed": "", "line": "Butter is at its best. The salmon run."},
+    "7": {"comes": ["butter", "salmon"], "wanted": ["aquitaine_wine", "frankish_wine"], "fairs": [], "feasts": [], "closed": "", "line": "The wine ships from the Loire and Bordeaux come in. Wine is dear."},
+    "8": {"comes": ["butter", "salmon", "oats"], "wanted": ["aquitaine_wine", "frankish_wine"], "fairs": ["The fair of Tailtiu at Lughnasa (early August)"], "feasts": ["Lughnasa (1 Aug)"], "closed": "", "line": "Lughnasa: the fair of Tailtiu. The oats are cut."},
+    "9": {"comes": ["oats", "cattle", "captives"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep)"], "closed": "", "line": "The cattle come back from the hills. Captives come to market after the summer."},
+    "10": {"comes": ["oats", "cattle", "captives"], "wanted": ["brine_salt"], "fairs": [], "feasts": [], "closed": "", "line": "Cattle are counted and sold: they are the wealth here."},
+    "11": {"comes": ["cattle", "cattle_hides"], "wanted": ["brine_salt"], "fairs": [], "feasts": ["Samain (1 Nov)", "Martinmas (11 Nov)"], "closed": "", "line": "Samain: the slaughter. Hides in plenty."},
+    "12": {"comes": ["cattle_hides"], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "", "line": "Christmas. Storms shut the western sea."}
+   }
+  },
+  "dalriata": {
+   "name": "Dal Riata and the Isles: Iona",
+   "months": {
+    "1": {"comes": ["otter"], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "Winter storms cut the isles off (guess).", "line": "Winter in the isles. Otters are trapped for their winter coats."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Saint Brigid (1 Feb): the first milk", "Lent begins (in March some years)"], "closed": "Winter storms cut the isles off (guess).", "line": "Lent on Iona."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lent: no meat", "Saint Patrick (17 Mar)"], "closed": "", "line": "Gales still. The fish is hung to dry (guess)."},
+    "4": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. The first skin boats cross from Ireland."},
+    "5": {"comes": ["dried_fish"], "wanted": [], "fairs": [], "feasts": ["Beltaine (1 May): the cattle go to the summer pastures", "Pentecost"], "closed": "", "line": "The sea road between Ireland and the isles is open."},
+    "6": {"comes": ["salmon", "dried_fish"], "wanted": ["aquitaine_wine"], "fairs": [], "feasts": ["Saint Columba (9 Jun)", "Saint John (24 Jun)"], "closed": "", "line": "The salmon run. Dried fish comes to market."},
+    "7": {"comes": ["salmon"], "wanted": ["aquitaine_wine"], "fairs": [], "feasts": [], "closed": "", "line": "The wine ships reach Iona, if they come at all. Wine is dear."},
+    "8": {"comes": ["salmon", "oats"], "wanted": ["aquitaine_wine"], "fairs": [], "feasts": ["Lughnasa (1 Aug)"], "closed": "", "line": "The oats are cut."},
+    "9": {"comes": ["oats"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep)"], "closed": "", "line": "Oats are cheap. The autumn gales begin."},
+    "10": {"comes": ["oats"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The boats are drawn up."},
+    "11": {"comes": ["otter"], "wanted": [], "fairs": [], "feasts": ["Samain (1 Nov)", "Martinmas (11 Nov)"], "closed": "", "line": "Samain. Otter pelts are at their best."},
+    "12": {"comes": ["otter"], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "Winter storms cut the isles off (guess).", "line": "Christmas on Iona. Storms."}
+   }
+  },
+  "shetland": {
+   "name": "Shetland and Orkney",
+   "note": "Pictish and Christian in 793; Norse from about 800.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "The northern sea is shut by gales and the dark.", "line": "Dark and storm. No ship comes."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The northern sea is shut by gales and the dark.", "line": "Storms still."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The northern sea is shut by gales and the dark.", "line": "The days lengthen. The sea is still too wild."},
+    "4": {"comes": [], "wanted": [], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The first ships from Norway may come west."},
+    "5": {"comes": ["soapstone"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Soapstone is cut from the rock face (guess)."},
+    "6": {"comes": ["soapstone"], "wanted": [], "fairs": [], "feasts": ["Midsummer"], "closed": "", "line": "Light all night. Ships pass on their way west and south."},
+    "7": {"comes": ["soapstone"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The stone bowls are carved and sold to passing ships."},
+    "8": {"comes": ["soapstone"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The last of the summer's ships. Fish is dried on the stones."},
+    "9": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The gales begin. The ships go home."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "", "line": "The boats are drawn up."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The northern sea is shut by gales and the dark.", "line": "The sea is shut."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "The northern sea is shut by gales and the dark.", "line": "Midwinter. Nothing moves."}
+   }
+  },
+  "jutland": {
+   "name": "Jutland: Ribe",
+   "note": "Ribe is a summer market in the 8th century (booths and workshops, no houses), a town later. The king's man takes his due in gifts.",
+   "months": {
+    "1": {"comes": [], "wanted": ["antler"], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "Ice in the shallows and winter gales: no ship comes (guess).", "line": "Midwinter. The comb makers want antler."},
+    "2": {"comes": [], "wanted": ["antler"], "fairs": [], "feasts": [], "closed": "Ice in the shallows and winter gales: no ship comes (guess).", "line": "Ice on the shallows. The halls live on their stores."},
+    "3": {"comes": [], "wanted": ["swords"], "fairs": [], "feasts": [], "closed": "", "line": "The ships are tarred. The chieftains want swords before the season (guess)."},
+    "4": {"comes": ["antler"], "wanted": ["raw_glass", "sea_salt", "swords"], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The sea opens. Shed antler is gathered in the woods."},
+    "5": {"comes": ["glass_beads", "combs", "amber_beads", "antler"], "wanted": ["raw_glass", "sea_salt"], "fairs": ["The summer market at Ribe: bead makers, comb makers and bronze casters in their booths"], "feasts": [], "closed": "", "line": "The summer market opens at Ribe: the bead makers want glass."},
+    "6": {"comes": ["glass_beads", "combs", "amber_beads", "brooches", "antler"], "wanted": ["rhenish_wine", "sea_salt"], "fairs": ["The summer market at Ribe: bead makers, comb makers and bronze casters in their booths"], "feasts": ["Midsummer"], "closed": "", "line": "The market is full: beads, combs, brooches. Wine is dear."},
+    "7": {"comes": ["glass_beads", "combs", "amber_beads", "brooches"], "wanted": ["rhenish_wine"], "fairs": ["The summer market at Ribe: bead makers, comb makers and bronze casters in their booths"], "feasts": [], "closed": "", "line": "The Frisians bring pots, querns and wine. The best of the market."},
+    "8": {"comes": ["glass_beads", "combs", "amber_beads", "brooches", "rye", "barley"], "wanted": ["rhenish_wine", "quernstones"], "fairs": ["The summer market at Ribe: bead makers, comb makers and bronze casters in their booths"], "feasts": [], "closed": "", "line": "Harvest: rye and barley. Querns are wanted."},
+    "9": {"comes": ["rye", "barley", "cattle"], "wanted": ["quernstones"], "fairs": [], "feasts": [], "closed": "", "line": "The market is over. Cattle are driven down the ox road."},
+    "10": {"comes": ["rye", "barley", "cattle", "amber"], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "", "line": "Winter nights. Amber is gathered after the gales."},
+    "11": {"comes": ["cattle", "amber"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The ships are hauled up. Amber is cheap."},
+    "12": {"comes": ["amber"], "wanted": ["antler"], "fairs": [], "feasts": ["Yule"], "closed": "", "line": "Yule. The booths at Ribe stand empty."}
+   }
+  },
+  "schleswig": {
+   "name": "Schleswig: Sliesthorp (Hedeby)",
+   "note": "The hub between the Baltic and the west: the portage at Hollingstedt (under 15 km) saves the passage round Skagen. Ibrahim ibn Yaqub (960s) saw a feast with sacrifice here.",
+   "months": {
+    "1": {"comes": [], "wanted": ["antler"], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "The Schlei is frozen (guess).", "line": "Ice on the Schlei. The craftsmen want antler."},
+    "2": {"comes": [], "wanted": ["antler"], "fairs": [], "feasts": [], "closed": "The Schlei is frozen (guess).", "line": "Still frozen. Sledges cross the fjord."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The Schlei is frozen (guess).", "line": "The ice breaks. The ships are made ready."},
+    "4": {"comes": [], "wanted": ["raw_glass", "brass"], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The portage from the west opens: glass and brass are wanted."},
+    "5": {"comes": [], "wanted": ["raw_glass", "brass"], "fairs": [], "feasts": [], "closed": "", "line": "The market fills from both seas."},
+    "6": {"comes": ["glass_beads", "combs", "amber_beads", "brooches"], "wanted": ["rhenish_wine"], "fairs": ["The market at Sliesthorp: the portage from the west and the Baltic ships meet here"], "feasts": ["Midsummer"], "closed": "", "line": "The Baltic ships are in. Wine is dear."},
+    "7": {"comes": ["glass_beads", "combs", "amber_beads", "brooches"], "wanted": ["rhenish_wine"], "fairs": ["The market at Sliesthorp: the portage from the west and the Baltic ships meet here"], "feasts": [], "closed": "", "line": "The best of the trade between the two seas."},
+    "8": {"comes": ["glass_beads", "combs", "amber_beads", "brooches"], "wanted": ["rhenish_wine", "whetstones", "soapstone", "quernstones"], "fairs": ["The market at Sliesthorp: the portage from the west and the Baltic ships meet here"], "feasts": [], "closed": "", "line": "The northern cargo arrives: whetstones, soapstone, furs."},
+    "9": {"comes": [], "wanted": ["whetstones", "soapstone", "quernstones"], "fairs": [], "feasts": [], "closed": "", "line": "The last Baltic crossings. The market thins."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "", "line": "Winter nights. The traders go home."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The ships are hauled up along the fjord."},
+    "12": {"comes": [], "wanted": ["antler"], "fairs": [], "feasts": ["Yule"], "closed": "The Schlei is frozen (guess).", "line": "Yule. Feasting and sacrifice (guess at the month)."}
+   }
+  },
+  "danish_isles": {
+   "name": "The Danish isles: Lejre",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "Ice in the Belts in a hard winter (guess).", "line": "Midwinter at Lejre: the king feasts his men."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice in the Belts in a hard winter (guess).", "line": "Ice in the Belts. Herring is nearly gone, and dear."},
+    "3": {"comes": [], "wanted": ["swords"], "fairs": [], "feasts": [], "closed": "", "line": "The king's men fit out. Swords are wanted."},
+    "4": {"comes": [], "wanted": ["swords", "horses", "captives"], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The summer sacrifice. The ships are launched."},
+    "5": {"comes": [], "wanted": ["horses", "captives"], "fairs": [], "feasts": [], "closed": "", "line": "The fleets are out. Horses are wanted for the king's men."},
+    "6": {"comes": ["butter"], "wanted": [], "fairs": [], "feasts": ["Midsummer"], "closed": "", "line": "Midsummer. Butter is plentiful."},
+    "7": {"comes": ["butter"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The halls are half empty: the men are at sea."},
+    "8": {"comes": ["barley", "butter"], "wanted": ["quernstones"], "fairs": [], "feasts": [], "closed": "", "line": "Harvest: barley is cheap. Querns are wanted."},
+    "9": {"comes": ["barley", "herring"], "wanted": ["quernstones"], "fairs": [], "feasts": [], "closed": "", "line": "The herring come into the Sound."},
+    "10": {"comes": ["barley", "herring"], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "", "line": "Herring is salted in every bay, and cheap. The ships come home."},
+    "11": {"comes": ["herring"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The ships are hauled up."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "", "line": "Yule."}
+   }
+  },
+  "skane": {
+   "name": "Skane: Ahus",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "Ice along the Baltic shore (guess).", "line": "Ice along the shore."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice along the Baltic shore (guess).", "line": "Still frozen. Herring is nearly gone."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice along the Baltic shore (guess).", "line": "The ice goes out."},
+    "4": {"comes": [], "wanted": [], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The first ships come up the river to Ahus."},
+    "5": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The craftsmen set up their booths at Ahus (guess)."},
+    "6": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midsummer"], "closed": "", "line": "Midsummer. A small market on the river."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Ships pass between the Sound and the east."},
+    "8": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Harvest."},
+    "9": {"comes": ["herring"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The herring come to the coast."},
+    "10": {"comes": ["herring"], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "", "line": "Herring is salted, and cheap."},
+    "11": {"comes": ["herring"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The last ships pass. The boats are drawn up."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "", "line": "Yule."}
+   }
+  },
+  "wendland": {
+   "name": "The Wends: the Obodrites' Reric",
+   "note": "Reric was destroyed by Godfred in 808 and its merchants moved to Sliesthorp.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice along the south shore of the Baltic.", "line": "Ice on the bays. Furs are trapped in the woods."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice along the south shore of the Baltic.", "line": "Still frozen."},
+    "3": {"comes": ["marten"], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice along the south shore of the Baltic.", "line": "The ice goes out. The winter's furs come to market."},
+    "4": {"comes": ["marten"], "wanted": ["swords", "byrnies"], "fairs": [], "feasts": [], "closed": "", "line": "The ships come: swords and mail are wanted, law or no law."},
+    "5": {"comes": ["marten"], "wanted": ["swords", "byrnies", "glass_beads"], "fairs": [], "feasts": [], "closed": "", "line": "Furs are cheap. The Danes come to trade, and to take."},
+    "6": {"comes": [], "wanted": ["glass_beads"], "fairs": [], "feasts": ["Midsummer fires (guess)"], "closed": "", "line": "Midsummer. Honey is dear until the hives are cut."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The border is restless (guess)."},
+    "8": {"comes": ["honey", "wax", "rye", "flax"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Harvest. The wild hives are cut: honey and wax."},
+    "9": {"comes": ["honey", "wax", "rye", "flax", "captives", "herring"], "wanted": [], "fairs": [], "feasts": ["The harvest feast (guess)"], "closed": "", "line": "Honey and wax are cheap. Captives come to market after the summer."},
+    "10": {"comes": ["honey", "wax", "rye", "captives", "herring", "mead"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The herring come. Mead is brewed from the new honey."},
+    "11": {"comes": ["herring", "mead"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The last ships leave before the ice."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter (guess)"], "closed": "Ice along the south shore of the Baltic.", "line": "Midwinter. The shore is frozen."}
+   }
+  },
+  "prussia": {
+   "name": "The Prussians: Truso, the amber coast",
+   "note": "Wulfstan: seven days and nights under sail from Hedeby to Truso. No salt is made here.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The lagoon at Truso is frozen.", "line": "The lagoon is frozen. Amber is picked from the winter beaches."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The lagoon at Truso is frozen.", "line": "Frozen still. Sledges carry the amber inland."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The lagoon at Truso is frozen.", "line": "The ice begins to break."},
+    "4": {"comes": [], "wanted": ["sea_salt"], "fairs": [], "feasts": [], "closed": "", "line": "The first ships from Hedeby are awaited. Salt is dear."},
+    "5": {"comes": ["amber_beads"], "wanted": ["sea_salt", "swords", "iron_tools", "glass_beads"], "fairs": [], "feasts": [], "closed": "", "line": "The ships come: iron, swords and beads are wanted. The winter's amber is sold."},
+    "6": {"comes": ["amber_beads"], "wanted": ["sea_salt", "swords", "iron_tools", "glass_beads"], "fairs": [], "feasts": ["Midsummer fires (guess)"], "closed": "", "line": "Midsummer. Salt is dearest; none is made here."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The amber workers sell beads to the ships."},
+    "8": {"comes": ["honey", "wax"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The hives are cut: honey and wax."},
+    "9": {"comes": ["honey", "wax", "captives"], "wanted": [], "fairs": [], "feasts": ["The harvest feast (guess)"], "closed": "", "line": "Honey and wax are cheap. Captives are sold."},
+    "10": {"comes": ["amber", "honey", "wax", "captives"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The autumn gales throw amber on the beaches."},
+    "11": {"comes": ["amber"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Amber is cheap, but the last ships must leave before the ice."},
+    "12": {"comes": ["amber"], "wanted": [], "fairs": [], "feasts": ["Midwinter (guess)"], "closed": "The lagoon at Truso is frozen.", "line": "Midwinter. The lagoon freezes."}
+   }
+  },
+  "curonia": {
+   "name": "The Curonians: Grobina",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The eastern Baltic is frozen.", "line": "Frozen. Squirrels are trapped in their winter coats."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The eastern Baltic is frozen.", "line": "Frozen. Seals are taken on the ice (guess)."},
+    "3": {"comes": ["squirrel"], "wanted": [], "fairs": [], "feasts": [], "closed": "The eastern Baltic is frozen.", "line": "The winter's pelts are brought in."},
+    "4": {"comes": ["squirrel", "seal_oil"], "wanted": [], "fairs": [], "feasts": [], "closed": "The eastern Baltic is frozen.", "line": "The ice goes out late here."},
+    "5": {"comes": ["squirrel", "seal_oil"], "wanted": ["swords", "iron_tools", "glass_beads"], "fairs": [], "feasts": [], "closed": "", "line": "The Gotlanders come: iron and swords are wanted. Furs are cheap."},
+    "6": {"comes": [], "wanted": ["swords", "iron_tools", "glass_beads"], "fairs": [], "feasts": ["Midsummer fires (guess)"], "closed": "", "line": "Midsummer. The Northmen's settlement trades with the hill forts."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "A quiet coast, or a raided one."},
+    "8": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Harvest."},
+    "9": {"comes": ["captives"], "wanted": [], "fairs": [], "feasts": ["The harvest feast (guess)"], "closed": "", "line": "Captives are sold after the summer's fighting."},
+    "10": {"comes": ["amber", "captives"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The gales throw amber on the shore."},
+    "11": {"comes": ["amber"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The last ships leave before the ice."},
+    "12": {"comes": ["amber"], "wanted": [], "fairs": [], "feasts": ["Midwinter (guess)"], "closed": "The eastern Baltic is frozen.", "line": "Midwinter. The sea freezes."}
+   }
+  },
+  "finns": {
+   "name": "The Finns and Ests",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The Gulf of Finland is frozen, from late November to late April.", "line": "Deep winter. The trappers are out on skis."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The Gulf of Finland is frozen, from late November to late April.", "line": "The best pelts are taken now."},
+    "3": {"comes": ["squirrel", "sable", "ermine"], "wanted": [], "fairs": [], "feasts": [], "closed": "The Gulf of Finland is frozen, from late November to late April.", "line": "The winter's furs are gathered for the tribute and the traders."},
+    "4": {"comes": ["squirrel", "sable", "ermine"], "wanted": [], "fairs": [], "feasts": [], "closed": "The Gulf of Finland is frozen, from late November to late April.", "line": "The ice still holds the gulf."},
+    "5": {"comes": ["squirrel", "sable", "ermine"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The gulf opens. Furs are cheap at the river mouths."},
+    "6": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midsummer fires (guess)"], "closed": "", "line": "Midsummer: light all night. The fur traders come and go."},
+    "7": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The traders go on east to Ladoga."},
+    "8": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "A short harvest."},
+    "9": {"comes": [], "wanted": [], "fairs": [], "feasts": ["The harvest feast (guess)"], "closed": "", "line": "The traders pass back west."},
+    "10": {"comes": ["reindeer_hides"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Reindeer are killed for hides and meat (guess)."},
+    "11": {"comes": ["reindeer_hides"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The gulf begins to freeze."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter (guess)"], "closed": "The Gulf of Finland is frozen, from late November to late April.", "line": "Midwinter. Frozen."}
+   }
+  },
+  "vestfold": {
+   "name": "Vestfold and the Vik: Kaupang",
+   "note": "Ohthere: five days from Skiringssal to Hedeby. The Klastad ship (c. 990) sank with a cargo of whetstones. The market may have stayed a summer one.",
+   "months": {
+    "1": {"comes": ["oak_timber"], "wanted": [], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "The head of the Vik is frozen and the ships are hauled up (guess).", "line": "Midwinter. Oak and pine are felled and dragged on the snow."},
+    "2": {"comes": ["oak_timber", "masts"], "wanted": [], "fairs": [], "feasts": [], "closed": "The head of the Vik is frozen and the ships are hauled up (guess).", "line": "Iron is smelted from the bog ore. Timber is cheap."},
+    "3": {"comes": ["oak_timber", "masts"], "wanted": ["wheat", "sailcloth"], "fairs": [], "feasts": [], "closed": "The head of the Vik is frozen and the ships are hauled up (guess).", "line": "Grain is running short. The ships are tarred and rigged."},
+    "4": {"comes": ["bar_iron"], "wanted": ["wheat", "sea_salt", "swords", "walrus_rope", "sailcloth"], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The ships are launched. Salt and grain are dear."},
+    "5": {"comes": ["whetstones", "soapstone", "bar_iron", "tar"], "wanted": ["wheat", "sea_salt", "swords", "walrus_rope"], "fairs": ["The summer market at Skiringssal (Kaupang)"], "feasts": [], "closed": "", "line": "The market opens at Skiringssal. Iron comes down from the valleys."},
+    "6": {"comes": ["whetstones", "soapstone", "tar"], "wanted": ["wheat", "sea_salt", "rhenish_wine", "glass_vessels"], "fairs": ["The summer market at Skiringssal (Kaupang)"], "feasts": ["Midsummer"], "closed": "", "line": "Whetstones from Eidsborg and soapstone pots fill the booths."},
+    "7": {"comes": ["whetstones", "soapstone"], "wanted": ["rhenish_wine", "glass_vessels"], "fairs": ["The summer market at Skiringssal (Kaupang)"], "feasts": [], "closed": "", "line": "The best of the market: Frisians, Danes and men from the north. Wine is dear."},
+    "8": {"comes": [], "wanted": ["rhenish_wine"], "fairs": [], "feasts": [], "closed": "", "line": "The northern cargo passes south: furs, walrus rope, down."},
+    "9": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The last ships sail for Hedeby."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "", "line": "Winter nights: the ships are hauled up."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The halls live on their stores."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "The head of the Vik is frozen and the ships are hauled up (guess).", "line": "Yule."}
+   }
+  },
+  "norway_west": {
+   "name": "Western Norway: Avaldsnes, Hordaland",
+   "note": "Grain is wanted here in every bad year. Stockfish goes south only from about 1000.",
+   "months": {
+    "1": {"comes": ["oak_timber"], "wanted": [], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "No ship crosses the North Sea in winter.", "line": "Midwinter. Timber is felled; the looms are busy."},
+    "2": {"comes": ["masts", "oak_timber"], "wanted": [], "fairs": [], "feasts": [], "closed": "No ship crosses the North Sea in winter.", "line": "Masts are dragged to the fjords on the snow."},
+    "3": {"comes": ["masts", "oak_timber", "wadmal", "sailcloth"], "wanted": ["wheat", "barley"], "fairs": [], "feasts": [], "closed": "No ship crosses the North Sea in winter.", "line": "Grain is running out. The new wadmal and sailcloth are ready."},
+    "4": {"comes": ["masts", "wadmal", "sailcloth"], "wanted": ["wheat", "barley", "malt", "sea_salt", "honey", "swords"], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The ships are launched. Grain and salt are dear."},
+    "5": {"comes": ["soapstone", "tar"], "wanted": ["wheat", "barley", "malt", "sea_salt", "honey", "swords"], "fairs": [], "feasts": [], "closed": "", "line": "The men sail west and south. Soapstone is quarried."},
+    "6": {"comes": ["soapstone", "tar", "butter", "salmon", "stockfish", "eider_down"], "wanted": ["wheat", "barley", "malt", "sea_salt", "honey", "rhenish_wine"], "fairs": ["The Gulathing meets (from about 900)"], "feasts": ["Midsummer"], "closed": "", "line": "The Gulathing meets. Down is gathered; butter is at its best."},
+    "7": {"comes": ["soapstone", "butter", "salmon", "stockfish", "eider_down", "falcons"], "wanted": ["rhenish_wine"], "fairs": [], "feasts": [], "closed": "", "line": "Salmon and butter are cheap. Wine is dear, when there is any."},
+    "8": {"comes": ["soapstone", "butter", "salmon", "stockfish", "falcons"], "wanted": ["rhenish_wine"], "fairs": [], "feasts": [], "closed": "", "line": "The northern ships pass south with their cargo."},
+    "9": {"comes": ["falcons"], "wanted": ["frisian_cloth"], "fairs": [], "feasts": [], "closed": "", "line": "Falcons are taken on the cliffs. The ships come home."},
+    "10": {"comes": [], "wanted": ["frisian_cloth"], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "", "line": "Winter nights: the ships are hauled up. Cloth is wanted for the winter."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "No ship crosses the North Sea in winter.", "line": "The fjords are quiet. The slaughter."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "No ship crosses the North Sea in winter.", "line": "Yule ale in every hall."}
+   }
+  },
+  "norway_north": {
+   "name": "Halogaland and the Sami (Ohthere's country)",
+   "note": "Ohthere: the Sami tribute of marten, reindeer, bear and otter skins, feathers, and ship ropes of whale and seal hide. One could not sail to Skiringssal in a month, camping at night. Stockfish from about 1000.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "The northern coast is shut by the dark, ice and gales.", "line": "Dark all day. The cod come to Lofoten."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The northern coast is shut by the dark, ice and gales.", "line": "The cod fishing. The Sami bring their tribute of furs."},
+    "3": {"comes": ["squirrel", "marten", "ermine", "fox"], "wanted": [], "fairs": [], "feasts": [], "closed": "The northern coast is shut by the dark, ice and gales.", "line": "The fish hangs on the racks to dry. The furs are counted."},
+    "4": {"comes": ["squirrel", "marten", "ermine", "fox", "reindeer_hides", "antler"], "wanted": [], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The sun is back. The winter's furs and hides are ready to ship."},
+    "5": {"comes": ["squirrel", "marten", "ermine", "fox", "reindeer_hides", "antler"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The ships leave for the south with furs and hides."},
+    "6": {"comes": ["reindeer_hides", "antler", "stockfish", "eider_down"], "wanted": [], "fairs": [], "feasts": ["Midsummer"], "closed": "", "line": "Light all night. The dried fish comes off the racks. Down is gathered."},
+    "7": {"comes": ["stockfish", "eider_down", "falcons"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The walrus hunt in the White Sea. Falcons are taken."},
+    "8": {"comes": ["stockfish", "falcons", "walrus_ivory", "walrus_rope"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The hunters are home: walrus ivory and hide rope."},
+    "9": {"comes": ["falcons", "walrus_ivory", "walrus_rope"], "wanted": ["wadmal"], "fairs": [], "feasts": [], "closed": "", "line": "The last ships south. Cloth is wanted before the dark."},
+    "10": {"comes": [], "wanted": ["wadmal"], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "The northern coast is shut by the dark, ice and gales.", "line": "The sea is shut. The Sami go to their winter grounds."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The northern coast is shut by the dark, ice and gales.", "line": "Dark and storm."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "The northern coast is shut by the dark, ice and gales.", "line": "Midwinter."}
+   }
+  },
+  "svealand": {
+   "name": "The Svear: Birka, Uppsala",
+   "note": "Prime pelts are winter pelts. Birka's winter market, reached by sled and skate, is inferred; the Disting is attested late: both are the game's own dates. The one place to trade in winter.",
+   "months": {
+    "1": {"comes": [], "wanted": ["butter"], "fairs": ["The winter market at Birka, over the ice by sled and skate (inferred)"], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "The lake is frozen: no ship reaches Birka (a guess at the months), though sledges do.", "line": "The lake is frozen: the winter market at Birka, by sled and skate. Furs come in."},
+    "2": {"comes": ["bar_iron"], "wanted": ["butter"], "fairs": ["The winter market at Birka, over the ice by sled and skate (inferred)", "The Disting at Uppsala: a thing and a market (attested later)"], "feasts": [], "closed": "The lake is frozen: no ship reaches Birka (a guess at the months), though sledges do.", "line": "The Disting at Uppsala: a thing, a market and a sacrifice. Iron is sold."},
+    "3": {"comes": ["squirrel", "marten", "bar_iron"], "wanted": ["wheat", "butter"], "fairs": [], "feasts": [], "closed": "The lake is frozen: no ship reaches Birka (a guess at the months), though sledges do.", "line": "The winter's furs are sorted. Still ice."},
+    "4": {"comes": ["squirrel", "marten", "seal_oil"], "wanted": ["wheat", "sea_salt"], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The ice breaks on the lake. Grain and salt are dear."},
+    "5": {"comes": ["squirrel", "marten", "seal_oil"], "wanted": ["wheat", "sea_salt", "swords"], "fairs": [], "feasts": [], "closed": "", "line": "The first ships reach Birka. Furs are cheap."},
+    "6": {"comes": ["beaver", "brooches", "tar"], "wanted": ["wheat", "sea_salt", "rhenish_wine", "frisian_cloth", "silk", "glass_vessels", "swords"], "fairs": ["The summer market at Birka"], "feasts": ["Midsummer"], "closed": "", "line": "The summer market: Frisian cloth, glass and wine are wanted."},
+    "7": {"comes": ["beaver", "brooches", "tar"], "wanted": ["rhenish_wine", "frisian_cloth", "silk", "glass_vessels"], "fairs": ["The summer market at Birka"], "feasts": [], "closed": "", "line": "The best of the market. Silver from the east changes hands."},
+    "8": {"comes": ["beaver", "brooches", "rye"], "wanted": ["rhenish_wine", "frisian_cloth", "silk", "glass_vessels"], "fairs": ["The summer market at Birka"], "feasts": [], "closed": "", "line": "The eastern ships are home from Ladoga with silk and silver."},
+    "9": {"comes": ["rye"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The last ships leave for Hedeby."},
+    "10": {"comes": ["rye"], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "", "line": "Winter nights. The ships are hauled up."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The lake begins to freeze."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "The lake is frozen: no ship reaches Birka (a guess at the months), though sledges do.", "line": "Yule at Uppsala."}
+   }
+  },
+  "gotland": {
+   "name": "Gotland",
+   "note": "The Baltic's bank: farmers who are traders.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "Winter gales, and ice in the harbours (guess).", "line": "The farmers who are traders sit at home with their silver."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Winter gales, and ice in the harbours (guess).", "line": "Winter still."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Winter gales, and ice in the harbours (guess).", "line": "The ships are made ready."},
+    "4": {"comes": [], "wanted": ["sea_salt"], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "", "line": "The Gotlanders sail east and south. Salt is dear."},
+    "5": {"comes": [], "wanted": ["sea_salt"], "fairs": [], "feasts": [], "closed": "", "line": "Their ships are at Grobina, Truso and Ladoga."},
+    "6": {"comes": [], "wanted": ["sea_salt", "carnelian"], "fairs": [], "feasts": ["Midsummer"], "closed": "", "line": "Midsummer. Salt is dearest."},
+    "7": {"comes": [], "wanted": ["carnelian"], "fairs": [], "feasts": [], "closed": "", "line": "The island is the Baltic's meeting place."},
+    "8": {"comes": [], "wanted": ["carnelian"], "fairs": [], "feasts": [], "closed": "", "line": "Beads and silver come back from the east."},
+    "9": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The ships come home."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "", "line": "Winter nights. Silver is buried for safe keeping."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The boats are drawn up."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "Winter gales, and ice in the harbours (guess).", "line": "Yule."}
+   }
+  },
+  "ladoga": {
+   "name": "Ladoga: Aldeigjuborg, the gate to the east",
+   "note": "The dirham stream runs from about 800 to 1015, at its height 900-950. Ibn Fadlan (922): the Rus pray for a merchant with many dinars and dirhams.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ladoga and the Volkhov are frozen: the ice breaks in April or May.", "line": "Frozen. The furs come in by sled from the forests."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ladoga and the Volkhov are frozen: the ice breaks in April or May.", "line": "Frozen. The best pelts of the year."},
+    "3": {"comes": ["squirrel", "marten", "sable", "ermine"], "wanted": ["wheat"], "fairs": [], "feasts": [], "closed": "Ladoga and the Volkhov are frozen: the ice breaks in April or May.", "line": "The winter's furs are sorted and baled."},
+    "4": {"comes": ["squirrel", "marten", "sable", "ermine"], "wanted": ["wheat", "sea_salt"], "fairs": [], "feasts": [], "closed": "Ladoga and the Volkhov are frozen: the ice breaks in April or May.", "line": "The ice still holds. Grain and salt are dear."},
+    "5": {"comes": ["squirrel", "marten", "sable", "ermine", "beaver"], "wanted": ["wheat", "sea_salt"], "fairs": [], "feasts": [], "closed": "", "line": "The floods open the rivers. Furs are cheap."},
+    "6": {"comes": ["beaver", "captives"], "wanted": ["wheat", "sea_salt", "swords", "frisian_cloth", "glass_beads", "amber_beads"], "fairs": ["The river convoys leave for the south (the Dnieper convoys leave Kiev in June)"], "feasts": ["Midsummer fires (guess)"], "closed": "", "line": "The ships from the west arrive: swords, cloth and beads are wanted. The convoys go south."},
+    "7": {"comes": ["captives"], "wanted": ["swords", "frisian_cloth", "glass_beads", "amber_beads"], "fairs": [], "feasts": [], "closed": "", "line": "Silver and silk come up the rivers from the east."},
+    "8": {"comes": ["honey", "wax"], "wanted": ["frisian_cloth", "glass_beads", "amber_beads"], "fairs": [], "feasts": [], "closed": "", "line": "The hives are cut. The western ships load furs and wax."},
+    "9": {"comes": ["honey", "wax"], "wanted": [], "fairs": [], "feasts": ["The harvest feast (guess)"], "closed": "", "line": "The last ships leave for the Baltic."},
+    "10": {"comes": ["honey", "wax"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The first ice on the Volkhov."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ladoga and the Volkhov are frozen: the ice breaks in April or May.", "line": "The lake shore freezes."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter (guess)"], "closed": "Ladoga and the Volkhov are frozen: the ice breaks in April or May.", "line": "Midwinter. The trappers go out."}
+   }
+  },
+  "rus_volga": {
+   "name": "The Volga: the Bulgars, the furs of the north east",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The Volga is frozen.", "line": "The river is ice. Sable is trapped in the northern forests."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The Volga is frozen.", "line": "Frozen."},
+    "3": {"comes": ["sable"], "wanted": [], "fairs": [], "feasts": [], "closed": "The Volga is frozen.", "line": "The winter's sable comes down by sled."},
+    "4": {"comes": ["sable"], "wanted": [], "fairs": [], "feasts": [], "closed": "The Volga is frozen.", "line": "The ice breaks; the floods run."},
+    "5": {"comes": ["sable", "beaver"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The river opens. The Rus come down with furs and captives."},
+    "6": {"comes": ["beaver"], "wanted": ["captives"], "fairs": [], "feasts": ["Midsummer fires (guess)"], "closed": "", "line": "The market of the Bulgars: furs for silver."},
+    "7": {"comes": [], "wanted": ["captives"], "fairs": [], "feasts": [], "closed": "", "line": "Captives and furs go on down the river."},
+    "8": {"comes": ["wax"], "wanted": ["captives"], "fairs": [], "feasts": [], "closed": "", "line": "Wax and honey. The traders start back north."},
+    "9": {"comes": ["wax"], "wanted": [], "fairs": [], "feasts": ["The harvest feast (guess)"], "closed": "", "line": "The last boats go upriver."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The first ice."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The Volga is frozen.", "line": "Frozen."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter (guess)"], "closed": "The Volga is frozen.", "line": "Midwinter."}
+   }
+  },
+  "khazaria": {
+   "name": "The Khazars: Itil",
+   "note": "The Khazars take a tenth on the river trade.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The lower Volga is frozen.", "line": "The lower river is frozen. The khagan winters in his city."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The lower Volga is frozen.", "line": "Frozen."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The lower Volga is frozen.", "line": "The ice goes out."},
+    "4": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The Khazars go out to the summer pastures."},
+    "5": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The river trade begins. The tenth is taken on every boat."},
+    "6": {"comes": [], "wanted": ["captives"], "fairs": [], "feasts": [], "closed": "", "line": "The Rus arrive with furs and captives."},
+    "7": {"comes": ["musk"], "wanted": ["captives"], "fairs": [], "feasts": [], "closed": "", "line": "The caravans come in from the east."},
+    "8": {"comes": ["musk"], "wanted": ["captives"], "fairs": [], "feasts": [], "closed": "", "line": "The best of the market at Itil."},
+    "9": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The traders start for home."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The Khazars come back to the city."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The first ice."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The lower Volga is frozen.", "line": "Midwinter."}
+   }
+  },
+  "caliphate": {
+   "name": "The Caliphate: Baghdad, Egypt, Persia",
+   "note": "Its feasts follow the moon's year and move through the seasons, so none is fixed to a month here. News from here is months old in the north.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Winter in Baghdad: furs are worn at court."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The caravans rest."},
+    "3": {"comes": [], "wanted": ["falcons"], "fairs": [], "feasts": [], "closed": "", "line": "The spring caravans set out. Falcons are wanted."},
+    "4": {"comes": ["pepper", "cinnamon"], "wanted": ["falcons"], "fairs": [], "feasts": [], "closed": "", "line": "The ships from India come in on the monsoon (guess): pepper and cinnamon."},
+    "5": {"comes": ["pepper", "cinnamon", "silk"], "wanted": ["falcons"], "fairs": [], "feasts": [], "closed": "", "line": "Spices are plentiful. The caravans cross to the Caspian."},
+    "6": {"comes": ["silk"], "wanted": ["amber"], "fairs": [], "feasts": [], "closed": "", "line": "The heat begins. Amber is prized."},
+    "7": {"comes": [], "wanted": ["amber", "captives"], "fairs": [], "feasts": [], "closed": "", "line": "The northern traders reach the Caspian with furs and captives."},
+    "8": {"comes": [], "wanted": ["amber", "captives"], "fairs": [], "feasts": [], "closed": "", "line": "The slave markets are full."},
+    "9": {"comes": ["dates_figs"], "wanted": ["captives"], "fairs": [], "feasts": [], "closed": "", "line": "The dates are picked."},
+    "10": {"comes": ["dates_figs"], "wanted": ["sable", "marten", "squirrel"], "fairs": [], "feasts": [], "closed": "", "line": "The cold comes: furs are wanted, and dear."},
+    "11": {"comes": ["dates_figs", "sugar"], "wanted": ["sable", "marten", "squirrel"], "fairs": [], "feasts": [], "closed": "", "line": "Sable is worth its weight. The cane is cut (guess)."},
+    "12": {"comes": ["sugar"], "wanted": ["sable", "marten", "squirrel"], "fairs": [], "feasts": [], "closed": "", "line": "The court wears fur."}
+   }
+  },
+  "byzantium": {
+   "name": "Byzantium: Constantinople",
+   "note": "The treaty of 944 caps the silk a Rus may buy at 50 gold coins a man. Constantine VII: the Dnieper convoys leave Kiev in June.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "The sea is closed to ships for the winter.", "line": "The sea is closed. The city lives behind its walls."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "The sea is closed to ships for the winter.", "line": "Closed still."},
+    "3": {"comes": [], "wanted": ["falcons"], "fairs": [], "feasts": ["Lent: no meat"], "closed": "", "line": "Lent. The sea opens again. Falcons are wanted."},
+    "4": {"comes": [], "wanted": ["falcons"], "fairs": [], "feasts": ["Easter"], "closed": "", "line": "Easter in the Great Church."},
+    "5": {"comes": ["pepper", "cinnamon"], "wanted": ["falcons"], "fairs": [], "feasts": [], "closed": "", "line": "The spice ships come up from Egypt and Syria."},
+    "6": {"comes": ["pepper", "cinnamon", "silk"], "wanted": ["amber"], "fairs": [], "feasts": [], "closed": "", "line": "The Rus set out down the Dnieper with furs and captives."},
+    "7": {"comes": ["silk"], "wanted": ["amber", "captives"], "fairs": [], "feasts": [], "closed": "", "line": "The Rus arrive: they may buy silk, but only so much a man."},
+    "8": {"comes": ["silk"], "wanted": ["amber", "captives"], "fairs": [], "feasts": ["The Dormition (15 Aug)"], "closed": "", "line": "The best of the market. Amber is prized."},
+    "9": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The Rus start home before the rivers freeze."},
+    "10": {"comes": [], "wanted": ["sable", "ermine", "squirrel"], "fairs": [], "feasts": [], "closed": "", "line": "The cold comes: furs are wanted at court."},
+    "11": {"comes": [], "wanted": ["sable", "ermine", "squirrel"], "fairs": [], "feasts": [], "closed": "The sea is closed to ships for the winter.", "line": "The sea closes."},
+    "12": {"comes": [], "wanted": ["sable", "ermine", "squirrel"], "fairs": [], "feasts": ["Christmas"], "closed": "The sea is closed to ships for the winter.", "line": "Christmas in the city."}
+   }
+  },
+  "italy": {
+   "name": "Italy: Rome, Venice, the south",
+   "months": {
+    "1": {"comes": ["olive_oil"], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "The Alpine passes are under snow and the sea is closed.", "line": "The olives are pressed: oil is cheap. The passes are shut."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "The Alpine passes are under snow and the sea is closed.", "line": "Lent in Rome."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The sea opens. Pilgrims set out for Easter."},
+    "4": {"comes": ["relics"], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter in Rome: the pilgrims come, and go home with relics."},
+    "5": {"comes": ["relics"], "wanted": ["cotton"], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "The passes open: oil, spices and relics go north."},
+    "6": {"comes": ["coral"], "wanted": ["cotton"], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "The Venetians bring spice and silk from the east."},
+    "7": {"comes": ["coral"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Coral is fished off the southern coasts."},
+    "8": {"comes": ["coral", "almonds"], "wanted": [], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "The almond harvest. The heat."},
+    "9": {"comes": ["almonds", "dates_figs"], "wanted": ["papyrus"], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "Figs are dried. The grape harvest."},
+    "10": {"comes": ["dates_figs"], "wanted": ["papyrus"], "fairs": [], "feasts": [], "closed": "", "line": "The last travellers cross the Alps before the snow."},
+    "11": {"comes": ["olive_oil"], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The olive harvest begins. The passes close."},
+    "12": {"comes": ["olive_oil"], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "The Alpine passes are under snow and the sea is closed.", "line": "Christmas in Rome."}
+   }
+  },
+  "spain": {
+   "name": "Al-Andalus: Cordoba",
+   "note": "Pagan Slavs are sold lawfully through Verdun to Spain. Its feasts follow the moon's year.",
+   "months": {
+    "1": {"comes": ["olive_oil"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The olives are pressed: oil is cheap."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The almond trees flower."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The sea opens to the ships of the coast."},
+    "4": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The emir's army musters for the summer raid north (guess)."},
+    "5": {"comes": ["kermes"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Kermes is gathered from the oaks for the red dye."},
+    "6": {"comes": ["kermes"], "wanted": ["captives"], "fairs": [], "feasts": [], "closed": "", "line": "The slave traders come down from Verdun (guess)."},
+    "7": {"comes": [], "wanted": ["captives"], "fairs": [], "feasts": [], "closed": "", "line": "The heat. Captives are wanted in Cordoba."},
+    "8": {"comes": ["almonds"], "wanted": ["captives"], "fairs": [], "feasts": [], "closed": "", "line": "The almond harvest."},
+    "9": {"comes": ["almonds", "rice", "cotton"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Rice and cotton are harvested."},
+    "10": {"comes": ["rice", "cotton"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The harvests are sold."},
+    "11": {"comes": ["olive_oil", "sugar"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The olive harvest begins; the cane is cut."},
+    "12": {"comes": ["olive_oil", "sugar"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The quiet months."}
+   }
+  },
+  "provence": {
+   "name": "Provence and the Rhone: Marseille, Arles",
+   "note": "Saracen pirates hold the coast from the 840s.",
+   "months": {
+    "1": {"comes": ["olive_oil"], "wanted": [], "fairs": [], "feasts": ["Epiphany (6 Jan)"], "closed": "The sea is closed for the winter.", "line": "The olives are pressed: oil is cheap."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Candlemas (2 Feb)", "Lent begins (in March some years)"], "closed": "The sea is closed for the winter.", "line": "Lent. The mistral blows."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Lent: no meat", "Lady Day (25 Mar)"], "closed": "", "line": "The sea opens. Boats go up the Rhone again."},
+    "4": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Easter (between 22 Mar and 25 Apr)"], "closed": "", "line": "Easter. Oil goes north for the church lamps."},
+    "5": {"comes": ["kermes"], "wanted": [], "fairs": [], "feasts": ["The Rogation days", "Pentecost"], "closed": "", "line": "Kermes is gathered for the red dye."},
+    "6": {"comes": ["kermes", "coral"], "wanted": [], "fairs": [], "feasts": ["Saint John (24 Jun)"], "closed": "", "line": "Ships from the east put in at Marseille: spice, silk, papyrus."},
+    "7": {"comes": ["coral"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "Coral is fished along the coast."},
+    "8": {"comes": ["coral", "almonds"], "wanted": [], "fairs": [], "feasts": ["Lammas (1 Aug)", "The Assumption (15 Aug)"], "closed": "", "line": "The almond harvest."},
+    "9": {"comes": ["almonds"], "wanted": [], "fairs": [], "feasts": ["Michaelmas (29 Sep): rents and reckonings"], "closed": "", "line": "The grape harvest. The eastern goods go up the Rhone."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The last ships of the year."},
+    "11": {"comes": ["olive_oil"], "wanted": [], "fairs": [], "feasts": ["All Saints (1 Nov)", "Martinmas (11 Nov)", "Advent begins"], "closed": "", "line": "The olive harvest begins. The sea closes."},
+    "12": {"comes": ["olive_oil"], "wanted": [], "fairs": [], "feasts": ["Christmas: twelve days"], "closed": "The sea is closed for the winter.", "line": "Christmas."}
+   }
+  },
+  "iceland": {
+   "name": "Iceland (settled from 874)",
+   "note": "Before 874 only birds and a few Irish hermits. The Althing from 930; Christian from 1000.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "No ship crosses to Iceland in winter.", "line": "Dark and snow. Wadmal is woven in every house."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "No ship crosses to Iceland in winter.", "line": "Winter still. The foxes are trapped."},
+    "3": {"comes": ["fox"], "wanted": [], "fairs": [], "feasts": [], "closed": "No ship crosses to Iceland in winter.", "line": "The stores run low."},
+    "4": {"comes": ["fox"], "wanted": [], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "No ship crosses to Iceland in winter.", "line": "The sea is still shut."},
+    "5": {"comes": ["fox"], "wanted": [], "fairs": [], "feasts": [], "closed": "", "line": "The first ships are looked for."},
+    "6": {"comes": ["wadmal", "fleeces", "eider_down", "sulphur"], "wanted": ["masts", "soapstone"], "fairs": ["The Althing meets at the end of June (from 930)"], "feasts": ["Midsummer"], "closed": "", "line": "The Althing meets. The ships come from Norway: timber is wanted above all."},
+    "7": {"comes": ["wadmal", "fleeces", "eider_down", "sulphur", "falcons"], "wanted": ["oak_timber", "masts", "soapstone"], "fairs": [], "feasts": [], "closed": "", "line": "Wadmal, down and sulphur for timber, grain and iron."},
+    "8": {"comes": ["sulphur", "falcons"], "wanted": ["oak_timber", "masts", "soapstone"], "fairs": [], "feasts": [], "closed": "", "line": "Falcons are taken for kings. The best of the trade."},
+    "9": {"comes": ["falcons"], "wanted": ["oak_timber"], "fairs": [], "feasts": [], "closed": "", "line": "The ships leave before the gales."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "No ship crosses to Iceland in winter.", "line": "Winter nights. Nobody sails now."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "No ship crosses to Iceland in winter.", "line": "The sheep are brought in."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "No ship crosses to Iceland in winter.", "line": "Yule."}
+   }
+  },
+  "greenland": {
+   "name": "Greenland (settled from 985)",
+   "note": "Settled from 985. One ship in a summer is a good year.",
+   "months": {
+    "1": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Midwinter: the Yule ale and the midwinter sacrifice (a guess at the day)"], "closed": "Ice shuts the fjords and no ship comes.", "line": "Ice and dark. The settlement lives on its stores."},
+    "2": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice shuts the fjords and no ship comes.", "line": "Winter."},
+    "3": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice shuts the fjords and no ship comes.", "line": "Seals are hunted on the ice."},
+    "4": {"comes": ["bear_skins"], "wanted": [], "fairs": [], "feasts": ["The sacrifice at the start of summer (guess)"], "closed": "Ice shuts the fjords and no ship comes.", "line": "The bears come down with the drift ice."},
+    "5": {"comes": ["bear_skins", "seal_skins"], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice shuts the fjords and no ship comes.", "line": "The seal hunt. The fjords are still shut."},
+    "6": {"comes": ["seal_skins"], "wanted": [], "fairs": [], "feasts": ["Midsummer"], "closed": "", "line": "The ice loosens. The men row north to the hunting grounds."},
+    "7": {"comes": ["falcons"], "wanted": ["oak_timber"], "fairs": [], "feasts": [], "closed": "", "line": "A ship from Norway or Iceland may come: timber and iron are wanted."},
+    "8": {"comes": ["falcons", "walrus_ivory", "walrus_rope", "narwhal"], "wanted": ["oak_timber"], "fairs": [], "feasts": [], "closed": "", "line": "The hunters come back with walrus ivory and hide rope."},
+    "9": {"comes": ["falcons", "walrus_ivory", "walrus_rope", "narwhal"], "wanted": ["oak_timber"], "fairs": [], "feasts": [], "closed": "", "line": "The ship must leave before the ice."},
+    "10": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Winter nights: the autumn sacrifice (guess)"], "closed": "Ice shuts the fjords and no ship comes.", "line": "The fjords close."},
+    "11": {"comes": [], "wanted": [], "fairs": [], "feasts": [], "closed": "Ice shuts the fjords and no ship comes.", "line": "Winter."},
+    "12": {"comes": [], "wanted": [], "fairs": [], "feasts": ["Yule"], "closed": "Ice shuts the fjords and no ship comes.", "line": "Yule (and Christmas from the year 1000)."}
+   }
+  }
+ }
+}

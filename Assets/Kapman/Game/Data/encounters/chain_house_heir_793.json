@@ -1,0 +1,616 @@
+{
+ "about": "THE CHAIN house_heir (Design/content/CHAINS.md; the page is Design/content/chains/house_heir.md), written 6 Oct 2026: an heir for the house. Fourteen cards. The boy of the house (the son of the chain house_marriage where flag.ch_house_marriage_child is set, else a dead sister's son) is sent out to learn a tongue under one of three roofs: Saint Martin's school at Traiectum (Latin), an English host's house at Lundenwic (English) or a Danish host's hearth at Ripa (the Danes' tongue). The father takes him there himself (s02), hears of him at home (s03), fetches him two and a half years later (s04), gives him the steering oar on his first watch at sea (s05), quarrels with him a year on (s06), and two years after that is told by his own steersman that his eyes are going (s07). Three endings, each a card of its own: the oar handed over before witnesses (ch_house_heir_end_oar), the house divided into two keels (ch_house_heir_end_two_keels), and the house set down in writing (ch_house_heir_end_written, with changed_merchant_writing: history changed). Only the first card is drawn (harbour) and the fifth (sea, by rate); every other is scheduled by the card before it or follows by 'then', so each has weight 0. Progress is flags ch_house_heir_1 to _9 (there is no _2 or _3: the road flags ch_house_heir_road_school, _road_strand, _road_hearth stand for step 1's choice, and _4 is the boy handed over). What the father did is remembered in ch_house_heir_kept_well, _bound, _stood_by, _hard, _proved, _beside, _shamed, _shaken, _staked, _broken, _cooled. The heir is never an actor: the forge would give him a new name at every port, so his words are lines without a speaker, and no line says son or nephew after the first card. Words are in writing/chain_house_heir.json under the keys ch_house_heir.*; the picture for each card is the writing key art.<card id>. Sources are in each card's note; (?) marks what was not verified; LATER marks a source written long after the years of the chain.",
+ "cards": [
+  {
+   "id": "harbour.chain_house_heir.s01_three_roofs",
+   "note": "Step 1, the start: drawn at Dorestad, 800 to 825, once the merchant has come home twice. It comes from 806 if the chain house_marriage has left a child (flag.ch_house_marriage_child), from 800 if no marriage was ever begun (the boy is then a dead sister's son), and from 814 whatever happened. The widow is the spine's cast.thiadburg. Sources: Altfrid, Vita Liudgeri I.9-12 (a Frisian boy sent to Gregory's school at Utrecht and then to Alcuin at York; the spine's thread cross_and_grove); Liudger, Vita Gregorii c. 11 (the peoples of Gregory's pupils) (?); Bede, Historia ecclesiastica IV.22 (a Frisian trading at London in 679); Hlothhere and Eadric c. 15 (the host who answers for his guest) (?); Tacitus, Germania 20 (the sister's son held as dear by his uncle as by his father: seven centuries early) (?); Norse fostering in another man's house: the sagas and laws of the 12th and 13th centuries, LATER (?). Sets ch_house_heir_1 and one of ch_house_heir_road_school, _road_strand, _road_hearth, and schedules the handing over (s02) at the roof's port; 'not this year' sets ch_house_heir_wait for 120 days and the card can come again.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year < 826 and port.visits >= 2 and not flag.ch_house_heir_1 and not flag.ch_house_heir_wait and ((flag.ch_house_marriage_child and year >= 806) or (not flag.ch_house_marriage_1 and year >= 800) or year >= 814)",
+   "weight": 0.3,
+   "cooldown_days": 45,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true },
+    "priest": { "role": "priest", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s01.title",
+   "title": "Three roofs",
+   "intention_key": "ch_house_heir.s01.intention",
+   "intention": "The widow who keeps the storehouse on the dam says the boy of your house knows every knot and one tongue, and that one tongue is a poor cargo. Three roofs would take him: the bishop's school, an English house, a Danish hearth.",
+   "lines": [
+    { "who": "widow", "key": "ch_house_heir.s01.greet" },
+    { "key": "ch_house_heir.s01.son", "when": "flag.ch_house_marriage_child" },
+    { "key": "ch_house_heir.s01.sisters_son", "when": "not flag.ch_house_marriage_child" },
+    { "who": "widow", "key": "ch_house_heir.s01.school" },
+    { "who": "priest", "key": "ch_house_heir.s01.school_priest" },
+    { "who": "widow", "key": "ch_house_heir.s01.strand" },
+    { "who": "widow", "key": "ch_house_heir.s01.hearth" },
+    { "who": "widow", "key": "ch_house_heir.s01.hearth_warn" },
+    { "who": "widow", "key": "ch_house_heir.s01.saying", "when": "npc.widow.feeling >= friendly" }
+   ],
+   "options": [
+    { "key": "school", "label_key": "ch_house_heir.s01.go_school", "label": "Take him to Traiectum, to Saint Martin's school", "check": "true",
+      "effects": [ "flag ch_house_heir_1", "flag ch_house_heir_road_school", "npc priest feeling +3 chose_school", "npc widow feeling +2 chose",
+                   "schedule harbour.chain_house_heir.s02_school in 3 at traiectum" ] },
+    { "key": "strand", "label_key": "ch_house_heir.s01.go_strand", "label": "Take him to Lundenwic, to the English house", "check": "true",
+      "effects": [ "flag ch_house_heir_1", "flag ch_house_heir_road_strand", "npc widow feeling +2 chose",
+                   "schedule harbour.chain_house_heir.s02_strand in 6 at lundenwic" ] },
+    { "key": "hearth", "label_key": "ch_house_heir.s01.go_hearth", "label": "Take him to Ripa, to the Dane's hearth", "check": "true",
+      "effects": [ "flag ch_house_heir_1", "flag ch_house_heir_road_hearth", "npc widow feeling +2 chose", "npc priest feeling -3 chose_heathen",
+                   "schedule harbour.chain_house_heir.s02_hearth in 8 at ripa" ] },
+    { "key": "later", "label_key": "ch_house_heir.s01.later", "label": "Not this year", "check": "true",
+      "effects": [ "flag ch_house_heir_wait for 120", "npc widow feeling -1 put_off" ] }
+   ],
+   "memory": {
+    "school": "sent the boy of his house to Saint Martin's school",
+    "strand": "sent the boy of his house to the English",
+    "hearth": "sent the boy of his house to the Danes",
+    "later": "put off sending the boy out"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s02_school",
+   "note": "Step 2 on the school road, scheduled at Traiectum three days after step 1: the boy is handed to the master of Saint Martin's school. The school is real: Gregory taught there until about 775 and Liudger learned and then taught there (Altfrid, Vita Liudgeri I.9-10, 15; npc_roles_793.json 'schoolmaster'); no master is named for these years, so the forge names him. That boys were to speak Latin and were beaten into it is the custom of the later colloquies (Ælfric's Colloquy, about 1000, LATER: texts_793.json aelfric_merchant is from it). Wax for tablets and candles as a church's due (?). That a layman's son could sit in a bishop's school without being given to the church: the Admonitio generalis of 789 c. 72 orders schools where boys may learn to read (?); the council of Aachen in 817 shut monastery schools to all but oblates (?), which is the master's line from 817. The warning that the bishop keeps a good boy is the danger told beforehand (the quarrel at s06). Sets ch_house_heir_4 and ch_house_heir_kept_well or ch_house_heir_bound; schedules the word of the boy (s03) at Dorestad in 300 days and the fetching (s04) here in 900.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_house_heir_road_school and not flag.ch_house_heir_4",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "schoolmaster": { "role": "schoolmaster", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s02s.title",
+   "title": "The master's bench",
+   "intention_key": "ch_house_heir.s02s.intention",
+   "intention": "Inside the bishop's stone fort the master of Saint Martin's school looks the boy over as a man looks over a plank. He will take him. He asks what the house gives for his keep, and warns you what a good pupil costs a father.",
+   "lines": [
+    { "who": "schoolmaster", "key": "ch_house_heir.s02s.greet" },
+    { "who": "schoolmaster", "key": "ch_house_heir.s02s.peoples" },
+    { "who": "schoolmaster", "key": "ch_house_heir.s02s.rule" },
+    { "who": "schoolmaster", "key": "ch_house_heir.s02s.aachen", "when": "year >= 817" },
+    { "key": "ch_house_heir.s02s.boy" },
+    { "who": "schoolmaster", "key": "ch_house_heir.s02s.warn" },
+    { "who": "schoolmaster", "key": "ch_house_heir.s02s.ask" }
+   ],
+   "options": [
+    { "key": "generous", "label_key": "ch_house_heir.s02s.generous", "label": "Give two cakes of wax and sixty pennies", "check": "hold.wax >= 2 and silver >= 60",
+      "cost": [ "silver 60", "goods wax 2" ],
+      "effects": [ "flag ch_house_heir_4", "flag ch_house_heir_kept_well", "npc schoolmaster feeling +10 gave_well", "deed gave_alms",
+                   "give_riddle riddle_symphosius_13_navis",
+                   "schedule harbour.chain_house_heir.s03_word in 300 at dorestad", "schedule harbour.chain_house_heir.s04_school_door in 900 at traiectum" ] },
+    { "key": "service", "label_key": "ch_house_heir.s02s.service", "label": "Promise to carry the bishop's letters and bring him wax", "check": "true",
+      "effects": [ "flag ch_house_heir_4", "flag ch_house_heir_bound", "npc schoolmaster feeling +5 promised", "deed carried_letters",
+                   "commission wax 4 by 300 premium 1.25",
+                   "schedule harbour.chain_house_heir.s03_word in 300 at dorestad", "schedule harbour.chain_house_heir.s04_school_door in 900 at traiectum" ] },
+    { "key": "plain", "label_key": "ch_house_heir.s02s.plain", "label": "Ask him to take the boy for God's sake", "check": "true",
+      "effects": [ "flag ch_house_heir_4", "npc schoolmaster feeling -3 begged",
+                   "schedule harbour.chain_house_heir.s03_word in 300 at dorestad", "schedule harbour.chain_house_heir.s04_school_door in 900 at traiectum" ] }
+   ],
+   "memory": {
+    "generous": "gave wax and silver for the boy's keep",
+    "service": "promised letters carried and wax for the boy's keep",
+    "plain": "left the boy at the school and gave nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s02_strand",
+   "note": "Step 2 on the English road, scheduled at Lundenwic six days after step 1: the boy is left in the house of an Englishman who lodges Frisians on the Strand. Frisians at London: Bede, Historia ecclesiastica IV.22 (a Frisian bought the captive Imma there in 679). The host who answers for a guest he has kept three nights: Hlothhere and Eadric c. 15 (?) (npc_roles_793.json 'host'). The king's protection for merchants 'according to the ancient custom of trading' and the black stones: Charles's letter to Offa of 796 (the spine's thread black_stones), which is the host's wish for querns. The short Frisian cloak that a king cannot keep on in bed: Notker, Gesta Karoli I.34 (tr. Grant 1907), written about 885, LATER, of Charles himself. A boy of ten winters answers for himself: Hlothhere and Eadric c. 6 and Ine 7.2 (?). The warning (the reeve's levy, and a girl) is the danger told beforehand. Sets ch_house_heir_4 and ch_house_heir_kept_well or ch_house_heir_bound; schedules s03 at Dorestad in 300 days and s04 here in 900.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and flag.ch_house_heir_road_strand and not flag.ch_house_heir_4",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "host": { "role": "host", "people": "english", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s02e.title",
+   "title": "A house on the Strand",
+   "intention_key": "ch_house_heir.s02e.intention",
+   "intention": "The Englishman who lodges Frisians above the Strand stands in his door with his own children behind him. He will keep the boy and answer for him to the reeve. He asks what the house gives, and says what a boy turns into here.",
+   "lines": [
+    { "who": "host", "key": "ch_house_heir.s02e.greet" },
+    { "who": "host", "key": "ch_house_heir.s02e.answer_for" },
+    { "who": "host", "key": "ch_house_heir.s02e.cloak" },
+    { "key": "ch_house_heir.s02e.boy" },
+    { "who": "host", "key": "ch_house_heir.s02e.warn" },
+    { "who": "host", "key": "ch_house_heir.s02e.ask" }
+   ],
+   "options": [
+    { "key": "generous", "label_key": "ch_house_heir.s02e.generous", "label": "Give a cask of Rhine wine for his table and forty pennies", "check": "hold.rhenish_wine >= 1 and silver >= 40",
+      "cost": [ "silver 40", "goods rhenish_wine 1" ],
+      "effects": [ "flag ch_house_heir_4", "flag ch_house_heir_kept_well", "npc host feeling +10 gave_well",
+                   "give_riddle riddle_exeter_32_ship",
+                   "schedule harbour.chain_house_heir.s03_word in 300 at dorestad", "schedule harbour.chain_house_heir.s04_strand_tide in 900 at lundenwic" ] },
+    { "key": "service", "label_key": "ch_house_heir.s02e.service", "label": "Promise him first choice of your black stones", "check": "true",
+      "effects": [ "flag ch_house_heir_4", "flag ch_house_heir_bound", "npc host feeling +5 promised",
+                   "commission quernstones 6 by 300 premium 1.5",
+                   "schedule harbour.chain_house_heir.s03_word in 300 at dorestad", "schedule harbour.chain_house_heir.s04_strand_tide in 900 at lundenwic" ] },
+    { "key": "plain", "label_key": "ch_house_heir.s02e.plain", "label": "Say the boy will work for his bread", "check": "true",
+      "effects": [ "flag ch_house_heir_4", "npc host feeling -3 gave_nothing",
+                   "schedule harbour.chain_house_heir.s03_word in 300 at dorestad", "schedule harbour.chain_house_heir.s04_strand_tide in 900 at lundenwic" ] }
+   ],
+   "memory": {
+    "generous": "gave wine and silver for the boy's keep",
+    "service": "promised first choice of his querns for the boy's keep",
+    "plain": "left the boy to work for his bread"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s02_hearth",
+   "note": "Step 2 on the Danish road, scheduled at Ripa eight days after step 1: the boy is fostered in the house of the Dane who answers for Frisian ships. Ripa as the Danes' summer market full of Frisian ships: npc_roles_793.json. Fostering a child in another man's house, the child set on the fosterer's knee, and the saying that the man who fosters another's child is the lesser of the two: Heimskringla, Haralds saga hárfagra c. 39-41 (King Harald has his son Hákon set on King Athelstan's knee about 930; written about 1230), LATER, and (?) for Jutland in these years. Silver by weight and no coin among the Danes before about 825 (BRIEF.md rule 2). Horse flesh at the feasts: forbidden to Christians by the pope's letter to Boniface of 732 and by the legates in England in 786 (the spine's 'An Englishman') (?). Hávamál 5 (Bellows 1923) is texts_793.json havamal_005. The warning (the feast, the hammer, the oaths) is the danger told beforehand. Sets ch_house_heir_4 and ch_house_heir_kept_well or ch_house_heir_bound; schedules s03 at Dorestad in 300 days and s04 here in 900.",
+   "stage": "harbour",
+   "when": "moored and port.id = ripa and flag.ch_house_heir_road_hearth and not flag.ch_house_heir_4",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s02d.title",
+   "title": "The Dane's knee",
+   "intention_key": "ch_house_heir.s02d.intention",
+   "intention": "The Dane who answers for Frisian ships at Ripa sits by his fire with his own sons along the wall. Among his people a child is fostered by setting him on a man's knee. He waits to see whether you will ask, or pay, or simply do it.",
+   "lines": [
+    { "who": "host", "key": "ch_house_heir.s02d.greet" },
+    { "who": "host", "key": "ch_house_heir.s02d.custom" },
+    { "key": "ch_house_heir.s02d.boy" },
+    { "who": "host", "key": "ch_house_heir.s02d.warn" },
+    { "who": "host", "key": "ch_house_heir.s02d.ask" }
+   ],
+   "options": [
+    { "key": "generous", "label_key": "ch_house_heir.s02d.generous", "label": "Give a crate of glass for his table and thirty pennies' weight", "check": "hold.glass_vessels >= 1 and silver >= 30",
+      "cost": [ "silver 30", "goods glass_vessels 1" ],
+      "effects": [ "flag ch_house_heir_4", "flag ch_house_heir_kept_well", "npc host feeling +10 gave_well",
+                   "give_text havamal_005",
+                   "schedule harbour.chain_house_heir.s03_word in 300 at dorestad", "schedule harbour.chain_house_heir.s04_hearth_spring in 900 at ripa" ] },
+    { "key": "service", "label_key": "ch_house_heir.s02d.service", "label": "Promise him the first of your wine each summer", "check": "true",
+      "effects": [ "flag ch_house_heir_4", "flag ch_house_heir_bound", "npc host feeling +5 promised",
+                   "commission rhenish_wine 4 by 300 premium 1.5",
+                   "schedule harbour.chain_house_heir.s03_word in 300 at dorestad", "schedule harbour.chain_house_heir.s04_hearth_spring in 900 at ripa" ] },
+    { "key": "plain", "label_key": "ch_house_heir.s02d.plain", "label": "Set the boy on his knee and say nothing of payment", "check": "true",
+      "effects": [ "flag ch_house_heir_4", "npc host feeling -3 knee_unasked",
+                   "schedule harbour.chain_house_heir.s03_word in 300 at dorestad", "schedule harbour.chain_house_heir.s04_hearth_spring in 900 at ripa" ] }
+   ],
+   "memory": {
+    "generous": "gave glass and silver with his foster-son",
+    "service": "promised the first of his wine with his foster-son",
+    "plain": "set his boy on the knee unasked"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s03_word",
+   "note": "Step 3, scheduled at Dorestad 300 days after the handing over: a skipper brings word of the boy, and it is not good word. It does not come if the boy has already been fetched. School: beaten for speaking Frisian at table (the Latin-only rule and the rod are those of the later colloquies; Ælfric's boys say they would rather be flogged for learning than not know: about 1000, LATER) and a wax tablet in his own hand (tablets: riddles_793.json riddle_aldhelm_32_pugillares). Strand: a fight over the name 'short-cloak' (Notker I.34, LATER). Hearth: he would not eat horse at the winter feast (the ban of 732 and 786 (?)). Sets ch_house_heir_5 and ch_house_heir_stood_by or ch_house_heir_hard, or neither. The year lines are true rumours: Godfred's two hundred ships on the Frisian islands and the hundred pounds of silver (Annales regni Francorum 810); the emperor's death on 28 January 814.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_heir_4 and not flag.ch_house_heir_5 and not flag.ch_house_heir_6",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "skipper": { "role": "skipper", "fixed": false },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s03.title",
+   "title": "Word of the boy",
+   "intention_key": "ch_house_heir.s03.intention",
+   "intention": "A skipper in from where the boy is has word of him for you, and gives it at the dam head with his eyes on his own mooring rope. The boy is well. The boy is also in trouble.",
+   "lines": [
+    { "who": "skipper", "key": "ch_house_heir.s03.greet" },
+    { "who": "skipper", "key": "ch_house_heir.s03.school", "when": "flag.ch_house_heir_road_school" },
+    { "key": "ch_house_heir.s03.school_tablet", "when": "flag.ch_house_heir_road_school" },
+    { "who": "skipper", "key": "ch_house_heir.s03.strand", "when": "flag.ch_house_heir_road_strand" },
+    { "who": "skipper", "key": "ch_house_heir.s03.strand_host", "when": "flag.ch_house_heir_road_strand" },
+    { "who": "skipper", "key": "ch_house_heir.s03.hearth", "when": "flag.ch_house_heir_road_hearth" },
+    { "who": "skipper", "key": "ch_house_heir.s03.hearth_host", "when": "flag.ch_house_heir_road_hearth" },
+    { "who": "skipper", "key": "ch_house_heir.s03.rumour_810", "when": "year = 810" },
+    { "who": "skipper", "key": "ch_house_heir.s03.rumour_814", "when": "year = 814" },
+    { "who": "widow", "key": "ch_house_heir.s03.widow" }
+   ],
+   "options": [
+    { "key": "knife", "label_key": "ch_house_heir.s03.knife", "label": "Send him your own knife and one word: hold", "check": "silver >= 12",
+      "cost": "silver 12",
+      "effects": [ "flag ch_house_heir_5", "flag ch_house_heir_stood_by", "npc skipper feeling +3 carried_word", "npc widow feeling +2 stood_by" ] },
+    { "key": "hard", "label_key": "ch_house_heir.s03.hard", "label": "Send word to his keepers: do not spare him", "check": "true",
+      "effects": [ "flag ch_house_heir_5", "flag ch_house_heir_hard", "npc widow feeling -2 hard" ] },
+    { "key": "nothing", "label_key": "ch_house_heir.s03.nothing", "label": "Send nothing. He must find his own feet", "check": "true",
+      "effects": [ "flag ch_house_heir_5" ] }
+   ],
+   "memory": {
+    "knife": "sent the boy his own knife",
+    "hard": "told the boy's keepers not to spare him",
+    "nothing": "sent the boy no word"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s04_school_door",
+   "note": "Step 4 on the school road (the turn), scheduled at Traiectum 900 days after the handing over: the boy can read. He reads the letters cut over the church door and then, unasked, the toll-man's tally. Latin as the tongue of charters and tolls; lay reading was rare but not unknown (Einhard, Vita Karoli c. 25, tr. Turner 1880: the emperor himself 'used to keep tablets and blanks in bed under his pillow' and began too late). The master's joke is the Kassel glosses' (a word-list of about 810 from Bavaria: 'Stulti sunt Romani, sapienti sunt Paioari', the Romans are fools and the Bavarians wise), so that line shows from 810. The bishop wanting to keep a good boy: Liudger himself was such a boy (Altfrid I.9-10). Payout: reading (learn latin), and on the generous option an order for wax at 1.4 times the price and Aldhelm's riddle of the wax tablets. 'Another year' sets ch_house_heir_stay and ch_house_heir_long and the card comes again in 300 days. Sets ch_house_heir_6; the first watch (s05) then comes at sea.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_house_heir_4 and flag.ch_house_heir_road_school and not flag.ch_house_heir_6 and not flag.ch_house_heir_stay",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "schoolmaster": { "role": "schoolmaster", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s04s.title",
+   "title": "The school door",
+   "intention_key": "ch_house_heir.s04s.intention",
+   "intention": "Three winters on. The boy comes out of the school door a hand taller, with ink on his thumb, and reads you the letters cut over the church door without being asked. The master stands behind him and does not want to let go.",
+   "lines": [
+    { "key": "ch_house_heir.s04s.boy" },
+    { "key": "ch_house_heir.s04s.boy_knife", "when": "flag.ch_house_heir_stood_by" },
+    { "key": "ch_house_heir.s04s.boy_hard", "when": "flag.ch_house_heir_hard" },
+    { "who": "schoolmaster", "key": "ch_house_heir.s04s.master" },
+    { "who": "schoolmaster", "key": "ch_house_heir.s04s.master_well", "when": "flag.ch_house_heir_kept_well" },
+    { "who": "schoolmaster", "key": "ch_house_heir.s04s.master_joke", "when": "year >= 810" },
+    { "who": "schoolmaster", "key": "ch_house_heir.s04s.master_keep" },
+    { "key": "ch_house_heir.s04s.tally" }
+   ],
+   "options": [
+    { "key": "thank", "label_key": "ch_house_heir.s04s.thank", "label": "Thank the master with sixty pennies for the church's lights", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "flag ch_house_heir_6", "learn latin +0.5", "npc schoolmaster feeling +10 thanked", "deed gave_alms",
+                   "give_riddle riddle_aldhelm_32_pugillares", "commission wax 6 by 240 premium 1.4" ] },
+    { "key": "take", "label_key": "ch_house_heir.s04s.take", "label": "Take the boy and go", "check": "true",
+      "effects": [ "flag ch_house_heir_6", "learn latin +0.4", "npc schoolmaster feeling -2 took" ] },
+    { "key": "stay", "label_key": "ch_house_heir.s04s.stay", "label": "Leave him one more year", "check": "true",
+      "effects": [ "flag ch_house_heir_stay for 290", "flag ch_house_heir_long", "npc schoolmaster feeling +3 left_longer",
+                   "schedule harbour.chain_house_heir.s04_school_door in 300 at traiectum" ] }
+   ],
+   "memory": {
+    "thank": "thanked him with silver for teaching the boy",
+    "take": "took the boy from the school without thanks",
+    "stay": "left the boy at the school another year"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s04_strand_tide",
+   "note": "Step 4 on the English road (the turn), scheduled at Lundenwic 900 days after the handing over: the boy is found on the Strand beating an eel-wife down in her own tongue. Lundenwic as the mart of many peoples: Bede II.3. English and Frisian as near kin (npc_text_encounters.md 2.6: half understood; a boy who has lived there has it whole). Payout: the English tongue aboard, and on the generous option an order for wine at half as much again and the Exeter riddle of the anchor. 'Another year' sets ch_house_heir_stay and ch_house_heir_long and the card comes again in 300 days. Sets ch_house_heir_6; the first watch (s05) then comes at sea.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and flag.ch_house_heir_4 and flag.ch_house_heir_road_strand and not flag.ch_house_heir_6 and not flag.ch_house_heir_stay",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "host": { "role": "host", "people": "english", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s04e.title",
+   "title": "The tide on the Strand",
+   "intention_key": "ch_house_heir.s04e.intention",
+   "intention": "Three winters on. You find the boy at the tide line beating an eel-wife down in her own tongue, and winning. He is a hand taller. The host comes down the bank behind him, in no hurry to give him back.",
+   "lines": [
+    { "key": "ch_house_heir.s04e.boy" },
+    { "key": "ch_house_heir.s04e.boy_knife", "when": "flag.ch_house_heir_stood_by" },
+    { "key": "ch_house_heir.s04e.boy_hard", "when": "flag.ch_house_heir_hard" },
+    { "who": "host", "key": "ch_house_heir.s04e.host" },
+    { "who": "host", "key": "ch_house_heir.s04e.host_well", "when": "flag.ch_house_heir_kept_well" },
+    { "who": "host", "key": "ch_house_heir.s04e.host_keep" },
+    { "key": "ch_house_heir.s04e.friend" }
+   ],
+   "options": [
+    { "key": "thank", "label_key": "ch_house_heir.s04e.thank", "label": "Thank the host with forty-eight pennies and your hand", "check": "silver >= 48",
+      "cost": "silver 48",
+      "effects": [ "flag ch_house_heir_6", "tongue old_english = 1", "npc host feeling +10 thanked",
+                   "give_riddle riddle_exeter_16_anchor", "commission rhenish_wine 4 by 240 premium 1.5" ] },
+    { "key": "take", "label_key": "ch_house_heir.s04e.take", "label": "Take the boy and go", "check": "true",
+      "effects": [ "flag ch_house_heir_6", "tongue old_english = 1", "npc host feeling -2 took" ] },
+    { "key": "stay", "label_key": "ch_house_heir.s04e.stay", "label": "Leave him one more year", "check": "true",
+      "effects": [ "flag ch_house_heir_stay for 290", "flag ch_house_heir_long", "npc host feeling +3 left_longer",
+                   "schedule harbour.chain_house_heir.s04_strand_tide in 300 at lundenwic" ] }
+   ],
+   "memory": {
+    "thank": "thanked him with silver for keeping the boy",
+    "take": "took the boy from his house without thanks",
+    "stay": "left the boy in his house another year"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s04_hearth_spring",
+   "note": "Step 4 on the Danish road (the turn), scheduled at Ripa 900 days after the handing over: the boy comes down the beach with the host's sons, speaking as they do, with a small hammer of bone on the cord beside his cross. Hammer and cross worn together: the mould of the 10th century from Trendgaarden in Jutland casts both (LATER) (?); the spine's 'faith is ordinary'. A parting gift from a foster-father (the sagas, LATER (?)). Hávamál 47 (Bellows 1923) is texts_793.json havamal_047. Payout: the Danes' tongue aboard, and on the generous option three sacks of amber, an order for glass at half as much again and the stanza. 'Another year' sets ch_house_heir_stay and ch_house_heir_long and the card comes again in 300 days. Sets ch_house_heir_6; the first watch (s05) then comes at sea.",
+   "stage": "harbour",
+   "when": "moored and port.id = ripa and flag.ch_house_heir_4 and flag.ch_house_heir_road_hearth and not flag.ch_house_heir_6 and not flag.ch_house_heir_stay",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s04d.title",
+   "title": "Down the beach",
+   "intention_key": "ch_house_heir.s04d.intention",
+   "intention": "Three winters on. The boy comes down the beach at Ripa among the host's sons and you know him by his walk and by nothing else. He is a hand taller, he speaks as they do, and there is a small bone hammer on the cord beside his cross.",
+   "lines": [
+    { "key": "ch_house_heir.s04d.boy" },
+    { "key": "ch_house_heir.s04d.boy_knife", "when": "flag.ch_house_heir_stood_by" },
+    { "key": "ch_house_heir.s04d.boy_hard", "when": "flag.ch_house_heir_hard" },
+    { "who": "host", "key": "ch_house_heir.s04d.host" },
+    { "who": "host", "key": "ch_house_heir.s04d.host_well", "when": "flag.ch_house_heir_kept_well" },
+    { "who": "host", "key": "ch_house_heir.s04d.host_keep" },
+    { "key": "ch_house_heir.s04d.brothers" }
+   ],
+   "options": [
+    { "key": "thank", "label_key": "ch_house_heir.s04d.thank", "label": "Thank the host with forty-eight pennies' weight and your hand", "check": "silver >= 48",
+      "cost": "silver 48",
+      "effects": [ "flag ch_house_heir_6", "tongue old_norse = 1", "npc host feeling +10 thanked",
+                   "goods amber +3", "give_text havamal_047", "commission glass_vessels 3 by 240 premium 1.5" ] },
+    { "key": "take", "label_key": "ch_house_heir.s04d.take", "label": "Take the boy and go", "check": "true",
+      "effects": [ "flag ch_house_heir_6", "tongue old_norse = 1", "npc host feeling -2 took" ] },
+    { "key": "stay", "label_key": "ch_house_heir.s04d.stay", "label": "Leave him one more year", "check": "true",
+      "effects": [ "flag ch_house_heir_stay for 290", "flag ch_house_heir_long", "npc host feeling +3 left_longer",
+                   "schedule harbour.chain_house_heir.s04_hearth_spring in 300 at ripa" ] }
+   ],
+   "memory": {
+    "thank": "thanked him with silver for fostering the boy",
+    "take": "took his foster-son away without thanks",
+    "stay": "left the boy at his hearth another year"
+   }
+  },
+  {
+   "id": "sea.chain_house_heir.s05_first_watch",
+   "note": "Step 5, at sea, once, on any voyage after the boy is fetched (rate 0.05 an hour: likelier than not within one crossing): his first watch at the steering oar, with the wind backing at dusk and a bar ahead. The steersman (the spine's cast.crew.aldger, himself a ship's boy at twelve on the ship that fled York about 773) says beforehand that the bar is ugly: the danger is told. The side rudder and its tiller: Design/content/ships.md. Leaving the oar with the boy is a chance by the crew's best seamanship: success sets ch_house_heir_proved; failure hurts the boat a little, sets ch_house_heir_shaken and the story goes on. A hand over his sets ch_house_heir_beside; taking the oar sets ch_house_heir_shamed. Sets ch_house_heir_7 and schedules the quarrel (s06) at Dorestad in 365 days.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_house_heir_6 and not flag.ch_house_heir_7",
+   "rate": 0.05,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false }
+   },
+   "title_key": "ch_house_heir.s05.title",
+   "title": "His first watch",
+   "intention_key": "ch_house_heir.s05.intention",
+   "intention": "Dusk, the wind backing, and broken water over a bar ahead. The boy has the steering oar for the first time, by your leave. The steersman says quietly that this is the place to take it back, if you mean to.",
+   "lines": [
+    { "who": "steersman", "key": "ch_house_heir.s05.warn" },
+    { "who": "steersman", "key": "ch_house_heir.s05.own_first" },
+    { "key": "ch_house_heir.s05.boy" },
+    { "key": "ch_house_heir.s05.boy_school", "when": "flag.ch_house_heir_road_school" },
+    { "key": "ch_house_heir.s05.boy_strand", "when": "flag.ch_house_heir_road_strand" },
+    { "key": "ch_house_heir.s05.boy_hearth", "when": "flag.ch_house_heir_road_hearth" }
+   ],
+   "options": [
+    { "key": "leave", "label_key": "ch_house_heir.s05.leave", "label": "Leave the oar in his hands", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "flag ch_house_heir_7", "flag ch_house_heir_proved", "morale +0.1", "npc steersman feeling +3 trusted_boy",
+                                  "schedule harbour.chain_house_heir.s06_quarrel in 365 at dorestad" ],
+                     "failure": [ "flag ch_house_heir_7", "flag ch_house_heir_shaken", "health -0.08", "morale -0.04",
+                                  "schedule harbour.chain_house_heir.s06_quarrel in 365 at dorestad" ] } ] },
+    { "key": "beside", "label_key": "ch_house_heir.s05.beside", "label": "Stand behind him with your hand over his", "check": "true", "default": true,
+      "effects": [ "flag ch_house_heir_7", "flag ch_house_heir_beside", "morale +0.03",
+                   "schedule harbour.chain_house_heir.s06_quarrel in 365 at dorestad" ] },
+    { "key": "take", "label_key": "ch_house_heir.s05.take", "label": "Take the oar from him", "check": "true",
+      "effects": [ "flag ch_house_heir_7", "flag ch_house_heir_shamed", "npc steersman feeling +1 took_oar",
+                   "schedule harbour.chain_house_heir.s06_quarrel in 365 at dorestad" ] }
+   ],
+   "memory": {
+    "leave.success": "left the oar with the boy, who brought her over the bar",
+    "leave.failure": "left the oar with the boy, who touched on the bar",
+    "beside": "stood behind the boy at the oar",
+    "take": "took the oar from the boy at the bar"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s06_quarrel",
+   "note": "Step 6, scheduled at Dorestad a year after the first watch: the quarrel. He is of an age to answer for himself (fifteen winters among the Ribuarian Franks: Lex Ribuaria 81 (?); twelve by the Salic law (?); ten among the Kentish English: Hlothhere and Eadric c. 6 (?)) and wants a share and his own way: the school's boy wants the house's reckoning in ink, or the tonsure; the Strand's boy wants to winter at Lundenwic and trade on his own account with the host's son; the hearth's boy wants to go north in his foster-brothers' ship. That a king's sons were given their portions while he lived: the Divisio regnorum of 6 February 806 (Annales regni Francorum 806; MGH Capitularia I no. 45), the widow's line from 806. A sworn fellowship that shares a venture is the Norse felag of the rune stones (about 1000, LATER (?)). Staking him costs 120 d and sets ch_house_heir_staked (the best choices at the ending ask for it); refusing sets ch_house_heir_broken (he goes back to his foster roof until he is sent for); silence sets ch_house_heir_cooled. Sets ch_house_heir_8 and schedules the day (s07) at Dorestad in 600 days.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_heir_7 and not flag.ch_house_heir_8",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s06.title",
+   "title": "The quarrel",
+   "intention_key": "ch_house_heir.s06.intention",
+   "intention": "A year on, in the house on the dam, with the boat laid up. He is of an age to answer for himself and he says so. He wants a share, and he wants his own way with it. The widow has come in for a light and is staying for the rest.",
+   "lines": [
+    { "key": "ch_house_heir.s06.open" },
+    { "key": "ch_house_heir.s06.school", "when": "flag.ch_house_heir_road_school" },
+    { "key": "ch_house_heir.s06.strand", "when": "flag.ch_house_heir_road_strand" },
+    { "key": "ch_house_heir.s06.hearth", "when": "flag.ch_house_heir_road_hearth" },
+    { "key": "ch_house_heir.s06.proved", "when": "flag.ch_house_heir_proved" },
+    { "key": "ch_house_heir.s06.shamed", "when": "flag.ch_house_heir_shamed" },
+    { "key": "ch_house_heir.s06.shaken", "when": "flag.ch_house_heir_shaken" },
+    { "key": "ch_house_heir.s06.hard", "when": "flag.ch_house_heir_hard" },
+    { "who": "widow", "key": "ch_house_heir.s06.widow" },
+    { "who": "widow", "key": "ch_house_heir.s06.widow_806", "when": "year >= 806" }
+   ],
+   "options": [
+    { "key": "stake", "label_key": "ch_house_heir.s06.stake", "label": "Hear him to the end, and stake him: 120 pennies and a third of the next venture", "check": "silver >= 120",
+      "cost": "silver 120",
+      "effects": [ "flag ch_house_heir_8", "flag ch_house_heir_staked", "npc widow feeling +3 staked", "morale +0.05",
+                   "schedule harbour.chain_house_heir.s07_the_day in 600 at dorestad" ] },
+    { "key": "refuse", "label_key": "ch_house_heir.s06.refuse", "label": "He sails under you or not at all", "check": "true",
+      "effects": [ "flag ch_house_heir_8", "flag ch_house_heir_broken", "npc widow feeling -3 refused", "morale -0.05",
+                   "schedule harbour.chain_house_heir.s07_the_day in 600 at dorestad" ] },
+    { "key": "silent", "label_key": "ch_house_heir.s06.silent", "label": "Say nothing, and let the widow talk him down", "check": "true",
+      "effects": [ "flag ch_house_heir_8", "flag ch_house_heir_cooled", "npc widow feeling +1 let_her",
+                   "schedule harbour.chain_house_heir.s07_the_day in 600 at dorestad" ] }
+   ],
+   "memory": {
+    "stake": "heard the boy out and staked him",
+    "refuse": "told the boy he sails under him or not at all",
+    "silent": "let her talk the boy down"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s07_the_day",
+   "note": "Step 7, scheduled at Dorestad 600 days after the quarrel: the day. Coming up to the dam at dusk the merchant takes the wrong side of the withy mark, and his steersman tells him his eyes are going and that next time it will be a bank: the danger is told, and 'one more season' costs heart and brings the card again in 120 days. Three roads follow by 'then', each to its own ending card: the oar before witnesses (ch_house_heir_9a), two keels (ch_house_heir_9b), or the house in writing (ch_house_heir_9c: needs the school's boy, or sixty pennies for a priest's hand). The year lines are true: Charles crowned his son Louis with his own hands at Aachen in September 813 (Einhard, Vita Karoli c. 30, tr. Turner 1880: 'placing the diadem upon his son's head, he bade him be proclaimed Emperor'); Louis shared the realm among his sons at Aachen in 817 (Ordinatio imperii, MGH Capitularia I no. 136); his sons rose against him in 830 and put him down on the field near Colmar in June 833 (Annales Bertiniani 830, 833; chronicle_793.json). Withies as marks in a channel (?). Sets ch_house_heir_9.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_heir_8 and not flag.ch_house_heir_9 and not flag.ch_house_heir_wait9",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s07.title",
+   "title": "The wrong side of the withy",
+   "intention_key": "ch_house_heir.s07.intention",
+   "intention": "Coming up to the dam at dusk you took the wrong side of the withy. The steersman laid his hand on the oar and said nothing until she was fast. Now he says it: your eyes are going, and the house must have another hand on the oar.",
+   "lines": [
+    { "who": "steersman", "key": "ch_house_heir.s07.plain" },
+    { "who": "steersman", "key": "ch_house_heir.s07.warn" },
+    { "key": "ch_house_heir.s07.staked", "when": "flag.ch_house_heir_staked" },
+    { "key": "ch_house_heir.s07.broken", "when": "flag.ch_house_heir_broken" },
+    { "key": "ch_house_heir.s07.cooled", "when": "flag.ch_house_heir_cooled" },
+    { "who": "widow", "key": "ch_house_heir.s07.widow" },
+    { "who": "widow", "key": "ch_house_heir.s07.year_813", "when": "year >= 813 and year < 817" },
+    { "who": "widow", "key": "ch_house_heir.s07.year_817", "when": "year >= 817 and year < 830" },
+    { "who": "widow", "key": "ch_house_heir.s07.year_830", "when": "year >= 830 and year < 833" },
+    { "who": "widow", "key": "ch_house_heir.s07.year_833", "when": "year >= 833" }
+   ],
+   "options": [
+    { "key": "oar", "label_key": "ch_house_heir.s07.oar", "label": "Give him the steering oar, before witnesses", "check": "true",
+      "effects": [ "flag ch_house_heir_9", "flag ch_house_heir_9a" ],
+      "then": "harbour.chain_house_heir.s08_oar" },
+    { "key": "keels", "label_key": "ch_house_heir.s07.keels", "label": "Divide the house: two keels, two hearths", "check": "true",
+      "effects": [ "flag ch_house_heir_9", "flag ch_house_heir_9b" ],
+      "then": "harbour.chain_house_heir.s08_two_keels" },
+    { "key": "written", "label_key": "ch_house_heir.s07.written", "label": "Have the house set down in writing", "check": "flag.ch_house_heir_road_school or silver >= 60",
+      "effects": [ "flag ch_house_heir_9", "flag ch_house_heir_9c" ],
+      "then": "harbour.chain_house_heir.s08_written" },
+    { "key": "wait", "label_key": "ch_house_heir.s07.wait", "label": "Not yet: one more season", "check": "true",
+      "effects": [ "flag ch_house_heir_wait9 for 110", "morale -0.04", "npc steersman feeling -2 put_off",
+                   "schedule harbour.chain_house_heir.s07_the_day in 120 at dorestad" ] }
+   ],
+   "memory": {
+    "oar": "chose to hand over the steering oar",
+    "keels": "chose to divide the house",
+    "written": "chose to have the house written down",
+    "wait": "put off the day another season"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s08_oar",
+   "note": "Step 8, AN ENDING: THE OAR (flag ch_house_heir_end_oar), following step 7 at once. What the custom shows: a house passes by a thing handed over before witnesses. The Franks made an heir by throwing a stalk (festuca) into his lap before the court, after which he kept the giver's house with three guests and fed them porridge before witnesses: Lex Salica 46, De acfatmire (?). The oar as the token is the game's. Three finales: he keeps the storehouse (unlock_kin_heir); the hard road, open only to a father who staked him and trusted him at the bar, where the old man ships as his heir's crew for a last summer and the oar he held is hung in the house (unlock_kin_heir and unlock_heirloom_fathers_oar); or he gives a pound to Saint Martin and goes to live under the church's roof as its pensioner (unlock_kin_heir and unlock_title_st_martins_man, with ch_house_heir_father_cloister). A layman who gives to a church and is kept by it for life: the precaria and the prebend of the charters, as in the gifts of Frisians to Liudger's Werden from 799 (?). The silver is what is owed to the house on the dams, called in when the master changes (the game's). The verse is Hávamál 72, tr. H. A. Bellows, The Poetic Edda (1923): a public-domain translation, quoted whole; it is the Northmen's, so the card says only that the Danes have it. Sets ch_house_heir_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_heir_9a and not flag.ch_house_heir_done",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true },
+    "priest": { "role": "priest", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s08a.title",
+   "title": "The steering oar",
+   "intention_key": "ch_house_heir.s08a.intention",
+   "intention": "The dam head on a bright cold morning, with the men of the dams called to see it. You unship the steering oar and hold it out across the wale. What is given before witnesses stays given. It remains to say what the old man does next.",
+   "lines": [
+    { "key": "ch_house_heir.s08a.open" },
+    { "key": "ch_house_heir.s08a.boy" },
+    { "key": "ch_house_heir.s08a.boy_broken", "when": "flag.ch_house_heir_broken" },
+    { "who": "priest", "key": "ch_house_heir.s08a.priest" },
+    { "who": "widow", "key": "ch_house_heir.s08a.widow" },
+    { "key": "ch_house_heir.s08a.verse" }
+   ],
+   "options": [
+    { "key": "storehouse", "label_key": "ch_house_heir.s08a.storehouse", "label": "Hand it over, and keep the storehouse on the dam", "check": "true",
+      "effects": [ "flag ch_house_heir_end_oar", "flag ch_house_heir_done", "flag unlock_kin_heir",
+                   "silver +600", "goods frisian_cloth +6", "morale +0.15", "npc widow feeling +5 handed_over",
+                   "news ch_house_heir.news.oar at dorestad" ] },
+    { "key": "last_summer", "label_key": "ch_house_heir.s08a.last_summer", "label": "Hand it over, and ship as his crew for one last summer", "check": "flag.ch_house_heir_staked and (flag.ch_house_heir_proved or flag.ch_house_heir_beside)",
+      "effects": [ "flag ch_house_heir_end_oar", "flag ch_house_heir_done", "flag unlock_kin_heir", "flag unlock_heirloom_fathers_oar",
+                   "silver +1100", "goods frisian_cloth +8", "morale +0.2", "npc widow feeling +8 handed_over",
+                   "news ch_house_heir.news.oar at dorestad" ] },
+    { "key": "cloister", "label_key": "ch_house_heir.s08a.cloister", "label": "Hand it over, give a pound to Saint Martin and go under his roof", "check": "silver >= 240",
+      "cost": "silver 240",
+      "effects": [ "flag ch_house_heir_end_oar", "flag ch_house_heir_done", "flag unlock_kin_heir", "flag unlock_title_st_martins_man",
+                   "flag ch_house_heir_father_cloister", "deed gave_alms", "silver +700", "goods frisian_cloth +6", "morale +0.1",
+                   "npc priest feeling +15 gave_to_church", "news ch_house_heir.news.oar at dorestad" ] }
+   ],
+   "memory": {
+    "storehouse": "handed over the steering oar and kept the storehouse",
+    "last_summer": "handed over the steering oar and shipped as his heir's crew",
+    "cloister": "handed over the steering oar and went under Saint Martin's roof"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s08_two_keels",
+   "note": "Step 8, AN ENDING: TWO KEELS (flag ch_house_heir_end_two_keels), following step 7 at once. The house is divided while the old man lives, as the Franks divide among sons: the Divisio regnorum of 806 and the Ordinatio of 817 for kings; equal shares among sons in the Salic law of inheritance (Lex Salica 59, De alodis) (?). He takes a third and a keel of his own (unlock_partner_heir) and goes to the roof that raised him. Parted as friends, which a father who refused him at the quarrel cannot do, he is also the house's man there: on the school road he sails for Saint Martin, whose men at Dorestad are freed of the bank dues by Louis's charter of 18 March 815 (Oorkondenboek van het Sticht Utrecht I no. 56; dossiers/dorestad.md) (unlock_factor_traiectum); on the English road he keeps a hearth above the Strand (unlock_factor_lundenwic); on the Danish road he lands at his foster-father's (unlock_factor_ripa). Parted coldly, he buys the old boat and his third with his foster roof's silver, the house has the silver and a partner who answers by tally only, and ch_house_heir_estranged is the lasting cost. Sets ch_house_heir_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_heir_9b and not flag.ch_house_heir_done",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s08b.title",
+   "title": "Two keels",
+   "intention_key": "ch_house_heir.s08b.intention",
+   "intention": "The storehouse floor, swept, with everything the house owns laid out in three heaps and the widow holding the tally. One heap is his, and a keel of his own with it. It remains to say whether two keels are still one house.",
+   "lines": [
+    { "key": "ch_house_heir.s08b.open" },
+    { "who": "widow", "key": "ch_house_heir.s08b.widow" },
+    { "key": "ch_house_heir.s08b.school", "when": "flag.ch_house_heir_road_school" },
+    { "key": "ch_house_heir.s08b.strand", "when": "flag.ch_house_heir_road_strand" },
+    { "key": "ch_house_heir.s08b.hearth", "when": "flag.ch_house_heir_road_hearth" },
+    { "key": "ch_house_heir.s08b.broken", "when": "flag.ch_house_heir_broken" },
+    { "key": "ch_house_heir.s08b.not_broken", "when": "not flag.ch_house_heir_broken" }
+   ],
+   "options": [
+    { "key": "martin", "label_key": "ch_house_heir.s08b.martin", "label": "Part as friends: he sails for Saint Martin and keeps your goods at Traiectum", "check": "flag.ch_house_heir_road_school and not flag.ch_house_heir_broken",
+      "effects": [ "flag ch_house_heir_end_two_keels", "flag ch_house_heir_done", "flag unlock_partner_heir", "flag unlock_factor_traiectum",
+                   "silver +600", "goods wax +8", "goods parchment +2", "learn latin +0.2", "morale +0.1",
+                   "news ch_house_heir.news.two_keels at dorestad" ] },
+    { "key": "strand", "label_key": "ch_house_heir.s08b.strand_opt", "label": "Part as friends: he keeps a hearth above the Strand and your goods with it", "check": "flag.ch_house_heir_road_strand and not flag.ch_house_heir_broken",
+      "effects": [ "flag ch_house_heir_end_two_keels", "flag ch_house_heir_done", "flag unlock_partner_heir", "flag unlock_factor_lundenwic",
+                   "silver +900", "commission rhenish_wine 8 by 300 premium 1.5", "morale +0.1",
+                   "news ch_house_heir.news.two_keels at dorestad" ] },
+    { "key": "hearth", "label_key": "ch_house_heir.s08b.hearth_opt", "label": "Part as friends: he lands at his foster-father's and keeps your goods at Ripa", "check": "flag.ch_house_heir_road_hearth and not flag.ch_house_heir_broken",
+      "effects": [ "flag ch_house_heir_end_two_keels", "flag ch_house_heir_done", "flag unlock_partner_heir", "flag unlock_factor_ripa",
+                   "silver +500", "goods marten +3", "goods walrus_ivory +2", "goods amber +4", "morale +0.1",
+                   "news ch_house_heir.news.two_keels at dorestad" ] },
+    { "key": "cold", "label_key": "ch_house_heir.s08b.cold", "label": "Let him buy the old boat and his third, and take the tally of it", "check": "true",
+      "effects": [ "flag ch_house_heir_end_two_keels", "flag ch_house_heir_done", "flag unlock_partner_heir", "flag ch_house_heir_estranged",
+                   "silver +700", "morale -0.05", "npc widow feeling -3 parted_cold",
+                   "news ch_house_heir.news.two_keels at dorestad" ] }
+   ],
+   "memory": {
+    "martin": "divided the house with his heir and parted as friends",
+    "strand": "divided the house with his heir and parted as friends",
+    "hearth": "divided the house with his heir and parted as friends",
+    "cold": "divided the house with his heir by tally and parted coldly"
+   }
+  },
+  {
+   "id": "harbour.chain_house_heir.s08_written",
+   "note": "Step 8, AN ENDING: THE HOUSE IN WRITING (flag ch_house_heir_end_written, with changed_merchant_writing: HISTORY CHANGED), following step 7 at once. In our history no merchant of Dorestad left a line of writing: everything known of them was written by clerks, and a merchant's own book is not heard of in the north for three hundred years. Here the house's goods, its debts, the shares of father and heir and the names of those who owe it are set down on a leaf and witnessed. What it rests on: a written deed (carta) with its witnesses stands as proof in a Frankish court (Lex Ribuaria 59-60 (?)); the emperor himself kept tablets under his pillow (Einhard c. 25, tr. Turner 1880); the bishop's church kept its deeds in a chest. Three finales: the school's boy writes it himself, and father and heir are partners by its shares (unlock_heirloom_house_book and unlock_partner_heir: the hard road, because it needs the years at the school); a priest writes it for sixty pennies (unlock_heirloom_house_book); or it is written and a second leaf laid in the church's chest, for 120 pennies in all, so that the toll man takes the house's tally on trust for a year (unlock_heirloom_house_book, toll eased 365 days, and the lasting tie ch_house_heir_deed_at_church). The silver is what three men on the dams remembered they owed when they saw their names in ink (the game's). Sets ch_house_heir_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_heir_9c and not flag.ch_house_heir_done",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "priest": { "role": "priest", "faith": "christian", "fixed": true },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "fixed": true }
+   },
+   "title_key": "ch_house_heir.s08c.title",
+   "title": "The house in writing",
+   "intention_key": "ch_house_heir.s08c.intention",
+   "intention": "A table by the church door with a calfskin leaf pegged flat on it, an ink horn, and the men of the dams standing well back from both. What the house owns, what it owes, who owes it, and whose it is next: all of it is to go down in ink.",
+   "lines": [
+    { "key": "ch_house_heir.s08c.open" },
+    { "who": "priest", "key": "ch_house_heir.s08c.priest" },
+    { "key": "ch_house_heir.s08c.boy_school", "when": "flag.ch_house_heir_road_school" },
+    { "key": "ch_house_heir.s08c.boy_other", "when": "not flag.ch_house_heir_road_school" },
+    { "who": "widow", "key": "ch_house_heir.s08c.widow" },
+    { "key": "ch_house_heir.s08c.debtors" }
+   ],
+   "options": [
+    { "key": "own_hand", "label_key": "ch_house_heir.s08c.own_hand", "label": "Let him write it himself, with your share and his in it", "check": "flag.ch_house_heir_road_school",
+      "effects": [ "flag ch_house_heir_end_written", "flag ch_house_heir_done", "flag changed_merchant_writing",
+                   "flag unlock_heirloom_house_book", "flag unlock_partner_heir",
+                   "silver +1000", "learn latin +0.2", "morale +0.15", "npc priest feeling +3 wrote_own",
+                   "news ch_house_heir.news.written at dorestad" ] },
+    { "key": "priest_hand", "label_key": "ch_house_heir.s08c.priest_hand", "label": "Pay the priest sixty pennies to write it", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "flag ch_house_heir_end_written", "flag ch_house_heir_done", "flag changed_merchant_writing",
+                   "flag unlock_heirloom_house_book",
+                   "silver +760", "morale +0.1", "npc priest feeling +8 paid_scribe",
+                   "news ch_house_heir.news.written at dorestad" ] },
+    { "key": "church_chest", "label_key": "ch_house_heir.s08c.church_chest", "label": "Have it written twice, and lay one leaf in the church's chest: 120 pennies", "check": "silver >= 120",
+      "cost": "silver 120",
+      "effects": [ "flag ch_house_heir_end_written", "flag ch_house_heir_done", "flag changed_merchant_writing",
+                   "flag unlock_heirloom_house_book", "flag ch_house_heir_deed_at_church",
+                   "silver +820", "toll eased 365", "deed gave_alms", "morale +0.1", "npc priest feeling +12 leaf_in_chest",
+                   "news ch_house_heir.news.written at dorestad" ] }
+   ],
+   "memory": {
+    "own_hand": "had his heir write the house down in his own hand",
+    "priest_hand": "paid him to write the house down",
+    "church_chest": "laid a leaf of the house's deed in the church's chest"
+   }
+  }
+ ]
+}

@@ -1,0 +1,542 @@
+{
+ "about": "THE CHAIN the_bell (Design/content/CHAINS.md; the page is Design/content/chains/the_bell.md): a bell for the church at Sliesthorp. In 854 the old King Horik falls in a war of kinsmen; the count of the port, Hovi, shuts Anskar's church; the young King Horik puts Hovi out, lets the church open again and allows it a bell, 'the use of which the pagans regarded as unlawful' (Rimbert, Vita Anskarii c. 31-32, tr. C. H. Robinson 1921). Somebody paid for the bronze and somebody carried it. Fourteen cards (thirteen harbour, one sea) from 855: the empty frame at Sliesthorp, what the Danes fear, the founder at Colonia, the metal (bought, brought, or the broken bronze of a burnt church), the pour, the voice, Dorestad on the way, fog at sea, the strand, the lot, and five finales. Endings: ch_the_bell_end_rung (what happened; the hard road adds ch_the_bell_peace and changed_sliesthorp_bell_for_all), ch_the_bell_end_ripa (changed_first_bell_at_ripa), ch_the_bell_end_drowned and ch_the_bell_end_melted (both changed_sliesthorp_bell_silenced), ch_the_bell_end_dorestad (changed_dorestad_bell). Costs that last: ch_the_bell_church_remembers, ch_the_bell_purse (the Sliesthorp pledge still in your chest), ch_the_bell_lot_bought, ch_the_bell_flawed. Real and named in the words: Anskar, the two Horiks, Hovi, Burghard, Rorik. Invented: Folcward the priest, Hebbe the Frisian, Asgaut the chief, Tosti the caster, Reginbert the founder, Hildulf the priest at Dorestad. Every option's outcome text is a writing key named in its note. The bell is a flag (ch_the_bell_aboard), not a unit in the hold, so it cannot be sold by mistake. A draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_the_bell.s01_empty_frame",
+   "note": "Step 1, the start: Sliesthorp, 855 to 861, drawn on a call. The church is open again, the king has allowed a bell, and there is no bell: the priest calls to Mass by beating a board. Sources: Rimbert, Vita Anskarii c. 24 (the elder Horik gives the plot for a church at Sliaswic; merchants of Dorstadt and Hamburg then come freely), c. 31 (854: the war, the count Hovi shuts the church and the priest leaves), c. 32 (the younger Horik puts Hovi out, asks for the priest back, allows a bell, gives ground at Ripa); the years are 'about 855-857' (realms/denmark.json). A wooden board struck to call the brethren is the monastic custom where there is no bell (?). The priest Folcward (Folc- + -ward, Saxon) and the Frisian Hebbe are invented; Rimbert does not name the priest. That the Christians of the port made up a purse is invented: somebody paid. Sets ch_the_bell_1, and ch_the_bell_purse (120 d of the pledge carried) or ch_the_bell_nopurse.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year >= 855 and year < 862 and not flag.ch_the_bell_1 and not flag.ch_the_bell_seen and not flag.ch_the_bell_done",
+   "weight": 4.0,
+   "cooldown_days": 20,
+   "actors": {
+    "priest": { "role": "priest", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [30, 45], "fixed": true, "note": "Folcward, invented (named in the words); the priest Anskar sent back to Sliaswic is not named by Rimbert" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [40, 60], "fixed": true, "note": "Hebbe, invented: a Dorestad man who summers at Sliesthorp" }
+   },
+   "title_key": "chain_the_bell.s01.title",
+   "title": "The empty frame",
+   "intention_key": "chain_the_bell.s01.intention",
+   "intention": "By the door of the wooden church stands a frame of new oak with nothing hanging in it. A priest is beating a plank with a mallet to call people to Mass.",
+   "lines": [
+    { "who": "priest", "key": "chain_the_bell.s01.board" },
+    { "who": "priest", "key": "chain_the_bell.s01.shut", "when": "year < 859" },
+    { "who": "priest", "key": "chain_the_bell.s01.leave" },
+    { "who": "merchant", "key": "chain_the_bell.s01.pledge" },
+    { "who": "merchant", "key": "chain_the_bell.s01.where" },
+    { "who": "priest", "key": "chain_the_bell.s01.ask" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_the_bell.s01.opt_take", "label": "Take the errand, and the purse toward the metal", "check": "true", "default": true,
+      "effects": [ "silver +120", "flag ch_the_bell_1", "flag ch_the_bell_purse", "npc priest feeling +4 errand", "npc merchant feeling +2 errand" ],
+      "note": "outcome: chain_the_bell.s01.out_take (120 d of the pledge in weighed silver; the rest when it hangs)" },
+    { "key": "nopurse", "label_key": "chain_the_bell.s01.opt_nopurse", "label": "Take the errand; let them keep their silver till it hangs", "check": "true",
+      "effects": [ "flag ch_the_bell_1", "flag ch_the_bell_nopurse", "deed fair_dealing", "npc priest feeling +10 trusted", "npc merchant feeling +8 trusted", "commission rhenish_wine 4 by 300 premium 1.5" ],
+      "note": "outcome: chain_the_bell.s01.out_nopurse (costs nothing; the priest orders his Mass wine from you instead, at a premium)" },
+    { "key": "ask", "label_key": "chain_the_bell.s01.opt_ask", "label": "Ask first what the Danes say of it", "check": "true",
+      "effects": [ "flag ch_the_bell_warned", "flag ch_the_bell_seen for 2" ],
+      "note": "outcome: chain_the_bell.s01.out_ask (time only: opens the ale-house card, and this card comes again)" },
+    { "key": "pass", "label_key": "chain_the_bell.s01.opt_pass", "label": "It is not your church. Go about your trade", "check": "true",
+      "effects": [ "flag ch_the_bell_seen for 30" ],
+      "note": "outcome: chain_the_bell.s01.out_pass (time only: the frame is still empty next time)" }
+   ],
+   "memory": { "take": "took the errand and the purse", "nopurse": "took the errand and left the purse", "ask": "asked what the Danes say", "pass": "went by" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s02_what_they_fear",
+   "note": "Step 2 (optional, and the warning before the danger): the ale-house at Sliesthorp, after step 1 or after asking. What the heathen men hold against a bell, and the caster's heap of broken bronze. Sources: Rimbert c. 32: the bell is a thing the pagans 'regarded as unlawful' (Rimbert's word is nefandum); he gives no reason. The reason given here, that the noise drives off the land's guardians and with them the fish and the corn, is drawn from the later Icelandic law that ships must take down their carved heads before sighting land so as not to frighten the land spirits (Landnamabok, 13th century, from memory) and is a guess for Danes of 855 (?). Hamburg was burnt by King Horik's fleet in 845 with its church (Rimbert c. 16; Annales Bertiniani 845): that a broken bell from it lay in a caster's scrap at Sliesthorp is invented; a piece of an older bell was found at Hedeby (de.wikipedia, Glocke von Haithabu). Bronze casters worked at Sliesthorp and Ripa (moulds for brooches in the market layers). Asgaut, Hovi's kinsman, and Tosti the caster are invented. If the house saw the bell at Birka (chain mission_north, flag ch_mission_north_bell) the chief says so. Sets ch_the_bell_2; ch_the_bell_fog_idea; ch_the_bell_scrap; ch_the_bell_2_done when the player has had enough.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year >= 855 and (flag.ch_the_bell_1 or flag.ch_the_bell_warned) and not flag.ch_the_bell_2_done and not flag.ch_the_bell_9 and not flag.ch_the_bell_done",
+   "weight": 12,
+   "cooldown_days": 4,
+   "actors": {
+    "chief": { "role": "chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 65], "fixed": true, "note": "Asgaut, invented: a ship-owner of the port and a kinsman of the count Hovi" },
+    "caster": { "role": "craftsman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [25, 50], "fixed": true, "note": "Tosti, invented: a caster of brooches" }
+   },
+   "title_key": "chain_the_bell.s02.title",
+   "title": "What they fear",
+   "intention_key": "chain_the_bell.s02.intention",
+   "intention": "On the ale-house bench sits a grey ship-owner whom the others make room for. Beside the door a bronze caster has his cloth out, with a heap of broken metal on it.",
+   "lines": [
+    { "who": "chief", "key": "chain_the_bell.s02.guardians" },
+    { "who": "chief", "key": "chain_the_bell.s02.hovi", "when": "year < 859" },
+    { "who": "chief", "key": "chain_the_bell.s02.birka", "when": "flag.ch_mission_north_bell" },
+    { "who": "chief", "key": "chain_the_bell.s02.warn" },
+    { "who": "caster", "key": "chain_the_bell.s02.heap", "when": "not flag.ch_the_bell_scrap" },
+    { "who": "caster", "key": "chain_the_bell.s02.heap_sold", "when": "flag.ch_the_bell_scrap" }
+   ],
+   "options": [
+    { "key": "fog", "label_key": "chain_the_bell.s02.opt_fog", "label": "Ask him, in his own tongue, what a ship does in fog on the Slie", "check": "tongue.old_norse >= 0.5 and not flag.ch_the_bell_fog_idea",
+      "effects": [ "flag ch_the_bell_2", "flag ch_the_bell_fog_idea", "npc chief feeling +6 asked" ],
+      "note": "outcome: chain_the_bell.s02.out_fog (costs nothing; it opens the hard road at the strand and the thing)" },
+    { "key": "scrap", "label_key": "chain_the_bell.s02.opt_scrap", "label": "Buy the broken bronze on the caster's cloth: 90 pennies' weight", "check": "silver >= 90 and not flag.ch_the_bell_scrap and not flag.ch_the_bell_metal",
+      "cost": "silver 90",
+      "effects": [ "flag ch_the_bell_2", "flag ch_the_bell_scrap", "npc caster feeling +4 bought" ],
+      "note": "outcome: chain_the_bell.s02.out_scrap (the cheapest metal: the founder at Colonia takes it with 150 d for his work)" },
+    { "key": "leave", "label_key": "chain_the_bell.s02.opt_leave", "label": "You have heard enough. Thank him for the warning", "check": "true", "default": true,
+      "effects": [ "flag ch_the_bell_2", "flag ch_the_bell_2_done", "npc chief feeling +2 heard" ],
+      "note": "outcome: chain_the_bell.s02.out_leave (time only)" }
+   ],
+   "memory": { "fog": "asked about ships in fog", "scrap": "bought the broken bronze", "leave": "heard the warning out" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s03_founder",
+   "note": "Step 3: Colonia, after step 1. The founder and his price. Sources: bell metal is about four parts of copper to one of tin (economy/stone_metal_arms.md; en.wikipedia, Bellfounding); a bell was modelled in wax or tallow over a core of loam, cased in loam, the wax melted out and the metal poured in a pit (Theophilus, De diversis artibus III.85, about 1120, LATE; taken as the older practice (?)); Walahfrid Strabo about 840 knows bells both cast and beaten (De exordiis c. 5, from memory (?)); the bell of about 950 from Hedeby harbour is beehive-shaped and of about this size (de.wikipedia, Glocke von Haithabu). Six bars of copper and one of tin are the figures of story/works_793.json 'bell'. Tin is Cornish and comes by Hamwic (goods_793.json). The story of the founder who asked the emperor for silver, kept it and was killed by his own bell's clapper is Notker, Gesta Karoli I.29 (written 883-887 of Charlemagne's day; Grant 1907), told here in our own words as hearsay thirty years early (?). In the storm of 857 the people of Cologne ran into Saint Peter's and rang the bells, and lightning killed three (Annales Fuldenses 857; dossiers/colonia.md). Reginbert (Regin- + -bert) is invented. Sets ch_the_bell_3 and the wait ch_the_bell_3_wait (40 days: the mould); ch_the_bell_metal (he has the metal) or ch_the_bell_bring; ch_the_bell_old_bronze; ch_the_bell_watched.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and flag.ch_the_bell_1 and not flag.ch_the_bell_3 and not flag.ch_the_bell_done",
+   "weight": 30,
+   "cooldown_days": 2,
+   "actors": {
+    "founder": { "role": "smith", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [40, 60], "fixed": true, "note": "Reginbert, invented: a caster of cauldrons and bells on the smiths' row (places/colonia.json colonia.smiths_row)" }
+   },
+   "title_key": "chain_the_bell.s03.title",
+   "title": "The founder",
+   "intention_key": "chain_the_bell.s03.intention",
+   "intention": "On the smiths' row a broad man with burn scars to the elbow is scraping a cauldron's seam. He hears the errand out without stopping, then puts the scraper down.",
+   "lines": [
+    { "who": "founder", "key": "chain_the_bell.s03.size" },
+    { "who": "founder", "key": "chain_the_bell.s03.parts" },
+    { "who": "founder", "key": "chain_the_bell.s03.wax" },
+    { "who": "founder", "key": "chain_the_bell.s03.old", "when": "flag.ch_the_bell_scrap" },
+    { "who": "founder", "key": "chain_the_bell.s03.storm", "when": "year >= 857" },
+    { "who": "founder", "key": "chain_the_bell.s03.cheat", "when": "flag.ch_the_bell_watched" },
+    { "who": "founder", "key": "chain_the_bell.s03.price" }
+   ],
+   "options": [
+    { "key": "all", "label_key": "chain_the_bell.s03.opt_all", "label": "Pay him for metal and work together: 420 d", "check": "silver >= 420",
+      "cost": "silver 420",
+      "effects": [ "flag ch_the_bell_3", "flag ch_the_bell_metal", "flag ch_the_bell_3_wait for 40", "npc founder feeling +4 paid" ],
+      "note": "outcome: chain_the_bell.s03.out_all (the dear road and the quick one; come back in forty days for the pour)" },
+    { "key": "bring", "label_key": "chain_the_bell.s03.opt_bring", "label": "Bring him the bars yourself and pay only his work", "check": "true", "default": true,
+      "effects": [ "flag ch_the_bell_3", "flag ch_the_bell_bring", "flag ch_the_bell_3_wait for 40", "commission tin 3 by 240 premium 1.8", "npc founder feeling +2 agreed" ],
+      "note": "outcome: chain_the_bell.s03.out_bring (costs nothing now: six bars of copper and one of tin to find, 150 d for the work on the day, and his own order for three more bars of tin at a premium)" },
+    { "key": "scrap", "label_key": "chain_the_bell.s03.opt_scrap", "label": "Give him the broken bronze from the north and 150 d for the work", "check": "flag.ch_the_bell_scrap and silver >= 150",
+      "cost": "silver 150",
+      "effects": [ "flag ch_the_bell_3", "flag ch_the_bell_metal", "flag ch_the_bell_old_bronze", "flag ch_the_bell_3_wait for 40", "npc founder feeling +6 old_bronze" ],
+      "note": "outcome: chain_the_bell.s03.out_scrap (the cheap road: the burnt church's bell goes into the new one)" },
+    { "key": "watch", "label_key": "chain_the_bell.s03.opt_watch", "label": "Stay the day and watch him pour a cauldron first", "check": "not flag.ch_the_bell_watched",
+      "effects": [ "flag ch_the_bell_watched", "give_riddle riddle_exeter_83_ore", "npc founder feeling +4 watched" ],
+      "note": "outcome: chain_the_bell.s03.out_watch (time only: a riddle for the chest and his story of the cheating founder; the card comes again)" }
+   ],
+   "memory": { "all": "paid for metal and work", "bring": "undertook to bring the metal", "scrap": "brought the broken bronze of a burnt church", "watch": "watched a pour" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s04_the_metal",
+   "note": "Step 4 (only on the road where the player brings the metal): Colonia, any call after step 3 until the founder has it. Six bars of copper and one of tin (goods_793.json 'copper', 'tin'; story/works_793.json 'bell'), and 150 d for the work. Copper before the Rammelsberg mines (968) is mostly old metal and what comes down from the Saxon hills (?); tin is Cornish. Sets ch_the_bell_metal.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and flag.ch_the_bell_bring and not flag.ch_the_bell_metal and not flag.ch_the_bell_done",
+   "weight": 40,
+   "cooldown_days": 3,
+   "actors": {
+    "founder": { "role": "smith", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [40, 60], "fixed": true, "note": "Reginbert, invented" }
+   },
+   "title_key": "chain_the_bell.s04.title",
+   "title": "Six bars and one",
+   "intention_key": "chain_the_bell.s04.intention",
+   "intention": "The founder has the core built: a mound of baked loam the shape of a beehive, standing on a board in his yard under a hide. He looks past you at what your men are carrying.",
+   "lines": [
+    { "who": "founder", "key": "chain_the_bell.s04.core" },
+    { "who": "founder", "key": "chain_the_bell.s04.have", "when": "hold.copper >= 6 and hold.tin >= 1" },
+    { "who": "founder", "key": "chain_the_bell.s04.short", "when": "hold.copper < 6 or hold.tin < 1" },
+    { "who": "founder", "key": "chain_the_bell.s04.where" }
+   ],
+   "options": [
+    { "key": "hand", "label_key": "chain_the_bell.s04.opt_hand", "label": "Hand over six bars of copper and one of tin, and 150 d for the work", "check": "hold.copper >= 6 and hold.tin >= 1 and silver >= 150",
+      "cost": [ "goods copper 6", "goods tin 1", "silver 150" ],
+      "effects": [ "flag ch_the_bell_metal", "npc founder feeling +6 brought" ],
+      "note": "outcome: chain_the_bell.s04.out_hand" },
+    { "key": "buy", "label_key": "chain_the_bell.s04.opt_buy", "label": "Pay for his metal after all: 440 d with the work", "check": "silver >= 440",
+      "cost": "silver 440",
+      "effects": [ "flag ch_the_bell_metal", "npc founder feeling +2 paid" ],
+      "note": "outcome: chain_the_bell.s04.out_buy (twenty pennies dearer than at first: he says the wait cost him)" },
+    { "key": "scrap", "label_key": "chain_the_bell.s04.opt_scrap", "label": "Give him the broken bronze from the north instead, and 150 d for the work", "check": "flag.ch_the_bell_scrap and silver >= 150",
+      "cost": "silver 150",
+      "effects": [ "flag ch_the_bell_metal", "flag ch_the_bell_old_bronze", "npc founder feeling +6 old_bronze" ],
+      "note": "outcome: chain_the_bell.s04.out_scrap (for a player who bought the caster's heap after agreeing to bring bars)" },
+    { "key": "later", "label_key": "chain_the_bell.s04.opt_later", "label": "Tell him the bars are coming", "check": "true", "default": true,
+      "effects": [ "npc founder feeling -1 waiting" ],
+      "note": "outcome: chain_the_bell.s04.out_later (time and a little pride; the card comes again)" }
+   ],
+   "memory": { "hand": "brought the copper and the tin", "scrap": "brought the broken bronze of a burnt church", "buy": "bought his metal after all", "later": "kept him waiting for the metal" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s05_the_pour",
+   "note": "Step 5: Colonia, forty days after step 3 and once the founder has the metal. The pour, at night. Sources: Theophilus III.85 (LATE, as above): the mould is buried in a pit to its mouth, the furnace is blown by several pairs of bellows, and the metal is let run when it is ready; that founders poured after dark to judge the colour of the fire is a craftsman's habit told from memory (?). A cold shut (the metal meeting itself too cool) makes a dull or cracked bell. The belief that silver sweetens a bell is old and wrong; the founder's answer is the moral of Notker I.29. Sets ch_the_bell_5 and the wait ch_the_bell_5_wait (12 days cooling); a failed chance sets ch_the_bell_flawed.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and flag.ch_the_bell_3 and flag.ch_the_bell_metal and not flag.ch_the_bell_3_wait and not flag.ch_the_bell_5 and not flag.ch_the_bell_done",
+   "weight": 50,
+   "cooldown_days": 0,
+   "actors": {
+    "founder": { "role": "smith", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [40, 60], "fixed": true, "note": "Reginbert, invented" }
+   },
+   "title_key": "chain_the_bell.s05.title",
+   "title": "The pour",
+   "intention_key": "chain_the_bell.s05.intention",
+   "intention": "The mould is buried to its lip in a pit in the founder's yard. The furnace has been alight since noon, and he means to let the metal run after dark, when he can see its colour.",
+   "lines": [
+    { "who": "founder", "key": "chain_the_bell.s05.night" },
+    { "who": "founder", "key": "chain_the_bell.s05.old", "when": "flag.ch_the_bell_old_bronze" },
+    { "who": "founder", "key": "chain_the_bell.s05.boys" },
+    { "who": "founder", "key": "chain_the_bell.s05.cold" }
+   ],
+   "options": [
+    { "key": "bellows", "label_key": "chain_the_bell.s05.opt_bellows", "label": "Put your crew on the bellows and stand the night with him", "check": "true", "default": true,
+      "effects": [ "flag ch_the_bell_5", "flag ch_the_bell_5_wait for 12", "morale +0.04", "npc founder feeling +6 bellows" ],
+      "note": "outcome: chain_the_bell.s05.out_bellows (sure: a night's work and a sound bell)" },
+    { "key": "sleep", "label_key": "chain_the_bell.s05.opt_sleep", "label": "Leave it to his two boys and sleep aboard", "check": "true",
+      "effects": [ { "chance": 0.6,
+                     "success": [ "npc founder feeling +1 slept" ],
+                     "failure": [ "flag ch_the_bell_flawed", "npc founder feeling -3 slept" ] },
+                   "flag ch_the_bell_5", "flag ch_the_bell_5_wait for 12" ],
+      "note": "outcome: chain_the_bell.s05.out_sleep_success / out_sleep_failure (likely; a failure is a cold shut and a flat voice, which can be mended at step 6 or carried north as it is)" },
+    { "key": "silver", "label_key": "chain_the_bell.s05.opt_silver", "label": "Offer sixty pennies for the pot, to sweeten the voice", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "flag ch_the_bell_5", "flag ch_the_bell_5_wait for 12", "deed gave_alms", "npc founder feeling +8 silver", "morale +0.04" ],
+      "note": "outcome: chain_the_bell.s05.out_silver (he will not melt it: silver does nothing for a bell; he has you carry it to the poor at Saint Peter's door, and then you blow the bellows like anyone else)" }
+   ],
+   "memory": { "bellows": "blew the bellows at the pour", "sleep.success": "slept through the pour", "sleep.failure": "slept through a bad pour", "silver": "offered silver for the pot and gave it to the poor" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s06_the_voice",
+   "note": "Step 6: Colonia, twelve days after the pour. The bell is dug out, struck and loaded. Sources: the Admonitio generalis of 789 forbids 'baptising' bells (c. 34 (?), from memory), which shows that bells were being washed, anointed and named; the blessing of a bell with water and oil is in the later pontificals. The weight, 'what a ten-year-old boy weighs', follows the bell of Hedeby harbour (about 25 kg (?); de.wikipedia gives no weight). The priest of Saint Peter's is unnamed. Sets ch_the_bell_6 and ch_the_bell_aboard; ch_the_bell_blessed; a recast clears ch_the_bell_flawed and waits 20 days.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and flag.ch_the_bell_5 and not flag.ch_the_bell_5_wait and not flag.ch_the_bell_6 and not flag.ch_the_bell_done",
+   "weight": 50,
+   "cooldown_days": 0,
+   "actors": {
+    "founder": { "role": "smith", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [40, 60], "fixed": true, "note": "Reginbert, invented" },
+    "clerk": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [25, 40], "fixed": true, "note": "a priest of Saint Peter's, unnamed" }
+   },
+   "title_key": "chain_the_bell.s06.title",
+   "title": "The voice",
+   "intention_key": "chain_the_bell.s06.intention",
+   "intention": "The bell stands on two billets in the yard, brown and rough, its casting lugs sawn off. The founder has a mallet of applewood in his hand and is waiting for you before he uses it.",
+   "lines": [
+    { "who": "founder", "key": "chain_the_bell.s06.good", "when": "not flag.ch_the_bell_flawed" },
+    { "who": "founder", "key": "chain_the_bell.s06.flat", "when": "flag.ch_the_bell_flawed" },
+    { "who": "founder", "key": "chain_the_bell.s06.old", "when": "flag.ch_the_bell_old_bronze" },
+    { "who": "founder", "key": "chain_the_bell.s06.weight" },
+    { "who": "clerk", "key": "chain_the_bell.s06.bless" }
+   ],
+   "options": [
+    { "key": "plain", "label_key": "chain_the_bell.s06.opt_plain", "label": "Load it as it is. Its own priest can bless it", "check": "true", "default": true,
+      "effects": [ "flag ch_the_bell_6", "flag ch_the_bell_aboard", "npc founder feeling +2 loaded" ],
+      "note": "outcome: chain_the_bell.s06.out_plain (time only)" },
+    { "key": "bless", "label_key": "chain_the_bell.s06.opt_bless", "label": "Have it washed and blessed at Saint Peter's first: twelve pennies at the altar", "check": "silver >= 12",
+      "cost": "silver 12",
+      "effects": [ "flag ch_the_bell_6", "flag ch_the_bell_aboard", "flag ch_the_bell_blessed", "morale +0.05", "deed gave_alms", "npc clerk feeling +6 blessed" ],
+      "note": "outcome: chain_the_bell.s06.out_bless (the crew's hearts rise; the Danes will hear of it and like it less)" },
+    { "key": "recast", "label_key": "chain_the_bell.s06.opt_recast", "label": "Pay him to break it up and pour again: 120 d and twenty days", "check": "flag.ch_the_bell_flawed and silver >= 120",
+      "cost": "silver 120",
+      "effects": [ "flag ch_the_bell_flawed = 0", "flag ch_the_bell_5_wait for 20", "npc founder feeling +4 recast" ],
+      "note": "outcome: chain_the_bell.s06.out_recast (the card comes again in twenty days with a sound bell)" }
+   ],
+   "memory": { "plain": "loaded the bell unblessed", "bless": "had the bell blessed", "recast": "paid for a second pour" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s07_dorestad",
+   "note": "Step 7 (on the way; it can be sailed past): Dorestad before 863, with the bell aboard. The upper church has no bell and wants this one. Sources: Dorestad is burnt in 846-847 and plundered again in 857 while Rorik is away (Annales Bertiniani 846, 847, 857; realms/denmark.json); Rorik, a Dane, holds it for the emperor Lothar from 850 (AB 850); 'many churches, priests, and clergy, and a multitude of poor people' (Rimbert c. 20, tr. Robinson 1921). That the church's bell was carried off is invented. The priest Hildulf (Hild- + -ulf) is invented; the toll man is cast.eystein, Rorik's man (invented, 850-867). Sets ch_the_bell_7; the sale sets ch_the_bell_dorestad, clears ch_the_bell_aboard and waits 14 days for the finale s14; ringing it from the yard sets ch_the_bell_heard_dorestad.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year < 863 and flag.ch_the_bell_aboard and not flag.ch_the_bell_7 and not flag.ch_the_bell_done",
+   "weight": 40,
+   "cooldown_days": 0,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [45, 65], "fixed": true, "note": "Hildulf, invented: priest of the upper church" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "port", "tongue": "old_norse", "sex": "m", "age": [38, 50], "fixed": true, "note": "cast.eystein, Rorik's man at the toll (invented)" }
+   },
+   "title_key": "chain_the_bell.s07.title",
+   "title": "A bell going north",
+   "intention_key": "chain_the_bell.s07.intention",
+   "intention": "The toll man has the straw off the bell before you can speak, and by the time he has decided what it is, a priest and half the upper bank are standing on the jetty looking down into your boat.",
+   "lines": [
+    { "who": "tollman", "key": "chain_the_bell.s07.toll" },
+    { "who": "priest", "key": "chain_the_bell.s07.ours", "when": "year < 857" },
+    { "who": "priest", "key": "chain_the_bell.s07.ours_857", "when": "year >= 857" },
+    { "who": "priest", "key": "chain_the_bell.s07.offer" },
+    { "who": "priest", "key": "chain_the_bell.s07.purse", "when": "flag.ch_the_bell_purse" }
+   ],
+   "options": [
+    { "key": "on", "label_key": "chain_the_bell.s07.opt_on", "label": "It is promised north. Cover it and sail on", "check": "true", "default": true,
+      "effects": [ "flag ch_the_bell_7", "npc priest feeling +2 kept_word" ],
+      "note": "outcome: chain_the_bell.s07.out_on (time only)" },
+    { "key": "ring", "label_key": "chain_the_bell.s07.opt_ring", "label": "Sling it from the yard and let Dorestad hear it once", "check": "true",
+      "effects": [ "flag ch_the_bell_7", "flag ch_the_bell_heard_dorestad", "silver +24", "morale +0.05", "npc priest feeling +8 rang", "news chain_the_bell.news.passing at dorestad" ],
+      "note": "outcome: chain_the_bell.s07.out_ring (an hour and some pride; people throw pennies into the boat 'for the church among the Danes')" },
+    { "key": "sell", "label_key": "chain_the_bell.s07.opt_sell", "label": "Let it hang here. Hear what the upper church will give", "check": "year < 862",
+      "effects": [ "flag ch_the_bell_7", "flag ch_the_bell_dorestad", "flag ch_the_bell_aboard = 0", "flag ch_the_bell_7_wait for 14", "npc priest feeling +10 sold" ],
+      "note": "outcome: chain_the_bell.s07.out_sell (the bell goes ashore; the ending s14 comes in fourteen days. The frame at Sliesthorp stays empty)" }
+   ],
+   "memory": { "on": "would not sell the bell", "ring": "rang the bell from the yard", "sell": "let the bell stay at Dorestad" }
+  },
+  {
+   "id": "sea.chain_the_bell.s08_fog",
+   "note": "Step 8 (at sea with the bell aboard; drawn once). Fog, and a horn somewhere to leeward. Sources: story/works_793.json 'bell': rung in fog, a bell helps a ship find the landing; horns were what ships had. That a bell was struck at sea for another ship is invented. Sets ch_the_bell_8; a won chance on the first option sets ch_the_bell_fog_saved (a Danish boat owes you its keel), which opens the hard road at the strand and the thing.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_the_bell_aboard and not flag.ch_the_bell_8 and not flag.ch_the_bell_done",
+   "rate": 0.06,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 55], "fixed": true },
+    "crewman": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [20, 40], "fixed": true }
+   },
+   "title_key": "chain_the_bell.s08.title",
+   "title": "A horn in the fog",
+   "intention_key": "chain_the_bell.s08.intention",
+   "intention": "The fog has come down so thick that the stem is gone from the steering oar. The lead finds four fathoms, then two. Somewhere to leeward a horn is blowing, short and often, and it is coming closer to the bank than you are.",
+   "lines": [
+    { "who": "steersman", "key": "chain_the_bell.s08.bank" },
+    { "who": "steersman", "key": "chain_the_bell.s08.horn" },
+    { "who": "crewman", "key": "chain_the_bell.s08.fear" },
+    { "who": "crewman", "key": "chain_the_bell.s08.blessed", "when": "flag.ch_the_bell_blessed" }
+   ],
+   "options": [
+    { "key": "strike", "label_key": "chain_the_bell.s08.opt_strike", "label": "Unwrap the bell and strike it, so they hear where the deep water is", "check": "true",
+      "effects": [ { "chance": 0.65, "by": "crew.eyes_best",
+                     "success": [ "flag ch_the_bell_fog_saved", "goods marten +1", "morale +0.06" ],
+                     "failure": [ "morale -0.03" ] },
+                   "flag ch_the_bell_8" ],
+      "note": "outcome: chain_the_bell.s08.out_strike_success / out_strike_failure (likely; a failure is only an uneasy crew)" },
+    { "key": "lead", "label_key": "chain_the_bell.s08.opt_lead", "label": "Keep it wrapped and feel your way off with the lead", "check": "true",
+      "effects": [ { "chance": 0.8, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.02" ],
+                     "failure": [ "health -0.04", "morale -0.03" ] },
+                   "flag ch_the_bell_8" ],
+      "note": "outcome: chain_the_bell.s08.out_lead_success / out_lead_failure (sure with a good steersman; a failure is a night aground on the edge of the bank)" },
+    { "key": "anchor", "label_key": "chain_the_bell.s08.opt_anchor", "label": "Anchor where you are and wait for it to lift", "check": "true", "default": true,
+      "effects": [ "flag ch_the_bell_8" ],
+      "note": "outcome: chain_the_bell.s08.out_anchor (time only; the horn stops in the night and nobody says why)" }
+   ],
+   "memory": { "strike.success": "struck the bell in the fog and brought a boat off the bank", "strike.failure": "struck the bell in the fog", "lead.success": "felt his way off the bank", "lead.failure": "went aground in the fog", "anchor": "anchored in the fog" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s09_the_strand",
+   "note": "Step 9: Sliesthorp, with the bell aboard. Asgaut meets the boat. Sources: Rimbert c. 31 (Hovi, count of the port, was 'opposed' to the faith and shut the church); c. 32 (the younger king's leave); that the heathen party offered to buy the bell and sink it is invented. The danger was warned of at step 2 and is spoken again here before the choice. The bell of about 950 found in the mud of Hedeby harbour in 1978 (de.wikipedia, Glocke von Haithabu) is why the water is where a bell goes. Sets ch_the_bell_9; carrying it ashore clears ch_the_bell_aboard and waits 20 days for the king's man (ch_the_bell_9_wait); ch_the_bell_to_ripa; ch_the_bell_sold (which opens s13 at once); ch_the_bell_fog_offer.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_the_bell_aboard and not flag.ch_the_bell_9 and not flag.ch_the_bell_done",
+   "weight": 60,
+   "cooldown_days": 0,
+   "actors": {
+    "chief": { "role": "chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 65], "fixed": true, "note": "Asgaut, invented" },
+    "priest": { "role": "priest", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [30, 45], "fixed": true, "note": "Folcward, invented" }
+   },
+   "title_key": "chain_the_bell.s09.title",
+   "title": "The strand",
+   "intention_key": "chain_the_bell.s09.intention",
+   "intention": "The grey ship-owner is on the jetty before your line is fast, with six men who are not carrying anything. The priest is running down from the church with his skirts in his hand and will be too late to speak first.",
+   "lines": [
+    { "who": "chief", "key": "chain_the_bell.s09.know" },
+    { "who": "chief", "key": "chain_the_bell.s09.blessed", "when": "flag.ch_the_bell_blessed" },
+    { "who": "chief", "key": "chain_the_bell.s09.saved", "when": "flag.ch_the_bell_fog_saved" },
+    { "who": "chief", "key": "chain_the_bell.s09.offer" },
+    { "who": "priest", "key": "chain_the_bell.s09.king" },
+    { "who": "priest", "key": "chain_the_bell.s09.ripa" }
+   ],
+   "options": [
+    { "key": "ashore", "label_key": "chain_the_bell.s09.opt_ashore", "label": "Carry it up to the church and wait for the king's man", "check": "true", "default": true,
+      "effects": [ "flag ch_the_bell_9", "flag ch_the_bell_aboard = 0", "flag ch_the_bell_9_wait for 20", "npc priest feeling +6 delivered", "npc chief feeling -4 ashore" ],
+      "note": "outcome: chain_the_bell.s09.out_ashore (time only: twenty days for the count to come)" },
+    { "key": "fog", "label_key": "chain_the_bell.s09.opt_fog", "label": "Tell him what this one did in the fog, and what it could do on the Slie", "check": "flag.ch_the_bell_fog_idea or flag.ch_the_bell_fog_saved",
+      "effects": [ "flag ch_the_bell_9", "flag ch_the_bell_aboard = 0", "flag ch_the_bell_9_wait for 20", "flag ch_the_bell_fog_offer", "npc chief feeling +8 fog", "npc priest feeling +4 delivered" ],
+      "note": "outcome: chain_the_bell.s09.out_fog (the hard road: it goes ashore, and he will come to the thing to hear you say it again)" },
+    { "key": "ripa", "label_key": "chain_the_bell.s09.opt_ripa", "label": "Keep it aboard and take it round to Ripa, where the king has given ground", "check": "true",
+      "effects": [ "flag ch_the_bell_9", "flag ch_the_bell_to_ripa", "npc chief feeling +4 took_away", "npc priest feeling -6 took_away" ],
+      "note": "outcome: chain_the_bell.s09.out_ripa (time only; the ending s12 is at Ripa)" },
+    { "key": "price", "label_key": "chain_the_bell.s09.opt_price", "label": "Ask him what the boat's cargo is worth to him", "check": "true",
+      "effects": [ "flag ch_the_bell_9", "flag ch_the_bell_sold", "npc priest feeling -10 price" ],
+      "then": "harbour.chain_the_bell.s13_inner_water",
+      "note": "outcome: chain_the_bell.s09.out_price (opens s13 at once, where the last word can still be no)" }
+   ],
+   "memory": { "ashore": "carried the bell to the church", "fog": "spoke for the bell as a fog signal", "ripa": "took the bell away to Ripa", "price": "asked a price for the bell" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s10_the_lot",
+   "note": "Step 10: Sliesthorp, twenty days after the bell goes ashore. The king's man brings the king's word, and the port asks its gods by lot. Sources: Rimbert c. 32: the count Burghard, a kinsman of both Horiks, had helped Anskar with the elder king and stood well with the younger (named so from memory of Robinson's translation (?)); the bell is allowed, 'the use of which the pagans regarded as unlawful'. Lots cast in the open before a thing to learn the gods' will: Rimbert c. 19, 27, 30 (the Svear at Birka, and the Danes before Birka and Kurland); that lots were cast at Sliesthorp over the bell is invented. Sets ch_the_bell_10 and either ch_the_bell_lot_for (with a wait of 25 days to the feast) or ch_the_bell_lot_against; ch_the_bell_peace on the hard road; ch_the_bell_lot_bought if the lot-cutter was paid.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_the_bell_9 and not flag.ch_the_bell_9_wait and not flag.ch_the_bell_to_ripa and not flag.ch_the_bell_sold and not flag.ch_the_bell_10 and not flag.ch_the_bell_done",
+   "weight": 60,
+   "cooldown_days": 0,
+   "actors": {
+    "count": { "role": "count", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [50, 65], "fixed": true, "note": "Burghard (real: Rimbert c. 32 (?); named in the words). His faith is not stated by Rimbert (?)" },
+    "chief": { "role": "chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 65], "fixed": true, "note": "Asgaut, invented" },
+    "priest": { "role": "priest", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [30, 45], "fixed": true, "note": "Folcward, invented" }
+   },
+   "title_key": "chain_the_bell.s10.title",
+   "title": "The lot",
+   "intention_key": "chain_the_bell.s10.intention",
+   "intention": "The thing meets on the open ground inside the bank. The king's man stands on the stone, the bell sits on a hurdle in front of him where everyone can see it, and an old man is cutting marks on three slips of a fruit tree.",
+   "lines": [
+    { "who": "count", "key": "chain_the_bell.s10.word" },
+    { "who": "count", "key": "chain_the_bell.s10.custom" },
+    { "who": "chief", "key": "chain_the_bell.s10.against", "when": "not flag.ch_the_bell_fog_offer" },
+    { "who": "chief", "key": "chain_the_bell.s10.fog", "when": "flag.ch_the_bell_fog_offer" },
+    { "who": "chief", "key": "chain_the_bell.s10.flat", "when": "flag.ch_the_bell_flawed" },
+    { "who": "priest", "key": "chain_the_bell.s10.pray" }
+   ],
+   "options": [
+    { "key": "lot", "label_key": "chain_the_bell.s10.opt_lot", "label": "Stand back and let the lot fall as it will", "check": "true", "default": true,
+      "effects": [ { "chance": 0.5,
+                     "success": [ "flag ch_the_bell_lot_for", "flag ch_the_bell_10_wait for 25", "npc priest feeling +4 lot" ],
+                     "failure": [ "flag ch_the_bell_lot_against", "npc chief feeling +4 lot" ] },
+                   "flag ch_the_bell_10" ],
+      "note": "outcome: chain_the_bell.s10.out_lot_success / out_lot_failure (doubtful; a lot against is not the end: s11 offers a year's wait with the bell tongueless, or Ripa)" },
+    { "key": "offer", "label_key": "chain_the_bell.s10.opt_offer", "label": "Offer it to the port first: rung in fog for any ship, before it is rung for Mass", "check": "flag.ch_the_bell_fog_offer or flag.ch_the_bell_fog_saved",
+      "effects": [ "flag ch_the_bell_10", "flag ch_the_bell_lot_for", "flag ch_the_bell_peace", "flag ch_the_bell_10_wait for 25", "npc chief feeling +12 offer", "npc count feeling +8 offer", "npc priest feeling +2 offer" ],
+      "note": "outcome: chain_the_bell.s10.out_offer (sure: Asgaut speaks for it and no lot is cut. The hard road's finale opens)" },
+    { "key": "gift", "label_key": "chain_the_bell.s10.opt_gift", "label": "A gift to the old man who cuts the slips: 80 pennies' weight", "check": "silver >= 80",
+      "cost": "silver 80",
+      "effects": [ { "chance": 0.85,
+                     "success": [ "flag ch_the_bell_lot_for", "flag ch_the_bell_10_wait for 25" ],
+                     "failure": [ "flag ch_the_bell_lot_against", "npc chief feeling -10 caught" ] },
+                   "flag ch_the_bell_10", "flag ch_the_bell_lot_bought", "deed bribed_officer" ],
+      "note": "outcome: chain_the_bell.s10.out_gift_success / out_gift_failure (sure, and it is known afterwards: ch_the_bell_lot_bought lasts)" }
+   ],
+   "memory": { "lot.success": "let the lot fall, and it fell for the bell", "lot.failure": "let the lot fall, and it fell against", "offer": "offered the bell to the whole port", "gift.success": "paid the lot-cutter", "gift.failure": "paid the lot-cutter for nothing" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s11_first_ringing",
+   "note": "ENDING 1, what happened (flag ch_the_bell_end_rung): Sliesthorp, 25 days after a lot that fell for the bell, or at once after one that fell against. The bell is hung and rung. Sources: Rimbert c. 32 (the bell allowed; after it, he says, the Christians of the port lived unhindered); c. 24 (merchants of Dorstadt and Hamburg came there freely once there was a church); story/unlocks_793.json unlock_work_sliesthorp_bell and unlock_plot_sliesthorp (plots given by the king's man to merchants who will stay). On the hard road (ch_the_bell_peace) the bell is first rung from the jetty in fog for the boats, and Asgaut stands by: history changed, changed_sliesthorp_bell_for_all. A lot against can be waited out for a year with the clapper off (ch_the_bell_tongueless; the card comes again after 300 days), or the bell goes to Ripa. Grand rewards: unlock_work_sliesthorp_bell on both; unlock_plot_sliesthorp as well on the hard road. Sets ch_the_bell_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_the_bell_10 and not flag.ch_the_bell_10_wait and not flag.ch_the_bell_to_ripa and not flag.ch_the_bell_done",
+   "weight": 60,
+   "cooldown_days": 0,
+   "actors": {
+    "priest": { "role": "priest", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [30, 45], "fixed": true, "note": "Folcward, invented" },
+    "chief": { "role": "chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 65], "fixed": true, "note": "Asgaut, invented" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [40, 60], "fixed": true, "note": "Hebbe, invented" }
+   },
+   "title_key": "chain_the_bell.s11.title",
+   "title": "The first ringing",
+   "intention_key": "chain_the_bell.s11.intention",
+   "intention": "The bell hangs in the oak frame by the church door, with a rope of walrus hide through the eye of its clapper. The priest holds the end of the rope out to you.",
+   "lines": [
+    { "who": "priest", "key": "chain_the_bell.s11.rope", "when": "flag.ch_the_bell_lot_for and not flag.ch_the_bell_tongueless" },
+    { "who": "priest", "key": "chain_the_bell.s11.year", "when": "flag.ch_the_bell_lot_for and flag.ch_the_bell_tongueless" },
+    { "who": "priest", "key": "chain_the_bell.s11.against", "when": "flag.ch_the_bell_lot_against" },
+    { "who": "priest", "key": "chain_the_bell.s11.flat", "when": "flag.ch_the_bell_flawed and flag.ch_the_bell_lot_for" },
+    { "who": "priest", "key": "chain_the_bell.s11.old", "when": "flag.ch_the_bell_old_bronze and flag.ch_the_bell_lot_for" },
+    { "who": "chief", "key": "chain_the_bell.s11.chief_peace", "when": "flag.ch_the_bell_peace" },
+    { "who": "chief", "key": "chain_the_bell.s11.chief_bought", "when": "flag.ch_the_bell_lot_bought and flag.ch_the_bell_lot_for" },
+    { "who": "merchant", "key": "chain_the_bell.s11.rest", "when": "flag.ch_the_bell_lot_for" }
+   ],
+   "options": [
+    { "key": "ring", "label_key": "chain_the_bell.s11.opt_ring", "label": "Ring it for Mass, and take what was pledged", "check": "flag.ch_the_bell_lot_for",
+      "effects": [ "silver +700", "flag unlock_work_sliesthorp_bell", "flag ch_the_bell_end_rung", "flag ch_the_bell_done", "flag ch_the_bell_purse = 0", "toll eased 365", "deed kept_commission", "npc priest feeling +20 rang", "npc merchant feeling +10 rang", "news chain_the_bell.news.rung at sliesthorp", "news chain_the_bell.news.rung at dorestad" ],
+      "note": "outcome: chain_the_bell.s11.out_ring (the finale: 700 d, the bell as a work of the house at Sliesthorp, half toll there for a year)" },
+    { "key": "fog", "label_key": "chain_the_bell.s11.opt_fog", "label": "Wait for the first fog, and ring it from the jetty for the boats before it is rung for Mass", "check": "flag.ch_the_bell_peace",
+      "effects": [ "silver +1100", "goods marten +2", "flag unlock_work_sliesthorp_bell", "flag unlock_plot_sliesthorp", "flag ch_the_bell_end_rung", "flag changed_sliesthorp_bell_for_all", "flag ch_the_bell_done", "flag ch_the_bell_purse = 0", "toll eased 365", "deed kept_commission", "npc chief feeling +20 fog", "npc priest feeling +15 rang", "news chain_the_bell.news.fog at sliesthorp", "news chain_the_bell.news.rung at dorestad" ],
+      "note": "outcome: chain_the_bell.s11.out_fog (the hard road's finale: 1,100 d, two timbers of marten from Asgaut, the bell, and a plot at Sliesthorp by the king's man's gift)" },
+    { "key": "wait", "label_key": "chain_the_bell.s11.opt_wait", "label": "Hang it without its clapper and let a year go by", "check": "flag.ch_the_bell_lot_against",
+      "effects": [ "flag ch_the_bell_lot_against = 0", "flag ch_the_bell_lot_for", "flag ch_the_bell_tongueless", "flag ch_the_bell_10_wait for 300", "npc priest feeling +4 patient", "npc chief feeling +4 patient" ],
+      "note": "outcome: chain_the_bell.s11.out_wait (time only: the herring come, the corn stands, and after 300 days this card comes again and the bell may be rung)" },
+    { "key": "ripa", "label_key": "chain_the_bell.s11.opt_ripa", "label": "Take it down again and carry it to Ripa", "check": "flag.ch_the_bell_lot_against",
+      "effects": [ "flag ch_the_bell_to_ripa", "flag ch_the_bell_aboard", "npc priest feeling -4 took_away" ],
+      "note": "outcome: chain_the_bell.s11.out_ripa (the ending s12 is at Ripa)" }
+   ],
+   "memory": { "ring": "rang the bell for the first time", "fog": "rang the bell in fog for the boats", "wait": "hung the bell tongueless for a year", "ripa": "took the bell away to Ripa" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s12_ripa",
+   "note": "ENDING 2, history changed (flag ch_the_bell_end_ripa, changed_first_bell_at_ripa): Ripa, with the bell aboard, in any year from 855. The king has given ground for a church at Ripa and leave for a priest to live there (Rimbert c. 32; a church stood there about 860 and graves by the later cathedral go back to these years: realms/denmark.json). Rimbert speaks of a bell only at Sliaswic: a first bell at Ripa is the player's doing. Ripa looks west, to Frisia, England and Saxony (Adam iv.1, two centuries later). The priest and the king's man are unnamed. Grand rewards: unlock_plot_ripa and unlock_pilot_ripa (both in story/unlocks_793.json); unlock_work_ripa_bell (new). If the Sliesthorp purse is still in the chest the flag ch_the_bell_purse stays set and is read as a pledge broken. Sets ch_the_bell_done. The card can be sailed past.",
+   "stage": "harbour",
+   "when": "moored and port.id = ripa and year >= 855 and flag.ch_the_bell_aboard and not flag.ch_the_bell_ripa_seen and not flag.ch_the_bell_done",
+   "weight": 50,
+   "cooldown_days": 0,
+   "actors": {
+    "priest": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [25, 40], "fixed": true, "note": "the priest Anskar set at Ripa, unnamed here" },
+    "kings_man": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "the king's man at Ripa, unnamed" }
+   },
+   "title_key": "chain_the_bell.s12.title",
+   "title": "The king's ground at Ripa",
+   "intention_key": "chain_the_bell.s12.intention",
+   "intention": "South of the river, across from the market plots, a square of ground has been pegged out and four corner posts stand in it. A young priest is living under a sail stretched between two of them.",
+   "lines": [
+    { "who": "priest", "key": "chain_the_bell.s12.ground" },
+    { "who": "priest", "key": "chain_the_bell.s12.from_slie", "when": "flag.ch_the_bell_to_ripa" },
+    { "who": "kings_man", "key": "chain_the_bell.s12.leave" },
+    { "who": "kings_man", "key": "chain_the_bell.s12.west" },
+    { "who": "priest", "key": "chain_the_bell.s12.purse", "when": "flag.ch_the_bell_purse" }
+   ],
+   "options": [
+    { "key": "hang", "label_key": "chain_the_bell.s12.opt_hang", "label": "Hang it on the corner post, and take what Ripa's Christians and the king's man will give", "check": "true",
+      "effects": [ "silver +500", "goods amber +6", "flag unlock_plot_ripa", "flag unlock_pilot_ripa", "flag unlock_work_ripa_bell", "flag ch_the_bell_end_ripa", "flag changed_first_bell_at_ripa", "flag ch_the_bell_done", "flag ch_the_bell_aboard = 0", "npc priest feeling +20 hung", "npc kings_man feeling +8 hung", "news chain_the_bell.news.ripa at ripa", "news chain_the_bell.news.ripa at sliesthorp" ],
+      "note": "outcome: chain_the_bell.s12.out_hang (the finale: 500 d, six sacks of amber, a market plot at Ripa and the marks of its river)" },
+    { "key": "give", "label_key": "chain_the_bell.s12.opt_give", "label": "Give it, ask no silver, and send the Sliesthorp men their purse back", "check": "true",
+      "effects": [ "flag unlock_plot_ripa", "flag unlock_pilot_ripa", "flag unlock_work_ripa_bell", "flag ch_the_bell_end_ripa", "flag changed_first_bell_at_ripa", "flag ch_the_bell_done", "flag ch_the_bell_aboard = 0", "flag ch_the_bell_purse = 0", "deed gave_alms", "deed fair_dealing", "commission rhenish_wine 6 by 300 premium 1.8", "goods amber +10", "npc priest feeling +30 gave", "npc kings_man feeling +12 gave", "news chain_the_bell.news.ripa at ripa", "news chain_the_bell.news.ripa at sliesthorp" ],
+      "note": "outcome: chain_the_bell.s12.out_give (the honest finale: no silver, ten sacks of amber pressed on you, the plot, the river's marks, the wine order of the new church at a premium of 1.8, and nobody at Sliesthorp is owed)" },
+    { "key": "on", "label_key": "chain_the_bell.s12.opt_on", "label": "Not here. Sail on", "check": "true", "default": true,
+      "effects": [ "flag ch_the_bell_ripa_seen for 60", "npc priest feeling -1 passed" ],
+      "note": "outcome: chain_the_bell.s12.out_on (time only; the card comes again after sixty days)" }
+   ],
+   "memory": { "hang": "hung the first bell at Ripa", "give": "gave Ripa its bell", "on": "sailed on with the bell" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s13_inner_water",
+   "note": "ENDINGS 3 and 4, history changed (flags ch_the_bell_end_drowned or ch_the_bell_end_melted, both with changed_sliesthorp_bell_silenced): Sliesthorp, opened at once by the price asked at step 9, or drawn while ch_the_bell_sold stands. Asgaut buys the bell to put it in the inner water, or the caster buys it for brooches. Sources: the bell of about 950 raised from the mud of Hedeby harbour in 1978 (de.wikipedia, Glocke von Haithabu), which is a century later and nobody knows how it came there; Rhenish bronze and brass melted in the north for oval brooches (goods_793.json 'brass', 'brooches'). Guest-right with a Danish chief keeps his ships and his friends' off yours (story/unlocks_793.json unlock_title_danish_guest_right). Grand rewards: unlock_title_danish_guest_right (drowned); unlock_heirloom_bell_brooches (melted: a pair of oval brooches cast from the bell, new). The cost that lasts: ch_the_bell_church_remembers, and ch_the_bell_purse if the pledge was carried. The last option is no, and puts the story back on the road to the thing. Sets ch_the_bell_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_the_bell_sold and not flag.ch_the_bell_done",
+   "weight": 60,
+   "cooldown_days": 0,
+   "actors": {
+    "chief": { "role": "chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 65], "fixed": true, "note": "Asgaut, invented" },
+    "caster": { "role": "craftsman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [25, 50], "fixed": true, "note": "Tosti, invented" }
+   },
+   "title_key": "chain_the_bell.s13.title",
+   "title": "The inner water",
+   "intention_key": "chain_the_bell.s13.intention",
+   "intention": "The ship-owner sends a man for his scales and sits down on your gunwale to wait for them. The bronze caster has come along the jetty behind him and is looking at the bell the way a butcher looks at a calf.",
+   "lines": [
+    { "who": "chief", "key": "chain_the_bell.s13.price" },
+    { "who": "chief", "key": "chain_the_bell.s13.where" },
+    { "who": "chief", "key": "chain_the_bell.s13.guest" },
+    { "who": "caster", "key": "chain_the_bell.s13.brooches" },
+    { "who": "chief", "key": "chain_the_bell.s13.purse", "when": "flag.ch_the_bell_purse" }
+   ],
+   "options": [
+    { "key": "sink", "label_key": "chain_the_bell.s13.opt_sink", "label": "Take his silver and row it out to the deep place yourself", "check": "true",
+      "effects": [ "silver +900", "flag unlock_title_danish_guest_right", "flag ch_the_bell_end_drowned", "flag changed_sliesthorp_bell_silenced", "flag ch_the_bell_church_remembers", "flag ch_the_bell_done", "flag ch_the_bell_aboard = 0", "npc chief feeling +25 sank", "news chain_the_bell.news.silenced at sliesthorp", "news chain_the_bell.news.silenced at dorestad" ],
+      "note": "outcome: chain_the_bell.s13.out_sink (the finale: 900 pennies' weight of silver and a chief's guest-right; the church knows who did it)" },
+    { "key": "melt", "label_key": "chain_the_bell.s13.opt_melt", "label": "Not the water. Let the caster have it, for brooches", "check": "true",
+      "effects": [ "silver +620", "goods brooches +8", "flag unlock_heirloom_bell_brooches", "flag ch_the_bell_end_melted", "flag changed_sliesthorp_bell_silenced", "flag ch_the_bell_church_remembers", "flag ch_the_bell_done", "flag ch_the_bell_aboard = 0", "npc caster feeling +20 sold", "npc chief feeling +8 melted", "news chain_the_bell.news.silenced at sliesthorp", "news chain_the_bell.news.silenced at dorestad" ],
+      "note": "outcome: chain_the_bell.s13.out_melt (the finale: 620 d, eight pairs of brooches to sell, and the first pair out of the mould for the house to keep)" },
+    { "key": "no", "label_key": "chain_the_bell.s13.opt_no", "label": "Hear the price, and say no after all. It goes to the church", "check": "true", "default": true,
+      "effects": [ "flag ch_the_bell_sold = 0", "flag ch_the_bell_aboard = 0", "flag ch_the_bell_9_wait for 20", "npc chief feeling -6 refused", "npc caster feeling -2 refused" ],
+      "note": "outcome: chain_the_bell.s13.out_no (pride only: the story goes on to the thing, s10, in twenty days)" }
+   ],
+   "memory": { "sink": "sank the Christians' bell for silver", "melt": "sold the bell for brooch metal", "no": "heard the price and refused it" }
+  },
+  {
+   "id": "harbour.chain_the_bell.s14_upper_church",
+   "note": "ENDING 5, history changed (flag ch_the_bell_end_dorestad, changed_dorestad_bell): Dorestad before 863, fourteen days after step 7's sale. The bell hangs at the upper church. Sources: as step 7; Dorestad is sacked for the last time in January 863, when many Frisian merchants are killed and many people taken (Annales Bertiniani 863; realms/denmark.json): a bell rung when sails are seen gives a town an hour (story/works_793.json 'bell'), and later cards may read changed_dorestad_bell for it. Grand rewards: unlock_plot_dorestad or unlock_charter_dorestad (both in story/unlocks_793.json), with unlock_work_dorestad_bell (new). The Sliesthorp purse can be sent back first (the card comes again); if it is not, ch_the_bell_purse stays set and is read as a pledge broken. Sets ch_the_bell_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year < 863 and flag.ch_the_bell_dorestad and not flag.ch_the_bell_7_wait and not flag.ch_the_bell_done",
+   "weight": 60,
+   "cooldown_days": 0,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [45, 65], "fixed": true, "note": "Hildulf, invented" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "port", "tongue": "old_norse", "sex": "m", "age": [38, 50], "fixed": true, "note": "cast.eystein (invented)" }
+   },
+   "title_key": "chain_the_bell.s14.title",
+   "title": "The upper church",
+   "intention_key": "chain_the_bell.s14.intention",
+   "intention": "The bell hangs under the eaves of the upper church on a beam two carpenters have let into the gable. A boy is sitting on the roof beside it, watching the river both ways, as he has been told to.",
+   "lines": [
+    { "who": "priest", "key": "chain_the_bell.s14.hung" },
+    { "who": "priest", "key": "chain_the_bell.s14.watch" },
+    { "who": "tollman", "key": "chain_the_bell.s14.rorik" },
+    { "who": "priest", "key": "chain_the_bell.s14.purse", "when": "flag.ch_the_bell_purse" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_the_bell.s14.opt_plot", "label": "Take the church's silver, and the strip of bank it offers below its yard", "check": "true", "default": true,
+      "effects": [ "silver +650", "flag unlock_plot_dorestad", "flag unlock_work_dorestad_bell", "flag ch_the_bell_end_dorestad", "flag changed_dorestad_bell", "flag ch_the_bell_done", "npc priest feeling +20 hung", "news chain_the_bell.news.dorestad at dorestad" ],
+      "note": "outcome: chain_the_bell.s14.out_plot (the finale: 650 d and a plot at Dorestad)" },
+    { "key": "toll", "label_key": "chain_the_bell.s14.opt_toll", "label": "Take less silver, and Rorik's man's word that your boat passes the toll free", "check": "true",
+      "effects": [ "silver +600", "flag unlock_charter_dorestad", "flag unlock_work_dorestad_bell", "flag ch_the_bell_end_dorestad", "flag changed_dorestad_bell", "flag ch_the_bell_done", "npc tollman feeling +10 hung", "npc priest feeling +15 hung", "news chain_the_bell.news.dorestad at dorestad" ],
+      "note": "outcome: chain_the_bell.s14.out_toll (the finale: 600 d and toll freedom at Dorestad while Rorik holds it)" },
+    { "key": "purse", "label_key": "chain_the_bell.s14.opt_purse", "label": "First send the Sliesthorp men their purse back, with twenty pennies for the wait", "check": "flag.ch_the_bell_purse and silver >= 140",
+      "cost": "silver 140",
+      "effects": [ "flag ch_the_bell_purse = 0", "deed fair_dealing" ],
+      "note": "outcome: chain_the_bell.s14.out_purse (140 d by a Frisian going north; the card comes again for the finale)" }
+   ],
+   "memory": { "plot": "hung the bell at Dorestad for a plot", "toll": "hung the bell at Dorestad for toll freedom", "purse": "sent the northern purse back" }
+  }
+ ]
+}

@@ -1,0 +1,514 @@
+{
+ "about": "THE HOURS OF HISTORY (Design/fate_faith_and_self.md section 4): real events with a place, a window of days and a door, at which a merchant who is there can speak with a person of history. Written 7 Oct 2026. 'hours' are those of the first life, 793 to about 805, on or near the twelve ports of the first release (dorestad, traiectum, walichrum, lundenwic, witla, medemelacha, doccinga, daventre, quentovic, sarre, fordwic, ripa: GAME_MAKER.md stages 1 and 2); 'later' lists more briefly the hours of later lives with their dates, places and sources checked. Dates are Julian. HOW TO READ AN HOUR. 'from' and 'to' are the window. 'reach': twelve (it can be met in a port of the first release), dim (it needs a port or water outside the twelve, heard of and dim on the chart: the hour is then a rumour and a chronicle line unless that water is opened), word (it comes only as news). 'person' is the person of history, with 'weight' their id in weight_793.json; 'resists' is the chance a talk option of that tag starts from against this person (0.75 resists it little, 0.55 middling, 0.35 hard), before the engine's 0.05 for each pip above or below 3. 'shadows' are rumours: the port where each is heard and how many days before the hour's 'from' (0: from its first day on). 'door' is a condition in the engine's language (Cond.cs) with the new variables me.tongue, me.name, me.nerve, me.lore, me.troth, me.people, me.faith, me.past. 'talk' is three to five options in the card format (key, label, check, chance and by), each with its tag and the odds word shown at three pips (knowing_793.json: sure, likely, doubtful); 'wins' names the outcome a success leads to, and a failed check costs what 'fails' says and leaves the witness outcome. 'outcomes': what changes for witness, nudge and turn: flags (letters, digits and underscores), a chronicle line in the flat voice of the Anglo-Saxon Chronicle with {house} for the player's house, effects in the engine's verbs (Effects.cs; the actor 'great' is the person of history), and 'stats' for the stat changes the engine has no verb for yet. A Turn sets a flag changed_...; at most one Turn in a life. 'really' is what happened, with its source. Everything said of a real person beyond the source line is the game's; (?) marks what could not be checked; LATER marks a source written long after. The chronicle lines are our own plain words, not quoted from a modern translation. A draft for the user to overwrite.",
+ "rules": {
+  "one_turn": "At most one Turn in a life. The fate page recommends only Witness and Nudge in the first life, with one hard Turn for the player who finds it: here that is aethelberht_794. A second (ecgberht_802) is written and held.",
+  "history_leans_back": "A Turn's talk option succeeds only if the door stood open for at least two years (the flags named in it were set that long ago), and even then the person may go their own way: the chance is rolled once and cannot be tried again.",
+  "witness_gives": "A line in the chronicle with the house's name in it, one pip of Name the first time in a life, and an heirloom where one is named.",
+  "odds_words": {"sure": 0.8, "likely": 0.55, "doubtful": 0.3}
+ },
+ "hours": [
+  {
+   "id": "lindisfarne_boys_793", "title": "The boys of the holy island",
+   "from": "793-06-22", "to": "794-06-01", "port": ["dorestad", "quentovic"], "water": "", "reach": "twelve",
+   "date_note": "Lindisfarne fell on 8 June 793, a Saturday. The news is given two weeks to reach the Rhine mouth by ship (the game's rule). The window closes when the king holds his assembly at Frankfurt, about 1 June 794, where Alcuin was.",
+   "person": {"weight": "wt.alcuin", "name": "Alcuin", "office": "deacon of York, master at king Charles's court; abbot of Saint Martin's at Tours from 796", "dates": "born about 735, died 19 May 804", "traits": "Warm and wordy; scolds those he loves; gives everyone a nickname; cannot leave a riddle alone. Grieves for Northumbria as for a parent.", "resists": {"tongue": 0.35, "name": 0.55, "nerve": 0.75, "lore": 0.55}, "source": "his letters (MGH Epistolae IV nos. 16-21, 100, 124)"},
+   "where_met": "At Quentovic, in the cell of Saint Josse, which he is said to have held from about 792 as a house for travellers from over the sea (?), or on the quay at Dorestat on his road up the Rhine: he crossed from Northumbria to Francia in 793, and where he landed is not recorded. That he is there on a given day is the game's.",
+   "shadows": [
+    {"port": "dorestad", "days_before": 0, "rumour": "A ship from the Tyne: heathen men have fallen on Saint Cuthbert's church, killed brothers at the altar and carried others off in their ships, boys among them.", "true": true},
+    {"port": "lundenwic", "days_before": 3, "rumour": "They came out of the open sea, where no one thought ships could come from.", "true": true},
+    {"port": "ripa", "days_before": -20, "rumour": "A dealer asks what Christians pay for boys who can read.", "true": true},
+    {"port": "traiectum", "days_before": -30, "rumour": "The school has a letter from the Englishman at court. The master read it aloud and could not finish.", "true": true}
+   ],
+   "door": "flag.lf_knows_boys or flag.lf_trail_north or me.past = captive_home",
+   "door_words": "You must know the boys' names and what the bishop will pay, or know where such boys are sold, or have been one.",
+   "actors": {"great": {"role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": true}},
+   "talk": [
+    {"key": "where", "tag": "Lore", "label": "Tell him where such boys are sold, and by whom", "check": "flag.lf_trail_north or me.lore >= 3", "chance": 0.55, "by": "me.lore", "odds": "likely", "wins": "nudge", "fails": "He thanks you and writes nothing down: npc great feeling -2."},
+    {"key": "now", "tag": "Nerve", "label": "Tell him the king will not be home this year, and the boys cannot wait for him", "check": "true", "chance": 0.75, "by": "me.nerve", "odds": "likely", "wins": "nudge", "fails": "He says the king's leave must be had: the letter goes, the silver does not."},
+    {"key": "carry", "tag": "Name", "label": "Offer to carry his letter to the bishop, and the answer back", "check": "true", "chance": 0.55, "by": "me.name", "odds": "likely", "wins": "witness", "fails": "He gives it to a monk he knows instead."},
+    {"key": "ring", "tag": "As kin: a captive come home", "label": "Show him the iron ring you wore", "check": "me.past = captive_home", "chance": 0.9, "by": "", "odds": "sure", "wins": "nudge", "fails": ""},
+    {"key": "price", "tag": "Tongue", "label": "Ask what the bishop would pay a man who brought one home", "check": "true", "chance": 0.35, "by": "me.tongue", "odds": "doubtful", "wins": "witness", "fails": "He looks at you for a while. npc great feeling -8."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_boys_witness"], "chronicle": "793. In this year heathen men laid waste God's church on Lindisfarne with plunder and killing, and carried off boys. Alcuin the deacon wrote to the bishop about their ransom, and a ship of {house} bore the letter.", "effects": ["flag hr_boys_witness", "deed carried_letters", "npc great feeling +6 carried", "give_text alcuin_793"], "stats": {"name": 1}},
+    "nudge": {"flags": ["hr_boys_nudge", "lf_knows_boys"], "chronicle": "794. One of the boys taken from Lindisfarne came home over the sea in a ship of {house}.", "effects": ["flag hr_boys_nudge", "flag lf_knows_boys", "silver +120", "npc great feeling +12 trusted"], "stats": {"name": 1}, "then": "He gives silver now, without waiting for the king. The search is the thread holy_island (lf_trail_north, lf_boy_found, lf_ransom_paid). The boy who comes home is cast.tidwine: your crewman, or a monk who owes you his life."},
+    "turn": null
+   },
+   "really": {"what": "Alcuin, in Francia, wrote to bishop Higbald that when king Charles came home from subduing his enemies he would go to him and do what he could about the boys led into captivity by the heathen. The king was at Regensburg all that year. No one wrote down whether any boy came home.", "source": "Alcuin, letter 20 (MGH Epistolae IV); Anglo-Saxon Chronicle (D, E) 793; the day 8 June from the Lindisfarne annals and Symeon of Durham"},
+   "links": {"chronicle": ["793-06-08-lindisfarena-raid", "793-autumn-alcuin-captives"], "thread": "holy_island", "chain": "lindisfarne_book"}
+  },
+  {
+   "id": "frisian_rising_793", "title": "The churches burn beyond the Lauwers",
+   "from": "793-09-01", "to": "794-08-31", "port": ["doccinga"], "water": "", "reach": "twelve",
+   "date_note": "The rising is of 792 to 793 in the annals; Liudger was away about a year. The months are the game's.",
+   "person": {"weight": "wt.liudger", "name": "Liudger", "office": "priest, teacher of five East Frisian districts since 787; first bishop at Mimigernaford (Munster) from 30 March 805", "dates": "born about 742 near Traiectum, died 26 March 809", "traits": "A Frisian of good kin taught at Traiectum and at York. Gentle, bookish, stubborn about going back. Wears a hair shirt where no one sees it.", "resists": {"tongue": 0.55, "name": 0.35, "nerve": 0.75, "lore": 0.75}, "source": "Altfrid, Vita Liudgeri I (written about 840 by his kinsman)"},
+   "where_met": "At Doccinga, at the church where Boniface was killed, which he had charge of.",
+   "shadows": [
+    {"port": "medemelacha", "days_before": 10, "rumour": "Smoke east of the Lauwers. They are burning the churches again and the priests are on the road.", "true": true},
+    {"port": "daventre", "days_before": 20, "rumour": "The Saxons have risen while the king is far off digging his ditch between two rivers.", "true": true},
+    {"port": "dorestad", "days_before": 5, "rumour": "A priest with a book satchel wants a boat north, and will not say for whom.", "true": true}
+   ],
+   "door": "moored and port.id = doccinga and (me.people = frisian or flag.ms_carried_priest or npc.priest.feeling >= friendly)",
+   "door_words": "You must be a Frisian, or have carried a priest before, or be trusted by the priest of the place.",
+   "actors": {"great": {"role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": true}},
+   "talk": [
+    {"key": "oil", "tag": "Troth", "label": "Offer to carry the oil and his word to the blind singer, where no priest dares go", "check": "me.faith = christian or me.faith = christian_irish", "chance": 0.75, "by": "me.troth", "odds": "likely", "wins": "nudge", "fails": "He will not put it in hands he does not know."},
+    {"key": "east", "tag": "Nerve", "label": "Take him east yourself, now, before the creeks are watched", "check": "true", "chance": 0.75, "by": "me.nerve", "odds": "likely", "wins": "nudge", "fails": "He goes by land, and you hear no more this year."},
+    {"key": "houses", "tag": "As kin: of the old gods", "label": "Tell him which houses over the river will not harm him, and which will", "check": "me.faith = old_gods or me.faith = prime_signed", "chance": 0.55, "by": "me.name", "odds": "likely", "wins": "nudge", "fails": "He does not believe you would tell him true."},
+    {"key": "debt", "tag": "Tongue", "label": "Ask him to speak to the count for you, in return for the passage", "check": "true", "chance": 0.55, "by": "me.tongue", "odds": "likely", "wins": "witness", "fails": "He pays the fare in pennies and says nothing to anyone."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_rising_witness"], "chronicle": "793. In this year the East Frisians turned from the faith and burned their churches, and Liudger the priest was driven out. A ship of {house} lay at Doccinga.", "effects": ["flag hr_rising_witness", "npc great feeling +4 met"], "stats": {"name": 1}},
+    "nudge": {"flags": ["hr_rising_nudge", "ms_carried_priest"], "chronicle": "794. Liudger came again among the Frisians before the year was out, in a ship of {house}; and children were baptised who would have died heathen.", "effects": ["flag hr_rising_nudge", "flag ms_carried_priest", "npc great feeling +12 carried", "deed gave_alms"], "stats": {"name": 1}, "then": "The houses option costs a pip of Troth to a keeper of the old gods if the hall hears of it (flag hr_told_the_priest)."},
+    "turn": null
+   },
+   "really": {"what": "The East Frisians rose with the Saxons, burned the churches and drove out the priests. Liudger left, and told the blind singer Bernlef, whom he had healed, to go from house to house and baptise the infants who were dying; Bernlef baptised eighteen. Liudger was back within about a year.", "source": "Altfrid, Vita Liudgeri I.22, 25-26 (chapter numbers as in Design/content/spine.json); ARF (revised) 793"},
+   "links": {"chronicle": ["793-autumn-saxon-revolt"], "thread": "cross_and_grove"}
+  },
+  {
+   "id": "aethelberht_794", "title": "The king who rides west",
+   "from": "794-04-20", "to": "794-05-12", "port": ["lundenwic"], "water": "", "reach": "twelve",
+   "date_note": "He died on 20 May 794 if his feast day keeps the day of his death: a Tuesday. The window is the weeks before, on his road. That the road ran through Lundenwic is the game's guess (?).",
+   "person": {"weight": "wt.aethelberht", "name": "Aethelberht", "office": "king of the East Angles", "dates": "king from about 779 (a late tradition (?)); beheaded 794", "traits": "Nothing is told of him in his own time but his pennies, which carry his name as king and the she-wolf with the twins, under Offa's nose. The Lives that make him young, chaste and devout are of the 12th century. Here: proud, courteous, not easily frightened.", "resists": {"tongue": 0.55, "name": 0.35, "nerve": 0.35, "lore": 0.55}, "source": "Anglo-Saxon Chronicle (A) 792 (=794); his pennies by the moneyer Lul"},
+   "where_met": "At the king's hall in the wic, where a king on the road is lodged by the wic-reeve.",
+   "shadows": [
+    {"port": "lundenwic", "days_before": 60, "rumour": "A moneyer shows you a penny with a king's name on it that is not Offa's, and a wolf suckling two children. He turns it over twice and gives it back.", "true": true, "sets": "hr_lul_penny"},
+    {"port": "lundenwic", "days_before": 30, "rumour": "The wic-reeve says the king has a daughter to settle and a neighbour to settle with, and that both can be done at one feast.", "true": true},
+    {"port": "sarre", "days_before": 20, "rumour": "An East Anglian skipper: his king rides west after Easter with gifts, to the Mercian's hall.", "true": true},
+    {"port": "lundenwic", "days_before": 7, "rumour": "A woman of the queen's household buying wax says the feast is ordered and the bridegroom's chamber is not.", "true": true, "note": "invented: the fate page's 'word from a servant of the queen'. The queen's part in the killing is 12th-century legend."}
+   ],
+   "door": "moored and port.id = lundenwic and flag.hr_lul_penny and npc.reeve.feeling >= friendly and me.name >= 3",
+   "door_words": "You must have handled his penny and know what it means, be trusted by the wic-reeve, and have a name a king's man will carry in.",
+   "actors": {"great": {"role": "king", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": true}, "reeve": {"role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": true}},
+   "talk": [
+    {"key": "plain", "tag": "Nerve", "label": "Say it plainly: if you go, you will not come back", "check": "true", "chance": 0.35, "by": "me.nerve", "odds": "doubtful", "wins": "turn", "fails": "He thanks you coldly for your care and rides at dawn. The reeve hears what you said: npc reeve feeling -20."},
+    {"key": "penny", "tag": "Lore", "label": "Lay his own penny before him, and tell him how Offa's reeve spoke of it", "check": "flag.hr_lul_penny", "chance": 0.55, "by": "me.lore", "odds": "likely", "wins": "nudge", "fails": "He says a king may strike a penny. He rides."},
+    {"key": "ahead", "tag": "Name", "label": "Ask him to send a man ahead first, and offer your boat to bring word back by the river", "check": "true", "chance": 0.35, "by": "me.name", "odds": "doubtful", "wins": "nudge", "fails": "He has no need of a merchant's boat."},
+    {"key": "praise", "tag": "Tongue", "label": "Praise the match, and ask leave to trade at Gipeswic toll-free", "check": "true", "chance": 0.55, "by": "me.tongue", "odds": "likely", "wins": "witness", "fails": "He nods and forgets you."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_aethelberht_witness"], "chronicle": "794. In this year Offa, king of the Mercians, had the head of king Aethelberht struck off. {house} had spoken with him at Lundenwic on his road.", "effects": ["flag hr_aethelberht_witness", "flag hr_wolf_penny"], "stats": {"name": 1}, "heirloom": "one of his pennies, with the wolf and the twins"},
+    "nudge": {"flags": ["hr_aethelberht_nudge", "east_anglia_king_794"], "chronicle": "794. In this year Offa had king Aethelberht's head struck off. But the king had left his kinsman Eadwald at home with the treasure and the oaths of his men, and the East Angles held their land.", "effects": ["flag hr_aethelberht_nudge", "flag east_anglia_king_794", "price_shock lundenwic ipswich_ware x1.3 for 180", "npc reeve feeling -6 meddled"], "stats": {"name": 1, "nerve": 1}, "then": "East Anglia has its own king two years early (in ours Eadwald is known only from pennies of about 796 to 800). Mercian reeves are driven from Gipeswic; a Frisian is welcome there and watched at Lundenwic."},
+    "turn": {"flags": ["changed_east_anglia_keeps_king"], "chronicle": "794. In this year king Aethelberht was bidden to Offa's hall and did not go. (Here the book leaves the world you know: in ours he rode west, and was beheaded.)", "effects": ["flag changed_east_anglia_keeps_king", "npc reeve feeling -40 warned", "flag wanted_mercia for 720", "price_shock lundenwic wool_cloth x1.2 for 360"], "stats": {"name": 1, "nerve": 1}, "then": "Offa hardens (weight_793.json). He must come with a host or let it be: see the pillar aethelberht_794. For two years every Mercian port is closed to you if the reeve knows who spoke. No saint Aethelberht at Hereford; no Eadwald; the East Angles are not Offa's when he dies."}
+   },
+   "really": {"what": "Offa, king of the Mercians, had king Aethelberht's head struck off, and ruled the East Angles himself until he died. That is all the Chronicle says. The place (a royal hall near Hereford: Sutton, or Marden close by), the wedding to Offa's daughter, and the queen's part are from the Life written at Hereford about 1100 and the writers after it.", "source": "Anglo-Saxon Chronicle (A) 792 (=794); the day from his feast, 20 May; Passio sancti Aethelberhti (about 1100: LATER); Roger of Wendover 792 (13th century: LATER)"},
+   "links": {"chronicle": ["794-aethelberht-beheaded"]}
+  },
+  {
+   "id": "donemuthe_794", "title": "The storm at the river mouth",
+   "from": "794-06-01", "to": "794-08-31", "port": ["gyrwe"], "water": "off the mouth of the Tyne", "reach": "dim",
+   "date_note": "The year is sure; no day or month is given. Summer is the raiding season.",
+   "person": {"weight": "", "name": "not named", "office": "a leader of the heathen fleet, killed there", "dates": "died 794", "traits": "No source names him or any brother of the house that year.", "resists": {"tongue": 0.35, "name": 0.55, "nerve": 0.55, "lore": 0.55}, "source": "Anglo-Saxon Chronicle (D, E) 794"},
+   "where_met": "On the water. There is no talk with a great man here: the choices are made with the brothers on the bank and with men in the sea.",
+   "shadows": [
+    {"port": "ripa", "days_before": 60, "rumour": "A fleet is fitting out in the north. Men who came home rich last year are going again, and others with them who stayed at home then and were laughed at.", "true": true, "sets": "hr_fleet_heard"},
+    {"port": "lundenwic", "days_before": 30, "rumour": "A Northumbrian skipper: the brothers at the river mouths have buried nothing and moved nothing. They say God will not allow it twice.", "true": true},
+    {"port": "quentovic", "days_before": 10, "rumour": "The Englishman at court has written to the monks of Wearmouth and Jarrow to look to the sea.", "true": true, "note": "Alcuin, letter 19, to the monks of Wearmouth and Jarrow (793): you live by the sea, from where this plague first came."}
+   ],
+   "door": "flag.hr_fleet_heard and under_way",
+   "door_words": "You must have heard of the fleet, and have gone north of the chart you know.",
+   "actors": {"great": {"role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}},
+   "talk": [
+    {"key": "warn", "tag": "Name", "label": "Put in and tell the brothers what is coming", "check": "true", "chance": 0.55, "by": "me.name", "odds": "likely", "wins": "nudge", "fails": "They hear a stranger with a foreign voice and bar the gate against you."},
+    {"key": "pull", "tag": "Nerve", "label": "After the storm, pull men out of the water", "check": "true", "chance": 0.75, "by": "me.nerve", "odds": "likely", "wins": "witness", "fails": "The sea is too high. You save your own."},
+    {"key": "stand", "tag": "", "label": "Stand off and watch", "check": "true", "chance": 1.0, "by": "", "odds": "sure", "wins": "witness", "fails": ""}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_donemuthe_witness"], "chronicle": "794. In this year the heathen ravaged among the Northumbrians and plundered Ecgfrith's minster at the Don mouth. One of their leaders was killed there, and a storm broke some of their ships, and many drowned; those who came alive to the shore were soon killed at the river mouth. A ship of {house} lay off the bar and saw it.", "effects": ["flag hr_donemuthe_witness"], "stats": {"name": 1}, "then": "If you pulled men out, you chose which. A Northman saved is a crewman who owes a life, or a tale told against you in every English port."},
+    "nudge": {"flags": ["hr_donemuthe_nudge"], "chronicle": "794. In this year the heathen came to Ecgfrith's minster at the Don mouth and found it warned, and took little.", "effects": ["flag hr_donemuthe_nudge", "deed fought_raiders"], "stats": {"name": 1}},
+    "turn": null
+   },
+   "really": {"what": "The heathen plundered 'Ecgfrith's minster at Donemuthe'; a leader was killed, a storm wrecked some ships, and survivors who reached the shore were killed. Symeon of Durham, in the 12th century, takes the place to be Jarrow on the Tyne; it may be another river mouth (?).", "source": "Anglo-Saxon Chronicle (D, E) 794; Historia regum 794; Symeon, Libellus de exordio II.5"},
+   "links": {"chronicle": ["794-summer-donemuthe-raid"], "thread": "holy_island"}
+  },
+  {
+   "id": "thule_795", "title": "The island where the sun does not set",
+   "from": "795-08-01", "to": "796-12-31", "port": ["fordwic", "quentovic"], "water": "", "reach": "word",
+   "date_note": "Dicuil wrote in 825 that it was 'thirty years' since the clerics told him: so about 795. They were on the island from 1 February to 1 August.",
+   "person": {"weight": "", "name": "an Irish cleric, not named", "office": "one of those who told Dicuil", "dates": "", "traits": "Dicuil himself is an Irish monk who later teaches at the Frankish court and writes of the measure of the world; whether the player's man is Dicuil is left open.", "resists": {"tongue": 0.55, "name": 0.55, "nerve": 0.55, "lore": 0.75}, "source": "Dicuil, Liber de mensura orbis terrae VII.11-13 (825)"},
+   "where_met": "On the pilgrim road: at the hythe of Fordwic or the cell of Saint Josse at Quentovic, where the Irish pass on their way to Rome. The meeting is the game's.",
+   "shadows": [
+    {"port": "fordwic", "days_before": 0, "rumour": "Irish pilgrims at the guest house, sunburnt in a way the weather here does not do.", "true": true},
+    {"port": "lundenwic", "days_before": -30, "rumour": "A tale going round the ale-houses of a land with no night. Nobody believes it.", "true": true}
+   ],
+   "door": "me.lore >= 3 and (learned.latin >= 0.5 or tongue.irish >= 0.5 or me.people = irish)",
+   "door_words": "You must have the lore to ask well, and a tongue in common: Latin or Irish.",
+   "actors": {"great": {"role": "monk", "people": "irish", "faith": "christian", "tongue": "irish", "fixed": false}},
+   "talk": [
+    {"key": "ask", "tag": "Lore", "label": "Ask how many days' sail, and on what wind", "check": "true", "chance": 0.75, "by": "me.lore", "odds": "likely", "wins": "witness", "fails": "He tells you about the lice and the light, and nothing a steersman could use."},
+    {"key": "doubt", "tag": "Nerve", "label": "Tell him you do not believe it", "check": "true", "chance": 0.55, "by": "me.nerve", "odds": "likely", "wins": "witness", "fails": "He shrugs and goes back to his psalms."},
+    {"key": "listen", "tag": "", "label": "Buy him ale and listen", "check": "silver >= 2", "chance": 1.0, "by": "", "odds": "sure", "wins": "witness", "fails": ""}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_thule_heard"], "chronicle": "795. In this year clerics of the Irish came home who had lived on the island of Thule from the first of February to the first of August. {house} heard it from one of them.", "effects": ["flag hr_thule_heard"], "stats": {"lore": 1}, "then": "A dim mark is set on the chart's north-west edge. You are the first trader who knows there is land there. A later life can use it."},
+    "nudge": null,
+    "turn": null
+   },
+   "really": {"what": "Clerics told Dicuil that on Thule at the summer solstice the setting sun hides as if behind a small hill, so that a man can do what he likes as in daylight, even pick the lice from his shirt; and that a day's sail north of it they found the sea frozen.", "source": "Dicuil, Liber de mensura orbis terrae VII.11-13"},
+   "links": {"chronicle": [], "text": "dicuil"}
+  },
+  {
+   "id": "black_stones_796", "title": "The letter about stones and cloaks",
+   "from": "796-04-10", "to": "796-07-29", "port": ["quentovic", "lundenwic"], "water": "", "reach": "twelve",
+   "date_note": "The letter is of the first half of 796; Offa died on 29 July.",
+   "person": {"weight": "wt.gervold", "name": "Gervold", "office": "abbot of Saint-Wandrille; the king's procurator, who takes the tolls at Quentovic", "dates": "abbot from 787 or 788; died 806 or 807", "traits": "A manager and a go-between: many times the king's envoy to Offa, and Offa's friend. Likes a thing settled and a roof leaded.", "resists": {"tongue": 0.35, "name": 0.75, "nerve": 0.55, "lore": 0.55}, "source": "Gesta abbatum Fontanellensium c. 12"},
+   "where_met": "At the procurator's toll house at Quentovic.",
+   "shadows": [
+    {"port": "quentovic", "days_before": 30, "rumour": "The abbot's clerk is asking for a skipper who is known on the Thames and can hold his tongue.", "true": true},
+    {"port": "lundenwic", "days_before": 20, "rumour": "The king has asked the Frankish king for black stones of a certain length, and been asked in turn why English cloaks have grown so short.", "true": true}
+   ],
+   "door": "flag.bs_ban_heard and (npc.abbot.feeling >= easy or standing >= 10)",
+   "door_words": "You must know of the ban, and be known at the toll house.",
+   "actors": {"great": {"role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": true}},
+   "talk": [
+    {"key": "carry", "tag": "Name", "label": "Offer to carry the letter across", "check": "true", "chance": 0.75, "by": "me.name", "odds": "likely", "wins": "nudge", "fails": "He sends it with a monk and you hear it read a month later."},
+    {"key": "stones", "tag": "Lore", "label": "Tell him what the black stones are, and where the long ones are quarried", "check": "me.lore >= 2", "chance": 0.55, "by": "me.lore", "odds": "likely", "wins": "nudge", "fails": "You guess, and he can tell."},
+    {"key": "toll", "tag": "Tongue", "label": "Ask that ships which carry the kings' letters pay half toll", "check": "true", "chance": 0.35, "by": "me.tongue", "odds": "doubtful", "wins": "nudge", "fails": "He laughs, not unkindly, and takes the whole tenth."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_stones_witness", "bs_peace"], "chronicle": "796. In this year Charles, king of the Franks, wrote to king Offa as to a brother, that the merchants of each should have protection in the other's realm. {house} heard it read at Lundenwic.", "effects": ["flag hr_stones_witness", "flag bs_peace"], "stats": {"name": 1}},
+    "nudge": {"flags": ["hr_stones_nudge", "bs_peace"], "chronicle": "796. In this year king Charles wrote to king Offa about pilgrims and merchants, black stones and the length of cloaks; and the letter crossed in a ship of {house}.", "effects": ["flag hr_stones_nudge", "flag bs_peace", "deed carried_letters", "npc great feeling +10 carried", "toll eased 60"], "stats": {"name": 1}, "then": "The Thames opens to Frankish ships some weeks early for the season."},
+    "turn": null
+   },
+   "really": {"what": "Charles wrote to Offa: true pilgrims pass free, but traders hiding among them pay toll; each king's merchants are to have protection in the other's realm by the old custom of trading; the black stones Offa asked for will be found if he sends a man to say what kind; and the cloaks sent from England should be of the old length. With it went a belt, a Hunnish sword and two silk cloaks from the Avar treasure.", "source": "Alcuin, letter 100 (MGH Epistolae IV); Gesta abbatum Fontanellensium c. 12 for the ban of about 789"},
+   "links": {"chronicle": ["796-spring-offa-letter"], "thread": "black_stones", "chain": "black_stones"}
+  },
+  {
+   "id": "offa_dead_796", "title": "The king is dead",
+   "from": "796-07-29", "to": "796-08-25", "port": ["lundenwic", "fordwic", "sarre"], "water": "", "reach": "twelve",
+   "date_note": "Offa died on 29 July 796, a Friday (the fourth day before the Kalends of August; two texts of the Chronicle give 10 August). His son Ecgfrith ruled 141 days. Kent rose at once.",
+   "person": {"weight": "wt.praen", "name": "Eadberht, called Praen", "office": "a priest who left his orders; king of the Kentish people 796 to 798", "dates": "taken and maimed 798", "traits": "Bold, quick, short of friends. The pope calls him an apostate cleric. He may be the priest 'Odberht' whom king Charles sheltered and would not hand to Offa (?).", "resists": {"tongue": 0.75, "name": 0.55, "nerve": 0.35, "lore": 0.55}, "source": "Anglo-Saxon Chronicle (A) 794 (=796); pope Leo III to Cenwulf, 798; Alcuin, letter 100"},
+   "where_met": "At Fordwic, the hythe of Canterbury, among men who are waiting for a word.",
+   "shadows": [
+    {"port": "lundenwic", "days_before": 30, "rumour": "The king has not ridden this summer. His son sits in his place at the board.", "true": true},
+    {"port": "sarre", "days_before": 14, "rumour": "Men of the old Kentish kin are home from over the sea, and buying spears with Frankish silver.", "true": true, "note": "the Frankish silver is the game's"},
+    {"port": "lundenwic", "days_before": 0, "rumour": "The bell at Saint Paul's has not stopped. The wic-reeve has shut the hard and will let no ship leave till he has his orders.", "true": true, "sets": "hr_offa_news"}
+   ],
+   "door": "flag.hr_offa_news and moored and (port.id = fordwic or port.id = sarre)",
+   "door_words": "You must have been at Lundenwic when the word came, got out past the reeve, and reached Kent before any other ship.",
+   "actors": {"great": {"role": "king", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": true}, "bishop": {"role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": true}},
+   "talk": [
+    {"key": "tell", "tag": "Nerve", "label": "Tell it to the men who are waiting for it", "check": "true", "chance": 0.75, "by": "me.nerve", "odds": "likely", "wins": "nudge", "fails": "They do not believe a stranger, and wait for a second ship."},
+    {"key": "bishop", "tag": "Troth", "label": "Go up the track and tell the archbishop first", "check": "me.faith = christian", "chance": 0.75, "by": "me.troth", "odds": "likely", "wins": "nudge", "fails": "His door-keeper will not wake him."},
+    {"key": "sell", "tag": "Tongue", "label": "Sell the news twice: to the Kentish kin, and to the king's reeve", "check": "true", "chance": 0.55, "by": "me.tongue", "odds": "likely", "wins": "witness", "fails": "Each learns you went to the other. Both remember."},
+    {"key": "hold", "tag": "", "label": "Say nothing, sell your cargo, and sail before it breaks", "check": "true", "chance": 1.0, "by": "", "odds": "sure", "wins": "witness", "fails": ""}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_offa_witness"], "chronicle": "796. In this year Offa, king of the Mercians, died on the fourth day before the Kalends of August, having held the kingdom thirty-nine winters; and the Kentish people took Eadberht, whose other name was Praen, for their king. A ship of {house} lay at Fordwic.", "effects": ["flag hr_offa_witness", "silver +40"], "stats": {"name": 1}},
+    "nudge": {"flags": ["hr_offa_nudge"], "chronicle": "796. In this year king Offa died, and the word of it came into Kent in a ship of {house} before the king's reeves had it; and the Kentish people took Eadberht Praen for king.", "effects": ["flag hr_offa_nudge", "npc great feeling +10 told"], "stats": {"name": 1}, "then": "If the archbishop was told first (key bishop), he gets away with the church's books and deeds, as he did, and remembers who woke him: flag hr_archbishop_warned, npc bishop feeling +15. If the rising was told first, the Mercian reeves are taken in their beds, and Praen's friendship is worth a great deal for two years and is a rope round your neck in 798."},
+    "turn": null
+   },
+   "really": {"what": "Offa died and his son Ecgfrith after him within the year. The Kentish took Eadberht Praen for king; archbishop Aethelheard, Offa's man, fled Canterbury, and Alcuin wrote to the Kentish to take him back and to the archbishop to do penance for leaving his flock.", "source": "Anglo-Saxon Chronicle (A, E) 794 (=796); Historia regum 796; Alcuin's letters of 797 (nos. 128, 129 (?))"},
+   "links": {"chronicle": ["796-07-29-offa-dies", "796-summer-eadberht-kent", "796-12-cenwulf-king"], "chain": "kentish_revolt_796"}
+  },
+  {
+   "id": "kent_798", "title": "Kent laid waste",
+   "from": "798-05-01", "to": "798-09-30", "port": ["sarre", "fordwic"], "water": "", "reach": "twelve",
+   "date_note": "The year is sure (the Chronicle's 796 is 798); the season is not given. Summer is the game's.",
+   "person": {"weight": "wt.cenwulf", "name": "Cenwulf", "office": "king of the Mercians 796 to 821", "dates": "died 821", "traits": "Writes to the pope with great humility and puts out a rival's eyes the same year. Careful of rank; argues from old books.", "resists": {"tongue": 0.55, "name": 0.75, "nerve": 0.35, "lore": 0.55}, "source": "Anglo-Saxon Chronicle (A, F) 796 (=798); Cenwulf's letter to Leo III and the pope's answer, 798"},
+   "where_met": "At Sarre, where his reeve sets up the king's table by the toll place when the host has passed.",
+   "shadows": [
+    {"port": "lundenwic", "days_before": 30, "rumour": "The reeve is buying every cart on the north road, and the king's men are counting boats.", "true": true},
+    {"port": "quentovic", "days_before": 20, "rumour": "The pope has cursed the priest who calls himself king in Kent, and given the Mercian leave to do as he will.", "true": true},
+    {"port": "sarre", "days_before": 7, "rumour": "The abbess's ship-house is being emptied by night.", "true": true}
+   ],
+   "door": "moored and (port.id = sarre or port.id = fordwic) and (flag.hr_offa_nudge or npc.abbess.feeling >= friendly or npc.reeve.feeling >= friendly)",
+   "door_words": "You must be known in Kent: to the rising, to the abbess of Thanet, or to the king's reeve.",
+   "actors": {"great": {"role": "king", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": true}, "abbess": {"role": "abbess", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": true}},
+   "talk": [
+    {"key": "spare", "tag": "Tongue", "label": "Ask that the hythes be spared: a burned toll place pays no toll", "check": "true", "chance": 0.55, "by": "me.tongue", "odds": "likely", "wins": "nudge", "fails": "He says the Kentish should have thought of their tolls."},
+    {"key": "quote", "tag": "Lore", "label": "Quote the pope's letter back to him: the priest is condemned, not the people", "check": "me.lore >= 3", "chance": 0.55, "by": "me.lore", "odds": "likely", "wins": "nudge", "fails": "He asks who taught a shipman to read a king his letters."},
+    {"key": "nuns", "tag": "Name", "label": "Offer your boat to the abbess, to carry her women and her books across the Wantsum", "check": "true", "chance": 0.75, "by": "me.name", "odds": "likely", "wins": "nudge", "fails": "She has a ship of her own and trusts it more."},
+    {"key": "praen", "tag": "Nerve", "label": "Take the hunted king off the Marsh by night", "check": "flag.hr_offa_nudge", "chance": 0.35, "by": "me.nerve", "odds": "doubtful", "wins": "nudge", "fails": "You are seen. flag wanted_mercia for 720; the boat is searched in every Mercian port."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_kent_witness"], "chronicle": "798. In this year Cenwulf, king of the Mercians, laid waste the Kentish people as far as the Marsh, and took Praen their king and led him bound into Mercia. A ship of {house} lay at Sarre and saw the smoke.", "effects": ["flag hr_kent_witness"], "stats": {"name": 1}},
+    "nudge": {"flags": ["hr_kent_nudge"], "chronicle": "798. In this year Cenwulf laid waste the Kentish people as far as the Marsh; but the hythes on the Wantsum he left standing.", "effects": ["flag hr_kent_nudge", "npc abbess feeling +12 carried", "toll eased 90"], "stats": {"name": 1}, "then": "By the option: the hythes stand (no closed market at Sarre and Fordwic that year); or the women and books of Thanet are safe (the abbess's letters are yours for life); or Praen is over the sea unmaimed (flag hr_praen_escaped: he sits at the Frankish court as an exile, Cuthred is still made king, and Cenwulf never forgets the boat)."},
+    "turn": null
+   },
+   "really": {"what": "Cenwulf ravaged Kent as far as Romney Marsh, took Eadberht Praen, led him bound into Mercia and (one text adds) had his eyes put out and his hands cut off. He made his own brother Cuthred king of Kent. The same year the pope refused to move the archbishop's seat to London.", "source": "Anglo-Saxon Chronicle (A, E, F) 796 (=798); Historia regum 798; Leo III to Cenwulf, 798 (Haddan and Stubbs III)"},
+   "links": {"chronicle": ["798-kent-ravaged", "798-leo-canterbury"], "chain": "kentish_revolt_796"}
+  },
+  {
+   "id": "king_on_the_coast_800", "title": "The king looks at the sea",
+   "from": "800-03-20", "to": "800-05-05", "port": ["quentovic"], "water": "", "reach": "twelve",
+   "date_note": "He left Aachen about the middle of March, went along the shore of the Gaulish sea, kept Easter (19 April) at Saint-Riquier, and went on by the coast to Rouen and so to Tours, where the queen died on 4 June.",
+   "person": {"weight": "wt.charles", "name": "Charles", "office": "king of the Franks and Lombards; emperor from Christmas Day this year", "dates": "born 748 (?), king 768, died 28 January 814", "traits": "Tall, loud, cheerful, talks more than a king should. Wears plain Frankish dress and dislikes fine foreign clothes. Loves strangers, a swim, roast meat and being told something he did not know. Has begun to give the winds names in his own tongue.", "resists": {"tongue": 0.55, "name": 0.35, "nerve": 0.55, "lore": 0.75}, "source": "Einhard, Vita Karoli c. 21-25, 29; ARF 800"},
+   "where_met": "At Saint-Riquier (Centula), a day's ride south of Quentovic, in Easter week; or on the bank at Quentovic when he comes to see the ships. Abbot Angilbert is his host.",
+   "shadows": [
+    {"port": "dorestad", "days_before": 20, "rumour": "The count has been sent for. The king is coming down to the sea with his carpenters.", "true": true},
+    {"port": "quentovic", "days_before": 10, "rumour": "Every shipwright on the Canche is hired at the king's price, and the abbot is asking for men who have seen the heathen ships with their own eyes.", "true": true, "sets": "hr_king_asks"},
+    {"port": "walichrum", "days_before": 5, "rumour": "Riders have been along the dunes with a clerk, counting the creek mouths.", "true": true}
+   ],
+   "door": "flag.hr_king_asks and (flag.hr_donemuthe_witness or flag.lf_trail_north or flag.gf_warned or me.people = danish or me.past = captive_home) and npc.abbot.feeling >= friendly",
+   "door_words": "You must have seen the Northmen's ships, or be one of them; and the abbot who takes the tolls must be willing to bring you in.",
+   "actors": {"great": {"role": "king", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": true}, "abbot": {"role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": true}},
+   "talk": [
+    {"key": "ships", "tag": "Lore", "label": "Tell him how their ships are built, what water they draw, and where they come ashore", "check": "true", "chance": 0.75, "by": "me.lore", "odds": "likely", "wins": "nudge", "fails": "You tell him what every skipper says. He has heard it."},
+    {"key": "wrong", "tag": "Nerve", "label": "Tell him his guards are at the river mouths, and the raiders use the beaches", "check": "true", "chance": 0.55, "by": "me.nerve", "odds": "likely", "wins": "nudge", "fails": "A count laughs. The king does not, but he does not ask you more."},
+    {"key": "winds", "tag": "Lore", "label": "Name him the winds as seamen name them", "check": "me.lore >= 2", "chance": 0.75, "by": "me.lore", "odds": "likely", "wins": "witness", "fails": "You muddle two of them and he corrects you, pleased."},
+    {"key": "toll", "tag": "Tongue", "label": "Ask that a ship which brings warning of raiders pay no toll that call", "check": "true", "chance": 0.55, "by": "me.tongue", "odds": "likely", "wins": "nudge", "fails": "He says his tolls are old and just, and changes the subject."},
+    {"key": "cloak", "tag": "Name", "label": "Come before him in your best cloak and brooch", "check": "true", "chance": 0.35, "by": "me.name", "odds": "doubtful", "wins": "witness", "fails": "He looks at the cloak, then at his own, and asks what you paid."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_king_witness"], "chronicle": "800. In this year king Charles came down to the Gaulish sea in the spring, and had ships built against the pirates and set guards along the shore, and kept Easter at Saint-Riquier. He spoke there with a shipman of {house}.", "effects": ["flag hr_king_witness", "silver +60"], "stats": {"name": 1}, "heirloom": "an arm-ring from the king's hand"},
+    "nudge": {"flags": ["hr_king_nudge", "hr_coast_guard"], "chronicle": "800. In this year king Charles had ships built against the pirates and set guards along the shore; and at the word of a shipman of {house} a watch was kept on the open beaches also.", "effects": ["flag hr_king_nudge", "flag hr_coast_guard", "toll eased 120", "npc abbot feeling +8 honoured"], "stats": {"name": 1}, "then": "The player names one port of the twelve on the Frankish shore (walichrum, witla, dorestad or quentovic): flag hr_guard_<port>. Raids on it are weaker for a generation. The chain coast_watch_810 reads the flag."},
+    "turn": null
+   },
+   "really": {"what": "In the spring of 800 the king toured the coast of the Gaulish sea, 'built a fleet on that sea, which was then infested with pirates, and set guards', kept Easter at Saint-Riquier and went on to Rouen and Tours. In 802 his envoys were told to have ships ready on the coasts. Einhard says he gave names in his own tongue to twelve winds, where before there were names for four.", "source": "ARF 800; MGH Capit. I no. 34 c. 13; Einhard, Vita Karoli c. 17, 29. That a merchant's talk had anything to do with the winds or the guards is the game's."},
+   "links": {"chronicle": ["800-03-channel-coastguard", "802-spring-coast-ships-802", "800-06-04-liutgard"], "chain": "coast_watch_810"}
+  },
+  {
+   "id": "archbishop_crossing_801", "title": "The archbishop goes to Rome",
+   "from": "801-04-12", "to": "801-09-30", "port": ["fordwic", "quentovic"], "water": "the strait", "reach": "twelve",
+   "date_note": "The year is the Chronicle's 799, which is 801. The month is not given; after Easter (4 April) is the game's.",
+   "person": {"weight": "wt.aethelheard", "name": "Aethelheard", "office": "archbishop of Canterbury", "dates": "chosen 792, enthroned 21 July 793; fled Kent 796 to 798; died 12 May 805", "traits": "A Mercian abbot set over Kent by Offa. Ran when Kent rose, and was told by Alcuin to do penance for it. Patient: he is going to Rome to win back by letters what Offa took from his church by force.", "resists": {"tongue": 0.55, "name": 0.35, "nerve": 0.75, "lore": 0.55}, "source": "Anglo-Saxon Chronicle (A) 799 (=801); Alcuin's letters to him; Leo III's privilege of 18 January 802"},
+   "where_met": "At the hythe of Fordwic, with the bishop of Winchester and their men, looking for a ship.",
+   "shadows": [
+    {"port": "fordwic", "days_before": 20, "rumour": "The archbishop's reeve is asking the price of a crossing for forty men and their horses.", "true": true},
+    {"port": "quentovic", "days_before": 10, "rumour": "The cell of Saint Josse has had a letter from Tours: great guests are coming over the water, and they are to travel plainly.", "true": true, "note": "Alcuin wrote to prepare the archbishop's road and to warn against a showy train (letters 230-231 (?))."}
+   ],
+   "door": "moored and port.id = fordwic and (flag.hr_archbishop_warned or npc.bishop.feeling >= friendly or standing >= 20)",
+   "door_words": "You must be trusted at Canterbury: by an old service, by the archbishop himself, or by your standing in Kent.",
+   "actors": {"great": {"role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": true}},
+   "talk": [
+    {"key": "offer", "tag": "Name", "label": "Offer your ship for the crossing", "check": "true", "chance": 0.35, "by": "me.name", "odds": "doubtful", "wins": "witness", "fails": "He takes a Kentish ship he knows."},
+    {"key": "tide", "tag": "Nerve", "label": "Tell him the wind will not hold: sail tonight or wait a week", "check": "true", "chance": 0.75, "by": "me.nerve", "odds": "likely", "wins": "nudge", "fails": "He waits for a feast day, and the wind goes."},
+    {"key": "plain", "tag": "Lore", "label": "Tell him what the toll house at Quentovic makes of silk cloaks on pilgrims", "check": "flag.bs_peace or me.lore >= 3", "chance": 0.55, "by": "me.lore", "odds": "likely", "wins": "nudge", "fails": "His chaplain says the church of Canterbury does not travel like pedlars."},
+    {"key": "fare", "tag": "Tongue", "label": "Ask no fare, and ask instead for his letter under seal", "check": "true", "chance": 0.55, "by": "me.tongue", "odds": "likely", "wins": "witness", "fails": "He pays the fare."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_archbishop_witness"], "chronicle": "801. In this year archbishop Aethelheard and Cyneberht, bishop of the West Saxons, went to Rome. They crossed the sea in a ship of {house}.", "effects": ["flag hr_archbishop_witness", "silver +80", "npc great feeling +8 carried"], "stats": {"name": 1}, "heirloom": "the archbishop's letter under seal: half toll at Fordwic and Sarre while he lives"},
+    "nudge": {"flags": ["hr_archbishop_nudge"], "chronicle": "801. In this year archbishop Aethelheard went to Rome, and had a swift crossing and a quiet road.", "effects": ["flag hr_archbishop_nudge", "npc great feeling +14 served", "toll eased 180"], "stats": {"name": 1}, "then": "He passes Quentovic as a pilgrim, untolled, and is at Rome before winter. The pillar canterbury_restored stands the firmer."},
+    "turn": null
+   },
+   "really": {"what": "Aethelheard and bishop Cyneberht went to Rome. On 18 January 802 pope Leo confirmed Canterbury's authority over all the southern sees, and on 12 October 803 the council at Clofesho ended the archbishopric Offa had made at Lichfield.", "source": "Anglo-Saxon Chronicle (A) 799 (=801); Leo III to Aethelheard, 18 January 802; Acts of Clofesho 803 (Birch 310, 312)"},
+   "links": {"chronicle": ["801-aethelheard-rome", "802-01-18-canterbury-privilege", "803-10-12-clofesho"]}
+  },
+  {
+   "id": "elephant_802", "title": "The elephant",
+   "from": "802-05-01", "to": "802-07-20", "port": ["colonia"], "water": "the Rhine above the twelve", "reach": "word",
+   "date_note": "It landed at Porto Venere in October 801, wintered at Vercelli because of the snow in the Alps, and came to Aachen on 20 July 802, a Wednesday. Its road north of the Alps is not recorded (?): that it was seen from the Rhine is the game's.",
+   "person": {"weight": "wt.isaac", "name": "Isaac", "office": "'Isaac the Jew', sent to the caliph in 797 with the Franks Lantfrid and Sigimund, who both died on the journey", "dates": "sent 797, home 801 to 802; nothing else is known", "traits": "Four years on the road with a beast that eats a cartload a day. Tired, exact, hard to surprise.", "resists": {"tongue": 0.55, "name": 0.55, "nerve": 0.55, "lore": 0.75}, "source": "ARF 801, 802"},
+   "where_met": "In the first release, nowhere: the news comes down the Rhine. If Colonia is opened, on the bank there in early July (?).",
+   "shadows": [
+    {"port": "dorestad", "days_before": 60, "rumour": "A Rhine skipper swears a beast as big as a hay barn is walking north out of the mountains, with a Jew leading it.", "true": true},
+    {"port": "traiectum", "days_before": 20, "rumour": "The master of the school says there is such a beast in the old books, and that it fears mice.", "true": true}
+   ],
+   "door": "me.faith = jewish or me.lore >= 4",
+   "door_words": "You must be of his faith, or have the lore to ask about Baghdad and not about the beast.",
+   "actors": {"great": {"role": "merchant", "people": "frankish", "faith": "port", "tongue": "old_frankish", "fixed": false}},
+   "talk": [
+    {"key": "kin", "tag": "As kin: of his faith", "label": "Greet him in the holy tongue and ask after the houses on his road", "check": "me.faith = jewish", "chance": 0.9, "by": "", "odds": "sure", "wins": "witness", "fails": ""},
+    {"key": "road", "tag": "Lore", "label": "Ask him what the road is like beyond the Greeks", "check": "true", "chance": 0.75, "by": "me.lore", "odds": "likely", "wins": "witness", "fails": "He says: long."},
+    {"key": "beast", "tag": "", "label": "Ask what it eats", "check": "true", "chance": 1.0, "by": "", "odds": "sure", "wins": "witness", "fails": ""}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_elephant_witness"], "chronicle": "802. In this year, on the thirteenth day before the Kalends of August, Isaac the Jew came to the emperor at Aachen with the elephant that the king of the Persians had sent. Its name was Abul Abaz. {house} saw it on its road.", "effects": ["flag hr_elephant_witness"], "stats": {"lore": 1}, "then": "For a player of his faith: a name and a house in a far city (flag hr_isaac_letter), which a later life can use."},
+    "nudge": null,
+    "turn": null
+   },
+   "really": {"what": "Isaac came to Aachen on 20 July 802 with the elephant and the caliph's other gifts. The elephant died suddenly in 810 at Lippeham on the Rhine, when the emperor had crossed against the Danes.", "source": "ARF 801, 802, 810; Einhard, Vita Karoli c. 16"},
+   "links": {"chronicle": ["797-harun-embassy-sent", "801-10-isaac-elephant-lands", "802-07-20-elephant-aachen"]}
+  },
+  {
+   "id": "eadburh_802", "title": "A queen with her chests",
+   "from": "802-03-01", "to": "802-10-31", "port": ["quentovic"], "water": "the strait", "reach": "twelve",
+   "date_note": "Beorhtric died in 802 (the Chronicle's 800). The month is not given, and where she landed is not recorded (?): Quentovic is the usual landing from the south of England.",
+   "person": {"weight": "wt.eadburh", "name": "Eadburh", "office": "daughter of Offa; queen of the West Saxons from 789", "dates": "fled 802; said to have died a beggar at Pavia", "traits": "As the West Saxons told it ninety years on: her father's daughter, used to ruling, quick to hate. That telling is her enemies'. Here: frightened, proud, and carrying more silver than is safe.", "resists": {"tongue": 0.55, "name": 0.75, "nerve": 0.35, "lore": 0.55}, "source": "Asser, Life of king Alfred c. 14-15 (written 893, from the king's own mouth: LATER); Historia regum 802"},
+   "where_met": "On the bank at Quentovic, where a ship has come in from the west with a woman who will not give her name to the toll man.",
+   "shadows": [
+    {"port": "lundenwic", "days_before": 15, "rumour": "The king of the West Saxons is dead, and they are saying in the ale-houses that it was the cup meant for another man.", "true": true, "note": "the poison is Asser's story"},
+    {"port": "quentovic", "days_before": 0, "rumour": "The procurator has been sent for from his dinner. There are chests on the bank that took four men each.", "true": true}
+   ],
+   "door": "moored and port.id = quentovic and (npc.abbot.feeling >= friendly or me.people = english)",
+   "door_words": "You must be trusted by the abbot who takes the tolls, or be someone she can speak her own tongue to.",
+   "actors": {"great": {"role": "widow", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false, "sex": "f"}, "abbot": {"role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": true}},
+   "talk": [
+    {"key": "speak", "tag": "As kin: English to English", "label": "Speak for her to the toll man, in his tongue", "check": "me.people = english or tongue.old_english >= 0.75", "chance": 0.75, "by": "me.tongue", "odds": "likely", "wins": "nudge", "fails": "You put it badly, and the tenth is taken from the chests on the bank, in front of everyone."},
+    {"key": "court", "tag": "Name", "label": "Offer to carry her up the coast to where the emperor's men can meet her", "check": "true", "chance": 0.55, "by": "me.name", "odds": "likely", "wins": "witness", "fails": "She goes by road with the abbot's escort."},
+    {"key": "advice", "tag": "Nerve", "label": "Tell her what you know of the emperor: he likes a plain answer", "check": "flag.hr_king_witness", "chance": 0.55, "by": "me.nerve", "odds": "likely", "wins": "nudge", "fails": "She says she has been a queen for thirteen years and needs no shipman to teach her courts."},
+    {"key": "tell", "tag": "Tongue", "label": "Send word to the West Saxons of where she is", "check": "true", "chance": 0.75, "by": "me.tongue", "odds": "likely", "wins": "witness", "fails": "No one pays for it."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_eadburh_witness"], "chronicle": "802. In this year king Beorhtric died, and his queen went over the sea with great treasure to the emperor. {house} saw her come ashore.", "effects": ["flag hr_eadburh_witness", "silver +50"], "stats": {"name": 1}},
+    "nudge": {"flags": ["hr_eadburh_nudge"], "chronicle": "802. In this year king Beorhtric died, and his queen went over the sea to the emperor, who gave her a great house of nuns to rule; and she kept it.", "effects": ["flag hr_eadburh_nudge", "npc great feeling +15 served"], "stats": {"name": 1}, "then": "In Asser's tale the emperor offers her the choice of himself or his son; she chooses the son for his youth and gets neither, only an abbey, which she loses for lechery, and dies begging at Pavia. Nudged, she answers plainly or keeps her chests whole, holds the abbey, and an abbess in Francia owes the house a favour for life. To the West Saxons the house is the one that helped her."},
+    "turn": null
+   },
+   "really": {"what": "Beorhtric died in 802; Ecgberht came home and took the kingdom. Asser, writing in 893, says Beorhtric drank poison his queen Eadburh had mixed for another, that she fled over the sea with countless treasure to Charles, and all the rest: he says he had it from king Alfred. Because of her, he says, the West Saxons would not let a king's wife be called queen.", "source": "Anglo-Saxon Chronicle (A) 800 (=802); Asser c. 13-15; Historia regum 802"},
+   "links": {"chronicle": ["802-ecgberht-wessex", "802-eadburh-flees"]}
+  },
+  {
+   "id": "ecgberht_802", "title": "The exile goes home",
+   "from": "802-03-01", "to": "802-10-31", "port": ["quentovic"], "water": "the strait and the south coast", "reach": "twelve",
+   "date_note": "The same year as the queen's flight. The Chronicle says Offa and Beorhtric had driven him out to Francia for three years; many read thirteen, which would put him at the Frankish court from about 789 (?).",
+   "person": {"weight": "wt.ecgberht", "name": "Ecgberht", "office": "an exile of the West Saxon royal kin; king of the West Saxons 802 to 839", "dates": "died 839", "traits": "Has lived on another king's bread for years and learned to watch. Patient, unforgiving, exact about debts.", "resists": {"tongue": 0.55, "name": 0.55, "nerve": 0.75, "lore": 0.55}, "source": "Anglo-Saxon Chronicle (A) 800 (=802), 836 (=839)"},
+   "where_met": "At Quentovic, among a few men with good swords and poor cloaks, waiting for a ship whose master will not ask names.",
+   "shadows": [
+    {"port": "quentovic", "days_before": 300, "rumour": "There is an Englishman at the toll house every spring, asking which ships are for the south coast. He never sails.", "true": true},
+    {"port": "lundenwic", "days_before": 15, "rumour": "The king of the West Saxons is dead.", "true": true},
+    {"port": "quentovic", "days_before": 0, "rumour": "The Englishman is on the bank with his chest packed.", "true": true}
+   ],
+   "door": "moored and port.id = quentovic and (npc.abbot.feeling >= friendly or flag.hr_stones_nudge or me.people = english)",
+   "door_words": "You must be vouched for by the abbot, or have carried the kings' letter, or be English.",
+   "actors": {"great": {"role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}},
+   "talk": [
+    {"key": "carry", "tag": "Nerve", "label": "Take him across tonight, to a beach and not a port", "check": "true", "chance": 0.75, "by": "me.nerve", "odds": "likely", "wins": "nudge", "fails": "He takes a ship with a bigger crew."},
+    {"key": "port", "tag": "Name", "label": "Take him across openly, as a king should come", "check": "true", "chance": 0.55, "by": "me.name", "odds": "likely", "wins": "witness", "fails": "He says he will be a king when he is one."},
+    {"key": "price", "tag": "Tongue", "label": "Ask what a king's passage is worth, paid afterwards", "check": "true", "chance": 0.55, "by": "me.tongue", "odds": "likely", "wins": "witness", "fails": "He names a fare and pays it now. You are owed nothing later."},
+    {"key": "sell", "tag": "Nerve", "label": "Sell word of him to his enemies", "check": "year < 802", "chance": 0.35, "by": "me.nerve", "odds": "doubtful", "wins": "turn", "fails": "The abbot hears of it. npc abbot feeling -40; Quentovic is shut to you for a year."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_ecgberht_witness"], "chronicle": "802. In this year king Beorhtric died, and Ecgberht took the kingdom of the West Saxons. He came home over the sea in a ship of {house}.", "effects": ["flag hr_ecgberht_witness", "silver +100"], "stats": {"name": 1}},
+    "nudge": {"flags": ["hr_ecgberht_nudge"], "chronicle": "802. In this year Ecgberht took the kingdom of the West Saxons; and the same day ealdorman Aethelmund rode out of the Hwicce over the river at Kempsford, and the men of Wiltshire met him, and there was a great fight, and both ealdormen were killed, and the men of Wiltshire had the victory. The king had landed a week before, and his men were ready.", "effects": ["flag hr_ecgberht_nudge", "npc great feeling +20 carried"], "stats": {"name": 1, "nerve": 1}, "then": "A king of the West Saxons owes the house a passage. In the first release that is a word and an heirloom; when Hamwic opens it is a port where the reeve stands up when you come in."},
+    "turn": {"held": true, "flags": ["changed_wessex_no_ecgberht"], "chronicle": "799. In this year Ecgberht the exile was taken on the shore by king Beorhtric's men and killed. (Here the book leaves the world you know.)", "effects": ["flag changed_wessex_no_ecgberht", "silver +240", "npc abbot feeling -40 betrayed"], "stats": {"name": -2}, "then": "HELD: written so that a later release can weigh it, not for the first. It unmakes the line of Ecgberht, Aethelwulf and Alfred: every hour of 825 to 899 that rests on Wessex would need its fallen line."}
+   },
+   "really": {"what": "When Beorhtric died Ecgberht succeeded; on the same day the Hwiccian ealdorman Aethelmund crossed at Kempsford and was met and killed by the Wiltshire men under Weohstan, who also fell. How and where Ecgberht crossed is not recorded.", "source": "Anglo-Saxon Chronicle (A) 800 (=802), 836 (=839)"},
+   "links": {"chronicle": ["802-ecgberht-wessex", "802-kempsford"]}
+  },
+  {
+   "id": "frisian_law_802", "title": "The law is written down",
+   "from": "802-11-01", "to": "803-09-30", "port": ["dorestad"], "water": "", "reach": "twelve",
+   "date_note": "In October 802 the emperor had the laws of all the peoples under him read and written at Aachen. The Law of the Frisians is thought to have been set down then or soon after. Where and when its wise men were asked is not recorded (?): the count's court at Dorestat within the year is the game's.",
+   "person": {"weight": "wt.wlemar", "name": "Wlemar", "office": "one of the two 'wise men' whose judgements are added to the Law of the Frisians (the other is Saxmund)", "dates": "about 802; nothing else is known of him", "traits": "Only the name is real. Here: an old law-sayer who knows three districts' customs by heart and distrusts ink.", "resists": {"tongue": 0.55, "name": 0.55, "nerve": 0.55, "lore": 0.35}, "source": "Lex Frisionum, Additio sapientum (printed by Herold, 1557, from a manuscript now lost)"},
+   "where_met": "At the count's court, where the emperor's clerk writes while the old men say what the custom is.",
+   "shadows": [
+    {"port": "traiectum", "days_before": 30, "rumour": "The emperor wants every people's law in a book. Clerks are coming to ask the Frisians what theirs is.", "true": true},
+    {"port": "medemelacha", "days_before": 10, "rumour": "They say what is not told to the clerk this winter will not be law next year.", "true": false}
+   ],
+   "door": "moored and port.id = dorestad and (me.lore >= 3 or me.past = toll_clerk or me.past = hall_child or flag.won_case_dorestad)",
+   "door_words": "You must know law: by learning, by six years at the toll house, by your birth, or by having won a suit in that court.",
+   "actors": {"great": {"role": "lords_man", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": true}},
+   "talk": [
+    {"key": "wreck", "tag": "Lore", "label": "Say what the custom is when a ship is driven ashore: the goods are her master's, not the finder's", "check": "true", "chance": 0.35, "by": "me.lore", "odds": "doubtful", "wins": "nudge", "fails": "He says that was never the custom on any shore he knows, and he is right."},
+    {"key": "oath", "tag": "Lore", "label": "Say how a travelling man clears himself where he has no kin: with his crew to swear after him", "check": "true", "chance": 0.55, "by": "me.lore", "odds": "likely", "wins": "nudge", "fails": "He says a crew will swear to anything."},
+    {"key": "toll", "tag": "As kin: the toll-keeper's clerk", "label": "Recite the old tolls from the sea to Colonia, so that they are written as they were", "check": "me.past = toll_clerk", "chance": 0.75, "by": "me.tongue", "odds": "likely", "wins": "nudge", "fails": "The steward says you were dismissed for a reason."},
+    {"key": "listen", "tag": "", "label": "Stand at the back and listen", "check": "true", "chance": 1.0, "by": "", "odds": "sure", "wins": "witness", "fails": ""}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_law_witness"], "chronicle": "802. In this year the emperor had the laws of all his peoples read out and written, each man's own; and the law of the Frisians was set down as their wise men spoke it. {house} stood in the court.", "effects": ["flag hr_law_witness"], "stats": {"lore": 1}},
+    "nudge": {"flags": ["hr_law_nudge"], "chronicle": "802. In this year the law of the Frisians was written; and one judgement in it was spoken by a shipman of {house}.", "effects": ["flag hr_law_nudge", "toll eased 365"], "stats": {"lore": 1, "name": 1}, "then": "This is the book's 'one changed line' (GAME_MAKER.md stage 3). By the option: flag hr_law_wreck (a stranded ship's cargo is her master's in Frisian ports: no seizure after a stranding), hr_law_oath (a crew may swear for its master: Tongue checks at a Frisian court one pip better for the whole house, heirs too), or hr_law_tolls (the tolls of 802 are the written ones: no new toll can be laid on the house in a Frisian port)."},
+    "turn": null
+   },
+   "really": {"what": "The Law of the Frisians survives only in the print of 1557. It gives the man-prices for three districts (from the Sincfal to the Vlie, the Vlie to the Lauwers, the Lauwers to the Weser), keeps a heathen judgement on the robber of a shrine, and ends with the 'additions of the wise men', the judgements of Wlemar and Saxmund. It has no law of wreck and no merchants' oath: what the player adds is the game's.", "source": "Lex Frisionum (ed. von Richthofen, MGH Leges III); Annales Laureshamenses 802"},
+   "links": {"chronicle": ["802-10-aachen-laws-802", "802-spring-oath-of-802"]}
+  },
+  {
+   "id": "godescalc_798", "title": "The envoy on the wrong road",
+   "from": "798-03-10", "to": "798-04-08", "port": ["ripa"], "water": "", "reach": "twelve",
+   "date_note": "The rising was about Easter 798 (8 April). The envoy had been sent to the Danish king 'a few days before' and was on his way home. Where king Sigfred was is not recorded (?): that the envoy came through Ripa is the game's.",
+   "person": {"weight": "wt.godescalc", "name": "Godescalc", "office": "an envoy of king Charles to Sigfred, king of the Danes", "dates": "killed 798; nothing else is known", "traits": "Only the name, the errand and the death are real. Here: a king's man in a hurry, sure that the king's peace reaches as far as the king's name.", "resists": {"tongue": 0.55, "name": 0.55, "nerve": 0.35, "lore": 0.55}, "source": "ARF 798 and its revised text"},
+   "where_met": "At Ripa before the market has opened, buying horses for the road south.",
+   "shadows": [
+    {"port": "daventre", "days_before": 20, "rumour": "The king has wintered in Saxony and billeted his host on every farm. Beyond the Elbe they are saying it will not be borne another year.", "true": true},
+    {"port": "ripa", "days_before": 0, "rumour": "A Frank with the king's seal is in Hroald's house, and wants to be home by Easter.", "true": true, "sets": "hr_envoy_seen"},
+    {"port": "ripa", "days_before": 0, "rumour": "A carter up from the south: the men beyond the Elbe have stopped answering the king's judges.", "true": true}
+   ],
+   "door": "moored and port.id = ripa and flag.hr_envoy_seen and (npc.host.feeling >= easy or me.people = danish or me.people = frankish)",
+   "door_words": "You must be at Ripa in the last weeks of Lent, with the sea barely open, and be someone he will listen to.",
+   "actors": {"great": {"role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": false}, "host": {"role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "fixed": true}},
+   "talk": [
+    {"key": "sea", "tag": "Nerve", "label": "Tell him the land road is not safe, and offer him the sea", "check": "true", "chance": 0.35, "by": "me.nerve", "odds": "doubtful", "wins": "nudge", "fails": "He says the sea in March is not safe either, and he is right."},
+    {"key": "carter", "tag": "Tongue", "label": "Bring the carter to him and let the man tell it himself", "check": "true", "chance": 0.55, "by": "me.tongue", "odds": "likely", "wins": "nudge", "fails": "The carter will not speak before a Frank."},
+    {"key": "hall", "tag": "As kin: Dane to Dane", "label": "Tell him what is said in the hall about the men beyond the Elbe", "check": "me.people = danish", "chance": 0.55, "by": "me.name", "odds": "likely", "wins": "nudge", "fails": "He thinks a Dane has his own reasons."},
+    {"key": "horses", "tag": "", "label": "Sell him what he needs for the road", "check": "true", "chance": 1.0, "by": "", "odds": "sure", "wins": "witness", "fails": ""}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_godescalc_witness"], "chronicle": "798. In this year the Saxons beyond the Elbe rose and killed the king's envoys; and among them Godescalc, who was coming home from Sigfred, king of the Danes. {house} had seen him at Ripa.", "effects": ["flag hr_godescalc_witness", "silver +20"], "stats": {"name": 1}},
+    "nudge": {"flags": ["hr_godescalc_nudge"], "chronicle": "798. In this year the Saxons beyond the Elbe rose and killed the king's envoys. But Godescalc, who had been with the king of the Danes, came home by sea in a ship of {house}.", "effects": ["flag hr_godescalc_nudge", "passenger great to dorestad", "npc great feeling +20 saved"], "stats": {"name": 1, "nerve": 1}, "then": "A king's envoy owes the house his life: at Dorestat the count gives one delay on the debt unasked (flag db_extension), and what Godescalc learned of the Danes reaches the king whole. The pillar godfred_804 leans on it."},
+    "turn": null
+   },
+   "really": {"what": "The Saxons beyond the Elbe seized the king's envoys who were among them doing justice, killed some and held the rest for ransom. Godescalc, sent a few days earlier to Sigfred, king of the Danes, was caught on his way back and killed. The king laid waste the land between Weser and Elbe that summer and took 1,600 hostages, and the Abodrites under Thrasco beat the Saxons beyond the Elbe at Bornhoved.", "source": "ARF 798; ARF (revised) 798"},
+   "links": {"chronicle": ["798-04-nordliudi-revolt", "798-summer-minden", "798-summer-bornhoved"], "thread": "saxon_end"}
+  },
+  {
+   "id": "saxons_804", "title": "The emptied land and the king who would not come",
+   "from": "804-06-15", "to": "804-09-15", "port": ["daventre", "ripa"], "water": "", "reach": "twelve",
+   "date_note": "The emperor led the host into Saxony in the summer and was back at Cologne in the middle of September.",
+   "person": {"weight": "wt.godfred", "name": "Godfred", "office": "king of the Danes", "dates": "first named 804; killed by one of his own men in 810", "traits": "As the Franks tell it: swollen with empty hope, counts Frisia and Saxony his own, and says he will come to Aachen with his host. He promised to meet the emperor and was talked out of it by his men.", "resists": {"tongue": 0.35, "name": 0.55, "nerve": 0.55, "lore": 0.55}, "source": "ARF 804; Einhard, Vita Karoli c. 14"},
+   "where_met": "For a Dane, at Ripa, when the king's men call out every ship for the muster at Sliesthorp, and then before the king. For others, his man at Ripa. At Daventre the hour has no great man in it: only a family on the bank.",
+   "shadows": [
+    {"port": "daventre", "days_before": 20, "rumour": "Carts and guards on the east road. They are bringing out everyone from beyond the Elbe, with wives and children, and giving the land to the Wends.", "true": true},
+    {"port": "ripa", "days_before": 15, "rumour": "The king has called out every ship and every horse to the border.", "true": true, "sets": "hr_godfred_muster"},
+    {"port": "dorestad", "days_before": 5, "rumour": "The count wants to know how many ships the Danes have. He is asking men who have been to Ripa.", "true": true, "note": "the count's question is the game's"}
+   ],
+   "door": "(moored and port.id = daventre) or (flag.hr_godfred_muster and (me.people = danish or npc.host.feeling >= friendly))",
+   "door_words": "At Daventre: be there. At Ripa: be a Dane, or be vouched for by your host.",
+   "actors": {"great": {"role": "king", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "fixed": true}, "count": {"role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": true}},
+   "talk": [
+    {"key": "family", "tag": "Nerve", "label": "Take the family aboard at dusk and carry them north, out of the emperor's reach", "check": "moored and port.id = daventre", "chance": 0.55, "by": "me.nerve", "odds": "likely", "wins": "nudge", "fails": "The ferryman talks. flag sx_carried_fugitive is set anyway and the count's men know it."},
+    {"key": "count", "tag": "Name", "label": "Carry what you saw of the fleet to the count", "check": "flag.hr_godfred_muster", "chance": 0.55, "by": "me.name", "odds": "likely", "wins": "nudge", "fails": "He hears you out and pays nothing."},
+    {"key": "meet", "tag": "As kin: Dane to Dane", "label": "Tell the king what the emperor's court is like, and that he keeps his word to those who come", "check": "me.people = danish and flag.hr_king_witness", "chance": 0.35, "by": "me.tongue", "odds": "doubtful", "wins": "nudge", "fails": "His men say you have eaten Frankish bread too long."},
+    {"key": "trade", "tag": "Tongue", "label": "Sell to both hosts and say nothing to either", "check": "true", "chance": 0.75, "by": "me.tongue", "odds": "likely", "wins": "witness", "fails": "Each side takes you for the other's man."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_saxons_witness"], "chronicle": "804. In this year the emperor carried off all the Saxons who lived beyond the Elbe, with their wives and children, into Francia, and gave their land to the Abodrites. And Godfred, king of the Danes, came with his fleet and all the horsemen of his kingdom to Sliesthorp, and would not come nearer. {house} traded with both hosts.", "effects": ["flag hr_saxons_witness", "silver +60"], "stats": {"name": 1}},
+    "nudge": {"flags": ["hr_saxons_nudge"], "chronicle": "804. In this year the emperor carried off the Saxons from beyond the Elbe; and some who fled came to the Danes by sea.", "effects": ["flag hr_saxons_nudge", "flag sx_carried_fugitive"], "stats": {"nerve": 1}, "then": "By the option. The family: a household at Ripa that owes you everything, and a name the count's men have (the emperor's envoys to Godfred that summer asked for fugitives back). The count: flag gf_warned, silver +120, and Ripa cooler to you (npc host feeling -10). The king, for a Dane: he sends a better envoy, and the truce holds a little longer (pillar godfred_804, bent)."},
+    "turn": null
+   },
+   "really": {"what": "The emperor deported the Saxons of Wigmodia and beyond the Elbe with their wives and children and gave the land beyond the Elbe to the Abodrites. Godfred came to Sliesthorp on the border with his fleet and all his horsemen, promised to meet the emperor, was warned off by his men, and dealt through envoys. The emperor, camped at Hollenstedt, sent to him about the return of fugitives.", "source": "ARF 804; Chronicon Moissiacense 804"},
+   "links": {"chronicle": ["804-summer-nordalbingia-emptied", "804-summer-godfred-sliesthorp", "804-summer-hollenstedt"], "thread": "saxon_end"}
+  },
+  {
+   "id": "hunger_805", "title": "The hunger, and the grain that may not sail",
+   "from": "805-09-01", "to": "806-08-15", "port": ["dorestad", "traiectum", "walichrum", "witla", "medemelacha", "doccinga", "daventre", "quentovic"], "water": "", "reach": "twelve",
+   "date_note": "Famine 'in many places' in 805; the laws against it are of December 805 (Thionville) and March 806 (Nijmegen). It ends with the harvest of 806.",
+   "person": {"weight": "wt.hamacar", "name": "Hamacar", "office": "bishop of Traiectum", "dates": "about 790 to 806; nothing else is known of him", "traits": "Only the name and the years are real. Here: an old man with a full barn and a list of the poor, who has to choose.", "resists": {"tongue": 0.55, "name": 0.55, "nerve": 0.55, "lore": 0.55}, "source": "the list of the bishops of Utrecht; his character is the game's"},
+   "where_met": "At the bishop's hall at Traiectum; at Quentovic the same hour is met with abbot Gervold, at Dorestat with the count.",
+   "shadows": [
+    {"port": "daventre", "days_before": 30, "rumour": "The rye came up thin and the oats not at all.", "true": true},
+    {"port": "lundenwic", "days_before": 0, "rumour": "English grain is cheap this year, and the Franks will pay anything for it.", "true": true},
+    {"port": "ripa", "days_before": -60, "rumour": "The emperor has forbidden any food to leave his realm. A ship that brings grain out of it to Ripa can name her price.", "true": true}
+   ],
+   "door": "port.realm = franks and (hold.wheat >= 1 or hold.rye >= 1 or hold.barley >= 1 or hold.oats >= 1)",
+   "door_words": "You must come to a Frankish port in the hungry year with grain in the hold.",
+   "actors": {"great": {"role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": true}},
+   "talk": [
+    {"key": "cap", "tag": "Troth", "label": "Sell at the emperor's price, to the bishop's list of the poor", "check": "true", "chance": 0.9, "by": "", "odds": "sure", "wins": "nudge", "fails": ""},
+    {"key": "give", "tag": "Name", "label": "Give a tenth of the cargo at the church door, before witnesses", "check": "true", "chance": 0.75, "by": "me.name", "odds": "likely", "wins": "nudge", "fails": "It is taken and not spoken of."},
+    {"key": "dear", "tag": "Tongue", "label": "Sell above the price, quietly, to those who can pay", "check": "true", "chance": 0.55, "by": "me.tongue", "odds": "likely", "wins": "witness", "fails": "You are seen. flag hy_sold_dear; the count's men ask about it."},
+    {"key": "run", "tag": "Nerve", "label": "Load here and run it out of the realm to where it is dearest", "check": "true", "chance": 0.35, "by": "me.nerve", "odds": "doubtful", "wins": "witness", "fails": "Stopped at the river mouth: law seizure, flag hy_ran_grain, and the port remembers for a generation."}
+   ],
+   "outcomes": {
+    "witness": {"flags": ["hr_hunger_witness"], "chronicle": "805. In this year there was a great hunger in many places, and the emperor forbade that any food be sold out of his realm. {house} sold grain.", "effects": ["flag hr_hunger_witness"], "stats": {}, "then": "Sold dear: silver, and flag hy_sold_dear. Run abroad: more silver, flag hy_ran_grain, and the deed goods_seized if caught."},
+    "nudge": {"flags": ["hr_hunger_nudge", "hy_fed_poor"], "chronicle": "806. In the hungry year a ship of {house} came with grain and sold it at the emperor's price, and it was remembered.", "effects": ["flag hr_hunger_nudge", "flag hy_fed_poor", "deed gave_alms", "npc great feeling +15 fed", "toll eased 365"], "stats": {"troth": 1, "name": 1}, "then": "Port by port: each Frankish port fed in the hungry year keeps its own flag (hy_fed_<port>), and the heir is greeted by it."},
+    "turn": null
+   },
+   "really": {"what": "At Thionville, late in 805, the emperor ordered that in the present famine each man help his own, not sell his grain too dear, and that no food be sold outside the empire. At Nijmegen in March 806 he set the most that could be asked for a measure: two pennies for oats, three for barley, four for rye, six for wheat (?), and forbade buying a harvest cheap to sell it dear.", "source": "MGH Capit. I no. 44 c. 4; no. 46 c. 17-18"},
+   "links": {"chronicle": ["805-famine-805", "805-12-thionville-famine", "806-03-nijmegen-prices"], "thread": "hungry_years"}
+  }
+ ],
+ "later": [
+  {"id": "reric_808", "title": "Godfred's market", "when": "808", "where": "reric, then sliesthorp", "person": "Godfred, king of the Danes; Thrasco, prince of the Abodrites", "what": "Godfred destroys the Abodrites' trading place, puts its merchants aboard his ships and sets them down at Sliesthorp, and orders a wall from sea to sea.", "source": "ARF 808", "certainty": "sure", "note": "written (chain reric_808; thread godfreds_market)"},
+  {"id": "frisia_810", "title": "The hundred pounds, the dead elephant and the dead king", "when": "810, summer", "where": "the Frisian coast; Lippeham on the Rhine", "person": "Godfred; the emperor", "what": "Two hundred Danish ships take a hundred pounds of silver from the Frisians. The emperor crosses the Rhine at Lippeham, where the elephant dies. Godfred is killed by one of his own men before the hosts meet.", "source": "ARF 810", "certainty": "sure", "note": "the first hour of the second life"},
+  {"id": "birka_829", "title": "The monks come to the lake", "when": "829 to 831", "where": "birka", "person": "Anskar; king Bjorn; Herigar the prefect", "what": "Anskar sails in merchants' ships, is robbed by pirates on the way of nearly forty books, and is let preach by the king after he has talked with his men.", "source": "Rimbert, Vita Anskarii c. 9-11", "certainty": "sure", "note": "CORRECTED: the fate page put the casting of lots at the thing in 829. That is the second visit, about 852."},
+  {"id": "birka_852", "title": "The lot at the thing", "when": "about 852", "where": "birka", "person": "Anskar; king Olof", "what": "The king has the lots cast in the open, then puts it to the assembly. An old man speaks for the Christians' god because the road to Dorestat has grown dangerous; a second assembly agrees. A merchant who has seen Christian lands is asked.", "source": "Rimbert, Vita Anskarii c. 26-27", "certainty": "sure", "note": "the only thing in the north described by a man of its own time"},
+  {"id": "oseberg_834", "title": "A queen is laid in a ship", "when": "834, summer", "where": "the Vestfold shore (skiringssal)", "person": "two women, not named in any source", "what": "A great woman is buried in a ship with a second woman, a cart, sledges, beds, kitchen things and beasts. The timbers of the grave chamber were felled in the summer of 834; the ship was built about 820.", "source": "the Oseberg find (1904); tree-ring dating of the chamber", "certainty": "sure", "note": "who she was is not known; 'queen Asa' is a guess from Snorri: LATER"},
+  {"id": "ghazal_845", "title": "The emir's poet", "when": "about 845 (?)", "where": "the Northmen's king's island, not named", "person": "Yahya al-Ghazal, poet of Cordoba", "what": "After the Northmen's attack on Seville in 844 the emir is said to have sent the poet north to their king.", "source": "Ibn Dihya, al-Mutrib (he died in 1235): LATER", "certainty": "uncertain", "note": "many hold the tale a confusion with his embassy to Constantinople in 840. Use as 'it is said', or not at all."},
+  {"id": "north_west_860", "title": "The raven-finder", "when": "about 860 to 874", "where": "the open sea north-west", "person": "Naddodd, Gardar Svavarsson, Floki Vilgerdarson, Ingolf", "what": "Men blown off course find a great empty land; Floki takes ravens to find it and cattle to keep, and loses the cattle the first winter; Ingolf settles about 874.", "source": "Landnamabok (written 12th to 13th century: LATER); Ari, Islendingabok c. 1 (about 1125: settlement begins about 870)", "certainty": "likely", "note": "CORRECTED: the fate page gave 'about 825 to 874'. 825 is the year Dicuil wrote of Irish hermits there; the Norse finding is of the 860s."},
+  {"id": "ladoga_862", "title": "Come and rule", "when": "862 by the chronicle's reckoning (?)", "where": "aldeigjuborg", "person": "Rurik", "what": "'Our land is great and rich, but there is no order in it. Come and rule over us.' The message is carried over the sea.", "source": "the Primary Chronicle under 6370 (written about 1113: LATER; its early years are reckoned backwards)", "certainty": "uncertain", "note": "Rurik settles at Ladoga in one text and at Novgorod in another. He is not shown to be Rorik of Dorestat."},
+  {"id": "athelney_878", "title": "The stone east of the wood", "when": "878: Chippenham taken just after 6 January; the king at Athelney from Easter, 23 March; the meeting at Ecgberht's stone in the seventh week after Easter (4 to 10 May); the battle at Edington two days later", "where": "the Somerset marshes", "person": "Alfred, king of the West Saxons; Guthrum", "what": "A hunted king sends for the men of Somerset, Wiltshire and part of Hampshire to meet him at a stone. A summons that does not arrive is a battle that is not fought. Guthrum is baptised at Aller three weeks after.", "source": "Anglo-Saxon Chronicle 878; Asser c. 52-56", "certainty": "sure", "note": "Easter 878 reckoned as in calendar_793.json"},
+  {"id": "paris_886", "title": "The count goes for help", "when": "the siege begins 24 to 26 November 885; count Odo slips out about May 886 and fights his way back in", "where": "parisius", "person": "Odo, count of Paris; bishop Gauzlin; Sigfred", "what": "The count must get out through the besiegers to fetch the emperor, and get back.", "source": "Abbo of Saint-Germain, Bella Parisiacae urbis; Annales Vedastini 885-886", "certainty": "sure", "note": "that he went by boat is the fate page's idea: Abbo has him come back on horseback through the enemy (?)"},
+  {"id": "volga_922", "title": "The burning ship", "when": "922", "where": "the Volga, among the Bulgars", "person": "Ahmad ibn Fadlan", "what": "A chief of the Rus is burned in his ship with a slave girl who is killed to go with him. A man from Baghdad writes it down.", "source": "Ibn Fadlan, Risala", "certainty": "sure", "note": "CORRECTED: the fate page gave 921. The embassy left Baghdad on 21 June 921 and reached the Bulgar king on 12 May 922: the funeral was seen in 922."},
+  {"id": "lade_950", "title": "The king who would not eat the horse", "when": "about 950 (?)", "where": "Lade and Maere, in the Trondheim fjord", "person": "Hakon the Good, king about 934 to 961; jarl Sigurd", "what": "A Christian king among heathen farmers is made to gape over the handle of the broth kettle, with a cloth laid on it; at Yule he eats some of the liver.", "source": "Snorri, Hakonar saga goda c. 17-18 (about 1230): LATER", "certainty": "uncertain", "note": ""},
+  {"id": "greenland_985", "title": "Twenty-five ships", "when": "985 or 986", "where": "Breidafjord, Iceland", "person": "Eirik the Red", "what": "Twenty-five ships sail for the green land; fourteen arrive; some are driven back and some lost.", "source": "Ari, Islendingabok c. 6 (fourteen or fifteen winters before the faith came to Iceland); Landnamabok", "certainty": "likely", "note": ""},
+  {"id": "kiev_987", "title": "A prince weighs four faiths", "when": "986 to 988", "where": "Kiev", "person": "Vladimir", "what": "Bulgar Muslims, Germans of the pope, Khazar Jews and a Greek come to him; in 987 he sends ten men to see each worship; he is baptised in 988.", "source": "the Primary Chronicle under 6494 to 6496: LATER (about 1113)", "certainty": "likely", "note": ""},
+  {"id": "maldon_991", "title": "The causeway", "when": "10 or 11 August 991", "where": "the Blackwater, Essex", "person": "Byrhtnoth, ealdorman of Essex", "what": "The ealdorman, 'for his pride', lets the raiders cross the causeway to fight on firm ground, and is killed.", "source": "The Battle of Maldon (texts_793.json maldon_991); Anglo-Saxon Chronicle 991; the day from the calendars of Ely, Winchester and Ramsey", "certainty": "sure", "note": ""},
+  {"id": "law_rock_1000", "title": "Under the cloak", "when": "the summer of 999 or 1000", "where": "the Althing, Iceland", "person": "Thorgeir the lawspeaker; Gizur the White and Hjalti", "what": "The lawspeaker lies under his cloak that day and the night after, then says one law for all. King Olaf had threatened the Icelanders in Norway.", "source": "Ari, Islendingabok c. 7 (about 1125)", "certainty": "likely", "note": ""},
+  {"id": "st_brice_1002", "title": "Saint Brice's day", "when": "13 November 1002, a Friday", "where": "England; Oxford is the one place with a record", "person": "king Aethelred", "what": "The king orders all the Danish men in England killed. At Oxford they flee into Saint Frideswide's church and it is burned over them.", "source": "Anglo-Saxon Chronicle 1002; the king's charter for Saint Frideswide's, 1004 (S 909)", "certainty": "sure", "note": ""},
+  {"id": "vinland_1010", "title": "Red cloth and milk", "when": "about 1005 to 1015; timber was cut at the Newfoundland site in 1021", "where": "Vinland", "person": "Thorfinn Karlsefni; Gudrid", "what": "A colony trades red cloth and milk with the people of the land, then it comes to blows and they go home.", "source": "Eiriks saga rauda c. 10-11; Graenlendinga saga c. 7 (13th century: LATER); the dated wood from L'Anse aux Meadows (Kuitems and others, 2021)", "certainty": "likely", "note": ""},
+  {"id": "bear_1055", "title": "The white bear", "when": "between 1047 and 1064 (?)", "where": "Greenland, Norway, Denmark", "person": "Audun of the Westfjords; king Harald of Norway; king Svein of Denmark", "what": "A poor man spends all he has on a white bear in Greenland to give to king Svein, and must pass through the land of Svein's enemy king Harald, who wants it.", "source": "Audunar thattr vestfirzka (13th century): LATER", "certainty": "uncertain", "note": ""},
+  {"id": "harold_1064", "title": "The wrong shore", "when": "1064 or 1065", "where": "the Channel; Ponthieu, north of quentovic's old mouth", "person": "Harold, earl of Wessex; Guy, count of Ponthieu; duke William", "what": "The earl puts to sea, is driven ashore in Ponthieu and seized by its count, is handed to the duke, and swears him an oath.", "source": "William of Poitiers, Gesta Guillelmi I.41-46; the Bayeux Tapestry; Eadmer, Historia novorum", "certainty": "likely", "note": "the oath is at Bonneville in William of Poitiers, at Bayeux on the Tapestry, at Rouen in Orderic. The relics hidden under a cloth are Wace's, about 1170: LATER."},
+  {"id": "the_wind_1066", "title": "The wind", "when": "1066: the star from 24 April; the fleet at the Dives from early August and at Saint-Valery from about 12 September; it sails on the night of 27 to 28 September; the battle on Saturday 14 October; the crowning on Christmas Day", "where": "the Channel", "person": "duke William", "what": "A duke waits for the wind. A comet has hung over all of it. The last card of the game.", "source": "Anglo-Saxon Chronicle (C, D) 1066; William of Poitiers", "certainty": "sure", "note": ""}
+ ],
+ "sources": [
+  "Annales regni Francorum (ed. Kurze, MGH SRG 6, 1895), through chronicle_793.json",
+  "The Anglo-Saxon Chronicle (texts A, D, E, F); Historia regum attributed to Symeon of Durham",
+  "Alcuin, Epistolae (ed. Dummler, MGH Epistolae IV, 1895)",
+  "Altfrid, Vita Liudgeri; Gesta abbatum Fontanellensium; Einhard, Vita Karoli Magni; Asser, De rebus gestis Aelfredi",
+  "Lex Frisionum; MGH Capitularia I nos. 33, 34, 44, 46",
+  "Dicuil, Liber de mensura orbis terrae (825)",
+  "Design/content/spine.json (threads and their flags); Design/content/realms/*.json; Design/content/dossiers/*.md",
+  "en.wikipedia.org: Aethelberht II of East Anglia, Aethelhard, Abul-Abbas, Dicuil, Lex Frisionum (read 7 Oct 2026 to check dates)"
+ ]
+}

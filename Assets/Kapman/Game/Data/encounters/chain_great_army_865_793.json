@@ -1,0 +1,1648 @@
+{
+ "about": "CHAIN great_army_865 (Design/content/CHAINS.md; page Design/content/chains/great_army_865.md; words Data/writing/chain_great_army_865.json). The great heathen army in England from 865: a Frisian shipman who trades at the army's scales, ransoms its captives and a golden gospel book, can warn King Alfred before Twelfth Night 878, and ends as one of the merchants allowed to cross between the two armies. Fourteen cards, 865 to 880 (endings may be taken to 890). Part of the spine's thread price_of_england: its flags en_paid_share and en_hostage_given are set here. Step flags ch_great_army_865_1 .. _10; road flags _camp, _english, _scales, _boy, _plate, _book_word, _book_bought, _gold, _book_home, _book_lost, _skimmed, _reeve, _tofi, _warn, _warned, _unheard; lasting costs _cost_church and _cost_danes. Endings: ch_great_army_865_end_ransomer and ch_great_army_865_end_line (what happened), ch_great_army_865_end_warned (history changed: changed_chippenham_warned), ch_great_army_865_end_camp (with changed_codex_aureus_lost if the book was lost); each sets ch_great_army_865_done, so a house has one ending. Steps 1 to 5 and 8 can each begin the chain. Every option's note names its outcome text. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_great_army_865.s01_thanet",
+   "note": "Step 1, one of the five ways in (drawn in a Kentish port from August 865 to April 866). The heathen army on Thanet and Kent's promise of money. Source: Anglo-Saxon Chronicle 865 (the army sat on Thanet and made peace with the men of Kent, who promised money; under cover of the peace and the promise the army stole away by night and ravaged all eastern Kent). Whether this force was the same as the great army that wintered in East Anglia is not certain (?). Folding balances and silver by weight: the Torksey camp finds. Toki and the reeve are invented. Sets ch_great_army_865_1; the spine's en_paid_share on 'pay'; ch_great_army_865_camp on 'sell'; ch_great_army_865_english on 'pay'.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = fordwic or port.id = dofras) and ((year = 865 and month >= 8) or (year = 866 and month <= 4)) and not flag.ch_great_army_865_1",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": {
+     "role": "reeve",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "a Kentish king's reeve; invented, unnamed"
+    },
+    "weigher": {
+     "role": "merchant",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "Toki, the army's weigher and buyer; invented (Toki: a short name common on Danish rune stones). The army moves, so he is forged anew at each port: what he remembers of you is carried by the chain's flags, not by his feeling."
+    }
+   },
+   "title_key": "chain_great_army_865.s01.title",
+   "title": "Money for peace",
+   "intention_key": "chain_great_army_865.s01.intention",
+   "intention": "The heathen army sits on Thanet, and the men of Kent have promised it money to stay there. The reeve is collecting. So is a Dane with a pair of scales.",
+   "lines": [
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.s01.reeve_promise"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.s01.reeve_doubt"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s01.weigher_buy"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s01.weigher_scales"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s01.weigher_hold",
+     "when": "hold.value > 0"
+    }
+   ],
+   "options": [
+    {
+     "key": "pay",
+     "label_key": "chain_great_army_865.s01.opt_pay",
+     "label": "Pay twenty pennies into Kent's share",
+     "check": "silver >= 20",
+     "cost": "silver 20",
+     "effects": [
+      "flag en_paid_share",
+      "flag ch_great_army_865_english",
+      "npc reeve feeling +8 paid",
+      "toll eased 60",
+      "news chain_great_army_865.news.thanet at lundenwic",
+      "flag ch_great_army_865_1",
+      "schedule harbour.chain_great_army_865.s02_horses in 120 at gipeswic"
+     ],
+     "note": "outcome: chain_great_army_865.s01.out_pay"
+    },
+    {
+     "key": "sell",
+     "label_key": "chain_great_army_865.s01.opt_sell",
+     "label": "Sell the Dane your ship's own ale and bread at three times their worth",
+     "check": "true",
+     "effects": [
+      "silver +36",
+      "morale -0.05",
+      "flag ch_great_army_865_camp",
+      "npc reeve feeling -4 sold",
+      "npc weigher feeling +5 sold",
+      "flag ch_great_army_865_1",
+      "schedule harbour.chain_great_army_865.s02_horses in 120 at gipeswic"
+     ],
+     "note": "outcome: chain_great_army_865.s01.out_sell"
+    },
+    {
+     "key": "watch",
+     "label_key": "chain_great_army_865.s01.opt_watch",
+     "label": "Keep the hatch shut and watch how he weighs",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "price_shock gipeswic oats x1.5 for 200",
+      "news chain_great_army_865.news.thanet at lundenwic",
+      "flag ch_great_army_865_1",
+      "schedule harbour.chain_great_army_865.s02_horses in 120 at gipeswic"
+     ],
+     "note": "outcome: chain_great_army_865.s01.out_watch (costs nothing; the price word for Gipeswic is true)"
+    }
+   ],
+   "memory": {
+    "pay": "paid into Kent's share",
+    "sell": "sold stores to the army",
+    "watch": "watched the weighing"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.s02_horses",
+   "note": "Step 2, and a way in (scheduled by step 1; drawn at Gipeswic or Dommoc from October 865 to October 866). The winter camp among the East Angles. Source: Anglo-Saxon Chronicle 866 (a great heathen army took winter quarters among the East Angles and were horsed there, and the East Angles made peace with them). The camp as a market with lead weights, hack-silver and dirhams: the finds at Torksey (winter camp of 872-873) and Aldwark, read back to 866 (?). The ertog and the ore: lore/law_tolls.md. The size of the fleet is not recorded. Toki and King Edmund's man are invented. Sets ch_great_army_865_2 (and _1); _scales, _camp or _english by the choice.",
+   "stage": "harbour",
+   "when": "moored and (port.id = gipeswic or port.id = dommoc) and ((year = 865 and month >= 10) or (year = 866 and month <= 10)) and not flag.ch_great_army_865_2",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "kingsman": {
+     "role": "kings_man",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "a thegn of King Edmund of the East Angles; invented, unnamed"
+    },
+    "weigher": {
+     "role": "merchant",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "Toki, the army's weigher and buyer; invented (Toki: a short name common on Danish rune stones). The army moves, so he is forged anew at each port: what he remembers of you is carried by the chain's flags, not by his feeling."
+    }
+   },
+   "title_key": "chain_great_army_865.s02.title",
+   "title": "The king's horses",
+   "intention_key": "chain_great_army_865.s02.intention",
+   "intention": "The great army has taken winter quarters among the East Angles. The king has made peace and given them horses. Outside the town the camp trades like a market, with a Dane at the scales.",
+   "lines": [
+    {
+     "who": "kingsman",
+     "key": "chain_great_army_865.s02.kingsman_horses"
+    },
+    {
+     "who": "kingsman",
+     "key": "chain_great_army_865.s02.kingsman_count"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s02.weigher_again",
+     "when": "flag.ch_great_army_865_1"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s02.weigher_new",
+     "when": "not flag.ch_great_army_865_1"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s02.weigher_iron"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s02.weigher_weights"
+    }
+   ],
+   "options": [
+    {
+     "key": "scales",
+     "label_key": "chain_great_army_865.s02.opt_scales",
+     "label": "Sit two days at his scales and learn the weights and the words",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "tongue old_norse = 0.5",
+      "flag ch_great_army_865_scales",
+      "npc weigher feeling +8 sat",
+      "morale -0.03",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_2",
+      "schedule harbour.chain_great_army_865.s03_york in 300 at eoforwic"
+     ],
+     "note": "outcome: chain_great_army_865.s02.out_scales (costs time only)"
+    },
+    {
+     "key": "iron",
+     "label_key": "chain_great_army_865.s02.opt_iron",
+     "label": "Take his order: six bars of iron, brought here before the army rides",
+     "check": "true",
+     "effects": [
+      "commission bar_iron 6 by 150 premium 1.6",
+      "silver +20",
+      "flag ch_great_army_865_camp",
+      "npc weigher feeling +5 order",
+      "npc kingsman feeling -4 order",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_2",
+      "schedule harbour.chain_great_army_865.s03_york in 300 at eoforwic"
+     ],
+     "note": "outcome: chain_great_army_865.s02.out_iron"
+    },
+    {
+     "key": "tell",
+     "label_key": "chain_great_army_865.s02.opt_tell",
+     "label": "Tell the king's man what you saw of them in Kent",
+     "check": "flag.ch_great_army_865_1",
+     "effects": [
+      "silver +15",
+      "deed carried_letters",
+      "flag ch_great_army_865_english",
+      "npc kingsman feeling +8 told",
+      "news chain_great_army_865.news.horses at lundenwic",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_2",
+      "schedule harbour.chain_great_army_865.s03_york in 300 at eoforwic"
+     ],
+     "note": "outcome: chain_great_army_865.s02.out_tell"
+    }
+   ],
+   "memory": {
+    "scales": "sat at the scales",
+    "iron": "took the army's order for iron",
+    "tell": "told what was seen in Kent"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.s03_york",
+   "note": "Step 3, and a way in (scheduled by step 2; drawn at Eoforwic from November 866 to 869). The captives of York. Source: Anglo-Saxon Chronicle 867 (the army went over the Humber mouth to York; the Northumbrians had cast out their king Osberht and taken Aella; both kings were slain); the day of the taking, 1 November 866, and of the kings' deaths, 21 March 867, from the northern annals in Symeon of Durham (?). The strand by the Foss: dossiers/eoforwic.md. Prices: a captive 48 d in goods_793.json. The sale itself is not recorded (?). The dealer and the boy Wulfric (Wulf- + -ric) are invented. Sets ch_great_army_865_3 (and _1); _boy and _english on 'ransom'; _camp on 'buy'; _english on 'names'.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and ((year = 866 and month >= 11) or (year >= 867 and year <= 869)) and not flag.ch_great_army_865_3",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": {
+     "role": "slave_dealer",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "a dealer who follows the army; invented, unnamed"
+    },
+    "boy": {
+     "role": "child",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      11,
+      13
+     ],
+     "fixed": true,
+     "note": "Wulfric, a pupil of the school at York, taken in the fighting; invented"
+    }
+   },
+   "title_key": "chain_great_army_865.s03.title",
+   "title": "The strand at York",
+   "intention_key": "chain_great_army_865.s03.intention",
+   "intention": "The army holds York. On the strand by the Foss the people taken in the fighting stand roped in a line, and a dealer walks along it naming prices.",
+   "lines": [
+    {
+     "who": "dealer",
+     "key": "chain_great_army_865.s03.dealer_taken",
+     "when": "year = 866"
+    },
+    {
+     "who": "dealer",
+     "key": "chain_great_army_865.s03.dealer_kings",
+     "when": "year >= 867"
+    },
+    {
+     "who": "dealer",
+     "key": "chain_great_army_865.s03.dealer_price"
+    },
+    {
+     "who": "dealer",
+     "key": "chain_great_army_865.s03.dealer_boy"
+    },
+    {
+     "who": "boy",
+     "key": "chain_great_army_865.s03.boy_psalm"
+    }
+   ],
+   "options": [
+    {
+     "key": "ransom",
+     "label_key": "chain_great_army_865.s03.opt_ransom",
+     "label": "Buy the boy free and give him a place in the boat",
+     "check": "silver >= 60",
+     "cost": "silver 60",
+     "effects": [
+      "hire boy",
+      "flag ch_great_army_865_boy",
+      "flag ch_great_army_865_english",
+      "deed gave_alms",
+      "morale +0.05",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_3",
+      "schedule harbour.chain_great_army_865.s04_edmund in 400 at gipeswic"
+     ],
+     "note": "outcome: chain_great_army_865.s03.out_ransom"
+    },
+    {
+     "key": "buy",
+     "label_key": "chain_great_army_865.s03.opt_buy",
+     "label": "Buy four of them for the market over the sea",
+     "check": "silver >= 120",
+     "cost": "silver 120",
+     "effects": [
+      "goods captives +4",
+      "deed bought_captives",
+      "flag ch_great_army_865_camp",
+      "npc dealer feeling +5 bought",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_3",
+      "schedule harbour.chain_great_army_865.s04_edmund in 400 at gipeswic"
+     ],
+     "note": "outcome: chain_great_army_865.s03.out_buy"
+    },
+    {
+     "key": "names",
+     "label_key": "chain_great_army_865.s03.opt_names",
+     "label": "Buy no one; ask who was taken, and carry the names south",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "deed carried_letters",
+      "flag ch_great_army_865_english",
+      "news chain_great_army_865.news.york at lundenwic",
+      "npc boy feeling +5 names",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_3",
+      "schedule harbour.chain_great_army_865.s04_edmund in 400 at gipeswic"
+     ],
+     "note": "outcome: chain_great_army_865.s03.out_names (costs nothing)"
+    }
+   ],
+   "memory": {
+    "ransom": "bought the boy free",
+    "buy": "bought captives for market",
+    "names": "carried the names south"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.s04_edmund",
+   "note": "Step 4, and a way in (scheduled by step 3; drawn at Gipeswic or Dommoc from November 869 to the end of 870). King Edmund killed. Source: Anglo-Saxon Chronicle 870 for the winter of 869-870 (the army rode over Mercia into East Anglia and took winter quarters at Thetford; that winter King Edmund fought against them, and the Danes had the victory and slew the king and overran all the land); the day, 20 November 869, is the feast kept later (nine days after Martinmas). How he died is told first by Abbo of Fleury about 985, a century on: the priest here will not tell it. Church plate 240 d the piece in goods_793.json. The priest and the sale of plate are invented. Sets ch_great_army_865_4 (and _1); _plate and _english on 'carry'; _camp on 'buy'.",
+   "stage": "harbour",
+   "when": "moored and (port.id = gipeswic or port.id = dommoc) and ((year = 869 and month >= 11) or year = 870) and not flag.ch_great_army_865_4",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "a mass-priest of an East Anglian minster; invented, unnamed"
+    },
+    "weigher": {
+     "role": "merchant",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "Toki, the army's weigher and buyer; invented (Toki: a short name common on Danish rune stones). The army moves, so he is forged anew at each port: what he remembers of you is carried by the chain's flags, not by his feeling."
+    }
+   },
+   "title_key": "chain_great_army_865.s04.title",
+   "title": "The king is dead",
+   "intention_key": "chain_great_army_865.s04.intention",
+   "intention": "This winter the army rode back across Mercia and sat down at Thetford. King Edmund fought them, and the Danes had the victory and killed the king. At the landing a priest has a sack he will not put down.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "chain_great_army_865.s04.priest_king"
+    },
+    {
+     "who": "priest",
+     "key": "chain_great_army_865.s04.priest_how"
+    },
+    {
+     "who": "priest",
+     "key": "chain_great_army_865.s04.priest_sack"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s04.weigher_plate"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s04.weigher_friend",
+     "when": "flag.ch_great_army_865_scales"
+    }
+   ],
+   "options": [
+    {
+     "key": "carry",
+     "label_key": "chain_great_army_865.s04.opt_carry",
+     "label": "Take the priest and his sack over to Kent",
+     "check": "true",
+     "effects": [
+      "passenger priest to fordwic",
+      "flag ch_great_army_865_plate",
+      "flag ch_great_army_865_english",
+      "deed carried_letters",
+      "npc priest feeling +12 carried",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_4",
+      "schedule harbour.chain_great_army_865.s05_book in 600 at lundenwic"
+     ],
+     "note": "outcome: chain_great_army_865.s04.out_carry"
+    },
+    {
+     "key": "buy",
+     "label_key": "chain_great_army_865.s04.opt_buy",
+     "label": "Buy the camp's church silver by weight",
+     "check": "silver >= 150",
+     "cost": "silver 150",
+     "effects": [
+      "goods church_plate +2",
+      "flag ch_great_army_865_camp",
+      "npc priest feeling -15 bought",
+      "npc weigher feeling +5 bought",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_4",
+      "schedule harbour.chain_great_army_865.s05_book in 600 at lundenwic"
+     ],
+     "note": "outcome: chain_great_army_865.s04.out_buy"
+    },
+    {
+     "key": "hear",
+     "label_key": "chain_great_army_865.s04.opt_hear",
+     "label": "Hear it told and carry the news",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "news chain_great_army_865.news.edmund at lundenwic",
+      "price_shock gipeswic wheat x1.4 for 120",
+      "npc priest feeling +2 heard",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_4",
+      "schedule harbour.chain_great_army_865.s05_book in 600 at lundenwic"
+     ],
+     "note": "outcome: chain_great_army_865.s04.out_hear (costs nothing; the price word is true)"
+    }
+   ],
+   "memory": {
+    "carry": "carried the priest and the plate to Kent",
+    "buy": "bought church silver from the camp",
+    "hear": "carried the news"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.s05_book",
+   "note": "Step 5, and a way in (scheduled by step 4; drawn at Lundenwic from October 871 to the end of 872). The army's winter in London and the golden gospel book. Sources: Anglo-Saxon Chronicle 872 (the army went from Reading to London and took winter quarters there, and the Mercians made peace with them); Bishop Waerferth of Worcester's lease of land at Nuthurst for twenty mancuses of gold, because of the heavy tribute of the barbarians in the year the heathens stayed in London (charter S 1278, of 872; from memory (?)); pennies in Halfdan's name with the London monogram, dating disputed (?). The book is the Codex Aureus now at Stockholm: its Old English inscription says the ealdorman Alfred and Werburg his wife got it from the heathen army with pure gold and gave it to Christ Church. Where and when the army held it is not recorded: the game puts it in the London camp (?). Sets ch_great_army_865_5 (and _1); _book_word, _book_bought (and _camp), or the spine's en_paid_share.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and ((year = 871 and month >= 10) or year = 872) and not flag.ch_great_army_865_5",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "weigher": {
+     "role": "merchant",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "Toki, the army's weigher and buyer; invented (Toki: a short name common on Danish rune stones). The army moves, so he is forged anew at each port: what he remembers of you is carried by the chain's flags, not by his feeling."
+    },
+    "clerk": {
+     "role": "clerk",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      25,
+      50
+     ],
+     "fixed": true,
+     "note": "a clerk of Bishop Waerferth of Worcester, raising his lord's part of the tribute; invented, unnamed"
+    }
+   },
+   "title_key": "chain_great_army_865.s05.title",
+   "title": "The golden book",
+   "intention_key": "chain_great_army_865.s05.intention",
+   "intention": "The army has come from Reading to London for the winter, and the Mercians have made peace with it, which means paid. In the camp by the old walls the Dane with the scales has something wrapped in a cloak.",
+   "lines": [
+    {
+     "who": "clerk",
+     "key": "chain_great_army_865.s05.clerk_tribute"
+    },
+    {
+     "who": "clerk",
+     "key": "chain_great_army_865.s05.clerk_share"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s05.weigher_book"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s05.weigher_price"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s05.weigher_friend",
+     "when": "flag.ch_great_army_865_scales"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s05.weigher_coin",
+     "when": "year = 872"
+    }
+   ],
+   "options": [
+    {
+     "key": "word",
+     "label_key": "chain_great_army_865.s05.opt_word",
+     "label": "Carry word of the book to Kent",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_great_army_865_book_word",
+      "flag ch_great_army_865_english",
+      "npc weigher feeling +4 word",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_5",
+      "schedule harbour.chain_great_army_865.s06_gold in 6 at fordwic"
+     ],
+     "note": "outcome: chain_great_army_865.s05.out_word (costs nothing)"
+    },
+    {
+     "key": "buy",
+     "label_key": "chain_great_army_865.s05.opt_buy",
+     "label": "Buy it yourself: four hundred pennies' weight of silver",
+     "check": "silver >= 400",
+     "cost": "silver 400",
+     "effects": [
+      "goods books +1",
+      "flag ch_great_army_865_book_bought",
+      "flag ch_great_army_865_camp",
+      "npc weigher feeling +6 bought",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_5",
+      "schedule harbour.chain_great_army_865.s06_gold in 6 at fordwic"
+     ],
+     "note": "outcome: chain_great_army_865.s05.out_buy"
+    },
+    {
+     "key": "share",
+     "label_key": "chain_great_army_865.s05.opt_share",
+     "label": "Pay thirty pennies to the town's share and trade under the peace",
+     "check": "silver >= 30",
+     "cost": "silver 30",
+     "effects": [
+      "flag en_paid_share",
+      "toll eased 120",
+      "price_shock lundenwic ale x1.5 for 90",
+      "npc clerk feeling +6 paid",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_5",
+      "schedule harbour.chain_great_army_865.s06_gold in 6 at fordwic"
+     ],
+     "note": "outcome: chain_great_army_865.s05.out_share"
+    }
+   ],
+   "memory": {
+    "word": "carried word of the book",
+    "buy": "bought the golden book",
+    "share": "paid into the town's share"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.s06_gold",
+   "note": "Step 6 (scheduled by step 5; drawn at Fordwic, Canterbury's landing, 871 to 874). The ealdorman Alfred and Werburg. Source: the inscription on folio 11 of the Stockholm Codex Aureus (Alfred the ealdorman and Werburg his wife got these books from the heathen army with their pure money, that was with pure gold, for the love of God and for their souls' need, and because they would not have the holy books stay longer in heathen hands, and gave them to Christ Church; our own rendering, not a quotation). Alfred was ealdorman of Surrey; his will survives (S 1508, between 871 and 889). The sum paid is not recorded: thirty mancuses (900 d) is the game's (?). A mancus is thirty pennies. That a boat and a priest went to London for it is invented, and so is the priest Hunsige (Hun- + -sige). Sets ch_great_army_865_6; _gold on 'carry'; _book_home on 'sell'; _book_lost, _cost_church and changed_codex_aureus_lost on 'keep'.",
+   "stage": "harbour",
+   "when": "moored and port.id = fordwic and year >= 871 and year <= 874 and flag.ch_great_army_865_5 and not flag.ch_great_army_865_6",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "ealdorman": {
+     "role": "count",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      40,
+      60
+     ],
+     "fixed": true,
+     "note": "Alfred, ealdorman of Surrey; historical (the Codex Aureus inscription; will S 1508). His wife Werburg, historical, is in the picture and the outcome texts: there is no role for a lady in npc_roles_793.json"
+    },
+    "priest": {
+     "role": "priest",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      30,
+      50
+     ],
+     "fixed": true,
+     "note": "Hunsige, a mass-priest of Christ Church; invented"
+    }
+   },
+   "title_key": "chain_great_army_865.s06.title",
+   "title": "Pure gold",
+   "intention_key": "chain_great_army_865.s06.intention",
+   "intention": "At Canterbury the ealdorman Alfred and his wife Werburg have heard that the heathen army holds holy books. A priest of Christ Church brings you to them.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "chain_great_army_865.s06.priest_heard"
+    },
+    {
+     "who": "ealdorman",
+     "key": "chain_great_army_865.s06.ealdorman_will"
+    },
+    {
+     "who": "ealdorman",
+     "key": "chain_great_army_865.s06.ealdorman_gold",
+     "when": "not flag.ch_great_army_865_book_bought"
+    },
+    {
+     "who": "ealdorman",
+     "key": "chain_great_army_865.s06.ealdorman_bought",
+     "when": "flag.ch_great_army_865_book_bought"
+    },
+    {
+     "who": "priest",
+     "key": "chain_great_army_865.s06.priest_plate",
+     "when": "flag.ch_great_army_865_plate"
+    }
+   ],
+   "options": [
+    {
+     "key": "carry",
+     "label_key": "chain_great_army_865.s06.opt_carry",
+     "label": "Carry their gold to the camp and bring the book back",
+     "check": "not flag.ch_great_army_865_book_bought",
+     "default": true,
+     "effects": [
+      "flag ch_great_army_865_gold",
+      "flag ch_great_army_865_english",
+      "npc ealdorman feeling +6 carried",
+      "flag ch_great_army_865_6",
+      "schedule harbour.chain_great_army_865.s07_weighing in 6 at lundenwic"
+     ],
+     "note": "outcome: chain_great_army_865.s06.out_carry"
+    },
+    {
+     "key": "sell",
+     "label_key": "chain_great_army_865.s06.opt_sell",
+     "label": "Sell them the book: six hundred pennies, in gold",
+     "check": "flag.ch_great_army_865_book_bought and hold.books > 0",
+     "cost": "goods books 1",
+     "effects": [
+      "silver +600",
+      "flag ch_great_army_865_book_home",
+      "flag ch_great_army_865_english",
+      "deed fair_dealing",
+      "npc ealdorman feeling +10 sold",
+      "flag ch_great_army_865_6"
+     ],
+     "note": "outcome: chain_great_army_865.s06.out_sell"
+    },
+    {
+     "key": "keep",
+     "label_key": "chain_great_army_865.s06.opt_keep",
+     "label": "Keep the book for a market over the sea",
+     "check": "flag.ch_great_army_865_book_bought",
+     "effects": [
+      "flag ch_great_army_865_book_lost",
+      "flag changed_codex_aureus_lost",
+      "flag ch_great_army_865_cost_church",
+      "flag ch_great_army_865_camp",
+      "npc ealdorman feeling -25 kept",
+      "npc priest feeling -25 kept",
+      "flag ch_great_army_865_6"
+     ],
+     "note": "outcome: chain_great_army_865.s06.out_keep (history changed: the book never comes to Christ Church; the church remembers)"
+    },
+    {
+     "key": "refuse",
+     "label_key": "chain_great_army_865.s06.opt_refuse",
+     "label": "Say it is not your errand",
+     "check": "not flag.ch_great_army_865_book_bought",
+     "effects": [
+      "npc ealdorman feeling -3 refused",
+      "flag ch_great_army_865_6"
+     ],
+     "note": "outcome: chain_great_army_865.s06.out_refuse (costs nothing; the chain goes on at Hamwic in 876)"
+    }
+   ],
+   "memory": {
+    "carry": "carried the ealdorman's gold",
+    "sell": "sold the book to the ealdorman",
+    "keep": "kept the holy book to sell abroad",
+    "refuse": "refused the errand"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.s07_weighing",
+   "note": "Step 7 (scheduled by 'carry' at step 6; drawn at Lundenwic to 874 while the gold is carried). The ransom weighed out. Source: the Codex Aureus inscription, as step 6. The army left London for Torksey in the autumn of 872 (Anglo-Saxon Chronicle 873): after that the game lets its weigher stay behind selling off the winter's goods (?). The weighing, the chief and the haggling are invented. Sets ch_great_army_865_7; _book_home on 'pay' and 'skim' (with _skimmed); _book_lost, _cost_church and changed_codex_aureus_lost on 'run'.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year >= 871 and year <= 874 and flag.ch_great_army_865_gold and not flag.ch_great_army_865_7",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "weigher": {
+     "role": "merchant",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "Toki, the army's weigher and buyer; invented (Toki: a short name common on Danish rune stones). The army moves, so he is forged anew at each port: what he remembers of you is carried by the chain's flags, not by his feeling."
+    },
+    "chief": {
+     "role": "raider_chief",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      50
+     ],
+     "fixed": true,
+     "note": "a ship-lord of the army; invented, unnamed"
+    },
+    "priest": {
+     "role": "priest",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      30,
+      50
+     ],
+     "fixed": true,
+     "note": "Hunsige, as at step 6; invented"
+    }
+   },
+   "title_key": "chain_great_army_865.s07.title",
+   "title": "By weight",
+   "intention_key": "chain_great_army_865.s07.intention",
+   "intention": "In the camp at London the gold is laid on one side of the scales and the book on a chest beside them. The priest stands witness. A chief of the army has come to watch, which was not agreed.",
+   "lines": [
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s07.weigher_agreed"
+    },
+    {
+     "who": "chief",
+     "key": "chain_great_army_865.s07.chief_more"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s07.weigher_aside",
+     "when": "flag.ch_great_army_865_scales"
+    },
+    {
+     "who": "priest",
+     "key": "chain_great_army_865.s07.priest_witness"
+    }
+   ],
+   "options": [
+    {
+     "key": "pay",
+     "label_key": "chain_great_army_865.s07.opt_pay",
+     "label": "Weigh out the thirty as agreed and take the book",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_great_army_865_book_home",
+      "deed kept_commission",
+      "silver +80",
+      "npc priest feeling +12 honest",
+      "npc weigher feeling +6 honest",
+      "flag ch_great_army_865_7"
+     ],
+     "note": "outcome: chain_great_army_865.s07.out_pay"
+    },
+    {
+     "key": "skim",
+     "label_key": "chain_great_army_865.s07.opt_skim",
+     "label": "Beat the price down and keep what you save",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.55,
+       "by": "crew.trade_best",
+       "success": [
+        "silver +150",
+        "flag ch_great_army_865_book_home",
+        "flag ch_great_army_865_skimmed",
+        "npc priest feeling -6 skimmed",
+        "flag ch_great_army_865_7"
+       ],
+       "failure": [
+        "silver -40",
+        "morale -0.05",
+        "flag ch_great_army_865_book_home",
+        "flag ch_great_army_865_skimmed",
+        "npc weigher feeling -8 haggled",
+        "flag ch_great_army_865_7"
+       ]
+      }
+     ],
+     "note": "outcome: chain_great_army_865.s07.out_skim_success or chain_great_army_865.s07.out_skim_failure (likely with a good trader aboard; the book comes home either way)"
+    },
+    {
+     "key": "run",
+     "label_key": "chain_great_army_865.s07.opt_run",
+     "label": "Leave the camp with the gold and without the book",
+     "check": "true",
+     "effects": [
+      "silver +900",
+      "flag ch_great_army_865_book_lost",
+      "flag changed_codex_aureus_lost",
+      "flag ch_great_army_865_cost_church",
+      "deed broke_commission",
+      "npc priest feeling -40 robbed",
+      "flag ch_great_army_865_7"
+     ],
+     "note": "outcome: chain_great_army_865.s07.out_run (history changed: the book is lost; the church remembers)"
+    }
+   ],
+   "memory": {
+    "pay": "paid the ransom honestly",
+    "skim.success": "skimmed the ransom",
+    "skim.failure": "haggled over a holy book",
+    "run": "ran off with the ransom gold"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.s08_ring",
+   "note": "Step 8, and the last way in (drawn at Hamwic in 876 and 877). Wareham, Exeter and Swanage. Source: Anglo-Saxon Chronicle 876 (the army stole into Wareham; the king made peace; they gave him hostages, the worthiest in the army, and swore him oaths on the holy ring, which they would not do before for any people, and under cover of that the mounted army stole away by night to Exeter) and 877 (the fleet met a great storm at sea and a hundred and twenty ships were lost at Swanage; hostages again at Exeter). The reeve asking a merchant to sort the hostages, and the young Dane Tofi (a short name common on Danish rune stones), are invented. Sets ch_great_army_865_8 (and _1); _reeve and _english on 'tell'; _tofi and _camp on 'free'.",
+   "stage": "harbour",
+   "when": "moored and port.id = hamwic and (year = 876 or year = 877) and not flag.ch_great_army_865_8",
+   "weight": 2.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": {
+     "role": "reeve",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "King Alfred's reeve at Hamwic; invented, unnamed"
+    },
+    "captive": {
+     "role": "captive",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      18,
+      24
+     ],
+     "fixed": true,
+     "note": "Tofi, Toki's sister's son; invented"
+    }
+   },
+   "title_key": "chain_great_army_865.s08.title",
+   "title": "The oath on the ring",
+   "intention_key": "chain_great_army_865.s08.intention",
+   "intention": "The army slipped past the West Saxon host into Wareham. The king made peace with it: hostages given, and oaths sworn on their holy ring. At Hamwic the king's reeve wants a man who knows the camp.",
+   "lines": [
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.s08.reeve_ring"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.s08.reeve_hostages"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.s08.reeve_wreck",
+     "when": "year = 877"
+    },
+    {
+     "who": "captive",
+     "key": "chain_great_army_865.s08.captive_road",
+     "when": "year = 876"
+    },
+    {
+     "who": "captive",
+     "key": "chain_great_army_865.s08.captive_sea",
+     "when": "year = 877"
+    },
+    {
+     "who": "captive",
+     "key": "chain_great_army_865.s08.captive_toki",
+     "when": "flag.ch_great_army_865_scales"
+    }
+   ],
+   "options": [
+    {
+     "key": "tell",
+     "label_key": "chain_great_army_865.s08.opt_tell",
+     "label": "Tell the reeve truly which hostages are men of weight",
+     "check": "tongue.old_norse >= 0.5 or flag.ch_great_army_865_scales or flag.ch_great_army_865_camp",
+     "effects": [
+      "silver +100",
+      "flag ch_great_army_865_reeve",
+      "flag ch_great_army_865_english",
+      "npc reeve feeling +15 told",
+      "npc captive feeling -10 told",
+      "news chain_great_army_865.news.wareham at lundenwic",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_8"
+     ],
+     "note": "outcome: chain_great_army_865.s08.out_tell"
+    },
+    {
+     "key": "free",
+     "label_key": "chain_great_army_865.s08.opt_free",
+     "label": "Buy the young Dane out and set him on the road to his kin",
+     "check": "silver >= 80",
+     "cost": "silver 80",
+     "effects": [
+      "flag ch_great_army_865_tofi",
+      "flag ch_great_army_865_camp",
+      "npc captive feeling +25 freed",
+      "npc reeve feeling -5 freed",
+      "news chain_great_army_865.news.wareham at lundenwic",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_8"
+     ],
+     "note": "outcome: chain_great_army_865.s08.out_free"
+    },
+    {
+     "key": "aside",
+     "label_key": "chain_great_army_865.s08.opt_aside",
+     "label": "Sell your cargo and stay out of kings' business",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "price_shock hamwic wheat x1.4 for 60",
+      "news chain_great_army_865.news.wareham at lundenwic",
+      "flag ch_great_army_865_1",
+      "flag ch_great_army_865_8"
+     ],
+     "note": "outcome: chain_great_army_865.s08.out_aside (costs nothing; the price word is true)"
+    }
+   ],
+   "memory": {
+    "tell": "told which hostages mattered",
+    "free": "bought a Dane out of English hands",
+    "aside": "kept out of it"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.s09_fodder",
+   "note": "Step 9 (drawn at Lundenwic in November and December 877 for anyone on the chain). The army's buyer before the midwinter ride. Source: Anglo-Saxon Chronicle 877 (at harvest the army went into Mercia, shared some of it out and gave some to Ceolwulf) and 878 (at midwinter after Twelfth Night the army stole to Chippenham and overran the land of the West Saxons; the king with a small band went through the woods and into the fastnesses of the moors); Gloucester as the camp is from Aethelweard (?); that the king kept Christmas at Chippenham, a royal estate, is a common reading and not in the Chronicle (?). A buyer in London and what he lets slip are invented. Sets ch_great_army_865_9; _warn on 'warn'; _camp on 'sell'.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year = 877 and month >= 11 and flag.ch_great_army_865_1 and not flag.ch_great_army_865_9",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "weigher": {
+     "role": "merchant",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "Toki, the army's weigher and buyer; invented (Toki: a short name common on Danish rune stones). The army moves, so he is forged anew at each port: what he remembers of you is carried by the chain's flags, not by his feeling."
+    },
+    "nephew": {
+     "role": "warrior",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      18,
+      25
+     ],
+     "fixed": true,
+     "note": "Tofi, as at step 8; he speaks only if he was bought out there; invented"
+    }
+   },
+   "title_key": "chain_great_army_865.s09.title",
+   "title": "No ale for Yule",
+   "intention_key": "chain_great_army_865.s09.intention",
+   "intention": "The army has gone into Mercia for the winter and sits at Gloucester. Its buyer is in London with a great deal of silver, buying as no camp buys that means to sit still.",
+   "lines": [
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s09.weigher_fodder"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s09.weigher_ale"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s09.weigher_quiet"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.s09.weigher_friend",
+     "when": "flag.ch_great_army_865_scales"
+    },
+    {
+     "who": "nephew",
+     "key": "chain_great_army_865.s09.nephew_warn",
+     "when": "flag.ch_great_army_865_tofi"
+    }
+   ],
+   "options": [
+    {
+     "key": "warn",
+     "label_key": "chain_great_army_865.s09.opt_warn",
+     "label": "Carry it to the king's reeve at Hamwic",
+     "check": "true",
+     "effects": [
+      "flag ch_great_army_865_warn",
+      "flag ch_great_army_865_9",
+      "schedule harbour.chain_great_army_865.s10_twelfth_night in 4 at hamwic"
+     ],
+     "note": "outcome: chain_great_army_865.s09.out_warn"
+    },
+    {
+     "key": "sell",
+     "label_key": "chain_great_army_865.s09.opt_sell",
+     "label": "Sell him the fodder and ask nothing",
+     "check": "true",
+     "effects": [
+      "silver +160",
+      "flag ch_great_army_865_camp",
+      "npc weigher feeling +8 sold",
+      "flag ch_great_army_865_9"
+     ],
+     "note": "outcome: chain_great_army_865.s09.out_sell"
+    },
+    {
+     "key": "home",
+     "label_key": "chain_great_army_865.s09.opt_home",
+     "label": "Not your war: lay the boat up for the winter",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "morale +0.05",
+      "flag ch_great_army_865_9"
+     ],
+     "note": "outcome: chain_great_army_865.s09.out_home (costs nothing; history goes as it went)"
+    }
+   ],
+   "memory": {
+    "warn": "left to warn the king's reeve",
+    "sell": "sold the fodder for the ride",
+    "home": "wintered at home"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.s10_twelfth_night",
+   "note": "Step 10 (scheduled by 'warn' at step 9; at Hamwic from November 877). The warning before Twelfth Night. Source: Anglo-Saxon Chronicle 878, as step 9. In the Chronicle nobody warns the king: this card is where history can be changed. In time means before the year turns (the engine has no day of the month: a warning in the first days of January is counted late). Sets ch_great_army_865_10; if the reeve acts, _warned, _cost_danes and changed_chippenham_warned; if he does not, _unheard.",
+   "stage": "harbour",
+   "when": "moored and port.id = hamwic and ((year = 877 and month >= 11) or year = 878) and flag.ch_great_army_865_warn and not flag.ch_great_army_865_10",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": {
+     "role": "reeve",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "King Alfred's reeve at Hamwic, as at step 8; invented, unnamed"
+    }
+   },
+   "title_key": "chain_great_army_865.s10.title",
+   "title": "Before Twelfth Night",
+   "intention_key": "chain_great_army_865.s10.intention",
+   "intention": "The king's reeve at Hamwic is keeping Christmas. The king keeps his at Chippenham. You have a buyer's shopping, a remark about ale, and as much of the reeve's patience as a tide lasts.",
+   "lines": [
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.s10.reeve_feast",
+     "when": "year = 877"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.s10.reeve_knows",
+     "when": "flag.ch_great_army_865_reeve and year = 877"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.s10.reeve_stranger",
+     "when": "not flag.ch_great_army_865_reeve and year = 877"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.s10.reeve_late",
+     "when": "year = 878"
+    }
+   ],
+   "options": [
+    {
+     "key": "known",
+     "label_key": "chain_great_army_865.s10.opt_known",
+     "label": "Tell it all: he knows what your word is worth",
+     "check": "flag.ch_great_army_865_reeve and year = 877",
+     "effects": [
+      "npc reeve feeling +15 warned",
+      "flag ch_great_army_865_warned",
+      "flag changed_chippenham_warned",
+      "flag ch_great_army_865_cost_danes",
+      "news chain_great_army_865.news.chippenham_held at lundenwic",
+      "flag ch_great_army_865_10"
+     ],
+     "note": "outcome: chain_great_army_865.s10.out_known (sure; history changed)"
+    },
+    {
+     "key": "swear",
+     "label_key": "chain_great_army_865.s10.opt_swear",
+     "label": "Swear to it on his relics",
+     "check": "not flag.ch_great_army_865_reeve and year = 877",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "crew.trade_best",
+       "success": [
+        "npc reeve feeling +10 warned",
+        "flag ch_great_army_865_warned",
+        "flag changed_chippenham_warned",
+        "flag ch_great_army_865_cost_danes",
+        "news chain_great_army_865.news.chippenham_held at lundenwic",
+        "flag ch_great_army_865_10"
+       ],
+       "failure": [
+        "flag ch_great_army_865_unheard",
+        "npc reeve feeling +4 unheard",
+        "morale -0.05",
+        "flag ch_great_army_865_10"
+       ]
+      }
+     ],
+     "note": "outcome: chain_great_army_865.s10.out_swear_success or chain_great_army_865.s10.out_swear_failure (doubtful: he does not know you; if he does nothing, history goes as it went and the story goes on)"
+    },
+    {
+     "key": "silent",
+     "label_key": "chain_great_army_865.s10.opt_silent",
+     "label": "Say nothing after all; sell and go",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_great_army_865_10"
+     ],
+     "note": "outcome: chain_great_army_865.s10.out_silent (costs nothing)"
+    }
+   ],
+   "memory": {
+    "known": "warned the reeve and was believed",
+    "swear.success": "swore to the warning and was believed",
+    "swear.failure": "warned the reeve and was not believed",
+    "silent": "said nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.end_warned",
+   "note": "Ending 'warned': HISTORY CHANGED (changed_chippenham_warned). At Hamwic from June 878 for the man whose warning was believed. In the Chronicle the king is surprised at Chippenham, hides at Athelney from Easter, wins at Edington in May, and Guthrum is baptised at Aller with the king as godfather. Here the king is ready at Twelfth Night and peace is made at Easter from strength: no Athelney, no Edington, and no baptism (see the chain page for what follows in later years). The king's protection and toll freedom by his writing: the kind of grant English kings made to churches' ships at Lundenwic in the 730s and 740s, here to a layman (?). 1,500 d is six pounds and a quarter. Sets ch_great_army_865_end_warned and ch_great_army_865_done; grand rewards unlock_title_alfreds_protection and unlock_charter_hamwic (and unlock_plot_hamwic on 'land'). The cost that lasts was set at step 10: ch_great_army_865_cost_danes.",
+   "stage": "harbour",
+   "when": "moored and port.id = hamwic and ((year = 878 and month >= 6) or (year >= 879 and year < 891)) and flag.ch_great_army_865_warned and not flag.ch_great_army_865_done",
+   "weight": 3.0,
+   "cooldown_days": 60,
+   "actors": {
+    "reeve": {
+     "role": "reeve",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "King Alfred's reeve at Hamwic, as at steps 8 and 10; invented, unnamed"
+    }
+   },
+   "title_key": "chain_great_army_865.end_warned.title",
+   "title": "The king was not at table",
+   "intention_key": "chain_great_army_865.end_warned.intention",
+   "intention": "This year, after Twelfth Night, the army stole to Chippenham, and the king was there before them with his host; and at Easter they made peace. The reeve has a chest from the king, and a writing.",
+   "lines": [
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.end_warned.reeve_king"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.end_warned.reeve_peace",
+     "when": "flag.ch_great_army_865_reeve"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.end_warned.reeve_danes"
+    }
+   ],
+   "options": [
+    {
+     "key": "gifts",
+     "label_key": "chain_great_army_865.end_warned.opt_gifts",
+     "label": "Take the king's silver and his protection",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "silver +1500",
+      "flag unlock_title_alfreds_protection",
+      "flag unlock_charter_hamwic",
+      "npc reeve feeling +20 rewarded",
+      "flag ch_great_army_865_end_warned",
+      "flag ch_great_army_865_done"
+     ],
+     "note": "outcome: chain_great_army_865.end_warned.out_gifts"
+    },
+    {
+     "key": "land",
+     "label_key": "chain_great_army_865.end_warned.opt_land",
+     "label": "Ask for land by the water in place of half the silver",
+     "check": "true",
+     "effects": [
+      "silver +750",
+      "flag unlock_plot_hamwic",
+      "flag unlock_title_alfreds_protection",
+      "flag unlock_charter_hamwic",
+      "npc reeve feeling +20 rewarded",
+      "flag ch_great_army_865_end_warned",
+      "flag ch_great_army_865_done"
+     ],
+     "note": "outcome: chain_great_army_865.end_warned.out_land"
+    },
+    {
+     "key": "wait",
+     "label_key": "chain_great_army_865.end_warned.opt_wait",
+     "label": "Not yet: let it lie with the reeve",
+     "check": "true",
+     "effects": [],
+     "note": "outcome: chain_great_army_865.end_warned.out_wait (costs nothing; the ending stays open)"
+    }
+   ],
+   "memory": {
+    "gifts": "took the king's silver and protection",
+    "land": "took land at Hamwic from the king",
+    "wait": "left the king's gift waiting"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.end_ransomer",
+   "note": "Ending 'ransomer': WHAT HAPPENED, and the honest road. At Fordwic from June 878 for the man who brought the golden book home. Source: the Codex Aureus inscription (step 6), written above and below the text on the opening of Matthew, with the daughter Alhthryth named beside her parents; the gift to Christ Church, to be read every month for their souls. Freeing a slave at the altar and writing it into a gospel book is English practice, recorded from the 920s (?). Names of friends written into a church's book to be prayed for: the Durham Liber Vitae. Fordwic's toll was the king's, and kings freed minster ships of it (S 29; dossiers/fordwic.md): freedom for a layman's keel at the ealdorman's asking is the game's (?). Forty mancuses is 1,200 d. Sets ch_great_army_865_end_ransomer and ch_great_army_865_done; grand rewards unlock_title_christ_church_friend and unlock_charter_fordwic; on the hard road (the boy ransomed at York and nothing skimmed) twice the silver and unlock_kin_fosterling_wulfric.",
+   "stage": "harbour",
+   "when": "moored and port.id = fordwic and ((year = 878 and month >= 6) or (year >= 879 and year < 891)) and flag.ch_great_army_865_book_home and not flag.ch_great_army_865_done",
+   "weight": 3.0,
+   "cooldown_days": 60,
+   "actors": {
+    "ealdorman": {
+     "role": "count",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      45,
+      65
+     ],
+     "fixed": true,
+     "note": "Alfred, ealdorman of Surrey; historical, as at step 6"
+    },
+    "priest": {
+     "role": "priest",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Hunsige of Christ Church; invented"
+    }
+   },
+   "title_key": "chain_great_army_865.end_ransomer.title",
+   "title": "Written above and below",
+   "intention_key": "chain_great_army_865.end_ransomer.intention",
+   "intention": "At Christ Church the ealdorman Alfred and Werburg give the golden gospels to the community. Their gift is being written into the book itself, above and below the gold letters, in plain English.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "chain_great_army_865.end_ransomer.priest_writing"
+    },
+    {
+     "who": "ealdorman",
+     "key": "chain_great_army_865.end_ransomer.ealdorman_thanks"
+    },
+    {
+     "who": "priest",
+     "key": "chain_great_army_865.end_ransomer.priest_skim",
+     "when": "flag.ch_great_army_865_skimmed"
+    },
+    {
+     "who": "priest",
+     "key": "chain_great_army_865.end_ransomer.priest_boy",
+     "when": "flag.ch_great_army_865_boy"
+    }
+   ],
+   "options": [
+    {
+     "key": "witness",
+     "label_key": "chain_great_army_865.end_ransomer.opt_witness",
+     "label": "Stand witness and take what is offered",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "silver +1200",
+      "flag unlock_title_christ_church_friend",
+      "flag unlock_charter_fordwic",
+      "npc priest feeling +15 witness",
+      "npc ealdorman feeling +15 witness",
+      "flag ch_great_army_865_end_ransomer",
+      "flag ch_great_army_865_done"
+     ],
+     "note": "outcome: chain_great_army_865.end_ransomer.out_witness"
+    },
+    {
+     "key": "foster",
+     "label_key": "chain_great_army_865.end_ransomer.opt_foster",
+     "label": "Ask one thing more: that Wulfric be freed at the altar as your foster-son",
+     "check": "flag.ch_great_army_865_boy and not flag.ch_great_army_865_skimmed",
+     "effects": [
+      "silver +2400",
+      "flag unlock_title_christ_church_friend",
+      "flag unlock_charter_fordwic",
+      "flag unlock_kin_fosterling_wulfric",
+      "npc priest feeling +20 foster",
+      "npc ealdorman feeling +20 foster",
+      "flag ch_great_army_865_end_ransomer",
+      "flag ch_great_army_865_done"
+     ],
+     "note": "outcome: chain_great_army_865.end_ransomer.out_foster (the hard road: twice the finale and a second grand reward)"
+    },
+    {
+     "key": "wait",
+     "label_key": "chain_great_army_865.end_ransomer.opt_wait",
+     "label": "Not yet: you have a tide to catch",
+     "check": "true",
+     "effects": [],
+     "note": "outcome: chain_great_army_865.end_ransomer.out_wait (costs nothing; the ending stays open)"
+    }
+   ],
+   "memory": {
+    "witness": "stood witness at the giving of the book",
+    "foster": "had Wulfric freed at the altar",
+    "wait": "left before the giving"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.end_line",
+   "note": "Ending 'line': WHAT HAPPENED. At Lundenwic from 880 for anyone on the chain. Source: the treaty of Alfred and Guthrum (lore/law_tolls.md 7.2): the border up the Thames and the Lea; clause 5, no slave or free man goes over to the other army without leave, but if they need to trade in cattle and goods it is allowed when hostages are given as a pledge of peace and as proof that a man goes with a clean back (our rendering). The treaty is undated, between 878 and 890, and likely after Alfred took London in 886 (?): the game lets the rule hold from 880, when Guthrum's army settled East Anglia (Anglo-Saxon Chronicle 880). A silver bond in place of a living hostage is the game's (economy_and_trade.md) (?). Sets ch_great_army_865_end_line, ch_great_army_865_done and the spine's en_hostage_given; grand reward unlock_title_leave_to_cross (and unlock_factor_gipeswic on 'surety').",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year >= 880 and year < 891 and flag.ch_great_army_865_1 and not flag.ch_great_army_865_done",
+   "weight": 3.0,
+   "cooldown_days": 60,
+   "actors": {
+    "reeve": {
+     "role": "reeve",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "the reeve who keeps the crossing at the mouth of the Lea; invented, unnamed"
+    },
+    "weigher": {
+     "role": "merchant",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "Toki, the army's weigher and buyer; invented (Toki: a short name common on Danish rune stones). The army moves, so he is forged anew at each port: what he remembers of you is carried by the chain's flags, not by his feeling."
+    }
+   },
+   "title_key": "chain_great_army_865.end_line.title",
+   "title": "Hostages at the Lea",
+   "intention_key": "chain_great_army_865.end_line.intention",
+   "intention": "King Alfred and King Guthrum have a peace, and a border up the Thames and up the Lea. No man, free or slave, may go over to the other army without leave. But if they must trade, in cattle and in goods, it is allowed when hostages are given.",
+   "lines": [
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.end_line.reeve_rule"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.end_line.reeve_bond"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.end_line.weigher_bank",
+     "when": "flag.ch_great_army_865_scales or flag.ch_great_army_865_camp"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_great_army_865.end_line.reeve_talk",
+     "when": "flag.ch_great_army_865_cost_danes"
+    }
+   ],
+   "options": [
+    {
+     "key": "bond",
+     "label_key": "chain_great_army_865.end_line.opt_bond",
+     "label": "Leave sixty pennies as your pledge and take the leave to cross",
+     "check": "silver >= 60",
+     "default": true,
+     "cost": "silver 60",
+     "effects": [
+      "flag en_hostage_given",
+      "flag unlock_title_leave_to_cross",
+      "silver +760",
+      "commission wool_cloth 12 by 240 premium 1.7",
+      "npc reeve feeling +10 pledged",
+      "flag ch_great_army_865_end_line",
+      "flag ch_great_army_865_done"
+     ],
+     "note": "outcome: chain_great_army_865.end_line.out_bond"
+    },
+    {
+     "key": "surety",
+     "label_key": "chain_great_army_865.end_line.opt_surety",
+     "label": "Stand surety for other Frisian keels too, with Toki to answer on the far bank",
+     "check": "silver >= 60 and (flag.ch_great_army_865_scales or flag.ch_great_army_865_camp)",
+     "cost": "silver 60",
+     "effects": [
+      "flag en_hostage_given",
+      "flag unlock_title_leave_to_cross",
+      "flag unlock_factor_gipeswic",
+      "silver +1060",
+      "commission wool_cloth 12 by 240 premium 1.7",
+      "npc reeve feeling +10 pledged",
+      "npc weigher feeling +15 surety",
+      "flag ch_great_army_865_end_line",
+      "flag ch_great_army_865_done"
+     ],
+     "note": "outcome: chain_great_army_865.end_line.out_surety"
+    },
+    {
+     "key": "wait",
+     "label_key": "chain_great_army_865.end_line.opt_wait",
+     "label": "Not yet: let others try the crossing first",
+     "check": "true",
+     "effects": [],
+     "note": "outcome: chain_great_army_865.end_line.out_wait (costs nothing; the ending stays open)"
+    }
+   ],
+   "memory": {
+    "bond": "left a pledge and took leave to cross",
+    "surety": "stood surety for the Frisian keels",
+    "wait": "would not pledge yet"
+   }
+  },
+  {
+   "id": "harbour.chain_great_army_865.end_camp",
+   "note": "Ending 'camp': the army's merchant. At Gipeswic or Dommoc from 880 for the man who dealt with the camp. Source: Anglo-Saxon Chronicle 880 (the army went from Cirencester into East Anglia, and settled the land and shared it out); Guthrum baptised at Aller in 878 with the name Aethelstan, and his pennies struck in that name; the Scandinavian combs and sunken houses at Ipswich after 880 (dossiers/gipeswic.md). The Norse felag, a sworn fellowship of trade, is on rune stones of the next century (?). If the book was lost at step 6 or 7 this is the ending that history changed leads to (changed_codex_aureus_lost). Sets ch_great_army_865_end_camp and ch_great_army_865_done; grand rewards unlock_plot_gipeswic and unlock_partner_toki, or unlock_title_guthrums_guest with more silver; the cost that lasts, ch_great_army_865_cost_church.",
+   "stage": "harbour",
+   "when": "moored and (port.id = gipeswic or port.id = dommoc) and year >= 880 and year < 891 and flag.ch_great_army_865_camp and not flag.ch_great_army_865_done",
+   "weight": 3.0,
+   "cooldown_days": 60,
+   "actors": {
+    "weigher": {
+     "role": "merchant",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": true,
+     "note": "Toki, the army's weigher and buyer; invented (Toki: a short name common on Danish rune stones). The army moves, so he is forged anew at each port: what he remembers of you is carried by the chain's flags, not by his feeling."
+    }
+   },
+   "title_key": "chain_great_army_865.end_camp.title",
+   "title": "The land shared out",
+   "intention_key": "chain_great_army_865.end_camp.intention",
+   "intention": "This year the army went from Cirencester into East Anglia, and settled the land and shared it out. Toki, who never wished to farm, has a share by the river and no use for it.",
+   "lines": [
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.end_camp.weigher_land"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.end_camp.weigher_king"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.end_camp.weigher_offer"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.end_camp.weigher_book",
+     "when": "flag.ch_great_army_865_book_lost"
+    },
+    {
+     "who": "weigher",
+     "key": "chain_great_army_865.end_camp.weigher_tofi",
+     "when": "flag.ch_great_army_865_tofi"
+    }
+   ],
+   "options": [
+    {
+     "key": "plot",
+     "label_key": "chain_great_army_865.end_camp.opt_plot",
+     "label": "Take the plot and Toki's fellowship",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "silver +900",
+      "flag unlock_plot_gipeswic",
+      "flag unlock_partner_toki",
+      "flag ch_great_army_865_cost_church",
+      "npc weigher feeling +20 fellow",
+      "flag ch_great_army_865_end_camp",
+      "flag ch_great_army_865_done"
+     ],
+     "note": "outcome: chain_great_army_865.end_camp.out_plot"
+    },
+    {
+     "key": "silver",
+     "label_key": "chain_great_army_865.end_camp.opt_silver",
+     "label": "Take your part in silver, and no land among them",
+     "check": "true",
+     "effects": [
+      "silver +1400",
+      "flag unlock_title_guthrums_guest",
+      "flag ch_great_army_865_cost_church",
+      "npc weigher feeling +10 paid",
+      "flag ch_great_army_865_end_camp",
+      "flag ch_great_army_865_done"
+     ],
+     "note": "outcome: chain_great_army_865.end_camp.out_silver"
+    },
+    {
+     "key": "wait",
+     "label_key": "chain_great_army_865.end_camp.opt_wait",
+     "label": "Not yet: see first whether their peace holds",
+     "check": "true",
+     "effects": [],
+     "note": "outcome: chain_great_army_865.end_camp.out_wait (costs nothing; the ending stays open)"
+    }
+   ],
+   "memory": {
+    "plot": "took a plot and a fellowship among the Danes",
+    "silver": "took the army's silver and guest-right",
+    "wait": "would not settle yet"
+   }
+  }
+ ]
+}

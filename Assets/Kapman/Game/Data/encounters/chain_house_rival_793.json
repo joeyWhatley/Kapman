@@ -1,0 +1,677 @@
+{
+ "about": "CHAIN house_rival (Design/content/chains/house_rival.md): the rival Frisian house of Dorestad, 795 to about 808, with an epilogue for the heirs from 826. Thirteen cards. Thiadbod (spine cast.thiadbod), the biggest shipman on the river, undersells the player's house (short cloaks, a short corn measure), takes its berth, and has its boat cut from her post by night; the case goes to the count's court under the Frisians' own law; later his ship lies on a bank and the player decides what to do; three endings (partnership, ruin, feud), and a feud that the heirs inherit. Progress is flags ch_house_rival_1 to _9; branch flags, endings and grand rewards are listed in the chain page. Scheduled cards have weight 0 and are reached only by 'schedule' (their 'when' says when they belong; the scheduler does not read it). The chain gives way to chain house_debt: if the tally was sold to Thiadbod (the spine's flag db_bought) steps 1 and 3 do not come. The words are in Data/writing/chain_house_rival.json; each option's note names the writing key of its outcome text (the engine shows the effects' own facts; the outcome keys are for the integrator). Law: Lex Frisionum (text and titles as in Herold 1557, read in K. Nieuwenhuijsen's edition at keesn.nl/lex); capitularies as in chronicle_793.json. Written 4 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_house_rival.s01_short_cloaks",
+   "note": "Step 1, the start (drawn at Dorestad once the house has made a few calls and has some silver). Thiadbod's man sells cloaks a hand short at the old price. Source: Notker, De Carolo Magno I.34 (tr. A. J. Grant 1907): Frisians sold short cloaks at the price of the long ones and the king forbade it; the Frank's line is Grant's wording, there said by Charles himself. Charles's letter to Offa, 796, on the length of cloaks (chronicle_793.json 796-spring-offa-letter). Cast: cast.thiadbod. From 795, after the debt's first reckonings (chain house_debt). Reads the spine's flag db_bought (counts_day): if the house's tally has been sold to Thiadbod he has what he wanted and this chain does not start; reads ch_house_debt_cleared for one line. Sets ch_house_rival_1 and one of ch_house_rival_short_cloth, ch_house_rival_true_cloth.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year >= 795 and year < 806 and port.visits >= 2 and silver >= 100 and not flag.db_bought and not flag.ch_house_rival_1",
+   "weight": 1.0,
+   "wants": "good_name",
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "port", "age": [38, 50], "fixed": true, "note": "cast.thiadbod" },
+    "frank": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "port", "age": [25, 45], "fixed": false, "note": "a Frank of the count's following, buying for his lord" }
+   },
+   "title_key": "chain_house_rival.s01.title",
+   "title": "Short cloaks",
+   "intention_key": "chain_house_rival.s01.intention",
+   "intention": "On the next dam a man of Thiadbod's sells Frisian cloaks at the old price, each a hand short of the old length.",
+   "lines": [
+    { "who": "frank", "key": "chain_house_rival.s01.frank_napkins", "note": "Notker I.34, Grant 1907, verbatim" },
+    { "who": "rival", "key": "chain_house_rival.s01.rival_new_man", "when": "silver < 300" },
+    { "who": "rival", "key": "chain_house_rival.s01.rival_never_empty", "when": "silver >= 300" },
+    { "who": "rival", "key": "chain_house_rival.s01.rival_offer" },
+    { "who": "rival", "key": "chain_house_rival.s01.rival_tally", "when": "flag.ch_house_debt_cleared" }
+   ],
+   "options": [
+    { "key": "short", "label_key": "chain_house_rival.s01.opt_short", "label": "Cut your own bolts a hand short and match him",
+      "check": "hold.frisian_cloth > 0 or hold.wool_cloth > 0",
+      "effects": [ "silver +16", "npc rival feeling +4 matched", "flag ch_house_rival_short_cloth", "flag ch_house_rival_1",
+                   "schedule harbour.chain_house_rival.s02_false_measure in 70 at dorestad" ],
+      "note": "outcome: chain_house_rival.s01.out_short" },
+    { "key": "honest", "label_key": "chain_house_rival.s01.opt_honest", "label": "Measure the old length aloud, on your own arm, where his buyers can see",
+      "check": "true",
+      "effects": [ "deed fair_dealing", "price_shock dorestad frisian_cloth x1.1 for 21", "npc rival feeling -6 measured", "npc frank feeling +5 measured",
+                   "flag ch_house_rival_true_cloth", "flag ch_house_rival_1", "schedule harbour.chain_house_rival.s02_false_measure in 70 at dorestad" ],
+      "note": "outcome: chain_house_rival.s01.out_honest" },
+    { "key": "drink", "label_key": "chain_house_rival.s01.opt_drink", "label": "Go across and drink his wine",
+      "check": "true",
+      "effects": [ "npc rival feeling +8 drank", "price_shock lundenwic rhenish_wine x1.15 for 25", "flag ch_house_rival_1",
+                   "schedule harbour.chain_house_rival.s02_false_measure in 70 at dorestad" ],
+      "note": "outcome: chain_house_rival.s01.out_drink (his news is true and a week old: the price word is real)" }
+   ],
+   "memory": {
+    "short": "cut cloth short beside him",
+    "honest": "measured the old length aloud beside his pitch",
+    "drink": "drank his wine"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.s02_false_measure",
+   "note": "Step 2 (scheduled 70 days after step 1, at Dorestad). Thiadbod's man sells corn at the king's price by a short measure. Source: Synod of Frankfurt, June 794, c. 4: oats 1 d the modius, barley 2, rye 3, wheat 4, by the new public modius, in plenty or dearth (MGH Capit. I no. 28; chronicle_793.json 794-06-01-frankfurt-prices); Nijmegen 806: oats 2, barley 3, rye 4, wheat 6, and hoarding for gain is 'turpe lucrum' (MGH Capit. I no. 46 c. 17-18; chronicle 806-03-nijmegen-prices). Cast: cast.thiadbod, cast.hartwin. Sets ch_house_rival_2, the timers ch_house_rival_rest (60 days) and ch_house_rival_wait (220 days), and the spine's hy_new_measure (hungry_years) where the player's measure is tried.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_rival_1 and not flag.ch_house_rival_2",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "port", "age": [38, 50], "fixed": true, "note": "cast.thiadbod" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "port", "age": [45, 65], "fixed": true, "note": "cast.hartwin (to 808)" }
+   },
+   "title_key": "chain_house_rival.s02.title",
+   "title": "The king's measure",
+   "intention_key": "chain_house_rival.s02.intention",
+   "intention": "Thiadbod's man sells rye at the king's price to the penny, by a measure a finger short. Your buyers are on his dam.",
+   "lines": [
+    { "who": "steward", "key": "chain_house_rival.s02.steward_price_794", "when": "year < 806" },
+    { "who": "steward", "key": "chain_house_rival.s02.steward_price_806", "when": "year >= 806" },
+    { "who": "steward", "key": "chain_house_rival.s02.steward_cloaks", "when": "flag.ch_house_rival_true_cloth" },
+    { "who": "rival", "key": "chain_house_rival.s02.rival_to_the_penny" },
+    { "who": "rival", "key": "chain_house_rival.s02.rival_cut_cloth", "when": "flag.ch_house_rival_short_cloth" },
+    { "who": "rival", "key": "chain_house_rival.s02.rival_old_measure", "when": "not flag.ch_house_rival_short_cloth" }
+   ],
+   "options": [
+    { "key": "steward", "label_key": "chain_house_rival.s02.opt_steward", "label": "Ask the steward to try both measures against the king's",
+      "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "npc steward feeling +6 true_measure", "npc rival feeling -12 shown", "toll eased 45", "flag ch_house_rival_measure_shown" ],
+                     "failure": [ "npc steward feeling -3 walked", "npc rival feeling -6 tried" ] },
+                   "flag hy_new_measure", "flag ch_house_rival_2", "flag ch_house_rival_rest for 60", "flag ch_house_rival_wait for 220" ],
+      "note": "outcome: chain_house_rival.s02.out_steward_success / out_steward_failure" },
+    { "key": "heaped", "label_key": "chain_house_rival.s02.opt_heaped", "label": "Have your own measure marked by the steward and sell heaped, in the open",
+      "check": "silver >= 12 and (hold.rye > 0 or hold.barley > 0 or hold.wheat > 0 or hold.oats > 0)",
+      "cost": "silver 12",
+      "effects": [ "deed fair_dealing", "npc steward feeling +4 marked_measure", "commission rye 8 by 60 premium 0.3", "flag hy_new_measure",
+                   "flag ch_house_rival_kings_measure", "flag ch_house_rival_2", "flag ch_house_rival_rest for 60", "flag ch_house_rival_wait for 220" ],
+      "note": "outcome: chain_house_rival.s02.out_heaped" },
+    { "key": "utrecht", "label_key": "chain_house_rival.s02.opt_utrecht", "label": "Say nothing, and take what you carry down to Traiectum",
+      "check": "true",
+      "effects": [ "price_shock traiectum rye x1.3 for 30", "price_shock traiectum barley x1.3 for 30", "flag ch_house_rival_2",
+                   "flag ch_house_rival_rest for 60", "flag ch_house_rival_wait for 220" ],
+      "note": "outcome: chain_house_rival.s02.out_utrecht" }
+   ],
+   "memory": {
+    "steward.success": "had his short measure shown before the dams",
+    "steward.failure": "sent the steward to try his measure, and it was true",
+    "heaped": "sold by the king's measure, heaped",
+    "utrecht": "said nothing about the measure"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.s03_dam_head",
+   "note": "Step 3 (drawn at Dorestad when the house has grown: 300 d aboard, or 220 days after step 2 at the latest; never within 60 days of step 2). Thiadbod takes the dam head, the pilot and the mouth of the ditch, and offers the player a place as his carrier. Source: Lex Frisionum, Additio sapientum VI (Saxmund): 'Si quis in flumine viam publicam occluserit, XII solidos componat'. Dorestad's dams and ditches: Design/content/dossiers/dorestad.md. Cast: cast.thiadbod (cast.gerlef named). Reads db_bought (the chain stops here if the tally was sold to him: chain house_debt, ending 'sold') and ch_house_debt_owed for one line. Sets ch_house_rival_3 and one of ch_house_rival_carrier, ch_house_rival_way_cleared.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_rival_2 and not flag.ch_house_rival_3 and not flag.db_bought and not flag.ch_house_rival_rest and (silver >= 300 or not flag.ch_house_rival_wait)",
+   "weight": 2.0,
+   "wants": "good_name",
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "port", "age": [38, 50], "fixed": true, "note": "cast.thiadbod" }
+   },
+   "title_key": "chain_house_rival.s03.title",
+   "title": "The dam head",
+   "intention_key": "chain_house_rival.s03.intention",
+   "intention": "Your place at the dam is taken, and Thiadbod's big ship lies across the mouth of the ditch.",
+   "lines": [
+    { "who": "rival", "key": "chain_house_rival.s03.rival_paid" },
+    { "who": "rival", "key": "chain_house_rival.s03.rival_carry" },
+    { "who": "rival", "key": "chain_house_rival.s03.rival_second_boat", "when": "silver >= 600" },
+    { "who": "rival", "key": "chain_house_rival.s03.rival_michaelmas", "when": "flag.ch_house_debt_owed" },
+    { "who": "rival", "key": "chain_house_rival.s03.rival_hawk", "when": "flag.ch_house_rival_measure_shown" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_house_rival.s03.opt_carry", "label": "Take his thirty pennies and carry for him this season",
+      "check": "true",
+      "effects": [ "silver +30", "toll eased 60", "npc rival feeling +10 carried", "flag ch_house_rival_carrier", "flag ch_house_rival_3",
+                   "schedule harbour.chain_house_rival.s04_cut_rope in 30 at dorestad" ],
+      "note": "outcome: chain_house_rival.s03.out_carry" },
+    { "key": "law", "label_key": "chain_house_rival.s03.opt_law", "label": "Name the law: no man shuts the public way in a river",
+      "check": "true",
+      "effects": [ { "chance": 0.55, "by": "crew.trade_best",
+                     "success": [ "npc rival feeling -14 named_law", "morale +0.03", "flag ch_house_rival_way_cleared" ],
+                     "failure": [ "npc rival feeling -8 laughed", "morale -0.02" ] },
+                   "flag ch_house_rival_3", "schedule harbour.chain_house_rival.s04_cut_rope in 30 at dorestad" ],
+      "note": "outcome: chain_house_rival.s03.out_law_success / out_law_failure" },
+    { "key": "inside", "label_key": "chain_house_rival.s03.opt_inside", "label": "Lie inside by the ditch and say nothing",
+      "check": "true",
+      "effects": [ "npc rival feeling -2 silent", "flag ch_house_rival_3", "schedule harbour.chain_house_rival.s04_cut_rope in 30 at dorestad" ],
+      "note": "outcome: chain_house_rival.s03.out_inside (time and pride only)" }
+   ],
+   "memory": {
+    "carry": "took his thirty pennies and carried for him",
+    "law.success": "named the river law at him before three dams",
+    "law.failure": "named the river law and was laughed at",
+    "inside": "lay inside and said nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.s04_cut_rope",
+   "note": "Step 4 (scheduled 30 days after step 3, at Dorestad): the first wrecked boat, the player's own, cut from her post by night. The doer, Meinward (invented: Mein- + -ward, a half-free man of the Batua), has gone down river to Witla. Source: the hue and cry and the pledge taken by force are the ordinary law: Lex Frisionum, Additio VIII.2 ('pignoris nomine, quod pant dicunt'); a thing taken by force is paid twofold with 12 solidi for the peace (Tit. VIII). Sets ch_house_rival_4, the timer ch_house_rival_cutter_near (40 days) and one of ch_house_rival_cry, ch_house_rival_pant, ch_house_rival_quiet; schedules step 5 at Witla (two days down the river) and the court in forty nights (the Franks' term between courts (?)).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_rival_3 and not flag.ch_house_rival_4",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "port", "age": [9, 12], "fixed": false, "note": "a net-boy of the dams" },
+    "wright": { "role": "shipwright", "people": "frisian", "faith": "christian", "tongue": "port", "age": [35, 60], "fixed": true }
+   },
+   "title_key": "chain_house_rival.s04.title",
+   "title": "The cut rope",
+   "intention_key": "chain_house_rival.s04.intention",
+   "intention": "At first light your boat is gone from her post: the rope cut clean, the boat on the old dam posts with two strakes stove in.",
+   "lines": [
+    { "who": "boy", "key": "chain_house_rival.s04.boy_saw" },
+    { "who": "wright", "key": "chain_house_rival.s04.wright_cut" },
+    { "who": "wright", "key": "chain_house_rival.s04.wright_cry" },
+    { "who": "wright", "key": "chain_house_rival.s04.wright_carrier", "when": "flag.ch_house_rival_carrier" },
+    { "who": "wright", "key": "chain_house_rival.s04.wright_named_law", "when": "flag.ch_house_rival_way_cleared" }
+   ],
+   "options": [
+    { "key": "cry", "label_key": "chain_house_rival.s04.opt_cry", "label": "Raise the cry on the dams now, with the cut end in your hand",
+      "check": "true",
+      "effects": [ "silver -30", "npc wright feeling +3 paid", "flag ch_house_rival_cry", "flag ch_house_rival_4", "flag ch_house_rival_cutter_near for 40",
+                   "schedule harbour.chain_house_rival.s05_cutter in 2 at witla", "schedule harbour.chain_house_rival.s06_thing in 40 at dorestad" ],
+      "note": "outcome: chain_house_rival.s04.out_cry (witnesses for the court)" },
+    { "key": "pant", "label_key": "chain_house_rival.s04.opt_pant", "label": "Go onto Thiadbod's dam with your men and take a pledge",
+      "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.fight_best",
+                     "success": [ "goods rhenish_wine +2" ],
+                     "failure": [ "health -0.04" ] },
+                   "silver -30", "flag ch_house_rival_pant", "flag ch_house_rival_4", "flag ch_house_rival_cutter_near for 40",
+                   "schedule harbour.chain_house_rival.s05_cutter in 2 at witla", "schedule harbour.chain_house_rival.s06_thing in 40 at dorestad" ],
+      "note": "outcome: chain_house_rival.s04.out_pant_success / out_pant_failure" },
+    { "key": "mend", "label_key": "chain_house_rival.s04.opt_mend", "label": "Mend her with your own hands and say nothing yet",
+      "check": "true",
+      "effects": [ "npc wright feeling +6 own_hands", "flag ch_house_rival_quiet", "flag ch_house_rival_4", "flag ch_house_rival_cutter_near for 40",
+                   "schedule harbour.chain_house_rival.s05_cutter in 2 at witla", "schedule harbour.chain_house_rival.s06_thing in 40 at dorestad" ],
+      "note": "outcome: chain_house_rival.s04.out_mend (four days and pride, no silver)" }
+   ],
+   "memory": {
+    "cry": "raised the cry over a cut rope",
+    "pant.success": "took two casks from Thiadbod's dam as a pledge",
+    "pant.failure": "went armed onto Thiadbod's dam and was beaten off",
+    "mend": "mended the boat with his own hands"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.s05_cutter",
+   "note": "Step 5, optional (scheduled by step 4: it opens on the first call at Witla from two days after the cut rope; nothing happens if she never calls there). The doer is kept in the pilot's shed for 40 days and then shipped oversea; a call after that finds him gone, and a call after the court finds only the pilot's shrug. The fork is the law's own: Lex Frisionum Tit. II, Wlemar's addition: if the doer has fled the land the setter-on pays a third or swears; if the doer has not fled, the setter 'neither swears nor pays, but only bears the enmity of him whose goods were taken'. So a man brought to court wins lawful enmity and no silver; a man heard before witnesses and let go oversea makes Thiadbod swear or pay. Witla: Design/content/dossiers/witla.md (nothing is known of the place but its burning in 836: the shed and the strand are ours). Cast: cast.gerlef. Sets ch_house_rival_5 and one of ch_house_rival_man_held, ch_house_rival_cutter_word, ch_house_rival_man_fled.",
+   "stage": "harbour",
+   "when": "moored and port.id = witla and year < 837 and flag.ch_house_rival_4 and not flag.ch_house_rival_5",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "pilot": { "role": "pilot", "people": "frisian", "faith": "christian", "tongue": "port", "age": [45, 65], "fixed": true, "note": "cast.gerlef (to 812)" },
+    "cutter": { "role": "sailor", "people": "frisian", "faith": "christian", "tongue": "port", "age": [20, 35], "fixed": false, "note": "Meinward, invented: a half-free man who hauls for Thiadbod" }
+   },
+   "title_key": "chain_house_rival.s05.title",
+   "title": "The man with the split ear",
+   "intention_key": "chain_house_rival.s05.intention",
+   "intention": "Witla, at the Maas mouth: this is where the wine boat brought Meinward. The pilot here is Thiadbod's by the year.",
+   "lines": [
+    { "who": "pilot", "key": "chain_house_rival.s05.pilot_near", "when": "flag.ch_house_rival_cutter_near" },
+    { "who": "pilot", "key": "chain_house_rival.s05.pilot_gone", "when": "not flag.ch_house_rival_cutter_near and not flag.ch_house_rival_6" },
+    { "who": "pilot", "key": "chain_house_rival.s05.pilot_late", "when": "not flag.ch_house_rival_cutter_near and flag.ch_house_rival_6" },
+    { "who": "pilot", "key": "chain_house_rival.s05.pilot_age" },
+    { "who": "cutter", "key": "chain_house_rival.s05.cutter_says", "when": "flag.ch_house_rival_cutter_near" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_house_rival.s05.opt_take", "label": "Take him, and bring him up the river to the court",
+      "check": "flag.ch_house_rival_cutter_near",
+      "effects": [ { "chance": 0.65, "by": "crew.fight_best",
+                     "success": [ "flag ch_house_rival_man_held", "npc pilot feeling -4 took_guest" ],
+                     "failure": [ "health -0.04", "flag ch_house_rival_man_fled" ] },
+                   "flag ch_house_rival_5" ],
+      "note": "outcome: chain_house_rival.s05.out_take_success / out_take_failure" },
+    { "key": "word", "label_key": "chain_house_rival.s05.opt_word", "label": "Hear him before the pilot and two fishermen, then give him six pennies to go over the water",
+      "check": "flag.ch_house_rival_cutter_near and silver >= 6",
+      "cost": "silver 6",
+      "effects": [ "npc pilot feeling +3 witness", "flag ch_house_rival_cutter_word", "flag ch_house_rival_man_fled", "flag ch_house_rival_5" ],
+      "note": "outcome: chain_house_rival.s05.out_word" },
+    { "key": "ask", "label_key": "chain_house_rival.s05.opt_ask", "label": "Leave the man be, and ask the pilot about the bar",
+      "check": "true",
+      "effects": [ "npc pilot feeling +6 asked_water", "flag ch_house_rival_5" ],
+      "note": "outcome: chain_house_rival.s05.out_ask (time only)" }
+   ],
+   "memory": {
+    "take.success": "took a man out of the net shed by force",
+    "take.failure": "chased a man over the flats and lost him",
+    "word": "heard Meinward before witnesses and let him go",
+    "ask": "asked about the bar"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.s06_thing",
+   "note": "Step 6 (scheduled forty nights after step 4, at Dorestad): the lawsuit at the thing, the count's court. Sources: Lex Frisionum Tit. III.3 (a free man charged with theft swears 'sua sexta manu'; if he owns it he pays twofold and his wergild to the king as fredus), III.8-9 (the ordeal of boiling water; a false accuser redeems his hand), Tit. II with Wlemar's addition (the setter-on), Tit. XIV.3 (between Vlie and Sincfal: the twelve-hand oath and boiling water), Additio VIII.2 (pant). Seven judgment-finders (scabini) are Charles's reform of about 780 (?); 'judges shall judge justly, according to the written law' is the capitulary of 802 c. 26 (tr. E. F. Henderson 1896); the peoples' laws were read and written at Aachen in October 802 (chronicle_793.json 802-10-aachen-laws-802). Where the court sat at Dorestad is not known: by Saint Martin's church is ours (?). The lawman's judgment on a boat ('a house on the water') is INVENTED: the real Lex has no word on ships; it sets changed_lex_frisionum_ship. Cast: cast.folcbert, cast.thiadbod; the lawman is an ordinary invented man. Sets ch_house_rival_6 and one of ch_house_rival_enmity, ch_house_rival_won, ch_house_rival_lost, ch_house_rival_porch.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_rival_4 and not flag.ch_house_rival_6",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "port", "age": [40, 62], "fixed": true, "note": "cast.folcbert (to 812)" },
+    "lawman": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "port", "age": [55, 75], "fixed": true, "note": "invented; no name given: the forge names him" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "port", "age": [38, 52], "fixed": true, "note": "cast.thiadbod" }
+   },
+   "title_key": "chain_house_rival.s06.title",
+   "title": "The count's court",
+   "intention_key": "chain_house_rival.s06.intention",
+   "intention": "The count's court sits by Saint Martin's church. Your matter is called: a boat cut from her post by night.",
+   "lines": [
+    { "who": "count", "key": "chain_house_rival.s06.count_king", "when": "year < 801" },
+    { "who": "count", "key": "chain_house_rival.s06.count_emperor", "when": "year >= 801" },
+    { "who": "count", "key": "chain_house_rival.s06.count_friend", "when": "flag.ch_house_debt_end_friend", "note": "chain house_debt: the count's friendship" },
+    { "who": "count", "key": "chain_house_rival.s06.count_enemy", "when": "flag.ch_house_debt_count_enemy", "note": "chain house_debt: the count's enmity" },
+    { "who": "count", "key": "chain_house_rival.s06.count_doomsman", "when": "flag.unlock_title_doomsman_dorestad", "note": "chain house_debt: a seat among the seven" },
+    { "who": "lawman", "key": "chain_house_rival.s06.lawman_unwritten", "when": "year < 803" },
+    { "who": "lawman", "key": "chain_house_rival.s06.lawman_written", "when": "year >= 803" },
+    { "who": "lawman", "key": "chain_house_rival.s06.lawman_theft", "note": "Lex Frisionum III.2-3" },
+    { "who": "lawman", "key": "chain_house_rival.s06.lawman_setter", "note": "Lex Frisionum II, Wlemar's addition" },
+    { "who": "lawman", "key": "chain_house_rival.s06.lawman_pant", "when": "flag.ch_house_rival_pant", "note": "Additio sapientum VIII.2" },
+    { "who": "rival", "key": "chain_house_rival.s06.rival_mass" }
+   ],
+   "options": [
+    { "key": "produce", "label_key": "chain_house_rival.s06.opt_produce", "label": "Bring Meinward into the ring",
+      "check": "flag.ch_house_rival_man_held",
+      "effects": [ "deed won_case", "npc lawman feeling +8 judged", "npc rival feeling -20 named", "npc count feeling -4 kept_waiting",
+                   "flag ch_house_rival_enmity", "flag changed_lex_frisionum_ship", "news chain_house_rival.news.s06_enmity at dorestad",
+                   "flag ch_house_rival_6", "schedule harbour.chain_house_rival.s07_widow in 20 at dorestad" ],
+      "note": "outcome: chain_house_rival.s06.out_produce. The honest road: lawful enmity, no silver today, and the invented judgment on boats." },
+    { "key": "charge", "label_key": "chain_house_rival.s06.opt_charge", "label": "Charge Thiadbod as the setter-on, with your witnesses; let him swear if he can",
+      "check": "flag.ch_house_rival_cry or flag.ch_house_rival_cutter_word",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "silver +200", "deed won_case", "npc rival feeling -18 oath_failed", "flag ch_house_rival_won",
+                                  "news chain_house_rival.news.s06_oath_failed at dorestad" ],
+                     "failure": [ "deed lost_case", "npc rival feeling -8 charged", "flag ch_house_rival_lost",
+                                  "news chain_house_rival.news.s06_oath_whole at dorestad" ] },
+                   "flag ch_house_rival_6", "schedule harbour.chain_house_rival.s07_widow in 20 at dorestad" ],
+      "note": "outcome: chain_house_rival.s06.out_charge_success / out_charge_failure. The setter's third of the twofold: 200 d (a turn payout)." },
+    { "key": "bare", "label_key": "chain_house_rival.s06.opt_bare", "label": "Charge him on your own word alone",
+      "check": "true",
+      "effects": [ { "chance": 0.3, "by": "crew.trade_best",
+                     "success": [ "silver +200", "deed won_case", "npc rival feeling -18 oath_failed", "flag ch_house_rival_won",
+                                  "news chain_house_rival.news.s06_oath_failed at dorestad" ],
+                     "failure": [ "deed lost_case", "npc rival feeling -8 charged", "npc count feeling -5 wasted_day", "flag ch_house_rival_lost",
+                                  "news chain_house_rival.news.s06_oath_whole at dorestad" ] },
+                   "flag ch_house_rival_6", "schedule harbour.chain_house_rival.s07_widow in 20 at dorestad" ],
+      "note": "outcome: chain_house_rival.s06.out_bare_success / out_bare_failure" },
+    { "key": "porch", "label_key": "chain_house_rival.s06.opt_porch", "label": "Take the sixty pennies he offers in the porch and let it drop",
+      "check": "true",
+      "effects": [ "silver +60", "npc rival feeling +6 settled", "npc lawman feeling -3 dropped", "flag ch_house_rival_porch",
+                   "flag ch_house_rival_6", "schedule harbour.chain_house_rival.s07_widow in 20 at dorestad" ],
+      "note": "outcome: chain_house_rival.s06.out_porch (pride only)" }
+   ],
+   "memory": {
+    "produce": "brought the doer before the court and had him named the setter-on",
+    "charge.success": "made his oath fail before the court",
+    "charge.failure": "charged him, and he swore himself clean",
+    "bare.success": "made his oath fail on a bare word",
+    "bare.failure": "charged him on a bare word, and he swore himself clean",
+    "porch": "took sixty pennies in the church porch"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.s07_widow",
+   "note": "Step 7 (scheduled 20 days after the court, at Dorestad): Thiadburg, Thiadbod's elder sister, comes as go-between, and the turn of the chain is paid. Source: the law leaves the setter-on at enmity 'until he regains their friendship somehow' (Lex Frisionum Tit. II): friendship has a price. A widow holding her husband's storehouse is the spine's cast.thiadburg (the pattern is Frideburg of Birka, Rimbert c. 20). Sets ch_house_rival_7, the timer ch_house_rival_winter (100 days) and one of ch_house_rival_peace_bought, ch_house_rival_widow_friend, ch_house_rival_enmity_kept.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_rival_6 and not flag.ch_house_rival_7",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true, "note": "cast.thiadburg (to 815)" }
+   },
+   "title_key": "chain_house_rival.s07.title",
+   "title": "Thiadburg's storehouse",
+   "intention_key": "chain_house_rival.s07.intention",
+   "intention": "Thiadburg sends for you: the storehouse on the dam, and Thiadbod's elder sister, who does not trust him with her keys.",
+   "lines": [
+    { "who": "widow", "key": "chain_house_rival.s07.widow_enmity", "when": "flag.ch_house_rival_enmity" },
+    { "who": "widow", "key": "chain_house_rival.s07.widow_won", "when": "flag.ch_house_rival_won" },
+    { "who": "widow", "key": "chain_house_rival.s07.widow_lost", "when": "flag.ch_house_rival_lost" },
+    { "who": "widow", "key": "chain_house_rival.s07.widow_porch", "when": "flag.ch_house_rival_porch" },
+    { "who": "widow", "key": "chain_house_rival.s07.widow_casks", "when": "flag.ch_house_rival_pant" },
+    { "who": "widow", "key": "chain_house_rival.s07.widow_quiet", "when": "flag.ch_house_rival_quiet" },
+    { "who": "widow", "key": "chain_house_rival.s07.widow_weigh" }
+   ],
+   "options": [
+    { "key": "price", "label_key": "chain_house_rival.s07.opt_price", "label": "Name a price in silver, and take it",
+      "check": "not flag.ch_house_rival_enmity",
+      "effects": [ "silver +120", "npc widow feeling +2 named_price", "flag ch_house_rival_peace_bought", "flag ch_house_rival_7",
+                   "flag ch_house_rival_winter for 100" ],
+      "note": "outcome: chain_house_rival.s07.out_price" },
+    { "key": "price_law", "label_key": "chain_house_rival.s07.opt_price_law", "label": "Name the price of the friendship the law left open",
+      "check": "flag.ch_house_rival_enmity",
+      "effects": [ "silver +240", "npc widow feeling +4 named_price", "flag ch_house_rival_peace_bought", "flag ch_house_rival_7",
+                   "flag ch_house_rival_winter for 100" ],
+      "note": "outcome: chain_house_rival.s07.out_price_law (a pound of silver: the turn payout of the honest road)" },
+    { "key": "store", "label_key": "chain_house_rival.s07.opt_store", "label": "Ask nothing of him. Ask her for room under her roof",
+      "check": "true",
+      "effects": [ "commission frisian_cloth 8 by 90 premium 0.35", "npc widow feeling +14 asked_room", "flag ch_house_rival_widow_friend",
+                   "flag ch_house_rival_7", "flag ch_house_rival_winter for 100" ],
+      "note": "outcome: chain_house_rival.s07.out_store (an order with a premium, and her goodwill)" },
+    { "key": "stands", "label_key": "chain_house_rival.s07.opt_stands", "label": "Tell her it stands as it stands",
+      "check": "true",
+      "effects": [ "npc widow feeling -2 stands", "flag ch_house_rival_enmity_kept", "flag ch_house_rival_7", "flag ch_house_rival_winter for 100" ],
+      "note": "outcome: chain_house_rival.s07.out_stands (pride only)" }
+   ],
+   "memory": {
+    "price": "named a price for his friendship",
+    "price_law": "named the price the law left open",
+    "store": "asked for room under her roof and nothing from her brother",
+    "stands": "said the enmity stands"
+   }
+  },
+  {
+   "id": "sea.chain_house_rival.s08_on_the_bank",
+   "note": "Step 8 (drawn under way, from 100 days after step 7): the second wrecked boat, Thiadbod's big merchant ship on a bank that was not there at Easter. Sources: 'many ships wrecked with their crews by a violent storm in the British sea' in 799 (Historia Regum 799; chronicle_793.json 799-british-sea-storm), said only in that year; shifting banks at the Maas mouth (dossiers/witla.md); sword blades in a wine cask are the spine's fact about cast.thiadbod (thread swords_north: he sends blades north in wine casks), only seen here, not told. The danger warns first: the tide is making. Cast: cast.thiadbod; his son Thiadlef (invented: Thiad- + -lef), about fourteen. Sets ch_house_rival_8 and ch_house_rival_saved (with ch_house_rival_ship_saved or ch_house_rival_salvage) or ch_house_rival_left; ch_house_rival_saw_blades.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_house_rival_7 and not flag.ch_house_rival_8 and not flag.ch_house_rival_winter",
+   "rate": 0.04,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "survivor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [40, 55], "fixed": false, "note": "cast.thiadbod, on his own ship" },
+    "son": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [13, 15], "fixed": false, "note": "Thiadlef, invented: Thiadbod's son" }
+   },
+   "title_key": "chain_house_rival.s08.title",
+   "title": "A ship on the bank",
+   "intention_key": "chain_house_rival.s08.intention",
+   "intention": "A big merchant ship lies on a bank where the channel ran last year. She is Thiadbod's. The flood is making.",
+   "lines": [
+    { "key": "chain_house_rival.s08.year_799", "when": "year = 799", "note": "Historia Regum 799" },
+    { "who": "rival", "key": "chain_house_rival.s08.rival_bank" },
+    { "who": "rival", "key": "chain_house_rival.s08.rival_no_ask", "when": "not flag.ch_house_rival_enmity_kept" },
+    { "who": "rival", "key": "chain_house_rival.s08.rival_stands", "when": "flag.ch_house_rival_enmity_kept" },
+    { "who": "son", "key": "chain_house_rival.s08.son_nine" }
+   ],
+   "options": [
+    { "key": "off", "label_key": "chain_house_rival.s08.opt_off", "label": "Take the men off and leave the wine",
+      "check": "true",
+      "effects": [ "morale +0.05", "npc rival feeling +30 taken_off", "flag ch_house_rival_saved", "flag ch_house_rival_saw_blades", "flag ch_house_rival_8",
+                   "schedule harbour.chain_house_rival.s09_reckoning in 12 at dorestad" ],
+      "note": "outcome: chain_house_rival.s08.out_off (time and room only)" },
+    { "key": "salvage", "label_key": "chain_house_rival.s08.opt_salvage", "label": "Take the men off, and four casks for your trouble",
+      "check": "true",
+      "effects": [ "goods rhenish_wine +4", "npc rival feeling +10 took_casks", "flag ch_house_rival_saved", "flag ch_house_rival_salvage",
+                   "flag ch_house_rival_saw_blades", "flag ch_house_rival_8", "schedule harbour.chain_house_rival.s09_reckoning in 12 at dorestad" ],
+      "note": "outcome: chain_house_rival.s08.out_salvage (a turn payout in goods: about 240 d)" },
+    { "key": "float", "label_key": "chain_house_rival.s08.opt_float", "label": "Lay out his anchor and try to float her on the flood",
+      "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "silver +120", "morale +0.08", "npc rival feeling +45 floated", "flag ch_house_rival_ship_saved" ],
+                     "failure": [ "health -0.05", "npc rival feeling +30 taken_off" ] },
+                   "flag ch_house_rival_saved", "flag ch_house_rival_saw_blades", "flag ch_house_rival_8",
+                   "schedule harbour.chain_house_rival.s09_reckoning in 12 at dorestad" ],
+      "note": "outcome: chain_house_rival.s08.out_float_success / out_float_failure (the hard road)" },
+    { "key": "leave", "label_key": "chain_house_rival.s08.opt_leave", "label": "Stand off. There are fishing boats; let them earn it",
+      "check": "true",
+      "effects": [ "morale -0.06", "npc rival feeling -40 stood_off", "flag ch_house_rival_left", "flag ch_house_rival_8",
+                   "schedule harbour.chain_house_rival.s09_reckoning in 12 at dorestad" ],
+      "note": "outcome: chain_house_rival.s08.out_leave (no one drowns: a fishing boat takes them off; the ship is lost)" }
+   ],
+   "memory": {
+    "off": "took nine men off the bank and left the wine",
+    "salvage": "took the men off the bank, and four casks",
+    "float.success": "floated Thiadbod's ship off the bank",
+    "float.failure": "tried to float the ship and took the men off when she broke",
+    "leave": "stood off and watched the ship on the bank"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.s09_reckoning",
+   "note": "Step 9 (scheduled 12 days after the bank, at Dorestad): the fork to the three endings. Whoever took the men off may offer fellowship; whoever did not float his ship may let the law and his losses run; anyone may declare the feud. Every state has a road that costs only pride. The ending is settled at the next court, forty nights on. Cast: cast.thiadbod, cast.thiadburg. Sets ch_house_rival_9.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_rival_8 and not flag.ch_house_rival_9",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 55], "fixed": true, "note": "cast.thiadbod" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 62], "fixed": true, "note": "cast.thiadburg" }
+   },
+   "title_key": "chain_house_rival.s09.title",
+   "title": "The reckoning",
+   "intention_key": "chain_house_rival.s09.intention",
+   "intention": "Thiadbod's wine was bought on trust, and the men he owes have come down to the dams. He and his sister are waiting for you.",
+   "lines": [
+    { "who": "rival", "key": "chain_house_rival.s09.rival_both_true", "when": "flag.ch_house_rival_saved and not flag.ch_house_rival_ship_saved" },
+    { "who": "rival", "key": "chain_house_rival.s09.rival_floated", "when": "flag.ch_house_rival_ship_saved" },
+    { "who": "rival", "key": "chain_house_rival.s09.rival_stood_off", "when": "flag.ch_house_rival_left" },
+    { "who": "rival", "key": "chain_house_rival.s09.rival_straw", "when": "flag.ch_house_rival_saw_blades" },
+    { "who": "rival", "key": "chain_house_rival.s09.rival_bought", "when": "flag.ch_house_rival_peace_bought" },
+    { "who": "widow", "key": "chain_house_rival.s09.widow_together" },
+    { "who": "widow", "key": "chain_house_rival.s09.widow_roof", "when": "flag.ch_house_rival_widow_friend" }
+   ],
+   "options": [
+    { "key": "fellowship", "label_key": "chain_house_rival.s09.opt_fellowship", "label": "Offer him fellowship: two boats, one reckoning",
+      "check": "flag.ch_house_rival_saved",
+      "effects": [ "npc rival feeling +10 offered_hand", "npc widow feeling +6 offered_hand", "flag ch_house_rival_9",
+                   "schedule harbour.chain_house_rival.end_partner in 40 at dorestad" ],
+      "note": "outcome: chain_house_rival.s09.out_fellowship" },
+    { "key": "law", "label_key": "chain_house_rival.s09.opt_law", "label": "Let the law and his losses run, and be at the steward's sale",
+      "check": "not flag.ch_house_rival_ship_saved",
+      "effects": [ "npc rival feeling -10 let_it_run", "flag ch_house_rival_9", "schedule harbour.chain_house_rival.end_ruin in 40 at dorestad" ],
+      "note": "outcome: chain_house_rival.s09.out_law" },
+    { "key": "feud", "label_key": "chain_house_rival.s09.opt_feud", "label": "Say before witnesses that there is no peace between the houses",
+      "check": "true",
+      "effects": [ "npc rival feeling -30 no_peace", "npc widow feeling -6 no_peace", "flag ch_house_rival_9",
+                   "schedule harbour.chain_house_rival.end_feud in 40 at dorestad" ],
+      "note": "outcome: chain_house_rival.s09.out_feud" }
+   ],
+   "memory": {
+    "fellowship": "offered fellowship after the bank",
+    "law": "let the law and his losses run",
+    "feud": "said there is no peace between the houses"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.end_partner",
+   "note": "ENDING: partnership (scheduled forty nights after step 9, at Dorestad). Flag ch_house_rival_end_partner; grand reward unlock_partner_thiadbod; on the hard road (his ship floated, or nothing taken for the rescue, no pledge by force and no short cloth) also unlock_pilot_maas and changed_dorestad_fellowship. Sources: Capitulary of Herstal, 779, c. 16: no oaths sworn in guilds ('de sacramentis per gildonia invicem coniurantibus'), but men may make agreements for alms, for fire and for shipwreck without swearing (MGH Capit. I no. 20; from memory, the page could not be opened (?)); a sworn band is the lasting cost (ch_house_rival_sworn_band). Frisian guild-brothers are named on rune stones at Sigtuna in the 11th century (U 379, U 391) (?), and the merchants of Tiel 'swear and drink together' about 1020 (chronicle_793.json 1020-tiel-merchants): a chest for fire and wreck at Dorestad about 800 is HISTORY CHANGED. The upper church, Saint Martin's, is the Upkirika given to Utrecht in 777 (dossiers/dorestad.md). The verse is Havamal 47 (Bellows 1923; texts_793.json havamal_047). Cast: cast.thiadbod.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_rival_9 and not flag.ch_house_rival_end_partner and not flag.ch_house_rival_end_ruin and not flag.ch_house_rival_end_feud",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dane": { "role": "sailor", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "a Dane off a Ripa boat, watching from the dam; first actor, so the verse comes from him" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 55], "fixed": true, "note": "cast.thiadbod" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "port", "age": [30, 60], "fixed": true, "note": "the priest of the upper church; invented" }
+   },
+   "title_key": "chain_house_rival.end_partner.title",
+   "title": "Two boats, one reckoning",
+   "intention_key": "chain_house_rival.end_partner.intention",
+   "intention": "The porch of Saint Martin's, forty nights on. Two houses will bear each other's fire and wreck. The king's law allows the agreement and forbids the oath.",
+   "lines": [
+    { "who": "priest", "key": "chain_house_rival.end_partner.priest_no_oath" },
+    { "who": "rival", "key": "chain_house_rival.end_partner.rival_knot" },
+    { "who": "rival", "key": "chain_house_rival.end_partner.rival_half", "when": "flag.ch_house_rival_ship_saved" },
+    { "who": "rival", "key": "chain_house_rival.end_partner.rival_straw", "when": "flag.ch_house_rival_saw_blades" },
+    { "who": "dane", "key": "chain_house_rival.end_partner.dane_delight" }
+   ],
+   "options": [
+    { "key": "agreement", "label_key": "chain_house_rival.end_partner.opt_agreement", "label": "Make it before witnesses, without the oath, as the king allows",
+      "check": "true",
+      "effects": [ "silver +700", "npc rival feeling +25 partner", "npc priest feeling +4 no_oath", "give_text havamal_047", "flag unlock_partner_thiadbod",
+                   "flag ch_house_rival_end_partner", "news chain_house_rival.news.end_partner at dorestad" ],
+      "note": "outcome: chain_house_rival.end_partner.out_agreement" },
+    { "key": "oath", "label_key": "chain_house_rival.end_partner.opt_oath", "label": "Swear it on the altar, each to the other",
+      "check": "true",
+      "effects": [ "silver +900", "npc rival feeling +30 sworn", "npc priest feeling -6 heard_oath", "give_text havamal_047", "flag unlock_partner_thiadbod",
+                   "flag ch_house_rival_sworn_band", "flag ch_house_rival_end_partner", "news chain_house_rival.news.end_partner at dorestad" ],
+      "note": "outcome: chain_house_rival.end_partner.out_oath (the lasting cost: a forbidden oath the count knows of)" },
+    { "key": "open", "label_key": "chain_house_rival.end_partner.opt_open", "label": "Make it without the oath, and open the chest to every boat on the dams",
+      "check": "flag.ch_house_rival_ship_saved or (not flag.ch_house_rival_salvage and not flag.ch_house_rival_pant and not flag.ch_house_rival_short_cloth)",
+      "effects": [ "silver +1400", "deed gave_alms", "npc rival feeling +35 brother", "npc priest feeling +8 chest", "give_text havamal_047",
+                   "flag unlock_partner_thiadbod", "flag unlock_pilot_maas", "flag changed_dorestad_fellowship", "flag ch_house_rival_end_partner",
+                   "news chain_house_rival.news.end_partner_open at dorestad" ],
+      "note": "outcome: chain_house_rival.end_partner.out_open (the hard road: twice the finale and a second grand reward; history changed)" }
+   ],
+   "memory": {
+    "agreement": "made one reckoning of two boats, without an oath",
+    "oath": "swore fellowship on the altar",
+    "open": "opened a chest against fire and wreck to every boat on the dams"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.end_ruin",
+   "note": "ENDING: ruin (scheduled forty nights after step 9, at Dorestad). Flag ch_house_rival_end_ruin; grand reward unlock_plot_dorestad (the dam head), or unlock_ship_north_sea_merchant_ship (his hull, if he was left on the bank), or unlock_factor_dorestad (his sister keeps the dam head and your goods), or on the hard road (men saved and the case won) unlock_plot_dorestad with unlock_factor_mogontia. Lasting cost: ch_house_rival_sons_remember. This is the ordinary end of a merchant who loses a ship laden on trust: nothing changed. Sources: Dorestad's dam parcels and storehouses (dossiers/dorestad.md: 18 m parcels, dams up to 200 m); Frisian merchants living at Mainz, 'the best part of the city, where the Frisians lived' (Annales Fuldenses 886; dossiers/mogontia.md); arms out of the realm forbidden (Herstal 779, Thionville 805: chronicle_793.json). The sale of a debtor's goods by the count's steward is ours (?). Thiadbod's house is broken, not ended: the spine has his heirs at Dorestad to 863. Cast: cast.hartwin (to 808), cast.thiadbod.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_rival_9 and not flag.ch_house_rival_end_partner and not flag.ch_house_rival_end_ruin and not flag.ch_house_rival_end_feud",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "port", "age": [45, 68], "fixed": true, "note": "cast.hartwin (to 808)" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 55], "fixed": true, "note": "cast.thiadbod" }
+   },
+   "title_key": "chain_house_rival.end_ruin.title",
+   "title": "The steward's sale",
+   "intention_key": "chain_house_rival.end_ruin.intention",
+   "intention": "Forty nights on, the count's steward sells what Thiadbod has to pay what Thiadbod owes. He is going up the Rhine to carry other men's wine.",
+   "lines": [
+    { "who": "steward", "key": "chain_house_rival.end_ruin.steward_counts" },
+    { "who": "steward", "key": "chain_house_rival.end_ruin.steward_claim", "when": "flag.ch_house_rival_enmity or flag.ch_house_rival_won" },
+    { "who": "steward", "key": "chain_house_rival.end_ruin.steward_iron", "when": "flag.ch_house_rival_saw_blades" },
+    { "who": "rival", "key": "chain_house_rival.end_ruin.rival_speak" },
+    { "who": "rival", "key": "chain_house_rival.end_ruin.rival_hull", "when": "flag.ch_house_rival_left" }
+   ],
+   "options": [
+    { "key": "dam", "label_key": "chain_house_rival.end_ruin.opt_dam", "label": "Take the dam head as your price",
+      "check": "true",
+      "effects": [ "silver +450", "goods rhenish_wine +3", "npc rival feeling -25 took_dam", "flag unlock_plot_dorestad", "flag ch_house_rival_thiadbods_dam",
+                   "flag ch_house_rival_sons_remember",
+                   "flag ch_house_rival_end_ruin", "news chain_house_rival.news.end_ruin at dorestad" ],
+      "note": "outcome: chain_house_rival.end_ruin.out_dam" },
+    { "key": "hull", "label_key": "chain_house_rival.end_ruin.opt_hull", "label": "Take the hull off the bank and have her mended",
+      "check": "flag.ch_house_rival_left",
+      "effects": [ "silver +600", "npc rival feeling -40 took_hull", "flag unlock_ship_north_sea_merchant_ship", "flag ch_house_rival_sons_remember",
+                   "flag ch_house_rival_end_ruin", "news chain_house_rival.news.end_ruin at dorestad" ],
+      "note": "outcome: chain_house_rival.end_ruin.out_hull" },
+    { "key": "sister", "label_key": "chain_house_rival.end_ruin.opt_sister", "label": "Let his sister have the dam head, and keep your place under her roof",
+      "check": "flag.ch_house_rival_widow_friend",
+      "effects": [ "silver +700", "npc rival feeling -10 sister", "flag unlock_factor_dorestad", "flag ch_house_rival_end_ruin",
+                   "news chain_house_rival.news.end_ruin at dorestad" ],
+      "note": "outcome: chain_house_rival.end_ruin.out_sister (the spine: Thiadburg is her brother's rival for the dam head)" },
+    { "key": "mercy", "label_key": "chain_house_rival.end_ruin.opt_mercy", "label": "Take the dam head, and leave him a boat and your wine to carry at Mogontia",
+      "check": "flag.ch_house_rival_saved and (flag.ch_house_rival_enmity or flag.ch_house_rival_won)",
+      "effects": [ "silver +1100", "npc rival feeling +15 left_a_boat", "flag unlock_plot_dorestad", "flag ch_house_rival_thiadbods_dam", "flag unlock_factor_mogontia",
+                   "flag ch_house_rival_end_ruin", "news chain_house_rival.news.end_ruin at dorestad" ],
+      "note": "outcome: chain_house_rival.end_ruin.out_mercy (the hard road: the men saved and the case won; a second grand reward and no sons' grudge)" }
+   ],
+   "memory": {
+    "dam": "took the dam head at the steward's sale",
+    "hull": "took the hull off the bank",
+    "sister": "let Thiadburg have the dam head",
+    "mercy": "took the dam head and left him a boat"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.end_feud",
+   "note": "ENDING: feud (scheduled forty nights after step 9, at Dorestad). Flag ch_house_rival_end_feud; the lasting cost feud_house_thiadbod, which the heirs inherit (card s13); grand reward unlock_title_st_martins_man (the bishop's protection, with the debt of honour ch_house_rival_owes_martin_wax), or unlock_ship_north_sea_merchant_ship (his hull kept by the strong hand, if he was left on the bank), or unlock_heirloom_cut_rope. Sources: Lex Frisionum, Additio sapientum I.1 (Wlemar): 'Homo faidosus pacem habeat in ecclesia, in domo sua, ad ecclesiam eundo, de ecclesia redeundo, ad placitum eundo, de placito redeundo'; who breaks it and kills pays nine times 30 solidi. Capitulary of 802 c. 32: the kin 'shall by no means dare to carry further their enmity ... but, pledging their faith, they shall make a lasting peace' (tr. Henderson 1896); Thionville, December 805, c. 5: feuds to be settled (chronicle_793.json 805-12-thionville-arms). Saint Martin's men on Dorestad's banks owed no dues, and no one might lodge in their houses or seize their goods (Louis the Pious for Utrecht, 18 March 815, confirming older grants: Oorkondenboek Sticht Utrecht I no. 56, in dossiers/dorestad.md); for the years before 815 (?). Wreck kept as the finder's by 'the custom of the strand' is later law (?). The verse is Havamal 43 (Bellows 1923; texts_793.json havamal_043). Cast: cast.folcbert, cast.thiadbod; the bishop is cast.hamacar (to 806), here only his clerk.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_rival_9 and not flag.ch_house_rival_end_partner and not flag.ch_house_rival_end_ruin and not flag.ch_house_rival_end_feud",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dane": { "role": "sailor", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "a Dane off a Ripa boat, in the ring of onlookers; first actor, so the verse comes from him" },
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "port", "age": [40, 64], "fixed": true, "note": "cast.folcbert (to 812)" },
+    "lawman": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "port", "age": [55, 78], "fixed": true },
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "port", "age": [25, 50], "fixed": false, "note": "the bishop of Traiectum's clerk; invented" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 55], "fixed": true, "note": "cast.thiadbod" }
+   },
+   "title_key": "chain_house_rival.end_feud.title",
+   "title": "No peace",
+   "intention_key": "chain_house_rival.end_feud.intention",
+   "intention": "The court again, forty nights on. You say it before the count and the seven: no peace between your house and Thiadbod's.",
+   "lines": [
+    { "who": "lawman", "key": "chain_house_rival.end_feud.lawman_peace", "note": "Additio sapientum I.1" },
+    { "who": "count", "key": "chain_house_rival.end_feud.count_king", "when": "year < 802" },
+    { "who": "count", "key": "chain_house_rival.end_feud.count_emperor", "when": "year >= 802 and year < 806", "note": "capitulary of 802 c. 32" },
+    { "who": "count", "key": "chain_house_rival.end_feud.count_thionville", "when": "year >= 806", "note": "Thionville, December 805, c. 5" },
+    { "who": "clerk", "key": "chain_house_rival.end_feud.clerk_martin", "when": "not flag.ch_house_debt_st_martins_man" },
+    { "who": "clerk", "key": "chain_house_rival.end_feud.clerk_already", "when": "flag.ch_house_debt_st_martins_man", "note": "chain house_debt: already Saint Martin's man" },
+    { "who": "rival", "key": "chain_house_rival.end_feud.rival_hear" },
+    { "who": "dane", "key": "chain_house_rival.end_feud.dane_foe" }
+   ],
+   "options": [
+    { "key": "martin", "label_key": "chain_house_rival.end_feud.opt_martin", "label": "Put your house and your boats under Saint Martin's hand",
+      "check": "not flag.ch_house_debt_st_martins_man",
+      "effects": [ "silver +700", "deed gave_alms", "toll eased 180", "npc count feeling -20 saints_man", "npc clerk feeling +10 saints_man",
+                   "npc rival feeling -30 no_peace", "give_text havamal_043", "flag unlock_title_st_martins_man", "flag ch_house_rival_owes_martin_wax",
+                   "flag feud_house_thiadbod", "flag ch_house_rival_end_feud", "news chain_house_rival.news.end_feud at dorestad" ],
+      "note": "outcome: chain_house_rival.end_feud.out_martin" },
+    { "key": "hull", "label_key": "chain_house_rival.end_feud.opt_hull", "label": "Float his hull off the bank and keep her, by the strong hand",
+      "check": "flag.ch_house_rival_left",
+      "effects": [ "silver +600", "npc count feeling -30 strong_hand", "npc rival feeling -45 took_hull", "give_text havamal_043",
+                   "flag unlock_ship_north_sea_merchant_ship", "flag feud_house_thiadbod", "flag ch_house_rival_end_feud",
+                   "news chain_house_rival.news.end_feud at dorestad" ],
+      "note": "outcome: chain_house_rival.end_feud.out_hull" },
+    { "key": "alone", "label_key": "chain_house_rival.end_feud.opt_alone", "label": "Stand alone: arm the crew and hang the cut rope over your door",
+      "check": "true",
+      "effects": [ "silver +1000", "morale +0.05", "npc count feeling -12 armed_men", "npc rival feeling -35 no_peace", "give_text havamal_043",
+                   "flag unlock_heirloom_cut_rope", "flag feud_house_thiadbod", "flag ch_house_rival_end_feud",
+                   "news chain_house_rival.news.end_feud at dorestad" ],
+      "note": "outcome: chain_house_rival.end_feud.out_alone" }
+   ],
+   "memory": {
+    "martin": "declared the feud and went under Saint Martin's hand",
+    "hull": "declared the feud and took the hull off the bank",
+    "alone": "declared the feud and hung the cut rope over his door"
+   }
+  },
+  {
+   "id": "harbour.chain_house_rival.s13_heirs",
+   "note": "Epilogue of the feud ending (drawn at Dorestad from 826, when Thiadbod is dead, for the player's heir: generation 1 or later, while feud_house_thiadbod stands). The feud has outlived both men; the heirs meet where the law gives them peace. Sets ch_house_rival_heirs and either ch_house_rival_end_feud_healed (with feud_house_thiadbod = 0; a marriage gives unlock_kin_thiadbods_house and unlock_partner_thiadlef) or ch_house_rival_feud_kept. Sources: the peace of the man at feud in church and on the way to it (Additio sapientum I.1); the capitulary of 802 c. 32 on taking the price and making a lasting peace; a marriage to end a feud is the old custom the poems know (Beowulf 2020-2031, Freawaru given to Ingeld to settle the feud: texts_793.json has the poem by fitt). The Danes at Dorestad from 834: chronicle_793.json. The rival role's holder at Dorestad after 825 is Thiadbod's heir (the registry gives a fixed role to an heir with half the feelings).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year >= 826 and year < 863 and generation >= 1 and flag.feud_house_thiadbod and not flag.ch_house_rival_heirs",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "port", "age": [30, 60], "fixed": true, "note": "Thiadbod's heir: his son Thiadlef (invented) or Thiadlef's son" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "port", "age": [30, 65], "fixed": true }
+   },
+   "title_key": "chain_house_rival.s13.title",
+   "title": "At the church door",
+   "intention_key": "chain_house_rival.s13.intention",
+   "intention": "Thiadbod is in the ground, and so is the one who said there was no peace. The heirs meet at the church door, where the law gives even them peace.",
+   "lines": [
+    { "who": "rival", "key": "chain_house_rival.s13.heir_rope" },
+    { "who": "rival", "key": "chain_house_rival.s13.heir_heavy", "when": "year < 850" },
+    { "who": "rival", "key": "chain_house_rival.s13.heir_heathen", "when": "year >= 834" },
+    { "who": "rival", "key": "chain_house_rival.s13.heir_saint", "when": "flag.unlock_title_st_martins_man" },
+    { "who": "priest", "key": "chain_house_rival.s13.priest_door" }
+   ],
+   "options": [
+    { "key": "marry", "label_key": "chain_house_rival.s13.opt_marry", "label": "End it: a marriage between the houses, and the old price paid",
+      "check": "silver >= 240",
+      "cost": "silver 240",
+      "effects": [ "flag feud_house_thiadbod = 0", "flag unlock_kin_thiadbods_house", "flag unlock_partner_thiadlef", "flag ch_house_rival_end_feud_healed",
+                   "flag ch_house_rival_heirs", "npc rival feeling +40 kin", "npc priest feeling +10 peace", "commission rhenish_wine 4 by 90 premium 0.4",
+                   "news chain_house_rival.news.heirs_peace at dorestad" ],
+      "note": "outcome: chain_house_rival.s13.out_marry" },
+    { "key": "pay", "label_key": "chain_house_rival.s13.opt_pay", "label": "Pledge faith and take his price, as the emperor's law orders",
+      "check": "true",
+      "effects": [ "silver +300", "flag feud_house_thiadbod = 0", "flag ch_house_rival_end_feud_healed", "flag ch_house_rival_heirs",
+                   "npc rival feeling +15 peace", "npc priest feeling +6 peace", "news chain_house_rival.news.heirs_peace at dorestad" ],
+      "note": "outcome: chain_house_rival.s13.out_pay" },
+    { "key": "keep", "label_key": "chain_house_rival.s13.opt_keep", "label": "Keep it. The rope stays over the door",
+      "check": "true",
+      "effects": [ "morale +0.03", "npc rival feeling -10 kept", "npc priest feeling -4 kept", "flag ch_house_rival_feud_kept", "flag ch_house_rival_heirs" ],
+      "note": "outcome: chain_house_rival.s13.out_keep (pride only; the feud goes on to the next heir)" }
+   ],
+   "memory": {
+    "marry": "ended the feud with a marriage between the houses",
+    "pay": "pledged faith and took the price",
+    "keep": "kept the feud"
+   }
+  }
+ ]
+}

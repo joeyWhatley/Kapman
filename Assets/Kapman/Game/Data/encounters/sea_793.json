@@ -1,0 +1,5950 @@
+{
+ "about": "SEA CARDS: THE SEA (Design/content/BRIEF.md and BRIEF_2.md; Design/npc_text_encounters.md 2.1-2.8, 4.2 and sample 6). 63 cards of stage 'sea': what happens between ports, drawn from the weather, the hour, the month, the year, the kind of water (level_kind: ocean or river_place), the days at sea and what is in the hold. A draft in the game's own files, for the user to overwrite. Every *_key has real words in Data/writing/sea.json; 'title', 'intention' and 'label' repeat those words so the panel shows them before the writing is merged. HOW THEY COME: 'rate' is per game hour under way (a third of it at anchor); a card with no rate comes only as another card's 'then'. The rates of all cards add up to 5.06 an hour, but most are shut by their 'when' at any one time; in fair weather on the open sea in summer about 0.07 to 0.10 an hour is open (two or three cards on a first crossing of thirty hours, fewer once the cool-downs run). To make the sea quieter or busier, scale every rate. ODDS: each option's label ends in its odds as a word, (sure), (likely) or (doubtful), worked out from its chance at a middling crew (sure from 0.8, likely from 0.55: knowing_793.json); the panel also adds the engine's own word to an option with a chance (EncounterPanel.cs), so one of the two should go when the writing is merged. OUTCOMES: the engine says what an option did as plain facts from its effects; sea.json also has written outcomes under <label_key>.done, or <label_key>.success and <label_key>.failure for a chance, which the panel does not show yet (see 'needs' in the writer's report). EVERY DANGER WARNS FIRST AND WOUNDS BEFORE IT KILLS: the gale needs the swell's flag (sea_gale_warned), the thick fog the bank's (sea_fog_warned), the gaining leak the weeping seam's or a grounding's (sea_leak), the split sail the open seam's (sea_sail_weak), thirst the bad cask's (sea_short_water), blows the quarrel's (sea_quarrel); a man can be lost (men -1) on two cards only, sea.overboard.chilled and sea.sick.worse, each of which waits for the flag of an earlier wound and offers a sure way out. No card takes the boat: the sea itself does that, in the ship's physics. Every card has an option that is always open and costs nothing but time or pride. FLAGS (all begin sea_): warnings and wounds as above; sea_reefed, sea_lashed (made ready: better roads in the gale, no shifting cargo); sea_marks_taken (a good mark within the day: the sure road in fog, no wrong headland); sea_bar_known (a fisherman's word of the channel); sea_spar_aboard (a jury sail); sea_knows_sun, sea_knows_star, sea_knows_birds, sea_knows_lead (lessons, kept for good); sea_after_gale (survivors likelier); and for harbour cards to read: sea_vow_penny, sea_vow_altar, sea_broke_fast, sea_cask_short, sea_carried_dead, sea_saved_lives, sea_saw_raid, sea_season_closing. THE CREW: the steersman (a Frisian, Christian), the lookout (the youngest hand) and the hand (an old Dane who keeps the old gods and speaks Frisian aboard) are fixed actors with no port, so the same three people speak on every card and remember what the merchant chose; when the crew become real people these three roles should be filled from them. SOURCES are in each card's 'note'; (?) marks what is not verified.",
+ "cards": [
+  {
+   "id": "sea.calm.falls",
+   "note": "The calm. Ohthere 'had to wait there for a west wind' on his way north (Old English Orosius, c. 890: texts_793.json ohthere). A Gislinge boat is 7.7 m, six oars, about a tonne laden (Design/ship_physics.md 1.1). Wind in m/s from LevelWeather.",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and wind < 1.5 and hour >= 6 and hour < 20",
+   "rate": 0.12,
+   "cooldown_days": 3,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.calm.falls.title",
+   "title": "The wind drops",
+   "intention_key": "sea.calm.falls.fact",
+   "intention": "The wind has dropped to nothing. The sail hangs from the yard like washing and the sea is as flat as poured lead.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.calm.falls.say.wait"
+    },
+    {
+     "who": "hand",
+     "key": "sea.calm.falls.say.oars"
+    }
+   ],
+   "options": [
+    {
+     "key": "row",
+     "label_key": "sea.calm.falls.row",
+     "label": "Out oars and row (sure)",
+     "check": "true",
+     "effects": [
+      "health -0.03",
+      "morale -0.02"
+     ]
+    },
+    {
+     "key": "wait",
+     "label_key": "sea.calm.falls.wait",
+     "label": "Lie quiet and wait for it (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "morale +0.02"
+       ],
+       "failure": [
+        "morale -0.03"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "fish",
+     "label_key": "sea.calm.falls.fish",
+     "label": "Put lines over the side while she lies (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.5,
+       "success": [
+        "health +0.02",
+        "morale +0.04"
+       ],
+       "failure": [
+        "morale -0.01"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.calm.stories",
+   "note": "A becalmed night with stories. The sayings: Havamal 81 (tr. Bellows 1923: texts_793.json havamal_081; written down c. 1270, the sayings older). The swimming match with Breca: Beowulf fitts IX-X (texts_793.json beowulf_09, beowulf_10). The island that sank: the whale of the Physiologus, in Old English as 'The Whale' of the Exeter Book (copied c. 970); told here in our own words.",
+   "stage": "sea",
+   "when": "level_kind = ocean and wind < 1.5 and (hour >= 21 or hour < 3)",
+   "rate": 0.15,
+   "cooldown_days": 6,
+   "actors": {
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.calm.stories.title",
+   "title": "A calm night",
+   "intention_key": "sea.calm.stories.fact",
+   "intention": "No wind, and no moon worth the name. The boat lies so still that the men can hear each other breathe, and nobody is sleepy.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.calm.stories.say.ask"
+    },
+    {
+     "who": "hand",
+     "key": "sea.calm.stories.say.offer"
+    }
+   ],
+   "options": [
+    {
+     "key": "sayings",
+     "label_key": "sea.calm.stories.sayings",
+     "label": "Let the Dane say his people's sayings (sure)",
+     "check": "true",
+     "effects": [
+      "give_text havamal_081",
+      "morale +0.03"
+     ]
+    },
+    {
+     "key": "breca",
+     "label_key": "sea.calm.stories.breca",
+     "label": "Read the swimming match of Beowulf and Breca from your chest (sure)",
+     "check": "text.beowulf_09 or text.beowulf_10",
+     "effects": [
+      "morale +0.06"
+     ]
+    },
+    {
+     "key": "island",
+     "label_key": "sea.calm.stories.island",
+     "label": "Tell the one about the island that sank (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "morale +0.04"
+       ],
+       "failure": [
+        "morale -0.01"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.calm.beside_early",
+   "note": "A Norse master in the same calm. The riddle is Gestumblindi's third, the dew (riddles_793.json r-gest-03: 'given by the master of a Norse ship you hail', at sea, 793-1066). Silver goes by weight in the north: no coin there before c. 825 (BRIEF rule 2). Whetstones from the north: the Klastad ship's cargo, 998 (ship_physics.md 1.1) (?) for the 790s.",
+   "stage": "sea",
+   "when": "level_kind = ocean and wind < 1.5 and hour >= 6 and hour < 20 and year < 860",
+   "rate": 0.03,
+   "cooldown_days": 40,
+   "months": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "actors": {
+    "master": {
+     "role": "master",
+     "people": "norse",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "age": [
+      28,
+      55
+     ],
+     "fixed": false
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.calm.beside_early.title",
+   "title": "Becalmed beside a stranger",
+   "intention_key": "sea.calm.beside_early.fact",
+   "intention": "Another ship lies in the same calm a long bowshot off: clinker-built, one square sail hanging, Northmen by the cut of her. There is nowhere worth rowing to for either of you. Her master holds up a horn cup.",
+   "lines": [
+    {
+     "who": "master",
+     "key": "sea.calm.beside_early.say.invite"
+    },
+    {
+     "who": "hand",
+     "key": "sea.calm.beside_early.say.reading"
+    }
+   ],
+   "options": [
+    {
+     "key": "drink",
+     "label_key": "sea.calm.beside_early.drink",
+     "label": "Row across and drink with him (sure)",
+     "check": "true",
+     "effects": [
+      "give_riddle r-gest-03",
+      "morale +0.03",
+      "npc master feeling +5 drank"
+     ]
+    },
+    {
+     "key": "trade",
+     "label_key": "sea.calm.beside_early.trade",
+     "label": "Buy a bundle of his whetstones, for six pennies' weight of silver (sure)",
+     "check": "silver >= 6",
+     "cost": "silver 6",
+     "effects": [
+      "goods whetstones +1",
+      "npc master feeling +2 traded"
+     ]
+    },
+    {
+     "key": "keep",
+     "label_key": "sea.calm.beside_early.keep",
+     "label": "Keep your distance and your oars ready (sure)",
+     "check": "true",
+     "effects": [
+      "npc master feeling -1 wary"
+     ]
+    }
+   ],
+   "memory": {
+    "drink": "drank with him in a calm",
+    "trade": "bought whetstones of him in a calm",
+    "keep": "kept his distance in a calm"
+   }
+  },
+  {
+   "id": "sea.calm.beside_late",
+   "note": "The riddle is Alvissmal 22, the names of the calm (riddles_793.json r-alv-22: 'a Norse skipper becalmed beside you', at sea, from 860). The clue names are Bellows' (1923). Soapstone pots are the north's own ware (goods_793.json soapstone).",
+   "stage": "sea",
+   "when": "level_kind = ocean and wind < 1.5 and hour >= 6 and hour < 20 and year >= 860",
+   "rate": 0.03,
+   "cooldown_days": 40,
+   "months": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "actors": {
+    "master": {
+     "role": "master",
+     "people": "norse",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "age": [
+      28,
+      55
+     ],
+     "fixed": false
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.calm.beside_late.title",
+   "title": "Five names for a calm",
+   "intention_key": "sea.calm.beside_late.fact",
+   "intention": "A ship of the Northmen lies in the same calm, close enough to count her oar-ports. Her master is sitting on the gunwale with his feet over the side, and he seems to have been waiting for someone to talk to.",
+   "lines": [
+    {
+     "who": "master",
+     "key": "sea.calm.beside_late.say.names"
+    },
+    {
+     "who": "hand",
+     "key": "sea.calm.beside_late.say.game"
+    }
+   ],
+   "options": [
+    {
+     "key": "names",
+     "label_key": "sea.calm.beside_late.names",
+     "label": "Hear his names for the calm (sure)",
+     "check": "true",
+     "effects": [
+      "give_riddle r-alv-22",
+      "morale +0.03",
+      "npc master feeling +5 listened"
+     ]
+    },
+    {
+     "key": "trade",
+     "label_key": "sea.calm.beside_late.trade",
+     "label": "Buy one of his soapstone pots, for five pennies' weight of silver (sure)",
+     "check": "silver >= 5",
+     "cost": "silver 5",
+     "effects": [
+      "goods soapstone +1",
+      "npc master feeling +2 traded"
+     ]
+    },
+    {
+     "key": "keep",
+     "label_key": "sea.calm.beside_late.keep",
+     "label": "Keep your distance and your oars ready (sure)",
+     "check": "true",
+     "effects": [
+      "npc master feeling -1 wary"
+     ]
+    }
+   ],
+   "memory": {
+    "names": "heard his names for the calm",
+    "trade": "bought a pot of him in a calm",
+    "keep": "kept his distance in a calm"
+   }
+  },
+  {
+   "id": "sea.swell.long",
+   "note": "THE WARNING before sea.gale.breaks (which needs flag sea_gale_warned). The sign is the weather document's: a long swell from a quarter the wind is not blowing from, the cloud lowering, gulls going inland (Design/weather_and_sea_state.md 3; playability_and_fun.md 2.4). It comes while the weather's storm is building (storm between 0.1 and 0.5) and the gale has not yet broken. No direction is named because the cards cannot read the wind's quarter. Jarrow: the Anglo-Saxon Chronicle for 794, the heathen ships broken by storm at Donemuthe (chronicle_793.json 794-summer-donemuthe-raid). Reefing: reef points on these sails are reconstructed, not found (ship_physics.md 1.5).",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and storm > 0.1 and storm < 0.5 and not flag.sea_gale_warned",
+   "rate": 0.5,
+   "cooldown_days": 2,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.swell.long.title",
+   "title": "A long swell",
+   "intention_key": "sea.swell.long.fact",
+   "intention": "A long, slow swell has begun to lift the boat, and it comes from a quarter the wind is not blowing from. The sky that way is the colour of the inside of a mussel shell.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.swell.long.say.sign"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.swell.long.say.gulls"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.swell.long.say.jarrow",
+     "when": "year >= 794 and year < 800"
+    }
+   ],
+   "options": [
+    {
+     "key": "reef",
+     "label_key": "sea.swell.long.reef",
+     "label": "Shorten sail now and stow for weather (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_gale_warned for 2",
+      "flag sea_reefed for 2",
+      "flag sea_lashed for 3",
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "lee",
+     "label_key": "sea.swell.long.lee",
+     "label": "Turn for the nearest lee and get behind it (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_gale_warned for 2",
+      "flag sea_reefed for 2",
+      "morale -0.02"
+     ]
+    },
+    {
+     "key": "hold",
+     "label_key": "sea.swell.long.hold",
+     "label": "Hold on under full sail while the wind serves (doubtful)",
+     "check": "true",
+     "effects": [
+      "flag sea_gale_warned for 2",
+      {
+       "chance": 0.5,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.03"
+       ],
+       "failure": [
+        "health -0.03",
+        "flag sea_sail_weak for 20"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.gale.breaks",
+   "note": "The gale, after its warning (sea.swell.long sets sea_gale_warned). It wounds and does not kill: the sea itself, in the ship's physics, is what can take the boat (playability_and_fun.md 2.4: a Gislinge boat lives through force 7-8 reefed and running for a lee). Lying head to sea under oars, and running under a scrap of sail: ship_physics.md 1.5 and 2.10. The goods lost are whatever is lowest and spoils wet: salt and grain, if aboard.",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and storm >= 0.5 and wind >= 13 and flag.sea_gale_warned",
+   "rate": 0.8,
+   "cooldown_days": 2,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.gale.breaks.title",
+   "title": "The gale",
+   "intention_key": "sea.gale.breaks.fact",
+   "intention": "It is here. The wind has the tops off the seas, and the spray comes aboard flat and hard. Everything that was not lashed is moving.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.gale.breaks.say.snug",
+     "when": "flag.sea_reefed"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.gale.breaks.say.late",
+     "when": "not flag.sea_reefed"
+    },
+    {
+     "who": "hand",
+     "key": "sea.gale.breaks.say.worse"
+    }
+   ],
+   "options": [
+    {
+     "key": "lie",
+     "label_key": "sea.gale.breaks.lie",
+     "label": "Strike the sail and hold her head to it under oars (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.03",
+      "flag sea_after_gale for 2"
+     ]
+    },
+    {
+     "key": "run",
+     "label_key": "sea.gale.breaks.run",
+     "label": "Run before it under the shortened sail, as you made ready (sure)",
+     "check": "flag.sea_reefed",
+     "effects": [
+      "morale +0.03",
+      "flag sea_after_gale for 2"
+     ]
+    },
+    {
+     "key": "full",
+     "label_key": "sea.gale.breaks.full",
+     "label": "Carry full sail and run for it (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.4,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.05",
+        "flag sea_after_gale for 2"
+       ],
+       "failure": [
+        "health -0.06",
+        "morale -0.03",
+        "flag sea_sail_weak for 20",
+        "goods sea_salt -1",
+        "goods wheat -1",
+        "flag sea_after_gale for 2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.squall.line",
+   "note": "The squall line of a cold front in the sailing months: 'a hard line of dark cloud with a bright edge from the west means the cold front and a sudden veer with squalls' (weather_and_sea_state.md 3). The card is its own warning. Rain caught in the lowered sail refills the casks: it clears sea_short_water.",
+   "stage": "sea",
+   "when": "under_way and storm > 0.1 and storm < 0.5 and wind >= 5 and wind < 13",
+   "rate": 0.1,
+   "cooldown_days": 4,
+   "months": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.squall.line.title",
+   "title": "A black line",
+   "intention_key": "sea.squall.line.fact",
+   "intention": "A hard black line of cloud is coming up against the wind, with a bright edge under it and the sea gone white beneath.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.squall.line.say.squall"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.squall.line.say.rain"
+    }
+   ],
+   "options": [
+    {
+     "key": "bare",
+     "label_key": "sea.squall.line.bare",
+     "label": "Drop the sail and take it bare (sure)",
+     "check": "true",
+     "effects": []
+    },
+    {
+     "key": "rain",
+     "label_key": "sea.squall.line.rain",
+     "label": "Drop the sail and spread it to catch the rain (sure)",
+     "check": "true",
+     "effects": [
+      "health +0.02",
+      "flag sea_short_water = 0"
+     ]
+    },
+    {
+     "key": "ride",
+     "label_key": "sea.squall.line.ride",
+     "label": "Keep the sail and ride the front of it (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.45,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.04"
+       ],
+       "failure": [
+        "health -0.03",
+        "flag sea_sail_weak for 20"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.fog.bank",
+   "note": "THE WARNING before sea.fog.shut (which needs flag sea_fog_warned). Sea fog in spring and early summer, warm air over cold water (weather_and_sea_state.md 3: 'spring mornings on the Wadden start in fog'). fog is the weather's kind as a share (haze 0.3, mist 0.6, fog 1): the bank is seen while it is mist. Taking marks sets sea_marks_taken, which opens the sure road in the fog and keeps the wrong-headland card away.",
+   "stage": "sea",
+   "when": "under_way and fog >= 0.6 and fog < 1 and wind < 6 and not flag.sea_fog_warned",
+   "rate": 0.3,
+   "cooldown_days": 2,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.fog.bank.title",
+   "title": "A grey bank",
+   "intention_key": "sea.fog.bank.fact",
+   "intention": "The edge of the sea has gone soft. To windward a low grey bank lies on the water, and it is nearer than it was.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.fog.bank.say.fog"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.fog.bank.say.land"
+    }
+   ],
+   "options": [
+    {
+     "key": "marks",
+     "label_key": "sea.fog.bank.marks",
+     "label": "Take your marks now: fix the land, the sun and the wind in your head (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_fog_warned for 1",
+      "flag sea_marks_taken for 1"
+     ]
+    },
+    {
+     "key": "anchor",
+     "label_key": "sea.fog.bank.anchor",
+     "label": "Close the shore and anchor before it shuts (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_fog_warned for 1",
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "on",
+     "label_key": "sea.fog.bank.on",
+     "label": "Sail on and trust it to lift (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_fog_warned for 1"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.fog.shut",
+   "note": "Thick fog, after its warning. 'In fog the lookout's range falls, soundings matter, bells and surf are heard before anything is seen' (weather_and_sea_state.md 3). A touch on a bar starts a leak (flag sea_leak), which is a wound, not a loss.",
+   "stage": "sea",
+   "when": "under_way and fog >= 1 and flag.sea_fog_warned",
+   "rate": 0.5,
+   "cooldown_days": 2,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.fog.shut.title",
+   "title": "Blind",
+   "intention_key": "sea.fog.shut.fact",
+   "intention": "The fog is down. From the stern the stem is a shadow. Water drips off the yard, and every sound seems to come from every side at once.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.fog.shut.say.marks",
+     "when": "flag.sea_marks_taken"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.fog.shut.say.nomarks",
+     "when": "not flag.sea_marks_taken"
+    }
+   ],
+   "options": [
+    {
+     "key": "stop",
+     "label_key": "sea.fog.shut.stop",
+     "label": "Stop her: lie still, sound the horn, and wait (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.02"
+     ]
+    },
+    {
+     "key": "feel",
+     "label_key": "sea.fog.shut.feel",
+     "label": "Feel in for the land by the marks you took (sure)",
+     "check": "flag.sea_marks_taken",
+     "effects": [
+      "morale +0.03"
+     ]
+    },
+    {
+     "key": "creep",
+     "label_key": "sea.fog.shut.creep",
+     "label": "Creep on under oars with a man sounding in the bow (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.eyes_best",
+       "success": [
+        "morale +0.02"
+       ],
+       "failure": [
+        "health -0.03",
+        "flag sea_leak for 12"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.fog.horn",
+   "note": "A ship heard and not seen. The riddle is Gestumblindi's fifth, the fog (riddles_793.json r-gest-05: 'given by the master of a Norse ship you hail', at sea, 793-1066; text t-gest-05, Vigfusson and Powell 1883). Whoever the oars belong to on the bad road is not said: the wound is an hour's hard rowing.",
+   "stage": "sea",
+   "when": "under_way and fog >= 1",
+   "rate": 0.06,
+   "cooldown_days": 12,
+   "actors": {
+    "master": {
+     "role": "master",
+     "people": "norse",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "age": [
+      28,
+      55
+     ],
+     "fixed": false
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.fog.horn.title",
+   "title": "A horn in the fog",
+   "intention_key": "sea.fog.horn.fact",
+   "intention": "A horn sounds in the fog, low and close, and then again. Another ship, feeling her way as blind as you are.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.fog.horn.say.cow"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.fog.horn.say.honest"
+    }
+   ],
+   "options": [
+    {
+     "key": "answer",
+     "label_key": "sea.fog.horn.answer",
+     "label": "Answer with your own horn (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.75,
+       "success": [
+        "give_riddle r-gest-05",
+        "morale +0.02",
+        "npc master feeling +3 answered"
+       ],
+       "failure": [
+        "health -0.03",
+        "morale -0.03"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "silent",
+     "label_key": "sea.fog.horn.silent",
+     "label": "Keep silent and let her pass (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "shout",
+     "label_key": "sea.fog.horn.shout",
+     "label": "Shout your name, your port and your lading into the fog (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "morale +0.03",
+        "npc master feeling +2 named"
+       ],
+       "failure": [
+        "morale -0.02"
+       ]
+      }
+     ]
+    }
+   ],
+   "memory": {
+    "answer.success": "answered his horn in the fog",
+    "shout.success": "told him where the land lay, in fog"
+   }
+  },
+  {
+   "id": "sea.surf.heard",
+   "note": "Land found by ear. The card is the warning; only the choice to close a shore unseen can hurt, and it hurts with a started plank (flag sea_leak). Depths in fathoms (Old English faethm).",
+   "stage": "sea",
+   "when": "under_way and (fog >= 0.6 or hour >= 22 or hour < 4) and days_at_sea >= 1 and wind < 12",
+   "rate": 0.02,
+   "cooldown_days": 10,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.surf.heard.title",
+   "title": "A sound under the wind",
+   "intention_key": "sea.surf.heard.fact",
+   "intention": "Under the wind there is another sound: a slow, regular fall, like a hall door closing a long way off. Surf.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.surf.heard.say.sand"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.surf.heard.say.where"
+    }
+   ],
+   "options": [
+    {
+     "key": "off",
+     "label_key": "sea.surf.heard.off",
+     "label": "Turn away from it and stand off until you can see (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "sound",
+     "label_key": "sea.surf.heard.sound",
+     "label": "Sound your way in toward it and anchor in its lee (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.eyes_best",
+       "success": [
+        "health +0.03"
+       ],
+       "failure": [
+        "health -0.03",
+        "flag sea_leak for 12"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.sky.ring",
+   "note": "AN OMEN READ TWO WAYS. The ring is cirrostratus ahead of a warm front: rain by evening (weather_and_sea_state.md 3, 'a ring round the Sun or Moon'). It is also a portent in the annals: 'a wonderful circle was displayed about the sun' on 30 August 806, the year a cross was seen in the moon (Anglo-Saxon Chronicle 806, tr. Giles 1847, wording from memory (?); chronicle_793.json 806-08-30-ring-round-sun, 806-06-04-cross-in-moon). The vow sets flag sea_vow_penny for a harbour card to collect.",
+   "stage": "sea",
+   "when": "under_way and fog < 0.6 and storm < 0.2 and wind < 9",
+   "rate": 0.005,
+   "cooldown_days": 30,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.sky.ring.title",
+   "title": "A ring round the light",
+   "intention_key": "sea.sky.ring.fact",
+   "intention": "A wide pale ring has formed round the light in the sky, a full hand-span out and unbroken all the way round. Inside it the sky is a little darker than outside.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.sky.ring.say.sun",
+     "when": "hour >= 6 and hour < 20"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.sky.ring.say.moon",
+     "when": "hour < 6 or hour >= 20"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.sky.ring.say.weather"
+    },
+    {
+     "who": "hand",
+     "key": "sea.sky.ring.say.priests"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.sky.ring.say.english",
+     "when": "year >= 806 and year <= 850"
+    }
+   ],
+   "options": [
+    {
+     "key": "weather",
+     "label_key": "sea.sky.ring.weather",
+     "label": "Read it as weather: lash everything and look for a lee by tomorrow (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_lashed for 3",
+      "npc steersman feeling +2 heeded"
+     ]
+    },
+    {
+     "key": "sign",
+     "label_key": "sea.sky.ring.sign",
+     "label": "Read it as a sign: a prayer now, and a penny vowed to the next altar (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.03",
+      "flag sea_vow_penny for 60"
+     ]
+    },
+    {
+     "key": "nothing",
+     "label_key": "sea.sky.ring.nothing",
+     "label": "Say it is only a ring (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    }
+   ],
+   "memory": {
+    "weather": "read the ring as weather",
+    "sign": "read the ring as a sign",
+    "nothing": "said the ring was nothing"
+   }
+  },
+  {
+   "id": "sea.frost.dawn",
+   "note": "A frosty calm morning in the cold months (the user's 'frosty mornings on a calm open ocean'; rime on rigging: weather_and_sea_state.md 3). 'My feet were imprisoned with frost, were fettered with ice-chains': The Seafarer (texts_793.json seafarer, tr. Iddings 1902), not quoted on the card. Sails were wool or linen; which a Frisian boat carried in 793 is not known (?).",
+   "stage": "sea",
+   "when": "under_way and wind < 6 and hour >= 5 and hour < 9 and fog < 1",
+   "rate": 0.03,
+   "cooldown_days": 20,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.frost.dawn.title",
+   "title": "Frost at sea",
+   "intention_key": "sea.frost.dawn.fact",
+   "intention": "Dawn comes up red over a flat grey sea. Every rope is furred white, the sail is as stiff as a board, and there is ice in the men's beards.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.frost.dawn.say.ropes"
+    },
+    {
+     "who": "hand",
+     "key": "sea.frost.dawn.say.autumn"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.frost.dawn.say.feet"
+    }
+   ],
+   "options": [
+    {
+     "key": "beat",
+     "label_key": "sea.frost.dawn.beat",
+     "label": "Beat the ice out of the sail and ropes before you hoist (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "row",
+     "label_key": "sea.frost.dawn.row",
+     "label": "Put them on the oars to get warm (sure)",
+     "check": "true",
+     "effects": [
+      "health -0.01",
+      "morale +0.02"
+     ]
+    },
+    {
+     "key": "hoist",
+     "label_key": "sea.frost.dawn.hoist",
+     "label": "Hoist as she is: the wind will thaw her (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.02"
+       ],
+       "failure": [
+        "flag sea_sail_weak for 20"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.bar.ebb",
+   "note": "The bar at a river mouth with wind against the ebb: 'a short steep sea the ship hates' (weather_and_sea_state.md 3); the hazard table's sign, lead time and counters: breakers at low water, wait for the flood, sound, take a pilot (playability_and_fun.md 2.4). The card is the warning. NEEDS a tide variable and a river-mouth variable to come only where and when it is true: tonight it can only ask for a place level (level_kind = river_place) and a wind. The fisherman's cut comes from sea.fisher.boat (flag sea_bar_known).",
+   "stage": "sea",
+   "when": "under_way and level_kind = river_place and wind >= 4 and fog < 1",
+   "rate": 0.015,
+   "cooldown_days": 8,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.bar.ebb.title",
+   "title": "The bar on the ebb",
+   "intention_key": "sea.bar.ebb.fact",
+   "intention": "Ahead, the river meets the sea across its bar. The tide is running out against the wind, and over the bar the water stands up in short steep heaps that break where they stand.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.bar.ebb.say.walls"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.bar.ebb.say.white"
+    }
+   ],
+   "options": [
+    {
+     "key": "wait",
+     "label_key": "sea.bar.ebb.wait",
+     "label": "Anchor and wait for the flood to cover it (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "cut",
+     "label_key": "sea.bar.ebb.cut",
+     "label": "Take the cut the fisherman showed you (sure)",
+     "check": "flag.sea_bar_known",
+     "effects": [
+      "morale +0.03"
+     ]
+    },
+    {
+     "key": "now",
+     "label_key": "sea.bar.ebb.now",
+     "label": "Take it now, bows on, with the men at the oars (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.45,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.04"
+       ],
+       "failure": [
+        "health -0.05",
+        "flag sea_leak for 12",
+        "goods sea_salt -1",
+        "goods wheat -1"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.shoal.lead",
+   "note": "THE LEAD AND THE LOOK OF THE WATER. Sounding is in Acts 27:28-29 (twenty fathoms, then fifteen; four anchors cast from the stern), which a Christian steersman would have heard read. Old English glosses of c. 1000 have sundgyrd (sounding rod) and sundline (sounding line) (?); the lead's use in northern waters in 793 is unproven and is kept as the game's tool (playability_and_fun.md 1.4). Grounding softly on sand costs a tide and some pride.",
+   "stage": "sea",
+   "when": "under_way and level_kind = river_place and fog < 1 and hour >= 5 and hour < 21",
+   "rate": 0.015,
+   "cooldown_days": 10,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.shoal.lead.title",
+   "title": "The look of the water",
+   "intention_key": "sea.shoal.lead.fact",
+   "intention": "The water ahead has changed colour: brown where it was green, with a slick smooth patch where the sea ought to be ruffled. The lookout has stopped talking.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.shoal.lead.say.colour"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.shoal.lead.say.paul"
+    }
+   ],
+   "options": [
+    {
+     "key": "lead",
+     "label_key": "sea.shoal.lead.lead",
+     "label": "Put a man in the bow with the lead and feel your way (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_knows_lead"
+     ]
+    },
+    {
+     "key": "round",
+     "label_key": "sea.shoal.lead.round",
+     "label": "Stand out to deep water and go round (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "on",
+     "label_key": "sea.shoal.lead.on",
+     "label": "Hold your course: she draws little (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.eyes_best",
+       "success": [
+        "morale +0.02"
+       ],
+       "failure": [
+        "health -0.02",
+        "morale -0.03"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.wreck.mast",
+   "note": "A wreck's mast as a sea-mark. The Thames sands' signs are 'colour of the water, birds standing on the flats, a wreck's ribs' (playability_and_fun.md 2.4). The storm of 799: 'many ships wrecked with their crews by a violent storm in the British sea' (chronicle_793.json 799-british-sea-storm). Whose a wreck's gear was by law in 793 is not known to us (?): the later right of wreck gave it to the king or the lord of the shore.",
+   "stage": "sea",
+   "when": "under_way and level_kind = river_place and fog < 0.6 and hour >= 5 and hour < 21",
+   "rate": 0.01,
+   "cooldown_days": 25,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.wreck.mast.title",
+   "title": "A mast on the shoal",
+   "intention_key": "sea.wreck.mast.fact",
+   "intention": "A mast stands out of the sea where no ship should be, leaning, with a rag of sail still on the yard. Under it the sand shows pale through the water. Gulls sit along the yard.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.wreck.mast.say.noone"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.wreck.mast.say.mark"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.wreck.mast.say.storm799",
+     "when": "year >= 799 and year <= 801"
+    }
+   ],
+   "options": [
+    {
+     "key": "strip",
+     "label_key": "sea.wreck.mast.strip",
+     "label": "Stand in under oars and strip what the sea has left (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.65,
+       "by": "crew.seamanship_best",
+       "success": [
+        "goods rope +1",
+        "goods sailcloth +1"
+       ],
+       "failure": [
+        "health -0.03",
+        "morale -0.02"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "berth",
+     "label_key": "sea.wreck.mast.berth",
+     "label": "Give it a wide berth and remember where it stands (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_bank_marked for 60"
+     ]
+    },
+    {
+     "key": "search",
+     "label_key": "sea.wreck.mast.search",
+     "label": "Row the length of the bank and look for her people (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.01"
+     ],
+     "then": "sea.wreck.survivors"
+    }
+   ]
+  },
+  {
+   "id": "sea.wreck.survivors",
+   "note": "Wreck survivors (npc_text_encounters.md sample 14). Comes two ways: from sea.wreck.mast ('then'), and by itself within two days of a gale (flag sea_after_gale). Aelfric's merchant, c. 995: 'sometimes I suffer shipwreck with the loss of all my things, barely escaping alive' (texts_793.json aelfric_merchant). NEEDS a deed for lives saved (the design names 'saved_lives', to add): tonight only the flag sea_saved_lives and the survivor's feeling record it.",
+   "stage": "sea",
+   "when": "under_way and flag.sea_after_gale and fog < 1 and hour >= 5 and hour < 21",
+   "rate": 0.03,
+   "cooldown_days": 30,
+   "actors": {
+    "survivor": {
+     "role": "survivor",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      18,
+      45
+     ],
+     "fixed": false
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.wreck.survivors.title",
+   "title": "Men on the sand",
+   "intention_key": "sea.wreck.survivors.fact",
+   "intention": "Two men and a boy stand on the last dry hump of the bank, to their knees in the flood. One has an arm tied to his chest with a belt. They do not wave. They have been waving since yesterday.",
+   "lines": [
+    {
+     "who": "survivor",
+     "key": "sea.wreck.survivors.say.plea"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.wreck.survivors.say.bread"
+    }
+   ],
+   "options": [
+    {
+     "key": "take",
+     "label_key": "sea.wreck.survivors.take",
+     "label": "Take them off (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.05",
+      "npc survivor feeling +40 saved",
+      "flag sea_saved_lives for 365"
+     ]
+    },
+    {
+     "key": "keep",
+     "label_key": "sea.wreck.survivors.keep",
+     "label": "Take them off, and keep the strongest as a hand (sure)",
+     "check": "crew < 5",
+     "effects": [
+      "hire survivor",
+      "morale +0.03",
+      "npc survivor feeling +30 saved",
+      "flag sea_saved_lives for 365"
+     ]
+    },
+    {
+     "key": "purse",
+     "label_key": "sea.wreck.survivors.purse",
+     "label": "Take them off, for what they saved from her (sure)",
+     "check": "true",
+     "effects": [
+      "silver +20",
+      "morale -0.03",
+      "npc survivor feeling -15 paid"
+     ]
+    }
+   ],
+   "memory": {
+    "take": "took him off a sandbank and asked nothing",
+    "keep": "took him off a sandbank and gave him an oar",
+    "purse": "took his dead master's purse to save him"
+   }
+  },
+  {
+   "id": "sea.spar.drift",
+   "note": "A drifting spar. Hauled aboard it sets flag sea_spar_aboard, which sea.sail.splits can use for a jury sail. The cask of ale is flotsam; the law of it in 793 is not known to us (?).",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and wind < 12 and fog < 1 and hour >= 5 and hour < 21",
+   "rate": 0.004,
+   "cooldown_days": 30,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.spar.drift.title",
+   "title": "A drifting spar",
+   "intention_key": "sea.spar.drift.fact",
+   "intention": "A spar is floating a little way off the bow: a ship's yard by the look of it, three fathoms of good pine, with a tangle of rope trailing from one end.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.spar.drift.say.pale"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.spar.drift.say.whose"
+    }
+   ],
+   "options": [
+    {
+     "key": "haul",
+     "label_key": "sea.spar.drift.haul",
+     "label": "Haul it aboard: timber is timber (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_spar_aboard for 60",
+      "morale +0.01"
+     ]
+    },
+    {
+     "key": "look",
+     "label_key": "sea.spar.drift.look",
+     "label": "Look round for the ship it came from (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.eyes_best",
+       "success": [
+        "goods ale +1",
+        "morale +0.03"
+       ],
+       "failure": [
+        "morale -0.01"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "leave",
+     "label_key": "sea.spar.drift.leave",
+     "label": "Leave it: a drowned ship's gear is no gift (sure)",
+     "check": "true",
+     "effects": [
+      "npc hand feeling +2 left"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.smoke.ashore",
+   "note": "BEACON SMOKE ASHORE, read three ways. In 800 Charles went along the coast, set up a fleet and posted guards against the pirates (Annales regni Francorum 800, in our words; chronicle_793.json 800-03-channel-coastguard), and in 802 the coast-dwellers were to be ready to muster: that the watchers signalled by smoke is our guess (?); the coast guard is not heard of after the 830s, so the line changes after 840. Salt was boiled from peat along the Frisian and Zeeland shore (wildlife_and_seasons.md 2.10 salt_fires; a Lorsch charter of 776 for salt pans in Zeeland (?)). The bad road shows a raid and costs nothing but nerve: the raiders themselves belong to the raider sim.",
+   "stage": "sea",
+   "when": "under_way and level_kind = river_place and fog < 0.6 and wind < 12 and hour >= 6 and hour < 20",
+   "rate": 0.01,
+   "cooldown_days": 25,
+   "months": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.smoke.ashore.title",
+   "title": "Smoke on the shore",
+   "intention_key": "sea.smoke.ashore.fact",
+   "intention": "A column of smoke stands up from the shore to leeward, thick and dark at the foot, bending inland as it climbs. A second one is starting farther along.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.smoke.ashore.say.nowatch",
+     "when": "year < 800"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.smoke.ashore.say.watch",
+     "when": "year >= 800 and year <= 840"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.smoke.ashore.say.oldwatch",
+     "when": "year > 840"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.smoke.ashore.say.bigger"
+    }
+   ],
+   "options": [
+    {
+     "key": "wide",
+     "label_key": "sea.smoke.ashore.wide",
+     "label": "Stand out to sea and pass it wide (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "look",
+     "label_key": "sea.smoke.ashore.look",
+     "label": "Stand in close enough to see what is burning (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.65,
+       "by": "crew.eyes_best",
+       "success": [
+        "silver -2",
+        "goods sea_salt +1",
+        "morale +0.01"
+       ],
+       "failure": [
+        "morale -0.05",
+        "flag sea_saw_raid for 20"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "on",
+     "label_key": "sea.smoke.ashore.on",
+     "label": "Hold your course and keep a man watching astern (sure)",
+     "check": "true",
+     "effects": []
+    }
+   ]
+  },
+  {
+   "id": "sea.light.ashore",
+   "note": "A fire ashore at night. In 811 Charles had the old lighthouse at Boulogne repaired and a fire lit on its top at night (Annales regni Francorum 811, in our words; chronicle_793.json 811-10-boulogne-lighthouse); the line is conditional because the cards cannot yet know which sea she is in. The midsummer fires are St John's Eve, 23 June (Feasts.cs); customs of the 790s to check (?).",
+   "stage": "sea",
+   "when": "under_way and (hour >= 22 or hour < 4) and fog < 0.6 and storm < 0.3",
+   "rate": 0.008,
+   "cooldown_days": 25,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.light.ashore.title",
+   "title": "A fire in the night",
+   "intention_key": "sea.light.ashore.fact",
+   "intention": "A light, low on the black shore: steady, yellow, too big for a hearth. It does not move.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.light.ashore.say.fire",
+     "when": "year < 811 or year > 840"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.light.ashore.say.boulogne",
+     "when": "year >= 811 and year <= 840"
+    },
+    {
+     "who": "hand",
+     "key": "sea.light.ashore.say.midsummer",
+     "when": "month = 6"
+    }
+   ],
+   "options": [
+    {
+     "key": "mark",
+     "label_key": "sea.light.ashore.mark",
+     "label": "Take it as a mark and steer by it till dawn (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.03",
+        "flag sea_marks_taken for 1"
+       ],
+       "failure": [
+        "morale -0.03"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "off",
+     "label_key": "sea.light.ashore.off",
+     "label": "Keep well off a shore you cannot see (sure)",
+     "check": "true",
+     "effects": []
+    },
+    {
+     "key": "close",
+     "label_key": "sea.light.ashore.close",
+     "label": "Close it and anchor under it (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "crew.eyes_best",
+       "success": [
+        "health +0.03"
+       ],
+       "failure": [
+        "health -0.03",
+        "flag sea_leak for 12"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.sail.far",
+   "note": "A SAIL MADE OUT, and what the lookout says of her. Raiders go out about the first of May and are home before October (Plans/ai_fleets.md), so the lookout's doubt is a summer doubt. Portland: three ships of Northmen came in Beorhtric's days, 'and then the reeve rode to the place, and would have driven them to the king's town, because he knew not who they were: and they there slew him' (Anglo-Saxon Chronicle 787 for 789, tr. Giles 1847, wording to check (?); Aethelweard names him Beaduheard and says he took them for merchants). 810: a Danish fleet of 200 ships in Frisia, and Godfred killed (Annales regni Francorum 810). 834: Dorestad sacked (Annales Bertiniani). The stranger on the bad road is never named: the wound is a hard row.",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and fog < 0.6 and hour >= 5 and hour < 21",
+   "rate": 0.008,
+   "cooldown_days": 8,
+   "actors": {
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.sail.far.title",
+   "title": "A sail",
+   "intention_key": "sea.sail.far.fact",
+   "intention": "A sail, hull down on the edge of the sea, going your way or coming: at this distance nobody can say which.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.sail.far.say.summer",
+     "when": "month >= 5 and month <= 9"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.sail.far.say.winter",
+     "when": "month < 5 or month > 9"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.sail.far.say.portland",
+     "when": "year < 800"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.sail.far.say.godfred",
+     "when": "year >= 810 and year <= 814"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.sail.far.say.dorestad",
+     "when": "year >= 834 and year <= 880"
+    }
+   ],
+   "options": [
+    {
+     "key": "hold",
+     "label_key": "sea.sail.far.hold",
+     "label": "Hold your course and watch her (sure)",
+     "check": "true",
+     "effects": []
+    },
+    {
+     "key": "close",
+     "label_key": "sea.sail.far.close",
+     "label": "Close her and speak her (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "by": "crew.eyes_best",
+       "success": [
+        "morale +0.03",
+        "flag sea_told_weather for 2"
+       ],
+       "failure": [
+        "health -0.04",
+        "morale -0.04"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "away",
+     "label_key": "sea.sail.far.away",
+     "label": "Bear away and put the edge of the sea between you (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.fisher.boat",
+   "note": "A FISHING BOAT TO BUY FROM (npc_text_encounters.md sample 17). Aelfric's fisherman, c. 995, takes eels, pike, herring, salmon, plaice and flounder, and seldom fishes the open sea 'because it is a long way and a large ship is needed' (Aelfric's Colloquy, our rendering). He knows where the channel moved last winter: his word sets flag sea_bar_known for sea.bar.ebb. The fisherman is forged Frisian: NEEDS a sea-region variable to give him the people of the coast she is on.",
+   "stage": "sea",
+   "when": "under_way and wind < 9 and fog < 1 and hour >= 5 and hour < 20",
+   "rate": 0.012,
+   "cooldown_days": 6,
+   "months": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "actors": {
+    "fisherman": {
+     "role": "fisherman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      20,
+      60
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "sea.fisher.boat.title",
+   "title": "A fishing boat",
+   "intention_key": "sea.fisher.boat.fact",
+   "intention": "A fishing boat lies to her lines ahead: two men and a boy, a basket of fish between them, and a net drying over an oar.",
+   "lines": [
+    {
+     "who": "fisherman",
+     "key": "sea.fisher.boat.say.fish"
+    },
+    {
+     "who": "fisherman",
+     "key": "sea.fisher.boat.say.herring",
+     "when": "month >= 8 and month <= 10"
+    },
+    {
+     "who": "fisherman",
+     "key": "sea.fisher.boat.say.channel"
+    }
+   ],
+   "options": [
+    {
+     "key": "buy",
+     "label_key": "sea.fisher.boat.buy",
+     "label": "Buy fish for the pot, for a penny (sure)",
+     "check": "silver >= 1",
+     "cost": "silver 1",
+     "effects": [
+      "health +0.03",
+      "morale +0.03",
+      "npc fisherman feeling +3 bought"
+     ]
+    },
+    {
+     "key": "ask",
+     "label_key": "sea.fisher.boat.ask",
+     "label": "Ask him where the channel runs this year (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_bar_known for 30",
+      "npc fisherman feeling +2 asked"
+     ]
+    },
+    {
+     "key": "pilot",
+     "label_key": "sea.fisher.boat.pilot",
+     "label": "Hire him to take you in, for three pennies (sure)",
+     "check": "silver >= 3",
+     "cost": "silver 3",
+     "effects": [
+      "flag sea_bar_known for 30",
+      "morale +0.02",
+      "npc fisherman feeling +5 hired"
+     ]
+    }
+   ],
+   "memory": {
+    "buy": "bought his fish",
+    "ask": "asked him the channel",
+    "pilot": "hired him to pilot"
+   }
+  },
+  {
+   "id": "sea.anchor.english",
+   "note": "At anchor, waiting for the tide. The riddle is the Exeter Book's anchor (riddles_793.json riddle_exeter_16_anchor: 'given by the master of an English ship you hail', at sea, 793-1066). The steersman's joke is the Exeter ship riddle, which goes 'on one foot' and has 'many ribs' (texts_793.json exeter_32_ship). A card for a ship lying still away from a berth: the engine draws those at a third of the rate.",
+   "stage": "sea",
+   "when": "level_kind = river_place and not under_way and not moored and wind < 10 and hour >= 5 and hour < 21",
+   "rate": 0.06,
+   "cooldown_days": 40,
+   "actors": {
+    "master": {
+     "role": "master",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "age": [
+      28,
+      55
+     ],
+     "fixed": false
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.anchor.english.title",
+   "title": "Waiting on the tide",
+   "intention_key": "sea.anchor.english.fact",
+   "intention": "You lie to your anchor, waiting for water. An English ship lies a short bowshot off doing the same, and her master has run out of things to look at. He cups his hands round his mouth.",
+   "lines": [
+    {
+     "who": "master",
+     "key": "sea.anchor.english.say.riddle"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.anchor.english.say.english"
+    }
+   ],
+   "options": [
+    {
+     "key": "take",
+     "label_key": "sea.anchor.english.take",
+     "label": "Take his riddle to think on (sure)",
+     "check": "true",
+     "effects": [
+      "give_riddle riddle_exeter_16_anchor",
+      "npc master feeling +3 riddle"
+     ]
+    },
+    {
+     "key": "talk",
+     "label_key": "sea.anchor.english.talk",
+     "label": "Ask him for his news instead (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "npc master feeling +2 talked"
+     ]
+    },
+    {
+     "key": "wave",
+     "label_key": "sea.anchor.english.wave",
+     "label": "Wave, and go back to watching the tide (sure)",
+     "check": "true",
+     "effects": [
+      "npc master feeling -1 ignored"
+     ]
+    }
+   ],
+   "memory": {
+    "take": "took his riddle of the anchor",
+    "talk": "asked his news at anchor",
+    "wave": "waved him off at anchor"
+   }
+  },
+  {
+   "id": "sea.pilgrims.adrift",
+   "note": "Pilgrims adrift. 'Three Scots came to King Alfred in a boat without any oars from Ireland, whence they had stolen away, because they desired for the love of God to be in a state of pilgrimage, they recked not where. The boat in which they came was made of two hides and a half; and they took with them provisions for seven days; and about the seventh day they came on shore in Cornwall': Anglo-Saxon Chronicle 891 (tr. Giles 1847, wording from memory (?)), naming Dubslane, Macbeth and Maelinmun. The practice, peregrinatio for the love of God, is of the 6th to 9th centuries; before 891 the card rests on the practice. His tongue is Irish: with no Irish speaker aboard the panel hides his words and shows the fact.",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and wind < 10 and fog < 0.6 and hour >= 5 and hour < 21",
+   "rate": 0.0015,
+   "cooldown_days": 400,
+   "months": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "actors": {
+    "monk": {
+     "role": "pilgrim",
+     "people": "irish",
+     "faith": "christian",
+     "tongue": "irish",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": false,
+     "sex": "m"
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.pilgrims.adrift.title",
+   "title": "A boat without oars",
+   "intention_key": "sea.pilgrims.adrift.fact",
+   "intention": "A hide boat no bigger than a feeding trough, with three men in it and no oars. They are not waving. One of them is singing.",
+   "lines": [
+    {
+     "who": "monk",
+     "key": "sea.pilgrims.adrift.say.pilgrimage"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.pilgrims.adrift.say.irish"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.pilgrims.adrift.say.alfred",
+     "when": "year >= 891 and year <= 950"
+    },
+    {
+     "who": "hand",
+     "key": "sea.pilgrims.adrift.say.killing"
+    }
+   ],
+   "options": [
+    {
+     "key": "bread",
+     "label_key": "sea.pilgrims.adrift.bread",
+     "label": "Give them a sack of bread and a skin of water, and let them go where they are sent (sure)",
+     "check": "hold.ships_bread > 0",
+     "cost": "goods ships_bread 1",
+     "effects": [
+      "morale +0.04",
+      "npc monk feeling +10 fed"
+     ]
+    },
+    {
+     "key": "aboard",
+     "label_key": "sea.pilgrims.adrift.aboard",
+     "label": "Take them aboard to the next land (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "health -0.01",
+      "learn latin +0.1",
+      "npc monk feeling +5 carried"
+     ]
+    },
+    {
+     "key": "on",
+     "label_key": "sea.pilgrims.adrift.on",
+     "label": "Sail on: they asked for nothing (sure)",
+     "check": "true",
+     "effects": []
+    }
+   ],
+   "memory": {
+    "bread": "gave them bread at sea",
+    "aboard": "carried them to land",
+    "on": "sailed past them"
+   }
+  },
+  {
+   "id": "sea.dead.man",
+   "note": "A body in the sea. To bury the dead is a work of mercy (Tobit 1-2). NEEDS the deed gave_alms or a new one to work at sea: a deed with no port does nothing tonight, so the steersman's and the Dane's feelings and the crew's heart carry it.",
+   "stage": "sea",
+   "when": "under_way and fog < 1 and hour >= 5 and hour < 21",
+   "rate": 0.002,
+   "cooldown_days": 90,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.dead.man.title",
+   "title": "A drowned man",
+   "intention_key": "sea.dead.man.fact",
+   "intention": "Something pale turns over in a wave beside the boat and shows a face. A drowned man, some days in the sea, in a good wool tunic, with a silver pin still at the shoulder.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.dead.man.say.owed"
+    },
+    {
+     "who": "hand",
+     "key": "sea.dead.man.say.pin"
+    }
+   ],
+   "options": [
+    {
+     "key": "carry",
+     "label_key": "sea.dead.man.carry",
+     "label": "Take him aboard for burial in holy ground, with a penny for the priest (sure)",
+     "check": "true",
+     "effects": [
+      "silver -1",
+      "morale -0.03",
+      "npc steersman feeling +6 mercy",
+      "flag sea_carried_dead for 365"
+     ]
+    },
+    {
+     "key": "sea",
+     "label_key": "sea.dead.man.sea",
+     "label": "Say the prayer, weight him with a ballast stone, and give him back (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "npc steersman feeling +3 prayed"
+     ]
+    },
+    {
+     "key": "pin",
+     "label_key": "sea.dead.man.pin",
+     "label": "Take the pin, and let him go (sure)",
+     "check": "true",
+     "effects": [
+      "silver +8",
+      "morale -0.05",
+      "npc steersman feeling -8 robbed",
+      "npc hand feeling -5 robbed"
+     ]
+    }
+   ],
+   "memory": {
+    "carry": "carried a drowned stranger to holy ground",
+    "sea": "gave a drowned stranger a prayer and a stone",
+    "pin": "took the silver off a drowned man"
+   }
+  },
+  {
+   "id": "sea.birds.land",
+   "note": "BIRDS THAT MEAN LAND. Puffins and guillemots carry fish to the nesting cliffs from April to July (wildlife_and_seasons.md 1.1). Floki's ravens: Landnamabok (texts_793.json landnama; the voyage c. 868, written down after 1100, so the Dane only tells it from 870). No sea chart, no compass: the way is found by sun, land, swell and birds (playability_and_fun.md 1.4).",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and days_at_sea >= 1 and fog < 1 and (hour >= 17 or hour < 8)",
+   "rate": 0.012,
+   "cooldown_days": 12,
+   "months": [
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.birds.land.title",
+   "title": "Birds going home",
+   "intention_key": "sea.birds.land.fact",
+   "intention": "Birds are passing over the boat in ones and twos, low and straight, all the same way. Some carry small fish crosswise in their beaks.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.birds.land.say.home"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.birds.land.say.gulls"
+    },
+    {
+     "who": "hand",
+     "key": "sea.birds.land.say.floki",
+     "when": "year >= 870"
+    }
+   ],
+   "options": [
+    {
+     "key": "follow",
+     "label_key": "sea.birds.land.follow",
+     "label": "Put her head where the birds are going (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.75,
+       "by": "crew.eyes_best",
+       "success": [
+        "morale +0.03",
+        "flag sea_marks_taken for 1"
+       ],
+       "failure": [
+        "morale -0.02"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "teach",
+     "label_key": "sea.birds.land.teach",
+     "label": "Have the steersman teach you the birds (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_knows_birds",
+      "npc steersman feeling +2 asked"
+     ]
+    },
+    {
+     "key": "hold",
+     "label_key": "sea.birds.land.hold",
+     "label": "Note their line and hold your own course (sure)",
+     "check": "true",
+     "effects": []
+    }
+   ],
+   "memory": {
+    "teach": "asked to be taught the birds"
+   }
+  },
+  {
+   "id": "sea.bird.aboard",
+   "note": "A land bird on passage comes aboard: swallows cross in April and again in September to early October (wildlife_and_seasons.md 1.1, 2.10 first_swallow: 'the crew say the sailing season is open').",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and wind >= 4 and hour >= 6 and hour < 20",
+   "rate": 0.008,
+   "cooldown_days": 30,
+   "months": [
+    4,
+    5,
+    9,
+    10
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.bird.aboard.title",
+   "title": "A passenger",
+   "intention_key": "sea.bird.aboard.fact",
+   "intention": "A small brown bird drops out of the sky onto the gunwale and sits there with its beak open, too spent to be afraid.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.bird.aboard.say.weight"
+    },
+    {
+     "who": "hand",
+     "key": "sea.bird.aboard.say.guest"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.bird.aboard.say.spring",
+     "when": "month <= 5"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.bird.aboard.say.autumn",
+     "when": "month >= 9"
+    }
+   ],
+   "options": [
+    {
+     "key": "rest",
+     "label_key": "sea.bird.aboard.rest",
+     "label": "Let it rest: a crumb of bread and a wet rag beside it (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.03"
+     ]
+    },
+    {
+     "key": "hold",
+     "label_key": "sea.bird.aboard.hold",
+     "label": "Cup it in your hands and warm it (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "morale +0.04"
+       ],
+       "failure": [
+        "morale -0.02"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "shoo",
+     "label_key": "sea.bird.aboard.shoo",
+     "label": "Shoo it off the cargo (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.raven.yard",
+   "note": "AN OMEN READ TWO WAYS. The Christian reading: Genesis 8:7, the raven that went to and fro and brought Noah no news. The heathen reading: Odin's two ravens, who fly over the world each day and tell him what they see (Grimnismal 20; written down in the 13th century, the belief older: ravens stand with a rider on Vendel-age helmet plates (?)). The seaman's reading is the lookout's: a land bird knows where land is.",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and fog < 1 and hour >= 5 and hour < 21",
+   "rate": 0.003,
+   "cooldown_days": 90,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.raven.yard.title",
+   "title": "A raven on the yard",
+   "intention_key": "sea.raven.yard.fact",
+   "intention": "A raven comes out of nowhere, circles the mast twice, and settles on the yard. It looks down at the boat with one eye and then with the other.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.raven.yard.say.noah"
+    },
+    {
+     "who": "hand",
+     "key": "sea.raven.yard.say.highone"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.raven.yard.say.land"
+    }
+   ],
+   "options": [
+    {
+     "key": "feed",
+     "label_key": "sea.raven.yard.feed",
+     "label": "Feed it, as the Dane says (sure)",
+     "check": "true",
+     "effects": [
+      "npc hand feeling +5 raven",
+      "npc steersman feeling -3 raven"
+     ]
+    },
+    {
+     "key": "drive",
+     "label_key": "sea.raven.yard.drive",
+     "label": "Drive it off, as the steersman says (sure)",
+     "check": "true",
+     "effects": [
+      "npc steersman feeling +5 raven",
+      "npc hand feeling -5 raven"
+     ]
+    },
+    {
+     "key": "watch",
+     "label_key": "sea.raven.yard.watch",
+     "label": "Do neither: watch which way it flies when it goes (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "by": "crew.eyes_best",
+       "success": [
+        "morale +0.02",
+        "flag sea_marks_taken for 1"
+       ],
+       "failure": [
+        "morale -0.01"
+       ]
+      }
+     ]
+    }
+   ],
+   "memory": {
+    "feed": "fed the raven on the yard",
+    "drive": "drove the raven off the yard"
+   }
+  },
+  {
+   "id": "sea.whale.blow",
+   "note": "A whale. Seals, dolphins and whales are often taken round Britain (Bede, Historia ecclesiastica I.1, in our words). Aelfric's fisherman, c. 995, will not hunt a whale 'because it is a risky thing': he would rather take a fish he can kill than one that can sink him and his companions with one blow (our rendering). Ohthere, c. 890: whales 48 and 50 ells long, and sixty killed by six men in two days (texts_793.json ohthere).",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and wind < 10 and fog < 0.6 and hour >= 5 and hour < 21",
+   "rate": 0.004,
+   "cooldown_days": 40,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.whale.blow.title",
+   "title": "A whale",
+   "intention_key": "sea.whale.blow.fact",
+   "intention": "A hundred fathoms off, the sea opens and a back comes up: black, wet, longer than the boat, and still coming. It blows, and the breath hangs in the air and drifts down on you. It smells of low tide.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.whale.blow.say.coming"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.whale.blow.say.notice"
+    },
+    {
+     "who": "hand",
+     "key": "sea.whale.blow.say.fishermen"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.whale.blow.say.ohthere",
+     "when": "year >= 890 and year <= 950"
+    }
+   ],
+   "options": [
+    {
+     "key": "hold",
+     "label_key": "sea.whale.blow.hold",
+     "label": "Hold your course and let it pass (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.02"
+     ]
+    },
+    {
+     "key": "away",
+     "label_key": "sea.whale.blow.away",
+     "label": "Bear away and give it the sea (sure)",
+     "check": "true",
+     "effects": []
+    },
+    {
+     "key": "follow",
+     "label_key": "sea.whale.blow.follow",
+     "label": "Follow it: where a whale feeds there are fish (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.45,
+       "by": "crew.seamanship_best",
+       "success": [
+        "health +0.04",
+        "morale +0.03"
+       ],
+       "failure": [
+        "health -0.03",
+        "morale -0.02"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.porpoise.roll",
+   "note": "Porpoises. Old English mereswin, 'sea-pig': Aelfric's fisherman takes them at sea (c. 995). The learned are Isidore of Seville: dolphins playing in the waves and leaping headlong 'seem to foretell storms' (Etymologiae XII.6.11, our rendering). The wildlife document makes the sign right half the time (wildlife_and_seasons.md 2.11: porpoises 0.5), which is the steersman's opinion too. A nobles' dish later (wildlife_and_seasons.md 1.2).",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and wind < 6 and fog < 1 and hour >= 5 and hour < 21",
+   "rate": 0.008,
+   "cooldown_days": 15,
+   "months": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.porpoise.roll.title",
+   "title": "Sea-pigs",
+   "intention_key": "sea.porpoise.roll.fact",
+   "intention": "Porpoises: five or six small black backs rolling in a line off the bow, quick and quiet, never showing more than a fin and a curve.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.porpoise.roll.say.learned"
+    },
+    {
+     "who": "hand",
+     "key": "sea.porpoise.roll.say.eating"
+    }
+   ],
+   "options": [
+    {
+     "key": "luck",
+     "label_key": "sea.porpoise.roll.luck",
+     "label": "Take them as luck, and watch (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.02"
+     ]
+    },
+    {
+     "key": "warning",
+     "label_key": "sea.porpoise.roll.warning",
+     "label": "Take them as a warning: stow and lash for wind (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_lashed for 3"
+     ]
+    },
+    {
+     "key": "hunt",
+     "label_key": "sea.porpoise.roll.hunt",
+     "label": "Try for one with a hook and a line (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.3,
+       "by": "crew.fight_best",
+       "success": [
+        "health +0.05",
+        "morale +0.04"
+       ],
+       "failure": [
+        "morale -0.01"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.seals.bank",
+   "note": "SEALS ON A BANK. Harbour seals lie on banks that dry at low water; pups in June and July (wildlife_and_seasons.md 1.3, 2.10 seal_bank). Ship ropes of whale and seal hide are in Ohthere's tribute, c. 890. The bank marked sets flag sea_bank_marked.",
+   "stage": "sea",
+   "when": "under_way and level_kind = river_place and fog < 1 and wind < 10 and hour >= 5 and hour < 21",
+   "rate": 0.01,
+   "cooldown_days": 20,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.seals.bank.title",
+   "title": "Seals on a bank",
+   "intention_key": "sea.seals.bank.fact",
+   "intention": "The tide has left a long sandbank bare, and it is covered in seals: sixty, eighty, lying like sacks. As the boat comes abreast, every head lifts at once.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.seals.bank.say.dries"
+    },
+    {
+     "who": "hand",
+     "key": "sea.seals.bank.say.rope"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.seals.bank.say.pups",
+     "when": "month >= 6 and month <= 7"
+    }
+   ],
+   "options": [
+    {
+     "key": "mark",
+     "label_key": "sea.seals.bank.mark",
+     "label": "Pass quietly and mark where the bank lies (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_bank_marked for 60"
+     ]
+    },
+    {
+     "key": "clap",
+     "label_key": "sea.seals.bank.clap",
+     "label": "Clap your hands and watch them go (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.02"
+     ]
+    },
+    {
+     "key": "club",
+     "label_key": "sea.seals.bank.club",
+     "label": "Land two men with clubs for skins and oil (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "crew.fight_best",
+       "success": [
+        "goods seal_skins +1",
+        "morale +0.02"
+       ],
+       "failure": [
+        "health -0.03",
+        "morale -0.01"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.herring.shoal",
+   "note": "The herring shoals of the North Sea, August to October, with gannets plunge-diving on them (wildlife_and_seasons.md 1.2, 2.10 herring_on). Salted down with bay salt from the hold they are the good 'herring' (goods_793.json: a barrel, 12 d).",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and fog < 1 and wind < 10 and hour >= 5 and hour < 21",
+   "rate": 0.02,
+   "cooldown_days": 15,
+   "months": [
+    8,
+    9,
+    10
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.herring.shoal.title",
+   "title": "The sea boiling",
+   "intention_key": "sea.herring.shoal.fact",
+   "intention": "The sea ahead is boiling. Gannets fall into it from mast height with their wings folded, one after another, and the water between them is thick and silver.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.herring.shoal.say.herring"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.herring.shoal.say.boats"
+    }
+   ],
+   "options": [
+    {
+     "key": "dip",
+     "label_key": "sea.herring.shoal.dip",
+     "label": "Dip the baskets: fresh fish tonight (sure)",
+     "check": "true",
+     "effects": [
+      "health +0.04",
+      "morale +0.03"
+     ]
+    },
+    {
+     "key": "salt",
+     "label_key": "sea.herring.shoal.salt",
+     "label": "Salt a cask of them down with a sack of your salt (sure)",
+     "check": "hold.sea_salt > 0",
+     "cost": "goods sea_salt 1",
+     "effects": [
+      "goods herring +1",
+      "morale +0.02"
+     ]
+    },
+    {
+     "key": "through",
+     "label_key": "sea.herring.shoal.through",
+     "label": "Sail through: you carry cargo, not a net (sure)",
+     "check": "true",
+     "effects": []
+    }
+   ]
+  },
+  {
+   "id": "sea.geese.skeins",
+   "note": "The geese arrive from the north in late September and October; the sailing season closes about Martinmas (wildlife_and_seasons.md 1.1, 2.10 geese_arrive; traffic_793.json).",
+   "stage": "sea",
+   "when": "under_way and fog < 1 and (hour >= 16 or hour < 9)",
+   "rate": 0.02,
+   "cooldown_days": 40,
+   "months": [
+    10,
+    11
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.geese.skeins.title",
+   "title": "Geese coming in",
+   "intention_key": "sea.geese.skeins.fact",
+   "intention": "Geese are coming in off the sea: one long wavering line after another, high up, calling to each other the whole way.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.geese.skeins.say.winter"
+    },
+    {
+     "who": "hand",
+     "key": "sea.geese.skeins.say.wise"
+    }
+   ],
+   "options": [
+    {
+     "key": "home",
+     "label_key": "sea.geese.skeins.home",
+     "label": "Take the warning: finish this run and lay her up (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "flag sea_season_closing for 40"
+     ]
+    },
+    {
+     "key": "more",
+     "label_key": "sea.geese.skeins.more",
+     "label": "One more voyage: prices are best when few ships sail (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.03"
+     ]
+    },
+    {
+     "key": "watch",
+     "label_key": "sea.geese.skeins.watch",
+     "label": "Watch them over and say nothing yet (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.01"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.rat.bread",
+   "note": "A rat in the stores. The black rat lived in the trading towns of the north in these centuries (bones from early medieval levels at York and Birka (?)). Ship's bread is the crew's food (voyage_rules.json food_goods).",
+   "stage": "sea",
+   "when": "under_way and hold.ships_bread > 0 and days_at_sea >= 1",
+   "rate": 0.003,
+   "cooldown_days": 60,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.rat.bread.title",
+   "title": "Something in the bread",
+   "intention_key": "sea.rat.bread.fact",
+   "intention": "A sack of ship's bread has a hole in one corner the size of a thumb, a trail of crumbs, and droppings in the fold. Something came aboard at the last landing and has been living well.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.rat.bread.say.tail"
+    },
+    {
+     "who": "hand",
+     "key": "sea.rat.bread.say.size"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.rat.bread.say.one"
+    }
+   ],
+   "options": [
+    {
+     "key": "hunt",
+     "label_key": "sea.rat.bread.hunt",
+     "label": "Shift every sack and hunt it out (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.eyes_best",
+       "success": [
+        "morale +0.03"
+       ],
+       "failure": [
+        "goods ships_bread -1",
+        "morale -0.01"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "hang",
+     "label_key": "sea.rat.bread.hang",
+     "label": "Sling the bread in a net from the yard (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "leave",
+     "label_key": "sea.rat.bread.leave",
+     "label": "Let it be: one rat eats little (sure)",
+     "check": "true",
+     "effects": [
+      "goods ships_bread -1"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.ice.floes",
+   "note": "ICE IN A BALTIC SPRING. The Baltic's gulfs and the lake of Birka freeze each winter and the ice goes out between March and May; ringed and grey seals pup on it in February to April (wildlife_and_seasons.md 1.3). The sledges are winter travel over the ice to Birka (?). Exeter riddle 33 is an iceberg (texts_793.json exeter_33_iceberg). NEEDS a sea-region variable: tonight the card comes wherever the weather has ice on an ocean level in these months.",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and ice > 0.2",
+   "rate": 0.15,
+   "cooldown_days": 5,
+   "months": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.ice.floes.title",
+   "title": "Spring ice",
+   "intention_key": "sea.ice.floes.fact",
+   "intention": "White on the water ahead, and it is not foam. Floes, grey-white and rotten at the edges, drifting in a loose field with dark lanes between them. They knock together with a sound like wooden bowls.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.ice.floes.say.rotten"
+    },
+    {
+     "who": "hand",
+     "key": "sea.ice.floes.say.svear"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.ice.floes.say.seals",
+     "when": "month >= 3 and month <= 4"
+    }
+   ],
+   "options": [
+    {
+     "key": "wait",
+     "label_key": "sea.ice.floes.wait",
+     "label": "Lie off and wait for the wind to open a lane (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "work",
+     "label_key": "sea.ice.floes.work",
+     "label": "Work through the lanes under oars, with a man fending off (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.65,
+       "by": "crew.eyes_best",
+       "success": [
+        "morale +0.03"
+       ],
+       "failure": [
+        "health -0.02",
+        "flag sea_leak for 12"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "round",
+     "label_key": "sea.ice.floes.round",
+     "label": "Go round by the open water (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.02"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.ice.river",
+   "note": "Drift ice on a river in a hard winter ('frosty high-pressure weeks send drift ice down the Kromme Rijn': weather_and_sea_state.md 3; the damage: ship_physics.md 2.10). The winter of 821-822: the Rhine, Danube, Elbe and Seine frozen so that carts crossed for thirty days (Annales regni Francorum; chronicle_793.json 821-winter-rivers-frozen).",
+   "stage": "sea",
+   "when": "under_way and level_kind = river_place and ice > 0.3",
+   "rate": 0.15,
+   "cooldown_days": 5,
+   "months": [
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.ice.river.title",
+   "title": "Ice on the stream",
+   "intention_key": "sea.ice.river.fact",
+   "intention": "Ice is coming down the stream in plates the size of tables, turning slowly and grinding along the bank. The reeds are stiff with frost, and every mooring post wears a white cap.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.ice.river.say.tar"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.ice.river.say.carts",
+     "when": "year = 822"
+    }
+   ],
+   "options": [
+    {
+     "key": "haul",
+     "label_key": "sea.ice.river.haul",
+     "label": "Haul her out at the next landing and wait for a thaw (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.02"
+     ]
+    },
+    {
+     "key": "poles",
+     "label_key": "sea.ice.river.poles",
+     "label": "Keep the middle of the stream, with poles out to fend off (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.02"
+       ],
+       "failure": [
+        "health -0.03",
+        "flag sea_leak for 12"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.night.light",
+   "note": "THE MIDNIGHT LIGHT IN THE NORTH. Bede: in the summer the nights are so light in the north of Britain that at midnight it is hard to say whether the evening twilight still lasts or the morning's has come (Historia ecclesiastica I.1, our paraphrase). Dicuil, 825: clerics who lived in Thule thirty years before told him that at the solstice a man could do whatever he wished at midnight, down to picking the lice from his shirt, as well as in daylight (De mensura orbis terrae VII, in our words; texts_793.json dicuil, bought from 825), so from 796 the tale is abroad. At the latitude of the Rhine mouth in June the north sky never goes fully dark. NEEDS a latitude variable to keep the true midnight sun for the far north.",
+   "stage": "sea",
+   "when": "under_way and month = 6 and (hour >= 23 or hour < 2) and fog < 0.6 and storm < 0.3",
+   "rate": 0.08,
+   "cooldown_days": 200,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.night.light.title",
+   "title": "No night",
+   "intention_key": "sea.night.light.fact",
+   "intention": "It is the middle of the night and it is not dark. The whole north sky is the colour of a pearl, and the sun's glow is walking along under the edge of the sea from the west side to the east.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.night.light.say.bede"
+    },
+    {
+     "who": "hand",
+     "key": "sea.night.light.say.north"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.night.light.say.lice",
+     "when": "year >= 796"
+    }
+   ],
+   "options": [
+    {
+     "key": "sail",
+     "label_key": "sea.night.light.sail",
+     "label": "Sail on through it (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.03"
+     ]
+    },
+    {
+     "key": "mend",
+     "label_key": "sea.night.light.mend",
+     "label": "Use the light: set the men to mending gear (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_sail_weak = 0",
+      "flag sea_gear_mended for 20",
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "sleep",
+     "label_key": "sea.night.light.sleep",
+     "label": "Sleep, and give the oar to the lookout (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.75,
+       "by": "crew.seamanship_best",
+       "success": [
+        "health +0.03"
+       ],
+       "failure": [
+        "morale -0.01"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.lights.north",
+   "note": "AN OMEN READ TWO WAYS (the second such card). 'Immense sheets of light rushing through the air, and whirlwinds, and fiery dragons flying across the firmament' over Northumbria in 793, before the famine and Lindisfarne (Anglo-Saxon Chronicle 793: texts_793.json chronicle_793, given by the third option). The Royal Frankish Annals note battle-lines seen in the sky in February 807 (chronicle_793.json 807-02-26-lunar-eclipse: an aurora?). What a Dane of 793 made of the northern lights is not recorded: his line is ours, in a Northman's manner (?).",
+   "stage": "sea",
+   "when": "under_way and (hour >= 21 or hour < 4) and fog < 0.3 and storm < 0.2",
+   "rate": 0.003,
+   "cooldown_days": 150,
+   "months": [
+    9,
+    10,
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.lights.north.title",
+   "title": "Fire in the north",
+   "intention_key": "sea.lights.north.fact",
+   "intention": "The north sky is alight. Long pale curtains hang and shift there, green at the hem, and now and then a red spear runs up through them and fades. There is no sound at all.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.lights.north.say.dragons",
+     "when": "year < 800"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.lights.north.say.robbed"
+    },
+    {
+     "who": "hand",
+     "key": "sea.lights.north.say.frost"
+    }
+   ],
+   "options": [
+    {
+     "key": "weather",
+     "label_key": "sea.lights.north.weather",
+     "label": "Tell the men it is weather, and to mind the sheets (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "morale +0.02"
+       ],
+       "failure": [
+        "morale -0.03"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "pray",
+     "label_key": "sea.lights.north.pray",
+     "label": "Let the steersman lead a prayer (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "npc steersman feeling +2 prayer"
+     ]
+    },
+    {
+     "key": "ask",
+     "label_key": "sea.lights.north.ask",
+     "label": "Ask the lookout what the English wrote of it (sure)",
+     "check": "true",
+     "effects": [
+      "give_text chronicle_793",
+      "morale +0.01"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.fire.water",
+   "note": "The glowing sea of warm late-summer nights in the North Sea (the plankton Noctiluca). No source of our period for how it was read: the Dane's line is ours, in a Northman's manner (?). A wonder that costs nothing.",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and (hour >= 22 or hour < 3) and wind < 8 and fog < 0.6",
+   "rate": 0.006,
+   "cooldown_days": 90,
+   "months": [
+    7,
+    8,
+    9
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.fire.water.title",
+   "title": "The sea burning",
+   "intention_key": "sea.fire.water.fact",
+   "intention": "The sea is burning. Every oar-stroke leaves a hole of green fire, the wake is a lit road behind the boat, and a fish darting under the keel draws a bright line like a falling star.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.fire.water.say.hand"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.fire.water.say.harmless"
+    },
+    {
+     "who": "hand",
+     "key": "sea.fire.water.say.drowned"
+    }
+   ],
+   "options": [
+    {
+     "key": "hands",
+     "label_key": "sea.fire.water.hands",
+     "label": "Let the men trail their hands in it (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.04"
+     ]
+    },
+    {
+     "key": "use",
+     "label_key": "sea.fire.water.use",
+     "label": "Use it: every bank and every boat will show tonight (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.01",
+      "npc steersman feeling +1 noticed"
+     ]
+    },
+    {
+     "key": "row",
+     "label_key": "sea.fire.water.row",
+     "label": "Order them back to their places (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.feast.day",
+   "note": "A FEAST DAY AT SEA. feast is Feasts.On: from May onward it is never Good Friday (which the game also counts under 'feast'), so the card asks month >= 5. In August the only feast is the Assumption (15 August), in September Michaelmas (29th); in May it is Ascension or Pentecost, in June Pentecost, St John's Eve and Day or Sts Peter and Paul, in November All Saints or Martinmas, in December Christmas Eve or Day: the lines are written to be true of any of them. The Dane's three feasts: the three yearly sacrifices of Ynglinga saga 8 (written c. 1230 (?)). NEEDS the feast's name as a variable to say it outright.",
+   "stage": "sea",
+   "when": "under_way and feast and month >= 5 and hour >= 6 and hour < 20",
+   "rate": 0.5,
+   "cooldown_days": 5,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.feast.day.title",
+   "title": "A feast day at sea",
+   "intention_key": "sea.feast.day.fact",
+   "intention": "It is a feast day, and the nearest altar is a day's sail off. On shore the bells are going and nobody is working.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.feast.day.say.may",
+     "when": "month = 5"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.feast.day.say.june",
+     "when": "month = 6"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.feast.day.say.august",
+     "when": "month = 8"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.feast.day.say.september",
+     "when": "month = 9"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.feast.day.say.november",
+     "when": "month = 11"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.feast.day.say.december",
+     "when": "month = 12"
+    },
+    {
+     "who": "hand",
+     "key": "sea.feast.day.say.three"
+    }
+   ],
+   "options": [
+    {
+     "key": "keep",
+     "label_key": "sea.feast.day.keep",
+     "label": "Keep it: no work but the sailing, a prayer, and the best of the food (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.05",
+      "npc steersman feeling +2 feast"
+     ]
+    },
+    {
+     "key": "ale",
+     "label_key": "sea.feast.day.ale",
+     "label": "Keep it with ale: broach a cask (sure)",
+     "check": "hold.ale > 0",
+     "cost": "goods ale 1",
+     "effects": [
+      "morale +0.08",
+      "npc steersman feeling +2 feast"
+     ]
+    },
+    {
+     "key": "work",
+     "label_key": "sea.feast.day.work",
+     "label": "A day like any other: carry on (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.03",
+      "npc steersman feeling -2 feast"
+     ]
+    }
+   ],
+   "memory": {
+    "keep": "kept the feast at sea",
+    "ale": "kept the feast at sea with ale",
+    "work": "worked through a feast day"
+   }
+  },
+  {
+   "id": "sea.fast.nofish",
+   "note": "A FAST DAY WITH NO FISH. Fridays, the Ember days, vigils and Lent were kept without flesh; that Lent also forbade milk-foods is the stricter custom of the time (Theodulf of Orleans' first capitulary, c. 798, praises abstaining from eggs, cheese and fish in Lent (?)). The Saxon law: whoever out of contempt for Christianity eats flesh in the holy forty days is to die (Capitulatio de partibus Saxoniae c. 4, of 782-785, our rendering), eased by the Saxon capitulary of 797. NEEDS: 'fast' is in the condition grammar but the game answers 0 for it tonight (EncounterGameVars has no case for it), so this card waits for Feasts to say which days are fasts.",
+   "stage": "sea",
+   "when": "under_way and fast and hold.cheese > 0 and hold.dried_fish = 0 and hold.herring = 0 and hold.stockfish = 0 and hold.eels = 0 and hold.salmon = 0 and hour >= 6 and hour < 20",
+   "rate": 0.4,
+   "cooldown_days": 6,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.fast.nofish.title",
+   "title": "A fast day and no fish",
+   "intention_key": "sea.fast.nofish.fact",
+   "intention": "It is a fast day: no flesh, and in Lent no cheese either. There is no fish aboard. There is bread, and a wheel of cheese that everyone is carefully not looking at.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.fast.nofish.say.second"
+    },
+    {
+     "who": "hand",
+     "key": "sea.fast.nofish.say.sin"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.fast.nofish.say.saxony",
+     "when": "year < 797"
+    }
+   ],
+   "options": [
+    {
+     "key": "keep",
+     "label_key": "sea.fast.nofish.keep",
+     "label": "Keep the fast: bread and water (sure)",
+     "check": "true",
+     "effects": [
+      "health -0.02",
+      "morale +0.01",
+      "npc steersman feeling +2 fast"
+     ]
+    },
+    {
+     "key": "fish",
+     "label_key": "sea.fast.nofish.fish",
+     "label": "Put lines over the side and let God provide (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.4,
+       "success": [
+        "health +0.03",
+        "morale +0.05"
+       ],
+       "failure": [
+        "morale -0.02"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "cheese",
+     "label_key": "sea.fast.nofish.cheese",
+     "label": "Eat the cheese, and confess it ashore (sure)",
+     "check": "true",
+     "effects": [
+      "health +0.01",
+      "morale -0.02",
+      "npc steersman feeling -3 fast",
+      "flag sea_broke_fast for 30"
+     ]
+    }
+   ],
+   "memory": {
+    "keep": "kept the fast at sea",
+    "cheese": "broke the fast at sea"
+   }
+  },
+  {
+   "id": "sea.leak.seam",
+   "note": "A LEAK: THE WARNING before sea.leak.gains (flag sea_leak, which a grounding on other cards also sets). Clinker planks are riveted through the lap over a rove, with tarred wool or hair laid in the lap; a sound hull leaks a little and more as she works (ship_physics.md 1.5, 2.8). The wooden bailer is a common find in Norse boat graves (ship_physics.md 1.5 (?)). Tar is a good in the hold (goods_793.json tar).",
+   "stage": "sea",
+   "when": "under_way and days_at_sea >= 1 and not flag.sea_leak",
+   "rate": 0.002,
+   "cooldown_days": 30,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.leak.seam.title",
+   "title": "A weeping seam",
+   "intention_key": "sea.leak.seam.fact",
+   "intention": "There is more water over the floor timbers than spray accounts for. The youngest hand, bailing, has found where: a lap below the waterline on the steering side is weeping, a thread of sea running down the inside of the plank.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.leak.seam.say.nothing"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.leak.seam.say.cold"
+    }
+   ],
+   "options": [
+    {
+     "key": "wool",
+     "label_key": "sea.leak.seam.wool",
+     "label": "Drive tarred wool into the lap from inside (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.01"
+       ],
+       "failure": [
+        "flag sea_leak for 12"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "tar",
+     "label_key": "sea.leak.seam.tar",
+     "label": "Open a barrel of your own tar and do it properly (sure)",
+     "check": "hold.tar > 0",
+     "cost": "goods tar 1",
+     "effects": [
+      "morale +0.01"
+     ]
+    },
+    {
+     "key": "bail",
+     "label_key": "sea.leak.seam.bail",
+     "label": "Set a man to bail and carry on to port (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_leak for 12"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.leak.gains",
+   "note": "The leak, after its warning: it wounds (health, spoiled goods), it does not sink her. 'An open boat with 20-30 cm of water sloshing in her is close to capsizing even on flat water. This is the physical reason bailing is a life-or-death order and not a chore'; four men bailing hold about 100 litres a minute (ship_physics.md 1.6, 2.8). Beaching to mend: shallow draught and beach landings (ship_physics.md 1.5).",
+   "stage": "sea",
+   "when": "under_way and flag.sea_leak",
+   "rate": 0.05,
+   "cooldown_days": 3,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.leak.gains.title",
+   "title": "The leak gains",
+   "intention_key": "sea.leak.gains.fact",
+   "intention": "The leak has grown. One man bailing no longer keeps it down; with two at it the water still creeps up the frames between scoops. The lowest of the cargo is standing in it.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.leak.gains.say.drunk"
+    },
+    {
+     "who": "hand",
+     "key": "sea.leak.gains.say.bailer"
+    }
+   ],
+   "options": [
+    {
+     "key": "beach",
+     "label_key": "sea.leak.gains.beach",
+     "label": "Beach her on the first sand and get at it from outside (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_leak = 0",
+      "morale -0.02"
+     ]
+    },
+    {
+     "key": "heel",
+     "label_key": "sea.leak.gains.heel",
+     "label": "Heel her at sea and patch it from over the side (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.seamanship_best",
+       "success": [
+        "flag sea_leak = 0",
+        "morale +0.02"
+       ],
+       "failure": [
+        "health -0.05",
+        "morale -0.03",
+        "goods sea_salt -1",
+        "goods wheat -1"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "run",
+     "label_key": "sea.leak.gains.run",
+     "label": "All hands bail by turns, and run for port (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "crew.seamanship_best",
+       "success": [
+        "health -0.03"
+       ],
+       "failure": [
+        "health -0.07",
+        "morale -0.04",
+        "goods sea_salt -1",
+        "goods wheat -1",
+        "goods frisian_cloth -1"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.sail.seam",
+   "note": "THE SAIL: THE WARNING before sea.sail.splits (flag sea_sail_weak, which carrying too much sail on other cards also sets). Sails of the time were sewn of wool or linen cloths; which a Frisian boat of 793 carried is not known (?). Sailcloth is a good in the hold (goods_793.json sailcloth, a bolt, 40 d).",
+   "stage": "sea",
+   "when": "under_way and wind >= 6 and not flag.sea_sail_weak",
+   "rate": 0.002,
+   "cooldown_days": 30,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.sail.seam.title",
+   "title": "Daylight through the sail",
+   "intention_key": "sea.sail.seam.fact",
+   "intention": "Daylight shows through the sail where it should not: a hand's length of seam has let go near the foot, and the cloth on either side of it is working with every gust.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.sail.seam.say.warning"
+    },
+    {
+     "who": "hand",
+     "key": "sea.sail.seam.say.needle"
+    }
+   ],
+   "options": [
+    {
+     "key": "stitch",
+     "label_key": "sea.sail.seam.stitch",
+     "label": "Lower the yard and stitch it now (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "patch",
+     "label_key": "sea.sail.seam.patch",
+     "label": "Cut a patch from the sailcloth in the hold (sure)",
+     "check": "hold.sailcloth > 0",
+     "cost": "goods sailcloth 1",
+     "effects": [
+      "flag sea_gear_mended for 20",
+      "morale +0.01"
+     ]
+    },
+    {
+     "key": "leave",
+     "label_key": "sea.sail.seam.leave",
+     "label": "Leave it till port: the wind is fair (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_sail_weak for 20"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.sail.splits",
+   "note": "The sail, after its warning: a wound (a night's work, or a man hurt by the falling yard), never the boat. Too much sail in a gust and the rig failing: ship_physics.md 2.10. The spar comes from sea.spar.drift.",
+   "stage": "sea",
+   "when": "under_way and flag.sea_sail_weak and wind >= 9",
+   "rate": 0.12,
+   "cooldown_days": 3,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.sail.splits.title",
+   "title": "The sail splits",
+   "intention_key": "sea.sail.splits.fact",
+   "intention": "With a crack like a dropped plank the sail splits from the foot to the yard. Two halves stream out downwind, thrashing, and the boat falls off into the trough.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.sail.splits.say.heads"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.sail.splits.say.rags"
+    }
+   ],
+   "options": [
+    {
+     "key": "sew",
+     "label_key": "sea.sail.splits.sew",
+     "label": "Get it down, hold her head to the sea, and sew (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.02",
+      "flag sea_sail_weak = 0"
+     ]
+    },
+    {
+     "key": "spar",
+     "label_key": "sea.sail.splits.spar",
+     "label": "Set the sound half on the spar you picked up (sure)",
+     "check": "flag.sea_spar_aboard",
+     "effects": [
+      "flag sea_sail_weak = 0",
+      "flag sea_spar_aboard = 0",
+      "morale +0.02"
+     ]
+    },
+    {
+     "key": "run",
+     "label_key": "sea.sail.splits.run",
+     "label": "Run on under what is left of it (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.4,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.01"
+       ],
+       "failure": [
+        "health -0.07",
+        "morale -0.04",
+        "flag sea_sail_weak = 0"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.cargo.shifts",
+   "note": "Cargo shifting in a seaway (trim and the loose weight to leeward: ship_physics.md 2.3). It never comes when the cargo was lashed on a warning (flag sea_lashed, from sea.swell.long, sea.sky.ring or sea.porpoise.roll). Mayen quernstones are Dorestad's great heavy cargo (goods_793.json quernstones, a pair, 12 d).",
+   "stage": "sea",
+   "when": "under_way and wind >= 9 and hold.value > 0 and not flag.sea_lashed",
+   "rate": 0.02,
+   "cooldown_days": 10,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.cargo.shifts.title",
+   "title": "The cargo moves",
+   "intention_key": "sea.cargo.shifts.fact",
+   "intention": "On a hard roll something heavy slides in the hold and fetches up against the lee side with a thump that everyone feels in their feet. She does not come all the way back upright.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.cargo.shifts.say.ear"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.cargo.shifts.say.querns",
+     "when": "hold.quernstones > 0"
+    }
+   ],
+   "options": [
+    {
+     "key": "restow",
+     "label_key": "sea.cargo.shifts.restow",
+     "label": "Bring her head to the wind and restow (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01",
+      "flag sea_lashed for 3"
+     ]
+    },
+    {
+     "key": "stones",
+     "label_key": "sea.cargo.shifts.stones",
+     "label": "Put the stones that moved over the side (sure)",
+     "check": "hold.quernstones > 0",
+     "cost": "goods quernstones 1",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "trim",
+     "label_key": "sea.cargo.shifts.trim",
+     "label": "Trim her with the men's weight and sail on (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.01"
+       ],
+       "failure": [
+        "health -0.03",
+        "goods sea_salt -1",
+        "goods wheat -1"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.wine.weeps",
+   "note": "Wine in the hold. 'Wine is the lord's and the Mass's drink; ale and mead are everyone's' (BRIEF rule 2). A cask of Rhenish is about 60 d (goods_793.json rhenish_wine). The Dane's verse is Havamal 11: 'Worse food for the journey he brings not afield than an over-drinking of ale' (tr. Bellows 1923: texts_793.json havamal_011, given by the third option). The short cask sets flag sea_cask_short for a buyer's card to notice.",
+   "stage": "sea",
+   "when": "under_way and hold.rhenish_wine > 0 and days_at_sea >= 1",
+   "rate": 0.008,
+   "cooldown_days": 40,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.wine.weeps.title",
+   "title": "A cask is weeping",
+   "intention_key": "sea.wine.weeps.fact",
+   "intention": "One of the wine casks is weeping at a stave. There is a red stain down its side, a smell over the whole boat, and three men have found reasons to be standing next to it.",
+   "lines": [
+    {
+     "who": "hand",
+     "key": "sea.wine.weeps.say.cargo"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.wine.weeps.say.lord"
+    }
+   ],
+   "options": [
+    {
+     "key": "stop",
+     "label_key": "sea.wine.weeps.stop",
+     "label": "Drive the hoops down and stop it with tallow (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "jug",
+     "label_key": "sea.wine.weeps.jug",
+     "label": "Draw a jug for the men before you stop it (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.06",
+      "flag sea_cask_short for 30"
+     ]
+    },
+    {
+     "key": "finish",
+     "label_key": "sea.wine.weeps.finish",
+     "label": "It is leaking anyway: let them finish the cask (sure)",
+     "check": "true",
+     "cost": "goods rhenish_wine 1",
+     "effects": [
+      "morale +0.10",
+      "health -0.02",
+      "give_text havamal_011"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.overboard.cry",
+   "note": "A MAN OVERBOARD. He is always got back on this card: the warning and the wound. Only the next card (sea.overboard.chilled, flag sea_man_chilled) can lose him. Breca is the youth Beowulf swam against for five nights (Beowulf fitts IX-X: texts_793.json beowulf_09). North Sea water is 6 C in winter and 17 C in summer (weather_and_sea_state.md 1.3).",
+   "stage": "sea",
+   "when": "under_way and wind >= 7 and crew >= 3",
+   "rate": 0.0015,
+   "cooldown_days": 60,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.overboard.cry.title",
+   "title": "A man in the sea",
+   "intention_key": "sea.overboard.cry.fact",
+   "intention": "A sea lifts the bow, the youngest hand is standing where he should be sitting, and then he is not in the boat. His head comes up a spear's cast astern with his mouth open.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.overboard.cry.say.breca"
+    },
+    {
+     "who": "hand",
+     "key": "sea.overboard.cry.say.cold"
+    }
+   ],
+   "options": [
+    {
+     "key": "row",
+     "label_key": "sea.overboard.cry.row",
+     "label": "Down sail, out oars, and pull back for him (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01",
+      "flag sea_man_chilled for 3"
+     ]
+    },
+    {
+     "key": "line",
+     "label_key": "sea.overboard.cry.line",
+     "label": "Throw him the bailer on its line (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "crew.eyes_best",
+       "success": [
+        "morale +0.04"
+       ],
+       "failure": [
+        "health -0.05",
+        "flag sea_man_chilled for 3"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "wear",
+     "label_key": "sea.overboard.cry.wear",
+     "label": "Throw him an oar to hold, and bring her round under sail (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.03"
+       ],
+       "failure": [
+        "health -0.05",
+        "flag sea_man_chilled for 3"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.overboard.chilled",
+   "note": "After the rescue: the cold. Here, and only after the first card's wound, a man can be lost, and only by the risky choice; the plain choice is sure and costs half a day. The steersman's saying is what seamen have always told of men taken from cold water; nothing of our period records it (?).",
+   "stage": "sea",
+   "when": "flag.sea_man_chilled",
+   "rate": 0.3,
+   "cooldown_days": 5,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.overboard.chilled.title",
+   "title": "He has stopped shivering",
+   "intention_key": "sea.overboard.chilled.fact",
+   "intention": "The man you pulled out of the sea is lying in the bottom of the boat with his knees drawn up to his chin. He has stopped shivering, which the steersman says is worse than shivering. His lips are the colour of slate.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.overboard.chilled.say.inside"
+    }
+   ],
+   "options": [
+    {
+     "key": "wrap",
+     "label_key": "sea.overboard.chilled.wrap",
+     "label": "Strip him, wrap him in every dry cloak, and put a man on each side (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_man_chilled = 0",
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "ale",
+     "label_key": "sea.overboard.chilled.ale",
+     "label": "Broach a cask of ale and get some into him (likely)",
+     "check": "hold.ale > 0",
+     "cost": "goods ale 1",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "flag sea_man_chilled = 0",
+        "morale +0.02"
+       ],
+       "failure": [
+        "health -0.03"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "oar",
+     "label_key": "sea.overboard.chilled.oar",
+     "label": "Put him back on an oar to warm himself (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.4,
+       "success": [
+        "flag sea_man_chilled = 0",
+        "morale +0.02"
+       ],
+       "failure": [
+        "men -1",
+        "morale -0.10",
+        "flag sea_man_chilled = 0"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.sick.fever",
+   "note": "SICKNESS: THE WARNING before sea.sick.worse (flag sea_fever). The steersman's line is the design's own (npc_text_encounters.md sample 21: 'the old man says bleed him; the priest says pray'). The marsh fever of the delta, the Fens and the Thames marsh comes in the warm months (wildlife_and_seasons.md 2.10 ague); Old English lencten-adl, the spring fever, in the 9th-century leechbooks (?).",
+   "stage": "sea",
+   "when": "under_way and days_at_sea >= 3 and crew >= 3 and not flag.sea_fever",
+   "rate": 0.002,
+   "cooldown_days": 40,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.sick.fever.title",
+   "title": "A man with fever",
+   "intention_key": "sea.sick.fever.fact",
+   "intention": "One of the men did not get up for his turn at the oar. He is hot to the touch, his teeth are knocking together, and he says the boat is full of people he knows.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.sick.fever.say.bleed"
+    },
+    {
+     "who": "hand",
+     "key": "sea.sick.fever.say.marsh",
+     "when": "level_kind = river_place and month >= 5 and month <= 9"
+    }
+   ],
+   "options": [
+    {
+     "key": "rest",
+     "label_key": "sea.sick.fever.rest",
+     "label": "Rest him in the stern under a cloak, with water (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "morale +0.01"
+       ],
+       "failure": [
+        "health -0.03",
+        "flag sea_fever for 6"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "oar",
+     "label_key": "sea.sick.fever.oar",
+     "label": "Keep him at his oar: he can sweat it out (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.35,
+       "success": [
+        "morale +0.01"
+       ],
+       "failure": [
+        "health -0.06",
+        "morale -0.03",
+        "flag sea_fever for 6"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "land",
+     "label_key": "sea.sick.fever.land",
+     "label": "Put in to the nearest landing and find him a roof (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.sick.worse",
+   "note": "The fever, after its warning. Here, and only by the risky choice, a man can die (men -1); the plain choice costs a week and is sure. Bloodletting: Bede tells of a nun bled on the wrong day of the moon (Historia ecclesiastica V.3), and the leechbooks give the days. A vow to a saint in sickness at sea is the commonest miracle story of the age; the vow sets flag sea_vow_altar for a harbour card to collect.",
+   "stage": "sea",
+   "when": "flag.sea_fever",
+   "rate": 0.1,
+   "cooldown_days": 4,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.sick.worse.title",
+   "title": "The sick man is worse",
+   "intention_key": "sea.sick.worse.fact",
+   "intention": "The sick man is worse. He no longer knows the boat. He has not kept water down since yesterday, and the others have moved their sleeping places away from him without anyone saying to.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.sick.worse.say.landing"
+    }
+   ],
+   "options": [
+    {
+     "key": "land",
+     "label_key": "sea.sick.worse.land",
+     "label": "Make for the nearest roof, whatever shore it is (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.02",
+      "flag sea_fever = 0"
+     ]
+    },
+    {
+     "key": "bleed",
+     "label_key": "sea.sick.worse.bleed",
+     "label": "Bleed him, as the old men say (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.4,
+       "success": [
+        "flag sea_fever = 0",
+        "morale +0.03"
+       ],
+       "failure": [
+        "men -1",
+        "morale -0.10",
+        "flag sea_fever = 0"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "vow",
+     "label_key": "sea.sick.worse.vow",
+     "label": "Vow an offering at the next altar, and nurse him as you can (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "flag sea_fever = 0",
+        "morale +0.04",
+        "flag sea_vow_altar for 90"
+       ],
+       "failure": [
+        "health -0.04",
+        "flag sea_vow_altar for 90"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.water.foul",
+   "note": "SHORT WATER: THE WARNING before sea.water.thirst (flag sea_short_water). The boat carries four casks of sixty litres, three litres a man a day, water first and then the ale (voyage_rules.json). NEEDS a water variable and a water effect: the encounter engine cannot read or change the casks tonight, so the card makes its own fact (one cask spoiled) and its cost is health and heart.",
+   "stage": "sea",
+   "when": "under_way and days_at_sea >= 2 and not flag.sea_short_water",
+   "rate": 0.002,
+   "cooldown_days": 40,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.water.foul.title",
+   "title": "Bad water",
+   "intention_key": "sea.water.foul.fact",
+   "intention": "One of the water casks has gone bad. What comes out of it is green, smells like a harbour at low tide, and has things in it that swim. The others are not full.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.water.foul.say.row"
+    },
+    {
+     "who": "hand",
+     "key": "sea.water.foul.say.worse"
+    }
+   ],
+   "options": [
+    {
+     "key": "land",
+     "label_key": "sea.water.foul.land",
+     "label": "Put in for water at the first stream (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "ration",
+     "label_key": "sea.water.foul.ration",
+     "label": "Ration it: a cup a man, morning and evening (sure)",
+     "check": "true",
+     "effects": [
+      "health -0.03",
+      "morale -0.03",
+      "flag sea_short_water for 4"
+     ]
+    },
+    {
+     "key": "ale",
+     "label_key": "sea.water.foul.ale",
+     "label": "Broach a cask of the ale instead (sure)",
+     "check": "hold.ale > 0",
+     "cost": "goods ale 1",
+     "effects": [
+      "morale +0.02"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.water.thirst",
+   "note": "Thirst, after its warning: it wounds (health, heart) and does not kill on the card; the voyage rules take a quarter of the crew's health for each day with nothing to drink (voyage_rules.json thirst_per_day). Digging for sweet water behind the dunes is how the coast is watered still.",
+   "stage": "sea",
+   "when": "under_way and flag.sea_short_water",
+   "rate": 0.05,
+   "cooldown_days": 3,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.water.thirst.title",
+   "title": "The last of the water",
+   "intention_key": "sea.water.thirst.fact",
+   "intention": "The cask is down to the dregs. Tongues are thick, lips are split, and nobody has spat over the side all day.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.water.thirst.say.fools"
+    }
+   ],
+   "options": [
+    {
+     "key": "dig",
+     "label_key": "sea.water.thirst.dig",
+     "label": "Land wherever there is green, and dig above the tide line (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_short_water = 0",
+      "morale -0.01"
+     ]
+    },
+    {
+     "key": "dew",
+     "label_key": "sea.water.thirst.dew",
+     "label": "Spread the sail for dew and rain, and hold on (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.4,
+       "success": [
+        "flag sea_short_water = 0",
+        "health +0.01"
+       ],
+       "failure": [
+        "health -0.08",
+        "morale -0.05"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "buy",
+     "label_key": "sea.water.thirst.buy",
+     "label": "Hail the first boat you see and buy water, for two pennies (likely)",
+     "check": "silver >= 2",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "silver -2",
+        "flag sea_short_water = 0"
+       ],
+       "failure": [
+        "health -0.04"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.quarrel.oar",
+   "note": "A QUARREL OVER THE STEERING OAR: THE WARNING before sea.quarrel.blows (flag sea_quarrel). The side rudder hangs on the starboard quarter, the 'steering board' side (Old English steorbord), worked by a tiller (ship_physics.md 1.5, 2.7). The two crewmen remember what the merchant chose.",
+   "stage": "sea",
+   "when": "under_way and days_at_sea >= 2 and crew >= 3 and not flag.sea_quarrel",
+   "rate": 0.003,
+   "cooldown_days": 40,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.quarrel.oar.title",
+   "title": "Two hands on the oar",
+   "intention_key": "sea.quarrel.oar.fact",
+   "intention": "The lookout says the steersman has let her fall off to leeward all morning. The steersman says a boy who has steered nothing bigger than a ferry should keep his eyes on the sea and his mouth for eating. Both have a hand on the steering oar.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.quarrel.oar.say.closer"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.quarrel.oar.say.mine"
+    }
+   ],
+   "options": [
+    {
+     "key": "back",
+     "label_key": "sea.quarrel.oar.back",
+     "label": "Back the steersman: the oar is his (sure)",
+     "check": "true",
+     "effects": [
+      "npc steersman feeling +5 backed",
+      "npc lookout feeling -5 overruled"
+     ]
+    },
+    {
+     "key": "turn",
+     "label_key": "sea.quarrel.oar.turn",
+     "label": "Give the boy a spell at the oar under the steersman's eye (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.65,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.03",
+        "npc lookout feeling +8 trusted",
+        "npc steersman feeling -2 overruled"
+       ],
+       "failure": [
+        "health -0.02",
+        "npc lookout feeling -3 shamed",
+        "npc steersman feeling +2 right"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "leave",
+     "label_key": "sea.quarrel.oar.leave",
+     "label": "Say nothing and let them settle it (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.02",
+      "flag sea_quarrel for 10"
+     ]
+    }
+   ],
+   "memory": {
+    "back": "backed the steersman over the oar",
+    "turn.success": "gave the boy the oar, and he steered well",
+    "turn.failure": "gave the boy the oar, and he put her aback",
+    "leave": "let the quarrel over the oar lie"
+   }
+  },
+  {
+   "id": "sea.quarrel.blows",
+   "note": "The quarrel, after its warning: the wound is to the men's feelings and the boat's heart. The Dane's island is the holmgang, the duel on an islet or a pegged cloak, known from the later sagas and law (Kormaks saga 10 (?)); for the 790s it is a guess.",
+   "stage": "sea",
+   "when": "under_way and flag.sea_quarrel",
+   "rate": 0.05,
+   "cooldown_days": 5,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.quarrel.blows.title",
+   "title": "It comes to hands",
+   "intention_key": "sea.quarrel.blows.fact",
+   "intention": "It has come to hands. The boy has a split lip, the steersman has him by the hair over the gunwale, and the boat is steering herself.",
+   "lines": [
+    {
+     "who": "hand",
+     "key": "sea.quarrel.blows.say.island"
+    }
+   ],
+   "options": [
+    {
+     "key": "part",
+     "label_key": "sea.quarrel.blows.part",
+     "label": "Take the oar yourself and order them apart (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_quarrel = 0",
+      "morale -0.02",
+      "npc steersman feeling -2 parted",
+      "npc lookout feeling -2 parted"
+     ]
+    },
+    {
+     "key": "fine",
+     "label_key": "sea.quarrel.blows.fine",
+     "label": "Dock them both a day's share for the ship's peace (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_quarrel = 0",
+      "npc steersman feeling -4 fined",
+      "npc lookout feeling -4 fined"
+     ]
+    },
+    {
+     "key": "drink",
+     "label_key": "sea.quarrel.blows.drink",
+     "label": "Broach a cask of ale and make them clasp hands over it (likely)",
+     "check": "hold.ale > 0",
+     "cost": "goods ale 1",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "flag sea_quarrel = 0",
+        "morale +0.05"
+       ],
+       "failure": [
+        "morale -0.03"
+       ]
+      }
+     ]
+    }
+   ],
+   "memory": {
+    "part": "was ordered apart in the fight over the oar",
+    "fine": "was docked a day's share for fighting"
+   }
+  },
+  {
+   "id": "sea.watch.asleep",
+   "note": "The night watch. Four men and a merchant sail day and night on a crossing of thirty hours (playability_and_fun.md 1.2-1.3): somebody steers while the rest sleep.",
+   "stage": "sea",
+   "when": "under_way and hour >= 1 and hour < 4 and days_at_sea >= 1",
+   "rate": 0.015,
+   "cooldown_days": 20,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.watch.asleep.title",
+   "title": "Asleep at the oar",
+   "intention_key": "sea.watch.asleep.fact",
+   "intention": "You wake in the dead of the night to a different motion. The boat is lying across the sea with the sail slatting, and the man at the steering oar is asleep on his feet with his arm hooked over the tiller.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.watch.asleep.say.whose"
+    }
+   ],
+   "options": [
+    {
+     "key": "take",
+     "label_key": "sea.watch.asleep.take",
+     "label": "Take the oar yourself till dawn, and let him sleep (sure)",
+     "check": "true",
+     "effects": [
+      "health -0.02",
+      "morale +0.03"
+     ]
+    },
+    {
+     "key": "wake",
+     "label_key": "sea.watch.asleep.wake",
+     "label": "Wake him with a bailer of sea water (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.01"
+     ]
+    },
+    {
+     "key": "shame",
+     "label_key": "sea.watch.asleep.shame",
+     "label": "Rouse the whole boat and shame him (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.03",
+      "flag sea_watch_kept for 10"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.sun.noon",
+   "note": "FINDING THE WAY BY THE SUN. 'The heading was kept by the sun and the land, the position found by landfall'; no compass and no chart before 1066; the sun-board and the sunstone are later or disputed and are not used (playability_and_fun.md 1.4, 3.2: 'a noon sun is south'). The dark sun: after the blinding of Constantine VI in August 797 'the sun was darkened for seventeen days and did not give its rays, so that ships lost their course' (Theophanes, Chronographia, AM 6289, our rendering; chronicle_793.json 797-08-sun-darkened). The lesson sets flag sea_knows_sun, which makes the first option sure for ever after.",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and days_at_sea >= 1 and fog < 0.6 and storm < 0.3 and hour >= 10 and hour < 14 and not flag.sea_marks_taken",
+   "rate": 0.03,
+   "cooldown_days": 12,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.sun.noon.title",
+   "title": "Nothing but sea",
+   "intention_key": "sea.sun.noon.fact",
+   "intention": "No land on any side since yesterday. The sea is the same in every direction, the wind has shifted twice in the night, and it is near noon with the sun out.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.sun.noon.say.noon"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.sun.noon.say.greeks",
+     "when": "year >= 798 and year <= 812"
+    }
+   ],
+   "options": [
+    {
+     "key": "self",
+     "label_key": "sea.sun.noon.self",
+     "label": "Take the noon shadow yourself, as he taught you (sure)",
+     "check": "flag.sea_knows_sun",
+     "effects": [
+      "morale +0.03",
+      "flag sea_marks_taken for 1"
+     ]
+    },
+    {
+     "key": "ask",
+     "label_key": "sea.sun.noon.ask",
+     "label": "Have the steersman find south, and show you how (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.75,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.02",
+        "flag sea_knows_sun",
+        "flag sea_marks_taken for 1",
+        "npc steersman feeling +3 taught"
+       ],
+       "failure": [
+        "morale -0.02",
+        "flag sea_knows_sun",
+        "npc steersman feeling +3 taught"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "wind",
+     "label_key": "sea.sun.noon.wind",
+     "label": "Keep the wind on the same cheek and trust it (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.4,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.01"
+       ],
+       "failure": [
+        "morale -0.04"
+       ]
+      }
+     ]
+    }
+   ],
+   "memory": {
+    "ask.success": "asked to be shown the noon sun",
+    "ask.failure": "asked to be shown the noon sun"
+   }
+  },
+  {
+   "id": "sea.star.ship",
+   "note": "Steering by the pole star. Old English scip-steorra, 'ship-star', is glossed as the pole star and the Wain is Carles waen, in texts of c. 1000 (?); the Norse 'Wagon' likewise. In 800 the star now called Polaris stood nearly seven degrees from the true pole (precession), so it 'hardly moved' rather than stood still: the game's sky (stars_bsc5.csv) can show that. A sight of the star 'fixes which way is north, not where the ship is' (playability_and_fun.md 3.2). Not in June or July: the northern nights are too light.",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and (hour >= 22 or hour < 3) and fog < 0.3 and storm < 0.2",
+   "rate": 0.015,
+   "cooldown_days": 25,
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.star.ship.title",
+   "title": "The ship-star",
+   "intention_key": "sea.star.ship.fact",
+   "intention": "A clear night with no moon. The stars are so thick that the mast seems to stir them. One of them, low in the north, has hardly moved since dusk.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.star.ship.say.post"
+    },
+    {
+     "who": "hand",
+     "key": "sea.star.ship.say.wagon"
+    }
+   ],
+   "options": [
+    {
+     "key": "steer",
+     "label_key": "sea.star.ship.steer",
+     "label": "Steer by it through the night (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.75,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.03",
+        "flag sea_marks_taken for 1"
+       ],
+       "failure": [
+        "morale -0.01"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "learn",
+     "label_key": "sea.star.ship.learn",
+     "label": "Have the steersman show you the star and the Wagon (sure)",
+     "check": "true",
+     "effects": [
+      "flag sea_knows_star",
+      "npc steersman feeling +2 taught"
+     ]
+    },
+    {
+     "key": "lie",
+     "label_key": "sea.star.ship.lie",
+     "label": "Lie to until daylight (sure)",
+     "check": "true",
+     "effects": []
+    }
+   ],
+   "memory": {
+    "learn": "asked to be shown the ship-star"
+   }
+  },
+  {
+   "id": "sea.land.wrong",
+   "note": "Landfall on the wrong headland: 'the voyage's classic mistake and it is survivable: the chart was wrong, not the world' (playability_and_fun.md 3.2). Ohthere's way: pilotage by the land in sight and which hand it lay on, progress counted in days (Old English Orosius, c. 890). The card never comes within a day of a good mark (flag sea_marks_taken, from the sun, the star, the birds or the fog cards).",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and days_at_sea >= 1 and hour >= 4 and hour < 8 and fog < 0.6 and not flag.sea_marks_taken",
+   "rate": 0.015,
+   "cooldown_days": 20,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    }
+   },
+   "title_key": "sea.land.wrong.title",
+   "title": "The wrong headland",
+   "intention_key": "sea.land.wrong.fact",
+   "intention": "Dawn shows land where land should be. But the headland is the wrong shape: too low, with a notch in it that nobody knows, and a river mouth where the steersman's memory has a beach.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.land.wrong.say.wrong"
+    },
+    {
+     "who": "lookout",
+     "key": "sea.land.wrong.say.roof"
+    }
+   ],
+   "options": [
+    {
+     "key": "coast",
+     "label_key": "sea.land.wrong.coast",
+     "label": "Coast along until a mark you know comes up (sure)",
+     "check": "true",
+     "effects": [
+      "morale -0.02"
+     ]
+    },
+    {
+     "key": "ask",
+     "label_key": "sea.land.wrong.ask",
+     "label": "Land a man to ask where you are (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "morale +0.01",
+        "flag sea_marks_taken for 1"
+       ],
+       "failure": [
+        "morale -0.02"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "on",
+     "label_key": "sea.land.wrong.on",
+     "label": "Trust your first reckoning and stand on (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.4,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.02"
+       ],
+       "failure": [
+        "health -0.02",
+        "morale -0.05"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.land.smell",
+   "note": "Land found by the nose, in the hay months (haymaking: wildlife_and_seasons.md 2.10, days 160-200). A seaman's sign of every age; nothing of our period records it (?).",
+   "stage": "sea",
+   "when": "under_way and level_kind = ocean and days_at_sea >= 1 and wind >= 2 and (hour >= 20 or hour < 5)",
+   "rate": 0.015,
+   "cooldown_days": 20,
+   "months": [
+    6,
+    7,
+    8
+   ],
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    }
+   },
+   "title_key": "sea.land.smell.title",
+   "title": "The smell of land",
+   "intention_key": "sea.land.smell.fact",
+   "intention": "The wind has come round off a land you cannot see, and it has brought the land with it: cut hay, peat smoke, cattle. The men lift their heads like dogs.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "sea.land.smell.say.hay"
+    },
+    {
+     "who": "hand",
+     "key": "sea.land.smell.say.peat"
+    }
+   ],
+   "options": [
+    {
+     "key": "up",
+     "label_key": "sea.land.smell.up",
+     "label": "Turn up into the smell and close the land (likely)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.03",
+        "flag sea_marks_taken for 1"
+       ],
+       "failure": [
+        "morale -0.01"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "hold",
+     "label_key": "sea.land.smell.hold",
+     "label": "Hold your course: you know now which side the land lies (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.01"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sea.river.weir",
+   "note": "A fish weir. Stake-and-wattle weirs of the 7th to 9th centuries stand in the Blackwater and Thames estuaries (?); Dorestad's charters grant fisheries, and its fish bone is full of eel (wildlife_and_seasons.md 1.2: piscationes, 19 species). Six pennies is the fisherman's own price for his stakes, not a law we know (?).",
+   "stage": "sea",
+   "when": "under_way and level_kind = river_place and fog < 1 and hour >= 5 and hour < 21",
+   "rate": 0.01,
+   "cooldown_days": 25,
+   "months": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "actors": {
+    "fisherman": {
+     "role": "fisherman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      20,
+      60
+     ],
+     "fixed": false
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.river.weir.title",
+   "title": "A weir in the channel",
+   "intention_key": "sea.river.weir.fact",
+   "intention": "Stakes across the shallows ahead, with wattle woven between them in a long V and a basket at the point: somebody's fish weir, built farther out into the channel than it has any right to be.",
+   "lines": [
+    {
+     "who": "fisherman",
+     "key": "sea.river.weir.say.father"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.river.weir.say.baskets"
+    }
+   ],
+   "options": [
+    {
+     "key": "round",
+     "label_key": "sea.river.weir.round",
+     "label": "Go round by the narrow water, slowly (sure)",
+     "check": "true",
+     "effects": []
+    },
+    {
+     "key": "eels",
+     "label_key": "sea.river.weir.eels",
+     "label": "Buy eels from his basket, for two pennies (sure)",
+     "check": "silver >= 2",
+     "cost": "silver 2",
+     "effects": [
+      "health +0.03",
+      "morale +0.03",
+      "npc fisherman feeling +3 bought"
+     ]
+    },
+    {
+     "key": "through",
+     "label_key": "sea.river.weir.through",
+     "label": "Push through the end of the wattle: she will ride over it (doubtful)",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.45,
+       "by": "crew.seamanship_best",
+       "success": [
+        "morale +0.01"
+       ],
+       "failure": [
+        "silver -6",
+        "npc fisherman feeling -15 broke"
+       ]
+      }
+     ]
+    }
+   ],
+   "memory": {
+    "eels": "bought eels at his weir",
+    "through.success": "rode over the end of his weir",
+    "through.failure": "broke his weir and paid for it"
+   }
+  },
+  {
+   "id": "sea.river.tow",
+   "note": "Towing upstream. The Utrecht ship has a small mast step near the bow that suggests towing; a towed boat makes about 18 km a day against the stream (ship_physics.md 1.5, 2.9). Men on the rope are the sure form; oxen on a tow path in 793 are our guess (?). NEEDS a variable for the stream (with her or against her): tonight the card can only ask for a place level and no wind, so it can come on still water.",
+   "stage": "sea",
+   "when": "under_way and level_kind = river_place and wind < 3 and hour >= 6 and hour < 19",
+   "rate": 0.015,
+   "cooldown_days": 12,
+   "actors": {
+    "carter": {
+     "role": "carter",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "age": [
+      25,
+      55
+     ],
+     "fixed": false
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.river.tow.title",
+   "title": "The stream against you",
+   "intention_key": "sea.river.tow.fact",
+   "intention": "The stream is against you, and there is not wind enough to stem it. On the bank a man with two oxen is watching you lose ground, and he has a rope coiled on his shoulder.",
+   "lines": [
+    {
+     "who": "carter",
+     "key": "sea.river.tow.say.price"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.river.tow.say.cart"
+    }
+   ],
+   "options": [
+    {
+     "key": "pay",
+     "label_key": "sea.river.tow.pay",
+     "label": "Pay him two pennies to tow you (sure)",
+     "check": "silver >= 2",
+     "cost": "silver 2",
+     "effects": [
+      "morale +0.02",
+      "npc carter feeling +2 hired"
+     ]
+    },
+    {
+     "key": "men",
+     "label_key": "sea.river.tow.men",
+     "label": "Put two of your own men on the bank with the rope (sure)",
+     "check": "true",
+     "effects": [
+      "health -0.03"
+     ]
+    },
+    {
+     "key": "wait",
+     "label_key": "sea.river.tow.wait",
+     "label": "Anchor and wait for a wind (sure)",
+     "check": "true",
+     "effects": []
+    }
+   ],
+   "memory": {
+    "pay": "paid him for a tow"
+   }
+  },
+  {
+   "id": "sea.river.mist",
+   "note": "River mist at dawn, and the bittern, which booms from the reed beds from April to June (wildlife_and_seasons.md 1.1). 'Fog forming on the water first' and burning off by nine (weather_and_sea_state.md 3). A card with nothing to lose.",
+   "stage": "sea",
+   "when": "under_way and level_kind = river_place and fog >= 0.6 and hour >= 4 and hour < 8",
+   "rate": 0.04,
+   "cooldown_days": 30,
+   "months": [
+    4,
+    5,
+    6
+   ],
+   "actors": {
+    "lookout": {
+     "role": "lookout",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      16,
+      22
+     ],
+     "fixed": true,
+     "note": "The youngest hand, in the bow: sharp eyes, quick mouth."
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_frisian",
+     "age": [
+      40,
+      55
+     ],
+     "fixed": true,
+     "note": "The old hand, a Dane who has sailed in Frisian boats for years and speaks their tongue aboard; he keeps the old gods and says less than he means."
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "The Frisian at the side rudder: dry, careful, a Christian who has heard the readings."
+    }
+   },
+   "title_key": "sea.river.mist.title",
+   "title": "Something in the reeds",
+   "intention_key": "sea.river.mist.fact",
+   "intention": "The river is under mist to the height of a man's chest. The reed tops stand out of it, and from somewhere inside them comes a sound like a bull lowing into an empty cask: three times, then silence.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "sea.river.mist.say.what"
+    },
+    {
+     "who": "hand",
+     "key": "sea.river.mist.say.bird"
+    },
+    {
+     "who": "steersman",
+     "key": "sea.river.mist.say.mother"
+    }
+   ],
+   "options": [
+    {
+     "key": "laugh",
+     "label_key": "sea.river.mist.laugh",
+     "label": "Laugh, and pole on slowly (sure)",
+     "check": "true",
+     "effects": [
+      "morale +0.02"
+     ]
+    },
+    {
+     "key": "wait",
+     "label_key": "sea.river.mist.wait",
+     "label": "Wait for the sun to burn it off (sure)",
+     "check": "true",
+     "effects": []
+    }
+   ]
+  }
+ ]
+}

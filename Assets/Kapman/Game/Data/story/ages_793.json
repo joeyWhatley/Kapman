@@ -1,0 +1,704 @@
+{
+ "about": "THE SEVEN AGES, 793-1066. How the merchant's world changes while the house goes on through its heirs. One entry an age: from/to (years), name (plain), world (what the world is like for a merchant), rulers (who rules where, with dates; 'realm' is an id from ports_793.json where one fits, else empty), trade (what is traded differently and why), goods (ids from goods_793.json: more = wanted or carried more than before, less = scarcer or fading), danger, new (ships, coins, towns, laws and other things that appear, each with its year and source), gone (what ends), ports (ids from ports_793.json that rise or fall in the age; 'lacking' names places the table does not have yet), stories (three true stories of the age a merchant would hear, each with its source; 'chronicle' is the id of the matching entry in chronicle_793.json where there is one), sources. Words are our own; the few quoted lines are from public-domain translations and say so. All dates Julian. (?) marks what could not be checked. Abbreviations: ARF Annales regni Francorum, AB Annals of St-Bertin, AF Annals of Fulda, AX Annals of Xanten, ASC Anglo-Saxon Chronicle (its year first, the true year after '='), AU Annals of Ulster, PVL the Russian Primary Chronicle, MGH Monumenta Germaniae Historica. Written 4 October 2026 as a draft for the user to overwrite. Design notes: Design/ages.md.",
+ "ages": [
+  {
+   "id": "age1",
+   "from": 793,
+   "to": 833,
+   "name": "The emperor's peace",
+   "world": "One ruler holds the land from the Pyrenees to the Elbe, and his peace, his penny and his toll-men reach every river mouth a Frisian uses. Dorestat is the greatest market of the north. Frisian skippers carry Rhine wine, querns and cloth to the English wics, to Ripa and on into the Baltic. The Northmen are neighbours and customers first: their raids fall on islands and minsters at the edges (Lindisfarne 793, Iona 795, Herio 799) and once, in 810, on the Frisian islands. The Saxon war ends in 804 and the border with the Danes is sworn on the Eider in 811. The English are four or five kingdoms, with Mercia on top until 825 and Wessex after.",
+   "rulers": [
+    {"where": "Francia, with Frisia, Saxony and the Rhine", "realm": "franks", "who": "Charles the Great", "years": "king 768, emperor 800, died 28 January 814"},
+    {"where": "Francia, with Frisia, Saxony and the Rhine", "realm": "franks", "who": "Louis the Pious", "years": "814-840 (put down by his sons for a time, 833-834)"},
+    {"where": "Mercia, with London", "realm": "mercia", "who": "Offa, Cenwulf, Ceolwulf I, Beornwulf", "years": "Offa 757-796; Cenwulf 796-821; Ceolwulf I 821-823; Beornwulf 823-826"},
+    {"where": "Wessex, with Hamwic", "realm": "wessex", "who": "Beorhtric, Ecgberht", "years": "Beorhtric 786-802; Ecgberht 802-839 (beats Mercia at Ellendun in 825 and takes Kent, Surrey, Sussex and Essex)"},
+    {"where": "Northumbria, with York", "realm": "northumbria", "who": "Æthelred I, Eardwulf, Eanred", "years": "Æthelred I 790-796; Eardwulf 796-806 and again from 808; Eanred about 810-840 (?)"},
+    {"where": "Kent", "realm": "kent", "who": "Mercian under-kings, then Wessex", "years": "Eadberht Præn's rising 796-798; Cuthred 798-807; to Wessex 825"},
+    {"where": "East Anglia", "realm": "eastanglia", "who": "under Mercia, then its own kings", "years": "Mercian from 794; free again about 825-827 under Æthelstan (?)"},
+    {"where": "The Danes", "realm": "danes", "who": "Sigfred, Godfred, Hemming, Harald Klak, the sons of Godfred, Horik I", "years": "Sigfred named 777-798; Godfred named 804, killed 810; Hemming 810-812; Harald Klak and Reginfrid 812-813; the sons of Godfred from 813; Horik I alone by about 827, to 854"},
+    {"where": "The Obodrites", "realm": "obodrites", "who": "Witzan, Thrasco, Sclaomir, Ceadrag", "years": "Witzan killed 795; Thrasco 795-809 (murdered at Reric); Sclaomir 809-819; Ceadrag from 819"},
+    {"where": "The Svear at Birka", "realm": "svear", "who": "King Björn (Bern)", "years": "receives Ansgar in 829"},
+    {"where": "Ireland, the high kingship", "realm": "irish", "who": "Áed Oirdnide, Conchobar son of Donnchad", "years": "797-819; 819-833"},
+    {"where": "Rome", "realm": "", "who": "Popes Leo III, Paschal I, Gregory IV", "years": "795-816; 817-824; 827-844"},
+    {"where": "Constantinople", "realm": "", "who": "Irene, Nikephoros I, Leo V, Michael II, Theophilos", "years": "797-802; 802-811; 813-820; 820-829; 829-842"},
+    {"where": "Baghdad", "realm": "", "who": "Harun al-Rashid, al-Ma'mun", "years": "786-809; 813-833"}
+   ],
+   "trade": "Wine, querns of Mayen lava, Badorf pots, glass and sword blades go down the Rhine; Frisian cloth, salt and grain go with them; furs, amber, wax, walrus ivory and captives come back from the north and east. In Francia and England a penny is counted. North of the Eider silver is weighed, and from about 800 more and more of it is the caliph's dirhams, come up the Russian rivers. The emperor makes the rules of the market: one heavy penny that no one may refuse (794), fixed grain prices in a famine (794, 806), no byrnies or swords sold out of the realm (803, 805), no new tolls (805), a top price on cloaks (808). His tenth is taken at Dorestat and at Quentovic. The English send cloaks and ask for 'black stones', and two kings write a treaty about merchants (796).",
+   "goods": {"more": ["rhenish_wine", "quernstones", "badorf_ware", "glass_vessels", "frisian_cloth", "wool_cloth", "sword_blades", "amber", "marten", "wax", "captives"], "less": []},
+   "danger": "Weather, shoals and the toll-man. The sea is safer now than it will be for two hundred years. Famine (793, 805-806), the cattle plague of 809-810 and hard winters (810, 813, 821) move prices more than any raider. Raiders are few and far off: three ships, a dozen, and they go for islands and minsters. The one war a Frisian feels is the Danish border: Godfred's 200 ships on the Frisian islands in 810, and 100 pounds of silver paid. From 830 the emperor's sons rise against him and the coast guard is left to rot.",
+   "new": [
+    {"year": 792, "kind": "coin", "what": "Offa's heavier, broader penny in Mercia and Kent.", "source": "the coins; chronicle_793.json under 793"},
+    {"year": 794, "kind": "coin", "what": "Charles's heavy penny (about 1.7 g of silver) is the only lawful coin, to be taken in every place, town and market.", "source": "Synod of Frankfurt 794, c. 5 (MGH Capit. I no. 28)"},
+    {"year": 800, "kind": "other", "what": "A fleet and coast guard on the Channel and North Sea coasts against pirates; new ships ordered in 810; the old Roman lighthouse at Boulogne relit in 811.", "source": "ARF 800, 810, 811"},
+    {"year": 800, "kind": "coin", "what": "Dirhams begin to reach the Baltic: silver taken by weight, not by tale.", "source": "the Peterhof hoard, youngest coin about 805 (chronicle_793.json under 805)"},
+    {"year": 803, "kind": "town", "what": "Skiringssal (Kaupang) laid out as a market in Vestfold.", "source": "tree-ring date of a jetty timber, 803: D. Skre (ed.), Kaupang in Skiringssal (2007)"},
+    {"year": 803, "kind": "law", "what": "The Frisians' law written down for the emperor: fines counted in solidi, with separate rates for west, middle and east Frisia.", "source": "Lex Frisionum (MGH Fontes iuris 12); the date, about 802-803, is the usual one (?)"},
+    {"year": 805, "kind": "law", "what": "Trade with Slavs and Avars only at named border posts under a royal officer; no arms sold to them.", "source": "Capitulary of Thionville 805, c. 7 (MGH Capit. I no. 44)"},
+    {"year": 808, "kind": "town", "what": "Sliesthorp (later called Hedeby) made the Danes' market by King Godfred, behind a rampart across Jutland with one gate.", "source": "ARF 808"},
+    {"year": 811, "kind": "law", "what": "Peace between Franks and Danes sworn on the Eider by twelve men of each side: the border stays there.", "source": "ARF 811"},
+    {"year": 820, "kind": "ship", "what": "The Oseberg ship built in western Norway: an oared ship that carries a mast and sail.", "source": "tree rings: built about 820, buried 834 (Bonde and Christensen, Antiquity 67, 1993)"},
+    {"year": 822, "kind": "coin", "what": "Louis's 'temple' penny (Christiana religio): one design from every mint of the empire, with no mint name on it.", "source": "S. Coupland, Francia 17 (1990)"},
+    {"year": 825, "kind": "coin", "what": "The first pennies struck at Sliesthorp, copying Dorestat's.", "source": "B. Malmer, Nordiska mynt före år 1000 (1966) (?)"},
+    {"year": 826, "kind": "other", "what": "A Danish king, Harald Klak, is baptised at Mainz and given Rüstringen in Frisia to fall back on: the first Dane to hold Frisian land from the emperor.", "source": "ARF 826"},
+    {"year": 828, "kind": "law", "what": "The emperor's letter of protection for his merchants: free of toll everywhere except Quentovic, Dorestat and the Alpine passes, where the tenth is taken.", "source": "Formulae imperiales no. 37 (MGH Formulae)"},
+    {"year": 831, "kind": "other", "what": "A church at Birka (829-830) and an archbishop at Hamburg for the mission to the north.", "source": "Rimbert, Vita Anskarii 11-12"}
+   ],
+   "gone": [
+    {"year": 796, "what": "The Avar kingdom on the Danube, and its treasure.", "source": "ARF 796"},
+    {"year": 800, "what": "Helgö as a trading place: Birka has its trade.", "source": "archaeology; ports_793.json"},
+    {"year": 804, "what": "The free Saxons: the last of them beyond the Elbe carried off, their land given to the Obodrites.", "source": "ARF 804"},
+    {"year": 807, "what": "The safety of the island minsters: after 795, 802 and 806 Iona's community builds a new house inland at Kells.", "source": "AU 802, 806, 807"},
+    {"year": 808, "what": "Reric: destroyed by Godfred, its merchants shipped to Sliesthorp.", "source": "ARF 808"},
+    {"year": 825, "what": "Mercia's lordship over the south, and Kent as a kingdom.", "source": "ASC 823 (= 825)"},
+    {"year": 833, "what": "The emperor's own peace: Louis deserted by his army and put down by his sons.", "source": "AB 833"}
+   ],
+   "ports": {
+    "rise": ["dorestad", "quentovic", "lundenwic", "hamwic", "gipeswic", "eoforwic", "ripa", "sliesthorp", "skiringssal", "birka", "aldeigjuborg", "truso"],
+    "fall": ["reric", "helgo", "lindisfarena", "hi", "herio"],
+    "lacking": ["Hammaburg (Hamburg): a fort and, from 831, the archbishop's seat", "Brema (Bremen): a bishop's seat on the Weser from 787", "Bononia (Boulogne): the emperor's fleet station and lighthouse, 811", "Traiectum on the Maas (Maastricht): toll and mint on the Meuse", "Bardowick: the named border market for the Slav trade, 805"]
+   },
+   "stories": [
+    {
+     "id": "age1.cloaks_and_black_stones",
+     "year": 796,
+     "title": "The king's letter about cloaks",
+     "where": ["lundenwic", "quentovic", "dorestad"],
+     "chronicle": "796-spring-offa-letter",
+     "text": "Some years back Charles and Offa of Mercia fell out over a marriage, and each closed his ports to the other's ships. Now Charles has written to make it up. Pilgrims are to pass free. Men who slip in among them to trade must pay toll at the proper places. Merchants of either realm are to have the other king's protection and may come before him if they are wronged. Offa asked for 'black stones': let him send a man to say what kind, and they will be found and helped on their way. And Charles asks one thing back: that the English make their cloaks as long as they used to.",
+     "source": "Charles to Offa, 796: MGH Epistolae IV, Alcuini Epistolae no. 100. The closed ports, about 790: Gesta abbatum Fontanellensium 12.2; Alcuin, Ep. 7."
+    },
+    {
+     "id": "age1.reric",
+     "year": 808,
+     "title": "Godfred moves a market",
+     "where": ["reric", "sliesthorp"],
+     "chronicle": "808-summer-reric-destroyed",
+     "text": "Godfred, king of the Danes, fell on the Obodrites, the emperor's friends. Before he went home he destroyed their trading place on the coast, which the Danes call Reric and which paid his kingdom a great deal in tolls. He put its merchants aboard his ships and landed them at Sliesthorp. Then he had a rampart built across the neck of Jutland from the eastern sea to the western, with one gate in it for carts and riders. A man with partners at Reric must look for them now at the head of the Schlei.",
+     "source": "ARF 808"
+    },
+    {
+     "id": "age1.ansgar_and_the_pirates",
+     "year": 829,
+     "title": "Forty books lost",
+     "where": ["birka", "sliesthorp"],
+     "chronicle": "829-ansgar-birka",
+     "text": "The monk Ansgar sailed for Birka in a company of merchants, with the emperor's gifts for the king of the Svear. About halfway pirates fell on them. The merchants fought and won the first bout, lost the second, and lost their ships and all their goods. The monks lost the royal gifts and nearly forty books. They went on by land, a very long way on foot, crossing the waters between by boat, and came to Birka. King Björn let them preach, and the town's reeve, Herigar, built a church on his own ground.",
+     "source": "Rimbert, Vita Anskarii 10-11 (read in C. H. Robinson's translation, 1921)"
+    }
+   ],
+   "sources": [
+    "Annales regni Francorum 793-829 (MGH SS rer. Germ. 6)",
+    "Anglo-Saxon Chronicle; Annals of Ulster",
+    "Capitularia regum Francorum I (MGH): Frankfurt 794, Thionville 805, the capitularies of 803 and 808",
+    "Alcuin's letters (MGH Epistolae IV); Rimbert, Vita Anskarii (https://sourcebooks.fordham.edu/basis/anskar.asp)",
+    "S. Lebecq, Marchands et navigateurs frisons du haut Moyen Age (1983)",
+    "S. Coupland, 'Money and coinage under Louis the Pious', Francia 17 (1990)",
+    "A. Verhulst, The Carolingian Economy (2002); M. McCormick, Origins of the European Economy (2001)",
+    "D. Skre (ed.), Kaupang in Skiringssal (2007)"
+   ]
+  },
+  {
+   "id": "age2",
+   "from": 834,
+   "to": 864,
+   "name": "The raiding years",
+   "world": "The emperor's sons fight him and then each other (Fontenoy, 841), and at Verdun in 843 the empire is cut in three. Frisia and the Rhine mouths fall to Lothar's middle kingdom. The Northmen learn of it at once. Dorestat is sacked in 834, 835, 836 and 837, and again in 846, 847, 857 and 863. Fleets go up the Seine, the Loire, the Thames and the Rhine, and from 843 they winter where they raid. Kings answer with silver (Paris, 845: 7,000 pounds) or by giving a river mouth to one Dane to hold against the others: Walcheren to Harald (841), Dorestat to Rorik (850). For the north the same years are good ones: Sliesthorp, Ripa and Birka get churches and a share of Dorestat's trade.",
+   "rulers": [
+    {"where": "The empire; from 843 the middle kingdom, with Frisia and the Rhine mouths", "realm": "franks", "who": "Louis the Pious, Lothar I, Lothar II", "years": "Louis died 20 June 840; Lothar I emperor 840-855; Lothar II 855-869"},
+    {"where": "The western kingdom: Seine, Loire, Quentovic", "realm": "franks", "who": "Charles the Bald", "years": "840 (by Verdun 843) to 877"},
+    {"where": "The eastern kingdom: Saxony, the middle Rhine", "realm": "franks", "who": "Louis the German", "years": "840 (by Verdun 843) to 876"},
+    {"where": "Frisia's river mouths, held from the emperor", "realm": "franks", "who": "the Danes Harald and Rorik", "years": "Harald on Walcheren from 841; Rorik at Dorestat from 850 (driven out by the Frisians in 867, back by 870, last seen 873)"},
+    {"where": "Flanders", "realm": "", "who": "Count Baldwin I", "years": "from 863 to 879"},
+    {"where": "Wessex, with Kent", "realm": "wessex", "who": "Ecgberht, Æthelwulf, Æthelbald, Æthelberht", "years": "Ecgberht to 839; Æthelwulf 839-858; Æthelbald 858-860; Æthelberht 860-865"},
+    {"where": "Mercia, with London", "realm": "mercia", "who": "Wiglaf, Beorhtwulf, Burgred", "years": "Wiglaf to 839; Beorhtwulf 840-852; Burgred 852-874"},
+    {"where": "East Anglia", "realm": "eastanglia", "who": "Æthelweard, Edmund", "years": "Edmund from 855 to 869 (?)"},
+    {"where": "Northumbria", "realm": "northumbria", "who": "Eanred, Æthelred II, Osberht", "years": "dates uncertain; Osberht from about 848 (?)"},
+    {"where": "The Danes", "realm": "danes", "who": "Horik I, Horik II", "years": "Horik I to 854, killed with most of his kin; Horik II from 854, last named 864"},
+    {"where": "The Svear at Birka", "realm": "svear", "who": "Björn, Anund, Olof", "years": "named by Rimbert between 829 and the 850s"},
+    {"where": "Dublin", "realm": "irish", "who": "the Northmen's ship-fort; Olaf (Amlaíb) and Ivar (Ímar)", "years": "fort 841; Olaf from 853"},
+    {"where": "Ireland, the high kingship", "realm": "irish", "who": "Máel Sechnaill I", "years": "846-862"},
+    {"where": "Picts and Scots", "realm": "dalriata", "who": "Kenneth son of Alpin", "years": "about 843-858"},
+    {"where": "Brittany", "realm": "", "who": "Nominoë, Erispoë, Salomon", "years": "Nominoë to 851; Erispoë 851-857; Salomon 857-874"},
+    {"where": "Ladoga", "realm": "rus", "who": "Rurik", "years": "862, the Primary Chronicle's own date"},
+    {"where": "Constantinople", "realm": "", "who": "Theophilos, Michael III", "years": "829-842; 842-867"}
+   ],
+   "trade": "The goods are the old ones; the middlemen change. Dorestat's Frisians trade on under a Danish lord, then move upriver and east: to Deventer, to Tiel on the Waal, to Cologne, to Sliesthorp, where merchants from Dorestat are seen about 850. Loot, ransom and captives become goods like any other. A fleet in winter camp is a market: it sells church plate, books and people and buys bread, wine, horses and arms, and in 864 the western king makes selling it a horse or a byrnie a death matter. An abbot's ransom is 686 pounds of gold and 3,250 of silver (Saint-Denis, 858). Silver runs north as tribute and is weighed out again in the Baltic. Salt and wine from the Loire grow dear while the Northmen sit on Herio (from 843). The western king's pennies get worse year by year until 864, when all are called in and struck new at ten mints.",
+   "goods": {"more": ["captives", "church_plate", "books", "relics", "horses", "swords", "byrnies"], "less": ["sea_salt", "aquitaine_wine", "frankish_wine"]},
+   "danger": "Every river mouth from the Elbe to the Garonne is raided, most summers, and nobody knows which one this year. Fleets grow from a dozen ships to 120 (the Seine, 845) and 350 (the Thames, 851). A winter camp on an island closes a river for years: Herio from 843, Thanet 851, Sheppey 855, Oissel in the Seine 856-861. The kings fight each other harder than they fight the fleets. And the sea kills more at one blow than any fleet: the flood of 26 December 838 drowns 2,437 in Frisia. The winter of 859-860 is the hardest anyone remembers.",
+   "new": [
+    {"year": 834, "kind": "other", "what": "A fleet comes by Utrecht to Dorestat and destroys everything: the first of four raids in four years.", "source": "AB 834-837"},
+    {"year": 841, "kind": "town", "what": "A ship-fort at Dublin, where the Northmen stay the winter.", "source": "AU 841"},
+    {"year": 841, "kind": "other", "what": "Lothar gives Walcheren to the Dane Harald, to keep other raiders out.", "source": "AB 841; Nithard IV.2"},
+    {"year": 843, "kind": "law", "what": "The Treaty of Verdun: three kingdoms, three kings' tolls. Frisia goes with the middle one.", "source": "AB 843"},
+    {"year": 843, "kind": "other", "what": "Northmen winter in Francia for the first time, on Herio, bringing houses over from the mainland.", "source": "AB 843"},
+    {"year": 845, "kind": "other", "what": "Silver paid to a fleet to go away: 7,000 pounds at Paris. It is called tribute, and it is paid again and again.", "source": "AB 845"},
+    {"year": 850, "kind": "other", "what": "Rorik the Dane holds Dorestat and the counties round it as the emperor's man, collects his dues and keeps off other Danes.", "source": "AF 850; AB 850"},
+    {"year": 850, "kind": "town", "what": "A church at Sliesthorp, where merchants from Dorestat and Hamburg come; one at Ripa a few years later.", "source": "Rimbert, Vita Anskarii 24, 32"},
+    {"year": 851, "kind": "other", "what": "Heathen men stay the winter in England for the first time, on Thanet.", "source": "ASC 851: 'The heathens now for the first time remained over winter in the Isle of Thanet.' (tr. Ingram 1823)"},
+    {"year": 858, "kind": "other", "what": "The bishop of Utrecht leaves his town for a refuge inland; his successors sit at Deventer until about 920.", "source": "Lothar II's grant of Berg (Sint-Odiliënberg) to Bishop Hunger, 858 (?)"},
+    {"year": 860, "kind": "other", "what": "The Rus appear before Constantinople with 200 ships.", "source": "Photius, Homilies 3-4; chronicle_793.json under 860"},
+    {"year": 862, "kind": "other", "what": "The western king begins fortified bridges on the Seine to stop ships (Pont-de-l'Arche).", "source": "AB 862; Edict of Pîtres 864"},
+    {"year": 863, "kind": "other", "what": "Baldwin, who carried off the king's daughter Judith, is forgiven and made count in Flanders.", "source": "AB 863"},
+    {"year": 864, "kind": "coin", "what": "The Edict of Pîtres: all old pennies called in by Martinmas and new ones struck at ten mints only (the palace, Quentovic, Rouen, Reims, Sens, Paris, Orléans, Chalon, Melle, Narbonne); no arms or horses to be sold to the Northmen.", "source": "MGH Capit. II no. 273"}
+   ],
+   "gone": [
+    {"year": 836, "what": "Witla at the Maas mouth: burned with Antwerp.", "source": "AF 836"},
+    {"year": 836, "what": "Herio's monks: they leave the island for good with Saint Philibert's body.", "source": "Ermentarius, De translationibus et miraculis sancti Filiberti"},
+    {"year": 840, "what": "Louis the Pious, and with him one empire and one good coinage.", "source": "AB 840"},
+    {"year": 842, "what": "Quentovic's best days: sacked at dawn, only the houses that paid left standing.", "source": "AB 842"},
+    {"year": 843, "what": "The Picts' own kingdom: Kenneth son of Alpin rules Picts and Scots together.", "source": "later king lists; chronicle_793.json under 843 (?)"},
+    {"year": 845, "what": "Hamburg: burned, church and books; the archbishop moves to Bremen.", "source": "Rimbert, Vita Anskarii 16; AF 845"},
+    {"year": 850, "what": "Walichrum (Domburg): the beach market fades about now.", "source": "the coin finds end in the middle of the century (?)"},
+    {"year": 850, "what": "Grobiņa among the Curonians.", "source": "archaeology; ports_793.json (?)"},
+    {"year": 854, "what": "Horik I and most of the Danish royal kin, in a war among themselves.", "source": "AF 854"},
+    {"year": 860, "what": "Lundenwic on the Strand: emptied in these years, after the raids of 842 and 851.", "source": "archaeology of the Strand settlement (?)"},
+    {"year": 863, "what": "Dorestat: named as a trading place for the last time.", "source": "AB 863"}
+   ],
+   "ports": {
+    "rise": ["duiblinn", "sliesthorp", "ripa", "birka", "daventre", "colonia", "aldeigjuborg"],
+    "fall": ["dorestad", "witla", "walichrum", "andoverpis", "quentovic", "rotomagus", "parisius", "namnetis", "herio", "hamwic", "lundenwic", "grobin"],
+    "lacking": ["Tiel on the Waal: takes Dorestat's trade from about 850", "Hammaburg (Hamburg): burned 845", "Brema (Bremen): the archbishop's seat after 845", "Winter camps that open and close: Thanet (851), Sheppey (855), Oissel in the Seine (856-861)", "Sandwich: a sea fight in 851", "Bruges and Saint-Omer: the first forts of Flanders (?)"]
+   },
+   "stories": [
+    {
+     "id": "age2.the_flood",
+     "year": 838,
+     "title": "Two thousand four hundred and thirty-seven",
+     "where": ["medemelacha", "wijnaldum", "doccinga", "emuthon", "dorestad"],
+     "chronicle": "838-12-26-frisia-flood",
+     "text": "On the day after Christmas the sea came over Frisia, far past any tide men knew. It lay over nearly the whole land, as high as the dunes. Whatever it rolled across it took: people, beasts and houses alike. Afterwards the dead were counted with great care, and the count came to 2,437. The bishop who wrote the year down at the emperor's court gave the number as it was reported to him.",
+     "source": "AB 839 (the flood of 26 December 838), written by Prudentius of Troyes"
+    },
+    {
+     "id": "age2.paris",
+     "year": 845,
+     "title": "Easter in Paris",
+     "where": ["parisius", "rotomagus", "sliesthorp"],
+     "chronicle": "845-03-28-paris-sacked",
+     "text": "A fleet of 120 ships under a chief the Franks call Ragnar came up the Seine in March. King Charles set his army on both banks. The Northmen beat the smaller half and hanged 111 prisoners in sight of the other. They came into Paris on Easter Sunday and found it empty. Charles paid them 7,000 pounds of silver to go. On the way home a sickness ran through the fleet. At King Horik's court Ragnar boasted of the silver and the empty city, and died soon after of the same sickness, so the monks of Saint-Germain heard; and Horik, afraid, offered to give the captives back.",
+     "source": "AB 845; AX 845; Translatio sancti Germani Parisiensis (about 850). The hanging and Ragnar's death are from the Translatio (?)"
+    },
+    {
+     "id": "age2.rorik",
+     "year": 850,
+     "title": "The toll goes to a Dane",
+     "where": ["dorestad", "traiectum", "walichrum"],
+     "chronicle": "850-rorik-dorestad",
+     "text": "Rorik the Dane held Dorestat once before with his brother, under the old emperor. He fell out with Lothar, fled to the Saxons, gathered ships and came back raiding the coast he knew. He took Dorestat. Lothar could not drive him out without harm to his own people, so he took him back as his man on terms: Rorik holds Dorestat and the counties about it, gathers the king's taxes and dues faithfully, and keeps off the Danish pirates. A Frisian now pays the king's toll to a Dane, and is safer for it.",
+     "source": "AF 850 (the fullest account); AB 850; AX 850"
+    }
+   ],
+   "sources": [
+    "Annals of St-Bertin 834-864 (tr. J. Nelson 1991, for reading; not quoted)",
+    "Annals of Fulda; Annals of Xanten; Nithard, Histories",
+    "Anglo-Saxon Chronicle (tr. Ingram 1823: https://avalon.law.yale.edu/medieval/ang09.asp); Annals of Ulster",
+    "Rimbert, Vita Anskarii; Ermentarius; Edict of Pîtres (MGH Capit. II no. 273)",
+    "S. Coupland, 'From poachers to gamekeepers: Scandinavian warlords and Carolingian kings', Early Medieval Europe 7 (1998)",
+    "S. Coupland, 'Boom and bust at 9th-century Dorestad', in Dorestad in an International Framework (2010)",
+    "https://en.wikipedia.org/wiki/Rorik_of_Dorestad (checked 4 October 2026 for the annal years)"
+   ]
+  },
+  {
+   "id": "age3",
+   "from": 865,
+   "to": 899,
+   "name": "The great armies",
+   "world": "The raiders stop going home. A great army lands in East Anglia in 865 and in thirteen years ends three English kingdoms: Northumbria (867), East Anglia (869) and Mercia (874). Only Alfred's Wessex holds (Edington, 878). The army shares out the land and ploughs it (876-880), and York, Lincoln and the towns of the Danish midlands become places that trade. From 879 another army works the Scheldt, Meuse, Rhine and Seine: it burns Cologne and stables its horses in the chapel at Aachen (881), takes Frisia as a fief (882-885), besieges Paris (885-886) and is broken on the Dyle (891). The Frankish empire comes apart for good in 887-888. Far off, the same people settle Iceland (from about 870) and take Kiev (882). Dorestat is a village; the Rhine trade passes through Tiel, Deventer and Cologne.",
+   "rulers": [
+    {"where": "Wessex, and from 886 all the English not under the Danes", "realm": "wessex", "who": "Æthelred I, Alfred", "years": "865-871; 871-899"},
+    {"where": "Mercia", "realm": "mercia", "who": "Burgred, Ceolwulf II, Ealdorman Æthelred", "years": "Burgred to 874; Ceolwulf II 874 to about 879; Æthelred from about 881, under Alfred"},
+    {"where": "Danish York", "realm": "northumbria", "who": "Halfdan, Guthfrith, Siefred and Cnut", "years": "Halfdan 875-877; Guthfrith about 883-895; Siefred and Cnut about 895-905 (their coins)"},
+    {"where": "Danish East Anglia", "realm": "eastanglia", "who": "Guthrum (baptised Æthelstan), Eohric", "years": "880-890; 890-902"},
+    {"where": "The western kingdom", "realm": "franks", "who": "Charles the Bald, Louis the Stammerer, Louis III and Carloman, Charles the Fat, Odo, Charles the Simple", "years": "to 877; 877-879; 879-882 and 879-884; 884-887; 888-898; from 898"},
+    {"where": "The eastern kingdom", "realm": "franks", "who": "Louis the German, Louis the Younger, Charles the Fat, Arnulf", "years": "to 876; 876-882; 882-887 (emperor 881); 887-899"},
+    {"where": "Lotharingia, with Frisia and the Meuse", "realm": "franks", "who": "Lothar II; then shared; then Zwentibold", "years": "Lothar II to 869; shared at Meerssen 870; all to the eastern king 880; Zwentibold king 895-900"},
+    {"where": "Frisia", "realm": "franks", "who": "Rorik, Godfrid the Dane, then Count Gerulf", "years": "Rorik dead by 882; Godfrid 882-885, killed; Gerulf from 885 (the king's grant of 889)"},
+    {"where": "Flanders", "realm": "", "who": "Baldwin I, Baldwin II", "years": "to 879; 879-918"},
+    {"where": "The Danes", "realm": "danes", "who": "Sigfred and Halfdan", "years": "named as kings in 873; after that the record fails"},
+    {"where": "Norway's west coast", "realm": "norse_west", "who": "Harald Fairhair", "years": "from about 872 by the sagas' count (?)"},
+    {"where": "Dublin", "realm": "irish", "who": "Olaf and Ivar", "years": "Ivar died 873, 'king of the Northmen of all Ireland and Britain'"},
+    {"where": "Ireland, the high kingship", "realm": "irish", "who": "Áed Findliath, Flann Sinna", "years": "862-879; 879-916"},
+    {"where": "Scots", "realm": "dalriata", "who": "Constantine I, Donald II", "years": "862-877; 889-900"},
+    {"where": "Ladoga and Kiev", "realm": "rus", "who": "Rurik, Oleg", "years": "Rurik died 879, Oleg in Kiev from 882 (the Primary Chronicle's dates)"},
+    {"where": "Constantinople", "realm": "", "who": "Basil I, Leo VI", "years": "867-886; 886-912"}
+   ],
+   "trade": "An army is the biggest customer on the coast. It sells captives, plate and cattle and buys horses, corn, wine and arms, tens of pounds of silver at a time; where it settles, it wants what any farmer wants. Two ways of paying now live side by side: counted pennies in Wessex and Francia, weighed silver in the Danish lands (cut coin, rings and bars, small folding scales and cube weights), and a merchant needs both skills. Kings pull trade inside walls: Alfred's fortified towns, London moved inside the Roman wall (886), the ring forts of Flanders and Zeeland, Deventer's earth wall after 882. Godfrid the Dane, given Frisia, asks for Koblenz, Andernach and Sinzig as well, because his own land grows no wine. Ohthere brings the far north to market: walrus ivory, walrus-hide rope, furs, down. Iceland opens, a land with no timber, corn or good iron of its own. Frisians serve as Alfred's shipmen (896) as well as trading.",
+   "goods": {"more": ["captives", "horses", "wheat", "rhenish_wine", "bar_iron", "walrus_ivory", "walrus_rope", "eider_down", "wadmal", "oak_timber"], "less": ["church_plate", "books", "relics"]},
+   "danger": "Armies of thousands, on horses, that winter in the land: Thetford, Repton, Ghent, Elsloo, Leuven. A kingdom can change lords within one sailing season, and a charter from a dead king is worth nothing. The Rhine and Meuse are raided far inland in 881-882; Frisia is a Danish duchy for three years. On the English coast Alfred's ships and the Danes' fight in the river mouths (896). After 891 the armies thin out, and the last years bring a worse killer: three years of cattle plague and sickness in England (893-896).",
+   "new": [
+    {"year": 865, "kind": "other", "what": "A 'great army' that stays for years and takes kingdoms.", "source": "ASC 866 (= 865)"},
+    {"year": 870, "kind": "law", "what": "The Treaty of Meerssen: Frisia and the Meuse split between the western and eastern kings.", "source": "AB 870"},
+    {"year": 870, "kind": "other", "what": "Small cube and flattened-ball weights and folding scales come into general use in the north: silver is weighed to the grain.", "source": "H. Steuer, 'Gewichtsgeldwirtschaften im frühgeschichtlichen Europa' (1987) (?)"},
+    {"year": 874, "kind": "town", "what": "Iceland settled from Norway and the isles.", "source": "Ari, Íslendingabók 1; Landnámabók; the date is the traditional one"},
+    {"year": 876, "kind": "law", "what": "The army shares out the land: Northumbria (876), eastern Mercia (877), East Anglia (880). Danish law runs there.", "source": "ASC 876, 877, 880"},
+    {"year": 880, "kind": "coin", "what": "Alfred restores a good heavy penny; the London monogram penny.", "source": "M. Blackburn, 'The London mint in the reign of Alfred' (1998)"},
+    {"year": 880, "kind": "town", "what": "Fortified towns with markets across Wessex, a day's walk apart; ring forts in Zeeland and Flanders (Middelburg, Souburg, Domburg, Burgh, Bruges).", "source": "the Burghal Hidage (written about 914); archaeology of the ring forts, about 880-890 (?)"},
+    {"year": 882, "kind": "town", "what": "Deventer burned by the Northmen and rebuilt behind an earth wall.", "source": "AF 882; excavated wall (https://en.wikipedia.org/wiki/Deventer)"},
+    {"year": 882, "kind": "town", "what": "Kiev taken by Oleg: the river road from the Baltic to the Greeks under one prince.", "source": "PVL 6390 (written much later)"},
+    {"year": 886, "kind": "town", "what": "London refounded inside the Roman walls and given to Ealdorman Æthelred of Mercia; the old wic on the Strand is left.", "source": "ASC 886; https://en.wikipedia.org/wiki/Anglo-Saxon_London"},
+    {"year": 886, "kind": "law", "what": "The treaty of Alfred and Guthrum: a border, equal man-prices, and no trade between English and Danes without hostages given as a pledge of peace.", "source": "Alfred and Guthrum's treaty, c. 5 (date between 880 and 890)"},
+    {"year": 890, "kind": "other", "what": "Ohthere's and Wulfstan's voyages written down for King Alfred: sailing times to Skiringssal, Hedeby and Truso.", "source": "Old English Orosius I.1"},
+    {"year": 890, "kind": "ship", "what": "The Gokstad ship built: 23 m, sixteen oars a side, a sea-going sailing ship.", "source": "tree rings: built about 890, buried about 901 (?)"},
+    {"year": 895, "kind": "ship", "what": "The Graveney boat built in Kent: a 13.6 m working trader, found with hops and Mayen lava querns aboard; left in the mud about 950.", "source": "V. Fenwick, The Graveney Boat (1978); https://en.wikipedia.org/wiki/Graveney"},
+    {"year": 895, "kind": "coin", "what": "The Danish kings of York strike pennies (Siefred, Cnut); the East Anglian Danes strike them in Saint Edmund's name.", "source": "the Cuerdale hoard, buried about 905"},
+    {"year": 896, "kind": "ship", "what": "Alfred's long ships against the raiders: 'full-nigh twice as long as the others. Some had sixty oars, some more'. Frisians crew them, and Wulfheard, Æbbe and Æthelhere the Frisians are killed in them.", "source": "ASC 897 (= 896), tr. Ingram 1823"},
+    {"year": 896, "kind": "town", "what": "Tiel on the Waal named beside Dorestat and Deventer as a place where the king's toll is taken.", "source": "King Zwentibold's charter for the church of Utrecht, 896 (https://nl.wikipedia.org/wiki/Tiel) (?)"}
+   ],
+   "gone": [
+    {"year": 867, "what": "Northumbria's kings: both killed at York.", "source": "ASC 867"},
+    {"year": 867, "what": "The coast minsters of Northumbria: Whitby, Jarrow, Wearmouth.", "source": "later Durham tradition (Symeon); the houses vanish from record (?)"},
+    {"year": 869, "what": "East Anglia's kings: Edmund killed on 20 November.", "source": "ASC 870 (= 869)"},
+    {"year": 870, "what": "The East Angles' bishops: no bishop of Dommoc is named again.", "source": "the bishops' lists (?)"},
+    {"year": 870, "what": "Dumbarton Rock, the Britons' fortress on the Clyde.", "source": "AU 870"},
+    {"year": 874, "what": "Mercia as a kingdom: Burgred goes to Rome.", "source": "ASC 874"},
+    {"year": 875, "what": "Lindisfarne: the community leaves with Cuthbert's body, wanders seven years and settles at Chester-le-Street (883).", "source": "Historia de Sancto Cuthberto"},
+    {"year": 880, "what": "Hamwic: the open wic gives way to the walled Hamtun and to Winchester.", "source": "archaeology (?)"},
+    {"year": 885, "what": "Danish rule in Frisia: Godfrid killed at a parley in the Betuwe.", "source": "AF 885; Regino 885"},
+    {"year": 888, "what": "The Carolingian empire: after Charles the Fat every kingdom chooses its own king.", "source": "Regino 888"},
+    {"year": 891, "what": "The great army on the continent: stormed in its camp on the Dyle by King Arnulf.", "source": "AF 891"}
+   ],
+   "ports": {
+    "rise": ["eoforwic", "lundenwic", "duiblinn", "daventre", "colonia", "sliesthorp", "birka", "skiringssal", "aldeigjuborg"],
+    "fall": ["hamwic", "lindisfarena", "gyrwe", "streonaeshalch", "dommoc", "quentovic", "ganda"],
+    "lacking": ["Tiel on the Waal: the king's toll, 896", "Lincoln, Stamford, Nottingham, Derby, Leicester: the Danish towns of the midlands", "Torksey on the Trent: the army's winter camp of 872-873", "Norwich and Thetford", "Winchester and the walled Hamtun (Southampton)", "Middelburg and Souburg on Walcheren; Bruges: ring forts", "Iceland's landing places (from 874)", "Orkney: the earls' seat (?)", "Kiev (882) and Novgorod's first fort", "Ohthere's home in Hålogaland and the White Sea beyond it"]
+   },
+   "stories": [
+    {
+     "id": "age3.rodulf_in_oostergo",
+     "year": 873,
+     "title": "Tribute refused",
+     "where": ["doccinga", "wijnaldum"],
+     "chronicle": "",
+     "text": "Rodulf, a Dane of the royal kin who had plundered on both sides of the sea, came with his ships into Oostergo and sent to the Frisians for tribute. They answered that they owed tribute to King Louis and his sons and to no one else. He landed. A Northman who had been baptised and had lived long among the Frisians led them out against him. Rodulf fell first, and eight hundred with him; the western annals say five hundred. The rest shut themselves in a building. The same Northman talked the Frisians out of storming it: it was God's strength and not ours that won this, he said, so take hostages and let them buy their lives. The Danes sent back a great treasure from their ships and swore never to come again.",
+     "source": "AF 873; AB 873; AX 873 (https://en.wikipedia.org/wiki/Rodulf_Haraldsson, checked 4 October 2026)"
+    },
+    {
+     "id": "age3.ohthere",
+     "year": 890,
+     "title": "The man who lived furthest north",
+     "where": ["skiringssal", "sliesthorp", "lundenwic"],
+     "chronicle": "890-ohthere-wulfstan",
+     "text": "Ohthere told his lord King Alfred that he lived furthest north of all Northmen. Once he sailed north along the land to see how far it went: three days to where the whale hunters turn back, three days more, then east and south round the land to a great river where the Beormas live. He went for the walrus too, whose teeth are fine bone and whose hide makes the best ship rope. He was among the first men of his country, yet he had only twenty cattle, twenty sheep and twenty swine, and ploughed a little with horses. His wealth was six hundred tame reindeer and what the Finnas paid him in skins, down, whalebone and rope. From his home he sailed south more than a month to the port of Sciringes heal, and from there five days to Hedeby.",
+     "source": "The Old English Orosius I.1, about 890 (our own words; public-domain translations: Thorpe 1853, Sweet 1883)"
+    },
+    {
+     "id": "age3.three_irishmen",
+     "year": 891,
+     "title": "A boat without oars",
+     "where": [],
+     "chronicle": "",
+     "text": "Three Irishmen came ashore in Cornwall in a boat made of two and a half hides, with no oars and food for seven nights. On the seventh night they reached land. They had stolen away from Ireland because they wished for the love of God to be on pilgrimage and did not care where. They went straight to King Alfred. Their names were Dubslane, Macbeth and Maelinmun. The Chronicle: 'And three Scots came to King Alfred in a boat without any oars from Ireland; whence they stole away, because they would live in a state of pilgrimage, for the love of God, they recked not where.'",
+     "source": "ASC 891, tr. J. Ingram 1823 (https://avalon.law.yale.edu/medieval/ang09.asp); 'Scots' is the Chronicle's word for the Irish"
+    }
+   ],
+   "sources": [
+    "Anglo-Saxon Chronicle 865-899 (tr. Ingram 1823); Asser, Life of King Alfred",
+    "Annals of St-Bertin to 882; Annals of Fulda; Annales Vedastini; Regino of Prüm, Chronicon; Abbo, Bella Parisiacae urbis",
+    "The Old English Orosius; the treaty of Alfred and Guthrum; Historia de Sancto Cuthberto",
+    "Regino 885 for Godfrid's demand for the wine lands: from memory, not re-read tonight (?)",
+    "J. Bately and A. Englert (eds), Ohthere's Voyages (2007)",
+    "D. Hadley and J. Richards, The Viking Great Army and the Making of England (2021)",
+    "V. Fenwick (ed.), The Graveney Boat (1978)",
+    "S. Lebecq, Marchands et navigateurs frisons du haut Moyen Age (1983)"
+   ]
+  },
+  {
+   "id": "age4",
+   "from": 900,
+   "to": 954,
+   "name": "Walled towns and eastern silver",
+   "world": "The raiders' grandsons are lords and townsmen. Rollo holds Rouen from the western king (911). Danish kings, then Dublin's Northmen, hold York until 954. Dublin itself, lost in 902, is founded again in 917 with Waterford and Limerick beside it. Against them Edward the Elder and his sister Æthelflæd wall town after town and take back the Danish midlands (910-918); Æthelstan takes York (927), wins at Brunanburh (937) and calls himself king of all Britain. East of the Rhine the Saxon kings Henry and Otto wall their towns against the Magyars and make the Danes at Sliesthorp pay tribute (934). The great business of the age comes from the east: Samanid silver flows up the Volga, and Birka, Gotland, Sliesthorp, York and Dublin all live on it. Tiel and Deventer are the Frisians' markets, and about 920 the bishop comes home to Utrecht.",
+   "rulers": [
+    {"where": "Wessex, then all England", "realm": "wessex", "who": "Edward the Elder, Æthelstan, Edmund, Eadred", "years": "899-924; 924-939; 939-946; 946-955"},
+    {"where": "Mercia", "realm": "mercia", "who": "Ealdorman Æthelred, Æthelflæd Lady of the Mercians", "years": "Æthelred died 911; Æthelflæd 911-918"},
+    {"where": "York", "realm": "northumbria", "who": "Danish kings; Ragnall; Sihtric; Æthelstan; Olaf Guthfrithson; Olaf Cuarán; Eric", "years": "Danish kings to 910; Ragnall 919-921; Sihtric 921-927; Æthelstan 927-939; Olaf Guthfrithson 939-941; Olaf Cuarán 941-944 and 949-952; Eric 947-948 and 952-954"},
+    {"where": "Dublin", "realm": "irish", "who": "Sihtric, Guthfrith, Olaf Guthfrithson, Olaf Cuarán", "years": "empty of Northmen 902-917; Sihtric 917-921; Guthfrith 921-934; Olaf Guthfrithson 934-941; Olaf Cuarán from 945"},
+    {"where": "Rouen and the lower Seine (Normandy)", "realm": "", "who": "Rollo, William Longsword, Richard I", "years": "911 to about 928; to 942; 942-996"},
+    {"where": "The western kingdom", "realm": "franks", "who": "Charles the Simple, Robert I, Raoul, Louis IV", "years": "898-922; 922-923; 923-936; 936-954"},
+    {"where": "The eastern kingdom, with Lotharingia and Frisia from 925", "realm": "franks", "who": "Louis the Child, Conrad I, Henry I, Otto I", "years": "900-911; 911-918; 919-936; from 936"},
+    {"where": "Flanders", "realm": "", "who": "Baldwin II, Arnulf I", "years": "to 918; 918-965"},
+    {"where": "West Frisia (later Holland)", "realm": "franks", "who": "Counts Dirk I and Dirk II", "years": "Dirk I named in 922; Dirk II to 988 (?)"},
+    {"where": "Utrecht", "realm": "franks", "who": "Bishops Radbod and Balderic", "years": "Radbod 899-917, at Deventer; Balderic 918-975, back in Utrecht about 920 (?)"},
+    {"where": "Brittany", "realm": "", "who": "the Northmen of the Loire; Alan Twistedbeard", "years": "Northmen 919-936; Alan 936-952"},
+    {"where": "The Danes", "realm": "danes", "who": "Olaf's kin from Sweden at Sliesthorp; Gorm the Old", "years": "Gnupa beaten by Henry I in 934; Gorm about 936-958"},
+    {"where": "Norway", "realm": "norse_west", "who": "Harald Fairhair, Eric, Hákon the Good", "years": "Harald to about 932; Eric about 931-933; Hákon about 934-961 (the sagas' dates)"},
+    {"where": "Scots", "realm": "dalriata", "who": "Constantine II, Malcolm I", "years": "900-943; 943-954"},
+    {"where": "Kiev", "realm": "rus", "who": "Oleg, Igor, Olga", "years": "Oleg to 912; Igor 912-945; Olga rules for her son from 945"},
+    {"where": "Constantinople", "realm": "", "who": "Leo VI, Constantine VII with Romanos I", "years": "to 912; 913-959, Romanos 920-944"},
+    {"where": "Bukhara and Samarkand (where the silver is struck)", "realm": "", "who": "the Samanid emirs Ismail and Nasr II", "years": "892-907; 914-943"},
+    {"where": "Iceland", "realm": "", "who": "no king: the Althing", "years": "from 930"}
+   ],
+   "trade": "Kings now say where trade may happen. Edward's law: buy in a town, before the town-reeve. Æthelstan's at Grately (about 928): nothing worth over 20 pence bought outside a town, one coinage for the whole realm, moneyers named town by town (London eight, Canterbury seven, Winchester six, Southampton two). So markets, mints and tolls gather inside the new walls: London, Winchester, Chester, York, Lincoln, Norwich; Rouen under its Northmen; Cologne, Mainz, Tiel, Deventer. Silver is plentiful. Dirhams struck at Samarkand and Tashkent pass the Bulghars' market on the Volga, Ladoga, Birka and Gotland and end as rings and cut pieces in English and Irish hoards (Cuerdale, about 905). They are paid for in furs, wax, honey and captives; Dublin and Rouen are the west's markets for people. On the Rhine the hard painted pots of Pingsdorf replace Badorf's about 900. Norway sells whetstones and soapstone, Iceland its wadmal. Cargo ships built to sail, with few oars, appear (Äskekärr: 16 m, 20 tons).",
+   "goods": {"more": ["captives", "marten", "sable", "beaver", "squirrel", "wax", "honey", "pingsdorf_ware", "whetstones", "soapstone", "wadmal", "hops", "silk"], "less": ["badorf_ware", "tating_ware", "ipswich_ware"]},
+   "danger": "Less at sea than before, more on land. The Magyars ride through Saxony, Lotharingia and Burgundy again and again from 900 to 955, and a walled town is the only safe night. The war for York (919-954) makes the Humber, the Irish Sea and the road between Dublin and York dangerous by turns. Brittany and the Loire are in the Northmen's hands from 919 to 936. Fleets from Brittany and Dublin raid the Severn and Wales (914). A dimmed sun in 939 is followed by hard winters and hunger in Ireland and Germany (?).",
+   "new": [
+    {"year": 900, "kind": "other", "what": "Pingsdorf ware: hard, pale, red-painted pots from the Rhineland, in place of Badorf's.", "source": "the usual dating, about 900 (?)"},
+    {"year": 901, "kind": "law", "what": "Edward the Elder's law: no one to buy outside a town, and only with the town-reeve as witness.", "source": "I Edward 1 (date within 899-924)"},
+    {"year": 907, "kind": "town", "what": "Chester restored; then fortified towns built year by year across Mercia and the Danish midlands.", "source": "ASC (Mercian Register) 907-918"},
+    {"year": 910, "kind": "ship", "what": "The Äskekärr ship built on the Göta river: 16 m long, 4.6 m broad, about 20 tons of cargo, open hold amidships; repaired as late as about 1010.", "source": "tree rings, about 900-920 (https://sv.wikipedia.org/wiki/Äskekärrsskeppet)"},
+    {"year": 911, "kind": "town", "what": "Rouen and the lower Seine granted to Rollo: Normandy.", "source": "Flodoard; Dudo of Saint-Quentin (written a century later); the date is the traditional one"},
+    {"year": 911, "kind": "law", "what": "The Rus treaty with the Greeks: rules for merchants, wrecks, slaves and crimes. A stricter one in 944: the prince's charter aboard, silk only to 50 gold coins' worth.", "source": "PVL 6420, 6453"},
+    {"year": 917, "kind": "town", "what": "Dublin founded again by Sihtric; Waterford (914) and Limerick (922) beside it.", "source": "AU 914, 917, 922"},
+    {"year": 920, "kind": "town", "what": "The bishop of Utrecht returns from Deventer to his own town.", "source": "the usual date under Bishop Balderic (?)"},
+    {"year": 922, "kind": "other", "what": "The caliph's envoy reaches the Bulghars on the Volga and writes down what he sees of the Rus merchants.", "source": "Ibn Fadlan, Risala"},
+    {"year": 928, "kind": "coin", "what": "Æthelstan's law at Grately: one coinage over all the king's realm, struck only in a town, the moneyers numbered town by town.", "source": "II Æthelstan 12-14"},
+    {"year": 930, "kind": "law", "what": "The Althing: one law and one yearly assembly for all Iceland.", "source": "Ari, Íslendingabók 2-3; the date is the traditional one"},
+    {"year": 934, "kind": "other", "what": "Henry I beats the Danes, makes their king at Sliesthorp pay tribute and take baptism.", "source": "Widukind I.40"},
+    {"year": 948, "kind": "other", "what": "Bishops named for Schleswig, Ripa and Aarhus.", "source": "Synod of Ingelheim 948"},
+    {"year": 953, "kind": "town", "what": "Novgorod's first timber streets laid.", "source": "tree-ring dates of the street layers, 930s to 953 (?)"}
+   ],
+   "gone": [
+    {"year": 902, "what": "The Northmen of Dublin: driven out by the men of Brega and Leinster, for fifteen years.", "source": "AU 902"},
+    {"year": 910, "what": "The Danish kings of York killed at Tettenhall.", "source": "ASC 910"},
+    {"year": 911, "what": "Charles the Great's line east of the Rhine.", "source": "Louis the Child died 911"},
+    {"year": 918, "what": "The Danish lordships of East Anglia and the midlands: taken town by town, 917-918.", "source": "ASC 917, 918"},
+    {"year": 930, "what": "Skiringssal (Kaupang): the town is given up about now; some trade lingers to about 960.", "source": "D. Skre (ed.), Kaupang in Skiringssal (2007) (?)"},
+    {"year": 936, "what": "The Northmen's hold on Brittany: Alan comes back from England and retakes Nantes (937).", "source": "Flodoard 936-939; Chronicle of Nantes"},
+    {"year": 950, "what": "Quentovic as a port: Montreuil and Saint-Omer have its trade; the mint lingers to about 980.", "source": "https://en.wikipedia.org/wiki/Quentovic"},
+    {"year": 954, "what": "The kingdom of York: Eric driven out and killed on Stainmore.", "source": "ASC (D, E) 954"}
+   ],
+   "ports": {
+    "rise": ["eoforwic", "legacaestir", "lundenwic", "rotomagus", "duiblinn", "sliesthorp", "birka", "paviken", "colonia", "mogontia", "traiectum", "daventre", "gipeswic", "aldeigjuborg"],
+    "fall": ["skiringssal", "quentovic", "namnetis", "herio", "hi"],
+    "lacking": ["Tiel on the Waal", "Norwich, Lincoln, Stamford, Thetford, Winchester: towns with mints", "Waterford (914), Limerick (922), Wexford, Cork: the Northmen's Irish towns", "Montreuil on the Canche: Quentovic's heir", "Fécamp and Bayeux in Normandy", "Hamburg and Bremen", "Wolin at the Oder mouth", "Novgorod, Gnezdovo on the upper Dnieper, Kiev", "Bulghar on the Volga (off the chart: the silver's gate)", "Aarhus (a bishop in 948)", "Iceland's landing places"]
+   },
+   "stories": [
+    {
+     "id": "age4.forty_pounds_for_a_bishop",
+     "year": 914,
+     "title": "Forty pounds for a bishop",
+     "where": ["legacaestir", "namnetis", "duiblinn"],
+     "chronicle": "",
+     "text": "A great fleet came north from Brittany under two earls, Ohter and Hroald, and went round west into the mouth of the Severn. It raided the Welsh coast wherever it liked and took Cyfeiliog, bishop in Archenfield, down to the ships. King Edward bought him back for forty pounds. Then the men of Hereford and Gloucester beat the raiders in the field, and the king set a watch along the whole south shore of the Severn sea. The fleet sat on an island in the channel until many starved. What was left went to Dyfed and from there to Ireland in the autumn.",
+     "source": "ASC (A) 917, (D) 915 (= 914); Ingram 1823 prints it under 918"
+    },
+    {
+     "id": "age4.the_rus_on_the_volga",
+     "year": 922,
+     "title": "The merchants at the wooden post",
+     "where": ["aldeigjuborg", "birka"],
+     "chronicle": "922-05-12-ibn-fadlan",
+     "text": "The caliph's envoy watched the Rus traders camped by the Volga at the Bulghar king's market. He had never seen bodies more perfect, he wrote: tall as palm trees, fair and ruddy. Each man kept an axe, a sword and a knife by him always. A wife wore a neck ring for every ten thousand dirhams her husband owned, and green glass beads bought at a dirham each. When a ship came in, her master went to a tall wooden post with bread, meat, onions, milk and drink, told it how many girls and sable skins he had brought, and asked it for a merchant with many dinars and dirhams who would buy what he was offered and not argue.",
+     "source": "Ibn Fadlan, Risala (922), the account of the Rusiyyah (our own words)"
+    },
+    {
+     "id": "age4.brunanburh",
+     "year": 937,
+     "title": "The great fight",
+     "where": ["duiblinn", "eoforwic", "legacaestir"],
+     "chronicle": "937-brunanburh",
+     "text": "Olaf Guthfrithson, king of Dublin, brought a fleet into England to win York, with Constantine king of Scots and the king of the Strathclyde Britons beside him. Æthelstan and his brother Edmund met them at Brunanburh and fought from sunrise to dark. Five young kings lay dead on the field and seven of Olaf's earls, and Constantine's son. Olaf was driven to his ship with few men and went back over deep water to Dublin. The English made a song of it, and the song says no greater slaughter was seen in the island since the Angles and Saxons first came over the broad sea.",
+     "source": "ASC (A) 937, the poem; AU 937"
+    }
+   ],
+   "sources": [
+    "Anglo-Saxon Chronicle 900-954, with the Mercian Register (tr. Ingram 1823: https://avalon.law.yale.edu/medieval/ang10.asp)",
+    "The laws I Edward and II Æthelstan (Grately)",
+    "Flodoard, Annales; Widukind of Corvey, Res gestae Saxonicae; Annals of Ulster",
+    "The Russian Primary Chronicle; Ibn Fadlan, Risala",
+    "J. Graham-Campbell (ed.), The Cuerdale Hoard (2011)",
+    "C. Kilger, 'Kaupang from afar: aspects of the interpretation of dirham finds', in Means of Exchange (2008)",
+    "R. Hall, Viking Age York (1994)"
+   ]
+  },
+  {
+   "id": "age5",
+   "from": 955,
+   "to": 990,
+   "name": "The quiet years",
+   "world": "For one long generation nobody burns a port. Otto breaks the Magyars on the Lech (955) and is crowned emperor (962). Edgar rules all England in peace (959-975). Harald Bluetooth makes the Danes one kingdom and Christian (about 965) and builds his ring forts (980). Towns fill: London, Winchester, York, Cologne, Tiel, Rouen, Ghent. Then the eastern silver stops. The mines fail, the Rus break the Khazars (965-969), and Birka is given up about 975 while a king's town, Sigtuna, takes its place. New silver comes out of the Harz from about 968 and goes north as German pennies. From 980 strange sails are seen off the English coast again.",
+   "rulers": [
+    {"where": "England", "realm": "wessex", "who": "Eadwig, Edgar, Edward 'the Martyr', Æthelred II", "years": "955-959; 959-975; 975-978; from 978"},
+    {"where": "The German kingdom and the empire, with Frisia and the Rhine", "realm": "franks", "who": "Otto I, Otto II, Otto III", "years": "936-973 (emperor 962); 973-983; 983-1002, a child under his mother Theophanu"},
+    {"where": "The western kingdom (France)", "realm": "franks", "who": "Lothar, Louis V, Hugh Capet", "years": "954-986; 986-987; from 987"},
+    {"where": "Normandy", "realm": "", "who": "Richard I", "years": "942-996"},
+    {"where": "Flanders", "realm": "", "who": "Arnulf I, Arnulf II, Baldwin IV", "years": "to 965; 965-988; from 988"},
+    {"where": "West Frisia", "realm": "franks", "who": "Counts Dirk II, Arnulf", "years": "to 988; 988-993"},
+    {"where": "Utrecht", "realm": "franks", "who": "Bishops Balderic, Folcmar", "years": "to 975; 976-990"},
+    {"where": "The Danes", "realm": "danes", "who": "Gorm, Harald Bluetooth, Sweyn Forkbeard", "years": "Gorm buried 958; Harald about 958-986; Sweyn from 986"},
+    {"where": "Norway", "realm": "norse_west", "who": "Hákon the Good, Harald Greycloak, Jarl Hákon", "years": "to 961; 961-970; 970-995"},
+    {"where": "The Svear", "realm": "svear", "who": "Erik the Victorious", "years": "about 970-995"},
+    {"where": "Dublin", "realm": "irish", "who": "Olaf Cuarán, Sihtric Silkbeard", "years": "Olaf to 980 (beaten at Tara); Sihtric from 989"},
+    {"where": "Ireland, the high kingship", "realm": "irish", "who": "Domnall ua Néill, Máel Sechnaill II", "years": "956-980; from 980"},
+    {"where": "Scots", "realm": "dalriata", "who": "Kenneth II", "years": "971-995"},
+    {"where": "Kiev", "realm": "rus", "who": "Olga, Svyatoslav, Yaropolk, Vladimir", "years": "Svyatoslav about 962-972; Yaropolk 972-980; Vladimir from 980"},
+    {"where": "The Poles", "realm": "", "who": "Mieszko I", "years": "about 960-992, baptised 966"},
+    {"where": "Constantinople", "realm": "", "who": "Nikephoros II, John I, Basil II", "years": "963-969; 969-976; from 976"}
+   ],
+   "trade": "The money changes. Dirhams thin out after about 950 and are gone from the west by the 970s. In their place come German pennies and English ones. Edgar's reform (about 973) makes one design of penny for all England, struck in some forty towns and called in every few years: a stranger must change his silver at the mint and lose a little each time. Edgar also sets one weight and one measure, London's and Winchester's, and a price for wool: 120 pence the wey. The emperor grants market, mint and toll to bishops (Bremen 965, Magdeburg 965), and the bishop's toll-man replaces the count's. Tiel is one of the four great toll places of the German kingdom, with Mainz, Cologne and Bardowick (975). Merchants of Cologne and Tiel are regular in London, and Flemish towns begin to weave English wool. At Mainz in 965 a traveller from Spain sees dirhams of Samarkand, and pepper, ginger and cloves. With no war to feed it, the trade in captives shrinks in the west and moves east, to Prague and the Rus rivers.",
+   "goods": {"more": ["raw_wool", "wool_cloth", "pepper", "ginger", "cloves", "rhenish_wine", "pingsdorf_ware", "quernstones", "lead", "tin", "cheese"], "less": ["captives", "silk", "glass_beads", "carnelian"]},
+   "danger": "Little, and that is the point: these are the years to build. The risks are a toll-man's, a moneyer's and a bishop's court's. Towns burn and sicken (London, 962); there is famine in England in 976 and a cattle plague in 986. On the Danish border Otto II storms the Danevirke (974) and the Danes take it back (983), the year the Slavs rise and burn Hamburg. From 980 small fleets, seven ships at a time, fall on Southampton, Thanet and Cheshire (980), Padstow (981), Portland (982) and Watchet (988).",
+   "new": [
+    {"year": 955, "kind": "other", "what": "The Magyars beaten on the Lech: the roads of Germany are safe again.", "source": "Widukind III.44-49"},
+    {"year": 962, "kind": "other", "what": "Otto crowned emperor at Rome: one lord from the Rhine mouths to Italy.", "source": "Liudprand; Continuator of Regino 962"},
+    {"year": 965, "kind": "other", "what": "The Danes' king baptised; the great rune stone at Jelling says he 'made the Danes Christian'.", "source": "Widukind III.65; the Jelling stone"},
+    {"year": 965, "kind": "law", "what": "Market, mint and toll at Bremen granted to the archbishop, with the king's peace on its merchants; the same at Magdeburg.", "source": "Otto I's charters of 965 (MGH DD O I nos. 307, 301) (?)"},
+    {"year": 968, "kind": "coin", "what": "Silver found in the Harz (the Rammelsberg above Goslar): the metal of the German pennies that fill northern purses for a century.", "source": "Widukind III.63"},
+    {"year": 973, "kind": "coin", "what": "Edgar's reform penny: one design for all England, the moneyer and town named on every coin, the whole coinage called in and struck again every few years.", "source": "the coins; K. Jonsson, The New Era (1987); Roger of Wendover under 975"},
+    {"year": 973, "kind": "law", "what": "One measure and one weight, as kept at London and Winchester; a wey of wool to sell at 120 pence.", "source": "III Edgar 8 (date within 959-975)"},
+    {"year": 975, "kind": "law", "what": "Magdeburg's merchants freed of toll through the whole kingdom, except at Mainz, Cologne, Tiel and Bardowick.", "source": "Otto II's charter of 975 (MGH DD O II no. 112) (?)"},
+    {"year": 980, "kind": "town", "what": "Sigtuna laid out on Mälaren by the Svear king.", "source": "https://sv.wikipedia.org/wiki/Sigtuna; chronicle_793.json under 975"},
+    {"year": 980, "kind": "other", "what": "Harald's ring forts (Trelleborg, Fyrkat, Aggersborg, Nonnebakken) and the half-mile bridge at Ravning.", "source": "tree rings, 979-981"},
+    {"year": 985, "kind": "ship", "what": "A royal longship of about 31 m built; she ends as a fire-ship against Sliesthorp's harbour.", "source": "Hedeby wreck 1: O. Crumlin-Pedersen, Viking-Age Ships and Shipbuilding in Hedeby/Haithabu and Schleswig (1997) (?)"},
+    {"year": 985, "kind": "law", "what": "The king's toll and mint at Medemblik pass to Count Ansfrid.", "source": "Otto III's charter of 985 (?)"},
+    {"year": 986, "kind": "town", "what": "Greenland settled from Iceland.", "source": "Ari, Íslendingabók 6"},
+    {"year": 988, "kind": "other", "what": "Kiev baptised; the emperor at Constantinople takes Northmen into his guard. A bishop named for Odense.", "source": "PVL 6496; Otto III's charter of 988 for the Danish sees"},
+    {"year": 990, "kind": "town", "what": "Lund in Skåne and Roskilde on Zealand begun as the Danish kings' towns.", "source": "Adam of Bremen II.28 for Roskilde's church; the oldest graves at Lund, about 990 (?)"}
+   ],
+   "gone": [
+    {"year": 955, "what": "The Magyar raids.", "source": "Widukind III.49"},
+    {"year": 960, "what": "The last trade at Skiringssal.", "source": "ports_793.json; Skre 2007 (?)"},
+    {"year": 965, "what": "The dirham stream to the west; with the Khazars' fall (965-969) their toll road on the Volga.", "source": "PVL 6473; the hoards; chronicle_793.json under 969"},
+    {"year": 965, "what": "The old gods as the Danish king's religion.", "source": "Widukind III.65"},
+    {"year": 975, "what": "Birka.", "source": "archaeology; chronicle_793.json under 975"},
+    {"year": 980, "what": "Dublin's freedom: after Tara its kings pay the Irish high king.", "source": "AU 980"},
+    {"year": 980, "what": "Truso on Lake Drużno: its trade goes to the new fort at Gdańsk.", "source": "archaeology (?); ports_793.json ends Truso at 850, which is too early for Wulfstan's visit of about 890"},
+    {"year": 986, "what": "Harald Bluetooth: dead of wounds after his son's rising.", "source": "Adam of Bremen II.27-28"},
+    {"year": 987, "what": "Charles the Great's line in the west.", "source": "Richer of Reims"},
+    {"year": 990, "what": "Hleiðr (Lejre) as the Danish kings' seat: Roskilde has taken its place.", "source": "archaeology (?)"}
+   ],
+   "ports": {
+    "rise": ["lundenwic", "legacaestir", "eoforwic", "colonia", "mogontia", "traiectum", "daventre", "ganda", "rotomagus", "sliesthorp", "ripa"],
+    "fall": ["birka", "skiringssal", "truso", "aldeigjuborg", "hleidr", "hamwic"],
+    "lacking": ["Tiel on the Waal: at its height", "Sigtuna (about 980)", "Roskilde and Lund", "Aarhus and Odense: bishops' towns", "Wolin at the Oder mouth: at its height", "Gdańsk (a fort about 980, named 997)", "Novgorod and Kiev", "Bremen (market 965), Magdeburg, Stade", "Bruges", "Norwich, Lincoln, Thetford, Winchester", "Greenland's Eastern Settlement (986)"]
+   },
+   "stories": [
+    {
+     "id": "age5.poppo_and_the_iron",
+     "year": 965,
+     "title": "The hot iron",
+     "where": ["sliesthorp", "ripa", "hleidr"],
+     "chronicle": "965-harald-baptised",
+     "text": "At a feast before King Harald the Danes argued about gods. They granted that Christ was a god, but said there were others greater, who showed men stronger signs. A priest named Poppo answered that there was one God only and the rest were demons. The king, a man quick to listen and slow to speak, asked whether he would prove it on his own body. Next morning the king had a great weight of iron heated, and Poppo carried it as far as he was told and showed his hand unhurt. Then the king ordered that Christ alone be honoured in his kingdom.",
+     "source": "Widukind of Corvey, Res gestae Saxonicae III.65 (written about 968)"
+    },
+    {
+     "id": "age5.edgar_on_the_dee",
+     "year": 973,
+     "title": "Kings at the oars",
+     "where": ["legacaestir"],
+     "chronicle": "973-05-11-edgar-bath",
+     "text": "After he was crowned at Bath at Pentecost, King Edgar took his whole fleet round Wales to Chester. Six kings came to meet him there and swore to be his helpers by sea and by land. Men told it bigger afterwards: eight kings, they said, among them the king of Scots, the king of the Cumbrians and Maccus, king of many islands, and they rowed Edgar on the Dee from his hall to the church of Saint John while he held the steering oar.",
+     "source": "ASC (D, E) 973 for the six kings and the oath; the eight kings and the rowing are from John of Worcester, Chronicle under 973 (written about 1120-1140)"
+    },
+    {
+     "id": "age5.twenty_five_ships",
+     "year": 986,
+     "title": "A good name for a land",
+     "where": [],
+     "chronicle": "985-greenland",
+     "text": "Erik the Red, outlawed from Iceland for killings, spent three winters finding out a land in the west. He called it Greenland, because, he said, men would be keener to go there if it had a good name. The summer he went back to settle it, twenty-five ships sailed with him from Breiðafjörður and Borgarfjörður. Fourteen arrived. Some were driven back and some were lost.",
+     "source": "Ari, Íslendingabók 6 (the name and the date: fourteen or fifteen winters before Iceland took the faith); Landnámabók for the ships"
+    }
+   ],
+   "sources": [
+    "Anglo-Saxon Chronicle 955-990; the laws II-IV Edgar",
+    "Widukind of Corvey; Thietmar of Merseburg; Adam of Bremen, Gesta Hammaburgensis",
+    "Ibrahim ibn Yaqub's journey of about 965, as kept by al-Bakri and al-Qazwini",
+    "Ari Þorgilsson, Íslendingabók; Landnámabók; the Russian Primary Chronicle",
+    "K. Jonsson, The New Era: the Reformation of the Late Anglo-Saxon Coinage (1987)",
+    "E. Roesdahl, Viking Age Denmark (1982)",
+    "The charters of 965, 975 and 985 are cited from memory and not re-read tonight (?)"
+   ]
+  },
+  {
+   "id": "age6",
+   "from": 991,
+   "to": 1041,
+   "name": "Tribute, then one king",
+   "world": "The fleets come back to England, bigger and led by kings, and Æthelred buys them off: 10,000 pounds in 991, 16,000 in 994, 24,000 in 1002, 36,000 in 1007, 48,000 in 1012. The silver goes home with the crews and lies in every northern hoard. Sweyn Forkbeard takes England in 1013. His son Cnut holds it from 1016, Denmark from 1018 and Norway from 1028, and for twenty years one king's peace covers the North Sea. Tolls on the roads to Rome are lowered (1027) and the biggest cargo ships of the age are built. The north is baptised: Norway under two Olafs, Iceland by a vote (1000), the king of the Svear at Sigtuna. On the Rhine mouths Tiel is burned (1006) and rebuilt, and the count of West Frisia sets a toll at Vlaardingen and beats the emperor's army to keep it (1018). Cnut dies in 1035 and his sons cannot hold three kingdoms.",
+   "rulers": [
+    {"where": "England", "realm": "wessex", "who": "Æthelred II, Sweyn Forkbeard, Edmund Ironside, Cnut, Harold Harefoot, Harthacnut", "years": "Æthelred 978-1013 and 1014-1016; Sweyn 1013-1014; Edmund 1016; Cnut 1016-1035; Harold 1035-1040; Harthacnut 1040-1042"},
+    {"where": "The Danes", "realm": "danes", "who": "Sweyn Forkbeard, Harald II, Cnut, Harthacnut", "years": "986-1014; 1014-1018; 1018-1035; 1035-1042"},
+    {"where": "Norway", "realm": "norse_west", "who": "Jarl Hákon, Olaf Tryggvason, the jarls Eric and Sweyn, Olaf Haraldsson, Cnut, Magnus the Good", "years": "Hákon to 995; Olaf 995-1000; the jarls 1000-1015; Olaf Haraldsson 1015-1028, killed at Stiklestad 1030; Cnut 1028-1035; Magnus from 1035"},
+    {"where": "The Svear and Götar", "realm": "svear", "who": "Olof Skötkonung, Anund Jacob", "years": "about 995-1022; 1022 to about 1050"},
+    {"where": "The empire, with Frisia and the Rhine", "realm": "franks", "who": "Otto III, Henry II, Conrad II, Henry III", "years": "to 1002; 1002-1024; 1024-1039; from 1039"},
+    {"where": "France", "realm": "franks", "who": "Hugh Capet, Robert II, Henry I", "years": "to 996; 996-1031; from 1031"},
+    {"where": "Normandy", "realm": "", "who": "Richard I, Richard II, Richard III, Robert I, William", "years": "to 996; 996-1026; 1026-1027; 1027-1035; from 1035, a child"},
+    {"where": "Flanders", "realm": "", "who": "Baldwin IV, Baldwin V", "years": "988-1035; from 1035"},
+    {"where": "West Frisia", "realm": "franks", "who": "Counts Arnulf, Dirk III, Dirk IV", "years": "Arnulf killed 993; Dirk III 993-1039; Dirk IV from 1039"},
+    {"where": "Utrecht", "realm": "franks", "who": "Bishops Ansfrid, Adalbold, Bernold", "years": "995-1010; 1010-1026; from 1027"},
+    {"where": "Middle Frisia", "realm": "franks", "who": "counts of the house of Brunswick: Liudolf, Bruno", "years": "Liudolf to 1038; Bruno from 1038"},
+    {"where": "Dublin", "realm": "irish", "who": "Sihtric Silkbeard", "years": "989-1036"},
+    {"where": "Ireland, the high kingship", "realm": "irish", "who": "Máel Sechnaill II, Brian Boru", "years": "Brian 1002-1014, killed at Clontarf; Máel Sechnaill again to 1022"},
+    {"where": "Scots", "realm": "dalriata", "who": "Malcolm II, Duncan I, Macbeth", "years": "1005-1034; 1034-1040; from 1040"},
+    {"where": "Orkney", "realm": "", "who": "Earls Sigurd and Thorfinn", "years": "Sigurd killed at Clontarf 1014; Thorfinn to about 1065 (?)"},
+    {"where": "Kiev and Novgorod", "realm": "rus", "who": "Vladimir, Yaroslav", "years": "to 1015; 1019-1054"},
+    {"where": "The Poles", "realm": "", "who": "Bolesław I, Mieszko II", "years": "992-1025; 1025-1034"},
+    {"where": "Iceland", "realm": "", "who": "the Althing", "years": "the lawspeaker Thorgeir decides for baptism in 1000"}
+   ],
+   "trade": "English pennies are the north's money. More of Æthelred's coins have been found in Scandinavia than in England, and the kings there copy them: at Sigtuna (about 995), at Dublin (997), then in Denmark and Norway. The last dirhams reach the Baltic in the 1010s. London is the chief port of the north. Its toll list, of about 1000, names men of Rouen with wine and blubber-fish, men of Flanders, Ponthieu, Normandy and France, men of Huy, Liège and Nivelles, and the emperor's men, who may trade like Londoners and pay at Christmas and Easter in cloth, pepper, gloves and vinegar. The merchants of Tiel sail to England as a sworn fellowship with their own law. A Frisians' guild raises rune stones at Sigtuna. Bruges is praised for its crowd of merchants (1037). From the far west come walrus ivory and falcons, from Norway dried fish. Captives are still sold through Dublin, and the archbishop of York preaches against it (1014).",
+   "goods": {"more": ["raw_wool", "wool_cloth", "frankish_wine", "rhenish_wine", "whale_meat", "stockfish", "herring", "walrus_ivory", "falcons", "pepper", "wheat"], "less": ["captives", "silk", "amber_beads", "soapstone"]},
+   "danger": "Until 1016 England is the most dangerous coast on the chart: fleets of ninety ships and more every few years, towns burned from Ipswich (991) to Exeter (1003), Norwich and Thetford (1004), Oxford (1010) and Canterbury (1011). The king answers with a massacre (Saint Brice's Day, 1002) and with tribute. The Rhine mouths are struck in 1006 and 1007, Stavoren in 991, Stade in 994. The sea takes its share: the flood of Michaelmas eve, 1014. Famine in 1005, such as no one remembered. Then Cnut pays off the fleet (1018), and for twenty years the worst a merchant meets between the Thames and the Sound is a toll. War comes back only at the edges: Olaf of Norway and the Svear king against Cnut (1026), and Wendish raiders in the Danish straits once Cnut is dead.",
+   "new": [
+    {"year": 991, "kind": "law", "what": "The first great tribute (gafol) paid by the English to a fleet: 10,000 pounds.", "source": "ASC 991"},
+    {"year": 995, "kind": "coin", "what": "The first coins of the Svear (Sigtuna, about 995), of Dublin (997), and of the kings of the Danes and of Norway, all copied from Æthelred's pennies.", "source": "the coins; chronicle_793.json under 995 and 997"},
+    {"year": 997, "kind": "town", "what": "Nidaros (Trondheim) founded as a king's town and market.", "source": "Snorri, Óláfs saga Tryggvasonar 70; the date is the traditional one (?)"},
+    {"year": 1000, "kind": "law", "what": "London's toll list: a small boat a halfpenny, a sailing ship a penny, a keel or a hulk fourpence; the foreign merchants named people by people.", "source": "IV Æthelred 2; the emperor's men's dues in cloth, pepper, gloves and vinegar are from memory of the same clause (?)"},
+    {"year": 1000, "kind": "law", "what": "Iceland takes the faith by a decision of the Althing.", "source": "Ari, Íslendingabók 7"},
+    {"year": 1000, "kind": "town", "what": "Houses built for a winter or two in Vinland, far west of Greenland.", "source": "Adam of Bremen IV.38; the sagas; wood cut at L'Anse aux Meadows in 1021 (chronicle_793.json)"},
+    {"year": 1008, "kind": "law", "what": "Ships ordered built all over England, a warship from about every three hundred hides, a helmet and byrnie from every eight. They gather at Sandwich in 1009 and come to nothing.", "source": "ASC 1008, 1009"},
+    {"year": 1012, "kind": "law", "what": "A yearly army-tax (heregeld) to pay a hired fleet of Danish ships in the English king's service.", "source": "ASC 1012; ASC (D) 1051 for its beginning"},
+    {"year": 1016, "kind": "other", "what": "One king over England, then Denmark (1018) and Norway (1028).", "source": "ASC 1016-1028"},
+    {"year": 1018, "kind": "law", "what": "The count of West Frisia's toll at Vlaardingen on the ships passing to and from Tiel, kept by force.", "source": "Alpert of Metz, De diversitate temporum II.20-21; Thietmar VIII.27-28 (?)"},
+    {"year": 1020, "kind": "law", "what": "The merchants of Tiel judge their own cases by their own custom and claim the emperor's charter for it.", "source": "Alpert of Metz, De diversitate temporum II.20"},
+    {"year": 1025, "kind": "ship", "what": "A great cargo ship, about 22 m long and able to carry some 60 tons, sinks in Sliesthorp's harbour.", "source": "Hedeby wreck 3, built about 1025: Crumlin-Pedersen 1997 (?)"},
+    {"year": 1027, "kind": "law", "what": "Cnut at Rome wins from the emperor and the king of Burgundy lower tolls and safe passage for English and Danish merchants and pilgrims.", "source": "Cnut's letter of 1027, kept by John of Worcester and William of Malmesbury"},
+    {"year": 1030, "kind": "ship", "what": "A sea-going trader of 15.8 m built of pine in western Norway (crew six to eight); about 1040 a 14 m coaster of four or five tons built of oak in Denmark.", "source": "Skuldelev 1 and 3: https://en.wikipedia.org/wiki/Skuldelev_ships; Crumlin-Pedersen and Olsen, The Skuldelev Ships I (2002)"},
+    {"year": 1030, "kind": "other", "what": "The Frisians' guild at Sigtuna raises a rune stone for its brother Thorkel.", "source": "Rune stones U 379 and U 391, first half of the 11th century (https://sv.wikipedia.org/wiki/Upplands_runinskrifter_379)"},
+    {"year": 1037, "kind": "town", "what": "Bruges named for its many merchants and its wealth, when Queen Emma takes refuge there.", "source": "Encomium Emmae Reginae III.7"}
+   ],
+   "gone": [
+    {"year": 1000, "what": "Olaf Tryggvason: beaten at sea and gone over the side of his ship.", "source": "Adam of Bremen II.40; the sagas"},
+    {"year": 1000, "what": "The old gods in the law of Iceland and Norway.", "source": "Ari, Íslendingabók 7"},
+    {"year": 1006, "what": "Tiel's first town: burned by Northmen who came up the Waal; rebuilt at once.", "source": "Alpert of Metz I.8 (https://nl.wikipedia.org/wiki/Tiel)"},
+    {"year": 1015, "what": "The last dirhams in the north.", "source": "the hoards; chronicle_793.json under 1000"},
+    {"year": 1016, "what": "The rule of Alfred's house in England, until 1042.", "source": "ASC 1016"},
+    {"year": 1018, "what": "The great fleets: paid 72,000 pounds, and 10,500 from London, and sent home; forty ships kept.", "source": "ASC 1018"},
+    {"year": 1028, "what": "Norway's own king, until 1035.", "source": "ASC 1028"},
+    {"year": 1035, "what": "Cnut, and with him one peace over the North Sea.", "source": "ASC 1035"}
+   ],
+   "ports": {
+    "rise": ["lundenwic", "colonia", "traiectum", "daventre", "ganda", "andoverpis", "rotomagus", "duiblinn", "eoforwic", "legacaestir", "ripa", "sliesthorp"],
+    "fall": ["gipeswic", "hamwic", "paviken", "uppsalir"],
+    "lacking": ["Tiel on the Waal: burned 1006, a great market still in 1020", "Vlaardingen: the count's toll, 1018", "Stavoren: sacked 991, a port for the Baltic and Cologne trade", "Sandwich: where the English fleet gathers", "Bristol: a town and mint by about 1020 (?)", "Norwich, Thetford, Exeter, Oxford", "Bruges (1037)", "Lund, Roskilde, Sigtuna, Nidaros (Trondheim)", "Wolin and Gdańsk", "Novgorod and Kiev", "Bremen and Stade", "Greenland; Vinland (Leif's houses)"]
+   },
+   "stories": [
+    {
+     "id": "age6.the_archbishop_at_greenwich",
+     "year": 1012,
+     "title": "Wine from the south",
+     "where": ["lundenwic", "fordwic"],
+     "chronicle": "1012-04-19-aelfheah",
+     "text": "The army that took Canterbury held Archbishop Ælfheah for seven months, waiting for his ransom, and he forbade anyone to pay it. On the Saturday after Easter, at Greenwich, they were very drunk, for wine had been brought to them from the south. They led him to their meeting and killed him there. The Chronicle: 'They overwhelmed him with bones and horns of oxen; and one of them smote him with an axe-iron on the head.' The tribute, 48,000 pounds, was paid all the same. Then Thorkell went over to King Æthelred with forty-five ships.",
+     "source": "ASC 1012, tr. J. Ingram 1823 (https://avalon.law.yale.edu/medieval/ang11.asp); Thietmar of Merseburg VII.42-43"
+    },
+    {
+     "id": "age6.the_merchants_of_tiel",
+     "year": 1020,
+     "title": "What a monk thought of Tiel",
+     "where": ["traiectum", "daventre", "lundenwic"],
+     "chronicle": "1020-tiel-merchants",
+     "text": "A monk of the bishopric of Utrecht wrote down what he thought of the merchants of Tiel. They are hard men, used to no discipline. They judge their cases by their own will and not by the law, and say the emperor gave them a charter for it. A debt denied on oath is a debt cancelled, so they swear easily. They start drinking early in the morning, and the man who tells the coarsest joke in the loudest voice gets the praise. They put their money together and share it out for feasts at set times of the year. And when the count set his toll at Vlaardingen, these were the men who told the emperor that unless he acted they could no longer sail to the island of Britain, nor the Britons come to them, and his own tolls would be the poorer.",
+     "source": "Alpert of Metz, De diversitate temporum II.20-21, written about 1021-1024 (MGH SS 4; ed. H. van Rij 1980); our own words"
+    },
+    {
+     "id": "age6.cnuts_letter",
+     "year": 1027,
+     "title": "The king's letter from Rome",
+     "where": ["lundenwic", "ripa", "sliesthorp"],
+     "chronicle": "1027-03-26-cnut-rome",
+     "text": "Cnut went to Rome for the emperor's crowning and wrote home to all his people. He had spoken, he said, with the emperor, the pope and the princes there about the needs of the English and the Danes: that they should have fairer law and safer peace on the road to Rome, and not be stopped at so many barriers or worn down by unjust tolls. The emperor agreed, and King Rudolf, who holds most of the barriers in the passes, and all the princes sealed it: his people, merchants and those who travel to pray alike, may go and come back in firm peace and under just law.",
+     "source": "Cnut's letter of 1027, kept in John of Worcester's Chronicle (under 1031) and William of Malmesbury, Gesta regum II.183; our own words"
+    }
+   ],
+   "sources": [
+    "Anglo-Saxon Chronicle 991-1041 (tr. Ingram 1823: https://avalon.law.yale.edu/medieval/ang11.asp)",
+    "The laws IV Æthelred and I-II Cnut; Wulfstan, Sermo Lupi ad Anglos (1014)",
+    "Alpert of Metz, De diversitate temporum; Thietmar of Merseburg; Annales Hildesheimenses 991 (Stavoren: https://nl.wikipedia.org/wiki/Stavoren)",
+    "Encomium Emmae Reginae; Adam of Bremen; Snorri Sturluson, Heimskringla (written about 1230)",
+    "M. K. Lawson, Cnut (1993)",
+    "O. Crumlin-Pedersen, Viking-Age Ships and Shipbuilding in Hedeby/Haithabu and Schleswig (1997); O. Crumlin-Pedersen and O. Olsen (eds), The Skuldelev Ships I (2002)"
+   ]
+  },
+  {
+   "id": "age7",
+   "from": 1042,
+   "to": 1066,
+   "name": "The last years",
+   "world": "Cnut's sea-kingdom is gone and three houses want its pieces. Edward, Æthelred's son, comes home from Normandy to be king of the English (1042). Magnus of Norway holds Denmark too until 1047; then Harald of Norway and Sweyn of Denmark fight for seventeen summers, and Sliesthorp is burned in one of them (1050). In England the house of Godwine grows greater than the king. In Normandy Duke William grows up, wins his battles and builds castles. Flanders under Baldwin V is rich on cloth and on being everyone's refuge. In Frisia the counts strike their own pennies, and the count of West Frisia is killed at Dordrecht (1049). Edward dies on 5 January 1066. A long-haired star is seen after Easter. By Christmas Harald of Norway and Harold of England are dead and William is crowned at Westminster.",
+   "rulers": [
+    {"where": "England", "realm": "wessex", "who": "Edward ('the Confessor'), Harold II, William I", "years": "Edward 1042 to 5 January 1066; Harold to 14 October 1066; William crowned 25 December 1066"},
+    {"where": "England's earls", "realm": "wessex", "who": "Godwine of Wessex, his sons Harold and Tostig", "years": "Godwine died 1053; Harold earl of Wessex 1053-1066; Tostig earl in Northumbria 1055-1065"},
+    {"where": "Normandy", "realm": "", "who": "Duke William", "years": "1035-1087"},
+    {"where": "The Danes", "realm": "danes", "who": "Magnus the Good, Sweyn Estridsen", "years": "1042-1047; 1047-1076"},
+    {"where": "Norway", "realm": "norse_west", "who": "Magnus the Good, Harald Hardrada", "years": "Magnus to 1047; Harald 1046 to 25 September 1066"},
+    {"where": "The Svear", "realm": "svear", "who": "Anund Jacob, Emund, Stenkil", "years": "to about 1050; to about 1060; to 1066 (?)"},
+    {"where": "The empire, with Frisia and the Rhine", "realm": "franks", "who": "Henry III, Henry IV", "years": "1039-1056; from 1056, a child"},
+    {"where": "France", "realm": "franks", "who": "Henry I, Philip I", "years": "to 1060; from 1060, a child in the care of Baldwin of Flanders"},
+    {"where": "Flanders", "realm": "", "who": "Baldwin V", "years": "1035-1067"},
+    {"where": "West Frisia", "realm": "franks", "who": "Counts Dirk IV, Floris I, Dirk V", "years": "Dirk IV killed 1049; Floris I 1049-1061; Dirk V from 1061, a child"},
+    {"where": "Utrecht", "realm": "franks", "who": "Bishops Bernold, William", "years": "1027-1054; 1054-1076"},
+    {"where": "Middle Frisia", "realm": "franks", "who": "Counts Bruno and Egbert of the house of Brunswick", "years": "Bruno 1038-1057; Egbert I 1057-1068"},
+    {"where": "Hamburg and Bremen", "realm": "", "who": "Archbishop Adalbert", "years": "1043-1072"},
+    {"where": "Scots", "realm": "dalriata", "who": "Macbeth, Malcolm III", "years": "1040-1057; from 1058"},
+    {"where": "Dublin", "realm": "irish", "who": "Diarmait of Leinster and his son Murchad", "years": "from 1052"},
+    {"where": "Wales", "realm": "", "who": "Gruffydd son of Llywelyn", "years": "king of all Wales about 1055-1063"},
+    {"where": "The Obodrites", "realm": "obodrites", "who": "Gottschalk", "years": "1043-1066, killed in the Slavs' rising"},
+    {"where": "Kiev and Novgorod", "realm": "rus", "who": "Yaroslav, then his sons", "years": "Yaroslav died 1054"},
+    {"where": "Rome", "realm": "", "who": "Pope Leo IX", "years": "1049-1054"}
+   ],
+   "trade": "The pattern of the next three hundred years is already here: English wool to Flemish looms, Flemish cloth everywhere, wine from Rouen and the Rhine to London, German silver to pay for it. Bruges is a port; Ghent and Saint-Omer weave. London, Winchester, York, Lincoln and Norwich are towns of thousands. Edward ends the army-tax and pays off the last hired ships (1050-1051); instead the Kentish ports owe ship service for their freedoms (Dover: twenty ships for fifteen days, twenty-one men in each). The Frisians' own counts strike pennies at Dokkum, Leeuwarden, Stavoren and Bolsward. Harald's Norwegian pennies are poor silver: take them by weight. After 1050 Sliesthorp's trade crosses the fjord to Schleswig. The north sells dried fish, ivory, furs and falcons. In a bad year grain is the cargo: wheat at sixty pence the sester in 1044.",
+   "goods": {"more": ["raw_wool", "fleeces", "wool_cloth", "frankish_wine", "rhenish_wine", "stockfish", "herring", "wheat", "walrus_ivory", "falcons", "lead", "tin"], "less": ["captives", "frisian_cloth", "soapstone"]},
+   "danger": "A war every summer somewhere. Norway against Denmark in the Danish straits (1048-1064); Wends on the Jutland coast (1043); the emperor against Flanders, with Edward's fleet lying at Sandwich to shut the sea (1049); Godwine's ships against the king (1052); Welsh and Irish fleets in the Severn (1049, 1055, 1058). Small fleets still raid and sell: twenty-five ships take men, gold and silver at Sandwich in 1048 and sell them in Flanders. A hard winter (1046-1047), famine (1044), cattle sickness (1054). And in 1066 every ship on the south and east coasts is called out or seized: Tostig in May, Harald's three hundred in September, William's fleet out of Saint-Valery on the night of 27 September.",
+   "new": [
+    {"year": 1040, "kind": "town", "what": "Groningen first named, as a royal estate given to the church of Utrecht.", "source": "Henry III's charter of 1040 (?)"},
+    {"year": 1040, "kind": "coin", "what": "Frisian pennies in the names of Count Bruno and then Count Egbert, struck at Dokkum, Leeuwarden, Stavoren, Bolsward, Winsum and Garrelsweer, and found in great numbers.", "source": "the coins (https://nl.wikipedia.org/wiki/Brunonen); their spread to the Baltic is from memory (?)"},
+    {"year": 1042, "kind": "ship", "what": "A longship of about 30 m for 65 to 70 men built at Dublin.", "source": "Skuldelev 2, tree rings 1042 (https://en.wikipedia.org/wiki/Skuldelev_ships)"},
+    {"year": 1043, "kind": "other", "what": "Archbishop Adalbert at Bremen: bishops sent to Orkney, Iceland and Greenland, and Bremen 'like Rome' for the north.", "source": "Adam of Bremen III"},
+    {"year": 1047, "kind": "coin", "what": "Harald Hardrada's pennies, much of them copper.", "source": "Morkinskinna; K. Skaare, Coins and Coinage in Viking-Age Norway (1976) (?)"},
+    {"year": 1048, "kind": "town", "what": "Oslo, by the sagas founded by King Harald as a market and a base against the Danes.", "source": "Snorri, Haralds saga Sigurðarsonar 58; the ground shows a settlement from about 1000 (?)"},
+    {"year": 1049, "kind": "town", "what": "Dordrecht first named, where Count Dirk IV is killed.", "source": "Annals of Egmond under 1049 (?)"},
+    {"year": 1050, "kind": "town", "what": "Schleswig, on the north shore of the Schlei, takes over from Sliesthorp.", "source": "Adam of Bremen IV.1; archaeology (https://en.wikipedia.org/wiki/Hedeby)"},
+    {"year": 1051, "kind": "law", "what": "The army-tax ended and the hired fleet paid off, after thirty-nine years.", "source": "ASC (D) 1052 (= 1051); ASC (C) 1049, 1050"},
+    {"year": 1051, "kind": "other", "what": "The first castles in England, built by the king's Frenchmen in Herefordshire.", "source": "ASC (E) 1051"},
+    {"year": 1054, "kind": "other", "what": "The churches of Rome and Constantinople part.", "source": "chronicle_793.json under 1054"},
+    {"year": 1060, "kind": "law", "what": "Ship service owed by Dover and the other Kentish ports: twenty ships a year for fifteen days, twenty-one men to a ship.", "source": "Domesday Book, Kent, 'in the time of King Edward'"},
+    {"year": 1065, "kind": "other", "what": "Edward's new church at Westminster hallowed on 28 December.", "source": "ASC 1065"}
+   ],
+   "gone": [
+    {"year": 1042, "what": "The Danish kings of England.", "source": "ASC 1042"},
+    {"year": 1043, "what": "Wolin (the sagas' Jómsborg): stormed and burned by King Magnus.", "source": "Snorri, Magnúss saga góða 24; Adam of Bremen, scholion (?)"},
+    {"year": 1049, "what": "Count Dirk IV of West Frisia, killed at Dordrecht.", "source": "Annals of Egmond (?)"},
+    {"year": 1050, "what": "Sliesthorp (Hedeby): burned from end to end by Harald of Norway; what is left is sacked by the Slavs in 1066.", "source": "Snorri, Haralds saga Sigurðarsonar 34; Adam of Bremen III.51"},
+    {"year": 1051, "what": "The hired fleet and the tax that paid it.", "source": "ASC (D) 1052 (= 1051)"},
+    {"year": 1054, "what": "One prince over all the Rus.", "source": "PVL 6562"},
+    {"year": 1060, "what": "Tiel's great days: the Rhine trade is passing to Utrecht, Deventer and Cologne.", "source": "the usual view; the toll was moved to Kaiserswerth in 1174 (https://nl.wikipedia.org/wiki/Tiel) (?)"},
+    {"year": 1066, "what": "Harald Hardrada at Stamford Bridge: the last king from the north to try for England with a fleet in these years.", "source": "ASC (C, D) 1066"},
+    {"year": 1066, "what": "The English kingdom of Alfred's and Godwine's houses. The game ends.", "source": "ASC 1066"}
+   ],
+   "ports": {
+    "rise": ["lundenwic", "ganda", "traiectum", "daventre", "colonia", "rotomagus", "dofras", "doccinga", "eoforwic", "legacaestir", "duiblinn"],
+    "fall": ["sliesthorp", "hleidr"],
+    "lacking": ["Schleswig: Sliesthorp's heir across the fjord", "Bruges", "Stavoren, Leeuwarden, Bolsward: Frisian mint towns", "Dordrecht (1049) and Vlaardingen", "Groningen (1040)", "Tiel: fading", "Sandwich, Hastings, Pevensey, Bosham", "Bristol", "Saint-Valery on the Somme and Caen", "Lund, Roskilde, Sigtuna, Oslo, Nidaros (Trondheim)", "Novgorod and Kiev", "Orkney", "Riccall on the Ouse, where Harald left his ships in 1066"]
+   },
+   "stories": [
+    {
+     "id": "age7.sixty_pence_the_sester",
+     "year": 1044,
+     "title": "Sixty pence the sester",
+     "where": ["lundenwic", "eoforwic", "gipeswic"],
+     "chronicle": "",
+     "text": "There was very great hunger over all England, and corn dearer than anyone remembered. The Chronicle gives the price as a merchant would: 'the sester of wheat rose to sixty pence, and even further.' The same year the king went out to Sandwich with thirty-five ships. A man with a hold of Rhineland or Frankish grain could have named his own price.",
+     "source": "ASC 1044 (E under 1043), tr. J. Ingram 1823 (https://avalon.law.yale.edu/medieval/ang11.asp); the last sentence is ours"
+    },
+    {
+     "id": "age7.hedeby_burns",
+     "year": 1050,
+     "title": "Burned from end to end",
+     "where": ["sliesthorp", "ripa"],
+     "chronicle": "1050-hedeby-burned",
+     "text": "In the war for Denmark, Harald of Norway sailed into the Schlei and burned Sliesthorp from end to end. One of his men made a verse of it: he stood on the town's rampart before dawn and watched the flames climb from the houses, and reckoned it a deed that would hurt Sweyn. A priest of Bremen wrote that ships used to sail from that harbour to the Slav lands, to Sweden, to Samland and as far as Greece. Sixteen years later the Slavs finished what was left, and the townsmen moved across the water to Schleswig.",
+     "source": "Snorri, Heimskringla, Haralds saga Sigurðarsonar 34, with the verses of Harald's men (written about 1230 from 11th-century verse); Adam of Bremen IV.1 and III.51"
+    },
+    {
+     "id": "age7.the_long_haired_star",
+     "year": 1066,
+     "title": "The long-haired star",
+     "where": ["lundenwic", "eoforwic", "dofras", "ganda"],
+     "chronicle": "1066-04-24-halley",
+     "text": "On the eve of the Greater Litany, the twenty-fourth of April, a star with a long tail was seen over all England, and it shone for a week. Soon after, Earl Tostig came raiding with as many ships as he could get. In September Harald of Norway came into the Humber with three hundred ships. He and Tostig beat the northern earls outside York, and five days later King Harold killed them both at Stamford Bridge. Twenty-four ships were enough to carry the Norwegians home. Three days after that Duke William landed at Pevensey. A merchant in Flanders or on the Rhine heard these things in the order the ships brought them, and not always the right way round.",
+     "source": "ASC (C, D, E) 1066; the last sentence is ours"
+    }
+   ],
+   "sources": [
+    "Anglo-Saxon Chronicle 1042-1066 (C, D, E)",
+    "Adam of Bremen, Gesta Hammaburgensis ecclesiae pontificum (written about 1075)",
+    "Snorri Sturluson, Heimskringla; Morkinskinna (both 13th century, with 11th-century verse)",
+    "Vita Ædwardi regis; William of Poitiers, Gesta Guillelmi; Domesday Book (1086) for customs 'in the time of King Edward'",
+    "F. Barlow, Edward the Confessor (1970)",
+    "P. Ilisch, 'Die Münzprägung im Herzogtum Niederlothringen', Jaarboek voor Munt- en Penningkunde 84-85 (1997-1998), for the Frisian pennies (?)"
+   ]
+  }
+ ]
+}

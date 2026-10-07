@@ -1,0 +1,10 @@
+chain_sword_smuggle_793.json
+
+Cards seen: 6 in the first 250 lines (5 whole, the 6th cut off before its options; the file says it has thirteen).
+
+- harbour.chain_sword_smuggle.s01_smiths_street — asks: buy four uncounted blades (180 d) and hide them, buy one openly for your own belt (50 d), or buy nothing and drink the smith's ale. Stake: silver (180 or 50), goods (swords aboard against the king's ban), time only if you refuse.
+- harbour.chain_sword_smuggle.s02_search — asks: let the count's man search the ballast and hope (60% on the best trader), slip the toll man 30 d, sell the blades to the count at his price, or lift the boards yourself. Stake: goods (the four swords seized), standing (seizure at law, marked boat, toll man's feeling -20, or a bribery deed), silver (30 d bribe, or 30 d loss on the sale).
+- crew.chain_sword_smuggle.s03_crews_word — asks: promise the men a share of the blades, throw the bundle over the side, or tell the steersman to mind the tide. Stake: goods (four swords lost overboard), a man (the steersman's or the hand's feeling), standing with the crew (morale), silver later (the promised share).
+- harbour.chain_sword_smuggle.s04_buyer — asks: sell the four blades to the Danish dealer for weighed silver (260 d), take three captives for them, or sell no blades and take his lawful order for tools. Stake: silver (260 d for what cost 180), goods (swords for captives), standing (a bought-captives deed; blades sold north), time (40 days' rest before the next step).
+- harbour.chain_sword_smuggle.s05_the_cask — asks: buy the cask of eight hidden blades (400 d), carry six bundles of lawful tools instead (90 d), or buy nothing and promise the journeyman to ask in the north what a smith is worth. Stake: silver (400 or 90), goods (a bigger banned cargo), a man (the journeyman's hope, the smith's feeling), time only if you buy nothing.
+- sea.chain_sword_smuggle.s06_watch_boat — asks: a king's watch boat at the river mouth calls on you to lie to and be searched (options not seen, past line 250). Stake: goods (the cask of blades) and standing (a boat that runs is marked), as far as the note says.

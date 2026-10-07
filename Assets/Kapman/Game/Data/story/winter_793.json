@@ -1,0 +1,4654 @@
+{
+ "about": "THE WINTER (Design/research_indie_and_concept.md 4.4: 'winter is the reckoning'; Design/research_scale_to_fleets.md 5: 'the winter council'). Four parts. reckoning: how the screen runs and its lines for a good, a middling and a bad year. cards: forty things that can happen over a winter ashore, in the engine's own card format (exactly the fields of encounters/harbour_793.json, so the loader would take them); their conditions and effects use only the variables of Cond.cs and the verbs of Effects.cs, checked by a script that mirrors the loader. writing: the words for every key the cards use, the line shown after each choice, and one line of what each card's picture shows (writing-file format: lift it into Data/writing/winter.json when the cards go live). inheritance: what an heir keeps, pays and loses. remembered: twelve ways a life is written in the chronicle, from a beggar to the king's friend. (?) marks what was not checked against a source tonight. Sums of silver are starting guesses on the scale of Design/content/CHAINS.md. A draft in the game's own file, for the user to overwrite. Written 4 Oct 2026.",
+ "reckoning": {
+  "about": "THE WINTER RECKONING (research_indie_and_concept.md 4.4; research_scale_to_fleets.md 5, the winter council). Once a year, the clock held: the year's log is read back, the debt is met or not, the boat is hauled, men leave and come, the heir grows a year, and one thing is chosen to build. The lines below are what the screen says about the year as a whole, before the log's own entries. {year}, {gain}, {loss}, {name}, {port}, {lost} and {feast} are filled in.",
+  "how_it_runs": [
+   "1. It opens when she is laid up after Michaelmas (29 September) at a port where the house has a plot, a host or its home, and at the latest at Martinmas (11 November). The screen sets 'flag wintering for <days till Easter>': every winter card asks for it.",
+   "2. The year is judged good, middling or bad (the rules under 'years') and one of that kind's lines is shown, then the voyage log's own entries in order: the short saga of the year.",
+   "3. The debt: the card harbour.winter.count_debt while any is owed.",
+   "4. The two cards of every winter: harbour.winter.crew_keep and harbour.winter.haul_and_tar.",
+   "5. Then two more cards (three in a year with a death, a wreck or a birth), drawn by weight from those whose 'when' holds in the winter's months, scheduled cards first, none twice. Cards whose note says 'without a draw' are played in the chronicle's own years.",
+   "6. The one thing built over the winter: a choice from 'one_thing'.",
+   "7. The chronicle's news of the year, as it has reached this port.",
+   "8. Easter: the flag lapses, the men are on the bank, and spring begins with three things known: the debt's new day, the fairs' dates, the first rumour."
+  ],
+  "years": {
+   "good": {
+    "when": "The year's gain after wages, bread, tolls and gifts is 240 d or more (half the first debt), no boat was lost and no man died.",
+    "lines": [
+     "This year the house did well. {gain} pennies came home over what went out, and no man was lost.",
+     "This year the boat came home deep, and the debt grew smaller.",
+     "A good year. The wine sold where it was wanted, and the news reached you before it reached the others.",
+     "This year there was peace on the water, and the house grew by {gain} pennies.",
+     "The men have new shoes and the chest is heavier than it was at Easter. Nothing else need be said.",
+     "This year {name} was spoken of at {port} as a man who comes back."
+    ]
+   },
+   "middling": {
+    "when": "The year's gain is between a loss of 60 d and a gain of 240 d, and the boat is whole.",
+    "lines": [
+     "This year the house neither grew nor shrank. The boat is whole and the men are fed.",
+     "A year like most. Some legs made silver and some made stories.",
+     "This year {gain} pennies came home. It is enough for the winter and not enough for the count.",
+     "The boat came home. That is the first thing, and this year it is nearly the only one.",
+     "This year nothing is written of the house, which is a kind of luck.",
+     "Bread till Easter and tar for the seams. The rest waits for another year."
+    ]
+   },
+   "bad": {
+    "when": "The year's loss is more than 60 d, or a boat was lost, or two men died, or the debt's day passed unpaid.",
+    "lines": [
+     "This year the house went backward by {loss} pennies.",
+     "A bad year. The price fell before the boat arrived, and it did so twice.",
+     "This year the sea took {lost} and gave nothing back.",
+     "This year there was a great hunger in the chest.",
+     "The men were paid before the count was. Let it be remembered that it was done so.",
+     "This year the boat came home light, and one bench is empty."
+    ]
+   }
+  },
+  "debt": {
+   "paid": [
+    "This year the debt was paid, on the day, in good pennies. The count's man broke his half of the stick and gave you the pieces.",
+    "This year {name} owed no man anything."
+   ],
+   "part": [
+    "Part of the debt was paid at Martinmas and part was not. The stick has fewer notches and the count has a longer memory.",
+    "The count took what there was and named another day."
+   ],
+   "unpaid": [
+    "The debt's day came and went. The count's man came with it and did not go.",
+    "This year the count had a claim on the boat, and said so before witnesses."
+   ]
+  },
+  "also": [
+   {
+    "when": "a first call at a port never seen before",
+    "line": "This year the house first saw {port}."
+   },
+   {
+    "when": "the third crossing of the open sea in a ship of the house's own",
+    "line": "This year {name} crossed the wide sea the third time at his own cost."
+   },
+   {
+    "when": "a man of the crew died",
+    "line": "This year died {lost}, of the boat's crew. God have mercy on his soul."
+   },
+   {
+    "when": "a child was born (flag house_child newly set)",
+    "line": "This year a child was born to the house, and was baptised."
+   },
+   {
+    "when": "a wreck",
+    "line": "This year the boat was lost on {port}'s bar, {feast}; and the men came ashore on what floated."
+   },
+   {
+    "when": "a new tongue, Latin letters or runes learned",
+    "line": "This year {name} learned what he had not known before."
+   },
+   {
+    "when": "a raid on the home port",
+    "line": "This year the heathen men came up the river, and did as they are used to do."
+   }
+  ],
+  "voice": "The Anglo-Saxon Chronicle's: one fact to a sentence, the year first, no reasons given. Model: the Chronicle for 793 (texts_793.json chronicle_793, Giles 1847). These lines are the game's own, written in that manner; none is quoted."
+ },
+ "one_thing": {
+  "about": "The one thing built over a winter (research_indie_and_concept.md 4.4: 'a bigger boat, a share in a second, a factor in a far port, a gift to a church'). One choice a winter. Each sets a flag of unlocks_793.json, where its cost and conditions are.",
+  "choices": [
+   {
+    "id": "bigger_boat",
+    "name": "A bigger boat",
+    "sets": "unlock_ship_north_sea_merchant_ship",
+    "cost": [
+     "silver 2400"
+    ],
+    "ready": "at Easter if begun by Martinmas, else at Whitsun"
+   },
+   {
+    "id": "boat_rebuilt",
+    "name": "The boat rebuilt",
+    "sets": "unlock_upgrade_washstrake",
+    "cost": [
+     "silver 200"
+    ],
+    "ready": "at Easter",
+    "card": "harbour.winter.rebuild"
+   },
+   {
+    "id": "second_keel",
+    "name": "A share in a second boat",
+    "sets": "unlock_partner_neighbour",
+    "cost": [
+     "silver 300"
+    ],
+    "ready": "at Easter",
+    "card": "harbour.winter.shares"
+   },
+   {
+    "id": "kinsman_skipper",
+    "name": "A kinsman given a boat",
+    "sets": "unlock_partner_kinsman",
+    "cost": [
+     "silver 300"
+    ],
+    "ready": "at Easter"
+   },
+   {
+    "id": "factor",
+    "name": "A man left in a far port",
+    "sets": "unlock_factor_<port id>",
+    "cost": [
+     "silver 120"
+    ],
+    "ready": "by the first ship that way"
+   },
+   {
+    "id": "plot",
+    "name": "A plot or a storehouse",
+    "sets": "unlock_plot_<port id>",
+    "cost": [
+     "silver 200 to 500, by the port"
+    ],
+    "ready": "at once"
+   },
+   {
+    "id": "church_gift",
+    "name": "A gift to a church",
+    "sets": "unlock_work_<port id>_<what>, or a memorial",
+    "cost": [
+     "silver 120 to 400, by the work"
+    ],
+    "ready": "in 60 to 120 days"
+   },
+   {
+    "id": "new_sail",
+    "name": "A new sail from the house's own loom",
+    "sets": "unlock_upgrade_new_sail",
+    "cost": [
+     "silver 60"
+    ],
+    "ready": "at Easter",
+    "card": "harbour.winter.weaving (twice)"
+   },
+   {
+    "id": "learning",
+    "name": "A winter at letters",
+    "sets": "learned.latin +0.5 or learned.runes +0.5",
+    "cost": [
+     "silver 20"
+    ],
+    "ready": "by Lent",
+    "card": "harbour.winter.monk_guest or harbour.winter.norse_guest"
+   },
+   {
+    "id": "nothing",
+    "name": "Nothing: keep the silver",
+    "sets": "",
+    "cost": [],
+    "ready": ""
+   }
+  ]
+ },
+ "cards": [
+  {
+   "id": "harbour.winter.birth",
+   "note": "A child of the house. Baptism within the year: Capitulatio de partibus Saxoniae c. 19 (782 or 785); within thirty days: Ine's law c. 2. The birth helper: npc_roles_793.json wise_woman. Sets house_child, house_cradle (no second birth for three years) and house_child_small (twelve years).",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and ((flag.house_wed or (generation = 0 and flag.ch_house_marriage_6)) and not flag.house_cradle)",
+   "weight": 0.5,
+   "cooldown_days": 1000,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "wise_woman": {
+     "role": "wise_woman",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.birth.title",
+   "title": "A child is coming",
+   "intention_key": "winter.birth.intention",
+   "intention": "Your wife's time has come in the dark of the year. The wise woman of the bank can be sent for. The priest says prayer is enough, and that the woman knows charms.",
+   "options": [
+    {
+     "key": "wise_woman",
+     "label_key": "winter.birth.wise_woman",
+     "label": "Send for the wise woman",
+     "default": true,
+     "cost": "silver 6",
+     "effects": [
+      {
+       "chance": 0.85,
+       "success": [
+        "flag house_child",
+        "flag house_cradle for 1100",
+        "flag house_child_small for 4380",
+        "morale +0.05",
+        "schedule harbour.winter.godparent in 8"
+       ],
+       "failure": [
+        "flag house_cradle for 1100",
+        "morale -0.1",
+        "npc wise_woman feeling -5 grief"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: sure"
+    },
+    {
+     "key": "household",
+     "label_key": "winter.birth.household",
+     "label": "Let the women of the house manage",
+     "effects": [
+      {
+       "chance": 0.65,
+       "success": [
+        "flag house_child",
+        "flag house_cradle for 1100",
+        "flag house_child_small for 4380",
+        "morale +0.05",
+        "schedule harbour.winter.godparent in 8"
+       ],
+       "failure": [
+        "flag house_cradle for 1100",
+        "morale -0.1"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "candle",
+     "label_key": "winter.birth.candle",
+     "label": "Send for her, and promise wax to the church if both live",
+     "cost": "silver 6",
+     "effects": [
+      {
+       "chance": 0.85,
+       "success": [
+        "flag house_child",
+        "flag house_cradle for 1100",
+        "flag house_child_small for 4380",
+        "morale +0.05",
+        "schedule harbour.winter.godparent in 8",
+        "silver -12",
+        "deed gave_alms"
+       ],
+       "failure": [
+        "flag house_cradle for 1100",
+        "morale -0.1"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: sure"
+    }
+   ],
+   "memory": {
+    "wise_woman": "sent for her at a birth",
+    "household": "did not send for her",
+    "candle": "sent for her and for the priest's blessing too"
+   }
+  },
+  {
+   "id": "harbour.winter.godparent",
+   "note": "Kinship made at the font. Louis the Pious stood sponsor to the Dane Harald in 826 (Annales regni Francorum); Alfred to Guthrum in 878 (Anglo-Saxon Chronicle). Scheduled eight days after a birth; also drawn, for the first child only (house_godsib). Sets unlock_kin_godsib_lord or unlock_kin_godsib_merchant (unlocks_793.json).",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (flag.house_child and not flag.house_godsib)",
+   "weight": 0.3,
+   "cooldown_days": 1000,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.godparent.title",
+   "title": "The font",
+   "intention_key": "winter.godparent.intention",
+   "intention": "The child must be baptised within the month, and someone must lift it from the water. Whoever does is kin to you from that day, and to the child.",
+   "options": [
+    {
+     "key": "lord",
+     "label_key": "winter.godparent.lord",
+     "label": "Ask the count's man",
+     "check": "standing >= known",
+     "cost": "silver 24",
+     "effects": [
+      "flag unlock_kin_godsib_lord",
+      "flag house_godsib",
+      "npc priest feeling +3 baptism"
+     ]
+    },
+    {
+     "key": "merchant",
+     "label_key": "winter.godparent.merchant",
+     "label": "Ask a merchant of the bank",
+     "effects": [
+      "flag unlock_kin_godsib_merchant",
+      "flag house_godsib",
+      "npc priest feeling +3 baptism"
+     ]
+    },
+    {
+     "key": "steersman",
+     "label_key": "winter.godparent.steersman",
+     "label": "Ask your own steersman",
+     "default": true,
+     "effects": [
+      "flag house_godsib",
+      "morale +0.15",
+      "npc priest feeling +3 baptism"
+     ]
+    }
+   ],
+   "memory": {
+    "lord": "had a lord's man stand sponsor",
+    "merchant": "had a merchant stand sponsor",
+    "steersman": "had his own steersman stand sponsor"
+   }
+  },
+  {
+   "id": "harbour.winter.child_fever",
+   "note": "Herbs and bleeding: Bald's Leechbook (English, 9th century; npc_roles_793.json leech). Roots tied on and charms: the Indiculus superstitionum (c. 743) lists amulets and bindings among what the Church forbids. No child dies of this card: the worst is a weak child for two years.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (flag.house_child_small and not flag.house_child_weak)",
+   "weight": 0.25,
+   "cooldown_days": 700,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "title_key": "winter.child_fever.title",
+   "title": "The child burns",
+   "intention_key": "winter.child_fever.intention",
+   "intention": "The child has had a fever three nights now and it will not break. The leech is across the river. The wise woman is next door. The church is always open.",
+   "options": [
+    {
+     "key": "leech",
+     "label_key": "winter.child_fever.leech",
+     "label": "Fetch the leech across the river",
+     "cost": "silver 10",
+     "effects": [
+      {
+       "chance": 0.8,
+       "success": [
+        "morale +0.05"
+       ],
+       "failure": [
+        "flag house_child_weak for 730",
+        "morale -0.05"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: sure"
+    },
+    {
+     "key": "herbs",
+     "label_key": "winter.child_fever.herbs",
+     "label": "Ask the wise woman for her herbs",
+     "cost": "silver 2",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "morale +0.05"
+       ],
+       "failure": [
+        "flag house_child_weak for 730",
+        "morale -0.05"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "church",
+     "label_key": "winter.child_fever.church",
+     "label": "Carry the child to the church and keep watch there",
+     "default": true,
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "morale +0.1"
+       ],
+       "failure": [
+        "flag house_child_weak for 730",
+        "morale -0.05"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.wedding",
+   "note": "The plain match, for a house the chain house_marriage has not reached: it comes only after 804 if that chain never began, and to every later head of the house (generation 1 and after), since the chain is told once. Marriage as a bargain between kins, with a bride-gift and a morning-gift before witnesses: the Old English tract 'Be wifmannes beweddunge' (c. 1000) and the Frankish laws (?). A priest's blessing was wished for, not yet needed. Sets house_wed and unlock_kin_wife_frisian or unlock_kin_wife_english (the chain's own flags, so the two agree).",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (not flag.house_wed and silver >= 60 and (generation >= 1 or (year >= 804 and not flag.ch_house_marriage_1)))",
+   "weight": 0.5,
+   "cooldown_days": 365,
+   "months": [
+    11,
+    1,
+    2
+   ],
+   "title_key": "winter.wedding.title",
+   "title": "A wife for the house",
+   "intention_key": "winter.wedding.intention",
+   "intention": "Your mother says a house with a boat and no wife is a boat with no keel. There is a neighbour's daughter who can keep a tally. There is also the daughter of the Englishman you deal with over the sea.",
+   "options": [
+    {
+     "key": "neighbour",
+     "label_key": "winter.wedding.neighbour",
+     "label": "Marry the neighbour's daughter",
+     "cost": "silver 60",
+     "effects": [
+      "flag house_wed",
+      "flag unlock_kin_wife_frisian",
+      "morale +0.1"
+     ]
+    },
+    {
+     "key": "english",
+     "label_key": "winter.wedding.english",
+     "label": "Send word across the sea to the Englishman",
+     "check": "silver >= 120 and (flag.unlock_plot_lundenwic or flag.unlock_plot_eoforwic or flag.unlock_factor_lundenwic or flag.unlock_factor_eoforwic or flag.guest_friend_eoforwic)",
+     "cost": "silver 120",
+     "effects": [
+      "flag house_wed",
+      "flag house_wife_foreign",
+      "flag unlock_kin_wife_english",
+      "morale +0.05"
+     ]
+    },
+    {
+     "key": "wait",
+     "label_key": "winter.wedding.wait",
+     "label": "Not this year",
+     "default": true,
+     "effects": []
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.sister_offer",
+   "note": "A woman married between two quarrelling houses: the English poets' peace-weaver (Beowulf: texts_793.json beowulf_28, beowulf_29). The rival is one of the named houses of research_scale_to_fleets.md 7.5; the first of them, Thiadbod of Dorestad, has his own chain (house_rival, 794 to about 808), so this card waits until 810 or the next head of the house. Sets unlock_kin_alliance_rival.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (not flag.house_sister_wed and not flag.unlock_kin_thiadbods_house and standing >= known and (year >= 810 or generation >= 1))",
+   "weight": 0.15,
+   "cooldown_days": 9000,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "merchant": {
+     "role": "merchant",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.sister_offer.title",
+   "title": "An offer for your sister",
+   "intention_key": "winter.sister_offer.intention",
+   "intention": "The house that undercut you on wine all summer sends an old woman with a proposal: their eldest son for your sister. It would end the quarrel. Your sister has seen him and has not said what she thinks.",
+   "options": [
+    {
+     "key": "agree",
+     "label_key": "winter.sister_offer.agree",
+     "label": "Agree, and pay her portion",
+     "cost": "silver 80",
+     "effects": [
+      "flag unlock_kin_alliance_rival",
+      "flag house_sister_wed",
+      "npc merchant feeling +30 kin"
+     ]
+    },
+    {
+     "key": "ask_her",
+     "label_key": "winter.sister_offer.ask_her",
+     "label": "Ask her first",
+     "default": true,
+     "effects": [
+      {
+       "chance": 0.5,
+       "success": [
+        "flag unlock_kin_alliance_rival",
+        "flag house_sister_wed",
+        "silver -80",
+        "npc merchant feeling +30 kin",
+        "morale +0.05"
+       ],
+       "failure": [
+        "npc merchant feeling -10 refused",
+        "morale +0.05"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: doubtful"
+    },
+    {
+     "key": "refuse",
+     "label_key": "winter.sister_offer.refuse",
+     "label": "Refuse",
+     "effects": [
+      "npc merchant feeling -15 refused"
+     ]
+    }
+   ],
+   "memory": {
+    "agree": "gave his sister in marriage",
+    "ask_her": "asked his sister first",
+    "refuse": "refused the match"
+   }
+  },
+  {
+   "id": "harbour.winter.foster",
+   "note": "Fostering among the Northmen is described in the sagas, written later; a 10th-century cross on Man says in runes 'Better to leave a good foster-son than a bad son' (runes_793.json manx_michael104). Sets unlock_kin_foster_dane or unlock_kin_foster_son.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (tongue.old_norse >= 0.5 and not flag.house_fostering and year >= 800)",
+   "weight": 0.12,
+   "cooldown_days": 9000,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "merchant": {
+     "role": "merchant",
+     "people": "danish",
+     "fixed": false
+    }
+   },
+   "title_key": "winter.foster.title",
+   "title": "A Dane's offer",
+   "intention_key": "winter.foster.intention",
+   "intention": "A Dane you have traded beside for two summers says that where he comes from, friends bring up each other's sons. He will take a boy of yours north, or leave his own with you. He means it as an honour.",
+   "options": [
+    {
+     "key": "send",
+     "label_key": "winter.foster.send",
+     "label": "Send your boy north with him",
+     "check": "flag.house_child",
+     "effects": [
+      "flag unlock_kin_foster_dane",
+      "flag house_heir_norse",
+      "flag house_fostering",
+      "npc merchant feeling +30 foster"
+     ]
+    },
+    {
+     "key": "take",
+     "label_key": "winter.foster.take",
+     "label": "Take his son into your house",
+     "effects": [
+      "flag unlock_kin_foster_son",
+      "flag house_fostering",
+      "tongue old_norse = 1",
+      "npc merchant feeling +30 foster"
+     ]
+    },
+    {
+     "key": "decline",
+     "label_key": "winter.foster.decline",
+     "label": "Thank him and decline",
+     "default": true,
+     "effects": [
+      "npc merchant feeling -3 declined"
+     ]
+    }
+   ],
+   "memory": {
+    "send": "gave him a son to foster",
+    "take": "fostered his son",
+    "decline": "declined to foster"
+   }
+  },
+  {
+   "id": "harbour.winter.school",
+   "note": "Schools for boys in every monastery and bishop's house: Admonitio generalis 789 c. 72 (psalms, signs, chant, reckoning, grammar). The offering of a child: Rule of St Benedict c. 59. Gregory's school at Traiectum, where Liudger learned: npc_roles_793.json schoolmaster. The second choice sets unlock_kin_oblate and takes the child out of the succession.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (flag.house_child and not flag.house_heir_lettered and not flag.unlock_kin_oblate)",
+   "weight": 0.2,
+   "cooldown_days": 1100,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "schoolmaster": {
+     "role": "schoolmaster",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.school.title",
+   "title": "Letters for the boy",
+   "intention_key": "winter.school.intention",
+   "intention": "The schoolmaster at the bishop's church takes boys for the winter: the psalms, the letters, reckoning on the fingers. He says your son is quick. He also says he would make a monk.",
+   "options": [
+    {
+     "key": "winter",
+     "label_key": "winter.school.winter",
+     "label": "Send him for the winter",
+     "cost": "silver 40",
+     "effects": [
+      "flag house_heir_lettered",
+      "learn latin +0.25",
+      "npc schoolmaster feeling +5 pupil"
+     ]
+    },
+    {
+     "key": "oblate",
+     "label_key": "winter.school.oblate",
+     "label": "Give him to the church for good",
+     "cost": "silver 40",
+     "effects": [
+      "flag unlock_kin_oblate",
+      "flag house_child = 0",
+      "deed gave_alms",
+      "npc schoolmaster feeling +15 oblate"
+     ]
+    },
+    {
+     "key": "oar",
+     "label_key": "winter.school.oar",
+     "label": "Keep him at the oar",
+     "default": true,
+     "effects": [
+      "morale +0.05"
+     ]
+    }
+   ],
+   "memory": {
+    "winter": "sent his son to school",
+    "oblate": "gave his son to the church",
+    "oar": "kept his son from school"
+   }
+  },
+  {
+   "id": "harbour.winter.heir_of_age",
+   "note": "Twelve as the age of the oath: all free men over twelve swore fidelity to the emperor in 802 (chronicle_793.json 802-spring-oath-of-802). The card comes when house_child_small (set at the birth for twelve years) has run out.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (flag.house_child and not flag.house_child_small and not flag.house_heir_grown)",
+   "weight": 1.0,
+   "cooldown_days": 3000,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "title_key": "winter.heir_of_age.title",
+   "title": "Twelve winters",
+   "intention_key": "winter.heir_of_age.intention",
+   "intention": "Your eldest is twelve: old enough to swear his oath to the king with the other free men, and to pull an oar. He has asked every day since Martinmas.",
+   "options": [
+    {
+     "key": "aboard",
+     "label_key": "winter.heir_of_age.aboard",
+     "label": "Take him aboard at Easter",
+     "default": true,
+     "effects": [
+      "flag house_heir_grown",
+      "flag house_heir_aboard",
+      "men +1",
+      "morale +0.05"
+     ]
+    },
+    {
+     "key": "ashore",
+     "label_key": "winter.heir_of_age.ashore",
+     "label": "Leave him ashore to learn the house",
+     "effects": [
+      "flag house_heir_grown",
+      "flag house_heir_ashore"
+     ]
+    },
+    {
+     "key": "wait",
+     "label_key": "winter.heir_of_age.wait",
+     "label": "One more winter",
+     "effects": []
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.elder_death",
+   "note": "Christian burial in the church's ground, without goods: Capitulatio de partibus Saxoniae c. 7 and c. 22 (no burning of the dead; Christians to the church's cemeteries, not the mounds of the heathen). The soul's gift at the open grave: the later English laws (V Æthelred 12) (?). The thirtieth-day mass goes back to Gregory the Great's Dialogues.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.12,
+   "cooldown_days": 1500,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.elder_death.title",
+   "title": "A death in the house",
+   "intention_key": "winter.elder_death.intention",
+   "intention": "Your father's brother, who taught you the river, dies at Candlemas after a week in bed. He was baptised as a grown man and kept some of the old ways. The priest waits to hear what you want.",
+   "options": [
+    {
+     "key": "church",
+     "label_key": "winter.elder_death.church",
+     "label": "A grave by the church wall, and masses",
+     "cost": "silver 30",
+     "effects": [
+      "deed gave_alms",
+      "morale +0.1",
+      "npc priest feeling +8 burial"
+     ]
+    },
+    {
+     "key": "plain",
+     "label_key": "winter.elder_death.plain",
+     "label": "A plain grave in the churchyard",
+     "default": true,
+     "cost": "silver 6",
+     "effects": [
+      "npc priest feeling +2 burial"
+     ]
+    },
+    {
+     "key": "old_way",
+     "label_key": "winter.elder_death.old_way",
+     "label": "The churchyard, with his knife and a coin beside him",
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "morale +0.1"
+       ],
+       "failure": [
+        "morale +0.1",
+        "npc priest feeling -10 grave_goods"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    }
+   ],
+   "memory": {
+    "church": "paid for a grave by the wall and masses",
+    "plain": "buried his kinsman plainly",
+    "old_way": "put a knife in the grave"
+   }
+  },
+  {
+   "id": "harbour.winter.own_sickness",
+   "note": "A man's last wishes said aloud before witnesses; the first written wills of English laymen are of the 9th century, such as that of Abba the reeve of Kent, about 835 (?). Sets house_heir_named, which the inheritance rules read.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.06,
+   "cooldown_days": 2500,
+   "months": [
+    2,
+    3
+   ],
+   "title_key": "winter.own_sickness.title",
+   "title": "You lie sick",
+   "intention_key": "winter.own_sickness.intention",
+   "intention": "From Candlemas to the middle of Lent you cannot stand. The house walks softly. There is a boat, a debt, a chest and a plot, and nothing has been said before witnesses about any of them.",
+   "options": [
+    {
+     "key": "name_heir",
+     "label_key": "winter.own_sickness.name_heir",
+     "label": "Call six neighbours and name your heir",
+     "default": true,
+     "effects": [
+      "flag house_heir_named",
+      "health +0.05"
+     ]
+    },
+    {
+     "key": "church",
+     "label_key": "winter.own_sickness.church",
+     "label": "Send a gift to the church for your soul",
+     "cost": "silver 60",
+     "effects": [
+      "deed gave_alms",
+      "health +0.1"
+     ]
+    },
+    {
+     "key": "lie_still",
+     "label_key": "winter.own_sickness.lie_still",
+     "label": "Lie still and say nothing",
+     "effects": [
+      {
+       "chance": 0.8,
+       "success": [
+        "health +0.1"
+       ],
+       "failure": [
+        "health -0.2"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: sure"
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.crew_keep",
+   "note": "Every winter. The sailing season runs from about Easter to Martinmas (research_indie_and_concept.md 4.4); what the men do between is the merchant's choice and his cost. The second choice also does the work of harbour.winter.haul_and_tar.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (crew >= 2 and not flag.crew_kept)",
+   "weight": 1.0,
+   "cooldown_days": 300,
+   "months": [
+    11,
+    12
+   ],
+   "title_key": "winter.crew_keep.title",
+   "title": "The men at Martinmas",
+   "intention_key": "winter.crew_keep.intention",
+   "intention": "The boat is on the bank and the season's shares are paid. Your men look at you. Bread and ale till Easter, or each his own road till the water opens?",
+   "options": [
+    {
+     "key": "keep",
+     "label_key": "winter.crew_keep.keep",
+     "label": "Keep them on bread and ale till Easter",
+     "cost": "silver 40",
+     "effects": [
+      "flag crew_kept for 200",
+      "morale +0.15"
+     ]
+    },
+    {
+     "key": "work",
+     "label_key": "winter.crew_keep.work",
+     "label": "Keep them for their work on the boat",
+     "default": true,
+     "cost": "silver 20",
+     "effects": [
+      "flag crew_kept for 200",
+      "flag boat_tarred for 365",
+      "morale +0.05"
+     ]
+    },
+    {
+     "key": "pay_off",
+     "label_key": "winter.crew_keep.pay_off",
+     "label": "Let them go till Easter",
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "flag crew_kept for 200"
+       ],
+       "failure": [
+        "flag crew_kept for 200",
+        "men -1"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.bride_ale",
+   "note": "The bride-ale (Old English bryd-ealu) is the wedding feast itself: the Anglo-Saxon Chronicle uses the word under 1075. Crew on shares or on wages: npc_roles_793.json mate.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (crew >= 3)",
+   "weight": 0.2,
+   "cooldown_days": 900,
+   "months": [
+    1,
+    2
+   ],
+   "title_key": "winter.bride_ale.title",
+   "title": "A man of yours marries",
+   "intention_key": "winter.bride_ale.intention",
+   "intention": "Your lookout is marrying a fisherman's daughter after Epiphany. Her father would like a son-in-law who stays ashore. The man himself has not decided.",
+   "options": [
+    {
+     "key": "feast",
+     "label_key": "winter.bride_ale.feast",
+     "label": "Stand him the bride-ale",
+     "cost": "silver 30",
+     "effects": [
+      "morale +0.2"
+     ]
+    },
+    {
+     "key": "share",
+     "label_key": "winter.bride_ale.share",
+     "label": "Offer him a share instead of a wage",
+     "effects": [
+      "flag crew_sharesman",
+      "morale +0.1"
+     ]
+    },
+    {
+     "key": "wish",
+     "label_key": "winter.bride_ale.wish",
+     "label": "Wish him well",
+     "default": true,
+     "effects": [
+      {
+       "chance": 0.5,
+       "success": [],
+       "failure": [
+        "men -1"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: doubtful"
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.brawl",
+   "note": "A tariff of wounds: Lex Frisionum title XXII, 'De dolg', which prices each injury (the game's figure is a guess) (?). The joke about cloaks: Notker, Gesta Karoli I.34 (Grant 1907), the Frisians selling short cloaks at the price of long ones. Lent and idle men: months 1 to 3.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (crew >= 2)",
+   "weight": 0.2,
+   "cooldown_days": 500,
+   "months": [
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "lawman": {
+     "role": "lawman",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.brawl.title",
+   "title": "A tooth at the ale-wife's",
+   "intention_key": "winter.brawl.intention",
+   "intention": "One of your men has knocked out a Frank's tooth at the ale-wife's, over a remark about Frisian cloaks. The law of the Frisians has a price for every wound, and the lawman knows it by heart.",
+   "options": [
+    {
+     "key": "pay",
+     "label_key": "winter.brawl.pay",
+     "label": "Pay the wound-price",
+     "cost": "silver 24",
+     "effects": [
+      "morale +0.05",
+      "npc lawman feeling +3 paid"
+     ]
+    },
+    {
+     "key": "oath",
+     "label_key": "winter.brawl.oath",
+     "label": "Swear with oath-helpers that the Frank struck first",
+     "check": "standing >= known",
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "deed won_case"
+       ],
+       "failure": [
+        "deed lost_case",
+        "silver -36"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "pardon",
+     "label_key": "winter.brawl.pardon",
+     "label": "Make him ask pardon before the whole ale-house",
+     "default": true,
+     "effects": [
+      "morale -0.05",
+      "npc lawman feeling +1 pardon"
+     ]
+    }
+   ],
+   "memory": {
+    "pay": "paid a wound-price without argument",
+    "oath": "swore an oath over a brawl",
+    "pardon": "made his man ask pardon"
+   }
+  },
+  {
+   "id": "harbour.winter.old_hand_dies",
+   "note": "A dead man's share goes to his widow (npc_roles_793.json widow). The third choice costs no silver and sets house_hard_name, which the chronicle of the merchant's own life reads. Sets lost_man_this_year, which opens harbour.winter.memorial.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (crew >= 2)",
+   "weight": 0.12,
+   "cooldown_days": 1500,
+   "months": [
+    12,
+    1,
+    2
+   ],
+   "title_key": "winter.old_hand_dies.title",
+   "title": "The oldest hand",
+   "intention_key": "winter.old_hand_dies.intention",
+   "intention": "Your oldest hand dies in his bed at midwinter, which he always said he would not. A share of the last voyage was still owed him. His widow has not asked.",
+   "options": [
+    {
+     "key": "more",
+     "label_key": "winter.old_hand_dies.more",
+     "label": "Pay her his share and something over",
+     "cost": "silver 30",
+     "effects": [
+      "men -1",
+      "flag lost_man_this_year for 300",
+      "deed gave_alms",
+      "morale +0.15"
+     ]
+    },
+    {
+     "key": "exact",
+     "label_key": "winter.old_hand_dies.exact",
+     "label": "Pay her what was owed, to the penny",
+     "default": true,
+     "cost": "silver 18",
+     "effects": [
+      "men -1",
+      "flag lost_man_this_year for 300",
+      "morale +0.05"
+     ]
+    },
+    {
+     "key": "nothing",
+     "label_key": "winter.old_hand_dies.nothing",
+     "label": "Say the voyage made a loss",
+     "effects": [
+      "men -1",
+      "flag lost_man_this_year for 300",
+      "morale -0.15",
+      "flag house_hard_name for 700"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.boy_asks",
+   "note": "Hiring from the home bank. The promise sets promised_river_boy for 300 days: a sea card may ask about it.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (crew < crew_full)",
+   "weight": 0.2,
+   "cooldown_days": 400,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "title_key": "winter.boy_asks.title",
+   "title": "A boy at the door",
+   "intention_key": "winter.boy_asks.intention",
+   "intention": "A neighbour's boy of fourteen asks for a place at the oar. He is strong and has never been past the river mouth. His mother came an hour before him and asked you to say no.",
+   "options": [
+    {
+     "key": "take",
+     "label_key": "winter.boy_asks.take",
+     "label": "Take him",
+     "effects": [
+      "men +1",
+      "morale +0.05"
+     ]
+    },
+    {
+     "key": "river",
+     "label_key": "winter.boy_asks.river",
+     "label": "Take him, and promise her he stays in the river this year",
+     "default": true,
+     "effects": [
+      "men +1",
+      "flag promised_river_boy for 300"
+     ]
+    },
+    {
+     "key": "later",
+     "label_key": "winter.boy_asks.later",
+     "label": "Tell him to come back in two winters",
+     "effects": []
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.yule",
+   "note": "The twelve days at Christmas as free men's holidays: Alfred's law c. 43. Drinking to the old gods at midwinter is described only in later Norse books; the Church's list of forbidden customs is the Indiculus superstitionum (c. 743). In the first merchant's years one of the two is Ravn, the house's own man of the old faith (riddles_793.json r-gest-01).",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (crew >= 2)",
+   "weight": 0.6,
+   "cooldown_days": 300,
+   "months": [
+    12
+   ],
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.yule.title",
+   "title": "Midwinter",
+   "intention_key": "winter.yule.intention",
+   "intention": "The twelve days are coming. The Christians of the bank keep them with mass and meat. Two of your men who keep the old ways would pour ale to the old powers for a good year, as their fathers did, and they ask if they may do it under your roof.",
+   "options": [
+    {
+     "key": "feast",
+     "label_key": "winter.yule.feast",
+     "label": "Keep the feast: ale and meat for the crew and the neighbours",
+     "default": true,
+     "cost": "silver 30",
+     "effects": [
+      "morale +0.2",
+      "npc priest feeling +3 feast"
+     ]
+    },
+    {
+     "key": "both",
+     "label_key": "winter.yule.both",
+     "label": "Keep the feast, and let the two pour their ale as well",
+     "cost": "silver 30",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "morale +0.3"
+       ],
+       "failure": [
+        "morale +0.3",
+        "npc priest feeling -10 old_gods"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "small",
+     "label_key": "winter.yule.small",
+     "label": "Keep it small this year",
+     "effects": [
+      "morale -0.05"
+     ]
+    }
+   ],
+   "memory": {
+    "feast": "kept the twelve days well",
+    "both": "let ale be poured to the old gods under his roof",
+    "small": "kept a thin Christmas"
+   }
+  },
+  {
+   "id": "harbour.winter.haul_and_tar",
+   "note": "Every winter unless the crew did it for their keep. Clinker hulls caulked with tarred wool and held with iron rivets: the Gislinge boat herself (ship_classes_793.json gislinge; npc_roles_793.json shipwright). boat_unsound is for the sea cards to read: a leak in the first gale.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (not flag.boat_tarred)",
+   "weight": 1.0,
+   "cooldown_days": 300,
+   "months": [
+    11,
+    12,
+    1,
+    2
+   ],
+   "actors": {
+    "shipwright": {
+     "role": "shipwright",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.haul_and_tar.title",
+   "title": "The boat on the bank",
+   "intention_key": "winter.haul_and_tar.intention",
+   "intention": "She is hauled above the flood line on rollers. The seams want tar, three strakes weep at the lands, and the rivets by the stem are loose. The wright has looked and named his price.",
+   "options": [
+    {
+     "key": "wright",
+     "label_key": "winter.haul_and_tar.wright",
+     "label": "Pay the wright",
+     "cost": "silver 40",
+     "effects": [
+      "flag boat_tarred for 365",
+      "npc shipwright feeling +3 work"
+     ]
+    },
+    {
+     "key": "crew",
+     "label_key": "winter.haul_and_tar.crew",
+     "label": "Do it with your own men",
+     "check": "crew >= 3",
+     "default": true,
+     "cost": "silver 12",
+     "effects": [
+      {
+       "chance": 0.75,
+       "success": [
+        "flag boat_tarred for 365",
+        "morale +0.05"
+       ],
+       "failure": [
+        "flag boat_tarred for 365",
+        "flag boat_unsound for 365"
+       ],
+       "by": "crew.seamanship_best"
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "leave",
+     "label_key": "winter.haul_and_tar.leave",
+     "label": "Leave her till spring",
+     "effects": [
+      "flag boat_unsound for 365"
+     ]
+    }
+   ],
+   "memory": {
+    "wright": "paid for the winter's work",
+    "crew": "did the winter's work himself",
+    "leave": "left the boat unmended"
+   }
+  },
+  {
+   "id": "harbour.winter.rebuild",
+   "note": "A boat rebuilt: a new stem scarfed to the old keel and a strake added is ordinary clinker practice. Sets unlock_upgrade_washstrake (unlocks_793.json).",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (silver >= 200 and not flag.unlock_upgrade_washstrake)",
+   "weight": 0.15,
+   "cooldown_days": 1100,
+   "months": [
+    11,
+    12,
+    1
+   ],
+   "actors": {
+    "shipwright": {
+     "role": "shipwright",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.rebuild.title",
+   "title": "The wright's offer",
+   "intention_key": "winter.rebuild.intention",
+   "intention": "The wright walks round her twice. The keel is good for twenty years, he says. For silver he will scarf in a new stem and add a strake each side: she would carry a fifth more and ship less water.",
+   "options": [
+    {
+     "key": "strake",
+     "label_key": "winter.rebuild.strake",
+     "label": "Add the strake",
+     "cost": "silver 200",
+     "effects": [
+      "flag unlock_upgrade_washstrake",
+      "flag boat_tarred for 365",
+      "npc shipwright feeling +5 work"
+     ]
+    },
+    {
+     "key": "stem",
+     "label_key": "winter.rebuild.stem",
+     "label": "The new stem only",
+     "cost": "silver 60",
+     "effects": [
+      "flag boat_tarred for 365",
+      "flag boat_sound for 1100",
+      "npc shipwright feeling +3 work"
+     ]
+    },
+    {
+     "key": "no",
+     "label_key": "winter.rebuild.no",
+     "label": "She will do as she is",
+     "default": true,
+     "effects": []
+    }
+   ],
+   "memory": {
+    "strake": "had a strake added",
+    "stem": "had a new stem put in",
+    "no": "would not spend on the boat"
+   }
+  },
+  {
+   "id": "harbour.winter.fire",
+   "note": "Timber and thatch towns burned often: the Anglo-Saxon Chronicle has London burnt in 982; Symeon of Durham has fires in London, York and other towns under 764 and 798 (?). house_burnt lasts a year: lodging must be paid and no stock can be kept.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.05,
+   "cooldown_days": 2000,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "title_key": "winter.fire.title",
+   "title": "Fire in the row",
+   "intention_key": "winter.fire.intention",
+   "intention": "Shouting in the night. The thatch three houses up the row is alight and the wind is toward you. There is time to do one thing well.",
+   "options": [
+    {
+     "key": "chest",
+     "label_key": "winter.fire.chest",
+     "label": "Carry out the chest and the scales",
+     "default": true,
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "flag house_burnt for 365"
+       ],
+       "failure": [
+        "flag house_burnt for 365",
+        "silver -60"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "pull_down",
+     "label_key": "winter.fire.pull_down",
+     "label": "Pull down the house between, with hooks",
+     "effects": [
+      {
+       "chance": 0.5,
+       "success": [
+        "morale +0.1"
+       ],
+       "failure": [
+        "flag house_burnt for 365",
+        "silver -60",
+        "morale +0.05"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: doubtful"
+    },
+    {
+     "key": "children",
+     "label_key": "winter.fire.children",
+     "label": "Get the neighbours' children out first",
+     "effects": [
+      "flag house_burnt for 365",
+      "silver -60",
+      "deed gave_alms",
+      "morale +0.2"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.flood",
+   "note": "The storm flood of 26 December 838 covered almost all Frisia, and 2,437 people were counted drowned (Annales Bertiniani: chronicle_793.json 838-12-26-frisia-flood); the great sea-flood of Michaelmas eve 1014 in England (1014-09-28-sea-flood). Only at the low ports of Frisia and the delta. In December 838 the winter screen should play it without a draw.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (port.id = dorestad or port.id = medemelacha or port.id = wijnaldum or port.id = doccinga or port.id = emuthon or port.id = walichrum or port.id = witla or port.id = traiectum)",
+   "weight": 0.05,
+   "cooldown_days": 2500,
+   "months": [
+    11,
+    12,
+    1,
+    2
+   ],
+   "title_key": "winter.flood.title",
+   "title": "The sea comes in",
+   "intention_key": "winter.flood.intention",
+   "intention": "A north-west gale on a spring tide. By midnight the water is over the bank and in the lower houses, and still rising. The boat is on her rollers. The church stands on the only high ground.",
+   "options": [
+    {
+     "key": "stock",
+     "label_key": "winter.flood.stock",
+     "label": "Carry the stock up to the church mound",
+     "default": true,
+     "effects": [
+      "morale -0.05"
+     ]
+    },
+    {
+     "key": "boat",
+     "label_key": "winter.flood.boat",
+     "label": "Launch the boat for the people on the roofs",
+     "check": "crew >= 2",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "deed gave_alms",
+        "morale +0.2",
+        "silver -30"
+       ],
+       "failure": [
+        "deed gave_alms",
+        "morale +0.1",
+        "silver -30",
+        "flag boat_unsound for 365"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "roof",
+     "label_key": "winter.flood.roof",
+     "label": "Stay on your own roof and wait",
+     "effects": [
+      "silver -40"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.frost",
+   "note": "The long hard winter of 821 to 822, when carts crossed the frozen Rhine for thirty days (chronicle_793.json 821-winter-rivers-frozen), and that of 859 to 860 (859-winter-hard). Also whenever the weather model gives ice.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (ice > 0 or year = 821 or year = 822 or year = 859 or year = 860)",
+   "weight": 0.5,
+   "cooldown_days": 300,
+   "months": [
+    12,
+    1,
+    2
+   ],
+   "title_key": "winter.frost.title",
+   "title": "The river stands",
+   "intention_key": "winter.frost.intention",
+   "intention": "The river has stood for three weeks. Carts cross on the ice. Where a hull was left afloat, the ice works at it day and night.",
+   "options": [
+    {
+     "key": "haul",
+     "label_key": "winter.frost.haul",
+     "label": "Haul her higher, with hired oxen",
+     "default": true,
+     "cost": "silver 10",
+     "effects": [
+      "flag boat_safe for 120"
+     ]
+    },
+    {
+     "key": "cut",
+     "label_key": "winter.frost.cut",
+     "label": "Cut her free each morning",
+     "check": "crew >= 3",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "morale -0.05"
+       ],
+       "failure": [
+        "morale -0.05",
+        "flag boat_unsound for 365"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "sledge",
+     "label_key": "winter.frost.sledge",
+     "label": "Load a sledge and sell across the ice",
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "silver +25"
+       ],
+       "failure": [
+        "silver -10"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.thief",
+   "note": "Theft in the Frisian and Frankish laws: the thing given back twofold and a fine to the king (?); a man who cannot pay works it off. reputation_793.json won_case, gave_alms.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.15,
+   "cooldown_days": 700,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "title_key": "winter.thief.title",
+   "title": "A man in the storehouse",
+   "intention_key": "winter.thief.intention",
+   "intention": "Your men catch a man in the storehouse at night with a sack of your malt. He is from the hungry end of the bank and has four children. By the law he is yours to bring before the count.",
+   "options": [
+    {
+     "key": "court",
+     "label_key": "winter.thief.court",
+     "label": "Take him to the count's court",
+     "effects": [
+      "deed won_case",
+      "silver +12"
+     ]
+    },
+    {
+     "key": "pledge",
+     "label_key": "winter.thief.pledge",
+     "label": "Take the malt back, and his knife as a pledge",
+     "default": true,
+     "effects": []
+    },
+    {
+     "key": "give",
+     "label_key": "winter.thief.give",
+     "label": "Give him the sack",
+     "effects": [
+      "deed gave_alms"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.weaving",
+   "note": "Frisian cloth (pallia fresonica) and the short cloaks: Notker, Gesta Karoli I.34 (Grant 1907). Cloth as women's winter work on the upright loom: npc_roles_793.json weaver. goods_793.json frisian_cloth, sailcloth. Six bolts of sailcloth make unlock_upgrade_new_sail.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and ((flag.house_wed or (generation = 0 and flag.ch_house_marriage_6)))",
+   "weight": 0.5,
+   "cooldown_days": 300,
+   "months": [
+    11,
+    12,
+    1
+   ],
+   "title_key": "winter.weaving.title",
+   "title": "The loom by the door",
+   "intention_key": "winter.weaving.intention",
+   "intention": "The loom stands where the light is. With wool enough, the women of the house can have cloaks ready by Easter: the Frisian kind that the Franks pay for and complain about.",
+   "options": [
+    {
+     "key": "wool",
+     "label_key": "winter.weaving.wool",
+     "label": "Buy wool for the loom",
+     "default": true,
+     "cost": "silver 30",
+     "effects": [
+      "goods frisian_cloth +3"
+     ]
+    },
+    {
+     "key": "sail",
+     "label_key": "winter.weaving.sail",
+     "label": "Have them weave for the sail instead",
+     "cost": "silver 30",
+     "effects": [
+      "goods sailcloth +3"
+     ]
+    },
+    {
+     "key": "own",
+     "label_key": "winter.weaving.own",
+     "label": "Let them weave for the house only",
+     "effects": [
+      "morale +0.05"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.lawsuit",
+   "note": "Oath-helping is in all the laws: a man clears himself 'himself the twelfth'. The lots: Lex Frisionum title XIV describes two slips cut from a rod, one marked with a cross, wrapped and laid on the altar, and a priest or an innocent boy drawing (?). reputation_793.json won_case, lost_case.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.12,
+   "cooldown_days": 1500,
+   "months": [
+    1,
+    2
+   ],
+   "actors": {
+    "lawman": {
+     "role": "lawman",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.lawsuit.title",
+   "title": "A claim on your landing",
+   "intention_key": "winter.lawsuit.intention",
+   "intention": "A man from across the river swears that the landing where your boat lies was his father's, and that yours took it. The court sits after Epiphany. The lawman says there are three ways: your oath with helpers, the lots on the altar, or a bargain.",
+   "options": [
+    {
+     "key": "oath",
+     "label_key": "winter.lawsuit.oath",
+     "label": "Find eleven men to swear with you",
+     "check": "standing >= known",
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [
+        "deed won_case",
+        "npc lawman feeling +3 oath"
+       ],
+       "failure": [
+        "deed lost_case",
+        "silver -60"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "lots",
+     "label_key": "winter.lawsuit.lots",
+     "label": "Offer him the lots on the altar",
+     "effects": [
+      {
+       "chance": 0.5,
+       "success": [
+        "deed won_case",
+        "morale +0.1"
+       ],
+       "failure": [
+        "deed lost_case",
+        "silver -60"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: doubtful"
+    },
+    {
+     "key": "share",
+     "label_key": "winter.lawsuit.share",
+     "label": "Offer him the lower half of the landing",
+     "default": true,
+     "effects": [
+      "flag house_landing_shared"
+     ]
+    }
+   ],
+   "memory": {
+    "oath": "swore with oath-helpers",
+    "lots": "put it to the lots",
+    "share": "shared the landing rather than go to law"
+   }
+  },
+  {
+   "id": "harbour.winter.count_debt",
+   "note": "The debt of 1,920 d to the count (eight pounds: ruling 30 of 7 Oct 2026; it was 480 d. The user's decision of 26 Sep 2026: npc_roles_793.json count). A split tally stick is the debt's record: a game device for 793, attested later, like the day stick. The engine has no verb to pay part of a debt ('debt -n'): see needs. debt_grace is for the debt's day to read.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (debt > 0)",
+   "weight": 0.8,
+   "cooldown_days": 300,
+   "months": [
+    11,
+    12
+   ],
+   "actors": {
+    "lords_man": {
+     "role": "lords_man",
+     "people": "port",
+     "fixed": false
+    }
+   },
+   "title_key": "winter.count_debt.title",
+   "title": "The count's man and the tally stick",
+   "intention_key": "winter.count_debt.intention",
+   "intention": "The count's man comes at Martinmas with the split stick that matches yours. The notches are the same on both halves. He asks, politely, how the year was.",
+   "options": [
+    {
+     "key": "gift",
+     "label_key": "winter.count_debt.gift",
+     "label": "Give him a cask for himself, and ask till Easter",
+     "cost": "silver 12",
+     "effects": [
+      "npc lords_man feeling +8 gift",
+      "flag debt_grace for 150"
+     ]
+    },
+    {
+     "key": "errand",
+     "label_key": "winter.count_debt.errand",
+     "label": "Offer to carry the count's wine in spring for nothing",
+     "effects": [
+      "commission rhenish_wine 4 by 180 premium 0",
+      "npc lords_man feeling +10 errand",
+      "flag debt_grace for 180"
+     ]
+    },
+    {
+     "key": "ale",
+     "label_key": "winter.count_debt.ale",
+     "label": "Pour him ale and tell him the truth",
+     "default": true,
+     "effects": [
+      "npc lords_man feeling +2 truth"
+     ]
+    }
+   ],
+   "memory": {
+    "gift": "gave a cask and asked for time",
+    "errand": "offered to carry for the count",
+    "ale": "told him the plain truth of the year"
+   }
+  },
+  {
+   "id": "harbour.winter.tithe",
+   "note": "Tithes ordered by the king: Capitulary of Herstal 779 c. 7 (every man to give his tenth). In England the laws name the tithe from the 10th century (?). The engine cannot reckon a tenth of the year's gain: the sum is fixed here.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (port.realm = franks or port.realm = kent or port.realm = wessex or port.realm = mercia or port.realm = eastanglia or port.realm = northumbria)",
+   "weight": 0.5,
+   "cooldown_days": 300,
+   "months": [
+    11,
+    12
+   ],
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.tithe.title",
+   "title": "The tenth",
+   "intention_key": "winter.tithe.intention",
+   "intention": "The priest has reckoned your tithe: a tenth of the year's gain, as the king's law has had it since your father's time. He has reckoned it generously, in the church's favour.",
+   "options": [
+    {
+     "key": "full",
+     "label_key": "winter.tithe.full",
+     "label": "Pay it in full",
+     "cost": "silver 30",
+     "effects": [
+      "deed gave_alms",
+      "npc priest feeling +8 tithe"
+     ]
+    },
+    {
+     "key": "kind",
+     "label_key": "winter.tithe.kind",
+     "label": "Pay it in wax",
+     "check": "hold.wax > 0",
+     "cost": "goods wax 1",
+     "effects": [
+      "npc priest feeling +6 tithe"
+     ]
+    },
+    {
+     "key": "plead",
+     "label_key": "winter.tithe.plead",
+     "label": "Plead a poor year",
+     "default": true,
+     "effects": [
+      {
+       "chance": 0.5,
+       "success": [
+        "npc priest feeling -2 pleaded"
+       ],
+       "failure": [
+        "npc priest feeling -10 pleaded"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: doubtful"
+    }
+   ],
+   "memory": {
+    "full": "paid his tithe in full",
+    "kind": "paid his tithe in wax",
+    "plead": "pleaded a poor year"
+   }
+  },
+  {
+   "id": "harbour.winter.levy",
+   "note": "From 800 Charlemagne set a fleet and guards at the river mouths against the Northmen (Annales regni Francorum 800; npc_roles_793.json commander); in 811 lords were to sail with the fleet (chronicle_793.json 811-10-boulogne-capitulary). The army fine by a man's means: capitulary of Thionville, 805 (five shillings, 60 d, for the least) (?).",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (port.realm = franks and year >= 800 and year < 900)",
+   "weight": 0.15,
+   "cooldown_days": 1100,
+   "months": [
+    2,
+    3
+   ],
+   "actors": {
+    "lords_man": {
+     "role": "lords_man",
+     "people": "port",
+     "fixed": false
+    }
+   },
+   "title_key": "winter.levy.title",
+   "title": "Boats for the watch",
+   "intention_key": "winter.levy.intention",
+   "intention": "The count's man reads out the summons at the church door: boats and men are wanted to keep watch at the river mouth from Easter, against the Northmen. Your boat is named.",
+   "options": [
+    {
+     "key": "go",
+     "label_key": "winter.levy.go",
+     "label": "Go, with the boat, for forty days",
+     "effects": [
+      "flag levy_served for 365",
+      "morale -0.1",
+      "npc lords_man feeling +10 served"
+     ]
+    },
+    {
+     "key": "send",
+     "label_key": "winter.levy.send",
+     "label": "Send a man in your place, with his bread",
+     "default": true,
+     "cost": "silver 40",
+     "effects": [
+      "flag levy_served for 365",
+      "npc lords_man feeling +4 served"
+     ]
+    },
+    {
+     "key": "stay",
+     "label_key": "winter.levy.stay",
+     "label": "Stay away",
+     "effects": [
+      {
+       "chance": 0.4,
+       "success": [],
+       "failure": [
+        "silver -60",
+        "npc lords_man feeling -15 shirked"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: doubtful"
+    }
+   ],
+   "memory": {
+    "go": "served the watch himself",
+    "send": "sent a man to the watch",
+    "stay": "stayed away from the watch"
+   }
+  },
+  {
+   "id": "harbour.winter.stranger",
+   "note": "A host answers for the guest he has kept three nights: Laws of Hlothhere and Eadric c. 15 (Kent, 673 to 685; npc_roles_793.json host). Ælfric's merchant says he sometimes suffers shipwreck with the loss of all his goods, barely escaping alive (texts_793.json aelfric_merchant). guest_friend_eoforwic is for a card at Eoforwic to read.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.15,
+   "cooldown_days": 900,
+   "months": [
+    11,
+    12
+   ],
+   "actors": {
+    "merchant": {
+     "role": "merchant",
+     "people": "english",
+     "fixed": false
+    }
+   },
+   "title_key": "winter.stranger.title",
+   "title": "A stranger at Martinmas",
+   "intention_key": "winter.stranger.intention",
+   "intention": "A Northumbrian trader lost his ship on the bar in October and has lived on the priest's bread since. He asks to lodge with you till the sea opens. By law and custom, the host answers for what his guest does.",
+   "options": [
+    {
+     "key": "lodge",
+     "label_key": "winter.stranger.lodge",
+     "label": "Give him a place at your fire",
+     "effects": [
+      {
+       "chance": 0.8,
+       "success": [
+        "tongue old_english = 1",
+        "flag guest_friend_eoforwic",
+        "npc merchant feeling +30 lodged"
+       ],
+       "failure": [
+        "tongue old_english = 1",
+        "silver -30",
+        "npc merchant feeling +10 lodged"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: sure"
+    },
+    {
+     "key": "work",
+     "label_key": "winter.stranger.work",
+     "label": "Lodge him for his work on the boat",
+     "check": "not flag.boat_tarred",
+     "effects": [
+      "flag boat_tarred for 365",
+      "tongue old_english = 1",
+      "npc merchant feeling +15 lodged"
+     ]
+    },
+    {
+     "key": "priest",
+     "label_key": "winter.stranger.priest",
+     "label": "Leave him with the priest",
+     "default": true,
+     "effects": []
+    }
+   ],
+   "memory": {
+    "lodge": "took him in for the winter",
+    "work": "took him in for his work",
+    "priest": "left him at the priest's door"
+   }
+  },
+  {
+   "id": "harbour.winter.hungry_spring",
+   "note": "The hungry months of March to May, when the granaries are low (seasons_793.json). The king's law against dear grain in a famine: the synod of Frankfurt 794 fixed prices; Thionville 805 and Nijmegen 806 forbade selling dear and buying at harvest to sell later (chronicle_793.json 794-06-01-frankfurt-prices, 805-12-thionville-famine, 806-03-nijmegen-prices). In the famine years of the chronicle (793, 805 to 807, 823) the screen should play it without a draw.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.3,
+   "cooldown_days": 300,
+   "months": [
+    3,
+    4,
+    5
+   ],
+   "title_key": "winter.hungry_spring.title",
+   "title": "The hungry spring",
+   "intention_key": "winter.hungry_spring.intention",
+   "intention": "The granaries are low and the new rye is green in the fields. Grain is at three times its harvest price. There are faces at the church door, and you have a store.",
+   "options": [
+    {
+     "key": "thin",
+     "label_key": "winter.hungry_spring.thin",
+     "label": "Eat thin till the rye comes",
+     "default": true,
+     "effects": [
+      "morale -0.05"
+     ]
+    },
+    {
+     "key": "share",
+     "label_key": "winter.hungry_spring.share",
+     "label": "Give at the church door",
+     "cost": "silver 20",
+     "effects": [
+      "deed gave_alms",
+      "morale +0.05"
+     ]
+    },
+    {
+     "key": "sell",
+     "label_key": "winter.hungry_spring.sell",
+     "label": "Sell your store at the price there is",
+     "effects": [
+      {
+       "chance": 0.6,
+       "success": [
+        "silver +60"
+       ],
+       "failure": [
+        "silver +20",
+        "deed goods_seized"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.murrain",
+   "note": "The great cattle plague that came from the east in 809 and raged through every province in 810 (Annales regni Francorum: chronicle_793.json 809-cattle-plague-809, 810-cattle-plague-810; in Britain, 810-britain-cattle-plague). In 809 and 810 the screen should play it without a draw; in other years it is rare. goods_793.json cattle_hides.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.04,
+   "cooldown_days": 2500,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "title_key": "winter.murrain.title",
+   "title": "The cattle sickness",
+   "intention_key": "winter.murrain.intention",
+   "intention": "The cattle sickness has come down the river from the east. Your two oxen, that haul the boat out and pull the neighbour's plough, are down in the byre and will not get up.",
+   "options": [
+    {
+     "key": "hides",
+     "label_key": "winter.murrain.hides",
+     "label": "Kill them now and save the hides",
+     "default": true,
+     "effects": [
+      "goods cattle_hides +2"
+     ]
+    },
+    {
+     "key": "buy",
+     "label_key": "winter.murrain.buy",
+     "label": "Buy an ox from the upland at the plague price",
+     "cost": "silver 40",
+     "effects": [
+      "morale +0.05"
+     ]
+    },
+    {
+     "key": "wait",
+     "label_key": "winter.murrain.wait",
+     "label": "Wait and pray",
+     "effects": [
+      {
+       "chance": 0.3,
+       "success": [
+        "morale +0.1"
+       ],
+       "failure": [
+        "morale -0.05"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: doubtful"
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.pestilence",
+   "note": "'Pestilence after a mild winter' in 801, and 'a very mild and pestilent winter' in 808 (Annales regni Francorum: chronicle_793.json 801-winter-pestilence-801, 808-winter-mild-winter-808). In those years the screen should play it without a draw.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.05,
+   "cooldown_days": 1500,
+   "months": [
+    1,
+    2,
+    3
+   ],
+   "title_key": "winter.pestilence.title",
+   "title": "Sickness in the town",
+   "intention_key": "winter.pestilence.intention",
+   "intention": "A mild wet winter, and after it a sickness that goes from house to house along the bank. The priest is burying two a day. Your household is well, so far.",
+   "options": [
+    {
+     "key": "shut",
+     "label_key": "winter.pestilence.shut",
+     "label": "Stay, and keep the door shut",
+     "default": true,
+     "effects": [
+      {
+       "chance": 0.7,
+       "success": [],
+       "failure": [
+        "health -0.2"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: likely"
+    },
+    {
+     "key": "leave",
+     "label_key": "winter.pestilence.leave",
+     "label": "Take the household up the river to kin",
+     "cost": "silver 20",
+     "effects": [
+      "flag house_away for 60"
+     ]
+    },
+    {
+     "key": "help",
+     "label_key": "winter.pestilence.help",
+     "label": "Help carry the sick to the church",
+     "effects": [
+      {
+       "chance": 0.5,
+       "success": [
+        "deed gave_alms",
+        "morale +0.1"
+       ],
+       "failure": [
+        "deed gave_alms",
+        "health -0.25"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: doubtful"
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.raid_rumour",
+   "note": "Dorestad was raided in 834, 835, 836 and 837, burned in 846, and sacked for the last time in 863 (Annales Bertiniani, Annales Xantenses: chronicle_793.json 834-dorestad-sacked, 835-dorestad-again, 836-witla-antwerp-burned, 837-06-17-walcheren-raid, 846-dorestad-burned, 863-dorestad-last). Silver put in the ground and never fetched is why there are hoards (hoards_793.json). The two flags are for the raid's own cards to read.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (year >= 835 and year <= 863 and port.realm = franks)",
+   "weight": 0.5,
+   "cooldown_days": 300,
+   "months": [
+    1,
+    2,
+    3
+   ],
+   "title_key": "winter.raid_rumour.title",
+   "title": "Word from the river mouth",
+   "intention_key": "winter.raid_rumour.intention",
+   "intention": "A fisherman from the mouth says the heathen men's ships have been seen off the islands, and that they will come up the river with the first east wind, as they did last year. The count's guard is forty men and a ditch.",
+   "options": [
+    {
+     "key": "bury",
+     "label_key": "winter.raid_rumour.bury",
+     "label": "Bury the silver under the hearth",
+     "default": true,
+     "effects": [
+      "flag house_silver_buried for 300"
+     ]
+    },
+    {
+     "key": "move",
+     "label_key": "winter.raid_rumour.move",
+     "label": "Carry the household and the chest to Traiectum, behind the wall",
+     "cost": "silver 15",
+     "effects": [
+      "flag house_at_traiectum for 200"
+     ]
+    },
+    {
+     "key": "stay",
+     "label_key": "winter.raid_rumour.stay",
+     "label": "Stay, and trust the count's guard",
+     "effects": []
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.monk_guest",
+   "note": "Latin from a monk over a winter: npc_text_encounters.md 2.6 (learned.latin from a monk passenger or a monastery winter). Guests are received as Christ: Rule of St Benedict c. 53. The quarrel over the date of Easter was settled for the English at Whitby in 664 and argued about long after.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (learned.latin < 1)",
+   "weight": 0.15,
+   "cooldown_days": 600,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "monk": {
+     "role": "monk",
+     "people": "port",
+     "fixed": false
+    }
+   },
+   "title_key": "winter.monk_guest.title",
+   "title": "A monk with a book chest",
+   "intention_key": "winter.monk_guest.intention",
+   "intention": "A monk on his way to the bishop is held here by the weather and by a chest of books too heavy for the road. He will teach letters for his bread until the thaw.",
+   "options": [
+    {
+     "key": "learn",
+     "label_key": "winter.monk_guest.learn",
+     "label": "Lodge him, and sit down to learn",
+     "default": true,
+     "cost": "silver 20",
+     "effects": [
+      "learn latin +0.5",
+      "npc monk feeling +10 lodged"
+     ]
+    },
+    {
+     "key": "boy",
+     "label_key": "winter.monk_guest.boy",
+     "label": "Lodge him, and let the boy learn",
+     "check": "flag.house_child",
+     "cost": "silver 20",
+     "effects": [
+      "flag house_heir_lettered",
+      "learn latin +0.25",
+      "npc monk feeling +10 lodged"
+     ]
+    },
+    {
+     "key": "send_on",
+     "label_key": "winter.monk_guest.send_on",
+     "label": "Send him on to the priest's house",
+     "effects": []
+    }
+   ],
+   "memory": {
+    "learn": "lodged him and learned his letters",
+    "boy": "lodged him to teach the boy",
+    "send_on": "sent him on to the priest"
+   }
+  },
+  {
+   "id": "harbour.winter.norse_guest",
+   "note": "A crewman or a guest teaches a tongue to the half, a winter in the house to the whole (npc_text_encounters.md 2.6). The sixteen-rune row: runes_793.json futhark. Danish merchants in Frankish ports: King Godfred 'sent word by merchants' in 809 (npc_roles_793.json envoy).",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (tongue.old_norse < 1 or learned.runes < 1)",
+   "weight": 0.15,
+   "cooldown_days": 600,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "merchant": {
+     "role": "merchant",
+     "people": "danish",
+     "fixed": false
+    }
+   },
+   "title_key": "winter.norse_guest.title",
+   "title": "A Dane for the winter",
+   "intention_key": "winter.norse_guest.intention",
+   "intention": "A Dane who trades whetstones and furs has missed the last fair wind home. He asks for a roof and offers what he has: his speech, his letters, and stories about a king nobody here has heard of.",
+   "options": [
+    {
+     "key": "tongue",
+     "label_key": "winter.norse_guest.tongue",
+     "label": "Have him teach you his speech",
+     "check": "tongue.old_norse < 0.5",
+     "default": true,
+     "effects": [
+      "tongue old_norse = 0.5",
+      "npc merchant feeling +15 lodged"
+     ]
+    },
+    {
+     "key": "tongue_full",
+     "label_key": "winter.norse_guest.tongue_full",
+     "label": "Talk with him every night till you have it whole",
+     "check": "tongue.old_norse >= 0.5 and tongue.old_norse < 1",
+     "effects": [
+      "tongue old_norse = 1",
+      "npc merchant feeling +15 lodged"
+     ]
+    },
+    {
+     "key": "runes",
+     "label_key": "winter.norse_guest.runes",
+     "label": "Have him cut the rune row for you",
+     "effects": [
+      "learn runes +0.5",
+      "npc merchant feeling +10 lodged"
+     ]
+    }
+   ],
+   "memory": {
+    "tongue": "lodged him and learned his speech",
+    "tongue_full": "lodged him and learned his speech",
+    "runes": "lodged him and learned his runes"
+   }
+  },
+  {
+   "id": "harbour.winter.singer",
+   "note": "Bernlef, a blind Frisian singer who 'knew well how to tell the deeds of the men of old and the wars of kings', healed by Liudger: Altfrid, Vita Liudgeri II.1 (npc_roles_793.json singer). Finn the Frisian king and the fight in his hall: texts_793.json beowulf_17 and beowulf_18. The songs given: texts_793.json deor, seafarer.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.12,
+   "cooldown_days": 900,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "singer": {
+     "role": "singer",
+     "people": "port",
+     "fixed": false
+    }
+   },
+   "title_key": "winter.singer.title",
+   "title": "A blind man at the door",
+   "intention_key": "winter.singer.intention",
+   "intention": "A blind singer is led to your door by a child. He knows the wars of the old kings and the deeds of the men of this coast, and asks a place by the fire till the thaw. The Frisians know such singers: the one Liudger healed of his blindness was named Bernlef.",
+   "options": [
+    {
+     "key": "winter",
+     "label_key": "winter.singer.winter",
+     "label": "A place by the fire till the thaw",
+     "cost": "silver 8",
+     "effects": [
+      "morale +0.15",
+      "give_text deor",
+      "npc singer feeling +20 lodged"
+     ]
+    },
+    {
+     "key": "night",
+     "label_key": "winter.singer.night",
+     "label": "One night and a meal",
+     "default": true,
+     "effects": [
+      "morale +0.05",
+      "npc singer feeling +3 fed"
+     ]
+    },
+    {
+     "key": "sea",
+     "label_key": "winter.singer.sea",
+     "label": "Ask him for the song of the lone sailor",
+     "check": "tongue.old_english >= 0.5",
+     "cost": "silver 8",
+     "effects": [
+      "give_text seafarer",
+      "morale +0.1",
+      "npc singer feeling +10 lodged"
+     ]
+    }
+   ],
+   "memory": {
+    "winter": "kept him the whole winter",
+    "night": "gave him a night and a meal",
+    "sea": "kept him for one song"
+   }
+  },
+  {
+   "id": "harbour.winter.shares",
+   "note": "Boats owned in shares, and partners who lay their property together (the Norse félag): research_scale_to_fleets.md section 2. Sets unlock_partner_neighbour and a second hull, unlock_ship_gislinge (unlocks_793.json). A quarter share pays at each winter reckoning: see needs.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (silver >= 300 and not flag.unlock_partner_neighbour)",
+   "weight": 0.15,
+   "cooldown_days": 1100,
+   "months": [
+    11,
+    12,
+    1
+   ],
+   "actors": {
+    "merchant": {
+     "role": "merchant",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.shares.title",
+   "title": "Half a boat",
+   "intention_key": "winter.shares.intention",
+   "intention": "Your neighbour has oak seasoning behind his house and no silver to pay a wright. He offers you half of a second boat: you pay for the building, he sails her, and what she makes is split.",
+   "options": [
+    {
+     "key": "half",
+     "label_key": "winter.shares.half",
+     "label": "Lay your goods together with his",
+     "cost": "silver 300",
+     "effects": [
+      "flag unlock_partner_neighbour",
+      "flag unlock_ship_gislinge",
+      "npc merchant feeling +20 partner"
+     ]
+    },
+    {
+     "key": "quarter",
+     "label_key": "winter.shares.quarter",
+     "label": "Take a quarter share and no more",
+     "cost": "silver 150",
+     "effects": [
+      "flag house_share_quarter",
+      "npc merchant feeling +8 partner"
+     ]
+    },
+    {
+     "key": "one_keel",
+     "label_key": "winter.shares.one_keel",
+     "label": "Keep to one keel",
+     "default": true,
+     "effects": []
+    }
+   ],
+   "memory": {
+    "half": "went halves on a boat",
+    "quarter": "took a quarter share",
+    "one_keel": "would not share a boat"
+   }
+  },
+  {
+   "id": "harbour.winter.relic_hawker",
+   "note": "The king's warning against false names of martyrs and against wanderers who deceive people: Admonitio generalis 789 c. 42 and c. 79. The trade in Roman bones: Einhard, Translation of Marcellinus and Peter (827 to 828), and the Roman deacon Deusdona. Sets unlock_relic_roman_martyr or unlock_relic_false_bone (unlocks_793.json relic_uses). goods_793.json relics.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (year >= 800 and (port.realm = franks or port.realm = kent or port.realm = wessex or port.realm = mercia))",
+   "weight": 0.08,
+   "cooldown_days": 1500,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.relic_hawker.title",
+   "title": "A bone in silk",
+   "intention_key": "winter.relic_hawker.intention",
+   "intention": "A man with a pilgrim's staff and a Roman way of talking unwraps a finger bone from a scrap of silk. A martyr's, he says, from the old burying places outside Rome. The price is an insult to the saint, and he is ashamed to name it.",
+   "options": [
+    {
+     "key": "church",
+     "label_key": "winter.relic_hawker.church",
+     "label": "Buy it, and take it to the priest",
+     "cost": "silver 60",
+     "effects": [
+      {
+       "chance": 0.5,
+       "success": [
+        "flag unlock_relic_roman_martyr",
+        "deed gave_alms",
+        "npc priest feeling +10 relic"
+       ],
+       "failure": [
+        "flag unlock_relic_false_bone",
+        "npc priest feeling -2 relic"
+       ]
+      }
+     ],
+     "note": "odds shown as the word: doubtful"
+    },
+    {
+     "key": "trade",
+     "label_key": "winter.relic_hawker.trade",
+     "label": "Buy it, and put it in the chest with the amber",
+     "cost": "silver 60",
+     "effects": [
+      "goods relics +1"
+     ]
+    },
+    {
+     "key": "ask",
+     "label_key": "winter.relic_hawker.ask",
+     "label": "Send for the priest to question him",
+     "default": true,
+     "effects": [
+      "npc priest feeling +2 relic"
+     ]
+    }
+   ],
+   "memory": {
+    "church": "brought a bone to be judged",
+    "trade": "bought a bone and said nothing",
+    "ask": "sent for him when a relic was hawked"
+   }
+  },
+  {
+   "id": "harbour.winter.lots",
+   "note": "Lots cut from a fruit tree and thrown on a white cloth: Tacitus, Germania 10. The Frisian king Radbod cast lots three times a day for three days over Willibrord's men: Alcuin, Vita Willibrordi c. 11. Lots at Birka: Rimbert, Vita Anskarii 18, 19, 26, 27 (Robinson 1921). Forbidden: Indiculus superstitionum c. 14. omen_spring is for a spring card to read.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering",
+   "weight": 0.12,
+   "cooldown_days": 700,
+   "months": [
+    2,
+    3
+   ],
+   "actors": {
+    "wise_woman": {
+     "role": "wise_woman",
+     "people": "port",
+     "fixed": true
+    },
+    "priest": {
+     "role": "priest",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.lots.title",
+   "title": "The lots",
+   "intention_key": "winter.lots.intention",
+   "intention": "The wise woman offers to cast the lots for your spring: which way to sail first. Your grandfather would not have left the bank without it. The priest has preached against it twice this winter.",
+   "options": [
+    {
+     "key": "cast",
+     "label_key": "winter.lots.cast",
+     "label": "Let her cast",
+     "cost": "silver 4",
+     "effects": [
+      "morale +0.1",
+      "flag omen_spring for 150",
+      "npc wise_woman feeling +5 lots"
+     ]
+    },
+    {
+     "key": "self",
+     "label_key": "winter.lots.self",
+     "label": "Cast them yourself, at night",
+     "default": true,
+     "effects": [
+      "morale +0.05"
+     ]
+    },
+    {
+     "key": "priest",
+     "label_key": "winter.lots.priest",
+     "label": "Send her away, and tell the priest",
+     "effects": [
+      "npc priest feeling +6 lots",
+      "npc wise_woman feeling -10 lots",
+      "morale -0.05"
+     ]
+    }
+   ],
+   "memory": {
+    "cast": "had the lots cast",
+    "self": "cast his own lots",
+    "priest": "told the priest about the lots"
+   }
+  },
+  {
+   "id": "harbour.winter.vow",
+   "note": "Vows to a saint's church: Boniface was killed near Dokkum on 5 June 754 and a church built on the place (Willibald, Vita Bonifatii c. 8 to 9); the church of Utrecht is Saint Martin's. vow_doccinga opens unlock_relic_boniface_dokkum (unlocks_793.json). A vow not kept within 300 days should cost the crew's heart: see needs.",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and ((flag.house_wed or (generation = 0 and flag.ch_house_marriage_6)))",
+   "weight": 0.12,
+   "cooldown_days": 900,
+   "months": [
+    1,
+    2
+   ],
+   "title_key": "winter.vow.title",
+   "title": "A vow in the dark of the year",
+   "intention_key": "winter.vow.intention",
+   "intention": "At the worst of the winter, with the roof groaning under the wind, your wife says the house has had more luck than thanks. A vow could be made: a journey when the water opens, or wax for an altar.",
+   "options": [
+    {
+     "key": "doccinga",
+     "label_key": "winter.vow.doccinga",
+     "label": "Vow a journey to Boniface's church at Doccinga",
+     "effects": [
+      "flag vow_doccinga for 300",
+      "morale +0.1"
+     ]
+    },
+    {
+     "key": "wax",
+     "label_key": "winter.vow.wax",
+     "label": "Vow wax to Saint Martin at Traiectum",
+     "default": true,
+     "effects": [
+      "flag vow_traiectum_wax for 300",
+      "morale +0.05"
+     ]
+    },
+    {
+     "key": "none",
+     "label_key": "winter.vow.none",
+     "label": "Vow nothing",
+     "effects": []
+    }
+   ]
+  },
+  {
+   "id": "harbour.winter.memorial",
+   "note": "What is done for the dead: unlocks_793.json, the memorial entries with their formulas. The thirtieth-day mass: Gregory the Great. The funeral ale is Norse and described in later books. Comes when lost_man_this_year is set (here by harbour.winter.old_hand_dies; any card that loses a man should set it).",
+   "stage": "harbour",
+   "when": "moored and flag.wintering and (flag.lost_man_this_year)",
+   "weight": 1.0,
+   "cooldown_days": 300,
+   "months": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "port",
+     "fixed": true
+    }
+   },
+   "title_key": "winter.memorial.title",
+   "title": "For the man you lost",
+   "intention_key": "winter.memorial.intention",
+   "intention": "One of yours is dead this year. The crew have not spoken of what should be done for him, and are waiting to see whether you will.",
+   "options": [
+    {
+     "key": "masses",
+     "label_key": "winter.memorial.masses",
+     "label": "Thirty masses, and his name in the priest's book",
+     "cost": "silver 30",
+     "effects": [
+      "deed gave_alms",
+      "morale +0.15",
+      "flag memorial_masses",
+      "npc priest feeling +5 masses"
+     ]
+    },
+    {
+     "key": "marker",
+     "label_key": "winter.memorial.marker",
+     "label": "Cut a marker with his name",
+     "check": "learned.runes >= 0.5 or learned.latin >= 0.5",
+     "cost": "silver 10",
+     "effects": [
+      "morale +0.2",
+      "flag memorial_marker"
+     ]
+    },
+    {
+     "key": "ale",
+     "label_key": "winter.memorial.ale",
+     "label": "Drink his funeral ale and tell what he did",
+     "default": true,
+     "effects": [
+      "morale +0.1"
+     ]
+    }
+   ],
+   "memory": {
+    "masses": "paid for masses for a dead hand",
+    "marker": "cut a marker for a dead hand",
+    "ale": "drank the funeral ale"
+   }
+  }
+ ],
+ "writing": {
+  "about": "The words of the winter cards, in the format of a writing file: title, intention and label keys repeat the plain words on the cards; '.after' keys are the outcome of each choice as a fact; 'art.' keys say what the card's picture shows.",
+  "entries": [
+   {
+    "key": "winter.birth.title",
+    "text": "A child is coming"
+   },
+   {
+    "key": "winter.birth.intention",
+    "text": "Your wife's time has come in the dark of the year. The wise woman of the bank can be sent for. The priest says prayer is enough, and that the woman knows charms."
+   },
+   {
+    "key": "art.harbour.winter.birth",
+    "text": "A lamp-lit room in a timber house at night: a woman in a headcloth carrying a bowl of steaming water past a man who stands useless by the door; snow in the doorway behind him."
+   },
+   {
+    "key": "winter.birth.wise_woman",
+    "text": "Send for the wise woman"
+   },
+   {
+    "key": "winter.birth.wise_woman.after.success",
+    "text": "A child is born alive and the mother lives. The wise woman takes her six pennies and a loaf, and says the child will sail."
+   },
+   {
+    "key": "winter.birth.wise_woman.after.failure",
+    "text": "The child does not live the night. The mother mends slowly. The wise woman will not take the pennies."
+   },
+   {
+    "key": "winter.birth.household",
+    "text": "Let the women of the house manage"
+   },
+   {
+    "key": "winter.birth.household.after.success",
+    "text": "The women of the house do what women have always done. A child is born alive."
+   },
+   {
+    "key": "winter.birth.household.after.failure",
+    "text": "It goes badly. The child is buried before it is named, and nobody says whose fault that was."
+   },
+   {
+    "key": "winter.birth.candle",
+    "text": "Send for her, and promise wax to the church if both live"
+   },
+   {
+    "key": "winter.birth.candle.after.success",
+    "text": "Both live. You pay the wise woman her six pennies and the church its wax, and count it cheap."
+   },
+   {
+    "key": "winter.birth.candle.after.failure",
+    "text": "The child does not live the night. No wax is owed. You give it anyway, later, and say nothing about why."
+   },
+   {
+    "key": "winter.godparent.title",
+    "text": "The font"
+   },
+   {
+    "key": "winter.godparent.intention",
+    "text": "The child must be baptised within the month, and someone must lift it from the water. Whoever does is kin to you from that day, and to the child."
+   },
+   {
+    "key": "art.harbour.winter.godparent",
+    "text": "Inside a small timber church: a priest in a plain alb holding a baby over a stone basin, three men waiting behind him with their caps in their hands; grey winter light from one window."
+   },
+   {
+    "key": "winter.godparent.lord",
+    "text": "Ask the count's man"
+   },
+   {
+    "key": "winter.godparent.lord.after",
+    "text": "The count's man lifts the child from the water and gives it a silver penny. He will know your name when the debt is spoken of."
+   },
+   {
+    "key": "winter.godparent.merchant",
+    "text": "Ask a merchant of the bank"
+   },
+   {
+    "key": "winter.godparent.merchant.after",
+    "text": "A neighbour with a boat of his own stands sponsor. His house and yours share bread at feasts now, and he asks what you paid for wine at Colonia."
+   },
+   {
+    "key": "winter.godparent.steersman",
+    "text": "Ask your own steersman"
+   },
+   {
+    "key": "winter.godparent.steersman.after",
+    "text": "Your steersman holds the child as if it were a full bailer. The crew drink to it. It costs you nothing and binds a good man."
+   },
+   {
+    "key": "winter.child_fever.title",
+    "text": "The child burns"
+   },
+   {
+    "key": "winter.child_fever.intention",
+    "text": "The child has had a fever three nights now and it will not break. The leech is across the river. The wise woman is next door. The church is always open."
+   },
+   {
+    "key": "art.harbour.winter.child_fever",
+    "text": "A cradle by a hearth in the dark, a man kneeling with his hand on a child's forehead, a woman behind him holding a bunch of dried herbs."
+   },
+   {
+    "key": "winter.child_fever.leech",
+    "text": "Fetch the leech across the river"
+   },
+   {
+    "key": "winter.child_fever.leech.after.success",
+    "text": "The leech lets no blood from one so small. He gives betony in warm ale and sits up. On the fourth morning the fever is gone."
+   },
+   {
+    "key": "winter.child_fever.leech.after.failure",
+    "text": "The fever breaks at last, but the child is slow to mend and thin all year."
+   },
+   {
+    "key": "winter.child_fever.herbs",
+    "text": "Ask the wise woman for her herbs"
+   },
+   {
+    "key": "winter.child_fever.herbs.after.success",
+    "text": "She binds a root to the child's wrist and gives it something bitter. It sleeps. The priest hears of the root and says nothing, this time."
+   },
+   {
+    "key": "winter.child_fever.herbs.after.failure",
+    "text": "The root does nothing that anyone can see. The fever breaks in its own time, and the child is thin all year."
+   },
+   {
+    "key": "winter.child_fever.church",
+    "text": "Carry the child to the church and keep watch there"
+   },
+   {
+    "key": "winter.child_fever.church.after.success",
+    "text": "You keep the night by the altar with the child inside your cloak. At dawn it asks for milk."
+   },
+   {
+    "key": "winter.child_fever.church.after.failure",
+    "text": "You keep three nights by the altar. The child lives, and is thin all year."
+   },
+   {
+    "key": "winter.wedding.title",
+    "text": "A wife for the house"
+   },
+   {
+    "key": "winter.wedding.intention",
+    "text": "Your mother says a house with a boat and no wife is a boat with no keel. There is a neighbour's daughter who can keep a tally. There is also the daughter of the Englishman you deal with over the sea."
+   },
+   {
+    "key": "art.harbour.winter.wedding",
+    "text": "A church door in thin winter sun: a man and a young woman with their right hands joined, a priest between them, an old woman counting pennies into another old woman's palm."
+   },
+   {
+    "key": "winter.wedding.neighbour",
+    "text": "Marry the neighbour's daughter"
+   },
+   {
+    "key": "winter.wedding.neighbour.after",
+    "text": "The bride-gift is paid before witnesses, and the morning-gift after the first night: a cow and the loom. The priest blesses it at the church door. The bank eats at your cost for two days."
+   },
+   {
+    "key": "winter.wedding.english",
+    "text": "Send word across the sea to the Englishman"
+   },
+   {
+    "key": "winter.wedding.english.after",
+    "text": "Her father agrees by the last ship. She comes at Easter with a chest, a loom weight from home and her own speech. Your children will have two tongues and two harbours."
+   },
+   {
+    "key": "winter.wedding.wait",
+    "text": "Not this year"
+   },
+   {
+    "key": "winter.wedding.wait.after",
+    "text": "The house stays as it is. Your mother says nothing, several times a day."
+   },
+   {
+    "key": "winter.sister_offer.title",
+    "text": "An offer for your sister"
+   },
+   {
+    "key": "winter.sister_offer.intention",
+    "text": "The house that undercut you on wine all summer sends an old woman with a proposal: their eldest son for your sister. It would end the quarrel. Your sister has seen him and has not said what she thinks."
+   },
+   {
+    "key": "art.harbour.winter.sister_offer",
+    "text": "An old woman in a dark cloak sitting very upright on a bench by the hearth, a young woman at the loom behind her with her back turned, listening."
+   },
+   {
+    "key": "winter.sister_offer.agree",
+    "text": "Agree, and pay her portion"
+   },
+   {
+    "key": "winter.sister_offer.agree.after",
+    "text": "It is done before Lent. The two houses sit at one table at the wedding and are careful with each other. He does not undercut you again."
+   },
+   {
+    "key": "winter.sister_offer.ask_her",
+    "text": "Ask her first"
+   },
+   {
+    "key": "winter.sister_offer.ask_her.after.success",
+    "text": "She says he has good hands and a fool for a father, and that she can manage both. Her portion is eighty pennies."
+   },
+   {
+    "key": "winter.sister_offer.ask_her.after.failure",
+    "text": "She says no, and why, at some length. You carry a shorter answer back. The other house is cool, and your own thinks better of you."
+   },
+   {
+    "key": "winter.sister_offer.refuse",
+    "text": "Refuse"
+   },
+   {
+    "key": "winter.sister_offer.refuse.after",
+    "text": "You send the old woman home with a cheese and a no. They take it badly and politely."
+   },
+   {
+    "key": "winter.foster.title",
+    "text": "A Dane's offer"
+   },
+   {
+    "key": "winter.foster.intention",
+    "text": "A Dane you have traded beside for two summers says that where he comes from, friends bring up each other's sons. He will take a boy of yours north, or leave his own with you. He means it as an honour."
+   },
+   {
+    "key": "art.harbour.winter.foster",
+    "text": "Two men on a bench by a fire, one fair and broad in a Danish cloak with a ring pin, a small boy asleep against his knee; the other man looking at the boy."
+   },
+   {
+    "key": "winter.foster.send",
+    "text": "Send your boy north with him"
+   },
+   {
+    "key": "winter.foster.send.after",
+    "text": "The boy goes aboard the Dane's ship at Easter with a new knife and does not look back. He will come home in four years talking like a Dane and rowing like one."
+   },
+   {
+    "key": "winter.foster.take",
+    "text": "Take his son into your house"
+   },
+   {
+    "key": "winter.foster.take.after",
+    "text": "A Danish boy of nine sits at your table and eats like a man of thirty. By midwinter the whole house is swearing in his tongue."
+   },
+   {
+    "key": "winter.foster.decline",
+    "text": "Thank him and decline"
+   },
+   {
+    "key": "winter.foster.decline.after",
+    "text": "He shrugs. Among his own people it would be an insult. He knows you are a Frisian, and lets it pass."
+   },
+   {
+    "key": "winter.school.title",
+    "text": "Letters for the boy"
+   },
+   {
+    "key": "winter.school.intention",
+    "text": "The schoolmaster at the bishop's church takes boys for the winter: the psalms, the letters, reckoning on the fingers. He says your son is quick. He also says he would make a monk."
+   },
+   {
+    "key": "art.harbour.winter.school",
+    "text": "A cold stone room with a bench of small boys holding wax tablets, a thin master in a black habit pointing with a rod at letters scratched on a board."
+   },
+   {
+    "key": "winter.school.winter",
+    "text": "Send him for the winter"
+   },
+   {
+    "key": "winter.school.winter.after",
+    "text": "By Easter the boy can read the toll man's tally and the first psalm, and has opinions about your accounts."
+   },
+   {
+    "key": "winter.school.oblate",
+    "text": "Give him to the church for good"
+   },
+   {
+    "key": "winter.school.oblate.after",
+    "text": "His hand is wrapped in the altar cloth with your gift. He is the church's now. You have a son who will write, and no son to sail."
+   },
+   {
+    "key": "winter.school.oar",
+    "text": "Keep him at the oar"
+   },
+   {
+    "key": "winter.school.oar.after",
+    "text": "He learns to scull, to splice and to keep quiet when the toll man talks. There are worse schools."
+   },
+   {
+    "key": "winter.heir_of_age.title",
+    "text": "Twelve winters"
+   },
+   {
+    "key": "winter.heir_of_age.intention",
+    "text": "Your eldest is twelve: old enough to swear his oath to the king with the other free men, and to pull an oar. He has asked every day since Martinmas."
+   },
+   {
+    "key": "art.harbour.winter.heir_of_age",
+    "text": "A boy of twelve standing on a river bank in winter beside a hauled-up boat, one hand flat on her planking, looking at the water."
+   },
+   {
+    "key": "winter.heir_of_age.aboard",
+    "text": "Take him aboard at Easter"
+   },
+   {
+    "key": "winter.heir_of_age.aboard.after",
+    "text": "He has the bow oar and the bailer. The men are easier on him than you are."
+   },
+   {
+    "key": "winter.heir_of_age.ashore",
+    "text": "Leave him ashore to learn the house"
+   },
+   {
+    "key": "winter.heir_of_age.ashore.after",
+    "text": "He keeps the store and the tally with his mother. He will know prices before he knows the sea."
+   },
+   {
+    "key": "winter.heir_of_age.wait",
+    "text": "One more winter"
+   },
+   {
+    "key": "winter.heir_of_age.wait.after",
+    "text": "He says nothing. He mends nets on the bank, where he can see the boats go out."
+   },
+   {
+    "key": "winter.elder_death.title",
+    "text": "A death in the house"
+   },
+   {
+    "key": "winter.elder_death.intention",
+    "text": "Your father's brother, who taught you the river, dies at Candlemas after a week in bed. He was baptised as a grown man and kept some of the old ways. The priest waits to hear what you want."
+   },
+   {
+    "key": "art.harbour.winter.elder_death",
+    "text": "A small churchyard under snow, an open grave with four men lowering a shrouded body on ropes, a priest reading, a row of old men standing apart with their hoods up."
+   },
+   {
+    "key": "winter.elder_death.church",
+    "text": "A grave by the church wall, and masses"
+   },
+   {
+    "key": "winter.elder_death.church.after",
+    "text": "The soul's gift is paid at the open grave. A mass is sung on the thirtieth day. He lies with his head to the west and nothing in his hands."
+   },
+   {
+    "key": "winter.elder_death.plain",
+    "text": "A plain grave in the churchyard"
+   },
+   {
+    "key": "winter.elder_death.plain.after",
+    "text": "He is buried among the poor of the bank, decently. The priest says the short office."
+   },
+   {
+    "key": "winter.elder_death.old_way",
+    "text": "The churchyard, with his knife and a coin beside him"
+   },
+   {
+    "key": "winter.elder_death.old_way.after.success",
+    "text": "You put his knife at his belt and a penny in his fist when the priest's back is turned. The old men of the bank nod."
+   },
+   {
+    "key": "winter.elder_death.old_way.after.failure",
+    "text": "The priest sees the knife and takes it out again in front of everyone. He says the law is plain about the customs of the heathen, and so is he."
+   },
+   {
+    "key": "winter.own_sickness.title",
+    "text": "You lie sick"
+   },
+   {
+    "key": "winter.own_sickness.intention",
+    "text": "From Candlemas to the middle of Lent you cannot stand. The house walks softly. There is a boat, a debt, a chest and a plot, and nothing has been said before witnesses about any of them."
+   },
+   {
+    "key": "art.harbour.winter.own_sickness",
+    "text": "A box bed with a sick man propped on a bolster, six men standing round it with their caps off, a woman at the foot holding a child."
+   },
+   {
+    "key": "winter.own_sickness.name_heir",
+    "text": "Call six neighbours and name your heir"
+   },
+   {
+    "key": "winter.own_sickness.name_heir.after",
+    "text": "Six free men of the bank stand round the bed and hear it said: who has the boat, who has the house, what the widow keeps. Whatever comes, there will be no lawsuit."
+   },
+   {
+    "key": "winter.own_sickness.church",
+    "text": "Send a gift to the church for your soul"
+   },
+   {
+    "key": "winter.own_sickness.church.after",
+    "text": "The priest brings the oil and takes the silver. You are better by Easter. He does not offer to give it back."
+   },
+   {
+    "key": "winter.own_sickness.lie_still",
+    "text": "Lie still and say nothing"
+   },
+   {
+    "key": "winter.own_sickness.lie_still.after.success",
+    "text": "It passes, as most things do."
+   },
+   {
+    "key": "winter.own_sickness.lie_still.after.failure",
+    "text": "It passes slowly. You go aboard at Easter with a cough and a stick."
+   },
+   {
+    "key": "winter.crew_keep.title",
+    "text": "The men at Martinmas"
+   },
+   {
+    "key": "winter.crew_keep.intention",
+    "text": "The boat is on the bank and the season's shares are paid. Your men look at you. Bread and ale till Easter, or each his own road till the water opens?"
+   },
+   {
+    "key": "art.harbour.winter.crew_keep",
+    "text": "Four men sitting on an upturned boat on a frosty bank with their sea-bags at their feet, all looking the same way, at the viewer."
+   },
+   {
+    "key": "winter.crew_keep.keep",
+    "text": "Keep them on bread and ale till Easter"
+   },
+   {
+    "key": "winter.crew_keep.keep.after",
+    "text": "They sleep in the boat shed, mend gear, and eat more than you thought four men could. At Easter they are all there."
+   },
+   {
+    "key": "winter.crew_keep.work",
+    "text": "Keep them for their work on the boat"
+   },
+   {
+    "key": "winter.crew_keep.work.after",
+    "text": "They scrape, tar and re-rivet for their keep. The boat is sound by Candlemas and the men are sick of tar."
+   },
+   {
+    "key": "winter.crew_keep.pay_off",
+    "text": "Let them go till Easter"
+   },
+   {
+    "key": "winter.crew_keep.pay_off.after.success",
+    "text": "They go to their own hearths. At Easter all of them are on the bank, thinner."
+   },
+   {
+    "key": "winter.crew_keep.pay_off.after.failure",
+    "text": "At Easter one does not come. He has taken a place on a bigger ship, and sends his regards."
+   },
+   {
+    "key": "winter.bride_ale.title",
+    "text": "A man of yours marries"
+   },
+   {
+    "key": "winter.bride_ale.intention",
+    "text": "Your lookout is marrying a fisherman's daughter after Epiphany. Her father would like a son-in-law who stays ashore. The man himself has not decided."
+   },
+   {
+    "key": "art.harbour.winter.bride_ale",
+    "text": "A long table in a fisherman's house, a young man and a girl at its head looking stunned, an older man in a merchant's cloak filling the father's cup."
+   },
+   {
+    "key": "winter.bride_ale.feast",
+    "text": "Stand him the bride-ale"
+   },
+   {
+    "key": "winter.bride_ale.feast.after",
+    "text": "You pay for the ale and sit at the bride's father's right hand. By the end of the night he has agreed that a share of a good boat is better than a net."
+   },
+   {
+    "key": "winter.bride_ale.share",
+    "text": "Offer him a share instead of a wage"
+   },
+   {
+    "key": "winter.bride_ale.share.after",
+    "text": "He will sail for a part of what the boat makes. He stays. So does his new father-in-law's interest in your accounts."
+   },
+   {
+    "key": "winter.bride_ale.wish",
+    "text": "Wish him well"
+   },
+   {
+    "key": "winter.bride_ale.wish.after.success",
+    "text": "He marries, and is on the bank at Easter all the same."
+   },
+   {
+    "key": "winter.bride_ale.wish.after.failure",
+    "text": "He marries, and takes up the net. You need a lookout."
+   },
+   {
+    "key": "winter.brawl.title",
+    "text": "A tooth at the ale-wife's"
+   },
+   {
+    "key": "winter.brawl.intention",
+    "text": "One of your men has knocked out a Frank's tooth at the ale-wife's, over a remark about Frisian cloaks. The law of the Frisians has a price for every wound, and the lawman knows it by heart."
+   },
+   {
+    "key": "art.harbour.winter.brawl",
+    "text": "An ale-house interior: a big man holding his jaw, a smaller one being held back by two friends, an ale-wife with her arms folded in front of the cask."
+   },
+   {
+    "key": "winter.brawl.pay",
+    "text": "Pay the wound-price"
+   },
+   {
+    "key": "winter.brawl.pay.after",
+    "text": "The lawman names the price for a front tooth, which is more than for a back one. You pay. Your man says the remark was worth it."
+   },
+   {
+    "key": "winter.brawl.oath",
+    "text": "Swear with oath-helpers that the Frank struck first"
+   },
+   {
+    "key": "winter.brawl.oath.after.success",
+    "text": "Five neighbours swear with you. The Frank pays for the ale and keeps his opinion of cloaks to himself."
+   },
+   {
+    "key": "winter.brawl.oath.after.failure",
+    "text": "The ale-wife swears the other way, and she was sober. You pay the price and half again."
+   },
+   {
+    "key": "winter.brawl.pardon",
+    "text": "Make him ask pardon before the whole ale-house"
+   },
+   {
+    "key": "winter.brawl.pardon.after",
+    "text": "He stands bareheaded and says the words. The Frank accepts, with a gap in his smile. Your man does not speak to you for a week."
+   },
+   {
+    "key": "winter.old_hand_dies.title",
+    "text": "The oldest hand"
+   },
+   {
+    "key": "winter.old_hand_dies.intention",
+    "text": "Your oldest hand dies in his bed at midwinter, which he always said he would not. A share of the last voyage was still owed him. His widow has not asked."
+   },
+   {
+    "key": "art.harbour.winter.old_hand_dies",
+    "text": "A small dark house, an old woman sitting by a cold hearth with a sea-chest open beside her, a man in the doorway holding a leather purse."
+   },
+   {
+    "key": "winter.old_hand_dies.more",
+    "text": "Pay her his share and something over"
+   },
+   {
+    "key": "winter.old_hand_dies.more.after",
+    "text": "You carry it to her yourself. The crew hear of it before you are home."
+   },
+   {
+    "key": "winter.old_hand_dies.exact",
+    "text": "Pay her what was owed, to the penny"
+   },
+   {
+    "key": "winter.old_hand_dies.exact.after",
+    "text": "It is counted out on her table before a witness. Nobody can say more or less."
+   },
+   {
+    "key": "winter.old_hand_dies.nothing",
+    "text": "Say the voyage made a loss"
+   },
+   {
+    "key": "winter.old_hand_dies.nothing.after",
+    "text": "Nobody can prove otherwise. The men you try to hire at Easter have heard the story."
+   },
+   {
+    "key": "winter.boy_asks.title",
+    "text": "A boy at the door"
+   },
+   {
+    "key": "winter.boy_asks.intention",
+    "text": "A neighbour's boy of fourteen asks for a place at the oar. He is strong and has never been past the river mouth. His mother came an hour before him and asked you to say no."
+   },
+   {
+    "key": "art.harbour.winter.boy_asks",
+    "text": "A big-boned boy of fourteen standing in a doorway with snow on his shoulders, twisting his cap; behind him, across the yard, a woman watching from another door."
+   },
+   {
+    "key": "winter.boy_asks.take",
+    "text": "Take him"
+   },
+   {
+    "key": "winter.boy_asks.take.after",
+    "text": "He is on the bank before dawn every day for a week in case you sail early. His mother sends bread for him and none for you."
+   },
+   {
+    "key": "winter.boy_asks.river",
+    "text": "Take him, and promise her he stays in the river this year"
+   },
+   {
+    "key": "winter.boy_asks.river.after",
+    "text": "She makes you say it twice. If you take him over the bar before next winter she will know, and so will the whole bank."
+   },
+   {
+    "key": "winter.boy_asks.later",
+    "text": "Tell him to come back in two winters"
+   },
+   {
+    "key": "winter.boy_asks.later.after",
+    "text": "He goes away without a word. You will see him at the oar of another man's boat by midsummer."
+   },
+   {
+    "key": "winter.yule.title",
+    "text": "Midwinter"
+   },
+   {
+    "key": "winter.yule.intention",
+    "text": "The twelve days are coming. The Christians of the bank keep them with mass and meat. Two of your men who keep the old ways would pour ale to the old powers for a good year, as their fathers did, and they ask if they may do it under your roof."
+   },
+   {
+    "key": "art.harbour.winter.yule",
+    "text": "A crowded room lit by a long fire, a boar's head on a board, men with horns and cups; at the open door two men are slipping out into the dark with a small cask."
+   },
+   {
+    "key": "winter.yule.feast",
+    "text": "Keep the feast: ale and meat for the crew and the neighbours"
+   },
+   {
+    "key": "winter.yule.feast.after",
+    "text": "For twelve days nobody works. The priest eats at your table on the third and praises the pork."
+   },
+   {
+    "key": "winter.yule.both",
+    "text": "Keep the feast, and let the two pour their ale as well"
+   },
+   {
+    "key": "winter.yule.both.after.success",
+    "text": "They pour to a good year and peace, quietly, down by the boat. Then they come in and eat with everyone else. Nobody tells the priest."
+   },
+   {
+    "key": "winter.yule.both.after.failure",
+    "text": "Somebody tells the priest. He preaches on it at Epiphany without naming you, and looks at you while he does it."
+   },
+   {
+    "key": "winter.yule.small",
+    "text": "Keep it small this year"
+   },
+   {
+    "key": "winter.yule.small.after",
+    "text": "Mass, a hen, and an early night. The men remember other winters."
+   },
+   {
+    "key": "winter.haul_and_tar.title",
+    "text": "The boat on the bank"
+   },
+   {
+    "key": "winter.haul_and_tar.intention",
+    "text": "She is hauled above the flood line on rollers. The seams want tar, three strakes weep at the lands, and the rivets by the stem are loose. The wright has looked and named his price."
+   },
+   {
+    "key": "art.harbour.winter.haul_and_tar",
+    "text": "A clinker boat on rollers on a frozen bank, her mast lying beside her, a man with a tar pot and a brush under her quarter, smoke from a fire of shavings."
+   },
+   {
+    "key": "winter.haul_and_tar.wright",
+    "text": "Pay the wright"
+   },
+   {
+    "key": "winter.haul_and_tar.wright.after",
+    "text": "He drives new rivets, lays tarred wool in the seams and burns his mark by the stem. She will be dry at Easter."
+   },
+   {
+    "key": "winter.haul_and_tar.crew",
+    "text": "Do it with your own men"
+   },
+   {
+    "key": "winter.haul_and_tar.crew.after.success",
+    "text": "Tar to the elbows for a week. She is tight."
+   },
+   {
+    "key": "winter.haul_and_tar.crew.after.failure",
+    "text": "She looks tight. In the first chop of spring you learn which rivet was not."
+   },
+   {
+    "key": "winter.haul_and_tar.leave",
+    "text": "Leave her till spring"
+   },
+   {
+    "key": "winter.haul_and_tar.leave.after",
+    "text": "She will float. She will also let the sea in when it matters most."
+   },
+   {
+    "key": "winter.rebuild.title",
+    "text": "The wright's offer"
+   },
+   {
+    "key": "winter.rebuild.intention",
+    "text": "The wright walks round her twice. The keel is good for twenty years, he says. For silver he will scarf in a new stem and add a strake each side: she would carry a fifth more and ship less water."
+   },
+   {
+    "key": "art.harbour.winter.rebuild",
+    "text": "A boat on the bank with her top strake off, a wright sighting along a new plank held up by two boys, oak chips on the snow."
+   },
+   {
+    "key": "winter.rebuild.strake",
+    "text": "Add the strake"
+   },
+   {
+    "key": "winter.rebuild.strake.after",
+    "text": "He works till Lent. She sits the same in the water and holds four casks more. She rows heavier, and the men say so."
+   },
+   {
+    "key": "winter.rebuild.stem",
+    "text": "The new stem only"
+   },
+   {
+    "key": "winter.rebuild.stem.after",
+    "text": "A new stem of grown oak, scarfed and riveted. The old one goes on the fire and burns for two days."
+   },
+   {
+    "key": "winter.rebuild.no",
+    "text": "She will do as she is"
+   },
+   {
+    "key": "winter.rebuild.no.after",
+    "text": "The wright shrugs. He has seen boats older than her come home, and newer ones not."
+   },
+   {
+    "key": "winter.fire.title",
+    "text": "Fire in the row"
+   },
+   {
+    "key": "winter.fire.intention",
+    "text": "Shouting in the night. The thatch three houses up the row is alight and the wind is toward you. There is time to do one thing well."
+   },
+   {
+    "key": "art.harbour.winter.fire",
+    "text": "A row of thatched houses at night, the far ones blazing, sparks blowing along the roofs; in front a man dragging a chest across the road, people running with buckets."
+   },
+   {
+    "key": "winter.fire.chest",
+    "text": "Carry out the chest and the scales"
+   },
+   {
+    "key": "winter.fire.chest.after.success",
+    "text": "The chest, the scales and the tally sticks stand in the road. The house burns to the sills behind them. Walls can be built again by Easter."
+   },
+   {
+    "key": "winter.fire.chest.after.failure",
+    "text": "The roof comes down before the second trip. The chest is out. A bag of silver under the floor is a lump among the ashes."
+   },
+   {
+    "key": "winter.fire.pull_down",
+    "text": "Pull down the house between, with hooks"
+   },
+   {
+    "key": "winter.fire.pull_down.after.success",
+    "text": "Ten men and two boat-hooks bring the neighbour's roof down into the road before the fire reaches it. Your house stands. His does not, and he thanks you, in time."
+   },
+   {
+    "key": "winter.fire.pull_down.after.failure",
+    "text": "The gap is not wide enough. Both houses go."
+   },
+   {
+    "key": "winter.fire.children",
+    "text": "Get the neighbours' children out first"
+   },
+   {
+    "key": "winter.fire.children.after",
+    "text": "Four children and a grandmother are carried out through the back. Your own house burns with everything in it but the chest. The bank does not forget who did what that night."
+   },
+   {
+    "key": "winter.flood.title",
+    "text": "The sea comes in"
+   },
+   {
+    "key": "winter.flood.intention",
+    "text": "A north-west gale on a spring tide. By midnight the water is over the bank and in the lower houses, and still rising. The boat is on her rollers. The church stands on the only high ground."
+   },
+   {
+    "key": "art.harbour.winter.flood",
+    "text": "Black water up to the eaves of low houses under a torn sky, a small boat with four men rowing between the roofs, people clinging to a thatch; on a mound behind, a wooden church with a light in it."
+   },
+   {
+    "key": "winter.flood.stock",
+    "text": "Carry the stock up to the church mound"
+   },
+   {
+    "key": "winter.flood.stock.after",
+    "text": "Casks, bales and the chest go up the mound on men's backs in the dark. By morning the house is knee-deep and everything you own is dry in the church porch."
+   },
+   {
+    "key": "winter.flood.boat",
+    "text": "Launch the boat for the people on the roofs"
+   },
+   {
+    "key": "winter.flood.boat.after.success",
+    "text": "You take eleven people off roofs and out of trees before dawn. The stock in the house is spoiled. Nobody on this bank will let you pay for ale again."
+   },
+   {
+    "key": "winter.flood.boat.after.failure",
+    "text": "You take eleven people off the roofs. A floating beam stoves a plank on the way back. The stock is spoiled as well."
+   },
+   {
+    "key": "winter.flood.roof",
+    "text": "Stay on your own roof and wait"
+   },
+   {
+    "key": "winter.flood.roof.after",
+    "text": "The water goes down with the tide, as it always has. It takes the malt, the salt and the lowest course of the wall with it."
+   },
+   {
+    "key": "winter.frost.title",
+    "text": "The river stands"
+   },
+   {
+    "key": "winter.frost.intention",
+    "text": "The river has stood for three weeks. Carts cross on the ice. Where a hull was left afloat, the ice works at it day and night."
+   },
+   {
+    "key": "art.harbour.winter.frost",
+    "text": "A frozen river under a white sky, a loaded cart and oxen crossing it, a boat fast in the ice near the bank with two men swinging axes round her."
+   },
+   {
+    "key": "winter.frost.haul",
+    "text": "Haul her higher, with hired oxen"
+   },
+   {
+    "key": "winter.frost.haul.after",
+    "text": "Six oxen and a morning. She sits in the lee of the shed with her mast down, and the ice can do what it likes."
+   },
+   {
+    "key": "winter.frost.cut",
+    "text": "Cut her free each morning"
+   },
+   {
+    "key": "winter.frost.cut.after.success",
+    "text": "Every dawn, axes. The men hate it. The hull is whole when the thaw comes."
+   },
+   {
+    "key": "winter.frost.cut.after.failure",
+    "text": "One night is colder than the axes are early. The ice lifts a plank from the lands."
+   },
+   {
+    "key": "winter.frost.sledge",
+    "text": "Load a sledge and sell across the ice"
+   },
+   {
+    "key": "winter.frost.sledge.after.success",
+    "text": "Wine and salt go to the farms across the water on runners. They pay well for not having to walk."
+   },
+   {
+    "key": "winter.frost.sledge.after.failure",
+    "text": "The ice sings under the load halfway over. You lighten the sledge by a cask and come home."
+   },
+   {
+    "key": "winter.thief.title",
+    "text": "A man in the storehouse"
+   },
+   {
+    "key": "winter.thief.intention",
+    "text": "Your men catch a man in the storehouse at night with a sack of your malt. He is from the hungry end of the bank and has four children. By the law he is yours to bring before the count."
+   },
+   {
+    "key": "art.harbour.winter.thief",
+    "text": "A storehouse by lantern light: two boatmen holding a thin man by the arms, a spilled sack of grain at his feet, the merchant in his shirt holding the lantern up to see his face."
+   },
+   {
+    "key": "winter.thief.court",
+    "text": "Take him to the count's court"
+   },
+   {
+    "key": "winter.thief.court.after",
+    "text": "The court awards you twice the malt's worth and takes its own fine besides. He can pay neither. He works it off as the count's man, and not a free one."
+   },
+   {
+    "key": "winter.thief.pledge",
+    "text": "Take the malt back, and his knife as a pledge"
+   },
+   {
+    "key": "winter.thief.pledge.after",
+    "text": "He goes home without his knife. It hangs on your wall till he brings a day's work for it, which he does, at Easter."
+   },
+   {
+    "key": "winter.thief.give",
+    "text": "Give him the sack"
+   },
+   {
+    "key": "winter.thief.give.after",
+    "text": "He does not thank you. He cannot look at you. In spring his wife leaves a basket of eels at your door and is gone before it is opened."
+   },
+   {
+    "key": "winter.weaving.title",
+    "text": "The loom by the door"
+   },
+   {
+    "key": "winter.weaving.intention",
+    "text": "The loom stands where the light is. With wool enough, the women of the house can have cloaks ready by Easter: the Frisian kind that the Franks pay for and complain about."
+   },
+   {
+    "key": "art.harbour.winter.weaving",
+    "text": "An upright loom by an open door with low sun coming through the warp, two women passing the weft, loom weights of baked clay hanging in a row."
+   },
+   {
+    "key": "winter.weaving.wool",
+    "text": "Buy wool for the loom"
+   },
+   {
+    "key": "winter.weaving.wool.after",
+    "text": "Three cloaks lie folded in the chest by Easter. They are the full length. Tell the Franks."
+   },
+   {
+    "key": "winter.weaving.sail",
+    "text": "Have them weave for the sail instead"
+   },
+   {
+    "key": "winter.weaving.sail.after",
+    "text": "Three bolts of tight sailcloth, greased and rolled. The women say a cloak is more thanks for less work."
+   },
+   {
+    "key": "winter.weaving.own",
+    "text": "Let them weave for the house only"
+   },
+   {
+    "key": "winter.weaving.own.after",
+    "text": "Everyone in the house has a whole shirt by Candlemas. Nothing goes in the chest."
+   },
+   {
+    "key": "winter.lawsuit.title",
+    "text": "A claim on your landing"
+   },
+   {
+    "key": "winter.lawsuit.intention",
+    "text": "A man from across the river swears that the landing where your boat lies was his father's, and that yours took it. The court sits after Epiphany. The lawman says there are three ways: your oath with helpers, the lots on the altar, or a bargain."
+   },
+   {
+    "key": "art.harbour.winter.lawsuit",
+    "text": "A church interior: an altar with two small bundles of white wool on it, a boy of seven reaching for one, two rows of grim men watching from either side."
+   },
+   {
+    "key": "winter.lawsuit.oath",
+    "text": "Find eleven men to swear with you"
+   },
+   {
+    "key": "winter.lawsuit.oath.after.success",
+    "text": "Eleven free men lay their hands with yours on the relics and say your oath is clean. The claim falls. You owe eleven men a dinner."
+   },
+   {
+    "key": "winter.lawsuit.oath.after.failure",
+    "text": "Nine come. Two have remembered business elsewhere. The court gives him the landing's worth in silver."
+   },
+   {
+    "key": "winter.lawsuit.lots",
+    "text": "Offer him the lots on the altar"
+   },
+   {
+    "key": "winter.lawsuit.lots.after.success",
+    "text": "Two slips of a twig, one cut with a cross, wrapped in wool on the altar. A boy draws. The cross is yours. Nobody argues with that."
+   },
+   {
+    "key": "winter.lawsuit.lots.after.failure",
+    "text": "The boy draws the plain slip. You pay, and wonder for a year about the boy."
+   },
+   {
+    "key": "winter.lawsuit.share",
+    "text": "Offer him the lower half of the landing"
+   },
+   {
+    "key": "winter.lawsuit.share.after",
+    "text": "He takes it at once, which tells you what his claim was worth. His boat lies next to yours now, and his dog."
+   },
+   {
+    "key": "winter.count_debt.title",
+    "text": "The count's man and the tally stick"
+   },
+   {
+    "key": "winter.count_debt.intention",
+    "text": "The count's man comes at Martinmas with the split stick that matches yours. The notches are the same on both halves. He asks, politely, how the year was."
+   },
+   {
+    "key": "art.harbour.winter.count_debt",
+    "text": "A hall door in November rain: a man in a good cloak and a sword holding up half a notched stick, the merchant holding the other half against it so the notches meet."
+   },
+   {
+    "key": "winter.count_debt.gift",
+    "text": "Give him a cask for himself, and ask till Easter"
+   },
+   {
+    "key": "winter.count_debt.gift.after",
+    "text": "He takes the cask as a courtesy and says the count is a patient man in winter. The notches stay as they are till the water opens."
+   },
+   {
+    "key": "winter.count_debt.errand",
+    "text": "Offer to carry the count's wine in spring for nothing"
+   },
+   {
+    "key": "winter.count_debt.errand.after",
+    "text": "He writes nothing down, because he cannot write. He holds up four fingers: four casks to the count's hall by midsummer, with no freight. Till then nobody speaks of the debt."
+   },
+   {
+    "key": "winter.count_debt.ale",
+    "text": "Pour him ale and tell him the truth"
+   },
+   {
+    "key": "winter.count_debt.ale.after",
+    "text": "He drinks, listens, and counts the notches again with his thumb. He will say what he heard. The day is the day."
+   },
+   {
+    "key": "winter.tithe.title",
+    "text": "The tenth"
+   },
+   {
+    "key": "winter.tithe.intention",
+    "text": "The priest has reckoned your tithe: a tenth of the year's gain, as the king's law has had it since your father's time. He has reckoned it generously, in the church's favour."
+   },
+   {
+    "key": "art.harbour.winter.tithe",
+    "text": "A priest at a small table in a church porch with a tally board, a merchant counting pennies onto it one at a time, a queue of neighbours behind pretending not to count too."
+   },
+   {
+    "key": "winter.tithe.full",
+    "text": "Pay it in full"
+   },
+   {
+    "key": "winter.tithe.full.after",
+    "text": "Thirty pennies on the altar. The priest says your name in the prayers at Christmas, in front of everybody."
+   },
+   {
+    "key": "winter.tithe.kind",
+    "text": "Pay it in wax"
+   },
+   {
+    "key": "winter.tithe.kind.after",
+    "text": "A cake of good wax for the altar candles. He weighs it in his hands and decides it is a tenth."
+   },
+   {
+    "key": "winter.tithe.plead",
+    "text": "Plead a poor year"
+   },
+   {
+    "key": "winter.tithe.plead.after.success",
+    "text": "He looks at your boat, then at your shoes, and lets it stand till next year."
+   },
+   {
+    "key": "winter.tithe.plead.after.failure",
+    "text": "He has seen what you landed in September. He says so, in church."
+   },
+   {
+    "key": "winter.levy.title",
+    "text": "Boats for the watch"
+   },
+   {
+    "key": "winter.levy.intention",
+    "text": "The count's man reads out the summons at the church door: boats and men are wanted to keep watch at the river mouth from Easter, against the Northmen. Your boat is named."
+   },
+   {
+    "key": "art.harbour.winter.levy",
+    "text": "A church door on a grey morning: an armed man reading from a parchment he holds upside down, a clerk whispering the words to him, boatmen listening with folded arms."
+   },
+   {
+    "key": "winter.levy.go",
+    "text": "Go, with the boat, for forty days"
+   },
+   {
+    "key": "winter.levy.go.after",
+    "text": "Forty days at the river mouth in the rain, watching for sails that do not come. The count's man marks your name. The trading season starts without you."
+   },
+   {
+    "key": "winter.levy.send",
+    "text": "Send a man in your place, with his bread"
+   },
+   {
+    "key": "winter.levy.send.after",
+    "text": "A cousin goes for forty pennies and his food. The count's man accepts him, after looking at his arms."
+   },
+   {
+    "key": "winter.levy.stay",
+    "text": "Stay away"
+   },
+   {
+    "key": "winter.levy.stay.after.success",
+    "text": "The Northmen do not come this year, and nobody counts the boats."
+   },
+   {
+    "key": "winter.levy.stay.after.failure",
+    "text": "They count the boats. The fine for a man of your means is five shillings, and the count's man collects it himself."
+   },
+   {
+    "key": "winter.stranger.title",
+    "text": "A stranger at Martinmas"
+   },
+   {
+    "key": "winter.stranger.intention",
+    "text": "A Northumbrian trader lost his ship on the bar in October and has lived on the priest's bread since. He asks to lodge with you till the sea opens. By law and custom, the host answers for what his guest does."
+   },
+   {
+    "key": "art.harbour.winter.stranger",
+    "text": "A lean man in a salt-stained English cloak standing in the rain outside a door, a bundle under his arm, the firelight from inside on his face."
+   },
+   {
+    "key": "winter.stranger.lodge",
+    "text": "Give him a place at your fire"
+   },
+   {
+    "key": "winter.stranger.lodge.after.success",
+    "text": "He is a quiet guest. By Easter you have his speech whole, the names of the men to see at Eoforwic, and his word that your boat will never pay for a berth there."
+   },
+   {
+    "key": "winter.stranger.lodge.after.failure",
+    "text": "He is a good guest until he hits the toll man's nephew. You answer for it, as the host must. He is very sorry, in two languages."
+   },
+   {
+    "key": "winter.stranger.work",
+    "text": "Lodge him for his work on the boat"
+   },
+   {
+    "key": "winter.stranger.work.after",
+    "text": "He knows boats. He tars and rivets beside your men all winter and corrects their English."
+   },
+   {
+    "key": "winter.stranger.priest",
+    "text": "Leave him with the priest"
+   },
+   {
+    "key": "winter.stranger.priest.after",
+    "text": "The priest keeps him. At Easter he takes the first ship west and nods to you from the bank."
+   },
+   {
+    "key": "winter.hungry_spring.title",
+    "text": "The hungry spring"
+   },
+   {
+    "key": "winter.hungry_spring.intention",
+    "text": "The granaries are low and the new rye is green in the fields. Grain is at three times its harvest price. There are faces at the church door, and you have a store."
+   },
+   {
+    "key": "art.harbour.winter.hungry_spring",
+    "text": "A church door in thin spring light, a line of gaunt people with bowls, a priest ladling from a pot; a well-fed man in a merchant's cloak crossing the yard, not looking."
+   },
+   {
+    "key": "winter.hungry_spring.thin",
+    "text": "Eat thin till the rye comes"
+   },
+   {
+    "key": "winter.hungry_spring.thin.after",
+    "text": "Thin ale and porridge till June. The men are lean and short-tempered and alive."
+   },
+   {
+    "key": "winter.hungry_spring.share",
+    "text": "Give at the church door"
+   },
+   {
+    "key": "winter.hungry_spring.share.after",
+    "text": "A measure a week goes to the priest for the poor, and it is known whose it is."
+   },
+   {
+    "key": "winter.hungry_spring.sell",
+    "text": "Sell your store at the price there is"
+   },
+   {
+    "key": "winter.hungry_spring.sell.after.success",
+    "text": "You sell rye at the famine price to those who have silver. They pay. They remember."
+   },
+   {
+    "key": "winter.hungry_spring.sell.after.failure",
+    "text": "You sell at the famine price. The count's man asks what a measure cost you at harvest, takes the difference for the king, and tells the bank why."
+   },
+   {
+    "key": "winter.murrain.title",
+    "text": "The cattle sickness"
+   },
+   {
+    "key": "winter.murrain.intention",
+    "text": "The cattle sickness has come down the river from the east. Your two oxen, that haul the boat out and pull the neighbour's plough, are down in the byre and will not get up."
+   },
+   {
+    "key": "art.harbour.winter.murrain",
+    "text": "A dim byre: two oxen lying in straw with their heads stretched out, a man standing over them with his hand on a post, a boy at the door holding a bucket."
+   },
+   {
+    "key": "winter.murrain.hides",
+    "text": "Kill them now and save the hides"
+   },
+   {
+    "key": "winter.murrain.hides.after",
+    "text": "Two hides, scraped and salted. The meat is burned, on the priest's advice. In spring the men haul the boat down themselves."
+   },
+   {
+    "key": "winter.murrain.buy",
+    "text": "Buy an ox from the upland at the plague price"
+   },
+   {
+    "key": "winter.murrain.buy.after",
+    "text": "One thin ox for the price of three. It hauls the boat and looks at you as if it knows."
+   },
+   {
+    "key": "winter.murrain.wait",
+    "text": "Wait and pray"
+   },
+   {
+    "key": "winter.murrain.wait.after.success",
+    "text": "One gets up on the ninth day. Nobody can say why. The priest can."
+   },
+   {
+    "key": "winter.murrain.wait.after.failure",
+    "text": "They die in the night. The hides are spoiled by the time you admit it."
+   },
+   {
+    "key": "winter.pestilence.title",
+    "text": "Sickness in the town"
+   },
+   {
+    "key": "winter.pestilence.intention",
+    "text": "A mild wet winter, and after it a sickness that goes from house to house along the bank. The priest is burying two a day. Your household is well, so far."
+   },
+   {
+    "key": "art.harbour.winter.pestilence",
+    "text": "A muddy lane between houses in rain, two men carrying a third on a hurdle toward a small church, shuttered doors on both sides."
+   },
+   {
+    "key": "winter.pestilence.shut",
+    "text": "Stay, and keep the door shut"
+   },
+   {
+    "key": "winter.pestilence.shut.after.success",
+    "text": "You live on what is in the house for a month and see nobody. It passes the door."
+   },
+   {
+    "key": "winter.pestilence.shut.after.failure",
+    "text": "It comes in anyway, with the water or the air. Nobody dies. Nobody is strong at Easter."
+   },
+   {
+    "key": "winter.pestilence.leave",
+    "text": "Take the household up the river to kin"
+   },
+   {
+    "key": "winter.pestilence.leave.after",
+    "text": "A month on a cousin's farm above the flood line, eating his bacon. When you come back the bank is quieter than it was."
+   },
+   {
+    "key": "winter.pestilence.help",
+    "text": "Help carry the sick to the church"
+   },
+   {
+    "key": "winter.pestilence.help.after.success",
+    "text": "You carry and dig for three weeks, and it does not touch you. The priest says that is grace. The oldest of your men says it is luck, and that the two are the same thing."
+   },
+   {
+    "key": "winter.pestilence.help.after.failure",
+    "text": "You carry and dig for three weeks, and then you are carried yourself. You live."
+   },
+   {
+    "key": "winter.raid_rumour.title",
+    "text": "Word from the river mouth"
+   },
+   {
+    "key": "winter.raid_rumour.intention",
+    "text": "A fisherman from the mouth says the heathen men's ships have been seen off the islands, and that they will come up the river with the first east wind, as they did last year. The count's guard is forty men and a ditch."
+   },
+   {
+    "key": "art.harbour.winter.raid_rumour",
+    "text": "A dark room, one rushlight: a man on his knees lifting a hearthstone with an iron bar, a small clay pot beside him; through the half-open door, a river and stars."
+   },
+   {
+    "key": "winter.raid_rumour.bury",
+    "text": "Bury the silver under the hearth"
+   },
+   {
+    "key": "winter.raid_rumour.bury.after",
+    "text": "At night, alone, a pot under the third hearthstone. Nobody knows but you. Remember to tell someone, or it will lie there till the end of the world."
+   },
+   {
+    "key": "winter.raid_rumour.move",
+    "text": "Carry the household and the chest to Traiectum, behind the wall"
+   },
+   {
+    "key": "winter.raid_rumour.move.after",
+    "text": "The bishop's old Roman wall is not much, but it is a wall. You pay a cousin for a corner of his floor till midsummer."
+   },
+   {
+    "key": "winter.raid_rumour.stay",
+    "text": "Stay, and trust the count's guard"
+   },
+   {
+    "key": "winter.raid_rumour.stay.after",
+    "text": "You stay. The boat is ready to float at an hour's notice, which is its own kind of trust."
+   },
+   {
+    "key": "winter.monk_guest.title",
+    "text": "A monk with a book chest"
+   },
+   {
+    "key": "winter.monk_guest.intention",
+    "text": "A monk on his way to the bishop is held here by the weather and by a chest of books too heavy for the road. He will teach letters for his bread until the thaw."
+   },
+   {
+    "key": "art.harbour.winter.monk_guest",
+    "text": "A monk in a travel-stained habit sitting on a heavy iron-bound chest in a doorway, sleet behind him, a wax tablet already in his hand."
+   },
+   {
+    "key": "winter.monk_guest.learn",
+    "text": "Lodge him, and sit down to learn"
+   },
+   {
+    "key": "winter.monk_guest.learn.after",
+    "text": "A wax tablet, a stylus and the Lord's Prayer, every evening till Lent. Your hand is bad. You can read the toll man's charter now, which is what you wanted."
+   },
+   {
+    "key": "winter.monk_guest.boy",
+    "text": "Lodge him, and let the boy learn"
+   },
+   {
+    "key": "winter.monk_guest.boy.after",
+    "text": "The boy has the letters in a month and corrects your tallies in two. The monk says he has had worse pupils in the cloister."
+   },
+   {
+    "key": "winter.monk_guest.send_on",
+    "text": "Send him on to the priest's house"
+   },
+   {
+    "key": "winter.monk_guest.send_on.after",
+    "text": "The priest takes him in. All winter you hear the two of them arguing about the date of Easter."
+   },
+   {
+    "key": "winter.norse_guest.title",
+    "text": "A Dane for the winter"
+   },
+   {
+    "key": "winter.norse_guest.intention",
+    "text": "A Dane who trades whetstones and furs has missed the last fair wind home. He asks for a roof and offers what he has: his speech, his letters, and stories about a king nobody here has heard of."
+   },
+   {
+    "key": "art.harbour.winter.norse_guest",
+    "text": "A fair-haired man by the fire with a whetstone on a thong at his belt, cutting marks into a stick with a small knife, a child leaning on his knee to watch."
+   },
+   {
+    "key": "winter.norse_guest.tongue",
+    "text": "Have him teach you his speech"
+   },
+   {
+    "key": "winter.norse_guest.tongue.after",
+    "text": "By Candlemas you can bargain, count and insult in it. He says you sound like a man from Jutland with a cold."
+   },
+   {
+    "key": "winter.norse_guest.tongue_full",
+    "text": "Talk with him every night till you have it whole"
+   },
+   {
+    "key": "winter.norse_guest.tongue_full.after",
+    "text": "By Easter you dream in it. He says you now sound like a man from Jutland."
+   },
+   {
+    "key": "winter.norse_guest.runes",
+    "text": "Have him cut the rune row for you"
+   },
+   {
+    "key": "winter.norse_guest.runes.after",
+    "text": "Sixteen staves on a stick of ash, and what each one says. You cut your own name. He reads it out, and it is nearly right."
+   },
+   {
+    "key": "winter.singer.title",
+    "text": "A blind man at the door"
+   },
+   {
+    "key": "winter.singer.intention",
+    "text": "A blind singer is led to your door by a child. He knows the wars of the old kings and the deeds of the men of this coast, and asks a place by the fire till the thaw. The Frisians know such singers: the one Liudger healed of his blindness was named Bernlef."
+   },
+   {
+    "key": "art.harbour.winter.singer",
+    "text": "An old man with white eyes and a small harp under his arm, his hand on the shoulder of a ragged child, standing at a door with frost on the thatch above."
+   },
+   {
+    "key": "winter.singer.winter",
+    "text": "A place by the fire till the thaw"
+   },
+   {
+    "key": "winter.singer.winter.after",
+    "text": "Every evening a king dies well. The men stop going to the ale-wife. When he leaves he gives you a song about a singer who lost his place, and says it is not about him."
+   },
+   {
+    "key": "winter.singer.night",
+    "text": "One night and a meal"
+   },
+   {
+    "key": "winter.singer.night.after",
+    "text": "He sings of Finn, and the fight in the Frisians' own hall, and everyone is quiet. In the morning the child leads him on."
+   },
+   {
+    "key": "winter.singer.sea",
+    "text": "Ask him for the song of the lone sailor"
+   },
+   {
+    "key": "winter.singer.sea.after",
+    "text": "He has it from an Englishman, he says, and sings it in a mixture of the two. Hail on the deck, and the gannet's cry where laughter should be. Your steersman goes outside for a while."
+   },
+   {
+    "key": "winter.shares.title",
+    "text": "Half a boat"
+   },
+   {
+    "key": "winter.shares.intention",
+    "text": "Your neighbour has oak seasoning behind his house and no silver to pay a wright. He offers you half of a second boat: you pay for the building, he sails her, and what she makes is split."
+   },
+   {
+    "key": "art.harbour.winter.shares",
+    "text": "Two men standing in snow beside a stack of long oak planks under a lean-to, one with his hand flat on the timber, the other looking at it with his arms folded."
+   },
+   {
+    "key": "winter.shares.half",
+    "text": "Lay your goods together with his"
+   },
+   {
+    "key": "winter.shares.half.after",
+    "text": "It is sworn before six witnesses at the church door. The keel is laid at Candlemas. From Easter there are two boats, and you will know where the second one is only when somebody tells you."
+   },
+   {
+    "key": "winter.shares.quarter",
+    "text": "Take a quarter share and no more"
+   },
+   {
+    "key": "winter.shares.quarter.after",
+    "text": "A quarter of her is yours. He sails her where he likes, and brings you a quarter of what she made, with a story."
+   },
+   {
+    "key": "winter.shares.one_keel",
+    "text": "Keep to one keel"
+   },
+   {
+    "key": "winter.shares.one_keel.after",
+    "text": "He finds the silver elsewhere, from a man you do not like."
+   },
+   {
+    "key": "winter.relic_hawker.title",
+    "text": "A bone in silk"
+   },
+   {
+    "key": "winter.relic_hawker.intention",
+    "text": "A man with a pilgrim's staff and a Roman way of talking unwraps a finger bone from a scrap of silk. A martyr's, he says, from the old burying places outside Rome. The price is an insult to the saint, and he is ashamed to name it."
+   },
+   {
+    "key": "art.harbour.winter.relic_hawker",
+    "text": "A lean dark man with a pilgrim's staff and a wallet, holding out on his open palm a small bone lying on a square of red silk; a hearth fire lighting it from below."
+   },
+   {
+    "key": "winter.relic_hawker.church",
+    "text": "Buy it, and take it to the priest"
+   },
+   {
+    "key": "winter.relic_hawker.church.after.success",
+    "text": "The priest turns it over, smells it, and sends to the bishop. Word comes back before Lent: such bones are coming north by the bishop's own roads. It may be laid under the altar."
+   },
+   {
+    "key": "winter.relic_hawker.church.after.failure",
+    "text": "The priest turns it over twice. 'A pig,' he says, 'and not an old one.' The man with the staff is two days up the road."
+   },
+   {
+    "key": "winter.relic_hawker.trade",
+    "text": "Buy it, and put it in the chest with the amber"
+   },
+   {
+    "key": "winter.relic_hawker.trade.after",
+    "text": "It lies in the chest among the amber. You do not ask it for anything, and it does not offer."
+   },
+   {
+    "key": "winter.relic_hawker.ask",
+    "text": "Send for the priest to question him"
+   },
+   {
+    "key": "winter.relic_hawker.ask.after",
+    "text": "By the time the priest has his shoes on, the man and the bone are on the road to Traiectum."
+   },
+   {
+    "key": "winter.lots.title",
+    "text": "The lots"
+   },
+   {
+    "key": "winter.lots.intention",
+    "text": "The wise woman offers to cast the lots for your spring: which way to sail first. Your grandfather would not have left the bank without it. The priest has preached against it twice this winter."
+   },
+   {
+    "key": "art.harbour.winter.lots",
+    "text": "An old woman kneeling on a floor by firelight with a white cloth spread before her and three short twigs on it, a man standing over her with his arms crossed."
+   },
+   {
+    "key": "winter.lots.cast",
+    "text": "Let her cast"
+   },
+   {
+    "key": "winter.lots.cast.after",
+    "text": "Three slips of a fruit tree on a white cloth. She lifts them one at a time and says: north first, and not before the new moon. The men who keep the old ways are content."
+   },
+   {
+    "key": "winter.lots.self",
+    "text": "Cast them yourself, at night"
+   },
+   {
+    "key": "winter.lots.self.after",
+    "text": "You cut the slips as your grandfather did and throw them on your own cloak. They say what you had already decided. That is what they are for."
+   },
+   {
+    "key": "winter.lots.priest",
+    "text": "Send her away, and tell the priest"
+   },
+   {
+    "key": "winter.lots.priest.after",
+    "text": "The priest is pleased. The wise woman is not, and she is the one who is sent for when a child comes."
+   },
+   {
+    "key": "winter.vow.title",
+    "text": "A vow in the dark of the year"
+   },
+   {
+    "key": "winter.vow.intention",
+    "text": "At the worst of the winter, with the roof groaning under the wind, your wife says the house has had more luck than thanks. A vow could be made: a journey when the water opens, or wax for an altar."
+   },
+   {
+    "key": "art.harbour.winter.vow",
+    "text": "A man and a woman by a banked fire at night, the thatch above them bowed by wind, her hand raised as if counting on her fingers."
+   },
+   {
+    "key": "winter.vow.doccinga",
+    "text": "Vow a journey to Boniface's church at Doccinga"
+   },
+   {
+    "key": "winter.vow.doccinga.after",
+    "text": "It is said aloud at the hearth, so it counts. Before next winter the boat must lie at Doccinga and alms be given there."
+   },
+   {
+    "key": "winter.vow.wax",
+    "text": "Vow wax to Saint Martin at Traiectum"
+   },
+   {
+    "key": "winter.vow.wax.after",
+    "text": "Two cakes of wax, to be laid on Saint Martin's altar before midsummer. The saint is known to keep accounts."
+   },
+   {
+    "key": "winter.vow.none",
+    "text": "Vow nothing"
+   },
+   {
+    "key": "winter.vow.none.after",
+    "text": "You say that God has your tally already. Your wife says that is what worries her."
+   },
+   {
+    "key": "winter.memorial.title",
+    "text": "For the man you lost"
+   },
+   {
+    "key": "winter.memorial.intention",
+    "text": "One of yours is dead this year. The crew have not spoken of what should be done for him, and are waiting to see whether you will."
+   },
+   {
+    "key": "art.harbour.winter.memorial",
+    "text": "A landing in winter dusk: a new oak post with letters cut in it standing at the water's edge, four men round it with their heads bare, a boat hauled up behind."
+   },
+   {
+    "key": "winter.memorial.masses",
+    "text": "Thirty masses, and his name in the priest's book"
+   },
+   {
+    "key": "winter.memorial.masses.after",
+    "text": "The priest sings the thirtieth mass on a wet Tuesday with all your men standing at the back. His name is written where it will be read."
+   },
+   {
+    "key": "winter.memorial.marker",
+    "text": "Cut a marker with his name"
+   },
+   {
+    "key": "winter.memorial.marker.after",
+    "text": "An oak post at the head of the landing, with his name cut by your own hand. Boats that pass can read who he was."
+   },
+   {
+    "key": "winter.memorial.ale",
+    "text": "Drink his funeral ale and tell what he did"
+   },
+   {
+    "key": "winter.memorial.ale.after",
+    "text": "One night, one cask, and every story about him told twice. Some of them are true. It is what he would have asked for."
+   }
+  ]
+ },
+ "flags": {
+  "about": "The house's own flags that these cards set and read (besides the unlock_ flags of unlocks_793.json).",
+  "house": {
+   "wintering": "set by the winter screen for the days till Easter; every winter card asks for it",
+   "house_wed": "the merchant has a wife (harbour.winter.wedding)",
+   "house_wife_foreign": "she is from over the sea: her tongue is spoken in the house",
+   "house_cradle": "a birth in the last three years (no second birth card)",
+   "house_child": "a child of the house lives (set to 0 if he is given to the church)",
+   "house_child_small": "that child is under twelve (set at the birth for 4380 days)",
+   "house_child_weak": "the child is slow to mend after a fever (two years)",
+   "house_godsib": "the child has a sponsor",
+   "house_heir_grown": "the child is twelve and has been given a place",
+   "house_heir_aboard": "he sails with his father",
+   "house_heir_ashore": "he keeps the house",
+   "house_heir_lettered": "he has been to school",
+   "house_heir_norse": "he was fostered in the north",
+   "house_heir_named": "the heir has been named before witnesses",
+   "house_fostering": "a fostering has been agreed either way",
+   "house_sister_wed": "the merchant's sister is married",
+   "house_hard_name": "the house kept a dead man's share from his widow (two years)",
+   "house_burnt": "the house burned this year: lodging is paid and no stock kept",
+   "house_away": "the household is up the river (sixty days)",
+   "house_silver_buried": "the silver is under the hearth: a raid does not take it; a death may lose it",
+   "house_at_traiectum": "the household and the chest are behind the wall at Traiectum",
+   "house_landing_shared": "half the landing was given up rather than go to law",
+   "house_share_quarter": "the house owns a quarter of a neighbour's boat",
+   "crew_kept": "the crew's winter has been settled this year",
+   "crew_sharesman": "one hand sails for a share, not a wage",
+   "boat_tarred": "the winter's work on the hull is done (a year)",
+   "boat_unsound": "it was not, or was done badly: a leak in the first gale (a year)",
+   "boat_sound": "a new stem: three years without the wright",
+   "boat_safe": "hauled clear of the ice",
+   "lost_man_this_year": "a man of the house died this year: opens harbour.winter.memorial",
+   "promised_river_boy": "a promise to a mother that her boy stays in the river this year",
+   "debt_grace": "the count's man has agreed not to speak of the debt for these days",
+   "levy_served": "the watch at the river mouth was served or paid for this year",
+   "guest_friend_eoforwic": "a Northumbrian guest's word is good for the house at Eoforwic",
+   "omen_spring": "the lots were cast for the spring",
+   "vow_doccinga": "a vow to go to Boniface's church at Doccinga within 300 days",
+   "vow_traiectum_wax": "a vow of wax to Saint Martin at Traiectum within 300 days",
+   "memorial_masses": "masses were paid for a dead hand",
+   "memorial_marker": "a marker was cut for a dead hand"
+  },
+  "read_from_elsewhere": {
+   "perjured": "set by a false oath on a relic (unlocks_793.json relic_uses)",
+   "relic_given": "set when a relic is given to a church (unlocks_793.json relic_uses)",
+   "ch_house_marriage_1": "the chain house_marriage has begun",
+   "ch_house_marriage_6": "the chain house_marriage has reached the wedding: the first merchant is married"
+  },
+  "unlocks_set": [
+   "unlock_kin_alliance_rival",
+   "unlock_kin_foster_dane",
+   "unlock_kin_foster_son",
+   "unlock_kin_godsib_lord",
+   "unlock_kin_godsib_merchant",
+   "unlock_kin_oblate",
+   "unlock_kin_wife_english",
+   "unlock_kin_wife_frisian",
+   "unlock_partner_neighbour",
+   "unlock_relic_false_bone",
+   "unlock_relic_roman_martyr",
+   "unlock_ship_gislinge",
+   "unlock_upgrade_washstrake"
+  ]
+ },
+ "inheritance": {
+  "about": "WHAT AN HEIR INHERITS (research_indie_and_concept.md 4.4: 'the heir takes the house, the chart's lifted fog, the chest, one feud and one friend'; npc_text_encounters.md 2.5: at a succession every feeling toward the merchant is halved and memories keep their generation). A life ends by age, sickness, wreck or ruin; the house goes on. The engine's 'generation' goes up by one.",
+  "who": [
+   {
+    "rank": 1,
+    "heir": "the heir named before witnesses",
+    "when": "flag.house_heir_named",
+    "note": "No kinsman can dispute it: there is no lawsuit and no year lost."
+   },
+   {
+    "rank": 2,
+    "heir": "the eldest child who has come of age",
+    "when": "flag.house_heir_grown",
+    "note": "If he sailed with his father (flag.house_heir_aboard) he keeps the crew's heart as it was; if he kept the house (flag.house_heir_ashore) he keeps the home port's standing whole instead of halved."
+   },
+   {
+    "rank": 3,
+    "heir": "a child not yet twelve, with the widow holding the house",
+    "when": "flag.house_child and flag.house_child_small and flag.house_wed",
+    "note": "The steersman sails the boat on shares until the child is twelve: the house's gain is halved for those years, which pass in one reckoning each."
+   },
+   {
+    "rank": 4,
+    "heir": "a foster-son",
+    "when": "flag.unlock_kin_foster_son",
+    "note": "He takes the house as a son would. The dead man's blood kin are cool for a generation."
+   },
+   {
+    "rank": 5,
+    "heir": "a brother's or sister's son, or a wife's brother",
+    "when": "flag.unlock_partner_kinsman or flag.unlock_kin_ransomed",
+    "note": "The nearest kinsman takes it, with a year lost to the dividing."
+   },
+   {
+    "rank": 6,
+    "heir": "a sworn partner, who buys the boat from the widow",
+    "when": "flag.unlock_partner_neighbour or flag.unlock_partner_felagi",
+    "note": "The house goes on under his name. Kin ties are lost; the partner's own friends are gained."
+   },
+   {
+    "rank": 7,
+    "heir": "nobody",
+    "when": "true",
+    "note": "The count takes the boat for the debt and the church the rest for the soul. A new man of the same bank begins with one small boat, the count's debt, and the dead man's chart, bought from the priest for the price of a mass."
+   }
+  ],
+  "keeps": [
+   {
+    "what": "the plots and what stands on them",
+    "rule": "every unlock_plot_ flag, with the stock in the storehouses",
+    "source": "land passed to sons: Lex Salica title 59 (?)"
+   },
+   {
+    "what": "the ships afloat",
+    "rule": "every hull the house owns, with what is fitted to it (unlock_upgrade_); a lent ship (a minster's, a bishop's) goes back to its lord",
+    "source": "unlocks_793.json kinds ship, upgrade"
+   },
+   {
+    "what": "the chest",
+    "rule": "every text, every riddle answered or open, every price note and the merchant's own notes",
+    "source": "research_indie_and_concept.md 4.4"
+   },
+   {
+    "what": "the chart",
+    "rule": "the fog stays lifted where the house has been, and every unlock_pilot_ flag stays",
+    "source": "research_indie_and_concept.md 4.4"
+   },
+   {
+    "what": "the silver",
+    "rule": "two thirds of it: see 'pays' for the widow's third and the rest",
+    "source": "the Ripuarian Franks' law gave a widow a third of what the pair had gained together (Lex Ribuaria 41) (?)"
+   },
+   {
+    "what": "the debt",
+    "rule": "all of it, on the same day",
+    "source": "DECISIONS.md 10: the debt is a fixed sum due on a day"
+   },
+   {
+    "what": "open orders and vows",
+    "rule": "commissions taken and vows made (flags vow_...) bind the heir until their day",
+    "source": "the game's rule"
+   },
+   {
+    "what": "one friend",
+    "rule": "the person whose feeling toward the dead man was highest keeps it whole",
+    "source": "research_indie_and_concept.md 4.4"
+   },
+   {
+    "what": "one feud",
+    "rule": "the person whose feeling was lowest keeps it whole, and says so ('your father cheated my father': npc.<role>.generation < generation)",
+    "source": "npc_text_encounters.md 2.5"
+   },
+   {
+    "what": "everyone else",
+    "rule": "every other feeling toward the house is halved; standing at every port is halved toward nothing, except as rank 2 says",
+    "source": "npc_text_encounters.md 2.5"
+   },
+   {
+    "what": "kin, relics and heirlooms",
+    "rule": "every unlock_kin_, unlock_relic_ and unlock_heirloom_ flag",
+    "source": "unlocks_793.json"
+   },
+   {
+    "what": "works",
+    "rule": "every unlock_work_ flag: the town remembers who paid",
+    "source": "unlocks_793.json"
+   },
+   {
+    "what": "the tongues of the house",
+    "rule": "Frisian; the tongue of a foreign wife (flag.house_wife_foreign) or of a foster-son in the house, in full; a tongue the heir sailed two seasons beside, in part",
+    "source": "unlocks_793.json kind tongue"
+   },
+   {
+    "what": "letters and runes",
+    "rule": "learned.latin at 1 if he was schooled (flag.house_heir_lettered); learned.runes at 0.5 if he was fostered in the north (flag.house_heir_norse) or left the runed knife; otherwise nothing",
+    "source": "unlocks_793.json kind letters"
+   },
+   {
+    "what": "a thegn's right",
+    "rule": "kept, while the house has a ship of its own, and after the heriot is paid",
+    "source": "unlocks_793.json unlock_title_thegn"
+   }
+  ],
+  "pays": [
+   {
+    "what": "the widow's part",
+    "d": "a third of the silver",
+    "rule": "if a wife lives (flag.house_wed): she keeps her morning-gift and a third, and stays in the house. It is not lost to the house: it is the household's keep and the daughters' portions.",
+    "source": "Lex Ribuaria 41 (?); in Kent a widow with a living child had half (Æthelberht 78) (?)"
+   },
+   {
+    "what": "the soul's gift and the burial",
+    "d": 30,
+    "rule": "always, where the port is Christian: unlocks_793.json memorial_churchyard. A wrecked man has masses and no grave.",
+    "source": "soul-scot at the open grave (V Æthelred 12) (?)"
+   },
+   {
+    "what": "the funeral ale",
+    "d": 20,
+    "rule": "the crew's heart starts the new life at 'steady' rather than low",
+    "source": "winter card harbour.winter.memorial"
+   },
+   {
+    "what": "the heriot",
+    "d": 120,
+    "rule": "only if the dead man had a thegn's right: a horse with its gear and his weapons, or their worth, to the king",
+    "source": "II Cnut 71 (?)"
+   },
+   {
+    "what": "the other children",
+    "d": "a fifth of the silver each",
+    "rule": "sons shared alike among Franks and Frisians: the heir keeps boat and plot and owes each other grown child a share in silver (the engine keeps one child only today: see needs)",
+    "source": "partible inheritance in the Frankish laws (?)"
+   }
+  ],
+  "loses": [
+   {
+    "what": "charters",
+    "rule": "every unlock_charter_ flag is cleared: an audience and a gift renew each at half the first service"
+   },
+   {
+    "what": "titles",
+    "rule": "every unlock_title_ flag except the thegn's right is cleared: the heir is offered each at half its cost and with no waiting"
+   },
+   {
+    "what": "partners",
+    "rule": "every unlock_partner_ flag is cleared and the stock divided; a partner still at least friendly after the halving offers the oath again"
+   },
+   {
+    "what": "factors",
+    "rule": "a factor whose feeling after the halving is below friendly asks new terms (his keep up by half) or leaves at the next reckoning"
+   },
+   {
+    "what": "lent ships",
+    "rule": "unlock_ship_coaster_minster_ship and unlock_ship_river_estate_ship go back to their lords"
+   },
+   {
+    "what": "the merchant's own learning",
+    "rule": "tongues, letters and runes, except as 'keeps' says"
+   }
+  ],
+  "flags_cleared": {
+   "about": "House flags of winter_793.json that belong to the dead man and not to the house: the screen clears them at a succession, so the heir's own wedding, child and sickness cards can come. The chains' flags (ch_...) are never cleared: a chain is told once.",
+   "flags": [
+    "house_wed",
+    "house_wife_foreign",
+    "house_cradle",
+    "house_child",
+    "house_child_small",
+    "house_child_weak",
+    "house_godsib",
+    "house_heir_grown",
+    "house_heir_aboard",
+    "house_heir_ashore",
+    "house_heir_lettered",
+    "house_heir_norse",
+    "house_heir_named",
+    "house_fostering",
+    "house_sister_wed",
+    "house_hard_name",
+    "promised_river_boy",
+    "debt_grace",
+    "omen_spring"
+   ]
+  },
+  "lines": [
+   "And {heir} his son took to the house.",
+   "And {heir}, his sister's son, took to the house, for he had no child.",
+   "And his widow held the house for {heir} their son, who was {age} winters old.",
+   "And {heir}, who had been his partner, bought the boat of the widow.",
+   "And there was none to take to the house."
+  ]
+ },
+ "remembered": {
+  "about": "TWELVE WAYS A LIFE IS REMEMBERED. When a merchant of the house dies, the chronicle gets one entry for him: the highest of these whose 'when' holds (12 is the highest). 'when' is in the engine's grammar where it can be; 'also' says in words what the engine cannot yet count. {name}, {home}, {heir}, {port}, {church}, {feast} and {lord} are filled in; the heir's line from inheritance.lines is added after it. The entries are the game's own words in the Chronicle's manner, not quotations.",
+  "voice": "The Anglo-Saxon Chronicle's flat voice: 'This year died ...', where he lies, who took to his place; no praise beyond one plain clause. Models read for the shape (not quoted): the annal for 793 (texts_793.json chronicle_793, Giles 1847); the annal for 897, which names 'Wulfheard the Frisian, Æbbe the Frisian and Æthelhere the Frisian' among the dead of Alfred's ships (?); the annal for 901 on Alfred's death and the length of his reign (?); the obits that end 'and his body rests at' a named church (?).",
+  "lives": [
+   {
+    "rank": 1,
+    "id": "beggar",
+    "name": "The beggar",
+    "when": "debt > 0 and silver < 12",
+    "also": "no boat, no plot and no heir at the death",
+    "entry": "This year died {name}, who had been a merchant of {home}. He was buried at the church's cost, among the poor. The count had the boat."
+   },
+   {
+    "rank": 2,
+    "id": "drowned",
+    "name": "The drowned man",
+    "when": "under_way",
+    "also": "died in a wreck, with no heir aboard or ashore",
+    "entry": "This year {name} of {home} was lost at sea with his boat and all his men, about {feast}. Nothing came ashore."
+   },
+   {
+    "rank": 3,
+    "id": "outlaw",
+    "name": "The man who fled",
+    "when": "standing_region < mistrusted",
+    "also": "died away from home after the deed fled_kings_men or taken_for_judgement",
+    "entry": "This year {name} the merchant died out of the land. He had fled the king's men and was not seen again at {home}; and no one set up a marker."
+   },
+   {
+    "rank": 4,
+    "id": "hard_man",
+    "name": "The hard man",
+    "when": "silver >= 600 and (flag.house_hard_name or flag.perjured or flag.unlock_relic_false_bone)",
+    "also": "",
+    "entry": "This year died {name} of {home}. He left silver. It was said that he kept what was owed to dead men's widows, and few went to the grave."
+   },
+   {
+    "rank": 5,
+    "id": "hired_hand",
+    "name": "The hired hand",
+    "when": "debt = 0 and silver < 120",
+    "also": "the house had no boat of its own at the death",
+    "entry": "This year died {name}, who once had a boat of his own and afterwards pulled an oar in other men's. He was a good seaman."
+   },
+   {
+    "rank": 6,
+    "id": "small_trader",
+    "name": "The small trader",
+    "when": "debt = 0 and silver >= 120",
+    "also": "one keel, no plot oversea",
+    "entry": "This year died {name} the merchant, in his bed at {home}. He had one boat and owed nothing."
+   },
+   {
+    "rank": 7,
+    "id": "good_neighbour",
+    "name": "The good neighbour",
+    "when": "debt = 0 and standing >= trusted",
+    "also": "the deed gave_alms done in at least three winters",
+    "entry": "This year died {name} of {home}, a merchant. He gave bread at the church door in the hungry years, and the whole bank followed him to the grave."
+   },
+   {
+    "rank": 8,
+    "id": "shipowner",
+    "name": "The shipowner",
+    "when": "debt = 0 and (flag.unlock_partner_neighbour or flag.unlock_partner_kinsman or flag.unlock_partner_felagi or flag.unlock_partner_widow)",
+    "also": "three keels or more on the water, or two factors",
+    "entry": "This year died {name}, who had three keels on the water and men of his own at {port}. The ships sailed at Easter as before."
+   },
+   {
+    "rank": 9,
+    "id": "far_farer",
+    "name": "The far-farer",
+    "when": "debt = 0 and (flag.unlock_pilot_volkhov or flag.unlock_pilot_malaren or flag.unlock_pilot_estmere) and (flag.unlock_pilot_humber or flag.unlock_pilot_thames or flag.unlock_pilot_loire)",
+    "also": "called at thirty ports or more in his life",
+    "entry": "This year died {name}, whom men called the far-farer. He had seen the lake of the Svear and the river of the Rus, and had crossed the wide sea more times than he had fingers. His sounding lead hangs in the church at {home}."
+   },
+   {
+    "rank": 10,
+    "id": "churchs_friend",
+    "name": "The friend of God's poor",
+    "when": "debt = 0 and (flag.unlock_work_dorestad_hospice or flag.unlock_work_sliesthorp_bell or flag.unlock_work_birka_church or flag.unlock_work_ripa_church or flag.relic_given)",
+    "also": "a memorial of kind book of life, or two works",
+    "entry": "This year died {name} the merchant, a friend of God's poor. He gave the bell at {port} and the bread at {home}, and his name is in the book. His body rests at {church}."
+   },
+   {
+    "rank": 11,
+    "id": "sworn_man",
+    "name": "The man of rank",
+    "when": "flag.unlock_title_thegn or flag.unlock_title_tiel_brother or flag.unlock_title_palace_merchant or flag.unlock_title_frisian_guild or flag.unlock_title_moneyer",
+    "also": "",
+    "entry": "This year died {name}, a merchant who had so thriven that he was worthy of a thegn's right; for he had crossed the wide sea three times at his own cost. His body rests at {church}.",
+    "variants": {
+     "unlock_title_tiel_brother": "This year died {name}, one of the merchants of Tiel, who swear and drink together. His brothers bore him to the grave and paid for it from the common purse.",
+     "unlock_title_palace_merchant": "This year died {name}, the emperor's merchant, who went each May to the palace. The letter he held went back to the chamber.",
+     "unlock_title_frisian_guild": "This year died {name}. The Frisians' guild-brothers had a stone raised after him. God help his soul.",
+     "unlock_title_moneyer": "This year died {name} the moneyer, whose name is on the king's pennies. Both his hands were on him when he was buried."
+    }
+   },
+   {
+    "rank": 12,
+    "id": "kings_friend",
+    "name": "The king's friend",
+    "when": "flag.unlock_title_kings_guest and standing_region >= trusted",
+    "also": "",
+    "entry": "This year, {feast}, died {name} the merchant, the king's friend, who sat in his hall and told him of seas he had not seen. He was a Frisian by birth. {lord} sent a cloak for the bier."
+   }
+  ]
+ },
+ "needs": [
+  "The winter screen itself: it sets 'flag wintering for <days>' and draws the cards as 'how_it_runs' says. Until it exists the cards never come (every 'when' asks for flag.wintering); with the flag set by hand they come as ordinary harbour cards in the long-stay draw, in their months.",
+  "A line shown after a choice: the writing keys '<label_key>.after', and '.after.success' and '.after.failure' for a chance, hold each outcome as a fact. The panel shows only the effects' own words today.",
+  "A picture key for each card: 'art.<card id>' is in the writing block, as BRIEF_2.md asks.",
+  "Numbers the reckoning needs and the engine does not keep: the year's gain or loss after wages and bread, boats lost, men dead, ports first seen, sea crossings in a ship of one's own.",
+  "An effect to pay part of the debt ('debt -n') and one to put the debt's day off ('debt_due +days'): harbour.winter.count_debt can only set flag debt_grace.",
+  "A deed for helping neighbours (fire, flood, sickness): the cards use gave_alms, the nearest there is.",
+  "The house keeps one child (flags house_child, house_child_small). More children, daughters' portions and brothers' shares need a list of kin with ages.",
+  "A vow not kept in its 300 days should cost the crew's heart, and a promise broken (promised_river_boy) the bank's standing: cards at sea and in spring should read the flags.",
+  "A quarter share (flag house_share_quarter), a factor's keep, a charter's render and a guild's purse are all paid or received at the reckoning: the screen should run them.",
+  "A port at home: there is no variable for the house's home port, so the flood card lists the low ports by id and the others trust flag.wintering.",
+  "Forcing a card in the chronicle's own year (the flood of 838, the cattle plague of 809 to 810, the pestilence of 801 and 808, the famine years): the notes say which."
+ ]
+}

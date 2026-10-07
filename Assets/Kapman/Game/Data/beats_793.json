@@ -1,0 +1,32 @@
+{
+  "about": "THE BEATS' WORDING (playability 2.1 and 3): each kind of moment that asks something of the player, its question and options. PLACEHOLDER TEXT: the user writes the real words. {name}, {wind} and {prompt} are filled in. 'does' is what an option does: none, or order:full / order:reef / order:strike / order:row_all / order:oars_as_needed / order:anchor. gap_real_minutes: the log's report flags longer stretches without a beat. open_real_seconds: how long an optional beat waits before it lets pass.",
+  "units": "real minutes and real seconds at 1x",
+  "gap_real_minutes": 4,
+  "open_real_seconds": 45,
+  "kinds": {
+    "cast_off": { "question": "Cast off from the dam?", "lesson": "make_for_there", "mandatory": true,
+      "options": [ { "text": "Cast off under oars", "does": "order:row_all" }, { "text": "Cast off and make sail", "does": "order:full" } ] },
+    "landmark": { "question": "{name} in sight.",
+      "options": [ { "text": "Hold your course", "does": "none" }, { "text": "Ask the crew about it", "does": "none" } ] },
+    "church": { "question": "{name} in sight.",
+      "options": [ { "text": "Hold your course", "does": "none" }, { "text": "Ask the crew about it", "does": "none" } ] },
+    "fort": { "question": "{name} in sight.",
+      "options": [ { "text": "Hold your course", "does": "none" }, { "text": "Ask the crew about it", "does": "none" } ] },
+    "moored": { "question": "{name} close ahead.", "lesson": "keep_to_your_side",
+      "options": [ { "text": "Keep to your side and go on", "does": "none" }, { "text": "Ease the oars and pass slowly", "does": "order:oars_as_needed" } ] },
+    "town_end": { "question": "{name} is passing: open country ahead.",
+      "options": [ { "text": "Make sail", "does": "order:full" }, { "text": "Keep rowing", "does": "order:row_all" } ] },
+    "bend": { "question": "{name} ahead.",
+      "options": [ { "text": "Hold the middle of the stream", "does": "none" }, { "text": "Take it wide and slow", "does": "order:oars_as_needed" } ] },
+    "weir": { "question": "{name} ahead.",
+      "options": [ { "text": "Keep well clear", "does": "none" } ] },
+    "wind_shift": { "question": "The wind has gone round to the {wind}.",
+      "options": [ { "text": "Trim to it", "does": "order:full" }, { "text": "Strike the sail and row", "does": "order:strike" } ] },
+    "wind_rising": { "question": "The wind is freshening from the {wind}.",
+      "options": [ { "text": "Take in a reef", "does": "order:reef" }, { "text": "Strike the sail", "does": "order:strike" }, { "text": "Carry on as she is", "does": "none" } ] },
+    "wind_easing": { "question": "The wind is easing from the {wind}.",
+      "options": [ { "text": "Shake out the reef", "does": "order:full" }, { "text": "Leave her as she is", "does": "none" } ] },
+    "exit": { "question": "{prompt}", "mandatory": false,
+      "options": [ { "text": "Go on (Enter)", "does": "none" } ] }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "about": "Raiders of the time (Plans/ai_fleets.md, phase 4): who went out, from where, when, how many, what they struck and where they sold what they took. Bands of longships go out in the sailing season, raid a place they can overwhelm (or take a trader at sea they can catch), sell the loot and captives at a Norse market and go home. The dated raids of the chronicle (chronicle_793.json) hit the markets on their days as well; these bands are the rest of the sea's danger. Numbers are starting guesses from the sources noted; uncertain items are marked (?).",
+  "units": "days of the year (1-365); men; real km; knots; deniers",
+  "season": { "out_day": 121, "home_day": 273, "about": "out about 1 May, home by 30 September (?)" },
+  "pressure": {
+    "about": "bands out a season, by year (the last year listed holds after it); pressure_x scales it (1 = history; tests and harness can turn it up)",
+    "by_year": { "789": 1, "793": 2, "794": 2, "795": 3, "796": 1, "797": 1, "798": 2, "799": 2, "800": 2, "802": 2, "806": 3, "810": 3, "814": 3 },
+    "pressure_x": 1.0
+  },
+  "origins": [
+    {
+      "id": "west_norway",
+      "name": "Northmen of the west of Norway",
+      "home": "ogvaldsnes",
+      "class": "norse_longship",
+      "from_year": 789,
+      "weight": 3,
+      "targets": ["lindisfarena", "gyrwe", "streonaeshalch", "bebbanburg", "hi", "duiblinn", "herio"],
+      "sale": ["skiringssal", "ripa", "sliesthorp"],
+      "tongue": "norse",
+      "basis": "ASC 789 (three ships 'of Hordaland' at Portland), 793 Lindisfarne, 794 Jarrow, 795 Iona, Rathlin and Skye, 798 Inis Patraic, 799 the islands off Aquitaine (?): the first raiders came from western Norway (Hordaland, Rogaland) by the northern isles"
+    },
+    {
+      "id": "danes",
+      "name": "Danes",
+      "home": "hleidr",
+      "class": "norse_longship",
+      "from_year": 800,
+      "weight": 2,
+      "targets": ["doccinga", "emuthon", "medemelacha", "wijnaldum", "walichrum", "witla", "ganda"],
+      "sale": ["ripa", "sliesthorp", "reric"],
+      "tongue": "norse",
+      "basis": "RFA 800 (Charles fortifies the coast against pirates infesting the Gallic sea), 810 (Godfred's fleet of 200 ships on the Frisian islands, tribute of 100 pounds): Danish raiding of Frisia and Flanders from c. 800 (?)"
+    }
+  ],
+  "band": {
+    "ships_min": 1, "ships_max": 3, "men_per_ship": 30,
+    "about": "a band of 1-3 longships of about 30 men each (?)"
+  },
+  "attack_ratio": 1.5,
+  "defence": {
+    "about": "fighting men a place can put up at short notice, by its kind (times 1 + 0.25 x (size - 2)) (?)",
+    "monastery": 8, "village": 12, "market": 30, "town": 70, "emporium": 120, "royal seat": 160, "fort": 250
+  },
+  "raid": {
+    "stock_left": 0.35, "dearer": 0.45,
+    "loot_share": 0.5,
+    "captives_at": ["monastery", "village", "market"],
+    "captives_per_raid": [6, 20],
+    "rest_days": 60,
+    "about": "a raided market keeps 35% of its stock, 45% dearer, fading over the weeks (trade_rules: shock_fade); the band takes half of what's left worth carrying; captives where people are easily taken; a place isn't raided again for 60 days"
+  },
+  "at_sea": {
+    "sight_km": 12,
+    "sprint_kn": 5.5, "sprint_hours": 1.5, "pull_kn": 4.0,
+    "give_up_hours": 8,
+    "take_share": 0.6,
+    "silver_share": 0.5,
+    "about": "raiders look for prey within sight; they row a sprint, then a steady pull, and give up after 8 game hours; a taken ship loses 60% of her cargo (their room allowing) and half her silver"
+  },
+  "player": {
+    "tribute_share": 0.3, "tribute_min_d": 60,
+    "parley": { "norse": 0.5, "frisian": 0.3, "other": 0.15 },
+    "parley_tribute_share": 0.15,
+    "submit_cargo_share": 1.0, "submit_silver_share": 0.6,
+    "lose_fight_men": [1, 2],
+    "win_fight_men_lost": [0, 1],
+    "status_every_game_minutes": 15,
+    "about": "tribute to be let go; parley in a shared tongue (the merchant speaks Frisian and some Norse (?)); submitting gives up the cargo and most of the silver; losing a fight costs men too; the chase's status every 15 game minutes"
+  }
+}

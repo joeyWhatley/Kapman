@@ -1,0 +1,630 @@
+{
+ "about": "Bebbanburg (Bamburgh): the Northumbrian kings' rock on the shore, its gate, hall, shrine, well and workshops, the vill below and the Farne islands off it, 793 to 1066. Written 6 Oct 2026 from Design/content/dossiers/bebbanburg.md and the spine. A draft in the game's own files, for the user to overwrite. (?) marks what is not verified. Woven with the region on 7 Oct 2026: two reeves made real (about 858 to 886, and 1041 to 1066), ties run both ways, beats pointed at their cards (Data/encounters/northumbria_irish_sea_793.json).",
+ "region": "northumbria_irish_sea",
+ "ports": [
+  {
+   "port": "bebbanburg",
+   "summary": "A black rock on the shore with a wall round its top, a hall, a church that keeps a dead king's hand, and a well cut down through the stone. It is a king's house and not a market: nobody here lives by buying and selling, and a merchant deals with the steward of the household or with nobody. He comes for wool, hides and herring, for a sword-smith who welds better than any on this coast, and for the word of the men who hold the gate.",
+   "seasons": "Sea fog lies on the islands from Easter to midsummer and the herring come from Oswald's feast to the leaves' fall; the seals pup on the Farnes when the nights are long. The household eats its food-rents in winter, so wine and grain are wanted most between Martinmas and Easter, and after Michaelmas no sensible skipper lies on this open strand a night longer than he must.",
+   "history": [
+    { "year": 547, "text": "Ida began to reign and built Bebbanburg, 'which was first surrounded with a hedge, and afterwards with a wall'.", "source": "Anglo-Saxon Chronicle 547 (Ingram 1823)" },
+    { "year": 642, "text": "King Oswald was killed in battle on the fifth of August. His head went to Lindisfarne; his hands and arms were brought to his royal city and kept in Saint Peter's church on the rock, the right hand undecayed in a silver case.", "source": "Bede, Ecclesiastical History III.6 and III.12 (paraphrased; the dossier's translation is not named (?))" },
+    { "year": 651, "text": "Penda of the Mercians heaped the beams, wattles and thatch of the villages round about against the rock and lit them. Bishop Aidan saw the smoke from Farne and prayed, and the wind turned. On the thirty-first of August that year Aidan died leaning on a post of the wooden church in the king's vill near by; fire could not burn the post afterwards.", "source": "Bede, Ecclesiastical History III.16-17 (paraphrased)" },
+    { "year": 687, "text": "Cuthbert died in his cell on Inner Farne, in sight of the rock.", "source": "Bede, Life of Cuthbert; en.wikipedia.org/wiki/Farne_Islands" },
+    { "year": 750, "text": "King Eadberht held Bishop Cynewulf of Lindisfarne captive at Bebbanburg, after a king's kinsman who had fled to Cuthbert's relics was dragged out, starving, and killed.", "source": "Symeon of Durham, Historia regum 750 (Stevenson 1855)" },
+    { "year": 774, "text": "King Alhred was driven from York, fled here with a few companions and went on to the king of the Picts. The annal describes the place: 'exceedingly well fortified, but by no means large, containing about the space of two or three fields, having one hollowed entrance ascending in a wonderful manner by steps', with a church 'of very beautiful architecture, in which is a fair and costly shrine', and on the west and highest point 'a well, excavated with extraordinary labour, sweet to drink, and very pure to the sight'.", "source": "Symeon of Durham, Historia regum 774 (Stevenson 1855)" },
+    { "year": 793, "text": "On the eighth of June heathen men sacked Lindisfarne, in plain sight of the rock across the flats. What the fortress did that day is not recorded.", "source": "Anglo-Saxon Chronicle 793; chronicle_793.json. The line of sight is real; that the king's men watched and did not come is the game's invention (spine, thread holy_island)" },
+    { "year": 796, "text": "King Æthelred was killed on the eighteenth of April. Osbald was king for twenty-seven days and then took ship from Lindisfarne to the Picts. Eardwulf was made king on the fourteenth of May.", "source": "Symeon of Durham, Historia regum 796; chronicle_793.json" },
+    { "year": 800, "text": "On the day before Christmas a great gale blew and the sea came over the land.", "source": "Symeon of Durham, Historia regum 800; chronicle_793.json" },
+    { "year": 855, "text": "About this year the styca, the small base coin of the Northumbrians, ceased to be struck. In the later ninth century a small building in the workshops burned with a purse of stycas in it.", "source": "en.wikipedia.org/wiki/Styca; Bamburgh Research Project, Trench 3 update, 2010" },
+    { "year": 867, "text": "Both kings of the Northumbrians, Osberht and Ælla, were killed at York on the twenty-first of March. After that one Ecgberht reigned under the Danes 'over the Northumbrians beyond the Tyne'.", "source": "Symeon of Durham, Historia regum 867 (Stevenson 1855)" },
+    { "year": 875, "text": "Halfdan wintered on the Tyne and wasted the minsters. Bishop Eardwulf and Cuthbert's people left Lindisfarne with the body. No source says the rock was taken.", "source": "Symeon of Durham, Historia regum 875" },
+    { "year": 913, "text": "Eadwulf died: 'king of the northern English' to the Irish annals, the reeve of the town called Bebbanburg to Æthelweard, and a friend of King Alfred.", "source": "en.wikipedia.org/wiki/Eadwulf_II_of_Northumbria (the Annals of Ulster and Æthelweard were not opened (?))" },
+    { "year": 927, "text": "On the twelfth of July Ealdred son of Eadwulf, of Bebbanburg, bowed to King Æthelstan at Eamont with the kings of the Scots and the Welsh.", "source": "Anglo-Saxon Chronicle 926 (Ingram 1823, a year behind)" },
+    { "year": 954, "text": "King Eric was killed, betrayed by Oswulf of Bebbanburg and one Maccus; 'the province was committed to earl Osulf'.", "source": "Symeon of Durham, Historia regum (the tract on the earls, under 1072; Stevenson 1855)" },
+    { "year": 993, "text": "'This year was Bamborough destroyed, and much spoil was there taken.'", "source": "Anglo-Saxon Chronicle 993 (Ingram 1823)" },
+    { "year": 1006, "text": "The Scots besieged Durham. Old Waltheof shut himself up in Bebbanburg; his son Uhtred raised the men of the north, broke the Scots, and was made earl. He set the best-looking heads on stakes round Durham and gave four women a cow each for washing them.", "source": "De obsessione Dunelmi (Stevenson 1855), which misdates it to 969; en.wikipedia.org/wiki/Uhtred_of_Bamburgh" },
+    { "year": 1016, "text": "Uhtred went to submit to Cnut and was killed with forty of his men by Thurbrand Hold.", "source": "Anglo-Saxon Chronicle 1016; De obsessione Dunelmi" },
+    { "year": 1018, "text": "The men between Tees and Tweed were beaten by the Scots at Carham. Eadwulf Cudel held Bebbanburg.", "source": "Symeon of Durham, Historia regum 1018; en.wikipedia.org/wiki/Eadwulf_Cudel. The sources disagree on who led (?)" },
+    { "year": 1041, "text": "King Harthacnut 'betrayed Eadulf, under the mask of friendship'. Siward, who had married a daughter of the house, held all Northumbria after him.", "source": "Anglo-Saxon Chronicle 1041 (Ingram 1823); Symeon, tract on the earls" },
+    { "year": 1061, "text": "Malcolm of the Scots ravaged the earldom while Earl Tostig was at Rome, and broke Cuthbert's peace on Lindisfarne.", "source": "Symeon of Durham, Historia regum 1061" },
+    { "year": 1065, "text": "The Northumbrians drove out Tostig. Morcar gave the land beyond the Tyne to Oswulf son of Eadwulf, of the old house.", "source": "Symeon, tract on the earls; en.wikipedia.org/wiki/Oswulf_II_of_Bamburgh" }
+   ],
+   "eras": [
+    { "from": 793, "to": 796, "text": "A king's rock in a hungry year, with the smoke of Lindisfarne hardly blown away. The wardens are short with strangers and shorter with each other, the steward buys any grain that lands, and the priests of the shrine pray for the brethren across the flats. King Æthelred is blamed in his own halls; in April 796 he is killed, and for a month nobody at the gate knows whose men they are." },
+    { "from": 797, "to": 866, "text": "The kings change and the rock does not. Food-rents come up the steps, the smiths weld, and the small coin of the country turns from poor silver to plain copper that no stranger will take. The gale of 800 throws sand into the inlet. Bishops of Lindisfarne come over the flats for Oswald's feast, and each summer the watch looks north a little longer than it used to." },
+    { "from": 867, "to": 926, "text": "The kings are dead at York and the Danes share out the land to the south. Beyond the Tyne the English keep their own lords, and the lord of the rock is one of them: no coin is struck in the north, silver is weighed, and from 875 Lindisfarne stands empty. A hull from the south is asked which army she has leave from. Eadwulf, who dies in 913, is called a king by the Irish and a reeve by the West Saxons." },
+    { "from": 927, "to": 992, "text": "The lords of the rock bow to the southern kings and keep everything north of the Tyne all the same. From 954 they are earls. The hall is rebuilt, a gleeman has a place at the board, and merchants out of Danish York come up the coast with pots, querns and combs, and are let ashore under the wardens' eyes." },
+    { "from": 993, "to": 1040, "text": "In 993 a fleet takes the rock and carries off all that is in it. The house builds again in timber and stone and holds on: Waltheof grows old behind the wall, Uhtred breaks the Scots and is murdered in 1016, and after Carham the border comes down to the Tweed. Some time in these years the saint's arm leaves the shrine for the south and does not come back." },
+    { "from": 1041, "to": 1066, "text": "Siward the Dane and then Tostig Godwinson are earls at York, and the old house holds the rock under them, sourly. The shrine is empty. In 1061 the Scots come over the flats; in 1065 the north throws Tostig out and one of the old blood has the land beyond the Tyne again, for as long as it lasts." }
+   ],
+   "sites": [
+    {
+     "id": "bebbanburg.strand", "kind": "beach", "name": "The inlet under the rock", "from": 0, "to": 0,
+     "see": "A shallow tide inlet runs in behind a bar of sand at the north foot of the rock, and boats lie tilted on the wet sand below a wall of black stone that goes straight up into the light. Low grey islands show out to sea, and far up the shore to the north-west the long hump of the holy island. Gulls and terns scream, the surf drags on the bar, and the place smells of weed and tarred rope.",
+     "do": ["act:load", "act:wait_wind", "act:ask_harbour", "act:hire_pilot", "act:careen", "act:hire_porters", "person:bebbanburg.bacga", "card:harbour.gut_between_the_rocks.bebbanburg"],
+     "source": "A tidal inlet north of the gate, 'now cut off from the sea by the developing sand dunes', a harbour for shallow craft: Bamburgh Research Project, St Oswald's Gate. Nothing of 793 is recorded there (?)"
+    },
+    {
+     "id": "bebbanburg.gate", "kind": "gate", "name": "The cleft gate", "from": 0, "to": 0,
+     "see": "A cleft in the rock at its lowest point, wide enough at the top for two men and at the foot for one, with steps cut up through it and the stone underfoot worn as smooth as a bowl. Spears lean in the shadow at the head of the stair and a man looks down between them. Behind him is a strip of sky and the gable of a timber hall.",
+     "do": ["act:ask_news", "act:gift", "act:witness", "person:bebbanburg.cuthgar", "card:harbour.gate_and_ring.bebbanburg"],
+     "source": "'One hollowed entrance ascending in a wonderful manner by steps': Symeon, Historia regum 774 (Stevenson 1855). The cleft 3.4 m wide at the top and 1.6 m at the foot, 'the bedrock was worn smooth': Bamburgh Research Project, St Oswald's Gate. No toll is recorded: a stranger gives a gift, which is custom and not law"
+    },
+    {
+     "id": "bebbanburg.gate_hall", "kind": "storehouse", "name": "The steward's board", "from": 0, "to": 0,
+     "see": "Inside the gate a long timber hall, twelve paces by seven, where the wardens sleep and the food-rents are tallied: sacks, tubs of butter, hides in bundles, a quern nobody has carried further. A trestle stands in the doorway with a balance on it and a bundle of notched sticks. It smells of wet wool and smoke, and somebody is always arguing about a count.",
+     "do": ["market", "act:haggle", "act:weigh_silver", "act:sample", "act:store", "act:provision", "person:bebbanburg.eanwine", "person:bebbanburg.eanmund", "person:bebbanburg.wulfmaer", "card:harbour.dish_under_the_dinner.bebbanburg", "card:harbour.a_thought.bebbanburg", "card:harbour.nephew_home.bebbanburg"],
+     "source": "A timber hall of 12 m by 7 m by the gate, perhaps the gate wardens': Bamburgh Research Project. No market, toll or merchant is recorded here: the dealing with the household is the game's, as a king's rock lives on food-rents and gifts (?)"
+    },
+    {
+     "id": "bebbanburg.hall", "kind": "hall", "name": "The hall on the rock", "from": 0, "to": 0,
+     "see": "The lord's hall stands in the middle of the rock with its door to the south: a long roof, carved door-posts, benches down both walls and a hearth the length of three men. Shields hang over the benches and a carved stone seat stands at the upper end. On a feast it is full of noise and dogs; on other days two old men play at tables by the door and the wind hums in the thatch.",
+     "do": ["act:audience", "act:gift", "act:feast", "act:oath", "act:hear_law", "act:tafl", "act:riddles", "act:song", "person:bebbanburg.waltheof", "person:bebbanburg.uhtred", "card:harbour.low_end_of_the_hall.bebbanburg"],
+     "source": "Bede's 'royal city'; timber halls and a piece of a carved sandstone chair of about 800: Bamburgh Research Project (West Ward; the stone chair). Which king or lord sat here in a given year is not recorded before 913. The shield riddle is given here: riddles_793.json riddle_exeter_05_shield"
+    },
+    {
+     "id": "bebbanburg.st_peter", "kind": "church", "name": "Saint Peter's and the hand", "from": 0, "to": 0,
+     "see": "A small stone church on the highest ground, sixteen paces long, lime-washed, with narrow windows that let in bars of sea light. On the altar's north side stands a silver case under a cloth; when the priest lifts the cloth on a feast there is a hand in it, wrapped, pale and whole. Wax smoke, the cold of stone, and far below the sea working at the rock.",
+     "do": ["act:hear_mass", "act:alms", "act:vow", "act:remember", "act:sanctuary", "act:oath", "person:bebbanburg.wilgar", "card:harbour.oswalds_mass.bebbanburg"],
+     "source": "'A fair and costly shrine. In this, wrapped in a pall, lies the uncorrupted right hand of St. Oswald': Symeon, Historia regum 774 (Stevenson 1855); a silver case: Bede III.6. A building of about 16 m by 8 m under the later chapel: Bamburgh Research Project, Inner Ward. The arm was carried off to Peterborough between 1006 and 1055: Victoria County History, Northamptonshire 2"
+    },
+    {
+     "id": "bebbanburg.well", "kind": "well", "name": "The well in the rock", "from": 0, "to": 0,
+     "see": "At the west end, on the highest point, a square mouth in the bare stone with a windlass over it and a rope worn pale. A bucket takes a long time going down and comes up cold and sweet. Women wait their turn with yokes and talk; from here a man sees the whole shore, the flats, the holy island and every sail between.",
+     "do": ["act:rumours", "act:provision", "act:ask_news", "card:harbour.three_sails_again.bebbanburg"],
+     "source": "'A well, excavated with extraordinary labour, sweet to drink, and very pure to the sight': Symeon, Historia regum 774 (Stevenson 1855). 145 feet through the rock: bamburghcastle.com"
+    },
+    {
+     "id": "bebbanburg.workshops", "kind": "smithy", "name": "The smiths' ward", "from": 0, "to": 0,
+     "see": "Cobbled paths between low timber sheds along the west side of the rock, a stone-lined runnel of water, charcoal in heaps under a lean-to. One forge burns white and a man twists rods of iron together like a woman plaiting hair; in the next shed somebody small works at a bench with gold wire and a lamp. Hammer-scale crunches underfoot and the air tastes of hot iron.",
+     "do": ["act:commission", "act:buy_tools", "act:buy_at_source", "act:test_silver", "act:repair", "person:bebbanburg.garmund", "card:harbour.smiths_ward.bebbanburg", "card:harbour.blade_is_done.bebbanburg"],
+     "source": "Cobbled paths, timber halls, a possible smithy, a stone-lined water channel, hammerscale from high-heat welding and scraps of decorated gold: Bamburgh Research Project, West Ward and Trench 3 (2010). Two pattern-welded swords were found on the rock, one welded of six strands. The sword riddle is given here: riddles_793.json riddle_exeter_20_sword"
+    },
+    {
+     "id": "bebbanburg.vill", "kind": "lodging", "name": "The vill below the rock", "from": 0, "to": 0,
+     "see": "A scatter of thatched houses and byres on the green ground south-west of the rock, a pond, geese, a hurdle fold full of sheep come in for the rent. One house has a bush tied over the door and a bench outside it. The rock fills the sky behind every roof, and on a still day the forge can be heard down here like a slow bell.",
+     "do": ["act:lodge", "act:drink", "act:rumours", "act:hire_crew", "act:provision", "act:dice", "act:buy_at_source", "person:bebbanburg.muirenn", "card:harbour.dish_under_the_dinner.bebbanburg"],
+     "source": "The king's vill 'not far from the city': Bede III.17. The ale-house is the game's; wool, hides and herring as the goods of the country: Design/research_trade_seasons_and_hints.md"
+    },
+    {
+     "id": "bebbanburg.aidan_church", "kind": "shrine", "name": "Aidan's church and the post", "from": 0, "to": 0,
+     "see": "A small wooden church at the edge of the vill, twice rebuilt after fire. One post in its west wall is older and darker than the rest, scorched and not burnt, and polished at the height of a hand. People cut slivers from it for the sick and drop them in water. Inside it is dim and smells of old thatch and tallow.",
+     "do": ["act:hear_mass", "act:alms", "act:heal", "act:vow", "act:remember", "card:harbour.dish_under_the_dinner.bebbanburg"],
+     "source": "The church where Aidan died on 31 August 651 and the post fire could not burn, from which chips were taken to heal the sick: Bede III.17 (paraphrased)"
+    },
+    {
+     "id": "bebbanburg.bowl_hole", "kind": "graveyard", "name": "The grave field in the sand", "from": 0, "to": 900,
+     "see": "A hollow in the sand hills three hundred paces south of the rock, out of the wind, with low mounds in rows and here and there a stone set on edge. Marram grass hisses. Nothing is written on anything, but the woman who tends it knows each one and where they came from, and few of them came from here.",
+     "do": ["act:bury", "act:remember", "act:alms", "card:harbour.grave_in_the_sand.bebbanburg"],
+     "source": "The Bowl Hole: 91 skeletons, mostly of the 7th and 8th centuries, few grave goods, few who grew up near by (western Scotland, Ireland, Scandinavia, the Mediterranean): Bamburgh Research Project, Bowl Hole. Whether it was still used in 793 is not settled, and its end is our guess (?)"
+    },
+    {
+     "id": "bebbanburg.farne", "kind": "shrine", "name": "Farne, two miles out", "from": 0, "to": 0,
+     "see": "A flat black island with white-streaked cliffs on its seaward side, a round wall of turf and stones, and inside it a cell with no window but the sky. Eider ducks sit on their eggs by the path and do not move for a man. Seals lie on the skerries beyond, the tide runs between the rocks like a river, and the rock of Bebbanburg stands small and dark on the shore behind.",
+     "do": ["act:vow", "act:wait_wind", "act:sanctuary", "act:remember", "card:harbour.gut_between_the_rocks.bebbanburg"],
+     "source": "Farne 'nearly two miles from the city': Bede III.16. Cuthbert's cell, with a wall so high he saw only the sky: Bede, Life of Cuthbert (from memory (?)). Fifteen to twenty islands by the state of the tide; eiders and grey seals: en.wikipedia.org/wiki/Farne_Islands. The cove of the riddle leaves lies here: riddles_793.json rw_cove_farne"
+    }
+   ],
+   "people": [
+    {
+     "id": "bebbanburg.cuthgar", "name": "Cuthgar", "historical": false, "role": "kings_man", "people": "english", "faith": "christian",
+     "born": 758, "died": 0, "from": 793, "to": 812,
+     "trait": "The thegn who keeps the gate: exact, hard on his men and harder on himself; he had the watch on the eighth of June and saw the sails.",
+     "want": "To do one thing about that day that can be counted: a boy bought back, a beacon built, a name for the ship.",
+     "fear": "That it will be said of him for ever that he stood on the wall and watched; and that it is true.",
+     "voice": "Flat and short, like a man giving the watchword. He never says 'Lindisfarne': he says 'over there', and looks.",
+     "looks": "Thirty-five, lean, fair hair tied back, a clipped beard, a grey cloak with a bronze ring pin; a spear always in his hand and a shield with a mended board slung behind him.",
+     "knows": ["every hull that has come into the inlet since Easter, and whose she was", "what was seen from the wall on the eighth of June: three sails, the hour, the wind", "who is in the hall and in what temper", "the shield riddle, which he gives to a man he has begun to trust (riddle_exeter_05_shield)", "after April 796: which lords have sworn to which king"],
+     "ties": [
+      { "to": "cast.ecgwulf", "tie": "friend", "note": "fostered in the same hall as boys; Ecgwulf lodges with him when he comes north, and talks of his dead brother" },
+      { "to": "cast.higbald", "tie": "owes", "note": "the bishop has never blamed him, which is worse" },
+      { "to": "cast.crew.beornwine", "tie": "friend", "note": "knew the brothers' father; taught the elder boy to throw a spear" },
+      { "to": "cast.tidwine", "tie": "owes", "note": "the boy was carried off while he watched" },
+      { "to": "bebbanburg.eanwine", "tie": "rival", "note": "the steward counts what the gate lets in; the thegn thinks he lets in too much" },
+      { "to": "bebbanburg.wilgar", "tie": "friend", "note": "confesses to him each Friday and is told each Friday the same thing" },
+      { "to": "lindisfarena.higbald", "tie": "owes", "note": "sends two men over the flats each new moon to stand watch for the brethren, unasked" },
+      { "to": "bebbanburg.bacga", "tie": "friend", "note": "the fisherman is his eyes on the water inside the islands, where the wall cannot see; he pays him in rope and patience" },
+      { "to": "bebbanburg.garmund", "tie": "friend", "note": "the smith made his sword and will not make him another until he stops brooding; he mends the wardens' spears all the same" },
+      { "to": "bebbanburg.muirenn", "tie": "kin", "note": "his mother's brother's widow, from the western isles: the only person on the rock who tells him to stop" },
+      { "to": "lindisfarena.aethelgyth", "tie": "feud", "note": "his dead brother's widow on the island has not spoken to him since the eighth of June; he sends her nephew's name with every skipper who goes north" },
+      { "to": "gyrwe.abbot", "tie": "friend", "note": "sends a rider to the abbot on the Tyne whenever strange sails are seen; it is one of the things he can do" },
+      { "to": "gyrwe.beornwine", "tie": "friend", "note": "the elder of the two brothers, whom he taught to throw a spear, home as a Frisian's lookout" }
+     ],
+     "lines": {
+      "greet": "Stop there. Whose boat, from where, what is in her? Slowly. I have had a bad summer with ships.",
+      "greet_again": "The Frisian boat. Come up. You are the first sail this month I have been glad to count.",
+      "rumour": [
+       "Three sails, at the hour of terce, wind in the north-east. Forty men, no boats, and the tide over the flats. I say it every night.",
+       "They blame the king in his own hall now. A priest's letter said the sins of the court brought it. The king's men do not like to hear letters.",
+       "Ecgwulf of York is here for the feast. If you have a Frisian aboard, keep him on the strand and keep him sober."
+      ],
+      "shame": "Do not tell me there was nothing to be done. I know there was nothing. I want something to do now.",
+      "riddle": "I am a lone thing, wounded with iron. No leech heals me. You carry my brother on your gunwale in bad waters. Say what I am.",
+      "saying": "A coward can do one thing: be afraid. It is something. A sentry is paid for it.",
+      "farewell": "Go out on the ebb and keep the big island to seaward. I will see you past the point. I see everything past the point."
+     },
+     "source": "invented, to carry the spine's hook (thread holy_island: a thegn angry or ashamed). The watch, the forty men and the lack of boats are the game's; only the line of sight to Lindisfarne is real. The riddle paraphrases Exeter riddle 5; the saying turns Durham Proverbs, 'Earh maeg thaet an thaet he him ondraede' (own rendering)"
+    },
+    {
+     "id": "bebbanburg.eanwine", "name": "Eanwine", "historical": false, "role": "steward", "people": "english", "faith": "christian",
+     "born": 745, "died": 0, "from": 793, "to": 808,
+     "trait": "Keeper of the household's stores for three kings running: careful, unhurried, loyal to the larder before any lord.",
+     "want": "Grain before winter, wine for the high board and the altar, new querns; and to pay for all of it in wool and hides, not silver.",
+     "fear": "An empty store at Candlemas with sixty mouths on the rock; and being asked to account for the year 790, when the king changed.",
+     "voice": "Slow, mild, counts aloud on notched sticks; calls every price 'a thought' before he refuses it.",
+     "looks": "Nearing fifty, stout, bald on top with a grey fringe, a good brown tunic gone shiny at the belly, a bundle of tally sticks on a thong and keys at his belt.",
+     "knows": ["what the household lacks this month and what it will give for it", "the food-rent of every vill between Tweed and Aln, and which paid short in the famine", "that the small coin here is poor silver and what a foreign penny is worth against it", "which king's men ate here last, and how much"],
+     "ties": [
+      { "to": "bebbanburg.cuthgar", "tie": "rival", "note": "thinks the thegn would starve the rock to keep it safe" },
+      { "to": "bebbanburg.muirenn", "tie": "friend", "note": "sends her the broken loaves for the poor at the grave field and takes her word on who is truly hungry" },
+      { "to": "bebbanburg.garmund", "tie": "owes", "note": "three years behind on the smith's charcoal and iron, and both know it" },
+      { "to": "cast.higbald", "tie": "serves", "note": "sends fish and butter over the flats to the brethren since the raid, off the tally" },
+      { "to": "eoforwic.ecgwulf", "tie": "friend", "note": "buys his wine through Ecgwulf's kin at York when no ship comes here" },
+      { "to": "gyrwe.cellarer", "tie": "friend", "note": "the cellarer on the Tyne: in the bad year they sent each other what each had, and both wrote it down as charity" }
+     ],
+     "lines": {
+      "greet": "A merchant. We have no market, so you are looking at it. What is in the boat, and do not say cloth.",
+      "greet_again": "You again, good. Sit. I have kept the fleeces I spoke of, and I have thought of a new way to underpay you.",
+      "rumour": [
+       "The rye stood in the fields last harvest and there was nothing in the ear. I have fed this rock on fish since Lent.",
+       "Our pennies are little dark things. Take wool. Nobody at Dorestad will bite one of these and smile.",
+       "When a king changes, the first man through the gate asks for the keys and the second asks for my tallies. I give the keys gladly."
+      ],
+      "haggle": "Sixty for the cask is a thought. Forty and two bundles of hides is a better thought. Think it with me.",
+      "famine": "Sell me the grain and the hall eats. Sell it in the vill and the vill eats. I will not say which is right. I am the steward.",
+      "saying": "Patience is half of happiness. The other half is in the store, under my key.",
+      "farewell": "Come before Martinmas with wine and I will remember your name to whoever is king by then."
+     },
+     "source": "invented; a king's household lived on food-rents (feorm). No steward, market or merchant is recorded at Bamburgh. The first styca of good silver 'c. 790 onwards': Bamburgh Research Project, History of the Northumbrian styca. The saying is Durham Proverbs, 'Gethyld byth middes eades' (own rendering), with his own tail"
+    },
+    {
+     "id": "bebbanburg.wilgar", "name": "Wilgar", "historical": false, "role": "priest", "people": "english", "faith": "christian",
+     "born": 739, "died": 0, "from": 793, "to": 806,
+     "trait": "Mass-priest of Saint Peter's and keeper of the hand; schooled at Lindisfarne, gentle, stubborn about the shrine's rights.",
+     "want": "A new cloth for the saint, wax, and word of the brethren who were carried off; and that the king's men would come to Mass sober.",
+     "fear": "That the hand will one day be found to have changed; that the heathen come for the silver case next.",
+     "voice": "Quiet, bookish, pleased by any question about Oswald; tells a thing as Bede tells it and says so.",
+     "looks": "Past fifty, thin, tonsured, a darned wool habit and a stole kept very clean; ink on one thumb and the shrine's small key on a cord round his neck.",
+     "knows": ["the story of the hand, the dish and the Easter dinner, as Bede has it", "the names of the brethren killed and taken over there, as far as the bishop has sent them", "the feasts kept on the rock: Oswald on the fifth of August, Aidan on the last of the month, Cuthbert in Lent", "which of the king's men cannot sleep"],
+     "ties": [
+      { "to": "cast.higbald", "tie": "serves", "note": "his bishop; crosses the flats to him at each new moon" },
+      { "to": "cast.sigewine", "tie": "friend", "note": "Sigewine brings him news of Alcuin's letters and copies of what he may keep" },
+      { "to": "cast.alcuin", "tie": "taught", "note": "heard him teach at York once, forty years ago, and has not forgotten a word" },
+      { "to": "bebbanburg.cuthgar", "tie": "taught", "note": "his confessor; has given him the same penance since June" },
+      { "to": "bebbanburg.muirenn", "tie": "friend", "note": "buries her dead and argues with her about the Easter reckoning of her youth" },
+      { "to": "gyrwe.beornwine", "tie": "friend", "note": "baptised the two brothers; asks after the younger every time" },
+      { "to": "eoforwic.eanbald", "tie": "serves", "note": "the archbishop at York, to whom he sends the hall's news when a rider goes south (?)" },
+      { "to": "gyrwe.schoolmaster", "tie": "friend", "note": "the old schoolmaster at Bede's house, to whom he writes about the two brothers he baptised" }
+     ],
+     "lines": {
+      "greet": "God keep you. You have come up a great many steps. Sit in the porch; the saint is not going anywhere.",
+      "greet_again": "The merchant. I prayed for your boat at the last new moon, between a sick cow and the king.",
+      "rumour": [
+       "The bishop counts what is gone on his fingers. Silver, books, boys. He runs out of fingers at the boys.",
+       "A king gave his own dinner and the dish under it to the poor at the gate, and his bishop blessed the hand. That is the hand.",
+       "They say in the hall the heathen came for our sins. They mean someone else's sins. They always do."
+      ],
+      "hand": "I lift the cloth at Easter. It is a hand. It has nails. Thirty years I have looked, and it has not learned to look old.",
+      "ask": "If you sail north and see an English boy with a shaved crown growing out, ask him his name. Only that. Then tell me.",
+      "saying": "Not every truth should be told, nor every hurt cast up. I tell the thegn this weekly.",
+      "farewell": "Go with God, and by the inner channel. He made both."
+     },
+     "source": "invented; the priests of the hilltop church are shown by Symeon's annal of 774. The dish and the blessing: Bede III.6 (paraphrased). The saying is Durham Proverbs, 'Ne deah eall soth asaed ne eall sar aetwiten' (own rendering)"
+    },
+    {
+     "id": "bebbanburg.garmund", "name": "Garmund", "historical": false, "role": "smith", "people": "english", "faith": "christian",
+     "born": 750, "died": 0, "from": 793, "to": 818,
+     "trait": "The king's sword-smith: welds blades of twisted rods as his father did, slow, proud, deaf in one ear from the anvil.",
+     "want": "Good bar iron and charcoal paid for on time; one blade in his life as fine as the old one that hangs in the hall.",
+     "fear": "Frankish blades coming north cheap; his eyes going before his son can judge a welding heat.",
+     "voice": "Loud, because he cannot hear himself; talks of iron as other men talk of horses.",
+     "looks": "Forty-three, short and very broad, forearms scarred with sparks, hair singed off at the front, a leather apron to the shins and tongs hooked in his belt.",
+     "knows": ["how a blade is welded of four strands, and that one in the hall is of six, which he cannot match", "the worth of bar iron, whetstones and charcoal, and who sells bad iron", "how to test silver by nick and by fire, which he does for the steward", "the sword riddle, which he gives to a man who brings him good iron (riddle_exeter_20_sword)"],
+     "ties": [
+      { "to": "bebbanburg.eanwine", "tie": "rival", "note": "is owed three years of iron and charcoal by the household" },
+      { "to": "bebbanburg.cuthgar", "tie": "serves", "note": "mends the wardens' spears; made the thegn's sword and will not make him another until he stops brooding" },
+      { "to": "cast.ecgwulf", "tie": "friend", "note": "welded the sword Ecgwulf carries; the scabbard is older than the blade" },
+      { "to": "eoforwic.ecgwulf", "tie": "friend", "note": "the same man, met at York when Garmund goes south to buy iron" },
+      { "to": "bebbanburg.bacga", "tie": "kin", "note": "his wife's brother; trades him fish-hooks for herring" }
+     ],
+     "lines": {
+      "greet": "What? Speak to this ear. Iron? If you have Frankish bar I will look at it. If you have Frankish swords, get off my floor.",
+      "greet_again": "The boat man. That last bar welded sweet. Bring me the same and I will show you something twisted.",
+      "rumour": [
+       "The blade in the hall is six rods. Six. My father said his grandfather knew the man. I can do four, and four is more than York can.",
+       "The steward pays in promises. I have a shed full of them. They do not burn hot.",
+       "Often there is skill in a sooty bag. Said of smiths. I say it of the steward's purse, and I am wrong."
+      ],
+      "riddle": "I am a lord's shoulder-friend, bright, wire-wrapped. I take no wife and women curse me. Smiths made me. What hangs at your friend's hip?",
+      "work": "A knife, three days. A spearhead, a week. A blade with a pattern in it, come back after two winters and bring iron, and do not hurry me.",
+      "saying": "Good iron and a bad smith make a bad knife. Bad iron and a good smith make a liar.",
+      "farewell": "Mind the steps going down. I have mended more ankles than swords this year."
+     },
+     "source": "invented; hammerscale from high-heat welding and two pattern-welded swords on the rock, one of six strands where no other of its age has more than four: Bamburgh Research Project; en.wikipedia.org/wiki/Bamburgh_Sword. The riddle paraphrases Exeter riddle 20; the proverb of the sooty bag is Durham Proverbs, 'Oft on sotigum bylige searowa licgath' (own rendering); his own saying is invented in the period's manner"
+    },
+    {
+     "id": "bebbanburg.bacga", "name": "Bacga", "historical": false, "role": "pilot", "people": "english", "faith": "christian",
+     "born": 760, "died": 0, "from": 793, "to": 826,
+     "trait": "Fisherman of the inlet and the only man who will take a strange boat through the Farnes in fog; cheerful, superstitious, a great liar about the size of seals.",
+     "want": "A second boat for his son; salt for the herring; nobody else learning the gut between the two outer rocks.",
+     "fear": "The tide race off the islands on a spring ebb; sails with stripes; the saint's ducks, which he will not harm for any money.",
+     "voice": "Quick and sidelong, with a joke ready; drops his voice when he names Cuthbert, as if the saint were in the next boat.",
+     "looks": "Thirty-three, wiry, wind-red face, a sealskin cap and jerkin, bare feet with toes spread like a duck's; a gutting knife on a cord and fish scales in his beard.",
+     "knows": ["every rock of the Farnes by the state of the tide, and how many islands there are today", "when the flats to the holy island are dry and for how long", "where the herring are, from Oswald's feast to the leaves' fall", "what boats have passed inside the islands, which the gate cannot see", "a cove among the outer rocks that he has never shown anyone"],
+     "ties": [
+      { "to": "bebbanburg.garmund", "tie": "kin", "note": "his sister's husband; gets his hooks and rivets from him" },
+      { "to": "bebbanburg.cuthgar", "tie": "serves", "note": "is the gate's eyes on the water; was at sea on the eighth of June and saw them closer than anyone" },
+      { "to": "cast.crew.beornwine", "tie": "friend", "note": "took both brothers fishing when they were small; the little one was sick every time" },
+      { "to": "gyrwe.beornwine", "tie": "friend", "note": "sells fish at the Tyne mouth each autumn and brings the family's news" },
+      { "to": "lindisfarena.higbald", "tie": "serves", "note": "rows the bishop's messages when the flats are covered" },
+      { "to": "gyrwe.fisherman", "tie": "kin", "note": "his cousin's husband on the Tyne, who works the house's weirs; they meet on the herring each autumn" },
+      { "to": "gyrwe.guest_master", "tie": "friend", "note": "the guest-master at Bede's house buys his autumn fish, and has all the coast's news out of him for a bowl of barley" },
+      { "to": "streonaeshalch.fisherman", "tie": "kin", "note": "his sister's husband under the cliff at Hild's house, who walks the tide line there every morning" },
+      { "to": "lindisfarena.eadstan", "tie": "rival", "note": "the island's boatman says he sets his nets on the house's marks; he says the fish cannot read marks" }
+     ],
+     "lines": {
+      "greet": "That is a pretty boat to put on those rocks. A penny a day and I will show you where the rocks are not.",
+      "greet_again": "Still afloat! I told my wife you would be. I told her otherwise too, to be safe.",
+      "rumour": [
+       "I was out past the Megstone that morning. Long ships, low, quick as otters. They looked at me and I was not worth the turning.",
+       "There are fifteen islands or twenty. It depends who is counting and whether he is still dry.",
+       "The saint's ducks sit on your foot if you let them. Kill one and your nets come up empty for a year. My uncle tried it."
+      ],
+      "fog": "No, not today. When you cannot see the rock from the strand, the rock cannot see you either, and it is the one made of stone.",
+      "cove": "There is a gut out there with deep water at any tide. I am not saying where. Bring me a reason, in writing, since you are so clever.",
+      "saying": "Weary is the man who rows against the wind. So I wait, and call it wisdom.",
+      "farewell": "Ebb in an hour. Keep me the fish heads next time, the wife boils them."
+     },
+     "source": "invented; the Farnes as fifteen to twenty islands by the tide, the eiders said to be under Cuthbert's protection (?): en.wikipedia.org/wiki/Farne_Islands. The Megstone is a modern name for an outlying rock (?). The saying is Maxims I, 'Werig sceal se with winde roweth' (own rendering) (?)"
+    },
+    {
+     "id": "bebbanburg.muirenn", "name": "Muirenn", "historical": false, "role": "widow", "people": "gaelic", "faith": "christian",
+     "born": 735, "died": 0, "from": 793, "to": 805,
+     "trait": "Born in the western isles, brought here as a king's man's wife forty years ago; brews the vill's ale, lays out the dead and tends the grave field in the sand.",
+     "want": "Word from the island of Columba, where her brother was a monk; to be buried facing west.",
+     "fear": "Dying among people who will get her name wrong on the day of judgement.",
+     "voice": "English with the Gaelic tune still in it; blunt, fond, counts the dead as neighbours and speaks of them in the present.",
+     "looks": "Nearly sixty, small and straight, white hair under a linen kerchief, a checked shawl pinned with an old ring-brooch from the west; hands stained brown with malt.",
+     "knows": ["who lies in the grave field and where each came from: the west, Ireland, the north, one from the Middle Sea", "who in the vill is hungry and who only says so", "the western sea road by the Forth and the portage, as her husband sailed it", "all the talk of the well and the ale bench", "after 795: what the heathen did at Columba's island, before the rock hears it"],
+     "ties": [
+      { "to": "hi.bresal", "tie": "serves", "note": "her brother was a monk under Abbot Bresal on the island of Columba; she sends a cheese when any boat goes west" },
+      { "to": "cast.bresal", "tie": "friend", "note": "the abbot of her brother's house; she has his blessing by letter, read to her by the priest" },
+      { "to": "bebbanburg.wilgar", "tie": "friend", "note": "he reads for her and buries for her; they dispute the old Easter for pleasure" },
+      { "to": "bebbanburg.eanwine", "tie": "friend", "note": "he sends the broken bread; she tells him who needs it" },
+      { "to": "bebbanburg.cuthgar", "tie": "kin", "note": "her dead husband's sister's son; she is the only one who tells him to stop" },
+      { "to": "lindisfarena.aethelgyth", "tie": "friend", "note": "another widow of a king's man, over the flats; they send each other malt and the names of the hungry" }
+     ],
+     "lines": {
+      "greet": "Sit, you look salted. Ale is a farthing's worth of anything you have. I do not take the little dark pennies.",
+      "greet_again": "There you are. I kept your stool. A man tried to sit on it and I told him it was owed.",
+      "rumour": [
+       "Half that field came here over water, as I did. Tall people with bad teeth. We keep each other company.",
+       "My sister's boy stands on that wall all night looking north. I tell him the sea is not sorry and he need not be.",
+       "The women at the well saw the smoke before the men at the gate did. Nobody asks at the well."
+      ],
+      "west": "If you ever go round to Columba's island, say Muirenn of the rock still keeps the true Easter in her heart and the Roman one in church.",
+      "famine": "There are nine houses with nothing. I can name them. The steward can count them. Neither of us can feed them.",
+      "saying": "At need a man finds out his friends. In a hungry year he finds out his kin as well, all of them.",
+      "farewell": "Go safe. If you drown, drown near here, and I will see you put in properly."
+     },
+     "source": "invented; the Bowl Hole dead came from western Scotland, Ireland, Scandinavia and the Mediterranean, tall, robust, with terrible teeth: Bamburgh Research Project, Bowl Hole. Bresal, abbot of Iona 772 to 801, is the spine's cast.bresal. Farthings did not exist: she means a quarter of a cut penny's worth (?). The saying is Durham Proverbs, 'Aet thearfe mann sceal freonda cunnian' (own rendering), with her own tail"
+    },
+    {
+     "id": "bebbanburg.waltheof", "name": "Waltheof", "historical": true, "role": "count", "people": "english", "faith": "christian",
+     "born": 0, "died": 0, "from": 975, "to": 1006,
+     "trait": "Ealdorman of the old house, lord of everything between Tees and Tweed; outlived his strength and the sack of his own rock.",
+     "want": "To die behind his own wall with the house still holding it; a son who listens.",
+     "fear": "Ships from the south-east; the king of Scots; being carried out of the gate to a minster to end his days.",
+     "voice": "Slow, with long silences he does not notice; remembers prices and feuds of fifty years ago better than yesterday.",
+     "looks": "Very old, big-framed and wasted, white beard to the chest, a fur-lined cloak in all weathers, a gold arm-ring grown loose; sits in the carved stone seat with a stick across his knees.",
+     "knows": ["the feuds of the north for three lives back, and who is owed blood", "what the fleet took in 993, to the last cup", "which southern kings he has sworn to, and how little it cost him", "that his son will be earl, and what it will cost his son"],
+     "ties": [
+      { "to": "bebbanburg.uhtred", "tie": "kin", "note": "his son, who does what the father no longer can and does not ask first" },
+      { "to": "eoforwic.ealdorman", "tie": "rival", "note": "the earl set over York by the king holds the south of the land; the house holds the north and resents the line (?)" }
+     ],
+     "lines": {
+      "greet": "A merchant. Come where I can see you. In my father's day you would have been a spy. Perhaps you still are.",
+      "greet_again": "I know your face. You sold me the wine that was not sour. Sit. Few do either thing.",
+      "rumour": [
+       "They came in the year after the comet, on the morning tide. They took the cups, the hangings, the bell. They left the well. Nobody can carry a well.",
+       "The king in the south sends me writs. I have them read, and I keep the wax.",
+       "My son counts heads. I counted cattle. We shall see which keeps a house longer."
+      ],
+      "scots": "The Scots are at Durham and I am told I should ride. I rode at Easter to the church door. That is the length of my riding now.",
+      "saying": "A man does as he is when he may do as he will. I am old, so I do nothing, and it suits me.",
+      "farewell": "Go on. Tell them in York that the rock is still here. They forget, between tides."
+     },
+     "source": "Waltheof of Bamburgh: witness to a charter of 994; too old to fight the Scots, he 'shut himself up in Bebbanburc': De obsessione Dunelmi (Stevenson 1855); en.wikipedia.org/wiki/Waltheof_of_Bamburgh. His birth, death and the years 975 to 1006 are our frame (?). 'Much spoil was there taken': Anglo-Saxon Chronicle 993; the comet is our colour (?). The saying is Durham Proverbs, 'Man deth swa he byth thonne he mot swa he wile' (own rendering)"
+    },
+    {
+     "id": "bebbanburg.uhtred", "name": "Uhtred", "historical": true, "role": "count", "people": "english", "faith": "christian",
+     "born": 0, "died": 1016, "from": 995, "to": 1016,
+     "trait": "Waltheof's son: quick, open-handed, hard; breaks the Scots at Durham and is made earl of all Northumbria; marries three times, each time upward.",
+     "want": "Allies bought with marriages and feasts; ships and news from the south before the king has them.",
+     "fear": "Nothing he will name. His father fears for him the hall of a man who has asked him to come unarmed.",
+     "voice": "Brisk, laughing, asks a question and has decided before the answer; keeps his word to the letter and expects it kept.",
+     "looks": "In his thirties, tall, red-brown hair and moustache, a blue cloak with a gold brooch, rings on both arms; a hawk on his fist or a horn in it, never still.",
+     "knows": ["where the king's fleet and the Danes' fleet lie this season, a week before York knows", "which houses of York are his by marriage and which hate him for it", "the price of a man by the north people's law, to the thrymsa", "that Thurbrand the hold wants him dead, and that he has laughed at it"],
+     "ties": [
+      { "to": "bebbanburg.waltheof", "tie": "kin", "note": "his father, whom he honours and overrules" },
+      { "to": "cast.cnut", "tie": "feud", "note": "goes to submit to him in 1016 and is killed in the hall with forty men, by Thurbrand, with the king's leave (?)" },
+      { "to": "eoforwic.styr", "tie": "kin", "note": "his second wife's father, a rich man of York, who gave her on the promise that Uhtred would kill Thurbrand" }
+     ],
+     "lines": {
+      "greet": "A trader at my father's gate. Good. Tell me three things from the south I have not heard and you eat at the high board.",
+      "greet_again": "My news-monger! Sit by me. What is King Æthelred afraid of this month?",
+      "rumour": [
+       "I gave four women a cow each to wash the heads. They did the hair very nicely. It is the only time Scots have cost me cattle.",
+       "My first wife was a bishop's daughter and came with six of the saint's vills. I sent her home. The vills found it harder to leave.",
+       "A thegn here is worth two thousand thrymsas, a hold four. Thurbrand reminds me which of those he is."
+      ],
+      "offer": "Carry a letter to York and say nothing at the Tyne. There is a horse in it, or silver if you have nowhere to keep a horse.",
+      "saying": "A friend avails far or near, and nearer is more use. So I marry them.",
+      "farewell": "Come back at the feast. Bring wine, and bring what they are saying in London."
+     },
+     "source": "Uhtred, earl 1006 to 1016: De obsessione Dunelmi (Stevenson 1855) for the three marriages, the heads and the four cows; Anglo-Saxon Chronicle 1016 for his death; en.wikipedia.org/wiki/Uhtred_of_Bamburgh. Active from about 995, when he helped clear the ground at Durham (?). The man-prices: Northleoda laga. Nothing here is taken from any modern novel. The saying is Durham Proverbs, 'Freond deah feor ge neah: byth near nyttra' (own rendering)"
+    },
+    {
+     "id": "bebbanburg.eanmund", "name": "Eanmund", "historical": false, "role": "reeve", "people": "english", "faith": "christian",
+     "born": 832, "died": 0, "from": 858, "to": 886,
+     "trait": "Reeve of the rock for whichever king the Danes allow beyond the Tyne: heavy, careful, a keeper of keys who has outlasted three lords by never choosing one aloud.",
+     "want": "The rock's stores full, the gate shut, and the saint's wide lands under a layman's hand; his own, for choice.",
+     "fear": "Halfdan's horsemen north of the Tyne; and a brother's son come home to ask for nine hides that he has farmed as his own.",
+     "voice": "Slow and level; counts as he talks; calls every lord 'whoever sits in the hall'.",
+     "looks": "Past forty, heavy, grey in a brown beard, a brown cloak with a plain bronze pin, a great ring of keys, a tally stick worn smooth.",
+     "knows": ["which king the Danes have set over the land beyond the Tyne this year, and how long the last one lasted", "what the rock holds in corn, salt meat and spears", "that the bishop means to leave the island with the saint's body, before the bishop has said so", "the price of an English captive on the strand at Dublin, since his brother's son was sold there"],
+     "ties": [
+      { "to": "lindisfarena.eardulf", "tie": "rival", "note": "the bishop holds more land than the rock does, and will not hear of a lay protector for it" },
+      { "to": "duiblinn.vemundr", "tie": "rival", "note": "the dealer at Dublin had his brother's son in the rows after the rock on the Clyde fell; the reeve has not decided whether he is glad to be told" },
+      { "to": "eoforwic.archbishop", "tie": "friend", "note": "sends to the old archbishop at York for news of the army, and gets back prayers and one useful sentence" }
+     ],
+     "lines": {
+      "greet": "The gate is shut to ships I do not know. Whose are you, and who was lord at York when you left it? Think before you answer. It changes.",
+      "greet_again": "The Frisian keel. Come up. I have counted your bales from the wall already, so do not trouble to lie about them.",
+      "rumour": [
+       "Halfdan lay on the Tyne all winter and wasted the minsters. He has not come this far. I do not ask why. I count spears.",
+       "The bishop is leaving his island with the saint in a box. Seven men to carry it. I offered him the rock's protection. He said the saint had managed without.",
+       "Both kings were killed at York inside the wall, on one day. Since then we have had kings by the Danes' leave. I keep the keys and learn their names slowly."
+      ],
+      "saying": "A reeve serves the hall, not the man in it. Halls last longer.",
+      "farewell": "Go out on the ebb. If you meet long ships, you have not been here."
+     },
+     "source": "invented: made real in the weave of 7 Oct 2026 to answer lindisfarena.json's tie from Bishop Eardulf ('the lords of the rock would rather the saint's lands had a lay protector') and the uncle of duiblinn.json's story duiblinn.voice_in_the_rows. After 21 March 867 one Ecgberht reigned under the Danes over the Northumbrians beyond the Tyne; Halfdan wintered on the Tyne in 875 (Symeon of Durham, Historia regum 867, 875). Name: Ean- + -mund."
+    },
+    {
+     "id": "bebbanburg.wulfmaer", "name": "Wulfmaer", "historical": false, "role": "reeve", "people": "english", "faith": "christian",
+     "born": 995, "died": 0, "from": 1041, "to": 1066,
+     "trait": "Reeve of the rock for earls who never come: a practical sheep-master with an English name and a Danish lord, who collects the rent and keeps the wall mended out of habit.",
+     "want": "The wool clip sold well, the Scots on their own side of the Tweed, and the old house back in its hall before he dies.",
+     "fear": "The king of Scots' riders over the flats; and an earl's tax man from York with a list.",
+     "voice": "Brisk and grumbling; reckons everything in sheep; says 'the old house' and lowers his voice.",
+     "looks": "Fifty, weathered, a clipped grey beard, a sheepskin jerkin over a russet tunic, a horn at his belt and a shepherd's crook that he uses as a staff of office.",
+     "knows": ["how many sheep the flats and the island carry, and whose they are", "which earl holds the north this year: Siward, then Tostig, then Morcar, and Oswulf of the old house beyond the Tyne", "that the shrine in the church on the rock is empty, and roughly when it came to be", "what the king of Scots took in the year he broke the saint's peace"],
+     "ties": [
+      { "to": "lindisfarena.leofstan", "tie": "rival", "note": "the priest calls the island's grass the saint's; the reeve calls it the earl's, and grazes it; they dine together at Martinmas and argue" },
+      { "to": "streonaeshalch.grim", "tie": "friend", "note": "the earl's reeve under the cliff at Whitby: they send each other word of where the York tax man is this week" }
+     ],
+     "lines": {
+      "greet": "A boat in the inlet. We get few. The earl's due is taken on what you sell, and there is nobody here to buy it but me. So we may as well be friends.",
+      "greet_again": "The Frisian. Good. I have fleeces put by, and news from York that will cost you a cup.",
+      "rumour": [
+       "Earl Siward never set foot on this rock. Earl Tostig came once, counted the sheep, and went. I liked Siward better.",
+       "The king of Scots came over the flats while the earl was at Rome. He prayed on the island first. Then he took the cattle.",
+       "The hand is gone from the church. Nobody was struck down, so they say the saint wished it. I say a saint may wish, and a monk may carry."
+      ],
+      "saying": "An earl is far and a sheep is near. Tend the sheep.",
+      "farewell": "Mind the bar going out. If they ask at York how the rock is, say it is still here. They forget."
+     },
+     "source": "invented: made real in the weave of 7 Oct 2026 to answer lindisfarena.json's tie from the priest Leofstan ('the earl's reeve grazes sheep on what the priest calls the saint's grass'). Siward held all Northumbria after 1041; Malcolm of the Scots ravaged the earldom and broke Cuthbert's peace in 1061; in 1065 Morcar gave the land beyond the Tyne to Oswulf of the old house (Symeon of Durham, Historia regum and the tract on the earls). The arm carried to Peterborough is this file's story bebbanburg.arm_goes_south. Name: Wulf- + -maer."
+    }
+   ],
+   "stories": [
+    {
+     "id": "bebbanburg.sails_from_the_rock", "title": "Three sails at terce", "thread": "holy_island",
+     "summary": "The thegn of the gate saw the raiders' sails from the wall on the eighth of June and could not or did not come. He wants one thing done that can be counted, and puts his own silver toward the boys who were carried off, if the merchant will carry it.",
+     "picture": "A lean man with a spear on a wall of black rock at dawn, his back to us, looking across wet sands to a low island with a thread of smoke over it.",
+     "beats": [
+      { "at": "bebbanburg.gate", "when": "year < 797", "text": "Cuthgar questions the boat hard, then asks what ships she has met coming north. He names the hour and the wind of that morning without being asked.", "card": "harbour.gate_and_ring.bebbanburg" },
+      { "at": "bebbanburg.well", "when": "year < 797", "text": "The women at the well say they saw the smoke first. They say the thegn had forty men and no boats, and the tide was over the flats.", "card": "harbour.three_sails_again.bebbanburg" },
+      { "at": "bebbanburg.hall", "when": "year < 796", "text": "At a feast a priest's letter is spoken of: the court's sins brought the heathen. The king's men are angry at the letter and at each other. Ecgwulf of York is on the bench and watches who looks away.", "card": "harbour.low_end_of_the_hall.bebbanburg" },
+      { "at": "lindisfarena.church", "when": "year < 804", "text": "Bishop Higbald counts what is gone and names the boys. He does not blame the rock.", "card": "harbour.bishop_counts.lindisfarena" },
+      { "at": "bebbanburg.gate", "when": "year < 797 and flag.lf_knows_boys and not flag.bebbanburg_ring_given", "text": "Cuthgar hears the names. He takes off his silver arm-ring, a mark's weight, and asks the merchant to carry it north toward a ransom. He asks for no witness.", "card": "harbour.gate_and_ring.bebbanburg" },
+      { "at": "bebbanburg.st_peter", "when": "year < 797 and flag.bebbanburg_ring_given", "text": "Wilgar asks one thing: a boy's name, if one is seen. He says the thegn has had the same penance since June.", "card": "harbour.oswalds_mass.bebbanburg" },
+      { "at": "skiringssal", "when": "flag.lf_trail_north", "text": "In the north the ring is worth what it weighs and no more. It can go into a ransom, or into the hold.", "card": "" },
+      { "at": "bebbanburg.gate", "when": "year < 813 and flag.lf_boy_found", "text": "Word that a boy lives is brought up the steps. Cuthgar says nothing for a while, then asks which one, and whether he still has his letters.", "card": "harbour.gate_and_ring.bebbanburg" }
+     ],
+     "links": ["cast.ecgwulf", "cast.higbald", "cast.tidwine", "cast.crew.beornwine", "cast.sigewine", "lindisfarena.higbald", "gyrwe.beornwine"],
+     "endings": [
+      { "id": "carried", "how": "The merchant carried the ring north, put it toward a ransom, and brought back word of a boy.", "text": "Cuthgar keeps the watch as before, and sleeps. He gives the merchant the old shield from his own bench and his word at every gate north of the Tyne.", "reward": "Cuthgar's friendship for life and for the heirs at half strength; the gate opens without a gift; two wardens walk the cargo up and down; a pattern-welded knife from Garmund's forge, worth about 120 d; the shield riddle" },
+      { "id": "kept", "how": "The merchant took the ring and sold it, or let it lie in his chest until the thegn asked.", "text": "Cuthgar asks once, at the gate, before his men. After that the boat is searched to the keel each time she lands, and the steward pays a tenth less.", "reward": "About 160 d of silver by weight; the gate cold from then on; Ecgwulf at Eoforwic hears of it, which does a Frisian house no good" },
+      { "id": "beacon", "how": "The merchant refused the ring and told him to spend it on the rock: a beacon and two boats.", "text": "Cuthgar thinks about it for a season and does it. The work 'A beacon on the west point' opens at half its cost, and he calls it the merchant's fire.", "reward": "The beacon work at half cost; Cuthgar friendly; in fog the rock can be found from the sea" },
+      { "id": "cloister", "how": "Nothing was done before the king's death in April 796.", "text": "When the king is killed Cuthgar gives up the gate and goes over the flats to the brethren. He can be found there afterwards, tonsured, building a wall.", "reward": "Nothing in silver; a friend among the brethren at Lindisfarena; the gate is kept by a stranger" }
+     ],
+     "reward": "A sworn friend on the rock: a gate that opens, men to carry, a blade from the king's smith, and a good name with the bishop."
+    },
+    {
+     "id": "bebbanburg.bread_for_the_rock", "title": "The dish under the dinner", "thread": "hungry_years",
+     "summary": "In the hungry year the steward will pay well for any grain, for the hall. Nine houses in the vill have nothing. The saint whose hand lies on the rock once sent his own dinner out to the gate and had the silver dish broken up after it; everybody here knows the story, and watches what the merchant does.",
+     "picture": "A boat's grain sacks stacked on wet sand under the black rock, a stout steward with tally sticks on one side and a small white-haired woman with thin children behind her on the other.",
+     "beats": [
+      { "at": "bebbanburg.gate_hall", "when": "year < 795", "text": "Eanwine offers half as much again as the price at home for wheat, rye or barley, paid in fleeces and hides, and says the hall must eat.", "card": "harbour.dish_under_the_dinner.bebbanburg" },
+      { "at": "bebbanburg.vill", "when": "year < 795", "text": "Muirenn names nine houses with nothing. She does not ask. She says the steward can count them too.", "card": "harbour.dish_under_the_dinner.bebbanburg" },
+      { "at": "bebbanburg.st_peter", "when": "year < 795", "text": "Wilgar tells the story of the Easter dinner and the dish as Bede has it, and says no more than that.", "card": "harbour.oswalds_mass.bebbanburg" },
+      { "at": "bebbanburg.aidan_church", "when": "year < 795 and flag.hy_fed_poor", "text": "The grain is measured out at Aidan's church by the priest. The merchant's name is said at Mass on the last day of August from then on.", "card": "harbour.dish_under_the_dinner.bebbanburg" },
+      { "at": "eoforwic.wic", "when": "year < 795", "text": "At York a cargo of Frankish grain is worth a king's thanks, if a Frankish cargo may land. The rock's steward buys through York when no ship comes north.", "card": "harbour.bread_and_bark.eoforwic" },
+      { "at": "gyrwe.cellar", "when": "year < 795", "text": "Down the coast the cellarer of Bede's house asks only for barley at a price he can say in chapter. The steward of the rock and he sent each other what each had.", "card": "harbour.cellarers_scale.gyrwe" }
+     ],
+     "links": ["cast.higbald", "eoforwic.ecgwulf", "cast.alcuin", "bebbanburg.eanwine", "bebbanburg.muirenn", "gyrwe.cellarer"],
+     "endings": [
+      { "id": "vill", "how": "The merchant sold or gave the grain in the vill at the fair price.", "text": "The vill eats until harvest. The steward is short with him for a season and then says it was well done, since the hall would have had to feed them anyway.", "reward": "Sets hy_fed_poor; the deed gave_alms; free lodging and ale in the vill for good; Muirenn's word at the well; his name said at Aidan's Mass" },
+      { "id": "hall", "how": "The merchant sold the whole cargo to the steward.", "text": "The hall eats and pays in good fleeces. The vill watches the sacks go up the steps. Nobody says anything, and the ale costs him double.", "reward": "Half as much again as the home price, in wool and hides; the steward's standing board from then on; cool looks in the vill" },
+      { "id": "split", "how": "The merchant sold half to the hall and gave a tithe of the rest at the church door.", "text": "Eanwine calls it a steward's answer and means it kindly. The priest breaks a loaf from the first sack and sends half of it to the grave field.", "reward": "A fair price; both the steward and the vill friendly; Wilgar's letter of good word to the bishop" }
+     ],
+     "reward": "A standing with the household or with the vill, and with a careful hand both: the steward's board at kin prices, or a bed and a name said at Mass."
+    },
+    {
+     "id": "bebbanburg.cove_of_the_leaves", "title": "The gut between the rocks", "thread": "riddle_road",
+     "summary": "Three leaves of one quire of English riddles were scattered when Lindisfarne's writing room was plundered. Together their answers describe a thing only one fisherman here could recognise: a cove among the outer Farnes with deep water at any tide. Bacga will show it to the man who brings him the reason in writing.",
+     "picture": "A small boat slipping through a narrow gap between two black, bird-whitened rocks into still green water, a fisherman in a sealskin cap pointing with a gutting knife.",
+     "beats": [
+      { "at": "bebbanburg.strand", "when": "year < 876", "text": "Bacga boasts of a gut in the outer rocks with deep water at any tide, and will not say where. He says to bring him a reason in writing.", "card": "harbour.gut_between_the_rocks.bebbanburg" },
+      { "at": "lindisfarena.writing_house", "when": "year < 876", "text": "The first leaf: a riddle of the storm on land.", "card": "harbour.storm_leaf.lindisfarena" },
+      { "at": "gyrwe.writing_house", "when": "year < 870", "text": "The second leaf: the storm under the sea. The answer to the first opens it.", "card": "harbour.scribes_sum.gyrwe" },
+      { "at": "streonaeshalch.beach", "when": "year >= 799 and year < 867", "text": "The third leaf comes ashore in a sea chest: the storm in the sky.", "card": "harbour.sea_chest.streonaeshalch" },
+      { "at": "bebbanburg.strand", "when": "year < 876 and chest.riddles_solved >= 3", "text": "The three answers are read to Bacga, or to his son after him. He laughs, says monks should mind their own rocks, and takes the boat out on the half ebb to show the way in.", "card": "harbour.gut_between_the_rocks.bebbanburg" },
+      { "at": "bebbanburg.hall", "when": "year >= 871", "text": "In later years the lord's gleeman has the second leaf by heart and will say it over for ten pennies.", "card": "" }
+     ],
+     "links": ["cast.crew.beornwine", "cast.crew.ravn", "cast.higbald", "gyrwe.beornwine"],
+     "endings": [
+      { "id": "shown", "how": "The merchant brought all three answers and Bacga showed him the gut.", "text": "The cove is the house's from then on: Bacga tells no one else, and teaches the marks to the merchant's steersman.", "reward": "The cove among the Farnes (riddles_793.json rw_cove_farne): a landing safe in a north-easterly gale, unseen from the gate and from the sea road, where goods may be stored and a wind waited for" },
+      { "id": "bought", "how": "The merchant did not solve the leaves and offered Bacga silver for the secret.", "text": "Bacga takes a pound of pennies, shows a gut that is dry at low water, and says he never claimed it was the good one.", "reward": "A poor landing among the inner rocks, usable at high water only; 240 d the lighter; a fisherman who grins whenever he sees the boat" },
+      { "id": "told", "how": "The merchant told the thegn of the gate that there is a landing the wall cannot see.", "text": "Cuthgar puts a watch on the outer rocks every summer. Bacga loses his secret and does not pilot the boat again.", "reward": "Cuthgar's thanks and a warden's escort; raiders' ships off the Farnes are reported at the gate; no pilot here until Bacga's son is grown" }
+     ],
+     "reward": "A harbour of the house's own on a coast with none: shelter, a hidden store, and no eyes on the cargo."
+    },
+    {
+     "id": "bebbanburg.arm_goes_south", "title": "The arm goes south", "thread": "",
+     "summary": "Between 1006 and 1055 a man named Wynegot carried Saint Oswald's arm from the rock to Peterborough, where the monks built a tower to watch it day and night. Somebody carried him. A stranger on the strand wants passage to the Humber for himself and a long bundle, and pays too well.",
+     "picture": "A hooded man on a grey strand at dusk holding a long wrapped bundle against his chest like a child, a small ship afloat behind him and the black rock above with one lit window.",
+     "beats": [
+      { "at": "bebbanburg.st_peter", "when": "year >= 1006 and year < 1055 and not flag.bebbanburg_arm_gone", "text": "The priest of the day shows the hand on Oswald's feast. He complains that the lords are always away at York, that the Scots are a day's ride off, and that nobody guards the church at night.", "card": "" },
+      { "at": "bebbanburg.vill", "when": "year >= 1006 and year < 1055 and not flag.bebbanburg_arm_gone", "text": "A southern clerk named Wynegot has lodged a week at the ale-house. He asks about the tides, and whether the merchant's hull would go as far as the Humber, and names four times the fare.", "card": "" },
+      { "at": "bebbanburg.strand", "when": "year >= 1006 and year < 1055 and not flag.bebbanburg_arm_gone", "text": "He comes down at night with a bundle as long as a forearm, and will not put it in the hold.", "card": "" },
+      { "at": "eoforwic.minster", "when": "flag.bebbanburg_arm_gone", "text": "At York it is said the hand at Bebbanburg has gone, and that the saint must have wished it, since nobody was struck down.", "card": "" },
+      { "at": "bebbanburg.hall", "when": "flag.bebbanburg_arm_gone", "text": "The house asks every skipper who lay in the inlet that month where he went afterwards.", "card": "" }
+     ],
+     "links": ["cast.cnut", "eoforwic.ealdorman"],
+     "endings": [
+      { "id": "carried", "how": "The merchant took the fare and asked nothing.", "text": "The arm goes to Peterborough, where a tower is built to watch it. The shrine on the rock stands empty to the end. If the house learns whose hull it was, the inlet is closed to her.", "reward": "Sets bebbanburg_arm_gone; 600 d in good pennies of the king; a welcome and a store at the abbey's landing in the fens; Bebbanburg hostile if it is found out, which is likely within the year" },
+      { "id": "warned", "how": "The merchant went up the steps and told the priest before the tide.", "text": "The clerk is gone by morning without his bundle. The lord gives the merchant a ring and a seat at the feast, and a guard sleeps in the church from then on. The arm leaves all the same some years later, by land.", "reward": "A gold ring worth about 300 d; the lord's friendship and the right to deal on the rock free of any gift; his name in the shrine's prayers" },
+      { "id": "refused", "how": "The merchant refused the fare and said nothing to anyone.", "text": "Another hull is found. The priest weeps at the empty case on the feast and nobody knows who to blame.", "reward": "Nothing; a clean name in both places, and something to tell in an ale-house that nobody will believe" }
+     ],
+     "reward": "Silver from the fens or gold from the rock, and in either case one house in England that will not forget the merchant's name."
+    },
+    {
+     "id": "bebbanburg.year_of_the_spoil", "title": "Much spoil was there taken", "thread": "price_of_england",
+     "summary": "In 993 the fleet that has been paid in the south comes north, takes the rock and carries off all that is in it, then turns for the Humber. A merchant who follows the fleets hears where it is bound a season before old Waltheof does.",
+     "picture": "Long ships drawn up in a tide inlet under a black rock with smoke rolling off its top, men passing cups, hangings and a bell hand to hand down a stair cut in the stone.",
+     "beats": [
+      { "at": "gipeswic", "when": "year >= 991 and year < 993", "text": "After the tribute is paid the talk among the fleet's buyers is of the north: an old lord, a rock, a shrine with a silver case.", "card": "" },
+      { "at": "bebbanburg.hall", "when": "year >= 991 and year < 993 and not flag.bebbanburg_warned_993", "text": "Waltheof hears southern news with half an ear. He will hear it better from a man he knows, who names the season and the number of ships.", "card": "" },
+      { "at": "bebbanburg.farne", "when": "year >= 991 and year < 993 and flag.bebbanburg_warned_993", "text": "The cups, the hangings and the saint's case are rowed out to the island by night and hidden in the old cell.", "card": "" },
+      { "at": "bebbanburg.strand", "when": "year = 993", "text": "The rock is taken. Afterwards the ships lie in the inlet a week, and what they took is for sale by weight to any hull that dares come in.", "card": "" },
+      { "at": "bebbanburg.hall", "when": "year > 993 and year < 1007", "text": "Waltheof counts what was lost, to the last cup, for anyone who will sit.", "card": "" },
+      { "at": "eoforwic.kings_garth", "when": "year >= 991 and year < 993", "text": "Earl Thored at York hears the same talk of a fleet coming north and pays for it. Whether he sends it on over the line to the old lord of the rock is another matter." }
+     ],
+     "links": ["bebbanburg.waltheof", "bebbanburg.uhtred", "eoforwic.ealdorman"],
+     "endings": [
+      { "id": "warned", "how": "The merchant brought the warning in time and was believed.", "text": "The rock burns, but the treasure and the hand are on Farne and the household is in the hills. Waltheof gives the merchant a place at his board for life and Uhtred remembers who brought the news.", "reward": "Sets bebbanburg_warned_993; 1,200 d in plate and pennies over three years; Uhtred's friendship from 995, with his news from the north before York has it; leave to build a store by the inlet at no cost" },
+      { "id": "followed", "how": "The merchant came in behind the fleet and bought the spoil by weight.", "text": "Church silver at the price of scrap, and hangings for a song. It sells well in the south. On the rock they know the boat again when she next comes.", "reward": "Sets en_followed_silver; church_plate and silk at a third of their worth, good for 800 to 1,500 d of profit; the house of Bebbanburg hostile for two generations" },
+      { "id": "late", "how": "The merchant heard and did nothing, or came after.", "text": "A burnt gate, a hall without a roof, an old man counting cups that are not there. Timber, iron and grain are wanted at any price for three years.", "reward": "Building goods sell at half as much again here until 996; nothing else" }
+     ],
+     "reward": "The old house in the merchant's debt for a generation, or a hold full of its silver."
+    }
+   ],
+   "works": [
+    {
+     "id": "bebbanburg.work.beacon", "name": "A beacon on the west point",
+     "what": "An iron fire-basket on a post beside the well, with a stack of dry furze under a hide and a man told off to light it: for fog, and for sails that should not be there.",
+     "picture": "An iron basket of fire on a stout post at the edge of a black crag at dusk, a warden feeding it furze, the sea and low islands below.",
+     "cost_d": 300, "days": 30, "from": 793, "to": 1066,
+     "needs": "Cuthgar friendly (or the lord of the day); bar iron for the basket brought to Garmund",
+     "gives": "The rock can be found from the sea in fog and at night; raiders sighted off the Farnes are known at Lindisfarena the same hour; the gate remembers who paid for the fire",
+     "source": "Invented. Fire signals on this coast are not recorded for these years; beacons are attested in England later (?). The price is the game's"
+    },
+    {
+     "id": "bebbanburg.work.pall", "name": "A new pall for the hand",
+     "what": "A length of silk, with a border, to wrap Saint Oswald's hand in its silver case in place of the old cloth, which is two lifetimes worn.",
+     "picture": "A thin priest unfolding a square of purple-red silk over a small silver box on an altar, bars of light from a narrow window.",
+     "cost_d": 240, "days": 3, "from": 793, "to": 1005,
+     "needs": "Silk brought from the south; Wilgar or the priest of the day willing to open the case, which he does only on a feast",
+     "gives": "The merchant sees the hand uncovered; his name is said on the fifth of August; the bishop at Lindisfarena hears of it, and a vow made here afterwards is believed in any Northumbrian church",
+     "source": "'Wrapped in a pall, lies the uncorrupted right hand of St. Oswald': Symeon, Historia regum 774 (Stevenson 1855). Gifts of silk to wrap relics were common; this one is the game's. The arm left for Peterborough between 1006 and 1055"
+    },
+    {
+     "id": "bebbanburg.work.store", "name": "A store hut by the inlet",
+     "what": "A turf-walled hut with a plank door above the tide line at the foot of the rock, under the wardens' eyes, with a boat-roller of two logs before it.",
+     "picture": "A low turf hut with a plank door tucked under a black cliff, two log rollers on the sand in front and a boat drawn up beside it.",
+     "cost_d": 180, "days": 20, "from": 793, "to": 1066,
+     "needs": "The steward's leave, which costs a cask of wine; timber for the door and rollers brought by water, for there is none here",
+     "gives": "Goods may be stored at Bebbanburg; the boat can be hauled out above a spring tide without hired porters; the steward buys from the hut when the boat is away",
+     "source": "Invented. The inlet as a harbour for shallow craft: Bamburgh Research Project, St Oswald's Gate. The price is the game's"
+    },
+    {
+     "id": "bebbanburg.work.dole", "name": "A dole at Aidan's church",
+     "what": "A loaf and a measure of ale to each poor person of the vill on the last day of August, Aidan's feast, paid for a year ahead and given at the door by the post.",
+     "picture": "A line of poor folk at the door of a small wooden church, a priest handing out loaves beside one dark, polished post.",
+     "cost_d": 60, "days": 1, "from": 793, "to": 1066,
+     "needs": "Nothing but the silver, or its worth in grain",
+     "gives": "The deed gave_alms; the vill friendly for a year; a chip of the post, in water, for a sick crewman",
+     "source": "Aidan's church and its post: Bede III.17. Feast-day doles are the ordinary charity of the time; this one is the game's"
+    }
+   ],
+   "ships": [
+    {
+     "class": "west_small_boat", "how": "bought second-hand from the fishermen of the inlet, or built over a winter if you bring the planks",
+     "from": 793, "to": 0,
+     "note": "The inlet's own boats: for herring, for the islands, for crossing to Lindisfarne when the flats are covered. There is no ship timber on this windy shore.",
+     "picture": "A tarred open boat on wet sand with a herring net over her gunwale, the black rock behind.",
+     "source": "No boat has been found at Bamburgh; the inlet for shallow craft: Bamburgh Research Project. The class from ship_classes_793.json"
+    },
+    {
+     "class": "coaster_minster_ship", "how": "bought second-hand, now and then, when the household or the brethren of Lindisfarne part with an old one",
+     "from": 793, "to": 0,
+     "note": "The kind of beach-landing ship a king's household or a minster keeps for its own errands: in 774 a king left this rock by sea for the Picts.",
+     "picture": "A ten-metre clinker ship with one mast, hauled up on rollers beside a turf hut, two wardens scraping her bottom.",
+     "source": "King Alhred went from Bebbanburg to the Picts in 774, and Osbald from Lindisfarne by ship in 796: Symeon, Historia regum. That such a ship was ever sold here is the game's (?)"
+    },
+    {
+     "class": "currach", "how": "bought from a western crew that has come round by the Forth, rarely",
+     "from": 793, "to": 900,
+     "note": "People from the western isles and Ireland lived and died on this rock; a hide boat now and then lies in the inlet, and its crew will sell it to go home by land.",
+     "picture": "A hide boat on a wooden frame upside down on the strand like a great black beetle, a man greasing her seams.",
+     "source": "The Bowl Hole dead from western Scotland and Ireland: Bamburgh Research Project. No currach is recorded on this coast in these years (?)"
+    }
+   ],
+   "sayings": [
+    { "text": "Exceedingly well fortified, but by no means large.", "source": "Symeon of Durham, Historia regum 774 (Stevenson 1855), of Bebbanburg; said on the rock of the thegn of the gate" },
+    { "text": "First a hedge, and afterwards a wall. Everything here was something smaller first.", "source": "Anglo-Saxon Chronicle 547 (Ingram 1823), turned" },
+    { "text": "It is a good year when the dog gives to the raven.", "source": "Durham Proverbs, 'God ger byth thonne se hund tham hrefne gyfeth' (own rendering); said by the steward when the hall pays a debt" },
+    { "text": "'Now it is up to the pig,' said the churl on the boar's back.", "source": "Durham Proverbs, 'Nu hit ys on swines dome, cwaeth se ceorl saet on eoferes hricge' (own rendering); said at the gate when a king changes" },
+    { "text": "Blind in both eyes is the man who does not look with his heart.", "source": "Durham Proverbs, 'Blind byth bam eagum, se the breostum ne starat' (own rendering); the priest's, of the watch" },
+    { "text": "A king's price is thirty thousand thrymsas, and they have been paid in full more often than a merchant's hundred.", "source": "Northleoda laga for the figure; the joke is invented in the period's manner" },
+    { "text": "Nobody can carry off a well.", "source": "invented in the period's manner; the well: Symeon, Historia regum 774" },
+    { "text": "Our penny is small and dark, like the bishop's mule, and goes about as far.", "source": "invented in the period's manner; the styca of base silver, then copper: en.wikipedia.org/wiki/Styca" }
+   ],
+   "easter_eggs": [
+    { "text": "The steps in the cleft gate are worn smooth and slightly hollow, like a quern. Count them going up and coming down and the number differs; the wardens say it is the saint and the smith says it is the ale.", "where": "bebbanburg.gate", "source": "'The bedrock was worn smooth': Bamburgh Research Project, St Oswald's Gate. The count is ours" },
+    { "text": "An old sword hangs over the high seat, its blade a braid of six twisted rods. Garmund can weld four. Nobody now living knows how six were done.", "where": "bebbanburg.hall", "source": "The Bamburgh Sword, 7th century, of six strands where no other of its age has more than four: en.wikipedia.org/wiki/Bamburgh_Sword" },
+    { "text": "A small gold plate on the goldsmith's bench shows a beast biting its own back, no bigger than a thumbnail. He will not sell it: it is the pattern he learned on.", "where": "bebbanburg.workshops", "source": "The gold plaque called the Bamburgh Beast: en.wikipedia.org/wiki/Bamburgh_Castle" },
+    { "text": "The eiders on Farne let a man walk among them. The fishermen call them Cuthbert's hens and say he forbade anyone to harm them.", "where": "bebbanburg.farne", "source": "en.wikipedia.org/wiki/Farne_Islands; the rule of 676 is a tradition and not in Bede (?)" },
+    { "text": "In the grave field one grave is cut north to south among all the others. Muirenn says he came from the Middle Sea, was always cold, and asked to face the sun at noon.", "where": "bebbanburg.bowl_hole", "source": "Isotopes show people from as far as the Mediterranean among the dead: Bamburgh Research Project, Bowl Hole. The grave and its reason are ours" },
+    { "text": "The British name of the rock was Dinguoaroy, before a king gave it to his queen Bebba and it took her name. An old shepherd in the vill still calls it 'the Din' and does not know why.", "where": "bebbanburg.vill", "source": "Nennius, History of the Britons 63 (Giles 1848); Bede III.6. The shepherd is ours" },
+    { "text": "After 855, a purse of little copper coins lies forgotten on a shelf in a shed by the forge. Later there is a burnt patch where the shed was.", "where": "bebbanburg.workshops", "source": "A burnt hoard of stycas in a small building of the later 9th century: Bamburgh Research Project, Trench 3 update, 2010" }
+   ],
+   "unlocks": [
+    { "id": "bebbanburg.gate_word", "what": "the word of the gate: Cuthgar knows the boat and lets her men up without a gift", "how": "End 'Three sails at terce' with the ring carried or the beacon built; or bring true news of raiders' ships three times before 812", "gives": "no gift needed at the gate; ask_news and witness here cost nothing; wardens carry the cargo (no porters to hire); the shield riddle (give_riddle riddle_exeter_05_shield)" },
+    { "id": "bebbanburg.stewards_board", "what": "a standing board with the steward: the household buys from the house first and pays in picked fleeces", "how": "Sell grain or wine to Eanwine in three different years without short measure, or end 'The dish under the dinner' by the hall or the split", "gives": "wool, hides and herring at the food-rent price; wine, grain and quernstones sell here at a tenth more; he holds goods for the house until Martinmas" },
+    { "id": "bebbanburg.farne_cove", "what": "the cove among the Farnes that no other ship uses", "how": "Solve the three storm leaves (Lindisfarena, Gyrwe, Streonaeshalch) and read the answers to Bacga, in 'The gut between the rocks'", "gives": "a second landing at Bebbanburg, safe in a north-easterly gale and unseen from the gate; store and wait_wind there; raiders do not find her at anchor (riddles_793.json rw_cove_farne)" },
+    { "id": "bebbanburg.smiths_blade", "what": "a blade from the king's smith", "how": "Bring Garmund good bar iron twice and wait two winters; he will not be hurried or paid ahead", "gives": "a pattern-welded sword, a gift fit for a lord: worth about 600 d, or an audience in any English or Danish hall; the sword riddle (give_riddle riddle_exeter_20_sword)" },
+    { "id": "bebbanburg.hand_shown", "what": "the hand of Saint Oswald, uncovered", "how": "Pay for the new pall, or be on the rock for Mass on the fifth of August with alms given", "gives": "a vow made here holds the crew's heart through one storm; the bishop at Lindisfarena hears well of the house" },
+    { "id": "bebbanburg.high_board", "what": "a seat at the high board of the old house, from 993", "how": "End 'Much spoil was there taken' with the warning believed, or carry Uhtred's letters to York twice", "gives": "feast and audience here cost no gift; Uhtred's news of fleets and armies a week before Eoforwic has it; the protection of the house between Tees and Tweed until 1016" }
+   ],
+   "sources": [
+    "Design/content/dossiers/bebbanburg.md (the research this file is built on, with its own source list)",
+    "Symeon of Durham, Historia regum, Historia Dunelmensis ecclesiae and De obsessione Dunelmi, in J. Stevenson, The Historical Works of Simeon of Durham (1855): https://archive.org/details/historicalworks00simegoog",
+    "Anglo-Saxon Chronicle, tr. J. Ingram (1823), Avalon Project: https://avalon.law.yale.edu/medieval/ang06.asp ; https://avalon.law.yale.edu/medieval/ang10.asp ; https://avalon.law.yale.edu/medieval/ang11.asp",
+    "Bede, Ecclesiastical History, book III, chapters 6, 12, 16, 17 (paraphrased, not quoted): https://sourcebooks.fordham.edu/basis/bede-book3.asp",
+    "Nennius, History of the Britons, tr. J. A. Giles (1848): https://sourcebooks.fordham.edu/basis/nennius-full.asp",
+    "Bamburgh Research Project: St Oswald's Gate https://bamburghresearchproject.co.uk/index.php/bamburgh-castle-st-oswalds-gate/ ; West Ward https://bamburghresearchproject.co.uk/index.php/bamburgh-castle/ ; Inner Ward https://bamburghresearchproject.co.uk/index.php/inner-ward-bamburgh-castle/ ; Bowl Hole https://bamburghresearchproject.co.uk/index.php/bowl-hole/ ; Trench 3 update (2010) https://bamburghresearchproject.wordpress.com/2010/06/12/trench-3-update/ ; the stone chair https://bamburghresearchproject.wordpress.com/2010/07/16/anglo-saxon-stone-chair-in-progress/ ; the styca https://bamburghresearchproject.wordpress.com/2016/07/25/history-of-the-northumbrian-styca/",
+    "Victoria County History, Northamptonshire, vol. 2, Peterborough abbey (Wynegot and the arm, from Hugh Candidus): https://www.british-history.ac.uk/vch/northants/vol2/pp83-95",
+    "Wikipedia (English): Bamburgh Castle; Bamburgh; Bamburgh Sword; Farne Islands; Budle Bay; Rulers of Bamburgh; Eadwulf II of Northumbria; Waltheof of Bamburgh; Uhtred of Bamburgh; Eadwulf Cudel; Oswulf II of Bamburgh; Oswald of Northumbria; Aidan of Lindisfarne; Styca; Northleoda laga",
+    "Durham Proverbs (Durham Cathedral MS B.III.32) and Maxims I, own renderings, as listed in Design/content/lore/proverbs_jokes.md",
+    "Exeter Book riddles 5 (shield) and 20 (sword), paraphrased; the riddles themselves are in riddles_793.json",
+    "Design/content/spine.json (threads holy_island, hungry_years, riddle_road, price_of_england; cast.ecgwulf, cast.higbald, cast.tidwine, cast.crew.beornwine, cast.sigewine, cast.bresal); Assets/Kapman/Game/Data/ports_793.json; riddles_793.json; ship_classes_793.json; chronicle_793.json",
+    "No web search was made for this file: it rests on the dossier. Not opened: the Annals of Ulster, Æthelweard, Hugh Candidus, Bede's Life of Cuthbert (the cell's wall is from memory)"
+   ]
+  }
+ ]
+}

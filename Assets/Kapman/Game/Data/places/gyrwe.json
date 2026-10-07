@@ -1,0 +1,585 @@
+{
+ "about": "GYRWE (Jarrow), 793-1066: Bede's house of Saint Paul on the Tyne, one monastery with Saint Peter's at the Wear mouth; the warning of 793, the raid and the wreck of 794, the slow emptying, and the church that Saint Cuthbert's people keep after. One port. Written 6 Oct 2026 from Design/content/dossiers/gyrwe.md and the spine; a draft for the user to overwrite. (?) marks what is not checked; 'invented' marks what the sources do not give. Woven with the region on 7 Oct 2026: a priest of the last years made real, ties run both ways, beats pointed at their cards (Data/encounters/northumbria_irish_sea_793.json).",
+ "region": "northumbria_irish_sea",
+ "ports": [
+  {
+   "port": "gyrwe",
+   "summary": "The monastery of Saint Paul stands on a low rise where the little river Don runs into the Tyne, an hour's row inside the bar, with a wide tidal mudflat below it where a boat can take the ground. It is Bede's house, fifty-eight years after his death: stone churches with coloured glass, a boys' school, and scribes who cannot copy his books as fast as the Continent asks for them. Nothing is sold here by custom and no toll is asked. A merchant comes with calfskin, colours, wax, wine, oil and incense, and in 793 with bread corn; he leaves with barley, wool, hides, salmon, a letter, and now and then a book worth more than his boat.",
+   "seasons": "The year is the church's: the hallowing day of Saint Paul's on the twenty-third of April, the master's day on the twenty-sixth of May, the apostles Peter and Paul at midsummer's end, Abbot Ceolfrith at the back of harvest, Father Benedict in the dead of winter. Salmon run in the Tyne from spring and the eels go down on the first dark flood nights after Michaelmas. In winter the ink thickens and the scribes' hands stop; in summer every brother looks down the river toward the bar.",
+   "history": [
+    { "year": 681, "text": "About this year King Ecgfrith gives forty hides by the Tyne, and Benedict Biscop sends Ceolfrith with a company of brethren to build a second house, Saint Paul's, one monastery with Saint Peter's at the Wear mouth.", "source": "Bede, Lives of the Abbots of Wearmouth and Jarrow (tr. J. A. Giles): https://sourcebooks.fordham.edu/basis/bede-jarrow.asp; the year from the dossier, section 8" },
+    { "year": 685, "text": "The church of Saint Paul is hallowed on the twenty-third of April, in the fifteenth year of King Ecgfrith and the fourth of Abbot Ceolfrith. The stone that says so is set in the wall.", "source": "The dedication stone, still in the church (dossier, section 2: en.wikipedia Monkwearmouth-Jarrow Abbey; Great English Churches, Jarrow)" },
+    { "year": 686, "text": "A plague takes every brother here who can read or sing the office, except Abbot Ceolfrith and one little boy. The two of them keep the psalms going until others are taught.", "source": "Victoria County History, Durham, vol. 2 (1907), after the anonymous Life of Ceolfrith; the boy is almost certainly Bede (en.wikipedia Bede)" },
+    { "year": 690, "text": "Benedict Biscop, the founder, dies on the twelfth of January, having ordered that the library he brought from Rome be kept whole and not scattered.", "source": "Bede, Lives of the Abbots (tr. Giles); en.wikipedia Benedict Biscop" },
+    { "year": 716, "text": "Abbot Ceolfrith leaves for Rome with one of the three great Bibles the house has made, and dies on the road at Langres on the twenty-fifth of September. The two houses then hold about six hundred brethren. Hwaetberht is chosen abbot.", "source": "Bede, Lives of the Abbots (tr. Giles); the Bible is the Codex Amiatinus: 1,030 leaves, the skins of 515 cattle (en.wikipedia Codex Amiatinus)" },
+    { "year": 735, "text": "Bede, priest and master of this house, dies on the twenty-sixth of May. Among the things in his box are pepper, napkins and incense, which he shares out among the priests.", "source": "Cuthbert's letter on the death of Bede, as reported by en.wikipedia Bede (dossier, section 4)" },
+    { "year": 746, "text": "About this year Boniface writes from Germany to Abbot Hwaetberht asking for the works of Bede, and sends a coverlet of goat hair.", "source": "E. Kylie, The English Correspondence of Saint Boniface (1911); en.wikipedia Hwaetberht (the letter is dated 744 to 747)" },
+    { "year": 764, "text": "Abbot Cuthbert writes to Bishop Lul of Mainz: the winter has numbed his scribes' hands. He sends Bede's lives of Saint Cuthbert and asks for a man who can make glass and a man who can play the harp.", "source": "Dossier, section 4, from memory (?): the letter is Tangl no. 116, not opened" },
+    { "year": 792, "text": "On the fourteenth of September Osred, who had been king, is killed, and his body is laid at Tynemouth, on the north headland of the river mouth.", "source": "Anglo-Saxon Chronicle 792 (Avalon Project; Ingram's wording (?))" },
+    { "year": 793, "text": "Signs in the sky, a great famine, and on the eighth of June the heathen men at Lindisfarne. Alcuin writes from Francia to the brothers of Wearmouth and Jarrow: you live by the sea, from which the plague first came.", "source": "Anglo-Saxon Chronicle 793 (Giles 1847; texts_793.json chronicle_793); Alcuin, MGH Epistolae IV no. 19, our rendering of 'Vos maritima habitatis, unde pestis primo ingruit'" },
+    { "year": 794, "text": "The heathen men ravage the harbour of King Ecgfrith and plunder the monastery at the mouth of the Don. Their chief is put to death by the English; a storm breaks some of their ships.", "source": "Symeon of Durham, History of the Kings s.a. 794 (tr. Stevenson 1855); Anglo-Saxon Chronicle 794. That 'Donemuthan' is this house is Symeon's gloss three hundred years on (?); chronicle_793.json 794-summer-donemuthe-raid" },
+    { "year": 796, "text": "King Aethelred is killed at Corbridge, up this same river, on the eighteenth of April. Osbald is king for twenty-seven days; Eardwulf is hallowed in May.", "source": "chronicle_793.json (Symeon, History of the Kings s.a. 796)" },
+    { "year": 800, "text": "One late book has the heathen plunder Hartness and Tynemouth this year. On Christmas eve a great wind, and the sea comes over the land.", "source": "Roger of Wendover s.a. 800 (?); Symeon, History of the Kings s.a. 800; chronicle_793.json 800-hartness-tynemouth" },
+    { "year": 810, "text": "A plague of cattle through all Britain.", "source": "chronicle_793.json (dossier, section 5)" },
+    { "year": 821, "text": "Tidfrith, the last bishop of Hexham, is dead by about this year, and no one is hallowed after him. The house has no bishop of its own country.", "source": "en.wikipedia Bishop of Hexham (dossier, section 3)" },
+    { "year": 850, "text": "About this year some eight thousand copper stycas are buried in a bucket at Hexham, a day up the Tyne.", "source": "hoards_793.json (dossier, section 4)" },
+    { "year": 867, "text": "The heathen army holds York and both Northumbrian kings are killed there. The army comes no further north than the mouth of the Tyne.", "source": "Symeon, History of the Church of Durham (tr. Stevenson 1855); the year is the dossier's reading of the context (?)" },
+    { "year": 875, "text": "Halfdan, king of the Danes, enters the Tyne with a great fleet, lands at Tynemouth and winters by the river. By now, or soon after, there are no monks at Saint Paul's. No year for their going is safe.", "source": "Symeon, History of the Church of Durham; Anglo-Saxon Chronicle 875. The end of the monastery: en.wikipedia Monkwearmouth-Jarrow Abbey, 'about 860 ... late 9th century' (?)" },
+    { "year": 883, "text": "About this year King Guthred gives Saint Cuthbert all the land between the Wear and the Tyne. The churches of Bede's house are now the saint's.", "source": "Symeon, History of the Church of Durham (tr. Stevenson 1855)" },
+    { "year": 1022, "text": "About this year Elfred son of Westou, priest and sacrist of Durham, who has come here every year on Bede's day, leaves early and alone and does not come again. Bede's bones are afterwards at Durham with Saint Cuthbert's.", "source": "Symeon, History of the Church of Durham (tr. Stevenson 1855); some scholars doubt the tale (en.wikipedia Alfred Westou)" },
+    { "year": 1065, "text": "The bones of Saint Oswine are raised at Tynemouth, across the river mouth.", "source": "Symeon, History of the Kings; en.wikipedia Tynemouth Castle and Priory" },
+    { "year": 1066, "text": "Harald, king of the Norwegians, comes unlooked for to the mouth of the Tyne with a very great fleet, where Earl Tostig joins him.", "source": "Symeon, History of the Kings s.a. 1066 (tr. Stevenson 1855)" }
+   ],
+   "eras": [
+    { "from": 793, "to": 794, "text": "The full house, afraid. The glass is in the windows, the book chests are full, the boys sing in two choirs. There is famine in the land, so the cellarer wants bread corn more than wine. Alcuin's letter has been read aloud in chapter and nobody has forgotten the line about the sea. The brothers ask every skipper what lies off the bar." },
+    { "from": 795, "to": 830, "text": "After the heathen. The house was plundered, not burned: the altar plate is gone, some windows are boarded, and broken ship timber lies on the south sand for years. The scribes still work and letters still come asking for Bede's books, but the house is poor and counts everything. Kings change at York faster than the abbot can write to them. The sea flood of Christmas 800 and the cattle plague of 810 are both long remembered at the cellarer's door, where copper stycas pass." },
+    { "from": 831, "to": 866, "text": "Thinning. No bishop sits at Hexham. Fewer boys are given to the house and the old hands are not replaced; the writing house copies for itself and sells little. The coin is base copper and the cellarer would rather have goods. The glass workers by the river are a memory and one furnace floor (?)." },
+    { "from": 867, "to": 882, "text": "The army on the Tyne. York has fallen, and in 875 Halfdan's fleet winters in the river. The brothers go, by ones and by companies, with what books they can carry; no one writes down the day. Fishers still work the Slake and bury their dead by the church. A merchant here trades with Danes or with nobody." },
+    { "from": 883, "to": 1021, "text": "Saint Cuthbert's land. The churches stand, one with half a roof; the long halls are cattle sheds and quarries. A priest of the saint's people comes from Chester-le-Street, and after 995 from Durham, to say mass at Bede's grave, and country people come on the master's day. The Slake has a few boats, salmon and eels. Who serves the church from year to year is not recorded (?)." },
+    { "from": 1022, "to": 1066, "text": "The empty grave. Bede's bones are at Durham and the visitors fewer. The church is still used and the fishers still land; brambles are in the refectory. In 1066 a Norwegian fleet lies at the river mouth for some days in early autumn and nobody on the Slake lights a fire. (After the game: King William's army burns the church in 1069, and in 1074 Aldwin finds the buildings half ruined and begins again.)" }
+   ],
+   "sites": [
+    { "id": "gyrwe.beach", "kind": "beach", "name": "The Slake", "from": 0, "to": 0,
+      "see": "A broad brown mudflat on the south side of the Tyne where the Don comes in, bare at the ebb and shining, with a firmer strip of shingle under the monastery's bank where boats take the ground. In front, two tarred fishing boats and the house's own broad coaster leaning on her bilge; behind, a low green rise with two stone churches in a line, their small windows catching the light. Curlews, the suck of the tide in the creeks, and a smell of mud, wrack and wood smoke.",
+      "do": ["act:load", "act:careen", "act:wait_wind", "act:ask_harbour", "act:hire_pilot", "act:hire_porters", "person:gyrwe.fisherman", "person:gyrwe.beornwine", "card:harbour.masters_day.gyrwe"],
+      "source": "Jarrow Slake as a natural beaching ground (dossier, section 1: Research/water_levels/north_and_norway.md). Symeon's 'port of King Ecgfrith' is the only text that puts ships here. No quay has been found: none is drawn." },
+    { "id": "gyrwe.herd_sand", "kind": "beach", "name": "The south sand at the river mouth", "from": 0, "to": 0,
+      "see": "The bar of the Tyne at low water: a line of breakers across brown water, a long pale sand to the south, and black rocks to the north that show their backs at half tide. On the southern headland the grassed walls of an old Roman fort; across the water the monastery of Tynemouth on its cliff. From 794, ribs and strakes of broken ships stand out of the sand, with gulls on them. Wind, surf, and the cold smell of open sea.",
+      "do": ["act:hire_pilot", "act:wait_wind", "act:remember", "card:sea.wreck.mast", "person:gyrwe.fisherman", "card:harbour.what_the_sea_gave.gyrwe"],
+      "source": "The bar (about 1.8 m at low water), Herd Sand and the Black Middens: modern figures carried back (dossier, section 1). The fort on the Lawe: en.wikipedia Arbeia. The wreck of 794: Symeon, History of the Kings; Anglo-Saxon Chronicle 794. That timbers stayed on the sand for years is the game's (?)." },
+    { "id": "gyrwe.fishery", "kind": "fishery", "name": "The weirs at the Don mouth", "from": 0, "to": 0,
+      "see": "Lines of stakes and wattle running out over the mud where the small river meets the great one, with basket traps set in the gaps. A man in the water to his thighs lifts a salmon out by the gills; a child carries eels in a wet sack. Behind them the monastery's bank and its terraced gardens. It smells of river mud and fish scale.",
+      "do": ["act:buy_at_source", "act:provision", "act:ask_news", "person:gyrwe.fisherman"],
+      "source": "Fish bones in the refectory (English Heritage, St Paul's Monastery, Jarrow); salmon in goods_793.json for this port; eels sold by the stick after Michaelmas (Design/content/economy/food.md). The weirs themselves are not found (?)." },
+    { "id": "gyrwe.guest_house", "kind": "lodging", "name": "The guest house by the river", "from": 0, "to": 875,
+      "see": "A stone house down the slope from the churches, near the water, with painted plaster inside and small panes of coloured glass in the one good window, so that the floor is spotted red and blue on a bright morning. A long hearth down the middle, benches, a pot of barley and fish. Strangers' voices, a dog asleep, the bell for the office coming down the hill.",
+      "do": ["act:lodge", "act:ask_news", "act:rumours", "act:provision", "act:riddles", "act:heal", "person:gyrwe.guest_master", "card:harbour.knots_on_a_string.gyrwe"],
+      "source": "A riverside guest house with painted plaster and coloured glass (English Heritage, history of the site; dossier, section 2). The Rule's office of guest master; the hearth and pot are ordinary." },
+    { "id": "gyrwe.workshops", "kind": "workshop", "name": "The workshops on the river bank", "from": 0, "to": 866,
+      "see": "Low sheds by the water with their backs to the wind. In one a clay furnace no wider than a barrel, a floor glittering with chips of blue and green glass, and nobody who now knows the whole craft; in the next a monk casts small bronze fittings and beats lead flat for window bars. Charcoal smoke, the hiss of a quenched iron, hammer taps.",
+      "do": ["act:buy_tools", "act:repair", "act:commission", "act:fund_work", "act:sample"],
+      "source": "Workshops for metal and glass by the river (English Heritage; dossier, section 2). Glaziers were fetched from Gaul for the Wear house (Bede, Lives of the Abbots 5), and in 764 the abbot was still asking Mainz for a glass-maker (?)." },
+    { "id": "gyrwe.cellar", "kind": "storehouse", "name": "The cellarer's door", "from": 0, "to": 875,
+      "see": "A wide door in the end of the long stone hall, with a beam scale hanging in it and a tally board chalked beside. Inside in the cool dark: casks, sacks of barley and oats, fleeces in bales, a stack of salted hides, wax in grey cakes. The cellarer stands in the doorway so that nothing passes him uncounted. It smells of malt, wool grease and brine.",
+      "do": ["market", "act:haggle", "act:weigh_silver", "act:sample", "act:store", "act:gift", "person:gyrwe.cellarer", "card:harbour.cellarers_scale.gyrwe"],
+      "source": "No market, fair or toll is recorded here (dossier, section 4): the cellarer's door is the game's way of trading with a house that does not sell by custom, as at Lindisfarena. The goods are those of goods_793.json and the dossier." },
+    { "id": "gyrwe.church", "kind": "church", "name": "Saint Paul's", "from": 0, "to": 0,
+      "see": "A tall narrow church of squared Roman stone with a porch at the west end and small side chambers along both walls. Inside, lamplight on painted boards hung in pairs: a boy carrying wood beside a man carrying a cross, a bronze serpent on a pole beside a crucifixion. Over the inner arch a cut stone names a king and an abbot. East of it, in a line, stands a second, smaller church whose three little windows burn with coloured glass. Chant in two choirs, cold stone, incense.",
+      "do": ["act:hear_mass", "act:alms", "act:vow", "act:remember", "act:read_text", "act:sanctuary", "person:gyrwe.abbot", "person:gyrwe.elfred", "person:gyrwe.tidhelm", "card:harbour.apostles_day.gyrwe", "card:harbour.masters_day.gyrwe"],
+      "source": "The great church hallowed 23 April 685 and the east church in line with it, which stands yet with first-build glass (English Heritage, description; Tyne and Wear HER 1229). The paired pictures: Bede, Lives of the Abbots 9. The tower that now joins the churches is later and is not drawn before the 11th century." },
+    { "id": "gyrwe.graveyard", "kind": "graveyard", "name": "The graveyard south of the church", "from": 0, "to": 0,
+      "see": "Rows of plain grassed graves, all with their heads to the west, between the church wall and the long halls. No stones for most; here and there a small carved slab, one cut with a cross and a line of Latin. Many of the graves are short. A woman from the fishers' houses is setting a pot of flowers on one. Wind in the grass, the scribes' shutter banging.",
+      "do": ["act:bury", "act:remember", "act:alms", "act:read_text"],
+      "source": "About 132 burials, west to east, unfurnished; of 111 sure ones, 39 were infants, children or youths, so lay families were buried here (Tyne and Wear HER 1227, 1228; the inference is the dossier's). The cross slab whose Latin says that in this sign life is given back to the world: HER 1224, 1225." },
+    { "id": "gyrwe.hall", "kind": "hall", "name": "The abbot's hall and the refectory", "from": 0, "to": 875,
+      "see": "Two long stone halls end to end, south of the churches, floored in a hard pink mortar the Romans used. In the first, benches along the walls and a reader's stool: the brothers eat in silence while one of them reads. In the second, a large room with painted walls and a stone seat for the abbot, and against the far wall the iron-bound chests. Quiet, the scrape of spoons, one voice reading.",
+      "do": ["act:audience", "act:gift", "act:feast", "act:song", "act:witness", "act:commission", "person:gyrwe.abbot", "person:gyrwe.schoolmaster", "card:harbour.apostles_day.gyrwe"],
+      "source": "Two long stone halls, one with bench settings and fish bones, one with a finely decorated room and a stone seat (English Heritage; dossier, section 2). The sizes and the pink floor are from memory in the dossier (?). Reading at table is the Rule's." },
+    { "id": "gyrwe.scriptorium", "kind": "storehouse", "name": "The book chests", "from": 0, "to": 870,
+      "see": "Six oak chests with iron bands at the end of the abbot's room, each with its key on the schoolmaster's belt, and a bench under the window where four boys sit with wax tablets on their knees. A chest stands open: books lying flat in their boards, a strip of parchment hanging from each with its name. An old monk counts on his finger joints and the boys count after him. Dust, old leather, beeswax.",
+      "do": ["act:read_text", "act:copy_text", "act:riddles", "act:gift", "card:crew.read.latin_leaf", "person:gyrwe.schoolmaster", "person:gyrwe.beornwine", "card:harbour.old_mans_question.gyrwe", "card:harbour.one_chapter.gyrwe"],
+      "source": "Benedict's library, to be 'kept entire' (Bede, Lives of the Abbots 11, tr. Giles), doubled by Ceolfrith (15). No library room has been found (dossier, section 2): chests in the abbot's hall are the game's. Books were kept in chests (riddles_793.json riddle_aldhelm_89_arca_libraria). The number of books in 793 is not known." },
+    { "id": "gyrwe.writing_house", "kind": "workshop", "name": "The writing house", "from": 0, "to": 870,
+      "see": "A lean-to against the south wall of the hall, built for the light: four sloped desks under an open shutter, a rack of quills, horns of black and red ink, a stretched calfskin drying on a frame by the door. A monk writes with his tongue between his teeth and a boy rules lines with a lead point. In winter a pan of coals sits under each desk and does no good. Scratching, coughing, the smell of gall ink and lime.",
+      "do": ["act:copy_text", "act:read_text", "act:commission", "act:riddles", "act:sample", "person:gyrwe.scribe", "card:harbour.scribes_sum.gyrwe"],
+      "source": "The house wrote three whole Bibles before 716 and Bede's books after; no writing room has been found, and this one is invented (dossier, sections 2 and 4). Numbed hands in winter: Abbot Cuthbert to Lul, 764 (?)." },
+    { "id": "gyrwe.gardens", "kind": "field", "name": "The terraced gardens", "from": 0, "to": 0,
+      "see": "Three steps of dug ground cut into the south slope between the halls and the Don, held up by low dry walls: leeks, beans, kale, a row of bee skeps under a thatch, a bed of herbs with name pegs. A lay brother hoes between the rows. Below, the little river runs out to the mud. Bees, turned earth, crushed mint.",
+      "do": ["act:provision", "act:heal", "act:hire_porters", "act:buy_at_source"],
+      "source": "Terraced gardens on the south slope (English Heritage; dossier, section 2). The plants are ordinary for an English minster; the skeps answer the house's need of wax." }
+   ],
+   "people": [
+    { "id": "gyrwe.abbot", "name": "Friduin", "historical": true, "role": "abbot", "people": "english", "faith": "christian",
+      "born": 740, "died": 808, "from": 793, "to": 808,
+      "trait": "A careful, tired man who rules two houses ten miles apart and has read Alcuin's letter more often than he will say.",
+      "want": "To hand on Benedict's library whole, as Benedict ordered; boys who sing instead of digging out foxes; a king who lasts.",
+      "fear": "The sea. He looks at it from the church door every morning before the office.",
+      "voice": "Slow and exact, in whole sentences. Thanks you first, then says no.",
+      "looks": "Fifties, lean, grey tonsure, a plain undyed cowl darned at the elbow, a small bronze key and a wax tablet on his girdle, an abbot's staff of ash with no gold on it.",
+      "knows": [
+       "what the two houses hold and what they owe: forty hides here by King Ecgfrith's gift",
+       "what Alcuin wrote to the brothers in 793, and what he scolded them for",
+       "which bishop sits at Hexham and which king at York, this month",
+       "who on the Continent has written for Bede's books and has not yet been answered",
+       "that the pope's own letter guards this house from any lord's meddling"
+      ],
+      "ties": [
+       { "to": "cast.alcuin", "tie": "friend", "note": "Alcuin wrote to him on his election and again after Lindisfarne; the abbot answers late and humbly" },
+       { "to": "cast.higbald", "tie": "friend", "note": "the two houses pray for each other's dead; he sent bread and two brothers north in June 793 (?)" },
+       { "to": "lindisfarena.higbald", "tie": "friend", "note": "the same man, on his island" },
+       { "to": "cast.sigewine", "tie": "friend", "note": "gives the letter-carrier a bed and a list of books to look for" },
+       { "to": "gyrwe.cellarer", "tie": "serves", "note": "in truth the cellarer serves him; but the abbot does what the tally says" },
+       { "to": "gyrwe.schoolmaster", "tie": "taught", "note": "the old man taught him to reckon Easter, and still corrects him" },
+       { "to": "cast.eanbald", "tie": "serves", "note": "the archbishop at York is over every Northumbrian house" },
+       { "to": "bebbanburg.cuthgar", "tie": "friend", "note": "the king's man on the rock sends word when ships are seen (?)" },
+       { "to": "gyrwe.guest_master", "tie": "friend", "note": "the guest-master brings him the ship news before prime; the abbot hears it before he hears the psalms" }
+      ],
+      "lines": {
+       "greet": "You are welcome to Saint Paul's. The guest master will see you fed. The cellarer will see you weighed. What do you carry, and what have you seen off the bar?",
+       "greet_again": "The merchant who comes back. Good. Few do this year. Sit. Tell me first about the sea, then about York.",
+       "rumour": [
+        "Alcuin writes that we live by the sea, from which the plague first came. He is right. He also lives at Tours.",
+        "Father Benedict went six times to Rome for these books. I am asked to keep them from men who cannot read.",
+        "We have had three kings since Easter. I have stopped having the name cut on the wax until Whitsun."
+       ],
+       "saying": "A house is built in forty years and plundered in a morning. Build anyway.",
+       "farewell": "Go with God and stand well off the black rocks. If you see sails from the north, come back and say so before you sell."
+      },
+      "source": "Friduin (Frithuwine), abbot of Wearmouth and Jarrow: Alcuin wrote to him on his election, some time between 764 and 804 ('Sanctissimo patri Friduino'; Victoria County History, Durham, vol. 2; Jaffe, Monumenta Alcuiniana). Whether he or Aethelbald ruled in 793 is not known (?); his dates here are the game's. Alcuin's scolding about boys who hunt foxes and hares is from memory in the dossier (?). Every line is invented." },
+    { "id": "gyrwe.cellarer", "name": "Dunwald", "historical": false, "role": "cellarer", "people": "english", "faith": "christian",
+      "born": 748, "died": 815, "from": 793, "to": 815,
+      "trait": "Broad, unhurried, and never wrong about a weight. He likes merchants, which he regards as a fault.",
+      "want": "Bread corn in 793, at a price he can say aloud in chapter; after that wax, wine for the altar, oil for the lamps, and salt.",
+      "fear": "A winter with six hundred mouths in the tale and two hundred sacks in the store. And short measure.",
+      "voice": "Counts aloud while he talks. Friendly until the scale swings, then silent.",
+      "looks": "Mid forties, heavy in the shoulder, red-faced, a cowl kilted up for work, a tally stick and a bunch of iron keys at his belt, chalk on his fingers.",
+      "knows": [
+       "what the house will give for wax, wine, oil, salt, calfskin and corn, and what it has to give: barley, oats, wool, hides, salmon",
+       "that the house takes no toll and sells nothing by custom: it gives, and is given to",
+       "the price of grain at York this month and whose ship brought the news",
+       "the abbot Hwaetberht's Latin riddle on the fish, which he asks of every man who sells him one",
+       "which lay families work which of the house's fields, and who is behind with the render"
+      ],
+      "ties": [
+       { "to": "gyrwe.abbot", "tie": "serves", "note": "keeps the store for both houses and tells the abbot what cannot be afforded" },
+       { "to": "lindisfarena.hunfrith", "tie": "friend", "note": "the two cellarers lend each other wine in a bad year and count it carefully" },
+       { "to": "gyrwe.scribe", "tie": "rival", "note": "calves are for milk and plough or for books; the argument has no end" },
+       { "to": "gyrwe.fisherman", "tie": "friend", "note": "buys his salmon and eels and lets his children glean" },
+       { "to": "cast.ecgwulf", "tie": "owes", "note": "had malt from York on a promise in the bad year, and has not sent the wool yet (?)" },
+       { "to": "streonaeshalch.cellarer", "tie": "friend", "note": "sends down the coast for salt fish when the Tyne is poor (?)" },
+       { "to": "eoforwic.wulfheard", "tie": "friend", "note": "the host on York's strand sends wine up the coast when he has it, and word of grain prices when he has not" },
+       { "to": "bebbanburg.eanwine", "tie": "friend", "note": "the steward of the kings' rock: in the bad year they sent each other what each had" }
+      ],
+      "lines": {
+       "greet": "God keep you. We do not sell here. Put it on the scale and we will see what the house can give you for your kindness.",
+       "greet_again": "You again, and the scale still honest from last time. Come in out of the wind. What is it today?",
+       "rumour": [
+        "Wheat at York is past what a man may ask with a straight face. Bring barley; nobody is proud this year.",
+        "After the heathen came, I counted the store before I counted the brothers. I have confessed it.",
+        "The cattle are dying from here to the Tees. No calves, no books. The scribe thinks I arranged it."
+       ],
+       "saying": "The house is not mine and I run about in it; the house runs and I sit still. A fish in the river. Abbot Hwaetberht made that one.",
+       "farewell": "Full measure both ways. Come again before the eels run, and bring wax."
+      },
+      "source": "Invented; the office is the Rule's. The fish riddle is Eusebius 40 (riddles_793.json riddle_eusebius_40_pisce, sold here by 'the cellarer who buys the fish'); Eusebius is taken to be Abbot Hwaetberht (?). The famine: Anglo-Saxon Chronicle 793. The cattle plague: 810. Name: Dun- + -wald (names_placeholder.json)." },
+    { "id": "gyrwe.scribe", "name": "Torhtred", "historical": false, "role": "scribe", "people": "english", "faith": "christian",
+      "born": 757, "died": 825, "from": 793, "to": 825,
+      "trait": "The best hand in the house and the worst conscience: he has a leaf that is not his, and Bede's whole history to copy with no calfskin.",
+      "want": "Skins, red lead, orpiment, a second pair of hands, and to be forgiven by a scribe at Lindisfarena without having to ask.",
+      "fear": "That letters keep coming from over the sea for the master's books and the house answers none of them before it is too late.",
+      "voice": "Complains like a note in a margin: cold, ink, light, back. Then asks a sharp question about what you carry.",
+      "looks": "Mid thirties, long and narrow, tonsured, chilblained fingers black to the knuckle, a rag round his neck against the draught, a penknife on a thong and a quill behind his ear.",
+      "knows": [
+       "what a book costs: so many calves, a year of a man, the boards and the clasp; and who over the sea will pay it",
+       "the second leaf of the English riddle quire, the storm under the sea, and exactly how it came into his shirt",
+       "York's school about 770: he was a boy on the bench when the tall Frisian, Liudger, was sent home against his will",
+       "Aldhelm's hundred riddles by heart, and where other men's copies go wrong",
+       "runes as well as Roman letters: he cuts both on the name stones when asked"
+      ],
+      "ties": [
+       { "to": "lindisfarena.ceolhelm", "tie": "owes", "note": "was on the island for an exemplar in June 793 and walked home with a leaf of Ceolhelm's quire in his shirt" },
+       { "to": "cast.liudger", "tie": "friend", "note": "a small boy at York when Liudger was the tall student who shared his bread; he has not forgotten" },
+       { "to": "cast.alcuin", "tie": "taught", "note": "Alcuin taught him at York; he quotes him and resents him" },
+       { "to": "cast.sigewine", "tie": "friend", "note": "they were boys together at York; Sigewine brings him lists and takes away promises" },
+       { "to": "cast.crew.beornwine", "tie": "taught", "note": "set the boy to rule lines, and says he had the hand for it" },
+       { "to": "gyrwe.cellarer", "tie": "rival", "note": "wants every calf in the country skinned" },
+       { "to": "dommoc.tidfrith", "tie": "friend", "note": "the East Angles' bishop has written for the chapters on his own people (?)" },
+       { "to": "streonaeshalch.scribe", "tie": "friend", "note": "lends and borrows exemplars down the coast (?)" },
+       { "to": "eoforwic.torhthelm", "tie": "friend", "note": "the scribe at York: they lend each other exemplars up and down the coast, and quarrel over their return" }
+      ],
+      "lines": {
+       "greet": "Shut the door, the leaf is lifting. Do you carry calfskin? No? Then you have come to watch a man not write a book.",
+       "greet_again": "You. Good. I have ruled forty leaves on the strength of your promise. Tell me you have the skins.",
+       "rumour": [
+        "Mainz wrote for the master's books in my teacher's time. Utrecht writes now. We send apologies. They are very well written.",
+        "There was a Frisian at York when I was small, tall as a door. They sent him home with the books and he wept.",
+        "I have a leaf of English verse about a storm under the sea. Do not ask where I got it. Ask what it means."
+       ],
+       "saying": "The ink freezes, my hand shakes, and the abbot wants the psalter by Easter. Have you wax? Have you news of York?",
+       "farewell": "Keep it flat and dry. If you go north, tell Ceolhelm I am keeping his leaf safe. Say it kindly."
+      },
+      "source": "Invented. The demand for Bede's books: Boniface to Hwaetberht (744-747) and Cuthbert to Lul (764 (?)). The leaf is riddles_793.json riddle_exeter_02_storm_sea, sold at Gyrwe by 'a monk of the scriptorium' until 870; the theft is the game's, to answer Lindisfarena's story of the scattered quire. Liudger at York about 767 to 773: Altfrid, Vita Liudgeri I.11-12 (spine, york_blood). His saying is the spine's line for a scribe of Gyrwe. Name: Torht- + -red." },
+    { "id": "gyrwe.schoolmaster", "name": "Ceolmund", "historical": false, "role": "schoolmaster", "people": "english", "faith": "christian",
+      "born": 722, "died": 801, "from": 793, "to": 801,
+      "trait": "Very old, half blind, and the last man in the house who heard Bede's voice: he was a boy of thirteen at the door on the day the master died.",
+      "want": "To get one more class of boys through the reckoning of Easter, and to hear that both of his two lost pupils are alive.",
+      "fear": "That the boys now cannot count past their fingers, and that he will be asked once more what the master was like.",
+      "voice": "Dry and schoolroom-sharp. Asks you a question before he answers yours, and waits.",
+      "looks": "Seventy, small and bent, milky eyes, a white fringe round the tonsure, a cowl too big for him, a ring of chest keys at his belt and a hazel switch he no longer uses.",
+      "knows": [
+       "the reckoning of time: moons, tides, Easter, and why the tide rises at one shore while it falls at another",
+       "what is in each of the six chests, by touch",
+       "the families of the boys given to the house: Beornwine and his brother Tidwine came from the coast below Bebbanburg",
+       "the day the master died: the Gospel of John in English, the last sentence, the boy who wrote it",
+       "the riddles on the sun and on the moon that he sets the boys, and sells to a stranger for six pennies"
+      ],
+      "ties": [
+       { "to": "cast.crew.beornwine", "tie": "taught", "note": "taught him to reckon; has never said he was sorry the boy left, and is" },
+       { "to": "gyrwe.beornwine", "tie": "taught", "note": "the same boy, home" },
+       { "to": "cast.tidwine", "tie": "friend", "note": "knew the younger brother before he went to the island; asks after him by name" },
+       { "to": "bebbanburg.wilgar", "tie": "friend", "note": "the priest on the rock baptised both brothers and writes to him about the family (?)" },
+       { "to": "gyrwe.abbot", "tie": "taught", "note": "the abbot was once on his bench" },
+       { "to": "cast.sigewine", "tie": "friend", "note": "let Sigewine teach the small ones their letters when he stayed a winter" }
+      ],
+      "lines": {
+       "greet": "A merchant. Then you can count. If the moon is nine days old at noon, when is high water on our bar? Take your time.",
+       "greet_again": "I know the step. You are the one who got the tide right, or near it. Sit by me. Is the boy well?",
+       "rumour": [
+        "I was at the door when the master died. He finished the sentence first. People forget that part.",
+        "Two brothers from up the coast. One left us for the sea and the sea took the other. I taught them both to count.",
+        "The sea rises here while it falls somewhere else. The master wrote that from this window. Sailors knew it already; he asked them."
+       ],
+       "saying": "Learn as if you would live for ever. I have nearly managed it.",
+       "farewell": "Go on. Bring the boy when you come. And reckon your own tide; do not trust mine, I cannot see the moon."
+      },
+      "source": "Invented. Bede died 26 May 735, dictating to a boy (Cuthbert's letter on his death, as reported by en.wikipedia Bede); a man born in 722 could have been there. Bede on tides: De temporum ratione 29 (Design/content/lore/sea_lore.md), not quoted. The riddles: riddles_793.json riddle_exeter_06_sun and riddle_exeter_29_moon_sun, sold here by 'a monk who reckons time'. Beornwine and Tidwine: spine cast. Name: Ceol- + -mund." },
+    { "id": "gyrwe.guest_master", "name": "Wynhelm", "historical": false, "role": "guest_master", "people": "english", "faith": "christian",
+      "born": 755, "died": 822, "from": 793, "to": 822,
+      "trait": "Cheerful, nosy and kind: he feeds everyone who lands and has every skipper's news out of him before the bowl is empty.",
+      "want": "News, above all news of ships: he keeps the tally of what was seen off the bar and when, for the abbot.",
+      "fear": "A strange sail at dawn with the guest house full and the boats aground.",
+      "voice": "Talks while he ladles. Remembers what you ate last time and who you were asking for.",
+      "looks": "Late thirties, round, quick, sleeves rolled, a wooden ladle in his hand and a linen cloth over his shoulder, a string of knots at his belt, one for each ship this year.",
+      "knows": [
+       "who has landed this season, from where, and what they said of prices and kings",
+       "the river: the bar, the black rocks, the islands inside, and who will pilot for a fish supper",
+       "where the nuns' house and the old fort lie on the south headland, and Tynemouth on the north",
+       "the old story of the monks blown out to sea on rafts while the country people jeered",
+       "which of the brothers will talk to a layman and which will not"
+      ],
+      "ties": [
+       { "to": "gyrwe.abbot", "tie": "serves", "note": "brings him the ship news before the office of prime" },
+       { "to": "gyrwe.fisherman", "tie": "friend", "note": "pays him in bread to pilot strangers over the bar" },
+       { "to": "cast.sigewine", "tie": "friend", "note": "keeps the bed by the wall for him; he is sick for a day after every crossing" },
+       { "to": "lindisfarena.eadstan", "tie": "friend", "note": "the island's boatman lies here when he comes for casks, and never says much" },
+       { "to": "bebbanburg.bacga", "tie": "friend", "note": "the fisher from under the rock sells here each autumn and carries the families' news (?)" },
+       { "to": "cast.crew.beornwine", "tie": "friend", "note": "fed him extra as a boy and was the one who let him out of the gate" }
+      ],
+      "lines": {
+       "greet": "In, in, mind the step. There is barley and a bit of salmon. Now: where from, how long at sea, and what did you pass?",
+       "greet_again": "The same bench as before. You were asking after a boy, or a book. Sit. I have something for you.",
+       "rumour": [
+        "A Frisian in before Whitsun said York's reeve asks every Frisian his father's name. Old blood, he said. He did not stay.",
+        "In the old days the country people stood on that bank and jeered while monks drifted out to sea. Now they bring us eels.",
+        "Tynemouth buried a king two harvests back. Killed on the fourteenth day of September. That river mouth collects them."
+       ],
+       "saying": "Feed the stranger first and ask after. He lies less on a full belly.",
+       "farewell": "God speed. Go out on the first of the ebb with the church dead astern. And come back with something to tell."
+      },
+      "source": "Invented; the office is the Rule's. The raft story: Bede, Life of Saint Cuthbert ch. 3 (tr. Giles), retold, not quoted. Osred at Tynemouth: Anglo-Saxon Chronicle 792. The Frisians and York: spine, york_blood. Name: Wyn- + -helm." },
+    { "id": "gyrwe.fisherman", "name": "Dudda", "historical": false, "role": "fisherman", "people": "english", "faith": "christian",
+      "born": 760, "died": 818, "from": 793, "to": 818,
+      "trait": "A lay tenant of the house who works the weirs and knows the bar better than he knows his prayers. Says little; sees everything on the river.",
+      "want": "A good run of salmon, a sound boat, and his children buried no nearer the church than they already are.",
+      "fear": "North-east wind on a spring ebb. And being asked by the reeve what he did on the sand in the year of the wreck.",
+      "voice": "Short. Answers the question you asked and no other. Warms up over fish.",
+      "looks": "Early thirties, wiry, weather-brown, hair tied back with a thong, bare legs grey with mud to the knee, a gutting knife and a sounding pole with tide marks cut in it.",
+      "knows": [
+       "the channel over the bar at every state of the tide, and where the rocks cover at half flood",
+       "when the salmon run and the night the eels go down",
+       "from 794: what the sea left on the south sand, who took what, and what he kept in his thatch",
+       "what was done to the heathen who swam ashore, and who did it",
+       "the fishers of the coast as far as the kings' rock: who is kin to whom"
+      ],
+      "ties": [
+       { "to": "gyrwe.cellarer", "tie": "owes", "note": "pays his render in fish and is two sticks of eels behind" },
+       { "to": "gyrwe.guest_master", "tie": "friend", "note": "pilots strangers for bread" },
+       { "to": "bebbanburg.bacga", "tie": "kin", "note": "his wife's cousin, who fishes under the rock (?)" },
+       { "to": "cast.crew.beornwine", "tie": "friend", "note": "taught the schoolboy to scull when he should have been at vespers" },
+       { "to": "cast.crew.ravn", "tie": "rival", "note": "does not like a Northman reading the stick he found; needs him to" },
+       { "to": "streonaeshalch.fisherman", "tie": "friend", "note": "meets the cliff boats on the herring in autumn (?)" }
+      ],
+      "lines": {
+       "greet": "You draw too much for the east creek. Lay her there, by my boat. Mud is soft. She will sit.",
+       "greet_again": "The same place as before. I kept it. There is a salmon for your pot if you have bread.",
+       "rumour": [
+        "Their ships broke on the bar in a north-easter. I did not pray for them. I did not pray against them either.",
+        "The sea gave back a stick with cuts on it and a knife with a horn handle. The monks cannot read the stick.",
+        "The chief they caught alive. I will not say what was done. The men who did it eat at my table."
+       ],
+       "saying": "The river gives on the flood and asks for it back on the ebb.",
+       "farewell": "First of the ebb. Keep the church over your stern till the old fort opens. Then you are on your own."
+      },
+      "source": "Invented. Lay families were buried by the church (HER 1227); someone caught the refectory's fish (English Heritage). 'The Angles' who killed the raiders' chief in 794: Symeon, History of the Kings. The stick and the knife are the spine's hook for this port (holy_island). After 818 the role passes to his son and his son's sons: there are fishers on the Slake to 1066. Name: Dudda, a common English short name." },
+    { "id": "gyrwe.beornwine", "name": "Beornwine", "historical": false, "role": "lookout", "people": "english", "faith": "christian",
+      "born": 775, "died": 0, "from": 793, "to": 830,
+      "trait": "The house's own runaway: schooled here as an oblate, gone before his vows, and now home as the lookout of a Frisian boat, not sure which door to use.",
+      "want": "To find his younger brother Tidwine, carried off from Lindisfarena, and to be let back onto the boys' bench for one afternoon with a book.",
+      "fear": "The heathen men; the old schoolmaster's silence; and that God noticed him climb the wall.",
+      "voice": "Talks too much when afraid. Says half a psalm, hears himself, and stops.",
+      "looks": "Eighteen, thin, dark hair growing out of a cropped head, ink-stained fingers that the oar has since blistered; a monk's cast-off tunic cut short, a wax tablet in his shirt.",
+      "knows": [
+       "every door, bell and hiding place in the house, and which brother can be asked for what",
+       "Latin, slowly but truly: he can read a leaf aloud at anchor",
+       "where the big gospel book lay at Lindisfarena when he saw it as a boy",
+       "the river from the Slake to the bar, in daylight"
+      ],
+      "ties": [
+       { "to": "cast.crew.beornwine", "tie": "kin", "note": "the same person: this is how he stands in his own house" },
+       { "to": "cast.tidwine", "tie": "kin", "note": "his younger brother, taken on the eighth of June 793" },
+       { "to": "lindisfarena.tidwine", "tie": "kin", "note": "the same brother, as the island knew him" },
+       { "to": "cast.sigewine", "tie": "friend", "note": "Sigewine taught him his letters here" },
+       { "to": "gyrwe.schoolmaster", "tie": "owes", "note": "an apology he has not made" },
+       { "to": "gyrwe.scribe", "tie": "friend", "note": "ruled lines for him and envies him the desk" },
+       { "to": "cast.higbald", "tie": "serves", "note": "the bishop knows the family and sends him word" },
+       { "to": "bebbanburg.wilgar", "tie": "friend", "note": "the priest who baptised him" },
+       { "to": "bebbanburg.bacga", "tie": "friend", "note": "the fisherman under the rock, who took him and his brother out as children and still brings the family's news to the Tyne each autumn" },
+       { "to": "bebbanburg.cuthgar", "tie": "friend", "note": "the gate-thegn knew their father and taught him to throw a spear; he cannot look at the man now without counting sails" },
+       { "to": "gyrwe.fisherman", "tie": "friend", "note": "taught him to scull on the Slake when he should have been at vespers" },
+       { "to": "gyrwe.guest_master", "tie": "friend", "note": "fed him extra as a boy, and was the one who let him out of the gate" },
+       { "to": "hi.muiredach", "tie": "friend", "note": "the scribe on Hi, who will lend a leaf to be read aloud at anchor, one schoolman to another" },
+       { "to": "legacaestir.wigburh", "tie": "owes", "note": "a cup from his first night at the old baths on the Dee; she has not forgotten his face" },
+       { "to": "lindisfarena.ceolhelm", "tie": "friend", "note": "the island's scribe knew him as a schoolboy, and thinks leaving the cloister a waste of a good hand" },
+       { "to": "streonaeshalch.scribe", "tie": "friend", "note": "the nun who keeps the writing house on the cliff knows his hand from school leaves, and asks after his brother" }
+      ],
+      "lines": {
+       "greet": "That is the guest house. That is the cellarer. That window is the school. I am not going up there. You go.",
+       "greet_again": "Home again. They ring the same bell. Master, if he asks, I am well and I keep the fasts. Mostly.",
+       "rumour": [
+        "Brother Wynhelm let me out of the gate. He will say he did not. Do not ask him in front of the abbot.",
+        "My brother could count faster than me. If a Northman has him, he is keeping that man's tally by now.",
+        "There is a leaf in the writing house that came from the island. I know the hand. It is Ceolhelm's."
+       ],
+       "saying": "They that go down to the sea in ships. I only ever sang that one. I did not think it meant me.",
+       "farewell": "I will be at the boat. Tell the old man I asked after him. No. Tell him nothing. Tell him I asked."
+      },
+      "source": "The spine's cast.crew.beornwine (invented), as he is met in his own house: trait, want, fear, voice and looks are the spine's. The half psalm is Psalm 107 (106 in his psalter), in the words any English version shares. Every line is invented." },
+    { "id": "gyrwe.elfred", "name": "Elfred son of Westou", "historical": true, "role": "priest", "people": "english", "faith": "christian",
+      "born": 990, "died": 1060, "from": 1020, "to": 1022,
+      "trait": "Priest and sacrist of Durham, keeper of Saint Cuthbert's body, and a tireless collector of other saints: quiet, devout, and never seen leaving with anything.",
+      "want": "The bones of the master Bede, to lie where he thinks they belong: at Durham, beside Cuthbert.",
+      "fear": "Nothing a layman would notice. Perhaps only that someone asks him a direct question.",
+      "voice": "Gentle, roundabout and full of scripture. Answers a question about bones with a remark about the weather.",
+      "looks": "About thirty, spare, neat dark tonsure, a good black cloak for the road, a pilgrim's staff, and a linen bag under the cloak that is flat when he comes.",
+      "knows": [
+       "where every old Northumbrian saint lies, and which graves have been opened",
+       "the road to Durham, by night",
+       "Saint Cuthbert's hair will not burn in a fire: he has shown it to friends",
+       "that he comes here each year for the twenty-sixth of May, and keeps vigil alone"
+      ],
+      "ties": [
+       { "to": "gyrwe.fisherman", "tie": "friend", "note": "the fishers of the Slake ferry him and are fond of him" },
+       { "to": "eoforwic.archbishop", "tie": "serves", "note": "Durham's bishop answers to York; Elfred answers to Cuthbert (?)" },
+       { "to": "lindisfarena.leofstan", "tie": "friend", "note": "knows the saint's people on the island (?)" }
+      ],
+      "lines": {
+       "greet": "God's peace, merchant. You have come for the master's day too? Few do now. Stand by me; the church is cold.",
+       "greet_again": "We have met at this door before. You keep the day well for a seafaring man.",
+       "rumour": [
+        "The brethren at Durham ask where the master Bede rests. I tell them: he who knows about Cuthbert knows about Bede.",
+        "I have watched and prayed here many years on this night. One grows used to a place. One knows its stones.",
+        "A saint should not lie under a roof the rain comes through. I only say what anyone would say."
+       ],
+       "saying": "Ask me where the bones of Bede are and I will tell you: no man knows better than I.",
+       "farewell": "I shall start before light; I walk better in the cool. Do not get up. God keep your ship."
+      },
+      "source": "Elfred (Alfred) son of Westou, sacrist of Durham under bishops Edmund, Aethelric and Aethelwine, about 1020 to after 1056: Symeon of Durham, History of the Church of Durham (tr. Stevenson 1855): he came yearly for Bede's day, left early and alone one year, never came again, and 'conducted himself like a person who had secured the object of his desires'. Some scholars doubt the tale (en.wikipedia Alfred Westou). His birth and death years are guesses (?). The lines are invented, after Symeon's report of his answers." },
+    {
+     "id": "gyrwe.tidhelm", "name": "Tidhelm", "historical": false, "role": "priest", "people": "english", "faith": "christian",
+     "born": 815, "died": 0, "from": 855, "to": 876,
+     "trait": "The priest who keeps Saint Paul's with seven brothers and no abbot, in the years when the book chests go inland by cart: stubborn, short-sighted, and the last man in the house who can find a place in Bede without the list.",
+     "want": "The master's books carried somewhere with a wall; and one more winter of the office sung in both choirs, though the second choir is two old men.",
+     "fear": "Halfdan's ships in the Tyne; and the morning nobody rings the bell because nobody is left who knows the hours.",
+     "voice": "Peers at you first; speaks slowly and exactly, like a man reading small writing.",
+     "looks": "Sixty, thin, stooped from desks, red-rimmed eyes, a darned black cowl, a ring of six chest keys of which four no longer have chests.",
+     "knows": ["which of the six chests have gone inland, and by whose cart", "where the heathen army lies this month, by its smoke", "the grave of the master Bede and the day he is kept", "what the bishop on the holy island means to do, since the bishop asked him the same question"],
+     "ties": [
+      { "to": "lindisfarena.eardulf", "tie": "friend", "note": "sends the bishop on the island word of the army on the Tyne, and in the last winter one word more: go" },
+      { "to": "eoforwic.archbishop", "tie": "serves", "note": "the old archbishop at York is his bishop's bishop; no letter has come in three years" }
+     ],
+     "lines": {
+      "greet": "Come closer. I see a cloak and a shape. A merchant? Then you have a hold. Is it dry? I ask everyone that now.",
+      "greet_again": "The same step on the stair. Good. Another chest went to the hills since you were here. I have its key still. I do not know why.",
+      "rumour": [
+       "The army's ships are in the river and its horses are out north of it. From the church roof I count the smoke. A man on a horse rides far in two days.",
+       "We sang the master's day with nine voices. He would have noticed that the tenor was flat. He noticed everything.",
+       "The bishop on the island asked me whether he should go. I am a priest with six keys and two chests. I wrote back: go."
+      ],
+      "saying": "A book can be carried. A house has to be left.",
+      "farewell": "Go down on the first of the ebb and keep the south shore. If anyone asks where the master's books went, you do not know. Nor do I, quite."
+     },
+     "source": "invented: made real in the weave of 7 Oct 2026 to answer lindisfarena.json's tie from Bishop Eardulf to 'the Tyne houses, nearer the army than he is', which had been pointed at Abbot Friduin, fifty years dead. Halfdan wintered on the Tyne in 875 and wasted the minsters (Symeon of Durham, Historia regum 875); the end of the house at Jarrow is not recorded and nobody is named there in these years (dossier gyrwe). Name: Tid- + -helm (names_placeholder.json)."
+    }
+   ],
+   "stories": [
+    { "id": "gyrwe.wreck_on_the_bar", "title": "What the sea gave back", "thread": "holy_island",
+      "summary": "In 793 the house is warned and waits. In 794 the heathen men come, plunder it, and lose their chief and their ships on the bar. The sea leaves a rune-cut stick, a foreign knife and, in the old fort, one half-drowned man: three things that could lead north to the boys taken from Lindisfarena.",
+      "picture": "Low tide at a river mouth under a torn sky: the ribs of a broken clinker ship in pale sand, gulls on them, a barelegged fisherman holding up a short stick cut with runes, and far behind him two small stone churches on a rise.",
+      "beats": [
+       { "at": "gyrwe.hall", "when": "year < 794", "text": "The abbot has Alcuin's letter read to the merchant as it was read in chapter: you live by the sea, from which the plague first came. He asks one thing: come back and say so if sails are seen from the north. (Sets gy_warned.)", "card": "harbour.apostles_day.gyrwe" },
+       { "at": "gyrwe.herd_sand", "when": "year >= 794 and year < 800", "text": "Broken ships on the south sand. Dudda shows what he kept in his thatch: a stick cut with runes that no monk can read and a knife with a handle of unknown horn. He will part with them for a sound net or six pennies. (Sets gy_stick.)", "card": "harbour.what_the_sea_gave.gyrwe" },
+       { "at": "gyrwe.beach", "when": "year >= 794 and year < 800 and flag.gy_stick and learned.runes", "text": "Ravn turns the stick over twice. It is a tally: so many head, so much silver by weight, and a man's mark. He says the horn is reindeer, and that men who count captives on a stick sell them at a market. (Sets gy_stick_read.)", "card": "crew.read.rune_stick" },
+       { "at": "gyrwe.herd_sand", "when": "year >= 794 and year < 796 and flag.gy_stick", "text": "In a corner of the old fort a boy of the raiders, fifteen perhaps, with a broken arm, fed for a month by Dudda's wife against all sense. The reeve's men are asking along the shore. He knows whose tally the stick is. (Sets gy_survivor.)", "card": "harbour.what_the_sea_gave.gyrwe" },
+       { "at": "lindisfarena.church", "when": "year < 804 and flag.gy_stick_read", "text": "Higbald holds the stick as if it were hot. Ceolhelm copies the mark onto the bishop's list beside the boys' names. It is the first thing anyone has brought him that points somewhere.", "card": "harbour.bishop_counts.lindisfarena" },
+       { "at": "skiringssal.market", "when": "year < 807 and flag.gy_stick_read", "text": "Shown the mark, a dealer stops pretending not to understand. He names the hall the tally was cut for, and for a little silver the season the boys went there.", "card": "" },
+       { "at": "bebbanburg.gate", "when": "year >= 794 and year < 800", "text": "The thegn of the gate asks every skipper from the Tyne how many ships broke on the bar, what was done with the men who swam ashore, and whether any got away north." }
+      ],
+      "links": ["cast.higbald", "cast.tidwine", "cast.crew.beornwine", "cast.crew.ravn", "cast.thorleif", "cast.alcuin", "lindisfarena.higbald", "lindisfarena.ceolhelm", "bebbanburg.cuthgar", "gyrwe.fisherman", "gyrwe.abbot", "lindisfarena.eadstan"],
+      "endings": [
+       { "id": "stick_to_the_bishop", "how": "You had the stick read and carried it to Higbald while he lived.", "text": "The mark goes onto the bishop's list. Northern dealers who would not answer to a boy's name answer to a tally mark, and the road to the boys is a season shorter.", "reward": "Sets gy_stick_read: the northern beats of the bishop's count open without the first bribe (about 60 d saved); Higbald's and the abbot's feeling up; 40 d in wax and wool from the island for the news." },
+       { "id": "boy_carried_off", "how": "You took the wounded raider aboard by night and kept him from the reeve.", "text": "He rows one-handed, eats like two, and when the coast of his own country comes up he names every headland. He owes the house his life and says so once, shortly.", "reward": "A hired hand who knows the north (hire sailor; the Norse tongue aboard); a guest's welcome at one hall in the north; Beornwine sullen for a month; cool looks at Bebbanburg if it is ever known." },
+       { "id": "boy_given_up", "how": "You told the reeve's men where the raider lay.", "text": "He is taken up the river and not seen again. The king's reeve thanks the merchant before witnesses. Dudda's wife does not sell him fish that year.", "reward": "30 d from the reeve and the king's men's good word along this coast (deed with the king's men); the fishers cold; nothing more is learned from the stick than Ravn could read." },
+       { "id": "sold_for_six_pennies", "how": "You sold stick and knife as curios, or never bought them.", "text": "The knife is somebody's eating knife in Dorestad. The stick is kindling. The bishop's count goes on without it.", "reward": "About 15 d for the knife. The house's warning still stands: the abbot remembers who came back to tell him about the sea, and who did not." }
+      ],
+      "reward": "A shorter road to the lost boys, or a northern hand who owes his life, or the reeve's thanks: and in every case a fisherman at the Tyne mouth who knows what the merchant is." },
+    { "id": "gyrwe.masters_book", "title": "The master's book", "thread": "book_road",
+      "summary": "Letters keep coming from over the sea for the books of Bede, and the house has the scribe but not the skins. If the merchant brings calfskin and colours, Torhtred will write the whole history of the English church in a year, and then someone must carry a thing worth more than the boat to the church that asked for it.",
+      "picture": "A sloped desk under an open shutter in winter light: a long ink-stained hand writing in a great open book, a pan of coals under the desk, a pile of pale folded calfskins on the floor and a boat's mast seen small through the window.",
+      "beats": [
+       { "at": "gyrwe.writing_house", "when": "year < 866", "text": "Torhtred does the sum aloud: for the master's history, a hundred and thirty calves, red lead, orpiment, a year. He has the year. He will teach a merchant what a book is worth if the merchant will fetch the rest. (Sets bk_knows_worth and gy_book_ordered.)", "card": "harbour.scribes_sum.gyrwe" },
+       { "at": "gyrwe.cellar", "when": "year < 866 and flag.gy_book_ordered and hold.parchment >= 1", "text": "Dunwald weighs the skins in and writes nothing down against them, on the abbot's word. Torhtred carries them up the hill himself, two at a time, like new bread. (Sets bk_parchment and gy_book_begun.)", "card": "harbour.cellarers_scale.gyrwe" },
+       { "at": "gyrwe.scriptorium", "when": "year < 870 and flag.gy_book_begun", "text": "A year on, the book lies in its boards on the bench. The abbot reads three letters aloud: Utrecht, the East Angles' bishop, and a Frankish abbot on the Seine. Each asks. He lets the carrier choose where it goes first. (Sets gy_book_done.)", "card": "" },
+       { "at": "traiectum.st_martin", "when": "year < 870 and flag.gy_book_done", "text": "At Saint Martin's the bishop's clerk unwraps it and finds the place where the master tells of Willibrord and the Frisians. Nobody speaks for some time. There is silver, and a letter for Liudger.", "card": "" },
+       { "at": "dommoc.bishops_house", "when": "year >= 798 and year < 817 and flag.gy_book_done", "text": "Bishop Tidfrith's boys learn to read out of it: Felix, the city Dommoc, seventeen years. It is the first book in the chest that is not for the altar.", "card": "" },
+       { "at": "quentovic.saint_josse", "when": "year < 805 and flag.gy_book_done", "text": "Sigewine, green from the crossing, will take it on to Tours for Alcuin if the merchant would rather not go up the Seine: half the thanks, none of the river.", "card": "" }
+      ],
+      "links": ["cast.sigewine", "cast.alcuin", "cast.liudger", "cast.hamacar", "cast.gervold", "cast.crew.beornwine", "lindisfarena.ceolhelm", "dommoc.tidfrith", "gyrwe.scribe", "gyrwe.cellarer", "gyrwe.abbot"],
+      "endings": [
+       { "id": "to_utrecht", "how": "You carried the finished book over the sea to Saint Martin's at Utrecht.", "text": "It is chained in the church of Willibrord's own people. Liudger has the chapters on the Frisians copied for his new house, and Torhtred gets a letter of thanks he keeps in his sleeve until it wears through.", "reward": "360 d from the bishop's clerk and a cask of Rhenish wine; sets bk_carried; the scribe a fast friend (copy_text here at no cost); the bishop of Utrecht's good word at Dorestad." },
+       { "id": "to_the_east_angles", "how": "You carried it down the coast to Dommoc.", "text": "A poor see pays what it can and remembers for ever. The boys' bench there is open to the house.", "reward": "200 d in silver and wool; sets bk_carried and dommoc_bede_home; a winter's Latin at Dommoc for one of the house." },
+       { "id": "to_the_best_price", "how": "You sold it to whoever paid most, which was not a church that had asked.", "text": "A Frankish count's chaplain has Bede's history and reads the pictures. Torhtred hears of it from Sigewine. He does not shout. He rules a line through a name in his margin.", "reward": "Up to 480 d; the writing house shut to this merchant until he brings a gift of skins; Beornwine will not read aloud for a season." },
+       { "id": "second_copy_for_the_house", "how": "You brought skins enough for two, and asked for the second for yourself.", "text": "It takes another year. It is plainer, without red. It lies in the house's own chest on the boat, and in bad weather Beornwine reads from it.", "reward": "A book of the house's own (goods books +1, never sold by accident); learn latin for the reader aboard over each winter; when Gyrwe's chests are scattered after 867, this copy is one that is known to be safe." }
+      ],
+      "reward": "A year's patience pays a good voyage's silver, a scribe who will copy anything for the house, and a name known in every church that reads Bede." },
+    { "id": "gyrwe.second_leaf", "title": "The leaf in the scribe's shirt", "thread": "riddle_road",
+      "summary": "Torhtred was on the island for an exemplar when the heathen came, and walked home with one leaf of Ceolhelm's English riddle quire inside his shirt. It asks who stirs the storm under the sea. He will sell a copy; what he wants is for somebody else to take the leaf itself back north.",
+      "picture": "A monk at a writing desk glancing over his shoulder, drawing a folded, creased parchment leaf out of the neck of his cowl; on the desk a clean copy half written; outside the shutter, grey water.",
+      "beats": [
+       { "at": "gyrwe.writing_house", "when": "year < 871", "text": "For ten pennies Torhtred writes out the second leaf: the storm under the sea. He does not give the answer. He asks, as if it did not matter, whether Ceolhelm is still angry. (Gives riddle_exeter_02_storm_sea.)", "card": "harbour.scribes_sum.gyrwe" },
+       { "at": "gyrwe.writing_house", "when": "year < 826 and riddle.riddle_exeter_02_storm_sea", "text": "The merchant has the answer. Torhtred nods, shuts the shutter, and holds out the true leaf with the boot mark on its back. Take it home to him, he says. Say I kept it flat. (Sets gy_true_leaf.)", "card": "harbour.scribes_sum.gyrwe" },
+       { "at": "lindisfarena.writing_house", "when": "year < 829 and flag.gy_true_leaf", "text": "Ceolhelm looks at the leaf, then at the fold in it, then says a short word in Latin that is not in the psalter. Then he asks how Torhtred's hands are in the cold.", "card": "harbour.storm_leaf.lindisfarena" },
+       { "at": "streonaeshalch.beach", "when": "year >= 799 and year < 868", "text": "The third leaf, the storm in the sky, lies dry in a sea chest above the tide line under the cliff.", "card": "harbour.sea_chest.streonaeshalch" },
+       { "at": "bebbanburg.farne", "when": "year >= 793 and chest.riddles_solved >= 3", "text": "With all three answered, the landing the leaves describe can be found among the islands off the kings' rock.", "card": "harbour.gut_between_the_rocks.bebbanburg" }
+      ],
+      "links": ["cast.crew.beornwine", "cast.crew.ravn", "cast.sigewine", "lindisfarena.ceolhelm", "lindisfarena.eadstan", "bebbanburg.bacga", "gyrwe.scribe"],
+      "endings": [
+       { "id": "leaf_taken_home", "how": "You solved the riddle and carried the true leaf back to Ceolhelm.", "text": "Two scribes who have not written to each other since the eighth of June begin again, and the merchant carries the letters. Each tells him, apart, that the other's hand has gone off.", "reward": "Both writing houses copy for the house at no cost (copy_text); 30 d of wax from the island; exemplars lent between the two houses travel in this boat for a fee each way (a small standing commission)." },
+       { "id": "copy_only", "how": "You bought the copy and left the leaf where it was.", "text": "The riddle is in the chest and the leaf is in the shirt. Torhtred goes on asking every northbound skipper the same careless question.", "reward": "give_riddle riddle_exeter_02_storm_sea; with the leaves of Lindisfarena and Streonaeshalch, the landing among the Farne islands (rw_cove_farne)." },
+       { "id": "told_on_him", "how": "You told Ceolhelm, or the abbot, where the leaf was.", "text": "The leaf goes north in the abbot's own letter bag with a penance attached. Torhtred writes a psalter standing up for forty days and will not look at the merchant.", "reward": "Ceolhelm's thanks and 20 d; the abbot's respect; the scribe of Gyrwe cold for two years, and no copying here until he is given colours." }
+      ],
+      "reward": "The second of three leaves that find a harbour nobody else has, and the friendship, or the lasting sulk, of the best hand on the Tyne." },
+    { "id": "gyrwe.tall_frisian", "title": "The tall Frisian who did not want to leave", "thread": "york_blood",
+      "summary": "Torhtred was a small boy at York's school in the year a Frisian merchant killed a nobleman's son and every Frisian fled, Liudger with them. He remembers who was on the quay, which ship, and one thing about the dead boy's kin that nobody at Dorestad has ever been told.",
+      "picture": "Remembered, in evening light: a river quay crowded with men throwing bales into a boat, a very tall young cleric with a chest of books in his arms looking back, and a small tonsured boy watching from behind a post.",
+      "beats": [
+       { "at": "gyrwe.guest_house", "when": "year < 813", "text": "Wynhelm, ladling: a Frisian who lay here said York's reeve asks every Frisian his father's name. Old blood. He points up the hill: the scribe was at York then; ask him, he likes to be asked. (Sets yk_feud_known.)", "card": "harbour.knots_on_a_string.gyrwe" },
+       { "at": "gyrwe.writing_house", "when": "year < 813 and flag.yk_feud_known", "text": "Torhtred puts down the pen. He was nine. He saw the tall one carried to the boat with the books, and a Frisian boy no older than himself pulled aboard by the hair. He looks at the steersman for a while. The dead youth had a sister, he says; she is the one who counts the years. (Sets gy_york_witness.)", "card": "harbour.scribes_sum.gyrwe" },
+       { "at": "eoforwic.minster", "when": "year < 813 and flag.gy_york_witness", "text": "A letter in Torhtred's hand, to a clerk of the archbishop, says that the bearer is known at Bede's house and comes to ask what would end it. It gets the merchant a hearing no Frisian has had in twenty years.", "card": "harbour.price_named.eoforwic" },
+       { "at": "emuthon.church", "when": "year < 810 and flag.gy_york_witness", "text": "Liudger hears that a boy from the bench is a scribe on the Tyne and remembers the bread. He writes his own account of the day, for the kin, to be carried with the price.", "card": "" }
+      ],
+      "links": ["cast.crew.aldger", "cast.liudger", "cast.alcuin", "cast.ecgwulf", "cast.thiadburg", "cast.eanbald", "cast.sigewine", "eoforwic.ecgwulf", "gyrwe.scribe", "gyrwe.guest_master"],
+      "endings": [
+       { "id": "witness_carried", "how": "You took Torhtred's letter to York and Liudger's account with it.", "text": "The kin hear the day told by two churchmen who were there, neither of them a Frisian merchant. It does not pay the price. It makes it a price that can be named.", "reward": "The blood-price at York is asked a third lower and before church witnesses; the archbishop's clerk as a friend; Aldger's loyalty; 40 d from Liudger for the carrying." },
+       { "id": "told_aldger_only", "how": "You kept it aboard: you told the steersman what the scribe saw and went no further.", "text": "Aldger learns that someone saw him pulled into the boat, and that there is a sister. He is quiet for a week, then asks to be set ashore at York one day, when the house can spare him.", "reward": "Aldger's heart and morale up for good; the thread stays open; nothing changes at York." },
+       { "id": "let_it_lie", "how": "You heard the story and left it at the scribe's desk.", "text": "Torhtred picks up the pen. Twenty years, he says; what is another.", "reward": "The flag yk_feud_known only: the merchant knows why York's reeve asks his steersman's father's name." }
+      ],
+      "reward": "A witness to the killing at York who is neither kin nor Frisian: the one thing that lets the old blood be priced." },
+    { "id": "gyrwe.bedes_day", "title": "The priest who came every year", "thread": "",
+      "summary": "About 1020 a quiet priest of Durham keeps vigil at Bede's grave every twenty-sixth of May. One year he will leave before light with a full bag and never come back. A merchant who has kept the day beside him sees more than the fishers do.",
+      "picture": "First grey light at the door of a half-roofed stone church: a spare priest in a black cloak stepping out with a staff, one hand flat on a linen bag under the cloak; a merchant in the porch shadow, awake.",
+      "beats": [
+       { "at": "gyrwe.church", "when": "year >= 1020 and year < 1023 and month = 5", "text": "The master's day. Country people, a fisher's family, and a priest of Durham who knows every stone in the floor. He is glad of company at the vigil and gladder when it sleeps. (Sets gy_met_elfred.)", "card": "" },
+       { "at": "gyrwe.church", "when": "year >= 1021 and year < 1023 and month = 5 and flag.gy_met_elfred", "text": "This year he has brought a mason's bar under his cloak, and a bag that is flat. Past midnight there is a small sound of iron on stone from the north porch. The merchant is the only other person awake. (Sets gy_saw_elfred.)", "card": "harbour.masters_day.gyrwe" },
+       { "at": "gyrwe.beach", "when": "year >= 1021 and year < 1024 and flag.gy_saw_elfred", "text": "Before light the priest is at the boats asking for a passage up the river, toward the Durham road. He pays well and looks at nobody. His bag is no longer flat.", "card": "harbour.masters_day.gyrwe" },
+       { "at": "lindisfarena.church", "when": "year >= 1022", "text": "The priest on the island has it from Durham, in confidence, where the master Bede lies now: in a linen bag beside Saint Cuthbert, in the same coffin. He tells every boat." }
+      ],
+      "links": ["gyrwe.elfred", "gyrwe.fisherman", "eoforwic.archbishop", "lindisfarena.leofstan"],
+      "endings": [
+       { "id": "carried_him", "how": "You gave him the passage up the Tyne and asked nothing.", "text": "He says the office all the way, very softly. At the landing he blesses the boat, and for the first time looks straight at the merchant. At Durham the master is laid in a linen bag beside Cuthbert. Nobody is told for forty years.", "reward": "Elfred's friendship: the peace and good word of Saint Cuthbert's people from Tyne to Tees for this merchant and his heir; 120 d left on the thwart; a mass by name at Durham each year." },
+       { "id": "asked_him", "how": "You asked him, at the boats, what was in the bag.", "text": "He says: he who knows about Cuthbert knows about Bede. Then he walks. It takes him two days by land. He does not forget who asked, and seems rather to like him for it.", "reward": "The story, entire, for the chest (a text of the house's own telling); the fishers' respect; a dry welcome at Durham and one true answer whenever the house asks a question there." },
+       { "id": "woke_the_church", "how": "You woke the fishers and the people keeping the vigil.", "text": "There is shouting in the porch. The priest stands with his hands open and says he was praying. The stone is put back. He does not come the next year, or again, and the grave is watched until the Normans burn the roof over it.", "reward": "HISTORY CHANGED, in a small way: Bede lies at Gyrwe to the end of the game. The Slake's people hold the merchant their own (free lodging, pilot and fish here for the house's life); Durham's door is shut to him." }
+      ],
+      "reward": "A friend among Saint Cuthbert's people at the end of the game's years, or a village that will never let the house pay for a salmon again." }
+   ],
+   "works": [
+    { "id": "gyrwe.work.watch_on_the_lawe", "name": "A watch on the south headland", "what": "A hut, a horn and a stack of dry furze in the corner of the old Roman fort at the river mouth, with two of the house's lay tenants paid to sit there from May to September and look north.",
+      "cost_d": 180, "days": 20, "from": 793, "to": 866, "needs": "The abbot's leave, given after you have brought him news of the sea once. Best done before the summer of 794.",
+      "gives": "The house has an hour's warning of any fleet. In 794 the books and the altar plate are carried inland before the heathen land: the house stays richer after, the book chests stay full to 866, and the abbot is a fast friend. Later, word of raiders off the Tyne reaches the merchant here a day early.",
+      "picture": "A turf hut and a pile of furze inside a grassed stone rampart on a headland, a man with a cow horn at his lips, open sea and three specks of sail on the northern horizon.",
+      "source": "Alcuin's warning that the house lives by the sea (MGH Epistolae IV no. 19); the fort on the Lawe (en.wikipedia Arbeia). A watch is not recorded: it is the game's (?), and changes what 794 costs the house, not whether it happens." },
+    { "id": "gyrwe.work.glass_maker", "name": "A man who can make glass", "what": "Passage, tools and a year's keep for a Frankish glass worker, with a load of raw glass, to set the furnace by the river going again and teach two brothers the craft.",
+      "cost_d": 420, "days": 150, "from": 793, "to": 860, "needs": "Find a glass worker on the Rhine or the Seine willing to come (Colonia, Rotomagus), carry him and raw glass here, and have the cellarer's good will.",
+      "gives": "Window glass and small glass vessels are made here: glass_vessels can be had at the cellarer's door at source price, the boarded windows are glazed again, and the abbot writes the merchant's name to Mainz as the man who answered a letter thirty years old.",
+      "picture": "A clay furnace glowing in a riverside shed, a foreign craftsman blowing a small green cup at the end of an iron, two monks watching with their sleeves tied back, chips of coloured glass on the floor.",
+      "source": "Glaziers fetched from Gaul because the English did not know the craft (Bede, Lives of the Abbots 5); Abbot Cuthbert still asking Lul for a glass-maker in 764 (?); glass worked on the Jarrow riverside (English Heritage). Design/content/economy/pots_glass_luxuries.md." },
+    { "id": "gyrwe.work.calf_herd", "name": "A herd for the writing house", "what": "Forty heifers bought and set on the house's land at Monkton under a lay herdsman, their bull calves to go for skins each autumn, so the scribes no longer wait on a merchant.",
+      "cost_d": 360, "days": 30, "from": 793, "to": 866, "needs": "The cellarer's consent, which takes a gift and an argument; not in 810 or the year after, when the cattle are dying.",
+      "gives": "The writing house finishes a book every second year: a standing commission to carry one, at a book's price, to a church that has asked. Parchment can be bought here. The scribe and the cellarer both claim the idea.",
+      "picture": "A dozen red calves in a hurdled fold on a green slope, a herdsman leaning on the hurdle, and a monk with ink on his hands looking at them the way a hungry man looks at bread.",
+      "source": "One great Bible took the skins of 515 cattle (en.wikipedia Codex Amiatinus); the house's land was a king's gift for the purpose. Monkton as a farm of the monks in 793 is not certain (?). The cattle plague: 810." },
+    { "id": "gyrwe.work.bedes_porch", "name": "Lead and glass for the master's porch", "what": "A roof of lead sheets and one small glazed window for the side chamber on the north of Saint Paul's where the master Bede lies, with a lamp and oil for a year.",
+      "cost_d": 500, "days": 60, "from": 800, "to": 1021, "needs": "Lead (twelve hundredweight), and the abbot's leave; after 883, the leave of Saint Cuthbert's priest instead.",
+      "gives": "The house's name is said at the grave each twenty-sixth of May. Standing with the brothers, and after 883 with Saint Cuthbert's people, that passes whole to the heir. On the master's day the crew's heart is lifted.",
+      "picture": "A small stone side chapel under a new grey lead roof against the wall of a tall church, a single lamp burning inside before a plain floor slab, a merchant's crew standing bareheaded at the door.",
+      "source": "A porch on the north side of the church, consecrated in Bede's honour: Symeon of Durham, History of the Church of Durham (tr. Stevenson 1855); its date is not known (?). Lead on a Northumbrian church: Bede, Ecclesiastical History III.25." }
+   ],
+   "ships": [
+    { "class": "coaster_minster_ship", "how": "hired", "from": 793, "to": 870,
+      "note": "The house's own coaster, which fetches casks and salt and carries wool between the two houses round by sea. After three commissions kept for the house, the abbot lends her for a season with a lay steersman.",
+      "picture": "A broad open clinker boat of ten paces lying on her bilge on a mudflat, one square sail of undyed wool furled on the yard, monks handing bales down a plank; two stone churches on the rise behind.",
+      "source": "traffic_793.json keeps one minster coaster here; story/unlocks_793.json lends a minster's ship after three commissions. No ship has been found at Jarrow (dossier, section 4)." },
+    { "class": "west_small_boat", "how": "bought second-hand", "from": 793, "to": 1066,
+      "note": "A fisher's boat off the Slake, tarred black and patched, sold when a man is too old for the weirs. Good inside the bar and up the river to Corbridge; not for the open sea.",
+      "picture": "A small black clinker boat nose-down on shining mud, a sounding pole and an eel trap in her, a barelegged man holding her by the stem.",
+      "source": "Fish bones in the refectory and the tidal Tyne, navigable some 30 km (dossier, sections 2 and 4). The boat is ordinary; none has been found." },
+    { "class": "norse_small_boat", "how": "bought second-hand", "from": 794, "to": 796,
+      "note": "A ship's boat that came ashore whole from the wreck on the bar, light and quick, with the wrong kind of rivets for any wright on the Tyne. Dudda has her under furze above the tide line and would rather have silver than questions.",
+      "picture": "A slim four-oared clinker boat, pale new wood, half hidden under cut furze in the dunes, a broken longship's ribs on the sand beyond.",
+      "source": "The wreck of 794: Symeon, History of the Kings; Anglo-Saxon Chronicle. That a boat survived it is the game's (?): Design/content/realms/northumbria_york.md gives timber, iron and a sail to whoever will take them." }
+   ],
+   "sayings": [
+    { "text": "You live by the sea, from which the plague first came.", "source": "Alcuin to the brothers of Wearmouth and Jarrow, 793 (MGH Epistolae IV no. 19: 'Vos maritima habitatis, unde pestis primo ingruit'), our rendering" },
+    { "text": "But Saint Cuthbert did not allow them to depart unpunished; for their chief was put to a cruel death by the Angles.", "source": "Symeon of Durham, History of the Kings s.a. 794 (tr. J. Stevenson 1855)" },
+    { "text": "Nobody shall pray for them: may God spare none of them! for they have taken away from men the ancient rites and customs.", "source": "The country people at the Tyne mouth, of monks drifting out to sea: Bede, Life of Saint Cuthbert ch. 3 (tr. J. A. Giles)" },
+    { "text": "The large and noble library, which he had brought from Rome, was to be kept entire, and neither by neglect to be injured or dispersed.", "source": "Bede, Lives of the Abbots of Wearmouth and Jarrow 11 (tr. J. A. Giles), as cited in Design/content/lore/texts_books.md" },
+    { "text": "Ceolfrith and one little boy sang the whole office between them. The boy did rather well afterwards.", "source": "The house's joke about the plague of 686, invented in the period's manner (understatement); the fact is the anonymous Life of Ceolfrith, by way of the Victoria County History" },
+    { "text": "Five hundred calves went to Rome and none of them came back.", "source": "The cellarer on the great Bible of 716; invented. The count is from the Codex Amiatinus (en.wikipedia)" },
+    { "text": "A moth ate words. It was no wiser for the meal.", "source": "After the Exeter Book's bookworm riddle (riddles_793.json riddle_exeter_47_bookworm, sold here by the librarian monk), our own short rendering" },
+    { "text": "Three kings since Easter. Do not cut the name in stone; use wax.", "source": "Said in 796, invented; Aethelred, Osbald and Eardwulf: Symeon, History of the Kings s.a. 796" },
+    { "text": "The abbot asked Mainz for a glass-maker and a harper. Mainz sent its love.", "source": "Invented, on Abbot Cuthbert's letter to Lul of 764 (?); whether Lul sent either is not recorded" },
+    { "text": "The boy who digs out foxes will not hear the angels at the night office. He will hear the abbot.", "source": "Invented, on Alcuin's scolding of the house for boys who hunt instead of singing (from memory in the dossier (?))" },
+    { "text": "He conducted himself like a person who had secured the object of his desires.", "source": "Symeon of Durham, History of the Church of Durham, of Elfred son of Westou (tr. J. Stevenson 1855); said at Gyrwe only after 1022" }
+   ],
+   "easter_eggs": [
+    { "text": "The cut stone over the arch gives the day the church was hallowed: the ninth before the kalends of May, in the fifteenth year of King Ecgfrith and the fourth of Abbot Ceolfrith. It will still be in the wall, and still readable, when every other church stone of its age in England has lost its writing.", "where": "gyrwe.church", "source": "The dedication stone of 685, the oldest in England (English Heritage; Great English Churches)" },
+    { "text": "Ask to sit in the master's chair and the schoolmaster will tell you there is no such thing: the master sat on a bench like everyone else. The old oak chair shown in the church in later ages is younger than he is.", "where": "gyrwe.scriptorium", "source": "'Bede's chair' is later than Bede (en.wikipedia St Paul's Church, Jarrow; Great English Churches)" },
+    { "text": "One of the three small windows of the east church holds glass in seven colours, cut in little shapes and leaded together. Some of those very pieces will be dug out of the ground and set back in one of those very windows twelve hundred years on.", "where": "gyrwe.church", "source": "English Heritage, description of the chancel windows; excavated 7th to 8th century glass reset in a Saxon window (en.wikipedia St Paul's Church, Jarrow) (?)" },
+    { "text": "The big Bible that Abbot Ceolfrith took toward Rome had a line at the front saying who sent it. Somebody in Italy will scrape out his name and write another, and for a thousand years it will pass for an Italian book.", "where": "gyrwe.scriptorium", "source": "The altered dedication of the Codex Amiatinus (en.wikipedia Codex Amiatinus)" },
+    { "text": "Many of the graves south of the church have builders' rubbish in the fill: lumps of plaster, a curl of lead, a chip of blue window glass. The dead were being buried while the masons were still at work.", "where": "gyrwe.graveyard", "source": "Tyne and Wear HER 1227: 59 graves with building debris in the fill" },
+    { "text": "The schoolmaster keeps a twist of black pepper in the chest with the oldest books. He says it came out of the master's own box and that nobody is to grind it.", "where": "gyrwe.scriptorium", "source": "Bede's box held pepper, napkins and incense (Cuthbert's letter on his death, by way of en.wikipedia Bede); the twist is invented" },
+    { "text": "The house's name means the fen people, for the mud of the Slake. A brother from the south says there are other Gyrwe in the Fens, and that both lots deserve it.", "where": "gyrwe.beach", "source": "en.wikipedia Jarrow: Gyrwe, 'fen dwellers'. The North and South Gyrwe of the Fens: Bede, Ecclesiastical History IV.19 (?)" },
+    { "text": "Up the river a day's rowing, at Hexham, somebody will bury a bucket of eight thousand copper pennies about 850 and never come back for it.", "where": "gyrwe.cellar", "source": "The Hexham hoard (hoards_793.json)" },
+    { "text": "After the game's last year: in 1069 the bishop, flying north with Saint Cuthbert's body, will sleep his first night on the road in this church. King William's men will burn it behind him.", "where": "gyrwe.church", "source": "Symeon of Durham, History of the Kings s.a. 1069; History of the Church of Durham (Stevenson 1855)" },
+    { "text": "A brother who reckons time will tell you the year by the Lord's incarnation, not by the king. It was the master's habit. Most of the world has not caught it yet.", "where": "gyrwe.scriptorium", "source": "Bede's use of Anno Domini dating in the Ecclesiastical History (731) and On the Reckoning of Time (725); from memory in the dossier (?)" }
+   ],
+   "unlocks": [
+    { "id": "gyrwe.abbots_ear", "what": "The abbot's ear for news of the sea", "how": "Come back to Gyrwe at least once in 793 or 794 and tell the abbot truly what you saw off the coast.", "gives": "flag gy_warned; the abbot receives the merchant without a gift (audience); leave to fund the watch on the south headland." },
+    { "id": "gyrwe.bar_marks", "what": "Dudda's marks for the bar", "how": "Hire him as pilot three times, or bring him a sound net, or keep quiet about what he had in his thatch.", "gives": "The house's ships cross the Tyne bar at any state of the tide and in fog without a pilot; hire_pilot here costs nothing; a salmon for the pot each call (provision)." },
+    { "id": "gyrwe.scribes_sum", "what": "The scribe's sum of a book", "how": "Sit through Torhtred's reckoning in the writing house and take his order for skins.", "gives": "flag bk_knows_worth and flag gy_book_ordered: books can be priced in a heathen market, and calfskin and pigments sell at the cellarer's door a fifth over the market." },
+    { "id": "gyrwe.second_leaf_copy", "what": "A copy of the second storm leaf", "how": "Pay Torhtred ten pennies in the writing house, any year to 870.", "gives": "give_riddle riddle_exeter_02_storm_sea; with the leaves of Lindisfarena and Streonaeshalch, the landing among the Farne islands (rw_cove_farne)." },
+    { "id": "gyrwe.reckoners_riddles", "what": "The schoolmaster's riddles of sun and moon", "how": "Answer Ceolmund's question about the tide rightly, or nearly, and pay six pennies for the wax.", "gives": "give_riddle riddle_exeter_06_sun and give_riddle riddle_exeter_29_moon_sun; the old man will tell the time of high water on any bar of this coast for the asking (ask_harbour)." },
+    { "id": "gyrwe.cellarers_fish", "what": "Abbot Hwaetberht's riddle of the fish", "how": "Sell the cellarer a fish, or bring corn in the famine of 793 at a price he can say in chapter.", "gives": "give_riddle riddle_eusebius_40_pisce; with the corn, flag hy_fed_poor and the cellarer's good measure ever after (haggle goes easier here)." },
+    { "id": "gyrwe.boys_bench", "what": "An afternoon on the boys' bench", "how": "Bring Beornwine up the hill to the schoolmaster while the old man lives (before 802), and stand there while neither of them says the thing.", "gives": "Beornwine's heart mended (morale; his fear of the cloister gone); learn latin for the reader aboard; read_text and copy_text at the book chests without a fee." },
+    { "id": "gyrwe.house_ship", "what": "The loan of the house's coaster", "how": "Keep three commissions for the house and stand well with the abbot.", "gives": "The coaster_minster_ship for a season with a lay steersman, toll-free where the king lets minsters' ships off (story/unlocks_793.json)." },
+    { "id": "gyrwe.masters_day", "what": "A place at the master's day", "how": "Roof the master's porch, or keep the twenty-sixth of May here three times in any years.", "gives": "Each year the house lies here on that day the crew's heart is lifted and the house's name is said at the grave (remember); after 883, the good word of Saint Cuthbert's people between Tyne and Wear." }
+   ],
+   "sources": [
+    "Design/content/dossiers/gyrwe.md (researched 4 Oct 2026, checked again 6 Oct): the base for every fact here; its section 8 lists what must not be claimed (no market, quay, well, wall, mint or ale-house; the house plundered in 794, not burned; the raiders' homeland not known; the abbot of 793 not known)",
+    "Design/content/spine.json and spine.md: threads holy_island, book_road, riddle_road, york_blood, hungry_years; cast.crew.beornwine (place id gyrwe.beornwine), cast.sigewine, cast.alcuin, cast.higbald, cast.tidwine, cast.liudger, cast.crew.ravn, cast.crew.aldger",
+    "Symeon of Durham, History of the Kings and History of the Church of Durham, tr. J. Stevenson, The Church Historians of England III.2 (1855): https://archive.org/details/churchhistorians32stev",
+    "Bede, Lives of the Abbots of Wearmouth and Jarrow, tr. J. A. Giles (Everyman 1910): https://sourcebooks.fordham.edu/basis/bede-jarrow.asp",
+    "Bede, Life of Saint Cuthbert ch. 3, tr. J. A. Giles: https://sourcebooks.fordham.edu/basis/bede-cuthbert.asp",
+    "Anglo-Saxon Chronicle 792-794, 875 (Avalon Project; Giles 1847 in texts_793.json chronicle_793): https://avalon.law.yale.edu/medieval/ang08.asp",
+    "Alcuin, letter to the brothers of Wearmouth and Jarrow, 793 (MGH Epistolae IV no. 19; P. Jaffe, Monumenta Alcuiniana, 1873): our own rendering from the Latin",
+    "Victoria County History, Durham, vol. 2 (1907), 'Saxon Houses: including Wearmouth and Jarrow': https://www.british-history.ac.uk/vch/durham/vol2/pp79-85",
+    "English Heritage, St Paul's Monastery, Jarrow, history and description (facts only, no wording): https://www.english-heritage.org.uk/visit/places/st-pauls-monastery-jarrow/history/",
+    "Tyne and Wear Historic Environment Record 1224, 1225, 1227, 1228, 1229, 1232, 1233: https://www.twsitelines.info/SMR/1227",
+    "Wikipedia (English): Monkwearmouth-Jarrow Abbey; Jarrow; St Paul's Church, Jarrow; Bede; Benedict Biscop; Hwaetberht; Codex Amiatinus; Alfred Westou; Bishop of Hexham; Arbeia; Tynemouth Castle and Priory",
+    "Design/content/lore/texts_books.md, saints_calendar.md, sea_lore.md; Design/content/economy/pots_glass_luxuries.md, food.md; Design/content/realms/northumbria_york.md",
+    "Assets/Kapman/Game/Data: ports_793.json, goods_793.json, riddles_793.json (the riddles sold at gyrwe), chronicle_793.json, hoards_793.json, traffic_793.json, ship_classes_793.json, story/unlocks_793.json, encounters/npc_roles_793.json",
+    "Neighbouring places files read so that ids agree: lindisfarena.json (gyrwe.abbot, gyrwe.cellarer, gyrwe.writing_house, gyrwe.beach), bebbanburg.json (gyrwe.beornwine), dommoc.json (gyrwe.scriptorium), hamwic.json (a monk here who knows Aldhelm's hundred: the scribe)",
+    "Invented and marked so: Dunwald, Torhtred, Ceolmund, Wynhelm, Dudda; the wounded raider, the stick's tally and the knife; the writing house, the cellarer's door, the weirs, the watch; Friduin's dates; every spoken line"
+   ]
+  }
+ ]
+}

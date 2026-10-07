@@ -1,0 +1,100 @@
+/* THE GLASS (the user, 2026-10-03: "make all the UI transparent"): every panel is rgba(34, 22, 40, 0.96), see-through; the text has a soft shadow so it reads over the light chart and the sea. Change the 0.6 to tune it. */
+
+/* THE TEXT PANEL - black see-through glass, a hard thin black line round every edge, square corners, light text
+   (the user, 2026-10-01: "tint the UI to be black but see through with a hard thin black line around the bezels ...
+   make them hard corners"). A clear book serif, Gentium Book Plus (SIL Open Font License, Fonts/GentiumBookPlus-OFL.txt). */
+
+.text-root {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 48px;
+}
+
+.text-box {
+    width: 660px;
+    max-width: 90%;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 16px 20px 14px 20px;
+    color: rgb(232, 231, 226);
+}
+
+.text-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: 22px;
+    color: rgb(240, 239, 234);
+    margin-bottom: 6px;
+    white-space: normal;
+}
+
+.text-story {
+    font-size: 14px;
+    white-space: normal;
+    margin-bottom: 8px;
+}
+
+.text-story.placeholder {
+    color: rgba(232, 231, 226, 0.42);
+    -unity-font-style: italic;
+}
+
+.text-intention {
+    font-size: 13px;
+    color: rgba(232, 231, 226, 0.75);
+    margin-bottom: 8px;
+    white-space: normal;
+}
+
+.text-options {
+    flex-direction: column;
+}
+
+/* an option: its label, and its plain intention in small print under it */
+.text-option {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    border-radius: 10px;
+    color: rgb(232, 231, 226);
+    font-size: 15px;
+    -unity-text-align: middle-left;
+    padding: 6px 10px;
+    margin: 2px 0;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.text-option:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.text-option-label {
+    font-size: 15px;
+    color: rgb(236, 235, 230);
+    padding: 0;
+    margin: 0;
+}
+
+.text-option-intention {
+    font-size: 11px;
+    color: rgba(232, 231, 226, 0.55);
+    padding: 0;
+    margin: 1px 0 0 18px;
+    white-space: normal;
+}
+
+.text-outcome {
+    font-size: 13px;
+    color: rgb(232, 231, 226);
+    white-space: normal;
+    margin-top: 8px;
+}

@@ -1,0 +1,809 @@
+{
+ "about": "Rotomagus (Rouen, on the Seine at the tide's reach), written 6 Oct 2026 from Design/content/dossiers/rotomagus.md and the spine. One port. A draft for the user to overwrite. (?) marks what the sources do not show. The dossier's section 8 lists what must not be claimed and this file keeps to it: in 793 there are no Northmen here, no Tower, no Robec by that name, no named count, tollman or moneyer; the toll rate is not known; there is no bridge. Dudo (about 1015) and William of Jumieges (about 1070) are late and flatter the dukes: what rests on them says so.",
+ "region": "neustria_west",
+ "woven": "Woven with Quentovic, Parisius, Namnetis, Herio and Burdigala on 6 Oct 2026: ties answered both ways; made real here: rotomagus.cellarer (Saint-Wandrille's cellarer, whom the Quentovic file named), rotomagus.wandrille_warden (whom Grippo's tie named) and rotomagus.longsword (William Longsword, Rollo's son: the Namnetis file's Alan had his tie pointed at the later Duke William); the archbishop's tie to a missing 'lundenwic.emma' is pointed at lundenwic.cnut; beats placed across the region and the port's cards (encounters/neustria_west_793.json) put on their sites. Nothing was taken out.",
+ "ports": [
+  {
+   "port": "rotomagus",
+   "summary": "Rotomagus is an old Roman city in a square wall of robbed stone on the north bank of the Seine, an archbishop's seat, and the place where the tide stops being of use. Sea ships come up to the wall on the flood; above it the barges take over, so the wine of the Paris country changes hulls here and the king's toll is taken as it does. A merchant comes for wine going out, for English lead, wool and tin coming in, for the fair of Saint-Denis upriver, and for news, which reaches this gate from both ends of the river.",
+   "seasons": "Salmon run in Lent and a small silver fish that smells of cucumber is netted under the wall before Easter. The wheat is cut after Saint Ouen's (24 August); the wine boats go up for the fair of Saint Denis (9 October) and come down full before Martinmas, and wine is dear over the sea until Christmas. The big tides come with the new and the full moon; in a hard winter the river can freeze from bank to bank and a white goose with red feet comes down from the north.",
+   "history": [
+    { "year": 395, "text": "About this year Bishop Victricius builds a basilica inside the wall for relics of Gervase, Protase and others, sent to him by Ambrose of Milan.", "source": "fr.wikipedia.org/wiki/Victrice_de_Rouen; the dig in the Albane court (Le Maho 1986) as reported at fr.wikipedia.org/wiki/Cathédrale_Notre-Dame_de_Rouen" },
+    { "year": 684, "text": "Bishop Ouen is buried in Saint Peter's church outside the wall, which will one day take his name.", "source": "fr.wikipedia.org/wiki/Abbaye_Saint-Ouen_de_Rouen; en.wikipedia.org/wiki/Audoin_(bishop)" },
+    { "year": 760, "text": "About these years Bishop Remigius, the king's brother, brings singers from Rome to teach the Roman chant and sets canons in the cathedral.", "source": "fr.wikipedia.org/wiki/Remi_de_Rouen (bishop 755-771)" },
+    { "year": 779, "text": "The king frees the boats of Saint-Germain-des-Pres of toll at Rotomagus, Quentovic, Amiens, Maastricht and Dorestad. So a toll is taken here; its rate is not written.", "source": "Charter of Charles, 27 March 779 (Tardif no. 81; traffic_793.json D.122); story/unlocks_793.json unlock_charter_rotomagus" },
+    { "year": 787, "text": "Gervold, bishop of Evreux, becomes abbot of Saint-Wandrille, a tide below the city. For many years he takes the king's tolls in the ports of this coast, chiefly at Quentovic.", "source": "Gesta abbatum Fontanellensium c. 12 (c. 16 in Loewenfeld's edition of 1886), as in spine.json cast.gervold; 787 or 788" },
+    { "year": 800, "text": "After Easter King Charles crosses the Seine at Rotomagus on his way to Saint Martin's at Tours. He has been along the coast setting ships and guards against pirates.", "source": "Annales regni Francorum 800; chronicle_793.json 800-03-channel-coastguard" },
+    { "year": 818, "text": "The emperor Louis passes through the city.", "source": "Annales regni Francorum 818" },
+    { "year": 820, "text": "Bera, count of Barcelona, charged with bad faith and beaten in a duel on horseback, is spared his life and sent to live at Rotomagus.", "source": "Annales regni Francorum 820" },
+    { "year": 822, "text": "In the winter of this year the Seine is frozen for thirty days and loaded carts cross on the ice.", "source": "Annales regni Francorum 821 (the great rivers frozen thirty days and more), as in chronicle_793.json; the carts are the annal's, said of the Rhine, Danube, Elbe and Seine together" },
+    { "year": 824, "text": "On 17 November the emperor Louis comes back from Brittany to Rotomagus, where he had told his wife to wait for him. The envoys of the emperor of the Greeks are heard here on the matter of images, with Fortunatus, patriarch of Grado.", "source": "Annales regni Francorum 824" },
+    { "year": 841, "text": "In spring a seething tide carries merchant ships up from the river mouth and leaves them by the city. King Charles fills twenty-eight of them with armed men and crosses.", "source": "Nithard, Histories II.6 (the dossier's rendering)" },
+    { "year": 841, "text": "This year, on the fourteenth of May, Danish pirates came up from the sea and fell on Rotomagus. They raged with plunder, sword and fire, and gave the city, the monks and the rest of the people over to killing and captivity.", "source": "Annales Bertiniani 841 (Waitz 1883), our rendering; chronicle_793.json 841-05-rouen-sacked. Their leader is Oscherus in the chronicle of Fontenelle" },
+    { "year": 841, "text": "Jumieges is burned ten days after. Saint-Wandrille buys itself off for six pounds of silver.", "source": "Chronicle of Fontenelle 841, as reported at fr.wikipedia.org/wiki/Abbaye_Saint-Wandrille_de_Fontenelle (the chronicle itself not opened) (?)" },
+    { "year": 845, "text": "In March a hundred and twenty ships pass under the wall on their way to Paris. The king pays seven thousand pounds for them to go.", "source": "Annales Bertiniani 845; chronicle_793.json 845-03-28-paris-sacked" },
+    { "year": 846, "text": "About these years King Charles has the head of Saint Romanus and the bodies of Remigius and Godard carried to Soissons for safety.", "source": "fr.wikipedia.org/wiki/Romain_de_Rouen (844-847)" },
+    { "year": 851, "text": "Northmen leave their ships at Rotomagus and go on foot as far as Beauvais.", "source": "Annales Bertiniani 851-852" },
+    { "year": 858, "text": "From July to the twenty-third of September the king besieges the Northmen on their island at Oissel, above the city, and fails.", "source": "Annales Bertiniani 858" },
+    { "year": 864, "text": "The king's edict at Pitres, 25 June: new pennies from ten mints only, Rotomagus one of them; death for any man who sells a mail coat, arms or a horse to the Northmen.", "source": "Edictum Pistense c. 12 and 25 (MGH Capit. II no. 273), in our own words; chronicle_793.json 864-06-25-pitres" },
+    { "year": 876, "text": "On 16 September about a hundred ships of Northmen enter the Seine.", "source": "Annales Bertiniani 876. Dudo of Saint-Quentin (LATER) puts Rollo's first coming to Rouen here; no other witness" },
+    { "year": 885, "text": "On 25 July the Northmen enter Rotomagus with their whole army. They find ships on the river and cross in them.", "source": "Annales Vedastini 885, our rendering; chronicle_793.json 885-11-24-siege-paris" },
+    { "year": 911, "text": "King Charles grants Rotomagus and the land about the lower Seine to Rollo and his Northmen, to hold against other Northmen. Archbishop Franco baptises him, by Dudo's telling in 912.", "source": "Charter of Charles the Simple, 14 March 918; Flodoard; Dudo ii (LATER); chronicle_793.json 911-rollo-rouen. The year is the traditional one" },
+    { "year": 918, "text": "The monks of Saint Peter's come back, and Saint Ouen's body with them.", "source": "fr.wikipedia.org/wiki/Abbaye_Saint-Ouen_de_Rouen; fr.wikipedia.org/wiki/Ouen_de_Rouen" },
+    { "year": 925, "text": "The Northmen of Rotomagus break the peace. The Franks burn their land on this side of the Seine.", "source": "Flodoard, Annales 925" },
+    { "year": 934, "text": "About this year Riulf and his men rise against William, Rollo's son, and are beaten in the meadow between the west wall and the river.", "source": "Dudo iii (LATER); fr.wikipedia.org/wiki/Fortifications_de_Rouen" },
+    { "year": 942, "text": "William receives King Louis royally in the city. There is famine and a plague of cattle. On 17 December William is murdered at a parley on the Somme.", "source": "Flodoard, Annales 942-943; en.wikipedia.org/wiki/William_Longsword" },
+    { "year": 943, "text": "King Louis kills the Northman Turmod, who had gone back to idols and pressed the boy Richard to do the same, and the heathen king Setric with him. He gives Rotomagus to Herluin of Montreuil.", "source": "Flodoard, Annales 943" },
+    { "year": 945, "text": "King Louis is seized by the men of Rotomagus and held in the city.", "source": "Flodoard, Annales 945" },
+    { "year": 946, "text": "King Otto and King Louis waste the Northmen's land as far as the city. The Norman writers make it a siege, with Otto's nephew killed at the north gate.", "source": "Flodoard, Annales 946; Dudo iv and William of Jumieges iv (LATER) for the siege, which Flodoard does not have" },
+    { "year": 965, "text": "About these years Ibrahim son of Jacob, a Jew of Tortosa, visits the city: a town of old stone, wheat and rye but no vines, salmon, and a young man whose beard reaches his knees.", "source": "Ibrahim ibn Ya'qub as preserved by later Arabic writers, retold from the French of M. Arkoun (2006) given at fr.wikipedia.org/wiki/Rouen" },
+    { "year": 996, "text": "Count Richard dies after fifty-four years. The country people hold assemblies to use wood and water by their own law, and are put down.", "source": "William of Jumieges v (tr. Guizot 1826, not quoted) (LATER)" },
+    { "year": 1000, "text": "About this year the king's toll at London names the men of Rouen, who come with wine or great fish: six shillings for a large ship and a twentieth of the fish.", "source": "IV Aethelred 2 (Thorpe 1840), our rendering; chronicle_793.json 1000-london-tolls (the year is the usual guess)" },
+    { "year": 1013, "text": "After Christmas, which he keeps on Wight, King Aethelred crosses to his wife's brother, Count Richard, at Rotomagus. Queen Emma and the boys Edward and Alfred are there before him.", "source": "Anglo-Saxon Chronicle 1013 (Giles 1847), in our own words; William of Jumieges v" },
+    { "year": 1014, "text": "Archbishop Robert baptises Olaf, a Northman chief who will be king of the Norwegians.", "source": "William of Jumieges v (LATER); the year (?)" },
+    { "year": 1036, "text": "Archbishop Robert opens the shrine of Saint Romanus.", "source": "fr.wikipedia.org/wiki/Romain_de_Rouen" },
+    { "year": 1055, "text": "Archbishop Mauger, the duke's uncle, is put out of his see at a council at Lisieux. Maurilius, a monk, follows him.", "source": "en.wikipedia.org/wiki/Mauger_(archbishop_of_Rouen); fr.wikipedia.org/wiki/Maurille_de_Rouen" },
+    { "year": 1063, "text": "On the first of October the new church of Saint Mary is dedicated before Duke William. The bodies of Rollo and William his son are moved into it.", "source": "fr.wikipedia.org/wiki/Cathédrale_Notre-Dame_de_Rouen" },
+    { "year": 1064, "text": "About this year Earl Harold of the English is the duke's guest in the Tower.", "source": "fr.wikipedia.org/wiki/Tour_de_Rouen; the year (?)" }
+   ],
+   "eras": [
+    { "from": 793, "to": 800, "text": "Archbishop Mainard's city, old and quiet inside a wall too big for it: gardens and ruins between the houses, two churches joined by galleries, canons who sing in the Roman way. The toll is the king's and Abbot Gervold's men take it. These are hungry years: the poor sit at the gate of Saint Peter's, and men tell of grain that stood in the field and came to dust in the hand. English ships are few until the kings make peace in 796." },
+    { "from": 801, "to": 840, "text": "The emperors' peace. Guard ships are ordered for the coast and seldom seen. The wine fleet goes up every October and the court comes by now and then: Charles in 800, Louis in 818 and 824, when Greeks in silk are seen in the street. From 804 Saxon families are set down on abbey land near the city (?). The river freezes in the winter of 821. Nobody mends the wall." },
+    { "from": 841, "to": 857, "text": "After the fire. On 14 May 841 the heathen men burned the city; the cathedral is patched with what did not burn, Saint Peter's stands roofless and its monks are gone with their saint. Fleets pass under the wall as they please. Trade goes on between the fleets, quickly, and every house has someone missing." },
+    { "from": 858, "to": 884, "text": "The Northmen sit on the island at Oissel, a short pull upriver, and the king's works at Pitres rise and are never finished. From 864 the mint strikes the king's new penny by law, and it is death to sell a Northman a horse. The city buys back its people when it can and sells wine to whoever holds the river." },
+    { "from": 885, "to": 910, "text": "The Northmen's harbour. The army came in with all its ships in 885 and some never left. An archbishop still sits in the cathedral; outside it the strand is a market for what was taken elsewhere, silver by weight and people by the head. Honest cargoes come with a safe-conduct or not at all." },
+    { "from": 911, "to": 942, "text": "Rollo's city, then his son William's. One lord, one toll, thieves hanged. Land is measured out by the rope, the monks come home in 918, and wine goes out to England again. Norse is spoken on the strand and Romance in the market. Other Northmen are not let up the river." },
+    { "from": 943, "to": 996, "text": "Count Richard's long years. A stone tower stands at the south-east corner where the red brook meets the river, with his hall beside it. The mint strikes pennies in his name and the archbishop's. The town fills; a traveller from Spain finds it built of old stone, with no vines, and remembers a beard." },
+    { "from": 997, "to": 1035, "text": "The second Richard and his brother the archbishop. Danish fleets sell here what they take in England, and English exiles lodge in the same streets. Men of the city carry wine and whale to London in their own ships. Clerks at the count's court write Latin verse and mock each other in it." },
+    { "from": 1036, "to": 1066, "text": "The young duke's town, uneasy until he is grown and then very busy. A new church of Saint Mary rises over a crypt and is dedicated in 1063. In the last summer every wright on the coast is building ships, and nobody is told for where, and everybody knows." }
+   ],
+   "sites": [
+    { "id": "rotomagus.strand", "kind": "quay", "name": "The strand under the south wall", "from": 0, "to": 0,
+      "see": "A long grey wall of mismatched stone, bits of column and carved block built into it, with the river running brown at its foot. Sea ships lie aground on the mud in a row, leaning a little, and flat barges are poled in between them. Behind the wall, two church roofs. At the top of a spring tide the water slaps the gate; at the ebb men walk out to the keels. Gulls, wet rope, river mud and spilt wine.",
+      "do": ["act:load", "act:hire_porters", "act:hire_pilot", "act:wait_wind", "act:ask_harbour", "act:cross", "act:provision", "card:harbour.chain_wine_fleet.end_own", "card:harbour.chain_black_stones.s07_wandrille", "card:harbour.rotomagus.weser_man", "card:harbour.rotomagus.mud_market"],
+      "source": "Boats under the south wall and the tide on the gates: Dudo ii and iv (LATER); the tide carrying merchant ships to the city: Nithard II.6. No dug quay of this age is known (dossier 1) (?). The king crossed here in 800 (ARF); the ferry is the project's (traffic_793.json)" },
+    { "id": "rotomagus.river_gate", "kind": "toll", "name": "The river gate by Saint Martin's", "from": 0, "to": 0,
+      "see": "A low arch in the wall with a small church built hard against it, its door opening almost onto the mud. A bench and a table stand under the arch out of the rain; a man with tally sticks sits there, and casks are rolled past him one at a time. A boy chalks each cask. Through the arch, a paved Roman street running uphill in shadow.",
+      "do": ["person:rotomagus.tollman", "act:pay_toll", "act:show_charter", "act:ask_harbour", "act:hear_law", "card:harbour.chain_wine_fleet.s02_tide_and_toll", "card:harbour.rotomagus.angilwins_chalk"],
+      "source": "The gate joined to Saint Martin's church, where Rollo is said to have moored: Dudo ii (LATER). A toll here by 779 (Tardif no. 81); the king's toll in Gervold's hands to 806 (Gesta abbatum Fontanellensium c. 12). After 911 the toll is the Norman count's. The bench and the chalk are invented" },
+    { "id": "rotomagus.market", "kind": "market", "name": "The market place inside the wall", "from": 0, "to": 0,
+      "see": "An open square of trodden earth over old paving, with the stumps of a colonnade along one side used as stalls. Sacks of wheat and rye, cheeses, baskets of salmon and of small silver fish on wet leaves, pots, a cooper's stack of new casks. Farm carts and oxen, a priest walking through with a boy. No vine grows near: the wine here has come down the river.",
+      "do": ["market", "act:haggle", "act:sample", "act:weigh_silver", "act:rumours", "act:witness", "person:rotomagus.ursio", "card:harbour.chain_wine_fleet.s06_cooper", "card:harbour.rotomagus.coopers_mallet"],
+      "source": "A market place where Rollo had two of the king's knights killed: Dudo ii (LATER); where it stood is not known. Wheat and rye, no vines, salmon and the small fish: Ibrahim ibn Ya'qub (960s), retold. The colonnade is invented from the reused Roman stone he saw" },
+    { "id": "rotomagus.cathedral", "kind": "minster", "name": "Saint Mary's and Saint Stephen's", "from": 0, "to": 0,
+      "see": "Two long plain churches side by side, joined by covered galleries, with the canons' houses round a court. Inside, lamps and a painted beam; the canons stand in two rows and sing back and forth, slow and exact, the way the Romans taught their fathers. After 841 one wall is black and the roof is new wood. From about 1030 masons are cutting stone for a great choir over a crypt.",
+      "do": ["person:rotomagus.hildhard", "person:rotomagus.einold", "person:rotomagus.robert", "act:hear_mass", "act:alms", "act:vow", "act:sanctuary", "act:read_text", "act:copy_text", "act:riddles", "act:audience", "act:fund_work", "card:harbour.rotomagus.chain_riddle", "card:harbour.rotomagus.owed_psalter", "card:harbour.rotomagus.clerks_list"],
+      "source": "fr.wikipedia.org/wiki/Cathédrale_Notre-Dame_de_Rouen (the double church, the canons from the 750s, the fire of 841, Robert's choir about 1030, the dedication of 1 October 1063); the Roman chant: fr.wikipedia.org/wiki/Remi_de_Rouen. Which church was Saint Mary's is told two ways" },
+    { "id": "rotomagus.st_peter", "kind": "abbey", "name": "Saint Peter's outside the wall", "from": 0, "to": 0,
+      "see": "A basilica two and a half centuries old among gardens and graves north-east of the wall, with a low range of monks' houses and a gate where the poor wait in a line with bowls. Inside, the stone coffin of Bishop Ouen under a cloth. From 841 to 918 it stands burned and empty, with elder growing in the nave. After that it is Saint Ouen's, and richer every year.",
+      "do": ["act:alms", "act:hear_mass", "act:lodge", "act:heal", "act:ask_news", "act:fund_work", "act:remember", "card:harbour.rotomagus.table_at_the_gate"],
+      "source": "fr.wikipedia.org/wiki/Abbaye_Saint-Ouen_de_Rouen (basilica of 535, Ouen's grave 684, an abbey from about 750, ravaged 14 May 841, the monks back 918, a new church from 1062). The abbeys feeding the poor at their gates in 792-794: spine thread hungry_years. Still called Saint Peter's in 793" },
+    { "id": "rotomagus.alehouse", "kind": "tavern", "name": "Adalsind's house inside the river gate", "from": 0, "to": 0,
+      "see": "A long low house built into the back of the wall just inside the gate, its end wall Roman brick and its roof thatch. A bush hangs over the door. Inside, one hearth in the middle of the floor, smoke in the rafters, benches, a row of tally sticks on pegs, each with a mark burned in its end. Shipmen of three tongues, a tollman off his bench, a canon who should be elsewhere.",
+      "do": ["person:rotomagus.adalsind", "person:rotomagus.thorold", "act:drink", "act:rumours", "act:dice", "act:tafl", "act:riddles", "act:hire_crew", "act:lodge", "card:harbour.rotomagus.tally_stick"],
+      "source": "invented; an ale-house by a town gate is the commonest thing there is. The house goes on under Adalsind's daughters and theirs (the role is kept in the family: npc_text_encounters.md 2.5). Tables and dice: story/town_games_793.json names this port" },
+    { "id": "rotomagus.mint", "kind": "mint", "name": "The moneyers' house", "from": 0, "to": 0,
+      "see": "A stone room with a barred window and a door a man must stoop through. A small furnace, a pot of melted silver, a block with an iron die set in it, and two men who do not look up: one lays a blank on the die, the other strikes. English pennies and cut silver go into the pot and come out with the king's name on them. From 864 the king's new penny; after 940 the count's and the archbishop's.",
+      "do": ["person:rotomagus.moneyer", "act:change_coin", "act:test_silver", "act:weigh_silver", "card:harbour.rotomagus.moneyers_tray"],
+      "source": "Rotomagus is one of the ten mints of the Edict of Pitres, 864, its right said there to be Quentovic's of old (MGH Capit. II no. 273 c. 12). Pennies of Charles with the city's name are older than that (?): no coin catalogue was reached (dossier 9). Richard I's and Archbishop Hugh's pennies: the Fecamp hoard (hoards_793.json). Where the mint stood is not known; no moneyer is named" },
+    { "id": "rotomagus.arena", "kind": "quarry", "name": "The broken round house", "from": 0, "to": 0,
+      "see": "North of the wall, a great curve of ruined arches higher than the city gate, grown over with ivy and thorn, with goats on the upper tiers. Men with wedges and an ox sledge are taking squared blocks out of it for somebody's wall. In the middle, a flat floor of grass where boys play. The old say a saint threw down a temple here and that the stones remember.",
+      "do": ["act:buy_at_source", "act:hire_porters", "act:ask_omen", "act:remember"],
+      "source": "The amphitheatre north of the wall, part standing until 1204: fr.wikipedia.org/wiki/Rotomagus. Romanus and the temple of Venus: en.wikipedia.org/wiki/Romanus_of_Rouen. The city built of reused stone: Ibrahim ibn Ya'qub. That stone was sold from it is invented; no good 'building stone' is in goods_793.json, so this is quernstones and millstones cut from fallen blocks (?)" },
+    { "id": "rotomagus.grave_field", "kind": "graveyard", "name": "The stone coffins at Saint Gervase's", "from": 0, "to": 0,
+      "see": "A slope north-west of the city where the Roman road leaves it, crowded with graves older than anyone can name: stone coffins lying half out of the turf, some with their lids slid off, and a small church over a crypt. Two bishops lie in another church to the east. Strangers who die in the city are buried at the edge here, by the road they came on.",
+      "do": ["act:bury", "act:remember", "act:hear_mass", "act:alms", "act:vow"],
+      "source": "fr.wikipedia.org/wiki/Église_Saint-Gervais_de_Rouen (a crypt older than 1000 in a great Roman and early Christian grave field with stone coffins); Saint-Godard, north of the wall, with the graves of bishops Godard and Romanus: fr.wikipedia.org/wiki/Église_Saint-Godard_de_Rouen" },
+    { "id": "rotomagus.slip", "kind": "shipyard", "name": "The slip by the east stream", "from": 0, "to": 0,
+      "see": "Where a stream runs out past the east corner of the wall into a marsh, a bank of trodden chips and three boats on blocks: a flat barge half planked, a fisherman's boat upside down, a sea ship with her strakes off. Oak trunks lie in the stream to season. A tar pot smokes. After 911 the stream runs red from the dyers above and has a Norse name, and the wrights build in the Norse way too.",
+      "do": ["act:repair", "act:careen", "act:build_ship", "act:buy_ship", "act:fit_upgrade", "act:buy_tools"],
+      "source": "A stream down each flank of the wall and the marsh east of the cathedral (the Malpalu): fr.wikipedia.org/wiki/Fortifications_de_Rouen. The stream's later name Robec, Rodobech about 1020, Norse for red brook: fr.wikipedia.org/wiki/Robec. Barges above the city, sea ships below: traffic_793.json. The yard is invented; story/ships_793.json builds the river_estate_ship here" },
+    { "id": "rotomagus.tower", "kind": "hall", "name": "The count's tower and hall", "from": 905, "to": 0,
+      "see": "From about 950 a square stone tower at the south-east corner of the wall (before that, a long timber hall on the same ground), where the red brook meets the Seine, taller than either church, with a timber hall and a yard beside it. Armed men at the door, horses, hounds, a clerk with tablets. On feast days smoke and noise and benches out in the yard. High in the tower is one narrow window, and the town says who is behind it this year.",
+      "do": ["person:rotomagus.rollo", "person:rotomagus.william", "act:audience", "act:gift", "act:feast", "act:oath", "act:lawsuit", "act:hear_law", "act:show_charter", "act:commission", "person:rotomagus.longsword", "card:harbour.rotomagus.rings_on_the_oak"],
+      "source": "Richard I's tower with the duke's hall, mid tenth century, a prison about 1000: fr.wikipedia.org/wiki/Tour_de_Rouen; William of Jumieges v (the count's brother kept five years in it). Rollo died before it was built: where his hall stood is not known, and until the tower stands he is met here on the same ground, in a timber hall (?)" },
+    { "id": "rotomagus.fontenelle", "kind": "abbey", "name": "Saint-Wandrille's landing, a tide below", "from": 0, "to": 0,
+      "see": "Half a day down on the ebb, past the white cliffs and the first great loop: a stream coming out of a wooded valley on the north bank, a jetty of stakes, and a path going up to roofs that shine dull grey, because they are lead. A boy monk sits on the jetty with a line. Beyond the bend the river narrows, and on the big tides the flood comes up it as one wave.",
+      "do": ["person:rotomagus.schoolmaster", "act:lodge", "act:read_text", "act:copy_text", "act:ask_news", "act:hear_mass", "act:alms", "act:commission", "act:wait_wind", "person:rotomagus.cellarer", "person:rotomagus.wandrille_warden", "card:harbour.rotomagus.school_skins", "card:harbour.rotomagus.books_home"],
+      "source": "Saint-Wandrille (Fontenelle), Gervold's house 787-806: he roofed Saint Peter's and Saint Michael's there with lead, set up a school and gave it books; Offa's letters to him lay in its chest (Gesta abbatum Fontanellensium c. 12). It ransomed itself in 841 and its monks left with their relics about 858 (?); the house was restored in the 960s (fr.wikipedia.org/wiki/Abbaye_Saint-Wandrille_de_Fontenelle). The single wave at Caudebec is known only from later centuries (?)" }
+   ],
+   "people": [
+    { "id": "rotomagus.tollman", "name": "Angilwin", "historical": false, "role": "tollman", "people": "frankish", "faith": "christian",
+      "born": 748, "died": 0, "from": 793, "to": 812,
+      "trait": "Takes the king's toll at the river gate for the abbot of Saint-Wandrille: fair, slow, and impossible to hurry, because the tide will bring the next ship whether he hurries or not.",
+      "want": "A tally that agrees with the abbot's clerk's at Michaelmas; the English back on the river with their lead and wool.",
+      "fear": "The abbot coming up on the flood unannounced; a pilgrim's bundle that turns out to be cloth for sale.",
+      "voice": "Counts aloud while he talks and loses neither count; calls every shipman by his boat, not his name.",
+      "looks": "About forty-five, long and thin, a drooping fair moustache, a faded blue cloak pinned on the right shoulder, a bundle of split tally sticks and a lump of chalk.",
+      "knows": ["what toll is owed and what passes free: the boats of Saint-Germain by the charter of 779", "which ships lie under the wall and whose they are", "the hour of the next flood and whether it is a big one", "what the abbot's men say of the quarrel with King Offa", "after 794: that the new heavy penny must be taken, and the fine for refusing it"],
+      "ties": [
+       { "to": "cast.gervold", "tie": "serves", "note": "The abbot holds the king's tolls on this coast; Angilwin is his man at this gate until the abbot dies in 806." },
+       { "to": "quentovic.gervold", "tie": "serves", "note": "The same lord, met at his own toll house on the Canche." },
+       { "to": "quentovic.hildric", "tie": "rival", "note": "The abbot's clerk at Quentovic holds the same office with a harder hand; they compare takings every Michaelmas and each suspects the other's sum." },
+       { "to": "rotomagus.moneyer", "tie": "friend", "note": "Sends him every old penny he is offered at the gate, with the man who offered it." },
+       { "to": "rotomagus.adalsind", "tie": "owes", "note": "His tally stick on her wall is the longest in the house." },
+       { "to": "rotomagus.ursio", "tie": "friend", "note": "The cooper tells him what a cask really holds." },
+       { "to": "parisius.waldric", "tie": "rival", "note": "Saint-Denis's cellarer says every cask on the river is the abbey's own and so toll-free." },
+       { "to": "cast.wighelm", "tie": "friend", "note": "Has never met the reeve of Lundenwic; has passed six of his letters down to the abbot." },
+       {"to": "parisius.fardulf", "tie": "friend", "note": "the abbot of Saint-Denis sends word down each September of what the fair lacks; Angilwin tells the first three boats and no more"},
+       {"to": "parisius.dominicus", "tie": "friend", "note": "the saint's toll man upriver: they send each other word of who is coming and what he swore to"}
+      ],
+      "lines": {
+       "greet": "The small boat from Dorestad. Lie where the mud is firm, by the third ring. What is in her, how much, and whose is it?",
+       "greet_again": "Dorestad boat. You paid in full last time and argued only once. Sit. The tide has an hour in it yet.",
+       "rumour": [
+        "The abbot has letters from King Offa in a chest downriver. Two kings quarrel over a wedding and I count fewer casks. That is all I know of kings.",
+        "A man came through as a pilgrim with twelve bolts of cloth under his prayers. Pilgrims pass free. Cloth does not.",
+        "They say the grain stood in the field last year and was dust in the hand. I saw the dust. I did not see the grain.",
+        "The king has made the penny heavier. Old ones go to the pot. Do not try me with them; I have the fine by heart."
+       ],
+       "saying": "The king takes a tenth. The river takes what it likes.",
+       "farewell": "Go down on the ebb, not before it. If you meet the wave below the cliffs, put her nose to it and say nothing clever."
+      },
+      "source": "invented (Angil- + -win, attested Frankish name parts). The office: the toll of 779 and Gervold's procuratorship (Gesta abbatum Fontanellensium c. 12). The false pilgrims: Charles's letter to Offa, 796 (MGH Epistolae IV no. 100), in our own words. The fine for refusing the new penny: Frankfurt 794 c. 5. No tollman of Rouen is named in any source, and the rate is not known" },
+    { "id": "rotomagus.adalsind", "name": "Adalsind", "historical": false, "role": "alewife", "people": "frankish", "faith": "christian",
+      "born": 755, "died": 0, "from": 793, "to": 822,
+      "trait": "Keeps the ale-house inside the river gate and a tally stick for every shipman who ever drank there; forgets no face and no debt, and thinks the two are much the same.",
+      "want": "Malt at a fair price in a hungry year; her sister's girl married to a man with a trade and a dry floor.",
+      "fear": "Fire in the thatch; a year when the wine boats do not come down.",
+      "voice": "Quick, warm, and always halfway through telling somebody else something; asks after your crew by name.",
+      "looks": "Nearing forty, broad, red-armed, a linen head-cloth tied behind, a brown gown kilted up at the belt, a wooden ladle in her hand and a knife for notching tallies on a cord.",
+      "knows": ["who is in harbour, who has gone up and who has not come back", "what wine fetched at the fair this year and what it fetches over the sea", "which pilot knows the loops and which only says so", "who in the city lends, and on what", "where a sick man can lie: Saint Peter's, and which brother to ask for"],
+      "ties": [
+       { "to": "rotomagus.ursio", "tie": "kin", "note": "Her sister's husband; he makes her casks and she tells him he charges family too much." },
+       { "to": "rotomagus.tollman", "tie": "friend", "note": "He sits by her fire when the tide is out, and she lets his tally run." },
+       { "to": "rotomagus.hildhard", "tie": "friend", "note": "Feeds the choir boys what is left in the pot; he pretends not to know where they have been." },
+       { "to": "hamwic.leofstan", "tie": "friend", "note": "The Englishman lodges with her every autumn and pays in good wool cloth." },
+       { "to": "cast.sigewine", "tie": "friend", "note": "The monk with the letter case sleeps by her hearth on his way down to Saint-Wandrille, and complains of the cold in two tongues." },
+       { "to": "parisius.fardulf", "tie": "owes", "note": "Her house stands on a plot that pays a rent in ale to Saint-Denis (?)." },
+       {"to": "rotomagus.moneyer", "tie": "friend", "note": "bites his new pennies in front of him, and lets his tally run because he pays in coin nobody else has yet"},
+       {"to": "parisius.ermentrud", "tie": "friend", "note": "the widow by the Little Bridge at Parisius: they pass lodgers up and down the river, with a word on which ones pay"}
+      ],
+      "lines": {
+       "greet": "Dorestad, by your cloak. Short, like all of yours. Sit by the fire. Ale is a penny for four; the first is mine.",
+       "greet_again": "There you are. I kept your stick. Three notches from last time, and your Northman still owes me for a bowl he says cracked itself.",
+       "rumour": [
+        "Wine is dear over the sea before Christmas and cheap after. The Englishman told me, and then looked sorry he had.",
+        "The brothers at Saint Peter's feed two hundred at the gate. If you have rye to spare, they remember who brought it.",
+        "A canon swears he saw Greeks in the street when he was a boy. Nobody believes him.",
+        "Do not hire the pilot with one ear. He lost it to the wave below the cliffs, and it was his own fault."
+       ],
+       "saying": "A shipman's promise and a spring tide: both come back, but you cannot say which day.",
+       "farewell": "Go with God and come back in October. I will notch nothing against you till you sit down."
+      },
+      "source": "invented (Adal- + -sind, attested Frankish name parts). The short Frisian cloak: Notker, Gesta Karoli I.34, retold; Charles's own complaint of it is in his letter of 796. The alms at the abbey gate: spine thread hungry_years. Greeks came to Rouen in 824, after her years (Annales regni Francorum 824): the sighting is her canon's tale" },
+    { "id": "rotomagus.ursio", "name": "Ursio", "historical": false, "role": "craftsman", "people": "romance", "faith": "christian",
+      "born": 762, "died": 0, "from": 793, "to": 818,
+      "trait": "The cooper of the market place: knows wine by the sound a cask makes under his mallet, and people by how they treat a cask.",
+      "want": "Seasoned oak and good willow for hoops; to go up to the fair once as a buyer and not as the man who mends for buyers.",
+      "fear": "A cask of his that leaks in front of the abbey's cellarer.",
+      "voice": "Talks in Romance with Frankish words for money; taps things while he thinks.",
+      "looks": "About thirty, short, thick in the forearm, dark curling hair, a leather apron, a wooden mallet and a driving iron in his belt, willow bark stuck to his sleeves.",
+      "knows": ["how to keep wine from turning on a voyage: full to the bung and tight in the hoop", "which casks came down from which cellar, by the hoops", "the price of an empty cask here and at the fair", "who is buying oak, and so who is building"],
+      "ties": [
+       { "to": "rotomagus.adalsind", "tie": "kin", "note": "His wife's sister; her house is where he hears who needs casks." },
+       { "to": "rotomagus.tollman", "tie": "friend", "note": "Tells the tollman when a cask is fuller than it is chalked." },
+       { "to": "parisius.waldric", "tie": "serves", "note": "Hoops and tops the abbey's casks on their way down, and is paid at the next fair, late." },
+       { "to": "hamwic.leofstan", "tie": "friend", "note": "The Englishman pays on the day. Ursio thinks this a strange and fine custom." },
+       { "to": "namnetis.cooper", "tie": "rival", "note": "Says Loire casks are staved too thin and that everyone on the Loire knows it (?)." },
+       {"to": "parisius.ermentrud", "tie": "friend", "note": "she buys his casks and sends him every lodger with slack hoops"}
+      ],
+      "lines": {
+       "greet": "Yours? Roll that one here. Hear it? Hollow at the top. A hand's width of air, and air is what turns wine.",
+       "greet_again": "The Dorestad casks. They held, did they not? I told you. Now tell it to the cellarer of Saint-Denis, loudly.",
+       "rumour": [
+        "The fair was thin of English this year. More wine than buyers, so buy late, on the last day, from a tired man.",
+        "Somebody is buying every oak trunk in the east stream. It is not for casks. The king wants ships on this coast, they say.",
+        "No vine will ripen here. People keep trying. I make the casks for their vinegar."
+       ],
+       "saying": "A full cask keeps. A full man does not.",
+       "farewell": "Keep them full, keep them out of the sun, and do not let your crew find the bung."
+      },
+      "source": "invented; he is the cooper of the card harbour.chain_wine_fleet.s06_cooper (Ursio is an attested name of the Paris country (?)). Casks of oak or silver fir with willow hoops: Design/economy_and_trade.md. No vines at Rouen: Ibrahim ibn Ya'qub (960s), retold. The king's order for ships on the coast is of 800 and after (chronicle_793.json 800-03-channel-coastguard): the line is for those years" },
+    { "id": "rotomagus.hildhard", "name": "Hildhard", "historical": false, "role": "priest", "people": "frankish", "faith": "christian",
+      "born": 742, "died": 0, "from": 793, "to": 811,
+      "trait": "A canon of Saint Mary's and its chief singer, taught as a boy by the Romans Bishop Remigius brought: exact about chant, vague about everything else, fond of riddles and of anyone who brings news of a book.",
+      "want": "A second antiphoner, so the boys stop fighting over one; word from Tours, where an Englishman is said to be correcting every book in the kingdom.",
+      "fear": "Dying before he has taught the long alleluias to someone who will keep them the same.",
+      "voice": "Soft and precise; hums between sentences; asks a riddle instead of saying good day.",
+      "looks": "Past fifty, small and round-shouldered, a grey tonsure, a canon's long dark tunic patched at the elbow, a wax tablet on a thong and a little bone stylus behind his ear.",
+      "knows": ["what a book is worth and who lacks which", "that Saint-Wandrille has a new school and that its abbot gave it books", "the feasts of the city's saints and what is done on each", "Latin, and will read a leaf aloud for a merchant he likes", "what Archbishop Mainard thinks, usually a day before the archbishop does"],
+      "ties": [
+       { "to": "cast.gervold", "tie": "rival", "note": "Says the abbot sings better than any man on the river and counts better than he sings, and that neither is what an abbot is for." },
+       { "to": "cast.alcuin", "tie": "friend", "note": "Has written to him twice about a doubtful reading in a psalm and been answered once, at length." },
+       { "to": "cast.sigewine", "tie": "friend", "note": "Lends the English monk books to copy and counts the leaves when they come back." },
+       { "to": "rotomagus.adalsind", "tie": "friend", "note": "His choir boys eat at her door." },
+       { "to": "parisius.fardulf", "tie": "owes", "note": "Owes Saint-Denis a psalter borrowed nine years ago, and knows exactly where it is." },
+       {"to": "rotomagus.schoolmaster", "tie": "rival", "note": "says the abbey's boys sing through their noses; borrows the schoolmaster's sums when the cathedral's rents will not add"}
+      ],
+      "lines": {
+       "greet": "A shipman. Good. Bound, I bind; iron holds me and I hold others. What am I? No? Then sit, and I will write it down for you.",
+       "greet_again": "You again, and the leaf still dry in your chest, I hope. Did anyone read it to you? What did they answer?",
+       "rumour": [
+        "Saint-Wandrille has a school now. Abbot Gervold gave it books. He does not read them much, but he gave them, which is the harder part.",
+        "They buy calfskin by the bundle at Saint-Denis in October. If you carry parchment upriver, do not let it smell the bilge.",
+        "A book came from York wrapped in a sealskin. The seal was the only part the tollman thought worth a penny."
+       ],
+       "saying": "The hand that writes is three fingers. The whole body aches.",
+       "farewell": "God keep you on the water. If you pass Tours, ask for the Englishman. Say Rotomagus still sings it the Roman way."
+      },
+      "source": "invented (Hild- + -hard, attested Frankish name parts). The Roman singers and the canons: fr.wikipedia.org/wiki/Remi_de_Rouen. His riddle is Symphosius 5, the chain (texts_793.json symphosius_05_catena; riddles_793.json gives it to 'a cleric of the archbishop' here). The scribe's three fingers is a common colophon of the age, in our own words. Gervold a fine singer and no great scholar: Gesta abbatum Fontanellensium c. 12. Alcuin is abbot at Tours only from 796: the talk of the Englishman there is for those years" },
+    { "id": "rotomagus.moneyer", "name": "Gerold", "historical": false, "role": "moneyer", "people": "frankish", "faith": "christian",
+      "born": 768, "died": 0, "from": 793, "to": 824,
+      "trait": "A young moneyer trained on the Canche by his mother's brother and sent to strike on the Seine: quick hands, a short temper, and a private tray of every strange coin he was meant to melt.",
+      "want": "English pennies and cut silver brought to his pot and not passed in the market; one day, dies cut in his own house and not sent from his uncle's.",
+      "fear": "A penny of his found light by the king's men; his uncle hearing about the tray.",
+      "voice": "Short sentences between hammer strokes; weighs a coin in his palm before he will talk about it.",
+      "looks": "Mid twenties, wiry, soot to the elbows, fair hair tied back with a thong, a leather apron scorched in front, a small hand balance hung at his neck.",
+      "knows": ["what the pot gives for English pennies, old deniers and cut silver, and the loss on each", "after 794: the new heavy penny, and that the old must come in", "how to test silver with a nick and a touch", "which coins in the market are light, and sometimes whose", "what an eastern silver piece with writing like bird tracks might be: he has one and cannot read it"],
+      "ties": [
+       { "to": "quentovic.gerwin", "tie": "kin", "note": "His mother's brother, the moneyer on the Canche, who taught him and still sends him his dies (?)." },
+       { "to": "rotomagus.tollman", "tie": "friend", "note": "The tollman sends him old coin and the men who carry it." },
+       { "to": "cast.sigimar", "tie": "rival", "note": "Has never met the Dorestad moneyer; keeps one of his pennies to show it runs light, as his uncle taught him to." },
+       { "to": "rotomagus.adalsind", "tie": "owes", "note": "Pays his tally in new pennies, which she bites anyway." },
+       {"to": "burdigala.bertric", "tie": "rival", "note": "from 814 a new man on the Garonne nails Rouen pennies to a board as short weight; Gerold has sent him one that is not (?)"}
+      ],
+      "lines": {
+       "greet": "Show me. No, all of it, on the cloth. English, English, old, old. That one is not silver. Who gave you that one?",
+       "greet_again": "The Dorestad purse. You brought me clean silver last time. Put it down; I will not cheat a man who comes back.",
+       "rumour": [
+        "The king has made the penny heavier. I strike fewer from the pound and am shouted at more. Nobody shouts at the king.",
+        "A man off a northern ship paid in a white coin with no cross and no king. Writing like a bird walked on it. Good silver.",
+        "English pennies come in thin and broad now. Their king has made his heavier too. Kings copy each other like boys."
+       ],
+       "saying": "A penny is a promise with a face on it. I only make the face.",
+       "farewell": "Go on. And spend those here first. Past the forest nobody has seen the new ones and they will call you a forger."
+      },
+      "source": "invented (Ger- + -old, attested Frankish name parts); the kinsman quentovic.gerwin names in the Quentovic file. No moneyer of Rouen is named before the eleventh century, and pennies of Rouen before 864 were not checked (dossier 8, 9) (?). The heavier denier and the order to accept it: Frankfurt 794 c. 5 (chronicle_793.json 794-06-frankfurt-new-denier); Offa's heavy penny: 793-offa-heavy-penny. Rouen's mint right said in 864 to be Quentovic's of old: Edictum Pistense c. 12. The dirham is the spine's (thread silver_road, flag sv_first_dirham)" },
+    { "id": "rotomagus.schoolmaster", "name": "Harduin", "historical": true, "role": "schoolmaster", "people": "frankish", "faith": "christian",
+      "born": 0, "died": 811, "from": 793, "to": 811,
+      "trait": "A priest and monk of Saint-Wandrille who teaches the boys of the abbot's new school to reckon and to write, and copies books in a cell apart: patient with numbers, less so with people who handle parchment with wet hands.",
+      "want": "Clean calfskin, good ink, and quiet; the borrowed books sent back from Quentovic.",
+      "fear": "Damp. After that, an abbot who thinks a school is finished once it has a roof.",
+      "voice": "Dry and exact; counts leaves under his breath; praises a thing once and briefly.",
+      "looks": "An old thin monk with a white tonsure, a black cowl gone green at the shoulders, ink to the second knuckle, a ruling board under his arm and a penknife on a cord.",
+      "knows": ["what a book costs to make, skin by skin", "which churches lack which books, on both sides of the sea", "reckoning: he will check a merchant's sums and find the error", "what lies in the abbey's chest: King Offa's letters to the abbot among them", "how to wrap a book for a boat"],
+      "ties": [
+       { "to": "cast.gervold", "tie": "serves", "note": "His abbot, who founded the school and gave it books, and asks how the roof is before he asks how the boys are." },
+       { "to": "quentovic.osmund", "tie": "friend", "note": "Lends books to the English guest-master at Saint-Josse, who is slow to send them back." },
+       { "to": "cast.sigewine", "tie": "friend", "note": "Gives the English monk a desk and a brazier when he comes to copy, and hears about the cold all the same." },
+       { "to": "rotomagus.hildhard", "tie": "rival", "note": "The canon says the abbey's boys sing through their noses. Harduin says the canon cannot divide." },
+       { "to": "parisius.fardulf", "tie": "owes", "note": "Buys his parchment at Saint-Denis's fair and pays the abbey's price for it." },
+       {"to": "parisius.waldric", "tie": "friend", "note": "buys the parchment Saint-Denis's own scribes pass over, and finds fewer holes in it than the cellarer claimed"},
+       {"to": "rotomagus.cellarer", "tie": "rival", "note": "the abbey's cellarer counts every calfskin as a cask not bought, and says so at chapter"}
+      ],
+      "lines": {
+       "greet": "Dry hands? Show me. Good. You may come in. Do not lean on that; it is the Gospel of John and it is not finished.",
+       "greet_again": "The boat that brought the skins dry. Sit there, by the brazier, away from the desk. What have you brought me?",
+       "rumour": [
+        "The letters of the English king are in the chest. He calls the abbot his dearest friend. Kings write so when they want something.",
+        "The quarrel was a wedding. Each king wanted the other's daughter and would not give his own. I teach boys who share better.",
+        "A hundred leaves, the bundle, at the fair of Saint Denis. Count them yourself. The seller will have counted to ninety."
+       ],
+       "saying": "Three fingers write. Two eyes pay for it.",
+       "farewell": "Wrap it as I showed you: skin side out, high in the boat. God keep you, and keep it dry."
+      },
+      "source": "Gesta abbatum Fontanellensium c. 12 (c. 16 in Loewenfeld's edition of 1886): the priest Harduin, who taught many pupils the art of reckoning and of writing and copied many volumes for the abbey, living in a cell apart; died 811. Not in the dossier, but checked: fr.wikipedia.org/wiki/Gervold has the monk Hardouin (died 811), a recluse in the hermitage of Saint-Saturnin, who copied books and taught boys writing and reckoning in Gervold's time. Gervold's school, his gift of books and Offa's letters: the same chapter, as in spine.json. His birth year is not known" },
+    { "id": "rotomagus.einold", "name": "Einold", "historical": false, "role": "clerk", "people": "frankish", "faith": "christian",
+      "born": 816, "died": 0, "from": 841, "to": 879,
+      "trait": "A clerk of the cathedral who was twenty-five when the city burned and has kept, ever since, a list of who was taken and where they were sold: patient, tired, and without illusions about anyone on either side.",
+      "want": "Names crossed off the list because they came home; silver for the next ransom; a shipman who goes north and will carry a question.",
+      "fear": "The king's law of 864 read strictly, since a man who buys people back from Northmen must sit and bargain with them.",
+      "voice": "Flat and careful; says prices for people in the same voice as prices for wax, and hates that he does.",
+      "looks": "A spare man going grey early, a clerk's dark tunic with a burn scar up the left forearm, a roll of stitched parchment strips in a leather tube on his belt.",
+      "knows": ["who was carried off from the city in 841 and after, by name, and the last word of each", "what the Northmen on the river ask for a man, a woman, a clerk who can write", "which fleet is on the island at Oissel and who speaks for it", "what the edict of Pitres forbids: mail, arms and horses, on pain of death", "which of the city's saints are away, and where"],
+      "ties": [
+       { "to": "cast.eystein", "tie": "friend", "note": "The Dane at Dorestad's toll and the clerk at Rotomagus send each other names of the taken, by any ship that will carry a strip of parchment." },
+       { "to": "quentovic.grippo", "tie": "serves", "note": "Sends the prefect of Quentovic word of what passes up the Seine, since the king asks him and nobody asks the clerk." },
+       { "to": "cast.anskar", "tie": "taught", "note": "Never met him. Read that the bishop in the north buys boys back to make them priests, and took it for a rule." },
+       { "to": "cast.asulf", "tie": "feud", "note": "Knows the Sliesthorp dealer's house only by the people who passed through it; three names on the list end there." },
+       { "to": "parisius.aimoin", "tie": "friend", "note": "A monk of Saint-Germain who writes down what the Northmen do; they compare dates (?)." },
+       {"to": "parisius.hildegaud", "tie": "friend", "note": "the wine merchant of the island: Einold sends a boy on a horse when sails are seen, and is paid in news of what burned upriver"},
+       {"to": "parisius.abbo", "tie": "friend", "note": "the young monk of Saint-Germain who has Aimoin's letters now and writes for dates; Einold answers every one"},
+       {"to": "namnetis.gunhard", "tie": "friend", "note": "wrote to the bishop of Nantes what a fleet did to Rouen in 841, in order, so that he would know the signs (?)"},
+       {"to": "rotomagus.wandrille_warden", "tie": "friend", "note": "tells the saints' wardens which roads the fleets have left alone, and asks them to look for three names on the way"}
+      ],
+      "lines": {
+       "greet": "You sail north? Then you are the man I want. Sit. I have a list, and I need one question carried, no more.",
+       "greet_again": "The shipman. Did you ask? No, tell me slowly. I have waited years for some of these; I can wait while you drink.",
+       "rumour": [
+        "They are on the island at Oissel again. The king sat before it from high summer to Michaelmas and went home.",
+        "The king's new law: death for selling them a horse or a mail coat. Nothing is said of wine. They have noticed.",
+        "Saint Romanus's head has gone to Soissons to be safe. His body stayed. I think the body shows more sense.",
+        "A man taken from here was seen alive at the Danes' wall, mending nets. That is all the word. It is more than most get."
+       ],
+       "saying": "The annal says the city was given to captivity. I write down who.",
+       "farewell": "Ask the name exactly as I said it. They change our names up there. Go with God."
+      },
+      "source": "invented (Ein- + -old, attested Frankish name parts). The sack and the captives: Annales Bertiniani 841. Oissel: Annales Bertiniani 858. The edict: MGH Capit. II no. 273 c. 25. The saints sent away: fr.wikipedia.org/wiki/Romain_de_Rouen. The chronicle of Fontenelle is said to record 68 captives bought back for 26 pounds on 28 May 841 (dossier 8: from memory, unchecked (?)). Grippo, prefect of Quentovic about 858, is real (Miracula S. Wandregisili)" },
+    { "id": "rotomagus.rollo", "name": "Rollo", "historical": true, "role": "count", "people": "norse", "faith": "christian",
+      "born": 0, "died": 930, "from": 905, "to": 930,
+      "trait": "A raider who took a river and kept it: gives his men land by the rope, hangs thieves, and lets the archbishop back into his city.",
+      "want": "The Seine quiet under his own peace, and its tolls.",
+      "fear": "Other Northmen coming up his river.",
+      "voice": "Few words, in Norse or through a Frankish clerk; a promise is short and kept.",
+      "looks": "Old, very big, grey-bearded, a Frankish cloak and sword over northern dress, an arm ring, a new and awkward cross; behind him the city's Roman wall and a row of ships drawn up.",
+      "knows": ["who may come up the Seine and who may not", "the toll, which is now his, and that the old abbey letters are worth nothing at his gate", "what is done to a thief, and to the man who knew of the theft", "which of his men has land to sell and wants silver", "what the king at Paris promised, word for word"],
+      "ties": [
+       { "to": "cast.rollo", "tie": "kin", "note": "the same person" },
+       { "to": "parisius.robert", "tie": "friend", "note": "Count Robert of Paris is said to have stood godfather at his baptism and given him his own name (Dudo, LATER) (?)." },
+       { "to": "rotomagus.thorold", "tie": "kin", "note": "Not his own blood: the shipman's grandfather was one of the men given land by the rope." },
+       { "to": "cast.rorik", "tie": "taught", "note": "Never met. Rorik held Dorestad on a king's oath sixty years before; the same bargain, made to work." },
+       {"to": "rotomagus.longsword", "tie": "kin", "note": "his son William, baptised and Frankish-spoken, who holds the river after him until 942"},
+       {"to": "burdigala.amalvinus", "tie": "feud", "note": "a count of the far south whose river his fellows wintered on; they have never met and would not sit down together"}
+      ],
+      "lines": {
+       "greet": "A merchant. Good. Merchants I keep. What do you bring, and who else is on the river behind you?",
+       "greet_again": "You came back. Then the river is as I said it was. Sit down. My clerk will ask the toll; I ask the news.",
+       "rumour": [
+        "A man left his plough in the field, as I ordered. His wife hid the irons to teach him. I hanged both. Ploughs lie safe now.",
+        "They say I hung gold rings on an oak and nobody touched them for three years. Go and look, if you like.",
+        "The monks are back at Saint Peter's with their saint. I gave them the land. A quiet saint is worth a wall."
+       ],
+       "saying": "I kiss no man's foot. I keep my word instead.",
+       "farewell": "Go down on my peace. If anyone on the river asks for silver in my name, bring me his."
+      },
+      "source": "The same facts as spine.json cast.rollo: charter of Charles the Simple, 14 March 918; Flodoard; Dudo of Saint-Quentin ii (about 1015, LATER) for the rope, the plough at Longpaon, the foot-kissing and most of the rest, retold and not quoted; the rings on the oak: William of Jumieges ii (LATER). His birth year is not known; he is dead by about 930 (?). The spine has him here from 905, before the grant" },
+    { "id": "rotomagus.robert", "name": "Robert", "historical": true, "role": "bishop", "people": "romance", "faith": "christian",
+      "born": 965, "died": 1037, "from": 989, "to": 1037,
+      "trait": "Archbishop for forty-eight years and count of Evreux besides: Count Richard's son, married, with sons of his own, more at home on a horse than in choir, and a great builder late in life.",
+      "want": "His brother's house safe and his own sons provided for; in his last years, a choir and crypt worth the saints he keeps.",
+      "fear": "A reforming monk with the pope's ear; a nephew with an army.",
+      "voice": "A lord's easy loud Romance, a few Norse oaths from his mother; Latin only where it cannot be helped.",
+      "looks": "In his middle years a big fair man running to weight, a furred cloak over a bishop's long robe, a gold ring over a riding glove, a hawk on a servant's fist behind him.",
+      "knows": ["who of the English is lodged in the city and on whose silver", "what his brother swore with the Danish king: their plunder sold here, their wounded nursed here", "when the shrine of Saint Romanus will next be opened", "who at court writes verse, and against whom", "what a church will pay for lead, glass and incense"],
+      "ties": [
+       { "to": "cast.cnut", "tie": "kin", "note": "From 1017 his sister Emma is the Danish king's wife in England, as she was the English king's before." },
+       { "to": "rotomagus.thorold", "tie": "friend", "note": "The shipman carries the archbishop's wine to London and brings back English lead and news of Emma." },
+       { "to": "cast.thorkell", "tie": "rival", "note": "The tall Dane's men sell English church plate on the strand. The archbishop buys some of it back, and dislikes needing to." },
+       { "to": "lundenwic.cnut", "tie": "kin", "note": "From 1017 the Danish king in London is his sister Emma's husband: she is queen of the English twice over, and no places file has her yet (?)." },
+       {"to": "rotomagus.william", "tie": "kin", "note": "his great-nephew, a child when he inherited: while the old archbishop lived, nobody dared touch the boy"},
+       {"to": "burdigala.geoffrey", "tie": "friend", "note": "a Frank set over Bordeaux who writes north for news in the last years of Robert's life, and gets it with a cask (?)"}
+      ],
+      "lines": {
+       "greet": "A Frisian house, they tell me, and an old one. Good. I want lead for a roof and glass for a window. Can you find either?",
+       "greet_again": "The shipman who brought what he said he would. That is rare enough to be a relic. What is the word from London?",
+       "rumour": [
+        "The English king wintered with us, among his wife's kin. A sad guest. He looked at the sea a great deal.",
+        "I baptised a Northman chief this year, Olaf by name. He asked sharp questions for a man standing in a tub.",
+        "My clerk Warner has written verses against an Irish poet. The Irishman's wife was sold on our strand. He bought her back for a halfpenny, it says."
+       ],
+       "saying": "My father built the tower, I build the choir. One of us will be thanked.",
+       "farewell": "Go with God. Tell them in London that the wine was the archbishop's own, and charge them for the saying."
+      },
+      "source": "fr.wikipedia.org/wiki/Robert_le_Danois (archbishop 989-1037, son of Richard I and Gunnor, count of Evreux, married with sons); his birth year is a guess (?). Aethelred's exile and Olaf's baptism: William of Jumieges v (LATER). The oath with Swein: the same (LATER). Warner of Rouen's satire on Moriuht: en.wikipedia.org/wiki/Warner_of_Rouen; the halfpenny is from memory (?). The choir over a crypt about 1030; the shrine opened 1036" },
+    { "id": "rotomagus.william", "name": "William", "historical": true, "role": "count", "people": "romance", "faith": "christian",
+      "born": 1028, "died": 1087, "from": 1047, "to": 1066,
+      "trait": "The duke, a bastard who was a child when he inherited and had to win his own land field by field: watchful, sparing with words, pious in a hard way, and never seen to forget a service or a slight.",
+      "want": "Order in his own country; his cousin the English king's promise kept; ships.",
+      "fear": "Nothing he would name. His guardians were murdered round him when he was a boy, and he has not slept carelessly since.",
+      "voice": "A harsh carrying voice, short questions in Romance; listens to the whole answer and then asks the same question again.",
+      "looks": "In his thirties, tall, thick-set and very strong, reddish hair cropped short at the back in the Norman way, clean-shaven, a plain dark cloak over mail, a heavy sword and no rings.",
+      "knows": ["who holds every castle between the Seine and the sea, and what each owes him", "what Earl Harold swore, and on what", "how many ships a coast can build in a summer", "the price of English wool at his father-in-law's Flemish towns", "which shipmen know the English shore"],
+      "ties": [
+       { "to": "ganda.baldwin_v", "tie": "kin", "note": "The count of Flanders is his wife Matilda's father, from about 1051." },
+       { "to": "rotomagus.robert", "tie": "kin", "note": "The old archbishop was his great-uncle and, while he lived, the one guardian nobody dared to kill." },
+       { "to": "cast.cnut", "tie": "rival", "note": "Never met: Cnut held the kingdom William means to have, and married William's great-aunt Emma to do it." },
+       { "to": "rotomagus.thorold", "tie": "friend", "note": "The old shipman's sons carry the duke's wine and, in the last summer, are asked for pilots." }
+      ],
+      "lines": {
+       "greet": "A Frisian house. You sail to England. How many days from here to the Wight with a fair wind? Do not guess. Tell me.",
+       "greet_again": "The shipman who would not guess. Good. Sit. Tell me who lies in the English ports this moon, and I will hear your business after.",
+       "rumour": [
+        "The earl of the English was my guest and swore me an oath on relics. In his country they will say he did not. Remember where you heard it.",
+        "They dedicated the church of Saint Mary on Saint Remigius's day. I moved my forefathers into it. A house should know where its dead are.",
+        "I am buying oak. All of it. If you have a mast to sell, sell it to me, and do not ask the price twice."
+       ],
+       "saying": "I was a boy among wolves. I learned to count them.",
+       "farewell": "Go. Trade in peace on my river. If you carry a word to England, carry it straight."
+      },
+      "source": "Duke William, born about 1028 at Falaise, duke from 1035, of age and master of his duchy from the battle of Val-es-Dunes, 1047; married Matilda of Flanders about 1051; king of the English from Christmas 1066; died 9 September 1087 at Rouen (general record; William of Poitiers and William of Jumieges vii, LATER, retold). Harold's oath of about 1064: fr.wikipedia.org/wiki/Tour_de_Rouen. The cathedral of 1 October 1063 and the bodies moved into it: fr.wikipedia.org/wiki/Cathédrale_Notre-Dame_de_Rouen. His hair and build are from the Bayeux hanging and later writers (?). The tie is the one ganda.baldwin_v names in the Ganda file" },
+    { "id": "rotomagus.thorold", "name": "Thorold", "historical": false, "role": "skipper", "people": "romance", "faith": "christian",
+      "born": 968, "died": 0, "from": 994, "to": 1032,
+      "trait": "A shipman of the city with a Norse name and no Norse to speak of: carries wine and barrelled whale to London, knows to a penny what the king's reeve will take there, and buys what the Danish fleets bring in without asking twice where it was got.",
+      "want": "A second ship; a lawful landing place of his own in London, so he need not unload over other men's decks.",
+      "fear": "Meeting, in an English port, the man whose cup he sold.",
+      "voice": "Fast Romance, cheerful, swears by Saint Romanus; drops into a few words of English to haggle.",
+      "looks": "About forty, sandy and weather-red, clean chin and a long moustache, a short green cloak, wide northern breeches bound below the knee, a silver ring cut from a larger piece.",
+      "knows": ["the London toll: six shillings for a large ship, a twentieth of the great fish", "what wine fetches at London before and after Christmas", "which fleet has just been paid in England and is spending", "who of the English exiles is lodged where", "the loops of the river and the wave, as well as any pilot"],
+      "ties": [
+       { "to": "rotomagus.robert", "tie": "serves", "note": "Carries the archbishop's wine and brings back his lead." },
+       { "to": "cast.thorkell", "tie": "friend", "note": "Has bought from the tall Dane's quartermasters on this strand, and sold them wine at Sandwich." },
+       { "to": "cast.cnut", "tie": "owes", "note": "Pays the king's toll at London like any man of Rouen, and under Cnut is glad it is one king's toll and not three." },
+       { "to": "rotomagus.rollo", "tie": "kin", "note": "His grandfather held land from Rollo by the rope; the family still shows the field." },
+       { "to": "hamwic.portreeve", "tie": "rival", "note": "Hamwic's reeve remembers a cargo of his that was not all wine (?)." },
+       {"to": "rotomagus.william", "tie": "serves", "note": "he does not live to see it: his sons carry the young duke's wine, and in the last summer are asked for pilots"},
+       {"to": "burdigala.trencard", "tie": "friend", "note": "carries Holy Cross's wine north from Bordeaux and brings the old lettered noble books to look at (?)"}
+      ],
+      "lines": {
+       "greet": "A Frisian in a boat that size? By Saint Romanus. Sit down. Do you know London? I pay six shillings a time to learn it.",
+       "greet_again": "The small boat. Still afloat, and still nobody's fool. Drink. I have a word from London you will want before you load.",
+       "rumour": [
+        "The Danes have been paid again in England. A paid fleet buys wine like a wedding. Be there before I am, if you can.",
+        "There is an English boy in the count's hall who will be a king or a monk. Edward. He prays like one and waits like the other.",
+        "They take a twentieth of the great fish at London. I cut mine in twenty-one pieces. The reeve can count, alas."
+       ],
+       "saying": "Wine out, lead home, and say your prayers at the cliffs.",
+       "farewell": "Fair tide. If the reeve at London asks, you never heard of me. If he does not ask, give him my greeting."
+      },
+      "source": "invented (Thor- + -old; Turold is a common Norman name of the next century, none of this role). The men of Rouen with wine and great fish at London: IV Aethelred 2 (Thorpe 1840), our rendering. The Danes' plunder sold at Rouen: William of Jumieges v (LATER). A Rouen wharf at Dowgate in London is from memory and unchecked (dossier 8): he only wants one (?)" },
+    {
+     "id": "rotomagus.cellarer",
+     "name": "Rotgar",
+     "historical": false,
+     "role": "cellarer",
+     "people": "frankish",
+     "faith": "christian",
+     "born": 750,
+     "died": 0,
+     "from": 793,
+     "to": 809,
+     "trait": "Cellarer of Saint-Wandrille: reckons the abbey's year in casks, pigs of lead and salt fish, and holds that a school is a hole knocked in a cellar wall.",
+     "want": "The toll's share home from the Canche before the first frost; English lead at a price he can say to the abbot without flinching.",
+     "fear": "A leak: in a cask, in a roof or in a tally.",
+     "voice": "Slow and comfortable, counts in casks, and says 'the lord abbot' as other men say 'the weather'.",
+     "looks": "About forty-five, heavy, red-faced, tonsured, a black habit girt high over river boots, a ring of keys and a tapping mallet hung at his cord.",
+     "knows": [
+      "what the toll on the Canche sent home this year, to the cask",
+      "what lead costs landed, and how much a church roof eats",
+      "which boats are the abbey's own and when they go down to the sea",
+      "what the school has cost so far, in skins"
+     ],
+     "ties": [
+      {
+       "to": "quentovic.gervold",
+       "tie": "serves",
+       "note": "His abbot, who is at the toll house on the Canche more than in his own choir; Rotgar counts what the toll sends home."
+      },
+      {
+       "to": "quentovic.hildric",
+       "tie": "friend",
+       "note": "The abbot's clerk on the Canche sends the tallies; Rotgar sends back a cheese and a correction."
+      },
+      {
+       "to": "rotomagus.schoolmaster",
+       "tie": "rival",
+       "note": "Every calfskin the schoolmaster asks for is a cask the cellar did not buy."
+      },
+      {
+       "to": "parisius.waldric",
+       "tie": "rival",
+       "note": "Saint-Denis's cellarer claims every cask on the river for his saint. Rotgar has a saint too."
+      }
+     ],
+     "lines": {
+      "greet": "A Frisian keel. Good. You people stow a cask as if it were your mother. What do you carry, and what would you carry for an abbey?",
+      "greet_again": "You again, and nothing staved in last time. I told the lord abbot. He asked about the roof.",
+      "rumour": [
+       "The lord abbot has roofed two churches with lead and means a third. English lead. While the ports are shut I am to find it without asking where.",
+       "The school has eaten forty calves since Easter. I counted. The schoolmaster says a book feeds more men than a calf. Not at my table."
+      ],
+      "saying": "A full cask does not knock.",
+      "farewell": "Go down on the ebb and keep left of the long island. If you see the abbot's boat, I was in the cellar, working."
+     },
+     "source": "invented (Hrod- + -gar, attested Frankish name parts; names_placeholder.json), to give Gervold's tie in the Quentovic file its man. The office is the Rule of St Benedict c. 31; Gervold's lead roofs, his school and his tolls are the Gesta abbatum Fontanellensium c. 12. No cellarer of Saint-Wandrille is named for these years."
+    },
+    {
+     "id": "rotomagus.wandrille_warden",
+     "name": "Landfrid",
+     "historical": false,
+     "role": "monk",
+     "people": "frankish",
+     "faith": "christian",
+     "born": 815,
+     "died": 0,
+     "from": 841,
+     "to": 868,
+     "trait": "One of the wardens who carry the bodies of Saint Wandrille and Saint Ansbert when the house must run: a strong, plain monk who has slept beside a coffin in more barns than he can count.",
+     "want": "A dry roof for two saints tonight, and a boat that will not ask what is in the long box.",
+     "fear": "A ford in flood with the bier on his shoulder; that the saints will never go home to the valley.",
+     "voice": "Short and tired, with sudden long stories about wonders on the road, told as a carter tells of a broken axle.",
+     "looks": "About forty, broad-backed, tonsured, a black habit worn through at both shoulders from the carrying poles, a staff, and a wax tablet where he notes each cure.",
+     "knows": [
+      "every stage of the saints' road from the Seine to the Canche and after",
+      "which lords gave the saints lodging and which found a reason",
+      "the wonders done on the way: he keeps the list",
+      "what Saint-Wandrille paid the fleet in 841, and what it bought"
+     ],
+     "ties": [
+      {
+       "to": "quentovic.grippo",
+       "tie": "friend",
+       "note": "The prefect of Quentovic paid his storm vow to the saints on Christmas Eve; Landfrid wrote the storm into the book of wonders."
+      },
+      {
+       "to": "rotomagus.einold",
+       "tie": "friend",
+       "note": "The clerk with the list of the taken tells him which roads the fleets have left alone this month."
+      },
+      {
+       "to": "parisius.aimoin",
+       "tie": "friend",
+       "note": "Two monks who write down what their saints did to the Northmen, and trade stories as other men trade horses (?)."
+      }
+     ],
+     "lines": {
+      "greet": "Peace to this boat. I am looking for one. Two passengers who lie very still, and four of us to carry them. We pay in prayers, and the prayers are good.",
+      "greet_again": "The Frisian. The saints remember a boat. So do I, which is of more use to you this side of the grave.",
+      "rumour": [
+       "The house paid six pounds in the year of the fire and was left standing. Now there is no house to pay for. We carry what matters.",
+       "At the wic on the Canche the people came out with crosses and candles and walked before us singing. The prefect there vowed in a storm and paid on Christmas Eve."
+      ],
+      "saying": "A saint weighs what your sins weigh. Ask my shoulders.",
+      "farewell": "God keep you off the sands. If you pass the valley, look whether the roof is still on, and tell nobody you looked."
+     },
+     "source": "invented (Land- + -frid, attested Frankish name parts): the wardens who carried the bodies of Wandrille and Ansbert from Fontenelle to Quentovic in 858 are in the Miracula sancti Wandregisili (MGH SS XV.1), none by name. The six pounds of 841: the chronicle of Fontenelle, as in the Rotomagus dossier (from memory (?)). He is on the road more than in the city: he is met at the abbey's landing while the house stands, and after 858 wherever the saints lodge."
+    },
+    {
+     "id": "rotomagus.longsword",
+     "name": "William Longsword",
+     "historical": true,
+     "role": "count",
+     "people": "norse",
+     "faith": "christian",
+     "born": 893,
+     "died": 942,
+     "from": 927,
+     "to": 942,
+     "trait": "Rollo's son, baptised and Frankish-spoken: holds the river by his father's peace, gives monks their valleys back, and is said to envy them the cowl.",
+     "want": "To be a count among the Franks' counts; Jumieges built again; the Bretons' edge of his land held and quiet.",
+     "fear": "His own Northmen, who think him too much a Frank; a friendly meeting on somebody else's river.",
+     "voice": "Courteous Romance with a Norse oath kept for anger; asks about churches before he asks about cargo.",
+     "looks": "About forty, tall and long in the arm, fair beard trimmed in the Frankish way, a blue cloak with a gold pin, a long sword in a plain sheath and a small key on a cord at his neck.",
+     "knows": [
+      "who holds the Bretons' land this year, and what Alan has brought back from over the sea",
+      "which abbeys on the river have monks again",
+      "the toll, which is his as it was his father's",
+      "what the Franks' great men say of him when he has left the room"
+     ],
+     "ties": [
+      {
+       "to": "rotomagus.rollo",
+       "tie": "kin",
+       "note": "His father, who left him the river and the habit of hanging thieves."
+      },
+      {
+       "to": "namnetis.alan",
+       "tie": "rival",
+       "note": "The king gave William 'the land of the Bretons by the sea' in 933; Alan came home from England in 936 to a country with that written over part of it (?)."
+      }
+     ],
+     "lines": {
+      "greet": "A Frisian. My father said your people paid their toll and kept their mouths shut. Do both and this river is yours to use.",
+      "greet_again": "You come back. Good. The monks at Jumieges want lead and glass. Bring it and name me to the tollman.",
+      "rumour": [
+       "Alan is home in the Bretons' land with English ships. Tell me what lies in the Loire, if you have been. I ask as a neighbour.",
+       "They say I would sooner be a monk. I have a monk's key and a count's sword, and only one of them is ever asked for."
+      ],
+      "saying": "My father measured land with a rope. I am asked to measure it with a pen, and the rope was quicker.",
+      "farewell": "Go with God. If other sails follow you up from the cliffs, tell my men at once and not the market."
+     },
+     "source": "William Longsword, Rollo's son, count at Rouen from about 927 to his murder on 17 December 942 at Picquigny on the Somme, at a meeting with Arnulf of Flanders (Flodoard, Annales 927, 933, 943; the Lament for William Longsword, soon after his death). The grant of 933 of 'the land of the Bretons situated on the sea coast': Flodoard. The wish to be a monk at Jumieges, the key and the Northmen's rising against him: Dudo of Saint-Quentin iii (about 1015, LATER), retold. His birth year is a guess (?). The Namnetis file's Alan had this tie pointed at the later Duke William; it is his."
+    }
+   ],
+   "stories": [
+    { "id": "rotomagus.offas_letters", "title": "The letters in the abbot's chest", "thread": "black_stones",
+      "summary": "The ports of two kingdoms are shut and nobody at the river gate can say why. The answer is in a chest at Saint-Wandrille, a tide below the city, and it is a wedding that did not happen.",
+      "picture": "A lead-roofed abbey in a wooded valley by the Seine; in a bare room a tall English monk holds up an open letter with a hanging seal for a merchant to see, a chest open at their feet.",
+      "beats": [
+       { "at": "quentovic", "when": "year < 797 and not flag.bs_peace", "text": "At the abbot's toll house an English ship lies under arrest and the clerk will not say what for. He says the abbot is at his own house on the Seine.", "card": "harbour.chain_black_stones.s06_quentovic" },
+       { "at": "rotomagus.river_gate", "when": "moored and port.id = rotomagus and year < 797 and not flag.bs_peace", "text": "Angilwin counts fewer casks each autumn the quarrel lasts. He says the abbot keeps King Offa's letters in a chest downriver and calls the king his dearest friend, and that this is all a tollman is told.", "card": "harbour.rotomagus.angilwins_chalk" },
+       { "at": "rotomagus.fontenelle", "when": "moored and port.id = rotomagus and year < 807", "text": "A monk copying there says it plainly. The young Charles asked for Offa's daughter; Offa would give her only if his own son had the king's daughter Bertha; the king was somewhat moved, and shut his shores.", "card": "harbour.chain_black_stones.s07_wandrille" },
+       { "at": "lundenwic", "when": "flag.bs_letter and year < 797", "text": "The wic-reeve on the Strand takes the abbot's letter and reads it twice. He asks how long the cloaks are this year on the other side.", "card": "" },
+       { "at": "rotomagus.alehouse", "when": "moored and port.id = rotomagus and flag.bs_peace", "text": "Adalsind's Englishman is back at her fire with wool cloth to sell. The cloaks, he says, are to be made as they used to come.", "card": "" },
+       {"at": "parisius.st_denis", "when": "year < 807", "text": "Saint-Denis has a charter of King Offa's too, for ground at Lundenwic. The treasurer shuts the chest when it is asked for. A monk of Saint-Wandrille who was once shown it said only that the ink was very black.", "card": ""}
+      ],
+      "links": ["cast.gervold", "cast.sigewine", "cast.wighelm", "rotomagus.tollman", "rotomagus.adalsind", "hamwic.leofstan", "parisius.fardulf"],
+      "endings": [
+       { "id": "letter_carried", "how": "You took the abbot's letter over the sea and put it in the reeve's hand.", "text": "The ports open in 796 as they would have, and two officers on two shores know which boat carried the word between them. Angilwin does not chalk your casks as closely after.", "reward": "flag bs_letter cleared and deed carried_letters; Angilwin's and the abbot's feeling rise; a first call on the English lead the abbot wants for his roofs (a commission)" },
+       { "id": "only_listened", "how": "You heard the monk out and carried nothing.", "text": "You know why the ports were shut, which is more than most who lost by it. The knowledge sells: an English skipper will pay to hear when the ban is likely to lift.", "reward": "flag bs_ban_heard; news worth a price word at Hamwic and Lundenwic; nothing risked" },
+       { "id": "told_the_wrong_man", "how": "You sold the story of the wedding in an ale-house on the wrong shore.", "text": "It is a king's daughter you are talking about, and somebody's reeve hears of it. The abbot's men are civil to you afterwards and nothing more.", "reward": "a few pennies and a tale; Angilwin's feeling falls; the abbey's commissions close to you for a year" }
+      ],
+      "reward": "The reason for the ban, a letter to carry between two officers, and a standing order for English lead." },
+    { "id": "rotomagus.weser_man", "title": "The man who asks for the Weser", "thread": "saxon_end",
+      "summary": "Saxon families have been set down on abbey land outside the city, with a priest over them, and they speak to nobody. One evening a man of theirs comes down to the strand and asks, in a tongue a Frisian half understands, whether any ship goes to the Weser.",
+      "picture": "Dusk on a muddy river strand under a Roman wall: a gaunt fair-haired man in a patched undyed tunic stands a little apart from a small boat, hands open at his sides, a woman and two children waiting by the gate behind him.",
+      "beats": [
+       { "at": "colonia", "when": "year >= 799 and year < 806", "text": "At the king's crossing whole villages wait on the bank to be moved into Francia. A priest reads them the vow again.", "card": "" },
+       { "at": "rotomagus.st_peter", "when": "moored and port.id = rotomagus and year >= 804 and year < 815", "text": "On the abbey's land beyond the graves there are new huts in a row, built all alike. The people in them work the fields and look at the ground when a stranger passes. The brother at the gate says they are the king's Saxons and it is not his business.", "card": "" },
+       { "at": "rotomagus.strand", "when": "moored and port.id = rotomagus and year >= 804 and year < 815", "text": "A man asks if any ship goes to the Weser. He has nothing to pay with but work. He says there are four of them. Brunger, if he is aboard, answers before you can.", "card": "harbour.rotomagus.weser_man" },
+       { "at": "rotomagus.river_gate", "when": "moored and port.id = rotomagus and year >= 804 and year < 815 and flag.sx_carried_fugitive", "text": "The tollman remarks that the priest over the Saxons has been at the gate asking which boats left on which tide. He says he told him the tide, which is true of every boat.", "card": "" },
+       { "at": "daventre", "when": "flag.sx_carried_fugitive", "text": "On the IJssel a family goes ashore at night and walks east. The man says a name to remember him by, and the name of a farm on the Weser where a Frisian boat will always be fed.", "card": "" },
+       {"at": "parisius.st_germain", "when": "year >= 804 and year < 815", "text": "Up the river Saint Germain's has Saxons on its land as well (?). Frotbald counts them among the tenants and says they dress vines badly and pray when told. One of them asks every boatman the same question.", "card": ""}
+      ],
+      "links": ["cast.crew.brunger", "cast.folcbert", "rotomagus.tollman", "daventre.einbert", "parisius.cellarer"],
+      "endings": [
+       { "id": "carried_home", "how": "You took them aboard at night and set them down on the IJssel.", "text": "Four people walk east into a country the king says is empty. It is against the king's order, and Brunger rows for you afterwards like two men.", "reward": "flag sx_carried_fugitive; Brunger's loyalty; a friend's farm on the Weser road (lodging, and a price word for Saxon honey and hides); the king's men may ask about it" },
+       { "id": "work_found", "how": "You would not carry them, but spoke for the man at the slip, where a wright needed hands.", "text": "He stays, as the king ordered, and his children grow up speaking Romance. Ten years on a wright at the east stream knows your boat and mends her before the others.", "reward": "repairs at the slip are done first and a quarter cheaper from then on; nothing risked; Brunger says nothing for a week" },
+       { "id": "told_the_priest", "how": "You told the priest set over them what the man had asked.", "text": "The man is moved somewhere further from the river. The priest thanks you. Nobody at Adalsind's asks you to sit down for a while.", "reward": "standing with the king's officers rises a little; Brunger's feeling falls hard, and so does the ale-house's" }
+      ],
+      "reward": "A crewman's loyalty and a friend's farm in Saxony, or a wright who owes you, depending on what you would risk." },
+    { "id": "rotomagus.school_books", "title": "The abbot's books", "thread": "book_road",
+      "summary": "Abbot Gervold is no reader, but he has founded a school at Saint-Wandrille and given it books, and a school eats parchment. A small dry boat that goes up to the fair and down to the sea can carry what a book is made of one way and what a book is the other.",
+      "picture": "A small boat moored at a jetty of stakes below a wooded valley; two monks hand down a flat chest wrapped in a sealskin while a boy holds a bundle of pale calfskins, lead roofs shining grey above the trees.",
+      "beats": [
+       { "at": "rotomagus.cathedral", "when": "moored and port.id = rotomagus and year < 812", "text": "Hildhard says the school downriver wants calfskin, and that Saint-Denis buys it by the bundle at the October fair. He teaches you what a book is worth: the skins of a herd, a year of a man's eyes.", "card": "harbour.rotomagus.chain_riddle" },
+       { "at": "parisius", "when": "month >= 10 and month <= 11 and year < 842", "text": "At the fair parchment is sold by the bundle of a hundred leaves. The abbey's buyer takes the best. What is left is good enough for a school.", "card": "" },
+       { "at": "rotomagus.fontenelle", "when": "moored and port.id = rotomagus and year < 842 and hold.parchment > 0", "text": "The schoolmaster counts the leaves and holds each to the light. He pays, and asks whether you would carry a finished book to a church over the sea, wrapped as he wraps it.", "card": "harbour.rotomagus.school_skins" },
+       { "at": "eoforwic", "when": "flag.bk_carried", "text": "A monk unwraps the sealskin, smells the book before he opens it, and says it has been in a dry boat. He asks who taught you to stow it above the bilge.", "card": "" },
+       { "at": "rotomagus.fontenelle", "when": "moored and port.id = rotomagus and year >= 841 and year < 859", "text": "After the fire of 841 the abbey paid six pounds to be left standing. Now the brothers talk of where the books should go if the ships come again, and who has a boat.", "card": "" },
+       {"at": "quentovic.saint_josse", "when": "year < 812 and flag.nw_borrowed_books", "text": "Osmund has two of the school's books on his shelf and a reason for each. He will send one back by a dry boat, and asks for more time with the other: he is reading it aloud, and they have reached the whale.", "card": "harbour.quentovic.borrowed_books"},
+       {"at": "namnetis.indre", "when": "year >= 797 and year < 812", "text": "Eadhelm shows a gathering in the new Tours hand, round and clear, every letter standing apart. He says the schoolmaster on the Seine has asked for a leaf of it to teach from.", "card": ""}
+      ],
+      "links": ["cast.gervold", "cast.sigewine", "cast.alcuin", "rotomagus.hildhard", "rotomagus.schoolmaster", "quentovic.osmund", "parisius.fardulf", "namnetis.eadhelm", "rotomagus.cellarer"],
+      "endings": [
+       { "id": "standing_order", "how": "You brought clean parchment down from the fair two autumns running.", "text": "The school keeps a place on its jetty for your boat. Every October there is an order, and every spring there is something written to carry away.", "reward": "flag bk_parchment: a yearly commission for parchment, pigments and wax; flag bk_knows_worth; lodging at the abbey" },
+       { "id": "book_carried", "how": "You carried a finished book over the sea and it came dry.", "text": "Monks you have never met know your boat's name. Hildhard reads you a leaf of anything you bring him, for nothing, for the rest of his life.", "reward": "flag bk_carried and deed carried_letters; act:read_text free at the cathedral while Hildhard lives; churches elsewhere offer book freights" },
+       { "id": "book_spoiled", "how": "The chest took water, or you sold a leaf or two on the way.", "text": "The schoolmaster turns the pages without speaking and pays the freight to the penny. No church on the river gives you a book again in his lifetime.", "reward": "flag bk_lost; the freight only; the abbey's commissions close" },
+       { "id": "books_saved", "how": "After 841 you took the abbey's book chests upriver before the ships came back.", "text": "The house empties about 858 and its saints go inland. The books you carried are among those that are still read when it is built again a hundred years on.", "reward": "flag bk_carried; a monk's letter of thanks that opens abbey gates in Francia for your heirs; alms counted to the house" }
+      ],
+      "reward": "A yearly order from a school, the knowledge of what a book is worth, and a name among people who write things down." },
+    { "id": "rotomagus.einolds_list", "title": "The clerk's list", "thread": "dorestad_falls",
+      "summary": "For a lifetime after 841 the strand is the Northmen's harbour and the city buys its own people back from it. Einold, a clerk of the cathedral, keeps a list of the taken and needs a shipman who goes where they were sold. Sixty years on, a Northman holds the city by the king's gift and hangs thieves.",
+      "picture": "A burned church wall with new timber against it; at a table in the open a grey clerk unrolls a long strip of stitched parchment covered in names, a shipman leaning to read, and beyond the gate long ships drawn up on the strand.",
+      "beats": [
+       { "at": "rotomagus.cathedral", "when": "moored and port.id = rotomagus and year >= 841 and year < 880", "text": "Einold asks one thing: carry a name north and ask after it. He writes it on a strip, with what the church will pay. He says the Northmen change the names, so listen for the trade the person had.", "card": "harbour.rotomagus.clerks_list" },
+       { "at": "sliesthorp", "when": "year >= 841 and year < 880", "text": "A dealer in the Danes' market remembers a lot from the Seine. He names where each went. For one of them he names a price, and it is fair as he sees it.", "card": "" },
+       { "at": "rotomagus.strand", "when": "moored and port.id = rotomagus and year >= 856 and year < 911", "text": "A fleet's quartermaster sells on the mud what was taken upriver: plate, cloth, people. He takes silver by weight and wine by the cask. To sell him a horse or a mail coat is death by the king's law, if the king's men were here to see.", "card": "harbour.rotomagus.mud_market" },
+       { "at": "dorestad", "when": "year >= 850 and year < 864", "text": "Eystein, who takes Rorik's toll, has a strip of parchment for the clerk at Rotomagus: three names, seen alive. He asks nothing for it. He says it is the one part of the work he likes.", "card": "" },
+       { "at": "rotomagus.tower", "when": "moored and port.id = rotomagus and year >= 911 and year < 931", "text": "Rollo holds the city from the king. There is one toll and it is his. He asks who else is on the river, and listens to the answer more closely than to the price of anything.", "card": "harbour.rotomagus.rings_on_the_oak" },
+       {"at": "parisius.st_germain", "when": "year >= 845 and year < 880", "text": "Aimoin, who writes down what the Northmen did to Saint Germain's, has a letter for the clerk at Rotomagus: three dates he doubts and a name he wants spelled.", "card": ""},
+       {"at": "quentovic.toll", "when": "year >= 858 and year < 871", "text": "The prefect on the Canche gets the clerk's word of what passes up the Seine, and pays the boat that brings it.", "card": "harbour.quentovic.prefects_question"},
+       {"at": "namnetis.cathedral", "when": "year >= 841 and year < 843", "text": "Bishop Gunhard has the clerk's letter about the burning of Rotomagus and has read it more than once. He wants the one thing it does not say: how long between the sail and the fire.", "card": "harbour.namnetis.stopped_doorway"}
+      ],
+      "links": ["rotomagus.einold", "cast.eystein", "cast.asulf", "cast.rorik", "cast.rollo", "rotomagus.rollo", "parisius.aimoin", "quentovic.grippo", "namnetis.gunhard", "rotomagus.wandrille_warden"],
+      "endings": [
+       { "id": "name_crossed_off", "how": "You found one of the taken and paid, or carried, the price.", "text": "Einold draws a line through a name and writes 'came home' beside it. He does not thank you much. He shows you the next name.", "reward": "deed bought_captives counted for you; story/unlocks_793.json unlock_kin_ransomed if the one found is of your house; the cathedral's alms and prayers; Einold's word with every church on the Seine" },
+       { "id": "word_only", "how": "You carried the question and brought back only word.", "text": "Alive, mending nets at the Danes' wall. Or dead, the second winter. Einold writes it down exactly. He says a family can live on a true word, and cannot on none.", "reward": "deed carried_letters; Einold's feeling rises; he tells you which fleet is where on the river before you load" },
+       { "id": "sold_on_the_strand", "how": "You traded with the fleet on the mud and asked nothing about the goods.", "text": "The profit is the best of the year. Einold sees your boat among theirs from the wall. He still greets you. He does not ask you to carry anything.", "reward": "a rich sale (silver by weight); the cathedral's doors are cool to you; the king's men may hear of it after 864" },
+       { "id": "rollos_peace", "how": "After 911 you told Rollo truly who was on the river behind you.", "text": "A strange sail is turned back at the cliffs that month. Rollo's clerk chalks your casks light for as long as the old man lives.", "reward": "flag df_warned; the toll at Rotomagus halved while Rollo lives; safe passage on the lower Seine" }
+      ],
+      "reward": "A kinsman or a stranger bought back, the trust of the one man who knows where every fleet lies, and later a Northman count's favour." },
+    { "id": "rotomagus.exiles_wine", "title": "Wine, whale and exiles", "thread": "price_of_england",
+      "summary": "From the 990s Danish fleets sell at Rotomagus what they take in England, English exiles lodge in the same streets, and the city's own shipmen carry wine and barrelled whale to London. A Frisian house that knows both shores can stand in the middle of this, and must decide what it will and will not carry.",
+      "picture": "A crowded strand under a tall square tower: wine casks rolled down to a broad ship, a Danish quartermaster setting out silver cups on a cloak, and at the gate a thin pale English boy in a good cloak watching the ships.",
+      "beats": [
+       { "at": "rotomagus.alehouse", "when": "moored and port.id = rotomagus and year >= 994 and year < 1033", "text": "Thorold explains London: six shillings for a large ship, a twentieth of the great fish, and wine dearest before Christmas. He offers to show you the reeve, for a share of one cargo.", "card": "" },
+       { "at": "rotomagus.strand", "when": "moored and port.id = rotomagus and year >= 1003 and year < 1017", "text": "A fleet just home from England sells on the strand: silver cups with a cross hammered flat, a psalter, English pennies by the sack. By the count's oath with the Danish king they sell here and their wounded are nursed here.", "card": "" },
+       { "at": "rotomagus.tower", "when": "moored and port.id = rotomagus and year = 1014 and month <= 4", "text": "The English king is the count's guest, with his wife and two boys. A man of his household asks quietly whether you sail for London, and whether you would carry a letter that names nobody.", "card": "" },
+       { "at": "lundenwic", "when": "year >= 1000", "text": "At the wharf the reeve asks whose wine it is. The men of Rouen show their goods and pay; so do you. He asks, in the same breath, who is lodged in the count's hall this winter.", "card": "harbour.years_london.emperors_men" },
+       { "at": "rotomagus.slip", "when": "moored and port.id = rotomagus and year = 1066", "text": "Every wright on the east stream is building, and oak cannot be had for silver. Nobody says where the ships are for. A steward asks whether your house has a pilot who knows the English shore.", "card": "" },
+       {"at": "burdigala.holy_cross", "when": "year >= 994 and year < 1001", "text": "The monks in the marsh have wine to send north and no keel. A skipper of Rotomagus takes it most autumns and brings old Trencard a book to look at. In a year he does not come, they ask for you.", "card": ""},
+       {"at": "namnetis.port", "when": "year >= 994 and year < 1033", "text": "Salt for the whale and the fish that go to London is loaded here in Breton hulls. A man who brings it to the Seine before Michaelmas is paid by Thorold without argument, which is rare.", "card": ""}
+      ],
+      "links": ["rotomagus.thorold", "rotomagus.robert", "cast.thorkell", "cast.cnut", "lundenwic.cnut", "lundenwic.thorkell", "burdigala.trencard"],
+      "endings": [
+       { "id": "wine_road", "how": "You sailed wine to London with Thorold for three autumns and paid the toll each time.", "text": "The reeve knows your house as one that shows its goods. Thorold calls you partner in front of other men, which in his mouth is a contract.", "reward": "a standing wine freight to London each autumn; flag en_cnut_peace when Cnut is king (the king's protection for a house known at his wharf); Thorold as a factor at Rotomagus" },
+       { "id": "plate_returned", "how": "You bought English church plate on the strand and carried it back to the church it was taken from.", "text": "It costs you the price and the freight and earns nothing. An English abbot writes your house's name in his book of benefactors, where it is read out once a year for as long as the book lasts.", "reward": "deed gave_alms; standing in England rises and stays risen across an heir; an English minster's commissions" },
+       { "id": "followed_the_silver", "how": "You sold to the paid fleets and bought what they brought, and asked nothing.", "text": "It is the best market of the age and you are in the middle of it. Archbishop Robert buys from you too. In an English port, years later, a man looks a long time at a cup on your table.", "reward": "flag en_followed_silver: the richest sales of these years; a name for it in England that an heir inherits" },
+       { "id": "whose_pilot", "how": "In 1066 you lent the duke's steward a pilot for the English shore, or refused him.", "text": "If you lent him, the house has a friend in the hall of the next king of the English. If you refused, you have a clean name in a kingdom that ends in October.", "reward": "lent: the new king's writ for your house at London (after the game's last year, told only as how the house ends); refused: Thorold's grandsons do not know you" }
+      ],
+      "reward": "A place in the wine trade to London and a partner on the strand; or a name in England, good or bad, that outlives you." }
+   ],
+   "works": [
+    { "id": "rotomagus.work.cellar", "name": "A cellar under the south wall",
+      "what": "A vaulted Roman store dug out and re-roofed inside the wall by the river gate, cool and dry, with a door that bars and room for forty casks.",
+      "cost_d": 720, "days": 60, "from": 793, "to": 0,
+      "needs": "A plot inside the gate (the chain wine_fleet's ending with the Englishman gives one; otherwise the archbishop's leave, or after 911 the count's), and to be known in the city.",
+      "gives": "Wine bought at the fair can lie here until the price over the sea is right; no store rent at Rotomagus; casks kept here do not turn. Burned in 841 and to be dug out again by the heir.",
+      "picture": "A low stone vault of Roman brick lit by one lamp, wine casks on their sides in two rows, a cooper driving a hoop.",
+      "source": "invented in the period's manner; the flag unlock_plot_rotomagus (set by the chains wine_fleet and rollo_911; it has no row yet in story/unlocks_793.json) and the card harbour.chain_wine_fleet.end_own (a shared cellar under the south wall). Roman vaults reused under the wall are a guess (?)" },
+    { "id": "rotomagus.work.stair", "name": "A stair and a ring at the river gate",
+      "what": "Oak piles and a laid bed of brushwood and stone on the mud beside the gate, with a ring post and a plank stair, so a boat can lie upright and load dry at any state of the tide.",
+      "cost_d": 300, "days": 40, "from": 793, "to": 0,
+      "needs": "The tollman's leave, since the strand is the king's (after 911 the count's); a neap tide for the work.",
+      "gives": "Loading here takes half the time and porters cost less; the boat does not strain on the mud at the ebb; a skiff can be kept on the ring.",
+      "picture": "Men driving oak piles into grey mud at low water under a wall of mixed Roman stone, a small boat lying on her side nearby.",
+      "source": "invented; no dug quay of this age is known at Rouen and boats lay on the strand (dossier 1). Timber-and-brushwood hards as at Dorestad (?)" },
+    { "id": "rotomagus.work.alms_table", "name": "A table at Saint Peter's gate",
+      "what": "A cauldron, a table and a year's rye for the abbey's gate, where the poor are fed in the hungry years; the brothers do the cooking and say whose gift it is.",
+      "cost_d": 180, "days": 7, "from": 793, "to": 807,
+      "needs": "Rye or wheat in the hold, or silver to buy it at the king's price and no higher.",
+      "gives": "flag hy_fed_poor and deed gave_alms; the abbey remembers the house: lodging and a leech for a sick crewman without asking, and the brothers' word with other abbeys on the Seine.",
+      "picture": "A line of thin people with wooden bowls at an abbey gate, a monk ladling pottage from a black cauldron, bare trees behind.",
+      "source": "the famine of 792-794 and the king's order that bishops, abbots and counts feed the poor (spine thread hungry_years; Frankfurt 794 c. 4 for the price of grain). That Saint Peter's fed two hundred is invented" },
+    { "id": "rotomagus.work.ransom_chest", "name": "A share in the cathedral's ransom chest",
+      "what": "Silver given to the chest the clerk Einold keeps, out of which the city's taken people are bought back from the fleets, one at a time, as word of them comes.",
+      "cost_d": 480, "days": 1, "from": 841, "to": 911,
+      "needs": "To have carried a name for Einold at least once, so he knows the silver is not a Northman's joke.",
+      "gives": "deed gave_alms, and bought_captives counted for you and not against; each year one of the ransomed comes to your boat to work a season without pay; Einold tells you where the fleets lie.",
+      "picture": "An iron-bound chest open on a church floor, a grey clerk weighing cut silver on a small balance, a list of names pinned under a stone.",
+      "source": "invented; buying back captives as a good work (Rimbert, Vita Anskarii 15 and 35, Robinson 1921); the captives of 841 (Annales Bertiniani). The chronicle of Fontenelle's 68 captives bought for 26 pounds is unchecked (?)" },
+    { "id": "rotomagus.work.crypt_pillar", "name": "A pillar in the archbishop's crypt",
+      "what": "The cost of one carved pillar and its vault in the crypt Archbishop Robert is building under the new choir of Saint Mary's. The mason cuts a small ship on the capital, low down, where a kneeling man would see it.",
+      "cost_d": 960, "days": 120, "from": 1030, "to": 1063,
+      "needs": "An audience with the archbishop, and stone: he will take part of the price in English lead or in glass.",
+      "gives": "The house has a place in the cathedral: a Mass on the day you name, burial for your dead in the city, the archbishop's commissions, and a mark that will still be there when the game ends.",
+      "picture": "A low round-arched crypt with short thick pillars, lit by candles; a mason on his knees cutting a small ship into a capital.",
+      "source": "the choir over a crypt begun about 1030 by Archbishop Robert, finished by Maurilius and dedicated 1 October 1063; the crypt survives (fr.wikipedia.org/wiki/Cathédrale_Notre-Dame_de_Rouen). The ship on the capital is invented" }
+   ],
+   "ships": [
+    { "class": "river_barge", "how": "built to order over a winter, or hired with her men by the trip", "from": 793, "to": 0,
+      "note": "Above the city the tide is no help and the wine comes down in flat barges, towed up empty and poled down full. The wrights of the east stream build them from the oak of the forest behind the city.",
+      "picture": "A long flat barge with square ends, deep in brown water under two rows of casks, a man at a long steering oar and the city wall behind.",
+      "source": "sea ships to the wall on the flood, barges above (traffic_793.json; dossier 4); Design/content/ships.md. The yard is invented" },
+    { "class": "river_estate_ship", "how": "lent by the archbishop or an abbot to a shipman who has kept his commissions (story/unlocks_793.json unlock_ship_river_estate_ship)", "from": 793, "to": 0,
+      "note": "The abbeys of the Seine send their own wine down and their salt up in their own ships, toll-free where their charters run. A lord's ship is not sold; she is entrusted.",
+      "picture": "A broad river ship with a carved stem and a cross on a pole at the bow, monks' servants loading casks, lead roofs in the valley behind.",
+      "source": "story/ships_793.json (built at rotomagus); the toll freedom of Saint-Germain's boats here, 779 (Tardif no. 81)" },
+    { "class": "west_small_boat", "how": "bought second-hand from a fisherman under the wall", "from": 793, "to": 0,
+      "note": "The salmon and the small spring fish are netted from open plank boats that work the tide off the strand. One comes up for sale when a man grows too old for the wave.",
+      "picture": "A small open plank boat with two oars and a wet net, a basket of silver fish on the thwart, grounded on mud under a wall.",
+      "source": "salmon and the small fish at Rouen: Ibrahim ibn Ya'qub (960s), retold; Design/content/ships.md" },
+    { "class": "skiff_punt", "how": "bought for 40 d, or built in a fortnight", "from": 793, "to": 0,
+      "note": "For crossing to the south bank, for lightering casks out to a ship that cannot wait for the tide, and for going quietly down to Saint-Wandrille.",
+      "picture": "A short flat skiff with one man standing to pole, a single cask amidships, a ship aground beyond.",
+      "source": "story/unlocks_793.json unlock_ship_skiff_punt (40 d, this port named)" },
+    { "class": "ferry_barge", "how": "hired by the crossing; not for sale", "from": 793, "to": 0,
+      "note": "There is no bridge. Carts, cattle and, in the year 800, a king cross the Seine here by boat.",
+      "picture": "A wide flat ferry with an ox cart and two horses aboard, four men at sweeps, the far bank low and green.",
+      "source": "the king crossed the Seine at Rouen in 800, how is not said (Annales regni Francorum); the ferry is the project's (traffic_793.json). The stone bridge is twelfth-century" },
+    { "class": "north_sea_merchant_ship", "how": "bought second-hand on the strand, seldom; after 841 more often, from men leaving the trade", "from": 793, "to": 0,
+      "note": "The merchants of the city have sea ships: twenty-eight of them came up on one tide in the spring of 841. They are built on other shores and change hands here.",
+      "picture": "A deep round-bellied sailing ship with one square sail furled, aground and leaning under the south wall, her owner arguing price with two men.",
+      "source": "Nithard II.6 (merchant ships at Rouen, 841); story/ships_793.json does not build the class here, so second-hand only" },
+    { "class": "norse_allround_ship", "how": "bought second-hand from a settler who has turned farmer", "from": 911, "to": 940,
+      "note": "A man given land by the rope has a ship he no longer needs. The Northmen's wrights on the east stream keep such hulls afloat for a generation, and lay down no new ones of this kind.",
+      "picture": "A long low clinker ship with a high curved stem on blocks by a red-running stream, a wright with an adze, a ploughed field behind.",
+      "source": "the grant of 911 and the land shared out by the rope (Dudo ii, LATER); ships found on the river at Rouen in 885 (Annales Vedastini). story/ships_793.json builds this class new only in the north and only to 900: here it is second-hand, kept afloat by Norse wrights settled on the Seine, and gone by about 940 (?)" }
+   ],
+   "sayings": [
+    { "text": "A seething tide carried the ships up from the river mouth and set them down by the city.", "source": "Nithard, Histories II.6, on the spring of 841, in the dossier's own rendering of the Latin, shortened" },
+    { "text": "They raged with plunder, sword and fire, and gave the city, the monks and the rest of the people to killing and captivity.", "source": "Annales Bertiniani 841 (Waitz 1883), our rendering" },
+    { "text": "The king takes a tenth. The river takes what it likes.", "source": "invented in the period's manner (the tollman's)" },
+    { "text": "What use are these little rags? In bed they do not cover me, on a horse they keep off neither wind nor rain. So the king said of the short Frisian cloaks, and he was paying the old price.", "source": "Notker, Gesta Karoli I.34, retold in our own words (Grant 1907 not quoted). Said at Adalsind's whenever a Frisian comes in" },
+    { "text": "A Northman was told to kiss the king's foot for his land. He lifted the foot to his mouth instead of bending, and the king went over on his back.", "source": "Dudo of Saint-Quentin ii (about 1015, LATER), retold; told on the strand after 911, of one of Rollo's men and not of Rollo" },
+    { "text": "Six winters ago he had no beard. Now it is past his knees. In this city even the hair is in a hurry to get to the river.", "source": "the young man of Rouen seen by Ibrahim ibn Ya'qub in the 960s, retold; the joke is invented in the period's manner" },
+    { "text": "Bound, I bind. Iron made me and I hold what is stronger than I am.", "source": "a plain rendering of the sense of Symphosius, riddle 5, Catena (Riese 1894); the Latin is in texts_793.json symphosius_05_catena. On this strand after 841 nobody laughs at the answer" },
+    { "text": "Rollo hung gold on an oak for three years. Our priest cannot leave a candle on the altar overnight.", "source": "the arm rings at 'Rollo's Mere': William of Jumieges ii (LATER), retold; the complaint is invented" },
+    { "text": "No one is to give or sell a mail coat, arms or a horse to the Northmen, for any reason or any ransom, on pain of his life.", "source": "Edictum Pistense c. 25, 864 (MGH Capit. II no. 273), our rendering, shortened" },
+    { "text": "The ink is thin, the leaf is rough, and the wind comes off the river under the door. Thank God it grows dark.", "source": "invented in the manner of the scribes' marginal complaints of the ninth century (Hildhard's boys)" },
+    { "text": "A full cask keeps. A full man does not.", "source": "invented in the period's manner (the cooper's)" }
+   ],
+   "easter_eggs": [
+    { "text": "The small silver fish sold on wet leaves in the market smells of cucumber when it is fresh. A traveller from Spain noticed the same thing a hundred and seventy years later and wrote it down.", "where": "rotomagus.market", "source": "Ibrahim ibn Ya'qub (960s), retold; the fish is the smelt, which does smell so" },
+    { "text": "In a hard winter a white goose with a red beak and red feet comes to the river. The people call it something like 'gansh'.", "where": "rotomagus.strand", "source": "Ibrahim ibn Ya'qub (960s), retold from the French given at fr.wikipedia.org/wiki/Rouen" },
+    { "text": "A block built into the south wall upside down has letters on it and half a carved wreath. The wall was put up in a hurry six lifetimes ago out of whatever was standing.", "where": "rotomagus.strand", "source": "the wall of about 325-350 built from torn-down buildings (fr.wikipedia.org/wiki/Fortifications_de_Rouen); the block is invented" },
+    { "text": "The old say that Bishop Romanus tore the dedication off a temple of Venus in the round house and the temple fell, and that he turned back a flood with his staff. Nobody here has heard of a dragon. That story will not be told for six hundred years.", "where": "rotomagus.arena", "source": "en.wikipedia.org/wiki/Romanus_of_Rouen; the dragon first written in 1394 (dossier 7)" },
+    { "text": "After 911 the stream by the slip has a new name. The Northmen call it the red brook, for the dyers' water, and the name sticks: Rodobech in a charter of about 1020. The single wave that runs up the river on the big tides gets a Norse name too.", "where": "rotomagus.slip", "source": "fr.wikipedia.org/wiki/Robec; fr.wikipedia.org/wiki/Mascaret (la barre, from Norse bara, wave)" },
+    { "text": "From about 1010 the town tells of the count's brother, kept five years in the tower, who went out of the high window one night on a very long rope and was not seen again in the city.", "where": "rotomagus.tower", "source": "William of Jumieges v (LATER): Count William, brother of Richard II" },
+    { "text": "A lid has slid off one of the stone coffins on the slope. Inside there is a little glass bottle, whole, and nothing else that can be named.", "where": "rotomagus.grave_field", "source": "the Roman and early Christian grave field with stone coffins at Saint-Gervais (fr.wikipedia.org/wiki/Église_Saint-Gervais_de_Rouen); the bottle is invented in keeping with such graves" },
+    { "text": "In the 970s a moneyer's tray holds, among thousands of the count's and the archbishop's pennies, two of a boy king of the English who reigned three years. Somebody will bury them all in two pots near Fecamp and not come back.", "where": "rotomagus.mint", "source": "the Fecamp hoard, buried about 980-985: 3,107 Rouen pennies of Richard I, 2,478 read as Archbishop Hugh's, two of Edward the Martyr (hoards_793.json fecamp; F. Dumas, CRAI 1971)" },
+    { "text": "In 820 a dark, silent lord from the Spanish march lodges in the city with two servants. He lost a duel on horseback before the emperor and his life was spared. He walks on the wall every evening and looks south.", "where": "rotomagus.cathedral", "source": "Bera, count of Barcelona, exiled to Rouen: Annales regni Francorum 820" },
+    { "text": "The roofs at Saint-Wandrille are grey and dull because they are lead, and the lead is English. The abbot who put it there took the king's tolls for twenty years and was King Offa's dearest friend, in the king's own words.", "where": "rotomagus.fontenelle", "source": "Gesta abbatum Fontanellensium c. 12; that the lead was English is likely and not stated (?)" }
+   ],
+   "unlocks": [
+    { "id": "rotomagus.adalsinds_stick", "what": "A tally stick on Adalsind's wall", "how": "Drink at the house inside the river gate on three calls and pay what is notched.", "gives": "Lodging here costs nothing but the ale; she names who is in harbour and what wine fetched at the fair before you ask; her daughters keep the stick for your heir (npc memory: the role is kept in the family)" },
+    { "id": "rotomagus.riddle_catena", "what": "The riddle of the chain, in Latin, on a wax tablet", "how": "Answer or fail to answer Hildhard's greeting at the cathedral; he writes it down either way. It needs a reader aboard, a monk to read it out, or lessons.", "gives": "give_text symphosius_05_catena (story/unlocks_793.json text.symphosius_05_catena); it carries riddle_symphosius_05_catena" },
+    { "id": "rotomagus.charter", "what": "Saint-Germain's freedom at the river gate", "how": "Keep three commissions for the abbey at Parisius and carry its letter; before 911 only.", "gives": "story/unlocks_793.json unlock_charter_rotomagus: toll none on the abbey's own freight while the letter holds; after 911 the letter is worth nothing at Rollo's gate" },
+    { "id": "rotomagus.loops", "what": "The loops of the Seine and the wave", "how": "Hire a pilot here on three calls and come through without touching, or sail it three times end to end yourself.", "gives": "story/unlocks_793.json unlock_pilot_seine: no pilot's fee on the lower Seine, the tide window shown before the course is set" },
+    { "id": "rotomagus.plot", "what": "A plot inside the river gate", "how": "The chain wine_fleet's own-purse ending with Leofstan of Hamwic; or the archbishop's leave (after 911 the count's) and 240 d.", "gives": "the flag unlock_plot_rotomagus (it has no row yet in story/unlocks_793.json): ground for the work rotomagus.work.cellar" },
+    { "id": "rotomagus.abbey_jetty", "what": "A place on Saint-Wandrille's jetty", "how": "Bring clean parchment down from the fair two autumns running (the story rotomagus.school_books), before 842.", "gives": "flag bk_parchment: a yearly commission from the school; lodging at the abbey; act:read_text and act:copy_text there without a gift" },
+    { "id": "rotomagus.einolds_word", "what": "The clerk's word on the fleets", "how": "Carry a name north for Einold and bring back a true answer, 841 to 879.", "gives": "news: which fleet lies where on the Seine, before you load; deed carried_letters; the cathedral's doors open to you in the years they are shut to most shipmen" },
+    { "id": "rotomagus.rollos_chalk", "what": "Rollo's light chalk", "how": "Tell Rollo truly who is on the river behind you, 911 to 930.", "gives": "flag df_warned; toll at Rotomagus halved while he lives; safe passage on the lower Seine" },
+    { "id": "rotomagus.london_road", "what": "Thorold's London", "how": "Sail wine to London with Thorold on three autumns and pay the toll each time, 994 to 1032.", "gives": "a standing wine commission each autumn; Thorold as factor here; the reeve at London knows the house (flag en_cnut_peace under Cnut)" }
+   ],
+   "sources": [
+    "Design/content/dossiers/rotomagus.md (4 Oct 2026), with every reference below as cited there; Design/content/spine.json (threads black_stones, saxon_end, silver_road, hungry_years, book_road, dorestad_falls, price_of_england; cast.gervold, cast.rollo, cast.sigewine, cast.eystein, cast.thorkell, cast.cnut)",
+    "Annales regni Francorum 769, 800, 818, 820, 821, 824: https://la.wikisource.org/wiki/Annales_regni_Francorum",
+    "Nithard, Histories II.6: https://www.thelatinlibrary.com/nithardus2.html",
+    "Annales Bertiniani 841-876 (ed. Waitz 1883): https://la.wikisource.org/wiki/Annales_Bertiniani",
+    "Annales Vedastini 885: https://la.wikisource.org/wiki/Annales_Vedastini",
+    "Flodoard, Annales 923-946: http://remacle.org/bloodwolf/historiens/flodoard/annales.htm",
+    "Dudo of Saint-Quentin, De moribus et actis primorum Normanniae ducum (about 1015, LATER), read in F. Lifshitz's modern translation and never quoted: https://the-orb.arlima.net/orb_done/dudo/dudindex.html",
+    "William of Jumieges, Gesta Normannorum ducum (about 1070, LATER), tr. Guizot 1826, books ii, iv, v, vii, retold and not quoted: https://remacle.org/bloodwolf/historiens/guillaumejumiege/normands1.htm",
+    "Edictum Pistense, 25 June 864 (MGH Capit. II no. 273) c. 12 and 25, in our own words: https://sourcebooks.fordham.edu/source/864charlesbald-pistes.asp",
+    "IV Aethelred 2, the London tolls (Thorpe 1840), our rendering: https://sourcebooks.web.fordham.edu/source/billingsgate-tolls.asp",
+    "Gesta abbatum Fontanellensium c. 12 (c. 16 in Loewenfeld's edition of 1886), on Gervold, as rendered in spine.json and Design/content/dossiers/quentovic.md",
+    "Charter of Charles for Saint-Germain-des-Pres, 27 March 779 (Tardif, Monuments historiques no. 81)",
+    "Ibrahim ibn Ya'qub of Tortosa on Rouen (960s), from M. Arkoun (2006) p. 44 as given at https://fr.wikipedia.org/wiki/Rouen: modern French, retold only",
+    "F. Dumas on the Fecamp hoard, CRAI 1971: https://www.persee.fr/doc/crai_0065-0536_1971_num_115_3_12672",
+    "Notker, Gesta Karoli I.34 (the short cloaks), retold; Charles's letter to Offa, 796 (MGH Epistolae IV no. 100)",
+    "French Wikipedia, each at https://fr.wikipedia.org/wiki/ plus the title: Rouen; Rotomagus; Fortifications_de_Rouen; Cathédrale_Notre-Dame_de_Rouen; Abbaye_Saint-Ouen_de_Rouen; Tour_de_Rouen; Église_Saint-Godard_de_Rouen; Église_Saint-Gervais_de_Rouen; Robec; Mascaret; Liste_des_évêques_et_archevêques_de_Rouen; Remi_de_Rouen; Victrice_de_Rouen; Romain_de_Rouen; Ouen_de_Rouen; Maurille_de_Rouen; Robert_le_Danois; Rollon; Abbaye_Saint-Wandrille_de_Fontenelle; Trésor_de_Fécamp; Histoire_de_la_Normandie",
+    "English Wikipedia, each at https://en.wikipedia.org/wiki/ plus the title: Romanus_of_Rouen; Audoin_(bishop); Mauger_(archbishop_of_Rouen); Warner_of_Rouen; Ibrahim_ibn_Yaqub; William_Longsword",
+    "This repo: Assets/Kapman/Game/Data/chronicle_793.json (800-03-channel-coastguard, 841-05-rouen-sacked, 845-03-28-paris-sacked, 864-06-25-pitres, 885-11-24-siege-paris, 911-rollo-rouen, 1000-london-tolls); traffic_793.json; hoards_793.json (fecamp); riddles_793.json and texts_793.json (symphosius_05_catena); story/unlocks_793.json; story/ships_793.json; encounters/chain_wine_fleet_793.json and chain_black_stones_793.json (the cards named in 'do' and in beats); encounters/long_793.json (harbour.years_london.emperors_men)",
+    "Not checked, and marked (?) where used: any count, tollman or moneyer of Rouen by name; the toll rate; pennies of Rouen before 864; the Saxon families near Rouen in 804-815 (the spine's placing; no source found); the chronicle of Fontenelle's ransom of 841; a Rouen wharf in London; the year of Olaf's baptism; Archbishop Robert's birth year; Rollo's birth and death years"
+   ]
+  }
+ ]
+}

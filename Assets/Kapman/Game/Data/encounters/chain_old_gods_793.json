@@ -1,0 +1,588 @@
+{
+ "about": "THE CHAIN old_gods (Design/content/CHAINS.md; the page is Design/content/chains/old_gods.md): a vow made to the sea in a bad hour, and the price of keeping it and of breaking it. In a gale the steersman says to vow Saint Martin a candle the length of the keel and the hand says to vow the sea a share; the gales cut the dune at Walichrum and a Roman merchant's altar stands out of it, 'for goods kept safe', with three silver pennies of the last century lying among the green coins; a priest of Saint Martin's at Traiectum reads it and wants it gone before midsummer; a Danish skipper at Ripa asks the house to the feast at winter's start in the hall at Hleidr, where a horse is eaten and a lot is lifted; the priest hears of it; and the next summer, on the dune, the stone is buried, raised, signed with the cross or broken. Fourteen cards (eleven harbour, two sea, one crew), four endings (flags ch_old_gods_end_buried, ch_old_gods_end_church, ch_old_gods_end_custom, ch_old_gods_end_broken). History: the buried ending is what happened (the altars lay under the dune until January 1647); changed: changed_walichrum_chapel, changed_nehalennia_remembered, changed_nehalennia_broken. The vow is three flags from the first card (ch_old_gods_vow_martin, ch_old_gods_vow_sea, ch_old_gods_vow_none) and two for its paying (ch_old_gods_paid_martin, ch_old_gods_paid_sea); the hard road in each finale asks that exactly the one who was promised has been paid, that nothing was taken from the stone (ch_old_gods_took) and that the priest was not lied to (ch_old_gods_denied). An unpaid vow brings the card s06 back at sea. Lasting costs: ch_old_gods_watched (a priest who remembers), ch_old_gods_shrine_breaker (the island and the hand remember). Cast (Design/content/spine.json): cast.crew.ravn (the hand) and cast.crew.aldger (the steersman), or a Norse hand and a Frisian steersman of the forge; the bishop is cast.hamacar until 806 and is never named in the words. Everyone else is an ordinary invented person whom the forge names. Nobody in the chain knows the goddess's name but the priest who reads it, and he has met it in no book (lore/gods_cult.md 3.1; dossiers/walichrum.md 8). Waits are flags that lapse (ch_old_gods_owe_wait 150 days, _heard_wait 30, _dune_wait 120, _end_wait 30 to 90). Every chain card after the first has a high weight and a 'when' that asks for the last flag, so it comes on the first call at its port. Every option's 'note' names its outcome text (chain_old_gods.<card>.out_<option>), which the engine does not show yet. Words: Data/writing/chain_old_gods.json. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "sea.chain_old_gods.s01_storm",
+   "note": "Step 1, the start: at sea in hard weather, any year before 840. The steersman (cast.crew.aldger) and the hand (cast.crew.ravn) each say what a man does. Sources: vows in danger among heathens and Christians alike (Rimbert, Vita Anskarii c. 19, 27, 30: the old man at Birka who says the Christians' god has helped many of them at sea; the Svear who vow a fast and alms to Christ on merchants' advice); the Christian vow of wax, a fast or a pilgrimage in a storm, in the miracle books of every abbey on the coast (lore/gods_cult.md 9 and 10.2; lore/sea_lore.md 11.3); a candle 'of a man's measure' is a miracle-book habit, and the keel's length is ours (?). Saint Martin is Utrecht's patron and his day, 11 November, closes the sea. Sets ch_old_gods_1 and one of ch_old_gods_vow_martin, ch_old_gods_vow_sea, ch_old_gods_vow_none; ch_old_gods_owe_wait runs 150 days.",
+   "stage": "sea",
+   "when": "under_way and (storm >= 0.4 or wind >= 9) and year < 840 and not flag.ch_old_gods_1 and not flag.ch_old_gods_done",
+   "rate": 0.15,
+   "cooldown_days": 30,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger, or a Frisian steersman of the forge" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_old_gods.s01.title",
+   "title": "A bad hour",
+   "intention_key": "chain_old_gods.s01.intention",
+   "intention": "The wind has backed and the sea comes over the quarter faster than two men can bail. The steersman and the hand each say what a man does now, and they do not say the same thing.",
+   "lines": [
+    { "who": "steersman", "key": "chain_old_gods.s01.steersman_worst" },
+    { "who": "steersman", "key": "chain_old_gods.s01.steersman_candle" },
+    { "who": "hand", "key": "chain_old_gods.s01.hand_share" },
+    { "who": "steersman", "key": "chain_old_gods.s01.steersman_devils" },
+    { "who": "hand", "key": "chain_old_gods.s01.hand_bargain" }
+   ],
+   "options": [
+    { "key": "martin", "label_key": "chain_old_gods.s01.opt_martin", "label": "Vow Saint Martin a candle the length of her keel", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_1", "flag ch_old_gods_vow_martin", "flag ch_old_gods_owe_wait for 150", "morale +0.05", "npc steersman feeling +4 vowed_to_martin", "npc hand feeling -1 vowed_to_martin" ],
+      "note": "outcome: chain_old_gods.s01.out_martin" },
+    { "key": "sea", "label_key": "chain_old_gods.s01.opt_sea", "label": "Vow the sea a share of what it lets you keep", "check": "true",
+      "effects": [ "flag ch_old_gods_1", "flag ch_old_gods_vow_sea", "flag ch_old_gods_owe_wait for 150", "morale +0.03", "npc hand feeling +5 vowed_to_sea", "npc steersman feeling -4 vowed_to_sea" ],
+      "note": "outcome: chain_old_gods.s01.out_sea" },
+    { "key": "bail", "label_key": "chain_old_gods.s01.opt_bail", "label": "Promise nobody anything, and bail", "check": "true",
+      "effects": [ "flag ch_old_gods_1", "flag ch_old_gods_vow_none", "morale -0.03" ],
+      "note": "outcome: chain_old_gods.s01.out_bail (pride only: both men think less of the luck, and the chain goes on)" }
+   ],
+   "memory": {
+    "martin": "vowed a candle to Saint Martin in the gale",
+    "sea": "vowed the sea a share in the gale",
+    "bail": "vowed nothing in the gale"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s02_stone",
+   "note": "Step 2: Walichrum, the first call after step 1, before 846. The gales have cut the dune and one altar stands out. Sources: the altars of Nehalennia at Domburg came out of the dune after a storm in January 1647: a seated woman, a dog, a basket of apples, a ship's prow (dossiers/walichrum.md 2, 6, 7; livius.org 'Nehalennia'; P. Stuart and J. E. Bogaers, Nehalennia, 2001). That a storm uncovered one stone in these years is invented, as lore/sea_lore.md 11.1 allows; that nobody on the island knows her name is the rule of lore/gods_cult.md 3.1. The three silver pennies: three sceattas lay among the Roman coins at the shrine (M. de Man 1899, 'Que sait-on de la plage de Dombourg?'), so somebody about 700 to 750 laid coin there; sceattas are forty years out of use in 793. The idol by the creek and its keeper: Alcuin, Vita Willibrordi c. 14 (about 796), told in our own words. The farm wife is invented (no ordinary name of Walichrum survives). Sets ch_old_gods_2, and ch_old_gods_letters, ch_old_gods_took or ch_old_gods_gave_stone.",
+   "stage": "harbour",
+   "when": "moored and port.id = walichrum and flag.ch_old_gods_1 and not flag.ch_old_gods_2 and year < 846 and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [35, 55], "fixed": true, "note": "invented: a sheep farmer's wife of Walichrum" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_old_gods.s02.title",
+   "title": "What the dune gave up",
+   "intention_key": "chain_old_gods.s02.intention",
+   "intention": "The gales have cut a slice from the dune west of the houses. A grey stone the height of a child stands half out of the sand, and a woman with sheep is looking at it as she would at a stranger's dog.",
+   "lines": [
+    { "who": "wife", "key": "chain_old_gods.s02.wife_comes_out" },
+    { "who": "wife", "key": "chain_old_gods.s02.wife_what" },
+    { "who": "wife", "key": "chain_old_gods.s02.wife_coins" },
+    { "who": "wife", "key": "chain_old_gods.s02.wife_bishop" },
+    { "who": "hand", "key": "chain_old_gods.s02.hand_door", "when": "flag.ch_old_gods_vow_sea" },
+    { "who": "hand", "key": "chain_old_gods.s02.hand_ship", "when": "not flag.ch_old_gods_vow_sea" }
+   ],
+   "options": [
+    { "key": "copy", "label_key": "chain_old_gods.s02.opt_copy", "label": "Cut the letters on a tally stick, as they stand", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_2", "flag ch_old_gods_letters", "learn latin +0.03", "npc wife feeling +2 copied_letters", "news chain_old_gods.news.stone at dorestad" ],
+      "note": "outcome: chain_old_gods.s02.out_copy (time only)" },
+    { "key": "give", "label_key": "chain_old_gods.s02.opt_give", "label": "Lay a penny in the sand with the others", "check": "silver >= 1",
+      "cost": "silver 1",
+      "effects": [ "flag ch_old_gods_2", "flag ch_old_gods_gave_stone", "npc wife feeling +5 gave_penny", "npc hand feeling +3 gave_penny", "news chain_old_gods.news.stone at dorestad" ],
+      "note": "outcome: chain_old_gods.s02.out_give (a priest will hear of the fourth penny: card s09)" },
+    { "key": "take", "label_key": "chain_old_gods.s02.opt_take", "label": "Pick the silver out of the sand", "check": "true",
+      "effects": [ "flag ch_old_gods_2", "flag ch_old_gods_took", "silver +24", "morale -0.03", "npc wife feeling -8 took_silver", "npc hand feeling -5 took_silver", "news chain_old_gods.news.stone at dorestad" ],
+      "note": "outcome: chain_old_gods.s02.out_take (24 d of old silver; it closes the hard road in every finale)" }
+   ],
+   "memory": {
+    "copy": "copied the letters on the stone",
+    "give": "laid a penny by the stone",
+    "take": "took the silver from the sand by the stone"
+   }
+  },
+  {
+   "id": "crew.chain_old_gods.s03_quarrel",
+   "note": "Step 3 (a side step, drawn under way after step 2: step 4 does not wait for it). The steersman and the hand quarrel about what the stone is. Sources: the Indiculus superstitionum et paganiarum, the list of about 743 in a manuscript of about 800 (no. 7 'what they do upon stones', no. 18 'uncertain places which they honour as holy'), which is the steersman's 'list'; the Lex Frisionum, Additio sapientum XI (about 802, old custom written down): whoever breaks into a shrine and takes any of the holy things is led to the sea, and on the sand the tide covers he is offered to the gods whose temples he violated; it belongs east of the Lauwers and nobody knows that it was carried out in these years, which is what the steersman says (lore/gods_cult.md 1.2, 1.3). The hand's 'receipt' is the votive formula itself. Sets ch_old_gods_3.",
+   "stage": "crew",
+   "when": "under_way and flag.ch_old_gods_2 and not flag.ch_old_gods_3 and not flag.ch_old_gods_10 and storm < 0.3 and not flag.ch_old_gods_done",
+   "rate": 0.05,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger, or a Frisian steersman of the forge" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_old_gods.s03.title",
+   "title": "Whose stone",
+   "intention_key": "chain_old_gods.s03.intention",
+   "intention": "A quiet watch. The steersman and the hand have been not speaking about the stone since Walichrum, and now they are speaking about it.",
+   "lines": [
+    { "who": "steersman", "key": "chain_old_gods.s03.steersman_idol" },
+    { "who": "hand", "key": "chain_old_gods.s03.hand_receipt" },
+    { "who": "steersman", "key": "chain_old_gods.s03.steersman_law" },
+    { "who": "steersman", "key": "chain_old_gods.s03.steersman_took", "when": "flag.ch_old_gods_took" },
+    { "who": "hand", "key": "chain_old_gods.s03.hand_riddle" },
+    { "who": "steersman", "key": "chain_old_gods.s03.steersman_tithe" },
+    { "who": "hand", "key": "chain_old_gods.s03.hand_vow" }
+   ],
+   "options": [
+    { "key": "steersman", "label_key": "chain_old_gods.s03.opt_steersman", "label": "The steersman is right: a priest should hear of it", "check": "true",
+      "effects": [ "flag ch_old_gods_3", "npc steersman feeling +5 took_his_side", "npc hand feeling -3 took_the_other_side" ],
+      "note": "outcome: chain_old_gods.s03.out_steersman" },
+    { "key": "hand", "label_key": "chain_old_gods.s03.opt_hand", "label": "The hand is right: it is a paid debt, and not ours", "check": "true",
+      "effects": [ "flag ch_old_gods_3", "npc hand feeling +5 took_his_side", "npc steersman feeling -3 took_the_other_side" ],
+      "note": "outcome: chain_old_gods.s03.out_hand" },
+    { "key": "sheet", "label_key": "chain_old_gods.s03.opt_sheet", "label": "Tell them both to mind the sheet", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_3", "morale +0.02" ],
+      "note": "outcome: chain_old_gods.s03.out_sheet (time only: they laugh, and the question waits)" }
+   ],
+   "memory": {
+    "steersman": "took the steersman's side about the stone",
+    "hand": "took the hand's side about the stone",
+    "sheet": "would not judge between them"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s04_reader",
+   "note": "Step 4: Traiectum, any call after step 2. A priest of Saint Martin's (invented; the forge names him) reads the stone. The words on it are those of a real altar from Domburg (CIL XIII 8793, from memory and from livius.org 'Nehalennia' (?)): Deae Nehalenniae ob merces recte conservatas M. Secund. Silvanus negotiator cretarius Britannicianus v. s. l. m., 'to the goddess Nehalennia, for goods kept safe, Marcus Secundinius Silvanus, dealer in pottery with Britain, paid his vow willingly and deservedly'; the Latin is quoted from the stone and the English is our own. The priest has met her name in no book, which is true of every book he could have had. Willibrord's idol: Alcuin, Vita Willibrordi c. 14. The bishop until 806 is Hamacar (cast.hamacar), not named in the words. The candle: 80 d of wax for a 7.7 m boat is our guess (?). The turn's payout: wax for Saint Martin's at half as much again. Sets ch_old_gods_4, ch_old_gods_paid_martin if the candle is paid; ch_old_gods_heard_wait runs 30 days and ch_old_gods_dune_wait 120.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_old_gods_2 and not flag.ch_old_gods_4 and year < 849 and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [35, 55], "fixed": true, "note": "invented: a priest and teacher of Saint Martin's at Traiectum" }
+   },
+   "title_key": "chain_old_gods.s04.title",
+   "title": "For goods kept safe",
+   "intention_key": "chain_old_gods.s04.intention",
+   "intention": "A priest of Saint Martin's has heard that a Dorestad boat lay at Walichrum when the dune opened. He has a wax tablet with him, and he asks what you saw.",
+   "lines": [
+    { "who": "priest", "key": "chain_old_gods.s04.priest_letters", "when": "flag.ch_old_gods_letters" },
+    { "who": "priest", "key": "chain_old_gods.s04.priest_no_letters", "when": "not flag.ch_old_gods_letters" },
+    { "who": "priest", "key": "chain_old_gods.s04.priest_reads" },
+    { "who": "priest", "key": "chain_old_gods.s04.priest_vslm" },
+    { "who": "priest", "key": "chain_old_gods.s04.priest_name" },
+    { "who": "priest", "key": "chain_old_gods.s04.priest_candle", "when": "flag.ch_old_gods_vow_martin" },
+    { "who": "priest", "key": "chain_old_gods.s04.priest_sea", "when": "flag.ch_old_gods_vow_sea" },
+    { "who": "priest", "key": "chain_old_gods.s04.priest_errand" }
+   ],
+   "options": [
+    { "key": "candle", "label_key": "chain_old_gods.s04.opt_candle", "label": "Pay for the candle: wax the length of her keel", "check": "silver >= 80",
+      "cost": "silver 80",
+      "effects": [ "flag ch_old_gods_4", "flag ch_old_gods_paid_martin", "flag ch_old_gods_heard_wait for 30", "flag ch_old_gods_dune_wait for 120", "deed gave_alms", "learn latin +0.05", "morale +0.03", "npc priest feeling +10 paid_the_candle", "commission wax 3 by 240 premium 0.5" ],
+      "note": "outcome: chain_old_gods.s04.out_candle (the vow to the saint is paid; for a man who vowed the sea it pays one who was not owed)" },
+    { "key": "errand", "label_key": "chain_old_gods.s04.opt_errand", "label": "Take his errand to the island, and promise no more", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_4", "flag ch_old_gods_heard_wait for 30", "flag ch_old_gods_dune_wait for 120", "learn latin +0.05", "npc priest feeling +3 took_the_errand", "commission wax 3 by 240 premium 0.5" ],
+      "note": "outcome: chain_old_gods.s04.out_errand" },
+    { "key": "decline", "label_key": "chain_old_gods.s04.opt_decline", "label": "Thank him for the reading; you carry goods, not mattocks", "check": "true",
+      "effects": [ "flag ch_old_gods_4", "flag ch_old_gods_heard_wait for 30", "flag ch_old_gods_dune_wait for 120", "learn latin +0.05", "npc priest feeling -4 declined_the_errand" ],
+      "note": "outcome: chain_old_gods.s04.out_decline (pride only: he sends his clerk in spring whatever you say)" }
+   ],
+   "memory": {
+    "candle": "paid Saint Martin a candle the length of a keel",
+    "errand": "took the errand to the stone",
+    "decline": "would not carry the errand to the stone"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s05_dane",
+   "note": "Step 5: Ripa or Sliesthorp, any call after step 2, before 848. A Danish skipper (invented) who knows the hand asks the house to the feast at winter's start in the hall at Hleidr. Sources: the usual offering is a beast killed and eaten together, and horses were eaten at it (Pope Gregory III to Boniface, 732, forbids horseflesh; the bones of meals at Borg, Tisso and Froso; lore/gods_cult.md 4); rites were held in the lord's own hall (Tisso, Lejre; gods_cult.md 6, 7). The ninth-year feast at Lejre is Thietmar of Merseburg I.17, hearsay eighty years on, so the skipper gives it as 'they say' and no number is spoken. An autumn feast: Sigvat's verses of about 1019 have a house holding an offering in autumn; 'winter's start' as the day is ours (?). Wine is the lord's drink (BRIEF.md rule 2). The turn's payout: six casks of Rhenish wine ordered at Ripa at 0.6 over (about 215 d over the price), and a true price word. Sets ch_old_gods_5.",
+   "stage": "harbour",
+   "when": "moored and (port.id = ripa or port.id = sliesthorp) and flag.ch_old_gods_2 and not flag.ch_old_gods_5 and year < 848 and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "dane": { "role": "skipper", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "invented: a skipper of the Danish isles who carries for the lord at Hleidr" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_old_gods.s05.title",
+   "title": "Winter's start at Hleidr",
+   "intention_key": "chain_old_gods.s05.intention",
+   "intention": "A Danish skipper who knows your hand of old is loading for the islands. His lord keeps the feast at winter's start in the hall at Hleidr, and the hall is short of drink.",
+   "lines": [
+    { "who": "dane", "key": "chain_old_gods.s05.dane_greet" },
+    { "who": "dane", "key": "chain_old_gods.s05.dane_feast" },
+    { "who": "dane", "key": "chain_old_gods.s05.dane_ninth" },
+    { "who": "dane", "key": "chain_old_gods.s05.dane_wine" },
+    { "who": "hand", "key": "chain_old_gods.s05.hand_owed", "when": "flag.ch_old_gods_vow_sea and not flag.ch_old_gods_paid_sea" },
+    { "who": "hand", "key": "chain_old_gods.s05.hand_see", "when": "not flag.ch_old_gods_vow_sea or flag.ch_old_gods_paid_sea" }
+   ],
+   "options": [
+    { "key": "wine", "label_key": "chain_old_gods.s05.opt_wine", "label": "Take the order for the wine, and the seat that goes with it", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_5", "commission rhenish_wine 6 by 150 premium 0.6", "price_shock hleidr rhenish_wine x1.4 for 120", "npc dane feeling +6 took_the_order", "npc hand feeling +2 going_north" ],
+      "note": "outcome: chain_old_gods.s05.out_wine" },
+    { "key": "guest", "label_key": "chain_old_gods.s05.opt_guest", "label": "Ask to come as a guest and carry nothing", "check": "true",
+      "effects": [ "flag ch_old_gods_5", "price_shock hleidr rhenish_wine x1.4 for 120", "npc dane feeling +2 asked_as_guest", "npc hand feeling +2 going_north" ],
+      "note": "outcome: chain_old_gods.s05.out_guest (the price word is true: wine is dear at Hleidr until the feast)" },
+    { "key": "home", "label_key": "chain_old_gods.s05.opt_home", "label": "Wish his lord a good feast and say you winter at home", "check": "true",
+      "effects": [ "flag ch_old_gods_5", "npc dane feeling -1 stayed_home", "npc hand feeling -2 stayed_home" ],
+      "note": "outcome: chain_old_gods.s05.out_home (pride only: the seat is kept, and the card at Hleidr still comes if you go)" }
+   ],
+   "memory": {
+    "wine": "took the order for the feast's wine",
+    "guest": "asked to come to the feast as a guest",
+    "home": "said he would winter at home"
+   }
+  },
+  {
+   "id": "sea.chain_old_gods.s06_owed",
+   "note": "Step 6 (the price of a vow not paid; it may come more than once and no other step waits for it): under way, 150 days or more after the vow, while the one who was promised has not been paid. The danger warns first: this card is the warning. Sources: a broken vow is a sin needing penance, and the saint is believed to collect (lore/gods_cult.md 10.2); 'a second card if it is not paid' (gods_cult.md 9, May show); Rimbert c. 19 and 30 for heathens who hold a vow as binding. The swell without wind is ordinary sea: it runs ahead of a gale. A purse over the side pays the sea whoever was promised. Sets ch_old_gods_6; ch_old_gods_paid_sea if the purse goes over; ch_old_gods_owe_wait runs again.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_old_gods_1 and not flag.ch_old_gods_owe_wait and ((flag.ch_old_gods_vow_martin and not flag.ch_old_gods_paid_martin) or (flag.ch_old_gods_vow_sea and not flag.ch_old_gods_paid_sea)) and not flag.ch_old_gods_done",
+   "rate": 0.05,
+   "cooldown_days": 60,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger, or a Frisian steersman of the forge" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_old_gods.s06.title",
+   "title": "A swell with no wind",
+   "intention_key": "chain_old_gods.s06.intention",
+   "intention": "The air is still and the sea is not. A long swell comes in from the north-west under a sky the colour of a knife, and both your men have stopped what they were doing to look at you.",
+   "lines": [
+    { "who": "steersman", "key": "chain_old_gods.s06.steersman_swell" },
+    { "who": "steersman", "key": "chain_old_gods.s06.steersman_candle", "when": "flag.ch_old_gods_vow_martin and not flag.ch_old_gods_paid_martin" },
+    { "who": "hand", "key": "chain_old_gods.s06.hand_share", "when": "flag.ch_old_gods_vow_sea and not flag.ch_old_gods_paid_sea" },
+    { "who": "hand", "key": "chain_old_gods.s06.hand_counts" },
+    { "who": "steersman", "key": "chain_old_gods.s06.steersman_twice", "when": "flag.ch_old_gods_6" }
+   ],
+   "options": [
+    { "key": "purse", "label_key": "chain_old_gods.s06.opt_purse", "label": "Put a purse over the side, now, whoever is owed", "check": "silver >= 40",
+      "cost": "silver 40",
+      "effects": [ "flag ch_old_gods_6", "flag ch_old_gods_paid_sea", "flag ch_old_gods_owe_wait for 150", "morale +0.05", "npc hand feeling +5 paid_the_sea", "npc steersman feeling -2 paid_the_sea" ],
+      "note": "outcome: chain_old_gods.s06.out_purse (pays a vow made to the sea; a man who vowed the saint still owes the candle, and the priest will hear of the purse)" },
+    { "key": "again", "label_key": "chain_old_gods.s06.opt_again", "label": "Say the vow again, aloud, with a day on it", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_6", "flag ch_old_gods_owe_wait for 120", "morale +0.02" ],
+      "note": "outcome: chain_old_gods.s06.out_again (time only: a hundred and twenty days, and then the card may come again)" },
+    { "key": "on", "label_key": "chain_old_gods.s06.opt_on", "label": "A swell is a swell. Shorten sail and stand on", "check": "true",
+      "effects": [ "flag ch_old_gods_6", "flag ch_old_gods_owe_wait for 150",
+                   { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "morale -0.03" ],
+                     "failure": [ "health -0.05", "morale -0.05", "silver -30" ] } ],
+      "note": "outcome: chain_old_gods.s06.out_on_success or chain_old_gods.s06.out_on_failure (doubtful to likely by the best seaman aboard; the gale behind the swell takes loose gear and a water cask, 30 d to make good)" }
+   ],
+   "memory": {
+    "purse": "put a purse over the side for an unpaid vow",
+    "again": "swore the vow again with a day on it",
+    "on.success": "stood on, and the gale passed north",
+    "on.failure": "stood on, and the gale found the boat"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s07_hall",
+   "note": "Step 7: Hleidr, in the tenth or eleventh month, after step 5, before 849. The feast in the lord's hall, seen from a bench near the bottom, and the bowl of horse. Sources: lore/gods_cult.md 4 (a hall, a killed horse, the meat boiled, ale, a share set aside; the card states what is seen from the edge of the crowd, and the player's man is a stranger there), 6 and 7 (the lord gives the feast in his own hall; there is no priesthood); horseflesh as the mark of a heathen (Gregory III to Boniface, 732; Iceland's exemption in 1000); a Christian who will not eat what was offered, and the trouble it makes (1 Corinthians 8 and 10; popes' letters to missionaries). Lejre's great halls of these centuries are dug (Christensen, Lejre). The steward and the lord are invented and unnamed. Nothing is said of what words were spoken over the beast: bones do not say (gods_cult.md 1.15). Sets ch_old_gods_7, and ch_old_gods_ate if the bowl is not passed on.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_old_gods_5 and not flag.ch_old_gods_7 and (month = 10 or month = 11) and year < 849 and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "months": [10, 11],
+   "actors": {
+    "steward": { "role": "steward", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [40, 60], "fixed": true, "note": "invented: the steward of the hall at Hleidr" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_old_gods.s07.title",
+   "title": "The grey from the lord's field",
+   "intention_key": "chain_old_gods.s07.intention",
+   "intention": "The hall at Hleidr is full to the doors and smells of boiled meat and wet wool. The lord's steward finds you a place on a bench near the bottom, and a bowl is coming down the table toward you.",
+   "lines": [
+    { "who": "steward", "key": "chain_old_gods.s07.steward_sit" },
+    { "who": "steward", "key": "chain_old_gods.s07.steward_grey" },
+    { "who": "steward", "key": "chain_old_gods.s07.steward_wine", "when": "hold.rhenish_wine > 0" },
+    { "who": "hand", "key": "chain_old_gods.s07.hand_decide" },
+    { "who": "hand", "key": "chain_old_gods.s07.hand_steersman" }
+   ],
+   "options": [
+    { "key": "eat", "label_key": "chain_old_gods.s07.opt_eat", "label": "Eat what the hall eats", "check": "true",
+      "effects": [ "flag ch_old_gods_7", "flag ch_old_gods_ate", "npc steward feeling +8 ate_with_the_hall", "npc hand feeling +3 ate_with_the_hall" ],
+      "then": "harbour.chain_old_gods.s08_lot",
+      "note": "outcome: chain_old_gods.s07.out_eat (a priest will hear of it: card s09)" },
+    { "key": "pass", "label_key": "chain_old_gods.s07.opt_pass", "label": "Take bread and ale, and pass the bowl on with both hands", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_7", "npc steward feeling +2 passed_the_bowl" ],
+      "then": "harbour.chain_old_gods.s08_lot",
+      "note": "outcome: chain_old_gods.s07.out_pass (pride only: the bench laughs, not unkindly)" },
+    { "key": "boat", "label_key": "chain_old_gods.s07.opt_boat", "label": "Thank him, and eat aboard with the steersman", "check": "true",
+      "effects": [ "flag ch_old_gods_7", "morale +0.02", "npc steward feeling -3 ate_aboard" ],
+      "then": "harbour.chain_old_gods.s08_lot",
+      "note": "outcome: chain_old_gods.s07.out_boat (the steersman is pleased; the old man in the yard sends for you in the morning all the same)" }
+   ],
+   "memory": {
+    "eat": "ate the horse with the hall",
+    "pass": "passed the bowl on and took bread",
+    "boat": "ate aboard and not in the hall"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s08_lot",
+   "note": "Step 8: Hleidr, the morning after step 7 (the option's 'then'), or any later call. An old man of the district lifts a lot for a question that can be answered yes or no, and the share vowed to the sea can be given to the water. Sources: the lot is the best-attested act of the old custom: cast in the open by men of standing, answering yes or no to a question put (Rimbert c. 18, 19, 26, 27, 30); the lots are marked slips of wood (the Lex Frisionum's 'teni', twigs; lore/gods_cult.md 5: three slips, a cloth, an old man of the place who lifts one, the answer a word and never a prophecy). Things given to water: weapons and tools in the lake at Tisso (gods_cult.md 4). That a lord asks the lot before sailing: Rimbert c. 19 and 30. The old man is invented; the role is 'lawman' for want of a nearer one (the Funen stones' 'thulr', a speaker). The lot here is an even chance and says only yes or no. Sets ch_old_gods_8, ch_old_gods_paid_sea if the share is given; ch_old_gods_dune_wait runs 120 days.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_old_gods_7 and not flag.ch_old_gods_8 and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "elder": { "role": "lawman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [60, 75], "fixed": true, "note": "invented: an old man of standing in the district of Hleidr, who lifts the lots" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_old_gods.s08.title",
+   "title": "Three slips of wood",
+   "intention_key": "chain_old_gods.s08.intention",
+   "intention": "In the morning an old man of the district sits in the yard with a white cloth on his knees and three slips of wood. He lifts one for anybody whose question can be answered yes or no. The hand has told him yours.",
+   "lines": [
+    { "who": "elder", "key": "chain_old_gods.s08.elder_question_sea", "when": "flag.ch_old_gods_vow_sea" },
+    { "who": "elder", "key": "chain_old_gods.s08.elder_question_martin", "when": "flag.ch_old_gods_vow_martin" },
+    { "who": "elder", "key": "chain_old_gods.s08.elder_question_none", "when": "flag.ch_old_gods_vow_none" },
+    { "who": "elder", "key": "chain_old_gods.s08.elder_lift" },
+    { "who": "elder", "key": "chain_old_gods.s08.elder_water" },
+    { "who": "hand", "key": "chain_old_gods.s08.hand_lord" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_old_gods.s08.opt_pay", "label": "Give the share to the water off the point", "check": "silver >= 40",
+      "cost": "silver 40",
+      "effects": [ "flag ch_old_gods_8", "flag ch_old_gods_paid_sea", "flag ch_old_gods_dune_wait for 120", "morale +0.03", "npc elder feeling +6 gave_the_share", "npc hand feeling +8 gave_the_share" ],
+      "note": "outcome: chain_old_gods.s08.out_pay (the vow to the sea is paid; a priest will hear of it: card s09)" },
+    { "key": "ask", "label_key": "chain_old_gods.s08.opt_ask", "label": "Put the question, and watch him lift a slip", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_8", "flag ch_old_gods_dune_wait for 120",
+                   { "chance": 0.5,
+                     "success": [ "morale +0.05", "npc elder feeling +3 asked_the_lot" ],
+                     "failure": [ "morale -0.03", "npc elder feeling +3 asked_the_lot" ] } ],
+      "note": "outcome: chain_old_gods.s08.out_ask_success (yes) or chain_old_gods.s08.out_ask_failure (no): an even chance, and it changes only how the men feel" },
+    { "key": "trade", "label_key": "chain_old_gods.s08.opt_trade", "label": "Tell him you came to sell, not to ask", "check": "true",
+      "effects": [ "flag ch_old_gods_8", "flag ch_old_gods_dune_wait for 120", "price_shock hleidr marten x0.8 for 60", "npc elder feeling -1 would_not_ask" ],
+      "note": "outcome: chain_old_gods.s08.out_trade (pride only; he tells you where the lord's hunters are selling, and it is true)" }
+   ],
+   "memory": {
+    "pay": "gave the sea its share off the point",
+    "ask.success": "asked the lot and was told yes",
+    "ask.failure": "asked the lot and was told no",
+    "trade": "would not ask the lot"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s09_heard",
+   "note": "Step 9 (a side step: the finales do not wait for it): Traiectum, thirty days or more after step 4, if the house ate the horse, gave silver to the sea, laid a penny at the stone or took silver from it. The priest who will hear of it. Sources: penance by the book, a term of fasting on bread, water and salt for each sin, and its turning into alms, psalms or silver, which churchmen complained of and took (lore/gods_cult.md 10.3: Theodore's and Egbert's penitentials in England, Halitgar's about 830; eating what was offered to idols, a term; consulting a diviner, a year or more (?)); horseflesh (Gregory III to Boniface, 732); Dorestad's 'multitude of poor' (Rimbert c. 20). Forty days and forty-eight pennies are our tariff (?). The order is the older one: penance first. Sets ch_old_gods_9; ch_old_gods_denied if he is lied to; ch_old_gods_watched if the lie is seen.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_old_gods_4 and not flag.ch_old_gods_heard_wait and (flag.ch_old_gods_ate or flag.ch_old_gods_paid_sea or flag.ch_old_gods_gave_stone or flag.ch_old_gods_took) and not flag.ch_old_gods_9 and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [35, 55], "fixed": true, "note": "invented: the priest of step 4" }
+   },
+   "title_key": "chain_old_gods.s09.title",
+   "title": "A priest hears things",
+   "intention_key": "chain_old_gods.s09.intention",
+   "intention": "The priest of Saint Martin's has a small book open on his knee and a finger in it. He has had word of you from the island, or from the north, or from your own steersman's face.",
+   "lines": [
+    { "who": "priest", "key": "chain_old_gods.s09.priest_ate", "when": "flag.ch_old_gods_ate" },
+    { "who": "priest", "key": "chain_old_gods.s09.priest_sea", "when": "flag.ch_old_gods_paid_sea" },
+    { "who": "priest", "key": "chain_old_gods.s09.priest_penny", "when": "flag.ch_old_gods_gave_stone" },
+    { "who": "priest", "key": "chain_old_gods.s09.priest_took", "when": "flag.ch_old_gods_took" },
+    { "who": "priest", "key": "chain_old_gods.s09.priest_term" },
+    { "who": "priest", "key": "chain_old_gods.s09.priest_price" }
+   ],
+   "options": [
+    { "key": "fast", "label_key": "chain_old_gods.s09.opt_fast", "label": "Take the forty days", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_9", "flag ch_old_gods_fasting for 40", "health -0.03", "npc priest feeling +10 took_the_fast" ],
+      "note": "outcome: chain_old_gods.s09.out_fast (time and a thin belly)" },
+    { "key": "alms", "label_key": "chain_old_gods.s09.opt_alms", "label": "Turn the term into alms", "check": "silver >= 48",
+      "cost": "silver 48",
+      "effects": [ "flag ch_old_gods_9", "deed gave_alms", "npc priest feeling +4 paid_the_alms" ],
+      "note": "outcome: chain_old_gods.s09.out_alms" },
+    { "key": "deny", "label_key": "chain_old_gods.s09.opt_deny", "label": "Say he has been told sailors' stories", "check": "true",
+      "effects": [ "flag ch_old_gods_9", "flag ch_old_gods_denied",
+                   { "chance": 0.4, "by": "crew.trade_best",
+                     "success": [ "npc priest feeling -2 denied_it" ],
+                     "failure": [ "npc priest feeling -20 lied_to_him", "flag ch_old_gods_watched" ] } ],
+      "note": "outcome: chain_old_gods.s09.out_deny_success or chain_old_gods.s09.out_deny_failure (doubtful; either way the lie closes the hard road in every finale)" }
+   ],
+   "memory": {
+    "fast": "took forty days' fast for what he did in the north",
+    "alms": "turned his penance into alms",
+    "deny.success": "denied it, and was let go",
+    "deny.failure": "lied to a priest's face, and was seen to"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s10_dune",
+   "note": "Step 10, the hub: Walichrum, from the fourth to the ninth month, 120 days or more after step 4 or step 8, before 849. The stone stands clear, and it is buried, raised, signed with the cross or broken. Four options, because the story has four roads; the first asks nothing and is what happened. Sources: the stone went back under the dune and lay there until January 1647 (dossiers/walichrum.md 2, 7); Willibrord broke the idol of Walichrum (Alcuin, Vita Willibrordi c. 14); Pope Gregory's letter of 601 to Mellitus, in Bede (Historia ecclesiastica I.30): do not pull the shrines down, cleanse them and set altars in them, so that the people come to the places they know; Liudger breaking the Frisian shrines and bringing back the treasure in them, of which the king took two thirds (Altfrid, Vita Liudgeri I.16 (?)); the stone at Westkapelle that Thiofrid of Echternach (about 1103) says bears Willibrord's blood, perhaps a Roman altar (dossiers/walichrum.md 7); no church is recorded at Walichrum in these years (walichrum.md 2), so the chapel is history changed. An English skipper leaving apples is invented. The clerk and the farm wife are invented. Sets ch_old_gods_10 and one of ch_old_gods_road_buried, _road_custom, _road_church, _road_broken; ch_old_gods_end_wait runs 30 to 90 days.",
+   "stage": "harbour",
+   "when": "moored and port.id = walichrum and flag.ch_old_gods_2 and (flag.ch_old_gods_4 or flag.ch_old_gods_8) and not flag.ch_old_gods_dune_wait and month >= 4 and month <= 9 and not flag.ch_old_gods_10 and year < 849 and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "months": [4, 5, 6, 7, 8, 9],
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [35, 55], "fixed": true, "note": "invented: the sheep farmer's wife of step 2" },
+    "clerk": { "role": "clerk", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [20, 35], "fixed": false, "note": "invented: a young clerk of Saint Martin's, sent with a mattock and a mule" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_old_gods.s10.title",
+   "title": "Before midsummer",
+   "intention_key": "chain_old_gods.s10.intention",
+   "intention": "The stone stands clear to its foot. The sheep woman is there with two neighbours, and a young clerk from Traiectum with a mattock and a mule. Everybody has been waiting for somebody else to begin.",
+   "lines": [
+    { "who": "wife", "key": "chain_old_gods.s10.wife_sand" },
+    { "who": "clerk", "key": "chain_old_gods.s10.clerk_word", "when": "flag.ch_old_gods_4" },
+    { "who": "clerk", "key": "chain_old_gods.s10.clerk_alone", "when": "not flag.ch_old_gods_4" },
+    { "who": "wife", "key": "chain_old_gods.s10.wife_apples" },
+    { "who": "hand", "key": "chain_old_gods.s10.hand_paid", "when": "flag.ch_old_gods_paid_sea or flag.ch_old_gods_paid_martin" },
+    { "who": "hand", "key": "chain_old_gods.s10.hand_unpaid", "when": "not flag.ch_old_gods_paid_sea and not flag.ch_old_gods_paid_martin" }
+   ],
+   "options": [
+    { "key": "bury", "label_key": "chain_old_gods.s10.opt_bury", "label": "Take a shovel and give her back to the sand", "check": "true", "default": true,
+      "effects": [ "flag ch_old_gods_10", "flag ch_old_gods_road_buried", "flag ch_old_gods_end_wait for 60", "npc wife feeling +8 buried_her", "npc clerk feeling -3 buried_her" ],
+      "note": "outcome: chain_old_gods.s10.out_bury (time and a blistered hand; the finale is card s11, sixty days on)" },
+    { "key": "raise", "label_key": "chain_old_gods.s10.opt_raise", "label": "Set her upright on a footing of turf, facing the sea", "check": "flag.ch_old_gods_8 or flag.ch_old_gods_vow_sea or flag.ch_old_gods_gave_stone",
+      "effects": [ "flag ch_old_gods_10", "flag ch_old_gods_road_custom", "flag ch_old_gods_end_wait for 90", "npc wife feeling +3 raised_her", "npc clerk feeling -10 raised_her", "npc hand feeling +6 raised_her" ],
+      "note": "outcome: chain_old_gods.s10.out_raise (the finale is card s13, ninety days on; the clerk rides home and says what he saw)" },
+    { "key": "cross", "label_key": "chain_old_gods.s10.opt_cross", "label": "Have the clerk cut a cross on her and bless the ground", "check": "flag.ch_old_gods_4",
+      "effects": [ "flag ch_old_gods_10", "flag ch_old_gods_road_church", "flag ch_old_gods_end_wait for 60", "npc clerk feeling +6 signed_her", "npc wife feeling +2 signed_her", "npc hand feeling -3 signed_her" ],
+      "note": "outcome: chain_old_gods.s10.out_cross (the finale is card s12 at Traiectum, sixty days on)" },
+    { "key": "break", "label_key": "chain_old_gods.s10.opt_break", "label": "Take the mattock", "check": "flag.ch_old_gods_4",
+      "effects": [ "flag ch_old_gods_10", "flag ch_old_gods_road_broken", "flag ch_old_gods_end_wait for 30", "morale -0.05", "npc clerk feeling +8 broke_her", "npc wife feeling -15 broke_her", "npc hand feeling -10 broke_her" ],
+      "note": "outcome: chain_old_gods.s10.out_break (the finale is card s14 at Traiectum, thirty days on)" }
+   ],
+   "memory": {
+    "bury": "shovelled the sand back over the stone",
+    "raise": "set the stone upright facing the sea",
+    "cross": "had a cross cut on the stone",
+    "break": "broke the stone with a mattock"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s11_end_buried",
+   "note": "Finale, the ending 'buried' (what happened): Walichrum, sixty days or more after step 10. The dune is whole; the islanders are left alone by the bishop's men and by the Danes, and pay in what they have. Sources: Walichrum's wool, hides and cloth from marsh sheep, and the abbeys' Frisian cloth round the Scheldt mouth (dossiers/walichrum.md 4); the Banjaard shoals off the island's north-west corner and the creek behind the dunes (walichrum.md 1); Thiofrid on the islanders, stubborn and taught only by miracles (walichrum.md 7). The altars lie under the sand until January 1647. Pays 14 bolts of Frisian cloth (about 670 d) and the grand reward unlock_pilot_scheldt (the Scheldt mouth and the Banjaard); the hard road adds unlock_factor_walichrum (a house on the island that keeps the house's wool and a true tally). Sets ch_old_gods_end_buried and ch_old_gods_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = walichrum and flag.ch_old_gods_road_buried and not flag.ch_old_gods_end_wait and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [35, 55], "fixed": true, "note": "invented: the sheep farmer's wife of step 2" }
+   },
+   "title_key": "chain_old_gods.s11.title",
+   "title": "Midsummer sand",
+   "intention_key": "chain_old_gods.s11.intention",
+   "intention": "The dune is whole again. Where the stone stood there is marram grass and a sheep track. The sheep woman has her neighbours with her, and something to say to the Dorestad man who used a shovel when he was handed a mattock.",
+   "lines": [
+    { "who": "wife", "key": "chain_old_gods.s11.wife_alone" },
+    { "who": "wife", "key": "chain_old_gods.s11.wife_cloth" },
+    { "who": "wife", "key": "chain_old_gods.s11.wife_banks" },
+    { "who": "wife", "key": "chain_old_gods.s11.wife_house" },
+    { "who": "wife", "key": "chain_old_gods.s11.wife_next" }
+   ],
+   "options": [
+    { "key": "cloth", "label_key": "chain_old_gods.s11.opt_cloth", "label": "Take the cloth, and go out with her brother on the ebb", "check": "true", "default": true,
+      "effects": [ "goods frisian_cloth +14", "flag unlock_pilot_scheldt", "flag ch_old_gods_end_buried", "flag ch_old_gods_done", "npc wife feeling +10 took_their_thanks", "news chain_old_gods.news.buried at dorestad" ],
+      "note": "outcome: chain_old_gods.s11.out_cloth" },
+    { "key": "house", "label_key": "chain_old_gods.s11.opt_house", "label": "Take both, and ask for the house she spoke of", "check": "((flag.ch_old_gods_paid_martin and not flag.ch_old_gods_vow_sea and not flag.ch_old_gods_paid_sea) or (flag.ch_old_gods_paid_sea and not flag.ch_old_gods_vow_martin and not flag.ch_old_gods_paid_martin)) and not flag.ch_old_gods_took and not flag.ch_old_gods_denied",
+      "effects": [ "goods frisian_cloth +14", "flag unlock_pilot_scheldt", "flag unlock_factor_walichrum", "flag ch_old_gods_end_buried", "flag ch_old_gods_hard_road", "flag ch_old_gods_done", "npc wife feeling +15 took_their_thanks", "news chain_old_gods.news.buried at dorestad" ],
+      "note": "outcome: chain_old_gods.s11.out_house (the hard road: the one who was promised has been paid, nothing was taken from the stone, no priest was lied to)" },
+    { "key": "nothing", "label_key": "chain_old_gods.s11.opt_nothing", "label": "Say a shovel of sand is not a debt; take the pilot's teaching only", "check": "true",
+      "effects": [ "flag unlock_pilot_scheldt", "flag ch_old_gods_end_buried", "flag ch_old_gods_done", "npc wife feeling +20 would_not_be_paid", "news chain_old_gods.news.buried at dorestad" ],
+      "note": "outcome: chain_old_gods.s11.out_nothing (pride: the water is learned, the cloth stays on the island, and the island does not forget it)" }
+   ],
+   "memory": {
+    "cloth": "took the island's cloth and learned its water",
+    "house": "was given a house on the island",
+    "nothing": "would take no cloth for burying the stone"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s12_end_church",
+   "note": "Finale, the ending 'church' (history changed: changed_walichrum_chapel): Traiectum, sixty days or more after step 10. A chapel of turf and oak stands on the dune with the signed stone as its altar's foot, a lifetime and more before any church is recorded on that coast (the churches of Saint Willibrord at Westkapelle and Oostkapelle are of the early eleventh century; churchyard burial on this coast begins in the tenth: dossiers/walichrum.md 5, 6). The bishop (cast.hamacar until 806; Ricfried and Frederick after; unnamed in the words) speaks. Sources: Gregory to Mellitus, 601, in Bede I.30, in our own words; the tale that Willibrord bled on a stone on Walcheren (Thiofrid, about 1103), here beginning three hundred years early; Saint Martin's privileges and its tenth of the king's dues (Data/story/unlocks_793.json unlock_charter_traiectum). Pays 8 casks of Rhenish wine and 240 d (about 720 d) and the grand reward unlock_charter_traiectum; the hard road adds unlock_relic_willibrord_stone (a chip of the signed stone in a linen bag: a contact relic of the place, which an honest bishop can give). Sets ch_old_gods_end_church and ch_old_gods_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_old_gods_road_church and not flag.ch_old_gods_end_wait and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 65], "fixed": true, "note": "cast.hamacar (historical) until 806; his successors after; never named in the words" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [35, 55], "fixed": true, "note": "invented: the priest of step 4" }
+   },
+   "title_key": "chain_old_gods.s12.title",
+   "title": "The stone under the altar",
+   "intention_key": "chain_old_gods.s12.intention",
+   "intention": "A chapel of turf and oak stands on the dune at Walichrum now, and the stone with a cross cut in it is the foot of its altar. At Traiectum the bishop has asked for the man who would not let it be broken and would not let it be bowed to.",
+   "lines": [
+    { "who": "bishop", "key": "chain_old_gods.s12.bishop_bled" },
+    { "who": "bishop", "key": "chain_old_gods.s12.bishop_gregory" },
+    { "who": "priest", "key": "chain_old_gods.s12.priest_wrong" },
+    { "who": "priest", "key": "chain_old_gods.s12.priest_candle", "when": "flag.ch_old_gods_paid_martin" },
+    { "who": "bishop", "key": "chain_old_gods.s12.bishop_gift" }
+   ],
+   "options": [
+    { "key": "seal", "label_key": "chain_old_gods.s12.opt_seal", "label": "Take the wine, the silver and the seal", "check": "true", "default": true,
+      "effects": [ "goods rhenish_wine +8", "silver +240", "flag unlock_charter_traiectum", "flag changed_walichrum_chapel", "flag ch_old_gods_end_church", "flag ch_old_gods_done", "npc bishop feeling +10 kept_the_stone_whole", "npc priest feeling +6 kept_the_stone_whole", "news chain_old_gods.news.church at dorestad" ],
+      "note": "outcome: chain_old_gods.s12.out_seal" },
+    { "key": "chip", "label_key": "chain_old_gods.s12.opt_chip", "label": "Take them, and ask for a chip of the stone for the house", "check": "((flag.ch_old_gods_paid_martin and not flag.ch_old_gods_vow_sea and not flag.ch_old_gods_paid_sea) or (flag.ch_old_gods_paid_sea and not flag.ch_old_gods_vow_martin and not flag.ch_old_gods_paid_martin)) and not flag.ch_old_gods_took and not flag.ch_old_gods_denied",
+      "effects": [ "goods rhenish_wine +8", "silver +240", "flag unlock_charter_traiectum", "flag unlock_relic_willibrord_stone", "flag changed_walichrum_chapel", "flag ch_old_gods_end_church", "flag ch_old_gods_hard_road", "flag ch_old_gods_done", "npc bishop feeling +12 kept_the_stone_whole", "npc priest feeling +6 kept_the_stone_whole", "news chain_old_gods.news.church at dorestad" ],
+      "note": "outcome: chain_old_gods.s12.out_chip (the hard road)" },
+    { "key": "blessing", "label_key": "chain_old_gods.s12.opt_blessing", "label": "Ask only that the boat be blessed", "check": "true",
+      "effects": [ "flag unlock_charter_traiectum", "flag changed_walichrum_chapel", "flag ch_old_gods_end_church", "flag ch_old_gods_done", "morale +0.05", "npc bishop feeling +18 asked_only_a_blessing", "news chain_old_gods.news.church at dorestad" ],
+      "note": "outcome: chain_old_gods.s12.out_blessing (pride: he blesses the boat and gives the seal anyway; the wine stays in his cellar)" }
+   ],
+   "memory": {
+    "seal": "was made Saint Martin's man for the stone at Walichrum",
+    "chip": "was given a chip of the signed stone",
+    "blessing": "asked only a blessing for the stone at Walichrum"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s13_end_custom",
+   "note": "Finale, the ending 'custom' (history changed: changed_nehalennia_remembered): Walichrum, ninety days or more after step 10. The stone stands on turf facing the sea and seamen of three peoples lay things at it without a name to say; a Danish skipper (invented) brings the thanks of the lord at Hleidr. Sources: baptised people offering at stones and 'uncertain places' (Indiculus 7, 9, 18); the offer act: bread, ale, a coin, a bit of the cargo (lore/gods_cult.md 6); gods chosen for results (Rimbert c. 27); felag, 'to lay property together', on the rune stones of Hedeby and Aarhus, and a lord's ring kept whole (Data/story/unlocks_793.json unlock_partner_felagi, unlock_heirloom_arm_ring); silver by weight among the Danes before their own coin. Pays 400 d of hack-silver and three timbers of marten (about 760 d) and the grand reward unlock_partner_felagi, or unlock_heirloom_arm_ring for the man who keeps his own keel; the hard road gives both. The cost that lasts: ch_old_gods_watched (the priest at Traiectum knows the name of the man who raised her). Sets ch_old_gods_end_custom and ch_old_gods_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = walichrum and flag.ch_old_gods_road_custom and not flag.ch_old_gods_end_wait and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [35, 55], "fixed": true, "note": "invented: the sheep farmer's wife of step 2" },
+    "dane": { "role": "skipper", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": false, "note": "invented: a skipper sent by the lord at Hleidr" }
+   },
+   "title_key": "chain_old_gods.s13.title",
+   "title": "Apples in the sand",
+   "intention_key": "chain_old_gods.s13.intention",
+   "intention": "She stands on a footing of turf with her back to the houses. There are apples at her foot, a cheese, a string of beads, and more silver pennies than there were. A Danish ship lies off the beach, and her skipper is wading ashore with something wrapped in cloth.",
+   "lines": [
+    { "who": "wife", "key": "chain_old_gods.s13.wife_come" },
+    { "who": "wife", "key": "chain_old_gods.s13.wife_clerk" },
+    { "who": "dane", "key": "chain_old_gods.s13.dane_heard" },
+    { "who": "dane", "key": "chain_old_gods.s13.dane_ring" },
+    { "who": "dane", "key": "chain_old_gods.s13.dane_felag" },
+    { "who": "wife", "key": "chain_old_gods.s13.wife_priest" }
+   ],
+   "options": [
+    { "key": "felag", "label_key": "chain_old_gods.s13.opt_felag", "label": "Lay your goods with his lord's: two keels where one went", "check": "true", "default": true,
+      "effects": [ "silver +400", "goods marten +3", "flag unlock_partner_felagi", "flag changed_nehalennia_remembered", "flag ch_old_gods_watched", "flag ch_old_gods_end_custom", "flag ch_old_gods_done", "npc dane feeling +10 laid_goods_together", "news chain_old_gods.news.custom at dorestad" ],
+      "note": "outcome: chain_old_gods.s13.out_felag (the ring goes back to Hleidr with thanks)" },
+    { "key": "both", "label_key": "chain_old_gods.s13.opt_both", "label": "Take the ring and the partnership, as a man whose word was good", "check": "((flag.ch_old_gods_paid_martin and not flag.ch_old_gods_vow_sea and not flag.ch_old_gods_paid_sea) or (flag.ch_old_gods_paid_sea and not flag.ch_old_gods_vow_martin and not flag.ch_old_gods_paid_martin)) and not flag.ch_old_gods_took and not flag.ch_old_gods_denied",
+      "effects": [ "silver +400", "goods marten +3", "flag unlock_partner_felagi", "flag unlock_heirloom_arm_ring", "flag changed_nehalennia_remembered", "flag ch_old_gods_watched", "flag ch_old_gods_end_custom", "flag ch_old_gods_hard_road", "flag ch_old_gods_done", "npc dane feeling +14 laid_goods_together", "news chain_old_gods.news.custom at dorestad" ],
+      "note": "outcome: chain_old_gods.s13.out_both (the hard road)" },
+    { "key": "ring", "label_key": "chain_old_gods.s13.opt_ring", "label": "Take the ring and the lord's thanks, and keep your own keel", "check": "true",
+      "effects": [ "silver +400", "goods marten +3", "flag unlock_heirloom_arm_ring", "flag changed_nehalennia_remembered", "flag ch_old_gods_watched", "flag ch_old_gods_end_custom", "flag ch_old_gods_done", "npc dane feeling +4 kept_his_own_keel", "news chain_old_gods.news.custom at dorestad" ],
+      "note": "outcome: chain_old_gods.s13.out_ring" }
+   ],
+   "memory": {
+    "felag": "laid goods together with the lord at Hleidr",
+    "both": "took the lord's ring and his partnership",
+    "ring": "took the lord's ring and kept his own keel"
+   }
+  },
+  {
+   "id": "harbour.chain_old_gods.s14_end_broken",
+   "note": "Finale, the ending 'broken' (history changed: changed_nehalennia_broken): Traiectum, thirty days or more after step 10. Under the stone lay a pit of coin; it is weighed before the count's man, two parts to the king and one to Saint Martin. Sources: Liudger sent to destroy the shrines of the Frisians, and the treasure found in them, of which the king took two thirds (Altfrid, Vita Liudgeri I.16 (?)); Roman coins at the shrine by the hundred, with three sceattas among them (M. de Man 1899); gold among them is our guess (?). The islanders did not burn their houses over it, they stopped selling: Thiofrid's islanders are stubborn. A lord's protection: Data/story/unlocks_793.json unlock_title_lords_protection. The count's man is invented. Pays 640 d (two pounds and eight ounces by tale) and the grand reward unlock_title_lords_protection; the man who gives his share to the poor of the church takes no silver and is given unlock_charter_traiectum beside it; the man who sends half back to the island takes 320 d and is forgiven there. The cost that lasts: ch_old_gods_shrine_breaker (the island sells him nothing; the hand rows and no more), unless half goes back (ch_old_gods_island_mended). In later years: no altars come out of the dune in January 1647, and nobody ever reads her name. Sets ch_old_gods_end_broken and ch_old_gods_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_old_gods_road_broken and not flag.ch_old_gods_end_wait and not flag.ch_old_gods_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "lords_man": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 55], "fixed": true, "note": "invented: the count's man at Traiectum, who sees the king's part weighed" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [35, 55], "fixed": true, "note": "invented: the priest of step 4" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_old_gods.s14.title",
+   "title": "Two parts to the king",
+   "intention_key": "chain_old_gods.s14.intention",
+   "intention": "Under the stone lay a pit of coin: green bronze by the basket, blackened silver, and three thin pieces of gold. It has been weighed at Traiectum before the count's man, and the weights checked twice by people who do not trust each other.",
+   "lines": [
+    { "who": "lords_man", "key": "chain_old_gods.s14.lords_man_parts" },
+    { "who": "priest", "key": "chain_old_gods.s14.priest_island" },
+    { "who": "priest", "key": "chain_old_gods.s14.priest_hand_over" },
+    { "who": "priest", "key": "chain_old_gods.s14.priest_name" },
+    { "who": "hand", "key": "chain_old_gods.s14.hand_row" }
+   ],
+   "options": [
+    { "key": "share", "label_key": "chain_old_gods.s14.opt_share", "label": "Take the finder's share and the bishop's hand", "check": "true", "default": true,
+      "effects": [ "silver +640", "flag unlock_title_lords_protection", "flag changed_nehalennia_broken", "flag ch_old_gods_shrine_breaker", "flag ch_old_gods_end_broken", "flag ch_old_gods_done", "npc priest feeling +10 broke_the_stone", "npc hand feeling -10 broke_the_stone", "news chain_old_gods.news.broken at dorestad" ],
+      "note": "outcome: chain_old_gods.s14.out_share" },
+    { "key": "poor", "label_key": "chain_old_gods.s14.opt_poor", "label": "Give your share to the poor of Saint Martin's", "check": "true",
+      "effects": [ "deed gave_alms", "flag unlock_title_lords_protection", "flag unlock_charter_traiectum", "flag changed_nehalennia_broken", "flag ch_old_gods_shrine_breaker", "flag ch_old_gods_end_broken", "flag ch_old_gods_done", "npc priest feeling +20 gave_the_share_away", "npc hand feeling -6 broke_the_stone", "news chain_old_gods.news.broken at dorestad" ],
+      "note": "outcome: chain_old_gods.s14.out_poor (no silver; the bishop's seal beside his hand)" },
+    { "key": "island", "label_key": "chain_old_gods.s14.opt_island", "label": "Send half your share back to the island, for their broken dune", "check": "true",
+      "effects": [ "silver +320", "flag unlock_title_lords_protection", "flag changed_nehalennia_broken", "flag ch_old_gods_island_mended", "flag ch_old_gods_end_broken", "flag ch_old_gods_done", "npc priest feeling +4 sent_half_back", "npc hand feeling -3 sent_half_back", "news chain_old_gods.news.broken at dorestad" ],
+      "note": "outcome: chain_old_gods.s14.out_island (the island sells to him again by the next shearing)" }
+   ],
+   "memory": {
+    "share": "took a finder's share of the silver under the stone",
+    "poor": "gave his share of the silver under the stone to the poor",
+    "island": "sent half his share back to the island"
+   }
+  }
+ ]
+}

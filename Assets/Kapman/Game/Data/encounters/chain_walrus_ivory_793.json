@@ -1,0 +1,603 @@
+{
+ "about": "THE CHAIN walrus_ivory (Design/content/CHAINS.md; the page is Design/content/chains/walrus_ivory.md): walrus ivory and hide rope from the far north, as Ohthere told King Alfred about 890. A Northman of Halogaland lays teeth and rope on the jetty at Skiringssal and wants one man who has stood in a southern market with a tooth in his hand; a comb-maker at Sliesthorp cuts it open; the reeve in Alfred's London has never seen the like; the next summer the king's steward at the Karmsund holds the Northman's ship for the king's share; then five days to the Heaths, and a choice between the English king, the carvers of the Rhine and the king of the Northmen. Fourteen cards (twelve harbour, two sea), four endings (flags ch_walrus_ivory_end_told, ch_walrus_ivory_end_own, ch_walrus_ivory_end_franks, ch_walrus_ivory_end_king) and an epilogue (the king's book). History changed: changed_ohthere_unwritten, changed_ivory_road_rhine, changed_finn_tribute_kings. Cast (Design/content/spine.json): cast.ohthere and cast.wulfstan, both real, both named in the words; King Alfred (real; not in the spine's cast) speaks in two finales, his words invented. The comb-maker, the reeve, the clerks, the priests, the steward and the raider are ordinary invented people whom the forge names. Waits are flags that lapse (ch_walrus_ivory_wait 150 days, _king_wait 300, _hall_wait 3, _book_wait 700). Every chain card after the first has a high weight and a 'when' that asks for the last flag, so it comes on the first call at its port. Every option's 'note' names its outcome text (chain_walrus_ivory.<card>.out_<option>), which the engine does not show yet. Words: Data/writing/chain_walrus_ivory.json. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_walrus_ivory.s01_tusks",
+   "note": "Step 1, the start: Skiringssal, July to September, 886 to 896. Ohthere (cast.ohthere, real) at the jetty with walrus teeth and hide rope after a month's sail down the coast. Sources: the Old English Orosius, Ohthere's report (texts_793.json ohthere; Bosworth 1859; Sweet 1883 pp. 17-19): he lived northmost of all Northmen; the horse-whale has 'very noble bone' in its teeth and its hide is very good for ship's ropes; the beast is no longer than seven ells; Sciringes heal is a month's sail from his home (the details of teeth, ells and rope are from the Old English text as remembered, not re-read tonight (?)). Years: Alfred is king 871-899 and holds London from 886 (chronicle_793.json 886-london-alfred, 890-ohthere-wulfstan); the spine has Ohthere 870-900. That he asked a Frisian for southern prices is invented. Sets ch_walrus_ivory_1.",
+   "stage": "harbour",
+   "when": "moored and port.id = skiringssal and year >= 886 and year < 897 and not flag.ch_walrus_ivory_1 and not flag.ch_walrus_ivory_done",
+   "weight": 2.0,
+   "cooldown_days": 20,
+   "months": [7, 8, 9],
+   "actors": {
+    "ohthere": { "role": "merchant", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 55], "fixed": true, "note": "cast.ohthere (real; named in the words)" }
+   },
+   "title_key": "chain_walrus_ivory.s01.title",
+   "title": "Teeth on the jetty",
+   "intention_key": "chain_walrus_ivory.s01.intention",
+   "intention": "A ship from the far north lies at the jetty, a month's sail behind her. Her master has laid out long yellow teeth and coils of dark rope, and nobody here can tell him what they fetch in the south.",
+   "lines": [
+    { "who": "ohthere", "key": "chain_walrus_ivory.s01.greet", "when": "not flag.ch_walrus_ivory_seen" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s01.back", "when": "flag.ch_walrus_ivory_seen" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s01.teeth" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s01.home" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s01.ask" }
+   ],
+   "options": [
+    { "key": "ask", "label_key": "chain_walrus_ivory.s01.opt_ask", "label": "Ask what he wants of a southerner", "check": "true", "default": true,
+      "effects": [ "flag ch_walrus_ivory_1", "npc ohthere feeling +3 asked" ],
+      "then": "harbour.chain_walrus_ivory.s02_tribute",
+      "note": "outcome: chain_walrus_ivory.s01.out_ask" },
+    { "key": "prices", "label_key": "chain_walrus_ivory.s01.opt_prices", "label": "Tell him plainly what tooth fetches in the south", "check": "true",
+      "effects": [ "flag ch_walrus_ivory_1", "flag ch_walrus_ivory_candid", "npc ohthere feeling +8 told_prices" ],
+      "then": "harbour.chain_walrus_ivory.s02_tribute",
+      "note": "outcome: chain_walrus_ivory.s01.out_prices" },
+    { "key": "pass", "label_key": "chain_walrus_ivory.s01.opt_pass", "label": "Wish him a good market and go by", "check": "true",
+      "effects": [ "flag ch_walrus_ivory_seen for 400" ],
+      "note": "outcome: chain_walrus_ivory.s01.out_pass (time only: the card comes again after twenty days, while the months last, and next summer)" }
+   ],
+   "memory": {
+    "ask": "asked what he wanted",
+    "prices": "told him the southern prices plainly",
+    "pass": "went by"
+   }
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s02_tribute",
+   "note": "Step 2: Skiringssal, at once after step 1 (the option's 'then'), or on any later call. The tribute of the Finnas counted out, and the errand. Sources: the Old English Orosius (as step 1): the Northmen's wealth is mostly the tribute the Finnas pay, in skins, feathers, whale's bone and ship's ropes of whale and seal hide; each pays by his rank, the best-born fifteen marten skins, five reindeer, one bear skin, ten ambers of feathers, a kirtle of bear or otter skin and two ship's ropes, each sixty ells long, one of whale's hide and one of seal's; Ohthere had six hundred tame deer unsold when he came to the king, six of them decoy deer, and no more than twenty cattle, twenty sheep and twenty swine, and ploughed the little he ploughed with horses (from the Old English as remembered (?); goods_793.json walrus_ivory, walrus_rope, reindeer_hides, eider_down cite the same text). The rope cut in one spiral strip: Data/story/unlocks_793.json unlock_upgrade_walrus_rope. The Karmsund on his way south: the coast road (Design/content/realms/norway.md). The errand and the trust are invented. Sets ch_walrus_ivory_2, and ch_walrus_ivory_trust if the pair is carried unpaid.",
+   "stage": "harbour",
+   "when": "moored and port.id = skiringssal and year < 898 and flag.ch_walrus_ivory_1 and not flag.ch_walrus_ivory_2 and not flag.ch_walrus_ivory_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "ohthere": { "role": "merchant", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 55], "fixed": true, "note": "cast.ohthere" }
+   },
+   "title_key": "chain_walrus_ivory.s02.title",
+   "title": "What the Finnas pay",
+   "intention_key": "chain_walrus_ivory.s02.intention",
+   "intention": "In the boat shed he shows you the year's tribute laid out by kind, and tells you what each man of the Finnas owes him. Then he says what he wants.",
+   "lines": [
+    { "who": "ohthere", "key": "chain_walrus_ivory.s02.tribute" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s02.ropes" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s02.wealth" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s02.candid", "when": "flag.ch_walrus_ivory_candid" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s02.want" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s02.where" }
+   ],
+   "options": [
+    { "key": "trust", "label_key": "chain_walrus_ivory.s02.opt_trust", "label": "Take a pair on his trust", "check": "true", "default": true,
+      "effects": [ "goods walrus_ivory +1", "goods walrus_rope +1", "flag ch_walrus_ivory_2", "flag ch_walrus_ivory_trust", "npc ohthere feeling +6 trusted" ],
+      "note": "outcome: chain_walrus_ivory.s02.out_trust" },
+    { "key": "buy", "label_key": "chain_walrus_ivory.s02.opt_buy", "label": "Pay him for the pair, and owe nothing", "check": "silver >= 70",
+      "cost": "silver 70",
+      "effects": [ "goods walrus_ivory +1", "goods walrus_rope +1", "flag ch_walrus_ivory_2", "npc ohthere feeling +3 bought" ],
+      "note": "outcome: chain_walrus_ivory.s02.out_buy" },
+    { "key": "words", "label_key": "chain_walrus_ivory.s02.opt_words", "label": "Take the rope and carry only the question", "check": "true",
+      "effects": [ "goods walrus_rope +1", "flag ch_walrus_ivory_2", "npc ohthere feeling +1 words" ],
+      "note": "outcome: chain_walrus_ivory.s02.out_words (the coil is a gift on every road: 30 d of rope, the step's payout)" }
+   ],
+   "memory": {
+    "trust": "took a pair of teeth on trust",
+    "buy": "paid for a pair of teeth",
+    "words": "took a coil of rope and a question south"
+   }
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s03_carver",
+   "note": "Step 3 (a side step: step 4 does not wait for it): Sliesthorp, any call after step 2 and before step 8. A comb-maker (invented; the forge names him) cuts the tooth. Sources: comb-making in antler is the common craft of Hedeby and Ribe (Design/content/peoples/norse.md; goods_793.json combs, antler); walrus ivory worked at Hedeby is reported from the digs (?). The tooth itself: a walrus tusk has a dense white outer layer and a clouded, marbled core, so carving must stay in the outer layer; this is why medieval walrus-ivory carvings are thin panels or use the whole round of the tusk (the material is well described in the handbooks; no page read tonight (?)). Elephant ivory scarce north of the Alps from the 7th century, and Carolingian carvers re-using old panels: see step 12. Silver at Sliesthorp goes by weight (BRIEF.md rule 2). The price is the game's (goods_793.json: 90 d a pair; 110 here is the turn payout). Sets ch_walrus_ivory_3, and ch_walrus_ivory_3_sold or ch_walrus_ivory_piece.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_walrus_ivory_2 and not flag.ch_walrus_ivory_3 and not flag.ch_walrus_ivory_8 and not flag.ch_walrus_ivory_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "carver": { "role": "craftsman", "people": "danish", "faith": "old_gods", "tongue": "port", "sex": "m", "age": [35, 60], "fixed": true, "note": "a comb-maker of Sliesthorp; invented; the forge names him" }
+   },
+   "title_key": "chain_walrus_ivory.s03.title",
+   "title": "The comb-maker's saw",
+   "intention_key": "chain_walrus_ivory.s03.intention",
+   "intention": "A comb-maker at Sliesthorp works antler from first light to dark. He takes the tooth in both hands and turns it to the light before he says anything.",
+   "lines": [
+    { "who": "carver", "key": "chain_walrus_ivory.s03.weigh" },
+    { "who": "carver", "key": "chain_walrus_ivory.s03.cut" },
+    { "who": "carver", "key": "chain_walrus_ivory.s03.priests" },
+    { "who": "carver", "key": "chain_walrus_ivory.s03.price" },
+    { "key": "chain_walrus_ivory.s03.trust", "when": "flag.ch_walrus_ivory_trust" }
+   ],
+   "options": [
+    { "key": "sell", "label_key": "chain_walrus_ivory.s03.opt_sell", "label": "Sell him the pair for weighed silver", "check": "hold.walrus_ivory >= 1",
+      "cost": "goods walrus_ivory 1",
+      "effects": [ "silver +110", "flag ch_walrus_ivory_3", "flag ch_walrus_ivory_3_sold", "npc carver feeling +6 sold" ],
+      "note": "outcome: chain_walrus_ivory.s03.out_sell (the turn payout: 110 d)" },
+    { "key": "piece", "label_key": "chain_walrus_ivory.s03.opt_piece", "label": "Pay him to cut a gaming king from the tip", "check": "silver >= 8",
+      "cost": "silver 8",
+      "effects": [ "flag ch_walrus_ivory_3", "flag ch_walrus_ivory_piece", "npc carver feeling +4 piece" ],
+      "note": "outcome: chain_walrus_ivory.s03.out_piece (the carved king is shown at steps 4 and 10)" },
+    { "key": "ask", "label_key": "chain_walrus_ivory.s03.opt_ask", "label": "Thank him and keep the pair whole", "check": "true", "default": true,
+      "effects": [ "flag ch_walrus_ivory_3", "npc carver feeling +1 asked" ],
+      "note": "outcome: chain_walrus_ivory.s03.out_ask (time only)" }
+   ],
+   "memory": {
+    "sell": "sold him a pair of horse-whale teeth",
+    "piece": "had a gaming king cut from a tooth",
+    "ask": "asked about the tooth and kept it"
+   }
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s04_reeve",
+   "note": "Step 4: Lundenwic, 886 to 899, any call after step 2. The reeve at the landing (invented) and a clerk (invented). Sources: Alfred occupied London in 886 and gave it to Ealdorman Aethelred (Anglo-Saxon Chronicle 886; chronicle_793.json 886-london-alfred); the trade moved from the Strand inside the walls, with plots at Aethelred's hythe granted in 889 and 898 (Design/content/CHAINS.md thread_07). Alfred and strangers: Asser, Life of King Alfred c. 76, has Franks, Frisians, Gauls, heathens, Britons, Scots and Bretons, noble and common, placing themselves under his lordship, and c. 76 and 91 his questioning of every kind of man (our rendering; the chapter numbers from memory (?)). English carvers working whale's bone: the Franks Casket and the Gandersheim casket, 8th century (?). Alfred's ships at sea: Chronicle 875, 882, 885; the long ships of 896 (chronicle_793.json 896-alfred-ships). Sets ch_walrus_ivory_4 with ch_walrus_ivory_4_peace or ch_walrus_ivory_4_own, and the wait ch_walrus_ivory_wait (150 days: a winter before step 6).",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year >= 886 and year < 900 and flag.ch_walrus_ivory_2 and not flag.ch_walrus_ivory_4 and not flag.ch_walrus_ivory_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "port", "sex": "m", "age": [35, 60], "fixed": true, "note": "the reeve at the landing in London; invented; the forge names him" },
+    "clerk": { "role": "clerk", "people": "english", "faith": "christian", "tongue": "port", "sex": "m", "age": [25, 50], "fixed": true, "note": "a clerk of the king's household; invented" }
+   },
+   "title_key": "chain_walrus_ivory.s04.title",
+   "title": "A tooth on the reeve's table",
+   "intention_key": "chain_walrus_ivory.s04.intention",
+   "intention": "Since the king took London the trade is moving inside the old walls. The reeve who sees to the landing has a clerk beside him, and the clerk has seen ivory before. Neither has seen this.",
+   "lines": [
+    { "who": "reeve", "key": "chain_walrus_ivory.s04.what" },
+    { "who": "clerk", "key": "chain_walrus_ivory.s04.king" },
+    { "who": "clerk", "key": "chain_walrus_ivory.s04.books" },
+    { "who": "reeve", "key": "chain_walrus_ivory.s04.heathen" },
+    { "who": "clerk", "key": "chain_walrus_ivory.s04.piece", "when": "flag.ch_walrus_ivory_piece" },
+    { "who": "reeve", "key": "chain_walrus_ivory.s04.rope", "when": "flag.ch_walrus_ivory_rope" }
+   ],
+   "options": [
+    { "key": "peace", "label_key": "chain_walrus_ivory.s04.opt_peace", "label": "Ask the king's peace for the Northman to come himself", "check": "true", "default": true,
+      "effects": [ "flag ch_walrus_ivory_4", "flag ch_walrus_ivory_4_peace", "flag ch_walrus_ivory_wait for 150", "npc reeve feeling +5 asked_peace",
+                   "news chain_walrus_ivory.news.tooth at lundenwic" ],
+      "note": "outcome: chain_walrus_ivory.s04.out_peace (counts at step 9: the reeve wrote it down)" },
+    { "key": "own", "label_key": "chain_walrus_ivory.s04.opt_own", "label": "Ask to be the man who brings the teeth", "check": "true",
+      "effects": [ "flag ch_walrus_ivory_4", "flag ch_walrus_ivory_4_own", "flag ch_walrus_ivory_wait for 150", "commission walrus_ivory 4 by 400 premium 1.4",
+                   "news chain_walrus_ivory.news.tooth at lundenwic" ],
+      "note": "outcome: chain_walrus_ivory.s04.out_own (an order for four pairs at a premium; remembered at step 11)" },
+    { "key": "prices", "label_key": "chain_walrus_ivory.s04.opt_prices", "label": "Ask only what the king's goldsmith would pay", "check": "true",
+      "effects": [ "flag ch_walrus_ivory_4", "flag ch_walrus_ivory_wait for 150", "price_shock lundenwic walrus_ivory x1.2 for 200" ],
+      "note": "outcome: chain_walrus_ivory.s04.out_prices (a price word: ivory is dear here for the rest of the year)" }
+   ],
+   "memory": {
+    "peace": "asked the king's peace for a Northman",
+    "own": "asked to be the bringer of the teeth",
+    "prices": "asked the price of a strange tooth"
+   }
+  },
+  {
+   "id": "sea.chain_walrus_ivory.s05_rope",
+   "note": "Step 5 (a side step, drawn under way after step 2 while a coil of hide rope is aboard): the bast halyard parts in a squall and the hide rope is tried. Sources: Ohthere's own word that the hide is 'very good for ship's ropes' (the Old English Orosius); everyday rigging of lime bast and horsehair on the Roskilde replicas (Design/content/ships.md 7: Ottar's rigging); the game's upgrade (Data/story/unlocks_793.json unlock_upgrade_walrus_rope). That hide rope wants grease and goes slack when long wet is general knowledge of rawhide, not from a source read tonight (?). Sets ch_walrus_ivory_rope if the hide rope is rove; steps 4 and 10 have a line for it.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_walrus_ivory_2 and hold.walrus_rope > 0 and not flag.ch_walrus_ivory_rope and not flag.ch_walrus_ivory_done",
+   "rate": 0.03,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {},
+   "title_key": "chain_walrus_ivory.s05.title",
+   "title": "The halyard parts",
+   "intention_key": "chain_walrus_ivory.s05.intention",
+   "intention": "A squall comes down out of a clear sky. The bast halyard strands at the masthead and the yard hangs by what is left of it. The coil of hide rope lies under the thwart.",
+   "lines": [
+    { "key": "chain_walrus_ivory.s05.steersman" },
+    { "key": "chain_walrus_ivory.s05.grease" }
+   ],
+   "options": [
+    { "key": "reeve", "label_key": "chain_walrus_ivory.s05.opt_reeve", "label": "Reeve the hide rope and hoist on it", "check": "hold.walrus_rope >= 1",
+      "cost": "goods walrus_rope 1",
+      "effects": [ "flag ch_walrus_ivory_rope", "morale +0.05" ],
+      "note": "outcome: chain_walrus_ivory.s05.out_reeve" },
+    { "key": "knot", "label_key": "chain_walrus_ivory.s05.opt_knot", "label": "Knot the bast and keep the hide rope to sell", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.02" ],
+                     "failure": [ "health -0.05", "morale -0.05" ] } ],
+      "note": "outcome: chain_walrus_ivory.s05.out_knot_success, chain_walrus_ivory.s05.out_knot_failure" },
+    { "key": "heave", "label_key": "chain_walrus_ivory.s05.opt_heave", "label": "Lower the yard and ride it out", "check": "true", "default": true,
+      "effects": [ "flag ch_walrus_ivory_hove for 1" ],
+      "note": "outcome: chain_walrus_ivory.s05.out_heave (time only)" }
+   ]
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s06_sound",
+   "note": "Step 6: Ogvaldsnes on the Karmsund, June to August, before 900, once the wait of step 4 has lapsed (the next summer at the soonest). The king's steward (invented) holds Ohthere's ship for the king's share. Sources: whoever holds a narrow sound on the coast road takes his due, and Ogvaldsnes is a king's farm through the whole game (Design/content/realms/norway.md); Harald Fairhair as king over the west by the 880s or 890s, with Ogvaldsnes one of his farms, is the sagas' tradition (Snorri, LATER; his dates are not sure (?)). Ohthere's own report names no king in Norway and calls the tribute his own people's: the quarrel is invented, from the later story that the king kept the Finn journey and its tribute for the man he named (Egils saga c. 8-17, 13th century, LATER). A steward taking a ship's sail ashore: the story of Asbjorn at this same farm about 1023 (Snorri, LATER; realms/norway.md scene 7), borrowed back. Four ounces of silver: the game's (80 d). The ship mounds on the ridge: the burials of 779 and about 790-795 (realms/norway.md). Sets ch_walrus_ivory_6 with _6_surety, _6_law, _6_waited or _6_king; the king's road also sets ch_walrus_ivory_king_wait (300 days) and leads to step 13 only.",
+   "stage": "harbour",
+   "when": "moored and port.id = ogvaldsnes and year < 900 and flag.ch_walrus_ivory_4 and not flag.ch_walrus_ivory_wait and not flag.ch_walrus_ivory_6 and not flag.ch_walrus_ivory_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "months": [6, 7, 8],
+   "actors": {
+    "steward": { "role": "steward", "people": "norse", "faith": "old_gods", "tongue": "port", "sex": "m", "age": [35, 60], "fixed": true, "note": "the king's steward at the farm on the sound; invented; the forge names him" },
+    "ohthere": { "role": "merchant", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 55], "fixed": false, "note": "cast.ohthere, held on his way south" }
+   },
+   "title_key": "chain_walrus_ivory.s06.title",
+   "title": "Held at the sound",
+   "intention_key": "chain_walrus_ivory.s06.intention",
+   "intention": "Ohthere's ship lies under the king's farm with her sail carried ashore. The king's steward says the tribute of the Finnas is the king's to share out, not a Halogalander's to sell.",
+   "lines": [
+    { "who": "steward", "key": "chain_walrus_ivory.s06.claim" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s06.answer" },
+    { "who": "steward", "key": "chain_walrus_ivory.s06.due" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s06.you" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s06.sold", "when": "flag.ch_walrus_ivory_3_sold" },
+    { "who": "steward", "key": "chain_walrus_ivory.s06.aside" }
+   ],
+   "options": [
+    { "key": "surety", "label_key": "chain_walrus_ivory.s06.opt_surety", "label": "Lay down the four ounces for him", "check": "silver >= 80",
+      "cost": "silver 80",
+      "effects": [ "flag ch_walrus_ivory_6", "flag ch_walrus_ivory_6_surety", "goods walrus_ivory +2", "npc ohthere feeling +15 paid_the_sound",
+                   "npc steward feeling +3 paid", "news chain_walrus_ivory.news.held at ogvaldsnes" ],
+      "note": "outcome: chain_walrus_ivory.s06.out_surety (he repays in teeth: two pairs, 180 d for 80: a turn payout)" },
+    { "key": "law", "label_key": "chain_walrus_ivory.s06.opt_law", "label": "Speak for him before the men of the sound", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "flag ch_walrus_ivory_6", "flag ch_walrus_ivory_6_law", "deed won_case", "goods walrus_ivory +1", "npc ohthere feeling +20 spoke_for_him",
+                                  "npc steward feeling -6 outtalked" ],
+                     "failure": [ "flag ch_walrus_ivory_6", "deed lost_case", "silver -40", "npc ohthere feeling +8 spoke_for_him", "npc steward feeling -2 outtalked" ] } ],
+      "note": "outcome: chain_walrus_ivory.s06.out_law_success, chain_walrus_ivory.s06.out_law_failure (a lost plea costs half the due and he sails all the same)" },
+    { "key": "king", "label_key": "chain_walrus_ivory.s06.opt_king", "label": "Tell the steward what the teeth are worth", "check": "true",
+      "effects": [ "flag ch_walrus_ivory_6", "flag ch_walrus_ivory_6_king", "flag ch_walrus_ivory_king_wait for 300", "silver +100", "npc steward feeling +15 told_the_worth",
+                   "npc ohthere feeling -40 sold_him", "news chain_walrus_ivory.news.held at ogvaldsnes" ],
+      "note": "outcome: chain_walrus_ivory.s06.out_king (the king's road: step 13 a year on, and no other)" },
+    { "key": "wait", "label_key": "chain_walrus_ivory.s06.opt_wait", "label": "Wait with him until the steward tires", "check": "true", "default": true,
+      "effects": [ "flag ch_walrus_ivory_6", "flag ch_walrus_ivory_6_waited", "npc ohthere feeling +4 waited" ],
+      "note": "outcome: chain_walrus_ivory.s06.out_wait (time and pride only)" }
+   ],
+   "memory": {
+    "surety": "paid the king's due for Ohthere",
+    "law.success": "spoke for Ohthere and won",
+    "law.failure": "spoke for Ohthere and lost",
+    "king": "told the steward what the teeth were worth",
+    "wait": "waited at the sound"
+   }
+  },
+  {
+   "id": "sea.chain_walrus_ivory.s07_kattegat",
+   "note": "Step 7 (drawn under way after step 6, on the road with Ohthere, before step 8; a step that may not come: step 8 does not wait for it). A long ship comes out from behind an island. The danger warns first: she is seen under oars, in no hurry. Sources: Ohthere's five days from Sciringes heal to the Heaths, three with Denmark to port and open sea to starboard, two among the islands that belong to Denmark (texts_793.json ohthere); robbers on that water: Anskar's ship was taken by pirates on the way to Birka in 829, and the merchants with him fought and lost nearly all they had (Rimbert, Vita Anskarii c. 10; Robinson 1921; our rendering). The raider is invented. Sets ch_walrus_ivory_7, and ch_walrus_ivory_7_stood if they were faced down.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_walrus_ivory_6 and not flag.ch_walrus_ivory_6_king and not flag.ch_walrus_ivory_7 and not flag.ch_walrus_ivory_8 and not flag.ch_walrus_ivory_done",
+   "rate": 0.05,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "chief": { "role": "raider_chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [25, 45], "fixed": false, "note": "invented" }
+   },
+   "title_key": "chain_walrus_ivory.s07.title",
+   "title": "A sail from the islands",
+   "intention_key": "chain_walrus_ivory.s07.intention",
+   "intention": "Two days out, with Denmark to port, a long ship comes out from behind an island under oars. She has seen two laden hulls and no shields. Ohthere's ship is a bowshot ahead of you, and she is the slower.",
+   "lines": [
+    { "key": "chain_walrus_ivory.s07.oars" },
+    { "key": "chain_walrus_ivory.s07.spear" },
+    { "who": "chief", "key": "chain_walrus_ivory.s07.hail" }
+   ],
+   "options": [
+    { "key": "stand", "label_key": "chain_walrus_ivory.s07.opt_stand", "label": "Close up beside Ohthere and show iron", "check": "true",
+      "effects": [ { "chance": 0.7, "by": "crew.fight_best",
+                     "success": [ "flag ch_walrus_ivory_7", "flag ch_walrus_ivory_7_stood", "deed fought_raiders", "morale +0.1" ],
+                     "failure": [ "flag ch_walrus_ivory_7", "flag ch_walrus_ivory_7_stood", "deed fought_raiders", "health -0.15", "silver -30" ] } ],
+      "note": "outcome: chain_walrus_ivory.s07.out_stand_success, chain_walrus_ivory.s07.out_stand_failure" },
+    { "key": "run", "label_key": "chain_walrus_ivory.s07.opt_run", "label": "Run inside the islands where she cannot follow", "check": "true", "default": true,
+      "effects": [ { "chance": 0.7, "by": "crew.seamanship_best",
+                     "success": [ "flag ch_walrus_ivory_7", "encounter run" ],
+                     "failure": [ "flag ch_walrus_ivory_7", "silver -50", "morale -0.05" ] } ],
+      "note": "outcome: chain_walrus_ivory.s07.out_run_success, chain_walrus_ivory.s07.out_run_failure" },
+    { "key": "pay", "label_key": "chain_walrus_ivory.s07.opt_pay", "label": "Heave to and pay them", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "flag ch_walrus_ivory_7", "deed paid_raiders", "encounter heave_to" ],
+      "note": "outcome: chain_walrus_ivory.s07.out_pay" }
+   ]
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s08_heaths",
+   "note": "Step 8: Sliesthorp (the port 'aet Haethum', Hedeby), before 900, after step 6 by any road but the king's. Ohthere (cast.ohthere), Wulfstan (cast.wulfstan, real) and a Frisian buyer who is only spoken of. The fork: England, or the Rhine. Sources: Ohthere's five days and which hand the land was on; the port stands between the Wends, the Saxons and the Angles and belongs to the Danes; Wulfstan's seven days and nights from the Heaths to Truso, the ship under sail all the way, Wendland to starboard (texts_793.json ohthere, wulfstan; Bosworth 1859). That the two men met here is invented: their accounts only stand side by side in the king's book (spine.json, their tie). Frisians at Hedeby: Rimbert, Vita Anskarii c. 24 (merchants of Dorestad there) (?). Laying goods together and sharing what comes back is the Norse felag (Data/story/unlocks_793.json; the word is on rune stones from the later 10th century, so the card does not say it). Sets ch_walrus_ivory_8 with ch_walrus_ivory_8_england (and _felag) or ch_walrus_ivory_8_franks (and _franks_bought).",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year < 900 and flag.ch_walrus_ivory_6 and not flag.ch_walrus_ivory_6_king and not flag.ch_walrus_ivory_8 and not flag.ch_walrus_ivory_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "ohthere": { "role": "merchant", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 55], "fixed": false, "note": "cast.ohthere" },
+    "wulfstan": { "role": "skipper", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 45], "fixed": false, "note": "cast.wulfstan (real; named in the words)" }
+   },
+   "title_key": "chain_walrus_ivory.s08.title",
+   "title": "At the Heaths",
+   "intention_key": "chain_walrus_ivory.s08.intention",
+   "intention": "Five days from Skiringssal, and the jetties of the market at the head of the fjord. Ohthere has never been further south than this. A skipper who knows the eastern sea is drinking with him, and a Frisian from the Rhine has already asked the price of the whole cargo.",
+   "lines": [
+    { "who": "ohthere", "key": "chain_walrus_ivory.s08.five" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s08.stood", "when": "flag.ch_walrus_ivory_7_stood" },
+    { "who": "wulfstan", "key": "chain_walrus_ivory.s08.truso" },
+    { "who": "wulfstan", "key": "chain_walrus_ivory.s08.king" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s08.frisian" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s08.offer" }
+   ],
+   "options": [
+    { "key": "fellow", "label_key": "chain_walrus_ivory.s08.opt_fellow", "label": "Lay three hundred pennies in with his goods and sail for England", "check": "silver >= 300",
+      "cost": "silver 300",
+      "effects": [ "flag ch_walrus_ivory_8", "flag ch_walrus_ivory_8_england", "flag ch_walrus_ivory_felag", "tongue old_norse = 0.5", "npc ohthere feeling +15 fellow" ],
+      "note": "outcome: chain_walrus_ivory.s08.out_fellow (the hard road: a share at step 10, and a sworn partner)" },
+    { "key": "pilot", "label_key": "chain_walrus_ivory.s08.opt_pilot", "label": "Pilot him to England for a tenth", "check": "true", "default": true,
+      "effects": [ "flag ch_walrus_ivory_8", "flag ch_walrus_ivory_8_england", "tongue old_norse = 0.5", "npc ohthere feeling +6 pilot" ],
+      "note": "outcome: chain_walrus_ivory.s08.out_pilot (costs nothing; five more days in company teach half his tongue)" },
+    { "key": "rhine_buy", "label_key": "chain_walrus_ivory.s08.opt_rhine_buy", "label": "Buy the teeth outright for the Rhine", "check": "silver >= 500",
+      "cost": "silver 500",
+      "effects": [ "flag ch_walrus_ivory_8", "flag ch_walrus_ivory_8_franks", "flag ch_walrus_ivory_franks_bought", "npc ohthere feeling +4 bought_all" ],
+      "note": "outcome: chain_walrus_ivory.s08.out_rhine_buy (the teeth travel under his seal in your hold, not as market goods; step 12 pays)" },
+    { "key": "rhine_share", "label_key": "chain_walrus_ivory.s08.opt_rhine_share", "label": "Carry the teeth up the Rhine on shares", "check": "true",
+      "effects": [ "flag ch_walrus_ivory_8", "flag ch_walrus_ivory_8_franks", "npc ohthere feeling +2 shares" ],
+      "note": "outcome: chain_walrus_ivory.s08.out_rhine_share" }
+   ],
+   "memory": {
+    "fellow": "laid goods together with Ohthere",
+    "pilot": "piloted Ohthere toward England",
+    "rhine_buy": "bought the teeth for the Rhine",
+    "rhine_share": "took the teeth to the Rhine on shares"
+   }
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s09_hythe",
+   "note": "Step 9: Lundenwic, before 900, on the England road. The reeve, a priest (invented) and Ohthere off the hythe. Sources: the hythe inside the walls (Aethelred's hythe, later Queenhithe; the grants of 889 and 898: CHAINS.md thread_07); heathen men up the Thames: the army wintered in London in 871-872 (Chronicle; spine thread price_of_england). The first signing (prima signatio): heathens who traded with Christians let themselves be signed with the cross without baptism, so as to eat and deal with them; Rimbert, Vita Anskarii c. 24, has many at Sliesthorp take the sign of the cross and become catechumens (our rendering); Egils saga c. 50 says it was the common custom of merchants (13th century, LATER). A townsman's oath as surety for a stranger: the English laws make a host answer for his guest (Hlothhere and Eadric 15; Alfred 34 has traders bring their men before the king's reeve) (from memory (?)). Where Ohthere met Alfred is not recorded (?); London is the game's choice. Sets ch_walrus_ivory_9 with _9_vouched, _9_signed or _9_alone, and the wait ch_walrus_ivory_hall_wait (3 days).",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year < 900 and flag.ch_walrus_ivory_8_england and not flag.ch_walrus_ivory_9 and not flag.ch_walrus_ivory_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "port", "sex": "m", "age": [35, 60], "fixed": true, "note": "the reeve of step 4" },
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "port", "sex": "m", "age": [30, 60], "fixed": true, "note": "a priest of the king's household; invented" },
+    "ohthere": { "role": "merchant", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 55], "fixed": false, "note": "cast.ohthere" }
+   },
+   "title_key": "chain_walrus_ivory.s09.title",
+   "title": "A heathen at the hythe",
+   "intention_key": "chain_walrus_ivory.s09.intention",
+   "intention": "Ohthere's ship lies off the hythe inside the walls. The reeve will let the teeth land. The priest beside him says a heathen who has not so much as been signed with the cross does not sit down at a Christian king's table.",
+   "lines": [
+    { "who": "priest", "key": "chain_walrus_ivory.s09.rule" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s09.answer" },
+    { "who": "reeve", "key": "chain_walrus_ivory.s09.surety" },
+    { "who": "reeve", "key": "chain_walrus_ivory.s09.peace", "when": "flag.ch_walrus_ivory_4_peace" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s09.alone" }
+   ],
+   "options": [
+    { "key": "vouch", "label_key": "chain_walrus_ivory.s09.opt_vouch", "label": "Swear for him yourself", "check": "standing >= known or flag.ch_walrus_ivory_4_peace",
+      "effects": [ "flag ch_walrus_ivory_9", "flag ch_walrus_ivory_9_vouched", "flag ch_walrus_ivory_hall_wait for 3", "npc ohthere feeling +10 swore_for_him", "npc reeve feeling +3 swore" ],
+      "note": "outcome: chain_walrus_ivory.s09.out_vouch" },
+    { "key": "sign", "label_key": "chain_walrus_ivory.s09.opt_sign", "label": "Ask him to take the signing", "check": "true",
+      "effects": [ "flag ch_walrus_ivory_9", "flag ch_walrus_ivory_9_signed", "flag ch_walrus_ivory_hall_wait for 3", "npc priest feeling +10 signing", "npc ohthere feeling -5 signing" ],
+      "note": "outcome: chain_walrus_ivory.s09.out_sign (costs only his good humour)" },
+    { "key": "alone", "label_key": "chain_walrus_ivory.s09.opt_alone", "label": "Go in alone with his teeth and his words", "check": "true",
+      "effects": [ "flag ch_walrus_ivory_9", "flag ch_walrus_ivory_9_alone", "flag ch_walrus_ivory_hall_wait for 3" ],
+      "note": "outcome: chain_walrus_ivory.s09.out_alone (leads to step 11)" }
+   ],
+   "memory": {
+    "vouch": "swore for the Northman",
+    "sign": "had the Northman signed with the cross",
+    "alone": "went to the king without the Northman"
+   }
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s10_hall",
+   "note": "Step 10, the finale as it really went: Lundenwic, before 900, three days after step 9 with Ohthere let in. King Alfred (real; his words invented), Ohthere (cast.ohthere) and the clerk. Sources: 'Ohthere said to his lord, King Alfred, that he dwelt northmost of all Northmen'; the voyage north, three days and three days more, as far as the whale hunters go; 'the Beormas told him many tales... but he knew not what was true, because he did not see it himself'; he with five others killed sixty in two days; some of the teeth they brought to the king (the Old English Orosius; texts_793.json ohthere; Bosworth 1859; the lines here are our own plain rendering, not Bosworth's words). Whether the sixty were whales or horse-whales is argued; the king's doubt is invented. ENDING ch_walrus_ivory_end_told: what really happened. Pays 800 d (the pilot's tenth) or 1,800 d (the fellowship's share, the hard road) or 300 d and six pairs of teeth (840 d); grand rewards unlock_charter_lundenwic (a king's remission of toll on a ship at London is attested in 8th-century charters of Aethelbald of Mercia (?)) or unlock_title_alfreds_guest, and on the hard road also unlock_partner_ottar; unlock_upgrade_walrus_rope on every option; the text 'ohthere' for the chest. Sets ch_walrus_ivory_done and the epilogue's wait.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year < 900 and (flag.ch_walrus_ivory_9_vouched or flag.ch_walrus_ivory_9_signed) and not flag.ch_walrus_ivory_hall_wait and not flag.ch_walrus_ivory_done",
+   "weight": 40,
+   "cooldown_days": 0,
+   "actors": {
+    "king": { "role": "king", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [37, 50], "fixed": true, "note": "King Alfred (real, king 871-899); his words invented" },
+    "ohthere": { "role": "merchant", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 55], "fixed": false, "note": "cast.ohthere" },
+    "clerk": { "role": "clerk", "people": "english", "faith": "christian", "tongue": "port", "sex": "m", "age": [25, 50], "fixed": true, "note": "the clerk of step 4" }
+   },
+   "title_key": "chain_walrus_ivory.s10.title",
+   "title": "He said to his lord",
+   "intention_key": "chain_walrus_ivory.s10.intention",
+   "intention": "The king sits with a clerk at his elbow and the teeth on the board in front of him. He does not ask the price. He asks how far north the land goes, and whether any man lives beyond the waste.",
+   "lines": [
+    { "who": "ohthere", "key": "chain_walrus_ivory.s10.north" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s10.seen" },
+    { "who": "king", "key": "chain_walrus_ivory.s10.whales" },
+    { "who": "ohthere", "key": "chain_walrus_ivory.s10.sixty" },
+    { "who": "king", "key": "chain_walrus_ivory.s10.rope", "when": "flag.ch_walrus_ivory_rope" },
+    { "who": "king", "key": "chain_walrus_ivory.s10.piece", "when": "flag.ch_walrus_ivory_piece" },
+    { "who": "clerk", "key": "chain_walrus_ivory.s10.aside" },
+    { "who": "king", "key": "chain_walrus_ivory.s10.you" }
+   ],
+   "options": [
+    { "key": "share", "label_key": "chain_walrus_ivory.s10.opt_share", "label": "Ask for your share of the fellowship's goods", "check": "flag.ch_walrus_ivory_felag",
+      "effects": [ "silver +1800", "flag ch_walrus_ivory_end_told", "flag unlock_charter_lundenwic", "flag unlock_partner_ottar", "flag unlock_upgrade_walrus_rope",
+                   "give_text ohthere", "flag ch_walrus_ivory_done", "flag ch_walrus_ivory_book_wait for 700", "npc king feeling +10 brought_ohthere",
+                   "npc ohthere feeling +20 fellow", "price_shock lundenwic walrus_ivory x1.3 for 365", "news chain_walrus_ivory.news.told at lundenwic" ],
+      "note": "outcome: chain_walrus_ivory.s10.out_share (the hard road: 1,800 d for 300 laid in, the toll freedom and a sworn partner)" },
+    { "key": "tenth", "label_key": "chain_walrus_ivory.s10.opt_tenth", "label": "Ask for your pilot's tenth", "check": "not flag.ch_walrus_ivory_felag", "default": true,
+      "effects": [ "silver +800", "flag ch_walrus_ivory_end_told", "flag unlock_charter_lundenwic", "flag unlock_upgrade_walrus_rope",
+                   "give_text ohthere", "flag ch_walrus_ivory_done", "flag ch_walrus_ivory_book_wait for 700", "npc king feeling +10 brought_ohthere",
+                   "npc ohthere feeling +10 pilot", "price_shock lundenwic walrus_ivory x1.3 for 365", "news chain_walrus_ivory.news.told at lundenwic" ],
+      "note": "outcome: chain_walrus_ivory.s10.out_tenth" },
+    { "key": "peace", "label_key": "chain_walrus_ivory.s10.opt_peace", "label": "Ask for the king's peace on Ohthere's ships and your own", "check": "true",
+      "effects": [ "silver +300", "goods walrus_ivory +6", "flag ch_walrus_ivory_end_told", "flag unlock_title_alfreds_guest", "flag unlock_upgrade_walrus_rope",
+                   "give_text ohthere", "flag ch_walrus_ivory_done", "flag ch_walrus_ivory_book_wait for 700", "npc king feeling +20 asked_peace",
+                   "npc ohthere feeling +15 asked_peace", "price_shock lundenwic walrus_ivory x1.3 for 365", "news chain_walrus_ivory.news.told at lundenwic" ],
+      "note": "outcome: chain_walrus_ivory.s10.out_peace (the king's protection; Ohthere pays you in teeth)" }
+   ],
+   "memory": {
+    "share": "brought Ohthere to the king as his fellow",
+    "tenth": "brought Ohthere to the king as his pilot",
+    "peace": "asked the king's peace for Ohthere"
+   }
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s11_whose",
+   "note": "Step 11, the finale without Ohthere: Lundenwic, before 900, three days after step 9 for a merchant who went in alone. King Alfred (real; words invented) and the clerk. Sources: as step 10; the test is Ohthere's own manner in the text, where every leg is given in days and by the hand the land lay on, and what he did not see is marked as hearsay. ENDINGS: naming him gives ch_walrus_ivory_end_told by proxy (700 d, unlock_charter_lundenwic, the text): the report is written from a carrier's mouth, 'Ohthere said'. Claiming the voyage is a doubtful to likely chance on the crew's best trader: if it holds, ch_walrus_ivory_end_own (1,500 d, unlock_title_kings_ivory_man) and HISTORY CHANGED, changed_ohthere_unwritten: the king has a merchant's tale left out of his book, and the oldest account of the far north and the first written 'Norway' are never set down; the cost that lasts is ch_walrus_ivory_ohthere_wronged. If it fails, he is sent for after all: ch_walrus_ivory_end_told with 600 d and a king who remembers. The third option goes back to step 10.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year < 900 and flag.ch_walrus_ivory_9_alone and not flag.ch_walrus_ivory_hall_wait and not flag.ch_walrus_ivory_done",
+   "weight": 40,
+   "cooldown_days": 0,
+   "actors": {
+    "king": { "role": "king", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [37, 50], "fixed": true, "note": "King Alfred (real); his words invented" },
+    "clerk": { "role": "clerk", "people": "english", "faith": "christian", "tongue": "port", "sex": "m", "age": [25, 50], "fixed": true, "note": "the clerk of step 4" }
+   },
+   "title_key": "chain_walrus_ivory.s11.title",
+   "title": "Whose story",
+   "intention_key": "chain_walrus_ivory.s11.intention",
+   "intention": "You stand before the king with the teeth and a year of another man's words in your head. The clerk has his pen ready. The king asks how far north the land goes, and then he asks who saw it.",
+   "lines": [
+    { "who": "king", "key": "chain_walrus_ivory.s11.who" },
+    { "who": "clerk", "key": "chain_walrus_ivory.s11.hands" },
+    { "key": "chain_walrus_ivory.s11.thwart" },
+    { "key": "chain_walrus_ivory.s11.own", "when": "flag.ch_walrus_ivory_4_own" }
+   ],
+   "options": [
+    { "key": "name_him", "label_key": "chain_walrus_ivory.s11.opt_name_him", "label": "Say that Ohthere saw it, and you only carry it", "check": "true", "default": true,
+      "effects": [ "silver +700", "flag ch_walrus_ivory_end_told", "flag unlock_charter_lundenwic", "flag unlock_upgrade_walrus_rope", "give_text ohthere",
+                   "flag ch_walrus_ivory_done", "flag ch_walrus_ivory_book_wait for 700", "npc king feeling +8 honest",
+                   "price_shock lundenwic walrus_ivory x1.3 for 365", "news chain_walrus_ivory.news.told at lundenwic" ],
+      "note": "outcome: chain_walrus_ivory.s11.out_name_him" },
+    { "key": "mine", "label_key": "chain_walrus_ivory.s11.opt_mine", "label": "Say that you were in the ship", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "silver +1500", "flag ch_walrus_ivory_end_own", "flag unlock_title_kings_ivory_man", "flag unlock_upgrade_walrus_rope",
+                                  "flag changed_ohthere_unwritten", "flag ch_walrus_ivory_ohthere_wronged", "flag ch_walrus_ivory_done",
+                                  "flag ch_walrus_ivory_book_wait for 700", "price_shock lundenwic walrus_ivory x1.3 for 365",
+                                  "news chain_walrus_ivory.news.own at lundenwic" ],
+                     "failure": [ "silver +600", "flag ch_walrus_ivory_end_told", "flag unlock_charter_lundenwic", "give_text ohthere",
+                                  "npc king feeling -15 caught_out", "flag ch_walrus_ivory_done", "flag ch_walrus_ivory_book_wait for 700",
+                                  "news chain_walrus_ivory.news.told at lundenwic" ] } ],
+      "note": "outcome: chain_walrus_ivory.s11.out_mine_success, chain_walrus_ivory.s11.out_mine_failure" },
+    { "key": "fetch", "label_key": "chain_walrus_ivory.s11.opt_fetch", "label": "Ask leave to bring the Northman in on your own oath", "check": "standing >= known or flag.ch_walrus_ivory_4_peace",
+      "effects": [ "flag ch_walrus_ivory_9_alone = 0", "flag ch_walrus_ivory_9_vouched", "flag ch_walrus_ivory_hall_wait for 2", "npc king feeling +5 fetched" ],
+      "note": "outcome: chain_walrus_ivory.s11.out_fetch (back to step 10 in two days)" }
+   ],
+   "memory": {
+    "name_him": "told Ohthere's voyage in Ohthere's name",
+    "mine.success": "told the voyage north as his own",
+    "mine.failure": "was caught claiming another man's voyage",
+    "fetch": "asked to bring the Northman in"
+   }
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s12_altar",
+   "note": "Step 12, the finale on the Rhine: Colonia, for a merchant who took the teeth for the Franks at step 8, or who sailed for England and came too late (the king died on 26 October 899: chronicle_793.json 899-10-26-alfred-dies). The archbishop's carver (invented) and a clerk (invented). Sources: Northmen burned Cologne in the winter of 881-882 and the city was rebuilt (Annales Fuldenses 881-883; Regino of Pruem (?)); the archbishops are Willibert to 889 and Hermann I from 889 or 890 (?), not named in the words. Elephant ivory was scarce in the Frankish lands, and many Carolingian ivories are cut on the planed backs of late Roman panels and consular tablets (the handbooks; no page read tonight (?)). Walrus ivory in the Rhineland is plain from the 10th and 11th centuries on (Cologne's carvers) (?); goods_793.json has it wanted in the rhineland at the highest mark. The cathedral is Saint Peter's. ENDING ch_walrus_ivory_end_franks, HISTORY CHANGED: changed_ivory_road_rhine and changed_ohthere_unwritten (Ohthere sells at the Heaths, goes home to his deer and never sees the English king). Pays 1,000 d and unlock_factor_colonia with a yearly order; or 2,000 d for a merchant who bought the cargo with his own 500 (the hard road: unlock_factor_colonia and unlock_plot_sliesthorp); or 600 d and unlock_title_st_peters_man for the best pair given to the altar.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and (flag.ch_walrus_ivory_8_franks or (flag.ch_walrus_ivory_8_england and year >= 900)) and not flag.ch_walrus_ivory_done",
+   "weight": 40,
+   "cooldown_days": 0,
+   "actors": {
+    "carver": { "role": "craftsman", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [40, 65], "fixed": true, "note": "the archbishop's ivory carver; invented; the forge names him" },
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [25, 50], "fixed": true, "note": "a clerk of the archbishop; invented" }
+   },
+   "title_key": "chain_walrus_ivory.s12.title",
+   "title": "Tooth for the altar",
+   "intention_key": "chain_walrus_ivory.s12.intention",
+   "intention": "Cologne was burned by Northmen not many years back and is building again. The archbishop's carver works in a shed against the cathedral wall. He is planing the old figures off a tablet older than the city's walls remember, because he has nothing new to cut.",
+   "lines": [
+    { "who": "carver", "key": "chain_walrus_ivory.s12.old" },
+    { "who": "carver", "key": "chain_walrus_ivory.s12.new" },
+    { "who": "clerk", "key": "chain_walrus_ivory.s12.north" },
+    { "who": "carver", "key": "chain_walrus_ivory.s12.dead", "when": "year >= 900 and flag.ch_walrus_ivory_8_england" },
+    { "who": "carver", "key": "chain_walrus_ivory.s12.terms" }
+   ],
+   "options": [
+    { "key": "yearly", "label_key": "chain_walrus_ivory.s12.opt_yearly", "label": "Agree to bring ten pairs a year", "check": "true", "default": true,
+      "effects": [ "silver +1000", "flag ch_walrus_ivory_end_franks", "flag unlock_factor_colonia", "commission walrus_ivory 10 by 400 premium 1.5",
+                   "flag changed_ivory_road_rhine", "flag changed_ohthere_unwritten", "flag ch_walrus_ivory_done", "flag ch_walrus_ivory_book_wait for 700",
+                   "npc carver feeling +15 yearly", "news chain_walrus_ivory.news.rhine at colonia" ],
+      "note": "outcome: chain_walrus_ivory.s12.out_yearly" },
+    { "key": "high", "label_key": "chain_walrus_ivory.s12.opt_high", "label": "Sell your own teeth at the carver's price", "check": "flag.ch_walrus_ivory_franks_bought",
+      "effects": [ "silver +2000", "flag ch_walrus_ivory_end_franks", "flag unlock_factor_colonia", "flag unlock_plot_sliesthorp",
+                   "flag changed_ivory_road_rhine", "flag changed_ohthere_unwritten", "flag ch_walrus_ivory_done", "flag ch_walrus_ivory_book_wait for 700",
+                   "npc carver feeling +10 sold", "news chain_walrus_ivory.news.rhine at colonia" ],
+      "note": "outcome: chain_walrus_ivory.s12.out_high (the hard road: 2,000 d for the 500 risked, and two grand rewards)" },
+    { "key": "altar", "label_key": "chain_walrus_ivory.s12.opt_altar", "label": "Give the best pair to Saint Peter's altar", "check": "true",
+      "effects": [ "silver +600", "deed gave_alms", "flag ch_walrus_ivory_end_franks", "flag unlock_title_st_peters_man",
+                   "flag changed_ivory_road_rhine", "flag changed_ohthere_unwritten", "flag ch_walrus_ivory_done", "flag ch_walrus_ivory_book_wait for 700",
+                   "npc clerk feeling +15 altar", "news chain_walrus_ivory.news.rhine at colonia" ],
+      "note": "outcome: chain_walrus_ivory.s12.out_altar (less silver; the church of Cologne's protection)" }
+   ],
+   "memory": {
+    "yearly": "agreed to bring teeth each year",
+    "high": "sold a cargo of teeth",
+    "altar": "gave teeth to Saint Peter"
+   }
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s13_kings_share",
+   "note": "Step 13, the finale on the king's road: Ogvaldsnes, 300 days or more after the merchant told the steward what the teeth were worth (step 6). The king's steward (invented). Sources: as step 6; a royal hold on the northern trade is the later rule (the sagas' Finn journey in the king's gift, 13th century, LATER; the kings' monopoly of the Finn trade in the laws of the 12th and 13th centuries (?)); here it comes a generation or more early because a southerner priced it. The levy ship: the game's norse_allround_ship (ship_classes_793.json); the levy itself is later than this in the sources (?), so the words say only 'one of the king's ships'. The mounds: the ship burials of 779 and about 790-795 at this farm (realms/norway.md). ENDING ch_walrus_ivory_end_king, HISTORY CHANGED: changed_finn_tribute_kings and changed_ohthere_unwritten. Pays 900 d, unlock_title_haralds_guest and a yearly order; or 600 d and unlock_ship_norse_allround_ship; or, for a sore conscience, 600 d and unlock_pilot_karmsund with Ohthere left the selling of his own share. The first two carry the lasting cost ch_walrus_ivory_ohthere_wronged.",
+   "stage": "harbour",
+   "when": "moored and port.id = ogvaldsnes and year < 931 and flag.ch_walrus_ivory_6_king and not flag.ch_walrus_ivory_king_wait and not flag.ch_walrus_ivory_done",
+   "weight": 40,
+   "cooldown_days": 0,
+   "actors": {
+    "steward": { "role": "steward", "people": "norse", "faith": "old_gods", "tongue": "port", "sex": "m", "age": [35, 60], "fixed": true, "note": "the steward of step 6" }
+   },
+   "title_key": "chain_walrus_ivory.s13.title",
+   "title": "The king's share",
+   "intention_key": "chain_walrus_ivory.s13.intention",
+   "intention": "A year on, the steward at the king's farm has a shed full of teeth and rope that came down the coast in the king's name. Ohthere's ship did not come with it. The steward has not forgotten who told him what it was worth.",
+   "lines": [
+    { "who": "steward", "key": "chain_walrus_ivory.s13.thanks" },
+    { "who": "steward", "key": "chain_walrus_ivory.s13.ohthere" },
+    { "who": "steward", "key": "chain_walrus_ivory.s13.offer" },
+    { "who": "steward", "key": "chain_walrus_ivory.s13.sound" },
+    { "key": "chain_walrus_ivory.s13.mounds" }
+   ],
+   "options": [
+    { "key": "kings_man", "label_key": "chain_walrus_ivory.s13.opt_kings_man", "label": "Carry the king's teeth south each year", "check": "true",
+      "effects": [ "silver +900", "flag ch_walrus_ivory_end_king", "flag unlock_title_haralds_guest", "commission walrus_ivory 8 by 400 premium 1.4",
+                   "flag changed_finn_tribute_kings", "flag changed_ohthere_unwritten", "flag ch_walrus_ivory_ohthere_wronged", "flag ch_walrus_ivory_done",
+                   "flag ch_walrus_ivory_book_wait for 700", "npc steward feeling +15 kings_man", "news chain_walrus_ivory.news.king at ogvaldsnes" ],
+      "note": "outcome: chain_walrus_ivory.s13.out_kings_man" },
+    { "key": "ship", "label_key": "chain_walrus_ivory.s13.opt_ship", "label": "Take the ship", "check": "true",
+      "effects": [ "silver +600", "flag ch_walrus_ivory_end_king", "flag unlock_ship_norse_allround_ship",
+                   "flag changed_finn_tribute_kings", "flag changed_ohthere_unwritten", "flag ch_walrus_ivory_ohthere_wronged", "flag ch_walrus_ivory_done",
+                   "flag ch_walrus_ivory_book_wait for 700", "npc steward feeling +8 ship", "news chain_walrus_ivory.news.king at ogvaldsnes" ],
+      "note": "outcome: chain_walrus_ivory.s13.out_ship" },
+    { "key": "mend", "label_key": "chain_walrus_ivory.s13.opt_mend", "label": "Ask that Ohthere keep the selling of his own share", "check": "true", "default": true,
+      "effects": [ "silver +600", "flag ch_walrus_ivory_end_king", "flag unlock_pilot_karmsund", "flag ch_walrus_ivory_mended",
+                   "flag changed_finn_tribute_kings", "flag changed_ohthere_unwritten", "flag ch_walrus_ivory_done",
+                   "flag ch_walrus_ivory_book_wait for 700", "npc steward feeling +2 mend", "news chain_walrus_ivory.news.king at ogvaldsnes" ],
+      "note": "outcome: chain_walrus_ivory.s13.out_mend (pride only: no title, no ship, and no man in the north who curses your name)" }
+   ],
+   "memory": {
+    "kings_man": "became the king's carrier of teeth",
+    "ship": "took one of the king's ships for his counsel",
+    "mend": "asked the king's steward to leave Ohthere his share"
+   }
+  },
+  {
+   "id": "harbour.chain_walrus_ivory.s14_book",
+   "note": "Step 14, the epilogue: Lundenwic or Hamwic, from 890, 700 days or more after any ending. A priest who copies books for the king (invented; texts_793.json ohthere, 'acquire': 'a priest who copies books for the king'). Sources: the Old English Orosius, made at or near Alfred's court in the 890s, adds the voyages of Ohthere and Wulfstan to the Roman book's account of the north (chronicle_793.json 890-ohthere-wulfstan and its source list). The line the priest reads is the report's opening, in our own rendering. The book names no ship and no go-between: that is true of the text, and the game's joke. Lines are chosen by the ending. Pays small, as an epilogue should: the text 'wulfstan' for 30 d, or the heirloom unlock_heirloom_kings_book_leaf (a leaf with the passage and the house's name at the foot) where the true ending was reached. Sets ch_walrus_ivory_book.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = hamwic) and year >= 890 and year < 925 and flag.ch_walrus_ivory_done and not flag.ch_walrus_ivory_book_wait and not flag.ch_walrus_ivory_book",
+   "weight": 20,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "port", "sex": "m", "age": [30, 65], "fixed": false, "note": "a priest who copies books for the king; invented" }
+   },
+   "title_key": "chain_walrus_ivory.s14.title",
+   "title": "The king's book",
+   "intention_key": "chain_walrus_ivory.s14.intention",
+   "intention": "A priest who copies books for the king has a quire open on his desk: the history of the world by Orosius, put into English. Where the old Roman had little to say about the north, something has been added, or has not.",
+   "lines": [
+    { "who": "priest", "key": "chain_walrus_ivory.s14.told", "when": "flag.ch_walrus_ivory_end_told" },
+    { "who": "priest", "key": "chain_walrus_ivory.s14.noname", "when": "flag.ch_walrus_ivory_end_told" },
+    { "who": "priest", "key": "chain_walrus_ivory.s14.unwritten", "when": "not flag.ch_walrus_ivory_end_told" },
+    { "who": "priest", "key": "chain_walrus_ivory.s14.own", "when": "flag.ch_walrus_ivory_end_own" },
+    { "who": "priest", "key": "chain_walrus_ivory.s14.rhine", "when": "flag.ch_walrus_ivory_end_franks" },
+    { "who": "priest", "key": "chain_walrus_ivory.s14.king", "when": "flag.ch_walrus_ivory_end_king" }
+   ],
+   "options": [
+    { "key": "copy", "label_key": "chain_walrus_ivory.s14.opt_copy", "label": "Pay for a copy of the seafarer's leaves", "check": "silver >= 30",
+      "cost": "silver 30",
+      "effects": [ "give_text wulfstan", "flag ch_walrus_ivory_book", "npc priest feeling +5 copy" ],
+      "note": "outcome: chain_walrus_ivory.s14.out_copy" },
+    { "key": "margin", "label_key": "chain_walrus_ivory.s14.opt_margin", "label": "Ask for the passage on a leaf, with your name at the foot", "check": "flag.ch_walrus_ivory_end_told and silver >= 12",
+      "cost": "silver 12",
+      "effects": [ "flag unlock_heirloom_kings_book_leaf", "flag ch_walrus_ivory_book", "npc priest feeling +2 leaf" ],
+      "note": "outcome: chain_walrus_ivory.s14.out_margin (an heirloom for the heirs)" },
+    { "key": "go", "label_key": "chain_walrus_ivory.s14.opt_go", "label": "Thank him and go down to the ship", "check": "true", "default": true,
+      "effects": [ "flag ch_walrus_ivory_book" ],
+      "note": "outcome: chain_walrus_ivory.s14.out_go" }
+   ],
+   "memory": {
+    "copy": "bought the seafarer's leaves",
+    "margin": "had his name written under the Northman's story",
+    "go": "looked at the king's book"
+   }
+  }
+ ]
+}

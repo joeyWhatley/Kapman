@@ -1,0 +1,650 @@
+{
+ "about": "THE CHAIN house_new_ship (Design/content/CHAINS.md; the page is Design/content/chains/house_new_ship.md): a bigger ship built over a winter at Dorestad's dam heads. Oak bought standing in the king's wood across the river from Colonia and rafted down, rivets of heath iron from Daventre, a sail woven by the terp women of Wijnaldum, a wright who will not be hurried, a Dane with an opinion, the count at the slip, and the launching. Fourteen cards, five endings (flags ch_house_new_ship_end_keel, ch_house_new_ship_end_patched, ch_house_new_ship_end_dane, ch_house_new_ship_end_river, ch_house_new_ship_end_count) and a late epilogue (the ship on Dorestad's penny, 812-818). Cast (Design/content/spine.json): the count is cast.folcbert in his years, the moneyer cast.sigimar, the bidder for the sail cast.thiadbod (not named in the words), the Northman of the crew cast.crew.ravn (one line, not named); every other person is an ordinary invented person whom the forge names. Cards with weight 0 come only when another card schedules them; their 'when' says when they belong. Waits are flags that lapse (ch_house_new_ship_frost, _strakes, _iron_wait, _planking, _slip) and schedules. Every option's 'note' names its outcome text (chain_house_new_ship.<card>.out_<option>), which the engine does not show yet (see 'needs' in the page). Words: Data/writing/chain_house_new_ship.json. A draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_house_new_ship.s01_wright",
+   "note": "Step 1, the start: Dorestad, July to November, before 833, once the house has called there twice and has a pound of pennies aboard. The fixed shipwright of Dorestad (invented; the forge names him). Sources: a ship was ordered and built in the open over a winter, the buyer finding timber, iron and sail (Data/story/town_actions_793.json build_ship: ordered by Martinmas, afloat by Easter; 2,700 d new for the 6-tonne sea trader, a third down). The ship: the keeled clinker sea trader of 13 to 15 m, class north_sea_merchant_ship (Design/content/ships.md 4.10, 7.2: 12 to 15 oaks, 90 to 100 kg of iron, a sail of about 50 m2, ten men and a winter: derived from the measured replicas). Dorestad's own sea-going find is such a ship: riveted clinker, wool in her seams, wood felled after about 739 (mass.cultureelerfgoed.nl/dorestad-shipfragment; Brouwers, Jansma and Manders 2015). The beach at the dam heads had ship nails and a taken-apart clinker hull (Design/content/dossiers/dorestad.md 2). The keel's length in feet and the notched stick are invented.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year < 833 and port.visits >= 2 and silver >= 240 and not flag.ch_house_new_ship_1 and not flag.ch_house_new_ship_done and not flag.unlock_ship_north_sea_merchant_ship",
+   "weight": 1.0,
+   "cooldown_days": 30,
+   "months": [7, 8, 9, 10, 11],
+   "actors": {
+    "shipwright": { "role": "shipwright", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true, "note": "the wright at the dam heads; invented; the forge names him" }
+   },
+   "title_key": "chain_house_new_ship.s01.title",
+   "title": "A keel on the sand",
+   "intention_key": "chain_house_new_ship.s01.intention",
+   "intention": "The wright at the dam heads has no hull on his slip. He has watched your boat come and go all summer, and he has an opinion about her.",
+   "lines": [
+    { "who": "shipwright", "key": "chain_house_new_ship.s01.outgrown", "when": "npc.shipwright.last != think" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s01.back", "when": "npc.shipwright.last = think" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s01.what" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s01.terms" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s01.list" },
+    { "key": "chain_house_new_ship.s01.stick" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s01.debt", "when": "debt > 0" }
+   ],
+   "options": [
+    { "key": "earnest", "label_key": "chain_house_new_ship.s01.opt_earnest", "label": "Count out a pound of pennies as earnest", "check": "silver >= 240",
+      "cost": "silver 240",
+      "effects": [ "flag ch_house_new_ship_1", "npc shipwright feeling +8 earnest", "news chain_house_new_ship.news.ordered at dorestad" ],
+      "note": "outcome: chain_house_new_ship.s01.out_earnest" },
+    { "key": "half", "label_key": "chain_house_new_ship.s01.opt_half", "label": "Offer half a pound and your name", "check": "silver >= 120 and standing >= known",
+      "cost": "silver 120",
+      "effects": [ "flag ch_house_new_ship_1", "npc shipwright feeling +2 half", "news chain_house_new_ship.news.ordered at dorestad" ],
+      "note": "outcome: chain_house_new_ship.s01.out_half" },
+    { "key": "think", "label_key": "chain_house_new_ship.s01.opt_think", "label": "Ask what it will all cost, and go away to think", "check": "true",
+      "effects": [ "npc shipwright feeling +1 think" ],
+      "note": "outcome: chain_house_new_ship.s01.out_think (time only: the card comes again after thirty days, while the months last)" }
+   ],
+   "memory": {
+    "earnest": "gave a pound in earnest for a ship",
+    "half": "gave half a pound and his name for a ship",
+    "think": "asked the price of a ship and went away"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s02_oak",
+   "note": "Step 2: Colonia, any call after the order. The steward of the king's estate in the old fort across the river (Deutz, a royal estate: Design/content/dossiers/colonia.md 1), invented. Sources: ship timber in the delta before about 850 is oak from the German Rhineland, and many hulls were built upstream (Brouwers, Jansma and Manders 2015, in Design/content/ships.md 2.1). The king's woods kept and his clearings cleared: Capitulare de villis c. 36 (about 800; the chapter number from memory (?)). Felling between the fifteenth and the twenty-second day of the moon, and from after midsummer to the first of January: Vegetius, Epitoma rei militaris IV.35-36 (thelatinlibrary.com/vegetius4.html, read 4 Oct 2026; our rendering); that a steward had heard of the book is invented. Rafting: Bede has timber brought down the Tyne on rafts about 721 (ship_classes_793.json, raft); a raft on the Rhine in the 790s is likely and not recorded (?). Six days down: dossiers/colonia.md (3 to 5 days by boat). The men away in Saxony: the Saxon war ends in 804. The one great trunk is the river road (step 13): a logboat widened and raised with planks, the forerunner of the Utrecht type (Vleuten 1, felled after about 734: ships.md 2.1, 4.6). Prices are the game's: 280 d for fourteen oaks and the crooks is a guess (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and flag.ch_house_new_ship_1 and not flag.ch_house_new_ship_2 and not flag.ch_house_new_ship_2r and not flag.ch_house_new_ship_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "port", "age": [35, 60], "fixed": true, "note": "the steward of the king's estate across the river; invented; the forge names him" }
+   },
+   "title_key": "chain_house_new_ship.s02.title",
+   "title": "Oak across the river",
+   "intention_key": "chain_house_new_ship.s02.intention",
+   "intention": "Across the river from the city stand the old fort and the king's estate, and behind them the king's wood. The steward walks you through the oaks with the wright's stick in your hand.",
+   "lines": [
+    { "who": "steward", "key": "chain_house_new_ship.s02.clearing" },
+    { "who": "steward", "key": "chain_house_new_ship.s02.moon" },
+    { "who": "steward", "key": "chain_house_new_ship.s02.raft" },
+    { "who": "steward", "key": "chain_house_new_ship.s02.windfall" },
+    { "who": "steward", "key": "chain_house_new_ship.s02.axes_war", "when": "year < 805" },
+    { "who": "steward", "key": "chain_house_new_ship.s02.axes_peace", "when": "year >= 805" },
+    { "who": "steward", "key": "chain_house_new_ship.s02.trunk" }
+   ],
+   "options": [
+    { "key": "standing", "label_key": "chain_house_new_ship.s02.opt_standing", "label": "Buy fourteen standing oaks and the crooked boughs", "check": "silver >= 280",
+      "cost": "silver 280",
+      "effects": [ "flag ch_house_new_ship_2", "schedule harbour.chain_house_new_ship.s03_keel in 50 at dorestad", "npc steward feeling +5 bought" ],
+      "note": "outcome: chain_house_new_ship.s02.out_standing" },
+    { "key": "windfall", "label_key": "chain_house_new_ship.s02.opt_windfall", "label": "Take the windfalls: dry, and cheap", "check": "silver >= 110",
+      "cost": "silver 110",
+      "effects": [ "flag ch_house_new_ship_2", "flag ch_house_new_ship_dry_oak", "flag ch_house_new_ship_flawed",
+                   "schedule harbour.chain_house_new_ship.s03_keel in 25 at dorestad", "npc steward feeling +1 bought" ],
+      "note": "outcome: chain_house_new_ship.s02.out_windfall (the cheap road: the hull is flawed)" },
+    { "key": "axes", "label_key": "chain_house_new_ship.s02.opt_axes", "label": "Lend your crew to the clearing and take the pay in oak", "check": "true",
+      "effects": [ "flag ch_house_new_ship_2", "health -0.05", "morale -0.04",
+                   "schedule harbour.chain_house_new_ship.s03_keel in 65 at dorestad", "npc steward feeling +10 worked" ],
+      "note": "outcome: chain_house_new_ship.s02.out_axes (no silver: sweat and a longer wait)" },
+    { "key": "trunk", "label_key": "chain_house_new_ship.s02.opt_trunk", "label": "Buy the great oak and have a river ship made of it here", "check": "silver >= 160",
+      "cost": "silver 160",
+      "effects": [ "flag ch_house_new_ship_2r", "schedule harbour.chain_house_new_ship.s13_river in 100 at colonia", "npc steward feeling +5 bought" ],
+      "note": "outcome: chain_house_new_ship.s02.out_trunk (the river road: no iron, no sail; the Dorestad wright keeps the earnest)" }
+   ],
+   "memory": {
+    "standing": "bought fourteen oaks of the king's clearing",
+    "windfall": "bought the windfalls",
+    "axes": "lent his crew to the clearing",
+    "trunk": "bought the great oak for a river ship"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s03_keel",
+   "note": "Step 3: Dorestad, when the raft is in (scheduled by step 2: 25, 50 or 65 days). The wright sorts the timber and lays the keel. Sources: planks cleft from the trunk with wedges and hewn with the axe, not sawn, and worked green (the Roskilde builds: Design/content/ships.md 7.1, radially cleft planks; town_actions_793.json build_ship). The old keel ship at the north dams is the find of 1973-74 in the northern harbour (Hoogstraat II): four strakes 24 to 27 cm wide and a floor timber, wood felled after about 739, iron rivets, sheep's wool in the seams; she seems to have sunk there (mass.cultureelerfgoed.nl/dorestad-shipfragment, read 4 Oct 2026). That she still lay there in the 790s, and that her knees could be lifted, is the game's own (?). Old ship timber was used again: Skuldelev 5 (LATER; ships.md 7.3). Taking her floors sets changed_dorestad_old_keel: the diggers of 1973 find less.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_new_ship_2 and not flag.ch_house_new_ship_3",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "shipwright": { "role": "shipwright", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true }
+   },
+   "title_key": "chain_house_new_ship.s03.title",
+   "title": "The raft at the dam head",
+   "intention_key": "chain_house_new_ship.s03.intention",
+   "intention": "The raft lies against your dam, low in the water, with a Frank asleep on it. The wright walks its length, strikes each trunk with the back of his axe and listens.",
+   "lines": [
+    { "who": "shipwright", "key": "chain_house_new_ship.s03.sorted", "when": "not flag.ch_house_new_ship_dry_oak" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s03.dry", "when": "flag.ch_house_new_ship_dry_oak" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s03.old_keel" },
+    { "key": "chain_house_new_ship.s03.cleave" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s03.look" }
+   ],
+   "options": [
+    { "key": "more", "label_key": "chain_house_new_ship.s03.opt_more", "label": "Send upriver for three more oaks", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "flag ch_house_new_ship_3", "flag ch_house_new_ship_frost for 30", "npc shipwright feeling +5 timber",
+                   "news chain_house_new_ship.news.keel at dorestad" ],
+      "note": "outcome: chain_house_new_ship.s03.out_more" },
+    { "key": "old_keel", "label_key": "chain_house_new_ship.s03.opt_old_keel", "label": "Raise the old ship's knees and floors from the north harbour", "check": "standing >= known",
+      "effects": [ "flag ch_house_new_ship_3", "flag changed_dorestad_old_keel", "flag ch_house_new_ship_frost for 20", "health -0.04",
+                   "npc shipwright feeling +3 timber", "news chain_house_new_ship.news.keel at dorestad" ],
+      "note": "outcome: chain_house_new_ship.s03.out_old_keel (history changed in a small thing: the find of 1973-74)" },
+    { "key": "make_do", "label_key": "chain_house_new_ship.s03.opt_make_do", "label": "Tell him to build with what came", "check": "true",
+      "effects": [ "flag ch_house_new_ship_3", "flag ch_house_new_ship_twist", "flag ch_house_new_ship_flawed", "flag ch_house_new_ship_frost for 20",
+                   "npc shipwright feeling -6 made_do", "news chain_house_new_ship.news.keel at dorestad" ],
+      "note": "outcome: chain_house_new_ship.s03.out_make_do (pride only: the hull is flawed)" }
+   ],
+   "memory": {
+    "more": "sent for three more oaks when the wright asked",
+    "old_keel": "raised the old ship's knees from the river",
+    "make_do": "made him build with twisted oak"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s04_iron",
+   "note": "Step 4 (in any order with steps 2, 5 and 6): Daventre, any call after the order. The smith of the IJssel bank, invented. Sources: iron was smelted on the Veluwe, west of the IJssel, from the brown iron stones of the heath, with charcoal; the Veluwe's furnaces were among the biggest of the age (goods_793.json bar_iron; dossiers/dorestad.md 4: Veluwe iron at Dorestad; nl.wikipedia.org/wiki/Veluwe on the charcoal and the cut woods, read 4 Oct 2026). That the stones are the hollow 'rattle stones' and the heath's name then are from memory (?). The count of rivets: about 100 kg of iron at 50 g a rivet with its rove (ships.md 7.2, derived): two thousand. The emperor's order for ships, 810-811: chronicle_793.json 810-fleet-ordered-810 (Annales regni Francorum 811; Einhard, Vita Karoli 17). Ten kegs at 13 d against the table's 16 d a keg (goods_793.json rivets).",
+   "stage": "harbour",
+   "when": "moored and port.id = daventre and flag.ch_house_new_ship_1 and not flag.ch_house_new_ship_4 and not flag.ch_house_new_ship_2r and not flag.ch_house_new_ship_8 and not flag.ch_house_new_ship_done",
+   "weight": 30,
+   "cooldown_days": 20,
+   "actors": {
+    "smith": { "role": "smith", "people": "port", "faith": "christian", "tongue": "port", "age": [28, 58], "fixed": true, "note": "the smith on the IJssel bank; invented; the forge names him" }
+   },
+   "title_key": "chain_house_new_ship.s04.title",
+   "title": "Iron from the heath",
+   "intention_key": "chain_house_new_ship.s04.intention",
+   "intention": "West of the river the heath smokes day and night. Its iron comes down to the bank at Daventre. The smith takes the wright's stick and turns it over in his fingers.",
+   "lines": [
+    { "who": "smith", "key": "chain_house_new_ship.s04.iron" },
+    { "who": "smith", "key": "chain_house_new_ship.s04.count" },
+    { "who": "smith", "key": "chain_house_new_ship.s04.others" },
+    { "who": "smith", "key": "chain_house_new_ship.s04.fleet", "when": "year >= 810 and year < 812" },
+    { "who": "smith", "key": "chain_house_new_ship.s04.carry" }
+   ],
+   "options": [
+    { "key": "gauge", "label_key": "chain_house_new_ship.s04.opt_gauge", "label": "Buy ten kegs cut to the wright's notch", "check": "silver >= 130",
+      "cost": "silver 130",
+      "effects": [ "goods rivets +10", "flag ch_house_new_ship_4", "npc smith feeling +5 bought" ],
+      "note": "outcome: chain_house_new_ship.s04.out_gauge" },
+    { "key": "carry", "label_key": "chain_house_new_ship.s04.opt_carry", "label": "Carry his blooms down from the heath for a week, and pay half", "check": "silver >= 65",
+      "cost": "silver 65",
+      "effects": [ "goods rivets +10", "flag ch_house_new_ship_4", "health -0.03", "npc smith feeling +10 worked" ],
+      "note": "outcome: chain_house_new_ship.s04.out_carry" },
+    { "key": "none", "label_key": "chain_house_new_ship.s04.opt_none", "label": "Buy nothing today", "check": "true",
+      "effects": [],
+      "note": "outcome: chain_house_new_ship.s04.out_none (time only: the card comes again after twenty days)" }
+   ],
+   "memory": {
+    "gauge": "bought ten kegs of rivets",
+    "carry": "carried his blooms down from the heath",
+    "none": "looked at the iron and bought none"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s05_weavers",
+   "note": "Step 5 (in any order with steps 2 and 4): Wijnaldum, any call after the order. The woman who speaks for the weavers of the terp, invented. Sources: sunken huts with loom weights and spindle whorls on the terp until about 850; sheep the commonest bones (2,881); women spinning and weaving (Design/content/dossiers/wijnaldum.md 2, 3). The law prices the hand of a woman who weaves 'fresum' a quarter higher, like a harper's and a goldsmith's, and sets death or ransom on breaking into a weaving hut (Lex Frisionum, Additio sapientum: dossiers/wijnaldum.md, dossiers/doccinga.md). No servile work on the Lord's day, and for women no weaving, sewing, carding or shearing: Admonitio generalis 789 c. 81 (MGH Capit. I no. 22; from memory, not opened (?)). A sail: about 1.1 kg of wool and 100 to 130 hours of work the square metre, so fifty square metres is four women and a winter (ships.md 7.1-7.2, from the sails of Roar Ege and Ottar; Bender Jorgensen 2012). That a sail was sewn of narrow lengths, and of the long outer wool, is the replica makers' finding (?). The mound coast wants timber, grain, wine, querns, pots and iron (dossiers/doccinga.md 4). Cloak-cloth: the Frisian cloaks (goods_793.json frisian_cloth).",
+   "stage": "harbour",
+   "when": "moored and port.id = wijnaldum and flag.ch_house_new_ship_1 and not flag.ch_house_new_ship_5 and not flag.ch_house_new_ship_2r and not flag.ch_house_new_ship_done",
+   "weight": 30,
+   "cooldown_days": 20,
+   "actors": {
+    "weaver": { "role": "weaver", "people": "frisian", "faith": "christian", "tongue": "port", "sex": "f", "age": [30, 55], "fixed": true, "note": "the woman who speaks for the weavers of the terp; invented; the forge names her" }
+   },
+   "title_key": "chain_house_new_ship.s05.title",
+   "title": "The weavers of the terp",
+   "intention_key": "chain_house_new_ship.s05.intention",
+   "intention": "On the terp the looms stand in huts dug half into the ground, where the damp keeps the warp from snapping. The woman who speaks for the weavers hears what you want and looks at her hands.",
+   "lines": [
+    { "who": "weaver", "key": "chain_house_new_ship.s05.sail_winter", "when": "month >= 9 or month <= 2" },
+    { "who": "weaver", "key": "chain_house_new_ship.s05.sail_summer", "when": "month >= 3 and month <= 8" },
+    { "who": "weaver", "key": "chain_house_new_ship.s05.sunday" },
+    { "who": "weaver", "key": "chain_house_new_ship.s05.hand" },
+    { "who": "weaver", "key": "chain_house_new_ship.s05.lack" },
+    { "who": "weaver", "key": "chain_house_new_ship.s05.ready" }
+   ],
+   "options": [
+    { "key": "order", "label_key": "chain_house_new_ship.s05.opt_order", "label": "Order the sail: half the silver now, half when it is woven", "check": "silver >= 90",
+      "cost": "silver 90",
+      "effects": [ "flag ch_house_new_ship_5", "schedule harbour.chain_house_new_ship.s06_sail in 110 at wijnaldum", "npc weaver feeling +5 ordered" ],
+      "note": "outcome: chain_house_new_ship.s05.out_order" },
+    { "key": "barter", "label_key": "chain_house_new_ship.s05.opt_barter", "label": "Pay the first half in quernstones and wine", "check": "hold.quernstones >= 2 and hold.rhenish_wine >= 1",
+      "cost": [ "goods quernstones 2", "goods rhenish_wine 1" ],
+      "effects": [ "flag ch_house_new_ship_5", "schedule harbour.chain_house_new_ship.s06_sail in 110 at wijnaldum", "npc weaver feeling +12 barter" ],
+      "note": "outcome: chain_house_new_ship.s05.out_barter" },
+    { "key": "ready", "label_key": "chain_house_new_ship.s05.opt_ready", "label": "Buy the cloak-cloth and have it sewn for a sail", "check": "silver >= 110",
+      "cost": "silver 110",
+      "effects": [ "goods sailcloth +4", "flag ch_house_new_ship_5", "flag ch_house_new_ship_6", "flag ch_house_new_ship_cloak_sail", "flag ch_house_new_ship_flawed",
+                   "npc weaver feeling +1 bought" ],
+      "note": "outcome: chain_house_new_ship.s05.out_ready (the quick road: a sail today, and a flawed ship)" },
+    { "key": "later", "label_key": "chain_house_new_ship.s05.opt_later", "label": "Not yet", "check": "true",
+      "effects": [],
+      "note": "outcome: chain_house_new_ship.s05.out_later (time only: the card comes again after twenty days)" }
+   ],
+   "memory": {
+    "order": "ordered a sail and paid half",
+    "barter": "paid for a sail in quernstones and wine",
+    "ready": "bought cloak-cloth for a sail",
+    "later": "asked about a sail and went away"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s06_sail",
+   "note": "Step 6: Wijnaldum, when the sail is off the looms (scheduled by step 5: 110 days). The same weaver. The other bidder is cast.thiadbod, the rival skipper of Dorestad with a dam head of his own; he is not named. Sources as step 5. A wool sail rubbed with fat and red ochre to hold the wind: the sail of Ottar, the Roskilde copy of Skuldelev 1 (ships.md 7.1; LATER, and a replica maker's practice (?)). The turn's reward on the open-handed road: the terp's cloaks cheap for a season and an order for wine at a premium.",
+   "stage": "harbour",
+   "when": "moored and port.id = wijnaldum and flag.ch_house_new_ship_5 and not flag.ch_house_new_ship_6",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "weaver": { "role": "weaver", "people": "frisian", "faith": "christian", "tongue": "port", "sex": "f", "age": [30, 55], "fixed": true }
+   },
+   "title_key": "chain_house_new_ship.s06.title",
+   "title": "Off the looms",
+   "intention_key": "chain_house_new_ship.s06.intention",
+   "intention": "The sail lies folded on a bench in the largest hut: fifteen lengths sewn edge to edge, grey as a seal and heavier than a man. It smells of sheep and smoke.",
+   "lines": [
+    { "who": "weaver", "key": "chain_house_new_ship.s06.count" },
+    { "who": "weaver", "key": "chain_house_new_ship.s06.barter", "when": "npc.weaver.last = barter" },
+    { "who": "weaver", "key": "chain_house_new_ship.s06.rival" },
+    { "who": "weaver", "key": "chain_house_new_ship.s06.dress" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_house_new_ship.s06.opt_pay", "label": "Pay the second half, as agreed", "check": "silver >= 90",
+      "cost": "silver 90",
+      "effects": [ "goods sailcloth +4", "flag ch_house_new_ship_6", "flag ch_house_new_ship_sail_good", "npc weaver feeling +8 paid", "deed fair_dealing" ],
+      "note": "outcome: chain_house_new_ship.s06.out_pay" },
+    { "key": "gift", "label_key": "chain_house_new_ship.s06.opt_gift", "label": "Pay it, and match the other man's offer as a gift", "check": "silver >= 135",
+      "cost": "silver 135",
+      "effects": [ "goods sailcloth +4", "flag ch_house_new_ship_6", "flag ch_house_new_ship_sail_good", "npc weaver feeling +20 gift", "deed fair_dealing",
+                   "commission rhenish_wine 4 by 150 premium 0.5", "price_shock wijnaldum frisian_cloth x0.8 for 150" ],
+      "note": "outcome: chain_house_new_ship.s06.out_gift (the turn's reward)" },
+    { "key": "haggle", "label_key": "chain_house_new_ship.s06.opt_haggle", "label": "Say the edge is thin, and offer two thirds", "check": "silver >= 60",
+      "effects": [ { "chance": 0.4, "by": "crew.trade_best",
+                     "success": [ "silver -60", "goods sailcloth +4", "flag ch_house_new_ship_6", "flag ch_house_new_ship_sail_good", "npc weaver feeling -10 haggled" ],
+                     "failure": [ "flag ch_house_new_ship_6", "npc weaver feeling -25 haggled" ] } ],
+      "note": "outcome: chain_house_new_ship.s06.out_haggle_success / out_haggle_failure (doubtful; on failure the sail goes to the other bidder and the ship must be launched under bought sailcloth or the old sail)" },
+    { "key": "wait", "label_key": "chain_house_new_ship.s06.opt_wait", "label": "Leave it on the bench until you have the silver", "check": "true",
+      "effects": [ "schedule harbour.chain_house_new_ship.s06_sail in 20 at wijnaldum" ],
+      "note": "outcome: chain_house_new_ship.s06.out_wait (time only: the card comes again in twenty days)" }
+   ],
+   "memory": {
+    "pay": "paid for the sail as agreed",
+    "gift": "paid over the price for the sail",
+    "haggle.success": "beat down the price of the sail",
+    "haggle.failure": "lost the sail by haggling",
+    "wait": "left the sail on the bench"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s07_lines",
+   "note": "Step 7: Dorestad, twenty or thirty days after the keel (flag ch_house_new_ship_frost lapsed). The turn: which ship she is to be. The Dane is a hand off a Ripa ship wintering at the dam heads, invented, and the first actor so that the riddle comes from him. Sources: King Alfred's long ships of 896 were 'shapen neither like the Frisian nor the Danish' (Anglo-Saxon Chronicle 897, tr. Giles 1847), so two patterns were known; iron rivets of the northern kind lie in the Frisian terps from 400 to 800, and Dorestad's own find is of that build (ships.md 1, 2.1); the Norse all-round ship of about 800 is lighter, lower and rowed by many (ship_classes_793.json norse_allround_ship: 16 oars, 12 men, 4 t; north_sea_merchant_ship: 4 oars, 5 men, 6 t). Godfred at Sliesthorp with his fleet, 804, and the war that follows to 810: chronicle_793.json (Annales regni Francorum 804-810). Trade between Ripa and Dorestad is in the finds; a Danish hand wintering at Dorestad is likely and not recorded (?). The line about the house's own Northman (cast.crew.ravn) shows only when the game models tongues aboard. The riddle is Gestumblindi's of the anchor (riddles_793.json r-gest-06).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_new_ship_3 and not flag.ch_house_new_ship_7 and not flag.ch_house_new_ship_frost and not flag.ch_house_new_ship_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "dane": { "role": "sailor", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": true, "note": "a hand off a Ripa ship wintering at the dam heads, a wright's son; invented; the forge names him; first actor, so the riddle comes from him" },
+    "shipwright": { "role": "shipwright", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true }
+   },
+   "title_key": "chain_house_new_ship.s07.title",
+   "title": "The Dane's opinion",
+   "intention_key": "chain_house_new_ship.s07.intention",
+   "intention": "The keel and both stems are up and the first strakes are on. A Dane off a Ripa ship that winters at the dam heads has stood before her every morning for a week. Today he speaks.",
+   "lines": [
+    { "who": "dane", "key": "chain_house_new_ship.s07.heavy" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s07.carry" },
+    { "who": "dane", "key": "chain_house_new_ship.s07.arrive" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s07.war", "when": "year >= 804 and year < 811" },
+    { "key": "chain_house_new_ship.s07.northman", "when": "tongue.old_norse >= 1" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s07.iron" }
+   ],
+   "options": [
+    { "key": "frisian", "label_key": "chain_house_new_ship.s07.opt_frisian", "label": "Keep the wright's ship: deep and broad, built to carry", "check": "true",
+      "effects": [ "flag ch_house_new_ship_7", "flag ch_house_new_ship_7a", "flag ch_house_new_ship_strakes for 25", "flag ch_house_new_ship_iron_wait for 60",
+                   "npc shipwright feeling +8 kept", "npc dane feeling -2 kept" ],
+      "note": "outcome: chain_house_new_ship.s07.out_frisian" },
+    { "key": "danish", "label_key": "chain_house_new_ship.s07.opt_danish", "label": "Let the Dane line her off: lighter, lower, more oars", "check": "silver >= 40",
+      "cost": "silver 40",
+      "effects": [ "flag ch_house_new_ship_7", "flag ch_house_new_ship_7b", "flag ch_house_new_ship_strakes for 25", "flag ch_house_new_ship_iron_wait for 60",
+                   "npc shipwright feeling -10 dane", "npc dane feeling +12 dane" ],
+      "note": "outcome: chain_house_new_ship.s07.out_danish (the Dane's ship: ending dane)" },
+    { "key": "both", "label_key": "chain_house_new_ship.s07.opt_both", "label": "Ask the wright, before his men, what he would take from the Dane", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "flag ch_house_new_ship_7", "flag ch_house_new_ship_7a", "flag ch_house_new_ship_strakes for 25", "flag ch_house_new_ship_iron_wait for 60",
+                                  "npc shipwright feeling +12 asked", "npc dane feeling +4 asked", "give_riddle r-gest-06" ],
+                     "failure": [ "flag ch_house_new_ship_7", "flag ch_house_new_ship_7a", "flag ch_house_new_ship_strakes for 25", "flag ch_house_new_ship_iron_wait for 60",
+                                  "npc shipwright feeling -4 asked", "npc dane feeling +2 asked" ] } ],
+      "note": "outcome: chain_house_new_ship.s07.out_both_success / out_both_failure (likely; pride only)" }
+   ],
+   "memory": {
+    "frisian": "kept the wright's pattern",
+    "danish": "let a Dane line off the ship",
+    "both.success": "asked what could be learned from the Dane",
+    "both.failure": "asked him about the Dane before his men"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s08_rivets",
+   "note": "Step 8: Dorestad, twenty-five days after step 7 (flag ch_house_new_ship_strakes lapsed), and only when ten kegs of rivets are aboard or sixty days have gone without them (flag ch_house_new_ship_iron_wait lapsed). The wright will not be hurried. Sources: green oak is worked fresh and moves as it dries (the Roskilde builds: ships.md 7.1, 7.3); a 14 m trader is ten men and a winter (ships.md 7.2, derived), 150 days from order to launch (town_actions_793.json build_ship). No servile work on the Lord's day: no building, no felling (Admonitio generalis 789 c. 81, MGH Capit. I no. 22; from memory (?)); the Frisians' law fines a free man four solidi for it, twelve beyond the Lauwers (Lex Frisionum, tit. XVIII De die dominico; from memory, not opened (?)); the game's fine is 12 d. Old rivets cut out of old planks: the breaking beach at the dam heads (dossiers/dorestad.md 2); modern iron rivets need replacing after about fifteen years (ships.md 7.3, the Roar Ege). His own pace: 90 days to the launch; four more men: 60; pressed: 30 and a flawed hull.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_new_ship_7 and not flag.ch_house_new_ship_8 and not flag.ch_house_new_ship_strakes and (hold.rivets >= 10 or not flag.ch_house_new_ship_iron_wait) and not flag.ch_house_new_ship_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "shipwright": { "role": "shipwright", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true }
+   },
+   "title_key": "chain_house_new_ship.s08.title",
+   "title": "The wright will not be hurried",
+   "intention_key": "chain_house_new_ship.s08.intention",
+   "intention": "Four strakes a side, and the wright has stopped. He needs the iron now, and you need to know when she will swim. He answers the second question first.",
+   "lines": [
+    { "who": "shipwright", "key": "chain_house_new_ship.s08.when_winter", "when": "month >= 11 or month <= 1" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s08.when_other", "when": "month >= 2 and month <= 10" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s08.green" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s08.feast", "when": "feast" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s08.sunday" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s08.dry", "when": "flag.ch_house_new_ship_dry_oak" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s08.thin", "when": "flag.ch_house_new_ship_7b" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s08.no_iron", "when": "hold.rivets < 10" }
+   ],
+   "options": [
+    { "key": "pace", "label_key": "chain_house_new_ship.s08.opt_pace", "label": "Hand over the ten kegs and let him keep his own pace", "check": "hold.rivets >= 10",
+      "cost": "goods rivets 10",
+      "effects": [ "flag ch_house_new_ship_8", "flag ch_house_new_ship_slip for 90", "flag ch_house_new_ship_planking for 15", "npc shipwright feeling +6 pace" ],
+      "note": "outcome: chain_house_new_ship.s08.out_pace" },
+    { "key": "hands", "label_key": "chain_house_new_ship.s08.opt_hands", "label": "Hand over the iron and pay for four more men of his choosing", "check": "hold.rivets >= 10 and silver >= 100",
+      "cost": [ "goods rivets 10", "silver 100" ],
+      "effects": [ "flag ch_house_new_ship_8", "flag ch_house_new_ship_slip for 60", "flag ch_house_new_ship_planking for 15", "npc shipwright feeling +3 hands" ],
+      "note": "outcome: chain_house_new_ship.s08.out_hands" },
+    { "key": "press", "label_key": "chain_house_new_ship.s08.opt_press", "label": "Hand over the iron and tell him to work feast days and by torchlight", "check": "hold.rivets >= 10",
+      "cost": "goods rivets 10",
+      "effects": [ { "chance": 0.5,
+                     "success": [ "flag ch_house_new_ship_8", "flag ch_house_new_ship_slip for 30", "flag ch_house_new_ship_planking for 10",
+                                  "flag ch_house_new_ship_rushed", "flag ch_house_new_ship_flawed", "npc shipwright feeling -12 pressed" ],
+                     "failure": [ "flag ch_house_new_ship_8", "flag ch_house_new_ship_slip for 30", "flag ch_house_new_ship_planking for 10",
+                                  "flag ch_house_new_ship_rushed", "flag ch_house_new_ship_flawed", "npc shipwright feeling -15 pressed",
+                                  "silver -12", "deed lost_case" ] } ],
+      "note": "outcome: chain_house_new_ship.s08.out_press_success / out_press_failure (doubtful that nobody tells the priest; either way the hull is flawed)" },
+    { "key": "old_iron", "label_key": "chain_house_new_ship.s08.opt_old_iron", "label": "Bring no iron: let him cut old rivets on the breaking beach", "check": "true",
+      "effects": [ "flag ch_house_new_ship_8", "flag ch_house_new_ship_slip for 90", "flag ch_house_new_ship_planking for 15",
+                   "flag ch_house_new_ship_old_iron", "flag ch_house_new_ship_flawed", "npc shipwright feeling -4 old_iron" ],
+      "note": "outcome: chain_house_new_ship.s08.out_old_iron (pride only: the hull is flawed)" }
+   ],
+   "memory": {
+    "pace": "brought the iron and let him keep his pace",
+    "hands": "paid for four more men",
+    "press.success": "made him work the feast days",
+    "press.failure": "made him work the feast days, and was fined for it",
+    "old_iron": "had the ship riveted with old iron"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s09_count",
+   "note": "Step 9: Dorestad, ten or fifteen days after step 8 (flag ch_house_new_ship_planking lapsed). The count is cast.folcbert in his years ('calls every Frisian shipman': spine.md), then whoever holds the office. The second turn, and one ending: the ship given for the king's service. Sources: royal boats hauled overland and by river into Saxony (Annales Guelferbytani 797; chronicle_793.json 797-summer-ships-into-saxony, 793-12-25-wurzburg-christmas); a fleet and guards set on the coast in March 800 (Annales regni Francorum 800; chronicle 800-03-channel-coastguard); ships to be made ready on the coasts, 802 (MGH Capit. I no. 34 c. 13); 'the ships ordered to be built', 808 (MGH Capit. I no. 51 c. 9-10); the fleet ordered built on the rivers in 810 and seen by the emperor at Boulogne and Ghent in 811 (Annales regni Francorum 811; Einhard, Vita Karoli 17; chronicle 810-fleet-ordered-810). That a count took a merchant's new hull, or was given one, is invented; no count of Dorestad is named. 'carry_debt' sets the spine's db_extension (thread counts_day: a delay for a service, once for each creditor). The price of the gift: the outlay counted back (900 d), a plot at the dam heads and the count's protection.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_new_ship_8 and not flag.ch_house_new_ship_9 and not flag.ch_house_new_ship_planking and not flag.ch_house_new_ship_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "port", "age": [40, 64], "fixed": true, "note": "cast.folcbert (to about 812); after him the forge's count" }
+   },
+   "title_key": "chain_house_new_ship.s09.title",
+   "title": "The count at the slip",
+   "intention_key": "chain_house_new_ship.s09.intention",
+   "intention": "The count has ridden down to the dam heads with his steward and stands before the hull with his thumbs in his belt. The wright's men have all found work at the far end of her.",
+   "lines": [
+    { "who": "count", "key": "chain_house_new_ship.s09.debt", "when": "debt > 0" },
+    { "who": "count", "key": "chain_house_new_ship.s09.nodebt", "when": "debt = 0" },
+    { "who": "count", "key": "chain_house_new_ship.s09.saxony", "when": "year < 800" },
+    { "who": "count", "key": "chain_house_new_ship.s09.watch", "when": "year >= 800 and year < 810" },
+    { "who": "count", "key": "chain_house_new_ship.s09.fleet", "when": "year >= 810 and year < 813" },
+    { "who": "count", "key": "chain_house_new_ship.s09.later", "when": "year >= 813" },
+    { "who": "count", "key": "chain_house_new_ship.s09.offer" }
+   ],
+   "options": [
+    { "key": "keep", "label_key": "chain_house_new_ship.s09.opt_keep", "label": "Say she is the house's ship, with respect", "check": "true",
+      "effects": [ "flag ch_house_new_ship_9", "npc count feeling -6 kept" ],
+      "note": "outcome: chain_house_new_ship.s09.out_keep (pride only)" },
+    { "key": "carry", "label_key": "chain_house_new_ship.s09.opt_carry", "label": "Offer one carrying a year at the count's word, for an easier toll", "check": "true",
+      "effects": [ "flag ch_house_new_ship_9", "flag ch_house_new_ship_counts_carrying", "npc count feeling +10 carrying", "toll eased 180" ],
+      "note": "outcome: chain_house_new_ship.s09.out_carry (the turn's reward: half the toll at Dorestad for half a year; a duty that lasts)" },
+    { "key": "carry_debt", "label_key": "chain_house_new_ship.s09.opt_carry_debt", "label": "Offer the carrying for a year's delay of the count's day", "check": "debt > 0",
+      "effects": [ "flag ch_house_new_ship_9", "flag ch_house_new_ship_counts_carrying", "flag db_extension", "npc count feeling +6 carrying" ],
+      "note": "outcome: chain_house_new_ship.s09.out_carry_debt (sets the spine's db_extension)" },
+    { "key": "give", "label_key": "chain_house_new_ship.s09.opt_give", "label": "Give her to the count for the king's service", "check": "true",
+      "effects": [ "flag ch_house_new_ship_end_count", "flag ch_house_new_ship_done", "flag unlock_title_counts_shipman", "flag unlock_plot_dorestad",
+                   "silver +900", "toll eased 365", "npc count feeling +30 gave", "news chain_house_new_ship.news.count at dorestad" ],
+      "note": "ENDING count. outcome: chain_house_new_ship.s09.out_give" }
+   ],
+   "memory": {
+    "keep": "kept his new ship from the count",
+    "carry": "promised the count a carrying a year",
+    "carry_debt": "promised a carrying a year for a delay of his debt",
+    "give": "gave his new ship for the king's service"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s10_launch",
+   "note": "Step 10, ENDING keel (what the finds show): Dorestad, when the wright's time is out (flag ch_house_new_ship_slip lapsed), the count has been (step 9), the pattern is the wright's (7a) and nothing was skimped or it has been put right. The priest of the upper church (Upkirika, given to Saint Martin's in 777: dossiers/noviomagus.md) is the first actor, so the tablet comes from him. Sources: boats are launched in spring and hauled out in autumn (ships.md 7.3); a hull of green oak 'takes up' as it swells (the replica builders' experience (?)); a blessing of a ship that names Noah's ark stands in the mass-books of the age (the 'Benedictio navis' of the Romano-German pontifical of about 950, and, it is said, of the Frankish books of the 790s; not opened (?); our rendering). The schoolmaster's riddle is Symphosius 13, Navis: 'Longa feror velox formosae filia silvae' (texts_793.json symphosius_13_navis, Riese 1894; our rendering in the line). Rollers under a keel: Old Norse hlunnr, a later word (LATER) (?). The hard road (option full: good oak, new iron, the terp sail, his own pace, and the wright at least friendly) pays a second grand reward: the slip on the house's dam (unlock_work_dorestad_slip). Tar is wanted in the delta (goods_793.json tar).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_new_ship_9 and flag.ch_house_new_ship_7a and not flag.ch_house_new_ship_flawed and not flag.ch_house_new_ship_slip and not flag.ch_house_new_ship_done",
+   "weight": 30,
+   "cooldown_days": 4,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "port", "age": [30, 65], "fixed": true, "note": "the priest of the upper church; invented; first actor, so the tablet comes from him" },
+    "shipwright": { "role": "shipwright", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true }
+   },
+   "title_key": "chain_house_new_ship.s10.title",
+   "title": "The launching",
+   "intention_key": "chain_house_new_ship.s10.intention",
+   "intention": "She stands tarred black on the slip with her stem to the river. Tallowed rollers lie under her keel, a rope runs to every hand on the dam, and the priest of the upper church has brought his book.",
+   "lines": [
+    { "who": "shipwright", "key": "chain_house_new_ship.s10.winter", "when": "not flag.ch_house_new_ship_mended" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s10.mended", "when": "flag.ch_house_new_ship_mended" },
+    { "who": "priest", "key": "chain_house_new_ship.s10.bless" },
+    { "who": "priest", "key": "chain_house_new_ship.s10.riddle" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s10.mark", "when": "npc.shipwright.feeling >= friendly and not flag.ch_house_new_ship_mended" },
+    { "key": "chain_house_new_ship.s10.old_boat" }
+   ],
+   "options": [
+    { "key": "full", "label_key": "chain_house_new_ship.s10.opt_full", "label": "Bend on the terp sail, pay the wright and send her down the rollers",
+      "check": "hold.sailcloth >= 4 and silver >= 300 and flag.ch_house_new_ship_sail_good and not flag.ch_house_new_ship_mended and npc.shipwright.feeling >= friendly",
+      "cost": [ "silver 300", "goods sailcloth 4" ],
+      "effects": [ "flag unlock_ship_north_sea_merchant_ship", "flag unlock_work_dorestad_slip", "flag ch_house_new_ship_end_keel", "flag ch_house_new_ship_done",
+                   "npc shipwright feeling +20 launched", "npc priest feeling +5 launched", "morale +0.15", "deed kept_commission",
+                   "give_text symphosius_13_navis", "commission tar 6 by 180 premium 0.5", "news chain_house_new_ship.news.launch at dorestad" ],
+      "note": "ENDING keel, the hard road: two grand rewards. outcome: chain_house_new_ship.s10.out_full" },
+    { "key": "plain", "label_key": "chain_house_new_ship.s10.opt_plain", "label": "Pay the wright and launch her under the sailcloth you have", "check": "hold.sailcloth >= 4 and silver >= 300",
+      "cost": [ "silver 300", "goods sailcloth 4" ],
+      "effects": [ "flag unlock_ship_north_sea_merchant_ship", "flag ch_house_new_ship_end_keel", "flag ch_house_new_ship_done",
+                   "npc shipwright feeling +10 launched", "morale +0.1", "give_text symphosius_13_navis", "news chain_house_new_ship.news.launch at dorestad" ],
+      "note": "ENDING keel. outcome: chain_house_new_ship.s10.out_plain" },
+    { "key": "bare", "label_key": "chain_house_new_ship.s10.opt_bare", "label": "Pay the wright and launch her under the old boat's sail", "check": "silver >= 300",
+      "cost": "silver 300",
+      "effects": [ "flag unlock_ship_north_sea_merchant_ship", "flag ch_house_new_ship_end_keel", "flag ch_house_new_ship_done", "flag ch_house_new_ship_small_sail",
+                   "npc shipwright feeling +5 launched", "morale +0.05", "news chain_house_new_ship.news.launch at dorestad" ],
+      "note": "ENDING keel, with a cost that lasts until a sail is fitted (flag ch_house_new_ship_small_sail). outcome: chain_house_new_ship.s10.out_bare" },
+    { "key": "wait", "label_key": "chain_house_new_ship.s10.opt_wait", "label": "Not yet: leave her on the slip", "check": "true",
+      "effects": [],
+      "note": "outcome: chain_house_new_ship.s10.out_wait (time only: the card comes again after four days)" }
+   ],
+   "memory": {
+    "full": "launched the ship he built, with her own sail",
+    "plain": "launched the ship he built",
+    "bare": "launched the ship under a boat's sail",
+    "wait": "left the ship on the slip"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s11_patched",
+   "note": "Step 11, ENDING patched: Dorestad, when the time is out and the hull is flawed (dry oak, twisted oak, old iron, a cloak-cloth sail or a hurried build), on the wright's pattern. She is launched as she is, or the wright is given a month and silver to put it right, after which step 10 comes. Sources: Skuldelev 3 was mended several times in twenty or thirty years with short lengths of plank let in below the water; the Roar Ege took a quarter of her timber and half her rivets over again in thirty-one years (ships.md 7.3); for the game an old or poor hull leaks, is slower and wets her cargo (town_actions_793.json repair). A keel ship did sink at her post in Dorestad's northern harbour (the find of 1973-74); the failure of the launch borrows the picture and does not claim to be her.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_new_ship_9 and flag.ch_house_new_ship_7a and flag.ch_house_new_ship_flawed and not flag.ch_house_new_ship_slip and not flag.ch_house_new_ship_done",
+   "weight": 30,
+   "cooldown_days": 4,
+   "actors": {
+    "shipwright": { "role": "shipwright", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true }
+   },
+   "title_key": "chain_house_new_ship.s11.title",
+   "title": "A ship before her time",
+   "intention_key": "chain_house_new_ship.s11.intention",
+   "intention": "She stands on the rollers, tarred, and to any eye but one she is a ship. The wright has not cut his mark under her stem, and says he will not.",
+   "lines": [
+    { "who": "shipwright", "key": "chain_house_new_ship.s11.dry", "when": "flag.ch_house_new_ship_dry_oak" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s11.twist", "when": "flag.ch_house_new_ship_twist" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s11.old_iron", "when": "flag.ch_house_new_ship_old_iron" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s11.cloak", "when": "flag.ch_house_new_ship_cloak_sail" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s11.rushed", "when": "flag.ch_house_new_ship_rushed" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s11.swim" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s11.offer" }
+   ],
+   "options": [
+    { "key": "launch", "label_key": "chain_house_new_ship.s11.opt_launch", "label": "Pay the wright and launch her as she is", "check": "silver >= 220",
+      "cost": "silver 220",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "flag unlock_ship_north_sea_merchant_ship", "flag ch_house_new_ship_end_patched", "flag ch_house_new_ship_done", "flag ch_house_new_ship_weeps",
+                                  "npc shipwright feeling -3 launched", "morale +0.08", "news chain_house_new_ship.news.launch at dorestad" ],
+                     "failure": [ "flag unlock_ship_north_sea_merchant_ship", "flag ch_house_new_ship_end_patched", "flag ch_house_new_ship_done", "flag ch_house_new_ship_weeps",
+                                  "npc shipwright feeling -3 launched", "health -0.05", "morale -0.06", "news chain_house_new_ship.news.launch at dorestad" ] } ],
+      "note": "ENDING patched: the ship is the house's on either branch, with a cost that lasts (flag ch_house_new_ship_weeps). outcome: chain_house_new_ship.s11.out_launch_success / out_launch_failure (likely that she holds at once)" },
+    { "key": "mend", "label_key": "chain_house_new_ship.s11.opt_mend", "label": "Give him a month and sixty pennies to put it right", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "flag ch_house_new_ship_flawed = 0", "flag ch_house_new_ship_mended", "flag ch_house_new_ship_slip for 30", "npc shipwright feeling +8 mended" ],
+      "note": "outcome: chain_house_new_ship.s11.out_mend (the way back: step 10 comes after thirty days, without its hard-road option)" },
+    { "key": "wait", "label_key": "chain_house_new_ship.s11.opt_wait", "label": "Not yet: leave her on the slip", "check": "true",
+      "effects": [],
+      "note": "outcome: chain_house_new_ship.s11.out_wait (time only: the card comes again after four days)" }
+   ],
+   "memory": {
+    "launch.success": "launched a ship the wright would not put his mark on",
+    "launch.failure": "launched a ship that filled at her post",
+    "mend": "gave him time to put the ship right",
+    "wait": "left the ship on the slip"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s12_dane",
+   "note": "Step 12, ENDING dane (history changed): Dorestad, when the time is out and the Dane lined her off (7b). A Frisian wright has built a ship on the northern pattern at the dam heads, forty years before the first Northman is in Dorestad's record (the raids from 834, Rorik from 850; the digs see a Scandinavian smith there perhaps after 850: dossiers/dorestad.md 3): flag changed_dorestad_dane_yard. The Dane is the first actor, so the riddle comes from him; with a sound hull and the sail aboard he will steer her (hire) and knows the way in to Ripa (unlock_pilot_ripa). Sources as step 7; the class is ship_classes_793.json norse_allround_ship (16 oars, 12 men, 4 t). A ship of that look on a Frankish coast is taken for a raider: the king's ships stop a Frisian with Danish goods (Design/npc_text_encounters.md sample 18); flag ch_house_new_ship_danish_hull is the cost that lasts. The toll man's question, 804-810: Godfred's war (chronicle_793.json).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_new_ship_9 and flag.ch_house_new_ship_7b and not flag.ch_house_new_ship_slip and not flag.ch_house_new_ship_done",
+   "weight": 30,
+   "cooldown_days": 4,
+   "actors": {
+    "dane": { "role": "sailor", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": true, "note": "the Dane of step 7; first actor, so the riddle comes from him" },
+    "shipwright": { "role": "shipwright", "people": "frisian", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true }
+   },
+   "title_key": "chain_house_new_ship.s12.title",
+   "title": "The long ship on the Rhine",
+   "intention_key": "chain_house_new_ship.s12.intention",
+   "intention": "She is on the rollers, and nothing else on the Rhine looks like her: long, low, sixteen oar ports, her stems a man's height above the rail. Half Dorestad has come to see whether she floats. The other half has come to see what the count's men say.",
+   "lines": [
+    { "who": "dane", "key": "chain_house_new_ship.s12.oars" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s12.learned" },
+    { "who": "dane", "key": "chain_house_new_ship.s12.toll", "when": "year >= 804 and year < 811" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s12.dunes" },
+    { "who": "dane", "key": "chain_house_new_ship.s12.flawed", "when": "flag.ch_house_new_ship_flawed" },
+    { "who": "dane", "key": "chain_house_new_ship.s12.offer", "when": "not flag.ch_house_new_ship_flawed" }
+   ],
+   "options": [
+    { "key": "with_dane", "label_key": "chain_house_new_ship.s12.opt_with_dane", "label": "Bend on the sail, pay the wright, and ask the Dane to steer her",
+      "check": "hold.sailcloth >= 4 and silver >= 300 and not flag.ch_house_new_ship_flawed",
+      "cost": [ "silver 300", "goods sailcloth 4" ],
+      "effects": [ "flag unlock_ship_norse_allround_ship", "flag unlock_pilot_ripa", "flag ch_house_new_ship_end_dane", "flag ch_house_new_ship_done",
+                   "flag changed_dorestad_dane_yard", "flag ch_house_new_ship_danish_hull", "hire dane", "tongue old_norse = 0.5", "give_riddle r-gest-06",
+                   "npc dane feeling +20 launched", "npc shipwright feeling +5 launched", "morale +0.12", "news chain_house_new_ship.news.dane at dorestad" ],
+      "note": "ENDING dane, the hard road: two grand rewards and a steersman. outcome: chain_house_new_ship.s12.out_with_dane" },
+    { "key": "plain", "label_key": "chain_house_new_ship.s12.opt_plain", "label": "Pay the wright and launch her", "check": "silver >= 300",
+      "cost": "silver 300",
+      "effects": [ "flag unlock_ship_norse_allround_ship", "flag ch_house_new_ship_end_dane", "flag ch_house_new_ship_done",
+                   "flag changed_dorestad_dane_yard", "flag ch_house_new_ship_danish_hull",
+                   "npc dane feeling +5 launched", "npc shipwright feeling +2 launched", "morale +0.08", "news chain_house_new_ship.news.dane at dorestad" ],
+      "note": "ENDING dane. outcome: chain_house_new_ship.s12.out_plain" },
+    { "key": "wait", "label_key": "chain_house_new_ship.s12.opt_wait", "label": "Not yet: leave her on the slip", "check": "true",
+      "effects": [],
+      "note": "outcome: chain_house_new_ship.s12.out_wait (time only: the card comes again after four days)" }
+   ],
+   "memory": {
+    "with_dane": "launched the Dane's ship and took him as steersman",
+    "plain": "launched the ship the Dane lined off",
+    "wait": "left the ship on the slip"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s13_river",
+   "note": "Step 13, ENDING river: Colonia, a hundred days after the great oak was bought (scheduled by step 2, option trunk). The house turns to the river: no sea ship is built, and the Dorestad wright keeps the earnest and his empty winter. Actors: the steward of step 2 and the wright of the bank at Colonia (invented). Sources: the Utrecht type is a logboat widened, raised with planks and lengthened; Vleuten 1, felled after about 734, about 15 by 1.1 m, of Rhineland oak, lay by an eighth-century quay on the old Rhine; the bottom of Utrecht 1 is one oak trunk at least 14 m long, hollowed to 4 to 6 cm and spread; such hulls have no iron in them, only wooden pegs, and a small mast step forward for a tow line (ships.md 2.1, 4.6, 7.2; mass.cultureelerfgoed.nl/utrecht-1). The class is ship_classes_793.json logboat_expanded. Hauling upstream by rope from the bank 'as is customary', and the Frisian skippers who passed Saint Goar's cell without the prayer: Wandalbert of Prum, Miracula sancti Goaris (839; LATER, of earlier years: dossiers/mogontia.md). No new toll where ropes are stretched: Thionville 805 (chronicle_793.json 805-12-thionville-tolls), so the line about rope-tolls is gated to 806 and after. The estate's wine goes down at Martinmas (dossiers/colonia.md 4). The steward's order is for Frisian cloaks, which the Rhineland wants (goods_793.json frisian_cloth).",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and flag.ch_house_new_ship_2r and not flag.ch_house_new_ship_done",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "port", "age": [35, 60], "fixed": true },
+    "shipwright": { "role": "shipwright", "people": "frankish", "faith": "christian", "tongue": "port", "age": [30, 60], "fixed": true, "note": "the wright of the river bank at Colonia; invented; the forge names him" }
+   },
+   "title_key": "chain_house_new_ship.s13.title",
+   "title": "The river ship",
+   "intention_key": "chain_house_new_ship.s13.intention",
+   "intention": "On the bank below the old fort lies the great oak, hollowed thin as a shield, spread wide over a slow fire and raised with two strakes pegged with willow. There is not a nail in her. A short mast stands well forward for the tow rope.",
+   "lines": [
+    { "who": "shipwright", "key": "chain_house_new_ship.s13.tree" },
+    { "who": "steward", "key": "chain_house_new_ship.s13.wine" },
+    { "who": "steward", "key": "chain_house_new_ship.s13.tolls", "when": "year >= 806" },
+    { "who": "steward", "key": "chain_house_new_ship.s13.pound" },
+    { "who": "shipwright", "key": "chain_house_new_ship.s13.goar" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_house_new_ship.s13.opt_carry", "label": "Pay the wright and take the estate's carrying", "check": "silver >= 120",
+      "cost": "silver 120",
+      "effects": [ "flag unlock_ship_logboat_expanded", "flag unlock_pilot_rhine", "flag ch_house_new_ship_end_river", "flag ch_house_new_ship_done",
+                   "goods rhenish_wine +3", "commission frisian_cloth 16 by 150 premium 0.6",
+                   "npc steward feeling +10 carrying", "npc shipwright feeling +5 launched", "news chain_house_new_ship.news.river at colonia" ],
+      "note": "ENDING river, with the estate's carrying: the ship, the knowledge of the river, three casks on account and an order at a premium. outcome: chain_house_new_ship.s13.out_carry" },
+    { "key": "plain", "label_key": "chain_house_new_ship.s13.opt_plain", "label": "Pay the wright and owe the estate nothing", "check": "silver >= 120",
+      "cost": "silver 120",
+      "effects": [ "flag unlock_ship_logboat_expanded", "flag ch_house_new_ship_end_river", "flag ch_house_new_ship_done",
+                   "npc steward feeling -2 plain", "npc shipwright feeling +5 launched", "news chain_house_new_ship.news.river at colonia" ],
+      "note": "ENDING river. outcome: chain_house_new_ship.s13.out_plain" },
+    { "key": "wait", "label_key": "chain_house_new_ship.s13.opt_wait", "label": "Leave her on the bank until you have the silver", "check": "true",
+      "effects": [ "schedule harbour.chain_house_new_ship.s13_river in 15 at colonia" ],
+      "note": "outcome: chain_house_new_ship.s13.out_wait (time only: the card comes again in fifteen days)" }
+   ],
+   "memory": {
+    "carry": "took the river ship and the estate's carrying",
+    "plain": "took the river ship and nothing more",
+    "wait": "left the river ship on the bank"
+   }
+  },
+  {
+   "id": "harbour.chain_house_new_ship.s14_penny",
+   "note": "Step 14, the epilogue, years after: Dorestad, 812 to 818, for a house that launched a sea ship in this chain. The moneyer is cast.sigimar in his years. Sources: the pennies of Dorestad and Quentovic carry a ship in 812-818, with DORESTADO or DORESTATVS (dossiers/dorestad.md 4; ship_classes_793.json north_sea_merchant_ship evidence: 'a ship with a mast'); before the reform of 793-794 Dorestad's light penny carried an axe (dossiers/dorestad.md 4). That the die-cutter drew a ship lying at the dam heads, and whose, is invented. The reward is an heirloom the house keeps (unlock_heirloom_ship_penny).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year >= 812 and year < 819 and (flag.ch_house_new_ship_end_keel or flag.ch_house_new_ship_end_patched or flag.ch_house_new_ship_end_dane) and not flag.ch_house_new_ship_penny",
+   "weight": 3,
+   "cooldown_days": 0,
+   "actors": {
+    "moneyer": { "role": "moneyer", "people": "frankish", "faith": "christian", "tongue": "port", "age": [25, 62], "fixed": true, "note": "cast.sigimar in his years; after him the forge's moneyer" }
+   },
+   "title_key": "chain_house_new_ship.s14.title",
+   "title": "The ship on the penny",
+   "intention_key": "chain_house_new_ship.s14.intention",
+   "intention": "The moneyer's bench in the upper town is bright with new pennies. On one side stands the emperor's name. On the other, where the old dies had a cross or an axe, there is a ship.",
+   "lines": [
+    { "who": "moneyer", "key": "chain_house_new_ship.s14.dies" },
+    { "who": "moneyer", "key": "chain_house_new_ship.s14.keel", "when": "flag.ch_house_new_ship_end_keel" },
+    { "who": "moneyer", "key": "chain_house_new_ship.s14.patched", "when": "flag.ch_house_new_ship_end_patched" },
+    { "who": "moneyer", "key": "chain_house_new_ship.s14.dane", "when": "flag.ch_house_new_ship_end_dane" },
+    { "who": "moneyer", "key": "chain_house_new_ship.s14.axe" }
+   ],
+   "options": [
+    { "key": "keep", "label_key": "chain_house_new_ship.s14.opt_keep", "label": "Give him two worn pennies for the first one struck, and keep it", "check": "silver >= 2",
+      "cost": "silver 2",
+      "effects": [ "flag unlock_heirloom_ship_penny", "flag ch_house_new_ship_penny", "npc moneyer feeling +4 penny", "morale +0.05" ],
+      "note": "outcome: chain_house_new_ship.s14.out_keep" },
+    { "key": "gift", "label_key": "chain_house_new_ship.s14.opt_gift", "label": "Ask for it as a gift between neighbours", "check": "npc.moneyer.feeling >= friendly",
+      "effects": [ "flag unlock_heirloom_ship_penny", "flag ch_house_new_ship_penny", "npc moneyer feeling -1 penny", "morale +0.05" ],
+      "note": "outcome: chain_house_new_ship.s14.out_gift" },
+    { "key": "shrug", "label_key": "chain_house_new_ship.s14.opt_shrug", "label": "A penny is a penny", "check": "true",
+      "effects": [ "flag ch_house_new_ship_penny" ],
+      "note": "outcome: chain_house_new_ship.s14.out_shrug" }
+   ],
+   "memory": {
+    "keep": "bought the first ship penny to keep",
+    "gift": "was given the first ship penny",
+    "shrug": "took the ship pennies as change"
+   }
+  }
+ ]
+}

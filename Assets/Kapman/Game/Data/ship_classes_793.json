@@ -1,0 +1,1183 @@
+{
+    "about":  "SHIP CLASSES OF 793 - every kind of craft on the water in Kapman\u0027s world, as a table the game reads (edit freely). One row per class: id; name; period_name (what it was called then, where known); cultures; waters (sea, coast, river, lake); size, heights, rig, oars, crew, cargo and speeds (units below); polar_factor (on the Gislinge ShipClass curve); uses (trade_long, coasting, fishing, ferry, river_haul, war, estate); from/to (years on the water; 0 = before the game / no end); evidence (finds and texts, short cites); look (for a placeholder: placeholder = scale factors on the Gislinge hull); uncertain (what is (?)). LATER = evidence later than 793, used only as a stand-in. Numbers are estimates from the finds and replica trials named; heights with no find behind them are scaled (method in uncertain). Sources: Viking Ship Museum (Gislinge); MASS (Utrecht 1, Graveney, Salme); Osiliana (Salme); Nordeide, Bonde \u0026 Thun 2020 (Kvalsund); Two new early mediaeval inland vessels at the Rhine (Krefeld-Gellep III); osebergvikingarv.no (Saga Oseberg); Slots- og Kulturstyrelsen (Kanhave); Annales regni Francorum; Anglo-Saxon Chronicle; Bede; Willibald; Adomnan; Dicuil; Senchus fer nAlban; electronic Sawyer.",
+    "units":  {
+                  "length_m, beam_m, draught_m, freeboard_m, hull_top_m, sail_top_m, lookout_eye_m":  "metres, real world (the game applies its own scale: distances /32, heights /4)",
+                  "draught_m":  "laden, at the deepest point",
+                  "freeboard_m":  "laden, waterline to the gunwale amidships",
+                  "hull_top_m":  "waterline to the highest part of the hull (stem heads, or a cabin roof): what is seen of a boat with no mast",
+                  "sail_top_m":  "waterline to the masthead; null = no mast",
+                  "mast":  "true if hulls of the class carry a mast (sailing or towing); mast_share = share (0-1) of the hulls that do in 793",
+                  "cultures, waters":  "ids (waters: sea, coast, river, lake); cultures_note and waters_note qualify them",
+                  "oars":  "oars, both sides together (6 = 3 pairs); 0 = paddles or poles only",
+                  "crew":  "men aboard, typical; crew_range = low-high",
+                  "cargo_t":  "tonnes of cargo beyond crew and gear, typical",
+                  "speed_sail_kn":  "knots through the water on a beam reach in an 8 m/s wind (the Gislinge ShipClass reference wind); null = no sail",
+                  "speed_max_kn":  "knots, the most in a strong fair wind",
+                  "speed_oars_kn":  "knots cruising under oars, paddles or poles in a calm",
+                  "rowing_hours":  "hours the crew keeps speed_oars_kn before a rest (estimate)",
+                  "closest_to_wind_deg":  "degrees off the true wind; null = cannot sail",
+                  "polar_factor":  "multiplier on the Gislinge ShipClass speedByWindAngle curve: 1 = the Gislinge\u0027s polar, 0 = cannot sail; above 1 where replica trials show a faster hull; closest_to_wind_deg and speed_max_kn still apply",
+                  "towed_upstream_km_day, downstream_km_day":  "km over the ground per travelling day on a river (estimates)",
+                  "gale_fragility":  "0 = rides out a gale at sea, 1 = must be ashore before it: STARTING GUESS TO TUNE",
+                  "lookout_eye_m":  "metres above the water of a man standing aboard",
+                  "placeholder":  "scale factors on the Gislinge hull for a 3D stand-in: length_x, beam_x, depth_x ((draught + freeboard) / 0.59 m); mast = show one by default (mast_share 0.5 or more)",
+                  "from, to":  "years the class is on the water (0 = before the game / no end)"
+              },
+    "classes":  [
+                    {
+                        "id":  "gislinge",
+                        "name":  "Gislinge boat (the player\u0027s boat)",
+                        "period_name":  "batr; a six-oar boat, ON sexaeringr (?) (the Norse names are attested only later, LATER)",
+                        "cultures":  [
+                                         "danish"
+                                     ],
+                        "waters":  [
+                                       "coast",
+                                       "sea",
+                                       "river",
+                                       "lake"
+                                   ],
+                        "length_m":  7.7,
+                        "beam_m":  1.5,
+                        "draught_m":  0.25,
+                        "freeboard_m":  0.34,
+                        "hull_top_m":  0.8,
+                        "mast":  true,
+                        "mast_share":  1,
+                        "sail":  "square",
+                        "sail_top_m":  5,
+                        "oars":  6,
+                        "crew":  4,
+                        "crew_range":  "2-5",
+                        "cargo_t":  0.9,
+                        "speed_sail_kn":  4.8,
+                        "speed_max_kn":  6.5,
+                        "speed_oars_kn":  3.5,
+                        "rowing_hours":  6,
+                        "closest_to_wind_deg":  58,
+                        "polar_factor":  1,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.6,
+                        "lookout_eye_m":  1.8,
+                        "uses":  [
+                                     "fishing",
+                                     "coasting",
+                                     "ferry",
+                                     "estate"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Viking Ship Museum, Gislinge original find: found 1993 in the reclaimed Lammefjord; tree-ring date built c. 1130; 7.7 x 1.5 m; cargo about 1 t (\u0027four men and ten sheep\u0027); used about 50 years, for fishing and carrying goods and people",
+                                         "Kapman ShipClass Gislinge_WorkingBoat.asset: freeboard 0.34 m, cargoKg 900, polar peak 5.5 kn at 130 deg, 4.8 kn on the beam, maxKnots 6.5, rowingKnots 3.5, closestToWind 58 (8 m/s reference)",
+                                         "crew 4: the user\u0027s decision of 2026-10-01 (Plans/ai_fleets.md)"
+                                     ],
+                        "look":  "Slender double-ended clinker boat, low sheer, gently raised stems; 3 pairs of oars; a short mast amidships with a small square sail. The existing Gislinge model.",
+                        "uncertain":  [
+                                          "LATER: built c. 1130, a stand-in for the small boats of 793 (Kvalsund I 780-800, Valsgarde, Reric, Staraya Ladoga rivets)",
+                                          "mast and sail reconstructed: none survived (?)",
+                                          "draught 0.25 m (?)",
+                                          "sail_top 5.0 m (?): scaled as ~0.65 of the length above the keel, like the Skuldelev 3 replica\u0027s rig; measure the Gislinge model\u0027s mast to replace it"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1,
+                                            "beam_x":  1,
+                                            "depth_x":  1,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "norse_small_boat",
+                        "name":  "Scandinavian small clinker boat (faering, six-oar boat, lake and river boat)",
+                        "period_name":  "batr; ON faeringr / sexaeringr (?) (names attested later, LATER)",
+                        "cultures":  [
+                                         "danish",
+                                         "norse",
+                                         "svear",
+                                         "gutes",
+                                         "scandinavian_settlers"
+                                     ],
+                        "cultures_note":  "scandinavian_settlers: Reric, Truso, Grobina, Aldeigjuborg",
+                        "waters":  [
+                                       "coast",
+                                       "lake",
+                                       "river",
+                                       "sea"
+                                   ],
+                        "length_m":  8,
+                        "beam_m":  1.6,
+                        "draught_m":  0.3,
+                        "freeboard_m":  0.4,
+                        "hull_top_m":  0.9,
+                        "mast":  true,
+                        "mast_share":  0.4,
+                        "sail":  "square, small (on some)",
+                        "sail_top_m":  5,
+                        "oars":  6,
+                        "crew":  4,
+                        "crew_range":  "2-6",
+                        "cargo_t":  0.8,
+                        "speed_sail_kn":  4.8,
+                        "speed_max_kn":  6.5,
+                        "speed_oars_kn":  3.5,
+                        "rowing_hours":  6,
+                        "closest_to_wind_deg":  60,
+                        "polar_factor":  1,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.6,
+                        "lookout_eye_m":  1.8,
+                        "uses":  [
+                                     "fishing",
+                                     "ferry",
+                                     "coasting",
+                                     "estate"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Kvalsund I (Sunnmore): 9.5 m rowing boat, tree-ring date 780-800 (Nordeide, Bonde \u0026 Thun 2020)",
+                                         "Valsgarde and Vendel boat graves (Uppland, 7th-8th c): boats of 6-15 m; two of about 10 m for 4-5 oarsmen a side",
+                                         "Reric (Gross Stromkendorf): 6 Scandinavian boat graves, 3 with boats of 10-15 m (rivet rows)",
+                                         "Staraya Ladoga: Scandinavian boat rivets from the mid-8th c; boats of 6-10 m (Archaeonautica 2022)",
+                                         "LATER: Gokstad faering 6.5 m (c. 900); Skuldelev 6 11.2 x 2.5 m (c. 1030); Gislinge (c. 1130)"
+                                     ],
+                        "look":  "The Gislinge hull. Most fishing and fjord boats without a mast (mast_share).",
+                        "uncertain":  [
+                                          "how many small boats carried a sail in 793 (?)",
+                                          "sail_top (?) as for the Gislinge"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.04,
+                                            "beam_x":  1.07,
+                                            "depth_x":  1.19,
+                                            "mast":  false
+                                        }
+                    },
+                    {
+                        "id":  "logboat",
+                        "name":  "Logboat (dugout)",
+                        "period_name":  "Latin monoxylus / linter (?); OE aesc or bat (?)",
+                        "cultures":  [
+                                         "frisian",
+                                         "frankish",
+                                         "english",
+                                         "continental_saxon",
+                                         "danish",
+                                         "norse",
+                                         "svear",
+                                         "gutes",
+                                         "slav",
+                                         "prussian",
+                                         "curonian",
+                                         "finnic",
+                                         "irish",
+                                         "dal_riata",
+                                         "pictish"
+                                     ],
+                        "waters":  [
+                                       "river",
+                                       "lake",
+                                       "coast"
+                                   ],
+                        "waters_note":  "coast: sheltered creeks, lagoons only",
+                        "length_m":  5,
+                        "beam_m":  0.7,
+                        "draught_m":  0.15,
+                        "freeboard_m":  0.2,
+                        "hull_top_m":  0.25,
+                        "mast":  false,
+                        "mast_share":  0,
+                        "sail":  "none",
+                        "sail_top_m":  null,
+                        "oars":  0,
+                        "crew":  2,
+                        "crew_range":  "1-3",
+                        "cargo_t":  0.3,
+                        "speed_sail_kn":  null,
+                        "speed_max_kn":  3,
+                        "speed_oars_kn":  2.5,
+                        "rowing_hours":  4,
+                        "closest_to_wind_deg":  null,
+                        "polar_factor":  0,
+                        "flat_bottom":  true,
+                        "gale_fragility":  1,
+                        "lookout_eye_m":  1.6,
+                        "uses":  [
+                                     "fishing",
+                                     "ferry",
+                                     "estate",
+                                     "river_haul"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Welham Bridge (E. Yorkshire): a logboat built into a landing revetment, trackway dated AD 530-690",
+                                         "Langstone (Hampshire) c. AD 500; Callow (Ireland) 9th c (radiocarbon)",
+                                         "catalogues: McGrail 1978 (England and Wales); Mowat 1996 (154 Scottish logboats, all periods); Lanting 2000",
+                                         "LATER: Constantine VII, De Administrando Imperio (c. 950): Slavs cut monoxyla in winter and sell them to the Rus\u0027"
+                                     ],
+                        "look":  "One hollowed trunk: a long narrow trough, flat sheer, blunt ends; paddled or poled. Reads as a log with people in it.",
+                        "uncertain":  [
+                                          "sizes are from all-period catalogues, not a 793 series (?)",
+                                          "speed is an estimate (no period figure)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  0.65,
+                                            "beam_x":  0.47,
+                                            "depth_x":  0.59,
+                                            "mast":  false
+                                        }
+                    },
+                    {
+                        "id":  "logboat_expanded",
+                        "name":  "Expanded or double logboat river freighter (forerunner of the Utrecht type)",
+                        "period_name":  "none known (?)",
+                        "cultures":  [
+                                         "frisian",
+                                         "frankish",
+                                         "continental_saxon"
+                                     ],
+                        "cultures_note":  "frankish: lower Rhine, IJssel, Vecht; continental_saxon: Weser",
+                        "waters":  [
+                                       "river",
+                                       "lake",
+                                       "coast"
+                                   ],
+                        "waters_note":  "coast: sheltered Wadden inshore (?)",
+                        "length_m":  10,
+                        "beam_m":  1.5,
+                        "draught_m":  0.35,
+                        "freeboard_m":  0.3,
+                        "hull_top_m":  0.7,
+                        "mast":  true,
+                        "mast_share":  0.5,
+                        "sail":  "towing mast; a small sail before the wind (?)",
+                        "sail_top_m":  3.5,
+                        "oars":  2,
+                        "crew":  3,
+                        "crew_range":  "2-4",
+                        "cargo_t":  1.7,
+                        "speed_sail_kn":  3,
+                        "speed_max_kn":  4,
+                        "speed_oars_kn":  2,
+                        "rowing_hours":  6,
+                        "closest_to_wind_deg":  100,
+                        "polar_factor":  0.6,
+                        "flat_bottom":  true,
+                        "gale_fragility":  0.9,
+                        "lookout_eye_m":  1.8,
+                        "towed_upstream_km_day":  18,
+                        "downstream_km_day":  50,
+                        "uses":  [
+                                     "river_haul",
+                                     "estate",
+                                     "ferry",
+                                     "coasting"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Eke (Bremen-Seehausen, Weser), 8th c: a double logboat widened with frames, 10.25 x 1.4-1.5 m (Medieval boat and ship finds of Germany, the Low Countries and NE France)",
+                                         "LATER: Utrecht 1 (MASS): bottom of one expanded oak trunk at least 14 m long; 17.45 x 3.84 m; capacity ca 10-15 t; small mast step near the bow suggesting towing; dendro terminus post quem 1019"
+                                     ],
+                        "look":  "Banana-shaped: both ends sweep up from a long flat middle; no tall stems; a short mast well forward for the tow-line.",
+                        "uncertain":  [
+                                          "no Utrecht-type hull securely dated to the 8th c; the Eke boat is related (?)",
+                                          "sail or towing mast (?)",
+                                          "cargo by displacement: 10 m x 1.2 m x 0.35 m x block 0.6 = 2.5 t, minus ~0.8 t hull (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.3,
+                                            "beam_x":  1,
+                                            "depth_x":  1.1,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "river_barge",
+                        "name":  "Flat-bottomed plank river barge, towed upstream",
+                        "period_name":  "Latin navis (?); German Prahm (modern term)",
+                        "cultures":  [
+                                         "frankish",
+                                         "frisian",
+                                         "continental_saxon"
+                                     ],
+                        "cultures_note":  "frankish: Rhineland, Ripuaria; frisian: on the Rhine; continental_saxon: Weser",
+                        "waters":  [
+                                       "river"
+                                   ],
+                        "length_m":  16,
+                        "beam_m":  3,
+                        "draught_m":  0.55,
+                        "freeboard_m":  0.4,
+                        "hull_top_m":  0.6,
+                        "mast":  true,
+                        "mast_share":  1,
+                        "sail":  "towing mast; rarely a small sail before the wind (?)",
+                        "sail_top_m":  4.5,
+                        "oars":  4,
+                        "crew":  3,
+                        "crew_range":  "2-3 aboard + 3-6 hauling on the bank upstream",
+                        "cargo_t":  7,
+                        "speed_sail_kn":  2.5,
+                        "speed_max_kn":  3.5,
+                        "speed_oars_kn":  1.5,
+                        "rowing_hours":  4,
+                        "closest_to_wind_deg":  120,
+                        "polar_factor":  0.4,
+                        "flat_bottom":  true,
+                        "gale_fragility":  1,
+                        "lookout_eye_m":  1.8,
+                        "towed_upstream_km_day":  18,
+                        "downstream_km_day":  50,
+                        "uses":  [
+                                     "river_haul",
+                                     "estate"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Krefeld-Gellep III (Rhine), 8th c (dendro): reconstructed 15.2 m; loading capacity 6,961 kg; mast step read as a towing mast (Two \u0027new\u0027 early mediaeval inland vessels at the Rhine)",
+                                         "Kalkar-Niedermormter (Rhine), c. 805: laden with building stone, at least 4.5 t",
+                                         "Karl (Bremen, Weser), after 808: 16-20 x 2.5-3 m",
+                                         "Wandalbert, Miracula S. Goaris (c. 839, LATER): a Frisian\u0027s ship hauled upstream by rope from the bank \u0027as is customary\u0027",
+                                         "Thionville capitulary 805 (LATER): no new toll where ropes are stretched or ships pass under bridges"
+                                     ],
+                        "look":  "Long, low and box-like; flat raked ends, no stem posts; a short sturdy towing mast a quarter of the length from the bow; cargo heaped amidships; a steering oar aft.",
+                        "uncertain":  [
+                                          "Seine and Loire hulls (?): no 8th-c find",
+                                          "towing and drift speeds are estimates: haulers 2.5-4 km/h for ~10 h, less bends and stops; current 1-1.5 m/s for 10-12 h (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  2.08,
+                                            "beam_x":  2,
+                                            "depth_x":  1.61,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "river_estate_ship",
+                        "name":  "River ship of a king, bishop or abbey (passengers and estate goods)",
+                        "period_name":  "Latin navis; naves of the toll charters",
+                        "cultures":  [
+                                         "frankish",
+                                         "frisian"
+                                     ],
+                        "cultures_note":  "frankish: royal, episcopal and monastic households; frisian: skippers hired (?)",
+                        "waters":  [
+                                       "river"
+                                   ],
+                        "length_m":  14,
+                        "beam_m":  2.8,
+                        "draught_m":  0.5,
+                        "freeboard_m":  0.45,
+                        "hull_top_m":  1.6,
+                        "mast":  true,
+                        "mast_share":  0.6,
+                        "sail":  "towing mast; a sail before the wind now and then (?)",
+                        "sail_top_m":  4.5,
+                        "oars":  8,
+                        "crew":  8,
+                        "crew_range":  "4-12",
+                        "cargo_t":  3,
+                        "speed_sail_kn":  2.5,
+                        "speed_max_kn":  4,
+                        "speed_oars_kn":  2.5,
+                        "rowing_hours":  5,
+                        "closest_to_wind_deg":  120,
+                        "polar_factor":  0.4,
+                        "flat_bottom":  true,
+                        "gale_fragility":  0.9,
+                        "lookout_eye_m":  2,
+                        "towed_upstream_km_day":  20,
+                        "downstream_km_day":  55,
+                        "uses":  [
+                                     "estate",
+                                     "river_haul",
+                                     "ferry"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Annales regni Francorum 793: in autumn Charles went by boat from Regensburg to the Fossa Carolina, then by ship to the Main; RFA 792: a bridge of boats built at Regensburg",
+                                         "Charlemagne\u0027s charter D.122 (27 March 779) for Saint-Germain-des-Pres: its ships going up and down the rivers are free of toll",
+                                         "Cormery (Loire/Indre): 2 boats free of toll in 800, for grain, wine and salt (Juvenes, books.openedition.org/cidehus/19294)",
+                                         "Rimbert, Vita Anskarii ch. 7 (LATER, 826): Bishop Hadebald of Cologne gives \u0027a good boat\u0027 with two cabins, down the Rhine past Dorestad"
+                                     ],
+                        "look":  "A barge or long river boat with a low wooden cabin or awning (hull_top_m is the cabin roof); a few well-dressed passengers; no flags or banners (none attested).",
+                        "uncertain":  [
+                                          "hull type assumed from the barges and logboat freighters (?)",
+                                          "crew and oars (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.82,
+                                            "beam_x":  1.87,
+                                            "depth_x":  1.61,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "skiff_punt",
+                        "name":  "Small plank skiff or punt (river ferry for people, lighter, errand boat)",
+                        "period_name":  "Latin navicula; OE bat (?)",
+                        "cultures":  [
+                                         "frankish",
+                                         "frisian",
+                                         "english",
+                                         "continental_saxon"
+                                     ],
+                        "waters":  [
+                                       "river",
+                                       "coast"
+                                   ],
+                        "waters_note":  "coast: harbours, estuaries",
+                        "length_m":  5.5,
+                        "beam_m":  1.4,
+                        "draught_m":  0.2,
+                        "freeboard_m":  0.3,
+                        "hull_top_m":  0.4,
+                        "mast":  false,
+                        "mast_share":  0,
+                        "sail":  "none",
+                        "sail_top_m":  null,
+                        "oars":  2,
+                        "crew":  2,
+                        "crew_range":  "1-3",
+                        "cargo_t":  0.5,
+                        "speed_sail_kn":  null,
+                        "speed_max_kn":  3,
+                        "speed_oars_kn":  2,
+                        "rowing_hours":  5,
+                        "closest_to_wind_deg":  null,
+                        "polar_factor":  0,
+                        "flat_bottom":  true,
+                        "gale_fragility":  1,
+                        "lookout_eye_m":  1.7,
+                        "uses":  [
+                                     "ferry",
+                                     "fishing",
+                                     "estate"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Pactus legis Salicae tit. XXI \u0027De navibus furatis\u0027 (c. 507-511): fines for taking or stealing another man\u0027s boat",
+                                         "LATER: IV Aethelred 2 (c. 1000), Billingsgate: a small boat (navicula) 1/2d, a larger one with a sail 1d, a keel or hulk 4d"
+                                     ],
+                        "look":  "Short, low and wide; square or raked ends (punt) or a pointed bow (skiff); one pair of oars, a sculling oar or a pole.",
+                        "uncertain":  [
+                                          "almost no 8th-c archaeology (?)",
+                                          "size and speed are estimates (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  0.71,
+                                            "beam_x":  0.93,
+                                            "depth_x":  0.85,
+                                            "mast":  false
+                                        }
+                    },
+                    {
+                        "id":  "ferry_barge",
+                        "name":  "Horse and cart ferry",
+                        "period_name":  "Latin navigium (the ferry of the capitularies) (?)",
+                        "cultures":  [
+                                         "frankish",
+                                         "frisian",
+                                         "english"
+                                     ],
+                        "waters":  [
+                                       "river"
+                                   ],
+                        "length_m":  10,
+                        "beam_m":  2.5,
+                        "draught_m":  0.3,
+                        "freeboard_m":  0.35,
+                        "hull_top_m":  0.45,
+                        "mast":  false,
+                        "mast_share":  0,
+                        "sail":  "none",
+                        "sail_top_m":  null,
+                        "oars":  4,
+                        "crew":  2,
+                        "crew_range":  "2-3",
+                        "cargo_t":  1.5,
+                        "speed_sail_kn":  null,
+                        "speed_max_kn":  2,
+                        "speed_oars_kn":  1.2,
+                        "rowing_hours":  4,
+                        "closest_to_wind_deg":  null,
+                        "polar_factor":  0,
+                        "flat_bottom":  true,
+                        "gale_fragility":  1,
+                        "lookout_eye_m":  1.8,
+                        "uses":  [
+                                     "ferry"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Size from the load: a cart and its oxen weigh about 1-1.5 t; or 2-3 horses; or 15-20 people (estimate)",
+                                         "Capitularies on tolls (Thionville 805 c. 13 and repeats, LATER but codifying custom): toll only where a bridge or ferry (navigium) is provided (?)",
+                                         "Einhard, Vita Karoli 17: the Mainz Rhine bridge (500 paces, ten years building) burned in 813, so before c. 803 the crossing there was by boat (?)",
+                                         "LATER: Walenstadt harbour with shipping and ferry tolls given to Sackingen in 965 (HLS)"
+                                     ],
+                        "look":  "A wide flat punt, square ends, low sides; a cart, horses or cattle standing in it; poled, rowed or pulled along a rope (?).",
+                        "uncertain":  [
+                                          "no 8th-c ferry find (?)",
+                                          "rope ferries in 793 (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.3,
+                                            "beam_x":  1.67,
+                                            "depth_x":  1.1,
+                                            "mast":  false
+                                        }
+                    },
+                    {
+                        "id":  "raft",
+                        "name":  "Timber raft",
+                        "period_name":  "Latin ratis",
+                        "cultures":  [
+                                         "english",
+                                         "frankish"
+                                     ],
+                        "cultures_note":  "english: Northumbrian monasteries; frankish: ?",
+                        "waters":  [
+                                       "river"
+                                   ],
+                        "length_m":  12,
+                        "beam_m":  4,
+                        "draught_m":  0.4,
+                        "freeboard_m":  0.2,
+                        "hull_top_m":  0.2,
+                        "mast":  false,
+                        "mast_share":  0,
+                        "sail":  "none",
+                        "sail_top_m":  null,
+                        "oars":  2,
+                        "crew":  4,
+                        "crew_range":  "2-6",
+                        "cargo_t":  10,
+                        "speed_sail_kn":  null,
+                        "speed_max_kn":  3,
+                        "speed_oars_kn":  0,
+                        "rowing_hours":  0,
+                        "closest_to_wind_deg":  null,
+                        "polar_factor":  0,
+                        "flat_bottom":  true,
+                        "gale_fragility":  1,
+                        "lookout_eye_m":  1.8,
+                        "downstream_km_day":  30,
+                        "uses":  [
+                                     "river_haul"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Bede, Prose Life of Cuthbert ch. 3 (c. 721): monks of the monastery at the Tyne mouth bring timber down the Tyne on rafts; a west wind carries them out to sea"
+                                     ],
+                        "look":  "A platform of lashed logs just above the water; men with poles and steering sweeps; it drifts with the current (cargo_t = the raft itself, 5-30 t (?)).",
+                        "uncertain":  [
+                                          "Rhine and Moselle rafting in 793 (?)",
+                                          "size (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.56,
+                                            "beam_x":  2.67,
+                                            "depth_x":  1.02,
+                                            "mast":  false
+                                        }
+                    },
+                    {
+                        "id":  "currach",
+                        "name":  "Gaelic currach (hide boat on a wooden frame)",
+                        "period_name":  "Latin curuca / curucus; Old Irish curach",
+                        "cultures":  [
+                                         "irish",
+                                         "dal_riata",
+                                         "pictish"
+                                     ],
+                        "cultures_note":  "pictish: ?",
+                        "waters":  [
+                                       "coast",
+                                       "sea",
+                                       "lake",
+                                       "river"
+                                   ],
+                        "length_m":  7,
+                        "beam_m":  1.6,
+                        "draught_m":  0.35,
+                        "freeboard_m":  0.5,
+                        "hull_top_m":  0.9,
+                        "mast":  true,
+                        "mast_share":  0.6,
+                        "sail":  "square, small",
+                        "sail_top_m":  4.5,
+                        "oars":  6,
+                        "crew":  5,
+                        "crew_range":  "2-20",
+                        "cargo_t":  0.8,
+                        "speed_sail_kn":  4.5,
+                        "speed_max_kn":  6,
+                        "speed_oars_kn":  2.5,
+                        "rowing_hours":  5,
+                        "closest_to_wind_deg":  75,
+                        "polar_factor":  0.94,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.5,
+                        "lookout_eye_m":  1.8,
+                        "uses":  [
+                                     "coasting",
+                                     "ferry",
+                                     "fishing",
+                                     "trade_long",
+                                     "war"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Adomnan, Vita Columbae (c. 697-700): curucae (hide boats) beside wooden boats built on Iona",
+                                         "Dicuil, De mensura orbis terrae (825), of voyages c. 795: to the northern islands in two days and two nights \u0027plenis velis\u0027; in \u0027two summer days and the night between\u0027 in a \u0027navicula duorum transtrorum\u0027 (two thwarts)",
+                                         "Gildas (mid-6th c): \u0027Scotti emergent certatim de curucis\u0027",
+                                         "Broighter gold model (1st c BC): a mast and 9 oars a side"
+                                     ],
+                        "look":  "Light and buoyant: high, gently curved sheer, rounded bow, no keel post; dark hide skin, no planks or rivets; a short mast forward of amidships.",
+                        "uncertain":  [
+                                          "sizes (?)",
+                                          "rig details (?)",
+                                          "speed from Dicuil\u0027s voyage times: ~300 km in ~48 h = 3.3 kn made good; ~40 h = 4.0-4.3 kn (?)",
+                                          "closest_to_wind 75 (?): no keel, much leeway"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  0.91,
+                                            "beam_x":  1.07,
+                                            "depth_x":  1.44,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "gaelic_wooden_ship",
+                        "name":  "Gaelic and Pictish wooden ship (\u0027seven-bencher\u0027 of the sea muster; navis longa)",
+                        "period_name":  "Old Irish secht-sess (seven-bencher); Latin navis longa / navis oneraria",
+                        "cultures":  [
+                                         "dal_riata",
+                                         "irish",
+                                         "pictish"
+                                     ],
+                        "waters":  [
+                                       "coast",
+                                       "sea"
+                                   ],
+                        "length_m":  11,
+                        "beam_m":  2.3,
+                        "draught_m":  0.6,
+                        "freeboard_m":  0.6,
+                        "hull_top_m":  1.6,
+                        "mast":  true,
+                        "mast_share":  0.5,
+                        "sail":  "square (?)",
+                        "sail_top_m":  7,
+                        "oars":  14,
+                        "crew":  16,
+                        "crew_range":  "14-30",
+                        "cargo_t":  2,
+                        "speed_sail_kn":  4.5,
+                        "speed_max_kn":  7,
+                        "speed_oars_kn":  3.5,
+                        "rowing_hours":  5,
+                        "closest_to_wind_deg":  65,
+                        "polar_factor":  0.94,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.5,
+                        "lookout_eye_m":  1.9,
+                        "uses":  [
+                                     "war",
+                                     "estate",
+                                     "coasting"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Senchus fer nAlban (core 7th c (?), copy 10th c): two seven-benchers due from every twenty houses; Cenel nGabrain 560 houses, Cenel nOengusa 430, Cenel Loairn 420 = 1,410 houses = about 141 ships",
+                                         "Annals of Ulster 719: sea battle of Ard Nesbi within Dal Riata",
+                                         "Annals of Tigernach 729: 150 Pictish ships wrecked at Ros Cuissine (Troup Head (?))",
+                                         "St Orland\u0027s Stone, Cossans (late 8th-early 9th c): double-ended mastless boat with high ends, a rudder and 5-6 people",
+                                         "Adomnan, Vita Columbae: navis longa and navis oneraria"
+                                     ],
+                        "look":  "Double-ended, high rising ends, oars along both sides: a Norse-like rowing hull with lower, plainer stems.",
+                        "uncertain":  [
+                                          "build and rig (?)",
+                                          "length from 7 benches x ~0.9-1.0 m + 3-5 m of ends (?)",
+                                          "the Senchus is an assessment, not a counted fleet (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.43,
+                                            "beam_x":  1.53,
+                                            "depth_x":  2.03,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "west_small_boat",
+                        "name":  "English, Frisian and Frankish small working boat (inshore fishing, weirs, ferrying, lighter)",
+                        "period_name":  "OE bat; Latin navicula (?)",
+                        "cultures":  [
+                                         "english",
+                                         "frisian",
+                                         "frankish",
+                                         "breton"
+                                     ],
+                        "cultures_note":  "frankish: Neustria, Flanders; breton: ?",
+                        "waters":  [
+                                       "coast",
+                                       "river"
+                                   ],
+                        "waters_note":  "coast: estuaries, creeks, Wadden",
+                        "length_m":  6,
+                        "beam_m":  1.5,
+                        "draught_m":  0.3,
+                        "freeboard_m":  0.38,
+                        "hull_top_m":  0.7,
+                        "mast":  true,
+                        "mast_share":  0.2,
+                        "sail":  "small square on some (?)",
+                        "sail_top_m":  4,
+                        "oars":  4,
+                        "crew":  2,
+                        "crew_range":  "1-4",
+                        "cargo_t":  0.5,
+                        "speed_sail_kn":  3.6,
+                        "speed_max_kn":  5,
+                        "speed_oars_kn":  3,
+                        "rowing_hours":  5,
+                        "closest_to_wind_deg":  65,
+                        "polar_factor":  0.75,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.7,
+                        "lookout_eye_m":  1.7,
+                        "uses":  [
+                                     "fishing",
+                                     "ferry",
+                                     "estate",
+                                     "coasting"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "clench nails and boat timbers from Dover-Buckland, Caister-on-Sea and Castledyke, Barton-upon-Humber (7th-9th c) (England\u0027s Maritime Archaeological Research Agenda)",
+                                         "Blackwater estuary fish weirs, radiocarbon 7th-9th c; Collins Creek complex ~1,660 m",
+                                         "Bede HE IV.13 (c. 681): Wilfrid\u0027s men cast eel-nets into the sea off Sussex and take 300 fish",
+                                         "Barrett, Locker \u0026 Roberts 2004: marine fish rare in English sites before c. 1000 (the \u0027fish event horizon\u0027)"
+                                     ],
+                        "look":  "A Gislinge hull scaled down, mostly without a mast; nets, baskets and eel traps aboard.",
+                        "uncertain":  [
+                                          "no complete 8th-c hull (?)",
+                                          "Frisian ones may be logboat-based (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  0.78,
+                                            "beam_x":  1,
+                                            "depth_x":  1.15,
+                                            "mast":  false
+                                        }
+                    },
+                    {
+                        "id":  "baltic_coastal_boat",
+                        "name":  "Southern Baltic coastal boat (Slav boats pegged with treenails; riveted boats at Truso and Grobina)",
+                        "period_name":  "none known (?)",
+                        "cultures":  [
+                                         "slav",
+                                         "prussian",
+                                         "curonian",
+                                         "scandinavian_settlers"
+                                     ],
+                        "cultures_note":  "slav: Obodrites, Wilzi, Rani, Pomeranians",
+                        "waters":  [
+                                       "coast",
+                                       "lake",
+                                       "river"
+                                   ],
+                        "waters_note":  "lake: lagoons, Lake Druzno; river: mouths",
+                        "length_m":  10,
+                        "beam_m":  2.6,
+                        "draught_m":  0.55,
+                        "freeboard_m":  0.55,
+                        "hull_top_m":  1.2,
+                        "mast":  true,
+                        "mast_share":  0.5,
+                        "sail":  "square (?)",
+                        "sail_top_m":  6.5,
+                        "oars":  10,
+                        "crew":  6,
+                        "crew_range":  "4-12",
+                        "cargo_t":  2.5,
+                        "speed_sail_kn":  4.2,
+                        "speed_max_kn":  7,
+                        "speed_oars_kn":  3,
+                        "rowing_hours":  5,
+                        "closest_to_wind_deg":  65,
+                        "polar_factor":  0.88,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.5,
+                        "lookout_eye_m":  1.9,
+                        "uses":  [
+                                     "coasting",
+                                     "trade_long",
+                                     "fishing",
+                                     "war"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Truso (Janow Pomorski), c. 750-850: remains of clinker boats with iron rivets 9-11 m long, 2.5-3 m wide; barrels of tar, split and unused rivets (repair) (Jagodzinski, abstract) (?)",
+                                         "LATER: Szczecin boat 8 m (early 9th c); Ralswiek 2 9.8 x 2.8 m (9th-10th c); Frombork 17 m and 6-7 m (8th-11th c (?)); Puck 2 (10th c), treenails and moss caulking"
+                                     ],
+                        "look":  "Like a Norse boat but beamier, with lower stems; rows of wooden peg heads instead of rivet heads on Slav boats (a texture detail).",
+                        "uncertain":  [
+                                          "no 8th-c Slav hull found (?)",
+                                          "Slav rig in 793 (?)",
+                                          "cargo by displacement: 10 x 2.6 x 0.5 x 0.55 = ~7 m3 minus 2-3 t of hull (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.3,
+                                            "beam_x":  1.73,
+                                            "depth_x":  1.86,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "norse_allround_ship",
+                        "name":  "Norse all-purpose sailing and rowing ship, 12-18 m (trader, envoy, warband ship)",
+                        "period_name":  "ON skip (ship) (?); the knarr is LATER",
+                        "cultures":  [
+                                         "danish",
+                                         "norse",
+                                         "svear",
+                                         "gutes"
+                                     ],
+                        "waters":  [
+                                       "sea",
+                                       "coast",
+                                       "lake",
+                                       "river"
+                                   ],
+                        "waters_note":  "lake: Malaren; river: lower reaches",
+                        "length_m":  15,
+                        "beam_m":  2.8,
+                        "draught_m":  0.6,
+                        "freeboard_m":  0.7,
+                        "hull_top_m":  2.2,
+                        "mast":  true,
+                        "mast_share":  0.85,
+                        "sail":  "square wool sail (probable in 793 (?))",
+                        "sail_top_m":  9,
+                        "oars":  16,
+                        "crew":  12,
+                        "crew_range":  "8-20 trading; up to ~35 with warriors",
+                        "cargo_t":  4,
+                        "speed_sail_kn":  5,
+                        "speed_max_kn":  9,
+                        "speed_oars_kn":  3,
+                        "rowing_hours":  6,
+                        "closest_to_wind_deg":  60,
+                        "polar_factor":  1.05,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.35,
+                        "lookout_eye_m":  2,
+                        "uses":  [
+                                     "trade_long",
+                                     "coasting",
+                                     "war",
+                                     "estate"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Salme II (Saaremaa), c. 750: 17-17.5 x 3 m; keel outline and rivet rows indicate a sail; 34 dead (Osiliana; MASS)",
+                                         "Salme I: 11.5 x 2 m, probably ~6 pairs of oars, rowing; 7 dead",
+                                         "Kvalsund ship (Sunnmore): tree-ring date 780-800; ~18 x 3.2 m; removable side rudder; no mast step found",
+                                         "Reric boat graves 10-15 m; Kanhave canal (Samso, 726-729): 500 x 11 m, draughts up to ~1 m",
+                                         "speeds, LATER: Roar Ege (Skuldelev 3 replica) 4-5 kn average, 8-10 kn top; Wulfstan Hedeby-Truso \u00277 days and nights under sail\u0027 (~2.2 kn made good); Ohthere Kaupang-Hedeby in 5 days"
+                                     ],
+                        "look":  "Long, low, double-ended clinker hull; stems 2-3 m above the water; one mast amidships with a square wool sail; side rudder on the starboard quarter; shorter and beamier than the longship, fewer oars manned.",
+                        "uncertain":  [
+                                          "sail in 793 (?)",
+                                          "cargo with a full crew (?): Skuldelev 3 (14 m, LATER) carries 4-5 t with 5-8 men",
+                                          "sail_top 9 m (?): ~0.6 of the length above the keel"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.95,
+                                            "beam_x":  1.87,
+                                            "depth_x":  2.2,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "norse_longship",
+                        "name":  "Norse warship (the raiders\u0027 ship), 18-27 m",
+                        "period_name":  "ON langskip / skeid (names attested later, LATER); OE aesc (?)",
+                        "cultures":  [
+                                         "norse",
+                                         "danish"
+                                     ],
+                        "cultures_note":  "norse: Hordaland, Rogaland, Vestfold; danish: kings\u0027 ships",
+                        "waters":  [
+                                       "sea",
+                                       "coast",
+                                       "river"
+                                   ],
+                        "waters_note":  "river: lower reaches",
+                        "length_m":  22,
+                        "beam_m":  4,
+                        "draught_m":  0.85,
+                        "freeboard_m":  0.8,
+                        "hull_top_m":  3.5,
+                        "mast":  true,
+                        "mast_share":  0.85,
+                        "sail":  "square wool sail, ~70-90 m2 (probable in 793 (?))",
+                        "sail_top_m":  11,
+                        "oars":  30,
+                        "crew":  35,
+                        "crew_range":  "30-45",
+                        "cargo_t":  2,
+                        "speed_sail_kn":  6,
+                        "speed_max_kn":  11,
+                        "speed_oars_kn":  3.5,
+                        "rowing_hours":  4,
+                        "closest_to_wind_deg":  60,
+                        "polar_factor":  1.25,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.4,
+                        "lookout_eye_m":  2,
+                        "rowing_sprint":  "5.5 kn for 1.5 h, then 4 kn (the approved plan\u0027s chase rule; estimate)",
+                        "uses":  [
+                                     "war",
+                                     "estate"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "ASC 789 (D, E, F: from Hordaland): 3 ships of Northmen at Portland; Aethelweard: the reeve Beaduheard rode from Dorchester thinking them traders",
+                                         "ASC 793 and Alcuin\u0027s letters of 793: Lindisfarne sacked",
+                                         "Storhaug, Karmoy (Avaldsnes): built c. 770, buried 779; keel ~22 m (Bill \u0026 Daly 2012); a sailing ship (Ditta) (?)",
+                                         "Kvalsund (780-800): ~18 m, ~10 pairs of oars",
+                                         "LATER: Oseberg (built 820) 21.6 x 5.1 m, 15 pairs of oar holes; Saga Oseberg replica 21.5 x 5.2 m, 28 oars, crew 40-45, rows 3-4 kn, sails 10-12 kn top, sail 82 m2 (osebergvikingarv.no)",
+                                         "LATER: RFA 810, 200 ships of Godfred in Frisia"
+                                     ],
+                        "look":  "Long and low, sweeping high stems, a row of 13-16 oar ports a side, low freeboard amidships; shields along the gunwale (Hedeby coins c. 825, LATER; Gotland stones).",
+                        "uncertain":  [
+                                          "sail in 793 (?)",
+                                          "Storhaug length (?)",
+                                          "Grondhaug once dated c. 780, revised 2025 to 854-867 (disputed) (?)",
+                                          "hull_top 3.5 m (?)",
+                                          "cargo (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  2.86,
+                                            "beam_x":  2.67,
+                                            "depth_x":  2.8,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "north_sea_merchant_ship",
+                        "name":  "Frisian, Frankish and English sea-going merchant ship",
+                        "period_name":  "Latin navis negotiatorum; OE ceol (keel) and hulc are attested later (LATER)",
+                        "cultures":  [
+                                         "frisian",
+                                         "frankish",
+                                         "english"
+                                     ],
+                        "cultures_note":  "frankish: Neustria",
+                        "waters":  [
+                                       "sea",
+                                       "coast",
+                                       "river"
+                                   ],
+                        "waters_note":  "river: tidal reaches: Thames, Seine to Rouen, Rhine to Dorestad",
+                        "length_m":  14,
+                        "beam_m":  3.6,
+                        "draught_m":  0.8,
+                        "freeboard_m":  0.55,
+                        "hull_top_m":  1.8,
+                        "mast":  true,
+                        "mast_share":  1,
+                        "sail":  "square",
+                        "sail_top_m":  9,
+                        "oars":  4,
+                        "crew":  5,
+                        "crew_range":  "4-10",
+                        "cargo_t":  6,
+                        "speed_sail_kn":  4.5,
+                        "speed_max_kn":  7.5,
+                        "speed_oars_kn":  2,
+                        "rowing_hours":  3,
+                        "closest_to_wind_deg":  62,
+                        "polar_factor":  0.94,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.4,
+                        "lookout_eye_m":  2.2,
+                        "uses":  [
+                                     "trade_long",
+                                     "coasting",
+                                     "ferry"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "Willibald, Vita Bonifatii (763-768): in 716 Boniface paid his fare at Lundenwic and came \u0027with favourable winds\u0027 to Dorestad; later \u0027the huge sails bellied in the north-west wind\u0027 to the mouth of the Cuent (Canche)",
+                                         "Bede HE IV.22: a Frisian buys the captive Imma in London (679)",
+                                         "LATER: Graveney boat (MASS): built c. 895 (dendro, revised 1983); reconstructed 13.6 m long, ~4 m wide; 6-7 t of cargo; low freeboard; Rhenish lava querns and hops",
+                                         "LATER: Charlemagne\u0027s ship deniers of Quentovic and Dorestad (812-814): a ship with a mast"
+                                     ],
+                        "look":  "Beamy and deep; modest stems; few or no oar ports; one mast amidships, square sail; no shields: shorter, broader and higher than the longship.",
+                        "uncertain":  [
+                                          "the 8th-c Frisian sea-going hull is unknown: keeled clinker (Crumlin-Pedersen) or a \u0027hulc\u0027 with rising ends (Ellmers) (?)",
+                                          "sizes bracketed by later finds (?)",
+                                          "speed (?): Graveney half-scale model trials"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.82,
+                                            "beam_x":  2.4,
+                                            "depth_x":  2.29,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "coaster_minster_ship",
+                        "name":  "Coaster, minster and estate ship (beach-landing sailing and rowing boat, 8-12 m)",
+                        "period_name":  "Latin navis (the ships of the toll charters); OE scip",
+                        "cultures":  [
+                                         "english",
+                                         "frisian",
+                                         "frankish"
+                                     ],
+                        "cultures_note":  "english: Kentish, Mercian and Northumbrian minsters; frankish: Loire, Seine, Flanders",
+                        "waters":  [
+                                       "coast",
+                                       "sea",
+                                       "river"
+                                   ],
+                        "waters_note":  "sea: short crossings; river: lower reaches",
+                        "length_m":  10,
+                        "beam_m":  2.5,
+                        "draught_m":  0.55,
+                        "freeboard_m":  0.6,
+                        "hull_top_m":  1.3,
+                        "mast":  true,
+                        "mast_share":  0.9,
+                        "sail":  "square",
+                        "sail_top_m":  6.5,
+                        "oars":  6,
+                        "crew":  4,
+                        "crew_range":  "3-6",
+                        "cargo_t":  2.5,
+                        "speed_sail_kn":  4.5,
+                        "speed_max_kn":  7,
+                        "speed_oars_kn":  3,
+                        "rowing_hours":  5,
+                        "closest_to_wind_deg":  60,
+                        "polar_factor":  0.94,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.45,
+                        "lookout_eye_m":  1.9,
+                        "uses":  [
+                                     "coasting",
+                                     "estate",
+                                     "trade_long",
+                                     "ferry"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "evidence":  [
+                                         "S 86 (c. 733): Aethelbald of Mercia remits to Minster-in-Thanet the toll on 1 ship at London; Rochester 1 ship, Worcester 2 ships (S 88, S 98 (?))",
+                                         "S 29 (763/4): Eadberht II of Kent remits to Abbess Sigeburg of Minster-in-Thanet the toll on 2 ships at Fordwich and a 3rd at Fordwich and Sarre",
+                                         "Cormery (800): 2 toll-free boats for salt, wine and grain",
+                                         "North Ferriby and other Humber beach markets (7th-8th c sceattas)",
+                                         "LATER analogue: Skuldelev 6 (c. 1030), 11.2 x 2.5 m"
+                                     ],
+                        "look":  "A Gislinge-type hull scaled up: double-ended, moderate stems, broad and handy; one mast; drawn up on the foreshore at the wics at low water.",
+                        "uncertain":  [
+                                          "hull inferred between the Gislinge (1 t) and Graveney (6-7 t) scales (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  1.3,
+                                            "beam_x":  1.67,
+                                            "depth_x":  1.95,
+                                            "mast":  true
+                                        }
+                    },
+                    {
+                        "id":  "warship_west",
+                        "name":  "English and Frankish war, levy and (from 800) guard ship",
+                        "period_name":  "Latin navis; OE scip / aesc (?)",
+                        "cultures":  [
+                                         "english",
+                                         "frankish",
+                                         "frisian"
+                                     ],
+                        "cultures_note":  "english: royal levies; frankish: coastguard from 800; frisian: ships requisitioned",
+                        "waters":  [
+                                       "coast",
+                                       "sea",
+                                       "river"
+                                   ],
+                        "length_m":  22,
+                        "beam_m":  3.8,
+                        "draught_m":  0.75,
+                        "freeboard_m":  0.9,
+                        "hull_top_m":  2.2,
+                        "mast":  true,
+                        "mast_share":  0.6,
+                        "sail":  "square (?)",
+                        "sail_top_m":  10,
+                        "oars":  32,
+                        "crew":  40,
+                        "crew_range":  "20-60",
+                        "cargo_t":  1.5,
+                        "speed_sail_kn":  5,
+                        "speed_max_kn":  9,
+                        "speed_oars_kn":  3.5,
+                        "rowing_hours":  4,
+                        "closest_to_wind_deg":  62,
+                        "polar_factor":  1.05,
+                        "flat_bottom":  false,
+                        "gale_fragility":  0.45,
+                        "lookout_eye_m":  2,
+                        "uses":  [
+                                     "war",
+                                     "estate"
+                                 ],
+                        "from":  0,
+                        "to":  0,
+                        "role_from":  {
+                                          "guard":  800,
+                                          "fleet_boulogne_ghent":  811
+                                      },
+                        "evidence":  [
+                                         "Sutton Hoo Mound 1 (c. 625): ~27 x 4.5 m, about 40 oars (?), no mast found",
+                                         "RFA 789: Frisians came by ship up the Havel to join Charlemagne against the Wilzi",
+                                         "Bede HE II.9 (Edwin takes Anglesey and Man), IV.26 (Ecgfrith\u0027s fleet to Ireland, 684)",
+                                         "LATER: RFA 800, a fleet and guards on the Gallic sea coast against pirates; RFA 811, Boulogne and Ghent fleets"
+                                     ],
+                        "look":  "Long and low, broad amidships, with rising ends less tall and curled than Oseberg\u0027s (?); no shields or banners in 793.",
+                        "uncertain":  [
+                                          "no standing fleet at sea in 793 (?)",
+                                          "English sails in 793 (?)",
+                                          "Offa\u0027s charter S 134 (792), Kentish service against pagan seamen: wording not checked (?)"
+                                      ],
+                        "placeholder":  {
+                                            "length_x":  2.86,
+                                            "beam_x":  2.53,
+                                            "depth_x":  2.8,
+                                            "mast":  true
+                                        }
+                    }
+                ],
+    "later_types_not_in_table":  [
+                                     "Norse half-decked cargo ship (knarr, byrdingr): Askekarr (built c. 900-920, ~16 m), Klastad (990s, 21 m, ~13 t), Skuldelev 1 and 3 (c. 1030-1040)",
+                                     "Utrecht type at full size (Utrecht 1, dendro after 1019), the hulc of IV Aethelred (c. 1000) and the cog (12th c)",
+                                     "Slav longship (Puck 2, first half of the 10th c, 19-20 x 2.2 m)",
+                                     "Oseberg (820), Gokstad (c. 890-900), Graveney (c. 895), Skuldelev 2 and 5 (c. 1030-1042): used above only as LATER stand-ins"
+                                 ]
+}

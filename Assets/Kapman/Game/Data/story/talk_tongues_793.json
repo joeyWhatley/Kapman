@@ -1,0 +1,35 @@
+{
+ "about": "WHO SAYS WHAT IN THEIR OWN TONGUE. Made 7 Oct 2026 by the builder of the turning line, for the people of the places files (Data/places/<port>.json). Every word and every line named here is one of story/tongues_793.json: nothing is added to that file's stock and nothing is invented. What is this file's own choice is only WHO is given WHICH: the tongues file says of each line who would say it, and the rules below follow that. A rule fits a person by id ('person'), or by role and people ('role', 'people': lists; a missing one fits all). The first rule that fits and has a 'hail' gives the word the person greets with: [tongue, word]. The first rule that fits and has a 'line' gives their one true line, which comes up in its own tongue and turns into English; 'on' names the line key it is said at (a person without that key says it at the first greeting). A line the tongues file marks as quoted from memory (check) or as not yet spoken in the year is passed over. Frisians: nothing in Frisian is written down before the thirteenth century, so a Frisian gets no whole line of his own; he hails with the Frisian word for what you are, kapmon, which the tongues file gives with that caveat. Franks and Saxons: every Frankish and Saxon line the tongues file has that a layman would say is later than 793, so they have a hail and no line. Churchmen speak Latin for holy things whatever their people. Edit freely.",
+ "rules": [
+  {"person": "dorestad.ravn", "hail": ["old_norse", "heill"], "line": "on_hav_076", "on": "saying", "why": "His own saying in the Dorestat file is this verse in English."},
+
+  {"role": ["bishop", "abbot"], "hail": ["latin", "pax vobis"], "line": "la_ps120_8", "why": "a priest or abbot at the quay"},
+  {"role": ["priest"], "hail": ["latin", "Dominus vobiscum"], "line": "la_ps106_23", "why": "a priest or monk blessing a ship"},
+  {"role": ["monk", "nun"], "hail": ["latin", "Benedic"], "line": "la_ps76_20", "why": "a monk to a seaman"},
+  {"role": ["guest_master", "cellarer"], "hail": ["latin", "Benedic"], "line": "la_rb53", "why": "the abbot or guest-master of a minster"},
+  {"role": ["schoolmaster", "scribe"], "hail": ["latin", "Benedic"], "line": "la_jas4_15", "why": "a priest hearing the player's plan for next year"},
+  {"role": ["clerk", "moneyer"], "line": "la_prov11_1", "on": "saying", "why": "a priest, a moneyer, a toll man catching a false weight"},
+
+  {"people": ["english"], "role": ["reeve"], "line": "oe_dur_20", "why": "an English reeve or buyer"},
+  {"people": ["english"], "role": ["tollman"], "line": "oe_beo_words_and_deeds", "why": "a reeve or watchman who has heard the player's fair story"},
+  {"people": ["english"], "role": ["skipper", "steersman", "pilot", "mate"], "line": "oe_dur_23", "why": "an English steersman"},
+  {"people": ["english"], "role": ["ferryman"], "line": "oe_max2_river", "why": "an English boatman or towpath man"},
+  {"people": ["english"], "role": ["host", "alewife"], "line": "oe_dur_08", "why": "an English host"},
+  {"people": ["english"], "role": ["shipwright"], "line": "oe_max1_ship_nailed", "why": "an English shipwright"},
+  {"people": ["english"], "role": ["merchant", "farmer", "farm_wife"], "line": "oe_dur_02", "why": "an English trader or farmer"},
+  {"people": ["english"], "role": ["weaver", "craftsman", "smith"], "line": "oe_dur_04", "why": "any Englishman"},
+
+  {"people": ["danish", "norse", "svea"], "role": ["host", "alewife"], "line": "on_hav_003", "why": "a Norse host"},
+  {"people": ["danish", "norse", "svea"], "role": ["skipper", "steersman", "pilot"], "line": "on_hav_082", "why": "a Norse steersman or pilot"},
+  {"people": ["danish", "norse", "svea"], "role": ["merchant", "goldsmith", "craftsman"], "line": "on_hav_005", "why": "an old Norse trader to a young one"},
+  {"people": ["danish", "norse", "svea"], "role": ["crewman", "carter", "farmer"], "line": "on_hav_081", "why": "any Northman, drily"},
+
+  {"people": ["english"], "hail": ["old_english", "wes hāl"]},
+  {"people": ["danish", "norse", "svea"], "hail": ["old_norse", "heill"]},
+  {"people": ["frankish"], "hail": ["old_frankish", "heil"]},
+  {"people": ["saxon"], "hail": ["old_saxon", "hêl uuis thu"]},
+  {"people": ["frisian"], "hail": ["old_frisian", "kāpmon"]},
+  {"people": ["irish"], "hail": ["irish", "fo chen"]},
+  {"people": ["wendish"], "hail": ["slavic", "gostь"]}
+ ]
+}

@@ -1,0 +1,518 @@
+{
+ "about": "CHAIN rollo_911 (Design/content/chains/rollo_911.md): the Seine in the hands of the Northmen, and Rollo made lord at Rotomagus in 911. Fourteen cards, 904 to 918 and after. A skipper's word on the Channel (s00) sends a boat up to a ruined market (s01); the archbishop's canon and the Northmen's steward both want her (s02 to s04); after the defeat before Chartres on 20 July 911 the player chooses whom to help (s05): the camp (road_peace), the archbishop (road_church) or Count Robert at Paris (road_franks). Then the meeting on the Epte (s06_epte) or the bridge at Pitres (s06_bridge), the baptism of 912 (s07), Rollo's law (s08), the relapsed converts and the letter to Reims (s09). Three endings: end_peace (what happened: a plot and a free keel in Rollo's Rouen), end_saint (what happened, on the church's side: Saint Ouen comes home in 918) and end_river_shut (history changed: no grant, the fleet leaves the Seine, flag changed_rollo_911_no_grant). Progress is flags ch_rollo_911_0 to _9; the timed flag ch_rollo_911_wait makes the waits real. Every card is drawn on a call at its port when its 'when' holds (weights 40 to 60), except the start (0.8). The forge names the people; the words call the invented ones Ketil, Gozbert, Odilard, Warin and Thorstein. Rollo, Count Robert, the archbishop of Rouen (Witto in Flodoard, Franco in Dudo: the cards never name him), Herve of Reims and King Charles are real. Words: Data/writing/chain_rollo_911.json; each option's note names the writing key of its outcome text. Sources in the notes and the chain page. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_rollo_911.s00_word",
+   "note": "Step 0, the hook: Quentovic, Parisius, Lundenwic or Hamwic, 904 to 910. A skipper says nobody sails to Rouen and that the three boats that do are paid well. Truth under it: Northmen held the lower Seine from the siege of Paris (885 to 886) on (Annales Vedastini 885; dossiers/rotomagus.md 5); armies buy food (realms/francia.md). The price words are ours. Sets ch_rollo_911_0. Refusing costs nothing; he tells it again another day.",
+   "stage": "harbour",
+   "when": "moored and (port.id = quentovic or port.id = parisius or port.id = lundenwic or port.id = hamwic) and year >= 904 and year < 911 and not flag.ch_rollo_911_0 and not flag.ch_rollo_911_1",
+   "weight": 0.8,
+   "cooldown_days": 200,
+   "actors": {
+    "skipper": { "role": "skipper", "people": "port", "faith": "christian", "tongue": "port", "age": [35, 60], "fixed": false, "note": "a Channel skipper, unnamed" }
+   },
+   "title_key": "chain_rollo_911.s00.title",
+   "title": "Nobody goes to Rouen",
+   "intention_key": "chain_rollo_911.s00.intention",
+   "intention": "A skipper in from the Channel has news of the Seine, which honest ships have left to the Northmen for a lifetime.",
+   "lines": [
+    { "who": "skipper", "key": "chain_rollo_911.s00.skipper_nobody" },
+    { "who": "skipper", "key": "chain_rollo_911.s00.skipper_camp" },
+    { "who": "skipper", "key": "chain_rollo_911.s00.skipper_bread" },
+    { "who": "skipper", "key": "chain_rollo_911.s00.skipper_law" }
+   ],
+   "options": [
+    { "key": "ask", "label_key": "chain_rollo_911.s00.opt_ask", "label": "Ask what bread fetches under the wall", "check": "true", "default": true,
+      "effects": [ "price_shock rotomagus wheat x1.5 for 150", "npc skipper feeling +2 asked", "flag ch_rollo_911_0" ],
+      "note": "outcome: chain_rollo_911.s00.out_ask (a true price word)" },
+    { "key": "ale", "label_key": "chain_rollo_911.s00.opt_ale", "label": "Buy him ale and ask how a keel gets up there", "check": "silver >= 2", "cost": "silver 2",
+      "effects": [ "price_shock rotomagus frankish_wine x0.8 for 150", "npc skipper feeling +4 ale", "flag ch_rollo_911_0" ],
+      "note": "outcome: chain_rollo_911.s00.out_ale (the tide to the wall: Nithard II.6 on 841; Dudo 45)" },
+    { "key": "shrug", "label_key": "chain_rollo_911.s00.opt_shrug", "label": "Leave Rouen to those three boats", "check": "true",
+      "effects": [ "npc skipper feeling +0 shrugged" ],
+      "note": "outcome: chain_rollo_911.s00.out_shrug (nothing lost; the card comes again)" }
+   ],
+   "memory": { "ask": "asked the price of bread at Rouen", "ale": "stood him ale for the way up the Seine", "shrug": "left Rouen to others" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s01_ruined_market",
+   "note": "Step 1: Rotomagus, 904 to 910, on a call there. The town as the sources leave it: the wall of reused stone, the two cathedral churches joined, the saints carried inland, a toll place and a mint of 864 with nobody to use them (dossiers/rotomagus.md 1, 2, 6; Dudo 10 for 'poor men and ruined merchants'). The Northmen in Rouen with their whole army in 885 (Annales Vedastini). Ketil the steward (Old Norse Ketill), Gozbert the canon (Goz- + -bert) and Odilard the wine seller are invented; horses in the amphitheatre and the count of eleven canons are ours. Every option sets ch_rollo_911_1.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 904 and year < 911 and not flag.ch_rollo_911_1",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "steward": { "role": "steward", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [35, 50], "fixed": true, "note": "Ketil, invented: buys for the camp" },
+    "canon": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [30, 45], "fixed": true, "note": "Gozbert, invented: a canon of the archbishop's house" },
+    "seller": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [40, 55], "fixed": true, "note": "Odilard, invented: the last wine seller" }
+   },
+   "title_key": "chain_rollo_911.s01.title",
+   "title": "The ruined market",
+   "intention_key": "chain_rollo_911.s01.intention",
+   "intention": "Rotomagus stands as a burned house stands. Long ships lie under the wall where the wine boats lay. Two men come down to your boat from two directions.",
+   "lines": [
+    { "who": "steward", "key": "chain_rollo_911.s01.steward_greet" },
+    { "who": "steward", "key": "chain_rollo_911.s01.steward_price" },
+    { "who": "canon", "key": "chain_rollo_911.s01.canon_greet" },
+    { "who": "canon", "key": "chain_rollo_911.s01.canon_ask" },
+    { "who": "seller", "key": "chain_rollo_911.s01.seller_dry" }
+   ],
+   "options": [
+    { "key": "north", "label_key": "chain_rollo_911.s01.opt_north", "label": "Sell to the Northmen's steward", "check": "hold.value > 0",
+      "effects": [ "silver +30", "npc steward feeling +8 sold", "npc canon feeling -3 sold_north", "flag ch_rollo_911_sold_north", "flag ch_rollo_911_1", "flag ch_rollo_911_wait for 30" ],
+      "note": "outcome: chain_rollo_911.s01.out_north (30 d over the market, in hack-silver)" },
+    { "key": "church", "label_key": "chain_rollo_911.s01.opt_church", "label": "Carry your wares up to the archbishop's house", "check": "true",
+      "effects": [ "silver +12", "deed fair_dealing", "npc canon feeling +8 church", "flag ch_rollo_911_1", "flag ch_rollo_911_wait for 30" ],
+      "note": "outcome: chain_rollo_911.s01.out_church" },
+    { "key": "look", "label_key": "chain_rollo_911.s01.opt_look", "label": "Sell nothing yet. Walk the town with the wine seller", "check": "true", "default": true,
+      "effects": [ "price_shock rotomagus frankish_wine x0.75 for 180", "npc seller feeling +5 walked", "flag ch_rollo_911_1", "flag ch_rollo_911_wait for 30" ],
+      "note": "outcome: chain_rollo_911.s01.out_look (a true price word: wine cheap for want of keels)" }
+   ],
+   "memory": { "north": "sold to the camp", "church": "sold to the archbishop's house", "look": "walked the town and sold nothing" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s02_canons_errand",
+   "note": "Step 2: Rotomagus, a month or more after step 1, before 911. The archbishop (Witto, 889 to about 910, in the lists: dossiers/rotomagus.md 3) sends a letter to Count Robert at Paris. THE LETTER IS INVENTED; what is real is that the archbishops stayed in the city through the Northmen's years and were the go-betweens (Dudo 10 and 13, LATER), and that Robert, brother of King Odo, held Paris and the march against the Northmen (Wikipedia 'Robert I of France'). Sets ch_rollo_911_2; ch_rollo_911_letter if it is carried; ch_rollo_911_letter_shown if the steward hears it.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year < 911 and flag.ch_rollo_911_1 and not flag.ch_rollo_911_2 and not flag.ch_rollo_911_wait",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "canon": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [30, 45], "fixed": true, "note": "Gozbert" },
+    "steward": { "role": "steward", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [35, 50], "fixed": true, "note": "Ketil" }
+   },
+   "title_key": "chain_rollo_911.s02.title",
+   "title": "The canon's errand",
+   "intention_key": "chain_rollo_911.s02.intention",
+   "intention": "The canon finds you on the strand before Prime with a sealed letter. The archbishop wants it taken up the river to Count Robert at Paris.",
+   "lines": [
+    { "who": "canon", "key": "chain_rollo_911.s02.canon_letter" },
+    { "who": "canon", "key": "chain_rollo_911.s02.canon_other" },
+    { "who": "canon", "key": "chain_rollo_911.s02.canon_road" },
+    { "who": "steward", "key": "chain_rollo_911.s02.steward_knows", "when": "flag.ch_rollo_911_sold_north" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_rollo_911.s02.opt_carry", "label": "Carry the letter to Paris unopened", "check": "true", "default": true,
+      "effects": [ "silver +10", "deed carried_letters", "npc canon feeling +6 carried", "flag ch_rollo_911_letter", "flag ch_rollo_911_2" ],
+      "note": "outcome: chain_rollo_911.s02.out_carry" },
+    { "key": "show", "label_key": "chain_rollo_911.s02.opt_show", "label": "Carry it, and let Ketil hear it read first", "check": "flag.ch_rollo_911_sold_north",
+      "effects": [ "silver +40", "npc steward feeling +6 heard_letter", "flag ch_rollo_911_letter", "flag ch_rollo_911_letter_shown", "flag ch_rollo_911_2" ],
+      "note": "outcome: chain_rollo_911.s02.out_show (40 d; the canon and Count Robert's man both notice the seal later)" },
+    { "key": "refuse", "label_key": "chain_rollo_911.s02.opt_refuse", "label": "You carry casks, not letters", "check": "true",
+      "effects": [ "npc canon feeling -3 refused", "flag ch_rollo_911_2" ],
+      "note": "outcome: chain_rollo_911.s02.out_refuse (the letter goes by road; the story goes on)" }
+   ],
+   "memory": { "carry": "carried the archbishop's letter", "show": "let the steward hear the letter", "refuse": "would not carry a letter" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s03_counts_man",
+   "note": "Step 3, the first turn: Parisius, before 912. Warin (invented; an attested Frankish name), a man of Count Robert, asks what lies under the wall at Rouen. Real: Robert held the county of Paris after his brother Odo, who held the city in the siege of 885 to 886 (Abbo, Bella Parisiacae urbis; chronicle_793.json 885-11-24-siege-paris). Paris is one of the ten mints of 864 (Edict of Pitres c. 12). Turn payout: 100 d for the truth (ch_rollo_911_told_franks), or a doubtful 140 d for a lie (ch_rollo_911_lied_franks). Sets ch_rollo_911_3.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and year < 912 and flag.ch_rollo_911_2 and not flag.ch_rollo_911_3",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "man": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [32, 45], "fixed": true, "note": "Warin, invented: Count Robert's man on the Paris strand" }
+   },
+   "title_key": "chain_rollo_911.s03.title",
+   "title": "The count's man",
+   "intention_key": "chain_rollo_911.s03.intention",
+   "intention": "On the strand at Parisius a man in a good mail shirt asks every boat where she has come from. When you say Rotomagus he sits down on your gunwale.",
+   "lines": [
+    { "who": "man", "key": "chain_rollo_911.s03.man_greet" },
+    { "who": "man", "key": "chain_rollo_911.s03.man_letter", "when": "flag.ch_rollo_911_letter and not flag.ch_rollo_911_letter_shown" },
+    { "who": "man", "key": "chain_rollo_911.s03.man_letter_shown", "when": "flag.ch_rollo_911_letter_shown" },
+    { "who": "man", "key": "chain_rollo_911.s03.man_ask" },
+    { "who": "man", "key": "chain_rollo_911.s03.man_siege" }
+   ],
+   "options": [
+    { "key": "truth", "label_key": "chain_rollo_911.s03.opt_truth", "label": "Tell him what you counted", "check": "true",
+      "effects": [ "silver +100", "npc man feeling +10 counted", "flag ch_rollo_911_told_franks", "flag ch_rollo_911_3", "flag ch_rollo_911_wait for 40" ],
+      "note": "outcome: chain_rollo_911.s03.out_truth" },
+    { "key": "trade", "label_key": "chain_rollo_911.s03.opt_trade", "label": "A merchant counts casks, not ships", "check": "true", "default": true,
+      "effects": [ "silver +20", "price_shock parisius frankish_wine x0.85 for 120", "npc man feeling -2 casks", "flag ch_rollo_911_3", "flag ch_rollo_911_wait for 40" ],
+      "note": "outcome: chain_rollo_911.s03.out_trade (a true price word and 20 d)" },
+    { "key": "lie", "label_key": "chain_rollo_911.s03.opt_lie", "label": "Double the ships and let him pay for the fright", "check": "true",
+      "effects": [ { "chance": 0.4, "by": "crew.trade_best",
+                     "success": [ "silver +140", "npc man feeling +4 counted", "flag ch_rollo_911_lied_franks", "flag ch_rollo_911_3", "flag ch_rollo_911_wait for 40" ],
+                     "failure": [ "silver +20", "npc man feeling -12 lied", "flag ch_rollo_911_lied_franks", "flag ch_rollo_911_3", "flag ch_rollo_911_wait for 40" ] } ],
+      "note": "outcome: chain_rollo_911.s03.out_lie, or chain_rollo_911.s03.out_lie_fail (doubtful)" }
+   ],
+   "memory": { "truth": "counted the Northmen's ships for the count", "trade": "would count only casks", "lie": "gave a count of ships", "lie.failure": "lied about the ships at Rouen" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s04_blades",
+   "note": "Step 4, the second turn: Rotomagus, before 911, forty days or more after Paris. The steward wants Frankish blades and horses. Real: the Edict of Pitres, 25 June 864, c. 25 (?): whoever gives or sells a byrnie, arms or a horse to the Northmen pays with his life (chronicle_793.json 864-06-25-pitres; dossiers/rotomagus.md 6); the king's fortified bridge at Pitres, 862 to 866 (Annales Bertiniani). The hanged cousin is invented. Payout: 250 d over the market for the iron (and a lasting cost: ch_rollo_911_armed, which the Franks remember and which closes the hard road of two endings), or a commission of wheat at a premium, or a true word on salt. Sets ch_rollo_911_4.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year < 911 and flag.ch_rollo_911_3 and not flag.ch_rollo_911_4 and not flag.ch_rollo_911_wait",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "steward": { "role": "steward", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [35, 50], "fixed": true, "note": "Ketil" },
+    "seller": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [40, 55], "fixed": true, "note": "Odilard" }
+   },
+   "title_key": "chain_rollo_911.s04.title",
+   "title": "Blades and horses",
+   "intention_key": "chain_rollo_911.s04.intention",
+   "intention": "Ketil sends for you, to the bishop's old storehouse, where the camp's silver lies in a heap like turnips.",
+   "lines": [
+    { "who": "steward", "key": "chain_rollo_911.s04.steward_want" },
+    { "who": "steward", "key": "chain_rollo_911.s04.steward_law" },
+    { "who": "steward", "key": "chain_rollo_911.s04.steward_smell", "when": "hold.swords > 0 or hold.sword_blades > 0 or hold.horses > 0" },
+    { "who": "seller", "key": "chain_rollo_911.s04.seller_warn" }
+   ],
+   "options": [
+    { "key": "blades", "label_key": "chain_rollo_911.s04.opt_blades", "label": "Promise him the iron and horses you carry", "check": "hold.swords > 0 or hold.sword_blades > 0 or hold.horses > 0",
+      "effects": [ "silver +250", "npc steward feeling +12 iron", "npc seller feeling -8 iron", "flag ch_rollo_911_armed", "flag ch_rollo_911_4", "flag ch_rollo_911_wait for 40" ],
+      "note": "outcome: chain_rollo_911.s04.out_blades (250 d over what the market gives; the Franks hear of it)" },
+    { "key": "grain", "label_key": "chain_rollo_911.s04.opt_grain", "label": "Offer wheat instead, as much as he wants", "check": "true", "default": true,
+      "effects": [ "commission wheat 6 by 180 premium 1.6", "npc steward feeling +5 grain", "flag ch_rollo_911_4", "flag ch_rollo_911_wait for 40" ],
+      "note": "outcome: chain_rollo_911.s04.out_grain (a commission with a premium)" },
+    { "key": "refuse", "label_key": "chain_rollo_911.s04.opt_refuse", "label": "Nothing the king hangs for", "check": "true",
+      "effects": [ "price_shock rotomagus sea_salt x1.4 for 150", "npc steward feeling -2 refused", "npc seller feeling +4 refused", "flag ch_rollo_911_4", "flag ch_rollo_911_wait for 40" ],
+      "note": "outcome: chain_rollo_911.s04.out_refuse (a true price word: salt for the autumn killing)" }
+   ],
+   "memory": { "blades": "sold iron to the camp", "grain": "offered wheat for blades", "refuse": "would sell nothing the king hangs for" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s05_after_chartres",
+   "note": "Step 5, THE FORK: Rotomagus, from August 911 (to 913, so a late boat still meets it). Real: Rollo's army besieged Chartres and was beaten on 20 July 911 by Robert of Neustria and Richard of Burgundy; Bishop Gantelme showed the Virgin's tunic from the wall (Dudo, LATER; the day from the annals of Sainte-Colombe of Sens (?); a Saturday (?); realms/francia.md 'Chartres (20 July)'; Flodoard, Historia Remensis ecclesiae IV.14, for 'the war that Count Robert fought against them at Chartres'). That the camp was short of bread afterwards is ours, from what beaten armies did (892: the great army left Francia in a famine year, ASC). Needs only step 0 or 1, so steps 2 to 4 enrich the chain and never block it. Sets ch_rollo_911_5 and one road: ch_rollo_911_road_peace (with ch_rollo_911_fed), ch_rollo_911_road_church or ch_rollo_911_road_franks.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 911 and year < 914 and (year > 911 or month >= 8) and (flag.ch_rollo_911_1 or flag.ch_rollo_911_0) and not flag.ch_rollo_911_5",
+   "weight": 50,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "steward": { "role": "steward", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [35, 50], "fixed": true, "note": "Ketil" },
+    "canon": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [30, 45], "fixed": true, "note": "Gozbert" },
+    "seller": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [40, 55], "fixed": true, "note": "Odilard" }
+   },
+   "title_key": "chain_rollo_911.s05.title",
+   "title": "After Chartres",
+   "intention_key": "chain_rollo_911.s05.intention",
+   "intention": "This year the Northmen of the Seine were beaten before Chartres. What is left of them has come home to Rotomagus, hungry, and three people want your boat.",
+   "lines": [
+    { "who": "steward", "key": "chain_rollo_911.s05.steward_beaten" },
+    { "who": "steward", "key": "chain_rollo_911.s05.steward_bread" },
+    { "who": "canon", "key": "chain_rollo_911.s05.canon_chance" },
+    { "who": "canon", "key": "chain_rollo_911.s05.canon_shown", "when": "flag.ch_rollo_911_letter_shown" },
+    { "who": "seller", "key": "chain_rollo_911.s05.seller_thought" }
+   ],
+   "options": [
+    { "key": "feed", "label_key": "chain_rollo_911.s05.opt_feed", "label": "Buy the camp its bread on your own purse", "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "npc steward feeling +15 fed", "flag ch_rollo_911_fed", "flag ch_rollo_911_road_peace", "flag ch_rollo_911_5", "flag ch_rollo_911_wait for 60" ],
+      "note": "outcome: chain_rollo_911.s05.out_feed (the road to end_peace, and its hard road)" },
+    { "key": "church", "label_key": "chain_rollo_911.s05.opt_church", "label": "Take the archbishop's clerk up the river", "check": "true", "default": true,
+      "effects": [ "deed carried_letters", "npc canon feeling +12 carried", "flag ch_rollo_911_road_church", "flag ch_rollo_911_5", "flag ch_rollo_911_wait for 60" ],
+      "note": "outcome: chain_rollo_911.s05.out_church (the road to end_saint)" },
+    { "key": "franks", "label_key": "chain_rollo_911.s05.opt_franks", "label": "Go up to Paris with what you know", "check": "true",
+      "effects": [ "npc seller feeling +3 went_up", "flag ch_rollo_911_road_franks", "flag ch_rollo_911_5", "flag ch_rollo_911_wait for 20" ],
+      "note": "outcome: chain_rollo_911.s05.out_franks (the road to the bridge at Pitres, where it can still be turned back)" }
+   ],
+   "memory": { "feed": "fed the camp after Chartres", "church": "carried the archbishop's clerk", "franks": "went up to Paris after Chartres" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s06_epte",
+   "note": "Step 6 on the roads of peace and of the church: Rotomagus, two months after step 5. The meeting at Saint-Clair on the Epte, autumn 911: Rouen and the land to the sea granted to Rollo, who is to be baptised and to keep the river (Dudo of Saint-Quentin, about 1015, LATER, is the only teller; the grant itself is proved by King Charles's charter of 14 March 918; chronicle_793.json 911-rollo-rouen). The story of the king's foot is Dudo's and is told here as a story already going round, by a man who did not see it. The player waits with the boats at the river mouth: a merchant was not at the ford. Rollo is still unbaptised (faith old_gods). Sets ch_rollo_911_6.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and flag.ch_rollo_911_5 and (flag.ch_rollo_911_road_peace or flag.ch_rollo_911_road_church) and not flag.ch_rollo_911_6 and not flag.ch_rollo_911_wait",
+   "weight": 50,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "rollo": { "role": "chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [50, 65], "fixed": true, "note": "Rollo: cast.rollo, historical" },
+    "steward": { "role": "steward", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [35, 50], "fixed": true, "note": "Ketil" },
+    "canon": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [30, 45], "fixed": true, "note": "Gozbert" }
+   },
+   "title_key": "chain_rollo_911.s06e.title",
+   "title": "The ford on the Epte",
+   "intention_key": "chain_rollo_911.s06e.intention",
+   "intention": "At the leaf fall the king's people and Rollo's meet at a ford on the Epte. Your boat is one of those that carry them up. You wait three days with the keels and hear the rest from those who come back.",
+   "lines": [
+    { "who": "canon", "key": "chain_rollo_911.s06e.canon_terms" },
+    { "who": "steward", "key": "chain_rollo_911.s06e.steward_foot" },
+    { "who": "steward", "key": "chain_rollo_911.s06e.steward_foot2" },
+    { "who": "rollo", "key": "chain_rollo_911.s06e.rollo_word" },
+    { "who": "rollo", "key": "chain_rollo_911.s06e.rollo_fed", "when": "flag.ch_rollo_911_fed" }
+   ],
+   "options": [
+    { "key": "toll", "label_key": "chain_rollo_911.s06e.opt_toll", "label": "Ask what a keel pays on his river now", "check": "true", "default": true,
+      "effects": [ "silver +30", "toll eased 180", "npc rollo feeling +4 asked_toll", "flag ch_rollo_911_6", "flag ch_rollo_911_wait for 120" ],
+      "note": "outcome: chain_rollo_911.s06e.out_toll (half toll at Rotomagus for half a year)" },
+    { "key": "roll", "label_key": "chain_rollo_911.s06e.opt_roll", "label": "Ask the clerk to write your name in the archbishop's roll", "check": "true",
+      "effects": [ "silver +30", "learn latin +0.1", "npc canon feeling +6 roll", "flag ch_rollo_911_6", "flag ch_rollo_911_wait for 120" ],
+      "note": "outcome: chain_rollo_911.s06e.out_roll" },
+    { "key": "silent", "label_key": "chain_rollo_911.s06e.opt_silent", "label": "Ask nothing. Mend sail and listen", "check": "true",
+      "effects": [ "silver +30", "morale +0.05", "flag ch_rollo_911_6", "flag ch_rollo_911_wait for 120" ],
+      "note": "outcome: chain_rollo_911.s06e.out_silent" }
+   ],
+   "memory": { "toll": "asked the toll at the Epte", "roll": "had his name written in the roll", "silent": "carried men to the Epte and asked nothing" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s06_bridge",
+   "note": "Step 6 on the road of the Franks, WHERE HISTORY CAN TURN: Parisius, twenty days after step 5. Count Robert himself asks. Real: the king's fortified bridge at Pitres (Pont-de-l'Arche), built 862 to 866 to bar the Seine (Annales Bertiniani), and taken in 885; that it could be timbered again in 911 is ours. Invented: that the grant hung on one boatman's count. In truth the king's counsellors had their way and Rollo got Rouen. Options: tell all (the Northmen are starved out; some drown at the bridge: ch_rollo_911_northmen_feud, a lasting cost); tell, and ask that those who leave are let go (ch_rollo_911_mercy: the hard and honest road); or think better of it and say they are strong, which puts the story back on the true road (ch_rollo_911_road_peace). Sets ch_rollo_911_6.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and flag.ch_rollo_911_5 and flag.ch_rollo_911_road_franks and not flag.ch_rollo_911_6 and not flag.ch_rollo_911_wait",
+   "weight": 50,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "man": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [32, 45], "fixed": true, "note": "Warin" },
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [45, 55], "fixed": false, "note": "Robert, count of Paris, marquis against the Northmen; king 922 to 923. Historical" }
+   },
+   "title_key": "chain_rollo_911.s06b.title",
+   "title": "The bridge at Pîtres",
+   "intention_key": "chain_rollo_911.s06b.intention",
+   "intention": "Warin takes you up from the strand to a hall on the island, where a big tired man is eating with his mail still on. Count Robert asks his questions himself.",
+   "lines": [
+    { "who": "man", "key": "chain_rollo_911.s06b.man_weigh" },
+    { "who": "count", "key": "chain_rollo_911.s06b.count_bridge" },
+    { "who": "man", "key": "chain_rollo_911.s06b.man_lied", "when": "flag.ch_rollo_911_lied_franks" },
+    { "who": "man", "key": "chain_rollo_911.s06b.man_grudge", "when": "flag.ch_rollo_911_armed" },
+    { "who": "count", "key": "chain_rollo_911.s06b.count_ask" }
+   ],
+   "options": [
+    { "key": "all", "label_key": "chain_rollo_911.s06b.opt_all", "label": "Tell him all of it: the ships, the bread, the sick", "check": "true",
+      "effects": [ "silver +150", "npc man feeling +8 told", "flag ch_rollo_911_northmen_feud", "flag ch_rollo_911_6", "flag ch_rollo_911_wait for 120" ],
+      "note": "outcome: chain_rollo_911.s06b.out_all (150 d; the river is barred; a feud that lasts)" },
+    { "key": "mercy", "label_key": "chain_rollo_911.s06b.opt_mercy", "label": "Tell him, and ask that those who go down river are let go", "check": "true",
+      "effects": [ "silver +80", "deed fair_dealing", "npc man feeling +4 told", "flag ch_rollo_911_mercy", "flag ch_rollo_911_6", "flag ch_rollo_911_wait for 120" ],
+      "note": "outcome: chain_rollo_911.s06b.out_mercy (80 d; the hard road of end_river_shut)" },
+    { "key": "back", "label_key": "chain_rollo_911.s06b.opt_back", "label": "Say they are stronger than he hopes", "check": "true",
+      "effects": [ "npc man feeling -6 no_help", "flag ch_rollo_911_road_franks = 0", "flag ch_rollo_911_road_peace", "flag ch_rollo_911_6", "flag ch_rollo_911_wait for 120" ],
+      "note": "outcome: chain_rollo_911.s06b.out_back (costs only pride; the grant is made as it was, and the story goes on at Rotomagus with step 7)" }
+   ],
+   "memory": { "all": "told the count how weak the Northmen were", "mercy": "asked that the Northmen be let go", "back": "told the count nothing of use" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s07_baptism",
+   "note": "Step 7, a turn: Rotomagus, from the spring of 912, four months after step 6. Real, by Dudo (c. 13, LATER; William of Jumieges ii follows him): Rollo baptised in 912 by the archbishop (Franco in Dudo), Robert of Neustria his sponsor, the name Robert; seven days in the white garments, each day a gift of land to a church (Saint Mary's of Rouen, of Bayeux, of Evreux, Saint Michael's in peril of the sea, Saint Peter's and Saint Ouen's at Rouen, Saint Peter's at Jumieges, Saint Denis's); on the eighth day he began to share out the land to his men by the rope. One article gives 915 for the baptism (dossiers/rotomagus.md 8). Men baptised more than once for the gift of a white garment: Notker, Gesta Karoli II.19, of Northmen at Louis the Pious's court, moved here as common talk. That the children already speak the Romance of Rouen: Dudo says William Longsword sent his son to Bayeux to learn the Danish tongue because Rouen spoke Romance (LATER). Payout: 150 d of wine sold, or Norse speech, or the count's and the archbishop's good will (ch_rollo_911_linen). Sets ch_rollo_911_7.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 912 and (year > 912 or month >= 3) and flag.ch_rollo_911_6 and (flag.ch_rollo_911_road_peace or flag.ch_rollo_911_road_church) and not flag.ch_rollo_911_7 and not flag.ch_rollo_911_wait",
+   "weight": 50,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "rollo": { "role": "chief", "people": "norse", "faith": "christian", "tongue": "old_norse", "age": [50, 65], "fixed": true, "note": "Rollo, baptised Robert" },
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [45, 65], "fixed": true, "note": "the archbishop of Rouen: never named in the words (Witto or Franco)" },
+    "steward": { "role": "steward", "people": "norse", "faith": "christian", "tongue": "old_norse", "age": [35, 50], "fixed": true, "note": "Ketil" },
+    "seller": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [40, 55], "fixed": true, "note": "Odilard" }
+   },
+   "title_key": "chain_rollo_911.s07.title",
+   "title": "Seven days in white",
+   "intention_key": "chain_rollo_911.s07.intention",
+   "intention": "This year Rollo was baptised at Rotomagus, and Count Robert stood for him at the water and gave him his own name. For seven days he wears the white. The town is full.",
+   "lines": [
+    { "who": "rollo", "key": "chain_rollo_911.s07.rollo_seen" },
+    { "who": "bishop", "key": "chain_rollo_911.s07.bishop_gifts" },
+    { "who": "steward", "key": "chain_rollo_911.s07.steward_rope" },
+    { "who": "steward", "key": "chain_rollo_911.s07.steward_font" },
+    { "who": "seller", "key": "chain_rollo_911.s07.seller_full" }
+   ],
+   "options": [
+    { "key": "linen", "label_key": "chain_rollo_911.s07.opt_linen", "label": "Buy white linen for the men who follow him to the font", "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "deed gave_alms", "npc rollo feeling +10 linen", "npc bishop feeling +8 linen", "flag ch_rollo_911_linen", "flag ch_rollo_911_7", "flag ch_rollo_911_wait for 200" ],
+      "note": "outcome: chain_rollo_911.s07.out_linen" },
+    { "key": "speech", "label_key": "chain_rollo_911.s07.opt_speech", "label": "Stand among the Northmen and learn what they call things", "check": "true",
+      "effects": [ "tongue old_norse = 0.4", "npc steward feeling +5 speech", "flag ch_rollo_911_7", "flag ch_rollo_911_wait for 200" ],
+      "note": "outcome: chain_rollo_911.s07.out_speech (a learned tongue)" },
+    { "key": "sell", "label_key": "chain_rollo_911.s07.opt_sell", "label": "It is a feast. Sell wine", "check": "true", "default": true,
+      "effects": [ "silver +150", "npc seller feeling +6 sold_wine", "flag ch_rollo_911_7", "flag ch_rollo_911_wait for 200" ],
+      "note": "outcome: chain_rollo_911.s07.out_sell (150 d)" }
+   ],
+   "memory": { "linen": "gave linen for the baptism", "speech": "stood among the Northmen to learn their speech", "sell": "sold wine at the baptism" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s08_plough",
+   "note": "Step 8: Rotomagus, from 913, two hundred days after the baptism. Rollo's law. Real, by Dudo c. 13 (LATER; retold, not quoted): theft forbidden, ploughs to be left in the field; the wife at Longpaon who hid her husband's plough irons; the five shillings; the ordeal of hot iron; both hanged, she for the theft and he for knowing. The gold rings hung on an oak by a pool and untouched for three years: William of Jumieges ii (dossiers/rotomagus.md 7). The net-maker and his boy are invented. The danger warns first (the steward's line). Each option is a fact; none only punishes: the court pays double or costs 10 d; fetching it back quietly pays in eels or costs 40 d; letting it go costs nothing and gives the Exeter Book's plough riddle. Sets ch_rollo_911_8.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 913 and flag.ch_rollo_911_7 and not flag.ch_rollo_911_8 and not flag.ch_rollo_911_wait",
+   "weight": 50,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "steward": { "role": "steward", "people": "norse", "faith": "christian", "tongue": "old_norse", "age": [35, 50], "fixed": true, "note": "Ketil" },
+    "seller": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [40, 55], "fixed": true, "note": "Odilard" },
+    "mate": { "role": "mate", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [25, 50], "fixed": false, "note": "the player's own mate" },
+    "rollo": { "role": "chief", "people": "norse", "faith": "christian", "tongue": "old_norse", "age": [50, 65], "fixed": true, "note": "Rollo, in his court" }
+   },
+   "title_key": "chain_rollo_911.s08.title",
+   "title": "The plough left in the field",
+   "intention_key": "chain_rollo_911.s08.intention",
+   "intention": "Rollo's law is short: nobody steals. He hangs the thief, and beside the thief whoever knew. This morning a bale of yours is gone from the strand.",
+   "lines": [
+    { "who": "seller", "key": "chain_rollo_911.s08.seller_longpaon" },
+    { "who": "steward", "key": "chain_rollo_911.s08.steward_ring" },
+    { "who": "mate", "key": "chain_rollo_911.s08.mate_boy" },
+    { "who": "steward", "key": "chain_rollo_911.s08.steward_warn" }
+   ],
+   "options": [
+    { "key": "court", "label_key": "chain_rollo_911.s08.opt_court", "label": "Bring it before the count's court", "check": "true",
+      "effects": [ { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "silver +60", "deed won_case", "npc rollo feeling +6 court", "flag ch_rollo_911_court", "flag ch_rollo_911_8", "flag ch_rollo_911_wait for 200" ],
+                     "failure": [ "silver -10", "deed lost_case", "flag ch_rollo_911_8", "flag ch_rollo_911_wait for 200" ] } ],
+      "note": "outcome: chain_rollo_911.s08.out_court, or chain_rollo_911.s08.out_court_fail (likely)" },
+    { "key": "quiet", "label_key": "chain_rollo_911.s08.opt_quiet", "label": "Fetch the bale back yourself and say nothing", "check": "true",
+      "effects": [ { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "goods eels +2", "flag ch_rollo_911_quiet", "flag ch_rollo_911_8", "flag ch_rollo_911_wait for 200" ],
+                     "failure": [ "silver -40", "npc steward feeling -8 kept_quiet", "flag ch_rollo_911_8", "flag ch_rollo_911_wait for 200" ] } ],
+      "note": "outcome: chain_rollo_911.s08.out_quiet, or chain_rollo_911.s08.out_quiet_fail (likely)" },
+    { "key": "leave", "label_key": "chain_rollo_911.s08.opt_leave", "label": "Let the bale go. Leave the rest on the strand tonight, like everybody", "check": "true", "default": true,
+      "effects": [ "give_riddle riddle_exeter_21_plough", "morale +0.03", "flag ch_rollo_911_8", "flag ch_rollo_911_wait for 200" ],
+      "note": "outcome: chain_rollo_911.s08.out_leave (costs nothing; a riddle)" }
+   ],
+   "memory": { "court": "brought a theft before the count", "court.failure": "lost a case of theft", "quiet": "settled a theft without the court", "quiet.failure": "kept a theft from the count", "leave": "let a bale go" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.s09_question",
+   "note": "Step 9, and the last choice of road: Rotomagus, from 914. Real: Flodoard, Historia Remensis ecclesiae IV.14: after the war at Chartres the Northmen began to take the faith; Archbishop Herve of Reims (900 to 922), at the asking of the archbishop of Rouen (Wido, the lists' Witto), sent him twenty-three chapters gathered from the fathers on how such people should be handled, and asked Pope John (X, 914 to 928) what to do with men baptised and baptised again who lived as heathens, killed Christians and ate what had been offered to idols; the pope's answer was to go gently with the newly converted. So the letter is no earlier than 914. In 943 Turmod 'went back to idols and heathen rite' (Flodoard, Annales; dossiers/rotomagus.md 6). The newcomers and their goods are invented. Options: tell the steward (road_peace), carry the letter (road_church), or buy the plunder cheap (ch_rollo_911_bought_loot: keeps the road, closes both hard roads). Sets ch_rollo_911_9.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 914 and flag.ch_rollo_911_8 and not flag.ch_rollo_911_9 and not flag.ch_rollo_911_wait",
+   "weight": 50,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [45, 65], "fixed": true, "note": "the archbishop of Rouen" },
+    "steward": { "role": "steward", "people": "norse", "faith": "christian", "tongue": "old_norse", "age": [35, 50], "fixed": true, "note": "Ketil" },
+    "newcomer": { "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "a shipmaster newly come from over sea, unnamed" },
+    "seller": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [40, 55], "fixed": true, "note": "Odilard" }
+   },
+   "title_key": "chain_rollo_911.s09.title",
+   "title": "The archbishop's question",
+   "intention_key": "chain_rollo_911.s09.intention",
+   "intention": "A crew newly come from over sea took baptism at Easter for a shirt and a length of the rope. Now there is blood on the stone behind their hall, and they are selling cheap what never came off a farm.",
+   "lines": [
+    { "who": "bishop", "key": "chain_rollo_911.s09.bishop_ask" },
+    { "who": "steward", "key": "chain_rollo_911.s09.steward_fear" },
+    { "who": "newcomer", "key": "chain_rollo_911.s09.newcomer_offer" },
+    { "who": "seller", "key": "chain_rollo_911.s09.seller_think" }
+   ],
+   "options": [
+    { "key": "count", "label_key": "chain_rollo_911.s09.opt_count", "label": "Tell Ketil what the newcomers are selling", "check": "true",
+      "effects": [ "silver +40", "npc steward feeling +10 told", "flag ch_rollo_911_road_church = 0", "flag ch_rollo_911_road_peace", "flag ch_rollo_911_9" ],
+      "note": "outcome: chain_rollo_911.s09.out_count (the road to end_peace)" },
+    { "key": "letter", "label_key": "chain_rollo_911.s09.opt_letter", "label": "Carry the archbishop's question up the river for Reims", "check": "true", "default": true,
+      "effects": [ "deed carried_letters", "learn latin +0.15", "npc bishop feeling +10 carried", "flag ch_rollo_911_road_peace = 0", "flag ch_rollo_911_road_church", "flag ch_rollo_911_9" ],
+      "note": "outcome: chain_rollo_911.s09.out_letter (the road to end_saint)" },
+    { "key": "buy", "label_key": "chain_rollo_911.s09.opt_buy", "label": "Buy what they sell, cheap, and ask nothing", "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "goods wax +2", "silver +130", "npc bishop feeling -8 bought_loot", "npc steward feeling -4 bought_loot", "flag ch_rollo_911_bought_loot", "flag ch_rollo_911_9" ],
+      "note": "outcome: chain_rollo_911.s09.out_buy (90 d clear and two loads of wax; the road stays as it was)" }
+   ],
+   "memory": { "count": "told the steward of the newcomers", "letter": "carried the question for Reims", "buy": "bought plunder cheap" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.end_peace",
+   "note": "ENDING 1, WHAT HAPPENED: Rotomagus, from 918. Flag ch_rollo_911_end_peace. Real: King Charles's charter of 14 March 918 for Saint-Germain-des-Pres excepts the part of an abbey's land 'which we granted to the Northmen of the Seine, namely Rollo and his companions, for the safeguarding of the kingdom' (our rendering; Recueil des actes de Charles III le Simple, ed. Lauer, no. 92 (?); spine cast.rollo); land shared by the rope (Dudo 13); the market that follows: about 1000 the men of Rouen pay toll at London on wine and whale (IV Aethelred 2; dossiers/rotomagus.md 4). Thorstein the shipmaster is invented (Old Norse Thorsteinn). Grand rewards: unlock_plot_rotomagus and unlock_charter_rotomagus with 900 d; or the HARD ROAD (fed the camp after Chartres, sold no iron, bought no plunder): those two and unlock_partner_thorstein with 1,400 d; or unlock_title_rollos_peace with 1,100 d and no land. Why a merchant could win them: Rollo gave land to those who had followed him, and a lord's spoken peace over a guest is the ordinary Norse way. If ch_rollo_911_armed is set the Franks up river remember (the steward says so).",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 918 and flag.ch_rollo_911_9 and flag.ch_rollo_911_road_peace and not flag.ch_rollo_911_end_peace and not flag.ch_rollo_911_end_saint",
+   "weight": 60,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rollo": { "role": "chief", "people": "norse", "faith": "christian", "tongue": "old_norse", "age": [55, 70], "fixed": true, "note": "Rollo" },
+    "steward": { "role": "steward", "people": "norse", "faith": "christian", "tongue": "old_norse", "age": [40, 55], "fixed": true, "note": "Ketil" },
+    "partner": { "role": "skipper", "people": "norse", "faith": "christian", "tongue": "old_norse", "age": [30, 45], "fixed": true, "note": "Thorstein, invented" },
+    "seller": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [45, 60], "fixed": true, "note": "Odilard" }
+   },
+   "title_key": "chain_rollo_911.end_peace.title",
+   "title": "A length of the rope",
+   "intention_key": "chain_rollo_911.end_peace.intention",
+   "intention": "This year the king's writing names them: the Northmen of the Seine, Rollo and his companions. At Rotomagus the strand below the wall is being measured out with a rope, and the wine boats lie three deep.",
+   "lines": [
+    { "who": "steward", "key": "chain_rollo_911.end_peace.steward_offer" },
+    { "who": "steward", "key": "chain_rollo_911.end_peace.steward_market" },
+    { "who": "partner", "key": "chain_rollo_911.end_peace.partner_hands", "when": "flag.ch_rollo_911_fed and not flag.ch_rollo_911_armed and not flag.ch_rollo_911_bought_loot" },
+    { "who": "steward", "key": "chain_rollo_911.end_peace.steward_blades", "when": "flag.ch_rollo_911_armed" },
+    { "who": "seller", "key": "chain_rollo_911.end_peace.seller_end" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_rollo_911.end_peace.opt_plot", "label": "Take a plot on the strand and a free keel", "check": "true", "default": true,
+      "effects": [ "silver +900", "npc rollo feeling +10 plot", "flag unlock_plot_rotomagus", "flag unlock_charter_rotomagus", "flag ch_rollo_911_end_peace", "news chain_rollo_911.news_market at lundenwic" ],
+      "note": "outcome: chain_rollo_911.end_peace.out_plot" },
+    { "key": "felag", "label_key": "chain_rollo_911.end_peace.opt_felag", "label": "Join hands with Thorstein: his ship, your markets", "check": "flag.ch_rollo_911_fed and not flag.ch_rollo_911_armed and not flag.ch_rollo_911_bought_loot",
+      "effects": [ "silver +1400", "npc partner feeling +20 felag", "npc rollo feeling +10 plot", "flag unlock_plot_rotomagus", "flag unlock_charter_rotomagus", "flag unlock_partner_thorstein", "flag ch_rollo_911_end_peace", "news chain_rollo_911.news_market at lundenwic" ],
+      "note": "outcome: chain_rollo_911.end_peace.out_felag (the hard road: a second grand reward)" },
+    { "key": "silver", "label_key": "chain_rollo_911.end_peace.opt_silver", "label": "Take his peace and your silver, and no land", "check": "true",
+      "effects": [ "silver +1100", "npc rollo feeling +6 no_land", "flag unlock_title_rollos_peace", "flag ch_rollo_911_end_peace", "news chain_rollo_911.news_market at lundenwic" ],
+      "note": "outcome: chain_rollo_911.end_peace.out_silver" }
+   ],
+   "memory": { "plot": "took a plot on the strand", "felag": "joined hands with Thorstein", "silver": "took Rollo's peace and no land" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.end_saint",
+   "note": "ENDING 2, WHAT HAPPENED, ON THE CHURCH'S SIDE: Rotomagus, from 918. Flag ch_rollo_911_end_saint. Real: the monks of Saint Peter's (Saint-Ouen) and the saint's body come back to Rouen in 918 (fr.wikipedia 'Abbaye Saint-Ouen de Rouen', 'Ouen de Rouen'; dossiers/rotomagus.md 2 and 5); the saint had been carried 'to Francia' in the raids (Dudo 13); Herve's twenty-three chapters and the pope's letter (Flodoard, Historia Remensis ecclesiae IV.14). That Rollo met the shrine at Longpaon and carried it is a later Rouen story (?): the card gives it as what the monks say. A cloth laid on a shrine and kept as a relic is the old custom of brandea (Gregory the Great, Epistolae IV.30). Grand rewards: unlock_title_st_ouens_man and unlock_plot_rotomagus (the abbey's cellar) with 800 d; or unlock_relic_st_ouen_cloth and the title with 600 d; or the HARD ROAD (no letter shown to the steward, no plunder bought): unlock_charter_rotomagus, the title and the relic with 1,200 d. Why a merchant could win them: abbeys had their own traders, freed of toll by charter (Saint-Germain-des-Pres, 779: dossiers/rotomagus.md 4).",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 918 and flag.ch_rollo_911_9 and flag.ch_rollo_911_road_church and not flag.ch_rollo_911_end_saint and not flag.ch_rollo_911_end_peace",
+   "weight": 60,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [50, 70], "fixed": true, "note": "the archbishop of Rouen" },
+    "monk": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [40, 60], "fixed": false, "note": "a monk of Saint Peter's, unnamed" },
+    "rollo": { "role": "chief", "people": "norse", "faith": "christian", "tongue": "old_norse", "age": [55, 70], "fixed": true, "note": "Rollo" }
+   },
+   "title_key": "chain_rollo_911.end_saint.title",
+   "title": "The saint comes home",
+   "intention_key": "chain_rollo_911.end_saint.intention",
+   "intention": "This year the monks of Saint Peter's came back to Rotomagus, and Saint Ouen with them. The shrine comes down the river on a barge. Your boat goes ahead of it to sound the channel.",
+   "lines": [
+    { "who": "monk", "key": "chain_rollo_911.end_saint.monk_home" },
+    { "who": "rollo", "key": "chain_rollo_911.end_saint.rollo_shrine" },
+    { "who": "bishop", "key": "chain_rollo_911.end_saint.bishop_answer" },
+    { "who": "bishop", "key": "chain_rollo_911.end_saint.bishop_offer" },
+    { "who": "bishop", "key": "chain_rollo_911.end_saint.bishop_shown", "when": "flag.ch_rollo_911_letter_shown" }
+   ],
+   "options": [
+    { "key": "cellar", "label_key": "chain_rollo_911.end_saint.opt_cellar", "label": "Keep the monks' cellar on the strand and sell their wine", "check": "true", "default": true,
+      "effects": [ "silver +800", "npc monk feeling +12 cellar", "flag unlock_title_st_ouens_man", "flag unlock_plot_rotomagus", "flag ch_rollo_911_end_saint", "news chain_rollo_911.news_saint at parisius" ],
+      "note": "outcome: chain_rollo_911.end_saint.out_cellar" },
+    { "key": "cloth", "label_key": "chain_rollo_911.end_saint.opt_cloth", "label": "Ask for a cloth that has lain on the shrine", "check": "true",
+      "effects": [ "silver +600", "npc monk feeling +8 cloth", "flag unlock_relic_st_ouen_cloth", "flag unlock_title_st_ouens_man", "flag ch_rollo_911_end_saint", "news chain_rollo_911.news_saint at parisius" ],
+      "note": "outcome: chain_rollo_911.end_saint.out_cloth" },
+    { "key": "writing", "label_key": "chain_rollo_911.end_saint.opt_writing", "label": "Ask for it in writing: the archbishop's hand, the count's mark", "check": "not flag.ch_rollo_911_letter_shown and not flag.ch_rollo_911_bought_loot",
+      "effects": [ "silver +1200", "npc bishop feeling +12 writing", "flag unlock_charter_rotomagus", "flag unlock_title_st_ouens_man", "flag unlock_relic_st_ouen_cloth", "flag ch_rollo_911_end_saint", "news chain_rollo_911.news_saint at parisius" ],
+      "note": "outcome: chain_rollo_911.end_saint.out_writing (the hard road: a second and third grand reward)" }
+   ],
+   "memory": { "cellar": "took the monks' cellar", "cloth": "asked for a cloth from the shrine", "writing": "asked for the archbishop's writing" }
+  },
+  {
+   "id": "harbour.chain_rollo_911.end_river_shut",
+   "note": "ENDING 3, HISTORY CHANGED: Parisius, four months after the bridge. Flags ch_rollo_911_end_river_shut and changed_rollo_911_no_grant. Nothing here happened: in truth the king granted Rouen and Rollo kept it. Built from what was real: the bridge at Pitres (Annales Bertiniani 862 to 866); armies that left a river when they could not eat (the great army crossing to Kent in 892, ASC); Robert's house holding Paris and the march. What follows in later years is in the chain page: no county of Rouen, no dukes, an archbishop's town with grass in its market, and the Seine open to the next fleet. Grand rewards: unlock_title_marquis_protection and unlock_charter_parisius with 1,200 d; or the HARD ROAD (asked mercy at the bridge and sold no iron): those two and unlock_pilot_seine with 1,500 d; or the title alone with 1,800 d. Why a merchant could win them: lords paid for news, and a count's hand over a trader and freedom from toll at one landing are what the charters of the time give (Saint-Germain-des-Pres, 779). Lasting cost: ch_rollo_911_northmen_feud, set at the bridge by the option 'all'.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and flag.ch_rollo_911_6 and flag.ch_rollo_911_road_franks and not flag.ch_rollo_911_end_river_shut and not flag.ch_rollo_911_wait",
+   "weight": 60,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "man": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [32, 45], "fixed": true, "note": "Warin" }
+   },
+   "title_key": "chain_rollo_911.end_river.title",
+   "title": "The river shut",
+   "intention_key": "chain_rollo_911.end_river.intention",
+   "intention": "The king granted nothing. The bridge at Pîtres was timbered before the frost, and at the first hard cold the Northmen's ships went down the Seine on the ebb and out to sea.",
+   "lines": [
+    { "who": "man", "key": "chain_rollo_911.end_river.man_done" },
+    { "who": "man", "key": "chain_rollo_911.end_river.man_rouen" },
+    { "who": "man", "key": "chain_rollo_911.end_river.man_mercy", "when": "flag.ch_rollo_911_mercy" },
+    { "who": "man", "key": "chain_rollo_911.end_river.man_feud", "when": "flag.ch_rollo_911_northmen_feud" },
+    { "who": "man", "key": "chain_rollo_911.end_river.man_grudge", "when": "flag.ch_rollo_911_armed" }
+   ],
+   "options": [
+    { "key": "protect", "label_key": "chain_rollo_911.end_river.opt_protect", "label": "Take the count's protection and a free keel at Paris", "check": "true", "default": true,
+      "effects": [ "silver +1200", "npc man feeling +10 protect", "price_shock parisius frankish_wine x0.8 for 365", "flag unlock_title_marquis_protection", "flag unlock_charter_parisius", "flag changed_rollo_911_no_grant", "flag ch_rollo_911_end_river_shut", "news chain_rollo_911.news_gone at quentovic" ],
+      "note": "outcome: chain_rollo_911.end_river.out_protect" },
+    { "key": "pilot", "label_key": "chain_rollo_911.end_river.opt_pilot", "label": "Ask for the river itself: the count's pilot and the marks down to the sea", "check": "flag.ch_rollo_911_mercy and not flag.ch_rollo_911_armed",
+      "effects": [ "silver +1500", "npc man feeling +12 pilot", "price_shock parisius frankish_wine x0.8 for 365", "flag unlock_title_marquis_protection", "flag unlock_charter_parisius", "flag unlock_pilot_seine", "flag changed_rollo_911_no_grant", "flag ch_rollo_911_end_river_shut", "news chain_rollo_911.news_gone at quentovic" ],
+      "note": "outcome: chain_rollo_911.end_river.out_pilot (the hard road: a second and third grand reward)" },
+    { "key": "silver", "label_key": "chain_rollo_911.end_river.opt_silver", "label": "Take silver and go back to the sea", "check": "true",
+      "effects": [ "silver +1800", "price_shock parisius frankish_wine x0.8 for 365", "flag unlock_title_marquis_protection", "flag changed_rollo_911_no_grant", "flag ch_rollo_911_end_river_shut", "news chain_rollo_911.news_gone at quentovic" ],
+      "note": "outcome: chain_rollo_911.end_river.out_silver" }
+   ],
+   "memory": { "protect": "took the count's protection", "pilot": "asked for the river's marks", "silver": "took silver for the telling" }
+  }
+ ]
+}

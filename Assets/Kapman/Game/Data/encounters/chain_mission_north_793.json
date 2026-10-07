@@ -1,0 +1,559 @@
+{
+ "about": "THE CHAIN mission_north (Design/content/CHAINS.md; the page is Design/content/chains/mission_north.md): carrying the mission north. Anskar sails for Birka with merchants in 829 and pirates take the emperor's gifts and nearly forty books on the way; King Bjorn lets him preach and the prefect Herigar builds a church on his own land; about 845 the people drive the priests out and Birka has none for nearly seven years; about 852 Anskar comes again, King Olaf asks the gods by lot and then the people at the thing, and an old man says that Christ has helped men at sea. Fourteen cards (thirteen harbour, one sea) in two acts a generation apart, each act with its own way in (829 at Sliesthorp or Dorestad; 830 at Birka; 845 at Birka; 850 and 852 at Sliesthorp). Four endings: ch_mission_north_end_church (what happened), ch_mission_north_end_endures (changed_birka_church_endures), ch_mission_north_end_merchants (changed_birka_merchants_church), ch_mission_north_end_refused (changed_birka_refused_mission); and one early change, changed_anskar_books_saved. Costs that last: ch_mission_north_bishop_watches, ch_mission_north_church_remembers. The spine's flag ms_carried_priest is set by step 9. Cast (Design/content/spine.json): cast.anskar, cast.herigar, cast.frideburg (all real, named in the words), cast.tidwine (invented). Real and named in the words but not in the spine's cast: Witmar, King Bjorn, King Olaf, the hermit Ardgar, the priest Erimbert, the exile Anound. Everything rests on Rimbert, Vita Anskarii c. 9-12, 14, 17-20, 25-28 (about 870; tr. C. H. Robinson 1921), given in our own plain rendering from memory of that translation, not re-read tonight (?). Every option's outcome text is a writing key named in its note. A draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_mission_north.s01_passage",
+   "note": "Step 1, the start of act one: Sliesthorp or Dorestad, April to July 829. Anskar (cast.anskar, real, a monk of Corvey aged 27) and Witmar (real, his companion, a monk of the same house) want passage to Birka with the merchants. Sources: Rimbert c. 9 (envoys of the Svear ask the emperor Louis for priests; Anskar is chosen, Witmar goes with him), c. 10 (they travel with merchants, carrying the emperor's gifts and nearly forty books); chronicle_793.json 829-ansgar-birka. The port they sailed from is not recorded (?): Sliesthorp is the likeliest, and he passed Dorstadt in 826 (c. 7). That the chests went in the convoy's largest hull is invented, to fit a boat of 660 kg. Sets ch_mission_north_1, and _1_aboard if the monks are carried.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sliesthorp or port.id = dorestad) and year = 829 and not flag.ch_mission_north_1 and not flag.ch_mission_north_seen and not flag.ch_mission_north_done",
+   "weight": 3.0,
+   "cooldown_days": 15,
+   "months": [4, 5, 6, 7],
+   "actors": {
+    "anskar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [27, 28], "fixed": true, "note": "cast.anskar (real; named in the words)" },
+    "witmar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 45], "fixed": true, "note": "Witmar of Corvey (real, Rimbert c. 10; named in the words)" }
+   },
+   "title_key": "chain_mission_north.s01.title",
+   "title": "Two monks and forty books",
+   "intention_key": "chain_mission_north.s01.intention",
+   "intention": "Two monks stand among the merchants who are making up a convoy for Birka. They have the emperor's gifts for the king of the Svear in sealed chests, and more books than most men here have seen in one place.",
+   "lines": [
+    { "who": "anskar", "key": "chain_mission_north.s01.greet" },
+    { "who": "anskar", "key": "chain_mission_north.s01.errand" },
+    { "who": "witmar", "key": "chain_mission_north.s01.books" },
+    { "who": "witmar", "key": "chain_mission_north.s01.chests" },
+    { "who": "anskar", "key": "chain_mission_north.s01.ask" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_mission_north.s01.opt_take", "label": "Take the two monks aboard and sail in the convoy", "check": "true", "default": true,
+      "effects": [ "passenger anskar to birka", "silver +24", "flag ch_mission_north_1", "flag ch_mission_north_1_aboard", "npc anskar feeling +6 carried" ],
+      "note": "outcome: chain_mission_north.s01.out_take" },
+    { "key": "convoy", "label_key": "chain_mission_north.s01.opt_convoy", "label": "Sail in the convoy, and let another hull carry them", "check": "true",
+      "effects": [ "flag ch_mission_north_1", "npc anskar feeling +2 convoy" ],
+      "note": "outcome: chain_mission_north.s01.out_convoy (time only)" },
+    { "key": "pass", "label_key": "chain_mission_north.s01.opt_pass", "label": "Wish them a fair wind and go about your trade", "check": "true",
+      "effects": [ "flag ch_mission_north_seen for 15" ],
+      "note": "outcome: chain_mission_north.s01.out_pass (time only: the card comes again while the months last; after July they have sailed without you)" }
+   ],
+   "memory": { "take": "carried him toward Birka", "convoy": "sailed in the same convoy", "pass": "went by" }
+  },
+  {
+   "id": "sea.chain_mission_north.s02_pirates",
+   "note": "Step 2: under way in 829 or 830 after step 1. The pirates. Sources: Rimbert c. 10: about half-way they fell among pirates; the merchants with them defended themselves hard and at first with success, were beaten in a second attack, and lost the ships and all they had; the monks barely got to land on foot; the emperor's gifts and nearly forty books were taken, and they kept only what they could carry as they left the ship; some wanted to turn back and Anskar would not. Who the pirates were and where is not recorded (?). The danger warns first: the sails are seen before the choice, and running costs only pride. Sets ch_mission_north_2 and either ch_mission_north_books_lost (and _chest if one chest is saved) or, if the fight is won, ch_mission_north_books_safe and changed_anskar_books_saved: history changed, the mission comes to Birka with the emperor's gifts and its books.",
+   "stage": "sea",
+   "when": "under_way and year >= 829 and year < 831 and flag.ch_mission_north_1 and not flag.ch_mission_north_2 and not flag.ch_mission_north_done",
+   "rate": 0.08,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "anskar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [27, 29], "fixed": true, "note": "cast.anskar" }
+   },
+   "title_key": "chain_mission_north.s02.title",
+   "title": "Sails out of the haze",
+   "intention_key": "chain_mission_north.s02.intention",
+   "intention": "Half-way, with land low to one side, the lookout counts sails coming out of the haze that are not the convoy's. They are long, low and under oars as well. The big ship with the monks' chests is the slowest hull among you.",
+   "lines": [
+    { "key": "chain_mission_north.s02.lookout" },
+    { "key": "chain_mission_north.s02.merchants" },
+    { "who": "anskar", "key": "chain_mission_north.s02.anskar", "when": "flag.ch_mission_north_1_aboard" },
+    { "key": "chain_mission_north.s02.steersman" }
+   ],
+   "options": [
+    { "key": "stand", "label_key": "chain_mission_north.s02.opt_stand", "label": "Close up on the big ship and fight beside the merchants", "check": "true",
+      "effects": [ { "chance": 0.3, "by": "crew.fight_best",
+                     "success": [ "flag ch_mission_north_2", "flag ch_mission_north_books_safe", "flag changed_anskar_books_saved", "deed fought_raiders", "morale +0.1", "npc anskar feeling +10 fought" ],
+                     "failure": [ "flag ch_mission_north_2", "flag ch_mission_north_books_lost", "silver -80", "health -0.1", "morale -0.05", "deed fought_raiders", "npc anskar feeling +6 fought" ] } ],
+      "note": "outcome: chain_mission_north.s02.out_stand_success, chain_mission_north.s02.out_stand_failure (the failure is what happened in 829)" },
+    { "key": "chest", "label_key": "chain_mission_north.s02.opt_chest", "label": "Lay alongside her, take off one chest and run for the beach", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "flag ch_mission_north_2", "flag ch_mission_north_books_lost", "flag ch_mission_north_chest", "morale +0.03", "npc anskar feeling +12 chest" ],
+                     "failure": [ "flag ch_mission_north_2", "flag ch_mission_north_books_lost", "silver -60", "health -0.05", "npc anskar feeling +4 tried" ] } ],
+      "note": "outcome: chain_mission_north.s02.out_chest_success, chain_mission_north.s02.out_chest_failure" },
+    { "key": "run", "label_key": "chain_mission_north.s02.opt_run", "label": "Leave the convoy and run while they are busy with it", "check": "true", "default": true,
+      "effects": [ "encounter run", "flag ch_mission_north_2", "flag ch_mission_north_books_lost", "flag ch_mission_north_2_ran", "morale -0.03", "npc anskar feeling -6 ran" ],
+      "note": "outcome: chain_mission_north.s02.out_run (pride only)" }
+   ],
+   "memory": { "stand": "fought beside the merchants", "stand.failure": "fought beside the merchants and lost", "chest": "saved a chest of books", "chest.failure": "tried for the book chest", "run": "left the convoy to the pirates" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s03_bjorn",
+   "note": "Step 3: Birka, 829 or 830, after step 1. King Bjorn (real; Rimbert's Bern) hears the monks; Herigar (cast.herigar, real) is the king's prefect of the town. Sources: Rimbert c. 11: they came to Birka after a hard journey on foot and by ship over the waters between; the king received them kindly, took counsel with his friends and gave leave to stay and preach; many Christian captives were glad. Men of Birka had been to Dorstadt (c. 27). A gift for a king at table is how Anskar himself did it in 852 (c. 26); that a merchant gave one in 829 is invented. Sets ch_mission_north_3, and _3_wait for 200 days (the church is a winter's work).",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and year >= 829 and year < 831 and flag.ch_mission_north_1 and not flag.ch_mission_north_3 and not flag.ch_mission_north_done",
+   "weight": 30,
+   "cooldown_days": 0,
+   "actors": {
+    "herigar": { "role": "harbour_master", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 40], "fixed": true, "note": "cast.herigar (real; named in the words; not yet baptised)" },
+    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 60], "fixed": true, "note": "King Bjorn of the Svear (real, Rimbert c. 11; named in the words; his words invented)" },
+    "anskar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [27, 29], "fixed": true, "note": "cast.anskar" }
+   },
+   "title_key": "chain_mission_north.s03.title",
+   "title": "The king asks his friends",
+   "intention_key": "chain_mission_north.s03.intention",
+   "intention": "The king of the Svear is on the island, and the prefect of the town has brought the two Frankish monks before him. The king has heard them. Now he looks along the bench at the merchants who came by the same road.",
+   "lines": [
+    { "who": "herigar", "key": "chain_mission_north.s03.herigar_safe", "when": "flag.ch_mission_north_books_safe" },
+    { "who": "herigar", "key": "chain_mission_north.s03.herigar_lost", "when": "flag.ch_mission_north_books_lost" },
+    { "who": "herigar", "key": "chain_mission_north.s03.herigar_ran", "when": "flag.ch_mission_north_2_ran" },
+    { "who": "anskar", "key": "chain_mission_north.s03.anskar_lost", "when": "flag.ch_mission_north_books_lost" },
+    { "who": "anskar", "key": "chain_mission_north.s03.anskar_chest", "when": "flag.ch_mission_north_chest" },
+    { "who": "king", "key": "chain_mission_north.s03.king" },
+    { "who": "herigar", "key": "chain_mission_north.s03.ask" }
+   ],
+   "options": [
+    { "key": "gift", "label_key": "chain_mission_north.s03.opt_gift", "label": "Set a cask of your wine before the king, in the emperor's name", "check": "hold.rhenish_wine >= 1",
+      "cost": "goods rhenish_wine 1",
+      "effects": [ "flag ch_mission_north_3", "flag ch_mission_north_3_gift", "flag ch_mission_north_3_wait for 200", "npc king feeling +10 gift", "npc herigar feeling +6 gift", "npc anskar feeling +8 gift", "toll eased 60" ],
+      "note": "outcome: chain_mission_north.s03.out_gift" },
+    { "key": "vouch", "label_key": "chain_mission_north.s03.opt_vouch", "label": "Say what you know: Dorestad trades under this god and does not starve", "check": "true", "default": true,
+      "effects": [ "flag ch_mission_north_3", "flag ch_mission_north_3_vouched", "flag ch_mission_north_3_wait for 200", "npc herigar feeling +5 vouched", "npc anskar feeling +5 vouched" ],
+      "note": "outcome: chain_mission_north.s03.out_vouch (free)" },
+    { "key": "trade", "label_key": "chain_mission_north.s03.opt_trade", "label": "Leave kings and monks to each other and ask the price of cloth", "check": "true",
+      "effects": [ "flag ch_mission_north_3", "flag ch_mission_north_3_wait for 200", "price_shock birka frisian_cloth x1.15 for 30" ],
+      "note": "outcome: chain_mission_north.s03.out_trade (free; a price word)" }
+   ],
+   "memory": { "gift": "gave the king wine in the emperor's name", "vouch": "spoke for the monks before the king", "trade": "kept to his trade" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s04_books",
+   "note": "Step 4 (a side step): Ahus or Paviken, 829 to 836, once the books are lost. A dealer has what is left of them. Sources: the loss, Rimbert c. 10; the spine's thread book_road ('In 829 he sets out for Birka with nearly forty books and comes there on foot with none: someone has them'). What became of the books is not recorded: the card is invented. Raiders kept book fittings and threw away or sold the leaves: church metalwork cut from books lies in Norse graves (spine, holy_island), and the Canterbury Golden Gospels were bought back from a heathen army for gold (their own inscription, later 9th century). Ahus in Scania was a trading place in these years; that the pirates sold there is a guess (?). A book is 360 d in goods_793.json; these have no boards and have been wet. Sets ch_mission_north_4, and _books_bought, _books_sold or _4_told.",
+   "stage": "harbour",
+   "when": "moored and (port.id = ahus or port.id = paviken) and year >= 829 and year < 837 and flag.ch_mission_north_books_lost and not flag.ch_mission_north_4 and not flag.ch_mission_north_done",
+   "weight": 20,
+   "cooldown_days": 30,
+   "actors": {
+    "dealer": { "role": "merchant", "people": "port", "faith": "old_gods", "tongue": "port", "sex": "m", "age": [30, 60], "fixed": true, "note": "invented: a dealer in whatever comes ashore" }
+   },
+   "title_key": "chain_mission_north.s04.title",
+   "title": "Calfskin with marks on it",
+   "intention_key": "chain_mission_north.s04.intention",
+   "intention": "A dealer has amber laid out on a square of pale skin with black marks in rows. Behind him, under a hide, lies a heap of the same: books with the boards torn off.",
+   "lines": [
+    { "who": "dealer", "key": "chain_mission_north.s04.wrap" },
+    { "who": "dealer", "key": "chain_mission_north.s04.boards" },
+    { "who": "dealer", "key": "chain_mission_north.s04.count" },
+    { "who": "dealer", "key": "chain_mission_north.s04.price" }
+   ],
+   "options": [
+    { "key": "buy", "label_key": "chain_mission_north.s04.opt_buy", "label": "Buy the heap for 90 d, to carry back to the monks", "check": "silver >= 90",
+      "cost": "silver 90",
+      "effects": [ "flag ch_mission_north_4", "flag ch_mission_north_books_bought", "npc dealer feeling +4 bought" ],
+      "note": "outcome: chain_mission_north.s04.out_buy (paid back at step 5 or step 9)" },
+    { "key": "sell", "label_key": "chain_mission_north.s04.opt_sell", "label": "Buy the heap for 90 d, and sell the best book in Francia", "check": "silver >= 90",
+      "cost": "silver 90",
+      "effects": [ "goods books +1", "flag ch_mission_north_4", "flag ch_mission_north_books_sold", "npc dealer feeling +4 bought" ],
+      "note": "outcome: chain_mission_north.s04.out_sell (one sound book, 360 d where books are wanted; the rest is scrap)" },
+    { "key": "tell", "label_key": "chain_mission_north.s04.opt_tell", "label": "Tell him who would pay for them, and keep your silver", "check": "true", "default": true,
+      "effects": [ "flag ch_mission_north_4", "flag ch_mission_north_4_told", "npc dealer feeling +6 told" ],
+      "note": "outcome: chain_mission_north.s04.out_tell (free: the bishop buys his own psalter back, years later)" }
+   ],
+   "memory": { "buy": "bought the books without boards", "sell": "bought the books without boards", "tell": "told him what Christians pay for books" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s05_church",
+   "note": "Step 5, the end of act one and a second way in: Birka, 830 or 831, for any house (after the 200 days if it was at step 3). Herigar is baptised and has built a church on his own land; Anskar goes home after two winters with a letter from the king. Sources: Rimbert c. 11 (Herigar, 'a counsellor of the king', baptised, 'a little later built a church on his own ancestral property'; the Christian captives), c. 12 (they return after a year and a half with letters written by the king's own hand in the manner of the Svear, which is taken to mean runes (?)); chronicle_793.json 831-hamburg-see. Wine and wax for the Mass had to come by ship: wine is the lord's and the Mass's drink (BRIEF.md rule 2). The captive who reads is cast.tidwine (invented; a boy of Lindisfarne, 48 in 829: spine thread holy_island, hook at Birka). Every option carries Herigar's order for wine. Sets ch_mission_north_5; _5_books, _5_passage or _5_scribe.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and year >= 830 and year < 832 and not flag.ch_mission_north_3_wait and not flag.ch_mission_north_5 and not flag.ch_mission_north_done",
+   "weight": 8,
+   "cooldown_days": 0,
+   "actors": {
+    "herigar": { "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [30, 42], "fixed": true, "note": "cast.herigar (baptised about 830)" },
+    "anskar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [28, 30], "fixed": true, "note": "cast.anskar" },
+    "scribe": { "role": "captive", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [47, 50], "fixed": true, "note": "cast.tidwine (invented)" }
+   },
+   "title_key": "chain_mission_north.s05.title",
+   "title": "A church on Herigar's land",
+   "intention_key": "chain_mission_north.s05.intention",
+   "intention": "On the prefect's own ground behind the town stands a small new house of upright timbers with a cross cut over the door. Herigar is counting what it lacks. The Frankish monk is packing to go home.",
+   "lines": [
+    { "who": "herigar", "key": "chain_mission_north.s05.built" },
+    { "who": "herigar", "key": "chain_mission_north.s05.lacks" },
+    { "who": "anskar", "key": "chain_mission_north.s05.letter" },
+    { "who": "anskar", "key": "chain_mission_north.s05.books", "when": "flag.ch_mission_north_books_bought" },
+    { "who": "scribe", "key": "chain_mission_north.s05.scribe" },
+    { "who": "herigar", "key": "chain_mission_north.s05.scribe_price" }
+   ],
+   "options": [
+    { "key": "order", "label_key": "chain_mission_north.s05.opt_order", "label": "Take his order for Mass wine and nothing more", "check": "true", "default": true,
+      "effects": [ "commission rhenish_wine 4 by 300 premium 1.5", "flag ch_mission_north_5", "npc herigar feeling +8 order" ],
+      "note": "outcome: chain_mission_north.s05.out_order (free)" },
+    { "key": "books", "label_key": "chain_mission_north.s05.opt_books", "label": "Lay the books without boards on the altar step", "check": "flag.ch_mission_north_books_bought",
+      "effects": [ "commission rhenish_wine 4 by 300 premium 1.5", "silver +200", "learn latin +0.1", "flag ch_mission_north_5", "flag ch_mission_north_5_books", "npc anskar feeling +20 books", "npc herigar feeling +10 books" ],
+      "note": "outcome: chain_mission_north.s05.out_books (the turn: 200 d for 90 laid out)" },
+    { "key": "passage", "label_key": "chain_mission_north.s05.opt_passage", "label": "Give the monk passage south with the king's letter", "check": "true",
+      "effects": [ "commission rhenish_wine 4 by 300 premium 1.5", "passenger anskar to sliesthorp", "silver +30", "learn runes +0.1", "flag ch_mission_north_5", "flag ch_mission_north_5_passage", "npc anskar feeling +8 passage" ],
+      "note": "outcome: chain_mission_north.s05.out_passage" },
+    { "key": "scribe", "label_key": "chain_mission_north.s05.opt_scribe", "label": "Buy the Englishman free for 96 d and give him a place aboard", "check": "silver >= 96",
+      "cost": "silver 96",
+      "effects": [ "commission rhenish_wine 4 by 300 premium 1.5", "hire scribe", "deed gave_alms", "learn latin +0.2", "flag ch_mission_north_5", "flag ch_mission_north_5_scribe", "npc scribe feeling +40 freed", "npc anskar feeling +10 freed" ],
+      "note": "outcome: chain_mission_north.s05.out_scribe (the turn: a hired man who reads Latin and tallies)" }
+   ],
+   "memory": { "order": "took the order for Mass wine", "books": "brought back the lost books", "passage": "carried Anskar south", "scribe": "bought the English captive free" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s06_driven_out",
+   "note": "Step 6, the start of act two and a way in for any house: Birka, 845 to 850. The priests are gone. Sources: Rimbert c. 14 (Gautbert, consecrated bishop for the Svear, builds a church), c. 17 (about 845 the people rise, 'not by command of the king': they kill his nephew Nithard, bind the bishop and his companions and put them out of the land; no priest for nearly seven years), c. 19 (Herigar keeps the faith alone and argues at the thing; rain falls on the assembly and not on him and his boy), c. 20 (Frideburg, rich and old, bought wine and kept it in a vessel to be given her at her death in place of the sacrament); chronicle_793.json 845-hamburg-burned. Frideburg is cast.frideburg (real). That she bought the wine of this house is invented. Sets ch_mission_north_6, _6_wait for 60 days; _6_wine or _6_word.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and year >= 845 and year < 851 and not flag.ch_mission_north_6 and not flag.ch_mission_north_done",
+   "weight": 6,
+   "cooldown_days": 30,
+   "actors": {
+    "herigar": { "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [48, 60], "fixed": true, "note": "cast.herigar" },
+    "widow": { "role": "widow", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "f", "age": [68, 78], "fixed": true, "note": "cast.frideburg (real; named in the words)" }
+   },
+   "title_key": "chain_mission_north.s06.title",
+   "title": "No priest at Birka",
+   "intention_key": "chain_mission_north.s06.intention",
+   "intention": "The church behind the town is shut and its door is nailed. The prefect still wears his cross outside his cloak. An old woman in a good gown has sent to ask whether your ship carries wine.",
+   "lines": [
+    { "who": "herigar", "key": "chain_mission_north.s06.rose" },
+    { "who": "herigar", "key": "chain_mission_north.s06.not_king" },
+    { "who": "herigar", "key": "chain_mission_north.s06.rain" },
+    { "who": "herigar", "key": "chain_mission_north.s06.remember", "when": "flag.ch_mission_north_5" },
+    { "who": "widow", "key": "chain_mission_north.s06.widow" },
+    { "who": "herigar", "key": "chain_mission_north.s06.ask" }
+   ],
+   "options": [
+    { "key": "wine", "label_key": "chain_mission_north.s06.opt_wine", "label": "Sell Frideburg a cask to keep for her last hour", "check": "hold.rhenish_wine >= 1",
+      "cost": "goods rhenish_wine 1",
+      "effects": [ "silver +110", "flag ch_mission_north_6", "flag ch_mission_north_6_wine", "flag ch_mission_north_6_wait for 60", "npc widow feeling +12 wine" ],
+      "note": "outcome: chain_mission_north.s06.out_wine" },
+    { "key": "word", "label_key": "chain_mission_north.s06.opt_word", "label": "Promise to carry Herigar's word to the archbishop", "check": "true", "default": true,
+      "effects": [ "deed carried_letters", "flag ch_mission_north_6", "flag ch_mission_north_6_word", "flag ch_mission_north_6_wait for 60", "npc herigar feeling +8 word" ],
+      "note": "outcome: chain_mission_north.s06.out_word (free)" },
+    { "key": "none", "label_key": "chain_mission_north.s06.opt_none", "label": "Say a trader has no part in a town's gods", "check": "true",
+      "effects": [ "flag ch_mission_north_6", "flag ch_mission_north_6_wait for 60", "npc herigar feeling -3 stood_off" ],
+      "note": "outcome: chain_mission_north.s06.out_none (pride only)" }
+   ],
+   "memory": { "wine": "sold Frideburg the wine for her last hour", "word": "carried word to the archbishop", "none": "stood off from it" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s07_fence",
+   "note": "Step 7: Birka, 845 to 851, sixty days or more after step 6. The book on the fence. Sources: Rimbert c. 18: after the bishop was driven out, a man whose son had brought home a book from the plunder lost wife, son and daughter and most of his goods; a soothsayer he asked found every god content with him but Christ, who was against him because something hallowed to Christ was in his house; he remembered the book, bound it to a fence with word that whoever wished might take it, and a Christian carried it home. Rimbert had it from that Christian. Here the house can be that man. The farmer's words are invented. Sets ch_mission_north_7, _7_wait for 90 days; _7_book or _7_sold.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and year >= 845 and year < 852 and flag.ch_mission_north_6 and not flag.ch_mission_north_6_wait and not flag.ch_mission_north_7 and not flag.ch_mission_north_done",
+   "weight": 20,
+   "cooldown_days": 0,
+   "actors": {
+    "farmer": { "role": "farmer", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 65], "fixed": true, "note": "the man of Rimbert c. 18 (real, unnamed; his words invented)" }
+   },
+   "title_key": "chain_mission_north.s07.title",
+   "title": "The book on the fence",
+   "intention_key": "chain_mission_north.s07.intention",
+   "intention": "On the road up from the jetties a book hangs on a fence, tied with a cord, in the weather. People walk on the far side of the road. A grey man stands at his door across the yard and watches who stops.",
+   "lines": [
+    { "who": "farmer", "key": "chain_mission_north.s07.son" },
+    { "who": "farmer", "key": "chain_mission_north.s07.dead" },
+    { "who": "farmer", "key": "chain_mission_north.s07.seer" },
+    { "who": "farmer", "key": "chain_mission_north.s07.take" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_mission_north.s07.opt_carry", "label": "Untie it and carry it to the Christians of the town", "check": "true",
+      "effects": [ "silver +20", "learn latin +0.1", "flag ch_mission_north_7", "flag ch_mission_north_7_book", "flag ch_mission_north_7_wait for 90", "npc farmer feeling +10 took_book" ],
+      "note": "outcome: chain_mission_north.s07.out_carry (he pays you to take it)" },
+    { "key": "keep", "label_key": "chain_mission_north.s07.opt_keep", "label": "Untie it and put it in your own chest to sell in Francia", "check": "true",
+      "effects": [ "goods books +1", "morale -0.05", "flag ch_mission_north_7", "flag ch_mission_north_7_sold", "flag ch_mission_north_7_wait for 90", "npc farmer feeling +10 took_book" ],
+      "note": "outcome: chain_mission_north.s07.out_keep (a book, 360 d where books are wanted; the crew do not like it aboard)" },
+    { "key": "leave", "label_key": "chain_mission_north.s07.opt_leave", "label": "Walk on the far side of the road like everyone else", "check": "true", "default": true,
+      "effects": [ "flag ch_mission_north_7", "flag ch_mission_north_7_wait for 90" ],
+      "note": "outcome: chain_mission_north.s07.out_leave (free)" }
+   ],
+   "memory": { "carry": "took the book off his fence", "keep": "took the book off his fence", "leave": "left the book hanging" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s08_ransom",
+   "note": "Step 8: Birka, 846 to 850, ninety days or more after step 7. Anound's ships. Sources: Rimbert c. 19: Anound, a king of the Svear driven out, came against Birka with twenty-one ships of the Danes and eleven of his own; the king was far off, the people fled to the fort near by, and Herigar with the merchants and people who remained bought peace for a hundred pounds of silver; the Danes thought it too little; Herigar told the townsmen to stop offering to their gods and vow to Christ; lots were cast, the Danes found that their gods would not have the place sacked, and a further lot sent them against a town of the Slavs far off; Anound afterwards gave back what he had taken (?). The year lies between 845 and 851 (realms/sweden_gotland.md). The danger warns first: the fleet lies in the sound and asks a price. A hundred pounds is 24,000 d; a visiting boat's share of 60 d is invented. Sets ch_mission_north_8; _8_paid, _8_stood or _8_slipped.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and year >= 846 and year < 851 and flag.ch_mission_north_7 and not flag.ch_mission_north_7_wait and not flag.ch_mission_north_8 and not flag.ch_mission_north_done",
+   "weight": 15,
+   "cooldown_days": 0,
+   "actors": {
+    "herigar": { "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [49, 60], "fixed": true, "note": "cast.herigar" },
+    "envoy": { "role": "envoy", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [25, 50], "fixed": false, "note": "a man of the exile Anound's (Anound real, Rimbert c. 19; the envoy invented)" }
+   },
+   "title_key": "chain_mission_north.s08.title",
+   "title": "Thirty-two ships in the sound",
+   "intention_key": "chain_mission_north.s08.intention",
+   "intention": "Ships fill the sound: twenty-one of the Danes and eleven that belong to a king the Svear put out. The king who rules is far away. The townspeople have gone up to the fort on the rock, and the merchants are told what peace will cost.",
+   "lines": [
+    { "who": "envoy", "key": "chain_mission_north.s08.envoy" },
+    { "who": "herigar", "key": "chain_mission_north.s08.hundred" },
+    { "who": "herigar", "key": "chain_mission_north.s08.gods" },
+    { "who": "herigar", "key": "chain_mission_north.s08.ask" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_mission_north.s08.opt_pay", "label": "Weigh in your share with the merchants: 60 d", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "deed paid_raiders", "toll eased 90", "flag ch_mission_north_8", "flag ch_mission_north_8_paid", "npc herigar feeling +6 paid_share" ],
+      "note": "outcome: chain_mission_north.s08.out_pay" },
+    { "key": "stand", "label_key": "chain_mission_north.s08.opt_stand", "label": "Stand by Herigar when he tells them to vow to Christ instead", "check": "true", "default": true,
+      "effects": [ "flag ch_mission_north_8", "flag ch_mission_north_8_stood", "npc herigar feeling +15 stood_by" ],
+      "note": "outcome: chain_mission_north.s08.out_stand (free: laughed at, then not)" },
+    { "key": "slip", "label_key": "chain_mission_north.s08.opt_slip", "label": "Slip the mooring after dark and go out by the narrow sound", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "flag ch_mission_north_8", "flag ch_mission_north_8_slipped", "morale +0.03" ],
+                     "failure": [ "flag ch_mission_north_8", "flag ch_mission_north_8_slipped", "silver -90", "health -0.05", "npc herigar feeling -5 slipped" ] } ],
+      "note": "outcome: chain_mission_north.s08.out_slip_success, chain_mission_north.s08.out_slip_failure" }
+   ],
+   "memory": { "pay": "paid his share of the hundred pounds", "stand": "stood by him before the ships", "slip": "left in the night", "slip.failure": "tried to leave in the night" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s09_hermit",
+   "note": "Step 9 and a way in for any house: Sliesthorp, 850 or 851. Anskar, now archbishop (Hamburg 831, burned 845; Bremen from 848), has a church by the harbour here by King Horik's leave and sends the hermit Ardgar to Birka. Sources: Rimbert c. 19-20 (Ardgar the anchorite sent to Birka about 851; Herigar receives the sacrament from him and dies; Frideburg dies; Ardgar goes home), c. 24 (the church at Sliaswic; merchants of Dorstadt and of this place come freely); chronicle_793.json 850-hedeby-church. That a Frisian hull carried Ardgar is invented. If the books bought at step 4 are still aboard (step 5 missed), he asks that they go on to Birka: they count on the hard road either way. Sets ch_mission_north_9; _9_carried and the spine's flag ms_carried_priest if he is carried.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year >= 850 and year < 852 and not flag.ch_mission_north_9 and not flag.ch_mission_north_seen and not flag.ch_mission_north_done",
+   "weight": 8,
+   "cooldown_days": 20,
+   "actors": {
+    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [48, 50], "fixed": true, "note": "cast.anskar" },
+    "hermit": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 60], "fixed": true, "note": "Ardgar the hermit (real, Rimbert c. 19; named in the words)" }
+   },
+   "title_key": "chain_mission_north.s09.title",
+   "title": "A hermit for Birka",
+   "intention_key": "chain_mission_north.s09.intention",
+   "intention": "By the new church at the harbour a greying bishop in a plain cloak is asking the shipmasters which of them goes to the lake of the Svear. Beside him stands a thin man with a sack, who looks at the ships as a man looks at a tooth-drawer.",
+   "lines": [
+    { "who": "anskar", "key": "chain_mission_north.s09.seven" },
+    { "who": "anskar", "key": "chain_mission_north.s09.word", "when": "flag.ch_mission_north_6_word" },
+    { "who": "anskar", "key": "chain_mission_north.s09.psalter", "when": "flag.ch_mission_north_4_told" },
+    { "who": "anskar", "key": "chain_mission_north.s09.books_now", "when": "flag.ch_mission_north_books_bought and not flag.ch_mission_north_5_books" },
+    { "who": "hermit", "key": "chain_mission_north.s09.hermit" },
+    { "who": "anskar", "key": "chain_mission_north.s09.ask" }
+   ],
+   "options": [
+    { "key": "free", "label_key": "chain_mission_north.s09.opt_free", "label": "Carry the hermit to Birka and take no fare", "check": "true",
+      "effects": [ "passenger hermit to birka", "deed gave_alms", "flag ch_mission_north_9", "flag ch_mission_north_9_carried", "flag ms_carried_priest", "npc anskar feeling +12 carried_free" ],
+      "note": "outcome: chain_mission_north.s09.out_free (time and a place aboard)" },
+    { "key": "fare", "label_key": "chain_mission_north.s09.opt_fare", "label": "Carry him for the fare", "check": "true", "default": true,
+      "effects": [ "passenger hermit to birka", "silver +40", "flag ch_mission_north_9", "flag ch_mission_north_9_carried", "flag ms_carried_priest", "npc anskar feeling +4 carried" ],
+      "note": "outcome: chain_mission_north.s09.out_fare" },
+    { "key": "full", "label_key": "chain_mission_north.s09.opt_full", "label": "Tell him your hull is full this voyage", "check": "true",
+      "effects": [ "flag ch_mission_north_9" ],
+      "note": "outcome: chain_mission_north.s09.out_full (free: he goes in another ship)" }
+   ],
+   "memory": { "free": "carried the hermit to Birka for nothing", "fare": "carried the hermit to Birka", "full": "had no room" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s10_second",
+   "note": "Step 10, the road to the finale and a way in for any house: Sliesthorp, April to August 852 or 853. Anskar goes to Birka himself. Sources: Rimbert c. 25-26: Bishop Gautbert will not go back and sends his nephew Erimbert, a priest; King Horik sends his own man and his token with Anskar to King Olaf, saying he has never known so good a man; the voyage takes nearly twenty days; Herigar died about 851 (c. 19). The year is 'about 852' (realms/sweden_gotland.md; one or two years either way (?)). A bell in a church was a thing 'the pagans regarded as unlawful' at Sliaswic (c. 32, of the later 850s): that one was carried to Birka is invented, and is what the hard road needs. Sets ch_mission_north_10, _10_wait for 15 days; ch_mission_north_bell.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year >= 852 and year < 854 and not flag.ch_mission_north_10 and not flag.ch_mission_north_seen and not flag.ch_mission_north_done",
+   "weight": 10,
+   "cooldown_days": 15,
+   "months": [4, 5, 6, 7, 8],
+   "actors": {
+    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 52], "fixed": true, "note": "cast.anskar" },
+    "erimbert": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [25, 40], "fixed": true, "note": "Erimbert, Gautbert's nephew (real, Rimbert c. 25; named in the words)" }
+   },
+   "title_key": "chain_mission_north.s10.title",
+   "title": "The archbishop wants a ship",
+   "intention_key": "chain_mission_north.s10.intention",
+   "intention": "The archbishop is going to Birka himself, twenty days by sea, at past fifty. With him are a young priest and a man of King Horik's who carries the king's token in a bag round his neck.",
+   "lines": [
+    { "who": "anskar", "key": "chain_mission_north.s10.herigar_dead" },
+    { "who": "anskar", "key": "chain_mission_north.s10.carried", "when": "flag.ch_mission_north_9_carried" },
+    { "who": "anskar", "key": "chain_mission_north.s10.token" },
+    { "who": "erimbert", "key": "chain_mission_north.s10.erimbert" },
+    { "who": "anskar", "key": "chain_mission_north.s10.convoy" },
+    { "who": "anskar", "key": "chain_mission_north.s10.ask" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_mission_north.s10.opt_take", "label": "Take the archbishop, the priest and the king's man aboard", "check": "true", "default": true,
+      "effects": [ "passenger anskar to birka", "silver +60", "flag ch_mission_north_10", "flag ch_mission_north_10_aboard", "flag ch_mission_north_10_wait for 15", "npc anskar feeling +8 carried" ],
+      "note": "outcome: chain_mission_north.s10.out_take" },
+    { "key": "bell", "label_key": "chain_mission_north.s10.opt_bell", "label": "Take them, and buy a small bell for Birka at your own cost", "check": "silver >= 120",
+      "cost": "silver 120",
+      "effects": [ "passenger anskar to birka", "flag ch_mission_north_10", "flag ch_mission_north_10_aboard", "flag ch_mission_north_bell", "flag ch_mission_north_10_wait for 15", "npc anskar feeling +14 bell" ],
+      "note": "outcome: chain_mission_north.s10.out_bell (120 d and no fare: the hard road)" },
+    { "key": "company", "label_key": "chain_mission_north.s10.opt_company", "label": "Sail in company and carry only their stores", "check": "true",
+      "effects": [ "silver +20", "flag ch_mission_north_10", "flag ch_mission_north_10_wait for 15", "npc anskar feeling +2 company" ],
+      "note": "outcome: chain_mission_north.s10.out_company" },
+    { "key": "pass", "label_key": "chain_mission_north.s10.opt_pass", "label": "Say you are not bound that way yet", "check": "true",
+      "effects": [ "flag ch_mission_north_seen for 15" ],
+      "note": "outcome: chain_mission_north.s10.out_pass (time only: the card comes again while the months last)" }
+   ],
+   "memory": { "take": "carried him to Birka the second time", "bell": "carried him to Birka and bought a bell", "company": "sailed in company", "pass": "went by" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s11_feast",
+   "note": "Step 11: Birka, 852 to 854, fifteen days or more after step 10. The town is uneasy and the king gives his answer. Sources: Rimbert c. 26: a man had come saying he had been at a meeting of the gods, who sent word that they had long been good to the Svear and were now given fewer offerings, and that if the people wanted more gods they would take the dead King Eric into their number; Anskar's friends told him to give up or to buy his life with what he had; he asked the king to a meal, gave gifts and showed Horik's token; King Olaf answered that priests had been driven out before by a rising of the people and not by a king's command, so he would ask the gods by lot and then the people at the thing, 'It is our custom that the control of public business of every kind should rest with the whole people and not with the king' (tr. Robinson 1921, as quoted in spine.json). The chief who asks the house which way it will speak is invented. Sets ch_mission_north_11, _11_wait for 3 days; _11_mission, _11_old or _11_house.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and year >= 852 and year < 855 and flag.ch_mission_north_10 and not flag.ch_mission_north_10_wait and not flag.ch_mission_north_11 and not flag.ch_mission_north_done",
+   "weight": 40,
+   "cooldown_days": 0,
+   "actors": {
+    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf of the Svear (real, Rimbert c. 26-28, 30; named in the words)" },
+    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar" },
+    "chief": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [40, 65], "fixed": true, "note": "invented: a chief of the old party" }
+   },
+   "title_key": "chain_mission_north.s11.title",
+   "title": "A new god, or King Eric",
+   "intention_key": "chain_mission_north.s11.intention",
+   "intention": "Birka is talking of one thing. A man has stood up and said he sat at the gods' own meeting, and brings their word. The archbishop's friends tell him to buy his life and go. He has asked the king to eat with him instead.",
+   "lines": [
+    { "who": "chief", "key": "chain_mission_north.s11.gods_word" },
+    { "who": "chief", "key": "chain_mission_north.s11.eric" },
+    { "who": "anskar", "key": "chain_mission_north.s11.anskar" },
+    { "who": "king", "key": "chain_mission_north.s11.king_before" },
+    { "who": "king", "key": "chain_mission_north.s11.king_custom" },
+    { "who": "chief", "key": "chain_mission_north.s11.ask" }
+   ],
+   "options": [
+    { "key": "mission", "label_key": "chain_mission_north.s11.opt_mission", "label": "Tell the king's men what the cross is worth on the Dorestad road", "check": "true", "default": true,
+      "effects": [ "flag ch_mission_north_11", "flag ch_mission_north_11_mission", "flag ch_mission_north_11_wait for 3", "npc anskar feeling +8 spoke_for", "npc king feeling +3 spoke_plainly" ],
+      "note": "outcome: chain_mission_north.s11.out_mission (free)" },
+    { "key": "old", "label_key": "chain_mission_north.s11.opt_old", "label": "Drink with the men who want King Eric among the gods", "check": "true",
+      "effects": [ "flag ch_mission_north_11", "flag ch_mission_north_11_old", "flag ch_mission_north_11_wait for 3", "price_shock birka marten x0.85 for 60", "npc chief feeling +10 drank", "npc anskar feeling -8 old_party" ],
+      "note": "outcome: chain_mission_north.s11.out_old (free; furs come cheaper to a friend)" },
+    { "key": "house", "label_key": "chain_mission_north.s11.opt_house", "label": "Ask the king what a stranger may keep on his own plot", "check": "true",
+      "effects": [ "flag ch_mission_north_11", "flag ch_mission_north_11_house", "flag ch_mission_north_11_wait for 3", "npc king feeling +5 asked_law" ],
+      "note": "outcome: chain_mission_north.s11.out_house (free)" }
+   ],
+   "memory": { "mission": "spoke for the archbishop", "old": "drank with the old party", "house": "asked what a stranger may keep on his plot" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s12_lots",
+   "note": "Step 12: Birka, three days or more after step 11. The lot. Sources: Rimbert c. 27: the king first met his chiefs; they chose to ask by lot, went out into the open field as their custom was, and the lot fell that it was the will of God that the Christian worship be set up there. How the Svear cast is not told: the marked slips on a white cloth are Tacitus, Germania 10, seven centuries older and of other peoples (?). The lot is the one true chance in the story, so it is a chance here: likely, as the word goes. Paying the man who throws is invented; that lots could be doubted is not (c. 19: the Danes cast again and again). A lot against moves the story to step 14, not to its end. Sets ch_mission_north_12, _12_wait for 2 days, and _lot_for or _lot_against; _lot_bought.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and flag.ch_mission_north_11 and not flag.ch_mission_north_11_wait and not flag.ch_mission_north_12 and not flag.ch_mission_north_done",
+   "weight": 50,
+   "cooldown_days": 0,
+   "actors": {
+    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf" },
+    "caster": { "role": "lawman", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [50, 75], "fixed": true, "note": "invented: the man who throws the lots" },
+    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar" }
+   },
+   "title_key": "chain_mission_north.s12.title",
+   "title": "The lot in the open field",
+   "intention_key": "chain_mission_north.s12.intention",
+   "intention": "The king and his chiefs have gone out to the open field, as the custom is. An old man shakes cut slips of wood in his two hands over a white cloth. The question has been said aloud: do the gods allow the Christians' worship here.",
+   "lines": [
+    { "who": "caster", "key": "chain_mission_north.s12.caster" },
+    { "who": "king", "key": "chain_mission_north.s12.king" },
+    { "who": "anskar", "key": "chain_mission_north.s12.anskar" },
+    { "who": "caster", "key": "chain_mission_north.s12.hint" }
+   ],
+   "options": [
+    { "key": "watch", "label_key": "chain_mission_north.s12.opt_watch", "label": "Stand among the merchants and watch it fall", "check": "true", "default": true,
+      "effects": [ { "chance": 0.6,
+                     "success": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_for", "flag ch_mission_north_12_wait for 2" ],
+                     "failure": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_against", "flag ch_mission_north_12_wait for 2" ] } ],
+      "note": "outcome: chain_mission_north.s12.out_for, chain_mission_north.s12.out_against (free)" },
+    { "key": "vow", "label_key": "chain_mission_north.s12.opt_vow", "label": "Vow alms for the poor of Dorestad, aloud, whichever way it falls", "check": "silver >= 30",
+      "cost": "silver 30",
+      "effects": [ "deed gave_alms", "morale +0.05", "npc anskar feeling +6 vowed",
+                   { "chance": 0.6,
+                     "success": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_for", "flag ch_mission_north_12_wait for 2" ],
+                     "failure": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_against", "flag ch_mission_north_12_wait for 2" ] } ],
+      "note": "outcome: chain_mission_north.s12.out_vow, then out_for or out_against (the vow does not move the lot; the crew and the archbishop heard it)" },
+    { "key": "pay_for", "label_key": "chain_mission_north.s12.opt_pay_for", "label": "Send the thrower 80 d beforehand, to see the slips fall kindly", "check": "silver >= 80",
+      "cost": "silver 80",
+      "effects": [ "deed bribed_officer", "flag ch_mission_north_lot_bought",
+                   { "chance": 0.85,
+                     "success": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_for", "flag ch_mission_north_12_wait for 2" ],
+                     "failure": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_against", "flag ch_mission_north_12_wait for 2", "npc king feeling -15 bought_lot" ] } ],
+      "note": "outcome: chain_mission_north.s12.out_pay_for_success, chain_mission_north.s12.out_pay_for_failure" },
+    { "key": "pay_against", "label_key": "chain_mission_north.s12.opt_pay_against", "label": "Send him 80 d to let it fall against the stranger god", "check": "flag.ch_mission_north_11_old and silver >= 80",
+      "cost": "silver 80",
+      "effects": [ "deed bribed_officer", "flag ch_mission_north_lot_bought",
+                   { "chance": 0.85,
+                     "success": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_against", "flag ch_mission_north_12_wait for 2" ],
+                     "failure": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_for", "flag ch_mission_north_12_wait for 2" ] } ],
+      "note": "outcome: chain_mission_north.s12.out_pay_against_success, chain_mission_north.s12.out_pay_against_failure" }
+   ],
+   "memory": { "watch": "watched the lot", "vow": "vowed alms before the lot", "pay_for": "paid for the lot", "pay_for.failure": "was seen paying for the lot", "pay_against": "paid for the lot" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s13_thing",
+   "note": "Step 13, the finale when the lot fell for it: Birka, two days or more after step 12. The thing. Sources: Rimbert c. 27: the matter was cried at the assembly at Birka, there was uproar, and an old man rose and said that many of them knew this god helps those who hope in him, in peril at sea and other straits; that some who had been to Dorstadt had taken up this worship of their own will; that the way there was now beset by pirates; and why should they not take at home what they had sought far off. The people agreed; a second assembly in another part of the realm agreed also. c. 28: the king gave a hall to be an oratory and Anskar bought another plot for the priest's house; Erimbert stayed. Endings: ch_mission_north_end_church (what happened); ch_mission_north_end_endures with changed_birka_church_endures (the hard road: the bell, a book brought back, and a priest carried or Herigar stood by); ch_mission_north_end_merchants with changed_birka_merchants_church (the church is the house's own, as Herigar's was his: the proprietary church of the age) and the cost ch_mission_north_bishop_watches; ch_mission_north_end_refused with changed_birka_refused_mission and the cost ch_mission_north_church_remembers. All set ch_mission_north_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and flag.ch_mission_north_12 and flag.ch_mission_north_lot_for and not flag.ch_mission_north_12_wait and not flag.ch_mission_north_done",
+   "weight": 50,
+   "cooldown_days": 0,
+   "actors": {
+    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf" },
+    "elder": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [65, 80], "fixed": true, "note": "the old man of Rimbert c. 27 (real, unnamed; his words our rendering)" },
+    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar" }
+   },
+   "title_key": "chain_mission_north.s13.title",
+   "title": "The old man at the thing",
+   "intention_key": "chain_mission_north.s13.intention",
+   "intention": "The king's crier has said it before the whole people: the lot allows the Christians' worship, and the king asks what they will have. The shouting goes on a long time. Then an old man gets up, and they let him speak because of his years.",
+   "lines": [
+    { "who": "elder", "key": "chain_mission_north.s13.elder_sea" },
+    { "who": "elder", "key": "chain_mission_north.s13.elder_dorstadt" },
+    { "who": "elder", "key": "chain_mission_north.s13.elder_road" },
+    { "who": "king", "key": "chain_mission_north.s13.king" },
+    { "who": "anskar", "key": "chain_mission_north.s13.anskar_bought", "when": "flag.ch_mission_north_lot_bought" }
+   ],
+   "options": [
+    { "key": "witness", "label_key": "chain_mission_north.s13.opt_witness", "label": "Stand up after him: you are of Dorestad, and it is as he says", "check": "true", "default": true,
+      "effects": [ "silver +700", "flag unlock_factor_birka", "commission rhenish_wine 6 by 365 premium 1.5", "news chain_mission_north.news.allowed at birka", "news chain_mission_north.news.allowed at sliesthorp",
+                   "flag ch_mission_north_end_church", "flag ch_mission_north_done", "npc anskar feeling +15 witness", "npc king feeling +5 witness" ],
+      "note": "ENDING church (what happened). outcome: chain_mission_north.s13.out_witness; ending text chain_mission_north.end.church" },
+    { "key": "bell", "label_key": "chain_mission_north.s13.opt_bell", "label": "Lay the book and the bell before them, and say what your house has carried", "check": "flag.ch_mission_north_bell and (flag.ch_mission_north_books_bought or flag.ch_mission_north_7_book or flag.ch_mission_north_books_safe) and (flag.ch_mission_north_9_carried or flag.ch_mission_north_8_stood)",
+      "effects": [ "silver +1400", "flag unlock_work_birka_church", "flag unlock_factor_birka", "commission rhenish_wine 8 by 365 premium 1.5", "news chain_mission_north.news.bell at birka", "news chain_mission_north.news.bell at sliesthorp",
+                   "flag ch_mission_north_end_endures", "flag changed_birka_church_endures", "flag ch_mission_north_done", "npc anskar feeling +30 bell", "npc king feeling +10 bell" ],
+      "note": "ENDING endures (history changed; the hard road). outcome: chain_mission_north.s13.out_bell; ending text chain_mission_north.end.endures" },
+    { "key": "house", "label_key": "chain_mission_north.s13.opt_house", "label": "Ask the thing for the church on your own plot, as Herigar had his", "check": "flag.ch_mission_north_11_house",
+      "effects": [ "goods marten +5", "silver +200", "flag unlock_plot_birka", "flag unlock_title_church_lord_birka", "news chain_mission_north.news.house at birka", "news chain_mission_north.news.house at sliesthorp",
+                   "flag ch_mission_north_end_merchants", "flag changed_birka_merchants_church", "flag ch_mission_north_bishop_watches", "flag ch_mission_north_done", "npc king feeling +10 own_plot", "npc anskar feeling -10 own_church" ],
+      "note": "ENDING merchants (history changed). outcome: chain_mission_north.s13.out_house; ending text chain_mission_north.end.merchants. 5 timbers of marten are 600 d: 800 d in all" },
+    { "key": "against", "label_key": "chain_mission_north.s13.opt_against", "label": "Stand up and count out what the last priests cost this town", "check": "flag.ch_mission_north_11_old",
+      "effects": [ "goods sable +2", "silver +300", "flag unlock_plot_birka", "news chain_mission_north.news.refused at birka", "news chain_mission_north.news.refused at sliesthorp",
+                   "flag ch_mission_north_end_refused", "flag changed_birka_refused_mission", "flag ch_mission_north_church_remembers", "flag ch_mission_north_done", "npc anskar feeling -40 spoke_against", "npc elder feeling -10 spoke_against" ],
+      "note": "ENDING refused (history changed). outcome: chain_mission_north.s13.out_against; ending text chain_mission_north.end.refused. 2 timbers of sable are 960 d: 1,260 d in all" }
+   ],
+   "memory": { "witness": "bore the old man out at the thing", "bell": "laid the book and the bell before the thing", "house": "asked for the church on his own plot", "against": "spoke against the priests at the thing" }
+  },
+  {
+   "id": "harbour.chain_mission_north.s14_against",
+   "note": "Step 14, the finale when the lot fell against: Birka, two days or more after step 12. This did not happen: in Rimbert c. 27 the lot fell for the mission. Here the king cannot put a thing to the people that the gods have refused, and the story goes on by another road: the archbishop is carried home (ending refused, with the archbishop's protection: a free man under a bishop's hand, as in unlocks_793.json unlock_title_lords_protection); or a smaller question is put to the lot, whether strangers may keep their own god on their own plot (ending merchants), which is how Herigar's church stood, on a man's own land (c. 11); or the old man is brought before the chiefs all the same (ending church); or the old party thanks the house (ending refused, their way). A failed chance pays the loyal ending, never nothing. The same four ending flags and costs as step 13.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and flag.ch_mission_north_12 and flag.ch_mission_north_lot_against and not flag.ch_mission_north_12_wait and not flag.ch_mission_north_done",
+   "weight": 50,
+   "cooldown_days": 0,
+   "actors": {
+    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf" },
+    "elder": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [65, 80], "fixed": true, "note": "the old man of Rimbert c. 27" },
+    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar" }
+   },
+   "title_key": "chain_mission_north.s14.title",
+   "title": "The gods say no",
+   "intention_key": "chain_mission_north.s14.intention",
+   "intention": "The slips fell against it, in front of every chief. The king has sent the archbishop a ring and a courteous word, and the word is no. An old man of the town has come down to the jetty and is angry with all of you.",
+   "lines": [
+    { "who": "king", "key": "chain_mission_north.s14.king" },
+    { "who": "king", "key": "chain_mission_north.s14.king_bought", "when": "flag.ch_mission_north_lot_bought and not flag.ch_mission_north_11_old" },
+    { "who": "anskar", "key": "chain_mission_north.s14.anskar" },
+    { "who": "elder", "key": "chain_mission_north.s14.elder" },
+    { "who": "elder", "key": "chain_mission_north.s14.elder_plot" }
+   ],
+   "options": [
+    { "key": "home", "label_key": "chain_mission_north.s14.opt_home", "label": "Carry the archbishop home, and say nothing clever on the way", "check": "true", "default": true,
+      "effects": [ "passenger anskar to sliesthorp", "silver +600", "flag unlock_title_lords_protection", "news chain_mission_north.news.refused at birka", "news chain_mission_north.news.refused at sliesthorp",
+                   "flag ch_mission_north_end_refused", "flag changed_birka_refused_mission", "flag ch_mission_north_done", "npc anskar feeling +20 carried_home" ],
+      "note": "ENDING refused, the loyal way (history changed by the lot). outcome: chain_mission_north.s14.out_home; ending text chain_mission_north.end.refused_loyal" },
+    { "key": "again", "label_key": "chain_mission_north.s14.opt_again", "label": "Ask the king to throw once more, on a smaller question: a stranger's own plot", "check": "true",
+      "effects": [ { "chance": 0.7,
+                     "success": [ "goods marten +5", "silver +200", "flag unlock_plot_birka", "flag unlock_title_church_lord_birka", "news chain_mission_north.news.house at birka", "news chain_mission_north.news.house at sliesthorp",
+                                  "flag ch_mission_north_end_merchants", "flag changed_birka_merchants_church", "flag ch_mission_north_bishop_watches", "flag ch_mission_north_done", "npc king feeling +10 own_plot" ],
+                     "failure": [ "silver +600", "flag unlock_title_lords_protection", "news chain_mission_north.news.refused at birka", "news chain_mission_north.news.refused at sliesthorp",
+                                  "flag ch_mission_north_end_refused", "flag changed_birka_refused_mission", "flag ch_mission_north_done", "npc anskar feeling +10 tried" ] } ],
+      "note": "ENDING merchants, or refused the loyal way. outcome: chain_mission_north.s14.out_again_success, chain_mission_north.s14.out_again_failure" },
+    { "key": "elder", "label_key": "chain_mission_north.s14.opt_elder", "label": "Bring the old man before the chiefs, lot or no lot", "check": "true",
+      "effects": [ { "chance": 0.4,
+                     "success": [ "silver +700", "flag unlock_factor_birka", "commission rhenish_wine 6 by 365 premium 1.5", "news chain_mission_north.news.allowed at birka", "news chain_mission_north.news.allowed at sliesthorp",
+                                  "flag ch_mission_north_end_church", "flag ch_mission_north_done", "npc anskar feeling +20 elder", "npc elder feeling +15 heard" ],
+                     "failure": [ "silver +600", "flag unlock_title_lords_protection", "news chain_mission_north.news.refused at birka", "news chain_mission_north.news.refused at sliesthorp",
+                                  "flag ch_mission_north_end_refused", "flag changed_birka_refused_mission", "flag ch_mission_north_done", "npc anskar feeling +10 tried", "npc king feeling -5 pressed" ] } ],
+      "note": "ENDING church (as it really went, by a harder road), or refused the loyal way. outcome: chain_mission_north.s14.out_elder_success, chain_mission_north.s14.out_elder_failure" },
+    { "key": "thanks", "label_key": "chain_mission_north.s14.opt_thanks", "label": "Take the thanks of the men who wanted it so", "check": "flag.ch_mission_north_11_old",
+      "effects": [ "goods sable +2", "silver +300", "flag unlock_plot_birka", "news chain_mission_north.news.refused at birka", "news chain_mission_north.news.refused at sliesthorp",
+                   "flag ch_mission_north_end_refused", "flag changed_birka_refused_mission", "flag ch_mission_north_church_remembers", "flag ch_mission_north_done", "npc anskar feeling -30 old_party" ],
+      "note": "ENDING refused, the old party's way. outcome: chain_mission_north.s14.out_thanks; ending text chain_mission_north.end.refused" }
+   ],
+   "memory": { "home": "carried the archbishop home from Birka", "again": "asked for a second lot", "again.failure": "asked for a second lot", "elder": "brought the old man before the chiefs", "elder.failure": "brought the old man before the chiefs", "thanks": "took the old party's thanks" }
+  }
+ ]
+}

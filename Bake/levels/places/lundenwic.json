@@ -1,0 +1,110 @@
+{
+ "id": "lundenwic",
+ "name": "Lundenwic",
+ "status": "trial: a first config to prove the thames_793 source; the anchors, the clearing and the water level want the place's own research",
+ "about": "The strand market on the Thames c. 800 (Lundenwic, the Strand), at true size",
+ "source": "thames_793",
+ "centre": [
+  530500.0,
+  180300.0
+ ],
+ "centre_about": "British National Grid: the Strand's reach of the Thames, the port a little north-east of the centre",
+ "n": 2049,
+ "cell": 2.5,
+ "margin": 600.0,
+ "port": {
+  "name": "Lundenwic",
+  "latlon": [
+   51.511,
+   -0.121
+  ],
+  "about": "ports_793.json: Lundenwic (London, the Strand)"
+ },
+ "out": "G:/kapman_unity/data/levels/_trial_lundenwic",
+ "rivers": [
+  {
+   "name": "Thames",
+   "kind": "river",
+   "class": 3,
+   "depth": 3.5,
+   "mask": {
+    "info_class": [
+     3
+    ]
+   },
+   "about": "thames_793's class 3 (the channel and its creeks); the carve makes it at least 3.5 m under the mean level mid-river, the raster's own bed kept where deeper"
+  }
+ ],
+ "tide": {
+  "hw": 1.25,
+  "range": 2.4,
+  "about": "High water +1.25 m ODN (thames_793.py's HW_793: archaeological estimates for London's Saxon waterfront +1.0..+1.5); the mean range c. 800 2.4 m (springs 3.0) from Research/water_levels/north_sea_core.json thames_lundenwic, which marks it a guess (low confidence). Low water = high water - range."
+ },
+ "water_mask": "below_level",
+ "water_level": {
+  "rule": "tide_mean",
+  "about": "the mean of the tide's high and low water: the level's base, the tide moves the water round it"
+ },
+ "shore": {
+  "bank_rise": 0,
+  "about": "no bank lift: the tidal shore is the raster's own foreshore"
+ },
+ "outer": {
+  "about": "the EA LIDAR Composite DTM 2022 of today, 70 m median (the raster's own rule for ground kept)",
+  "median_m": 70.0,
+  "blend_m": 200.0
+ },
+ "channel": {
+  "name": "Thames",
+  "lines": "grwl",
+  "pick": "nearest_port",
+  "min_step_m": 10.0,
+  "smooth_m": 60.0,
+  "start_name": "port"
+ },
+ "settlement": {
+  "along_m": 1400.0,
+  "wide_m": 500.0,
+  "far_m": 120.0,
+  "fade_m": 400.0,
+  "around_port": true,
+  "about": "the Strand settlement, about 1.4 km along the river centred on the port, on the north bank (a guess)",
+  "clearings": [
+   {
+    "label": "Lundenburh's clearing (the walled Roman city: the minster and open ground)",
+    "at": [
+     4060.0,
+     3390.0
+    ],
+    "r": 600.0,
+    "about": "level metres: St Paul's (BNG 532000, 181130); a guess"
+   }
+  ]
+ },
+ "cover_names": {
+  "1": "terrace edge and dry bank: the high dry ground by the river (settlement, fields, hay)",
+  "7": "gravel terrace: dry old high ground away from the river (fields, oak and hazel on the driest parts)"
+ },
+ "anchors": [
+  {
+   "id": "berth",
+   "kind": "berth",
+   "port": "lundenwic",
+   "at": "nearest_water",
+   "min_depth": 1.5,
+   "heading": "auto"
+  },
+  {
+   "id": "sea",
+   "kind": "join",
+   "at": "channel_end",
+   "inset_m": 80.0,
+   "heading": "auto"
+  }
+ ],
+ "sources": [
+  "The tidal Thames c. 793 from the EA LIDAR Composite DTM 2022 (Contains Environment Agency information (c) Environment Agency and/or database right 2022, OGL v3), the first build's Bake/realground/thames_793.py",
+  "Today's ground beyond the floodplain: the same EA LIDAR Composite DTM 2022 (OGL v3)",
+  "Allen, G. H. & Pavelsky, T. M. (2018), Global extent of rivers and streams, Science 361 (GRWL, CC BY 4.0): the channel's centre line"
+ ]
+}

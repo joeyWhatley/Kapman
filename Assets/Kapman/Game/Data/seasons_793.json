@@ -1,0 +1,25 @@
+{
+ "about": "THE YEAR IN THE MARKETS (economy design 2.2 and 2.3, night two): a table the game reads (edit freely). edge_days: the days over which a good's cheap or dear months (goods_793.json) blend in and out, half a cosine centred on the month's first day, so a price drifts into its season instead of jumping on the 1st (a month's middle keeps the month's own value). make: seasons of making. Each names its goods and gives points through the year ('MM-DD': share); the game draws straight lines between the points, round the year's end, and smooths them over smooth_days. The share is of the market's usual stock (its size, how strongly it makes the good): the stock settles toward that share of it on that day, at trade_rules' regen (5 % of the gap a day, so it follows about 20 days behind), while the price still reads scarcity against the usual. So a granary that runs low in spring is dear in spring, and the new harvest is cheap. Only markets that make the good feel its season (an import's stock is what ships bring). EVERY SHARE IS A GUESS TO TUNE, shaped by the sources' seasons: keep each line's rise or fall under about 1 % a day, or a price will step more than 2 % in a day (the economy tests check it).",
+ "edge_days": 20,
+ "smooth_days": 21,
+ "make": [
+  {
+   "id": "harvest",
+   "goods": ["wheat", "rye", "barley", "oats", "malt", "flour"],
+   "points": { "01-01": 0.95, "03-01": 0.8, "04-15": 0.62, "05-15": 0.64, "06-15": 0.75, "07-15": 0.95, "08-15": 1.35, "09-10": 1.35, "10-20": 1.1, "12-01": 1.0 },
+   "note": "The grain year (guess): the threshed harvest comes to market from August; stores drawn down over the winter; the hungry spring of March to May, when the granaries are low; from June the first rye and barley and the hoarders' last stores before the new crop. The wheat goods' cheap months (Aug-Oct) and dear ones (Mar-Jun) are in goods_793.json; this moves the stock under them, so wheat is dearest in May and cheapest in September in a plain year."
+  },
+  {
+   "id": "vintage",
+   "goods": ["rhenish_wine", "frankish_wine", "aquitaine_wine"],
+   "points": { "01-01": 1.15, "04-01": 1.0, "07-01": 0.85, "09-10": 0.78, "11-20": 1.3 },
+   "note": "The wine year (guess): the vintage in October, the new wine in the casks by November and cheap; drunk down through the spring and summer until the old wine is scarce and dear before the next vintage."
+  },
+  {
+   "id": "herring",
+   "goods": ["herring"],
+   "points": { "01-01": 1.0, "02-01": 0.9, "04-01": 0.65, "08-01": 0.7, "11-01": 1.35, "12-15": 1.15 },
+   "note": "The herring year (guess): caught and salted in the autumn runs (September to November); eaten through the winter and Lent (February and March), so the barrels are few by spring and summer."
+  }
+ ]
+}

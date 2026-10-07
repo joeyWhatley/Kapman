@@ -1,0 +1,52 @@
+{
+ "id": "dorestad",
+ "name": "Dorestad",
+ "about": "The first river place: Dorestad at the fork of the Kromme Rijn and the Lek, c. 800, at true size",
+ "source": "nl_793",
+ "centre": [151700.0, 443400.0],
+ "centre_about": "RD New: between the fork and the Hoogstraat",
+ "n": 2049,
+ "cell": 2.5,
+ "margin": 600.0,
+ "port": {"name": "Dorestat", "latlon": [51.972, 5.343], "about": "ports_793.json: Dorestat"},
+ "out": "G:/kapman_unity/data/levels/dorestad",
+ "rivers": [
+  {"name": "Lek", "kind": "river", "class": 10, "depth": 4.5,
+   "mask": {"vos_units": ["binnenwater", "dekzand_hol", "laag holoceen"]},
+   "about": "the 800 Lek: the Vos 800 AD map's inland water; 4.5 m at mid-river"},
+  {"name": "Kromme Rijn", "kind": "river", "class": 3, "depth": 2.8,
+   "mask": {"info_class": [3]},
+   "about": "the 800 Kromme Rijn: nl_793's class 3, cut along the Vos line; 2.8 m at mid-river"}
+ ],
+ "water_mask": "masks",
+ "water_level": {"rule": "bank_ring", "pct": 20, "ring_m": [10.0, 60.0],
+                 "about": "low on the banks, so the levees and most banks stand over it: p20 of the ground 10-60 m from the water"},
+ "shore": {"edge_depth": 0.35, "depth_ramp": 30.0, "bank_rise": 12.0, "bank_lift": 0.12, "bank_slope": 0.04,
+           "sd_blur": 2.0, "height_blur": 1.0},
+ "channel": {"name": "Kromme Rijn", "lines": "nl_793_channel_lines", "pick": "nearest_port", "min_step_m": 10.0,
+             "walk_from": {"near_body": "Lek"}, "start_name": "fork"},
+ "cover": {
+  "crest_pct_near": 80, "flank_pct_near": 55, "marsh_pct_near": 18,
+  "crest_pct_far": 85, "flank_pct_far": 60, "marsh_pct_far": 20,
+  "near_river_m": 600.0, "near_blend_m": 300.0, "pool_under": -0.03, "pool_min_ha": 0.10, "peat_vos": 6
+ },
+ "settlement": {
+  "along_m": 2000.0, "wide_m": 450.0, "far_m": 120.0, "fade_m": 400.0,
+  "about": "the ribbon settlement along the Kromme Rijn from the fork, its clearing wide on the town's (west) bank and a landing strip on the far bank (guesses: ED4 ch. V 3, ch. VIII 1.1)",
+  "clearings": [
+   {"label": "De Geer's clearing", "from_port": [-600.0, 500.0], "r": 250.0,
+    "about": "the De Geer farms, c. 500 m west of the harbour on an older levee (JALC 2010; a guess)"},
+   {"label": "Rijswijk's clearing (the villa and the lost castellum south of the Lek)", "at": [3600.0, 800.0], "r": 300.0,
+    "about": "level metres; the fort's site is lost to the river (ED4 ch. VIII; a guess)"}
+  ]
+ },
+ "woods": {"basin_share": 0.68, "high_share": 0.35},
+ "anchors_from_chain": "dorestad",
+ "anchors": [],
+ "sources": [
+  "The Netherlands c. 800 from AHN4 lidar (CC0), the first build's Bake/realground/nl_793.py",
+  "Vos et al., paleogeographic map 800 AD (inland water: the 800 Lek; veen: the Langbroek peat)",
+  "Cohen et al. 2012, Rhine-Meuse delta channel belts (CC BY 4.0), via the 800 channel; active belts c. 800 and the dead sandy ridges",
+  "Van der Tuuk, Dorestad onthuld ch. 2; Gouw-Bouman 2025 Veget Hist Archaeobot 34; Van Es & Verwers 2015 (NO 18) ch. VIII: what grew where"
+ ]
+}

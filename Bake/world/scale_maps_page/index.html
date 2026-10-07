@@ -1,0 +1,559 @@
+<title>Kāpman World Scales</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: dark;
+  --sea: #0a161d; --sea-deep: #071117; --land: #25261f; --coast: #5d5b4b; --river: #4f9fbf; --river-game: #86cde6;
+  --ink: #ece8dc; --dim: #a7a393; --faint: #6f6c61; --gold: #e6c15c; --red: #d9724f;
+  --glass: rgba(5, 7, 8, 0.80); --edge: #000; --line: #2a3033;
+  --serif: "Gentium Book Plus", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--sea); color: var(--ink); font-family: var(--serif); font-size: 15px; overflow: hidden; }
+#app { position: fixed; inset: 0; }
+canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+canvas.dragging { cursor: grabbing; }
+aside {
+  position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  width: 360px; max-width: calc(100% - 24px); overflow-y: auto; background: var(--glass); border: 1px solid var(--edge);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); padding: 14px 16px 18px; display: grid; gap: 14px; align-content: start;
+  box-sizing: border-box;
+}
+h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.01em; text-wrap: balance; }
+h2 { margin: 0; font-size: 12px; font-family: var(--mono); font-weight: 500; color: var(--dim); letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0; line-height: 1.4; }
+.dim { color: var(--dim); }
+.small { font-size: 13px; }
+section { display: grid; gap: 7px; }
+.maps { display: grid; gap: 4px; }
+.maps button { text-align: left; display: grid; grid-template-columns: 1fr auto; gap: 1px 10px; padding: 7px 9px; }
+.maps button .n { font-size: 15px; }
+.maps button .s { grid-column: 1; font-family: var(--mono); font-size: 11.5px; color: var(--dim); }
+.maps button .t { grid-row: 1 / span 2; grid-column: 2; align-self: center; font-family: var(--mono); font-size: 12.5px; color: var(--gold); font-variant-numeric: tabular-nums; }
+button {
+  font: inherit; color: var(--ink); background: rgba(255, 255, 255, 0.03); border: 1px solid #000; border-radius: 0; cursor: pointer;
+}
+button:hover { background: rgba(255, 255, 255, 0.08); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+button[aria-pressed="true"] { background: rgba(230, 193, 92, 0.16); border-color: var(--gold); }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.seg button { padding: 6px 4px; font-size: 13.5px; }
+.goto { display: flex; flex-wrap: wrap; gap: 4px; }
+.goto button { padding: 3px 7px; font-size: 13px; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; }
+.toggles label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 4px 6px 4px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--mono); font-weight: 400; font-size: 10.5px; color: var(--faint); letter-spacing: 0.06em; text-transform: uppercase; }
+td.num { font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; padding-right: 0; padding-left: 6px; }
+th.num { text-align: right; padding-right: 0; }
+.note { border-left: 2px solid var(--gold); padding-left: 9px; }
+.credits { font-size: 11.5px; color: var(--faint); line-height: 1.35; }
+#hud {
+  position: absolute; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 6px; justify-items: end; pointer-events: none;
+}
+#scalebar, #readout { background: var(--glass); border: 1px solid var(--edge); padding: 6px 9px; font-family: var(--mono); font-size: 12px; color: var(--ink); }
+#readout:empty { display: none; }
+#bar { height: 6px; border: 1px solid var(--ink); border-top: 0; margin-top: 3px; }
+#loading { position: absolute; inset: 0; display: grid; place-items: center; font-size: 18px; color: var(--dim); background: var(--sea); }
+#toggle-panel { display: none; }
+@media (max-width: 760px) {
+  aside { top: auto; height: 46%; width: auto; right: 12px; }
+  aside.closed { height: auto; }
+  aside.closed > :not(.head) { display: none; }
+  #toggle-panel { display: inline-block; padding: 3px 8px; font-size: 13px; }
+  #hud { bottom: calc(46% + 20px + env(safe-area-inset-bottom, 0px)); }
+}
+.head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div id="app">
+  <canvas id="map" aria-label="Map of the Kāpman world"></canvas>
+  <aside id="panel">
+    <div class="head"><h1>World scales</h1><button id="toggle-panel" aria-expanded="true">Hide</button></div>
+    <p class="dim small">Pick a map and a river rule. Scroll or pinch to zoom right down to the boat (7.7 m, drawn to size); drag to move. Times are at natural ship speed, 2 m/s, on the 1 s = 1 min clock.</p>
+    <section>
+      <h2>Map</h2>
+      <div class="maps" id="maps"></div>
+    </section>
+    <section>
+      <h2>River widths</h2>
+      <div class="seg" id="rules">
+        <button data-rule="true">True width</button>
+        <button data-rule="shrunk">Shrunk</button>
+        <button data-rule="boat">Boat-scaled</button>
+      </div>
+      <p class="dim small" id="rule-note"></p>
+    </section>
+    <section>
+      <h2>Go to</h2>
+      <div class="goto" id="goto"></div>
+    </section>
+    <section>
+      <div class="toggles">
+        <label><input type="checkbox" id="show-places" checked> Places</label>
+        <label><input type="checkbox" id="show-voyages" checked> Voyages</label>
+        <label><input type="checkbox" id="show-names" checked> Names</label>
+      </div>
+    </section>
+    <section>
+      <h2>This map</h2>
+      <p class="note" id="map-note"></p>
+      <p class="dim small" id="map-facts"></p>
+    </section>
+    <section>
+      <h2>Voyages on this map</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Voyage</th><th class="num">Real</th><th class="num">Game</th><th class="num">At 1x</th><th class="num">At 4x</th></tr></thead>
+          <tbody id="voyages"></tbody>
+        </table>
+      </div>
+      <p class="dim small">Game days: 1 real minute is 1 game hour, so an hour at 1x is 2.5 game days.</p>
+    </section>
+    <section>
+      <h2>Sources</h2>
+      <p class="credits" id="credits"></p>
+    </section>
+  </aside>
+  <div id="hud">
+    <div id="readout"></div>
+    <div id="scalebar"><span id="bar-label"></span><div id="bar"></div></div>
+  </div>
+  <div id="loading">Loading the world…</div>
+</div>
+
+<script>
+"use strict";
+const RULE_NOTES = {
+  true: "Every river at its real width beside the true-size boat; delta branches capped at 150 m, everything else at 300 m.",
+  shrunk: "Rivers shrink with everything else: the real width divided by the map's scale.",
+  boat: "The 1 October rule: 2.15 × real width^0.604, at least 15 m (two boat lengths), never less than shrunk.",
+};
+const BOAT = { len: 7.7, beam: 1.5 };
+const S = { data: null, land: null, lakes: null, rivers: null, warps: {}, map: null, rule: "true", geo: null, cache: new Map(),
+            view: { cx: 0, cy: 0, k: 1 }, places: true, voyages: true, names: true, hover: null };
+const canvas = document.getElementById("map");
+const ctx = canvas.getContext("2d");
+let W = 0, H = 0, DPR = 1;
+
+// ------------------------------------------------------------------------------------------------ loading
+async function get(url, kind) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(url + " (" + r.status + ")");
+  if (kind === "json") return r.json();
+  // the binary files travel as base64 text (the page's files must be text or media)
+  const b64 = await r.text(), raw = atob(b64.trim()), u8 = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) u8[i] = raw.charCodeAt(i);
+  return u8.buffer;
+}
+function rings(buf) {
+  const dv = new DataView(buf);
+  const n = dv.getUint32(4, true), hasW = dv.getUint32(8, true);
+  const lens = new Uint32Array(buf, 12, n);
+  let off = 12 + 4 * n, widths = null;
+  if (hasW) { widths = new Uint16Array(buf, off, n); off += 2 * n + (n % 2 ? 2 : 0); }
+  return { n, lens, widths, pts: new Int32Array(buf, off) };
+}
+function warp(buf) {
+  const h = new Float32Array(buf, 0, 6);
+  return { nx: h[0] | 0, ny: h[1] | 0, x0: h[2], y0: h[3], res: h[4], a: new Float32Array(buf, 24) };
+}
+
+// ------------------------------------------------------------------------------------------------ the map's own transform
+function makeT(m) {
+  const N = m.scale;
+  if (!m.warp) return (x, y, o) => { o[0] = x / N; o[1] = y / N; };
+  const w = S.warps[m.id], nx = w.nx, ny = w.ny, a = w.a;
+  return (x, y, o) => {
+    let fx = (x - w.x0) / w.res - 0.5, fy = (y - w.y0) / w.res - 0.5;
+    fx = fx < 0 ? 0 : fx > nx - 1.001 ? nx - 1.001 : fx;
+    fy = fy < 0 ? 0 : fy > ny - 1.001 ? ny - 1.001 : fy;
+    const i = fx | 0, j = fy | 0, tx = fx - i, ty = fy - j;
+    const p00 = (j * nx + i) * 2, p10 = p00 + 2, p01 = p00 + nx * 2, p11 = p01 + 2;
+    const X = (a[p00] * (1 - tx) + a[p10] * tx) * (1 - ty) + (a[p01] * (1 - tx) + a[p11] * tx) * ty;
+    const Y = (a[p00 + 1] * (1 - tx) + a[p10 + 1] * tx) * (1 - ty) + (a[p01 + 1] * (1 - tx) + a[p11 + 1] * tx) * ty;
+    o[0] = X / N; o[1] = Y / N;
+  };
+}
+function localFactor(T, x, y) {           // game metres per real metre here
+  const a = [0, 0], b = [0, 0];
+  T(x, y, a); T(x + 2000, y, b);
+  return Math.hypot(b[0] - a[0], b[1] - a[1]) / 2000;
+}
+function ruleWidth(wReal, rule, f, branch) {
+  if (rule === "true") return Math.min(wReal, branch ? 150 : 300);
+  if (rule === "boat") return Math.max(15, 2.15 * Math.pow(wReal, 0.604), wReal * f);
+  return wReal * f;
+}
+function bin(w) { return Math.pow(1.2, Math.round(Math.log(Math.max(w, 0.01)) / Math.log(1.2))); }
+
+// ------------------------------------------------------------------------------------------------ building a map
+function build(m, rule) {
+  const key = m.id + "|" + rule;
+  if (S.cache.has(key)) return S.cache.get(key);
+  const T = makeT(m), o = [0, 0];
+  const g = { T, bounds: [Infinity, Infinity, -Infinity, -Infinity] };
+  const ringsPath = (R, track) => {
+    const p = new Path2D();
+    let k = 0;
+    for (let r = 0; r < R.n; r++) {
+      const n = R.lens[r];
+      for (let i = 0; i < n; i++, k += 2) {
+        T(R.pts[k] * 10, R.pts[k + 1] * 10, o);
+        if (i === 0) p.moveTo(o[0], o[1]); else p.lineTo(o[0], o[1]);
+        if (track) {
+          if (o[0] < g.bounds[0]) g.bounds[0] = o[0]; if (o[1] < g.bounds[1]) g.bounds[1] = o[1];
+          if (o[0] > g.bounds[2]) g.bounds[2] = o[0]; if (o[1] > g.bounds[3]) g.bounds[3] = o[1];
+        }
+      }
+      p.closePath();
+    }
+    return p;
+  };
+  g.land = ringsPath(S.land, true);
+  g.lakes = ringsPath(S.lakes, false);
+  // the other rivers, by width
+  g.other = new Map();
+  { const R = S.rivers; let k = 0;
+    for (let r = 0; r < R.n; r++) {
+      const n = R.lens[r], wr = R.widths[r];
+      const f = m.warp ? localFactor(T, R.pts[k] * 10, R.pts[k + 1] * 10) : 1 / m.scale;
+      const b = bin(ruleWidth(wr, rule, f, false));
+      let p = g.other.get(b); if (!p) { p = new Path2D(); g.other.set(b, p); }
+      for (let i = 0; i < n; i++, k += 2) {
+        T(R.pts[k] * 10, R.pts[k + 1] * 10, o);
+        if (i === 0) p.moveTo(o[0], o[1]); else p.lineTo(o[0], o[1]);
+      }
+    }
+  }
+  // the game rivers (traced and eased for this map's scale and rule)
+  g.game = new Map(); g.gameLines = [];
+  for (const rv of S.data.rivers[m.rivers + "_" + rule] || []) {
+    const n = rv.w.length, xs = new Float64Array(n), ys = new Float64Array(n);
+    for (let i = 0; i < n; i++) { T(rv.p[2 * i] * 10, rv.p[2 * i + 1] * 10, o); xs[i] = o[0]; ys[i] = o[1]; }
+    const f = m.warp && rule === "shrunk" ? localFactor(T, rv.p[0] * 10, rv.p[1] * 10) * m.rivers : 1;
+    const ws = rv.w.map(w => w * f);
+    for (let i = 0; i < n - 1; i++) {
+      const b = bin(ws[i]);
+      let p = g.game.get(b); if (!p) { p = new Path2D(); g.game.set(b, p); }
+      p.moveTo(xs[i], ys[i]); p.lineTo(xs[i + 1], ys[i + 1]);
+    }
+    g.gameLines.push({ id: rv.id, name: rv.name, xs, ys, ws });
+  }
+  // places: the most important first, each needing 400 game metres of its own
+  const spacing = 400;
+  g.places = []; g.dropped = 0;
+  const kept = [];
+  for (const q of S.data.places) {
+    T(q.x * 10, q.y * 10, o);
+    const ok = kept.every(k => Math.hypot(k.gx - o[0], k.gy - o[1]) >= spacing);
+    if (ok) { const e = { ...q, gx: o[0], gy: o[1] }; kept.push(e); g.places.push(e); } else g.dropped++;
+  }
+  // voyages
+  g.voyages = S.data.voyages.map(v => {
+    const n = v.p.length / 2, xs = new Float64Array(n), ys = new Float64Array(n);
+    let len = 0;
+    for (let i = 0; i < n; i++) {
+      T(v.p[2 * i] * 10, v.p[2 * i + 1] * 10, o); xs[i] = o[0]; ys[i] = o[1];
+      if (i) len += Math.hypot(xs[i] - xs[i - 1], ys[i] - ys[i - 1]);
+    }
+    return { ...v, xs, ys, len };
+  });
+  // the boat: on the Kromme Rijn at Dorestad and on the Thames at Lundenwic
+  g.boats = [];
+  for (const [id, at] of [["kromme_rijn", 0.02], ["thames", 0.55], ["rhine", 0.02]]) {
+    const L = g.gameLines.find(l => l.id === id);
+    if (!L) continue;
+    const i = Math.max(1, Math.min(L.xs.length - 2, Math.round(at * (L.xs.length - 1))));
+    g.boats.push({ x: L.xs[i], y: L.ys[i], a: Math.atan2(L.ys[i + 1] - L.ys[i - 1], L.xs[i + 1] - L.xs[i - 1]) });
+  }
+  S.cache.set(key, g);
+  return g;
+}
+
+function voyageLen(m, id) {              // a voyage's game length on a map, without building the map
+  const v = S.data.voyages.find(x => x.id === id); if (!v) return 0;
+  const T = makeT(m), a = [0, 0], b = [0, 0];
+  let len = 0;
+  for (let i = 0; i < v.p.length / 2; i++) {
+    T(v.p[2 * i] * 10, v.p[2 * i + 1] * 10, b);
+    if (i) len += Math.hypot(b[0] - a[0], b[1] - a[1]);
+    a[0] = b[0]; a[1] = b[1];
+  }
+  return len;
+}
+
+// ------------------------------------------------------------------------------------------------ drawing
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = canvas.clientWidth; H = canvas.clientHeight;
+  canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+  draw();
+}
+let pending = false;
+function draw() {
+  if (pending) return;
+  pending = true;
+  requestAnimationFrame(() => { pending = false; paint(); });
+}
+function toScreen(x, y) { const v = S.view; return [W / 2 + (x - v.cx) * v.k, H / 2 - (y - v.cy) * v.k]; }
+function toGame(sx, sy) { const v = S.view; return [v.cx + (sx - W / 2) / v.k, v.cy - (sy - H / 2) / v.k]; }
+
+function paint() {
+  const g = S.geo; if (!g) return;
+  const v = S.view, k = v.k * DPR;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.fillStyle = cssVar("--sea"); ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.setTransform(k, 0, 0, -k, (W / 2) * DPR - v.cx * k, (H / 2) * DPR + v.cy * k);
+  ctx.fillStyle = cssVar("--land"); ctx.fill(g.land, "evenodd");
+  ctx.lineWidth = 1 / k; ctx.strokeStyle = cssVar("--coast"); ctx.stroke(g.land);
+  ctx.fillStyle = cssVar("--river"); ctx.fill(g.lakes, "evenodd");
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
+  const minW = 0.9 / k;
+  ctx.strokeStyle = cssVar("--river");
+  for (const [b, p] of g.other) { ctx.lineWidth = Math.max(b, minW); ctx.stroke(p); }
+  ctx.strokeStyle = cssVar("--river-game");
+  for (const [b, p] of g.game) { ctx.lineWidth = Math.max(b, 1.4 / k); ctx.stroke(p); }
+  if (S.voyages) {
+    ctx.strokeStyle = cssVar("--gold"); ctx.lineWidth = 1.6 / k; ctx.setLineDash([6 / k, 5 / k]);
+    for (const vg of g.voyages) {
+      ctx.beginPath();
+      for (let i = 0; i < vg.xs.length; i++) i ? ctx.lineTo(vg.xs[i], vg.ys[i]) : ctx.moveTo(vg.xs[i], vg.ys[i]);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  }
+  // the boat, to size (and a marker when it is smaller than a few pixels)
+  for (const b of g.boats) {
+    ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.a);
+    if (BOAT.len * k >= 6) {
+      ctx.beginPath();
+      ctx.moveTo(-BOAT.len / 2, 0); ctx.quadraticCurveTo(-BOAT.len * 0.2, BOAT.beam / 2, 0, BOAT.beam / 2);
+      ctx.quadraticCurveTo(BOAT.len * 0.2, BOAT.beam / 2, BOAT.len / 2, 0);
+      ctx.quadraticCurveTo(BOAT.len * 0.2, -BOAT.beam / 2, 0, -BOAT.beam / 2);
+      ctx.quadraticCurveTo(-BOAT.len * 0.2, -BOAT.beam / 2, -BOAT.len / 2, 0);
+      ctx.fillStyle = cssVar("--red"); ctx.fill();
+    }
+    ctx.restore();
+  }
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  for (const b of g.boats) {
+    if (BOAT.len * k >= 6) {
+      const [sx, sy] = toScreen(b.x, b.y);
+      if (BOAT.len * v.k > 30) label("the boat, 7.7 m", sx, sy - BOAT.len * v.k * 0.6 - 6, "--red", 12, "center");
+    } else if (v.k * 3000 > 1) {
+      const [sx, sy] = toScreen(b.x, b.y);
+      ctx.strokeStyle = cssVar("--red"); ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.arc(sx, sy, 5, 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+  if (S.places) drawPlaces(g);
+  scalebar();
+}
+function drawPlaces(g) {
+  const v = S.view, taken = [];
+  const rk = v.k / S.map.scale;                 // pixels per real metre: the same ground shows the same names on every map
+  const minRank = rk > 0.02 ? 0 : rk > 0.004 ? 2 : rk > 0.0008 ? 2.5 : 3.5;
+  for (const q of g.places) {
+    const [sx, sy] = toScreen(q.gx, q.gy);
+    if (sx < -50 || sy < -20 || sx > W + 50 || sy > H + 20) continue;
+    const big = q.rank >= 4, r = big ? 4 : q.rank >= 3 ? 3.2 : 2.4;
+    ctx.fillStyle = big ? cssVar("--gold") : cssVar("--ink");
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = "#000"; ctx.lineWidth = 1; ctx.stroke();
+    if (!S.names || q.rank < minRank) continue;
+    const size = big ? 14 : q.rank >= 3 ? 13 : 12;
+    ctx.font = (big ? "700 " : "") + size + "px " + cssVar("--serif");
+    const tw = ctx.measureText(q.name).width;
+    const box = [sx + 6, sy - size + 3, sx + 6 + tw, sy + 4];
+    if (taken.some(t => !(box[2] < t[0] || box[0] > t[2] || box[3] < t[1] || box[1] > t[3]))) continue;
+    taken.push(box);
+    label(q.name, sx + 6, sy + 4, big ? "--gold" : "--ink", size, "left", big);
+  }
+}
+function label(text, x, y, color, size, align, bold) {
+  ctx.font = (bold ? "700 " : "") + size + "px " + cssVar("--serif");
+  ctx.textAlign = align; ctx.lineJoin = "round";
+  ctx.strokeStyle = "rgba(0,0,0,0.85)"; ctx.lineWidth = 3; ctx.strokeText(text, x, y);
+  ctx.fillStyle = cssVar(color); ctx.fillText(text, x, y);
+  ctx.textAlign = "left";
+}
+const varCache = {};
+function cssVar(n) { return varCache[n] || (varCache[n] = getComputedStyle(document.documentElement).getPropertyValue(n).trim()); }
+
+function niceLen(m) { const p = Math.pow(10, Math.floor(Math.log10(m))); for (const f of [1, 2, 5, 10]) if (f * p >= m) return f * p; return 10 * p; }
+function fmtLen(m) { return m >= 1000 ? (m / 1000).toLocaleString("en-GB", { maximumFractionDigits: 1 }) + " km" : m.toLocaleString("en-GB", { maximumFractionDigits: 1 }) + " m"; }
+function scalebar() {
+  const m = S.map, target = 130 / S.view.k, L = niceLen(target), px = L * S.view.k;
+  document.getElementById("bar").style.width = px.toFixed(0) + "px";
+  const real = m.warp ? "" : " = " + fmtLen(L * m.scale) + " real";
+  const boats = L / BOAT.len;
+  document.getElementById("bar-label").textContent = fmtLen(L) + " of game" + real + (boats < 200 ? " · " + (boats < 10 ? boats.toFixed(1) : Math.round(boats)) + " boat lengths" : "");
+}
+
+// ------------------------------------------------------------------------------------------------ the panel
+function fmtTime(sec) {
+  const m = Math.round(sec / 60);
+  if (m < 60) return m + " min";
+  const h = Math.floor(m / 60), r = m % 60;
+  return h + " h" + (r ? " " + r + " min" : "");
+}
+function fmtDays(sec) { const d = sec / 60 / 24; return d < 1 ? (d * 24).toFixed(0) + " game h" : d.toFixed(1) + " game days"; }
+function panel() {
+  const m = S.map, g = S.geo, sp = S.data.ship.speed;
+  document.getElementById("map-note").textContent = m.note;
+  const facts = [];
+  facts.push(g.places.length + " of " + S.data.places.length + " places fit (each needs 400 m of game to itself); " + g.dropped + " left out.");
+  if (m.measured) facts.push("Measured: the open sea at about 1:" + Math.round(m.scale / m.measured.sea) + ".");
+  facts.push("The world here is about " + fmtLen(g.bounds[2] - g.bounds[0]) + " by " + fmtLen(g.bounds[3] - g.bounds[1]) + " of game.");
+  document.getElementById("map-facts").textContent = facts.join(" ");
+  const tb = document.getElementById("voyages");
+  tb.replaceChildren(...g.voyages.map(v => {
+    const tr = document.createElement("tr"), t = v.len / sp;
+    tr.innerHTML = `<td>${v.name}<br><span class="dim small">${fmtDays(t)}</span></td><td class="num">${Math.round(v.real_km)} km</td><td class="num">${fmtLen(v.len)}</td><td class="num">${fmtTime(t)}</td><td class="num">${fmtTime(t / 4)}</td>`;
+    return tr;
+  }));
+  for (const b of document.querySelectorAll("#maps button")) b.setAttribute("aria-pressed", b.dataset.id === m.id);
+  for (const b of document.querySelectorAll("#rules button")) b.setAttribute("aria-pressed", b.dataset.rule === S.rule);
+  document.getElementById("rule-note").textContent = RULE_NOTES[S.rule] + " The named rivers are the game's own (widths from its water records); the others' widths are estimated from their flow.";
+}
+function choose(mapId, rule, keepView) {
+  const prevMap = S.map, prevGeo = S.geo;
+  S.map = S.data.maps.find(m => m.id === mapId) || S.map;
+  S.rule = rule || S.rule;
+  // keep the view on the same real place when switching maps
+  let real = null;
+  if (keepView && prevMap && prevGeo) real = nearestReal(prevGeo, S.view.cx, S.view.cy);
+  S.geo = build(S.map, S.rule);
+  if (real && prevMap.id !== S.map.id) {
+    const o = [0, 0]; S.geo.T(real.x, real.y, o);
+    const f = localFactor(S.geo.T, real.x, real.y) / localFactor(prevGeo.T, real.x, real.y);
+    S.view.cx = o[0]; S.view.cy = o[1]; S.view.k = S.view.k / f;
+  } else if (!keepView) fitAll();
+  try { localStorage.setItem("kapman-scale", JSON.stringify({ map: S.map.id, rule: S.rule })); } catch (e) { }
+  panel(); draw();
+}
+function nearestReal(geo, gx, gy) {           // the real point under the view's centre (searched on the places)
+  let best = null, bd = Infinity;
+  for (const q of S.data.places) {
+    const o = [0, 0]; geo.T(q.x * 10, q.y * 10, o);
+    const d = Math.hypot(o[0] - gx, o[1] - gy);
+    if (d < bd) { bd = d; best = q; }
+  }
+  if (!best) return null;
+  const o = [0, 0]; geo.T(best.x * 10, best.y * 10, o);
+  const f = 1 / localFactor(geo.T, best.x * 10, best.y * 10);
+  return { x: best.x * 10 + (gx - o[0]) * f, y: best.y * 10 + (gy - o[1]) * f };
+}
+function fitAll() {
+  const b = S.geo.bounds;
+  S.view.cx = (b[0] + b[2]) / 2; S.view.cy = (b[1] + b[3]) / 2;
+  S.view.k = Math.min(W / (b[2] - b[0]), H / (b[3] - b[1])) * 0.92;
+}
+function goTo(t) {
+  if (t.x === undefined) { fitAll(); draw(); return; }
+  const o = [0, 0]; S.geo.T(t.x * 10, t.y * 10, o);
+  const f = localFactor(S.geo.T, t.x * 10, t.y * 10);
+  S.view.cx = o[0]; S.view.cy = o[1];
+  S.view.k = Math.min(W, H) / (t.km * 1000 * f);
+  draw();
+}
+
+// ------------------------------------------------------------------------------------------------ moving about
+const pointers = new Map();
+let pinch = null;
+canvas.addEventListener("pointerdown", e => { canvas.setPointerCapture(e.pointerId); pointers.set(e.pointerId, [e.clientX, e.clientY]); canvas.classList.add("dragging"); });
+canvas.addEventListener("pointermove", e => {
+  if (!pointers.has(e.pointerId)) { hover(e.clientX, e.clientY); return; }
+  const prev = pointers.get(e.pointerId);
+  pointers.set(e.pointerId, [e.clientX, e.clientY]);
+  if (pointers.size === 1) {
+    S.view.cx -= (e.clientX - prev[0]) / S.view.k; S.view.cy += (e.clientY - prev[1]) / S.view.k; draw();
+  } else if (pointers.size === 2) {
+    const [a, b] = [...pointers.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+    if (pinch) zoomAt(mx, my, d / pinch);
+    pinch = d;
+  }
+});
+const up = e => { pointers.delete(e.pointerId); if (pointers.size < 2) pinch = null; if (!pointers.size) canvas.classList.remove("dragging"); };
+canvas.addEventListener("pointerup", up); canvas.addEventListener("pointercancel", up);
+canvas.addEventListener("wheel", e => { e.preventDefault(); zoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0015))); }, { passive: false });
+canvas.addEventListener("dblclick", e => zoomAt(e.clientX, e.clientY, 2.5));
+function zoomAt(sx, sy, f) {
+  const r = canvas.getBoundingClientRect(), [gx, gy] = toGame(sx - r.left, sy - r.top);
+  S.view.k = Math.min(Math.max(S.view.k * f, 1e-6), 400);
+  const [nx, ny] = toGame(sx - r.left, sy - r.top);
+  S.view.cx += gx - nx; S.view.cy += gy - ny;
+  draw();
+}
+function hover(sx, sy) {
+  const g = S.geo; if (!g) return;
+  const r = canvas.getBoundingClientRect(), x = sx - r.left, y = sy - r.top;
+  let best = null, bd = 14;
+  for (const q of S.places ? g.places : []) {
+    const [px, py] = toScreen(q.gx, q.gy), d = Math.hypot(px - x, py - y);
+    if (d < bd) { bd = d; best = { kind: "place", q }; }
+  }
+  if (!best) {
+    const [gx, gy] = toGame(x, y), lim = 12 / S.view.k;
+    let bdg = lim;
+    for (const L of g.gameLines) for (let i = 0; i < L.xs.length; i += 1) {
+      const d = Math.hypot(L.xs[i] - gx, L.ys[i] - gy) - L.ws[i] / 2;
+      if (d < bdg) { bdg = d; best = { kind: "river", L, w: L.ws[i] }; }
+    }
+  }
+  const el = document.getElementById("readout");
+  if (!best) { el.textContent = ""; return; }
+  if (best.kind === "place") {
+    const q = best.q;
+    el.textContent = q.name + (q.modern ? " (" + q.modern + ")" : "") + " · " + (q.kind || "place") + " · rank " + q.rank;
+  } else {
+    el.textContent = best.L.name + " · " + fmtLen(best.w) + " wide here · " + (best.w / BOAT.len).toFixed(1) + " boat lengths";
+  }
+}
+
+// ------------------------------------------------------------------------------------------------ start
+async function start() {
+  try {
+    const [data, land, lakes, rivers] = await Promise.all([get("maps.json", "json"), get("land.b64.txt"), get("lakes.b64.txt"), get("rivers.b64.txt")]);
+    S.data = data; S.land = rings(land); S.lakes = rings(lakes); S.rivers = rings(rivers);
+    await Promise.all(data.maps.filter(m => m.warp).map(async m => { S.warps[m.id] = warp(await get(m.warp.replace(".bin", ".b64.txt"))); }));
+  } catch (e) {
+    document.getElementById("loading").textContent = "The map data did not load: " + e.message;
+    return;
+  }
+  document.getElementById("credits").textContent = S.data.credits.join(" · ");
+  const list = document.getElementById("maps");
+  for (const m of S.data.maps) {
+    const lund = voyageLen(m, "lundenwic");
+    const b = document.createElement("button");
+    b.dataset.id = m.id;
+    b.innerHTML = `<span class="n">${m.name}</span><span class="s">${m.short}</span><span class="t">${lund ? fmtTime(lund / S.data.ship.speed) : ""}</span>`;
+    b.title = "Dorestad to Lundenwic at 1x";
+    b.addEventListener("click", () => choose(m.id, S.rule, true));
+    list.appendChild(b);
+  }
+  for (const b of document.querySelectorAll("#rules button")) b.addEventListener("click", () => choose(S.map.id, b.dataset.rule, true));
+  const gl = document.getElementById("goto");
+  for (const t of S.data.goto) {
+    const b = document.createElement("button"); b.textContent = t.name; b.addEventListener("click", () => goTo(t)); gl.appendChild(b);
+  }
+  for (const [id, key] of [["show-places", "places"], ["show-voyages", "voyages"], ["show-names", "names"]])
+    document.getElementById(id).addEventListener("change", e => { S[key] = e.target.checked; draw(); });
+  const tp = document.getElementById("toggle-panel"), pn = document.getElementById("panel");
+  tp.addEventListener("click", () => { const c = pn.classList.toggle("closed"); tp.textContent = c ? "Show" : "Hide"; tp.setAttribute("aria-expanded", !c); });
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem("kapman-scale") || "null"); } catch (e) { }
+  W = canvas.clientWidth; H = canvas.clientHeight;
+  choose(saved && S.data.maps.some(m => m.id === saved.map) ? saved.map : "u40", saved ? saved.rule : "true", false);
+  document.getElementById("loading").hidden = true;
+  resize();
+}
+window.addEventListener("resize", resize);
+start();
+</script>

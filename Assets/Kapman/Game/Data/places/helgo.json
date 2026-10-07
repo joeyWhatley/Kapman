@@ -1,0 +1,372 @@
+{
+ "about": "Helgo (Helgö in Mälaren), one landing, written 6 Oct 2026 from Design/content/dossiers/helgo.md. A draft for the user to overwrite. Every person here is invented: no one is named at Helgö in any text. (?) = not checked on a page that was opened.",
+ "region": "baltic_east",
+ "ports": [
+  {
+   "port": "helgo",
+   "summary": "A rocky, wooded island in the bay of the Svear, a short row east of Birka, that was a place of goldsmiths and bronze-casters for three hundred years and is now one farm with a long memory. A merchant comes for a night's shelter on the way in to Birka, for barley, cheese and a little bar iron, and for the last caster's weights. He stays for what hangs in the old hall, which came from further away than anyone on the island can say.",
+   "seasons": "The bay has no tide and freezes every winter: from the first hard frost until the ice goes, nothing floats and everything is drawn by sledge. Ships pass from the going of the ice to the autumn storms, most of them without stopping; midsummer and the autumn slaughter are the two times the hall is full.",
+   "history": [
+    { "year": 200, "text": "People settle on the island; a fort is kept on its height until about 500.", "source": "sv.wikipedia 'Helgö' (citing Stockholms läns museum); dossier 1, 2" },
+    { "year": 400, "text": "Goldsmiths and bronze-casters work here from the 400s. The broken clay moulds for brooches, buttons and pins lie in tens of thousands, the largest such find in the north (the count is from memory (?)).", "source": "sv.wikipedia and no.wikipedia 'Helgö'; W. Holmqvist, Excavations at Helgö (not opened (?)); dossier 2" },
+    { "year": 550, "text": "Gold-foil figures, stamped leaves of gold one or two centimetres across, often a man and a woman face to face, are laid down in the north between about 550 and 800, some of them in the hall on this island (26 there is from memory (?)).", "source": "en.wikipedia 'Gullgubber'; de.wikipedia 'Helgö (Mälaren)'; dossier 2" },
+    { "year": 650, "text": "The fine bronze-casting stops in the 600s, and after that the island 'took on the character of an ordinary farm'.", "source": "sv.wikipedia 'Helgö'; da.wikipedia 'Helgö'; dossier 1" },
+    { "year": 750, "text": "A market begins on Björkö, a short row to the west, and takes the trade of the bay.", "source": "sv.wikipedia 'Helgö'; en.wikipedia 'Birka'; dossier 5" },
+    { "year": 793, "text": "The island is a farm with old workshops gone cold. No ruler is named for it and no text of the time mentions it.", "source": "sv.wikipedia 'Helgö'; dossier 1, 3, 5" },
+    { "year": 800, "text": "The game's table ends the landing here: ships no longer call. People go on living on the island into the 800s, and someone still brings treasures home.", "source": "ports_793.json (to: 800); sv.wikipedia 'Helgö'; dossier 5" },
+    { "year": 829, "text": "Anskar comes to Birka by ship and on foot. The island he passes on the way is not mentioned.", "source": "Rimbert, Vita Anskarii c. 10-11 (tr. Robinson 1921) (?); dossier 5" },
+    { "year": 975, "text": "Birka is given up; in the next years Sigtuna takes its place. The settlement on the holy island has left no traces for a long time.", "source": "sv.wikipedia 'Helgö'; ports_793.json; dossier 5" }
+   ],
+   "eras": [
+    { "from": 793, "to": 796, "text": "One farm and a half. The old man Ingemund still keeps the long hall and feasts in it twice a year; his son's widow runs the fields, the cows and the boat. One hearth is still lit in the casters' terraces, for mending kettles and pouring weights. Ships for Birka pass every day of the summer, and a few put in for the night." },
+    { "from": 797, "to": 800, "text": "Quieter each year. The hall roof leaks unless someone has paid for bark and turf. The caster talks of Birka; the farm wife has already been to look at a plot there. Fewer boats put in, and those that do are asked to stay for a meal so that the benches are not empty. After the old man's death in 799 the feasts stop unless the merchant has made them his business." },
+    { "from": 801, "to": 900, "text": "No landing for a trading ship: the island is a farm seen from the water on the way to Birka, smoke from one roof, cattle on the shore meadow. People still live here and still bring far things home: in these years the crook of an Irish staff lies in one of the houses, and nobody has written down how it came." },
+    { "from": 901, "to": 975, "text": "The terraces are grass and hazel. Birka's ships pass close under the height in the years of the eastern silver; a herdsman may wave. Nobody on the water knows the island was ever anything but pasture, though its name is still the holy island." },
+    { "from": 976, "to": 1066, "text": "Birka is empty and the bay's trade goes north to Sigtuna. The land has risen, the old beach is a meadow, the sounds to the sea are narrower. On the island sheep graze over the hall floor, and the gold is under the turf." }
+   ],
+   "sites": [
+    { "id": "helgo.beach", "kind": "beach", "name": "The landing under the terraces", "from": 0, "to": 800,
+      "see": "A short curve of grey shingle and brown-green water with no tide mark on it, two farm boats drawn up on birch rollers, a net on poles. Behind, a steep slope cut into grassed steps with low turf-roofed houses on them and pine and birch above; one long roof stands higher than the rest. Still water, a cow bell, wood smoke and the smell of tar and wet stone.",
+      "do": ["act:load", "act:wait_wind", "act:ask_harbour", "act:careen", "act:repair", "act:provision", "act:hire_pilot", "market", "person:helgo.holmfrid", "person:helgo.gillog", "card:harbour.salt_and_a_stick.helgo"],
+      "source": "Boats drawn up on the beach below the houses, no jetty reported (dossier 1; ports_793.json landing 'beach'); the houses on terraces cut into the slope (Holmqvist (?)); the bay without tide, brown-green, about 5 m higher than now (Research/water_levels/baltic_east.md). The market here is a farm's: barley, cheese, butter, a few hides, bar iron (the iron is likely, not shown (?))." },
+    { "id": "helgo.hall", "kind": "hall", "name": "The long hall", "from": 0, "to": 800,
+      "see": "A long, dim timber hall on the highest terrace: a hearth down the middle, benches along both walls, smoke going up to a hole in a roof of birch bark and turf. On a peg by the high seat hangs a small dark bronze man on a leather strap, sitting with his legs folded; beside it a long-handled bronze dipper of foreign make. Shelves hold pale green glass beakers, most of them chipped. It smells of smoke, old ale and dogs.",
+      "do": ["act:feast", "act:gift", "act:lodge", "act:drink", "act:song", "act:riddles", "act:tafl", "act:ask_news", "act:rumours", "act:oath", "person:helgo.ingemund", "card:harbour.whose_god.helgo"],
+      "source": "The feasting hall of House Group 2, where the imported things lay (de.wikipedia 'Helgö (Mälaren)'; en.wikipedia 'Helgö Buddha'); the Buddha, 8.4 cm, with a leather strap round neck and arm, already battered; the bronze ladle from Egypt; sherds of Frankish funnel beakers (economy/pots_glass_luxuries.md) (?). That these hung on show in 793, and who kept them, is the game's guess (?): when the Buddha came north is not known." },
+    { "id": "helgo.casters", "kind": "workshop", "name": "The cold hearths", "from": 0, "to": 800,
+      "see": "A row of low sheds on the lower terraces, most with the roof fallen in and nettles on the floor. The ground between them is red and crunches: it is made of broken clay moulds, each with the hollow of half a brooch or a pin in it. One shed has a roof, a stone-lined hearth, a pair of goatskin bellows and a man. Charcoal, hot metal, and a hammer that stops when you come near.",
+      "do": ["act:commission", "act:buy_tools", "act:weigh_silver", "act:test_silver", "act:sample", "act:buy_at_source", "person:helgo.fastulf", "card:harbour.last_pour.helgo"],
+      "source": "The workshops of goldsmiths and bronze-casters from the 400s, cold by 793 (sv.wikipedia; no.wikipedia); mould pieces by the tens of thousands (Holmqvist (?)). One hearth still lit is the spine's hook (silver_road: 'bronze-casters, weights') and is invented. A broken rune stick lies in the rubbish here (unlocks_793.json text.t-gest-13); the smith gives a riddle of fire and flint (text.t-gest-29)." },
+    { "id": "helgo.rock", "kind": "shrine", "name": "The holy rock", "from": 0, "to": 0,
+      "see": "A grey hump of bare rock among the houses, as high as a man's chest, split by one long crack. In the crack and round its foot lie small things: an iron ring, arrowheads gone to rust, a crust, a bowl with the milk skinned over. No carved post, no roof, no fence. An old woman sits on a stone beside it with a bag of cut twigs in her lap. Flies, and the sun on warm stone.",
+      "do": ["act:offer", "act:ask_omen", "act:vow", "act:oath", "person:helgo.gudlog", "card:harbour.old_mans_burning.helgo"],
+      "source": "Offerings of rings, arrowheads and food at a rock by the houses, lasting into the Viking Age, are argued by T. Zachrisson, 'The holiness of Helgö', Excavations at Helgö XVI (2004), not opened (?). The island's name is read as 'hallowed island' (sv.wikipedia). The Svear ask the gods by lots (Rimbert c. 18, 19, 27). Hall and rock, not 'temple' (dossier 8)." },
+    { "id": "helgo.graves", "kind": "graveyard", "name": "The low mounds", "from": 0, "to": 0,
+      "see": "A birch wood on the back of the island where the ground is all small swellings: low round mounds under moss, rings and three-cornered settings of stones, hundreds of them, some sunk almost flat. At the near edge there is a patch of burnt black earth with a new mound beside it no bigger than a cartwheel. On it lies a small round loaf. Wind in the birch leaves, and no other sound.",
+      "do": ["act:remember", "act:bury", "act:offer", "person:helgo.gudlog", "card:harbour.old_mans_burning.helgo"],
+      "source": "Five grave fields (sv.wikipedia); cremations under low mounds and stone settings, some of the Viking Age, and loaves of bread laid in some graves: all three from memory of the literature (?). The Svear burn their dead (peoples/svea_gotlandic.md 11)." },
+    { "id": "helgo.fort", "kind": "wall", "name": "The old fort on the height", "from": 0, "to": 0,
+      "see": "The top of the island: a ring of tumbled grey stones among pines, breast-high in places, with a rowan growing out of the gateway. From the highest stone the bay lies open on every side, islands behind islands, and to the west a line of smoke that is Birka. A man with a pole across his knees sits here most days, watching sails. Resin, wind, an eagle over the water.",
+      "do": ["act:ask_harbour", "act:wait_wind", "act:hire_pilot", "act:ask_news", "person:helgo.torbjorn", "card:harbour.counted_strokes.helgo"],
+      "source": "The hillfort, used about 200 to 500 and a ruin in 793 (sv.wikipedia; dossier 2). The ways in from the sea by the sounds at Stockholm and Södertälje (Research/water_levels/baltic_east.md); the pilot and his watch are invented (unlocks_793.json unlock_pilot_malaren)." }
+   ],
+   "people": [
+    { "id": "helgo.ingemund", "name": "Ingemund", "historical": false, "role": "chief", "people": "svea", "faith": "old_gods",
+      "born": 728, "died": 799, "from": 793, "to": 799,
+      "trait": "The old head of the island's farm and keeper of its hall. Courteous, slow, and unable to let a far-travelled guest leave without asking him one question.",
+      "want": "To learn, before he is burned, what the small bronze man on the peg is and whose he was. And to see the benches full once more.",
+      "fear": "That the hall will be a cow shed the winter after he dies, and the things in it melted for brooch metal at Birka.",
+      "voice": "Unhurried. Names every thing by who gave it and when. Asks a question and then waits for as long as it takes.",
+      "looks": "About sixty-five, tall and stooped, white hair to the shoulder and a white beard, a faded blue wool cloak pinned with an old-fashioned gilt bronze brooch, a horn-handled knife, a bronze dipper in his hand at feasts.",
+      "knows": ["who gave each thing in the hall, as far back as his father's father, and not one step further", "which houses on the bay still send men to the island at midsummer, and which have stopped", "what the island made when the hearths were lit: brooches, buckles, pins, sent to every hall round the bay", "who came through on the last ship for Birka, if they sat at his fire"],
+      "ties": [
+       { "to": "helgo.holmfrid", "tie": "kin", "note": "his dead son's wife; she feeds the hall and thinks it should be pulled down for its timber" },
+       { "to": "helgo.gillog", "tie": "kin", "note": "his son's daughter; the only one who listens when he names the givers" },
+       { "to": "helgo.fastulf", "tie": "friend", "note": "the caster's fathers worked for his fathers; neither can now pay the other and neither mentions it" },
+       { "to": "helgo.gudlog", "tie": "kin", "note": "his sister; she keeps the rock and he keeps the hall, and each thinks the other has the lighter work" },
+       { "to": "cast.holmfast", "tie": "rival", "note": "Holmfast has twice offered him the weight of the bronze things in silver; he has twice poured him ale and said no" },
+       { "to": "cast.crew.ravn", "tie": "friend", "note": "Ravn sat in this hall as a young man and was asked the same question; he answered with a riddle, which was accepted" }
+      ],
+      "lines": {
+       "greet": "A guest. Good. Fire, water and a seat first, then your name. Guests are too few now to do it in the wrong order.",
+       "greet_again": "You came back, and the bench remembers you. Sit where you sat. I have thought of three more things to ask about the south.",
+       "rumour": [
+        "My father's father fed forty at midsummer. I fed eleven, and four of them were mine. Birka eats my guests before they reach me.",
+        "A man offered me silver for the little bronze one, by weight. I asked whether he also buys his own grandfather by weight.",
+        "The glass came from the Franks' river, I am told. You are from that river. Tell me, do they drink from it, or only sell it?"
+       ],
+       "saying": "A thing is worth who gave it. Take that away and it is only metal.",
+       "farewell": "Go well. If you meet a man anywhere who sits like the bronze one sits, with his legs so, ask him why, and come and tell me."
+      },
+      "source": "invented. A keeper of the hall and its old treasures is inferred from the hall, not recorded (dossier 3); the spine's hook has them 'in a chief's keeping'. Nothing says who owned the Buddha or that anyone knew what it was, and this man does not know either. The guest's fire, water and seat from Hávamál 2-4. Name: Inge- + -mund, both on the Uppland stones." },
+    { "id": "helgo.holmfrid", "name": "Holmfrid", "historical": false, "role": "farm_wife", "people": "svea", "faith": "old_gods",
+      "born": 756, "died": 825, "from": 793, "to": 800,
+      "trait": "A widow who runs the farm, the boat and the old man. Counts everything twice, as her people do, and the second count is always the lower.",
+      "want": "A plot and a booth at Birka before her daughter is grown, and somebody to buy the farm's cheese and iron there every year.",
+      "fear": "A winter with the old man ill, the ice thin and nobody able to come across from the mainland.",
+      "voice": "Brisk. Talks while she works and prices things in barley. Says 'twice' when she means she has checked.",
+      "looks": "Not yet forty, strong, brown hair under a linen cloth, a grey wool strap dress on two plain bronze oval brooches with a string of a dozen glass beads between them, a bunch of iron keys, sleeves pushed up.",
+      "knows": ["what the farm will sell this season and what it wants: salt above all, then cloth, then a good kettle", "what barley, butter and iron fetch at Birka, as of her last crossing", "which skippers put in here to dodge a night at Birka, and why", "when the ice went this year and when it came last year, to the day"],
+      "ties": [
+       { "to": "helgo.ingemund", "tie": "serves", "note": "her husband's father: she keeps his hall fed and tells him to his face what it costs" },
+       { "to": "helgo.gillog", "tie": "kin", "note": "her daughter, eleven in 793, who would rather dig in the casters' rubbish than card wool" },
+       { "to": "helgo.torbjorn", "tie": "kin", "note": "her younger brother; she sends him up the height to watch for sails so that he is out of the barn" },
+       { "to": "helgo.fastulf", "tie": "owes", "note": "a mended cauldron and two sickles since last harvest, to be paid in cheese" },
+       { "to": "cast.holmfast", "tie": "friend", "note": "he buys her iron and her cheese at Birka and has never once shorted her; she checks all the same" },
+       { "to": "cast.thiadburg", "tie": "friend", "note": "they have never met, but Frisian cloth from the widow's storehouse at Dorestad is what she asks every southern skipper for, by name" }
+      ],
+      "lines": {
+       "greet": "Pull her up higher than that. There is no tide, but the wind makes its own. What have you got, and is any of it salt?",
+       "greet_again": "The southern boat. I counted you in last time and I counted you out, and the numbers agreed. You may come up.",
+       "rumour": [
+        "There are plots to be had on the birch island still, by the water. I have looked at one twice. The old man has not been told.",
+        "A Birka man pays for iron with cut silver now, some of it with writing nobody can read. It weighs the same as honest silver, so I take it.",
+        "Three ships went by yesterday and none put in. Ten years ago I would have been baking since dawn."
+       ],
+       "saying": "Count it on the beach and count it again at the door. What is lost between the two was never yours.",
+       "farewell": "Go before the wind changes. And if you find salt cheaper than you sold me, tell me next time. I will know anyway."
+      },
+      "source": "invented. Women run farms and own scales among the Svear (peoples/svea_gotlandic.md 3); the strap dress on two oval brooches (the same, 2); 'counts everything twice' is the brief's Svea. The first cut dirhams in the bay about 800 (economy/silver_coin.md) (?). Name: Holm- + -frid (Holmfrid is in Heimskringla)." },
+    { "id": "helgo.fastulf", "name": "Fastulf", "historical": false, "role": "smith", "people": "svea", "faith": "old_gods",
+      "born": 745, "died": 812, "from": 793, "to": 800,
+      "trait": "The last man who lights a hearth in the casters' terraces. Makes kettles whole and pours small lead and bronze weights; proud, exact, and short of metal.",
+      "want": "Brass from the Franks' rivers, enough to pour one thing worth the name before he goes over to Birka to be another man's hired hand.",
+      "fear": "That he will be the one who lets the fire go out, after more fathers than he can name kept it.",
+      "voice": "Few words, each one weighed. Hands you the thing rather than describing it. Answers praise with a fault he can see and you cannot.",
+      "looks": "Nearly fifty, short and broad, forearms scarred with small burns, grey-brown hair tied back with a thong, a leather apron over a patched tunic, tongs in his belt and a little folding balance in a bronze case round his neck.",
+      "knows": ["the weights the north goes by, and how to tell a true one from one that has been filed", "how to test silver: the nick, the bend, the sound on a stone", "what brass, copper, tin and lead fetch at Birka, and who there has any", "what his fathers cast here, from the moulds underfoot: he can name the pattern of any broken piece you pick up"],
+      "ties": [
+       { "to": "helgo.ingemund", "tie": "serves", "note": "by old custom the caster is the hall's man; the hall has had no work for him in twenty years" },
+       { "to": "helgo.gillog", "tie": "taught", "note": "lets the girl work the bellows and tells her what each mould was for; she is the nearest thing he has to a pupil" },
+       { "to": "helgo.holmfrid", "tie": "friend", "note": "she feeds him through the winter against work, and both pretend the tally is even" },
+       { "to": "cast.holmfast", "tie": "serves", "note": "pours lead weights for Holmfast's booth to Holmfast's own pattern, and is paid in cut silver" },
+       { "to": "cast.sigimar", "tie": "rival", "note": "has never seen the moneyer of Dorestad, but has weighed his pennies and found two in ten light; he would like that known" },
+       { "to": "birka.bead_maker", "tie": "friend", "note": "Ragnvi of the Birka sheds has said there is a bench beside hers when his fire goes out; he has not answered, and has not forgotten" },
+       { "to": "uppsalir.gillaug", "tie": "friend", "note": "made the great cauldron chain for the hall at the kings' mounds, link by link; its hearth-keeper has not paid for all of it, and he has not asked" },
+       { "to": "paviken.smith", "tie": "friend", "note": "Hegvisl of Gotland, with whom he once compared weights for half a day at Birka; both sets were true, and only one of the two men has metal" },
+       { "to": "aldeigjuborg.audvald", "tie": "friend", "note": "a caster at the far end of the Svear's sea whom he has never met; Holmfast carries each one's opinion of the other's weights to and fro" }
+      ],
+      "lines": {
+       "greet": "Mind where you step. That is my grandfather's work you are standing on. Most of it came out better than that piece.",
+       "greet_again": "You. Good. Put your penny on the pan. I want to see whether your king has got any more honest since last time.",
+       "rumour": [
+        "A Birka man paid me with half a white coin. Writing on both faces, no king's head. Good silver. I asked what it said and he did not know.",
+        "They cast oval brooches by the hundred on the birch island now, all from one pattern. Every woman on the bay will wear the same two lumps.",
+        "Bring me brass. The red-yellow kind in bars from your river. I will pay more than Birka, in work, and work does not get spent."
+       ],
+       "saying": "The scale has no friends. That is why you can trust it.",
+       "farewell": "If your weights come out wrong in the south, it is the south that is wrong. Go on."
+      },
+      "source": "invented. No smith is named (dossier 3, 8); goldsmiths and bronze-casters from the 400s, the fine casting stopped in the 600s (sv.wikipedia). The spine's hook for this port (silver_road, before 801): bronze-casters and weights. Rhenish and Mosan brass melted in the north for brooches, and oval brooches cast by the hundred in the towns (goods_793.json brass, brooches). The half dirham before 800 is early but possible (?). Name: Fast- + -ulf." },
+    { "id": "helgo.gudlog", "name": "Gudlög", "historical": false, "role": "wise_woman", "people": "svea", "faith": "old_gods",
+      "born": 730, "died": 803, "from": 793, "to": 800,
+      "trait": "Ingemund's sister, who keeps the rock, casts the lots and bakes the loaves for the dead. Sharp-eyed, unsentimental, and amused by strangers' gods.",
+      "want": "Someone to take the lot twigs after her. The girl will not sit still long enough.",
+      "fear": "Nothing she will name. She does not like it when a year passes with no stranger leaving anything at the rock.",
+      "voice": "Dry and short. Says what the lots said and no more, and will not be drawn on what they meant.",
+      "looks": "Over sixty, small and straight-backed, grey hair in one braid, a brown wool dress and a sheepskin over her shoulders in any weather, a leather bag of cut fruitwood twigs, flour on her hands.",
+      "knows": ["what may be left at the rock and what may not: iron, bread, milk and a ring are welcome, blood is for the hall at the slaughter", "how to ask by lots which god is angry, and whether a voyage should be begun today", "who lies in which mound, for four generations back", "what other peoples' gods are said to want, from forty years of asking guests"],
+      "ties": [
+       { "to": "helgo.ingemund", "tie": "kin", "note": "her brother; she tells him the bronze man on his peg is a guest's god and should be fed like a guest" },
+       { "to": "helgo.gillog", "tie": "taught", "note": "her brother's granddaughter, whom she is teaching the loaves, since the lots will not take" },
+       { "to": "helgo.torbjorn", "tie": "friend", "note": "he will not take a ship through the south sound on a day her twigs fall badly, and has never touched bottom" },
+       { "to": "cast.notburg", "tie": "friend", "note": "they will never meet; but a Frisian skipper once told each of them about the other, and each sends a greeting by any boat going that way" },
+       { "to": "cast.crew.ravn", "tie": "friend", "note": "cast the lots for him once, long ago, before he went south; she remembers how they fell and he has never asked" }
+      ],
+      "lines": {
+       "greet": "You may look at the rock. You may leave something. You may not ask it for a price; it does not trade.",
+       "greet_again": "The southerner who left bread. It was eaten. I do not say by what.",
+       "rumour": [
+        "Your people have one god and he wants a house with a roof, I hear. Ours are content with a rock. It is cheaper.",
+        "My brother asks every guest whose god the little bronze one is. I ask whether he has been fed. Nobody answers either of us.",
+        "The lots fell badly for the south sound three days running. The water is going from it. My grandmother's boats came through loaded."
+       ],
+       "saying": "Ask the lots once. A man who asks twice wanted a different answer.",
+       "farewell": "Go when you like. The twigs say the day is neither good nor bad, which is the most anyone gets."
+      },
+      "source": "invented. Lots cast to learn which god is angry and whether a thing should be done (Rimbert c. 18, 19, 27, 30); offerings at the rock (Zachrisson 2004 (?)); bread in graves (?). The southern sound growing shallower as the land rises (unlocks_793.json unlock_pilot_malaren; Research/water_levels/baltic_east.md). Name: Gud- + -lög (Gudlög, U 328)." },
+    { "id": "helgo.torbjorn", "name": "Torbjörn", "historical": false, "role": "pilot", "people": "svea", "faith": "old_gods",
+      "born": 762, "died": 820, "from": 793, "to": 800,
+      "trait": "Holmfrid's brother, who knows the two ways in from the sea and every rock between them, and would sooner watch sails from the old fort than fork dung.",
+      "want": "A place in a ship that goes further than the sounds: east, where the furs come from, or south to the Franks' river.",
+      "fear": "Putting someone else's ship on a rock that was not there last year. The land is coming up, and he has measured it.",
+      "voice": "Easy and talkative until the talk is of water, then exact. Describes every ship he has seen by her sail and her fault.",
+      "looks": "About thirty, long-legged, sun-bleached hair and a short fair beard, a sleeveless sheepskin over a linen shirt, bare feet, a sounding pole notched in hand-breadths and a horn on a cord.",
+      "knows": ["the south sound and the north sound from the sea into the bay: where each is narrow, where it shoals, which wind serves", "whose ship went by today and yesterday, which way, and how deep she sat", "where a ship can lie hidden for a night among the islands, and who uses those places", "what the skippers shout across the water as they pass: Birka's prices, three days old"],
+      "ties": [
+       { "to": "helgo.holmfrid", "tie": "kin", "note": "his elder sister, who has fed him since their mother died and reminds him of it at each meal" },
+       { "to": "helgo.gudlog", "tie": "serves", "note": "asks her twigs before he takes a strange ship through; pays her in pike" },
+       { "to": "helgo.gillog", "tie": "kin", "note": "his niece; he has taught her to tell a Gotland sail from a Svea one at the edge of sight" },
+       { "to": "cast.holmfast", "tie": "serves", "note": "takes Holmfast's ship out through the sound each spring and in again each autumn, and is told nothing about her cargo" },
+       { "to": "cast.tidwine", "tie": "friend", "note": "once shared his bread with a shorn foreign boy on Holmfast's ship, who counted the oar strokes aloud; he never learned the name" },
+       { "to": "uppsalir.sibbi", "tie": "kin", "note": "a fowler up the river at the kings' mounds, of his mother's kin; between them they know the water from the sea to the mounds, and he has the deep end" },
+       { "to": "aldeigjuborg.budimir", "tie": "rival", "note": "Svea skippers tell him the pilot of the eastern river reads water with rocks in it; he says rocks at least stay where they are put" }
+      ],
+      "lines": {
+       "greet": "I watched you come in. You held too far north past the last skerry; there is a rock there with your name on it. Next time ask.",
+       "greet_again": "That square patched sail. I knew her at the edge of sight and told my sister to put the pot on.",
+       "rumour": [
+        "Two Gotland boats went east in company at first light, low in the water. They came from Birka. Whatever it was, it was heavy and small.",
+        "Holmfast had a foreign boy at the oars last autumn, hair cut to a ring. He counted every stroke out loud in some tongue. Nobody stopped him.",
+        "The south sound has lost a hand's breadth since my father marked it. One day a loaded ship will have to be dragged."
+       ],
+       "saying": "The water tells you everything, but only once.",
+       "farewell": "Keep the split rock on your left hand and the two pines in line behind you. After that it is your own affair."
+      },
+      "source": "invented. The ways in by the sounds at Stockholm and Södertälje, the southern one shoaling as the land rises (Research/water_levels/baltic_east.md; unlocks_793.json unlock_pilot_malaren). The foreign boy is the spine's hook at Birka (holy_island: a Svea trader keeps an Englishman who can tally). Name: Tor- + -björn (Torbjörn, U 379)." },
+    { "id": "helgo.gillog", "name": "Gillög", "historical": false, "role": "child", "people": "svea", "faith": "old_gods",
+      "born": 782, "died": 850, "from": 793, "to": 800,
+      "trait": "Holmfrid's daughter, eleven years old in 793. Digs in the casters' rubbish, keeps what she finds in a birch-bark box, and remembers every boat and every face.",
+      "want": "To know what everything is for. And to be given something from far away that is hers and not the hall's.",
+      "fear": "Being sent to Birka to card another woman's wool, away from the terraces.",
+      "voice": "Fast and direct, all questions. Older each year: by 799 she asks fewer and they are harder.",
+      "looks": "In 793 a thin girl of eleven with a fair braid, scabbed knees, a short undyed wool dress, hands red with the clay of the moulds, a birch-bark box under one arm. By 800 a tall young woman in a strap dress with one small brooch she cast herself.",
+      "knows": ["where in the rubbish the best things turn up: mould halves, a bead, once a stick with marks cut in it", "which boats have put in this summer, and what each skipper gave her last time", "what her grandfather says about every thing in the hall, word for word", "which way her mother means to jump, before the old man does"],
+      "ties": [
+       { "to": "helgo.holmfrid", "tie": "kin", "note": "her mother, who wants her at the loom" },
+       { "to": "helgo.ingemund", "tie": "kin", "note": "her father's father; she can name the givers of the hall's things as well as he can" },
+       { "to": "helgo.fastulf", "tie": "serves", "note": "works his bellows for the telling of what the moulds were" },
+       { "to": "helgo.gudlog", "tie": "kin", "note": "her great-aunt, who is teaching her to bake the small loaves and has given up on the lots" },
+       { "to": "cast.crew.ravn", "tie": "friend", "note": "he reads her the marks on her stick a few at a time, one visit each, and will not tell her the answer" },
+       { "to": "cast.herigar", "tie": "serves", "note": "as an old woman at Birka she casts for the prefect's household, and does not take his new faith" },
+       { "to": "helgo.torbjorn", "tie": "kin", "note": "her mother's brother, who taught her to tell a Gotland sail from a Svea one at the edge of sight" },
+       { "to": "birka.bead_maker", "tie": "taught", "note": "Ragnvi of the Birka sheds takes her in when the island empties, and teaches her glass, since she knows moulds already" }
+      ],
+      "lines": {
+       "greet": "You are from the south. Is it true the water there goes away twice a day and comes back? Who takes it?",
+       "greet_again": "I knew your boat. Last time you said you would bring me something from far off. I wrote it on a stick so you could not say you forgot.",
+       "rumour": [
+        "I found a stick in the rubbish with marks cut on it. It is broken. The smith says it is a riddle, and the other half has the answer.",
+        "Mother has been to the birch island twice. She said it was to sell cheese. She took no cheese the second time.",
+        "Grandfather says the little bronze man came over more water than there is. I asked how much water there is. He did not know that either."
+       ],
+       "saying": "If you dig where the ground is red, you find something. If you dig where it is black, you find someone.",
+       "farewell": "Bring me a thing next time. A small one. It has to be from further away than Birka or it does not count."
+      },
+      "source": "invented: an ordinary child of the farm, who is how the island remembers the merchant from year to year. The broken rune stick in the rubbish of the craft quarter is riddles_793.json (text.t-gest-13). Red ground is mould clay, black is the burnt earth of the grave fields. After 800 she is at Birka (the island's people going there is often supposed and never shown: dossier 8 (?)). Name: Gil- + -lög (Gillög, U 489)." }
+   ],
+   "stories": [
+    { "id": "helgo.last_pour", "title": "The last pour", "thread": "silver_road",
+      "summary": "The last caster on the island has a hearth, his fathers' skill and no metal. He shows the merchant half a white coin with writing on both faces, and asks for brass from the Franks' rivers: enough to pour one set of true weights before the fire goes out.",
+      "picture": "A low turf-roofed shed at dusk on a slope of red broken clay: a short broad man in a leather apron tipping a small glowing crucible into a stone mould, a girl at the bellows, a foreign merchant holding a folding balance up to the firelight.",
+      "beats": [
+       { "at": "helgo.casters", "when": "year < 801", "text": "Fastulf weighs one of your pennies, nicks it, and says what your king is worth. Then he puts half a white coin on the pan: no king's face, writing all round, paid him by a Birka man. It is the first such silver you have held (sets sv_first_dirham).", "card": "harbour.last_pour.helgo" },
+       { "at": "helgo.casters", "when": "year < 801 and flag.sv_first_dirham", "text": "He wants brass in bars, the red-yellow kind from the Rhine and the Meuse. Five bars would do it. He will pay in work, not silver: a set of weights poured to the northern standard, and a balance to go with them.", "card": "harbour.last_pour.helgo" },
+       { "at": "dorestad.mint", "when": "year < 801 and flag.sv_first_dirham", "text": "Sigimar the moneyer turns the half coin over twice and puts it with the scrap. Foreign silver goes in the pot, he says, whatever is written on it. He cannot read it and does not want to. He does want to know who weighed his pennies and found two in ten light.", "card": "" },
+       { "at": "birka.market", "when": "year < 801", "text": "Holmfast will buy every bar of brass you carry, for silver, at once, and says so twice. He knows who else wants it. He says the island's fire is a kettle-mender's fire and that weights are made on the birch island now.", "card": "harbour.brass_for_silver.birka" },
+       { "at": "helgo.casters", "when": "year < 801 and hold.brass >= 5", "text": "You come back with the brass. Fastulf says nothing for a while. He sends the girl for charcoal and tells you to come back at dusk, because a pour should be seen.", "card": "harbour.last_pour.helgo" },
+       { "at": "uppsalir.guest_house", "when": "year < 801", "text": "The hearth-keeper at the kings' mounds says the old island's caster made the hall's cauldron chain, link by link, and that it is not all paid for. If you put in there, she says, tell him the hearth remembers.", "card": "harbour.embers.uppsalir" },
+       { "at": "paviken.fine_yard", "when": "year < 801", "text": "Hegvisl of Gotland once compared weights with the old island's caster for half a day. The caster's are true, he says, and the caster has no metal; his own are true, and he has.", "card": "harbour.weight_not_name.paviken" },
+       { "at": "aldeigjuborg.smithy", "when": "year < 801", "text": "At the far end of the Svear's sea a smith who has never met Fastulf has an opinion of his weights, carried there by Holmfast. It is a good opinion. Holmfast carried it home unwillingly.", "card": "" },
+       { "at": "birka.workshops", "when": "year >= 801 and year < 813", "text": "The caster from the old island has the bench next to the bead-maker's. He pours other men's patterns and says nothing all day. His weights are the true ones.", "card": "harbour.true_weights.birka" }
+      ],
+      "links": ["cast.holmfast", "cast.sigimar", "cast.crew.ravn", "helgo.gillog", "helgo.fastulf", "birka.bead_maker", "paviken.smith", "aldeigjuborg.audvald", "uppsalir.gillaug"],
+      "endings": [
+       { "id": "poured", "how": "You brought the brass to the island and stood by while he poured.", "text": "He casts eight weights and a small balance beam, files each against his father's set, and gives them to you in a leather bag. The ninth piece he keeps: a small brooch, the first thing of the kind made on the island in a hundred years. The girl wears it when she is grown.", "reward": "A folding balance and a set of northern weights (the thread's flag sv_scale: northern buyers stop shorting you); Fastulf as a fast friend, and after 800 a friend at a bench in Birka; test_silver and weigh_silver here cost nothing.", "card": "harbour.last_pour.helgo" },
+       { "id": "sold_at_birka", "how": "You sold the brass to Holmfast for silver.", "text": "A good price, paid at once and weighed twice. When you next put in at the island the shed has no smoke. Fastulf has gone over to Birka to cast another man's pattern by the hundred, and Holmfrid tells you so without looking up.", "reward": "Silver now, about a quarter over the Rhine price for the brass; Holmfast's good will; the caster and the girl answer you shortly from then on.", "card": "harbour.brass_for_silver.birka" },
+       { "id": "took_him_south", "how": "You brought the brass and then offered him a place in the boat, tools and all, to a town with a mint.", "text": "He thinks about it for one whole visit. Then he says a man who has only ever trusted the scale would not last a season among people who trust a stamp, and pours the weights. He asks you to show one to your moneyer and bring back what he said.", "reward": "The weights and balance (sv_scale), and a standing errand: Sigimar's answer, carried back, opens the caster's knowledge of filed weights and bad silver to the house (learn)." }
+      ],
+      "reward": "The northern weights and the knowledge that goes with them, or Holmfast's silver and good word: the island or Birka, not both." },
+    { "id": "helgo.whose_god", "title": "Whose god is this", "thread": "cross_and_grove",
+      "summary": "On a peg by the high seat hangs a small bronze man who sits with his legs folded and a dot of gold on his brow. The old keeper of the hall has asked every far-travelled guest for forty years whose god it is, and no one has known. He asks the merchant to carry the question further than it has ever gone.",
+      "picture": "The inside of a dim long hall: an old man with white hair holding up a tiny dark bronze figure on a leather strap to the light from the smoke hole, a merchant and his crew looking at it, a long-handled bronze dipper and chipped green glass beakers on the shelf behind.",
+      "beats": [
+       { "at": "helgo.hall", "when": "year < 800", "text": "Ingemund lets you hold it. It is worn smooth, already old, and somebody once wore it on the strap. He does not know who brought it, or when. He asks only that you describe it truly wherever you go, and bring back what is said.", "card": "harbour.whose_god.helgo" },
+       { "at": "traiectum.st_martin", "when": "year < 800", "text": "A priest hears you out and says that a seated figure worshipped by heathens is an idol and the right place for it is the fire. He has not seen it and does not ask to. He is quite sure.", "card": "" },
+       { "at": "birka.market", "when": "year < 800", "text": "Holmfast has seen it. Bronze, a thumb high: he names its weight to the pennyweight and offers that in silver. Whose god is no question he can sell an answer to.", "card": "harbour.holmfasts_door.birka" },
+       { "at": "aldeigjuborg.dealers_house", "when": "year < 800", "text": "A dealer who buys furs for white silver listens and shrugs. The silver comes from the south and east, from people who allow no images at all. So it is not theirs. Beyond them he has never been, and knows no one who has.", "card": "harbour.biggest_house.aldeigjuborg" },
+       { "at": "helgo.rock", "when": "year < 800", "text": "Gudlög says her brother asks the wrong thing. A god far from his own people is a guest. The question is whether he has been fed. She puts a crust on the hall's threshold each new moon, and has told nobody but you.", "card": "" },
+       { "at": "helgo.hall", "when": "year < 800", "text": "You come back with what you were told: a priest's certainty, a trader's price, a dealer's shrug, and nothing else. Ingemund waits to hear which of them you give him.", "card": "harbour.whose_god.helgo" },
+       { "at": "helgo.graves", "when": "year >= 799 and year < 801 and flag.be_god_invented", "text": "If you gave the old man a made-up name for his god, his sister says at the burning that he died saying it. A Gotlander told her last summer that there is no such people. She did not tell her brother. She tells you.", "card": "harbour.old_mans_burning.helgo" }
+      ],
+      "links": ["cast.holmfast", "cast.hamacar", "cast.crew.ravn", "cast.crew.beornwine", "helgo.gudlog", "helgo.ingemund", "aldeigjuborg.fur_buyer"],
+      "endings": [
+       { "id": "told_true", "how": "You told him plainly that you asked in four ports and nobody knows.", "text": "He is quiet, then pleased. Then it has come from further than anyone has been, he says, and that is an answer. He hangs it back on its peg and gives you the seat beside the high seat. When he is burned in 799 the bronze man is not on the pyre; it stays in the hall.", "reward": "The seat by the high seat (the unlock helgo.hall_seat); Ingemund and Gillög as fast friends; the old man's whole account of the givers, which holds the names of three halls round the bay that will receive this house.", "card": "harbour.whose_god.helgo" },
+       { "id": "priests_answer", "how": "You gave him the priest's answer: an idol, fit for the fire.", "text": "He laughs for the first time since you met him. So the Christians are afraid of a thing a thumb high. He likes it better for that. Holmfrid, who heard, does not laugh, and watches your crewmen's hands for the rest of the visit.", "reward": "Ingemund's good will, and a story he tells every later guest with your name in it; Holmfrid cools toward the house for a season. If a Christian crewman was by, he is troubled (the crew remembers)." },
+       { "id": "made_one_up", "how": "You invented a god, a people and a far country, so that the old man should have his answer before he died.", "text": "He thanks you gravely and repeats it to every guest. The next summer a Gotlander who has been east tells him there is no such people. He does not reproach you. He does not ask you anything again.", "reward": "A happy winter for an old man. After that his rumours and the givers' account are closed to this merchant, though the girl still talks to you.", "card": "harbour.whose_god.helgo" }
+      ],
+      "reward": "A place in the hall and the old man's knowledge, for the price of an honest 'nobody knows'." },
+    { "id": "helgo.counted_strokes", "title": "The boy who counted the strokes", "thread": "holy_island",
+      "summary": "The pilot on the height once shared his bread with a shorn foreign boy at an oar of a Birka ship, who counted every stroke aloud in a tongue nobody knew. A merchant who has the names of the boys taken from Lindisfarne hears in this the first word of where one of them went.",
+      "picture": "Seen from a ring of tumbled stones on a pine-covered height: a broad trading ship rowing through a narrow sound far below, and on the nearest thwart a small figure with a ring of cropped hair, mouth open, counting.",
+      "beats": [
+       { "at": "lindisfarena.church", "when": "year < 801", "text": "The brethren give you the names of the youths carried off, and what the bishop would pay for any one of them brought home (sets lf_knows_boys).", "card": "" },
+       { "at": "helgo.fort", "when": "year < 801 and flag.lf_knows_boys", "text": "Torbjörn tells it as a joke: a boy with his hair cut to a ring, on Holmfast's ship, counting the strokes aloud all the way through the sound. Your man Beornwine asks what the counting sounded like. Torbjörn does it. It is Latin (sets lf_trail_north).", "card": "harbour.counted_strokes.helgo" },
+       { "at": "birka.market", "when": "year < 830 and flag.lf_trail_north", "text": "Holmfast keeps an Englishman who tallies his furs and reads the marks on other men's sticks. He is not for sale by weight. What would buy him is a matter for Birka.", "card": "harbour.holmfasts_door.birka" },
+       { "at": "helgo.beach", "when": "year < 801 and flag.lf_trail_north", "text": "Holmfrid, asked, says Holmfast treats what he owns well because he counts it. The boy looked fed. That is all she knows, and she checked.", "card": "harbour.salt_and_a_stick.helgo" },
+       { "at": "uppsalir.landing", "when": "year < 801 and flag.lf_trail_north", "text": "Sibbi the fowler, of the pilot's kin, has the story at second hand and better: by his telling the boy counted in three tongues and the oars kept time to him. He asks what such a boy is worth, and to whom.", "card": "" }
+      ],
+      "links": ["cast.tidwine", "cast.holmfast", "cast.higbald", "cast.crew.beornwine", "helgo.torbjorn", "helgo.holmfrid", "uppsalir.sibbi"],
+      "endings": [
+       { "id": "followed", "how": "You went on to Birka and asked Holmfast to his face.", "text": "The trail leaves the island with you. Torbjörn asks, each time you put in after, whether the counting boy is found, and is more pleased than he lets on to have been the one who knew.", "reward": "The thread's flag lf_trail_north and the way on to Birka; Torbjörn as a friend, who pilots this house through the sounds at half his price." },
+       { "id": "sent_word", "how": "You went no further, but carried the word back to the bishop's people.", "text": "At Lindisfarena they write the name of a Svea trader on a slip and thank you. Somebody else may go north with it, or nobody. The pilot hears from a passing skipper that you asked and did not follow.", "reward": "A deed the church remembers (carried_letters); alms-standing at Lindisfarena; no change on the island." },
+       { "id": "let_lie", "how": "You heard it and said nothing to anyone.", "text": "A boy who counts strokes in Latin is somebody's good tally-man by now. Beornwine does not speak to you for three days, and then speaks only of the weather.", "reward": "Nothing gained; Beornwine's heart is lower for a season, and he remembers." }
+      ],
+      "reward": "The first true word of where a Lindisfarne boy went, and a pilot who is glad to see you." },
+    { "id": "helgo.going_quiet", "title": "The island going quiet", "thread": "",
+      "summary": "Holmfrid has looked twice at a plot on the birch island and means to take the household there. Ingemund will not leave the hall or the mounds. Between 793 and 800 the merchant is the one outsider both of them talk to, and what he carries, pays for and says tips it.",
+      "picture": "The shingle beach on a still grey morning: a farm boat half loaded with a loom's uprights, a cauldron and a crate of hens, a woman with keys at her belt giving orders, and on the terrace above an old man in a blue cloak standing in the door of a long hall, not coming down.",
+      "beats": [
+       { "at": "helgo.beach", "when": "year < 798", "text": "Holmfrid asks what a plot by the water costs in a southern town, and how a woman holds one there. She listens to the answer twice. Then she asks you to carry a tally stick to Holmfast at Birka and bring back his mark on it.", "card": "harbour.salt_and_a_stick.helgo" },
+       { "at": "birka.market", "when": "year < 798", "text": "Holmfast cuts his mark. A plot is to be had for the weight of sixty pennies in silver, he says, and a neighbour who buys iron and cheese every year is worth more than the plot. He means himself.", "card": "harbour.holmfasts_door.birka" },
+       { "at": "helgo.hall", "when": "year < 799", "text": "Ingemund knows. He says nothing against her. He shows you where the rain comes through the roof, above the bench where his father sat, and says a hall with a whole roof is harder to leave.", "card": "harbour.whose_god.helgo" },
+       { "at": "helgo.graves", "when": "year < 800", "text": "Gudlög will go where there are dead to bake for, she says, and there are more here than there. The girl asks you which you would choose, and wants a real answer.", "card": "harbour.old_mans_burning.helgo" },
+       { "at": "helgo.beach", "when": "year >= 799 and year < 801", "text": "The old man is burned at the edge of the birch wood in the autumn of 799, with a loaf on the mound. In the spring the boat is loaded, or it is not.", "card": "harbour.old_mans_burning.helgo" },
+       { "at": "birka.workshops", "when": "year >= 801 and year < 831 and flag.be_helgo_moved", "text": "The girl from the old island has a bench in the casters' sheds, behind the bead-maker's, and asks what everything is for. She says a Frisian once told her to go where the ships are.", "card": "harbour.true_weights.birka" },
+       { "at": "birka.hall", "when": "year >= 829 and year < 852", "text": "An old caster woman from the old island works for the prefect's household and will not take his faith. He has stopped asking. She still bakes the small loaves for the dead, and he has stopped asking about those too.", "card": "" }
+      ],
+      "links": ["cast.holmfast", "helgo.ingemund", "helgo.holmfrid", "helgo.gillog", "helgo.fastulf", "birka.bead_maker", "helgo.gudlog", "birka.herigar"],
+      "endings": [
+       { "id": "moved", "how": "You carried the tally, lent or found the silver for the plot, and helped load the boat.", "text": "The household goes over to Birka in the spring of 800. Holmfrid has a booth by the water within the year, and Gillög a bench beside the caster's. The hall stands empty with its door tied shut. Whenever this house lands at Birka after, somebody is on the jetty who knew its boat at the edge of sight.", "reward": "A host at Birka from 801 (lodge and ask_news there cost nothing; Holmfrid, then Gillög, then her children know the house: feeling inherited at half, as always); farm cheese and bar iron at Birka at the maker's price.", "card": "harbour.old_mans_burning.helgo" },
+       { "id": "stayed", "how": "You paid for the hall roof and spoke for staying.", "text": "The roof is whole when the old man dies under it. Holmfrid does not take the plot. The farm goes on into the next age with one hearth and a mended hall, off the trading ships' road. A boat of this house may still be drawn up on the shingle by leave, though the chart no longer shows a landing.", "reward": "The unlock helgo.hall_seat for this merchant and his heir; a hidden landing in the bay after 800 (wait_wind, lodge and provision by leave); the givers' account. No host at Birka.", "card": "harbour.old_mans_burning.helgo" },
+       { "id": "split", "how": "You carried the tally and took no side.", "text": "Holmfrid and the girl go; Gudlög and the pilot stay with the cows. Each half asks you for news of the other on every call, and you find you are the only boat that puts in at both.", "reward": "A small welcome in two places instead of a large one in either: rumours from both, carried each way (ask_news), and a fee in cheese for carrying them." }
+      ],
+      "reward": "A household that knows this house by name, at Birka or on the island, for two generations." }
+   ],
+   "works": [
+    { "id": "helgo.work.hall_roof", "name": "Bark and turf for the hall roof", "what": "New birch bark laid in overlapping sheets over the old rafters and fresh turf cut and stacked on top, with two rotten rafter ends spliced. A week's work for the farm and every hand off your boat.", "cost_d": 90, "days": 10, "from": 793, "to": 800,
+      "needs": "Ingemund at least easy with you, and a call between midsummer and harvest, when the bark peels and the hands are free.", "gives": "The hall is dry: lodging here is free for this house, the midsummer and slaughter feasts are held as long as the old man lives, and the story 'The island going quiet' can end with the farm staying.",
+      "picture": "Men and a girl on the long roof of a hall laying pale sheets of birch bark, a stack of cut turf below, an old man in a blue cloak watching from the yard with a dipper of ale in his hand.",
+      "source": "invented in the period's manner: birch bark under turf is the ordinary northern roof (?). The hall is House Group 2 (de.wikipedia 'Helgö (Mälaren)'); nothing is recorded of its repair." },
+    { "id": "helgo.work.store_corner", "name": "A corner of a cold shed", "what": "One of the roofless casters' sheds cleared of nettles and given a plank roof and a door with a wooden lock, under the smith's eye. Goods bound for Birka can wait here for a price.", "cost_d": 24, "days": 3, "from": 793, "to": 800,
+      "needs": "Fastulf or Holmfrid at least easy with you.", "gives": "Store up to a boatload on the island, a short row from Birka's market, without paying Birka for the room. Anything left here in 800 must be fetched before the household goes.",
+      "picture": "A low stone-footed shed on a terrace of red broken clay, a new plank roof on it, casks and bundled furs just visible through the half-open door, a smith's shed smoking beside it.",
+      "source": "works_793.json store_corner; the sheds are the old workshops (sv.wikipedia 'Helgö')." }
+   ],
+   "ships": [
+    { "class": "norse_small_boat", "how": "bought second-hand", "from": 793, "to": 800,
+      "note": "The farm's own kind of boat: clinker-built, four or five pairs of oars, light enough for six people to drag over the ice edge or up the shingle. When the household thins there is one more boat than there are rowers, and Holmfrid will sell her for silver weighed twice.",
+      "picture": "A slim tarred clinker boat on birch rollers on a shingle beach, oars stacked inside her, a woman with keys at her belt naming a price to a man who is knocking on the strakes.",
+      "source": "The Mälar boat of 9 to 10 m, four or five pairs of oars, light enough to drag (peoples/svea_gotlandic.md 6, after the Viks boat of about 1050, a later find standing in); ship_classes_793.json norse_small_boat." },
+    { "class": "logboat", "how": "bought second-hand", "from": 793, "to": 800,
+      "note": "A pine dugout for nets and for crossing to the mainland in still weather. The farm has three and will part with the oldest for a sack of salt.",
+      "picture": "A long narrow dugout half in the brown water, a net and a wooden bailer in her, a barefoot man stepping out with two pike on a withy.",
+      "source": "ship_classes_793.json logboat (cultures: svear); no boat has been found on the island (?)." }
+   ],
+   "sayings": [
+    { "text": "No great thing needs a man to give, / Oft little will purchase praise; / With half a loaf and a half-filled cup / A friend full fast I made.", "source": "Hávamál 52, tr. Henry Adams Bellows, The Poetic Edda (1923), as given in Design/content/lore/proverbs_jokes.json pj013. What the hall on the island lives by now." },
+    { "text": "Too early to many a meeting I came, / And some too late have I sought; / The beer was all drunk, or not yet brewed; / Little the loathed man finds.", "source": "Hávamál 66, tr. Bellows 1923 (proverbs_jokes.json pj016). Said here of any skipper who puts in at the island for its market a hundred years late." },
+    { "text": "Give praise to the day at evening, to a woman on her pyre, / To a weapon which is tried, to a maid at wedlock, / To ice when it is crossed, to ale that is drunk.", "source": "Hávamál 81, tr. Bellows 1923 (proverbs_jokes.json pj020). The ice line is the bay's own every spring." },
+    { "text": "There are here but few poor.", "source": "Frideburg of Birka, sending her alms to Dorestad: Rimbert, Vita Anskarii c. 20 (tr. Robinson 1921), as given in peoples/svea_gotlandic.md 8. Said on the island a lifetime earlier, by Holmfrid, of Birka, and not as praise: invented use." },
+    { "text": "So may the gods be kind to me.", "source": "The heathen oath kept in the older Västgöta law, 'Sva se mær guþ hull' (about 1220, late; our gloss, as in peoples/svea_gotlandic.md 9). What a man says at the rock before he swears." },
+    { "text": "Birka has the ships. We have the grandfathers. You cannot eat either, but only one of them asks to be fed.", "source": "invented in the period's manner (a Svea's understatement)" },
+    { "text": "The Frank counts his silver, the Svea weighs it, and the Gotlander buries it. Only the Svea knows what he has.", "source": "invented in the period's manner; the practice from the spine (silver_road) and economy/silver_coin.md" },
+    { "text": "A caster with no metal is a man warming his hands.", "source": "invented in the period's manner" }
+   ],
+   "easter_eggs": [
+    { "text": "The small bronze man on the peg sits on a flower, has long ear lobes and a dot of gold on his brow, and was made in the 500s somewhere under the great mountains north of India. It will be dug out of the hall floor in July 1954. Nobody on the island has a word for what it is, and the game never tells them.", "where": "helgo.hall", "source": "en.wikipedia 'Helgö Buddha': 8.4 cm, north India (Kashmir or Swat are guessed), a leather strap round neck and arm, found in House Group 2; now in the Swedish History Museum, Stockholm" },
+    { "text": "The long-handled bronze dipper that Ingemund serves ale with was made in Egypt in the 500s. One modern page calls it a baptismal scoop and another a wine bucket. Here it has only ever held ale.", "where": "helgo.hall", "source": "en.wikipedia and sv.wikipedia 'Helgö'; en.wikipedia 'Helgö Buddha'. Its use at feasts is the game's guess (?)" },
+    { "text": "Pressed into the earth by the high seat's posts are leaves of gold thinner than a birch leaf and smaller than a thumbnail, each stamped with a man and a woman face to face. Some say the god and his bride, Ingemund says forebears. He will show one on the tip of a wet finger and put it back.", "where": "helgo.hall", "source": "en.wikipedia 'Gullgubber': 550 to 800, read by some as Freyr and Gerd, by others as offerings or forebears; found on Helgö (26 in this hall is from memory (?))" },
+    { "text": "Somewhere under the terraces lies a bag of gold coins with emperors' faces, put down two hundred and fifty years ago by someone who did not come back for it. The girl digs within a boat's length of it every summer and never finds it.", "where": "helgo.casters", "source": "A hoard of some 47 gold solidi is from memory (?); coins of Ravenna, Rome and Byzantium (sv.wikipedia; no.wikipedia 'Helgö'). Where it lay and the girl are invented" },
+    { "text": "Pick up any red lump from the ground between the sheds and it has half a brooch in it, hollow, the pattern back to front. Fastulf can tell you which grandfather cut it. There are tens of thousands.", "where": "helgo.casters", "source": "The mould fragments, the largest such find in the north (Holmqvist, Excavations at Helgö; the count from memory (?))" },
+    { "text": "In the years after ships stop calling, the bronze crook of an Irish bishop's staff comes to rest in one of the island's houses: a beast's jaws gripping a man's head. Loot or gift, nobody wrote down. A merchant's heir who has seen Hi or Duiblinn would know the work; nobody on the island does.", "where": "helgo.hall", "source": "The crozier head: dated to the 800s by sv.wikipedia, to the 500s by en.wikipedia, mostly given as 8th century (?); the beast and head from memory (?). Shown only after 800, as dossier 8 asks; told in the era text, never seen in the hall of 793-800" },
+    { "text": "On the newest mound in the birch wood lies a loaf no bigger than a palm, baked for the dead and not for eating. Gudlög bakes one for every burning. If the merchant's own man dies in the bay she will bake one for him without being asked, whatever his god.", "where": "helgo.graves", "source": "Loaves of bread in some graves on Helgö (from memory (?)); the offer to a stranger is invented" },
+    { "text": "One island's turf holds a holy man from India, a bishop's staff from Ireland and a dipper from Christian Egypt: holy things of three faiths, none of them its own.", "where": "helgo.rock", "source": "dossier 7; all three are in the Swedish History Museum, Stockholm (en.wikipedia 'Helgö')" }
+   ],
+   "unlocks": [
+    { "id": "helgo.hall_seat", "what": "The seat beside the high seat in the island's hall", "how": "End 'Whose god is this' with the truth, or pay for the hall roof and end 'The island going quiet' with the farm staying.", "gives": "Free lodging and a feast at midsummer and at the slaughter (lodge, feast); the old man's account of the givers, which names three halls round the bay that will receive this house; inherited by the heir at half strength, as feeling is." },
+    { "id": "helgo.true_weights", "what": "A folding balance and eight weights poured on the island to the northern standard", "how": "End 'The last pour' by bringing five bars of brass to Fastulf before 801.", "gives": "The thread's flag sv_scale if the house does not hold it yet (flag sv_scale): northern buyers stop shorting you; weigh_silver and test_silver cost nothing wherever silver goes by weight." },
+    { "id": "helgo.first_white_silver", "what": "Half a white coin with writing on both faces, seen and handled", "how": "Let Fastulf weigh your penny at the cold hearths before 801.", "gives": "The thread's flag sv_first_dirham (flag sv_first_dirham), a year or more before most southern skippers see such silver; the moneyer at Dorestad and Holmfast at Birka each have something to say about it." },
+    { "id": "helgo.sound_marks", "what": "Torbjörn's marks for the two sounds into the bay", "how": "Hire him three times and come through without touching, or end 'The boy who counted the strokes' by following the trail to Birka.", "gives": "Counts toward unlock_pilot_malaren (unlocks_793.json): no pilot is needed between the sea and Birka, and the shoaling south sound is no longer doubtful for this house (learn)." },
+    { "id": "helgo.rune_stick", "what": "A broken rune stick from the casters' rubbish", "how": "Give the girl Gillög something from further away than Birka; she gives you the stick she found, since she cannot read the rest of it either.", "gives": "give_text t-gest-13 (unlocks_793.json text.t-gest-13): a riddle in runes, broken, to be read with Ravn or any hand who reads them." },
+    { "id": "helgo.fire_and_flint", "what": "The smith's riddle", "how": "Work the bellows for Fastulf through one pour, or bring him brass.", "gives": "give_text t-gest-29 (unlocks_793.json text.t-gest-29): a riddle that a man who lives by fire tells better than most." },
+    { "id": "helgo.host_at_birka", "what": "A household at Birka that knows this house's boat at the edge of sight", "how": "End 'The island going quiet' with the household moved.", "gives": "From 801 at Birka: lodge and ask_news cost nothing, farm cheese and bar iron at the maker's price (buy_at_source), and a friend there in each generation while the family lasts." }
+   ],
+   "sources": [
+    "Design/content/dossiers/helgo.md (the research this file is built on; its doubts are kept, marked (?))",
+    "Swedish Wikipedia, 'Helgö' (citing Stockholms läns museum): https://sv.wikipedia.org/wiki/Helgö",
+    "English Wikipedia, 'Helgö': https://en.wikipedia.org/wiki/Helgö",
+    "English Wikipedia, 'Helgö Buddha': https://en.wikipedia.org/wiki/Helgö_Buddha",
+    "German Wikipedia, 'Helgö (Mälaren)': https://de.wikipedia.org/wiki/Helgö_(Mälaren)",
+    "Norwegian Wikipedia, 'Helgö': https://no.wikipedia.org/wiki/Helgö ; Danish Wikipedia, 'Helgö': https://da.wikipedia.org/wiki/Helgö",
+    "English Wikipedia, 'Gullgubber': https://en.wikipedia.org/wiki/Gullgubber ; 'Birka': https://en.wikipedia.org/wiki/Birka",
+    "W. Holmqvist, Vikingar på Helgö och Birka (1979), and Excavations at Helgö I to XVIII (KVHAA, Stockholm): cited through Wikipedia, not opened (?)",
+    "T. Zachrisson, 'The holiness of Helgö', in Excavations at Helgö XVI (2004): not opened (?)",
+    "Rimbert, Vita Anskarii, tr. C. H. Robinson (1921): https://sourcebooks.fordham.edu/basis/anskar.asp (c. 10-11, 18-20, 26-27, 30)",
+    "Hávamál, tr. Henry Adams Bellows, The Poetic Edda (1923), stanzas 2-4, 52, 66, 81, as given in Design/content/lore/proverbs_jokes.json",
+    "Repo: Design/content/spine.json (threads silver_road, holy_island, cross_and_grove; cast Holmfast, Sigimar, Ravn, Tidwine, Herigar, Notburg, Thiadburg); Design/content/peoples/svea_gotlandic.md; Design/content/realms/sweden_gotland.md; Design/content/economy/silver_coin.md and pots_glass_luxuries.md; Research/water_levels/baltic_east.md",
+    "Repo tables: ports_793.json (helgo, to 800); encounters/npc_roles_793.json; ship_classes_793.json; goods_793.json (brass, brooches, bar_iron); riddles_793.json and story/unlocks_793.json (text.t-gest-13, text.t-gest-29, unlock_pilot_malaren); story/works_793.json (store_corner)"
+   ]
+  }
+ ]
+}

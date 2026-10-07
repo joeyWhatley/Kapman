@@ -1,0 +1,104 @@
+{
+  "about": "Happenings at sea and in port (the user's spec: 'Events: text-based, placeholders'). Each is a label, a plain intention, and options whose outcomes are facts; your writing for each key ('event.<id>', 'event.<id>.<option>') goes in writing.json. Once a game day, each event whose conditions hold may come (its chance a day); at most one at a time. Edit freely: conditions, chances, options and effects are all here. Numbers are starting guesses.",
+  "effects_help": "health / morale: + or - share (0-1); men: + or - men; silver: + or - deniers' worth; goods: {good id: + or - units}; water: + or - litres; spoil_food: share of the food aboard lost; deed: a deed kept (and standing: its kind in reputation_793.json, which moves your standing there); chance: a share, then 'success' and 'failure' (each its own effects); text: the fact shown (with {n} for a number the effect used)",
+  "conditions_help": "where: sea | port | any; months: [1-12]; min_days_at_sea; health_below / morale_below (0-1); wind_above (m/s); calm (true: wind under 1.5 m/s); fog_above (0-1); has_goods: [ids] (any aboard); port_kinds: [kinds]; regions: [trade regions]; year_from / year_to; cooldown_days (default 20)",
+  "events": [
+    {
+      "id": "fever", "where": "sea", "chance": 0.04, "conditions": { "min_days_at_sea": 4, "health_below": 0.85 },
+      "title": "A man falls sick", "intention": "One of the crew has a fever and can't work.",
+      "options": [
+        { "key": "rest", "label": "Rest him in the stern", "effects": { "chance": 0.7, "success": { "health": 0.05, "text": "He mends in a few days." }, "failure": { "men": -1, "morale": -0.1, "text": "He dies. One man fewer." } } },
+        { "key": "work", "label": "Keep him at the oars", "effects": { "chance": 0.4, "success": { "text": "He works it off." }, "failure": { "men": -1, "morale": -0.15, "text": "He dies at his oar. One man fewer." } } }
+      ]
+    },
+    {
+      "id": "casks_spoil", "where": "sea", "chance": 0.05, "conditions": { "months": [6, 7, 8], "min_days_at_sea": 3 },
+      "title": "The water turns", "intention": "A cask of water has gone foul in the heat.",
+      "options": [
+        { "key": "pour", "label": "Pour it over the side", "effects": { "water": -60, "text": "60 litres of water lost." } },
+        { "key": "drink", "label": "Drink it anyway", "effects": { "chance": 0.5, "success": { "text": "No harm comes of it." }, "failure": { "health": -0.15, "text": "The men are sick with it." } } }
+      ]
+    },
+    {
+      "id": "becalmed", "where": "sea", "chance": 0.25, "conditions": { "calm": true },
+      "title": "Becalmed", "intention": "No wind. The sail hangs slack.",
+      "options": [
+        { "key": "row", "label": "Take to the oars", "effects": { "morale": -0.05, "health": -0.03, "text": "The men row on, tired." } },
+        { "key": "wait", "label": "Wait for a wind", "effects": { "morale": -0.02, "text": "You wait for a wind." } }
+      ]
+    },
+    {
+      "id": "fog", "where": "sea", "chance": 0.3, "conditions": { "fog_above": 0.6 },
+      "title": "Fog", "intention": "Thick fog. The lookout can't see the bow.",
+      "options": [
+        { "key": "lead", "label": "Sound with the lead and go slow", "effects": { "text": "You feel your way on." } },
+        { "key": "anchor", "label": "Anchor and wait it out", "effects": { "morale": -0.02, "text": "You anchor till it lifts." } }
+      ]
+    },
+    {
+      "id": "leak", "where": "sea", "chance": 0.08, "conditions": { "wind_above": 11 },
+      "title": "She's taking water", "intention": "A strake has sprung in the heavy sea.",
+      "options": [
+        { "key": "bail", "label": "Bail and caulk with wool and tar", "effects": { "chance": 0.75, "success": { "morale": -0.03, "text": "The leak is stopped." }, "failure": { "spoil_food": 0.3, "text": "Water gets into the stores: {n} kg of food spoiled." } } },
+        { "key": "lighten", "label": "Lighten her: throw cargo over", "effects": { "spoil_food": 0.1, "text": "You throw some stores over to ride higher." } }
+      ]
+    },
+    {
+      "id": "catch", "where": "sea", "chance": 0.06, "conditions": { "months": [3, 4, 5, 6, 7, 8, 9, 10] },
+      "title": "Fish", "intention": "A shoal under the boat; the men have lines.",
+      "options": [
+        { "key": "fish", "label": "Put out the lines", "effects": { "goods": { "dried_fish": 2 }, "morale": 0.05, "text": "A good catch: food for days." } },
+        { "key": "sail_on", "label": "Sail on", "effects": { "text": "You sail on." } }
+      ]
+    },
+    {
+      "id": "gale", "where": "sea", "chance": 0.35, "conditions": { "wind_above": 17 },
+      "title": "A gale", "intention": "The wind rises to a gale.",
+      "options": [
+        { "key": "run", "label": "Run before it", "effects": { "chance": 0.8, "success": { "morale": -0.05, "text": "You run before it and come through." }, "failure": { "spoil_food": 0.2, "health": -0.1, "text": "She ships seas: {n} kg of food spoiled, the men soaked through." } } },
+        { "key": "heave_to", "label": "Heave to and ride it out", "effects": { "health": -0.05, "morale": -0.05, "text": "A long night hove to." } }
+      ]
+    },
+    {
+      "id": "grumbling", "where": "sea", "chance": 0.05, "conditions": { "morale_below": 0.35, "min_days_at_sea": 3 },
+      "title": "The men grumble", "intention": "The crew are sore: short of food, pay or rest.",
+      "options": [
+        { "key": "ale", "label": "Broach the ale", "effects": { "goods": { "ale": -1 }, "morale": 0.15, "text": "A cask of ale for the crew." } },
+        { "key": "promise", "label": "Promise them a bonus in port", "effects": { "morale": 0.08, "silver": -6, "text": "You promise them a bonus, 6 deniers paid." } },
+        { "key": "ignore", "label": "Say nothing", "effects": { "morale": -0.05, "text": "They work on, sullen." } }
+      ]
+    },
+    {
+      "id": "passenger", "where": "port", "chance": 0.08, "conditions": { "port_kinds": ["emporium", "town", "market"] },
+      "title": "A man asks passage", "intention": "Someone wants carrying to the next port; he'll pay.",
+      "options": [
+        { "key": "take", "label": "Take him", "effects": { "silver": 8, "text": "He pays 8 deniers for his passage." } },
+        { "key": "refuse", "label": "Refuse", "effects": { "text": "You refuse." } }
+      ]
+    },
+    {
+      "id": "letters", "where": "port", "chance": 0.06, "conditions": { "port_kinds": ["monastery", "town"] },
+      "title": "Letters to carry", "intention": "A priest asks you to carry letters to a house over the sea.",
+      "options": [
+        { "key": "carry", "label": "Carry them", "effects": { "deed": "carried letters for the church", "standing": "carried_letters", "morale": 0.02, "text": "You take the letters aboard." } },
+        { "key": "refuse", "label": "Refuse", "effects": { "text": "You refuse." } }
+      ]
+    },
+    {
+      "id": "theft", "where": "port", "chance": 0.04, "conditions": { "port_kinds": ["emporium", "market"] },
+      "title": "Thieves on the jetty", "intention": "Someone has been at the cargo in the night.",
+      "options": [
+        { "key": "search", "label": "Search the waterfront", "effects": { "chance": 0.35, "success": { "text": "You find the goods and get them back." }, "failure": { "silver": -10, "text": "Nothing found; you've lost 10 deniers' worth." } } },
+        { "key": "watch", "label": "Set a watch from now on", "effects": { "morale": -0.02, "silver": -10, "text": "10 deniers' worth gone. The men keep watch." } }
+      ]
+    },
+    {
+      "id": "dispute", "where": "port", "chance": 0.04, "conditions": { "port_kinds": ["emporium", "market", "town"] },
+      "title": "A dispute at the market", "intention": "A trader says your goods were short weight.",
+      "options": [
+        { "key": "pay", "label": "Pay him to settle", "effects": { "silver": -5, "text": "You pay 5 deniers to settle it." } },
+        { "key": "reeve", "label": "Take it to the reeve", "effects": { "chance": 0.6, "success": { "deed": "won a case before the reeve", "standing": "won_case", "text": "The reeve finds for you." }, "failure": { "silver": -12, "deed": "lost a case before the reeve", "standing": "lost_case", "text": "The reeve finds against you: 12 deniers." } } }
+      ]
+    }
+  ]
+}

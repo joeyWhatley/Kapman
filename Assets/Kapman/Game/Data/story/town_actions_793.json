@@ -1,0 +1,1189 @@
+{
+ "about": "TOWN ACTIONS (Design/town_interactivity.md; Design/content/BRIEF_2.md): what each act a site can offer is. The place writers attach these to the sites of the 50 ports as \"act:<id>\" in a site's \"do\" list; this table says what the act was in the period, who it is done with, what it costs in silver and in hours of the day, when it is open, and what it does in the game. Written 4 Oct 2026 as a draft for the user to overwrite, like all the game's words. Every 'when' is in the condition grammar of Code/Core/Encounters/Cond.cs, every string in 'effects' in the grammar of Effects.cs, every 'cost' in the cost words of Effects.ParseCost, every 'who' a role of encounters/npc_roles_793.json, every site kind in 'at' one of BRIEF.md's: a loader can check all of it at start. The numbers are starting guesses to tune. (?) marks what was not checked against a source.",
+ "fields": {
+  "id": "the act's id, as BRIEF_2.md lists it",
+  "name": "two or three plain words for the button",
+  "at": "the site kinds it belongs to (a place writer may put it elsewhere where it is true)",
+  "what": "two plain sentences: what really happened there in the period",
+  "evidence": "the find, the law or the text that shows it",
+  "who": "the role (npc_roles_793.json) of the person it is done with, or none; where a site has its own person, that person stands in, and the role word in 'effects' means him",
+  "cost": "the engine's cost words (silver n, goods <good> n, men n) or none; a cost that depends on what is bought is said in 'gives'",
+  "hours": "game hours of the day it takes: the clock moves on by this much when the act is chosen (0: no time). Work that goes on without you (a ship built, a book copied) is in 'gives'",
+  "talk": "true where the act uses one of the call's three talks",
+  "when": "the condition under which the act is open (Cond.cs grammar). Sunday is not a variable yet: see rules.sunday",
+  "effects": "what it does, in the engine's verbs (Effects.cs), run in order when the act is done; empty where no verb fits",
+  "gives": "what it does, in plain words for a programmer: everything the verbs cannot say",
+  "changes": "how a feast, a fast, the season, the port's faith or the merchant's standing change it",
+  "words": "one plain line each, as the screen says it: offer (before), done (after), refused (when it is shut)",
+  "source": "where the evidence is from"
+ },
+ "rules": {
+  "clock": "The clock is held while a panel is open (DECISIONS.md, 4 October night). So an act's hours are spent by moving the clock on when the act is chosen, as Hoards.Dig moves it six hours; the day stick shows the hours before the choice. Looking at a site, the market panel and talking take no hours.",
+  "talks_per_call": 3,
+  "talk_back_at_dawn": 1,
+  "about_talks": "Three talks a call (research_indie_and_concept.md 4.3): a talk is one conversation with a person of a site (person:<id>) or one of the three asking acts (ask_harbour, ask_news, rumours). Each dawn she still lies moored gives one talk back, never more than three in hand. Each talk is plain, warm or hard.",
+  "attitudes": {
+   "plain": "what the person knows, as it is",
+   "warm": "one thing more is told and the feeling rises by 1; a favour may be asked of you",
+   "hard": "only the fact asked for, and the feeling falls by 2; a wary person tells nothing"
+  },
+  "day": { "work_from": 6, "work_to": 18, "evening_to": 23 },
+  "about_day": "Work, markets, the toll, the mint and the court run from hour 6 to hour 18; the ale-house and the hall to hour 23; Mass is before noon. Fixed hours for now: the true bounds are first light and dusk (Rest.Dark), a wanted variable.",
+  "night": {
+   "open": ["wait_wind", "vow", "sanctuary", "lodge", "heal"],
+   "note": "After dark everything with an hour in its 'when' is shut. The ship may still cast off. A stranger moving goods by night is taken for a thief: in Ine 20 the stranger who leaves the track without shouting or blowing a horn is to be taken for one (npc_text_encounters.md 1.1)."
+  },
+  "sunday": {
+   "applies": "port.faith = christian",
+   "shut": ["load", "repair", "careen", "hire_porters", "haggle", "sample", "change_coin", "copy_text", "lawsuit", "witness", "hear_law", "buy_tools", "buy_ship", "build_ship", "fit_upgrade", "store", "rent_store", "buy_plot", "buy_at_source"],
+   "market": "shut, unless a fair is on (Fairs.On) or the place file marks the market as an old Sunday market",
+   "note": "The engine has no Sunday variable yet (Calendar.Weekday exists). Until it has, these acts are shut on a feast only; with it, they are shut on Sunday too, at Christian ports, as on a feast. Basis: the Admonitio generalis of 789, c. 81: no servile work on the Lord's day, no building, no courts, and only three kinds of carting: for the army, for food, and to bring a body to its grave; the capitulary of 809: Sunday markets only where they are old (chronicle_793.json); the law of the Frisians, title 18: work on Sunday costs 4 solidi west of the Lauwers and 12 east of it (Design/content/dossiers/doccinga.md); among the English, Edward and Guthrum 7 and II Athelstan 24 against Sunday trading (?)."
+  },
+  "feast": {
+   "shut_at_christian_ports": "the same acts as on Sunday",
+   "more": ["hear_mass", "alms", "feast", "audience", "song", "gift"],
+   "note": "The 'feast' variable is true on the days of Runtime/Levels/Feasts.cs (Easter, Ascension, Pentecost, Christmas, Epiphany, Candlemas, St John, Sts Peter and Paul, the Assumption, Michaelmas, All Saints, Martinmas). On a feast the lord is in his hall, the church is full, the singer is already paid, and nobody works. A fair that hangs on a feast keeps its market open. The heathen ports have no feasts in the table yet: wanted."
+  },
+  "fast": {
+   "shut": ["feast", "lawsuit"],
+   "note": "Lent, the Ember days and Fridays: no flesh, so no feast is given; the guest house serves fish and bread; no court sits and no oath is taken before one (V Æthelred 18, of 1008, names the forbidden seasons) (?). Ale is not flesh: the ale-house stays open."
+  },
+  "ice": {
+   "note": "With ice > 0 at the port: wait_wind offers wintering in place of waiting; cross is done on foot for nothing; load takes twice as long (sledges); careen costs no hours (she is hauled out already). The yard builds in winter."
+  },
+  "unlocks": {
+   "note": "Where an entry of story/unlocks_793.json names an act in how_won.by (act:buy_plot, act:fit_upgrade, act:fund_work, act:hire_pilot, act:remember and others), that entry is offered on the act's panel at its own cost and condition, beside what the act does here. Where the two tables give different prices, unlocks_793.json is the price."
+  },
+  "games": {
+   "note": "The acts dice, tafl, song, riddles and drink have full games in story/town_games_793.json. That table says a game counts as one talk of the call; the short forms in this table do not use a talk. One rule should be chosen."
+  },
+  "landing": {
+   "note": "A village or a beach (ports_793.json kind village, or size 1) has three sites and no toll, mint, court, yard or ale-house. What is bought is bought from the maker (buy_at_source), unwitnessed; the crew mend and carry for themselves; the lord of the place is one farmer or one priest, and a gift to him comes first."
+  }
+ },
+ "acts": [
+  {
+   "id": "load",
+   "name": "Load and unload",
+   "at": ["quay", "beach", "storehouse"],
+   "what": "A boat was run on to the sand or laid beside a dam of earth and wattle, and every cask, sack and stone went over the side on men's backs. At Dorestad the dams grew out across the silting bank year by year, so the carry grew longer.",
+   "evidence": "The harbour dug at Dorestad (Hoogstraat, 1967-77) is a comb of dams 6-7 m wide and up to 200 m long with storehouses on them; boats of 2-3 m beam lay between the dams, larger ships at the dam heads or drawn up on the sand beyond. Jetties were built out into the water at Hedeby and Kaupang in the 9th century (?). No hoist is known in the north in these years (?).",
+   "who": "none",
+   "cost": "none",
+   "hours": 2,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": [],
+   "gives": "Shifts goods between the hold and the shore: what was bought comes aboard, what was sold goes ashore, and goods go to or from the house's own store here. Two hours for the Gislinge boat's 660 kg with her four men (about 330 kg an hour); for a bigger ship, cargo kg / (crew x 80) hours, to the half hour. With carriers hired (flag.act_porters_hired) it takes half an hour of the merchant's own day. Until it is done, goods sold are not paid for and goods bought are not aboard.",
+   "changes": "Sunday or a feast at a Christian port: nobody carries; the law lets carts move only for the army, for food and for a burial. After dark it is not done. At a beach she must lie dry or in wading depth: it waits on the tide. On ice the goods come by sledge and it takes twice as long.",
+   "words": {
+    "offer": "Shift the cargo. About two hours for the four of you.",
+    "done": "The hold is as you want it. Two hours gone.",
+    "refused": "Nobody carries goods here today."
+   },
+   "source": "Design/content/dossiers/dorestad.md sections 1-2 (Van Es and Verwers, Excavations at Dorestad 1: The Harbour, Hoogstraat I, 1980); Admonitio generalis 789 c. 81 (MGH Capit. I no. 22) for the three cartings; Kalmring, Der Hafen von Haithabu (2010) (?)"
+  },
+  {
+   "id": "repair",
+   "name": "Mend the boat",
+   "at": ["shipyard", "beach", "quay"],
+   "what": "A clinker boat was mended plank by plank: the sprung rivets cut out, a new piece of oak let in, the seam packed with tarred wool and riveted again. It was done on the strand where she lay, by a wright or by her own crew.",
+   "evidence": "On the beach at the dam heads of Dorestad lay ship nails and a taken-apart clinker hull: mending and breaking. Skuldelev 1 (built about 1030 in western Norway) was 'repeatedly repaired with oak and linden wood during its lifetime, in the Oslo Fjord and in Eastern Denmark'. At Paviken on Gotland rivets lie by the thousand, many cut out of old planks (?).",
+   "who": "shipwright",
+   "cost": "silver 8",
+   "hours": 4,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": ["npc shipwright feeling +1 work"],
+   "gives": "Mends the hull (a wanted number: hull 0..1, worn by groundings, storms and age; ShipSim has the grounding and the bilge). With a wright: 8 d and 4 hours for each tenth mended, up to sound. With the crew's own tools (flag.act_ship_tools) and no wright: no silver, twice the hours, and never past four fifths sound. A hull under a half leaks: more baling, less speed, cargo wetted.",
+   "changes": "Sunday or a feast at a Christian port: no work. Winter is the mending season: with the boat laid up it costs silver only, no hours. A wright who is friendly works for a quarter less; where you are shunned none will. At a landing there is no wright: your own tools or nothing.",
+   "words": {
+    "offer": "Have the wright look at her seams.",
+    "done": "The bad planks are out and new oak is in.",
+    "refused": "No wright will work on her today."
+   },
+   "source": "Design/content/dossiers/dorestad.md section 2 (the dam-head beach); en.wikipedia.org/wiki/Skuldelev_ships (checked 4 Oct 2026; Crumlin-Pedersen and Olsen, The Skuldelev Ships I, 2002); Lundström, Bulverket and Paviken (1981) (?)"
+  },
+  {
+   "id": "careen",
+   "name": "Scrape and tar",
+   "at": ["beach", "shipyard"],
+   "what": "Boats were hauled up the beach between voyages and over the winter, scraped of weed, and tarred. Tar was burned in pits in the pine woods of the north and shipped by the barrel.",
+   "evidence": "Funnel-shaped tar pits in the Swedish forests grow large from the 8th century, far beyond a farm's needs: tar for ships and sails (Hennius 2018). The seams of the Skuldelev ships are packed with tarred wool. In the game's own tables the Norse lay their ships up from October to April.",
+   "who": "none",
+   "cost": "silver 10",
+   "hours": 12,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": ["flag act_clean_hull for 120"],
+   "gives": "A clean, tarred bottom for 120 days: her speed is her class's own (a wanted number: fouling grows from nothing to 8% off her speed over 120 days afloat, guess). 10 d is half a barrel of tar (goods_793.json tar: 20 d a barrel) for a boat of her size; tar aboard is used first. Twelve hours: one tide to dry her, scrape and tar, the next to float her. She cannot sail or load meanwhile.",
+   "changes": "On a tideless shore (the Baltic) she is hauled on rollers: carriers must be hired for a ship bigger than the small boat. Laid up in winter: no hours, tar only. Sunday or a feast at a Christian port: no work. In rain the tar will not take: not in a storm.",
+   "words": {
+    "offer": "Haul her out, scrape her and tar her. It takes two tides.",
+    "done": "She is clean and black and smells of the pine woods.",
+    "refused": "She cannot be hauled out today."
+   },
+   "source": "Hennius, 'Viking Age tar production and outland exploitation', Antiquity 92 (2018) (from memory, not re-read) (?); Crumlin-Pedersen and Olsen 2002 for the tarred wool (?); Design/economy_and_trade.md 1.3 for the season"
+  },
+  {
+   "id": "hire_porters",
+   "name": "Hire carriers",
+   "at": ["quay", "beach", "market", "storehouse", "gate"],
+   "what": "Where the carry from ship to store was long, men with yokes, sledges and ox-carts did it for a wage. At a neck of land they hauled goods, and sometimes boats, from one water to the next.",
+   "evidence": "Dorestad's dams ran up to 200 m from the houses to the water, and every cask of Rhenish wine and every quern crossed them. The road of under 15 km between the Treene and the Schlei carried the North Sea's goods to Hedeby. No text names hired carriers at Dorestad: this is read from the ground (?).",
+   "who": "carter",
+   "cost": "silver 2",
+   "hours": 0,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": ["flag act_porters_hired for 1"],
+   "gives": "For this day at this port, load takes half an hour of the merchant's day in place of two (the carriers do it while he is elsewhere); store, and cross with cargo, likewise. 2 d for a small boat's load; for a bigger ship 2 d for each tonne (guess).",
+   "changes": "No carriers on Sunday or a feast at a Christian port. At a landing there are none to hire: the farmer's sons carry for ale. In the lands of weighed silver they are paid in cut silver or in bread and ale. Where you are shunned nobody carries for you.",
+   "words": {
+    "offer": "Pay men to carry the cargo while you see to other things.",
+    "done": "Six men and a boy with a sledge. They start at once.",
+    "refused": "There is nobody to carry today."
+   },
+   "source": "Design/content/dossiers/dorestad.md section 1; en.wikipedia.org/wiki/Hedeby for the portage (Design/economy_and_trade.md 1.3); encounters/npc_roles_793.json (carter)"
+  },
+  {
+   "id": "hire_pilot",
+   "name": "Hire a pilot",
+   "at": ["quay", "beach", "fishery", "ferry"],
+   "what": "There were no sea charts: the way over a bar or through a tide channel was in a local man's head. A skipper new to a water took such a man aboard for a tide or a day.",
+   "evidence": "Ohthere and Wulfstan told King Alfred their routes about 890 as days sailed and what lay to port and starboard: knowledge carried by men, not written. Ansgar went to Birka in merchants' ships (Rimbert c. 10). The hired lodeman is named only in later sea law, so hiring one in 793 is a fair guess, not a recorded fact (?).",
+   "who": "pilot",
+   "cost": "silver 6",
+   "hours": 0.5,
+   "when": "moored and hour >= 5 and hour < 21 and standing >= mistrusted",
+   "effects": ["flag act_pilot_aboard for 3", "npc pilot feeling +1 hired"],
+   "gives": "For the next leg out of this port, or three days: checks on a bar, a shoal or a river mouth are one word better (doubtful becomes likely, likely sure: +0.25), and this port's waters are shown clear of fog on the chart. He leaves at the next port, or in his own boat past the bar. Three hires on one water, come through without touching, give it for good: unlock_pilot_<water>, as story/unlocks_793.json has it.",
+   "changes": "In fog or a gale he asks double. In winter none will go. If nobody aboard has his tongue, his calls are gestures and he helps half as much. Where the house has the water for good (flag.unlock_pilot_<water>) no pilot is needed.",
+   "words": {
+    "offer": "Take a man aboard who knows the bar.",
+    "done": "He looks at the sky, then at your boat, and gets in.",
+    "refused": "No pilot will go out with you."
+   },
+   "source": "The Old English Orosius (Ohthere and Wulfstan), texts_793.json; Rimbert, Vita Anskarii c. 10 (Robinson 1921, checked at sourcebooks.fordham.edu/basis/anskar.asp); encounters/npc_roles_793.json (pilot)"
+  },
+  {
+   "id": "wait_wind",
+   "name": "Wait for wind",
+   "at": ["quay", "beach"],
+   "what": "A ship with one square sail goes where the wind lets her, so crews lay in port until it turned. The days were spent mending, drinking and praying.",
+   "evidence": "Duke William's fleet lay at Saint-Valery on the Somme for about a fortnight in September 1066 until the wind came south, and the saint's body was carried out to pray for it (William of Poitiers). King Harold's ships had waited all that summer off Wight (Anglo-Saxon Chronicle 1066). At Dorestad crews waited for cargo, season or convoy.",
+   "who": "none",
+   "cost": "none",
+   "hours": 0,
+   "when": "moored",
+   "effects": [],
+   "gives": "Runs the clock, as TideWait and Rest do (an hour a second), until the wind is fair for the course set (outside the foul margin of Sim/Seamanship: 20 degrees), or the player stops it, or anything happens. This is waiting: stores are eaten, wages run, cargo ages, and the long-stay cards may come. Each dawn gives one talk back. The panel says how many days this wind has blown.",
+   "changes": "With ice at the port there is nothing to wait for before the thaw: the choice becomes wintering here (the winter screen). On a feast the crew keep it and their heart rises. At a Christian port a waiting crew can hear Mass or make a vow for a wind; at a heathen one, cast the lots.",
+   "words": {
+    "offer": "Lie here until the wind is fair for your course.",
+    "done": "The wind has come round. She can go.",
+    "refused": "There is no course set to wait for."
+   },
+   "source": "William of Poitiers, Gesta Guillelmi II (from memory) (?); Anglo-Saxon Chronicle 1066 (Giles 1847); Design/content/dossiers/dorestad.md section 4; Code/Game/Sim/Seamanship.cs"
+  },
+  {
+   "id": "ask_harbour",
+   "name": "Ask the keeper",
+   "at": ["quay", "beach", "toll", "gate", "wall"],
+   "what": "Every landing had a man who answered for it to the king: he said where a ship lay and knew whose ships were in. A stranger went to him first.",
+   "evidence": "At Birka 'the prefect of this town named Herigar, who was a counsellor of the king'; at Lundenwic 'the king's wic-reeve'; in the Channel ports the king's procurator, Abbot Gervold. At Dorestad the office is the king's procurators; no name is known.",
+   "who": "harbour_master",
+   "cost": "none",
+   "hours": 0,
+   "talk": true,
+   "when": "moored and hour >= 5 and hour < 21",
+   "effects": ["npc harbour_master feeling +1 asked"],
+   "gives": "Uses a talk. Tells from the live world, all as seen (sure): which ships lie here, whose they are and where each is bound (WorldSim, HarbourLife); which left in the last three days and for where, so who will be at your market before you; the next high water and the state of the bar (TideModel); whether a toll is taken here and on what; what the berth costs.",
+   "changes": "At a landing there is no keeper: the oldest fisherman answers, and knows the tide and the bar but not the ships. In an English port he is the reeve. On a wall or at a gate it is the watchman, who saw every sail come in. Where you are shunned he tells you where to lie and no more. Asked hard, he tells only what you ask.",
+   "words": {
+    "offer": "Ask the keeper of the port who is in and who has gone.",
+    "done": "He counts the hulls off on his fingers, and where each is bound.",
+    "refused": "The keeper is not at the landing now."
+   },
+   "source": "Rimbert, Vita Anskarii c. 11 (Robinson 1921, checked at Fordham); Hlothhere and Eadric 16 (Thatcher, The Library of Original Sources IV, 1907, checked at sourcebooks.fordham.edu/source/560-975dooms.asp); Gesta abbatum Fontanellensium c. 12 and Design/content/dossiers/dorestad.md section 8, by way of encounters/npc_roles_793.json (harbour_master)"
+  },
+  {
+   "id": "haggle",
+   "name": "Haggle the price",
+   "at": ["market", "beach", "workshop", "storehouse"],
+   "what": "No price was fixed but the king's few: a sale was two men talking until one gave way. The merchant in Ælfric's schoolbook says he sells dearer than he bought, or what would his toil profit him.",
+   "evidence": "Ælfric's Colloquy (about 995) gives the merchant's own case for his margin. On the Volga in 922 Ibn Fadlan heard a Rus trader ask his god for a buyer with many coins 'who will not argue': so buyers did. The only fixed prices of the age are the king's caps on grain and bread (Frankfurt 794).",
+   "who": "merchant",
+   "cost": "none",
+   "hours": 0.5,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast) and standing >= ill-regarded",
+   "effects": [ { "chance": 0.5, "by": "crew.trade_best", "success": ["flag act_haggle_won for 1"], "failure": ["flag act_haggle_lost for 1"] } ],
+   "gives": "One haggle a call (Design/economy_and_trade.md 3.2). Won: the gap between what this market asks and pays is halved for you today (trade_rules.json market.spread 0.20 becomes 0.10). Lost: its prices are 5% worse for you today and the man thinks worse of you (wanted deed: haggled_hard). The panel shows the odds as a word. Better by 0.1 where your standing is known or more, by 0.1 with a man aboard who has the port's tongue; worse by 0.2 if nobody understands it (fingers and scales only).",
+   "changes": "Not on Sunday or a feast at a Christian port: no market. Not where you are shunned: nobody deals with you. In a famine year the king's price for grain is the price: no haggling over bread corn (805, 806). At a fair the crowd is on the seller's side: 0.1 worse.",
+   "words": {
+    "offer": "Argue the price. Once a call.",
+    "done": "He spits, shrugs, and names a better one.",
+    "refused": "There is nobody here to bargain with today."
+   },
+   "source": "Ælfric's Colloquy (npc_text_encounters.md 1.2); Ibn Fadlan, Risala, the Rus merchant's prayer (from memory, our paraphrase) (?); Synod of Frankfurt 794 c. 4 (MGH Capit. I no. 28); Design/economy_and_trade.md 3.2"
+  },
+  {
+   "id": "weigh_silver",
+   "name": "Weigh the silver",
+   "at": ["market", "beach", "hall", "smithy", "workshop"],
+   "what": "North and east of the Frankish and English coin, silver was paid by weight: coins, rings and bars cut to the sum on a small folding balance. Each trader carried his own scales and weights, and each watched the other's.",
+   "evidence": "Folding balances and weights lie in the graves and the black earth of Birka and at Kaupang, Hedeby and Ribe; coins in the northern hoards are cut into pieces. From about 860-880 small standard weights copied from the Caliphate's spread over the whole north (?). Hedeby struck its own coin only from about 825.",
+   "who": "goldsmith",
+   "cost": "none",
+   "hours": 0.5,
+   "when": "moored and hour >= 6 and hour < 18",
+   "effects": [],
+   "gives": "In the lands of weighed silver (trade_rules.json zone 'weight') the purse is paid out and taken in by weight. Weighed on the other man's scales, the zone's loss (foreign_loss 0.03) is taken on what you pay; with scales and weights of your own aboard (flag.act_own_scales, bought with buy_tools) and this act done, none is taken this call. In the coin lands it only tells you what your purse weighs.",
+   "changes": "Only where silver goes by weight: the Danish, Norse, Svea, Gute, Wendish and Baltic ports, Ireland. Where the king's coin is the only money nobody weighs: change it at the mint. After dark the scales cannot be read.",
+   "words": {
+    "offer": "Get out the scales and weigh what is owed.",
+    "done": "The pans hang level. Both of you saw it.",
+    "refused": "Nobody weighs silver here: the king's coin is counted."
+   },
+   "source": "Design/economy_and_trade.md 1.1 (hacksilver; Hedeby's coin); Gustin, Mellan gava och marknad (2004) and Steuer on the weights (from memory) (?); trade_rules.json zones"
+  },
+  {
+   "id": "sample",
+   "name": "Try the goods",
+   "at": ["market", "quay", "beach", "storehouse", "workshop", "saltern", "fishery"],
+   "what": "A careful buyer tasted the wine from the cask, ran the grain through his hand and laid the cloth along the ell-stick before he paid. Short measure and false weight were old complaints, and the king legislated against them.",
+   "evidence": "The Admonitio generalis (789) c. 74 orders equal measures and just weights for all, 'whether in towns or in monasteries, whether for giving or for receiving'. Frankfurt (794) sets a new public bushel. Charlemagne complained to Offa in 796 that English cloaks had grown short; Notker's Charlemagne scolds Frisians for selling short cloaks at the old price.",
+   "who": "merchant",
+   "cost": "none",
+   "hours": 0.5,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": ["flag act_sampled for 1"],
+   "gives": "Before buying: the lots on offer are opened and their true state is seen: how many days each will still keep (goods_793.json 'keeps'), whether a cask is sour, grain damp, cloth short. The price note becomes 'seen' (sure). Unsampled, one lot in twelve bought from a stranger is worse than it looked and is found out at the next port (guess). Half an hour for the call's buying, not for each lot.",
+   "changes": "No market on Sunday or a feast at a Christian port. At dusk on a beach you cannot see what you are sold. A seller who is your friend shows the bad cask himself.",
+   "words": {
+    "offer": "Open the cask, feel the grain, measure the cloth.",
+    "done": "You know what you are buying now.",
+    "refused": "Nothing is opened for buyers today."
+   },
+   "source": "Admonitio generalis 789 c. 74 (MGH Capit. I no. 22; our rendering) (?); Synod of Frankfurt 794 c. 4; Charlemagne to Offa, 796 (Design/economy_and_trade.md 1.2); Notker, Gesta Karoli I.34 (Grant 1907) (?), by way of Design/content/dossiers/dorestad.md section 4"
+  },
+  {
+   "id": "pay_toll",
+   "name": "Pay the toll",
+   "at": ["toll", "quay", "gate", "bridge", "market"],
+   "what": "In a Frankish toll port the king's man took a tenth of what was sold; in an English one the reeve took his due by the ship or the load. Paying it made the sale lawful and seen.",
+   "evidence": "Dorestad's bank due (ripaticum) is in Charlemagne's charter of 8 June 777. In 828 even the emperor's own merchants, free of toll everywhere else, still owed the tenth at Quentovic, at Dorestad and at the passes of the Alps. At London about 1000 a small boat paid a halfpenny, a sailing ship a penny, a keel four pence.",
+   "who": "tollman",
+   "cost": "none",
+   "hours": 0,
+   "when": "moored and port.toll > 0 and hour >= 6 and hour < 18",
+   "effects": ["toll sales", "npc tollman feeling +2 honest", "flag act_sale_witnessed for 365"],
+   "gives": "The same as 'declare' on the card harbour.tollman.frankish, for a call where the card was put off: the zone's toll (trade_rules.json: a tenth Frankish, a twentieth English) comes off each sale this call. A toll paid is a sale witnessed.",
+   "changes": "In the lands of weighed silver there is no toll in coin: the king's man looks for a gift (gift). A charter that names this place frees you (show_charter). From 805 only old and just tolls may be taken: hear_law tells which. At night the toll house is shut and what you sell is owed in the morning.",
+   "words": {
+    "offer": "Go to the toll man and say what you have to sell.",
+    "done": "He cuts a tally. The king's share comes off each sale.",
+    "refused": "No toll is taken here."
+   },
+   "source": "Design/content/dossiers/dorestad.md section 4 (Oorkondenboek Sticht Utrecht no. 48; the precept of 828, MGH Formulae imperiales no. 37; en.wikipedia.org/wiki/Quentovic and /Dorestad, searched 4 Oct 2026); IV Æthelred 2 (chronicle_793.json 1000-london-tolls); encounters/harbour_793.json"
+  },
+  {
+   "id": "show_charter",
+   "name": "Show the charter",
+   "at": ["toll", "quay", "gate", "bridge"],
+   "what": "Kings freed favoured abbeys and merchants from toll by a sealed letter, and the bearer showed it at each toll house. The toll man had it read to him and let the goods pass, with no love for the bearer.",
+   "evidence": "Charlemagne's charter for Saint-Germain-des-Prés (779) is said to free the abbey's men at Rouen, Quentovic, Amiens, Maastricht and Dorestad (?). The emperor's precept for his merchants (828) frees them everywhere except Quentovic, Dorestad and the Alpine passes, where the tenth is still owed. Æthelbald of Mercia freed a ship of the bishop of Rochester from the toll at London in 733 (?).",
+   "who": "tollman",
+   "cost": "none",
+   "hours": 0,
+   "when": "moored and port.toll > 0 and hour >= 6 and hour < 18",
+   "effects": ["toll none", "npc tollman feeling -3 charter"],
+   "gives": "The same as 'charter' on the card harbour.tollman.frankish. Open only with a charter for this very port: the text charter_toll_<port id> in the chest, or the reward flag unlock_charter_<port id> (CHAINS.md); the runner builds the name from port.id. No toll on this call's sales.",
+   "changes": "A general letter of protection does not free you at Dorestad, Quentovic or the passes: there only a charter that names the place does. When a king dies his charters must be shown to the new one (the 'succession' cards). Nobody aboard who reads Latin: you cannot tell what your own charter says if he disputes it.",
+   "words": {
+    "offer": "Lay the king's letter on his table.",
+    "done": "His clerk reads it twice. No toll today.",
+    "refused": "You have no charter for this place."
+   },
+   "source": "Design/content/dossiers/dorestad.md section 4 (the precept of 828, MGH Formulae imperiales no. 37; the charter of 779 unchecked) (?); the London charter of 733 (Sawyer 88) from memory (?); Design/economy_and_trade.md 1.4; encounters/harbour_793.json"
+  },
+  {
+   "id": "change_coin",
+   "name": "Change coin",
+   "at": ["mint", "market", "toll"],
+   "what": "In a king's port only the king's coin was good money: foreign and old silver went to the moneyer, who melted it and struck it new, keeping the king's share. A recoinage called in every penny by a set day.",
+   "evidence": "Frankfurt (794) orders the new pennies taken in every place, town and market. At Dorestad foreign coin had to be reminted, at the king's profit, and in 825 Martinmas was the last day for old pennies. Athelstan (about 930): 'that there be one money over all the king's dominion, and that no man mint except within port', with eight moneyers at London and seven at Canterbury.",
+   "who": "moneyer",
+   "cost": "none",
+   "hours": 0.5,
+   "when": "moored and port.has_mint and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": ["npc moneyer feeling +1 changed"],
+   "gives": "PortLife's exchange: every coin in the purse that is not this zone's own is changed into it at the zone's loss (trade_rules.json foreign_loss: Frankish and English 0.10). Where reform.coin is 1, old pennies are refused in the market until changed. A moneyer who is friendly takes 0.07 (guess).",
+   "changes": "Only where there is a mint (npc_roles_793.json ports has_mint; Hedeby from about 825, Sigtuna 995, Dublin 997). Shut on Sunday and feasts. In the lands of weighed silver nobody changes coin: it is weighed. In a recoinage year the queue is long: two hours.",
+   "words": {
+    "offer": "Give the moneyer your foreign silver and take the king's coin.",
+    "done": "New pennies, fewer than you hoped.",
+    "refused": "There is no mint open here today."
+   },
+   "source": "Synod of Frankfurt 794 c. 5 (chronicle_793.json 794-06-frankfurt-new-denier); Design/content/dossiers/dorestad.md sections 4 and 6; II Athelstan 14 (Thatcher 1907, numbered 15 there; checked at Fordham); Code/Game/Ports/PortLife.cs"
+  },
+  {
+   "id": "test_silver",
+   "name": "Test the silver",
+   "at": ["mint", "market", "smithy", "beach", "workshop"],
+   "what": "Silver could be plated copper or thinned with lead, so a man taking payment nicked the edge with his knife or bent the piece to see. A moneyer or a goldsmith could tell more by the stone and the fire.",
+   "evidence": "Coins and rings in northern hoards carry knife nicks and small pecks made to look under the surface; they grow common in hoards of the later 9th century (?). Frankfurt (794) says the new pennies must be 'of pure silver and full weight' to be forced on anyone.",
+   "who": "goldsmith",
+   "cost": "none",
+   "hours": 0.5,
+   "when": "moored and hour >= 6 and hour < 18",
+   "effects": ["flag act_silver_tested for 30"],
+   "gives": "Tests what was taken in this call's sales. Any false share (one sale in twenty to a stranger in the lands of weighed silver and at a beach market, none in a mint town: guess) is found now and the buyer made to make it good. Untested, it is found at the next mint or scales and that sale's loss (a tenth to a third of it) is yours.",
+   "changes": "In a mint town the moneyer tests as he changes: no need. At a landing you test with your own knife. A buyer whose silver you test in front of a hall takes it as an insult unless you are a stranger there: his feeling falls by 2.",
+   "words": {
+    "offer": "Nick the silver you were paid and look at the cut.",
+    "done": "White all through. It is good.",
+    "refused": "It is too dark to see the cut."
+   },
+   "source": "Design/economy_and_trade.md 1.1 ('nicked and tested on folding scales'); Synod of Frankfurt 794 c. 5 (our rendering); the hoard evidence from memory (Cuerdale, about 905) (?)"
+  },
+  {
+   "id": "alms",
+   "name": "Give alms",
+   "at": ["church", "minster", "abbey", "gate", "graveyard", "market"],
+   "what": "The poor sat at church doors and on the strand, and a merchant home safe gave them pennies or bread. It was a duty of the faith and the surest way to be well spoken of.",
+   "evidence": "About 850 Catla of Birka carried her dead mother's silver to Dorestad because there were churches, priests and a multitude of poor there, and gave it away with the help of devout women of the town (Rimbert c. 20). The game's standing table already has the deed (gave_alms) on that chapter.",
+   "who": "beggar",
+   "cost": "silver 4",
+   "hours": 0.5,
+   "when": "moored and port.faith = christian and hour >= 6 and hour < 21",
+   "effects": ["deed gave_alms"],
+   "gives": "Standing by the deed (reputation_793.json gave_alms: 4 among Franks and English, 3 among Frisians). Counts once a day at a port. Keeps an open vow (clears flag.act_vow_open; the crew's heart +0.05). In a famine year (793-794) or in Lent it counts twice (guess).",
+   "changes": "A heathen hall takes no alms: give a gift or a feast there. On a feast day more poor are at the door and the priest sees who gives. A shunned man may still give, and it is the first step back.",
+   "words": {
+    "offer": "Give four pennies to the poor at the door.",
+    "done": "They bless you by name. The priest heard it.",
+    "refused": "There are no poor of the Church here to give to."
+   },
+   "source": "Rimbert, Vita Anskarii c. 20 (Robinson 1921), by way of Design/content/dossiers/dorestad.md section 3 and reputation_793.json"
+  },
+  {
+   "id": "hear_mass",
+   "name": "Hear Mass",
+   "at": ["church", "minster", "abbey"],
+   "what": "On Sundays and feasts every Christian was to come to Mass, and a ship's crew in port went with the town. In a minster the brothers sang it every day.",
+   "evidence": "The Admonitio generalis (789) c. 81 bids all come to church for Mass on the Lord's day. Northmen who traded to Christian ports were baptised there: at Sliaswic there were many Christians 'who had been baptized in Dorestad or Hamburg' (Rimbert c. 24, wording from memory (?)).",
+   "who": "priest",
+   "cost": "none",
+   "hours": 1,
+   "when": "moored and port.faith = christian and hour >= 6 and hour < 12",
+   "effects": ["morale +0.03", "npc priest feeling +1 mass"],
+   "gives": "The crew's heart up a little (when the crew have faiths: the Christians only; a heathen hand waits outside). On a Sunday or feast the church is full: being seen there counts as the day's fair_dealing does (once a day), and the priest gives out one piece of news from the altar steps without using a talk.",
+   "changes": "Every day at a minster or abbey; Sundays and feasts at a small church. A heathen port has none until a mission church stands: Birka from about 830, Sliaswic about 850, Ripa a few years later (?). In Lent the Mass is long and plain.",
+   "words": {
+    "offer": "Go up to the church with the crew. An hour.",
+    "done": "Mass is sung. The men are quieter coming down.",
+    "refused": "No Mass is said here at this hour."
+   },
+   "source": "Admonitio generalis 789 c. 81 (MGH Capit. I no. 22); Rimbert, Vita Anskarii c. 11, 24, 32 (Robinson 1921; chapter numbers by way of encounters/npc_roles_793.json, priest) (?)"
+  },
+  {
+   "id": "ask_news",
+   "name": "Ask the news",
+   "at": ["quay", "market", "tavern", "church", "hall", "gate", "well", "lodging", "toll"],
+   "what": "News came by ship and was as old as the ship's passage. A skipper just in was asked at once what he had seen, what things fetched where he came from, and who was dead.",
+   "evidence": "Alcuin's letters on the sack of Lindisfarne (8 June 793) went out by travellers and merchants within the year. King Godfred of the Danes 'sent word by merchants' in 809. Boniface took ship at London in 716, paid his fare, and came to Dorestad with a fair wind.",
+   "who": "skipper",
+   "cost": "none",
+   "hours": 0,
+   "talk": true,
+   "when": "moored and hour >= 6 and hour < 23",
+   "effects": [],
+   "gives": "Uses a talk. PortLife.Talk as it is built: the news on this port's board that you have not had, each with its age and the ship that brought it; the prices of the ships' last three ports as 'told' (0.85); a fair, if one is on. Warm: one item more. Hard: prices only.",
+   "changes": "In winter no ships come and the news is weeks old until the first sail of spring. At a landing the news is the place's own and sure, and nothing from far off. At night only the ale-house and the hall are talking.",
+   "words": {
+    "offer": "Ask a skipper just in what he saw and what things fetch.",
+    "done": "He tells it in the order it happened to him.",
+    "refused": "Nobody is about to ask."
+   },
+   "source": "Alcuin's letters of 793 (texts_793.json); Annales regni Francorum 809 (chronicle_793.json 809-badenfliot, by way of npc_roles_793.json, envoy); Design/content/dossiers/dorestad.md section 4; Design/economy_and_trade.md 2.6; Code/Game/Ports/PortLife.cs"
+  },
+  {
+   "id": "read_text",
+   "name": "Read a book",
+   "at": ["abbey", "minster", "church", "lodging", "hall"],
+   "what": "Books lived in monasteries and bishops' houses, and a guest who was trusted might be shown one, or have it read to him by a brother. In the north the written thing was a rune stick or a stone, read with the man who cut it.",
+   "evidence": "The Rule of St Benedict c. 48 sets hours for reading every day and gives each brother a book in Lent. Benedict Biscop brought the books of Wearmouth and Jarrow home from his journeys to Rome (Bede, Historia abbatum). At Traiectum the school where Liudger learned kept its books (Altfrid, Vita Liudgeri I.9-12).",
+   "who": "monk",
+   "cost": "none",
+   "hours": 2,
+   "when": "moored and hour >= 6 and hour < 18",
+   "effects": ["learn latin +0.05"],
+   "gives": "Opens a reading (a long card) of one text this house holds (Chest.OffersAt(port, year)). With learned.latin, or a reader aboard, it is read whole and marked as read in the chest; to own it, have it copied. Without, a brother reads part aloud and you finish what you can (the rule of 3 October). Each reading moves the merchant toward reading Latin: twenty readings, or one monastery winter, make a reader. At a heathen port the reading is of runes with a rune-carver: the effect is learn runes +0.05.",
+   "changes": "In Lent every brother has a book out and the guest gets the worst seat. Not by night without the house's lamp. Where you are mistrusted or worse the porter does not let you past the gate. A gift of wax or parchment to the house opens books a stranger is not shown.",
+   "words": {
+    "offer": "Ask to be shown a book. Two hours at the desk.",
+    "done": "The brother shuts the book and ties its strap.",
+    "refused": "The porter says the books are not for you today."
+   },
+   "source": "Rule of St Benedict c. 48 and 53; Bede, Historia abbatum 4-9; encounters/npc_roles_793.json (schoolmaster, scribe, rune_carver); npc_text_encounters.md 2.6"
+  },
+  {
+   "id": "copy_text",
+   "name": "Have it copied",
+   "at": ["abbey", "minster"],
+   "what": "A book was got by having it written out: the house lent its copy to its own scribes and the asker paid in parchment, silver or land. A big book took the skins of a herd and a year of a man's hands.",
+   "evidence": "King Aldfrith gave Wearmouth eight hides of land for one book of the cosmographers (Bede, Historia abbatum 15). The Codex Amiatinus, written at Wearmouth-Jarrow before 716, has over a thousand leaves of calfskin (?). Boniface wrote to Abbess Eadburg for the Epistles of Peter in gold letters (?).",
+   "who": "scribe",
+   "cost": "silver 30",
+   "hours": 1,
+   "when": "moored and port.faith = christian and hour >= 6 and hour < 18 and not feast",
+   "effects": ["npc scribe feeling +2 work"],
+   "gives": "Orders a copy of one text this house holds. 30 d for a short text on their parchment (10 d if you bring a bundle: goods parchment 1); a whole book at its goods price (books: 360 d). Ready in 20 days for a short text, 60 for a book: a pick-up card comes at this port after that day (schedule), and on it the text goes in the chest (give_text <id>).",
+   "changes": "No writing on Sunday or a feast. In deep winter the ink freezes and the light is short: a copy ordered at Martinmas is ready at Easter. A house that is wary of you copies nothing; one whose abbot is your friend copies for the parchment alone.",
+   "words": {
+    "offer": "Pay the house to write the text out for you.",
+    "done": "The scribe rules his lines. Come back for it.",
+    "refused": "No scribe will take it on today."
+   },
+   "source": "Bede, Historia abbatum 15; the Codex Amiatinus and Boniface's letter (about 735) from memory, the letter by way of encounters/npc_roles_793.json (nun) (?); goods_793.json (books, parchment)"
+  },
+  {
+   "id": "vow",
+   "name": "Make a vow",
+   "at": ["church", "minster", "abbey", "shrine", "grove", "mound", "hall"],
+   "what": "Before a crossing, or in danger, men promised a saint or a god a gift if they came through: alms, a fast, wax, a beast. The promise was made aloud before the crew, and it was owed.",
+   "evidence": "When Birka was threatened, the prefect Herigar had the people vow fasting and alms to Christ (Rimbert c. 19). Svear besieging a stronghold of the Cori cast lots, found that Christ would help them, and vowed a fast (c. 30). The Norse vow made over the cup is in the later sagas only.",
+   "who": "priest",
+   "cost": "none",
+   "hours": 0.5,
+   "when": "moored and not flag.act_vow_open",
+   "effects": ["flag act_vow_open", "morale +0.05"],
+   "gives": "A promise for the course now set: heart up at once. Kept by alms, an offering or a feast at a holy place within 30 days of coming in: the flag is cleared and the heart rises again by 0.05. Not kept within 30 days in port: heart down 0.1 and a crew card (wanted: crew.vow.broken). One vow at a time.",
+   "changes": "At a Christian place the vow is to a saint of the place (St Martin at Traiectum, St Cuthbert in Northumbria, St Boniface at Doccinga); at a heathen one to Thor, who has the winds and the weather in Adam of Bremen's account of Uppsalir (about 1075). A crew of two faiths: only those of the place's faith take heart.",
+   "words": {
+    "offer": "Promise a gift if she comes safe to port.",
+    "done": "It is said aloud. The men heard it.",
+    "refused": "You have a vow still unpaid."
+   },
+   "source": "Rimbert, Vita Anskarii c. 19 and c. 30 (Robinson 1921; chapter numbers from memory, the Fordham text stops at c. 16) (?); Adam of Bremen, Gesta IV.26 (from memory) (?)"
+  },
+  {
+   "id": "sanctuary",
+   "name": "Take sanctuary",
+   "at": ["church", "minster", "abbey"],
+   "what": "A man with the law or a feud at his heels who reached a church could not be dragged out of it for a set number of days. The days were for making terms, not for getting away.",
+   "evidence": "Alfred's laws (about 890) give a man who reaches a monastery-house 'a space of three days to protect himself', and at a church 'that for seven days no one drag him out'. Charlemagne's law for the Saxons (c. 2) leaves the man who flees to a church in peace until he is brought to the court (?).",
+   "who": "priest",
+   "cost": "none",
+   "hours": 0,
+   "when": "moored and port.faith = christian",
+   "effects": ["flag act_sanctuary for 7", "npc priest feeling -1 sanctuary"],
+   "gives": "Only matters with the law or a feud after you (a hearing or seizure pending in the law state; the count's day past with the debt unpaid). For seven days nobody may lay hands on the merchant here, and a card opens the terms: pay, find two men to swear with you, or slip away by night (deed fled_kings_men). The ship and cargo are not covered: they can be held at the landing. The clock runs while you sit there.",
+   "changes": "Three days at a small church or a monk's house, seven at a church the bishop has hallowed (Alfred). A heathen port has no church peace: go under the roof of the lord of the place (audience). Breaking it is done to you, never by you.",
+   "words": {
+    "offer": "Go into the church and stay there.",
+    "done": "The door is shut behind you. Seven days.",
+    "refused": "There is no church here to shelter you."
+   },
+   "source": "Alfred 2 and 5 (Thatcher 1907, checked at sourcebooks.fordham.edu/source/560-975dooms.asp); Capitulatio de partibus Saxoniae c. 2 (MGH Capit. I no. 26; from memory) (?); Ine 5 (?)"
+  },
+  {
+   "id": "bury",
+   "name": "Bury a man",
+   "at": ["graveyard", "church", "minster", "mound", "abbey"],
+   "what": "A Christian was laid in the churchyard, head to the west, with a due paid to the church at the open grave. A heathen was burned or laid in a mound with his things, and ale was drunk for him.",
+   "evidence": "Dorestad's graveyards hold the dead east to west in coffins and shrouds with almost no grave goods after about 750. Birka's burial grounds hold mounds by the hundred, burned and unburned (?). The English due is the soul-scot, 'paid at the open grave' in the laws of 1008 (?).",
+   "who": "priest",
+   "cost": "silver 6",
+   "hours": 3,
+   "when": "moored and flag.dead_aboard and hour >= 6 and hour < 18",
+   "effects": ["flag dead_aboard = 0", "morale +0.08", "npc priest feeling +1 burial"],
+   "gives": "For a man who died aboard or ashore (the game sets flag dead_aboard when a man dies and is not put over the side). Buried among his own: heart up. His share of the venture is owed to his kin at his home port (a wanted follow-up card there). Unburied past three days: heart down 0.05 a day.",
+   "changes": "A Christian in a Christian yard: 6 d and a Mass; a body may be carted to its grave even on a Sunday. A heathen among heathens: no fee, a cask of ale. A Christian at a heathen port, or a heathen at a Christian one, lies outside the hallowed ground and the men of his faith take it hard: heart down 0.05 instead. At sea he goes over the side with a stone: no act.",
+   "words": {
+    "offer": "Lay your dead man in the ground here.",
+    "done": "It is done properly. The men stand a while.",
+    "refused": "You have nobody to bury."
+   },
+   "source": "Design/content/dossiers/dorestad.md section 6 (the graveyards); V Æthelred 12 (from memory) (?); Admonitio generalis 789 c. 81 (the third carting); Birka's burial grounds from memory (?)"
+  },
+  {
+   "id": "remember",
+   "name": "Have him remembered",
+   "at": ["church", "minster", "abbey", "mound", "graveyard", "hall"],
+   "what": "A giver's name was written in a minster's book of friends and read at the altar with the names of kings. Among the Norse the dead were drunk to, and later a stone was cut and raised for them.",
+   "evidence": "The Durham Liber Vitae, begun in Northumbria about 840, lists some thousands of names in gold and silver ink: kings, abbots, monks and givers (?). Reichenau's book of brothers, begun about 824, has tens of thousands (?). Stones raised 'after' a dead kinsman are common in Denmark and Sweden from the later 10th century.",
+   "who": "priest",
+   "cost": "silver 12",
+   "hours": 1,
+   "when": "moored and hour >= 6 and hour < 18",
+   "effects": ["morale +0.04", "npc priest feeling +3 remembered"],
+   "gives": "For a dead crewman, a dead head of the house, or the giver himself: the name goes into a saved list of the house's names by port, and an heir who calls here is told of it (a line from the keeper of the book; half the old feeling is his at once). Once for each name at a port. Wanted deed: honoured_dead (standing +2 here). The lasting memorials (a year of masses, a stone with runes) are entries of story/unlocks_793.json, had through this act at their own price.",
+   "changes": "At a minster: the book and a Mass. At a heathen hall: a memorial ale (use feast) and, from about 950, a stone with runes (a work of the port: fund_work). In Lent the gift is wax or fish, not silver.",
+   "words": {
+    "offer": "Give the house a gift to keep a name.",
+    "done": "The name is written under the last one. It will be read out.",
+    "refused": "Nobody here keeps names at this hour."
+   },
+   "source": "The Durham Liber Vitae (British Library, Cotton Domitian A.VII) and the Reichenau confraternity book, from memory (?); the rune stones: runes_793.json"
+  },
+  {
+   "id": "offer",
+   "name": "Make an offering",
+   "at": ["shrine", "grove", "mound", "church", "minster", "abbey", "well"],
+   "what": "A trader come to land put food and drink before his god and asked for a good sale; a Christian lit wax at a saint's tomb. Both came back with more if trade was slow.",
+   "evidence": "On the Volga in 922 Ibn Fadlan watched a Rus merchant lay bread, meat, onions, milk and drink before a tall wooden post with a face, tell it what furs and slaves he had brought, and ask for a rich buyer. The Frankish list of forbidden customs (about 743) names offerings at springs and in groves: so Christians made them too.",
+   "who": "none",
+   "cost": "silver 3",
+   "hours": 0.5,
+   "when": "moored and hour >= 5 and hour < 22",
+   "effects": ["morale +0.04"],
+   "gives": "Heart up for the crew of the place's faith (when the crew have faiths; the others' heart falls by 0.03 to see their master offer to a strange god). Pays an open vow. It changes no wind and no price: the gods promise nothing. A Christian merchant who offers at a heathen post may be talked of at home (wanted deed: offered_to_idols, bad among Franks and English, good among the Norse).",
+   "changes": "Christian place: wax or a candle at the altar; on a feast the gift is seen by all. Heathen place: food and ale at the post, the tree or the mound; at the great sacrifices (Uppsalir every nine years, by Adam of Bremen) strangers give too, and Christians buy themselves off. Among Wends and Balts the gods and the gifts are their own (?).",
+   "words": {
+    "offer": "Leave a gift at the holy place.",
+    "done": "It is given. Nothing answers, and the men are easier.",
+    "refused": "The holy place is shut at this hour."
+   },
+   "source": "Ibn Fadlan, Risala (922), our paraphrase from memory (?); Indiculus superstitionum et paganiarum (about 743), by way of encounters/npc_roles_793.json (wise_woman); Adam of Bremen, Gesta IV.27 (from memory) (?)"
+  },
+  {
+   "id": "ask_omen",
+   "name": "Cast the lots",
+   "at": ["shrine", "grove", "hall", "thing", "beach", "mound"],
+   "what": "Before a voyage or a hard choice the northern peoples cast marked sticks and read the gods' will from how they fell. Frisian law used the same lots, laid on an altar, to find a killer.",
+   "evidence": "King Radbod cast lots three times a day for three days over Willibrord and his men on Fositesland, and the lot never fell on him (Alcuin, Vita Willibrordi 11). At Birka the king of the Svear would not admit Ansgar's mission until the lots had been asked (Rimbert c. 26-27). The law of the Frisians, title 14, has two lots of wood, one marked with a cross.",
+   "who": "wise_woman",
+   "cost": "silver 1",
+   "hours": 0.5,
+   "when": "moored and hour >= 5 and hour < 22 and not flag.act_lot_fair and not flag.act_lot_foul",
+   "effects": [ { "chance": 0.6, "success": ["flag act_lot_fair for 3", "morale +0.06"], "failure": ["flag act_lot_foul for 3"] } ],
+   "gives": "The lot knows nothing of the weather: it is a throw weighted a little to fair, and the panel says 'likely'. Fair: heart up; sail within three days and the men go willingly. Foul: wait the three days out and nothing follows; sail against it and heart falls by 0.08 at casting off. A Christian crew care half as much either way.",
+   "changes": "In a heathen port it is ordinary, and a woman who knows signs takes a little silver for it. Among Christians asking the future by lots is forbidden, and a priest at the port who hears of it thinks worse of you; the Frisian law's lot on the altar is for finding guilt, not luck. Not after dark.",
+   "words": {
+    "offer": "Have the lots cast for the voyage.",
+    "done": "The sticks fall. Everyone looks at them, then at you.",
+    "refused": "The lots have been cast already. They stand for three days."
+   },
+   "source": "Alcuin, Vita Willibrordi c. 11; Rimbert, Vita Anskarii c. 26-27 (Robinson 1921; from memory) (?); Lex Frisionum 14 (MGH LL III; from memory) (?); Tacitus, Germania 10, for the older custom"
+  },
+  {
+   "id": "gift",
+   "name": "Give a gift",
+   "at": ["hall", "toll", "gate", "thing", "quay", "church", "abbey", "minster", "market"],
+   "what": "Nothing was asked of a lord, an abbot or a host with empty hands, and a gift looked for a return. Where no toll was taken in coin, the gift to the king's man was the toll.",
+   "evidence": "Hávamál: friends gladden each other with weapons and clothes, and a gift looks for its return. With his letter of 796 Charlemagne sent Offa a belt, a Hunnish sword and two silk cloaks. Ohthere brought King Alfred walrus tusks (about 890).",
+   "who": "steward",
+   "cost": "silver 12",
+   "hours": 0.5,
+   "when": "moored and hour >= 6 and hour < 23 and silver >= 12",
+   "effects": ["npc steward feeling +8 gift"],
+   "gives": "The receiver is the person of the site where it is given: the runner puts that person in place of 'steward'. His feeling rises by 8; an audience asked the same call is sure. Given to a Frankish or English officer about his office (the toll man, the moneyer, the king's man) it is a bribe: add deed bribed_officer, as the toll card does. A thing the port wants in place of silver (wine at a Norse hall, furs or walrus ivory at a Frankish one, wax at a church) counts half as much again.",
+   "changes": "In the lands of weighed silver the king's man takes no toll: he looks for a gift worth about a fiftieth of what you sell (Design/economy_and_trade.md 2.8, a guess), and your standing falls if none comes. On a feast a gift is looked for and counts double. In Lent a church takes wax or fish.",
+   "words": {
+    "offer": "Give something worth having, and say nothing of a return.",
+    "done": "He turns it over, and looks at you differently.",
+    "refused": "You have nothing fit to give."
+   },
+   "source": "Hávamál 41-42 and 145 (Bellows 1923: texts_793.json; npc_text_encounters.md 1.2); Charlemagne to Offa, 796 (from memory for the gifts) (?); the Old English Orosius (Ohthere); encounters/harbour_793.json (the gift option)"
+  },
+  {
+   "id": "feast",
+   "name": "Hold a feast",
+   "at": ["hall", "lodging", "tavern", "beach", "abbey"],
+   "what": "Men who traded together ate and drank together on set days, and a man made his name by the table he kept. A feast was where partners were found and quarrels mended or begun.",
+   "evidence": "About 1020 Alpert of Metz wrote with disgust that the merchants of Tiel swear and drink together at fixed feasts and keep a common purse for it. The English guild rules of Cambridge, Exeter and Abbotsbury (10th-11th century) set feasts, fines for insults at table, and the burial of brothers (?).",
+   "who": "none",
+   "cost": "silver 30",
+   "hours": 4,
+   "when": "moored and hour >= 14 and hour < 20 and not fast",
+   "effects": ["morale +0.15"],
+   "gives": "Feeds the crew and up to six people of this port's sites, chosen by the player: each guest's feeling +6. Standing here rises (wanted deed: gave_feast, +2). One piece of news and one rumour are told at table without using a talk. Pays an open vow. The clock ends at hour 22. 30 d is a pig, bread and two casks of ale (goods_793.json).",
+   "changes": "On a feast day half the cost and twice the standing: the hall is feasting anyway and you add to it. On a fast day or in Lent, none: no flesh is eaten. In a famine year it offends unless the poor were fed first (alms the same day). The heathen feasts (the winter nights, midwinter, the start of summer) are not in the game's table yet.",
+   "words": {
+    "offer": "Feed your men and your friends here tonight.",
+    "done": "The benches are full and the talk is loud.",
+    "refused": "It is a fast day. Nobody feasts."
+   },
+   "source": "Alpert of Metz, De diversitate temporum II.20 (chronicle_793.json 1020-tiel-merchants); the guild statutes from memory (Thorpe, Diplomatarium Anglicum, 1865) (?); Bede, De temporum ratione 15, for the heathen English feasts (?)"
+  },
+  {
+   "id": "oath",
+   "name": "Swear an oath",
+   "at": ["church", "minster", "abbey", "thing", "hall", "shrine", "toll"],
+   "what": "A bargain too big for silver in the hand was bound by an oath: Christians on relics or the altar, heathens on a ring or on their weapons. A man's oath was worth what his name was worth.",
+   "evidence": "In 876 the Danish army swore peace to Alfred on their holy ring, which they had done for no people before (Anglo-Saxon Chronicle). In the Rus treaty of 944 the baptised swear in St Elias's church and the unbaptised on their shields, swords and arm-rings. The merchants of Tiel could clear themselves of a debt by oath alone (Alpert, about 1020).",
+   "who": "lawman",
+   "cost": "none",
+   "hours": 0.5,
+   "when": "moored and hour >= 6 and hour < 21",
+   "effects": ["flag act_oath_sworn for 365"],
+   "gives": "Binds one thing the player picks: goods on credit (Design/economy_and_trade.md 2.9: credit opens at standing 'known' with an oath, in place of 40); a pledge to bring a commission; a share with a partner for one voyage; a denial before the reeve, which clears one charge if two people of the port who are friendly swear with you. Kept: standing +2. Broken: wanted deed broke_oath (heavy everywhere) and every person at the port turns wary.",
+   "changes": "Between two faiths it is sworn twice, each on his own holy thing. No oath before a court on a feast or in a fast; a bargain between two men may be sworn any day. A shunned man's oath is taken by nobody.",
+   "words": {
+    "offer": "Bind it with an oath before witnesses.",
+    "done": "It is sworn. Your name is on it now.",
+    "refused": "Nobody here will take your oath."
+   },
+   "source": "Anglo-Saxon Chronicle 876 (Giles 1847); the Russian Primary Chronicle under 945 (chronicle_793.json 944); Alpert of Metz II.20; Design/economy_and_trade.md 2.9"
+  },
+  {
+   "id": "audience",
+   "name": "Ask an audience",
+   "at": ["hall", "minster", "abbey", "thing"],
+   "what": "A merchant reached a king, a count or a bishop through the man who kept his door, with a gift in his hand and somebody to speak for him. Kings were met at a hall on a feast, across the fire.",
+   "evidence": "Ohthere stood before King Alfred and told him of the north (about 890). King Björn of the Svear received Ansgar at Birka (Rimbert c. 11). Notker's tales (about 885) are full of merchants at Charlemagne's court.",
+   "who": "steward",
+   "cost": "none",
+   "hours": 2,
+   "when": "moored and hour >= 8 and hour < 18 and (standing >= known or port.best_feeling >= friendly)",
+   "effects": [ { "chance": 0.6, "success": ["flag act_audience for 1", "npc steward feeling +1 let_in"], "failure": ["npc steward feeling -1 turned_away"] } ],
+   "gives": "Two hours at the door, then the lord of the place (count, reeve, bishop, abbot, chief or king, by the port) is met: his person panel and his own cards open while the flag stands. This is where a charter, protection, leave to winter or build, and the terms of the house's debt are asked. Sure with a gift given this call or on a feast; likely at standing 'well regarded'; doubtful at 'known'. Does not use a talk.",
+   "changes": "On a feast the hall is open: no waiting. A king is at a hall only on feasts and when his court passes. Shunned: the door stays shut. In a heathen hall weapons are left at the door and you wait to be given a seat.",
+   "words": {
+    "offer": "Ask the steward to bring you before his lord.",
+    "done": "You are called in. He looks up from the fire.",
+    "refused": "The steward does not know you. Nobody speaks for you here."
+   },
+   "source": "The Old English Orosius (Ohthere); Rimbert, Vita Anskarii c. 11 (Robinson 1921, checked at Fordham); Notker, Gesta Karoli (Grant 1907); Design/content/BRIEF.md (a king at his hall on a feast); encounters/npc_roles_793.json (steward, king)"
+  },
+  {
+   "id": "lawsuit",
+   "name": "Bring a case",
+   "at": ["thing", "hall", "toll", "market", "church"],
+   "what": "A wronged man took his case to the court of the place: the count's or the reeve's, or the assembly of free men. He needed witnesses or men to swear with him, and a stranger had fewer of both.",
+   "evidence": "The law of Kent (about 680) sends a disputed purchase to the king's hall and the men who witnessed it. At Birka king and people settled matters at an assembly (Rimbert c. 27). The merchants of Tiel claimed the emperor's charter to judge their own cases (Alpert, about 1020).",
+   "who": "lawman",
+   "cost": "none",
+   "hours": 3,
+   "when": "moored and hour >= 6 and hour < 14 and not feast and not fast",
+   "effects": ["law hearing in 3"],
+   "gives": "Opens a case over a wrong the game has on record: false silver found by test_silver, a lot found bad after a sale here, a debt owed you (npc.<role>.owed), goods wrongly seized. The hearing comes in three days as a card at this port. At it: likely with a witnessed sale (flag.act_sale_witnessed) or two friendly people of the port to swear with you; doubtful without; one word worse where your standing is below 'known'. Won: deed won_case and the silver back. Lost: deed lost_case and 12 d to the court (guess).",
+   "changes": "No court on Sunday, a feast or in a fast. A thing sits only at its seasons: the case waits for the next sitting, and that may be half a year. In an English port the reeve hears it; in a Frankish one the count or his man; among the Norse the thing; in Tiel after 1000 the merchants themselves.",
+   "words": {
+    "offer": "Lay your complaint before the court here.",
+    "done": "It is heard and a day is set.",
+    "refused": "No court sits today."
+   },
+   "source": "Hlothhere and Eadric 16 with its sequel on vouching to warranty (Thatcher 1907 for c. 16; the rest from memory) (?); Rimbert, Vita Anskarii c. 27 (from memory) (?); Alpert of Metz II.20 (chronicle_793.json 1020-tiel-merchants); reputation_793.json (won_case, lost_case)"
+  },
+  {
+   "id": "witness",
+   "name": "Call witnesses",
+   "at": ["market", "toll", "quay", "gate", "hall", "thing", "beach"],
+   "what": "A purchase was made before named men so that nobody could later say the goods were stolen. English law made it a rule: buy in a port, before the reeve or two or three true men.",
+   "evidence": "'If any Kentish-man buy a chattel in Lundenwic, let him then have two or three true men to witness, or the king's wic-reeve' (Hlothhere and Eadric 16, about 680). Edward the Elder: 'that no man buy out of port, but have the port-reeve's witness'. Athelstan: 'no man buy any property out of port over twenty pence'.",
+   "who": "reeve",
+   "cost": "none",
+   "hours": 0.5,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": ["flag act_sale_witnessed for 365"],
+   "gives": "Marks this call's deals as witnessed (the runner keeps the flag by port). A later claim that the goods were stolen fails; a case over these deals is one word better; in English ports from about 930 it clears the rule against buying over 20 d unwitnessed, which the king's men may ask about. Half an hour while the men are fetched.",
+   "changes": "English ports: the reeve or true men, and needed for anything dear. Frankish toll ports: paying the toll is the witness (pay_toll sets the same flag). Norse and Baltic markets: named men who see the hands struck (?). At a landing there may be nobody whose word counts: what you buy there is unwitnessed.",
+   "words": {
+    "offer": "Have two true men, or the reeve, see the bargain.",
+    "done": "They saw it and will say so.",
+    "refused": "There is nobody here whose witness would count."
+   },
+   "source": "Hlothhere and Eadric 16; I Edward 1; II Athelstan 12 (all Thatcher, The Library of Original Sources IV, 1907: checked at sourcebooks.fordham.edu/source/560-975dooms.asp, where Athelstan's clause is numbered 13)"
+  },
+  {
+   "id": "hear_law",
+   "name": "Hear the law",
+   "at": ["thing", "hall", "toll", "church", "market", "gate"],
+   "what": "Law was mostly not read but said: the king's new orders were read out to the men of a district, and old law was told by men who had it by heart. A stranger who listened knew what he could carry and what he would hang for.",
+   "evidence": "Charlemagne's capitularies were carried round by his envoys and read out to the counties (the general capitulary of 802). The law of the Frisians (about 802) ends with the judgements of two wise men, Wlemar and Saxmund. Iceland's lawspeaker said the law aloud at the Althing from 930 (a later text) (?).",
+   "who": "lawman",
+   "cost": "none",
+   "hours": 1,
+   "when": "moored and hour >= 6 and hour < 18 and not feast",
+   "effects": ["npc lawman feeling +1 listened"],
+   "gives": "Writes this zone's laws in force this year into the ledger as 'heard here' (trade_rules.json laws: arms, horses, captives, holy things; the toll and where it may be taken; whose coin is good; Sunday; the 20-pence rule in England after about 930). After it, the toll man's and the king's men's cards show their rules as things you know, and once a call an unjust demand can be answered by naming the law (a wanted option on those cards).",
+   "changes": "Said aloud only when the court or the thing sits; else ask a lawman (a talk). The laws have their own years: Herstal 779, Thionville 805, Pîtres 864, Athelstan about 930. With learned.latin you may ask to see the count's written copy instead: no hour, and one law more.",
+   "words": {
+    "offer": "Stand at the back and listen to the law said.",
+    "done": "You know now what may be carried here and what may not.",
+    "refused": "The law is not being said today."
+   },
+   "source": "Capitulare missorum generale 802 (chronicle_793.json 802-spring-oath-of-802); Lex Frisionum, by way of encounters/npc_roles_793.json (lawman); trade_rules.json laws; the Icelandic lawspeaker from memory (?)"
+  },
+  {
+   "id": "rumours",
+   "name": "Listen for talk",
+   "at": ["tavern", "well", "market", "quay", "gate", "ferry", "lodging", "smithy", "hall", "beach"],
+   "what": "What nobody had seen himself still went round the benches and the well: a town burned, a king dead, a price somewhere far off. Some of it was true.",
+   "evidence": "Hávamál warns the guest to listen more than he talks and to watch what ale does to a tongue. The game's own table of knowing gives a rumour less than half the weight of a thing seen (knowing_793.json: rumour 0.45).",
+   "who": "alewife",
+   "cost": "none",
+   "hours": 0,
+   "talk": true,
+   "when": "moored and hour >= 6 and hour < 23",
+   "effects": [],
+   "gives": "Uses a talk. One to three rumours at sureness 0.45: prices beyond the ships' last three ports, who is buying what, raiders seen, a lord dead, and the first word of a story (a chain's opening card may be given as a rumour here). One in three is stale or wrong (guess). With a round bought this call (flag.act_drank) there is one more, and each names who said it.",
+   "changes": "A big port in summer has the most talk (the traffic multiplier of npc_text_encounters.md 2.3). At a landing there is one rumour and it is about a neighbour. On a feast everyone is talking. Where you are mistrusted the talk stops when you sit down.",
+   "words": {
+    "offer": "Sit where people talk and listen.",
+    "done": "Three things were said. One of them may be true.",
+    "refused": "The benches are empty."
+   },
+   "source": "Hávamál 7, 11-14, 28 (Bellows 1923: texts_793.json); knowing_793.json; Design/economy_and_trade.md 3.2"
+  },
+  {
+   "id": "hire_crew",
+   "name": "Hire a hand",
+   "at": ["quay", "tavern", "beach", "hall", "market", "fishery"],
+   "what": "Seamen went where there was pay, across peoples and tongues. A hand took something in his fist at the start and his share when the venture ended.",
+   "evidence": "Among King Alfred's dead in the sea fight of 896 the Chronicle names three Frisians, Wulfheard, Æbbe and Æthelhere: Frisian seamen in an English king's ships. The share paid at the venture's end, not a monthly wage, is the better model for 793 (npc_text_encounters.md 1.1).",
+   "who": "sailor",
+   "cost": "silver 6",
+   "hours": 1,
+   "when": "moored and hour >= 6 and hour < 23 and crew < crew_full and standing >= ill-regarded",
+   "effects": ["men +1"],
+   "gives": "Takes on one man from this port's pool: men paid off here and the port's own (forged by NpcRegistry: role crewman, the port's people and faith, a trait, a want, a fear, a home port). 6 d in his hand is 24 days at voyage_rules.json's quarter-penny a day; the rest is owed as it runs. When hands are named people the effect is 'hire sailor' in place of 'men +1'.",
+   "changes": "Easter to Pentecost is hiring time and the pool is full; after midsummer the good men are gone; at Martinmas men want paying off, not hiring. Where you are mistrusted you get the man nobody else wants. A man of the port's tongue makes you understood there. In Norse ports a free man comes for a share as a partner, not for a wage (?). On a feast men are easy to find and hard to get aboard.",
+   "words": {
+    "offer": "Take on a man. Six pennies in his hand now.",
+    "done": "He fetches his chest and his knife. That is all he has.",
+    "refused": "Nobody here will sail with you."
+   },
+   "source": "Anglo-Saxon Chronicle 897 for 896 (Giles 1847; names from memory) (?); npc_text_encounters.md 1.1 (the crew's terms); voyage_rules.json crew"
+  },
+  {
+   "id": "dice",
+   "name": "Throw dice",
+   "at": ["tavern", "quay", "hall", "beach", "lodging"],
+   "what": "Dice of bone and antler were in every seaman's pouch, and silver changed hands over them wherever crews waited. Priests were told to keep away from it.",
+   "evidence": "Long dice of bone and antler are common finds in the trading places of the north: Hedeby, Birka, York (?). Dorestad's workshops left amber gaming pieces. Tacitus already has the Germans staking their freedom on a throw (Germania 24).",
+   "who": "sailor",
+   "cost": "silver 4",
+   "hours": 1,
+   "when": "moored and hour >= 10 and hour < 23 and silver >= 4",
+   "effects": [ { "chance": 0.45, "success": ["silver +8", "morale +0.02"], "failure": ["morale -0.01"] } ],
+   "gives": "The stake of 4 d is the cost; a win pays it back doubled. The panel says 'doubtful': they are not your dice. A second game the same evening raises the chance of a quarrel card (the drunk-sailor family) and wins nothing more for the crew's heart. This is the one-throw form. Played in full it is the game dice.high_throw of story/town_games_793.json, which takes its own time and, by that table's rule, counts as one of the call's talks.",
+   "changes": "In an abbey's guest house it is not played. In Lent, and on a fast day, a priest who sees it thinks worse of you. In a Norse hall the lord may join, and the stake is then his to name.",
+   "words": {
+    "offer": "Put four pennies on the dice.",
+    "done": "The dice stop. Somebody laughs.",
+    "refused": "Nobody is playing."
+   },
+   "source": "Design/content/dossiers/dorestad.md section 7 (amber gaming pieces); the dice finds from memory (?); Tacitus, Germania 24; encounters/npc_roles_793.json (alewife: priests and ale-houses)"
+  },
+  {
+   "id": "tafl",
+   "name": "Play tafl",
+   "at": ["hall", "tavern", "lodging", "beach", "quay"],
+   "what": "Halls and ships had a board game of a king and his men against attackers, played with pieces of bone, glass or amber. To sit at the board with a man was to be his guest.",
+   "evidence": "Sets of glass and bone pieces, one a king, lie in graves at Birka (?); a carved board of the 10th century comes from Ballinderry in Ireland (?). The Old English Maxims have two men sitting at tafl while their trouble slides away. Dorestad left amber gaming pieces.",
+   "who": "host",
+   "cost": "none",
+   "hours": 1,
+   "when": "moored and hour >= 10 and hour < 23",
+   "effects": [ { "chance": 0.5, "success": ["npc host feeling +5 won_tafl"], "failure": ["npc host feeling +2 lost_tafl"] } ],
+   "gives": "A game with the person of the site (the runner puts him in place of 'host'). Win or lose he likes you better for it. Each game with the same man makes the next 0.05 likelier, up to 0.75: you learn his play (a saved count). A lord may put something on it: a riddle, a rumour, a small thing off his wall. This is the short form. Played in full it is tafl.hnefatafl or tafl.merels of story/town_games_793.json, which takes its own time and, by that table's rule, counts as a talk.",
+   "changes": "Norse, English and Irish halls play the king's game; a Frankish table plays a dice board more (?). Not in a church house on a fast day. A man who is wary of you will not sit down.",
+   "words": {
+    "offer": "Sit down at the board with him.",
+    "done": "The king is taken, or gets away. He sets the pieces up again.",
+    "refused": "He does not want a game."
+   },
+   "source": "The Exeter Book, Maxims I (from memory; our paraphrase) (?); Birka and Ballinderry from memory (?); Design/content/dossiers/dorestad.md section 7"
+  },
+  {
+   "id": "song",
+   "name": "Pay the singer",
+   "at": ["hall", "tavern", "lodging", "beach", "market", "quay"],
+   "what": "A man who knew the old songs sang for his meat and a gift wherever people sat together, to a lyre. He was the memory of the place, and what a hall wanted to hear said whose side it was on.",
+   "evidence": "Bernlef, a blind Frisian, was loved by his neighbours because he sang well of the deeds of the old and the wars of kings; Liudger healed him and taught him the psalms (Altfrid, Vita Liudgeri; he died in 809). Alcuin wrote in 797: what has Ingeld to do with Christ? Dorestad left amber lyre bridges and a flute of swan bone.",
+   "who": "singer",
+   "cost": "silver 1",
+   "hours": 1,
+   "when": "moored and hour >= 10 and hour < 23",
+   "effects": ["morale +0.05", "npc singer feeling +3 paid"],
+   "gives": "One part of a poem the port's people would sing goes in the chest (give_text <id>, chosen from texts_793.json by the port's people: a fitt of Beowulf, Widsith or Finnsburh among the English and Frisians, verses of Hávamál among the Norse, a psalm in a minster). The crew hear it. A singer who is friendly will take passage to the next hall and sing each evening at sea. Taking the lyre yourself is the game song.harp_round of story/town_games_793.json (its own time; a talk, by that table's rule).",
+   "changes": "On a feast the lord has paid him: free. In a minster's guest house only psalms and saints' lives. The wrong song costs you: Finnsburh sung to Frisians (Plans/map_play_ideas.md). In Lent there is no lyre in a Christian hall (?).",
+   "words": {
+    "offer": "Give the singer a penny and ask for something old.",
+    "done": "He sings it through. Nobody talks until he has done.",
+    "refused": "There is no singer here tonight."
+   },
+   "source": "Altfrid, Vita Liudgeri (en.wikipedia.org/wiki/Bernlef, checked 4 Oct 2026; book and chapter not given there); Alcuin, letter 124 (Dümmler), from memory (?); Design/content/dossiers/dorestad.md section 7; encounters/npc_roles_793.json (singer)"
+  },
+  {
+   "id": "riddles",
+   "name": "Trade riddles",
+   "at": ["hall", "tavern", "abbey", "minster", "lodging", "beach", "thing"],
+   "what": "Riddles were a game of halls and of monasteries alike: a thing described so that it sounds like another, for the listener to name. A good answer was remembered, and so was a fool's.",
+   "evidence": "The Exeter Book (written about 970) holds some ninety riddles in Old English. Aldhelm (died 709) and Archbishop Tatwine wrote Latin ones. Alcuin set riddles for Charlemagne's son Pippin.",
+   "who": "setter",
+   "cost": "none",
+   "hours": 1,
+   "when": "moored and hour >= 10 and hour < 23",
+   "effects": ["npc setter feeling +2 riddled"],
+   "gives": "The setter of this site gives one riddle that belongs to this port or people (give_riddle <id>, from riddles_793.json) into the chest, open. Answered now or on a later call: deed won_riddle (won_great_riddle for a whole set) and the riddle's own reward as its data says (a text, a price word, freedom from toll: Chest.TollFreeAt). A contest of riddles is the game riddles.match of story/town_games_793.json (its own time; a talk, by that table's rule).",
+   "changes": "A hall's riddles have two meanings and the second is rude; a minster's are about books, pens and creation. Among the Norse the game is a contest and the loser pays. Where you have answered them all the setter has nothing new until next year.",
+   "words": {
+    "offer": "Ask for a riddle, and give one back.",
+    "done": "You have it by heart. The answer is your own business.",
+    "refused": "Nobody here has a riddle for you."
+   },
+   "source": "The Exeter Book riddles (Tupper 1910: riddles_793.json); Aldhelm, Tatwine and Alcuin's Disputatio Pippini from memory; npc_text_encounters.md 1.4 and 2.9; reputation_793.json (won_riddle)"
+  },
+  {
+   "id": "drink",
+   "name": "Drink with them",
+   "at": ["tavern", "hall", "lodging", "quay", "beach"],
+   "what": "Ale was brewed in the house and sold by the landing, and crews drank where they lay. The law had its own fines for what men did to each other over the cups.",
+   "evidence": "At Dorestad about 850 four pennies bought wine for Catla and the women who guided her (Rimbert c. 20). The law of Kent (about 680) fines the man who takes another's cup where men are drinking, and the man who draws a weapon there (?). Hávamál: no worse load for the road than too much ale.",
+   "who": "alewife",
+   "cost": "silver 1",
+   "hours": 1,
+   "when": "moored and hour >= 10 and hour < 23",
+   "effects": ["morale +0.04", "flag act_drank for 1", "npc alewife feeling +1 drank"],
+   "gives": "A round for your men and the bench. This call's rumours give one more and name who said it; news asked is told warm. A second and third round the same evening add 0.02 each to the crew's heart and raise the chance of a drunk-sailor card (a fight, a theft, a man who will not get up, a man who wants to sign on). The formal drinking of a hall is the game drink.sumbel of story/town_games_793.json (its own time; a talk, by that table's rule).",
+   "changes": "Ale is not flesh: open on fast days, quieter. On Sunday, after Mass. In a Norse hall you drink what you are handed, and leaving early is an insult. Wine only at a Frankish lord's table or an abbot's.",
+   "words": {
+    "offer": "Buy a round and sit down.",
+    "done": "The men are warmer and the talk is looser.",
+    "refused": "The ale-wife has covered her fire."
+   },
+   "source": "Rimbert, Vita Anskarii c. 20, by way of Design/content/dossiers/dorestad.md section 4; Hlothhere and Eadric 12-13 (from memory; not in the Fordham text) (?); Hávamál 11 (Bellows 1923: texts_793.json); encounters/npc_roles_793.json (alewife)"
+  },
+  {
+   "id": "buy_tools",
+   "name": "Buy ship's tools",
+   "at": ["smithy", "market", "shipyard", "workshop"],
+   "what": "A ship carried what mended her: an axe, an auger, a clenching iron, a bag of rivets, a pot of tar. A crew with tools could patch her on any beach.",
+   "evidence": "The Mästermyr chest (Gotland, about 1000) is an oak chest 90 cm long holding over 200 tools and pieces of work for smithing and carpentry: hammers, tongs, files, axes, an adze, saws, six spoon-augers, a steelyard, padlocks.",
+   "who": "smith",
+   "cost": "silver 12",
+   "hours": 0.5,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": ["flag act_ship_tools", "npc smith feeling +1 bought"],
+   "gives": "A ship's kit kept under the thwarts (no hold space). With it the crew can mend her on any beach or quay with no wright (see repair) and have one option more on grounding and damage cards at sea. Used up after three mendings (a saved count), then bought again. A second purchase here for 12 d is a folding balance and weights (flag act_own_scales): see weigh_silver.",
+   "changes": "No smith works on Sunday or a feast at a Christian port. Iron is cheap near where it is made (the Veluwe behind Dorestad, the Norwegian valleys) and dear on the Frisian coast: half as much again there (guess). After a raid the smith has no iron to spare.",
+   "words": {
+    "offer": "Buy an axe, an auger, rivets and tar for the boat.",
+    "done": "It goes under the thwart in a greased bag.",
+    "refused": "The forge is cold today."
+   },
+   "source": "en.wikipedia.org/wiki/M%C3%A4stermyr_chest (checked 4 Oct 2026; Arwidsson and Berg, The Mästermyr Find, 1983); Design/content/dossiers/dorestad.md section 4 (Veluwe iron)"
+  },
+  {
+   "id": "commission",
+   "name": "Take an order",
+   "at": ["hall", "abbey", "minster", "church", "market", "workshop", "smithy", "shipyard", "storehouse"],
+   "what": "Great houses did not wait for what the market brought: they told a merchant what they wanted and by when. An abbey wanted wax, wine, oil and lead; a hall wanted wine and cloth.",
+   "evidence": "About 852 Abbot Lupus of Ferrières wrote to King Æthelwulf asking for lead to roof his church, to be brought to the landing at Étaples by Quentovic (?). The Rule of St Benedict c. 31 gives a house its cellarer, who buys and keeps its stores. Abbeys held toll charters for their own buying at the ports.",
+   "who": "cellarer",
+   "cost": "none",
+   "hours": 0,
+   "when": "moored and hour >= 6 and hour < 21 and standing >= mistrusted",
+   "effects": [],
+   "gives": "Opens this port's orders (Ports/Commissions.cs; commissions_793.json): each a good, a count, a day and a premium. Taking one is a promise: kept, deed kept_commission, the premium and the person's feeling +6; not kept, deed broke_commission. A site's keeper may post his own through the engine's verb, in the place file's cards, for example 'commission wax 2 by 60 premium 0.3' at an abbey, 'commission rhenish_wine 4 by 40 premium 0.25' at a hall, 'commission tar 3 by 30 premium 0.2' at a yard.",
+   "changes": "Before Lent an abbey orders fish; before Easter, wax and wine; a hall orders before a feast or a wedding. Where you are known the orders are bigger; where you broke one, nobody gives you another for a year.",
+   "words": {
+    "offer": "Ask what the house wants brought, and by when.",
+    "done": "It is agreed: the thing, the number and the day.",
+    "refused": "They have nothing to ask of a man like you."
+   },
+   "source": "Lupus of Ferrières, letters to Æthelwulf and Felix (from memory) (?); Rule of St Benedict c. 31, by way of encounters/npc_roles_793.json (cellarer); commissions_793.json; reputation_793.json (kept_commission, broke_commission)"
+  },
+  {
+   "id": "buy_ship",
+   "name": "Buy a boat",
+   "at": ["shipyard", "quay", "beach"],
+   "what": "A used boat was bought from a wright, a widow or a skipper who was done with the sea, as she lay, with her gear. A ship was among the dearest things a man could own and was left by will like land.",
+   "evidence": "Archbishop Ælfric of Canterbury (died 1005) left his best ship, with sixty helmets and sixty coats of mail, to the king, and a ship each to the people of Kent and of Wiltshire (?). Skuldelev 1 was patched in three countries over her life: old ships stayed in use and changed hands.",
+   "who": "shipwright",
+   "cost": "none",
+   "hours": 2,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast) and standing >= stranger",
+   "effects": [],
+   "gives": "Lists the classes in this port's 'ships' (the place file) that are had second-hand, and any the house holds the reward flag unlock_ship_<class id> for. Price, condition and ports: the class's entry unlock_ship_<class id> in story/unlocks_793.json (600 d for the small boat, 2,400 d for the sea trader, 3,000 d for the Norse ship of twelve oars); for a class with no entry there, 600 d x (cargo_t / 0.9) to the power 0.8 (guess). Second-hand 60% of that, with her hull at 0.7. Your own boat is taken in part at half her worth times her hull. She needs her class's crew before she sails. The sale should be witnessed.",
+   "changes": "In autumn, with the season over, boats are cheap (a tenth off); in spring dear (a tenth on). No sale on Sunday or a feast at a Christian port. A second boat can be kept only with a partner or a factor to sail her (unlock_partner_*, unlock_factor_*). Where you are mistrusted nobody sells you a ship.",
+   "words": {
+    "offer": "Look over the boats that are for sale.",
+    "done": "She is yours, as she lies, with her oars and her bailer.",
+    "refused": "No boat is for sale to you here."
+   },
+   "source": "The will of Archbishop Ælfric (Whitelock, Anglo-Saxon Wills no. 18; Sawyer 1488), from memory (?); en.wikipedia.org/wiki/Skuldelev_ships (checked 4 Oct 2026); ship_classes_793.json; Design/content/CHAINS.md (the money scale)"
+  },
+  {
+   "id": "build_ship",
+   "name": "Order a ship",
+   "at": ["shipyard", "beach"],
+   "what": "A ship was ordered from a wright and built in the open on the strand over a winter, from oak split while green. The buyer found the timber, the iron and the sail, or paid the wright to.",
+   "evidence": "The builders of the Gislinge boat's copy (7.7 m, all oak) cleft one oak trunk 7 m long and 1 m thick, about 180 years old, for her planks. The copy of the 30 m Skuldelev 2 took almost 40,000 hours of labour over four years. King Alfred had long ships built to his own design in 896 (Anglo-Saxon Chronicle).",
+   "who": "shipwright",
+   "cost": "none",
+   "hours": 2,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast) and standing >= known",
+   "effects": ["npc shipwright feeling +3 order"],
+   "gives": "Lists the classes in this port's 'ships' that are built to order. Price new as in buy_ship; a third now, the rest at the launch. Goods brought to the yard come off the price at their worth here: oak_timber, masts, tar, rivets, rope, sailcloth, walrus_rope. Days: 30 for a boat of the Gislinge's size, 150 for a 14 m trader (ordered by Martinmas, afloat by Easter). On the day a pick-up card comes at this port (schedule) and the class is the house's (flag unlock_ship_<class id>).",
+   "changes": "Winter is building time: timber is felled then and the wright is free; an order in summer waits for autumn. Each shore builds its own: Frisian and Frankish yards the North Sea trader and river craft, Norse yards the clinker ship, Gaelic shores the hide boat, the Wends boats pegged with wood. If the port is burned before the launch the money down is lost.",
+   "words": {
+    "offer": "Order a ship from the wright. She will take a winter.",
+    "done": "He marks the keel's length on the sand with his heel.",
+    "refused": "The wright takes no order from you."
+   },
+   "source": "vikingeskibsmuseet.dk/en/news/180-year-old-oak-tree-cleaved-for-the-gislinge-boat-planks-1 (searched 4 Oct 2026; the boat herself is dated about 1130); en.wikipedia.org/wiki/Skuldelev_ships (checked 4 Oct 2026); Anglo-Saxon Chronicle 897 (Giles 1847); ship_classes_793.json"
+  },
+  {
+   "id": "fit_upgrade",
+   "name": "Fit her out",
+   "at": ["shipyard", "smithy", "workshop", "beach", "quay"],
+   "what": "A hull was only the start: sail, rope, anchor, oars and awning were made by other hands and cost as much again. A skipper bettered his ship a piece at a time as silver allowed.",
+   "evidence": "Ohthere's tribute (about 890) included ship's ropes of walrus and seal hide, sixty ells long. Iron anchors lie with the Oseberg ship (834) and the Ladby ship (about 925) (?). A woollen sail took more work than the hull under it (?).",
+   "who": "shipwright",
+   "cost": "none",
+   "hours": 4,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": [],
+   "gives": "Lists what this yard can fit: the 'upgrade' entries of story/unlocks_793.json whose how_won names act:fit_upgrade (a new sail, rigging of walrus hide, an iron anchor, a tilt, a sounding line, a ship's boat, a half deck), each with its own cost, condition and ports there; fitting one sets its flag unlock_upgrade_<id>. Four hours for each (guess). The ids move to Data/story/ship_upgrades_793.json if that file comes.",
+   "changes": "A smith fits the iron, a wright the wood, a weaver's house the sail: a small place can do one of these, a big yard all. Walrus rope only where it is traded (Norse ports; after about 890 England). Nothing is fitted on Sunday or a feast at a Christian port.",
+   "words": {
+    "offer": "See what the yard can do for her.",
+    "done": "It is fitted and tried. She is a better boat.",
+    "refused": "No work is done at the yard today."
+   },
+   "source": "The Old English Orosius (Ohthere: Design/economy_and_trade.md 1.2); Oseberg and Ladby from memory (?); goods_793.json (sailcloth, walrus_rope, wadmal); Design/content/CHAINS.md (unlock_upgrade)"
+  },
+  {
+   "id": "store",
+   "name": "Use your store",
+   "at": ["storehouse", "lodging", "quay", "abbey"],
+   "what": "A merchant with a house on the bank kept goods under his own roof between ships and seasons. At Dorestad the storehouses stood on the dams themselves.",
+   "evidence": "The bank at Dorestad is cut into plots 18 m wide, each with its dam, and large storehouses stand on the newest ground, about 750-830. St Martin's of Utrecht held bank plots there of its own, and nobody might lodge in its men's houses or seize their goods.",
+   "who": "factor",
+   "cost": "none",
+   "hours": 1,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": [],
+   "gives": "Only where the house has a store: a plot (flag unlock_plot_<port id>), a factor (unlock_factor_<port id>), rented room (act_store_rented here), or a host who is a fast friend. Moves goods between the hold and this port's store (a wanted saved thing: a second Hold kept by port; lots keep their days and go on spoiling). An hour; half with carriers. A factor sells from it and buys into it at the board's price while you are away, for a twentieth (guess).",
+   "changes": "Goods in a store burn with the town. In a famine the count may open a grain store by force and pay the king's price (805). Nothing is moved on Sunday or a feast at a Christian port.",
+   "words": {
+    "offer": "Put goods into your store here, or take them out.",
+    "done": "The door is barred again. The tally is cut.",
+    "refused": "You have no store in this place."
+   },
+   "source": "Design/content/dossiers/dorestad.md sections 2 and 4 (Hoogstraat; Oorkondenboek Sticht Utrecht no. 56); chronicle_793.json 805-12; Design/content/CHAINS.md (unlock_plot, unlock_factor)"
+  },
+  {
+   "id": "rent_store",
+   "name": "Rent store room",
+   "at": ["storehouse", "lodging", "quay", "market", "abbey", "hall"],
+   "what": "A stranger with no house left his goods under a host's roof, and the host answered for them as he answered for the guest. It cost a little and it tied the two men together.",
+   "evidence": "In the law of Kent a man who keeps a stranger three nights in his own house answers for him (?). At Dorestad shippers paid a due read as payment for lodging and protection. That a host took a fee for storing goods is a fair guess from these, not a recorded fact (?).",
+   "who": "host",
+   "cost": "silver 2",
+   "hours": 0.5,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast) and standing >= stranger",
+   "effects": ["flag act_store_rented for 30", "npc host feeling +1 rented"],
+   "gives": "Room for one hold-load (the Gislinge's 660 kg) for 30 days, kept by port. 2 d a load a month (guess). Then use store. The host makes a theft good if he is friendly or more; if he is cool there is one chance in ten a month that something is gone.",
+   "changes": "Dear at a fair and when ships are many: double. An abbey stores for a friend of the house for alms. Where you are mistrusted nobody takes your goods in.",
+   "words": {
+    "offer": "Pay a householder to keep your goods a month.",
+    "done": "He shows you the corner and the bar on the door.",
+    "refused": "Nobody will take a stranger's goods in today."
+   },
+   "source": "Hlothhere and Eadric 15 (from memory, by way of encounters/npc_roles_793.json, host) (?); Design/content/dossiers/dorestad.md section 4 ('giscot')"
+  },
+  {
+   "id": "buy_plot",
+   "name": "Buy a plot",
+   "at": ["hall", "market", "quay", "toll", "thing", "abbey"],
+   "what": "The ground of a trading place was the king's or a bishop's, cut into narrow plots running to the water, and a merchant held his plot of that lord for a yearly due. With it came the right to land goods on his own strip.",
+   "evidence": "In 889 King Alfred and Ealdorman Æthelred gave the bishop of Worcester a plot in London with its own weights and measures for buying and selling; about 899 two plots at Æthelred's hythe, each with the right to moor ships along its width (?). Dorestad's bank is cut into plots 18 m wide, each with its own dam.",
+   "who": "steward",
+   "cost": "none",
+   "hours": 2,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast) and standing >= known",
+   "effects": [],
+   "gives": "A house plot on the waterfront, held of the lord of the port. Price and what must be true: the port's entry unlock_plot_<port id> in story/unlocks_793.json (Dorestad 400 d, Lundenwic 500 d, Ripa 200 d); for a port with no entry, 100 d for each step of its size (ports_793.json size 1-5: guess). And 12 d a year at Martinmas (guess). Sets flag unlock_plot_<port id>. It gives a store of four hold-loads, a bed (lodge for nothing), leave to winter here, a berth of your own, and it is the first need of a factor and of works of your own. An heir has it after you. Lost if the due is three years unpaid, or with the port.",
+   "changes": "The grant is the lord's: ask an audience first, and bring a gift. Dorestad's plots end with Dorestad (863). London within the walls only from 886. Norse and Baltic markets: from the king's man of the market, for a gift. A monastery sells no ground. Nobody sells land to a stranger, and a great port asks more: Lundenwic wants you well regarded.",
+   "words": {
+    "offer": "Ask for a plot on the bank, to hold of the lord here.",
+    "done": "The bounds are walked, and the neighbours saw it.",
+    "refused": "No ground here is given to a man they hardly know."
+   },
+   "source": "The London charters of 889 and 898/9 (Sawyer 346 and 1628), from memory (?); Design/content/dossiers/dorestad.md section 2; Design/content/CHAINS.md (unlock_plot)"
+  },
+  {
+   "id": "lodge",
+   "name": "Lodge ashore",
+   "at": ["lodging", "abbey", "minster", "hall", "tavern", "church", "beach"],
+   "what": "A crew ashore slept in a householder's hall, in a monastery's guest house, or under their own sail on the strand. A host who kept a stranger answered for him, and one who shut his door was remembered for it.",
+   "evidence": "The Rule of St Benedict c. 53: guests are received as Christ, in a house of their own with a brother to see to them. The general capitulary of 802 forbids anyone to refuse a traveller roof, hearth and water (?). Alcuin's verses name Hrotberct of Dorestad, the greedy merchant who gives no lodging; Catla stayed there in a lodging-house about 850.",
+   "who": "host",
+   "cost": "silver 1",
+   "hours": 0,
+   "when": "moored",
+   "effects": ["health +0.05", "morale +0.03", "flag act_lodged for 1", "npc host feeling +1 lodged"],
+   "gives": "Ends the day: the clock runs to first light, as Rest does. The crew sleep dry: better than a night aboard (voyage_rules.json recover_in_port). One talk comes back at dawn. The host says who else has passed (one fact of the harbour, free). Three nights with one host: his feeling +3, and he will swear with you once.",
+   "changes": "At an abbey the bed is free and alms are looked for; in Lent no meat at the guest table. At a hall you are the lord's guest: a gift first. At a landing you sleep under the sail unless a farmer takes you in. In winter lodging is by the month (the winter screen): 20 d for four men, nothing on your own plot. A shunned man finds no host.",
+   "words": {
+    "offer": "Sleep ashore tonight, under a roof.",
+    "done": "First light. The men slept dry.",
+    "refused": "No door here opens to you. You sleep aboard."
+   },
+   "source": "Rule of St Benedict c. 53; Capitulare missorum generale 802 c. 27 (from memory) (?); Design/content/dossiers/dorestad.md sections 2-3 (Alcuin, Carmen 4; Rimbert c. 20); Hávamál 2-4 (Bellows 1923)"
+  },
+  {
+   "id": "heal",
+   "name": "See the leech",
+   "at": ["abbey", "minster", "lodging", "hall", "well", "church"],
+   "what": "The sick were tended in a monastery's sick-house, or by a leech who let blood, set bones and gave herbs. What he knew was in his head and, by 900, in English books.",
+   "evidence": "The Rule of St Benedict c. 36 gives the sick a room apart and a brother to serve them. Bald's Leechbook is an English book of cures of the 9th to 10th century. Bede tells how Bishop John rebuked a house where a nun had been bled on the fourth day of the moon, when the moon and the tide are both growing (Historia ecclesiastica V.3).",
+   "who": "leech",
+   "cost": "silver 4",
+   "hours": 2,
+   "when": "moored and health < 1",
+   "effects": ["health +0.2", "npc leech feeling +1 healed"],
+   "gives": "The crew's health up by a fifth now. A badly hurt man may be left with the leech (men -1): he is whole and waiting when you call again within 60 days, and gone home after. At an abbey no fee is asked and alms are looked for.",
+   "changes": "No blood is let while the moon is growing: with a new moon the leech gives herbs only and helps half as much (needs the moon's age from the sky). At a heathen port a woman who knows herbs does it, and a priest who hears thinks worse of you. In a plague year the abbey's gate is shut.",
+   "words": {
+    "offer": "Have the sick men seen to.",
+    "done": "He binds it, gives a bitter drink, and says to rest.",
+    "refused": "Your men are well. He sends you away."
+   },
+   "source": "Rule of St Benedict c. 36; Bede, Historia ecclesiastica V.3; encounters/npc_roles_793.json (leech, wise_woman)"
+  },
+  {
+   "id": "provision",
+   "name": "Buy stores",
+   "at": ["market", "quay", "tavern", "field", "fishery", "abbey", "well", "lodging", "beach"],
+   "what": "A crew ate bread, cheese, dried or salted fish and salt pork and drank ale and water, bought where she lay before each leg. Water was had for nothing at any well or river.",
+   "evidence": "Frankfurt (794) fixed bread: twelve wheat loaves of two pounds for a penny, and more loaves of rye, barley or oats. About 650 wells at Dorestad are lined with old Rhenish wine casks. In the famine years the king forbade selling grain dear or out of the realm (805, 806).",
+   "who": "alewife",
+   "cost": "none",
+   "hours": 1,
+   "when": "moored and hour >= 6 and hour < 18",
+   "effects": [],
+   "gives": "Fills the ship's stores to the days asked for (the day stick shows the days the course needs): food goods and ale at this market's prices, into the hold (Voyage: 0.7 kg of food and 3 litres of drink a man a day; voyage_rules.json rations), and the water casks for nothing. Shown as 'days aboard'. In a plain year about a penny a day feeds four men. One hour to fetch and stow.",
+   "changes": "March to June grain is dear; in the famine of 793-794 bread costs three times as much and may not be sold out of the district. In Lent stores are fish, bread and ale. Food may be carted even on a Sunday (one of the three cartings the law allows): stores can be had then at an abbey's gate or a farm, though the market is shut. A northern port in winter sells dried fish and little else.",
+   "words": {
+    "offer": "Buy bread, fish and ale for the days ahead.",
+    "done": "Stowed. So many days aboard.",
+    "refused": "There is no food to be had here at this hour."
+   },
+   "source": "Synod of Frankfurt 794 c. 4 (goods_793.json src frankfurt794; Design/economy_and_trade.md 1.2); Design/content/dossiers/dorestad.md section 2 (the wells); chronicle_793.json 805-12 and 806-03; voyage_rules.json; Admonitio generalis 789 c. 81"
+  },
+  {
+   "id": "buy_at_source",
+   "name": "Buy from makers",
+   "at": ["saltern", "quarry", "fishery", "field", "workshop", "smithy", "shipyard", "abbey", "storehouse"],
+   "what": "Salt was cheapest at the pans, fish at the boats, querns where they were cut, cloth at the weaving house. Kings tried to drive such buying into their ports, where it could be seen and taxed.",
+   "evidence": "Edward the Elder: 'that no man buy out of port'; Athelstan: 'no man buy any property out of port over twenty pence; but let him buy there within': laws against what men were doing. Dorestad's workshops made combs, amber beads, querns, iron and cloth (2,889 loom weights) on the spot.",
+   "who": "craftsman",
+   "cost": "none",
+   "hours": 2,
+   "when": "moored and hour >= 6 and hour < 18 and (port.faith != christian or not feast)",
+   "effects": ["npc craftsman feeling +1 bought"],
+   "gives": "Opens a small market of only what this site makes (by its kind and the port's 'made' goods in goods_793.json: salt at a saltern, querns at a quarry, fish at a fishery, grain, cheese and wool at a field, combs, beads, pots or cloth at a workshop, iron at a smithy), at the market's cheap price (trade_rules.json market.cheap 0.85) with no gap between asking and paying, and a fifth of the market's stock. No toll is taken there and nobody witnesses it: the goods are unwitnessed, and in a toll port the toll man counts it as dodging if he learns (wanted deed: cheated_toll). Two hours out and back.",
+   "changes": "The season is everything: herring from September to November, salt in the dry months, grain after the harvest, wool at the June shearing. In English ports after about 930 not over 20 d worth. On Sunday or a feast at a Christian port nobody is working. At a landing this is the only way to buy.",
+   "words": {
+    "offer": "Go to where it is made and buy it there.",
+    "done": "Bought at the maker's own price. Nobody saw it but you two.",
+    "refused": "Nobody is at work there today."
+   },
+   "source": "I Edward 1 and II Athelstan 12 (Thatcher 1907, checked at sourcebooks.fordham.edu/source/560-975dooms.asp); Design/content/dossiers/dorestad.md section 2; seasons_793.json; trade_rules.json market"
+  },
+  {
+   "id": "cross",
+   "name": "Cross over",
+   "at": ["ferry", "ford", "bridge", "gate", "beach"],
+   "what": "A river town had its church on one bank and its market on the other, and a ferryman with a logboat between. Where two waters came near, carts took the goods over the neck of land.",
+   "evidence": "The capitularies allow a toll only where it is old and just, and none where no bridge or ferry helps the traveller (805, 809). Royal toll charters name the dues: on the bank, the bridge, the wheel and the gate. Goods for Hedeby crossed under 15 km of land from the Treene to the Schlei.",
+   "who": "ferryman",
+   "cost": "silver 1",
+   "hours": 1,
+   "when": "moored and hour >= 5 and hour < 21",
+   "effects": ["npc ferryman feeling +1 crossed"],
+   "gives": "Takes the merchant, not the ship, to the sites the place file sets over the water, for this call. A ferry: a penny and an hour there and back. A ford: nothing, at low water only (TideModel). A bridge: nothing, unless an old toll stands on it. A portage: the cargo goes over in a day at 2 d a cart-load of about 500 kg, the boat herself on rollers in two days with carriers hired (guesses). The ferryman sees everyone who passes: asking him is a talk.",
+   "changes": "On ice it is walked for nothing, and carts cross: in the winter of 821-822 they crossed the Rhine, the Danube, the Elbe and the Seine for thirty days. In flood or a gale no ferry runs. At night the ferryman sleeps and a ford is not tried. On Sunday he carries people to Mass for nothing and no goods.",
+   "words": {
+    "offer": "Cross to the other side.",
+    "done": "The far bank. The ferryman waits for his penny.",
+    "refused": "Nobody is crossing now."
+   },
+   "source": "chronicle_793.json 805, 809 and 821-winter-rivers-frozen (Design/economy_and_trade.md 1.3-1.4); en.wikipedia.org/wiki/Hedeby (the portage); encounters/npc_roles_793.json (ferryman, carter)"
+  },
+  {
+   "id": "fund_work",
+   "name": "Fund a work",
+   "at": ["hall", "church", "minster", "abbey", "quay", "thing", "bridge", "well", "market", "gate", "wall"],
+   "what": "Rich men of a place paid for what it needed: a church, a bridge, a well, a causeway. It was for the soul or for the name, and usually for both.",
+   "evidence": "Herigar, prefect of Birka, 'built a church on his own ancestral property' soon after 830. Swedish rune stones of the 11th century tell of bridges and causeways made for a kinsman's soul, as Jarlabanke's at Täby (?). Dorestad's wells were lined with merchants' wine casks.",
+   "who": "steward",
+   "cost": "none",
+   "hours": 1,
+   "when": "moored and hour >= 6 and hour < 18 and standing >= known",
+   "effects": [],
+   "gives": "Lists this port's 'works' (the place file) whose years hold and whose 'needs' are met; the kinds of work are story/works_793.json. Paying a work's cost_d starts it; after its days it is done: flag unlock_work_<port id>_<what>, the town changes as the work's 'gives' says, and standing rises (wanted deed: funded_work, about cost_d / 100). It may be paid in parts over several calls (a saved sum). A work of the Church moves the priest and the bishop; a work of the port, the keeper and the merchants.",
+   "changes": "A stranger's silver is not wanted: be known here first. A work of the Church may be paid on a Sunday or feast, and is then seen by everyone. A work is lost with the town if it burns, but the name of it is kept. An heir is greeted by it.",
+   "words": {
+    "offer": "Ask what the place needs built.",
+    "done": "The silver is counted out. The work will have your name on it.",
+    "refused": "They take no gifts of that kind from a stranger."
+   },
+   "source": "Rimbert, Vita Anskarii c. 11 (Robinson 1921, checked at sourcebooks.fordham.edu/basis/anskar.asp); the bridge stones (Upplands runinskrifter 127, 164, 212, 261) from memory (?); Design/content/dossiers/dorestad.md section 2; Design/content/BRIEF_2.md (works)"
+  }
+ ],
+ "flags": {
+  "about": "The saved flags this table sets and reads (letters, digits and underscores, as CHAINS.md asks). Those marked 'by port' must be kept for each port: the runner adds the port's id to the name.",
+  "act_porters_hired": "carriers paid for today, by port",
+  "act_pilot_aboard": "a pilot is aboard for the next leg",
+  "act_clean_hull": "scraped and tarred: no fouling",
+  "act_haggle_won": "today's spread halved, by port",
+  "act_haggle_lost": "today's prices 5% worse, by port",
+  "act_sampled": "the lots here have been opened, by port",
+  "act_silver_tested": "this call's silver was tested, by port",
+  "act_sale_witnessed": "this call's deals were witnessed, by port",
+  "act_vow_open": "a vow made and not yet paid",
+  "act_sanctuary": "in a church's peace, by port",
+  "act_lot_fair": "the lots fell fair",
+  "act_lot_foul": "the lots fell foul",
+  "act_oath_sworn": "an oath stands, by port",
+  "act_audience": "let in to the lord today, by port",
+  "act_drank": "a round bought this call, by port",
+  "act_ship_tools": "a ship's kit aboard",
+  "act_own_scales": "a balance and weights aboard",
+  "act_store_rented": "store room rented, by port",
+  "act_lodged": "slept ashore last night",
+  "dead_aboard": "set by the game when a man dies and is not put over the side; cleared by bury"
+ },
+ "needs": {
+  "about": "What this table asks of the engine and of the shared tables. Nothing here was added to them (BRIEF.md rule 5).",
+  "variables": [
+   "sunday: 1 on a Sunday (Calendar.Weekday exists); then add 'and not sunday' where a 'when' has the feast clause",
+   "dark: 1 between dusk and first light (Rest.Dark), in place of the fixed hours",
+   "fast: named in Cond.cs, but EncounterGameVars does not fill it yet",
+   "talks_left: the call's talks still in hand",
+   "port.size: 1 to 5 (ports_793.json), for prices that go by the port's size",
+   "port.zone: the coin zone (trade_rules.json zones), to tell the lands of weighed silver",
+   "fair: 1 while a fair is on here (Fairs.On)",
+   "hull and fouling: the ship's state, for repair and careen",
+   "moon: the moon's age, for the leech"
+  ],
+  "deeds": [
+   "haggled_hard", "gave_gift", "gave_feast", "kept_oath", "broke_oath", "honoured_dead", "funded_work", "offered_to_idols", "cheated_toll"
+  ],
+  "state": [
+   "a store by port: a second Hold kept at a port, with the lots' days",
+   "a list of the house's remembered names by port",
+   "works part-paid by port",
+   "a ship on order: class, port, day due, silver still owed",
+   "counts: tafl games with a man, mendings left in the kit, hires of a pilot"
+  ],
+  "cards": [
+   "pick-up cards for a copied text and a built ship (schedule ... at <port>)",
+   "crew.vow.broken",
+   "the terms card of sanctuary",
+   "the hearing card of a lawsuit (law hearing in 3 is parsed today; GameEffects.Law acts only on 'seizure')",
+   "a claim card ('that is my cloth') that a witnessed sale answers"
+  ],
+  "data": [
+   "ship prices: ship_classes_793.json has none; story/unlocks_793.json prices twelve classes and buy_ship gives a guess for the rest: one home for them is wanted",
+   "one home for the fittings: they are in story/unlocks_793.json now, and CHAINS.md names Data/story/ship_upgrades_793.json",
+   "heathen feasts in Feasts.cs (the winter nights, midwinter, the start of summer; the English ones in Bede, De temporum ratione 15) (?)",
+   "a mark in a place file for a site that lies over the water (cross) and for a market that is an old Sunday market"
+  ]
+ }
+}

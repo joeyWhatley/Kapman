@@ -1,0 +1,10 @@
+chain_year_1066_793.json
+
+Cards seen: 6 (in the first 250 lines; the file's "about" says fourteen, ten steps and four endings)
+
+- harbour.chain_year_1066.s01_star: asks whether to buy the skipper's three stories, give alms at the church door, or go on with the work. At stake: silver (2 d or 6 d), a little morale and standing with the clerk, and a price word on Rouen rope, sailcloth and pitch.
+- harbour.chain_year_1066.s02_tostig: asks whether to sail north with Earl Tostig for pay, slip out on the night ebb, bribe his man, or hide and carry the ship count to London. At stake: silver (+60, -30 or -40), morale, standing with the reeve, time (three weeks north or four days hidden), and knowing the Humber.
+- harbour.chain_year_1066.s03_wight: asks whether to take the king's wheat order (30 loads in 60 days), sell the count of the duke's keels, or decline. At stake: goods (the wheat order at four tenths over market), silver (+120 for the count), standing with the king's steward and the Rouen wine man, and the English road.
+- harbour.chain_year_1066.s04_rouen: asks whether to take the duke's rope order (20 coils in 60 days), hire the ship to the duke for the crossing, or sell nothing and count keels in the yards. At stake: goods (rope at six tenths over market), silver (+200 hire, or -20 if caught), standing with the clerk, the ship's freedom in September, and the Norman road.
+- harbour.chain_year_1066.s05_solund: asks whether to sail as the Norwegian king's pilot for the Humber, sell bread and stockfish to the levy, or keep out. At stake: silver (+150 weighed, or +70 / +25), standing with the king's man and the farm wife, time (at York in September), and the Norse road.
+- harbour.chain_year_1066.s06_larder: asks whether to stake 600 d to keep the king's fleet fed (surely, with the count and the king's ear, or on a 0.6 chance), put in a 150 d share, or refuse. At stake: silver (600 d, a 220 d loss if too late; or 150 d back with 40 over), standing with the steward and the Emperor's men, and history itself (the fleet kept at sea).

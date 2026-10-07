@@ -1,0 +1,660 @@
+{
+ "about": "Gipeswic (Ipswich) on the Orwell: one port, written 6 October 2026 from Design/content/dossiers/gipeswic.md and the spine. A draft in the game's own files, for the user to overwrite. (?) marks what is not attested. No reeve, priest, potter, toll or fair of 793 is named in any source: every person here but the moneyers Lul and Leofsige is the game's own, and no church or mint has been found by digging before the 11th century. Woven with the other ports of the region on 7 Oct 2026: the ties to an unnamed 'dommoc.fisherman' now meet real people of Dommoc (the pilot Hunberht in 793, his heirs Hunwine and Hunstan after), the moneyer of 991 is tied to a moneyer of his own day in London, beats that named sites which do not exist are set right, and the region's cards (Data/encounters/england_south_east_793.json) are hung on the sites and the beats.",
+ "region": "england_south_east",
+ "ports": [
+  {
+   "port": "gipeswic",
+   "summary": "The East Angles' one trading town, at the head of a long tidal estuary, half a tide's run from the sea, where the Gipping meets the salt water: a grid of gravelled streets, no wall, craftsmen's yards and a smoking potters' quarter, with boats aground on a bank faced with posts and hurdles. In 793 its king is Æthelberht, under Offa of Mercia, and its trade is mainly with Dorestad. A merchant comes for the hard grey pots that every house in East Anglia cooks in, for wool, cloth and honey, and brings wine in casks, Rhineland quernstones, hones from the north and fine pots for lords' tables.",
+   "seasons": "The kilns are fired from the first dry weeks after Easter until the autumn rains; shearing is done by Saint Botolph's day (17 June) and the wool comes down the Gipping after it. The herring are in from Lammas to past Michaelmas, and in winter the estuary belongs to the swans, the geese and the fowlers; the mud dries twice a day in every season, and a deep boat waits on the flood.",
+   "history": [
+    { "year": 630, "text": "About this year Felix comes to the East Angles and sets his bishop's seat at Dommoc; the kingdom has been Christian since.", "source": "Bede II.15; en.wikipedia Dommoc (dossier [Dm])" },
+    { "year": 654, "text": "Botolph begins his minster at Icanho, taken to be Iken on the Alde, a day's sail up the coast.", "source": "Anglo-Saxon Chronicle 654; en.wikipedia Botolph of Thorney (dossier [Bo])" },
+    { "year": 680, "text": "By about this year the dead of the first settlement have been laid on the heath north of the crossing for two generations: 71 graves, some under small barrows, two in coffins like small boats, three men with belt sets from northern Francia.", "source": "Buttermarket cemetery, c. 610/635-680/690: Suffolk Heritage Explorer, Saxon Ipswich; Ipswich 1974-1990 Excavation Archive (dossier [SH], [A])" },
+    { "year": 720, "text": "About this year the town is laid out anew on a grid of metalled streets over the old graveyard and across the river into Stoke: some 50 hectares, no wall. The potters begin to make the grey ware, on Frisian models.", "source": "Suffolk Heritage Explorer, Saxon Ipswich; en.wikipedia Ipswich ware (dossier [SH], [Iw]). The start of the ware is put at c. 720 or the late 7th century." },
+    { "year": 794, "text": "King Æthelberht of the East Angles is beheaded by order of Offa of Mercia, who takes the kingdom.", "source": "Anglo-Saxon Chronicle 792 (for 794); chronicle_793.json" },
+    { "year": 796, "text": "Offa dies. For two years or so a king Eadwald, known only from his coins, rules the East Angles; by about 805 Coenwulf of Mercia is coining there.", "source": "Coins of Eadwald; en.wikipedia Eadwald of East Anglia (dossier [K]); chronicle_793.json 796-eadwald-east-anglia" },
+    { "year": 825, "text": "About this year the East Angles kill Beornwulf of Mercia, and in 827 his successor Ludeca; Æthelstan is their king and strikes his own penny, some with a ship on it.", "source": "Anglo-Saxon Chronicle 823 (for 825), 825 (for 827); en.wikipedia Æthelstan of East Anglia (dossier [K])" },
+    { "year": 850, "text": "About this year the grey hand-built ware gives way to Thetford ware, thrown on a fast wheel, from new kilns at Carr Street, St Helen's Street and Turret Lane.", "source": "Suffolk Heritage Explorer; en.wikipedia Thetford ware (dossier [SH], [Iw])" },
+    { "year": 865, "text": "This year a great heathen army took winter quarters among the East Angles, and there they were horsed; and the East Angles made peace with them. Gipeswic is not named.", "source": "Anglo-Saxon Chronicle 866 (for 865); chronicle_793.json" },
+    { "year": 869, "text": "On 20 November King Edmund is killed and the army takes the kingdom; they destroy the monasteries they come to.", "source": "Anglo-Saxon Chronicle 870 (for 869); chronicle_793.json 869-11-20-edmund-killed" },
+    { "year": 880, "text": "Guthrum's army settles East Anglia and shares out the land. In the town the sunken-floored house comes back, iron is smelted, and combs are cut in the Danish fashion.", "source": "Anglo-Saxon Chronicle 880; Suffolk Heritage Explorer; Excavation Archive (dossier [SH], [A])" },
+    { "year": 885, "text": "King Alfred's fleet takes sixteen ships of the Danes at the mouth of the Stour, and is beaten the same day on its way home by a large fleet. The Stour and the Orwell share one mouth.", "source": "Anglo-Saxon Chronicle 885 (Ingram 1823). 'Stourmouth' is probably this harbour, not surely (dossier [Sh])." },
+    { "year": 917, "text": "By this year a bank and ditch stand round the town for the first time, with gates west, north and east; the army of East Anglia swears to King Edward.", "source": "Anglo-Saxon Chronicle 921 (for 917); the bank c. 900-917, Shire Hall Yard: Suffolk Heritage Explorer (dossier [SH], [A], [Er]). [SH] gives 920 for the submission." },
+    { "year": 950, "text": "By about this year Theodred, bishop of London, has bought a town plot inside Gipeswic and leaves it in his will to his sister's son Osgot.", "source": "Will of Theodred, 942 x c. 951, Sawyer 1526: 'min hage that ic binnin Gypeswich bouhte'" },
+    { "year": 970, "text": "King Edgar gives ten hides at Stoke, across the bridge, to Ely, at Queen Ælfthryth's asking. The bounds begin at the hythe and name the bridge, a marsh mill and a holy well.", "source": "Sawyer 781 (Blake and Hart put this Stoke at Ipswich; Birch at Stoke-by-Nayland)" },
+    { "year": 973, "text": "From about this year pennies are struck that name the town: GIPES. Where the moneyers worked is not known.", "source": "chronicle_793.json 973-edgar-coinage; Hildebrand, Anglosachsiska mynt (1881)" },
+    { "year": 991, "text": "Olaf comes with ninety-three ships. This year was Ipswich plundered; and very soon afterwards the ealdorman Byrhtnoth was slain at Maldon, and tribute was first paid: ten thousand pounds.", "source": "Anglo-Saxon Chronicle 991 (Ingram 1823); chronicle_793.json 991-08-maldon" },
+    { "year": 1010, "text": "After Easter Thorkell's army goes up at Ipswich and straight to where Ulfcytel is with his levy. On 5 May the East Angles are beaten at Ringmere; three months of burning follow.", "source": "Anglo-Saxon Chronicle 1010 (Ingram 1823); en.wikipedia Battle of Ringmere" },
+    { "year": 1014, "text": "On Michaelmas eve the great sea-flood comes widely over this land, further than it ever did before.", "source": "Anglo-Saxon Chronicle 1014; chronicle_793.json" },
+    { "year": 1016, "text": "Cnut's ships go into the Orwell; his army goes up there and on into Mercia.", "source": "Anglo-Saxon Chronicle 1016 (Ingram 1823)" },
+    { "year": 1066, "text": "The town has 538 burgesses, read as over three thousand people, and some ten churches. It pays fifteen pounds and six sesters of honey; Queen Edith has two parts and Earl Gyrth the third penny.", "source": "Domesday Book, Suffolk (tr. Victoria County History, Suffolk I, 1911); opendomesday.org" }
+   ],
+   "eras": [
+    { "from": 793, "to": 794, "text": "The last year of the East Angles' own king. An open town on a street grid, the potters' smoke over the north-east corner, Frisian keels on the hurdle bank. Æthelberht's pennies pass beside Offa's new heavy ones, and the reeve answers to a king he has seen." },
+    { "from": 794, "to": 825, "text": "A Mercian town. The king is dead at Offa's word and a chapel to him is talked of; the reeve answers to a king he has never seen, for two years to Eadwald, then to Coenwulf. The kilns do not notice. Wine, querns and fine pots come from Dorestad as before." },
+    { "from": 826, "to": 864, "text": "The East Angles have a king again, Æthelstan and then Æthelweard and Edmund, and a penny with a ship on it. Dorestad is burned year after year from 834 and fewer Frisians come. About 850 the potters change to the fast wheel and the old grey ware stops." },
+    { "from": 865, "to": 879, "text": "The army's years. In 865 it winters in the kingdom and is given horses; in 869 it kills the king. Nobody trades far. Silver is hidden, the minsters are empty, and a stranger is asked whose man he is before he is asked what he sells." },
+    { "from": 880, "to": 917, "text": "A Danish town in a Danish land. Sunken-floored houses, an iron smelter, comb makers from over the sea; silver goes on the scale as well as by the tale, and the pennies carry the name of the king the Danes killed. Toward the end a bank and ditch go up, and the streets that crossed their line are closed." },
+    { "from": 918, "to": 990, "text": "The English king's borough, with a market inside the bank and a reeve to witness every sale. Trade turns inland to the east Midlands; few keels come from over the sea. From 970 Ely holds Stoke across the bridge, and from about 973 the pennies say GIPES." },
+    { "from": 991, "to": 1016, "text": "The worst years. Ninety-three ships in 991; Thorkell's army up the river in 1010; the sea-flood in 1014; Cnut's ships in the Orwell in 1016. Between fleets the moneyers strike the tribute and the potters go on firing. Houses stand on cellars now, two floors high." },
+    { "from": 1017, "to": 1042, "text": "Cnut's peace, under Earl Thorkell until he is outlawed in 1021. Trade over the sea picks up again: wine, querns, and Danes who come to buy and not to burn. One king's writ runs on both shores." },
+    { "from": 1043, "to": 1066, "text": "A full town: 538 burgesses, ten churches, a mint, the queen's grange. The herring is now a trade for the whole coast. Earl Gyrth takes the third penny, and in the autumn of 1066 he takes the borough's men south and does not come back." }
+   ],
+   "sites": [
+    {
+     "id": "gipeswic.bank", "kind": "beach", "name": "The hurdle bank", "from": 0, "to": 0,
+     "see": "A long low bank of gravel faced with oak posts and wattle hurdles, grey with dried mud, and beyond it the brown river going out. Three or four boats lie on the ground with their sterns to the town, a Frisian keel among them; behind, thatch and the smoke of the kilns. Gulls, the suck of mud at the posts, and the smell of weed and wet leather.",
+     "do": ["act:load", "act:hire_porters", "act:wait_wind", "act:ask_harbour", "act:careen", "act:hire_pilot", "person:gipeswic.wigmund", "card:harbour.ship_on_the_sand.gipeswic"],
+     "source": "Bridge Street waterfront, dug 1981: post-and-wattle revetments from the 7th century on, each further out over the mud, 'little more than a bank protection'; leather survives only here (Suffolk Heritage Explorer; Excavation Archive)."
+    },
+    {
+     "id": "gipeswic.ford", "kind": "ford", "name": "The ford to Stoke", "from": 0, "to": 0,
+     "see": "A hard of gravel going down into the river and coming out on the Stoke bank, passable to a cart at low water. A hurdle shelter stands at the town end where the reeve's man sits with his tally sticks, watching what is carried up from the boats. After about 970 a timber bridge crosses here, and a hythe lies under the far bank.",
+     "do": ["act:pay_toll", "act:show_charter", "act:cross", "act:ask_news", "act:gift", "person:gipeswic.eadstan", "card:harbour.count_at_the_ford.gipeswic"],
+     "source": "The ford just east of Stoke Bridge (en.wikipedia Ipswich); 'the bridge' and the hythe in the bounds of 970 (Sawyer 781). A reeve at the crossing is inference from London (?): no toll is recorded here before 1086."
+    },
+    {
+     "id": "gipeswic.cornhill", "kind": "market", "name": "The Cornhill", "from": 0, "to": 0,
+     "see": "An open space of trodden earth where the streets from the west and north meet, set with trestles, sacks of wool, crates of grey pots in straw and a man selling honey from a crock. A small timber chapel stands at one side. Voices from four kingdoms, a pig loose, the smell of new bread and old fleece.",
+     "do": ["market", "act:haggle", "act:sample", "act:weigh_silver", "act:witness", "act:rumours", "person:gipeswic.toki", "card:harbour.pan_not_the_face.gipeswic"],
+     "source": "The Cornhill 'perhaps an unsurfaced market'; St Mildred's there 'may have been a royal chapel' (Suffolk Heritage Explorer; Alsford, Medieval Ipswich). Carbonised bread and bronze balance fragments from the digs."
+    },
+    {
+     "id": "gipeswic.potters", "kind": "workshop", "name": "The potters' corner", "from": 0, "to": 0,
+     "see": "Low round kilns of clay under turf at the edge of the town, two of them alight and leaking a thin grey smoke, with stacks of cut wood and rows of unfired jars drying on boards in the wind. Women coil the walls of a pot by hand and a man finishes the rim on a slow turntable. Heaps of broken sherds lie everywhere underfoot, sharp and ringing.",
+     "do": ["act:buy_at_source", "act:commission", "act:sample", "act:fund_work", "person:gipeswic.tilbeorht", "card:harbour.top_of_the_kiln.gipeswic"],
+     "source": "Kilns at Cox Lane (dug 1958), sherds along 160 m of Carr Street; single kilns at the Buttermarket (c. 800-850) and Stoke Quay; Thetford-ware kilns from c. 850 (Suffolk Heritage Explorer; en.wikipedia Ipswich ware)."
+    },
+    {
+     "id": "gipeswic.street", "kind": "workshop", "name": "The street of yards", "from": 0, "to": 0,
+     "see": "A gravelled street with a row of timber houses hard on its edge, each with a fenced yard behind: a loom under a lean-to, a bench strewn with antler offcuts, a horn-worker boiling horn in a stinking pot. In one yard a well is lined with the staves of a great wine cask, dark with age. Shuttles, a rasp on bone, children.",
+     "do": ["act:buy_tools", "act:commission", "act:provision", "act:buy_plot", "act:riddles", "card:harbour.horn_workers_leaf.gipeswic"],
+     "source": "St Stephen's Lane, dug 1987-88: two metalled roads, houses on the street, weaving, bone, antler and metal work, antler brooch moulds, basketry. 87 shallow wells are known, many lined with old wine casks; one cask's oak matches the Mainz area (Suffolk Heritage Explorer; Excavation Archive). The horn-worker is riddles_793.json's."
+    },
+    {
+     "id": "gipeswic.st_peters", "kind": "church", "name": "Saint Peter's by the ford", "from": 0, "to": 0,
+     "see": "A timber church with a shingled roof on the rise above the ford, a wooden cross before its door and a fenced graveyard where the dead lie east and west with nothing beside them. Inside it is dark and smells of beeswax; one small window faces the river. A bell of beaten iron is struck by hand for the hours.",
+     "do": ["act:hear_mass", "act:alms", "act:vow", "act:sanctuary", "act:bury", "act:remember", "act:read_text", "person:gipeswic.hereberht", "card:harbour.priest_by_the_ford.gipeswic"],
+     "source": "St Peter's by the ford 'has been suggested as the Minster'; nothing has been found by digging before the 11th century (?). Christian graveyards of the 8th-9th century at Elm Street and Philip Road, without grave goods (Suffolk Heritage Explorer)."
+    },
+    {
+     "id": "gipeswic.thingstead", "kind": "thing", "name": "The Thingstead", "from": 0, "to": 0,
+     "see": "A green outside the north end of the town, grazed short, with a single old thorn and a ring of trodden ground where men stand to hear a case. On a moot day the reeve sits on a bench carried out for him and the oath-helpers stand in rows behind each party. Rooks, wind in the thorn, and long silences between speeches.",
+     "do": ["act:hear_law", "act:lawsuit", "act:witness", "act:oath", "card:harbour.forty_crates.gipeswic"],
+     "source": "Thingstead, the green by the north gate, a meeting place by its name (Alsford, Medieval Ipswich); the name is Norse in form and may be of the Danish years (?). The folk-moot under the king's reeve: Design/content/peoples/english.md."
+    },
+    {
+     "id": "gipeswic.ale_house", "kind": "tavern", "name": "Eadwynn's ale-house", "from": 0, "to": 0,
+     "see": "A long low house two yards back from the bank, with a bush on a pole over the door and a row of straw bee skeps under the south eave. Inside, a hearth in the middle, benches down both walls, a Frisian crew at one end and potters with clay to the elbow at the other. Smoke, malt, wet wool, and somebody always in the middle of a story.",
+     "do": ["act:drink", "act:rumours", "act:lodge", "act:dice", "act:tafl", "act:riddles", "act:hire_crew", "act:ask_news", "person:gipeswic.eadwynn", "card:harbour.eadwynns_bench.gipeswic", "card:harbour.steersman_by_the_fire.gipeswic"],
+     "source": "Invented (?). Foreign traders probably lived in the town, to judge by their pots (Suffolk Heritage Explorer); honey was part of the borough's dues before 1066 (Domesday). Tafl and the boasting game here: story/town_games_793.json."
+    },
+    {
+     "id": "gipeswic.mint", "kind": "mint", "name": "The moneyer's bench", "from": 0, "to": 0,
+     "see": "A small strong house with a barred shutter, near the Cornhill. A man sits astride a block with a die set in it, lays a blank, sets the upper die and strikes once; a boy sweeps the floor for clippings every evening. A folding balance hangs from a peg. The sound carries down the street: one blow, a pause, one blow.",
+     "do": ["act:change_coin", "act:test_silver", "act:weigh_silver", "act:audience", "person:gipeswic.lul", "person:gipeswic.leofsige", "card:harbour.wolf_pennies.gipeswic", "card:harbour.dies_and_the_boy.gipeswic"],
+     "source": "Pennies signed GIPES from c. 973; the mint's site is unknown. Before that, that East Anglian pennies were struck at Ipswich is only 'possible' (?): the game puts the bench here (dossier section 8; en.wikipedia; Hildebrand 1881). Fragments of bronze balances, Foundation Street."
+    },
+    {
+     "id": "gipeswic.yard", "kind": "shipyard", "name": "The boat bank at Stoke", "from": 0, "to": 0,
+     "see": "Across the ford, a strip of hard ground above the tide line with one hull in frame on blocks and an old coaster hauled out beside her, her garboards off. Oak logs lie split into wedges; a man trims a plank with a broad axe while a boy heats tar. Chips, the knock of a mallet on a rove, the sweet smell of oak.",
+     "do": ["act:repair", "act:careen", "act:build_ship", "act:buy_ship", "act:fit_upgrade", "act:buy_tools"],
+     "source": "The yard is the game's (?): the waterfront digs are unpublished and no slip is known. Stoke was built on from c. 720 and had a hythe by 970 (Sawyer 781). Ships that can be had here: story/ships_793.json."
+    },
+    {
+     "id": "gipeswic.estuary", "kind": "fishery", "name": "The Orwell flats", "from": 0, "to": 0,
+     "see": "Below the town the river widens between wooded banks into a great breadth of shining mud and salt marsh, cut by one winding channel marked with withies. Fish weirs of stakes and wattle stand in the shallows, and a fowler's punt lies in a creek with nets drying over it. In winter the sky is full of geese; in herring time, of gulls.",
+     "do": ["act:buy_at_source", "act:provision", "act:hire_pilot", "act:wait_wind", "act:ask_omen", "person:gipeswic.wigmund", "card:harbour.fowlers_swan.gipeswic"],
+     "source": "The Orwell: some 18 km (?) of estuary, wooded sides, salt marsh, flats that dry at low water, springs of about 3.6 m (en.wikipedia River Orwell; Research/water_levels). Herring August to October (Design/research_trade_seasons_and_hints.md). The fowler is riddles_793.json's."
+    },
+    {
+     "id": "gipeswic.north_gate", "kind": "gate", "name": "The north gate and the bank", "from": 905, "to": 0,
+     "see": "A bank of gravel and turf taller than a man, with a ditch before it five paces wide, running round the whole town; a timber gate with a walk over it lets the north road through to the Thingstead. Streets that once ran straight on now stop dead at the bank's foot. A watchman, carts waiting, and the smell of the ditch in summer.",
+     "do": ["act:pay_toll", "act:ask_news", "act:witness", "act:fund_work"],
+     "source": "Bank and ditch first raised c. 900-917: at Shire Hall Yard at least 5 m wide and 2 m deep; streets closed; gates west, north and east (Suffolk Heritage Explorer; Excavation Archive). No buying outside a port, and the port-reeve as witness: I Edward 1."
+    }
+   ],
+   "people": [
+    {
+     "id": "gipeswic.eadstan", "name": "Eadstan", "historical": false, "role": "reeve", "people": "english", "faith": "christian",
+     "born": 748, "died": 812, "from": 793, "to": 812,
+     "trait": "The king's reeve at the crossing, whichever king that is this year: patient, exact, and privately on the side of the town.",
+     "want": "The Frisian keels to keep coming, whoever sits over the East Angles; and to die in the office he was given by a king who is dead.",
+     "fear": "A Mercian sent from Tamworth to do his work properly.",
+     "voice": "Slow, flat East Anglian. Says 'the king' and lets you work out which. Counts aloud.",
+     "looks": "About forty-five, broad and short, sandy hair going grey, a clipped beard; a knee-length russet tunic, a cloak pinned at the right shoulder with a plain bronze disc, a bundle of notched tally sticks at his belt.",
+     "knows": [
+      "what is owed at the crossing, and what he will take in its place",
+      "which keels are on the bank, whose they are and when they came",
+      "what Offa's word is on Frankish ships, and how far from Tamworth this river is",
+      "who witnessed what sale on the Cornhill for the last ten years"
+     ],
+     "ties": [
+      { "to": "gipeswic.lul", "tie": "friend", "note": "they served the same dead king, and have agreed not to speak of it in front of Mercians" },
+      { "to": "gipeswic.eadwynn", "tie": "kin", "note": "his sister's daughter; he drinks at her house and hears there what he needs to know" },
+      { "to": "gipeswic.tilbeorht", "tie": "owes", "note": "the potters pay their due in pots and he is two seasons behind in counting them" },
+      { "to": "cast.wighelm", "tie": "rival", "note": "the wic-reeve on the Strand sends him the king's word and asks, each time, why Gipeswic's tallies come late" },
+      { "to": "dommoc.aelfhun", "tie": "serves", "note": "the bishop at Dommoc has the king's ear in this kingdom, and a reeve who forgets it is reminded (?)" },
+      { "to": "cast.thiadbod", "tie": "friend", "note": "the Dorestad skipper brings him a gift every spring and has never once been asked what is under his wool" },
+      { "to": "dorestad.tollman", "tie": "friend", "note": "they have never met; they send each other the names of men who do not pay" },
+      { "to": "dommoc.wigferth", "tie": "rival", "note": "a young Mercian set on the bishop's strand at Dommoc to do there what Eadstan fears will one day be done at the ford (?)" }
+     ],
+     "lines": {
+      "greet": "A Dorestad boat. Good. Stand there while I count what comes off her. It is not that I doubt you. It is that I count.",
+      "greet_again": "I know the boat and I know the man. Tell me what is under the sailcloth and we will both be home sooner.",
+      "greet_friend": "Come up out of the mud. I have notched you already; I did it when I saw your sail at the bend.",
+      "rumour": [
+       "The king wants no Frankish hulls on English ground. He said it at Tamworth. Things said at Tamworth arrive here quite tired.",
+       "Three kings since I took the sticks. The river has not asked me the name of one of them.",
+       "The Mercians count four pence to the shilling. I have told them a pot costs what it costs.",
+       "A keel in from Lundenwic says the wic-reeve there turns Frisians away with tears in his eyes and his hand out."
+      ],
+      "saying": "A reeve is a post in the river. The water goes round him and he calls it obedience.",
+      "farewell": "Go on the top of the flood, not before. And greet the toll man at Dorestad; tell him the man with the red keel still owes."
+     },
+     "source": "Invented. A wic-reeve at Gipeswic is inference from London (laws of Hlothhere and Eadric c. 16); no reeve of 793 is named (dossier section 8)."
+    },
+    {
+     "id": "gipeswic.lul", "name": "Lul", "historical": true, "role": "moneyer", "people": "english", "faith": "christian",
+     "born": 755, "died": 808, "from": 793, "to": 808,
+     "trait": "A moneyer who has put three kings' names on the same silver; neat-handed, close-mouthed, vain of his dies.",
+     "want": "One of the wolf pennies kept somewhere a Mercian will never melt it.",
+     "fear": "Being remembered as the man who struck REX for a king Offa then beheaded.",
+     "voice": "Quiet, precise, weighs every word as he weighs a blank. Never names the dead king.",
+     "looks": "Near forty, thin, long-fingered, dark hair tied back, a scorch mark on one cheek; a leather apron over a good blue tunic, a folding balance in a case at his belt, a silver ring.",
+     "knows": [
+      "what a foreign penny loses in his pot, and why Offa's new one is heavier",
+      "which pennies on the Cornhill are light, and whose hands they came from",
+      "the she-wolf and the twins: where the picture came from, and who asked for it",
+      "what the Franks did to their own coin this winter, as a Frisian told it"
+     ],
+     "ties": [
+      { "to": "gipeswic.eadstan", "tie": "friend", "note": "the reeve looks away from the bench when he ought to look at it" },
+      { "to": "gipeswic.hereberht", "tie": "friend", "note": "gives the priest the floor sweepings for the poor, and one whole penny on the twentieth of May" },
+      { "to": "dorestad.sigimar", "tie": "rival", "note": "says the Dorestad moneyer's pot takes a tenth and calls it the king's; has never met him" },
+      { "to": "cast.sigimar", "tie": "rival", "note": "the same man: each thinks the other's coin a little base" },
+      { "to": "cast.wighelm", "tie": "serves", "note": "after 794 the king's dies come down from Lundenwic, by the wic-reeve's hand (?)" },
+      { "to": "quentovic.gerwin", "tie": "friend", "note": "a Frankish moneyer who sent him, by a pilgrim, a penny of the new weight to hold" },
+      { "to": "dommoc.aelfhun", "tie": "friend", "note": "the old bishop, to whom he sent one of the dead king's pennies by a pot seller, wrapped in a rag (?)" },
+      { "to": "dommoc.lull", "tie": "rival", "note": "the abbot of the same name, who gets the moneyer's bills and sends them on with riddles written on the back (?)" },
+      { "to": "lundenwic.moneyer", "tie": "friend", "note": "Ibba on the Strand: a moneyer changes his die, not his trade, and each knows the other's hand on a penny" },
+      { "to": "fordwic.eoba", "tie": "friend", "note": "the Canterbury moneyer who struck for the queen: they have agreed, by letter, that kings are customers (?)" }
+     ],
+     "lines": {
+      "greet": "Frankish silver? Put it on the pan. It is good silver. It is the wrong king. I will make it the right one, for my share.",
+      "greet_again": "You again, and deniers again. They breed in your purse. Sit; the pot is hot.",
+      "greet_friend": "For you, the weight and nothing over. Do not say so on the Cornhill.",
+      "rumour": [
+       "Offa's new penny is heavier. A king who adds silver to his coin wants something. I have not yet learned what.",
+       "The Franks have made their penny heavier too, this winter. Two great kings, one thought. It is seldom their own.",
+       "A wolf feeding two boys. It was on an old coin a pilgrim carried. Somebody thought it would look well. It did.",
+       "They say a moneyer in Lundenwic has a gold piece with marks no priest can read. He copied it and does not know what he wrote."
+      ],
+      "saying": "A penny has two faces and says the same thing with both. I have met men less honest.",
+      "farewell": "Count them again outside, in the light. I would."
+     },
+     "source": "Lul, moneyer for Æthelberht, Offa and Coenwulf in East Anglia (en.wikipedia Æthelberht II of East Anglia, after the coins). That he worked at Gipeswic is only possible (?); his dates, face and words are the game's."
+    },
+    {
+     "id": "gipeswic.tilbeorht", "name": "Tilbeorht", "historical": false, "role": "craftsman", "people": "english", "faith": "christian",
+     "born": 760, "died": 828, "from": 793, "to": 828,
+     "trait": "Master of two kilns and his mother's sharp tongue; proud that half a kingdom boils its beans in his pots.",
+     "want": "His jars on a bishop's table and not only on a ploughman's hearth; and a son who will stay at the kiln.",
+     "fear": "A wet summer, a cracked firing, and the smooth Rhenish pots the Frisians bring.",
+     "voice": "Loud, cheerful, hands always moving. Prices everything by the crate and swears by Saint Botolph.",
+     "looks": "About thirty-three, wiry, clay to the elbows and in his red hair, burn scars on both forearms; an undyed tunic with the sleeves cut off, a string of pierced sherds he uses for counting.",
+     "knows": [
+      "which crate is sound and which will weep at the first boiling",
+      "who buys pots: the minsters, the reeves' estates, the keels for Lundenwic and the Humber",
+      "what a Rhenish pitcher fetches at a lord's table, and how it is made, nearly",
+      "when the kilns are opened, to the day"
+     ],
+     "ties": [
+      { "to": "gipeswic.eadstan", "tie": "owes", "note": "the reeve's due in pots, always paid from the back of the stack" },
+      { "to": "gipeswic.eadwynn", "tie": "loves", "note": "has asked her twice; she says she will not marry clay" },
+      { "to": "gipeswic.wigmund", "tie": "friend", "note": "the fowler brings him the news of the estuary and takes his cracked pots for eel traps" },
+      { "to": "dorestad.thiadbod", "tie": "rival", "note": "the Dorestad skipper sells Rhenish pitchers on the Cornhill and tells buyers the local ware is for pigs" },
+      { "to": "dommoc.aelfhun", "tie": "serves", "note": "sends a crate to the bishop's house at Dommoc each Michaelmas, and hopes to be asked for a pitcher (?)" },
+      { "to": "lundenwic.wighelm", "tie": "owes", "note": "a toll on forty crates landed on the Strand last year, which he says was paid (?)" },
+      { "to": "dommoc.wulfgyth", "tie": "rival", "note": "the rope-maker at Dommoc takes his pots for her cord and calls them ugly; the shipmaster who owes her is his neighbour (?)" },
+      { "to": "lundenwic.hunfrith", "tie": "friend", "note": "the comb-maker on the Strand gets his crates packed in straw and, when the potter remembers, an antler or two (?)" }
+     ],
+     "lines": {
+      "greet": "Pots? You want pots. Everyone wants pots and nobody says so. Knock on that one. Hear it? That is a sound pot.",
+      "greet_again": "The pot man's friend! I kept the top of the last firing for you. The bottom went to the reeve.",
+      "greet_friend": "Come and see the new pitcher. Do not laugh. The spout is still thinking about it.",
+      "rumour": [
+       "My grandfather's master came over the water, or he did not. Ask three potters and you will hear four grandfathers.",
+       "The Frisian says his pots are turned on a fast wheel. So is a drunkard. I build mine to stand.",
+       "They opened the kiln by the Cornhill too soon. You could hear it across the river, like ice going.",
+       "Eadwynn says she will not marry clay. I told her everyone does, in the end. She threw a cup. One of mine. It bounced."
+      ],
+      "saying": "A pot is honest. It tells you at once when it is cracked. Find me a man who does.",
+      "farewell": "Straw between every one, and nothing on top. If they break at sea, that is the sea. If they break on the bank, that is you."
+     },
+     "source": "Invented. Ipswich ware, c. 720-850: coil-built, finished on a turntable, kiln-fired, on Frisian models; whether the first potters were Frisians or copied Frisian pots is not known (dossier section 8)."
+    },
+    {
+     "id": "gipeswic.eadwynn", "name": "Eadwynn", "historical": false, "role": "alewife", "people": "english", "faith": "christian",
+     "born": 765, "died": 822, "from": 793, "to": 822,
+     "trait": "Keeps the ale-house by the bank and twelve skeps of bees; forgets no face, no debt and no story, and repeats only the last.",
+     "want": "The house and the bees left to a daughter, not to a husband; and Frisian crews on her benches every summer.",
+     "fear": "A summer with no keels. She has had one.",
+     "voice": "Quick, warm, a little mocking. Asks after your crew by name and remembers what you drank.",
+     "looks": "Twenty-eight, tall, brown hair under a linen head-cloth, sleeves rolled; a green gown with a woven belt, a ring of keys, a horn dipper, and a bee sting or two on her hands.",
+     "knows": [
+      "which crew is in, which is short a man, and who was paid off angry",
+      "what every skipper said last night about prices at Dorestad and Lundenwic",
+      "bees, honey, mead, and the riddle that goes with them",
+      "her uncle the reeve's mind before he knows it himself"
+     ],
+     "ties": [
+      { "to": "gipeswic.eadstan", "tie": "kin", "note": "her mother's brother; she tells him what he needs to hear and not all she knows" },
+      { "to": "gipeswic.tilbeorht", "tie": "friend", "note": "buys every cup from him and refuses him twice a year" },
+      { "to": "gipeswic.hereberht", "tie": "friend", "note": "gives the church its wax; he pretends not to know she opens on fast days" },
+      { "to": "dorestad.aldswith", "tie": "friend", "note": "the alewife at Dorestad; they trade recipes and warnings about skippers by every keel" },
+      { "to": "walichrum.wiltrud", "tie": "rival", "note": "Frisian crews say the Walcheren ale is stronger. She says it would need to be." },
+      { "to": "cast.crew.aldger", "tie": "friend", "note": "he sat on her bench as a young steersman and once mended her roof in a gale" },
+      { "to": "quentovic.leofstan", "tie": "owes", "note": "an English skipper out of Quentovic who left a cask of wine in pledge and has not come back for it" },
+      { "to": "dommoc.tidswith", "tie": "kin", "note": "her cousin on her mother's side, who keeps the ale-house on the cliff at Dommoc; news goes between them with the pot sellers (?)" },
+      { "to": "gipeswic.wigmund", "tie": "friend", "note": "the fowler pays his ale in duck and tells her which keels are in the river before they reach the bank" }
+     ],
+     "lines": {
+      "greet": "A new face off a Frisian boat. Sit where I can see you. The first cup is a penny and the second tells me who you are.",
+      "greet_again": "You are back, and thinner. Your bench is free. Your man with the laugh, is he still with you?",
+      "greet_friend": "I heard your keel on the hurdles and put a cup by the fire. Sit. Tell me Dorestad.",
+      "rumour": [
+       "A skipper from the Humber says the north is afraid of its own sea this year. He drank like a man who had looked at it.",
+       "My uncle counted the same boat three times yesterday. Something has come from Tamworth that he does not like.",
+       "The potters fire tomorrow. Buy your crates the day after, when they are sober and sorry.",
+       "My bees swarmed onto the priest's cross at Rogationtide. He blessed them. They stung him. He blessed them again, shorter."
+      ],
+      "riddle": "I am bound and beaten and drowned, and then I throw old men on their backs. My bees will tell you, if you will not guess.",
+      "saying": "Ale tells the truth and mead tells it louder. Wine I cannot afford to hear.",
+      "farewell": "Go safe. Come back owing me nothing, or come back owing me a story."
+     },
+     "source": "Invented. The mead riddle is Exeter Book riddle 27 (riddles_793.json riddle_exeter_27_mead, given here by a beekeeper); honey in the borough's dues, Domesday."
+    },
+    {
+     "id": "gipeswic.wigmund", "name": "Wigmund", "historical": false, "role": "fowler", "people": "english", "faith": "christian",
+     "born": 752, "died": 818, "from": 793, "to": 818,
+     "trait": "Fowler in winter, pilot in summer: knows every creek of the Orwell and Stour and tells you so at length.",
+     "want": "A boy to learn the withies from him; his own sons went to the kilns.",
+     "fear": "Fog on the flats with the tide making, and the thing he says walks at Shotley.",
+     "voice": "Unhurried, sideways, full of birds. Answers a question with what the geese did that morning.",
+     "looks": "Forty, lean and weathered, pale eyes, a grey felt cap; a mud-coloured cloak, bare legs to the knee, a long setting pole and a net bag with two dead duck in it.",
+     "knows": [
+      "the channel from Shotley point to the hurdle bank at every state of the tide",
+      "where the old stone fort stands on the cliff at the mouth, and how much of the cliff went last winter",
+      "when the herring come in and the swans go over",
+      "weather, from the birds, a day ahead"
+     ],
+     "ties": [
+      { "to": "gipeswic.tilbeorht", "tie": "friend", "note": "sells him duck and takes cracked pots; his two sons work the potter's kilns" },
+      { "to": "gipeswic.eadwynn", "tie": "friend", "note": "pays his ale in wildfowl and tells her which keels are in the river before they reach the bank" },
+      { "to": "cast.gerlef", "tie": "friend", "note": "the Maas pilot once lay windbound here a week; they compared marks and each thought the other's river a ditch" },
+      { "to": "witla.gerlef", "tie": "friend", "note": "the same man: he still asks every Frisian whether the old liar at Witla can see yet" },
+      { "to": "dommoc.hunberht", "tie": "kin", "note": "the pilot of the Dommoc haven is his cousin through their mothers, and says the herring come to him first; they hand ships on to each other along the coast (?)" },
+      { "to": "cast.crew.beornwine", "tie": "taught", "note": "showed the Northumbrian lookout how to tell a goose skein from a sail at the edge of sight" }
+     ],
+     "lines": {
+      "greet": "You came up on the flood without me and touched twice. I heard it from the creek. Next time, a penny, and you touch nothing.",
+      "greet_again": "The channel has shifted by the second withy since you were here. I moved the withy. Nobody else would.",
+      "greet_friend": "I saw your sail from the point and came up ahead of you. Follow the punt. Mind the birds, they know.",
+      "rumour": [
+       "The geese came in a week early and flying low. Hard weather behind them, out of the north-east.",
+       "The old fort at the mouth lost another piece of cliff this winter. Giants built it. The sea is patient with giants.",
+       "The herring are off the point. The gulls told me yesterday, and the gulls do not drink at Eadwynn's.",
+       "I do not land at Shotley after dark. I do not say why. My father did not say why either."
+      ],
+      "riddle": "My dress is silent when I walk the ground, and sings when the air lifts me over houses. I pass here every winter. Name me.",
+      "saying": "The tide is the one lord here who comes twice a day and takes nothing with him.",
+      "farewell": "Go down on the first of the ebb, keep the withies to your steering side, and do not look at Shotley."
+     },
+     "source": "Invented. The swan riddle is Exeter Book riddle 7 (riddles_793.json riddle_exeter_07_swan, given by a fowler of the estuary). Walton's Roman shore fort on its cliff, since lost to the sea: en.wikipedia Walton Castle, Suffolk."
+    },
+    {
+     "id": "gipeswic.hereberht", "name": "Hereberht", "historical": false, "role": "priest", "people": "english", "faith": "christian",
+     "born": 750, "died": 816, "from": 793, "to": 816,
+     "trait": "Mass-priest of the church by the ford, sent from the bishop's house at Dommoc; a gentle man who buries more than he baptises.",
+     "want": "A chapel for the dead king, and a book of his own: he has one gospel and half a psalter.",
+     "fear": "That the old barrows under the street were not all heathen, and he walks on Christians every day.",
+     "voice": "Soft, careful, a learned man's English. Dates everything by a feast. Sighs before bad news.",
+     "looks": "Forty-three, slight, tonsured, ink on his right thumb; a long undyed tunic and a brown cloak, a small wooden cross on a cord, a wax tablet in his sleeve.",
+     "knows": [
+      "the feasts: Botolph, Mildred, Felix, and the day the king was killed",
+      "who is sick, who is dead, who is newly poor",
+      "what the bishop at Dommoc thinks of Offa, in so far as a priest may say",
+      "Latin enough to read a letter aloud and tell you what it does not say"
+     ],
+     "ties": [
+      { "to": "dommoc.aelfhun", "tie": "serves", "note": "his bishop until 798; he walks to Dommoc twice a year and comes back with instructions and a cold (?)" },
+      { "to": "dommoc.tidfrith", "tie": "serves", "note": "his bishop after 798 (?)" },
+      { "to": "gipeswic.lul", "tie": "friend", "note": "the moneyer's alms come in clippings, which he does not ask about" },
+      { "to": "gipeswic.eadwynn", "tie": "friend", "note": "her bees light his altar; he has been stung at the Rogation blessing three years running" },
+      { "to": "cast.sigewine", "tie": "friend", "note": "the monk who carries Alcuin's letters stopped a night and left him a quire of Bede, unfinished, with a promise" },
+      { "to": "cast.aethelheard", "tie": "serves", "note": "at two removes: the archbishop is Offa's man, and so, he supposes, is he" }
+     ],
+     "lines": {
+      "greet": "God keep you, shipman. Mass is at the third hour. If you have come for the reeve, he is at the ford; if for God, come in.",
+      "greet_again": "You came back safe. I said your name at the altar on Saint Botolph's day. It seems to have been heard.",
+      "greet_friend": "Sit a moment. I have a letter I cannot answer and nobody here to read it to.",
+      "rumour": [
+       "They say the heathen have killed priests at the altar in the north. I have asked the bishop what we are to do. He has not answered.",
+       "There are barrows under the Cornhill street. My grandfather saw them levelled. I say a prayer when I cross it, to be safe.",
+       "A light was seen where the king's body lay, they say. I was not there. I have learned not to say what I think of kings.",
+       "The bishop's reeve wants church-scot in grain this Martinmas, not in pots. Tell the potters gently."
+      ],
+      "saying": "Felix came to this shore from over the sea with one book. A merchant with a full hold has less excuse.",
+      "farewell": "Go with God, and bring me word of any book you see for sale. Only word. I cannot afford more."
+     },
+     "source": "Invented. No priest of 793 is named and no church is proven (dossier section 8). Bishops of Dommoc: Ælfhun died at Sudbury in 798 and was buried at Dommoc, and Tidfrith was chosen after him (Anglo-Saxon Chronicle 798)."
+    },
+    {
+     "id": "gipeswic.toki", "name": "Toki", "historical": false, "role": "merchant", "people": "danish", "faith": "christian",
+     "born": 852, "died": 912, "from": 880, "to": 912,
+     "trait": "Came with Guthrum's army as a boy holding horses, took land at the sharing, and found he liked a scale better than a plough.",
+     "want": "To be taken for a townsman by the English and for a Dane by the Danes, and paid by both.",
+     "fear": "The day the English king's reeve comes and asks what he did in the year 869.",
+     "voice": "Says less than he means. English with the endings worn off. Counts in ora and marks.",
+     "looks": "Past thirty, heavy-shouldered, fair hair combed and a plaited beard; a red tunic with a tablet-woven hem, a silver arm-ring nicked along one edge, a folding scale in a lime-wood box.",
+     "knows": [
+      "silver by weight: the nick, the bend, what a cut piece is worth against a penny",
+      "who in the Danish land buys wine and who only says so",
+      "horses, and where the army got them in the first winter",
+      "why the pennies carry the name of a king his own lord killed"
+     ],
+     "ties": [
+      { "to": "cast.ohthere", "tie": "friend", "note": "bought walrus-hide rope from the Northman on the Strand, and was told the truth about its length" },
+      { "to": "cast.wulfstan", "tie": "friend", "note": "sailed one summer in his ship and learned the Este drink mare's milk; has dined on the story since" },
+      { "to": "lundenwic.reeve", "tie": "owes", "note": "a hostage's surety from the year he first crossed the line to trade in Alfred's London (?)" },
+      { "to": "eoforwic.moneyer", "tie": "friend", "note": "a Frank who strikes for the Danish kings at York and takes his clipped silver without comment (?)" },
+      { "to": "dommoc.fisherman", "tie": "rival", "note": "Hunwine and his people at Dommoc, an English family who say his farm was theirs. It was. (?)" },
+      { "to": "eoforwic.archbishop", "tie": "friend", "note": "the old archbishop at York, who stayed among the Danes: Toki sends him wax and is sent a blessing he did not ask for (?)" }
+     ],
+     "lines": {
+      "greet": "A Frisian. Good. Put your pennies away and put your silver on the scale. Here we believe the pan, not the face.",
+      "greet_again": "The man with honest weights. There are two of us in this town now.",
+      "greet_friend": "Sit. I have ale, and a horse I want your opinion of. Not for sale. For opinion.",
+      "rumour": [
+       "The king on the penny is the one we killed. It was thought wiser. A dead king asks very little.",
+       "They are digging a ditch round the town. Against whom, I asked. They looked at me a while.",
+       "My father said we were given horses here in the first winter. Given. He always smiled at that word.",
+       "The English say no trading on a Sunday or you lose the goods. I have found Monday will do."
+      ],
+      "saying": "A coin tells you who the king is. A scale tells you what you have.",
+      "farewell": "Go well. If the English ask, I was a child. If the Danes ask, I was there."
+     },
+     "source": "Invented. Guthrum's settlement 879-880; Scandinavian combs, iron smelting and sunken houses in the town 880-920; the St Edmund pennies struck after 890 (dossier sections 4-6). Sunday marketing: Laws of Edward and Guthrum 7 (Thorpe 1840)."
+    },
+    {
+     "id": "gipeswic.leofsige", "name": "Leofsige", "historical": true, "role": "moneyer", "people": "english", "faith": "christian",
+     "born": 962, "died": 1018, "from": 991, "to": 1018,
+     "trait": "A moneyer of King Æthelred who has struck more silver for Danes than for Englishmen; dry, tired, exact.",
+     "want": "His dies, his son and his hands, in that order, kept out of the next fleet's way.",
+     "fear": "The sail count. He was here in the year of the ninety-three.",
+     "voice": "Short sentences, no hurry, a townsman's irony. Says 'the gafol' as other men say 'the weather'.",
+     "looks": "About thirty, stooped from the block, cropped brown hair, a smith's forearms; a dark tunic of good cloth gone shiny at the knees, a bunch of die-keys, a small silver cross.",
+     "knows": [
+      "what the last tribute was and what the town's share of it weighed",
+      "that the old pennies must come to him when the king changes the type, and what he gives for them",
+      "which houses buried silver in 991 and never dug it up",
+      "what Earl Thorkell is like across a table, from 1017"
+     ],
+     "ties": [
+      { "to": "cast.thorkell", "tie": "serves", "note": "burned out by his army in 1010; from 1017 pays him the earl's share of the mint and is asked, civilly, to dine" },
+      { "to": "cast.cnut", "tie": "serves", "note": "strikes the new king's face from 1017 with the same hand that struck the old one's (?)" },
+      { "to": "lundenwic.eadwold", "tie": "friend", "note": "the dies are cut in London and sent down by keel; he complains of them to the moneyer there by every master who will carry a message (?)" },
+      { "to": "dommoc.herringman", "tie": "kin", "note": "Hunstan, a herring-master of Dommoc: his wife's brother, who took the children in when the ships came (?)" },
+      { "to": "sarre.reeve", "tie": "friend", "note": "a Kentish reeve who paid East Kent's three thousand pounds to the same army and writes to compare losses (?)" },
+      { "to": "lundenwic.brihtwold", "tie": "friend", "note": "the tollman at Billingsgate, who gets his word of fleets along with his complaints about the dies" }
+     ],
+     "lines": {
+      "greet": "Foreign silver goes in the pot and comes out the king's. That is the law since Edgar. Sit down, it is not quick.",
+      "greet_again": "Still alive, both of us. In this town that is news.",
+      "greet_friend": "I will change yours at the weight. The king can spare it; he has spared so much else.",
+      "rumour": [
+       "Ten thousand pounds the first time. I struck some of it. A penny looks the same going to a Dane as to a baker.",
+       "They went up past the bank after Easter and straight inland. Ulfcytel stood. Others did not. That is all I will say of Ringmere.",
+       "The sea came in on Michaelmas eve, over the hythe and into the street. After the Danes, we said, even the water.",
+       "The tall earl paid for his ale. In silver I had struck, to pay him to go away. I gave him change."
+      ],
+      "saying": "We pay them with spears, said the ealdorman at Maldon. We have paid them with pennies ever since. Pennies are easier to count.",
+      "farewell": "Go by daylight and look seaward at the point. If you count more than ten sails, do not come back to tell me."
+     },
+     "source": "Leofsige signs pennies of Æthelred II at GIPES (Hildebrand, Anglosachsiska mynt, 1881; read from a rough scan (?)). His years, face and words are the game's. The ealdorman's answer: The Battle of Maldon (texts_793.json maldon_991)."
+    }
+   ],
+   "stories": [
+    {
+     "id": "gipeswic.wolf_pennies", "title": "The wolf pennies", "thread": "silver_road",
+     "summary": "The moneyer Lul struck a penny for King Æthelberht with a she-wolf feeding twins and the word REX. In 794 Offa has the king's head off and wants every such penny in the pot; Lul has kept a handful back and needs them carried where no Mercian will melt them.",
+     "picture": "A thin moneyer holding a single small silver coin up to the light of a barred shutter, a she-wolf and two infants just visible on it, his other hand flat over a leather purse on the block.",
+     "beats": [
+      { "at": "gipeswic.mint", "when": "year < 795", "text": "Lul changes your deniers at a loss and tells you why Offa's penny grew heavier. If he likes you he shows the wolf penny, once, and puts it away.", "card": "harbour.wolf_pennies.gipeswic" },
+      { "at": "gipeswic.ford", "when": "year = 794 and month >= 6", "text": "Word comes that the king is dead at Offa's court. Eadstan reads out that the dead king's coin is to be brought in. He reads it slowly and looks at nobody.", "card": "" },
+      { "at": "gipeswic.mint", "when": "year >= 794 and year < 797", "text": "Lul gives you a purse of twelve wolf pennies. He asks that they go over the sea: to a pilgrim bound for Rome, or to any moneyer who will keep one and not strike over it.", "card": "harbour.wolf_pennies.gipeswic" },
+      { "at": "dorestad.mint", "when": "year >= 794 and year < 798", "text": "Sigimar will weigh them, admire the wolf, and offer their silver less his share. He will keep one unmelted if you ask him as a favour, and count it a debt.", "card": "" },
+      { "at": "dommoc.church", "when": "year >= 794 and year < 798", "text": "The old bishop at Dommoc wants one of the dead king's pennies to lay by his altar on the twentieth of May, and may not ask for it aloud. One from the purse, put into his hand out among the graves, is one that no Mercian will melt.", "card": "harbour.wine_for_the_altar.dommoc" },
+      { "at": "dofras.beach", "when": "year >= 794 and year < 798", "text": "Pilgrims wait for a ship to Quentovic. One, a priest of the East Angles, weeps when he sees the coin and swears to lay one at Saint Peter's.", "card": "harbour.priest_for_rome.dofras" },
+      { "at": "lundenwic.strand_hard", "when": "year >= 794 and year < 797", "text": "The wic-reeve Wighelm asks every skipper from the Orwell whether old East Anglian coin still passes there. A true answer has a price, and so has a false one.", "card": "" }
+     ],
+     "links": ["gipeswic.lul", "gipeswic.eadstan", "cast.sigimar", "cast.wighelm", "quentovic.gerwin", "dommoc.aelfhun", "dommoc.wigferth", "dofras", "dommoc", "lundenwic"],
+     "endings": [
+      { "id": "to_rome", "how": "You gave the purse to the pilgrim priest at Dofras and took nothing for it.", "text": "One penny reaches Rome in a pilgrim's hem and is lost there, and lies in the ground eleven hundred years. Lul never learns it. He changes your silver at the weight until he dies.", "reward": "Lul a fast friend: act:change_coin at Gipeswic costs nothing while he lives; the deed carried_letters; the priest Hereberht says your name on 20 May" },
+      { "id": "melted", "how": "You sold them to Sigimar at Dorestad by weight.", "text": "They go into the pot with everything else and come out as Charles's pennies. Sigimar keeps one, because you asked, and shows it to nobody.", "reward": "About 14 d of silver; flag sv_moneyer_trusts at Dorestad; Lul hears in a year and is cool to you afterwards" },
+      { "id": "told", "how": "You told Wighelm at Lundenwic who had kept them back.", "text": "Lul's dies are taken to Lundenwic and another man strikes for Offa at the bench. Eadstan witnesses your sales as the law requires and never again asks after your crew.", "reward": "Wighelm's favour and a lighter toll on the Strand for a year; the reeve and the alewife at Gipeswic wary; the deed fair_dealing is not given" },
+      { "id": "kept_one", "how": "You carried eleven away and kept the twelfth in your own chest.", "text": "It goes down through the house with the chest, father to child, with the story half remembered: a king, a wolf, a man who would not say a name.", "reward": "An heirloom in the chest that a later moneyer at Gipeswic recognises (after 973): a friend at the mint in another century" }
+     ],
+     "reward": "A moneyer who changes at the weight, or silver now and a cold bench after; and the only coin of an English king with a she-wolf on it."
+    },
+    {
+     "id": "gipeswic.back_door", "title": "The back door", "thread": "black_stones",
+     "summary": "Offa has shut English shores to Frankish hulls, but in 793 the Orwell still has its own king, and the reeve at the ford lets Dorestad boats land as they always have. After the king's head falls the ban reaches this coast too, and the reeve must choose between Tamworth and the bank.",
+     "picture": "A small boat grounding on the Stoke shore by moonlight, two men lifting a black quernstone over the side, a broad figure with tally sticks standing on the far bank with his back deliberately turned.",
+     "beats": [
+      { "at": "gipeswic.ford", "when": "year < 795", "text": "Eadstan says what the king said at Tamworth, and that Tamworth is a long way. He takes his due and a small gift and lets the querns ashore. You have heard the ban from a man who enforces it, after a fashion.", "card": "harbour.count_at_the_ford.gipeswic" },
+      { "at": "dorestad.thiadbods_dam", "when": "year < 796", "text": "Thiadbod has heard there is a river in England where nobody asks. He wants to know which, and offers a share in a cargo of Rhenish pitchers for the name.", "card": "" },
+      { "at": "gipeswic.ford", "when": "year >= 794 and year < 797", "text": "A Mercian clerk now sits beside the reeve. Eadstan says, loudly, that no Frankish hull may land. Then he says, quietly, that the Stoke bank is not in his view after dark.", "card": "harbour.count_at_the_ford.gipeswic" },
+      { "at": "dommoc.strand", "when": "year >= 794 and year < 797", "text": "Up the coast the same order has a keener keeper: a young Mercian on the bishop's strand who asks whose ship three times. What Eadstan lets by after dark, Wigferth would have to write down.", "card": "harbour.three_questions.dommoc" },
+      { "at": "lundenwic.strand_hard", "when": "year >= 794 and year < 797", "text": "Wighelm asks why black stones are cheaper in East Anglia than on the Strand this year. He does not yet know. He would pay to.", "card": "" },
+      { "at": "hamwic.hythe", "when": "year < 797", "text": "On the Itchen another king's reeve has not seen the order at all. Two back doors in one fence: the wic-reeve on the Strand knows of that one and only suspects this.", "card": "harbour.chain_black_stones.s03_hamwic" },
+      { "at": "gipeswic.cornhill", "when": "year >= 796 and year < 800", "text": "The kings have made peace: stones of the old size, cloaks of the old length. Eadstan has a list of every house that waited two years for a quern, and gives it to the skipper he trusts.", "card": "" }
+     ],
+     "links": ["gipeswic.eadstan", "gipeswic.eadwynn", "cast.wighelm", "cast.thiadbod", "cast.gervold", "dorestad.tollman", "dommoc.wigferth", "hamwic.reeve", "dommoc", "hamwic", "lundenwic"],
+     "endings": [
+      { "id": "night_bank", "how": "You landed by night on the Stoke bank and told nobody which river.", "text": "For two years yours is the one hull that brings black stones to the East Angles. Eadstan never thanks you. In 796 he hands you the list.", "reward": "Quernstones sell a third dearer here 794-796; after the peace a standing commission for forty pairs; the reeve a fast friend; flag bs_ban_heard" },
+      { "id": "waited", "how": "You obeyed the ban and came back only with English and Frisian goods until the peace.", "text": "The Mercian clerk writes your name among the lawful. It is a short list and it is read at Lundenwic.", "reward": "The deed fair_dealing; standing with Mercia; no toll at the ford for the first year after the peace; the list goes to another" },
+      { "id": "sold_the_door", "how": "You told Thiadbod, or Wighelm, which river.", "text": "Three Dorestad keels come the next spring and the Mercian clerk is waiting for them. Eadstan keeps his office by a hair and his temper not at all.", "reward": "A share in Thiadbod's cargo (about 120 d) or Wighelm's gift; Eadstan and Eadwynn shun you; the back door is shut for everyone" }
+     ],
+     "reward": "The reeve's trust and the first quern trade after the peace, or a quick profit and a closed river."
+    },
+    {
+     "id": "gipeswic.three_on_the_river", "title": "Three on one river", "thread": "riddle_road",
+     "summary": "Three people here each hold one riddle and none of them knows the other two belong with it: the fowler's bird, the horn-worker's horn, the alewife's drink. Together they are a winter night in a hall, and the old steersman at the ale-house will only speak his poem to someone who has all three.",
+     "picture": "A winter evening in a smoky ale-house: a woman with a horn dipper, a lean man with two dead duck, a craftsman holding up a polished horn to the fire, and in the corner an old sailor with his eyes shut.",
+     "beats": [
+      { "at": "gipeswic.estuary", "when": "true", "text": "Wigmund asks what walks silent and sings in the air. He gives it for nothing; he wants to see whether a shipman looks up.", "card": "harbour.fowlers_swan.gipeswic" },
+      { "at": "gipeswic.street", "when": "true", "text": "The horn-worker sells a leaf for four pence: a thing that was a warrior's weapon, is kissed by men, and calls them to the board or to war.", "card": "harbour.horn_workers_leaf.gipeswic" },
+      { "at": "gipeswic.ale_house", "when": "true", "text": "Eadwynn asks what is carried from groves and hills, and binds and beats the man who wrestles with it. Her bees are under the eave while she asks.", "card": "harbour.eadwynns_bench.gipeswic" },
+      { "at": "gipeswic.ale_house", "when": "chest.riddles_solved >= 3", "text": "With all three answered, the old steersman by the fire opens his eyes and speaks the poem of the man alone on the winter sea, from the first line. Nobody in the room moves.", "card": "harbour.steersman_by_the_fire.gipeswic" },
+      { "at": "hamwic.alehouse", "when": "text.seafarer", "text": "At Hamwic the pilot Eadhun knows the same poem with a different ending. Neither teller has met the other. Each asks you how the other tells it, and says he is wrong.", "card": "" },
+      { "at": "dofras.alehouse", "when": "year < 809", "text": "At Dofras old Lulla tells the same poem for an evening's ale. He says the man by Eadwynn's fire pulled an oar beside him forty years ago, and never could keep the ending straight.", "card": "harbour.lullas_song.dofras" }
+     ],
+     "links": ["gipeswic.wigmund", "gipeswic.eadwynn", "cast.crew.ravn", "cast.crew.beornwine", "dofras.pilot", "hamwic.eadhun", "dofras", "hamwic"],
+     "endings": [
+      { "id": "all_three", "how": "You answered the swan, the horn and the mead.", "text": "The steersman gives you the whole poem and dies that winter. Eadwynn says he was waiting for someone to tell it to who knew what a swan sounds like.", "reward": "give_text seafarer; three small silver rewards; Wigmund pilots you free; the deed won_riddle" },
+      { "id": "bought_the_answers", "how": "You paid a potter's boy to tell you the answers.", "text": "The steersman listens to you say them, nods, and tells the poem to the fire. You hear most of it.", "reward": "give_text seafarer; no silver; Ravn, if he sails with you, does not speak for a day" },
+      { "id": "one_short", "how": "You could not answer one and said so.", "text": "Eadwynn fills your cup and tells you to listen for it over the winter. The answer flies over the bank at dusk in the month of blood, calling.", "reward": "The riddle stays open and wakes each winter here; the alewife thinks better of a man who says he does not know" }
+     ],
+     "reward": "The Seafarer in the chest, three riddles won, and a pilot who will not take your penny."
+    },
+    {
+     "id": "gipeswic.horsed", "title": "Horsed", "thread": "price_of_england",
+     "summary": "In the autumn of 865 a great heathen army takes winter quarters among the East Angles and wants horses, and gets them, and peace is made. Four years later it comes back and kills the king. Fifteen years after that a Dane on the Cornhill weighs your silver and the penny in his pan has the dead king's name on it.",
+     "picture": "A frosty field outside the town with a long picket line of horses, armed strangers walking down it choosing, and English farmers standing in a knot at the gate with their hands empty.",
+     "beats": [
+      { "at": "gipeswic.cornhill", "when": "year = 865 and month >= 10", "text": "The army is a day's ride off and has sent to say what it wants: horses, fodder, ale. The reeve asks every skipper on the bank what he will sell and at what price. He does not ask whether.", "card": "harbour.chain_great_army_865.s02_horses" },
+      { "at": "sarre.toll", "when": "year = 865", "text": "The same summer the army sat on Thanet and took Kent's promise of silver, then rode out by night. The East Angles gave horses; the horses, at least, went away.", "card": "long.great_army.comes_865" },
+      { "at": "gipeswic.thingstead", "when": "year >= 865 and year < 867", "text": "The town buys its peace in horses at the moot. A man who sold to the camp is known for it; a man who gave toward the town's share is known for that too.", "card": "" },
+      { "at": "dommoc.pond", "when": "year >= 865 and year < 870", "text": "The camp buys rope by the cart at Dommoc and asks what lies north along the coast. The rope-makers sell, and answer nothing.", "card": "" },
+      { "at": "eoforwic.quay", "when": "year >= 866 and year < 868", "text": "The same army has taken York, riding East Anglian horses. A York man asks where you were in the winter of the horses.", "card": "" },
+      { "at": "gipeswic.st_peters", "when": "year >= 869 and year < 880", "text": "The king is dead on the twentieth of November. The church stands empty, its plate gone. Someone has left bread on the altar step anyway.", "card": "" },
+      { "at": "gipeswic.cornhill", "when": "year >= 890 and year < 913", "text": "Toki weighs your silver against a penny that reads SCE EADMUND REX. He was a boy holding horses in that first winter, and will say so if he trusts you.", "card": "harbour.pan_not_the_face.gipeswic" }
+     ],
+     "links": ["gipeswic.toki", "cast.ohthere", "cast.wulfstan", "dommoc.fisherman", "sarre", "dommoc"],
+     "endings": [
+      { "id": "sold_to_the_camp", "how": "You brought ale, cloth and fodder for the army's winter.", "text": "It is the best market of your life and you are paid in church silver, some of it still bent to the shape of a book cover. The Danes remember your sail kindly for thirty years.", "reward": "Double prices for ale and wool cloth here in the winter of 865; flag en_followed_silver; the Danish town of 880 knows your house; English ports hear of it" },
+      { "id": "gave_to_the_town", "how": "You put silver toward the town's share of the horses and sold the camp nothing.", "text": "Your name is said at the moot among those who paid. Nobody thanks you for it, then. In 917, when the English king's reeve asks who stood with the town, the list is still remembered.", "reward": "flag en_paid_share; the deed gave_alms; standing in the town that passes to your heir; in 917 a plot inside the bank at half its price" },
+      { "id": "stayed_away", "how": "You kept clear of the Orwell until the army had gone north.", "text": "Nothing is said of you for good or ill. When you come back the reeve is a different man and the benches at the ale-house have new faces.", "reward": "No loss; the cargo you did not risk; the town's people start again with you from the beginning" }
+     ],
+     "reward": "A name among the Danes or a name among the townsmen, each worth silver in a different generation."
+    },
+    {
+     "id": "gipeswic.ninety_three", "title": "The year of the ninety-three", "thread": "price_of_england",
+     "summary": "In 991 ninety-three ships come into the Orwell and the town is plundered; after Maldon the king pays ten thousand pounds, and the moneyer Leofsige strikes his part of it. In 1010 the army comes again, and in 1017 its leader comes back as the earl and asks for the third penny.",
+     "picture": "A moneyer at his block by rushlight, a heap of new pennies beside him and an open chest half full, while through the unbarred shutter behind him a long line of striped sails stands in the river.",
+     "beats": [
+      { "at": "gipeswic.bank", "when": "year = 991 and month >= 7 and month <= 9", "text": "Wildfowl go up off the flats all at once, from the seaward end. The pilot counts sails at the point and stops at sixty. There is one tide to decide what to do with your cargo and your boat.", "card": "" },
+      { "at": "gipeswic.mint", "when": "year >= 991 and year < 995", "text": "Leofsige strikes the town's share of the tribute and asks whether you will put in toward it, as a man with a house here should, or carry his dies and his son to his wife's people at Dommoc.", "card": "harbour.dies_and_the_boy.gipeswic" },
+      { "at": "dommoc.herring_strand", "when": "year >= 991 and year < 996", "text": "The moneyer's son and a box of dies come ashore on the herring strand at Dommoc. Hunstan the herring-master, the boy's uncle, takes both up the cliff path without a word, and comes back down with something for the carrier.", "card": "harbour.dies_come_ashore.dommoc" },
+      { "at": "lundenwic.hithe", "when": "year >= 991 and year < 995", "text": "At the hithe inside the walls of London a priest of Essex sells a leaf: the ealdorman's last stand at Maldon, written for the dead man's kin. He asks whether Gipeswic still stands.", "card": "" },
+      { "at": "gipeswic.north_gate", "when": "year = 1010", "text": "After Easter the army goes up past the bank and inland to Ringmere. Three months later the country is burned to the fens. The moneyer has buried his dies under his own floor.", "card": "" },
+      { "at": "gipeswic.mint", "when": "year >= 1017 and year < 1022", "text": "Thorkell, who led that army, is the earl. He dines in the town, pays for what he drinks, and asks the moneyer who among the merchants can be trusted to carry the king's silver to Denmark.", "card": "" }
+     ],
+     "links": ["gipeswic.leofsige", "cast.thorkell", "cast.cnut", "lundenwic.eadwold", "dommoc.herringman", "dommoc", "lundenwic"],
+     "endings": [
+      { "id": "paid_and_stayed", "how": "You put silver into the town's share and came back each year through the worst.", "text": "Leofsige names you to the earl in 1017. Thorkell looks at you for some time, laughs, and has the clerk write.", "reward": "flag en_paid_share, then flag en_cnut_peace: the king's writ of protection on both shores; change_coin free at Gipeswic for the house; a seat at the earl's table" },
+      { "id": "carried_the_dies", "how": "You took the moneyer's son and his dies up the coast to Dommoc before the ships reached the bank.", "text": "The house on the Cornhill burns. The dies do not. The boy strikes pennies at the same bench for Cnut, and his sons for Edward, and none of them charges your house for change.", "reward": "A moneyer's family as fast friends for three generations; the deed carried_letters; the leaf of Maldon given, not sold (give_text maldon_991)" },
+      { "id": "sold_to_the_fleet", "how": "You followed the tribute and sold wine and cloth to the men who had been paid it.", "text": "They pay in new English pennies, some of them Leofsige's, without haggling. He knows his own work when you bring it back to his bench, and changes it, and says nothing at all.", "reward": "flag en_followed_silver: the richest market of the year; the Danes' goodwill under Cnut; the moneyer cool for life" }
+     ],
+     "reward": "Cnut's writ and a friend at the mint, or the fleet's silver and a town that remembers where you were."
+    }
+   ],
+   "works": [
+    {
+     "id": "gipeswic.work.hurdle_length", "name": "A length of the bank, posted and hurdled",
+     "what": "Oak posts driven into the foreshore in front of the old line and wattle hurdles woven between them, backed with gravel and brushwood: a berth of your own where a keel takes the ground upright.",
+     "cost_d": 240, "days": 30, "from": 793, "to": 1066,
+     "needs": "The reeve's leave, and a summer visit when the mud can be worked at low water.",
+     "gives": "Your boat is loaded and unloaded here in half the time and needs no porters' hire; she lies safe in a gale; other skippers pay you a penny a tide to use it when you are away.",
+     "picture": "Men knee-deep in mud driving a row of oak posts with a wooden maul, a woman weaving hazel rods between them, the old grey bank behind.",
+     "source": "The Bridge Street revetments, each built further out than the last (Suffolk Heritage Explorer; Excavation Archive)."
+    },
+    {
+     "id": "gipeswic.work.kiln_share", "name": "A share in a kiln",
+     "what": "You pay for the clay pit, the wood and a new dome on one of the kilns at the potters' corner, and take a third of each firing in return.",
+     "cost_d": 200, "days": 20, "from": 793, "to": 1066,
+     "needs": "Tilbeorht, or after him the potters, counting you a friend.",
+     "gives": "Pots at the maker's price whenever a kiln has been opened (buy_at_source at the potters' corner, about a quarter under the market): Ipswich ware until about 850, Thetford ware after; a commission for pots can be had in any firing season.",
+     "picture": "A round clay kiln with its top broken open, a red-haired man lifting out a grey jar with rags round his hands, a merchant counting crates.",
+     "source": "Kilns at Cox Lane, Carr Street, the Buttermarket and Stoke Quay; Thetford-ware kilns from c. 850 (Suffolk Heritage Explorer). The share is the game's."
+    },
+    {
+     "id": "gipeswic.work.cask_well", "name": "A well lined with your own cask",
+     "what": "A shaft dug a few feet to the water in the gravel of a yard, and an emptied Rhenish wine cask with its ends knocked out let down into it to hold the sides.",
+     "cost_d": 40, "days": 6, "from": 793, "to": 1066,
+     "needs": "A plot or a friend's yard in the town, and a wine cask you have emptied or sold the wine out of.",
+     "gives": "Sweet water for the boat at no cost and no waiting; the household whose yard it is counts you a friend; a small thing left behind that outlasts the house.",
+     "picture": "Two men lowering a great stave-built cask into a square pit in a fenced yard, a woman with a bucket waiting.",
+     "source": "87 shallow wells known in the town, many lined with old wine casks; one cask's oak matches the Mainz area (Suffolk Heritage Explorer; Excavation Archive)."
+    },
+    {
+     "id": "gipeswic.work.kings_chapel", "name": "A chapel for the dead king",
+     "what": "A small timber chapel to Saint Æthelberht, king and martyr, on the rise west of the town, with an altar stone, a lamp and a priest's fee for Mass on the twentieth of May.",
+     "cost_d": 480, "days": 60, "from": 796, "to": 1066,
+     "needs": "The priest's asking and the bishop's leave; not while Offa lives.",
+     "gives": "Standing with the East Angles and their church for the house and its heirs; the priest and the moneyer as friends; a Mass said for your dead each year. Under a Mercian reeve it costs you a little standing with Mercia.",
+     "picture": "A new timber chapel no bigger than a barn on a low hill, a priest hanging a lamp, a handful of townspeople kneeling in wet grass.",
+     "source": "A chapel of Saint Æthelberht stood at Albrightestone by Boss Hall; when it was first built is not known (?). His feast is 20 May (dossier section 6; Design/content/peoples/english.md)."
+    },
+    {
+     "id": "gipeswic.work.rod_of_bank", "name": "A rod of the town bank",
+     "what": "You pay for the digging of one rod of the ditch and the raising of the bank behind it, as the holders of plots are bidden to do.",
+     "cost_d": 300, "days": 40, "from": 905, "to": 990,
+     "needs": "A plot inside the line, or the reeve's word that you mean to take one.",
+     "gives": "A burgess's standing: you may buy and sell in the port before the reeve as a townsman and not a stranger, and your goods in store are behind a bank when a fleet comes.",
+     "picture": "A line of men with wooden spades and baskets throwing gravel up out of a wide ditch, a half-raised bank, a closed street ending at its foot.",
+     "source": "Bank and ditch first raised c. 900-917: at least 5 m wide and 2 m deep at Shire Hall Yard (Suffolk Heritage Explorer). Plot-holders' duty to the bank is inference from the burhs of Wessex (?)."
+    }
+   ],
+   "ships": [
+    {
+     "class": "west_small_boat", "how": "built to order in a month, or bought second-hand from a fisher",
+     "from": 793, "to": 1066,
+     "note": "The estuary's own boat: weirs, herring nets, lightering to a keel that cannot come up on the tide. A fowler's punt is a smaller cousin.",
+     "picture": "A small tarred clinker boat on the mud beside a wattle fish weir, an eel basket in her bows.",
+     "source": "story/ships_793.json (built at gipeswic, 150 d, 30 days). Fish weirs and inshore boats: ship_classes_793.json west_small_boat."
+    },
+    {
+     "class": "coaster_minster_ship", "how": "built to order over a winter",
+     "from": 793, "to": 1066,
+     "note": "The boat that carries the pots: up the coast to the Humber and round to the Thames, landing on any beach. Oak from the Gipping woods, wrights who build one a year.",
+     "picture": "A beamy open coaster in frame on blocks at the Stoke bank, crates of grey pots stacked ready beside her.",
+     "source": "story/ships_793.json (1200 d, 100 days). Ipswich ware carried to Kent, London and Yorkshire (dossier section 4); traffic_793.json."
+    },
+    {
+     "class": "north_sea_merchant_ship", "how": "built to order over a winter and a spring, for a man the port knows",
+     "from": 793, "to": 1066,
+     "note": "The keel for the Dorestad crossing: wine and querns in, wool and cloth out. Some of King Æthelstan's pennies, about 830, show such a ship. Few are laid down in the tenth century, when trade turns inland.",
+     "picture": "A deep-bellied merchant ship with a single mast lying aground at the hurdle bank, wine casks being rolled down a plank.",
+     "source": "story/ships_793.json and unlocks_793.json (3000 d, 150 days; standing 'known' needed). The ship pennies: en.wikipedia Æthelstan of East Anglia."
+    },
+    {
+     "class": "norse_allround_ship", "how": "bought second-hand from a Dane who has taken land",
+     "from": 880, "to": 1042,
+     "note": "After the sharing of the land some men have a ship and no more use for her. Light, fast, and needing more hands than a merchant likes to feed.",
+     "picture": "A long low ship with a high curved stem hauled out in a creek, grass growing by her keel, a farmer and a merchant walking round her.",
+     "source": "The Danish settlement of 879-880 and Cnut's years (dossier section 5). That such ships were sold here is the game's (?)."
+    }
+   ],
+   "sayings": [
+    { "text": "This year was Ipswich plundered; and very soon afterwards was Alderman Britnoth slain at Maldon.", "source": "Anglo-Saxon Chronicle 991 (Ingram 1823)" },
+    { "text": "They fixed their winter quarters in East Anglia, where they were soon horsed; and the inhabitants made peace with them.", "source": "Anglo-Saxon Chronicle 866 for 865 (Ingram 1823; wording not re-checked (?))" },
+    { "text": "If any one engage in Sunday marketing, let him forfeit the chattel.", "source": "Laws of Edward and Guthrum 7 (Thorpe 1840)" },
+    { "text": "Dear is the welcome one to the Frisian's wife when his ship is at rest: his keel is come and her man is home, and she washes the sea out of his clothes.", "source": "Exeter Book, Maxims I (our rendering)" },
+    { "text": "A friend is of use far or near; the nearer, the more.", "source": "Durham Proverbs 3 (our rendering)" },
+    { "text": "Offa's penny is heavier, they say. So is Offa.", "source": "invented in the period's manner; the heavier penny of c. 792/3" },
+    { "text": "A Frisian came up on the flood with wine and went down on the ebb with pots. He said he had the better of it. So did the potter. That is a good market.", "source": "invented in the period's manner" },
+    { "text": "This pot is cold, the clay is wet, the wood is green, and the boy has gone to look at a boat. Saint Botolph, send me a daughter.", "source": "invented, after the scribes' marginal complaints" },
+    { "text": "Three things come up the Orwell without asking leave: the tide, the geese and the Mercian king's word. The first two can be relied on.", "source": "invented in the period's manner" }
+   ],
+   "easter_eggs": [
+    { "text": "The moneyer's wolf penny shows a she-wolf feeding two infants and the word REX. One will be found near Rome in 1908 and another in a Sussex field in 2014.", "where": "gipeswic.mint", "source": "en.wikipedia Æthelberht II of East Anglia (dossier section 7)" },
+    { "text": "The cask in the yard well was coopered far up the Rhine: its oak grew near Mogontia. Anyone who has stood in the cellars there knows the cooper's mark.", "where": "gipeswic.street", "source": "A well cask whose oak matches the Mainz area (Suffolk Heritage Explorer; Excavation Archive). The cooper's mark is the game's (?)." },
+    { "text": "Under the gravel of the street by the Cornhill lie the town's first dead: seventy graves, some under little mounds, two of them in coffins shaped like boats. The street was laid straight over them about 720.", "where": "gipeswic.cornhill", "source": "Buttermarket cemetery, 71 graves, c. 610/635-680/690 (Suffolk Heritage Explorer)" },
+    { "text": "The fowler says old kings lie under great mounds over the next river, a morning's walk north-east, one of them in his ship with all his gold. Nobody has dug; nobody will for eleven hundred years.", "where": "gipeswic.estuary", "source": "Sutton Hoo is 14 km off; Rendlesham, the kings' place in Bede, was lived in until the 8th century (dossier section 7)" },
+    { "text": "Ask in the ale-house how the town got its name and you get three answers: a man called Gip; the corner of a mouth, for the river's bend; and an old heathen king Ypus, which the potters made up and will still be swearing to five hundred years on.", "where": "gipeswic.ale_house", "source": "An inquest of 1340 named a heathen king 'Ypus'; scholars offer Gip's wic or gip, 'corner of the mouth' (Alsford, Medieval Ipswich)" },
+    { "text": "After 970 the hythe on the Stoke bank is called 'at the shipman's landing' in the king's charter, and the word used for shipman is the one the English use for a Danish raider. A little further on the bounds pass 'Healfdene's hill'.", "where": "gipeswic.ford", "source": "Sawyer 781: 'æt Æscmannes yre', 'healdenes ho'; the reading of æscman is not certain (?)" },
+    { "text": "The names of this town's moneyers, Lyfing, Leofric, Brantinc, Godric, Leofsige, Lytelman, Waltferth, will be read a thousand years later off pennies dug out of Swedish soil, where the tribute went.", "where": "gipeswic.mint", "source": "Hildebrand, Anglosachsiska mynt i Svenska kongliga myntkabinettet (1881); the list read from a rough scan (?)" },
+    { "text": "A penny of old King Beonna, who ruled the East Angles in your grandfather's time, turned up in a purse at Dorestad. The alewife will buy it back for a cup of mead and a long look.", "where": "gipeswic.ale_house", "source": "A penny type of Beonna (c. 750s) found at Dorestad (en.wikipedia Beonna of East Anglia)" },
+    { "text": "In a burnt house on the street of yards a loaf lies black and whole in the ashes. Somebody will lift it out again in nineteen hundred and eighty-eight.", "where": "gipeswic.street", "source": "Carbonised bread from the St Stephen's Lane excavations, 1987-88 (Excavation Archive)" },
+    { "text": "About 950 the plot next to the mint is the bishop of London's: he bought it himself and means it for his sister's son Osgot. He has never been seen in it.", "where": "gipeswic.mint", "source": "Will of Bishop Theodred, Sawyer 1526. That the plot lay by the mint is the game's (?)." }
+   ],
+   "unlocks": [
+    { "id": "gipeswic.reeves_notch", "what": "Notched before you land", "how": "Come back three times, pay what is owed each time, and bring Eadstan true word from Dorestad once; or end 'The back door' as his friend.", "gives": "No waiting at the ford: act:pay_toll is done on sight and the reeve witnesses your sales on the Cornhill without his fee; npc reeve feeling at friendly or better. His successor keeps the notch for your heir at half." },
+    { "id": "gipeswic.top_of_the_kiln", "what": "The top of the firing", "how": "Buy from Tilbeorht in three different seasons and carry his pots unbroken to Lundenwic or the Humber once; or fund the share in a kiln.", "gives": "buy_at_source at the potters' corner: the sound pots from the top of the stack at the maker's price, before the market sees them (until about 850; Thetford ware after)." },
+    { "id": "gipeswic.the_withies", "what": "The withies of the Orwell, by heart", "how": "Take Wigmund as pilot four times and answer his riddle; or end 'Three on one river' with all three answered.", "gives": "learn (the Orwell and Stour marks): no pilot is needed and nothing is doubtful between Shotley point and the hurdle bank for this house; inherited." },
+    { "id": "gipeswic.riddles_of_the_river", "what": "The swan, the horn and the mead", "how": "The fowler gives the first for nothing, the horn-worker sells the second for 4 d, the alewife gives the third to a man who has drunk at her house.", "gives": "story/unlocks_793.json: give_text exeter_07_swan, exeter_14_horn, exeter_27_mead, each carrying its riddle and a small silver reward; all three open the telling of the Seafarer (give_text seafarer)." },
+    { "id": "gipeswic.eadwynns_bench", "what": "A place on Eadwynn's bench", "how": "Lodge with her twice, owe her nothing, and bring her news of the alewife at Dorestad.", "gives": "Lodging here costs nothing; act:rumours gives the newest word first, and she tells you which skipper is short a man before he asks at the bank. Her daughter keeps the bench for your heir." },
+    { "id": "gipeswic.change_at_the_weight", "what": "Change at the weight", "how": "End 'The wolf pennies' as Lul's friend (794-808), or 'The year of the ninety-three' as Leofsige's (991-1018).", "gives": "act:change_coin at Gipeswic costs nothing while that moneyer or his heirs hold the bench; with sv_moneyer_trusts the same is true at Dorestad." },
+    { "id": "gipeswic.a_haga", "what": "A town plot inside the bank", "how": "From 917: hold a rod of the bank, or be named at the moot among those who paid toward the town in a bad year; then the price of the plot.", "gives": "act:buy_plot here; goods stored behind the bank; the house counts as of the borough and may hold the mint office of story/unlocks_793.json when its standing allows." },
+    { "id": "gipeswic.earls_table", "what": "A seat at the earl's table", "how": "From 1017: be named to Earl Thorkell by the moneyer as a merchant who stayed through the bad years.", "gives": "flag en_cnut_peace: the king's writ of protection, good in every port of Cnut's on both shores until 1035; an audience with the earl at Gipeswic while he holds the earldom (to 1021)." }
+   ],
+   "sources": [
+    "Design/content/dossiers/gipeswic.md (the research this file is built on; its section 8 lists what must not be claimed)",
+    "Suffolk Heritage Explorer, Saxon Ipswich, Medieval Ipswich, Rendlesham: https://heritage.suffolk.gov.uk/saxon-ipswich ; https://heritage.suffolk.gov.uk/medieval-ipswich ; https://heritage.suffolk.gov.uk/rendlesham",
+    "Ipswich 1974-1990 Excavation Archive, signposting report: https://heritage.suffolk.gov.uk/media/pdfs/ipswich_1974-1990_excavation_archive_signposting_v1.1_accessibleversion.pdf",
+    "Domesday Book, Suffolk, tr. in the Victoria County History of Suffolk I (1911): https://archive.org/details/victoriahis01page ; https://opendomesday.org/place/TM1644/ipswich/",
+    "Sawyer 781 (Edgar to Ely, Stoke, 970) and Sawyer 1526 (will of Bishop Theodred): https://esawyer.lib.cam.ac.uk/charter/781.html ; https://esawyer.lib.cam.ac.uk/charter/1526.html",
+    "Anglo-Saxon Chronicle, tr. J. Ingram (1823): https://avalon.law.yale.edu/medieval/ang09.asp ; ang10.asp ; ang11.asp",
+    "B. E. Hildebrand, Anglosachsiska mynt i Svenska kongliga myntkabinettet (1881): https://archive.org/details/anglosachsiskamy00hild",
+    "S. Alsford, Medieval Ipswich: http://users.trytel.com/tristan/towns/ipswich1.html",
+    "en.wikipedia: Ipswich, Port of Ipswich, River Orwell, Ipswich ware, Thetford ware, Æthelberht II of East Anglia, Eadwald of East Anglia, Æthelstan of East Anglia, Edmund the Martyr, Guthrum, Beonna of East Anglia, Ulfcytel, Battle of Ringmere, Walton Castle (Suffolk), Dommoc, Botolph of Thorney, Mildrith, Shotley",
+    "B. Thorpe, Ancient Laws and Institutes of England (1840): Edward and Guthrum 7; I Edward 1",
+    "The Exeter Book riddles 7, 14 and 27, ed. F. Tupper (1910), as held in texts_793.json and riddles_793.json; The Seafarer and The Battle of Maldon as held in texts_793.json",
+    "In the project: Design/content/spine.json (threads silver_road, black_stones, riddle_road, price_of_england; cast), Design/content/realms/england_south.md, Design/content/peoples/english.md, Design/content/economy/*.md, Design/content/lore/saints_calendar.md, chronicle_793.json, story/ships_793.json, story/unlocks_793.json"
+   ]
+  }
+ ]
+}

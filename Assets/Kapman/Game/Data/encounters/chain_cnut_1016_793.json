@@ -1,0 +1,488 @@
+{
+ "about": "CHAIN cnut_1016 (Design/content/CHAINS.md; page Design/content/chains/cnut_1016.md; words Data/writing/chain_cnut_1016.json). Cnut's peace, 1017 to 1037: the tribute of 1018 and the fleet paid off, English irons carried to strike the king's pennies among the Danes, the tolls a shipman meets between the Thames and the Rhine (the monks' haven at the Wantsum mouth, the archbishop's bank at Cologne, the count's water at Flardinga), the Holy River, the king's journey to Rome and his letter of 1027, and what a dead king's writing is worth in 1035. Thirteen cards, three endings (the king's peace as it was; the Rhine named in the letter, which is history changed; the emperor's man, who sold his tally), and a reckoning after the king's death. Flags: ch_cnut_1016_<n> for the steps, ch_cnut_1016_end_<name> for the endings, changed_cnut_letter_rhine, and the spine's en_paid_share, en_followed_silver, en_cnut_peace. Scheduled cards also carry a weight, so a missed day is not a lost story.",
+ "cards": [
+  {
+   "id": "harbour.chain_cnut_1016.s01_the_geld",
+   "note": "Step 1, the start (drawn at Lundenwic, Hamwic, Sarre, Dofras or Gipeswic in 1017 and 1018). The tribute is gathered and the fleet waits for its pay. Sources: Anglo-Saxon Chronicle 1018 (72,000 pounds over all England and 10,500 from the townsmen of London; the army went partly to Denmark and forty ships were left with the king; Danes and English agreed at Oxford to Edgar's law), our rendering; chronicle_793.json 1018-heregeld; dossiers/lundenwic.md. That a stranger's keel was asked for a share is ours (?). Sets ch_cnut_1016_1; the spine's en_paid_share or en_followed_silver.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = hamwic or port.id = sarre or port.id = dofras or port.id = gipeswic) and year >= 1017 and year <= 1018 and not flag.ch_cnut_1016_1",
+   "weight": 2.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "the port-reeve's man with the tally; invented, unnamed" },
+    "warrior": { "role": "warrior", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [22, 45], "fixed": false, "note": "a shipman of the king's fleet waiting to be paid off; invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.s01.title",
+   "title": "The weighing",
+   "intention_key": "chain_cnut_1016.s01.intention",
+   "intention": "The tribute is being gathered over all England, and the town's share is weighed out on a bench by the water. The reeve's man goes from door to door and from keel to keel. The fleet lies in the river and waits.",
+   "lines": [
+    { "who": "reeve", "key": "chain_cnut_1016.s01.reeve_london", "when": "port.id = lundenwic" },
+    { "who": "reeve", "key": "chain_cnut_1016.s01.reeve_else", "when": "port.id != lundenwic" },
+    { "who": "reeve", "key": "chain_cnut_1016.s01.reeve_stranger" },
+    { "who": "warrior", "key": "chain_cnut_1016.s01.warrior_waiting" },
+    { "who": "warrior", "key": "chain_cnut_1016.s01.warrior_home" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_cnut_1016.s01.opt_pay", "label": "Lay down sixty pennies toward the town's share", "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "npc reeve feeling +12 paid", "flag en_paid_share", "flag ch_cnut_1016_paid", "flag ch_cnut_1016_1", "news chain_cnut_1016.news.fleet_paid at here" ],
+      "note": "outcome: chain_cnut_1016.s01.out_pay (a stranger's name on the town's tally; step 2 remembers it)" },
+    { "key": "sell", "label_key": "chain_cnut_1016.s01.opt_sell", "label": "Sell drink and cloth to the men who are waiting for their pay", "check": "hold.ale > 0 or hold.mead > 0 or hold.rhenish_wine > 0 or hold.frankish_wine > 0 or hold.wool_cloth > 0",
+      "effects": [ "silver +30", "price_shock here ale x1.6 for 40", "price_shock here rhenish_wine x1.4 for 40", "npc warrior feeling +6 sold", "flag en_followed_silver", "flag ch_cnut_1016_followed", "flag ch_cnut_1016_1", "news chain_cnut_1016.news.fleet_paid at here" ],
+      "note": "outcome: chain_cnut_1016.s01.out_sell (30 d of earnest and a true price word: drink is dear here for forty days)" },
+    { "key": "watch", "label_key": "chain_cnut_1016.s01.opt_watch", "label": "Say you are a stranger here, and watch the weighing", "check": "true", "default": true,
+      "effects": [ "npc reeve feeling -1 watched", "give_riddle riddle_symphosius_91_pecunia", "flag ch_cnut_1016_1", "news chain_cnut_1016.news.fleet_paid at here" ],
+      "note": "outcome: chain_cnut_1016.s01.out_watch (costs nothing; a riddle on money from the man at the scales)" }
+   ],
+   "memory": { "pay": "paid toward the town's share", "sell": "sold to the fleet", "watch": "watched the weighing" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.s02_irons_for_denmark",
+   "note": "Step 2, and a second start (drawn at Lundenwic, April to September, 1019 to 1023; it does not ask for step 1). A London moneyer is sent with the king's irons to strike pennies among the Danes. Sources: Cnut king in Denmark from 1018 or 1019 and his Danish coinage of about 1020 (realms/denmark.md; economy/silver_coin.md: 'a row of' Danish mints); pennies with Ripa's name from Cnut (dossiers/ripa.md [VSM]); English moneyers' names on Cnut's Danish pennies, chiefly at Lund (later_ports/scandinavia.md) (?). That one of them sailed for Ripa in a merchant's keel is ours. Leofstan is invented (Leof- + -stan). Sets ch_cnut_1016_2; _carried, _moneyer_friend; schedules step 3.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year >= 1019 and year <= 1023 and not flag.ch_cnut_1016_2",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [4, 5, 6, 7, 8, 9],
+   "actors": {
+    "moneyer": { "role": "moneyer", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 50], "fixed": false, "note": "Leofstan, a moneyer of Lunden; invented" },
+    "kings_man": { "role": "kings_man", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [25, 45], "fixed": true, "note": "a housecarl of the forty ships; invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.s02.title",
+   "title": "Irons for Denmark",
+   "intention_key": "chain_cnut_1016.s02.intention",
+   "intention": "The fleet has gone home and forty ships lie below the bridge. A moneyer of the town stands on the hythe with a locked chest and a boy. The king wants English pennies struck among the Danes, and the irons to strike them are in the chest.",
+   "lines": [
+    { "who": "moneyer", "key": "chain_cnut_1016.s02.moneyer_asks" },
+    { "who": "moneyer", "key": "chain_cnut_1016.s02.moneyer_paid_share", "when": "flag.en_paid_share" },
+    { "who": "moneyer", "key": "chain_cnut_1016.s02.moneyer_sold", "when": "flag.en_followed_silver" },
+    { "who": "moneyer", "key": "chain_cnut_1016.s02.moneyer_chest" },
+    { "who": "kings_man", "key": "chain_cnut_1016.s02.kings_man_peace" }
+   ],
+   "options": [
+    { "key": "fare", "label_key": "chain_cnut_1016.s02.opt_fare", "label": "Carry him and his chest to Ripa for forty pennies", "check": "true",
+      "effects": [ "silver +40", "npc moneyer feeling +3 fare", "passenger moneyer to ripa", "flag ch_cnut_1016_carried", "flag ch_cnut_1016_2", "schedule harbour.chain_cnut_1016.s03_one_penny in 9 at ripa" ],
+      "note": "outcome: chain_cnut_1016.s02.out_fare" },
+    { "key": "word", "label_key": "chain_cnut_1016.s02.opt_word", "label": "Carry him for nothing but his good word at the king's mint", "check": "true",
+      "effects": [ "npc moneyer feeling +15 word", "passenger moneyer to ripa", "flag ch_cnut_1016_carried", "flag ch_cnut_1016_moneyer_friend", "flag ch_cnut_1016_2", "schedule harbour.chain_cnut_1016.s03_one_penny in 9 at ripa" ],
+      "note": "outcome: chain_cnut_1016.s02.out_word (costs a place in the boat; he changes your coin without his cut in step 3)" },
+    { "key": "hear", "label_key": "chain_cnut_1016.s02.opt_hear", "label": "You are not bound for Jutland: ask what the king wants with English irons", "check": "true", "default": true,
+      "effects": [ "npc moneyer feeling +2 heard", "flag ch_cnut_1016_2", "news chain_cnut_1016.news.kings_pennies at here" ],
+      "note": "outcome: chain_cnut_1016.s02.out_hear (costs nothing; he sails with another and the story goes on at Ripa)" }
+   ],
+   "memory": { "fare": "carried the moneyer for a fare", "word": "carried the moneyer for his word", "hear": "heard him out" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.s03_one_penny",
+   "note": "Step 3, a turn (Ripa; scheduled nine days after step 2 if he was carried, else drawn there to 1026). The king's pennies are struck at Ripa and the bishop takes his part. Sources: a mint at Ripa by name only from Cnut, 1018 to 1035 (dossiers/ripa.md [VSM]); Odinkar the younger, bishop of Ripa about 1000 to 1043 (Adam of Bremen II (?)); the bishop's half of the king's income from Ripa is ascribed to Cnut, with no charter (dossiers/ripa.md) (?); a moneyer's cut for changing foreign coin from Cnut's time (realms/denmark.md); Denmark goes over to coin by count only in the 1040s to 1060s (economy/silver_coin.md) (?), so the Danes here still weigh. Sets ch_cnut_1016_3; _wine_order.",
+   "stage": "harbour",
+   "when": "moored and port.id = ripa and flag.ch_cnut_1016_2 and year <= 1026 and not flag.ch_cnut_1016_3",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "moneyer": { "role": "moneyer", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 52], "fixed": true, "note": "Leofstan, now the king's moneyer at Ripa; invented" },
+    "clerk": { "role": "clerk", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [22, 40], "fixed": true, "note": "a clerk of Bishop Odinkar the younger (historical, bishop about 1000 to 1043); the clerk invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.s03.title",
+   "title": "One penny on both shores",
+   "intention_key": "chain_cnut_1016.s03.intention",
+   "intention": "At Ripa a hearth burns in a shed beside the bishop's church and a hammer rings on iron. The pennies come off the block with the king's head on one face and Ripa's name on the other. The same penny now buys ale on the Thames and on this river.",
+   "lines": [
+    { "who": "moneyer", "key": "chain_cnut_1016.s03.moneyer_carried", "when": "flag.ch_cnut_1016_carried" },
+    { "who": "moneyer", "key": "chain_cnut_1016.s03.moneyer_other", "when": "not flag.ch_cnut_1016_carried" },
+    { "who": "moneyer", "key": "chain_cnut_1016.s03.moneyer_weigh" },
+    { "who": "clerk", "key": "chain_cnut_1016.s03.clerk_half" },
+    { "who": "clerk", "key": "chain_cnut_1016.s03.clerk_wine" }
+   ],
+   "options": [
+    { "key": "wine", "label_key": "chain_cnut_1016.s03.opt_wine", "label": "Take the bishop's order: six casks of Rhine wine before next summer", "check": "true",
+      "effects": [ "commission rhenish_wine 6 by 240 premium 1.5", "npc clerk feeling +5 order", "flag ch_cnut_1016_wine_order", "flag ch_cnut_1016_3" ],
+      "note": "outcome: chain_cnut_1016.s03.out_wine (the turn: six casks at half as much again, about 180 d over the market; it sends her to the Rhine)" },
+    { "key": "change", "label_key": "chain_cnut_1016.s03.opt_change", "label": "Change your silver for the king's pennies at his table", "check": "silver >= 60",
+      "effects": [ "toll eased 90", "npc moneyer feeling +4 changed", "flag ch_cnut_1016_3" ],
+      "note": "outcome: chain_cnut_1016.s03.out_change (coin that passes by count here: half the toll on her sales at Ripa for ninety days)" },
+    { "key": "ask", "label_key": "chain_cnut_1016.s03.opt_ask", "label": "Ask the moneyer what the Danes make of it", "check": "true", "default": true,
+      "effects": [ "npc moneyer feeling +2 asked", "give_riddle riddle_aldhelm_23_trutina", "flag ch_cnut_1016_3" ],
+      "note": "outcome: chain_cnut_1016.s03.out_ask (costs nothing; the riddle of the scales)" }
+   ],
+   "memory": { "wine": "took the bishop's wine order", "change": "changed silver at the king's table", "ask": "asked about the new pennies" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.s04_axe_throw",
+   "note": "Step 4 (drawn at Sarre, 1023 to 1030, once the story has begun). A toll with a writing behind it: the king gives Christ Church the haven of Sandwich and its tolls on both shores, 'as far inland as a small axe can be thrown from a ship afloat at high tide'. Sources: Sawyer 959, dated 1023, the text as it stands held a later forgery (lore/law_tolls.md; dossiers/sarre.md) (?): the grant itself is generally allowed, the wording doubted. Sandwich has no row in ports_793.json: Sarre, the Wantsum port, stands for it. The monk and the ferryman are invented. Sets ch_cnut_1016_4; _read_writ (step 8 reads it).",
+   "stage": "harbour",
+   "when": "moored and port.id = sarre and year >= 1023 and year <= 1030 and flag.ch_cnut_1016_2 and not flag.ch_cnut_1016_4",
+   "weight": 2.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "monk": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [28, 55], "fixed": true, "note": "Christ Church's monk at the haven; invented, unnamed" },
+    "ferryman": { "role": "ferryman", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 65], "fixed": true, "note": "the Wantsum ferryman; invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.s04.title",
+   "title": "As far as an axe is thrown",
+   "intention_key": "chain_cnut_1016.s04.intention",
+   "intention": "The king has given the haven at the Wantsum mouth and its tolls to Christ Church, on both shores. At high water a monk stands in a boat and a ship's boy throws a small axe at the land. Where it falls, the monks' right ends.",
+   "lines": [
+    { "who": "monk", "key": "chain_cnut_1016.s04.monk_right" },
+    { "who": "monk", "key": "chain_cnut_1016.s04.monk_writing" },
+    { "who": "ferryman", "key": "chain_cnut_1016.s04.ferryman_before" },
+    { "who": "ferryman", "key": "chain_cnut_1016.s04.ferryman_boy" }
+   ],
+   "options": [
+    { "key": "read", "label_key": "chain_cnut_1016.s04.opt_read", "label": "Pay the monks' toll and ask to see the writing", "check": "true",
+      "effects": [ "toll sales", "learn latin +0.05", "npc monk feeling +6 read", "flag ch_cnut_1016_read_writ", "flag ch_cnut_1016_4" ],
+      "note": "outcome: chain_cnut_1016.s04.out_read (the toll as ever, and a little Latin: she now knows a toll with a writing from one without)" },
+    { "key": "throw", "label_key": "chain_cnut_1016.s04.opt_throw", "label": "Ask to throw the axe yourself", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.fight_best",
+                     "success": [ "npc monk feeling +8 threw", "toll eased 60", "morale +0.04" ],
+                     "failure": [ "npc ferryman feeling +3 laughed", "morale +0.02" ] },
+                   "flag ch_cnut_1016_4" ],
+      "note": "outcome: chain_cnut_1016.s04.out_throw_success or .out_throw_failure (costs pride at the worst)" },
+    { "key": "ask", "label_key": "chain_cnut_1016.s04.opt_ask", "label": "Ask the ferryman what he paid before the monks came", "check": "true", "default": true,
+      "effects": [ "npc ferryman feeling +4 asked", "flag ch_cnut_1016_4" ],
+      "note": "outcome: chain_cnut_1016.s04.out_ask (costs nothing)" }
+   ],
+   "memory": { "read": "read the monks' writing", "throw": "threw the axe", "ask": "asked about the old toll" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.s05_bank_at_cologne",
+   "note": "Step 5 (drawn at Colonia, 1020 to 1026, once the story has begun). English and Danish pilgrims and two London merchants are tolled as merchants at Cologne, the third time since the river mouth. Sources: the complaint Cnut carried to Rome, 'so many barriers on the way' and 'unjust tolls' on merchants and on those who go to pray (his letter of 1027, William of Malmesbury, Gesta regum II.183; John of Worcester under 1031; lore/law_tolls.md section 10); the old quarrel over merchants who travel as pilgrims (Charles to Offa, 796); Pilgrim, archbishop of Cologne 1021 to 1036. That the letter's tolls were met on the Rhine at Cologne is ours (?): the letter names the road to Rome and King Rudolf's barriers in the mountains. Toke is invented (Danish Toki). Sets ch_cnut_1016_5 and _tally_rhine on every road; _paid_pilgrims.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and year >= 1020 and year <= 1026 and flag.ch_cnut_1016_2 and not flag.ch_cnut_1016_5",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "tollman": { "role": "tollman", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 60], "fixed": true, "note": "the archbishop's toll man at the bank; invented, unnamed" },
+    "pilgrim": { "role": "pilgrim", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [40, 60], "fixed": false, "note": "Toke, a farmer of Jutland bound for Rome; invented" },
+    "merchant": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 55], "fixed": false, "note": "a cloth merchant of Lunden; invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.s05.title",
+   "title": "The third toll",
+   "intention_key": "chain_cnut_1016.s05.intention",
+   "intention": "On the toll bank below the wall of Cologne eleven people sit on their bundles: English and Danes bound for Rome, and two men of Lunden with cloth. The toll man has taken toll from all of them as merchants. It is the third time since the river mouth.",
+   "lines": [
+    { "who": "tollman", "key": "chain_cnut_1016.s05.tollman_rule" },
+    { "who": "pilgrim", "key": "chain_cnut_1016.s05.pilgrim_cloth" },
+    { "who": "merchant", "key": "chain_cnut_1016.s05.merchant_count" },
+    { "who": "merchant", "key": "chain_cnut_1016.s05.merchant_king" },
+    { "who": "tollman", "key": "chain_cnut_1016.s05.tollman_wine", "when": "flag.ch_cnut_1016_wine_order" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_cnut_1016.s05.opt_pay", "label": "Pay the pilgrims' toll yourself: forty-five pennies", "check": "silver >= 45", "cost": "silver 45",
+      "effects": [ "deed gave_alms", "npc pilgrim feeling +12 paid", "morale +0.03", "flag ch_cnut_1016_paid_pilgrims", "flag ch_cnut_1016_tally_rhine", "flag ch_cnut_1016_5" ],
+      "note": "outcome: chain_cnut_1016.s05.out_pay (Toke remembers the boat: step 9 and the endings read it)" },
+    { "key": "speak", "label_key": "chain_cnut_1016.s05.opt_speak", "label": "Speak for them: the cloth is their bread, not their trade", "check": "true",
+      "effects": [ { "chance": 0.55, "by": "crew.trade_best",
+                     "success": [ "npc pilgrim feeling +10 spoke", "npc tollman feeling +2 argued" ],
+                     "failure": [ "silver -10", "npc tollman feeling -6 argued" ] },
+                   "flag ch_cnut_1016_tally_rhine", "flag ch_cnut_1016_5" ],
+      "note": "outcome: chain_cnut_1016.s05.out_speak_success or .out_speak_failure (failure costs ten pennies 'for the showing'; the count is cut on the stick either way)" },
+    { "key": "count", "label_key": "chain_cnut_1016.s05.opt_count", "label": "Say nothing: count what he takes and cut it on a stick", "check": "true", "default": true,
+      "effects": [ "flag ch_cnut_1016_tally_rhine", "flag ch_cnut_1016_5" ],
+      "note": "outcome: chain_cnut_1016.s05.out_count (costs nothing)" }
+   ],
+   "memory": { "pay": "paid the pilgrims' toll", "speak": "spoke for the pilgrims", "speak.failure": "argued at the toll bank and lost", "count": "counted the toll on a stick" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.s06_counts_water",
+   "note": "Step 6 (drawn at Traiectum, Noviomagus or Daventre, 1019 to 1026, once the story has begun). The count's toll at the river mouth. Sources: Alpert of Metz, De diversitate temporum II.20-21: the merchants of Tiel complained to the emperor that Count Dirk's men at Flardinga robbed them, and that they could no longer sail to Britain nor the Britons to them; the emperor's army under Duke Godfrey and Bishop Adalbold of Utrecht was beaten in the marsh on 29 July 1018 and the count kept his water (chronicle_793.json 1018-07-29-vlaardingen, 1020-tiel-merchants). Tiel has no row in ports_793.json: the Tiel men are met in the bishop's and the emperor's towns upriver. The Tiel merchant is invented, unnamed. Sets ch_cnut_1016_6; _tally_merwede.",
+   "stage": "harbour",
+   "when": "moored and (port.id = traiectum or port.id = noviomagus or port.id = daventre) and year >= 1019 and year <= 1026 and flag.ch_cnut_1016_2 and not flag.ch_cnut_1016_6",
+   "weight": 2.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 60], "fixed": false, "note": "a merchant of Tiel, one of those who swear and drink together; invented, unnamed" },
+    "skipper": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [28, 55], "fixed": false, "note": "his skipper; invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.s06.title",
+   "title": "The count's water",
+   "intention_key": "chain_cnut_1016.s06.intention",
+   "intention": "Since the count beat the emperor's army in the marsh at Flardinga, his men sit at the river mouth and take what they please from every keel bound for England. The merchants of Tiel have sent to the emperor twice. They are loading in one company, and there is room in it.",
+   "lines": [
+    { "who": "merchant", "key": "chain_cnut_1016.s06.merchant_marsh" },
+    { "who": "merchant", "key": "chain_cnut_1016.s06.merchant_britain" },
+    { "who": "skipper", "key": "chain_cnut_1016.s06.skipper_creeks" },
+    { "who": "merchant", "key": "chain_cnut_1016.s06.merchant_drink" }
+   ],
+   "options": [
+    { "key": "company", "label_key": "chain_cnut_1016.s06.opt_company", "label": "Go down in the Tiel men's company and pay what the count's men ask: thirty pennies", "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "npc merchant feeling +8 company", "price_shock lundenwic rhenish_wine x1.3 for 90", "flag ch_cnut_1016_tally_merwede", "flag ch_cnut_1016_6" ],
+      "note": "outcome: chain_cnut_1016.s06.out_company (a true price word: Rhine wine is dear at Lunden for ninety days, because of this toll)" },
+    { "key": "creeks", "label_key": "chain_cnut_1016.s06.opt_creeks", "label": "Take the back creeks on the night tide", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05", "flag ch_cnut_1016_creeks" ],
+                     "failure": [ "silver -45", "morale -0.03" ] },
+                   "flag ch_cnut_1016_tally_merwede", "flag ch_cnut_1016_6" ],
+      "note": "outcome: chain_cnut_1016.s06.out_creeks_success or .out_creeks_failure (the skipper warns first; caught, she pays the toll and half again)" },
+    { "key": "hear", "label_key": "chain_cnut_1016.s06.opt_hear", "label": "Hear the Tiel men out, and cut their count of it on your stick", "check": "true", "default": true,
+      "effects": [ "npc merchant feeling +3 heard", "flag ch_cnut_1016_tally_merwede", "flag ch_cnut_1016_6" ],
+      "note": "outcome: chain_cnut_1016.s06.out_hear (costs nothing)" }
+   ],
+   "memory": { "company": "sailed in the Tiel men's company", "creeks": "ran the creeks by night", "creeks.failure": "was caught in the creeks", "hear": "heard the Tiel men's count" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.s07_holy_river",
+   "note": "Step 7, a turn (drawn at Ahus, Hleidr, Sliesthorp or Ripa in 1026, once the story has begun). The king's fleet after the Holy River. Sources: Anglo-Saxon Chronicle E under 1025: the king went to Denmark with ships to the holm at the Holy River, Ulf and Eglaf came against him with a great force by land and sea from Sweden, very many were lost on the king's side, Danish and English, and the Swedes held the field (our rendering; dossiers/ahus.md quotes Ingram 1823); the battle is put in 1025 or 1026 and the sources disagree on who won (?); the game's card uses 1026. Godric, the wounded shipman, is invented. Sets ch_cnut_1016_7; _fed_fleet, _carried_wounded (the reckoning of 1035 reads it).",
+   "stage": "harbour",
+   "when": "moored and (port.id = ahus or port.id = hleidr or port.id = sliesthorp or port.id = ripa) and year = 1026 and flag.ch_cnut_1016_2 and not flag.ch_cnut_1016_7",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "kings_man": { "role": "kings_man", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [28, 50], "fixed": false, "note": "a steersman of the king's fleet, buying stores; invented, unnamed" },
+    "survivor": { "role": "survivor", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [20, 40], "fixed": false, "note": "Godric, a shipman of Lunden in the king's pay, a spear through the thigh; invented" }
+   },
+   "title_key": "chain_cnut_1016.s07.title",
+   "title": "After the Holy River",
+   "intention_key": "chain_cnut_1016.s07.intention",
+   "intention": "This year the king went with his ships to the Holy River, and Ulf and Eglaf came against him out of Sweden by land and by sea. Very many were lost on the king's side, Danes and English both. The fleet is buying bread, and the wounded lie in the boat sheds.",
+   "lines": [
+    { "who": "kings_man", "key": "chain_cnut_1016.s07.kings_man_stores" },
+    { "who": "kings_man", "key": "chain_cnut_1016.s07.kings_man_won" },
+    { "who": "survivor", "key": "chain_cnut_1016.s07.survivor_home" },
+    { "who": "survivor", "key": "chain_cnut_1016.s07.survivor_river" }
+   ],
+   "options": [
+    { "key": "sell", "label_key": "chain_cnut_1016.s07.opt_sell", "label": "Sell the fleet your bread, meat and drink at the king's price", "check": "hold.ale > 0 or hold.ships_bread > 0 or hold.salt_pork > 0 or hold.herring > 0 or hold.cheese > 0",
+      "effects": [ "silver +90", "price_shock here ships_bread x1.6 for 30", "price_shock here ale x1.5 for 30", "npc kings_man feeling +10 sold", "flag ch_cnut_1016_fed_fleet", "flag ch_cnut_1016_7", "news chain_cnut_1016.news.holy_river at lundenwic" ],
+      "note": "outcome: chain_cnut_1016.s07.out_sell (the turn: 90 d over the market from the king's man, and stores dear here for thirty days)" },
+    { "key": "wounded", "label_key": "chain_cnut_1016.s07.opt_wounded", "label": "Take Godric and three more home to the Thames, for nothing", "check": "true",
+      "effects": [ "passenger survivor to lundenwic", "deed gave_alms", "npc survivor feeling +15 carried", "morale +0.03", "flag ch_cnut_1016_carried_wounded", "flag ch_cnut_1016_7", "news chain_cnut_1016.news.holy_river at lundenwic" ],
+      "note": "outcome: chain_cnut_1016.s07.out_wounded (costs four places in the boat; the shipmen of Lunden remember it in 1035)" },
+    { "key": "clear", "label_key": "chain_cnut_1016.s07.opt_clear", "label": "Keep clear of a beaten fleet, and listen", "check": "true", "default": true,
+      "effects": [ "flag ch_cnut_1016_7", "news chain_cnut_1016.news.holy_river at lundenwic" ],
+      "note": "outcome: chain_cnut_1016.s07.out_clear (costs nothing; the news goes home with her)" }
+   ],
+   "memory": { "sell": "sold stores to the king's fleet", "wounded": "carried the wounded home", "clear": "kept clear of the fleet" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.s08_the_asking",
+   "note": "Step 8, the choice of roads (drawn at Lundenwic, Hamwic, Sarre, Hleidr, Ripa or Sliesthorp from June 1026 to February 1027, once the story has begun). A priest of the king's household writes down what was taken from the king's people on the roads. Sources: the letter of 1027 says the king spoke with the emperor, the pope and the princes 'about the needs of all the people of my whole realm, English and Danes' (William of Malmesbury, Gesta regum II.183; John of Worcester under 1031; our rendering): that he came with their complaints is in the letter, that a priest gathered them from shipmen is ours (?). The king kept Christmas 1026 in Denmark (later_ports/scandinavia.md: Ulf killed at Roskilde) and went to Rome from there. The emperor's men at Lunden and their Christmas and Easter dues: IV Aethelred 2 (lore/law_tolls.md 7.4). The Cologne man is invented, unnamed. Sets ch_cnut_1016_8 and one road: _witness (with _named, the cost that lasts), _plain or _sold.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = hamwic or port.id = sarre or port.id = hleidr or port.id = ripa or port.id = sliesthorp) and ((year = 1026 and month >= 6) or (year = 1027 and month <= 2)) and flag.ch_cnut_1016_2 and not flag.ch_cnut_1016_8",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 55], "fixed": false, "note": "a priest of the king's household with wax tablets; invented, unnamed" },
+    "merchant": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 60], "fixed": false, "note": "a wine merchant of Cologne, one of the emperor's men; invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.s08.title",
+   "title": "What was taken, and by whom",
+   "intention_key": "chain_cnut_1016.s08.intention",
+   "intention": "The king means to be at Rome when the emperor is crowned, and he will not go with an empty mouth. A priest of his household sits in the church porch with wax tablets and asks every shipman what was taken from him on the roads, and by whom.",
+   "lines": [
+    { "who": "clerk", "key": "chain_cnut_1016.s08.clerk_asks" },
+    { "who": "clerk", "key": "chain_cnut_1016.s08.clerk_mountains" },
+    { "who": "clerk", "key": "chain_cnut_1016.s08.clerk_writ", "when": "flag.ch_cnut_1016_read_writ" },
+    { "who": "merchant", "key": "chain_cnut_1016.s08.merchant_gate", "when": "flag.ch_cnut_1016_tally_rhine" },
+    { "who": "merchant", "key": "chain_cnut_1016.s08.merchant_offer", "when": "flag.ch_cnut_1016_tally_rhine" }
+   ],
+   "options": [
+    { "key": "witness", "label_key": "chain_cnut_1016.s08.opt_witness", "label": "Lay your tally sticks on his table and say all of it, before witnesses", "check": "flag.ch_cnut_1016_tally_rhine or flag.ch_cnut_1016_tally_merwede",
+      "effects": [ "deed fair_dealing", "npc clerk feeling +15 witness", "npc merchant feeling -10 named", "flag ch_cnut_1016_witness", "flag ch_cnut_1016_named", "flag ch_cnut_1016_8" ],
+      "note": "outcome: chain_cnut_1016.s08.out_witness (the honest road, to the ending rhine_named; the cost that lasts: her name is on the tablets, and the toll men of the Rhine will hear it)" },
+    { "key": "plain", "label_key": "chain_cnut_1016.s08.opt_plain", "label": "Tell him what the pilgrims say of the barriers in the mountains", "check": "true", "default": true,
+      "effects": [ "npc clerk feeling +4 plain", "flag ch_cnut_1016_plain", "flag ch_cnut_1016_8" ],
+      "note": "outcome: chain_cnut_1016.s08.out_plain (costs nothing; to the ending kings_peace, which is what happened)" },
+    { "key": "sold", "label_key": "chain_cnut_1016.s08.opt_sold", "label": "Take the Cologne man's two hundred pennies and leave the Rhine off the tablets", "check": "flag.ch_cnut_1016_tally_rhine",
+      "effects": [ "silver +200", "npc merchant feeling +15 sold", "npc clerk feeling -2 little", "flag ch_cnut_1016_sold", "flag ch_cnut_1016_8" ],
+      "note": "outcome: chain_cnut_1016.s08.out_sold (the turn: 200 d; to the ending emperors_man)" }
+   ],
+   "memory": { "witness": "bore witness to the tolls", "plain": "told what the pilgrims say", "sold": "sold a tally to the Cologne men" }
+  },
+  {
+   "id": "sea.chain_cnut_1016.s09_palm_bearers",
+   "note": "Step 9 (at sea, May to October 1027, after step 8; not needed for an ending). The news from Rome reaches a ship before it reaches a town. Sources: the emperor Conrad crowned at Rome on Easter day, 26 March 1027, with Cnut and King Rudolf of Burgundy present (Wipo, Gesta Chuonradi 16); the letter sent home to England, by the hand of Lyfing, abbot of Tavistock (John of Worcester under 1031) (?); pilgrims home from Rome carry palms (the 'palmer' of later speech; the custom this early (?)). The meeting is ours. Sets ch_cnut_1016_9; _early_word.",
+   "stage": "sea",
+   "when": "under_way and year = 1027 and month >= 5 and month <= 10 and flag.ch_cnut_1016_8 and not flag.ch_cnut_1016_9",
+   "rate": 0.05,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "skipper": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 60], "fixed": false, "note": "a Frisian skipper out of the Rhine mouth; invented, unnamed" },
+    "pilgrim": { "role": "pilgrim", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [40, 62], "fixed": false, "note": "Toke of Jutland, if his toll was paid at Cologne; else a pilgrim like him" }
+   },
+   "title_key": "chain_cnut_1016.s09.title",
+   "title": "Palms on their staffs",
+   "intention_key": "chain_cnut_1016.s09.intention",
+   "intention": "A Frisian keel out of the Rhine mouth, deep with people. They have dry palm leaves tied to their staffs, and one of them is shouting across the water about the king.",
+   "lines": [
+    { "who": "pilgrim", "key": "chain_cnut_1016.s09.pilgrim_easter" },
+    { "who": "pilgrim", "key": "chain_cnut_1016.s09.pilgrim_tolls" },
+    { "who": "pilgrim", "key": "chain_cnut_1016.s09.pilgrim_knows", "when": "flag.ch_cnut_1016_paid_pilgrims" },
+    { "who": "skipper", "key": "chain_cnut_1016.s09.skipper_dry" }
+   ],
+   "options": [
+    { "key": "aboard", "label_key": "chain_cnut_1016.s09.opt_aboard", "label": "Take three of them aboard for the Thames: they have walked far enough", "check": "true",
+      "effects": [ "passenger pilgrim to lundenwic", "deed gave_alms", "npc pilgrim feeling +10 carried", "price_shock colonia wool_cloth x1.3 for 120", "flag ch_cnut_1016_early_word", "flag ch_cnut_1016_9" ],
+      "note": "outcome: chain_cnut_1016.s09.out_aboard (the whole story on the way home, and a true price word: English cloth goes up the Rhine in numbers next spring)" },
+    { "key": "gift", "label_key": "chain_cnut_1016.s09.opt_gift", "label": "Lie alongside: the Dane from the toll bank at Cologne knows your boat", "check": "flag.ch_cnut_1016_paid_pilgrims",
+      "effects": [ "goods pepper +1", "npc pilgrim feeling +15 met_again", "price_shock colonia wool_cloth x1.3 for 120", "flag ch_cnut_1016_early_word", "flag ch_cnut_1016_9" ],
+      "note": "outcome: chain_cnut_1016.s09.out_gift (a pound of pepper bought at Pavia for the forty-five pennies, and the same price word)" },
+    { "key": "wave", "label_key": "chain_cnut_1016.s09.opt_wave", "label": "Wave, and hold your course", "check": "true", "default": true,
+      "effects": [ "flag ch_cnut_1016_9" ],
+      "note": "outcome: chain_cnut_1016.s09.out_wave (costs nothing; she hears it later with everyone else)" }
+   ],
+   "memory": { "aboard": "carried pilgrims home from Rome", "gift": "met the pilgrim again", "wave": "held his course" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.end_kings_peace",
+   "note": "Ending 1, what happened (drawn at an English port from July 1027 to 1034, on the plain road, or if step 8 never came). The king's letter is read to the English. Sources: the letter of 1027 in William of Malmesbury, Gesta regum II.183, and John of Worcester under 1031 (our rendering; lore/law_tolls.md section 10; chronicle_793.json 1027-03-26-cnut-rome): the emperor and King Rudolf, 'who holds most of those barriers', grant that the king's people, 'merchants as well as those who travel to pray', go to Rome and come home in firm peace and just law, free of barriers and toll-takers; the king bids his reeves do no man wrong, and wants plough-alms, tithes, Rome-penny and church-scot paid before he lands. Lyfing, abbot of Tavistock, carried it and was made bishop of Crediton in 1027 (?). That it was read in the ports, and that a reeve gave a merchant the king's writ of protection after it, are ours (?); the writ is the spine's en_cnut_peace. Sets ch_cnut_1016_end_kings_peace; grand rewards unlock_title_kings_protection, unlock_plot_lundenwic, unlock_factor_lundenwic.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = hamwic or port.id = sarre or port.id = dofras or port.id = gipeswic or port.id = eoforwic) and ((year = 1027 and month >= 7) or (year >= 1028 and year <= 1034)) and (flag.ch_cnut_1016_plain or (flag.ch_cnut_1016_2 and not flag.ch_cnut_1016_8)) and not flag.ch_cnut_1016_end_kings_peace and not flag.ch_cnut_1016_end_rhine_named and not flag.ch_cnut_1016_end_emperors_man",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 55], "fixed": false, "note": "Lyfing, abbot of Tavistock, bishop of Crediton from 1027; historical" },
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 62], "fixed": true, "note": "the king's reeve of the port; invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.end_kings_peace.title",
+   "title": "The king's letter",
+   "intention_key": "chain_cnut_1016.end_kings_peace.intention",
+   "intention": "This year Abbot Lyfing came home from Rome with the king's letter, and it was read to the English in their own tongue. The king has spoken with the emperor and with King Rudolf, who holds the barriers in the mountains. His people, merchants as well as those who go to pray, shall go to Rome and come home in peace, free of the barriers and the toll-takers.",
+   "lines": [
+    { "who": "abbot", "key": "chain_cnut_1016.end_kings_peace.abbot_reads" },
+    { "who": "abbot", "key": "chain_cnut_1016.end_kings_peace.abbot_dues" },
+    { "who": "reeve", "key": "chain_cnut_1016.end_kings_peace.reeve_told", "when": "flag.ch_cnut_1016_plain" },
+    { "who": "reeve", "key": "chain_cnut_1016.end_kings_peace.reeve_known", "when": "flag.en_paid_share or flag.ch_cnut_1016_carried_wounded" },
+    { "who": "reeve", "key": "chain_cnut_1016.end_kings_peace.reeve_offer" }
+   ],
+   "options": [
+    { "key": "writ", "label_key": "chain_cnut_1016.end_kings_peace.opt_writ", "label": "Ask for the king's writ of protection for your house and keel", "check": "true",
+      "effects": [ "silver +600", "npc reeve feeling +10 writ", "flag unlock_title_kings_protection", "flag en_cnut_peace", "flag ch_cnut_1016_end_kings_peace", "news chain_cnut_1016.news.rome_tolls at here" ],
+      "note": "outcome: chain_cnut_1016.end_kings_peace.out_writ (finale: 600 d and the king's protection; the reckoning of 1035 asks whose writ it is then)" },
+    { "key": "both", "label_key": "chain_cnut_1016.end_kings_peace.opt_both", "label": "Take the writ, and a reeve's man to keep your goods: you paid for others on the road", "check": "flag.ch_cnut_1016_carried_wounded or flag.ch_cnut_1016_paid_pilgrims",
+      "effects": [ "silver +900", "npc reeve feeling +15 both", "flag unlock_title_kings_protection", "flag unlock_factor_lundenwic", "flag en_cnut_peace", "flag ch_cnut_1016_end_kings_peace", "news chain_cnut_1016.news.rome_tolls at here" ],
+      "note": "outcome: chain_cnut_1016.end_kings_peace.out_both (the kinder road: 900 d and two grand rewards, for the wounded carried or the pilgrims' toll paid)" },
+    { "key": "plot", "label_key": "chain_cnut_1016.end_kings_peace.opt_plot", "label": "Ask for ground at the hythe, held under the king's peace", "check": "port.id = lundenwic",
+      "effects": [ "silver +650", "npc reeve feeling +8 plot", "flag unlock_plot_lundenwic", "flag ch_cnut_1016_end_kings_peace", "news chain_cnut_1016.news.rome_tolls at here" ],
+      "note": "outcome: chain_cnut_1016.end_kings_peace.out_plot (finale: 650 d and a plot at Lunden; ground does not lapse with a king)" },
+    { "key": "goods", "label_key": "chain_cnut_1016.end_kings_peace.opt_goods", "label": "Ask for nothing written: take the road's first fruits, and a man at the hythe", "check": "true", "default": true,
+      "effects": [ "silver +250", "goods pepper +6", "goods silk +1", "flag unlock_factor_lundenwic", "flag ch_cnut_1016_end_kings_peace", "news chain_cnut_1016.news.rome_tolls at here" ],
+      "note": "outcome: chain_cnut_1016.end_kings_peace.out_goods (finale: 250 d, six pounds of pepper and a bolt of silk, about 900 d, and a factor at Lunden; nothing for a later king to unmake)" }
+   ],
+   "memory": { "writ": "took the king's writ", "both": "took the writ and a factor", "plot": "took ground at the hythe", "goods": "took goods and no writing" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.end_rhine_named",
+   "note": "Ending 2, history changed (drawn at an English port from July 1027 to 1034, on the witness road). The letter as it is read names the river road as well as the mountain road. WHAT IS TRUE: the letter of 1027 names the road to Rome, the barriers and King Rudolf (William of Malmesbury, Gesta regum II.183); it does not name the Rhine, Cologne or the count's water, and the men of Cologne have no known freedom from the English king, nor the English at Cologne, before the twelfth century (Henry II's protection for the Cologne men at London, about 1157 (?)). WHAT IS CHANGED: the king has a shipman's tally and asks the emperor for the river too. Sets ch_cnut_1016_end_rhine_named and changed_cnut_letter_rhine; grand rewards unlock_charter_colonia, unlock_title_thegn (the merchant's thegn-right of Gethyncthu: 'thrice over the wide sea by his own means', story/unlocks_793.json), unlock_title_kings_protection, unlock_plot_lundenwic; the cost that lasts is ch_cnut_1016_named, set in step 8.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = hamwic or port.id = sarre or port.id = dofras or port.id = gipeswic or port.id = eoforwic) and ((year = 1027 and month >= 7) or (year >= 1028 and year <= 1034)) and flag.ch_cnut_1016_witness and not flag.ch_cnut_1016_end_kings_peace and not flag.ch_cnut_1016_end_rhine_named and not flag.ch_cnut_1016_end_emperors_man",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 55], "fixed": false, "note": "Lyfing, abbot of Tavistock, bishop of Crediton from 1027; historical" },
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 62], "fixed": true, "note": "the king's reeve of the port; invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.end_rhine_named.title",
+   "title": "The river in the letter",
+   "intention_key": "chain_cnut_1016.end_rhine_named.intention",
+   "intention": "This year Abbot Lyfing came home from Rome with the king's letter, and it was read to the English in their own tongue. It speaks of the barriers in the mountains, as everyone knew it would. Then it speaks of the river road: of the bank at Cologne and the water below Tiel. The abbot looks up from the leaf to see who is listening.",
+   "lines": [
+    { "who": "abbot", "key": "chain_cnut_1016.end_rhine_named.abbot_reads" },
+    { "who": "abbot", "key": "chain_cnut_1016.end_rhine_named.abbot_sticks" },
+    { "who": "abbot", "key": "chain_cnut_1016.end_rhine_named.abbot_cologne", "when": "flag.ch_cnut_1016_tally_rhine" },
+    { "who": "abbot", "key": "chain_cnut_1016.end_rhine_named.abbot_count", "when": "flag.ch_cnut_1016_tally_merwede" },
+    { "who": "reeve", "key": "chain_cnut_1016.end_rhine_named.reeve_warning" }
+   ],
+   "options": [
+    { "key": "charter", "label_key": "chain_cnut_1016.end_rhine_named.opt_charter", "label": "Take the emperor's grant: your keel free of toll at Cologne", "check": "flag.ch_cnut_1016_tally_rhine",
+      "effects": [ "silver +900", "npc abbot feeling +10 charter", "flag unlock_charter_colonia", "flag changed_cnut_letter_rhine", "flag ch_cnut_1016_end_rhine_named", "news chain_cnut_1016.news.rhine_named at colonia" ],
+      "note": "outcome: chain_cnut_1016.end_rhine_named.out_charter (finale: 900 d and the charter at Cologne)" },
+    { "key": "thegn", "label_key": "chain_cnut_1016.end_rhine_named.opt_thegn", "label": "Take the grant and the king's word that you are worthy of a thegn's right", "check": "flag.ch_cnut_1016_tally_rhine and flag.ch_cnut_1016_tally_merwede and (flag.ch_cnut_1016_carried or flag.ch_cnut_1016_carried_wounded or flag.ch_cnut_1016_paid_pilgrims)",
+      "effects": [ "silver +1800", "npc abbot feeling +15 thegn", "npc reeve feeling +10 thegn", "flag unlock_charter_colonia", "flag unlock_title_thegn", "flag en_cnut_peace", "flag changed_cnut_letter_rhine", "flag ch_cnut_1016_end_rhine_named", "news chain_cnut_1016.news.rhine_named at colonia" ],
+      "note": "outcome: chain_cnut_1016.end_rhine_named.out_thegn (the hard road: 1,800 d and two grand rewards, for both tallies and a service done on the way)" },
+    { "key": "water", "label_key": "chain_cnut_1016.end_rhine_named.opt_water", "label": "Take the king's writ of protection, good on the count's water", "check": "flag.ch_cnut_1016_tally_merwede",
+      "effects": [ "silver +800", "npc reeve feeling +10 writ", "flag unlock_title_kings_protection", "flag en_cnut_peace", "flag changed_cnut_letter_rhine", "flag ch_cnut_1016_end_rhine_named", "news chain_cnut_1016.news.rhine_named at traiectum" ],
+      "note": "outcome: chain_cnut_1016.end_rhine_named.out_water (finale: 800 d and the king's protection)" },
+    { "key": "ground", "label_key": "chain_cnut_1016.end_rhine_named.opt_ground", "label": "Ask for nothing with a seal on it: take silver, and ground at the hythe", "check": "true", "default": true,
+      "effects": [ "silver +1100", "npc reeve feeling +6 ground", "flag unlock_plot_lundenwic", "flag changed_cnut_letter_rhine", "flag ch_cnut_1016_end_rhine_named", "news chain_cnut_1016.news.rhine_named at colonia" ],
+      "note": "outcome: chain_cnut_1016.end_rhine_named.out_ground (finale: 1,100 d and a plot at Lunden)" }
+   ],
+   "memory": { "charter": "took the emperor's grant", "thegn": "was named worthy of a thegn's right", "water": "took the king's writ", "ground": "took ground at the hythe" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.end_emperors_man",
+   "note": "Ending 3, the tally sold (drawn at Lundenwic or Colonia from July 1027 to 1034, on the sold road). The letter says nothing of the Rhine, as in truth it did not, and the Cologne men keep a place for the one who kept it so. Sources: the emperor's men at Lunden, 'worthy of good laws, as we are', and their dues at Christmas and Easter of two grey cloths and one brown, ten pounds of pepper, five pairs of gloves and two kegs of vinegar (IV Aethelred 2, in the Latin of the Quadripartitus; lore/law_tolls.md 7.4; the date argued, about 1000 or under Cnut (?)); story/unlocks_793.json unlock_title_emperors_man. That they took in a stranger for a service is ours (?). Sets ch_cnut_1016_end_emperors_man; grand rewards unlock_title_emperors_man, unlock_factor_colonia, unlock_pilot_rhine; the cost that lasts is ch_cnut_1016_sold_tally.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = colonia) and ((year = 1027 and month >= 7) or (year >= 1028 and year <= 1034)) and flag.ch_cnut_1016_sold and not flag.ch_cnut_1016_end_kings_peace and not flag.ch_cnut_1016_end_rhine_named and not flag.ch_cnut_1016_end_emperors_man",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "merchant": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [36, 62], "fixed": false, "note": "the wine merchant of Cologne from step 8; invented, unnamed" },
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [35, 60], "fixed": false, "note": "an English widow back from Rome by the Rhine; invented, unnamed" }
+   },
+   "title_key": "chain_cnut_1016.end_emperors_man.title",
+   "title": "A place at the Cologne board",
+   "intention_key": "chain_cnut_1016.end_emperors_man.intention",
+   "intention": "The king's letter has been read. It speaks of the mountains and of King Rudolf's barriers, and it does not speak of the Rhine. The men of Cologne trade as before, and at Christmas they bring the reeve his pepper, his gloves and his vinegar. They have kept a place for you at their board.",
+   "lines": [
+    { "who": "merchant", "key": "chain_cnut_1016.end_emperors_man.merchant_place" },
+    { "who": "merchant", "key": "chain_cnut_1016.end_emperors_man.merchant_gates" },
+    { "who": "pilgrim", "key": "chain_cnut_1016.end_emperors_man.pilgrim_twice" },
+    { "who": "merchant", "key": "chain_cnut_1016.end_emperors_man.merchant_choice" }
+   ],
+   "options": [
+    { "key": "seat", "label_key": "chain_cnut_1016.end_emperors_man.opt_seat", "label": "Sit down among the emperor's men, and trade as one of them", "check": "true",
+      "effects": [ "silver +600", "npc merchant feeling +12 seat", "flag unlock_title_emperors_man", "flag ch_cnut_1016_sold_tally", "flag ch_cnut_1016_end_emperors_man" ],
+      "note": "outcome: chain_cnut_1016.end_emperors_man.out_seat (finale: 600 d and the emperor's men's law at Lunden)" },
+    { "key": "factor", "label_key": "chain_cnut_1016.end_emperors_man.opt_factor", "label": "Ask for a man of theirs at Cologne to keep your goods", "check": "true",
+      "effects": [ "silver +700", "npc merchant feeling +8 factor", "flag unlock_factor_colonia", "flag ch_cnut_1016_sold_tally", "flag ch_cnut_1016_end_emperors_man" ],
+      "note": "outcome: chain_cnut_1016.end_emperors_man.out_factor (finale: 700 d and a factor at Cologne)" },
+    { "key": "river", "label_key": "chain_cnut_1016.end_emperors_man.opt_river", "label": "Take the rest of what they owe you in pepper, and one of their pilots for the river", "check": "true", "default": true,
+      "effects": [ "silver +500", "goods pepper +10", "npc merchant feeling +4 paid", "flag unlock_pilot_rhine", "flag ch_cnut_1016_sold_tally", "flag ch_cnut_1016_end_emperors_man" ],
+      "note": "outcome: chain_cnut_1016.end_emperors_man.out_river (finale: 500 d and ten pounds of pepper, about 980 d, and the knowledge of the Rhine; no seat, no board)" }
+   ],
+   "memory": { "seat": "sat among the emperor's men", "factor": "took a factor at Cologne", "river": "took pepper and a pilot" }
+  },
+  {
+   "id": "harbour.chain_cnut_1016.s13_the_king_is_dead",
+   "note": "Step 13, the reckoning (drawn at an English or Danish port from November 1035 to 1037, after any ending). Sources: Anglo-Saxon Chronicle 1035-1036 (C, D and E), our rendering: Cnut died at Shaftesbury on 12 November (the morrow of Martinmas) and was buried in the Old Minster at Winchester; at Oxford Earl Leofric, almost all the thegns north of the Thames and the shipmen (lithsmen) of Lunden chose Harold to hold England, Earl Godwine and the men of Wessex withstood it, and the queen sat at Winchester with the king's housecarls; Harthacnut stayed in Denmark; Gunhild, Cnut's daughter, married King Henry, the emperor's son, at Nijmegen in 1036 (Wipo 35 (?)). That a dead king's writ must be bought again from the next is the custom of the charters. Sets ch_cnut_1016_13; _confirmed, or ch_cnut_1016_writ_void (the integrator should then withdraw unlock_title_kings_protection and en_cnut_peace if this chain alone gave them). The text 'deor' is in texts_793.json.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = hamwic or port.id = sarre or port.id = dofras or port.id = gipeswic or port.id = eoforwic or port.id = ripa or port.id = sliesthorp or port.id = hleidr) and ((year = 1035 and month >= 11) or year = 1036 or year = 1037) and (flag.ch_cnut_1016_end_kings_peace or flag.ch_cnut_1016_end_rhine_named or flag.ch_cnut_1016_end_emperors_man) and not flag.ch_cnut_1016_13",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "port", "faith": "christian", "tongue": "port", "sex": "m", "age": [35, 62], "fixed": true, "note": "the reeve of the port, now somebody else's reeve" },
+    "sailor": { "role": "sailor", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 50], "fixed": false, "note": "Godric of step 7, now one of the shipmen of Lunden; invented" }
+   },
+   "title_key": "chain_cnut_1016.s13.title",
+   "title": "One man's peace",
+   "intention_key": "chain_cnut_1016.s13.intention",
+   "intention": "This year King Cnut died at Shaftesbury, on the morrow of Martinmas, and they carried him to Winchester. The shipmen of Lunden and the thegns north of the Thames have chosen Harold. The queen sits at Winchester with the housecarls. Harthacnut is in Denmark and does not come.",
+   "lines": [
+    { "who": "reeve", "key": "chain_cnut_1016.s13.reeve_whose" },
+    { "who": "reeve", "key": "chain_cnut_1016.s13.reeve_writ", "when": "flag.en_cnut_peace" },
+    { "who": "reeve", "key": "chain_cnut_1016.s13.reeve_emperor", "when": "flag.ch_cnut_1016_end_emperors_man or flag.unlock_charter_colonia" },
+    { "who": "sailor", "key": "chain_cnut_1016.s13.sailor_remembers", "when": "flag.ch_cnut_1016_carried_wounded" },
+    { "who": "reeve", "key": "chain_cnut_1016.s13.reeve_sons" }
+   ],
+   "options": [
+    { "key": "confirm", "label_key": "chain_cnut_1016.s13.opt_confirm", "label": "Buy the new lord's word over the old king's writing: a hundred and twenty pennies", "check": "flag.en_cnut_peace and silver >= 120", "cost": "silver 120",
+      "effects": [ "npc reeve feeling +6 confirmed", "flag ch_cnut_1016_confirmed", "flag ch_cnut_1016_13" ],
+      "note": "outcome: chain_cnut_1016.s13.out_confirm (the writ stands under Harold, or under Harthacnut's men in Denmark)" },
+    { "key": "shipmen", "label_key": "chain_cnut_1016.s13.opt_shipmen", "label": "Let the shipmen of Lunden speak for you: they remember who carried their wounded home", "check": "flag.en_cnut_peace and flag.ch_cnut_1016_carried_wounded",
+      "effects": [ "npc sailor feeling +10 spoke", "npc reeve feeling +4 confirmed", "flag ch_cnut_1016_confirmed", "flag ch_cnut_1016_13" ],
+      "note": "outcome: chain_cnut_1016.s13.out_shipmen (the writ stands, for nothing: the men who chose the king vouch for her)" },
+    { "key": "board", "label_key": "chain_cnut_1016.s13.opt_board", "label": "You hold of the emperor, not of a dead king: buy cloth while the English quarrel", "check": "flag.ch_cnut_1016_end_emperors_man or flag.unlock_charter_colonia",
+      "effects": [ "price_shock lundenwic wool_cloth x0.8 for 90", "price_shock colonia wool_cloth x1.25 for 120", "flag ch_cnut_1016_13" ],
+      "note": "outcome: chain_cnut_1016.s13.out_board (a true price word: cloth cheap at Lunden while nobody knows whose reeve takes the toll, and dear at Cologne)" },
+    { "key": "lapse", "label_key": "chain_cnut_1016.s13.opt_lapse", "label": "Let the old writing lie in the chest: it was one man's peace", "check": "true", "default": true,
+      "effects": [ "give_text deor", "flag ch_cnut_1016_writ_void", "flag ch_cnut_1016_13" ],
+      "note": "outcome: chain_cnut_1016.s13.out_lapse (costs the writ, if there was one, and nothing else; a poem for the chest)" }
+   ],
+   "memory": { "confirm": "bought the new lord's word", "shipmen": "was vouched for by the shipmen", "board": "traded through the quarrel", "lapse": "let the old king's writing lapse" }
+  }
+ ]
+}

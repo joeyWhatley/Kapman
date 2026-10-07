@@ -1,0 +1,550 @@
+{
+ "about": "Ripa (Ribe, south-west Jutland), the Danes' oldest market, 793 to 1066. Written 6 Oct 2026 from Design/content/dossiers/ripa.md, the spine (Design/content/spine.json) and the chains that already call at Ripa. A draft in the game's own file, for the user to overwrite. (?) marks what is not verified. Woven into the region danes_norway on 7 Oct 2026 by the region's weaver: ties made to run both ways, people named in ties made real in their own ports or pointed at the right id, stories given beats and cards in the other ports, and the region's cards (encounters/danes_norway_793.json) named in the sites' 'do' lists.",
+ "region": "danes_norway",
+ "ports": [
+  {
+   "port": "ripa",
+   "summary": "A row of narrow plots on a sand bank along a winding river, a short way in behind the tidal flats: the oldest market of the Danes, about ninety years old in 793. Bead-makers, comb-makers, bronze-casters and cattle men work the plots in summer, and Frisian boats bring them glass, wine, querns and cloth. A merchant comes for beads, combs, amber, hides and cattle, and for buyers who pay in weighed silver and ask no king's leave that anyone has written down.",
+   "seasons": "The market fills from late May to the middle of August, when the plots are all taken and the bank is lined with boats; in autumn the herds come down from the heath and the cattle ground is loud. In winter only a few households stay, the river skins with ice at the edges, and no stranger's boat crosses the flats.",
+   "history": [
+    { "year": 705, "text": "The market is laid out in one act on a spread layer of sand: plots side by side at right angles to the river. A well is lined with oak felled between 704 and 710.", "source": "da.wikipedia.org/wiki/Ribe; Viking Ship Museum, Roskilde, 'Ribe' (dossier [Wda; VSM])" },
+    { "year": 720, "text": "From about this year small silver pennies with a bearded facing head and a curled beast pass inside the market. Most of those ever found among the Danes are found here; that they were struck here is the common view, not a proven one.", "source": "en.wikipedia.org/wiki/Ribe, citing Feveile 2008; en.wikipedia.org/wiki/Sceat (?)" },
+    { "year": 725, "text": "A piece from the top of a human skull is cut with runes naming Ulf and Odin and High-Tyr, with a bored hole that no cord ever wore. It lies in the market layers.", "source": "en.wikipedia.org/wiki/Ribe_skull_fragment (Stoklund 1996; Nordstrom 2021); runes_793.json ribe_skull" },
+    { "year": 790, "text": "Cheap beads from the Caliphate begin to reach the north by the eastern rivers. The bead-makers of Ripa start to fade.", "source": "Design/content/economy/pots_glass_luxuries.md (Sindbaek; the Northern Emporium dig) (?)" },
+    { "year": 810, "text": "About now a ditch two or three paces wide is dug round the market and the ground behind it, some twelve hectares: a boundary and not a defence.", "source": "en.wikipedia.org/wiki/Ribe: 'early ninth century' (the year is the game's) (?)" },
+    { "year": 854, "text": "This year King Horik and almost all his kin were killed in a war of kinsmen. A boy of the same name was made king.", "source": "Rimbert, Vita Anskarii c. 31 (tr. Robinson 1921); en.wikipedia.org/wiki/Horik_II" },
+    { "year": 857, "text": "About this year the young King Horik gave Bishop Anskar a plot at Ripa for a church, and leave for a priest to live there: the second church among the Danes, after Sliaswic. Burghard, kinsman of both Horiks, had spoken for the bishop.", "source": "Rimbert, Vita Anskarii c. 32 (tr. Robinson 1921); 'about 855 to 860' in the dossier" },
+    { "year": 864, "text": "The pope writes to King Horik. He is not heard of again.", "source": "en.wikipedia.org/wiki/Horik_II (the letter of Nicholas I)" },
+    { "year": 865, "text": "On the third day of February Bishop Anskar died at Bremen.", "source": "Rimbert, Vita Anskarii c. 41-42 (tr. Robinson 1921)" },
+    { "year": 888, "text": "After Bishop Rimbert's death the church at Ripa is said to have been destroyed in a heathen turn. The claim is late.", "source": "Catholic Encyclopedia (1914), 'Ancient See of Ribe' (?)" },
+    { "year": 948, "text": "Leofdag sat as bishop of Ripa at the synod of Ingelheim on 7 June, with the bishops of Sliaswic and Aarhus: the first sees among the Danes.", "source": "Adam of Bremen ii.4; chronicle_793.json 948-danish-bishops; en.wikipedia.org/wiki/Ancient_Diocese_of_Ribe" },
+    { "year": 965, "text": "The emperor Otto frees the Danish bishops' churches from dues; the privilege is renewed in 988.", "source": "da.wikipedia.org/wiki/Ribe (Otto I 965, Otto III 988)" },
+    { "year": 1000, "text": "About this year Odinkar the younger, a Dane of great family and wealth, became bishop of Ripa. He held the see to about 1043.", "source": "en.wikipedia.org/wiki/Ancient_Diocese_of_Ribe; Adam of Bremen ii (not opened) (?)" },
+    { "year": 1018, "text": "From King Cnut's time pennies are struck with Ripa's name on them.", "source": "Viking Ship Museum, Roskilde, 'Ribe': a mint by name from Cnut (1018 to 1035)" },
+    { "year": 1043, "text": "This year the Wends harried Jutland as far as Ripa. King Magnus met them on Lyrskov heath on Michaelmas eve and beat them.", "source": "Adam of Bremen ii.79; chronicle_793.json 1043-09-28-lyrskov; that they reached Ripa is from realms/denmark.md (?)" },
+    { "year": 1060, "text": "Jutland north of the Kongea is divided into four sees. Ripa is one of them.", "source": "en.wikipedia.org/wiki/Ancient_Diocese_of_Ribe" },
+    { "year": 1075, "text": "A writer at Bremen sets down that from Ripa one sails to Frisia, to England and to Saxony. (After the game's end: it shows where the town had been looking all along.)", "source": "Adam of Bremen iv.1 (not opened) (?)" }
+   ],
+   "eras": [
+    { "from": 793, "to": 809, "text": "An open market on the north bank: forty or fifty plots, booths and workshops, no ditch, no church, no hall anyone has found. Heathen. Silver goes on the scale; the old small pennies with the bearded face are still seen and are weighed like everything else. The bead-makers complain of thin eastern beads." },
+    { "from": 810, "to": 853, "text": "A boundary ditch now runs round the market. The king's wars with the Franks and then among his own kin pass by on the heath road; Sliesthorp grows and takes some of the eastern trade. From about 825 small coins of Sliesthorp turn up on the scale." },
+    { "from": 854, "to": 899, "text": "A boy king, and across the river a plot given to the Christians' god: a timber church, a priest, graves laid east and west. The narrow ditch gives way to a moat six or seven paces wide. Heathen and Christian trade on the same plots and bury on opposite banks." },
+    { "from": 900, "to": 947, "text": "Quieter. Fewer booths, fewer foreign boats, or so it looks; the cattle still come. Whether the church stands is not certain. Gold goes into the ground on the farms round about." },
+    { "from": 948, "to": 1017, "text": "A bishop's seat in name from 948, and after the king's baptism about 965 in more than name. English pennies come home with men from the fleets after 991 and are weighed, then counted." },
+    { "from": 1018, "to": 1042, "text": "King Cnut's peace on both shores of the sea. Pennies are struck with Ripa's name; Bishop Odinkar, rich and well born, builds and gives. Ships go to England and Frisia and come back." },
+    { "from": 1043, "to": 1066, "text": "The Wends come as far as Ripa and are beaten on the heath. The market is busy again, the see is one of four in Jutland from 1060, and the town looks west as it always has." }
+   ],
+   "sites": [
+    { "id": "ripa.bank", "kind": "quay", "name": "The market bank", "from": 0, "to": 0,
+      "see": "A low bank of pale sand along a brown river that bends twice before it reaches you; boats lie nose-in on the sand, a dozen in spring, forty at midsummer, with no jetty and no post to tie to but your own. Behind them the booths stand in a row with their backs to the wind. Curlews call on the marsh, mallets knock, and the air smells of mud, peat smoke and cattle.",
+      "do": ["act:load", "act:hire_porters", "act:ask_harbour", "act:hire_pilot", "act:wait_wind", "act:ask_news", "person:ripa.hroald", "card:harbour.chain_coast_watch_810.s03_ships_gather", "card:harbour.chain_reric_808.s03_ships_called", "card:harbour.chain_saxon_exiles_804.s06_strand", "card:harbour.chain_saxon_exiles_804.s07_spokesman", "person:ripa.skipper", "card:harbour.whose_guest.ripa", "card:harbour.whose_man.ripa"],
+      "source": "The booths in a strip some 400 m long on the north side of the river; no jetty or quay reported (dossier [Wda]). The count of boats is ours (?)" },
+    { "id": "ripa.plots", "kind": "market", "name": "The plots", "from": 0, "to": 0,
+      "see": "Narrow plots run back from the water side by side, each six or eight paces wide with a shallow ditch between, the ground a trodden layer of sand over older floors. Awnings of wadmal, tables of planks on casks, a Frisian holding up a bolt of cloth to the light, a woman biting a bead. Scales swing everywhere; nobody calls a price in pennies.",
+      "do": ["market", "act:haggle", "act:sample", "act:weigh_silver", "act:buy_plot", "act:rent_store", "act:rumours", "card:harbour.chain_lindisfarne_book.s01_strip_of_gilt", "card:harbour.chain_sword_smuggle.s04_buyer", "card:harbour.chain_old_gods.s05_dane", "card:harbour.grain_over_the_flats.ripa", "card:harbour.short_ell.ripa", "card:harbour.blade_buyers.sliesthorp"],
+      "source": "Plots at right angles to the river on a spread layer of sand, each about 6 to 8 m wide, perhaps 40 to 50 in all (Feveile, Ribe Studier, via the dossier (?)); story/unlocks_793.json unlock_plot_ripa" },
+    { "id": "ripa.floors", "kind": "workshop", "name": "The bead and comb floors", "from": 0, "to": 900,
+      "see": "Two open-sided booths share a clay hearth no bigger than a shield. On one side a man turns a blob of blue glass on an iron rod over the coals and the floor glitters with failed beads; on the other a comb-maker saws antler into plates, ankle deep in pale splinters. A Northman's bundle of whetstones leans against the post. It smells of hot glass and scorched bone.",
+      "do": ["person:ripa.bead_maker", "act:buy_at_source", "act:commission", "act:sample", "act:tafl", "card:harbour.chain_amber_road.s01_beadmaker", "card:harbour.blue_for_toki.ripa"],
+      "source": "Glass waste, rods, failed beads and mosaic cubes; antler splinters by the thousand, some reindeer; 117 whetstones, 17 of Eidsborg stone (dossier [Wda; Ash (?)]). That the two crafts shared a hearth is ours (?)" },
+    { "id": "ripa.caster", "kind": "workshop", "name": "The caster's booth", "from": 0, "to": 900,
+      "see": "A booth with a turf wall on the weather side. Clay moulds for buckles and brooches lie broken in a heap like eggshell, a crucible the size of a cup sits in the charcoal, and on a block by the door are a folding scale in a bronze case and a row of small lead weights. The goldsmith's hammer never stops: a quick double tap, like a wagtail.",
+      "do": ["person:ripa.goldsmith", "act:test_silver", "act:weigh_silver", "act:buy_tools", "act:commission", "act:riddles", "card:harbour.years_hedeby.pennies", "card:harbour.chain_dirham_hoard.s01_dying_gute", "card:harbour.silver_has_one_face.ripa", "card:harbour.leaves_by_the_handful.ripa"],
+      "source": "Bronze-casters' clay moulds at Ribe (dossier [Wda]); folding scales and weights in the north (spine, silver_road); riddles_793.json r-gest-04, bought of a goldsmith" },
+    { "id": "ripa.boat_sand", "kind": "shipyard", "name": "The boat sand and the smith's floor", "from": 0, "to": 0,
+      "see": "At the west end of the bank the sand is black with tar and old fires. A boat lies on her side on rollers with two men scraping her; planks split from oak stand drying against a rack, and a smith under a lean-to draws rivets from a bar, the slag in a grey heap behind him. Tar smoke blows flat along the river.",
+      "do": ["act:repair", "act:careen", "act:build_ship", "act:buy_ship", "act:fit_upgrade", "act:buy_tools", "act:provision"],
+      "source": "Smiths' slag on the plots (dossier [Wda]); boat building at Ribe is not found in the ground and is the game's, from story/ships_793.json built_at (?)" },
+    { "id": "ripa.well", "kind": "well", "name": "The old well", "from": 0, "to": 0,
+      "see": "A square shaft lined with black oak older than anyone living, a pole and a bucket of staves, the ground round it trodden to paste. Beside it an ale-wife keeps a bench under an awning and a second, newer well lined with a Frankish wine cask. Everyone who needs water comes here, so everyone who has news leaves some.",
+      "do": ["person:ripa.tola", "act:ask_news", "act:rumours", "act:drink", "act:dice", "act:song", "act:hire_crew", "act:provision", "card:harbour.chain_amber_road.s07_west", "person:ripa.well_wright", "card:harbour.word_at_the_well.ripa", "card:harbour.grain_over_the_flats.ripa"],
+      "source": "The first well, oak felled 704 to 710; other wells lined with wine casks from the Mainz country (dossier [Wda; VSM]). The ale bench is ours" },
+    { "id": "ripa.hearth", "kind": "lodging", "name": "Hroald's house", "from": 0, "to": 840,
+      "see": "A long low house behind the plots, one of the few with smoke in it all winter: turf at the walls, a hearth down the middle, benches along both sides and a loom by the door where the light is. Dried fish hang in the roof. The host's seat has a carved post; a guest's place is the bench end nearest the fire, and you are shown it without a word.",
+      "do": ["person:ripa.hroald", "act:lodge", "act:feast", "act:gift", "act:oath", "act:witness", "act:hear_law", "act:riddles", "act:store", "card:harbour.chain_house_heir.s02_hearth", "card:harbour.chain_house_heir.s04_hearth_spring", "card:harbour.chain_house_marriage.s05_danish_hearth", "card:harbour.chain_house_marriage.s06_danish_handclasp", "card:harbour.whose_guest.ripa", "card:harbour.short_ell.ripa"],
+      "source": "Houses lived in the year round on part of the market from its first decades (Croix, via en.wikipedia.org/wiki/Emporium_(early_medieval)). The host who answers for a stranger: Design/content/peoples/norse.md (later law) (?). The house itself is invented" },
+    { "id": "ripa.ford", "kind": "ford", "name": "The ford and the cattle ground", "from": 0, "to": 0,
+      "see": "Above the last plot the river spreads thin over gravel and the heath road comes down to it, rutted by carts. On the near side is a wide trampled ground fenced with hurdles, deep in dung, where small dun cattle stand steaming and drovers lean on their sticks. A cart with two oxen waits in the water for a load. Flies; bawling; a dog that will not stop.",
+      "do": ["person:ripa.carter", "act:cross", "act:buy_at_source", "act:haggle", "act:hire_porters", "act:riddles", "card:harbour.chain_riddle_trail.s02_carter", "card:harbour.cattle_ground.ripa"],
+      "source": "Dung layers under and in the earliest market, read as a cattle market (dossier [Wda; Fev (?)]); the ford is from the later tale of Leofdag and from chain_the_bell (?); riddles_793.json r-gest-02, r-gest-11, r-gest-28" },
+    { "id": "ripa.graves", "kind": "graveyard", "name": "The grave field", "from": 0, "to": 950,
+      "see": "West of the last booth the sand rises a little and nobody builds. Low mounds, a ring of stones, here and there a black patch where a pyre burned last year; a pot stands on one mound with a lid of flat stone. Larks, wind in the heather, and from behind you the sound of the market going on as if nothing ended here.",
+      "do": ["act:remember", "act:bury", "act:offer", "act:vow", "card:harbour.dead_guest.ripa"],
+      "source": "A heathen grave field beside the market, west of the strip; burnings and burials of the 8th and 9th centuries (dossier [Wda] (?))" },
+    { "id": "ripa.offering", "kind": "shrine", "name": "The empty ground south of the river", "from": 0, "to": 950,
+      "see": "Across the water and a walk south there is a piece of grass with nothing on it: no post, no stone, no fence. People cross to it alone, stand a while, stoop, and come back with empty hands. If you look closely the turf has been cut and pressed down again in many places.",
+      "do": ["act:offer", "act:ask_omen", "act:vow"],
+      "source": "The offering at Damhus: 262 fresh-struck coins laid down together in empty ground south of the town, read as a gift to the gods (dossier [Wda]); its date is unchecked, and that the place was used in 793 is ours (?)" },
+    { "id": "ripa.church", "kind": "church", "name": "The church on the king's plot", "from": 857, "to": 0,
+      "see": "On the south bank, facing the market across the river, a plot staked out by the king's men: at first four corner posts and a sea chest for an altar, then walls of upright oak and a roof of reed. Graves lie in rows beside it, heads to the west. From the market you can hear the priest sing, and the market has opinions.",
+      "do": ["person:ripa.priest", "person:ripa.leofdag", "person:ripa.odinkar", "act:hear_mass", "act:alms", "act:vow", "act:sanctuary", "act:bury", "act:read_text", "act:fund_work", "card:harbour.chain_the_bell.s12_ripa", "card:harbour.four_posts.ripa", "card:harbour.priest_set_down.ripa", "card:harbour.writ_at_the_door.ripa"],
+      "source": "Rimbert, Vita Anskarii c. 32 (tr. Robinson 1921): a plot and leave for a priest. Its site is not known, perhaps under the later cathedral on the other bank; graves from the 9th century by the cathedral (dossier [Wdk; Wen]) (?)" },
+    { "id": "ripa.mint", "kind": "mint", "name": "The moneyer's house", "from": 1018, "to": 0,
+      "see": "A timber house near the church with a barred shutter and a bench outside worn smooth by waiting men. Inside, one man holds the die and another swings the hammer; the new pennies are swept into a wooden bowl like peas. The king's name runs round one side and the town's round the other.",
+      "do": ["act:change_coin", "act:test_silver", "act:weigh_silver", "act:ask_news", "card:harbour.writ_at_the_door.ripa"],
+      "source": "Pennies with Ripa's name from Cnut, Harthacnut and Sven Estridsson (Viking Ship Museum, 'Ribe'); no mint house has been found and the moneyers' names are not checked (?)" }
+   ],
+   "people": [
+    { "id": "ripa.hroald", "name": "Hroald", "historical": false, "role": "host", "people": "danish", "faith": "old_gods",
+      "born": 748, "died": 0, "from": 793, "to": 818,
+      "trait": "Slow to speak, exact about what a guest owes and is owed; proud that Frisians have lain at his landing since his father's day.",
+      "want": "Guests who come back every summer, sons who come home from the north, and nothing said about him at other men's fires that he did not put there.",
+      "fear": "A king who decides the market needs a king's man in every house; a guest of his breaking the peace and the blame landing at his door.",
+      "voice": "Says less than he means. States a custom, then waits. His jokes sound like complaints.",
+      "looks": "Mid forties, broad, a grey-fair beard cut square, a brown wool tunic and a cloak pinned at the right shoulder with a plain bronze ring pin, a small scale case and a knife at his belt.",
+      "knows": ["who is in harbour, whose guest each ship is, and who is not anyone's", "the channels over the flats and which of his sons will pilot you through them", "what the Danes pay for wine, cloth, querns and blades this summer", "the custom of the market: witnesses, handclasps, what a host answers for", "who the king is this year, and how far his word reaches on this bank"],
+      "ties": [
+       { "to": "ripa.tola", "tie": "kin", "note": "his dead brother's wife; she tells him the news before he asks and he pretends he knew" },
+       { "to": "ripa.goldsmith", "tie": "friend", "note": "Soti weighs for his guests; a quarrel over a short ounce twenty years ago is still their favourite story" },
+       { "to": "ripa.carter", "tie": "serves", "note": "Alli carts for the house and is paid in ale, hides and being listened to" },
+       { "to": "cast.thiadbod", "tie": "rival", "note": "Thiadbod brings gifts for every man on the bank and lies at another landing; Hroald counts the gifts" },
+       { "to": "cast.asulf", "tie": "owes", "note": "Asulf once paid a debt for one of his sons at Sliesthorp and has never mentioned it, which is worse" },
+       { "to": "emuthon.folcger", "tie": "friend", "note": "pilots of two coasts who trade news of the sands by any boat going either way" },
+       { "to": "cast.crew.ravn", "tie": "friend", "note": "knows him of old, and does not ask where he has been" },
+       { "to": "hleidr.hroald", "tie": "kin", "note": "named for his mother's uncle, the blind reciter at Salhaugar on Zealand, whom he saw once as a boy (?)" },
+       { "to": "ripa.skipper", "tie": "kin", "note": "his sister's son Roulf, who carries for the hall at Hleidr and lies at no landing but his" },
+       { "to": "ripa.well_wright", "tie": "friend", "note": "Gudmund dug the house's well and is still explaining it" }
+      ],
+      "lines": {
+       "greet": "A Frisian boat, and small. Good. Small boats pay what they owe. Whose guest are you on this bank? If nobody's, you are mine until you shame me.",
+       "greet_again": "You came back over the flats and did not drown. My youngest owes me an ounce. Sit at the bench end; the fire knows you.",
+       "greet_friend": "My guest is here. Tola, the good ale, not the ale for Saxons. Tell me what Dorestad says, and I will tell you what it should have said.",
+       "rumour": [
+        "The king's men were on the heath road at the new moon, counting carts. Kings do not count for pleasure.",
+        "Three Frisians came in on one tide with wine. By evening the price was a third less. Come first or come late; never come third.",
+        "A man from the north-way laid antler on the sand and asked for blades. Nobody had blades. Everybody looked at their feet.",
+        "My sons say the outer channel has moved a boat's length south since the winter storms. Take one of them. He costs less than a keel."
+       ],
+       "custom": "With us a stranger has no peace until a man of the place stands for him. I stand for you. So when you cheat, cheat somewhere else.",
+       "saying": "Praise the day at evening, the ale when it is drunk, and the Frisian when he has paid.",
+       "farewell": "Go with the ebb and keep the beacons of nobody in line, for there are none. Follow my son's boat. I will keep your place on the sand."
+      },
+      "source": "invented: the Dane who answers for Frisian ships in chain_house_heir and chain_house_marriage (there unnamed). No person is named at Ribe before about 855 (dossier 3). The saying turns Hávamál 81 (Bellows 1923), texts_793.json havamal_081" },
+    { "id": "ripa.goldsmith", "name": "Soti", "historical": false, "role": "goldsmith", "people": "danish", "faith": "old_gods",
+      "born": 752, "died": 0, "from": 793, "to": 822,
+      "trait": "Quick hands, slow judgement; weighs everything, people included, and tells you the weight.",
+      "want": "Good metal and new patterns: he will copy any brooch he is shown, and he wants to be shown them all.",
+      "fear": "His eyes going; a man with a false weight being taken for his pupil.",
+      "voice": "Talks while he hammers, in short bursts between taps. Honest to the grain and rude with it.",
+      "looks": "About forty, thin, burn-scarred forearms, hair tied back with a thong, a leather apron over a tunic bleached by charcoal smoke, a touch-needle and a folding scale in a round bronze case on his belt.",
+      "knows": ["the northern weights, the nick and the bend that tell good silver from tin", "what the old small pennies with the bearded face weigh, and that they go on the scale like anything else", "who brought western church gold to the market after midsummer 793, and what became of the calfskins it came off", "which buyers on the bank pay double for a Frankish blade and who pays in people", "every caster between here and Walcheren by his work"],
+      "ties": [
+       { "to": "walichrum.wilbraht", "tie": "friend", "note": "sends him moulds to copy and gets brooches back by any ship going north" },
+       { "to": "ripa.hroald", "tie": "friend", "note": "weighs for Hroald's guests and is fed at his fire all winter" },
+       { "to": "ripa.bead_maker", "tie": "friend", "note": "shares charcoal and bad news with the bead-maker next door" },
+       { "to": "cast.thorleif", "tie": "owes", "note": "bought the gold off a book's boards from his crew and has not yet paid the last ounce" },
+       { "to": "cast.tidwine", "tie": "friend", "note": "saw the boy tally a cargo on a stick faster than a grown man, and told his owners what that was worth" },
+       { "to": "cast.asulf", "tie": "rival", "note": "Asulf pays in captives where Soti pays in silver; they bid for the same blades" },
+       { "to": "dorestad.sigimar", "tie": "rival", "note": "has never met the Dorestad moneyer and despises him on principle: a man who trusts a stamp" },
+       { "to": "skiringssal.vemund", "tie": "taught", "note": "a young hilt smith of the Vik learned casting at his block one summer, and was weighed first like everybody else" }
+      ],
+      "lines": {
+       "greet": "Put it on the scale. No, not the coin's face to me, I do not know your king. Silver has one face and it is the inside.",
+       "greet_again": "The Frisian with the pennies. I have nicked better and I have nicked worse. Sit. Mind the moulds.",
+       "greet_friend": "Hold this tongs. No, the other end. A friend is a man you can hand hot things to.",
+       "rumour": [
+        "The old bearded pennies still turn up in the sand. My father's father took them by count, they say. I take them by weight and so will you.",
+        "A Gute paid me in silver from the east last moon. Thin, wide, covered in worm tracks. Good silver. I asked what the worms said. He did not know either.",
+        "Blades. Everyone wants Frankish blades. A man offered me a boy for one. I make buckles. What would I do with a boy?"
+       ],
+       "leaf": "The gold came off two boards. Between them, calfskins with black marks and painted beasts. I sold some by the handful. The crew kept a boy who could tally.",
+       "scale": "Three ounces for the scale and the weights, and I show you the nick for nothing. After that no man north of the Eider cheats you twice.",
+       "saying": "Who walks hard paths, kisses fast, has two mouths and treads on nothing but gold? I am holding him. Guess.",
+       "farewell": "Come back with tin from the English and I will owe you. Come back with a new pattern and I will owe you more."
+      },
+      "source": "invented: the goldsmith of the spine's silver_road hook for Ripa (sets sv_scale) and of dorestad.letter_from_york; friend of walichrum.wilbraht. Bronze-casters' moulds at Ribe (dossier [Wda]). The riddle is Gestumblindi's fourth, texts_793.json t-gest-04 (Vigfusson and Powell 1883), in our wording" },
+    { "id": "ripa.bead_maker", "name": "Toki", "historical": false, "role": "craftsman", "people": "danish", "faith": "old_gods",
+      "born": 745, "died": 0, "from": 793, "to": 812,
+      "trait": "A master of a craft that is being undersold; bitter, funny about it, and unable to stop making beads.",
+      "want": "Blue glass from the Rhine, and one buyer who still sees the difference between his beads and a string of eastern peas.",
+      "fear": "Packing the rod for the last time; his sister's son learning nothing worth knowing from him.",
+      "voice": "Dry. Runs down his own goods before you can, then names a price that shows he did not mean it.",
+      "looks": "Near fifty, stooped from the hearth, singed eyebrows, a fair beard gone yellow-grey, a patched tunic with burn holes, an iron rod in one hand and a string of his own best beads round his wrist.",
+      "knows": ["what raw glass and the little coloured cubes are worth, and which Frisian brings them", "the thin eastern beads: who sells them, for how little, and that the women do not care", "amber: how it is told from resin and glass, and that it comes from the Ests through three hands", "the fashions of twenty summers, bead by bead"],
+      "ties": [
+       { "to": "ripa.goldsmith", "tie": "friend", "note": "next booth; they share charcoal and a low opinion of buyers" },
+       { "to": "reric.folcbern", "tie": "rival", "note": "a Frisian at Reric who says Ripa keeps the best Rhine glass and sends on the rest; it is true" },
+       { "to": "ripa.tola", "tie": "loves", "note": "has made her a string every winter for ten years and never said why" },
+       { "to": "cast.holmfast", "tie": "feud", "note": "the Svea whose eastern beads sell a string for what Toki asks for five; they have never exchanged a word" },
+       { "to": "cast.thiadbod", "tie": "owes", "note": "took raw glass from him on a promise two summers ago; Thiadbod has not asked for it yet" },
+       { "to": "walichrum.wilbraht", "tie": "friend", "note": "sells him broken beakers for the melt, by way of Soti" },
+       { "to": "birka.bead_maker", "tie": "rival", "note": "a woman among the Svear has spent ten years trying to get his yellow; he has heard, and it is the one thing that pleases him" },
+       { "to": "paviken.smith", "tie": "rival", "note": "a Gute who bids against him for the same glass cubes off Frisian boats, and loses" },
+       { "to": "truso.nameda", "tie": "friend", "note": "has never met the widow who gleans amber on the Ests' shore; knows her by the stone that reaches him through three hands" }
+      ],
+      "lines": {
+       "greet": "Beads. Blue, yellow, striped, eyed. Each one turned by hand, which is why they cost more and why nobody wants them. What have you brought me? Say glass.",
+       "greet_again": "The Frisian. Did you bring blue? No? Then sit and watch a man work for nothing; it is free.",
+       "greet_friend": "Here. This one came out right. It happens twice a summer. Give it to somebody who will look at it.",
+       "rumour": [
+        "A Gute laid out eastern beads ten days ago, thin as peas. A string for what I ask for five. The women bought them and smiled at me kindly.",
+        "No Frisian has brought the little coloured cubes since the first day of summer. I am melting a broken beaker. It has come to that.",
+        "The comb-maker says antler is dear. Antler grows on a deer every year for nothing. Tell me how glass grows."
+       ],
+       "amber": "This came through three hands before mine. Each hand kept a little and called it weight.",
+       "saying": "A bead is a small thing to be proud of. So I am proud in a small way.",
+       "farewell": "Bring blue. If you cannot bring blue, bring a woman with eyes."
+      },
+      "source": "invented: the bead-maker Toki of chain_amber_road (step 1), whose line 'three hands' is kept. Bead-makers' floors at Ribe; the eastern beads from about 790 (dossier [Wda; PG]; economy/pots_glass_luxuries.md rumours 11 and 12)" },
+    { "id": "ripa.tola", "name": "Tola", "historical": false, "role": "alewife", "people": "danish", "faith": "old_gods",
+      "born": 755, "died": 0, "from": 793, "to": 826,
+      "trait": "Remembers every face and what it drank; kind without softness; wants a share, never a wage.",
+      "want": "A part in a cargo of her own, and her dead husband's brother to stop explaining her news back to her.",
+      "fear": "A winter with no malt; being an old woman by somebody else's fire.",
+      "voice": "Asks three questions while she pours and has your whole voyage out of you before the cup is full.",
+      "looks": "Late thirties, strong arms, fair hair under a linen kerchief, a strap dress of blue wool held by two oval bronze brooches with a string of Toki's beads between them, a ladle in her hand.",
+      "knows": ["everything said at the well this week, and who said it first", "which crews are a man short and which men are a crew short", "the price of malt and barley before Yule and after", "who is whose guest, and who left without paying", "what the women of the market will and will not buy from a stranger"],
+      "ties": [
+       { "to": "ripa.hroald", "tie": "kin", "note": "her dead husband's brother; she keeps her own bench and her own counsel" },
+       { "to": "ripa.bead_maker", "tie": "friend", "note": "wears his beads and has decided not to notice what they mean" },
+       { "to": "ripa.carter", "tie": "friend", "note": "the carter brings her malt from inland and the talk of the heath road" },
+       { "to": "cast.asulf", "tie": "rival", "note": "will pour for his lots and will not pour for him" },
+       { "to": "cast.crew.ravn", "tie": "friend", "note": "he has never told her where he is from either, and she has stopped charging him for the first cup" },
+       { "to": "sliesthorp.gunnhild", "tie": "kin", "note": "her sister, who keeps the ale-house at the head of the Slie; word goes between them by the carters, a month old and all of it true (?)" },
+       { "to": "hleidr.tola", "tie": "friend", "note": "a namesake who brews at the king's hall on Zealand; guests carry greetings between the two Tolas, and neither has said anything new in ten years" },
+       { "to": "ripa.well_wright", "tie": "friend", "note": "the well-wright keeps both her wells sweet and drinks the difference" }
+      ],
+      "lines": {
+       "greet": "New face, Frisian boat, four men. Sit. Where from, what in the hold, and who is your host? Drink first. You can lie to me after.",
+       "greet_again": "You sat there last time and drank two and paid for three, because you could not count our weights. I kept the difference. Here it is.",
+       "greet_friend": "I heard your sail was seen off the outer sand before Hroald did. Your cup is the one with the chipped rim. Nobody else gets it.",
+       "rumour": [
+        "A crew from the north-way is two men short and will not say why. The two were not drowned. Drowned men get talked about.",
+        "Malt. Before Yule a Northman pays what you ask for malt. After Yule he haggles. Remember who told you.",
+        "A woman offered two ounces for a Frankish pot with a crack in it. No Frisian has come with pots since the ice went.",
+        "The Jute with the grey horse is back and says it is for sale. It is never for sale. He likes to be asked."
+       ],
+       "share": "I do not want a wage from you. I want a tenth part in a cargo and my name said when it is sold. Think about it while you drink.",
+       "saying": "Ale tells what the well keeps. That is why I sell one beside the other.",
+       "farewell": "Go on, then. I will know you are back before you have touched the sand."
+      },
+      "source": "invented. The brew-wife who wants a share and not a wage, and the Jute with the grey horse, are from chain_amber_road step 7; the malt word from economy/food.md rumour 5; the cracked pot from economy/pots_glass_luxuries.md rumour 2" },
+    { "id": "ripa.carter", "name": "Alli", "historical": false, "role": "carter", "people": "danish", "faith": "old_gods",
+      "born": 760, "died": 0, "from": 793, "to": 820,
+      "trait": "Patient as his oxen; loves a riddle more than a profit and is seldom wrong about cattle or people.",
+      "want": "A second cart and a son to drive it; failing that, somebody on the bank who can answer him.",
+      "fear": "The cattle sickness; the ford in a spring flood with a full load.",
+      "voice": "Unhurried, with long pauses in which he looks at his oxen as if they might add something.",
+      "looks": "Early thirties, heavy-shouldered, wind-red face, a hood of undyed wool and leg wrappings caked to the knee, a hazel goad in his hand and a notched stick tucked behind his ear.",
+      "knows": ["the heath road: how many days to the king's places inland, and who is on it", "when the herds come down and which drover waters his beasts before the sale", "the ford: where the gravel holds and where it does not", "riddles of the road and the pasture, handed on by stick", "what hides and cattle fetch in autumn against midsummer"],
+      "ties": [
+       { "to": "ripa.hroald", "tie": "serves", "note": "carts for the house and for its guests" },
+       { "to": "hleidr.asgaut", "tie": "owes", "note": "was a houseman at the hall at Hleidr as a boy and learned there to keep a tally on a stick" },
+       { "to": "ripa.tola", "tie": "friend", "note": "brings her malt and the talk of the road" },
+       { "to": "cast.crew.ravn", "tie": "friend", "note": "a riddle man knows a riddle man; they swap sticks without many words" },
+       { "to": "sliesthorp.asulf", "tie": "feud", "note": "was made to cart a lot of captives over the heath once and has refused the work since" },
+       { "to": "wijnaldum.aldward", "tie": "friend", "note": "a Frisian herdsman he has never met, known by the salt-marsh cattle he sends north and the tally sticks that come with them" },
+       { "to": "hleidr.toki", "tie": "friend", "note": "the swineherd at the king's hall, a boy when Alli carried wood there, sends the hall's spare hides down the drove road by him" }
+      ],
+      "lines": {
+       "greet": "Mind the dung, it is the oldest thing in this market. You want goods taken inland, or cattle brought out? I do both. Slowly.",
+       "greet_again": "The Frisian. My oxen remember your casks. They did not like them. Wine sloshes; it upsets an ox.",
+       "greet_friend": "Sit on the cart tail. I have a new one for you. Four go, four hang, two show the way, two keep off dogs, one drags dirty behind.",
+       "rumour": [
+        "The herds are down from the heath and fat. Buy before the frost or feed them yourself.",
+        "King's riders at the ford twice this moon. They asked how many carts go south. I said I cannot count past my oxen.",
+        "A drover saw a black hog wallow in the mud with no bristle on its back. He meant a beetle. He thinks he made it up."
+       ],
+       "ford": "Cross where the cattle cross. They have been getting it right longer than this market has stood.",
+       "saying": "The live man catches the cow. The dead man is excused the market.",
+       "farewell": "Go well. If you see a way under you, over you and on both sides, you are on a bridge. That one is free."
+      },
+      "source": "invented: the carter of chain_riddle_trail step 2 and of riddles_793.json r-gest-02, with the cattle dealer's r-gest-28 and the drover's r-gest-11 (Gestumblindi's riddles, Vigfusson and Powell 1883, texts_793.json t-gest-02, 11, 28, in our wording). The saying turns Hávamál 70 (Bellows 1923), texts_793.json havamal_070. The dung layers: dossier [Wda]" },
+    { "id": "ripa.priest", "name": "Liudlef", "historical": false, "role": "priest", "people": "frisian", "faith": "christian",
+      "born": 826, "died": 0, "from": 857, "to": 888,
+      "trait": "Cheerful under conditions that would sour a saint; counts his flock on two hands and names each finger.",
+      "want": "Walls. Then a roof. Then, if God is in a giving mood, a bell, and the leave to ring it.",
+      "fear": "That the king's leave dies with the king; that he will be the last priest here as well as the first.",
+      "voice": "Frisian plainness with a scholar's Latin tag swallowed halfway; makes light of his own discomfort and never of the faith.",
+      "looks": "About thirty, wiry, tonsured, a much-darned black habit kilted up out of the mud, a wooden cross on a cord, a clapper board under his arm for calling to Mass.",
+      "knows": ["which traders on the bank were baptised at Dorestad or Hamburg, and which only took the sign of the cross to trade", "what the market says about the church, a day after it is said", "who has the king's ear: the count Burghard, kin to both Horiks", "the feasts and fasts, and which of his flock keep them", "what Bishop Anskar wants done, and how little there is to do it with"],
+      "ties": [
+       { "to": "cast.anskar", "tie": "serves", "note": "sent by the bishop, who asked the king for this ground" },
+       { "to": "sliesthorp.anskar", "tie": "taught", "note": "bought as a boy and schooled by him; this is the debt he is paying" },
+       { "to": "sliesthorp.horik_younger", "tie": "owes", "note": "holds the plot by the young king's word and by nothing else" },
+       { "to": "dorestad.eystein", "tie": "friend", "note": "a Dane at Dorestad who sends word north of which ships carry Christians" },
+       { "to": "cast.rorik", "tie": "rival", "note": "does not trust a baptised sea-king, and says so only in Latin" },
+       { "to": "skiringssal.folkmar", "tie": "friend", "note": "a Frisian in the Vik, five days and a wall away, who sends his sins and an altar cup by any ship going south" },
+       { "to": "sliesthorp.horik_younger", "tie": "serves", "note": "prays for the young king by name, since the king's word is the only wall the church has" }
+      ],
+      "lines": {
+       "greet": "God's welcome. This is the church at Ripa. I grant you it needs walls. I say Mass on a sea chest; in wet weather, under it.",
+       "greet_again": "You came back. That doubles my congregation of Frisians. Mass is at first light; I beat a board, softly, so the market can pretend not to hear.",
+       "greet_friend": "Come in out of the rain, such in as there is. I kept you the dry corner. I measured.",
+       "rumour": [
+        "The count Burghard spoke for us again at the king's table. He is kin to both Horiks, the dead and the living. It is the best wall we have.",
+        "Half the men on these plots were signed with the cross at Dorestad, for trade. They mean to be baptised on their deathbeds. I pray they get warning.",
+        "At Sliaswic the king has allowed a bell. Here nobody has forbidden one. I am careful not to ask."
+       ],
+       "ground": "The king gave the ground and leave for a priest to live on it. He did not say live well.",
+       "saying": "They say their gods are angry at an unknown god. I tell them he is not unknown; they have simply not been introduced.",
+       "farewell": "Go with God over the flats. I will say your name at the chest."
+      },
+      "source": "invented: the first priest at Ripa is allowed, not named (Rimbert, Vita Anskarii c. 32, tr. Robinson 1921); he is the unnamed priest of chain_the_bell step 12, whose first line is kept. Traders baptised at Dorestad or Hamburg, others signed with the cross: Rimbert c. 24. Anskar buying boys to train: Rimbert c. 15" },
+    { "id": "ripa.leofdag", "name": "Leofdag", "historical": true, "role": "bishop", "people": "frisian", "faith": "christian",
+      "born": 910, "died": 0, "from": 948, "to": 960,
+      "trait": "A foreigner set over a see that is mostly a name; patient, bookish, braver than he looks.",
+      "want": "A church that stands through a winter, and a king who will be baptised in his lifetime.",
+      "fear": "The road north of the river, where he preaches without any man's leave.",
+      "voice": "Careful Danish with the vowels of the south coast; asks after your voyage and listens to the answer.",
+      "looks": "About forty, spare, clean-shaven, a plain dark cloak over a linen alb, a travelling staff, a small book in a leather satchel that he touches when he is thinking.",
+      "knows": ["what was said at Ingelheim in 948, and that three bishops were made for the Danes on one day", "what Archbishop Adaldag at Bremen wants of the new sees", "which farms inland will hear a priest and which will set dogs on him", "the old graves by the church, and whose they are"],
+      "ties": [
+       { "to": "ripa.priest", "tie": "kin", "note": "no blood: he tends the graves of the first priest's flock as an heir tends a father's" },
+       { "to": "sliesthorp.bishop", "tie": "friend", "note": "Hored of Sliaswic, made bishop with him on the same day" },
+       { "to": "medemelacha.liudbrand", "tie": "kin", "note": "of the same Frisian priestly kin, four generations on (?)" }
+      ],
+      "lines": {
+       "greet": "You are from the Rhine mouths? Then you can tell me how the tide is running at home. I am bishop here. It is a larger word than the thing.",
+       "greet_again": "The merchant. Good. I have a letter for Bremen and nobody to carry it who can be trusted not to use it for kindling.",
+       "greet_friend": "Sit with me. I have been speaking Danish since Candlemas and my jaw aches. Say something in Frisian. Anything.",
+       "rumour": [
+        "Three of us were made bishops for the Danes at Ingelheim, at Whitsuntide. Between us we had perhaps two churches. The archbishop was not discouraged.",
+        "The king at Jelling lets us preach and does not listen. His son listens and does not say what he hears.",
+        "North of the river they ask me what my god pays. I say: later. It is a hard bargain to sell to a Dane."
+       ],
+       "saying": "A see is a chair. I was given the chair. The room I must build round it myself.",
+       "farewell": "God keep you on the flats. If you pass Bremen, tell them Ripa is still here, and so am I."
+      },
+      "source": "Real: Leofdag (Liafdag), first bishop of Ribe, consecrated by Archbishop Adaldag about 948 and present at the synod of Ingelheim, 7 June 948; by his name not a Dane, perhaps a Frisian or German (en.wikipedia.org/wiki/Ancient_Diocese_of_Ribe; P. E. Odden, katolsk.no). His birth and death years are not known and are the game's (?). The tale that a king's housecarl speared him at the ford is later and probably invented: it is not used here. Hored of Sliaswic: Adam of Bremen ii.4" },
+    { "id": "ripa.odinkar", "name": "Odinkar", "historical": true, "role": "bishop", "people": "danish", "faith": "christian",
+      "born": 970, "died": 1043, "from": 1000, "to": 1043,
+      "trait": "A great man's son who gave his wealth to his church and never forgot it had been his; learned, generous, used to being obeyed.",
+      "want": "A church of Ripa rich enough to stand without Bremen's hand under it, and the see kept among his own kin.",
+      "fear": "The king's peace ending with the king; Wends on the heath road.",
+      "voice": "Formal and unhurried, a lord's Danish with schoolroom Latin behind it; gives before he asks, then asks plainly.",
+      "looks": "As first met, about thirty: tall, well fed, a trimmed fair beard, a bishop's cloak of good English cloth with a gold-thread border, a ring, a walking staff headed with walrus ivory.",
+      "knows": ["what King Cnut's writ promises merchants on both shores of the sea, and who reads it out", "the new pennies with Ripa's name: their weight, and what the moneyer takes", "which ships are bound for England and Frisia this month, and whose they are", "that the bishop is said to have half the king's income from the town, and that there is no charter for it"],
+      "ties": [
+       { "to": "cast.cnut", "tie": "serves", "note": "the king's man and, it is said, schooled abroad under him" },
+       { "to": "lundenwic.cnut", "tie": "friend", "note": "sends him word of Jutland by merchants going to London" },
+       { "to": "cast.thorkell", "tie": "rival", "note": "does not care for a fleet's chief who was paid to change sides and paid again to stay" },
+       { "to": "ripa.leofdag", "tie": "kin", "note": "no blood: he holds the chair Leofdag was given, and has the room built round it" }
+      ],
+      "lines": {
+       "greet": "You are welcome in Ripa. The king's peace covers you from the outer sand to the ford. Past the ford, my own covers you, which is nearly as good.",
+       "greet_again": "The house from the Rhine mouths. Your father's father traded on this bank before there was a church to tithe him. I have it from the old women.",
+       "greet_friend": "Dine with me. It is a fast day, so it will be fish, but it will be a great deal of fish.",
+       "rumour": [
+        "Men are home from England with more pennies than they can spend. My moneyer weighs them and weeps: good silver, and every one with the wrong king.",
+        "The king was at Rome at Easter and bargained with the emperor over merchants' tolls on the road. A king who haggles for traders. Mark it.",
+        "There is talk of Wends on the eastern coast again. Heath roads run both ways. I have had the church silver listed."
+       ],
+       "writ": "The king's word is read at the church door at Michaelmas. Come and hear it. A law you have heard is harder to break by accident.",
+       "saying": "I gave my land to the church. Now when I am generous it is with God's goods, which makes generosity much easier.",
+       "farewell": "Go with God, and with the ebb. Greet London for me. Tell them Jutland keeps the peace, and counts the pennies."
+      },
+      "source": "Real: Odinkar the younger, bishop of Ribe about 1000 to 1043, a Dane of great family and wealth, said to have been schooled abroad under Cnut and to have won a promise that the see would stay in his kin (en.wikipedia.org/wiki/Ancient_Diocese_of_Ribe; da.wikipedia.org/wiki/Ribe; Adam of Bremen ii, not opened) (?). His birth year is the game's (?). Cnut at Rome, Easter 1027, and the tolls: spine, cast.cnut. The bishop's half of the king's income is ascribed to Cnut with no charter (dossier 4)" },
+    { "id": "ripa.well_wright", "name": "Gudmund", "historical": false, "role": "craftsman", "people": "danish", "faith": "old_gods",
+      "born": 755, "died": 815, "from": 793, "to": 815,
+      "trait": "The market's well-digger and cooper: lines a shaft with a great Rhine wine cask, hoops and all, and thinks it the cleverest thing ever done with somebody else's barrel.",
+      "want": "Empty casks of the Mainz country, the bigger the better, and Frisians careless enough to sell them cheap.",
+      "fear": "A shaft falling in on him; brackish water at spring tides in a well with his name on it.",
+      "voice": "Cheerful and loud from the bottom of a hole. Explains what he is doing whether or not anyone asked.",
+      "looks": "About forty, short and thick, sand to the waist, a wooden mallet in his belt and an iron hoop over one shoulder like a baldric.",
+      "knows": ["where the sweet water lies under the sand, and where the tide gets in", "what an empty wine cask is worth to a man who needs a well", "who dug the old well: nobody knows, and he has asked", "which plots are changing hands, since a new holder wants water first"],
+      "ties": [
+       { "to": "reric.stoimir", "tie": "rival", "note": "a Wend who lines his wells with split oak, he hears, and calls a cask well shameful; Gudmund would like to taste his water" },
+       { "to": "ripa.tola", "tie": "friend", "note": "keeps both her wells sweet and drinks the difference" },
+       { "to": "ripa.hroald", "tie": "serves", "note": "digs for the house and for its guests" },
+       { "to": "cast.thiadbod", "tie": "owes", "note": "bought four great casks of him on a promise of hides" }
+      ],
+      "lines": {
+       "greet": "Mind the edge. A well in a wine cask, look. Staves, hoops and all. The water tastes of the Rhine for a year. People pay extra.",
+       "greet_again": "The Frisian. Any empty casks? The big ones. Two ounces for a sound one, and the well has your name for a summer.",
+       "rumour": [
+        "The old well is lined with oak older than anyone's grandfather. Whoever dug it told forty households where to stand. I should like to have met him.",
+        "A Wend at the bottom of the eastern sea lines his wells with split oak, they say, and thinks a cask well shameful. He has not tasted mine.",
+        "At spring tides the river comes up the sand from below. A badly placed well goes brackish. Mine do not. I listen first."
+       ],
+       "saying": "Dig where the women already walk. They found the water before you did.",
+       "farewell": "Bring casks. Empty ones. I can empty the others for you, but it takes longer."
+      },
+      "source": "invented: the wells at Ribe lined with wine casks from the Mainz country, and the first well with oak felled 704 to 710 (the dossier [Wda; VSM]); the well-wright of reric.stoimir's tie. The name is Gudmund (Helnaes)" },
+    { "id": "ripa.skipper", "name": "Roulf", "historical": false, "role": "skipper", "people": "danish", "faith": "old_gods",
+      "born": 765, "died": 825, "from": 793, "to": 825,
+      "trait": "A skipper of the Danish isles who carries for the lord at Hleidr: wine and glass in, hides and people out, and no opinion offered on either.",
+      "want": "A full hold both ways, and to be asked to the hall's feasts as a guest and not as the carrier.",
+      "fear": "A muster that takes his ship for a warship and gives her back with the thwarts split.",
+      "voice": "Says less than he means, and that slowly. Gives an invitation as if it were a word about the weather.",
+      "looks": "About thirty, long and loose-limbed, sun-bleached hair in a knot, a grey sea cloak pinned at the shoulder, a small silver hammer on a cord and a scale case at his belt.",
+      "knows": ["the way round the land to the islands, and how many days", "what the hall at Hleidr is short of before each feast", "who is asked to winter's start at the hall, and who should not go", "which Frisian skippers the steward there speaks well of"],
+      "ties": [
+       { "to": "hleidr.asgaut", "tie": "serves", "note": "carries for the steward of the hall and is paid after harvest, like everyone" },
+       { "to": "ripa.hroald", "tie": "kin", "note": "his mother's brother; he lies at Hroald's landing and nowhere else" },
+       { "to": "hleidr.tola", "tie": "friend", "note": "brings the brew-wife malt, and her news home" },
+       { "to": "cast.crew.ravn", "tie": "friend", "note": "knows the grey Northman's hand on a steering oar, and asks no questions about it" }
+      ],
+      "lines": {
+       "greet": "You are the Frisian at Hroald's landing. I am Roulf. I carry for the hall on Zealand. If you have wine, I know who is thirsty.",
+       "greet_again": "Your sail again. I was round the land and back while you were selling cloth. The hall asked whether Frisians had forgotten the way.",
+       "rumour": [
+        "The hall keeps winter's start with a feast. They say every ninth year it is a greater one. I carry the drink. I do not ask what else.",
+        "The steward buys on a tally and pays when the king's share is home. So far it has always come home.",
+        "A Frisian who brings wine to the hall before the feast is a guest. One who brings it after is a trader. The price is the same. The seat is not."
+       ],
+       "saying": "Round the land is longer than over it, and you keep your cargo.",
+       "farewell": "I load for the islands at the new moon. Follow my wake if you want the short way through the belts."
+      },
+      "source": "invented: the Danish skipper of the chain old_gods (step 5), who asks the house to the feast at winter's start at Hleidr; after about 825 a son of the same trade stands in for him until the chain's last year, 848. The ninth-year feast is Thietmar of Merseburg I.17, hearsay of about 1015: LATER, given as 'they say' (the chain's note). The name is Roulf (Helnaes)" }
+   ],
+   "stories": [
+    { "id": "ripa.leaves_by_the_handful", "title": "Leaves by the handful", "thread": "holy_island",
+      "summary": "After midsummer 793 a crew from the north-way sold the gold off a book's boards at Ripa, and the goldsmith sold the calfskins between them a handful at a time. He remembers the crew, and the boy they kept because he could tally.",
+      "picture": "A goldsmith's booth at dusk: on the block a strip of gilt knotwork with rivet holes, and under his hand a painted calfskin leaf he is using to wrap a brooch.",
+      "beats": [
+       { "at": "dorestad.market", "when": "year >= 794 and year < 796", "text": "A Frisian back from Ripa sells one painted leaf he took for a weaving pattern. The priest knows it for a psalter leaf. (Sets lf_trail_north.)", "card": "" },
+       { "at": "ripa.caster", "when": "flag.lf_trail_north and year < 800", "text": "Soti shows the nail holes where the gold came off. He names the ship's chief, who winters on the sound where the ships go north, and says the crew kept a boy of twelve who tallied faster than their steersman.", "card": "harbour.chain_lindisfarne_book.s01_strip_of_gilt" },
+       { "at": "ripa.caster", "when": "flag.bk_knows_worth and year < 800", "text": "If a scribe has taught you what a book is worth, you see that Soti still has nine leaves wrapping his moulds. Here they are worth a string of beads. On the holy island they are worth a name said at the altar.", "card": "harbour.leaves_by_the_handful.ripa" },
+       { "at": "sliesthorp", "when": "flag.lf_trail_north and year < 807", "text": "Asulf remembers every lot. The English boys went east with a Svea, because Christians cannot be sold south to the Franks; one stayed with the crew that took him.", "card": "harbour.every_lot.sliesthorp" },
+       { "at": "ogvaldsnes", "when": "flag.lf_trail_north and year < 806", "text": "On the sound the chief's wife wears a brooch that was a book's mount, and two cropped English boys herd the swine. Until the summer of 796 one of them keeps the hall's tally on a stick; after it he is gone east, and the other counts Sundays. (Sets lf_boy_found.)", "card": "harbour.swineherds.ogvaldsnes" },
+       { "at": "lindisfarena", "when": "flag.lf_trail_north and year < 806", "text": "The bishop will pay for the leaves, and far more for the name of the boy and where he is.", "card": "" },
+       { "at": "skiringssal.alehouse", "when": "flag.lf_trail_north and year < 807", "text": "In the Vik the ale-wife saw the same crew that autumn: three English boys sold on the strand to a Dane, and a fourth, who counted her cups, kept for the tally.", "card": "harbour.thordis_bench.skiringssal" },
+       { "at": "reric.pits", "when": "flag.dn_painted_leaves and year < 809", "text": "A Frisian drilling amber among the Wends has not seen the words written since he was a boy. One leaf, given, is worth more to him than the nine were to the goldsmith.", "card": "harbour.amber_pit.reric" }
+      ],
+      "links": ["ripa.goldsmith", "cast.thorleif", "cast.tidwine", "cast.asulf", "cast.higbald", "cast.sigewine", "dorestad.priest"],
+      "endings": [
+       { "id": "leaves_home", "how": "You bought Soti's nine leaves and carried them, with the chief's name, to Lindisfarena.", "text": "The leaves are laid on the altar. The bishop writes the boy's name on a strip of vellum and gives it to you to carry north, with silver to buy him back.", "reward": "150 d from the bishop; the deed carried_letters; flag lf_knows_boys; Higbald and Sigewine count you a friend; Soti thinks you a fool and likes you for it" },
+       { "id": "leaves_sold", "how": "You bought the leaves and sold them to the first church that would pay.", "text": "A bishop on the Rhine pays well and asks no questions. The boy's name stays in a goldsmith's head at Ripa, where nobody asks for it again.", "reward": "90 d; flag bk_knows_worth if you lacked it; the trail to the boy goes cold unless you return to Soti" },
+       { "id": "leaves_left", "how": "You left the leaves where they were.", "text": "Soti wraps moulds in them for two more summers. The last one, with a blue beast on it, he gives to Tola, who pins it over her bench because it is pretty.", "reward": "Nothing in silver. Tola's leaf can still be bought from her in later years, for a share in a cargo" }
+      ],
+      "reward": "Up to 150 d and the bishop's friendship; the name and place of cast.tidwine; a goldsmith at Ripa who trusts you with what he hears" },
+    { "id": "ripa.one_face", "title": "Silver has one face", "thread": "silver_road",
+      "summary": "North of the Eider no stamp counts. A stranger with a purse of pennies is cheated politely until he owns a scale, knows the weights and can nick a ring himself; Soti sells all three, and old dead coin from the south is good silver on his block.",
+      "picture": "Two hands over a folding scale: in one pan a small heap of mixed pennies, cut ring-silver and one old thick coin with a bearded face, in the other three lead weights.",
+      "beats": [
+       { "at": "ripa.plots", "when": "not flag.sv_scale and year < 950", "text": "You sell cloth and are paid in cut silver on the buyer's scale. It looks right. At Tola's bench you find it is a tenth short, and that everyone knew.", "card": "" },
+       { "at": "ripa.caster", "when": "not flag.sv_scale and year < 950", "text": "Soti sells you a folding scale and a set of weights for three ounces, and teaches the nick, the bend and the ounce. (Sets sv_scale.)", "card": "harbour.silver_has_one_face.ripa" },
+       { "at": "walichrum", "when": "year >= 794 and year < 800", "text": "After the king's new penny, the islanders hold old coin the mint would take at a loss. Wilbraht the caster has a friend at Ripa who weighs fairly.", "card": "" },
+       { "at": "ripa.caster", "when": "flag.sv_scale and year >= 794 and year < 800", "text": "The old pennies go on Soti's scale with everything else. What is dead coin on Walcheren is silver here, and he shows you one older still: a bearded face, a curled beast, found in the sand under his own floor.", "card": "" },
+       { "at": "ripa.caster", "when": "year >= 825 and year < 860", "text": "Small coins from Sliesthorp turn up on the bank, copied from Dorestad's. Soti's heir weighs them and shrugs.", "card": "harbour.years_hedeby.pennies" },
+       { "at": "ahus.fire_plots", "when": "not flag.sv_scale and year < 814", "text": "At the river mouth in Skane a caster cuts your penny in two to make the weight, and sells the same lesson with a scale of his own.", "card": "harbour.halved_penny.ahus" },
+       { "at": "reric.dues", "when": "not flag.sv_scale and year < 809", "text": "On the Wends' shore the Danish king's own man will teach the weights and the nick, if he is asked and not argued with.", "card": "harbour.kings_awning.reric" },
+       { "at": "sliesthorp.mint", "when": "year >= 825 and year < 860", "text": "At the head of the Slie a man strikes small light pennies copied from Dorestad's, letters and all. They pass by count on that strand, and by weight everywhere else.", "card": "harbour.years_hedeby.pennies" }
+      ],
+      "links": ["ripa.goldsmith", "walichrum.wilbraht", "dorestad.sigimar", "cast.sigimar", "cast.holmfast"],
+      "endings": [
+       { "id": "weighed_true", "how": "You bought the scale, learned the weights and brought the islanders' old coin north.", "text": "Soti weighs fair and you both do well. He calls you 'the Frisian who can count' to other buyers, which on this bank is a guarantee.", "reward": "flag sv_scale; the best price for old coin (about a sixth over the mint's); Soti and Wilbraht friendly; northern buyers stop cheating you" },
+       { "id": "own_weights", "how": "You bought the scale but shaved your own weights.", "text": "It works for one summer. Then Soti picks up one of your weights, looks at you, and puts it down. Nobody says anything. Nobody needs to.", "reward": "A summer's extra tenth; then Soti's feeling falls hard, Hroald hears of it, and you are weighed twice by every buyer on the bank" },
+       { "id": "no_scale", "how": "You never bought a scale.", "text": "You go on being paid a tenth short, courteously, by people who like you.", "reward": "Nothing, at a cost of a tenth on every sale north of the Eider until you learn" }
+      ],
+      "reward": "The folding scale and the northern weights (flag sv_scale), a fair weigher at Ripa, and a market for old coin" },
+    { "id": "ripa.bread_for_two_hundred", "title": "Bread for two hundred keels", "thread": "godfreds_market",
+      "summary": "From 808 the king's men are on the heath road and at the bank, buying rope, tar and bread that keeps, and asking Frisian skippers whose men they are. A merchant who listens at Ripa knows before Frisia does where the fleet of 810 is going.",
+      "picture": "The market bank on a grey morning: a king's man in a red cloak with a hand on a Frisian boat's stem, and behind him carts of bread and coiled rope going down to the water.",
+      "beats": [
+       { "at": "ripa.ford", "when": "year >= 808 and year < 811", "text": "Alli has carted nothing but rope and hard bread for a month. King's riders ask him how many carts go south. He says he cannot count past his oxen.", "card": "" },
+       { "at": "ripa.bank", "when": "year = 808", "text": "The king's ships are called out against the Wends. Asulf is on the bank buying for the fleet and waiting for what it will bring back.", "card": "harbour.chain_reric_808.s03_ships_called" },
+       { "at": "ripa.bank", "when": "year >= 809 and year < 811", "text": "A king's man lays a hand on your stem and asks, as a friend, whose man you are this summer. Hroald answers before you can: his guest.", "card": "harbour.chain_coast_watch_810.s03_ships_gather" },
+       { "at": "ripa.plots", "when": "year >= 808 and year < 811", "text": "A Dane pays double in weighed silver for a Frankish blade this year, and Asulf pays in captives. (Sets sw_buyer_known.)", "card": "harbour.blade_buyers.sliesthorp" },
+       { "at": "emuthon", "when": "year >= 809 and year < 811", "text": "On the Frisian coast the warning from Ripa is worth more than any cargo, if it comes before the sails do. (Sets gf_warned.)", "card": "" },
+       { "at": "dorestad", "when": "year >= 810 and year < 812", "text": "The Frisians pay a hundred pounds of silver. Every house is asked for its share.", "card": "harbour.years_godfred.share" },
+       { "at": "ripa.bank", "when": "year >= 808 and year < 812", "text": "A house that has not been listening for the fleet is asked all the same: whose man this summer? The king's buyer pays a third over for rope, tar and bread that keeps.", "card": "harbour.whose_man.ripa" },
+       { "at": "hleidr.landing", "when": "year = 808 and month >= 3 and month <= 7", "text": "On Zealand the watchman counts long ships going out by the islands with their shields inboard, and says, as a friend, to be somewhere else by midsummer.", "card": "harbour.three_questions.hleidr" }
+      ],
+      "links": ["ripa.hroald", "ripa.carter", "cast.asulf", "cast.godfred", "cast.crew.ravn", "emuthon.folcger", "emuthon.landric", "cast.thiadbod"],
+      "endings": [
+       { "id": "warned", "how": "You carried what you heard at Ripa to the Frisian coast before the fleet came.", "text": "The terps you warned drive their cattle inland and bury their silver in time. At Ripa nobody ever learns who talked; Hroald looks at you a long moment the next summer and pours the good ale.", "reward": "flag gf_warned; standing on the Frisian coast up sharply; a gift of cloth at Emuthon; Hroald says nothing and stays your host" },
+       { "id": "sold_bread", "how": "You sold the king's buyers bread, rope or tar and kept your mouth shut.", "text": "The king's silver is good; it was the Wends' a year ago. The fleet sails well fed. You hear the rest at Dorestad, when the share is asked.", "reward": "A third over the price on bread, rope and tar; the king's man friendly; if it is known in Frisia, standing there falls" },
+       { "id": "kings_guest", "how": "You told the king's man you were nobody's but your own, and Hroald did not speak for you.", "text": "You are let go, courteously, and watched. Next summer no pilot's boat comes out to meet you.", "reward": "Nothing; Hroald's feeling falls; a pilot over the flats costs double for a year" }
+      ],
+      "reward": "The warning that sets gf_warned, or a third over the price on ship's stores; either way the name of a buyer for blades (sw_buyer_known)" },
+    { "id": "ripa.grain_over_the_flats", "title": "Grain over the flats", "thread": "hungry_years",
+      "summary": "The Danes pay well for grain in any year, and in the hunger of 805 to 807 they pay very well; and in those same years the emperor's law says no food leaves his realm. The buyers at Ripa do not ask where a sack came from.",
+      "picture": "Sacks of rye being handed from a small Frisian boat up the sand at first light, a Danish woman weighing out cut silver, and nobody looking toward the south.",
+      "beats": [
+       { "at": "ripa.well", "when": "year >= 805 and year < 808", "text": "Tola asks what is in the hold before you have sat down. Barley is twice its price; rye is whatever you dare ask.", "card": "" },
+       { "at": "ripa.plots", "when": "year >= 805 and year < 808", "text": "A sack of rye sells for three times what it cost at home. Hroald remarks that your king has forbidden this, and that he has not. (Selling here sets hy_ran_grain.)", "card": "harbour.grain_over_the_flats.ripa" },
+       { "at": "dorestad", "when": "flag.hy_ran_grain and year < 809", "text": "The count's steward has heard that grain went north in a Frisian hull. He does not yet have a name.", "card": "" },
+       { "at": "emuthon", "when": "year >= 805 and year < 808", "text": "The poor are at the church door on the Frisian coast, and the priest asks whether your hold is as empty as it rides.", "card": "" },
+       { "at": "sliesthorp.market", "when": "year >= 805 and year < 808", "text": "At the head of the Slie it is the same: a sack of rye for a good knife, and the Saxons behind the ale-wife's hanging eat of it too. (Selling there sets hy_ran_grain.)", "card": "harbour.rye_for_a_knife.sliesthorp" }
+      ],
+      "links": ["ripa.tola", "ripa.hroald", "cast.hartwin", "cast.folcbert", "emuthon.landric", "cast.thiadbod"],
+      "endings": [
+       { "id": "ran_it", "how": "You carried grain to Ripa in the hungry years and sold it.", "text": "The best profit a small boat makes in ten years, in silver nobody stamped. Tola calls you the corn Frisian ever after, kindly.", "reward": "About three times the grain's cost in weighed silver; flag hy_ran_grain; Tola and Hroald friendly; the count's men may ask about it at home" },
+       { "id": "fed_home", "how": "You sold or gave your grain on the Frisian coast at the king's price and came to Ripa with cloth.", "text": "Tola looks in the hold and says a word in Danish that the crew's Dane will not put into Frisian. Then she pours anyway.", "reward": "flag hy_fed_poor; the church at home remembers; no profit at Ripa that year, and no questions in Dorestad" }
+      ],
+      "reward": "A year's profit in one cargo and the flag hy_ran_grain, or a clean name and hy_fed_poor: the two are not to be had together" },
+    { "id": "ripa.ground_by_the_river", "title": "The ground by the river", "thread": "cross_and_grove",
+      "summary": "About 857 the young King Horik gives Bishop Anskar a plot on the south bank and leave for a priest to live there. The priest has four posts, a sea chest and a flock he can count on his fingers, and the market across the water is deciding what it thinks.",
+      "picture": "Four corner posts and a sea chest on a staked plot by a river in the rain; a young priest holds a clapper board; across the water the booths of the market, and faces turned to look.",
+      "beats": [
+       { "at": "sliesthorp", "when": "year >= 855 and year < 861", "text": "The church at Sliaswic is open again and the king has allowed it a bell. He has also given ground at Ripa.", "card": "" },
+       { "at": "ripa.church", "when": "year >= 857 and year < 866", "text": "Liudlef shows you the church: it needs walls. He asks whether a merchant going to Dorestad would bring oak, nails and a reed-cutter.", "card": "harbour.four_posts.ripa" },
+       { "at": "ripa.plots", "when": "year >= 857 and year < 866", "text": "On the market side they say the gods are angry at an unknown god. Others say the Christians' ships come more freely where there is a church, as they did at Sliaswic.", "card": "" },
+       { "at": "ripa.church", "when": "year >= 855 and flag.ch_the_bell_aboard", "text": "If you come with a bell aboard that Sliesthorp would not have rung, the priest will hang it on a corner post tonight and build the church round it afterwards.", "card": "harbour.chain_the_bell.s12_ripa" },
+       { "at": "ripa.church", "when": "year >= 865 and year < 870", "text": "Word comes that Bishop Anskar died at Bremen on the third day of February. Liudlef says the Mass and then asks who will remember that there is a priest at Ripa.", "card": "" },
+       { "at": "sliesthorp.church", "when": "year >= 856 and year < 860", "text": "Bishop Anskar has the ground at Ripa and a priest for it, bought as a boy out of the pen here and taught his letters. He has not a ship. (Carrying the priest sets ms_carried_priest.)", "card": "harbour.priest_for_ripa.sliesthorp" },
+       { "at": "ripa.church", "when": "year >= 856 and year < 861 and flag.dn_priest_aboard", "text": "Four hazel rods and a cord on the south bank. The priest steps over the side with a cross, and the sea chest that is now an altar goes up the bank after him.", "card": "harbour.priest_set_down.ripa" },
+       { "at": "skiringssal.frisian_house", "when": "year >= 857 and year < 867", "text": "A Frisian in the Vik has kept an altar cup from the Loire under the meal in his chest since the year of Nantes. Now there is a priest of his own tongue to send it to.", "card": "harbour.frisians_house.skiringssal" }
+      ],
+      "links": ["ripa.priest", "cast.anskar", "cast.horik", "sliesthorp.anskar", "sliesthorp.horik", "dorestad.eystein", "cast.rorik"],
+      "endings": [
+       { "id": "walls", "how": "You brought the timber and paid for the walls.", "text": "The church at Ripa has walls of upright oak and a reed roof by Martinmas. Christian ships lie on the south bank as well as the north, and your name is said at a sea chest that is now only an altar.", "reward": "The work ripa.work.church_walls done; a Christian may be buried here; Liudlef a fast friend; merchants of Dorestad and Hamburg come more freely; flag ms_carried_priest if you carried him" },
+       { "id": "bell", "how": "You brought the bell round from Sliesthorp and it was hung at Ripa.", "text": "The first bell among the Danes rings at Ripa and not at Sliaswic, which is not how it was written. Ships on the flats in thick weather steer for it.", "reward": "As the chain's ending ch_the_bell_end_ripa: the market plot at Ripa and a pilot's welcome; the heathen side of the bank is cooler for a year" },
+       { "id": "stood_off", "how": "You traded on the north bank and left the south bank to itself.", "text": "The priest gets his walls from somebody else, later and thinner. He bears you no grudge and remembers you in the general prayers, with everyone else.", "reward": "Nothing lost on the market side; Hroald's heirs approve; no friend at the church" }
+      ],
+      "reward": "A church at Ripa that owes you its walls or its bell, burial and sanctuary for your crew, and Christian ships on the bank" }
+   ],
+   "works": [
+    { "id": "ripa.work.booth", "name": "A booth on a plot", "what": "Posts, a wattle back wall and an awning on one of the narrow plots by the river, held from year to year for a gift to the man who speaks for the market. You sell from the first morning of the summer market, not from the boat.", "cost_d": 120, "days": 4, "from": 793, "to": 1066, "needs": "The market plot at Ripa (story/unlocks_793.json unlock_plot_ripa): three summers' coming, or a wife of Hroald's house, or the bell.", "gives": "At the summer market the first ten loads you sell do not push the price down, and your goods can lie ashore under your own awning.", "picture": "A narrow sanded plot between two shallow ditches: four posts, a wadmal awning, a plank table on two casks, the river behind.", "source": "Plots with booths and workshops, floor on floor (dossier [Wda; Wen]); story/works_793.json fair_booth" },
+    { "id": "ripa.work.cask_well", "name": "A cask-lined well", "what": "A shaft dug at the back of your plot and lined with a great Rhine wine cask, staves and hoops and all, as the Danes line theirs. Sweet water on a bank where the river is brackish at spring tides.", "cost_d": 90, "days": 6, "from": 793, "to": 1066, "needs": "A plot of your own, and an empty cask of the Mainz country, which you are well placed to supply.", "gives": "Water for the crew and the plot without the walk to the old well; the neighbours on both sides are in your debt; a brewer will rent the corner by it.", "picture": "A man waist-deep in a pit lowering a huge old cask, hoops and all, while two neighbours look on with buckets ready.", "source": "Wells at Ribe lined with wine casks from the Mainz country (dossier [Wda; VSM])" },
+    { "id": "ripa.work.quern_shed", "name": "A quern-dresser's shed", "what": "The black lava querns come north as rough blanks. A stone-dresser on your plot cuts the grinding faces and the eye and sells them ready for the hand.", "cost_d": 150, "days": 15, "from": 793, "to": 1066, "needs": "A plot of your own and a first load of quern blanks from the Rhine.", "gives": "Quernstones the house sells at Ripa fetch a fifth more, and an order for querns can be had here in any season.", "picture": "A lean-to full of grey dust: a man with a pick dressing a round black stone, a row of finished querns against the wall.", "source": "Lava quernstones from the Rhine at Ribe (dossier [VSM; Wda]); story/works_793.json quern_shed" },
+    { "id": "ripa.work.winter_house", "name": "A house for the winter", "what": "A small turf-walled house behind your plot with a hearth and a locked chest, where a man of yours can stay when the market empties, as a few households always have.", "cost_d": 400, "days": 20, "from": 793, "to": 1066, "needs": "A plot of your own, and a host of the place who will answer for your man through the winter.", "gives": "Room ashore for twenty loads. A factor here buys hides and cattle in the autumn and beads and combs before the market opens, and sends a price word by any ship going south.", "picture": "A low turf house under snow behind a row of empty booths, smoke from the roof, one lit door.", "source": "Houses lived in the year round on part of the market from its first decades (Croix, via en.wikipedia.org/wiki/Emporium_(early_medieval)); story/works_793.json factor_house" },
+    { "id": "ripa.work.church_walls", "name": "Walls for the church on the king's plot", "what": "Upright oak for the walls, reed for the roof and a door that shuts, for the church the king has allowed and nobody has yet built.", "cost_d": 500, "days": 60, "from": 857, "to": 888, "needs": "The king's gift of the plot (from about 857) and the priest's asking; oak brought by sea or bought of the Danes.", "gives": "A church at Ripa: Mass, sanctuary and Christian burial for your crew; Christian merchants come more freely; the priest and the bishop at Bremen are your friends. The heathen bank is a little cooler toward you.", "picture": "Men raising a wall of split oak uprights on the south bank, a priest steadying the first post, the market watching from across the river.", "source": "Rimbert, Vita Anskarii c. 32 (tr. Robinson 1921): a plot and leave for a priest. That the church was of timber, and that a merchant paid for it, are ours (?)" }
+   ],
+   "ships": [
+    { "class": "gislinge", "how": "built to order over a winter, or bought second-hand in spring", "from": 793, "to": 1066, "note": "The small Danish boat of the house's own kind: four men, shallow enough to take the ground on the flats. The wrights on the boat sand split their own oak and buy rivets from the smith beside them.", "picture": "A small clinker boat on rollers on a tarred beach, new pale strakes, a man driving a rivet.", "source": "story/ships_793.json gislinge, built_at ripa; boat building at Ribe itself is not found in the ground (?)" },
+    { "class": "norse_small_boat", "how": "bought second-hand from Northmen going home", "from": 793, "to": 1066, "note": "Four or six oars: a tender for the flats and the river arms, sold by crews from the north-way who came with antler and whetstones and are leaving lighter.", "picture": "A slim four-oared boat drawn up beside a larger ship, two Northmen haggling over her with a Dane.", "source": "story/ships_793.json norse_small_boat, built_at ripa; Norwegian antler and whetstones at Ribe (dossier [Wda; Ash (?)])" },
+    { "class": "norse_allround_ship", "how": "built to order over a winter, with a host's word behind you", "from": 793, "to": 900, "note": "The Danes' own sailing and rowing ship, for a house that means to go north for furs or east by the heath road's far end. No stranger gets one built without a man of the place to answer for him.", "picture": "A long low hull with a single mast stepped, half planked, on the sand under a winter sky.", "source": "story/ships_793.json norse_allround_ship, built_at ripa (?)" },
+    { "class": "north_sea_merchant_ship", "how": "bought second-hand from a Frisian house", "from": 793, "to": 1066, "note": "Frisian keels lie on this bank every summer, and now and then one is sold here by a house that has had a bad year or a death. She is not built at Ripa.", "picture": "A broad high-ended Frisian ship aground on the sand at low water, her owner standing by with his arms folded.", "source": "Frisian shipping at Ribe (dossier [Wda; VSM]); story/ships_793.json north_sea_merchant_ship, built_at ripa" }
+   ],
+   "sayings": [
+    { "text": "It is better to live than to lie a corpse; the live man catches the cow.", "source": "Hávamál 70 (Bellows 1923), texts_793.json havamal_070: said on the cattle ground" },
+    { "text": "Give praise to the day at evening, to ice when it is crossed, to ale that is drunk.", "source": "Hávamál 81 (Bellows 1923), texts_793.json havamal_081, shortened" },
+    { "text": "Forth shall one go, nor stay as a guest in a single spot forever; love becomes loathing if long one sits by the hearth in another's home.", "source": "Hávamál 35 (Bellows 1923), texts_793.json havamal_035: Hroald's gentle hint at the end of summer" },
+    { "text": "Four ganging, four hanging, two showing the way, two keeping the dogs off, one ever dirty lags behind.", "source": "Gestumblindi's riddle 28 (Vigfusson and Powell 1883), texts_793.json t-gest-28: a cow" },
+    { "text": "I saw a black hog wallow in the mud, though no bristles were on his back.", "source": "Gestumblindi's riddle 11 (Vigfusson and Powell 1883), texts_793.json t-gest-11: a dung-beetle, at home on this market's oldest floor" },
+    { "text": "Silver has one face, and it is the inside.", "source": "invented in the period's manner: weighed silver north of the Eider (spine, silver_road)" },
+    { "text": "A Frisian's cloak is short so that he can run back to his boat. A Dane's is long so that he need not.", "source": "invented, a Dane's turn on the Franks' joke about the short Frisian cloak (Notker, Gesta Karoli i.34, tr. Grant 1907)" },
+    { "text": "Come first or come late; never come third.", "source": "invented in the period's manner: three wine boats on one tide" },
+    { "text": "The priest says his god is not unknown, only not yet introduced.", "source": "invented, from 857: the heathen complaint of 'another and an unknown god' is Rimbert, Vita Anskarii c. 31 (Robinson 1921), as the dossier gives it" }
+   ],
+   "easter_eggs": [
+    { "text": "Under the floors of the craft booths, lost two generations before you came, lies a piece from the top of a man's skull with a hole bored in it and runes: Ulf and Odin and High-Tyr, help against the dwarf. The hole was never worn by a cord. Whoever made it never sold it.", "where": "ripa.floors", "source": "en.wikipedia.org/wiki/Ribe_skull_fragment (found 1973, about 725); runes_793.json ribe_skull" },
+    { "text": "The oak in the old well was felled before the market's oldest woman was born. Nobody knows who had it dug. The plots were all laid out in the same year, by somebody who could tell forty households where to stand.", "where": "ripa.well", "source": "The well timber, felled 704 to 710, and the planned plots; a king is assumed and none is named (dossier [Wda; VSM])" },
+    { "text": "Among the whetstones leaning on the comb-maker's post, about one in seven is a fine pale stone from a single hillside far up the north-way. The Northman who brings them will not say where it is.", "where": "ripa.floors", "source": "117 whetstones at Ribe, 17 of Eidsborg stone from Norway (dossier [Wda])" },
+    { "text": "Some of the comb-maker's antler is the wrong shape for a red deer. It is reindeer. Men from the north were selling here before any monk wrote down that they existed.", "where": "ripa.floors", "source": "Ashby, Coutu and Sindbaek 2015, via the dossier (not opened) (?)" },
+    { "text": "On the empty ground south of the river somebody will one day lay down a whole purse of new-struck coins, more than two hundred and sixty, all at once, and walk away. They will lie there eleven hundred years.", "where": "ripa.offering", "source": "The Damhus offering, 262 coins, found 2018 (da.wikipedia.org/wiki/Ribe); its date is unchecked (?)" },
+    { "text": "The market's name is not Danish. A Frisian or a Frank standing on this sand would call it by his priests' word for a river bank, ripa, and the Danes may simply have kept what the customers said.", "where": "ripa.bank", "source": "The derivation from Latin ripa is the Ribe archaeologist Sovso's (da.wikipedia.org/wiki/Ribe); the name is first written about 870 (Rimbert c. 32)" },
+    { "text": "Long after Bishop Leofdag a later bishop will raise his bones to the altar to make a saint of him. The church burns down at once, and nobody tries again.", "where": "ripa.church", "source": "P. E. Odden, 'Den hellige Liafdag av Ribe' (katolsk.no): Bishop Radulf in the 1160s; outside the game's years, told as what comes after" },
+    { "text": "South-west of the town, by the sea dyke of a later age, a farmer of about 975 buries gold neck rings and arm rings and never comes back for them.", "where": "ripa.graves", "source": "hoards_793.json vester_vedsted" }
+   ],
+   "unlocks": [
+    { "id": "ripa.guest_right", "what": "Hroald answers for you on this coast", "how": "Lodge at his house on three calls, bring a guest's gift each time, and break no bargain on the bank.", "gives": "A stranger's peace at Ripa without asking: no card that turns on having no host; his sons pilot you over the flats for nothing; opens the Danish roads of the chains house_heir and house_marriage" },
+    { "id": "ripa.scale_and_nick", "what": "The folding scale and the northern weights", "how": "Buy the scale from Soti for three ounces of silver and let him teach you.", "gives": "flag sv_scale: buyers north of the Eider stop paying you short; you can test silver yourself at any northern port" },
+    { "id": "ripa.market_plot", "what": "A market plot at Ripa", "how": "Come three summers and give the yearly gift, or marry into Hroald's house, or bring the bell (story/unlocks_793.json unlock_plot_ripa).", "gives": "A stock of your own at this port; the works booth, cask well, quern shed and winter house can be built on it" },
+    { "id": "ripa.tolas_tenth", "what": "Tola has a tenth in your cargo", "how": "Take her as a partner in one cargo and pay her share honestly when it is sold.", "gives": "Every rumour at the well a day before anyone else has it; a crewman found within a day when you are short; she keeps your cup" },
+    { "id": "ripa.blue_for_toki", "what": "A standing order of blue glass", "how": "Bring Toki raw glass from the Rhine in two different summers before 812.", "gives": "Beads at the maker's price and his best strings held for you; he teaches how amber is told from resin; opens chain_amber_road if it is not yet begun" },
+    { "id": "ripa.buyer_for_blades", "what": "A buyer for blades by name", "how": "Be on the plots in a war year, or ask Soti who is bidding.", "gives": "flag sw_buyer_known: a Frankish blade sells at Ripa and Sliesthorp for double in weighed silver, or to Asulf for captives" },
+    { "id": "ripa.said_at_the_chest", "what": "Your name said at the altar of Ripa", "how": "From 857, pay for the church's walls or bring its bell.", "gives": "Sanctuary and burial at Ripa; the priest writes for you to Bremen; in later ages the bishops of Ripa know the house's name" }
+   ],
+   "sources": [
+    "Design/content/dossiers/ripa.md (the research this file is built on; its keys [Wda], [Wen], [VSM], [Rim] and so on are used above)",
+    "Rimbert, Vita Anskarii, c. 15, 24, 31, 32, tr. C. H. Robinson (1921): https://archive.org/details/anskarapostle00robiuoft ; https://sourcebooks.fordham.edu/basis/anskar.asp",
+    "https://da.wikipedia.org/wiki/Ribe ; https://en.wikipedia.org/wiki/Ribe (citing C. Feveile, 'Series X and coin circulation in Ribe', 2008)",
+    "https://en.wikipedia.org/wiki/Ribe_skull_fragment (Stoklund 1996; Nordstrom 2021)",
+    "https://en.wikipedia.org/wiki/Ancient_Diocese_of_Ribe ; https://en.wikipedia.org/wiki/Horik_II ; https://en.wikipedia.org/wiki/Sceat ; https://en.wikipedia.org/wiki/Emporium_(early_medieval)",
+    "Viking Ship Museum, Roskilde, 'Ribe': https://www.vikingeskibsmuseet.dk/en/professions/education/viking-knowledge/the-viking-age-geography/vikingetiden-i-skandinavien/ribe",
+    "P. E. Odden, 'Den hellige Liafdag av Ribe': https://www.katolsk.no/biografier/historisk/liafribe",
+    "Catholic Encyclopedia (1914), 'Ancient See of Ribe': https://www.newadvent.org/cathen/16070b.htm",
+    "Adam of Bremen, Gesta Hammaburgensis ii.4, ii.79, iv.1 (not opened; cited through the dossier and chronicle_793.json) (?)",
+    "C. Feveile (ed.), Ribe Studier 1.1-1.2 (2006); Ashby, Coutu and Sindbaek, 'Urban networks and Arctic outlands', European Journal of Archaeology 18 (2015) (neither opened) (?)",
+    "Hávamál 35, 70, 81, tr. H. A. Bellows (1923), and Gestumblindi's riddles 2, 4, 11, 28, tr. Vigfusson and Powell (1883): texts_793.json",
+    "Design/content/spine.json (threads holy_island, silver_road, godfreds_market, hungry_years, swords_north, book_road, cross_and_grove, price_of_england; the cast); Design/content/realms/denmark.md; Design/content/economy/pots_glass_luxuries.md, furs_amber_ivory_slaves.md, food.md",
+    "The chains that call at Ripa: encounters/chain_amber_road_793.json, chain_coast_watch_810_793.json, chain_house_heir_793.json, chain_house_marriage_793.json, chain_lindisfarne_book_793.json, chain_reric_808_793.json, chain_riddle_trail_793.json, chain_sword_smuggle_793.json, chain_the_bell_793.json",
+    "The region's weave, 7 Oct 2026: Assets/Kapman/Game/Data/encounters/danes_norway_793.json and writing/danes_norway.json (the cards named in this file's sites and beats); the other six places files of the region; Design/content/spine.json for the hooks placed"
+   ]
+  }
+ ]
+}

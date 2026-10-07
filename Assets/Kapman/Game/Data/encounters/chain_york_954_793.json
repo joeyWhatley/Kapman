@@ -1,0 +1,514 @@
+{
+ "about": "CHAIN york_954 (Design/content/CHAINS.md; page Design/content/chains/york_954.md; words Data/writing/chain_york_954.json). York between the kings of Dublin, Eric son of Harald and the king of the English, 947 to 954: the richest market in the north and the hardest to keep a friend in. Fourteen cards: ten steps (s01 to s10, one of them a crew card) and four endings. Step flags ch_york_954_1 .. _10; leanings ch_york_954_lean_hall, _lean_dublin, _lean_town; what the player did: _hosted, _paid, _slipped, _tally, _dublin_cargo, _dublin_friend, _captives, _ransomed, _erics_peace, _wulfstan_letter, _kings_ear, _informer, _oswulf_man, _knows_plot, _sent_word, _called_dublin, _stood_town, _eric_aboard, _tried. Endings: ch_york_954_end_stainmore (what happened), ch_york_954_end_town (what happened, the honest road), ch_york_954_end_eric_lives (history changed: changed_stainmore_eric_lives), ch_york_954_end_dublin (history changed: changed_york_dublin_kingdom_954). Lasting costs: ch_york_954_blood_money, ch_york_954_oswulf_feud, ch_york_954_eadreds_enemy. Every drawn step is also scheduled by the step before it where the day is known, so no step is lost. Each option's note names its outcome text. The Chronicle is quoted from Ingram 1823. Written 6 Oct 2026; a draft for the user to overwrite. (?) marks what could not be checked.",
+ "cards": [
+  {
+   "id": "harbour.chain_york_954.s01_whose_penny",
+   "note": "Step 1, the start (drawn at Eoforwic, 947 to 951). A new penny with every king: the moneyer will not take last season's coin at its face. Sources: the York coinage of 939-954 (Blunt, Stewart and Lyon 1989; Blackburn 2004; realms/northumbria_york.json coins): Olaf's raven, the three-cornered knot and the banner, ERIC REX with a sword; the moneyer Ingelgar struck for Olaf Sihtricson and for Eric, and is known from his coins alone. Anglo-Saxon Chronicle D 947, 948, E 949 for who is king. That a stranger traded through a host is the realm file's reading (?). Cast: Ingelgar (real, the name on the coins); the host Ulfketil is invented (Ulf- + -ketil, the English Ulfcytel). Sets ch_york_954_1; _hosted.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and year >= 947 and year <= 951 and not flag.ch_york_954_1",
+   "weight": 1.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "moneyer": { "role": "moneyer", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ingelgar, moneyer at York; real, known from coins only" },
+    "host": { "role": "host", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [38, 55], "fixed": true, "note": "Ulfketil, a townsman with a Danish father and an English mother; invented" }
+   },
+   "title_key": "chain_york_954.s01.title",
+   "title": "Whose penny",
+   "intention_key": "chain_york_954.s01.intention",
+   "intention": "At the landing below the bridge a moneyer's man turns your pennies over on a board. They carry the wrong king. A townsman watches and waits to be asked.",
+   "lines": [
+    { "who": "moneyer", "key": "chain_york_954.s01.moneyer_whose" },
+    { "who": "moneyer", "key": "chain_york_954.s01.moneyer_947", "when": "year = 947" },
+    { "who": "moneyer", "key": "chain_york_954.s01.moneyer_948", "when": "year = 948" },
+    { "who": "moneyer", "key": "chain_york_954.s01.moneyer_949", "when": "year >= 949" },
+    { "who": "host", "key": "chain_york_954.s01.host_roof" },
+    { "who": "host", "key": "chain_york_954.s01.host_safe_conduct" }
+   ],
+   "options": [
+    { "key": "strike", "label_key": "chain_york_954.s01.opt_strike", "label": "Have forty pennies struck anew; the moneyer keeps six", "check": "silver >= 40", "cost": "silver 6",
+      "effects": [ "npc moneyer feeling +5 struck", "toll eased 60", "flag ch_york_954_1", "schedule harbour.chain_york_954.s02_three_doors in 10 at eoforwic" ],
+      "note": "outcome: chain_york_954.s01.out_strike" },
+    { "key": "host", "label_key": "chain_york_954.s01.opt_host", "label": "Take the townsman's roof and trade through him", "check": "true", "default": true,
+      "effects": [ "npc host feeling +6 hosted", "flag ch_york_954_hosted", "flag ch_york_954_1", "schedule harbour.chain_york_954.s02_three_doors in 10 at eoforwic" ],
+      "note": "outcome: chain_york_954.s01.out_host (costs pride: he takes his cut of what you sell)" },
+    { "key": "ask", "label_key": "chain_york_954.s01.opt_ask", "label": "Ask who is king, and who was, and say nothing else", "check": "true",
+      "effects": [ "npc host feeling +2 asked", "news chain_york_954.news.kings at eoforwic", "flag ch_york_954_1", "schedule harbour.chain_york_954.s02_three_doors in 10 at eoforwic" ],
+      "note": "outcome: chain_york_954.s01.out_ask (costs nothing)" }
+   ],
+   "memory": { "strike": "had his silver struck anew", "host": "took a roof in the town", "ask": "asked who was king" }
+  },
+  {
+   "id": "harbour.chain_york_954.s02_three_doors",
+   "note": "Step 2 (scheduled ten days after step 1; also drawn). The host shows the three doors a stranger can knock at: the king's hall, the minster, the Dublin men on the landing. Sources: Archbishop Wulfstan I (931-956) leads the Northumbrian council (Anglo-Saxon Chronicle D 947); York and Dublin under one kindred from 919 (realms/northumbria_york.md); the Coppergate finds for what the town makes and buys: combs, jet, amber, silk (Hall 1984; dossiers/eoforwic.md). The steward and the Dublin shipmaster are invented: Arnketil (Arn- + -ketil), Gilli (a Norse-Gaelic byname, attested later (?)). The riddle is Exeter 20 (riddles_793.json). Sets ch_york_954_2 and one leaning.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_york_954_1 and not flag.ch_york_954_2 and year <= 953",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [38, 55], "fixed": true, "note": "Ulfketil; invented" },
+    "steward": { "role": "steward", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [45, 60], "fixed": true, "note": "Arnketil, steward of the king's hall under every king; invented" },
+    "shipmaster": { "role": "skipper", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 45], "fixed": true, "note": "Gilli, a Dublin shipmaster with an Irish mother; invented" }
+   },
+   "title_key": "chain_york_954.s02.title",
+   "title": "Three doors",
+   "intention_key": "chain_york_954.s02.intention",
+   "intention": "Your host walks you through the town before the market opens. He stops three times: at the king's hall, at the minster gate, and at the Dublin ships.",
+   "lines": [
+    { "who": "host", "key": "chain_york_954.s02.host_three" },
+    { "who": "host", "key": "chain_york_954.s02.host_hall" },
+    { "who": "steward", "key": "chain_york_954.s02.steward_poured" },
+    { "who": "host", "key": "chain_york_954.s02.host_minster" },
+    { "who": "shipmaster", "key": "chain_york_954.s02.gilli_drink" }
+   ],
+   "options": [
+    { "key": "hall", "label_key": "chain_york_954.s02.opt_hall", "label": "Lay a gift of thirty pennies on the hall's table", "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "npc steward feeling +8 gift", "commission rhenish_wine 6 by 120 premium 0.5", "give_riddle riddle_exeter_20_sword", "flag ch_york_954_lean_hall", "flag ch_york_954_2", "schedule harbour.chain_york_954.s03_ripon_geld in 30 at eoforwic" ],
+      "note": "outcome: chain_york_954.s02.out_hall" },
+    { "key": "dublin", "label_key": "chain_york_954.s02.opt_dublin", "label": "Drink with the Dublin shipmaster on the landing", "check": "true",
+      "effects": [ "npc shipmaster feeling +8 drank", "price_shock duiblinn rhenish_wine x1.5 for 180", "flag ch_york_954_lean_dublin", "flag ch_york_954_2", "schedule harbour.chain_york_954.s03_ripon_geld in 30 at eoforwic" ],
+      "note": "outcome: chain_york_954.s02.out_dublin (a true price word: Dublin pays well for wine)" },
+    { "key": "town", "label_key": "chain_york_954.s02.opt_town", "label": "Stand witness for your host at the moneyers' bench, and be seen doing it", "check": "true", "default": true,
+      "effects": [ "npc host feeling +6 witness", "deed fair_dealing", "toll eased 30", "flag ch_york_954_lean_town", "flag ch_york_954_2", "schedule harbour.chain_york_954.s03_ripon_geld in 30 at eoforwic" ],
+      "note": "outcome: chain_york_954.s02.out_town (costs a morning)" }
+   ],
+   "memory": { "hall": "laid a gift on the hall's table", "dublin": "drank with the Dublin men", "town": "stood witness at the moneyers' bench" }
+  },
+  {
+   "id": "harbour.chain_york_954.s03_ripon_geld",
+   "note": "Step 3 (scheduled thirty days after step 2; drawn from 948). King Eadred has harried the land and burned Wilfrid's minster at Ripon; the Northumbrians give up Eric and pay for the wrong. Source: Anglo-Saxon Chronicle D 948 (Ingram 1823: 'they then abandoned Eric, and compromised the deed with King Edred'). How the payment was raised is not recorded: the game has it gathered on the landing, from strangers too, and still being gathered in later years (?). The clerk is invented, unnamed. Sets ch_york_954_3; _paid, _slipped or _tally.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_york_954_2 and not flag.ch_york_954_3 and year >= 948 and year <= 953",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [38, 55], "fixed": true, "note": "Ulfketil; invented" },
+    "clerk": { "role": "clerk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 40], "fixed": false, "note": "a clerk of the archbishop's household; invented, unnamed" }
+   },
+   "title_key": "chain_york_954.s03.title",
+   "title": "The price of a king",
+   "intention_key": "chain_york_954.s03.intention",
+   "intention": "The town owes King Eadred silver for having taken another king. A clerk with a tally goes from hull to hull along the landing, and he has reached yours.",
+   "lines": [
+    { "who": "host", "key": "chain_york_954.s03.host_geld_948", "when": "year = 948" },
+    { "who": "host", "key": "chain_york_954.s03.host_geld_later", "when": "year > 948" },
+    { "who": "clerk", "key": "chain_york_954.s03.clerk_tally" },
+    { "who": "clerk", "key": "chain_york_954.s03.clerk_river" },
+    { "who": "host", "key": "chain_york_954.s03.host_slip" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_york_954.s03.opt_pay", "label": "Pay a townsman's share, fifty pennies, though you are no townsman", "check": "silver >= 50", "cost": "silver 50",
+      "effects": [ "deed fair_dealing", "npc host feeling +8 paid", "npc clerk feeling +5 paid", "toll eased 90", "flag ch_york_954_paid", "flag ch_york_954_3", "schedule harbour.chain_york_954.s04_olaf_returns in 60 at eoforwic" ],
+      "note": "outcome: chain_york_954.s03.out_pay" },
+    { "key": "slip", "label_key": "chain_york_954.s03.opt_slip", "label": "Drop down the Ouse on the night ebb before he comes back", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05", "npc host feeling -4 slipped", "flag ch_york_954_slipped", "flag ch_york_954_3", "schedule harbour.chain_york_954.s04_olaf_returns in 90 at eoforwic" ],
+                     "failure": [ "silver -80", "npc host feeling -10 caught", "flag ch_york_954_slipped", "flag ch_york_954_3", "schedule harbour.chain_york_954.s04_olaf_returns in 90 at eoforwic" ] } ],
+      "note": "outcome: chain_york_954.s03.out_slip, or chain_york_954.s03.out_slip_fail (doubtful: the river is watched at the bend; caught, you pay more than the share)" },
+    { "key": "carry", "label_key": "chain_york_954.s03.opt_carry", "label": "Offer your hull instead: carry the clerk and the first chest down to the king's men on the Humber", "check": "true", "default": true,
+      "effects": [ "silver +20", "deed carried_letters", "npc clerk feeling +8 carried", "npc host feeling +3 carried", "flag ch_york_954_tally", "flag ch_york_954_3", "schedule harbour.chain_york_954.s04_olaf_returns in 60 at eoforwic" ],
+      "note": "outcome: chain_york_954.s03.out_carry (costs three days and nothing else)" }
+   ],
+   "memory": { "pay": "paid a townsman's share", "slip.success": "slipped down the river by night", "slip.failure": "was caught slipping the payment", "carry": "carried the clerk and the chest" }
+  },
+  {
+   "id": "harbour.chain_york_954.s04_olaf_returns",
+   "note": "Step 4, a turn (scheduled after step 3; drawn 949 to 951; a player who comes late skips it). Olaf Sihtricson, called Cuaran, is king at York again. Source: Anglo-Saxon Chronicle E 949 (Ingram 1823: 'This year came Anlaf Curran to the land of the Northumbrians'). What York sends to Dublin and Dublin wants: combs, jet, wine (dossiers/duiblinn.md, dossiers/eoforwic.md). Gilli is invented. Sets ch_york_954_4; _dublin_cargo.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_york_954_3 and not flag.ch_york_954_4 and year >= 949 and year <= 951",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "shipmaster": { "role": "skipper", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 45], "fixed": true, "note": "Gilli of Dublin; invented" },
+    "host": { "role": "host", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [38, 55], "fixed": true, "note": "Ulfketil; invented" }
+   },
+   "title_key": "chain_york_954.s04.title",
+   "title": "The king with the sandal",
+   "intention_key": "chain_york_954.s04.intention",
+   "intention": "Olaf of Dublin sits in the hall again and the Dublin ships lie three deep at the landing. Their shipmaster has more lading than hulls.",
+   "lines": [
+    { "who": "shipmaster", "key": "chain_york_954.s04.gilli_king" },
+    { "who": "shipmaster", "key": "chain_york_954.s04.gilli_lading" },
+    { "who": "shipmaster", "key": "chain_york_954.s04.gilli_wine", "when": "hold.rhenish_wine >= 3" },
+    { "who": "host", "key": "chain_york_954.s04.host_warns" }
+   ],
+   "options": [
+    { "key": "lading", "label_key": "chain_york_954.s04.opt_lading", "label": "Take his lading on trust for Dublin: six bundles of combs and two of jet", "check": "true",
+      "effects": [ "goods combs +6", "goods jet +2", "npc shipmaster feeling +8 lading", "flag ch_york_954_dublin_cargo", "flag ch_york_954_4", "schedule harbour.chain_york_954.s05_dublin in 25 at duiblinn" ],
+      "note": "outcome: chain_york_954.s04.out_lading (paid at Dublin, step 5)" },
+    { "key": "wine", "label_key": "chain_york_954.s04.opt_wine", "label": "Sell him three casks of Rhine wine for the hall, at the hall's price", "check": "hold.rhenish_wine >= 3", "cost": "goods rhenish_wine 3",
+      "effects": [ "silver +240", "npc shipmaster feeling +5 wine", "flag ch_york_954_4" ],
+      "note": "outcome: chain_york_954.s04.out_wine" },
+    { "key": "listen", "label_key": "chain_york_954.s04.opt_listen", "label": "Carry nothing of his, and ask what Dublin buys", "check": "true", "default": true,
+      "effects": [ "npc shipmaster feeling +2 asked", "price_shock duiblinn rhenish_wine x1.6 for 240", "price_shock duiblinn jet x1.4 for 240", "news chain_york_954.news.dublin_buys at eoforwic", "flag ch_york_954_4" ],
+      "note": "outcome: chain_york_954.s04.out_listen (costs nothing; the price words are true)" }
+   ],
+   "memory": { "lading": "took a lading for Dublin on trust", "wine": "sold wine for the hall", "listen": "asked what Dublin buys" }
+  },
+  {
+   "id": "harbour.chain_york_954.s05_dublin",
+   "note": "Step 5, a turn, optional (scheduled by the lading; drawn at Duiblinn 949 to 953 for anyone past step 2). The town on the Liffey: fenced plots, an earthen bank raised about 950 (Wallace, Wood Quay; dossiers/duiblinn.md), slaves its chief ware. In 951 the foreigners of Dublin plunder Kells and carry off three thousand people, with gold, silver and cattle (Annals of Ulster 951; realms/irish_sea.md) (?). Who held Dublin while Olaf was at York is not certain (?): the card names no lord. The partner and the captive are invented, unnamed. Sets ch_york_954_5 and _dublin_friend; _captives or _ransomed. The road to the Dublin ending runs through this card.",
+   "stage": "harbour",
+   "when": "moored and port.id = duiblinn and flag.ch_york_954_2 and not flag.ch_york_954_5 and year >= 949 and year <= 953",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "partner": { "role": "factor", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Gilli's partner, who keeps his plot by the pool; invented, unnamed" },
+    "captive": { "role": "captive", "people": "irish", "faith": "christian", "tongue": "irish", "sex": "f", "age": [18, 40], "fixed": false, "note": "a woman taken at Kells; invented, unnamed" }
+   },
+   "title_key": "chain_york_954.s05.title",
+   "title": "The other end of the road",
+   "intention_key": "chain_york_954.s05.intention",
+   "intention": "Dublin: wattle houses in fenced plots, a new bank of earth, and pens by the water. A man on the plank path knows whose hull you are before you have made fast.",
+   "lines": [
+    { "who": "partner", "key": "chain_york_954.s05.partner_bank" },
+    { "who": "partner", "key": "chain_york_954.s05.partner_cargo", "when": "flag.ch_york_954_dublin_cargo" },
+    { "who": "partner", "key": "chain_york_954.s05.partner_before", "when": "year < 951" },
+    { "who": "partner", "key": "chain_york_954.s05.partner_kells", "when": "year >= 951" },
+    { "who": "captive", "key": "chain_york_954.s05.captive_kells", "when": "year >= 951" }
+   ],
+   "options": [
+    { "key": "deliver", "label_key": "chain_york_954.s05.opt_deliver", "label": "Land Gilli's combs and jet, every bundle", "check": "flag.ch_york_954_dublin_cargo and hold.combs >= 6 and hold.jet >= 2", "cost": [ "goods combs 6", "goods jet 2" ],
+      "effects": [ "silver +180", "goods cattle_hides +4", "deed kept_commission", "npc partner feeling +10 delivered", "flag ch_york_954_dublin_friend", "flag ch_york_954_5" ],
+      "note": "outcome: chain_york_954.s05.out_deliver" },
+    { "key": "captives", "label_key": "chain_york_954.s05.opt_captives", "label": "Buy two of the Kells people at the pens, cheap", "check": "year >= 951 and silver >= 60", "cost": "silver 60",
+      "effects": [ "goods captives +2", "deed bought_captives", "npc partner feeling +4 bought", "flag ch_york_954_captives", "flag ch_york_954_dublin_friend", "flag ch_york_954_5" ],
+      "note": "outcome: chain_york_954.s05.out_captives (Christians bought from heathens: the deed is known where you sell them)" },
+    { "key": "ransom", "label_key": "chain_york_954.s05.opt_ransom", "label": "Buy two and put them ashore at the church up the river", "check": "year >= 951 and silver >= 60", "cost": "silver 60",
+      "effects": [ "deed gave_alms", "npc captive feeling +20 ransomed", "npc partner feeling +2 bought", "flag ch_york_954_ransomed", "flag ch_york_954_dublin_friend", "flag ch_york_954_5" ],
+      "note": "outcome: chain_york_954.s05.out_ransom" },
+    { "key": "look", "label_key": "chain_york_954.s05.opt_look", "label": "Walk the bank, count the hulls, and eat at his hearth", "check": "true", "default": true,
+      "effects": [ "npc partner feeling +5 guest", "price_shock eoforwic cattle_hides x1.3 for 180", "flag ch_york_954_dublin_friend", "flag ch_york_954_5" ],
+      "note": "outcome: chain_york_954.s05.out_look (costs an evening; you are known on the plot)" }
+   ],
+   "memory": { "deliver": "landed every bundle", "captives": "bought two of the Kells people", "ransom": "bought two captives and freed them", "look": "ate at the hearth" }
+  },
+  {
+   "id": "harbour.chain_york_954.s06_eric_again",
+   "note": "Step 6 (drawn at Eoforwic from 952 to the spring of 954). Olaf is driven out, Eric son of Harald is received, and King Eadred has Archbishop Wulfstan shut up at Iudanbyrig. Sources: Anglo-Saxon Chronicle E 952 (Ingram 1823: 'This year the Northumbrians expelled King Anlaf, and received Eric the son of Harold') and D 952 (the archbishop 'brought into prison'; Ingram prints the place as Jedburgh, which is not certain (?)). Eric's second coinage, ERIC REX with a sword (Blunt, Stewart and Lyon 1989). That later sagas make him Harald Fairhair's son, called Bloodaxe, is not in any source of his own day (?). Eric's shipmaster Thorgils and the priest are invented. Sets ch_york_954_6; _erics_peace or _wulfstan_letter.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_york_954_3 and not flag.ch_york_954_6 and year >= 952 and (year < 954 or month <= 6)",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [40, 58], "fixed": true, "note": "Ulfketil; invented" },
+    "kingsman": { "role": "lords_man", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "Thorgils, shipmaster of King Eric's following; invented" },
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 60], "fixed": true, "note": "a priest of Saint Peter's minster; invented, unnamed" }
+   },
+   "title_key": "chain_york_954.s06.title",
+   "title": "Eric, Harald's son",
+   "intention_key": "chain_york_954.s06.intention",
+   "intention": "The pennies have a sword on them now. Olaf has gone back over the hills, Eric sits in the hall, and the archbishop has been taken south to the English king's prison.",
+   "lines": [
+    { "who": "host", "key": "chain_york_954.s06.host_changed" },
+    { "who": "host", "key": "chain_york_954.s06.host_gilli_gone", "when": "flag.ch_york_954_lean_dublin or flag.ch_york_954_dublin_friend" },
+    { "who": "kingsman", "key": "chain_york_954.s06.thorgils_names" },
+    { "who": "kingsman", "key": "chain_york_954.s06.thorgils_peace" },
+    { "who": "priest", "key": "chain_york_954.s06.priest_prison" }
+   ],
+   "options": [
+    { "key": "peace", "label_key": "chain_york_954.s06.opt_peace", "label": "Give Eric's shipmaster your hand and forty pennies for the king's peace on the river", "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "npc kingsman feeling +10 peace", "toll eased 120", "flag ch_york_954_erics_peace", "flag ch_york_954_lean_hall", "flag ch_york_954_6" ],
+      "note": "outcome: chain_york_954.s06.out_peace (it holds while Eric does)" },
+    { "key": "letter", "label_key": "chain_york_954.s06.opt_letter", "label": "Take the minster's letter south, for whoever can reach the archbishop", "check": "true",
+      "effects": [ "silver +15", "deed carried_letters", "npc priest feeling +10 letter", "flag ch_york_954_wulfstan_letter", "flag ch_york_954_6", "schedule harbour.chain_york_954.s07_kings_man in 20 at lundenwic" ],
+      "note": "outcome: chain_york_954.s06.out_letter" },
+    { "key": "low", "label_key": "chain_york_954.s06.opt_low", "label": "Trade through your host and be nobody's man", "check": "true", "default": true,
+      "effects": [ "npc host feeling +4 low", "flag ch_york_954_6" ],
+      "note": "outcome: chain_york_954.s06.out_low (costs nothing but the better berth)" }
+   ],
+   "memory": { "peace": "bought the king's peace on the river", "letter": "took the minster's letter south", "low": "kept low and traded through his host" }
+  },
+  {
+   "id": "harbour.chain_york_954.s07_kings_man",
+   "note": "Step 7, a turn, optional (scheduled by the letter; drawn at London, 952 to 954, for anyone past step 6). A man of King Eadred's household asks what a merchant saw at York. Sources: Eadred's long sickness, in which he could only suck the juice from his food (B., Vita sancti Dunstani c. 20) (?); the archbishop held from 952 and 'often accused to the king' (Anglo-Saxon Chronicle D 952); London held by the English kings since 886. The king's man is invented, unnamed. Sets ch_york_954_7; _kings_ear, _informer.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and flag.ch_york_954_6 and not flag.ch_york_954_7 and year >= 952 and year <= 954",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "kingsman": { "role": "kings_man", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 55], "fixed": true, "note": "a thegn of King Eadred's household; invented, unnamed" }
+   },
+   "title_key": "chain_york_954.s07.title",
+   "title": "What did you see",
+   "intention_key": "chain_york_954.s07.intention",
+   "intention": "At London a quiet man in a good cloak has asked the port-reeve which hulls come from the Humber. He sits down on your cargo without being asked.",
+   "lines": [
+    { "who": "kingsman", "key": "chain_york_954.s07.kingsman_ask" },
+    { "who": "kingsman", "key": "chain_york_954.s07.kingsman_sick" },
+    { "who": "kingsman", "key": "chain_york_954.s07.kingsman_letter", "when": "flag.ch_york_954_wulfstan_letter" },
+    { "who": "kingsman", "key": "chain_york_954.s07.kingsman_peace", "when": "flag.ch_york_954_erics_peace" }
+   ],
+   "options": [
+    { "key": "letter", "label_key": "chain_york_954.s07.opt_letter", "label": "Give him the minster's letter, sealed, and ask that it reach the archbishop", "check": "flag.ch_york_954_wulfstan_letter",
+      "effects": [ "silver +40", "learn latin +0.1", "npc kingsman feeling +8 letter", "flag ch_york_954_kings_ear", "flag ch_york_954_7" ],
+      "note": "outcome: chain_york_954.s07.out_letter" },
+    { "key": "tell", "label_key": "chain_york_954.s07.opt_tell", "label": "Tell him what you saw: the hulls, the hall, the mint", "check": "true",
+      "effects": [ "silver +120", "npc kingsman feeling +8 told", "flag ch_york_954_kings_ear", "flag ch_york_954_informer", "flag ch_york_954_7" ],
+      "note": "outcome: chain_york_954.s07.out_tell" },
+    { "key": "wine", "label_key": "chain_york_954.s07.opt_wine", "label": "Tell him the price of wine at York, and nothing a child could not see", "check": "true", "default": true,
+      "effects": [ "npc kingsman feeling -2 wine", "price_shock eoforwic rhenish_wine x1.3 for 90", "flag ch_york_954_7" ],
+      "note": "outcome: chain_york_954.s07.out_wine (costs nothing; he tells you in turn that wine is short in the north)" }
+   ],
+   "memory": { "letter": "handed over the minster's letter", "tell": "told what he saw at York", "wine": "talked of the price of wine" }
+  },
+  {
+   "id": "harbour.chain_york_954.s08_bamburgh",
+   "note": "Step 8, optional (drawn at Bebbanburg, 952 to midsummer 954, for anyone past step 6). Oswulf, high-reeve of Bamburgh, wants to know when Eric leaves York and by which road. Source: Roger of Wendover, Flores historiarum, under 950: Eric killed on Stainmore 'by the treachery of Earl Oswulf' (proditione Osulfi comitis), by Maccus (our rendering of the Latin); Oswulf earl of all Northumbria afterwards (Historia regum 952 for 954; De primo Saxonum adventu). That he bought news from merchants is invented (?). Cast: Oswulf (real). Sets ch_york_954_8 and _knows_plot; _oswulf_man.",
+   "stage": "harbour",
+   "when": "moored and port.id = bebbanburg and flag.ch_york_954_6 and not flag.ch_york_954_8 and year >= 952 and (year < 954 or month <= 6)",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 55], "fixed": true, "note": "Oswulf, high-reeve of Bamburgh (from about 934; earl of all Northumbria 954 to about 966); real" }
+   },
+   "title_key": "chain_york_954.s08.title",
+   "title": "The rock",
+   "intention_key": "chain_york_954.s08.intention",
+   "intention": "Below the rock of Bamburgh the high-reeve himself comes down to the beach to look at a York hull. He asks about the wine first, and then about the king.",
+   "lines": [
+    { "who": "reeve", "key": "chain_york_954.s08.reeve_rock" },
+    { "who": "reeve", "key": "chain_york_954.s08.reeve_moor" },
+    { "who": "reeve", "key": "chain_york_954.s08.reeve_offer" },
+    { "who": "reeve", "key": "chain_york_954.s08.reeve_peace", "when": "flag.ch_york_954_erics_peace" }
+   ],
+   "options": [
+    { "key": "word", "label_key": "chain_york_954.s08.opt_word", "label": "Take his silver and agree to send word when the hall empties", "check": "true",
+      "effects": [ "silver +100", "npc reeve feeling +10 agreed", "flag ch_york_954_oswulf_man", "flag ch_york_954_knows_plot", "flag ch_york_954_8" ],
+      "note": "outcome: chain_york_954.s08.out_word" },
+    { "key": "trade", "label_key": "chain_york_954.s08.opt_trade", "label": "Sell him what you carry and promise nothing", "check": "true", "default": true,
+      "effects": [ "toll eased 60", "price_shock bebbanburg rhenish_wine x1.4 for 120", "npc reeve feeling +2 traded", "flag ch_york_954_knows_plot", "flag ch_york_954_8" ],
+      "note": "outcome: chain_york_954.s08.out_trade (costs nothing; you have still heard what he wants)" },
+    { "key": "hear", "label_key": "chain_york_954.s08.opt_hear", "label": "Hear him out, refuse the silver, and remember every word", "check": "true",
+      "effects": [ "npc reeve feeling -4 refused", "flag ch_york_954_knows_plot", "flag ch_york_954_8" ],
+      "note": "outcome: chain_york_954.s08.out_hear" }
+   ],
+   "memory": { "word": "took silver to send word", "trade": "traded and promised nothing", "hear": "refused his silver" }
+  },
+  {
+   "id": "crew.chain_york_954.s09_whose_men",
+   "note": "Step 9, a crew card, optional (drawn by the hour while moored at Eoforwic, 952 to 954, after step 6). The steersman speaks for the oars: whose men are we in this town. Source: the realm file's rule for these years, 'a merchant's safe-conduct dies with the king who gave it' (realms/northumbria_york.json wars 947-954). The seat is the crew file's steersman, unnamed so that it serves any crew. Sets ch_york_954_9.",
+   "stage": "crew",
+   "when": "moored and port.id = eoforwic and flag.ch_york_954_6 and not flag.ch_york_954_9 and year >= 952 and year <= 954",
+   "weight": 0.05,
+   "rate": 0.05,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [28, 55], "fixed": true }
+   },
+   "title_key": "chain_york_954.s09.title",
+   "title": "Whose men are we",
+   "intention_key": "chain_york_954.s09.intention",
+   "intention": "Evening on the Ouse. The men have counted three kinds of penny in their pay, and the steersman has been sent aft to ask what it means.",
+   "lines": [
+    { "who": "steersman", "key": "chain_york_954.s09.steersman_pennies" },
+    { "who": "steersman", "key": "chain_york_954.s09.steersman_whose" },
+    { "who": "steersman", "key": "chain_york_954.s09.steersman_peace", "when": "flag.ch_york_954_erics_peace" },
+    { "who": "steersman", "key": "chain_york_954.s09.steersman_oswulf", "when": "flag.ch_york_954_oswulf_man" }
+   ],
+   "options": [
+    { "key": "truth", "label_key": "chain_york_954.s09.opt_truth", "label": "Tell them all of it: whose silver you took and whose you did not", "check": "true", "default": true,
+      "effects": [ "morale +0.1", "npc steersman feeling +6 told", "flag ch_york_954_9" ],
+      "note": "outcome: chain_york_954.s09.out_truth (costs pride)" },
+    { "key": "pay", "label_key": "chain_york_954.s09.opt_pay", "label": "Count out twenty pennies of good weight and say the rest is your worry", "check": "silver >= 20", "cost": "silver 20",
+      "effects": [ "morale +0.15", "flag ch_york_954_9" ],
+      "note": "outcome: chain_york_954.s09.out_pay" },
+    { "key": "silence", "label_key": "chain_york_954.s09.opt_silence", "label": "Say a merchant has no king, and send him forward", "check": "true",
+      "effects": [ "morale -0.05", "npc steersman feeling -3 silenced", "flag ch_york_954_9" ],
+      "note": "outcome: chain_york_954.s09.out_silence" }
+   ],
+   "memory": { "truth": "told the crew whose silver he took", "pay": "paid the men in good pennies", "silence": "would not say whose man he was" }
+  },
+  {
+   "id": "harbour.chain_york_954.s10_the_hall_empties",
+   "note": "Step 10, the choice (drawn at Eoforwic from April to July 954, after step 6). The Northumbrians turn Eric out; he means to go west over Stainmore with his son and his brother. Sources: Anglo-Saxon Chronicle D and E 954 (Ingram 1823: 'This year the Northumbrians expelled Eric'); Roger of Wendover under 950: killed on Stainmore with his son Haeric and his brother Ragnald, by Maccus son of Olaf, through Oswulf's treachery. The month is not recorded: the game puts the fall after midsummer (?). The four lawmen of York are Domesday's judices, read back (?). That a merchant could offer a hull, send Oswulf word or call the Dublin ships is the game's (history may be changed here). Cast: Thorgils and Ulfketil, invented. Sets ch_york_954_10 and one of _eric_aboard (with the lasting cost ch_york_954_oswulf_feud), _tried, _sent_word, _called_dublin, _stood_town.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_york_954_6 and not flag.ch_york_954_10 and year = 954 and month >= 4 and month <= 7",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [42, 60], "fixed": true, "note": "Ulfketil; invented" },
+    "kingsman": { "role": "lords_man", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "Thorgils, Eric's shipmaster; invented" }
+   },
+   "title_key": "chain_york_954.s10.title",
+   "title": "The hall empties",
+   "intention_key": "chain_york_954.s10.intention",
+   "intention": "The lawmen have met without the king. By evening everyone on the landing knows it: Eric is to go, and he means to ride west over the moor with his son and his brother.",
+   "lines": [
+    { "who": "host", "key": "chain_york_954.s10.host_lawmen" },
+    { "who": "kingsman", "key": "chain_york_954.s10.thorgils_moor" },
+    { "who": "kingsman", "key": "chain_york_954.s10.thorgils_hulls" },
+    { "key": "chain_york_954.s10.know_plot", "when": "flag.ch_york_954_knows_plot" },
+    { "who": "host", "key": "chain_york_954.s10.host_keep_away" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_york_954.s10.opt_carry", "label": "Tell Thorgils the moor road is sold, and offer your hull down the Ouse by night", "check": "flag.ch_york_954_knows_plot or flag.ch_york_954_erics_peace",
+      "effects": [ { "chance": 0.55, "by": "crew.seamanship_best",
+                     "success": [ "npc kingsman feeling +25 carried", "npc host feeling -8 carried", "flag ch_york_954_eric_aboard", "flag ch_york_954_oswulf_feud", "flag ch_york_954_10" ],
+                     "failure": [ "silver -60", "health -0.1", "npc kingsman feeling +10 tried", "flag ch_york_954_tried", "flag ch_york_954_10", "schedule harbour.chain_york_954.end_stainmore in 45 at eoforwic" ] } ],
+      "note": "outcome: chain_york_954.s10.out_carry, or chain_york_954.s10.out_carry_fail (likely with a good steersman, doubtful without: the townsmen have a boat chain at the bend. Failed, you are turned back and fined, and Eric rides for the moor after all)" },
+    { "key": "word", "label_key": "chain_york_954.s10.opt_word", "label": "Send Oswulf his word: by the moor, with few men", "check": "flag.ch_york_954_oswulf_man",
+      "effects": [ "flag ch_york_954_sent_word", "flag ch_york_954_10", "schedule harbour.chain_york_954.end_stainmore in 45 at eoforwic" ],
+      "note": "outcome: chain_york_954.s10.out_word" },
+    { "key": "dublin", "label_key": "chain_york_954.s10.opt_dublin", "label": "Send to the Dublin men over the hills: the hall is empty, come before the English king's reeves", "check": "flag.ch_york_954_dublin_friend",
+      "effects": [ "flag ch_york_954_called_dublin", "flag ch_york_954_eadreds_enemy", "flag ch_york_954_10", "schedule harbour.chain_york_954.end_dublin in 45 at eoforwic" ],
+      "note": "outcome: chain_york_954.s10.out_dublin (only one who is known on the plot at Dublin is believed there)" },
+    { "key": "stay", "label_key": "chain_york_954.s10.opt_stay", "label": "Keep the boat moored and stand with your host when the lawmen count heads", "check": "true", "default": true,
+      "effects": [ "npc host feeling +10 stood", "flag ch_york_954_stood_town", "flag ch_york_954_10", "schedule harbour.chain_york_954.end_town in 45 at eoforwic" ],
+      "note": "outcome: chain_york_954.s10.out_stay (costs nothing but a week's trade)" }
+   ],
+   "memory": { "carry.success": "carried the king down the river", "carry.failure": "tried to carry the king and was turned back", "word": "sent word north", "dublin": "sent to Dublin", "stay": "stood with the town" }
+  },
+  {
+   "id": "harbour.chain_york_954.end_stainmore",
+   "note": "ENDING: Stainmore, history as it was (drawn at Eoforwic from August 954 to 958 for anyone past step 2 who did not stand with the town, carry Eric or call Dublin; scheduled by step 10). Eric is killed on the moor; King Eadred takes the kingdom; Oswulf is earl; the archbishop is freed but not sent home. Sources: Anglo-Saxon Chronicle D 954 (Ingram 1823, quoted in the card: 'This year the Northumbrians expelled Eric; and King Edred took to the government of the Northumbrians'); Roger of Wendover under 950 (Maccus, Oswulf, the son and the brother); Wulfstan given Dorchester, not York (ASC D 954). The king's peace given by hand is Domesday's custom at York, read back (?). Flag ch_york_954_end_stainmore. Grand rewards: unlock_charter_eoforwic (with unlock_title_earls_friend and the lasting cost ch_york_954_blood_money for the man who sent word), or unlock_pilot_humber for anyone. Cast: Ulfketil (invented); the king's reeve is invented, unnamed.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_york_954_2 and not flag.ch_york_954_stood_town and not flag.ch_york_954_eric_aboard and not flag.ch_york_954_called_dublin and not flag.ch_york_954_end_stainmore and ((year = 954 and month >= 8) or (year > 954 and year <= 958))",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [42, 62], "fixed": true, "note": "Ulfketil; invented" },
+    "reeve": { "role": "kings_man", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Eadred's reeve at York; invented, unnamed" }
+   },
+   "title_key": "chain_york_954.end_stainmore.title",
+   "title": "No more kings",
+   "intention_key": "chain_york_954.end_stainmore.intention",
+   "intention": "Eric is dead on Stainmore with his son and his brother. An English reeve sits in the hall, an earl from Bamburgh is over the land, and the moneyer is cutting a new die.",
+   "lines": [
+    { "key": "chain_york_954.end_stainmore.chronicle" },
+    { "who": "host", "key": "chain_york_954.end_stainmore.host_moor" },
+    { "who": "host", "key": "chain_york_954.end_stainmore.host_tried", "when": "flag.ch_york_954_tried" },
+    { "who": "host", "key": "chain_york_954.end_stainmore.host_wulfstan" },
+    { "who": "reeve", "key": "chain_york_954.end_stainmore.reeve_peace" },
+    { "who": "reeve", "key": "chain_york_954.end_stainmore.reeve_word", "when": "flag.ch_york_954_sent_word" }
+   ],
+   "options": [
+    { "key": "blood", "label_key": "chain_york_954.end_stainmore.opt_blood", "label": "Take what the earl sends for the word you sent: silver, and his seal on the river toll", "check": "flag.ch_york_954_sent_word",
+      "effects": [ "silver +1600", "npc reeve feeling +10 earls_friend", "npc host feeling -10 blood", "flag unlock_charter_eoforwic", "flag unlock_title_earls_friend", "flag ch_york_954_blood_money", "flag ch_york_954_end_stainmore", "news chain_york_954.news.stainmore at eoforwic" ],
+      "note": "outcome: chain_york_954.end_stainmore.out_blood (the cost lasts: in Norse harbours it is known who sold the moor road)" },
+    { "key": "kings", "label_key": "chain_york_954.end_stainmore.opt_kings", "label": "Ask the reeve for the king's peace, given by hand, on your hull and your sales", "check": "flag.ch_york_954_kings_ear or flag.ch_york_954_paid or flag.ch_york_954_tally",
+      "effects": [ "silver +800", "npc reeve feeling +10 peace", "flag unlock_charter_eoforwic", "flag ch_york_954_end_stainmore", "news chain_york_954.news.stainmore at eoforwic" ],
+      "note": "outcome: chain_york_954.end_stainmore.out_kings (for one who paid the town's share, carried the chest, or had the king's ear)" },
+    { "key": "plain", "label_key": "chain_york_954.end_stainmore.opt_plain", "label": "Ask nobody for anything: buy what a fallen hall sells cheap, and keep what the river has taught you", "check": "true", "default": true,
+      "effects": [ "silver +600", "goods silk +2", "price_shock eoforwic swords x0.6 for 90", "flag unlock_pilot_humber", "flag ch_york_954_end_stainmore", "news chain_york_954.news.stainmore at eoforwic" ],
+      "note": "outcome: chain_york_954.end_stainmore.out_plain" }
+   ],
+   "memory": { "blood": "took the earl's reward", "kings": "took the king's peace by hand", "plain": "asked nobody for anything" }
+  },
+  {
+   "id": "harbour.chain_york_954.end_town",
+   "note": "ENDING: the town's man, history as it was, by the honest road (drawn at Eoforwic from August 954 to 958 for one who stood with the host at step 10; scheduled by it). The kings are gone and the town goes on: the moneyers, the lawmen, the long plots. The hard road pays up to twice the finale and a second grand reward. Sources: as the Stainmore ending; the long fenced plots of the town laid out from about 900 and rebuilt on the same lines (Hall 1984, Coppergate; dossiers/eoforwic.md); Ingelgar struck for Eadred after Eric (Blunt, Stewart and Lyon 1989) (?); sworn witnesses to every sale are King Edgar's law for the Danes a few years on (IV Edgar, about 962) and the game reads the custom back (?). Flag ch_york_954_end_town. Grand rewards: unlock_title_york_sworn_merchant with unlock_plot_eoforwic or unlock_factor_eoforwic; or unlock_plot_eoforwic with unlock_title_archbishops_man. Cast: Ulfketil (invented), Ingelgar (real).",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_york_954_stood_town and not flag.ch_york_954_end_town and ((year = 954 and month >= 8) or (year > 954 and year <= 958))",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [42, 62], "fixed": true, "note": "Ulfketil; invented" },
+    "moneyer": { "role": "moneyer", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 62], "fixed": true, "note": "Ingelgar; real, known from coins only" }
+   },
+   "title_key": "chain_york_954.end_town.title",
+   "title": "The town keeps its own",
+   "intention_key": "chain_york_954.end_town.intention",
+   "intention": "Eric is dead on the moor and an English reeve sits in the hall. In your host's yard the men who counted heads that week are counting something else, and they have kept a place for you.",
+   "lines": [
+    { "key": "chain_york_954.end_town.chronicle" },
+    { "who": "host", "key": "chain_york_954.end_town.host_counted" },
+    { "who": "moneyer", "key": "chain_york_954.end_town.moneyer_die" },
+    { "who": "host", "key": "chain_york_954.end_town.host_plot" },
+    { "who": "host", "key": "chain_york_954.end_town.host_wulfstan", "when": "flag.ch_york_954_wulfstan_letter" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_york_954.end_town.opt_plot", "label": "Take the long plot beside his, and a seat among the men who witness sales", "check": "true", "default": true,
+      "effects": [ "silver +1500", "npc host feeling +15 neighbour", "commission rhenish_wine 10 by 240 premium 0.6", "flag unlock_plot_eoforwic", "flag unlock_title_york_sworn_merchant", "flag ch_york_954_end_town", "news chain_york_954.news.stainmore at eoforwic" ],
+      "note": "outcome: chain_york_954.end_town.out_plot" },
+    { "key": "factor", "label_key": "chain_york_954.end_town.opt_factor", "label": "Take your share in silver, the seat, and his son to keep your goods here while you sail", "check": "true",
+      "effects": [ "silver +1800", "npc host feeling +10 partner", "flag unlock_factor_eoforwic", "flag unlock_title_york_sworn_merchant", "flag ch_york_954_end_town", "news chain_york_954.news.stainmore at eoforwic" ],
+      "note": "outcome: chain_york_954.end_town.out_factor" },
+    { "key": "letter", "label_key": "chain_york_954.end_town.opt_letter", "label": "Take the plot, and ask that the minster name you as the man who carried its letter", "check": "flag.ch_york_954_wulfstan_letter",
+      "effects": [ "silver +1200", "learn latin +0.2", "npc host feeling +10 neighbour", "flag unlock_plot_eoforwic", "flag unlock_title_archbishops_man", "flag ch_york_954_end_town", "news chain_york_954.news.stainmore at eoforwic" ],
+      "note": "outcome: chain_york_954.end_town.out_letter" }
+   ],
+   "memory": { "plot": "took the plot and the seat", "factor": "took silver and a man to keep his goods", "letter": "took the plot and the minster's name" }
+  },
+  {
+   "id": "harbour.chain_york_954.end_eric_lives",
+   "note": "ENDING: Eric lives, HISTORY CHANGED (drawn in a Danish or Norse harbour, 954 to 958, for one who carried Eric down the Ouse at step 10). In history he died on Stainmore in 954; here he reached his ships at the Humber mouth and the islands north of Scotland. The later sagas send his widow and sons to Orkney after his death (Heimskringla, Hakonar saga goda c. 4-5; 13th century, not his own day) (?): the game sends him there alive. Flags ch_york_954_end_eric_lives, changed_stainmore_eric_lives; the lasting cost ch_york_954_oswulf_feud was set at step 10. Grand rewards: unlock_ship_norse_allround_ship, or unlock_heirloom_erics_arm_ring, or unlock_title_sea_kings_peace. Cast: Thorgils (invented).",
+   "stage": "harbour",
+   "when": "moored and (port.id = ripa or port.id = sliesthorp or port.id = ogvaldsnes or port.id = hleidr or port.id = birka) and flag.ch_york_954_eric_aboard and not flag.ch_york_954_end_eric_lives and year >= 954 and year <= 958",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "kingsman": { "role": "lords_man", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 52], "fixed": true, "note": "Thorgils, Eric's shipmaster; invented" }
+   },
+   "title_key": "chain_york_954.end_eric_lives.title",
+   "title": "A king without a town",
+   "intention_key": "chain_york_954.end_eric_lives.intention",
+   "intention": "A warship with a striped sail lies off the landing, and the man who steps ashore is one you last saw in the dark on the Ouse. He has been asking for your hull in every harbour.",
+   "lines": [
+    { "who": "kingsman", "key": "chain_york_954.end_eric_lives.thorgils_found" },
+    { "who": "kingsman", "key": "chain_york_954.end_eric_lives.thorgils_isles" },
+    { "who": "kingsman", "key": "chain_york_954.end_eric_lives.thorgils_york" },
+    { "who": "kingsman", "key": "chain_york_954.end_eric_lives.thorgils_oswulf" }
+   ],
+   "options": [
+    { "key": "ship", "label_key": "chain_york_954.end_eric_lives.opt_ship", "label": "Take the king's gift: a sea-going trader from his fleet, and silver to fit her", "check": "true", "default": true,
+      "effects": [ "silver +900", "npc kingsman feeling +10 ship", "flag unlock_ship_norse_allround_ship", "flag changed_stainmore_eric_lives", "flag ch_york_954_end_eric_lives", "news chain_york_954.news.eric_lives at here" ],
+      "note": "outcome: chain_york_954.end_eric_lives.out_ship" },
+    { "key": "ring", "label_key": "chain_york_954.end_eric_lives.opt_ring", "label": "Take the arm-ring off his own arm, and the rest by weight", "check": "true",
+      "effects": [ "silver +1800", "npc kingsman feeling +10 ring", "flag unlock_heirloom_erics_arm_ring", "flag changed_stainmore_eric_lives", "flag ch_york_954_end_eric_lives", "news chain_york_954.news.eric_lives at here" ],
+      "note": "outcome: chain_york_954.end_eric_lives.out_ring" },
+    { "key": "peace", "label_key": "chain_york_954.end_eric_lives.opt_peace", "label": "Ask for less silver and one thing more: that his ships let your hulls pass, and your heirs'", "check": "true",
+      "effects": [ "silver +700", "npc kingsman feeling +15 peace", "flag unlock_title_sea_kings_peace", "flag changed_stainmore_eric_lives", "flag ch_york_954_end_eric_lives", "news chain_york_954.news.eric_lives at here" ],
+      "note": "outcome: chain_york_954.end_eric_lives.out_peace" }
+   ],
+   "memory": { "ship": "took a ship from the king", "ring": "took the king's arm-ring", "peace": "asked for the sea-king's peace" }
+  },
+  {
+   "id": "harbour.chain_york_954.end_dublin",
+   "note": "ENDING: the Dublin kings hold York, HISTORY CHANGED (drawn at Eoforwic or Duiblinn from August 954 to 958 for one who sent to Dublin at step 10; scheduled by it). In history King Eadred took the kingdom in 954 and no king sat at York again; here Olaf's ships came up the Humber before the English reeves and the lawmen took him a third time. Eric dies on Stainmore in either telling: Wendover's Maccus is 'son of Olaf', and whether that Olaf was of the Dublin house is a guess scholars have made and not proved (?). Olaf Sihtricson himself ruled Dublin to 980 (dossiers/duiblinn.md). Flags ch_york_954_end_dublin, changed_york_dublin_kingdom_954; the lasting cost ch_york_954_eadreds_enemy was set at step 10. Grand rewards: unlock_partner_gilli, or unlock_plot_eoforwic with unlock_charter_eoforwic, or unlock_factor_duiblinn. Cast: Gilli and Ulfketil (invented).",
+   "stage": "harbour",
+   "when": "moored and (port.id = eoforwic or port.id = duiblinn) and flag.ch_york_954_called_dublin and not flag.ch_york_954_end_dublin and ((year = 954 and month >= 8) or (year > 954 and year <= 958))",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "shipmaster": { "role": "skipper", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [34, 50], "fixed": true, "note": "Gilli of Dublin; invented" },
+    "host": { "role": "host", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [42, 62], "fixed": false, "note": "Ulfketil at Eoforwic (at Duiblinn, a York man come over with the ships); invented" }
+   },
+   "title_key": "chain_york_954.end_dublin.title",
+   "title": "One kindred, two towns",
+   "intention_key": "chain_york_954.end_dublin.intention",
+   "intention": "The Dublin ships came up the Humber nine days before the English king's reeves. Olaf sits in the hall at York a third time, and Gilli has been looking for you with a tally in his belt.",
+   "lines": [
+    { "who": "shipmaster", "key": "chain_york_954.end_dublin.gilli_came" },
+    { "who": "shipmaster", "key": "chain_york_954.end_dublin.gilli_moor" },
+    { "who": "host", "key": "chain_york_954.end_dublin.host_third" },
+    { "who": "shipmaster", "key": "chain_york_954.end_dublin.gilli_eadred" }
+   ],
+   "options": [
+    { "key": "partner", "label_key": "chain_york_954.end_dublin.opt_partner", "label": "Swear fellowship with Gilli: one purse, his boat on the western sea and yours on the eastern", "check": "true", "default": true,
+      "effects": [ "silver +900", "npc shipmaster feeling +20 fellow", "flag unlock_partner_gilli", "flag changed_york_dublin_kingdom_954", "flag ch_york_954_end_dublin", "news chain_york_954.news.dublin_york at here" ],
+      "note": "outcome: chain_york_954.end_dublin.out_partner" },
+    { "key": "plot", "label_key": "chain_york_954.end_dublin.opt_plot", "label": "Ask the king for ground at York and freedom from his toll there", "check": "true",
+      "effects": [ "silver +700", "npc host feeling +8 neighbour", "flag unlock_plot_eoforwic", "flag unlock_charter_eoforwic", "flag changed_york_dublin_kingdom_954", "flag ch_york_954_end_dublin", "news chain_york_954.news.dublin_york at here" ],
+      "note": "outcome: chain_york_954.end_dublin.out_plot" },
+    { "key": "factor", "label_key": "chain_york_954.end_dublin.opt_factor", "label": "Take your share by weight, and a man on the plot at Dublin to keep your goods", "check": "true",
+      "effects": [ "silver +1300", "npc shipmaster feeling +8 share", "flag unlock_factor_duiblinn", "flag changed_york_dublin_kingdom_954", "flag ch_york_954_end_dublin", "news chain_york_954.news.dublin_york at here" ],
+      "note": "outcome: chain_york_954.end_dublin.out_factor" }
+   ],
+   "memory": { "partner": "swore fellowship with Gilli", "plot": "took ground and toll freedom at York", "factor": "took his share and a man at Dublin" }
+  }
+ ]
+}

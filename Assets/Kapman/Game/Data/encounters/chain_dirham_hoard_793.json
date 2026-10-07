@@ -1,0 +1,671 @@
+{
+ "about": "CHAIN dirham_hoard (Design/content/chains/dirham_hoard.md): a dying Gotlander's account of silver buried on his farm, and the kin who also know. Fourteen cards, 805 to 950. A Gotland trader dies of a fever in a western harbour and tells a stranger with a boat where his silver lies: one lot under his storehouse floor, which his brother and his daughter each half know of, and a greater lot under the stern stone of an old ship of stones in his pasture, which nobody knows of. The merchant carries the word to Gotland, sees the first lot dug and quarrelled over, stands witness at the thing, and then decides what becomes of the second. Five endings: the daughter has it (end_daughter); the brother has it and lays it back in the ground (end_brother); it is left under the stone and never dug (end_buried: what really happened to hundreds of Gotland hoards); the merchant digs it himself by night (end_thief); or the kin are brought to put all of it into a ship and a fellowship with the Frisian house, with a booth on the beach (end_fellowship: history changed). Progress is flags ch_dirham_hoard_1 to _9; branch flags, waits, endings and grand rewards are listed in the chain page. Cards with weight 0 are reached only by 'schedule' or 'then'; the other scheduled cards also carry a weight so that a house that sails away meets them on its next call. The words are in Data/writing/chain_dirham_hoard.json; each option's note names the writing key of its outcome text (the engine shows the effects' own facts; the outcome keys are for the integrator). Every person is invented (Gotland names from the rune stones G 111, G 113, G 280; peoples/svea_gotlandic.md). Nobody says 'dirham': it is the writing silver, the Saracens' silver. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_dirham_hoard.s01_dying_gute",
+   "note": "Step 1, the start (drawn at Sliesthorp, Ripa, Birka or Dorestad in the sailing months, 805 to 949, on any call after the first). A Gotland trader lies dying of a fever in a host's house, none of his own people in harbour, and tells a stranger with a boat where his silver lies. Sources: over 700 silver hoards on Gotland, most on farms and many inside buildings (peoples/svea_gotlandic.md; economy/silver_coin.md; Ostergren 1989 (?)); the practice the game models, npc_text_encounters.md 1.5; the Saracens' silver in the Baltic from about 800 (Noonan 1998, as cited in goods_793.json); Birka men at Dorstadt (Rimbert c. 27): a Gotlander that far west is our invention (?). Hegbjorn (invented; the name from G 280). All three options hear the first measure (the storehouse floor); only the sworn man hears the second (the ship of stones). Sets ch_dirham_hoard_1; 'swear' sets ch_dirham_hoard_oath and ch_dirham_hoard_full; 'care' sets ch_dirham_hoard_cared. Schedules step 2 in three days in the same harbour.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sliesthorp or port.id = ripa or port.id = birka or port.id = dorestad) and year >= 805 and year < 950 and port.visits >= 1 and not flag.ch_dirham_hoard_1",
+   "weight": 0.6,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [5, 6, 7, 8, 9, 10],
+   "actors": {
+    "gute": { "role": "merchant", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [48, 60], "fixed": false, "note": "Hegbjorn of Aikgard (invented)" },
+    "host": { "role": "host", "people": "port", "faith": "port", "tongue": "port", "age": [35, 60], "fixed": true, "note": "the man in whose house he lies; invented" }
+   },
+   "title_key": "chain_dirham_hoard.s01.title",
+   "title": "A man with no kin in harbour",
+   "intention_key": "chain_dirham_hoard.s01.intention",
+   "intention": "A Gotland trader lies sick of a fever in a host's back room. His ship sailed without him. He has asked the host for a man with a boat of his own, who is not of his island and not a Svea.",
+   "lines": [
+    { "who": "host", "key": "chain_dirham_hoard.s01.host_why" },
+    { "who": "gute", "key": "chain_dirham_hoard.s01.gute_who" },
+    { "who": "gute", "key": "chain_dirham_hoard.s01.gute_farm" },
+    { "who": "gute", "key": "chain_dirham_hoard.s01.gute_floor" },
+    { "who": "gute", "key": "chain_dirham_hoard.s01.gute_kin" },
+    { "who": "gute", "key": "chain_dirham_hoard.s01.gute_ask" }
+   ],
+   "options": [
+    { "key": "swear", "label_key": "chain_dirham_hoard.s01.opt_swear", "label": "Give him your hand on it: his daughter shall have the word",
+      "check": "true",
+      "effects": [ "npc gute feeling +10 swore", "flag ch_dirham_hoard_oath", "flag ch_dirham_hoard_full", "flag ch_dirham_hoard_1",
+                   "schedule harbour.chain_dirham_hoard.s02_ashes in 3 at here" ],
+      "note": "outcome: chain_dirham_hoard.s01.out_swear (he tells the second measure to a sworn man only)" },
+    { "key": "care", "label_key": "chain_dirham_hoard.s01.opt_care", "label": "Promise nothing, and pay the host for a bed by the fire and someone to sit with him",
+      "check": "silver >= 12", "cost": "silver 12",
+      "effects": [ "deed gave_alms", "npc host feeling +5 paid", "npc gute feeling +6 cared", "flag ch_dirham_hoard_cared", "flag ch_dirham_hoard_1",
+                   "schedule harbour.chain_dirham_hoard.s02_ashes in 3 at here" ],
+      "note": "outcome: chain_dirham_hoard.s01.out_care" },
+    { "key": "listen", "label_key": "chain_dirham_hoard.s01.opt_listen", "label": "Hear him out and promise nothing",
+      "check": "true", "default": true,
+      "effects": [ "npc gute feeling +2 listened", "flag ch_dirham_hoard_1",
+                   "schedule harbour.chain_dirham_hoard.s02_ashes in 3 at here" ],
+      "note": "outcome: chain_dirham_hoard.s01.out_listen" }
+   ],
+   "memory": {
+    "swear": "gave his hand to a dying man",
+    "care": "paid for a dying stranger's bed",
+    "listen": "heard a dying man out"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s02_ashes",
+   "note": "Step 2 (scheduled by step 1, three days later in the same harbour; a house that has sailed on never sees it and the chain goes on without it). He is dead. The host has his sea chest: a folding scale, weights, and a stick cut with runes. One of his rowers has been asking what he said. Sources: folding scales in a case and small weights as a trader's gear (peoples/svea_gotlandic.md 5); the burning of the dead as the custom of the Svear (Heimskringla, preface, tr. Laing 1844; late), and both burning and earth burial on Gotland (?); Havamal st. 77 (Bellows 1923, texts_793.json havamal_077), said at the fire by a Norse hand. The rune stick is invented. Sets ch_dirham_hoard_2; 'pyre' and 'chest' set ch_dirham_hoard_stick and ch_dirham_hoard_chest; 'pyre' sets ch_dirham_hoard_rites; 'leave' sets ch_dirham_hoard_stick_lost.",
+   "stage": "harbour",
+   "when": "moored and flag.ch_dirham_hoard_1 and not flag.ch_dirham_hoard_2 and not flag.ch_dirham_hoard_4",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "port", "faith": "port", "tongue": "port", "age": [35, 60], "fixed": true, "note": "the same host; invented" }
+   },
+   "title_key": "chain_dirham_hoard.s02.title",
+   "title": "What he left",
+   "intention_key": "chain_dirham_hoard.s02.intention",
+   "intention": "The Gotlander died in the night. The host has laid him in the outhouse and put his sea chest on the table: a folding scale, a bag of weights, a comb, and a stick of yew cut with runes. He wants his lodging paid and the room back.",
+   "lines": [
+    { "who": "host", "key": "chain_dirham_hoard.s02.host_dead" },
+    { "who": "host", "key": "chain_dirham_hoard.s02.host_cared", "when": "flag.ch_dirham_hoard_cared" },
+    { "who": "host", "key": "chain_dirham_hoard.s02.host_chest" },
+    { "who": "host", "key": "chain_dirham_hoard.s02.host_rower" },
+    { "who": "host", "key": "chain_dirham_hoard.s02.host_body" }
+   ],
+   "options": [
+    { "key": "pyre", "label_key": "chain_dirham_hoard.s02.opt_pyre", "label": "Pay his lodging and the wood, burn him as his people do, and take the chest for his kin",
+      "check": "silver >= 20", "cost": "silver 20",
+      "effects": [ "give_text havamal_077", "morale +0.03", "npc host feeling +4 pyre", "flag ch_dirham_hoard_rites", "flag ch_dirham_hoard_stick",
+                   "flag ch_dirham_hoard_chest", "flag ch_dirham_hoard_2" ],
+      "note": "outcome: chain_dirham_hoard.s02.out_pyre (a Norse hand says the verse at the fire: the text goes into the chest)" },
+    { "key": "chest", "label_key": "chain_dirham_hoard.s02.opt_chest", "label": "Pay his lodging, take the chest for his kin, and leave the body to the host",
+      "check": "silver >= 8", "cost": "silver 8",
+      "effects": [ "npc host feeling +2 paid", "flag ch_dirham_hoard_stick", "flag ch_dirham_hoard_chest", "flag ch_dirham_hoard_2" ],
+      "note": "outcome: chain_dirham_hoard.s02.out_chest" },
+    { "key": "leave", "label_key": "chain_dirham_hoard.s02.opt_leave", "label": "Leave the chest for the lodging. You carry his words, and that is enough",
+      "check": "true", "default": true,
+      "effects": [ "flag ch_dirham_hoard_stick_lost", "flag ch_dirham_hoard_2" ],
+      "note": "outcome: chain_dirham_hoard.s02.out_leave (the host sells the chest; the stick goes with it)" }
+   ],
+   "memory": {
+    "pyre": "paid for a stranger's pyre",
+    "chest": "paid a dead man's lodging",
+    "leave": "left a dead man's chest for the lodging"
+   }
+  },
+  {
+   "id": "crew.chain_dirham_hoard.s03_rune_stick",
+   "note": "Step 3, a side step (a crew card at sea for a house that carries the rune stick; the chain does not wait for it). The stick is read, or not. Sources: most Norse traders could read runes (npc_text_encounters.md 1.4); the sixteen runes of the younger row, one rune for several sounds; Ravn carries rune-cut sticks (spine, cast.crew.ravn); what a man buried himself he has in the next world: Snorri, Ynglinga saga c. 8 (tr. Laing 1844; late, about 1230, and Snorri's own telling (?)). Cast: cast.crew.ravn, cast.crew.aldger (if they are not aboard the forge gives two hands of their peoples). Sets ch_dirham_hoard_3; 'aloud' sets ch_dirham_hoard_full and ch_dirham_hoard_crew_knows; 'alone' may set ch_dirham_hoard_full.",
+   "stage": "crew",
+   "when": "under_way and days_at_sea >= 1 and flag.ch_dirham_hoard_stick and not flag.ch_dirham_hoard_3 and not flag.ch_dirham_hoard_done",
+   "weight": 0.03,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "norse": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn" },
+    "frisian": { "role": "crewman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [20, 50], "fixed": false, "note": "cast.crew.aldger" }
+   },
+   "title_key": "chain_dirham_hoard.s03.title",
+   "title": "A stick of yew",
+   "intention_key": "chain_dirham_hoard.s03.intention",
+   "intention": "The dead man's stick lies on the thwart beside his scale. It is a hand long, cut on two sides with runes, and worn smooth where a thumb has held it. Two of your men have seen it and have things to say.",
+   "lines": [
+    { "who": "norse", "key": "chain_dirham_hoard.s03.norse_reads" },
+    { "who": "frisian", "key": "chain_dirham_hoard.s03.frisian_debt" },
+    { "who": "norse", "key": "chain_dirham_hoard.s03.norse_buried" },
+    { "who": "frisian", "key": "chain_dirham_hoard.s03.frisian_answer" }
+   ],
+   "options": [
+    { "key": "aloud", "label_key": "chain_dirham_hoard.s03.opt_aloud", "label": "Have it read aloud, before every man aboard",
+      "check": "true",
+      "effects": [ "flag ch_dirham_hoard_full", "flag ch_dirham_hoard_crew_knows", "learn runes +0.1", "morale +0.03", "npc norse feeling +4 read",
+                   "flag ch_dirham_hoard_3" ],
+      "note": "outcome: chain_dirham_hoard.s03.out_aloud" },
+    { "key": "alone", "label_key": "chain_dirham_hoard.s03.opt_alone", "label": "Spell it out yourself, at night, by the steering oar",
+      "check": "true",
+      "effects": [ { "chance": 0.5,
+                     "success": [ "flag ch_dirham_hoard_full", "learn runes +0.2" ],
+                     "failure": [ "learn runes +0.1" ] },
+                   "flag ch_dirham_hoard_3" ],
+      "note": "outcome: chain_dirham_hoard.s03.out_alone_success / out_alone_failure (failing costs nothing: the stick can still be handed to those who read)" },
+    { "key": "keep", "label_key": "chain_dirham_hoard.s03.opt_keep", "label": "Wrap it in the scale's cloth and carry it to his kin unread",
+      "check": "true", "default": true,
+      "effects": [ "morale +0.01", "npc frisian feeling +3 kept", "flag ch_dirham_hoard_3" ],
+      "note": "outcome: chain_dirham_hoard.s03.out_keep" }
+   ],
+   "memory": {
+    "aloud": "had the dead man's stick read before all",
+    "alone": "read the dead man's stick alone",
+    "keep": "carried the dead man's stick unread"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s04_beach",
+   "note": "Step 4 (drawn at Paviken in the sailing months, on the first call after step 1). The beach knows the dead man, his farm, his brother and his daughter; and one of his rowers has been here asking. Sources: Paviken's shipwrights and smiths, a beach harbour with no town (ports_793.json; peoples/svea_gotlandic.md 1); the Gotlanders as farmers who are also the merchants; inheritance on Gotland by sons first and daughters where there are none, and land that stays in the kin: Guta Lag (written about 1220; late, used for custom only (?)); gifts before business (Guta saga: Ormika's twelve rams; late). Aikgard, Vivil and Ailikn are invented (names from G 280 and G 111 (?)). Sets ch_dirham_hoard_4 and one of ch_dirham_hoard_first_brother, ch_dirham_hoard_first_daughter, ch_dirham_hoard_knows_law. Schedules step 5.",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_1 and not flag.ch_dirham_hoard_4 and not flag.ch_dirham_hoard_done and year < 960",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [5, 6, 7, 8, 9],
+   "actors": {
+    "wright": { "role": "shipwright", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [35, 60], "fixed": true, "note": "a shipwright of the beach; invented" }
+   },
+   "title_key": "chain_dirham_hoard.s04.title",
+   "title": "Asking on the beach",
+   "intention_key": "chain_dirham_hoard.s04.intention",
+   "intention": "Paviken is a beach, a row of boat sheds and the smoke of forges. You ask a shipwright for the farm called Aikgard. He puts down his adze before he answers, which is not a good sign.",
+   "lines": [
+    { "who": "wright", "key": "chain_dirham_hoard.s04.wright_knows" },
+    { "who": "wright", "key": "chain_dirham_hoard.s04.wright_brother" },
+    { "who": "wright", "key": "chain_dirham_hoard.s04.wright_daughter" },
+    { "who": "wright", "key": "chain_dirham_hoard.s04.wright_rower" },
+    { "who": "wright", "key": "chain_dirham_hoard.s04.wright_advice" }
+   ],
+   "options": [
+    { "key": "brother", "label_key": "chain_dirham_hoard.s04.opt_brother", "label": "Go to the farm and the brother first, as a guest should",
+      "check": "true",
+      "effects": [ "npc wright feeling +2 asked", "flag ch_dirham_hoard_first_brother", "flag ch_dirham_hoard_4",
+                   "schedule harbour.chain_dirham_hoard.s05_farm in 1 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s04.out_brother" },
+    { "key": "daughter", "label_key": "chain_dirham_hoard.s04.opt_daughter", "label": "Go to the daughter first, as the dead man asked",
+      "check": "true", "default": true,
+      "effects": [ "npc wright feeling +2 asked", "flag ch_dirham_hoard_first_daughter", "flag ch_dirham_hoard_4",
+                   "schedule harbour.chain_dirham_hoard.s05_farm in 1 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s04.out_daughter" },
+    { "key": "ale", "label_key": "chain_dirham_hoard.s04.opt_ale", "label": "Stay a day on the beach, buy the wrights ale, and learn how Gotlanders inherit",
+      "check": "silver >= 6", "cost": "silver 6",
+      "effects": [ "npc wright feeling +6 ale", "price_shock paviken rhenish_wine x1.2 for 120", "flag ch_dirham_hoard_knows_law", "flag ch_dirham_hoard_4",
+                   "schedule harbour.chain_dirham_hoard.s05_farm in 2 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s04.out_ale (the price word is true: the island wants Rhine wine)" }
+   ],
+   "memory": {
+    "brother": "asked the way to the brother",
+    "daughter": "asked the way to the daughter",
+    "ale": "bought the beach ale and asked about the law"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s05_farm",
+   "note": "Step 5 (scheduled by step 4, a day or two later; also drawn on any later call at Paviken). The farm, half a morning inland: the brother who holds it and the daughter who was sent for. The merchant says where the first lot lies, and to whom. Sources: the Gotland farm as an undivided holding of kin, and the daughter's right after a father with no sons (Guta Lag, late (?)); a guest is given food and drink before he is asked his errand (Havamal st. 2 to 4, texts_793.json; Guta saga). A man who gave his hand at step 1 cannot tell the brother alone: the option is greyed. Sets ch_dirham_hoard_5 and one of ch_dirham_hoard_told_daughter, ch_dirham_hoard_told_brother, ch_dirham_hoard_told_both. Schedules step 6.",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_4 and not flag.ch_dirham_hoard_5 and not flag.ch_dirham_hoard_done",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil of Aikgard, the dead man's younger brother (invented)" },
+    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn, the dead man's only child, a widow with a small son, living on her mother's kin's farm (invented)" }
+   },
+   "title_key": "chain_dirham_hoard.s05.title",
+   "title": "Aikgard",
+   "intention_key": "chain_dirham_hoard.s05.intention",
+   "intention": "The farm lies half a morning in from the beach: a long house, a storehouse on a stone footing, sheep, and a tall stone by the gate with a ship cut on it. The brother sets ale and bread before you. The daughter has walked over from her mother's people and sits by the door.",
+   "lines": [
+    { "who": "brother", "key": "chain_dirham_hoard.s05.brother_welcome" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s05.daughter_first", "when": "flag.ch_dirham_hoard_first_daughter" },
+    { "who": "brother", "key": "chain_dirham_hoard.s05.brother_first", "when": "flag.ch_dirham_hoard_first_brother" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s05.daughter_chest", "when": "flag.ch_dirham_hoard_chest" },
+    { "who": "brother", "key": "chain_dirham_hoard.s05.brother_claim" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s05.daughter_claim" },
+    { "who": "brother", "key": "chain_dirham_hoard.s05.brother_law", "when": "flag.ch_dirham_hoard_knows_law" }
+   ],
+   "options": [
+    { "key": "tell_daughter", "label_key": "chain_dirham_hoard.s05.opt_tell_daughter", "label": "Ask the daughter to walk with you to the gate, and tell her alone",
+      "check": "true",
+      "effects": [ "npc daughter feeling +15 told", "npc brother feeling -10 passed_over", "flag ch_dirham_hoard_told_daughter", "flag ch_dirham_hoard_5",
+                   "schedule harbour.chain_dirham_hoard.s06_floor in 2 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s05.out_tell_daughter" },
+    { "key": "tell_brother", "label_key": "chain_dirham_hoard.s05.opt_tell_brother", "label": "Tell the brother, who holds the farm and set the bread before you",
+      "check": "not flag.ch_dirham_hoard_oath",
+      "effects": [ "npc brother feeling +12 told", "npc daughter feeling -15 passed_over", "goods fleeces +1", "flag ch_dirham_hoard_told_brother", "flag ch_dirham_hoard_5",
+                   "schedule harbour.chain_dirham_hoard.s06_floor in 2 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s05.out_tell_brother (a guest gift of fleeces)" },
+    { "key": "tell_both", "label_key": "chain_dirham_hoard.s05.opt_tell_both", "label": "Say it once, aloud, to both of them, and let them call neighbours to hear it",
+      "check": "true", "default": true,
+      "effects": [ "deed fair_dealing", "npc brother feeling +5 open", "npc daughter feeling +6 open", "goods honey +1", "flag ch_dirham_hoard_told_both", "flag ch_dirham_hoard_5",
+                   "schedule harbour.chain_dirham_hoard.s06_floor in 2 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s05.out_tell_both (a crock of the farm's honey)" }
+   ],
+   "memory": {
+    "tell_daughter": "told the daughter alone",
+    "tell_brother": "told the brother alone",
+    "tell_both": "said it aloud before both"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s06_floor",
+   "note": "Step 6, the first turn (scheduled by step 5, two days later; also drawn on any later call at Paviken). The storehouse floor is taken up and the first lot is found: fifteen marks of silver, rings and cut coin, where the dead man had spoken of near forty. Sources: the Spillings hoard, 67 kg in two lots under the floor of a building, buried after 870, and with it arm rings made to a weight of about 100 g (economy/silver_coin.md; riddles_793.json rw_hoard_spillings); the mark of eight ounces, weighed, with cut and pecked coin (peoples/svea_gotlandic.md 5); a mark of about 204 g, so about 120 of Charles's pennies (?). The sizes of both lots are invented and are those of a rich farm's hoard, not of Spillings. Sets ch_dirham_hoard_6, the timer ch_dirham_hoard_wait_thing (40 days, to step 8) and the timer ch_dirham_hoard_sea_window (40 days, for step 7).",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_5 and not flag.ch_dirham_hoard_6 and not flag.ch_dirham_hoard_done",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil (invented)" },
+    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn (invented)" }
+   },
+   "title_key": "chain_dirham_hoard.s06.title",
+   "title": "Under the floor",
+   "intention_key": "chain_dirham_hoard.s06.intention",
+   "intention": "The storehouse boards are up. Twelve feet from the south door post, toward the tall stone, there is a flat slab, and under the slab a bronze bowl with a wooden lid. Arm rings, twisted rods, and a bag of thin coins with writing on them, many cut in half. It is a great deal of silver. It is not what he spoke of.",
+   "lines": [
+    { "who": "brother", "key": "chain_dirham_hoard.s06.brother_counts" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s06.daughter_counts" },
+    { "who": "brother", "key": "chain_dirham_hoard.s06.brother_whose", "when": "flag.ch_dirham_hoard_told_daughter" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s06.daughter_whose", "when": "flag.ch_dirham_hoard_told_brother" },
+    { "who": "brother", "key": "chain_dirham_hoard.s06.brother_thing" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s06.daughter_looks" }
+   ],
+   "options": [
+    { "key": "weigh", "label_key": "chain_dirham_hoard.s06.opt_weigh", "label": "Set up a scale on the door slab and call out every weight for both to hear",
+      "check": "flag.ch_dirham_hoard_chest or flag.sv_scale",
+      "effects": [ "deed fair_dealing", "npc brother feeling +5 weighed", "npc daughter feeling +5 weighed", "silver +30", "flag ch_dirham_hoard_weighed",
+                   "flag ch_dirham_hoard_6", "flag ch_dirham_hoard_wait_thing for 40", "flag ch_dirham_hoard_sea_window for 40" ],
+      "note": "outcome: chain_dirham_hoard.s06.out_weigh (two ounces for the weigher, by both their hands)" },
+    { "key": "share", "label_key": "chain_dirham_hoard.s06.opt_share", "label": "Ask for an earnest now, against the share of the man who brought the word",
+      "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "silver +200" ],
+                     "failure": [ "silver +90", "npc brother feeling -4 asked" ] },
+                   "flag ch_dirham_hoard_took_earnest",
+                   "flag ch_dirham_hoard_6", "flag ch_dirham_hoard_wait_thing for 40", "flag ch_dirham_hoard_sea_window for 40" ],
+      "note": "outcome: chain_dirham_hoard.s06.out_share_success / out_share_failure" },
+    { "key": "stand", "label_key": "chain_dirham_hoard.s06.opt_stand", "label": "Stand in the door and ask for nothing yet",
+      "check": "true", "default": true,
+      "effects": [ "npc brother feeling +4 stood", "npc daughter feeling +4 stood", "goods wax +2",
+                   "flag ch_dirham_hoard_6", "flag ch_dirham_hoard_wait_thing for 40", "flag ch_dirham_hoard_sea_window for 40" ],
+      "note": "outcome: chain_dirham_hoard.s06.out_stand (two cakes of the farm's wax, pressed on you at the gate)" }
+   ],
+   "memory": {
+    "weigh": "weighed the silver aloud for both",
+    "share": "asked an earnest at the hole",
+    "share.failure": "asked an earnest at the hole and was given little",
+    "stand": "stood in the door and asked nothing"
+   }
+  },
+  {
+   "id": "sea.chain_dirham_hoard.s07_rower",
+   "note": "Step 7, a side step (a sea card in the forty days after step 6; if it never comes the chain goes on without it). The dead man's rower, with five men in a six-oared boat, thinks the Frisian carries the silver. The danger was told twice before: the host at step 2, the shipwright at step 4. Sources: the way to Birka beset by pirates (Rimbert c. 10); the coast watch against raiders, 'vikinga vordr' (U 617); hired rowers paid at the venture's end (npc_text_encounters.md 1.1, the crew's terms): a master who dies abroad leaves them unpaid. Torkel (invented; a Svea name, U 379). Sets ch_dirham_hoard_7 and one of ch_dirham_hoard_rower_paid, ch_dirham_hoard_rower_owed, ch_dirham_hoard_rower_enemy.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_dirham_hoard_sea_window and not flag.ch_dirham_hoard_7 and not flag.ch_dirham_hoard_done",
+   "weight": 0.03,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rower": { "role": "sailor", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "Torkel, six summers at the dead man's oar (invented)" }
+   },
+   "title_key": "chain_dirham_hoard.s07.title",
+   "title": "Six oars",
+   "intention_key": "chain_dirham_hoard.s07.intention",
+   "intention": "A six-oared boat has come out from behind a skerry and lies across your bow. No sail, no cargo, six men. The one in the stern stands up. You have heard of him twice already.",
+   "lines": [
+    { "who": "rower", "key": "chain_dirham_hoard.s07.rower_hail" },
+    { "who": "rower", "key": "chain_dirham_hoard.s07.rower_owed" },
+    { "who": "rower", "key": "chain_dirham_hoard.s07.rower_ask" }
+   ],
+   "options": [
+    { "key": "wages", "label_key": "chain_dirham_hoard.s07.opt_wages", "label": "Pay him what the dead man owed him: half a mark, weighed over the gunwale",
+      "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "npc rower feeling +15 paid", "deed fair_dealing", "flag ch_dirham_hoard_rower_paid", "flag ch_dirham_hoard_7" ],
+      "note": "outcome: chain_dirham_hoard.s07.out_wages" },
+    { "key": "show", "label_key": "chain_dirham_hoard.s07.opt_show", "label": "Heave to, lift the deck boards, and tell him who has the silver",
+      "check": "true", "default": true,
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "npc rower feeling +4 believed", "flag ch_dirham_hoard_rower_owed" ],
+                     "failure": [ "silver -30", "npc rower feeling -5 searched", "flag ch_dirham_hoard_rower_owed" ] },
+                   "flag ch_dirham_hoard_7" ],
+      "note": "outcome: chain_dirham_hoard.s07.out_show_success / out_show_failure" },
+    { "key": "run", "label_key": "chain_dirham_hoard.s07.opt_run", "label": "Put her before the wind. Six oars tire; a sail does not",
+      "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.02" ],
+                     "failure": [ "health -0.04", "morale -0.03" ] },
+                   "flag ch_dirham_hoard_rower_enemy", "flag ch_dirham_hoard_7" ],
+      "note": "outcome: chain_dirham_hoard.s07.out_run_success / out_run_failure" }
+   ],
+   "memory": {
+    "wages": "paid a dead man's wages",
+    "show": "showed him an empty hold",
+    "show.failure": "was searched at sea",
+    "run": "ran from him"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s08_thing",
+   "note": "Step 8 (drawn at Paviken in June, July or August, once forty days have passed since step 6: in most games the summer after). The thing. Brother and daughter each claim the lot under the floor, and the stranger who heard the dead man's words is the only witness to them. Sources: the thing decides by the voice of the free men, not by a king (Rimbert c. 26 to 27, of the Svear; peoples/svea_gotlandic.md 3); Gotland has no king and keeps its own law (Guta saga; late); the island's all-thing and its judges are attested only in the 13th-century law (?), so the card says only 'the thing' and 'the man who speaks the law'; a daughter inherits where there are no sons (Guta Lag; late (?)). A man who gave his hand at step 1 cannot speak for the brother. Sets ch_dirham_hoard_8 and one of ch_dirham_hoard_spoke_true, ch_dirham_hoard_spoke_daughter, ch_dirham_hoard_spoke_brother. Schedules step 9.",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_6 and not flag.ch_dirham_hoard_wait_thing and not flag.ch_dirham_hoard_8 and not flag.ch_dirham_hoard_done",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [6, 7, 8],
+   "actors": {
+    "lawman": { "role": "lawman", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [50, 70], "fixed": true, "note": "the man who speaks the law at the thing; invented, and the office on Gotland this early is a guess (?)" },
+    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil (invented)" },
+    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn (invented)" },
+    "rower": { "role": "sailor", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "Torkel (invented); speaks only if his wages were paid at step 7" }
+   },
+   "title_key": "chain_dirham_hoard.s08.title",
+   "title": "The only witness",
+   "intention_key": "chain_dirham_hoard.s08.intention",
+   "intention": "The hay is in and the thing has met on the slope above the farms. The bronze bowl stands on a hide in the middle of the ring. Vivil stands on one side of it and Ailikn on the other. An old man who knows the law by heart asks who heard the dead man speak, and every head turns to the Frisian.",
+   "lines": [
+    { "who": "lawman", "key": "chain_dirham_hoard.s08.lawman_asks" },
+    { "who": "brother", "key": "chain_dirham_hoard.s08.brother_case" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s08.daughter_case" },
+    { "who": "rower", "key": "chain_dirham_hoard.s08.rower_witness", "when": "flag.ch_dirham_hoard_rower_paid" },
+    { "who": "lawman", "key": "chain_dirham_hoard.s08.lawman_warns" }
+   ],
+   "options": [
+    { "key": "whole", "label_key": "chain_dirham_hoard.s08.opt_whole", "label": "Say his words as he said them, the hard ones too",
+      "check": "true", "default": true,
+      "effects": [ "deed fair_dealing", "npc lawman feeling +8 whole", "npc daughter feeling +4 whole", "npc brother feeling +2 whole", "silver +45",
+                   "flag ch_dirham_hoard_spoke_true", "flag ch_dirham_hoard_8",
+                   "schedule harbour.chain_dirham_hoard.s09_stone_ship in 1 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s08.out_whole (the thing divides the lot, ten marks to the child and five to the farm, and awards the word-bearer three ounces)" },
+    { "key": "daughter", "label_key": "chain_dirham_hoard.s08.opt_daughter", "label": "Say he named his daughter and no one else",
+      "check": "true",
+      "effects": [ "npc daughter feeling +12 spoke_for", "npc brother feeling -12 spoke_against", "npc lawman feeling -2 partial", "silver +20",
+                   "flag ch_dirham_hoard_spoke_daughter", "flag ch_dirham_hoard_8",
+                   "schedule harbour.chain_dirham_hoard.s09_stone_ship in 1 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s08.out_daughter (all fifteen marks to Ailikn)" },
+    { "key": "brother", "label_key": "chain_dirham_hoard.s08.opt_brother", "label": "Say he spoke of the farm's silver, and the farm is Vivil's",
+      "check": "not flag.ch_dirham_hoard_oath",
+      "effects": [ "npc brother feeling +12 spoke_for", "npc daughter feeling -15 spoke_against", "npc lawman feeling -2 partial", "silver +120",
+                   "flag ch_dirham_hoard_spoke_brother", "flag ch_dirham_hoard_8",
+                   "schedule harbour.chain_dirham_hoard.s09_stone_ship in 1 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s08.out_brother (all fifteen marks to the farm; Vivil pays a mark for the word)" }
+   ],
+   "memory": {
+    "whole": "said the dead man's words whole at the thing",
+    "daughter": "spoke for the daughter at the thing",
+    "brother": "spoke for the brother at the thing"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s09_stone_ship",
+   "note": "Step 9, the second turn and the parting of the roads (scheduled by step 8 for the next day; also drawn on any later call at Paviken). The lot under the floor was fifteen marks. The dead man spoke of near forty. The rest lies under the stern stone of an old ship of stones in the east pasture, and only the Frisian knows it (if he swore at step 1, or the stick was read at step 3) or carries the stick that says it. Sources: ship settings of standing stones on Gotland, old already in these years (Bronze Age; Gannarve and others; hoards_793.json's note on Gotland's stone settings); the two lots of Spillings; hoards never recovered by their owners (npc_text_encounters.md 1.5). That a hoard was laid in such a setting is invented. Ottar, Vivil's son (invented; the name from G 113). Sets ch_dirham_hoard_9 and one road: ch_dirham_hoard_road_daughter (to s10), ch_dirham_hoard_road_brother (to s11), ch_dirham_hoard_road_fellowship (to s14, after the timer ch_dirham_hoard_wait_ship, 400 days), ch_dirham_hoard_road_buried (to s12, at once). A house that knows nothing of the second lot has only the last option, and for it the rest is never found: which is how it went.",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_8 and not flag.ch_dirham_hoard_9 and not flag.ch_dirham_hoard_done",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil (invented)" },
+    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn (invented)" },
+    "cousin": { "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [20, 26], "fixed": true, "note": "Ottar, Vivil's son, who has rowed east two summers at another man's oar (invented); the role is the nearest the table has" }
+   },
+   "title_key": "chain_dirham_hoard.s09.title",
+   "title": "Fifteen of forty",
+   "intention_key": "chain_dirham_hoard.s09.intention",
+   "intention": "The evening after the thing. Fifteen marks came out of the floor, and at this table two winters ago the dead man spoke of forty less one. In the east pasture, a bowshot beyond the fence, old stones stand in the shape of a ship. Sheep graze between them. Nobody at the table looks that way.",
+   "lines": [
+    { "who": "brother", "key": "chain_dirham_hoard.s09.brother_forty" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s09.daughter_stones" },
+    { "who": "cousin", "key": "chain_dirham_hoard.s09.cousin_ship" },
+    { "who": "brother", "key": "chain_dirham_hoard.s09.brother_ground" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s09.daughter_asks" }
+   ],
+   "options": [
+    { "key": "daughter", "label_key": "chain_dirham_hoard.s09.opt_daughter", "label": "Tell Ailikn where the rest lies, and her alone",
+      "check": "flag.ch_dirham_hoard_full or flag.ch_dirham_hoard_stick",
+      "effects": [ "npc daughter feeling +15 told_rest", "flag ch_dirham_hoard_road_daughter", "flag ch_dirham_hoard_9",
+                   "schedule harbour.chain_dirham_hoard.s10_end_daughter in 2 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s09.out_daughter" },
+    { "key": "brother", "label_key": "chain_dirham_hoard.s09.opt_brother", "label": "Tell Vivil where the rest lies: it is his pasture",
+      "check": "(flag.ch_dirham_hoard_full or flag.ch_dirham_hoard_stick) and not flag.ch_dirham_hoard_oath",
+      "effects": [ "npc brother feeling +15 told_rest", "flag ch_dirham_hoard_road_brother", "flag ch_dirham_hoard_9",
+                   "schedule harbour.chain_dirham_hoard.s11_end_brother in 2 at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s09.out_brother" },
+    { "key": "both", "label_key": "chain_dirham_hoard.s09.opt_both", "label": "Say it at the table, to all three, and say what you would do with such silver",
+      "check": "(flag.ch_dirham_hoard_full or flag.ch_dirham_hoard_stick) and flag.ch_dirham_hoard_spoke_true",
+      "effects": [ "npc daughter feeling +8 open", "npc brother feeling +6 open", "npc cousin feeling +12 ship", "flag ch_dirham_hoard_road_fellowship",
+                   "flag ch_dirham_hoard_wait_ship for 400", "flag ch_dirham_hoard_9" ],
+      "note": "outcome: chain_dirham_hoard.s09.out_both (only the man who said every word at the thing is believed by both sides; the ship takes a winter to build and a summer to come home)" },
+    { "key": "none", "label_key": "chain_dirham_hoard.s09.opt_none", "label": "Say you know of no more than the floor, and walk out to look at the evening",
+      "check": "true", "default": true,
+      "effects": [ "flag ch_dirham_hoard_road_buried", "flag ch_dirham_hoard_9" ],
+      "then": "harbour.chain_dirham_hoard.s12_end_buried",
+      "note": "outcome: chain_dirham_hoard.s09.out_none" }
+   ],
+   "memory": {
+    "daughter": "told the daughter of the second lot",
+    "brother": "told the brother of the second lot",
+    "both": "told all three of the second lot",
+    "none": "said he knew of no more"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s10_end_daughter",
+   "note": "FINALE, ending end_daughter (scheduled by step 9, two days later; also drawn on any later call at Paviken). Ailikn digs at the stern stone before light with the Frisian's men and has twenty-four marks. A third is the finder's; she weighs it out. Sources: women who hold farms and silver in their own right (Frideburg and Catla, Rimbert c. 20; the rune stones U 29, Vs 24; scales in women's graves at Birka (?)); the Gotland farmer-merchants. Grand reward unlock_factor_paviken: a woman with a farm near the beach and silver of her own keeps a foreign house's goods between its calls. On 'peace' a second, unlock_title_gotland_guest_right: the brother's word as well as hers, so the house may winter on the island under two farms' protection. Sets ch_dirham_hoard_end_daughter and ch_dirham_hoard_done; 'third' sets the lasting cost ch_dirham_hoard_brother_bitter; 'peace' sets ch_dirham_hoard_peace.",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_road_daughter and not flag.ch_dirham_hoard_done",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented)" },
+    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 62], "fixed": true, "note": "Vivil (invented); he comes to the fence at first light" }
+   },
+   "title_key": "chain_dirham_hoard.s10.title",
+   "title": "Her father's daughter",
+   "intention_key": "chain_dirham_hoard.s10.intention",
+   "intention": "Before light, at the stern stone, on the seaward side, an arm deep: a second bowl, bigger than the first, sealed with pitch. Ailikn has your scale set up on the fallen stone beside it before the sun is over the trees. Her uncle stands at the pasture fence and comes no nearer.",
+   "lines": [
+    { "who": "daughter", "key": "chain_dirham_hoard.s10.daughter_weighs" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s10.daughter_plans" },
+    { "who": "brother", "key": "chain_dirham_hoard.s10.brother_fence" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s10.daughter_offer" }
+   ],
+   "options": [
+    { "key": "third", "label_key": "chain_dirham_hoard.s10.opt_third", "label": "Take the third she weighs out: eight marks",
+      "check": "true", "default": true,
+      "effects": [ "silver +960", "npc daughter feeling +10 third", "npc brother feeling -15 third", "flag unlock_factor_paviken", "flag ch_dirham_hoard_brother_bitter",
+                   "flag ch_dirham_hoard_end_daughter", "flag ch_dirham_hoard_done", "news chain_dirham_hoard.news.end_daughter at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s10.out_third" },
+    { "key": "peace", "label_key": "chain_dirham_hoard.s10.opt_peace", "label": "Take four marks and furs from his store, and ask her to carry the other four to the fence herself",
+      "check": "true",
+      "effects": [ "silver +480", "goods marten +2", "npc daughter feeling +12 peace", "npc brother feeling +15 peace", "flag unlock_factor_paviken",
+                   "flag unlock_title_gotland_guest_right", "flag ch_dirham_hoard_peace",
+                   "flag ch_dirham_hoard_end_daughter", "flag ch_dirham_hoard_done", "news chain_dirham_hoard.news.end_daughter at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s10.out_peace (the honest road within this ending: a second grand reward)" }
+   ],
+   "memory": {
+    "third": "took his third of her father's silver",
+    "peace": "took half his third and made her uncle a gift of the rest"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s11_end_brother",
+   "note": "FINALE, ending end_brother (scheduled by step 9, two days later; also drawn on any later call at Paviken; closed to a man who swore at step 1). Vivil digs at the stern stone, pays the Frisian five marks and a strip of his shore, and lays the rest back in the ground in a place he tells nobody. Sources: silver in the ground as a farm's store against a bad year, and hoards whose owner died without telling: over 700 on Gotland (peoples/svea_gotlandic.md 5; npc_text_encounters.md 1.5); what a man buries he has after death (Snorri, Ynglinga saga c. 8; late (?)). So this ending too is how it really went: the silver changes holes. Grand reward unlock_plot_paviken: boathouse ground on a farm's shore strip, given by the farmer, which is the only way a stranger gets ground on an island with no town and no king. Sets ch_dirham_hoard_end_brother and ch_dirham_hoard_done; the lasting cost ch_dirham_hoard_daughter_wronged unless the plea for her succeeds (ch_dirham_hoard_peace).",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_road_brother and not flag.ch_dirham_hoard_done",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 62], "fixed": true, "note": "Vivil (invented)" },
+    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented); she is not there, and hears of it" }
+   },
+   "title_key": "chain_dirham_hoard.s11.title",
+   "title": "The farm's silver",
+   "intention_key": "chain_dirham_hoard.s11.intention",
+   "intention": "Vivil dug alone, at night, and would not have a lamp. In the morning there is a pitch-sealed bowl on his table and fresh turf at the stern stone. He has weighed out five marks for you. The rest he has already carried out of the house, and he has earth on his knees again.",
+   "lines": [
+    { "who": "brother", "key": "chain_dirham_hoard.s11.brother_pays" },
+    { "who": "brother", "key": "chain_dirham_hoard.s11.brother_ground" },
+    { "who": "brother", "key": "chain_dirham_hoard.s11.brother_shore" },
+    { "who": "brother", "key": "chain_dirham_hoard.s11.brother_niece" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_dirham_hoard.s11.opt_take", "label": "Take the five marks, the wax and the shore strip, and ask no more",
+      "check": "true", "default": true,
+      "effects": [ "silver +600", "goods wax +3", "npc brother feeling +10 took", "npc daughter feeling -20 wronged", "flag unlock_plot_paviken", "flag ch_dirham_hoard_daughter_wronged",
+                   "flag ch_dirham_hoard_end_brother", "flag ch_dirham_hoard_done", "news chain_dirham_hoard.news.end_brother at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s11.out_take" },
+    { "key": "plead", "label_key": "chain_dirham_hoard.s11.opt_plead", "label": "Take them, and say across his table that a brother's child is owed a marriage portion from it",
+      "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "npc daughter feeling +10 pleaded", "npc brother feeling -2 pressed", "flag ch_dirham_hoard_peace" ],
+                     "failure": [ "npc brother feeling -6 pressed", "npc daughter feeling -10 wronged", "flag ch_dirham_hoard_daughter_wronged" ] },
+                   "silver +600", "goods wax +3", "flag unlock_plot_paviken",
+                   "flag ch_dirham_hoard_end_brother", "flag ch_dirham_hoard_done", "news chain_dirham_hoard.news.end_brother at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s11.out_plead_success / out_plead_failure (it costs only his goodwill)" }
+   ],
+   "memory": {
+    "take": "took his pay and asked no more",
+    "plead": "spoke for the niece at his own table",
+    "plead.failure": "pressed him for the niece and got nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s12_end_buried",
+   "note": "FINALE, ending end_buried: what really happened (opened by step 9's last option at once; also drawn on any later call at Paviken). The Frisian stands at the ship of stones in the evening with nobody near, and leaves the silver where the dead man laid it. Twenty-four marks stay under the stern stone until a plough or a stranger finds them, as more than 700 hoards on Gotland stayed. The kin pay him the word-bearer's share of the first lot and give him an arm ring from it, whole. Sources: the hoards of Gotland never recovered (peoples/svea_gotlandic.md 5; economy/silver_coin.md); arm rings made to a weight and worn before they are cut (Spillings); a man has in the next world what he buried himself (Snorri, Ynglinga saga c. 8; late (?)). Grand reward unlock_heirloom_gute_arm_ring: a ring a family gives a stranger is kept, shown and inherited, and is his proof on the island of who he is. On 'stick' a second, unlock_title_gotland_guest_right. The option 'dig' goes to s13 instead and needs the knowledge itself, not the unread stick. Sets ch_dirham_hoard_end_buried and ch_dirham_hoard_done, or ch_dirham_hoard_spade.",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_road_buried and not flag.ch_dirham_hoard_spade and not flag.ch_dirham_hoard_done",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented); she comes out to the fence with her son" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
+   },
+   "title_key": "chain_dirham_hoard.s12.title",
+   "title": "The stern stone",
+   "intention_key": "chain_dirham_hoard.s12.intention",
+   "intention": "The ship of stones lies in the east pasture with its bow to the sea, as it has lain longer than anyone can say. The stern stone is the tallest and leans a little. The turf on its seaward side has not been cut in years. From here you can see the farm's smoke, and nobody can see you.",
+   "lines": [
+    { "who": "hand", "key": "chain_dirham_hoard.s12.hand_knows", "when": "flag.ch_dirham_hoard_full" },
+    { "who": "hand", "key": "chain_dirham_hoard.s12.hand_blind", "when": "not flag.ch_dirham_hoard_full" },
+    { "who": "hand", "key": "chain_dirham_hoard.s12.hand_dogs", "when": "flag.ch_dirham_hoard_full" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s12.daughter_fence" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s12.daughter_ring" }
+   ],
+   "options": [
+    { "key": "leave", "label_key": "chain_dirham_hoard.s12.opt_leave", "label": "Lay your hand on the stone, and go down to the boat",
+      "check": "true", "default": true,
+      "effects": [ "silver +600", "morale +0.03", "npc daughter feeling +8 left", "flag unlock_heirloom_gute_arm_ring",
+                   "flag ch_dirham_hoard_end_buried", "flag ch_dirham_hoard_done", "news chain_dirham_hoard.news.end_buried at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s12.out_leave" },
+    { "key": "stick", "label_key": "chain_dirham_hoard.s12.opt_stick", "label": "Leave it, and give the yew stick to her small son, to keep until he can read it",
+      "check": "flag.ch_dirham_hoard_stick",
+      "effects": [ "silver +600", "morale +0.04", "npc daughter feeling +18 stick", "flag unlock_heirloom_gute_arm_ring", "flag unlock_title_gotland_guest_right",
+                   "flag ch_dirham_hoard_stick = 0", "flag ch_dirham_hoard_boy_has_stick",
+                   "flag ch_dirham_hoard_end_buried", "flag ch_dirham_hoard_done", "news chain_dirham_hoard.news.end_buried at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s12.out_stick (the honest road within this ending: a second grand reward; a later card may let the boy read it)" },
+    { "key": "dig", "label_key": "chain_dirham_hoard.s12.opt_dig", "label": "Send to the boat for the spade and two men, and wait for dark",
+      "check": "flag.ch_dirham_hoard_full",
+      "effects": [ "flag ch_dirham_hoard_spade" ],
+      "then": "harbour.chain_dirham_hoard.s13_end_thief",
+      "note": "outcome: chain_dirham_hoard.s12.out_dig" }
+   ],
+   "memory": {
+    "leave": "left the silver under the stone",
+    "stick": "gave the dead man's stick to his grandson",
+    "dig": "sent for a spade"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s13_end_thief",
+   "note": "FINALE, ending end_thief (opened by s12's option 'dig'; also drawn at Paviken while ch_dirham_hoard_spade is set). The Frisian digs at the stern stone by night. The danger was told on the card before: the farm's dogs, and what the island does with a stranger found digging. Sources: a stranger off the track who does not shout or blow a horn is taken for a thief (Ine 20; English law, used here only for how any country treats a stranger in the dark); a foreigner's life is priced at ten marks of silver on Gotland against twenty-four for an islander (Guta Lag 15; late); Egil hid his silver with two thralls' help and nobody found it (Egils saga, late). Grand reward unlock_heirloom_stern_stone_ring: a twisted neck ring too well known to sell in the north. The lasting costs: ch_dirham_hoard_feud on 'all' (both kin know by morning whose spade it was), ch_dirham_hoard_secret on 'third' (nobody knows but the crew), and ch_dirham_hoard_oathbreaker is for the integrator to read from ch_dirham_hoard_oath with ch_dirham_hoard_end_thief. 'cover' ends as end_buried. Sets ch_dirham_hoard_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_spade and not flag.ch_dirham_hoard_done",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 50], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" },
+    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 62], "fixed": true, "note": "Vivil (invented); not present: he is here for what he will remember" },
+    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented); not present" }
+   },
+   "title_key": "chain_dirham_hoard.s13.title",
+   "title": "An arm deep",
+   "intention_key": "chain_dirham_hoard.s13.intention",
+   "intention": "No moon. The spade goes in on the seaward side of the stern stone and an arm down it rings on bronze. The bowl is sealed with pitch and takes two men to lift. Up at the farm a dog has started, stopped, and started again.",
+   "lines": [
+    { "who": "hand", "key": "chain_dirham_hoard.s13.hand_weight" },
+    { "who": "hand", "key": "chain_dirham_hoard.s13.hand_dog" },
+    { "who": "hand", "key": "chain_dirham_hoard.s13.hand_oath", "when": "flag.ch_dirham_hoard_oath" },
+    { "who": "hand", "key": "chain_dirham_hoard.s13.hand_choice" }
+   ],
+   "options": [
+    { "key": "all", "label_key": "chain_dirham_hoard.s13.opt_all", "label": "Take all of it and be at sea by first light",
+      "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "silver +2300" ],
+                     "failure": [ "silver +800", "health -0.08" ] },
+                   "morale -0.05", "npc brother feeling -45 robbed", "npc daughter feeling -45 robbed", "flag unlock_heirloom_stern_stone_ring", "flag ch_dirham_hoard_feud",
+                   "flag ch_dirham_hoard_end_thief", "flag ch_dirham_hoard_done", "news chain_dirham_hoard.news.end_thief at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s13.out_all_success / out_all_failure (failing: the dogs are loosed, the bowl is dropped at the fence and one bag reaches the boat)" },
+    { "key": "third", "label_key": "chain_dirham_hoard.s13.opt_third", "label": "Take a finder's third, eight marks and one ring, and lay the turf back over the rest",
+      "check": "true",
+      "effects": [ "silver +960", "morale -0.02", "flag unlock_heirloom_stern_stone_ring", "flag ch_dirham_hoard_secret",
+                   "flag ch_dirham_hoard_end_thief", "flag ch_dirham_hoard_done" ],
+      "note": "outcome: chain_dirham_hoard.s13.out_third (nobody on the island knows; the crew does)" },
+    { "key": "cover", "label_key": "chain_dirham_hoard.s13.opt_cover", "label": "Look at it, seal it again, and fill the hole",
+      "check": "true", "default": true,
+      "effects": [ "silver +600", "morale +0.03", "flag unlock_heirloom_gute_arm_ring", "flag ch_dirham_hoard_spade = 0",
+                   "flag ch_dirham_hoard_end_buried", "flag ch_dirham_hoard_done", "news chain_dirham_hoard.news.end_buried at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s13.out_cover (the same end as s12's 'leave': the kin pay the word-bearer's share in the morning and know nothing of the night)" }
+   ],
+   "memory": {
+    "all": "dug up the dead man's silver by night and sailed",
+    "all.failure": "was run off the pasture by the dogs with a bag of the dead man's silver",
+    "third": "took a third from under the stone and told nobody",
+    "cover": "filled the hole again"
+   }
+  },
+  {
+   "id": "harbour.chain_dirham_hoard.s14_end_fellowship",
+   "note": "FINALE, ending end_fellowship: history changed (drawn at Paviken in August, September or October once the timer of step 9 has run out: 400 days, a winter's building and a summer's voyage). Both lots, thirty-nine marks, went into a ship built on the beach instead of back into the ground: Ottar steers her, Ailikn and the farm each hold a share, and the Frisian house holds the third and has a booth of its own above the tide line. Sources: the fellowship of one purse, the felag (the word on 11th-century rune stones, the thing older (?)); Gotland's farmer-merchants who sail east each summer (Guta saga, late; the spine's hook for Paviken); Paviken's shipwrights (ports_793.json); the sea trader of the Askekarr kind, about 16 m (peoples/svea_gotlandic.md 6); foreign merchants are not known to have had ground on Gotland before the Germans of the 12th century (Henry the Lion's peace with the Gotlanders, Artlenburg 1161 (?)). Grand rewards unlock_partner_ottar and unlock_plot_paviken; the changes changed_gotland_hoard_spent and changed_frisians_on_gotland. Sets ch_dirham_hoard_end_fellowship and ch_dirham_hoard_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_dirham_hoard_road_fellowship and not flag.ch_dirham_hoard_wait_ship and not flag.ch_dirham_hoard_done",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [8, 9, 10],
+   "actors": {
+    "cousin": { "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [21, 28], "fixed": true, "note": "Ottar, Vivil's son (invented)" },
+    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [25, 35], "fixed": true, "note": "Ailikn (invented)" },
+    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [46, 63], "fixed": true, "note": "Vivil (invented)" }
+   },
+   "title_key": "chain_dirham_hoard.s14.title",
+   "title": "Silver that floats",
+   "intention_key": "chain_dirham_hoard.s14.intention",
+   "intention": "A new ship lies on the beach at Paviken, home from the east three days, her sail of chequered wool spread to dry. Skins are stacked in a new booth above the tide line, and the booth has a Frisian's mark cut over the door. Ottar, Ailikn and Vivil are waiting by the scale. Nobody has dug anything on Aikgard this year except a well.",
+   "lines": [
+    { "who": "cousin", "key": "chain_dirham_hoard.s14.cousin_home" },
+    { "who": "daughter", "key": "chain_dirham_hoard.s14.daughter_count" },
+    { "who": "brother", "key": "chain_dirham_hoard.s14.brother_grudge" },
+    { "who": "cousin", "key": "chain_dirham_hoard.s14.cousin_offer" }
+   ],
+   "options": [
+    { "key": "sworn", "label_key": "chain_dirham_hoard.s14.opt_sworn", "label": "Take your third of the voyage, and give your hand on next summer's",
+      "check": "true", "default": true,
+      "effects": [ "silver +1100", "goods sable +1", "goods marten +2", "goods wax +3", "npc cousin feeling +25 sworn", "npc daughter feeling +10 sworn",
+                   "flag unlock_partner_ottar", "flag unlock_plot_paviken", "flag changed_gotland_hoard_spent", "flag changed_frisians_on_gotland",
+                   "flag ch_dirham_hoard_end_fellowship", "flag ch_dirham_hoard_done",
+                   "news chain_dirham_hoard.news.end_fellowship at paviken", "news chain_dirham_hoard.news.end_fellowship_birka at birka" ],
+      "note": "outcome: chain_dirham_hoard.s14.out_sworn (the hardest road: two grand rewards and the best purse)" },
+    { "key": "ride", "label_key": "chain_dirham_hoard.s14.opt_ride", "label": "Leave most of your third in the ship for another summer, and take the sable",
+      "check": "true",
+      "effects": [ "silver +300", "goods sable +1", "npc cousin feeling +30 rides", "npc brother feeling +8 rides",
+                   "flag unlock_partner_ottar", "flag unlock_plot_paviken", "flag ch_dirham_hoard_share_rides", "flag changed_gotland_hoard_spent", "flag changed_frisians_on_gotland",
+                   "flag ch_dirham_hoard_end_fellowship", "flag ch_dirham_hoard_done",
+                   "news chain_dirham_hoard.news.end_fellowship at paviken", "news chain_dirham_hoard.news.end_fellowship_birka at birka" ],
+      "note": "outcome: chain_dirham_hoard.s14.out_ride (ch_dirham_hoard_share_rides is for a later card to pay out)" },
+    { "key": "out", "label_key": "chain_dirham_hoard.s14.opt_out", "label": "Take your third in silver, keep the booth, and swear to nothing further",
+      "check": "true",
+      "effects": [ "silver +1500", "npc cousin feeling +4 out", "flag unlock_plot_paviken", "flag changed_gotland_hoard_spent", "flag changed_frisians_on_gotland",
+                   "flag ch_dirham_hoard_end_fellowship", "flag ch_dirham_hoard_done",
+                   "news chain_dirham_hoard.news.end_fellowship at paviken" ],
+      "note": "outcome: chain_dirham_hoard.s14.out_out" }
+   ],
+   "memory": {
+    "sworn": "gave his hand on a second summer",
+    "ride": "left his share in the ship",
+    "out": "took his share and swore to nothing"
+   }
+  }
+ ]
+}

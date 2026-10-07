@@ -1,0 +1,589 @@
+{
+ "about": "THE CHAIN saga_rhine_frisia (Design/content/CHAINS.md; the page is Design/content/chains/saga_rhine_frisia.md): THE LAW THAT WAS ONLY SAID. The saga of the Rhine and Frisia: how the law of the Frisians, which lived in the heads of a few wise men on the terps, came to be written for the emperor in 802, and what a merchant who carries the wise men can make of it. Lots are laid on the altar at Doccinga over a man killed in a crowd; a word is carried to Saxmund beyond the Lauwers, whose sister's sons have lost their father's land for the rising of 793; the three lands reckon a man's worth on the terp at Winaldum; the old man of the west says his law at Medemelacha; the emperor's messengers ask at Dorestad who knows the Frisians' law; the wise men go south in the player's boat by Saint Martin's at Traiectum to the palace at Noviomagus; and there the player stands between the wise men and the clerk's pen. Fourteen cards (all harbour), four endings: ch_saga_rhine_frisia_end_draft (what happened: the law is written as it was said, old gods and all, and never finished), ch_saga_rhine_frisia_end_king (changed_lex_frisionum_finished: one clean king's law), ch_saga_rhine_frisia_end_land (changed_frisian_inheritance_802: the right of inheritance comes back twelve years early), ch_saga_rhine_frisia_end_unwritten (changed_lex_frisionum_unwritten: the wise men go home and nothing is written). A last card in 814 is the true end of the inheritance (Louis the Pious gives it back) for every house that did not win it in 802. Real people: Wlemar and Saxmund, the two wise men named in the Additio sapientum of the Lex Frisionum, of whom nothing else is known: where they lived and how they spoke is invented (?). Bernlef (cast.bernlef) and the bishop (cast.hamacar) are spoken of, not met. Everyone else is an ordinary invented person whom the forge names. Progress: flags ch_saga_rhine_frisia_1 to _9; the roads from the hearing are ch_saga_rhine_frisia_road_draft, _road_king, _road_land, _road_unwritten. Waits are flags that lapse (ch_saga_rhine_frisia_wait 20 to 30 days, _hear_wait 3 to 12, _end_wait 60) and the years themselves: nothing can be written before 802. Every chain card after the first has a high weight and a 'when' that asks for the last flag, so it comes on the first call at its port. Every option's 'note' names its outcome text (chain_saga_rhine_frisia.<card>.out_<option>), which the engine does not show yet. Lasting costs: ch_saga_rhine_frisia_cold_terps (the east remembers who helped the pen), ch_saga_rhine_frisia_missi_remember (the palace remembers who lost it a law). Words: Data/writing/chain_saga_rhine_frisia.json. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s01_lots",
+   "note": "Step 1, the start: Doccinga, 794 to 801. A man killed in a crowd and nobody knows the hand: Lex Frisionum tit. XIV (up to seven may be named; each swears with eleven; two twigs wrapped in clean wool on the altar or on relics, one cut with a cross; a priest or an innocent boy draws; if the bare twig comes each cuts his own mark and they are drawn until one is left): dossiers/doccinga.md 72, lore/law_tolls.md 5.3 and 6.2, the text by K. Nieuwenhuijsen at keesn.nl/lex (read by the dossier writers; from their notes here). The killing, the wool sale and the seven are invented; Aalsum is a real terp by Dokkum. Wlemar is one of the two wise men of the Additio sapientum; that he said the law at Doccinga and Winaldum is invented (?). The steersman is cast.crew.aldger or a steersman of the forge. Sets ch_saga_rhine_frisia_1 and _swore, _bought_out or neither; _wait runs 20 days.",
+   "stage": "harbour",
+   "when": "moored and port.id = doccinga and year >= 794 and year < 802 and not flag.ch_saga_rhine_frisia_1 and not flag.ch_saga_rhine_frisia_done",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wlemar": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [55, 68], "fixed": true, "note": "Wlemar: real (Lex Frisionum, Additio sapientum: 'Haec iudicia Wlemarus dictavit'); his home and age are invented (?)" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": true, "note": "the priest of Boniface's church; cast.landric where the spine places him" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 55], "fixed": false, "note": "cast.crew.aldger, or a Frisian steersman of the forge" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s01.title",
+   "title": "Seven named",
+   "intention_key": "chain_saga_rhine_frisia.s01.intention",
+   "intention": "A man was knifed in the press at yesterday's wool sale and nobody saw the hand. His brother has named the seven who stood nearest. Your steersman is the fifth.",
+   "lines": [
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s01.wlemar_law" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s01.wlemar_lots" },
+    { "who": "priest", "key": "chain_saga_rhine_frisia.s01.priest_boy" },
+    { "who": "steersman", "key": "chain_saga_rhine_frisia.s01.steersman_ask" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s01.wlemar_stranger" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s01.wlemar_errand" }
+   ],
+   "options": [
+    { "key": "swear", "label_key": "chain_saga_rhine_frisia.s01.opt_swear", "label": "Swear with him, and find the other helpers", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_1", "flag ch_saga_rhine_frisia_swore", "flag ch_saga_rhine_frisia_wait for 20", "npc wlemar feeling +6 swore", "npc steersman feeling +8 swore",
+                   { "chance": 0.5,
+                     "success": [ "morale +0.05", "deed won_case" ],
+                     "failure": [ "silver -12", "morale +0.02" ] } ],
+      "note": "outcome: chain_saga_rhine_frisia.s01.out_swear_success (the cross comes up: all seven clean) or .out_swear_failure (the bare twig: three days of marks and your ale, and another man's twig is left last). Your man is clean either way." },
+    { "key": "pay", "label_key": "chain_saga_rhine_frisia.s01.opt_pay", "label": "Pay the brother to drop the fifth name", "check": "silver >= 30",
+      "cost": "silver 30",
+      "effects": [ "flag ch_saga_rhine_frisia_1", "flag ch_saga_rhine_frisia_bought_out", "flag ch_saga_rhine_frisia_wait for 20", "npc wlemar feeling -4 bought", "npc steersman feeling +3 bought" ],
+      "note": "outcome: chain_saga_rhine_frisia.s01.out_pay" },
+    { "key": "stand_off", "label_key": "chain_saga_rhine_frisia.s01.opt_stand_off", "label": "Let the law run and get the wool aboard", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_1", "flag ch_saga_rhine_frisia_wait for 20", "npc steersman feeling -6 left_alone", "morale -0.03" ],
+      "note": "outcome: chain_saga_rhine_frisia.s01.out_stand_off (pride only: he finds his eleven without you, and the chain goes on)" }
+   ],
+   "memory": {
+    "swear": "swore beside your steersman at the lots",
+    "swear.failure": "swore beside your steersman through three days of lots",
+    "pay": "bought a name off the list of seven",
+    "stand_off": "loaded wool while the lots were drawn"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s02_east",
+   "note": "Step 2: Emuthon, after step 1, before 806. Saxmund is the other wise man of the Additio sapientum ('Haec iudicia Saxmundus dictavit'); that he is of the land between Lauwers and Weser is invented (?), though the judgement on the shrine-breaker that follows his is marked 'beyond the Lauwers'. The lost inheritance is true: Louis the Pious in 814 'restored to the Saxons and Frisians the right of their fathers' inheritance, which under his father they had lawfully lost for their faithlessness' (the Astronomer, Vita Hludowici c. 24; our rendering); the rising east of the Lauwers is Altfrid, Vita Liudgeri I.22, and the defeat on the Weser in Rustringen is Annales regni Francorum 793. The widow and her sons are invented. The wergild of 106 solidi and 2 pennies and the solidus of two pennies east of the Lauwers: Lex Fris. I and the money clauses, as in dossiers/emuthon.md 47 and 81 (?). Black quernstones of Mayen lava reached every terp (economy/stone_metal_arms.md). Bernlef's line needs the spine's flag ms_bernlef_met. Sets ch_saga_rhine_frisia_2 and _carried_sax or _querns; _wait runs 30 days.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and flag.ch_saga_rhine_frisia_1 and not flag.ch_saga_rhine_frisia_2 and year < 806 and not flag.ch_saga_rhine_frisia_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "saxmund": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [40, 55], "fixed": true, "note": "Saxmund: real (Lex Frisionum, Additio sapientum); his home, age and kin are invented (?)" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [35, 50], "fixed": true, "note": "invented: Saxmund's sister, whose husband fell on the Weser in 793" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s02.title",
+   "title": "Beyond the Lauwers",
+   "intention_key": "chain_saga_rhine_frisia.s02.intention",
+   "intention": "Saxmund, who says the law for the land between the Lauwers and the Weser, is mending a net outside his sister's house. He hears Wlemar's word through to the end before he puts the needle down.",
+   "lines": [
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s02.saxmund_answer" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s02.saxmund_worth" },
+    { "who": "widow", "key": "chain_saga_rhine_frisia.s02.widow_land" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s02.saxmund_law" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s02.saxmund_bernlef", "when": "flag.ms_bernlef_met" },
+    { "who": "widow", "key": "chain_saga_rhine_frisia.s02.widow_querns" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_saga_rhine_frisia.s02.opt_carry", "label": "Take Saxmund west to Winaldum in your boat", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_2", "flag ch_saga_rhine_frisia_carried_sax", "flag ch_saga_rhine_frisia_wait for 30", "passenger saxmund to wijnaldum", "npc saxmund feeling +8 carried", "npc widow feeling +3 carried" ],
+      "note": "outcome: chain_saga_rhine_frisia.s02.out_carry" },
+    { "key": "querns", "label_key": "chain_saga_rhine_frisia.s02.opt_querns", "label": "Take the widow's order for quernstones", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_2", "flag ch_saga_rhine_frisia_querns", "flag ch_saga_rhine_frisia_wait for 30", "commission quernstones 4 by 150 premium 1.4", "npc widow feeling +6 querns", "npc saxmund feeling +2 querns" ],
+      "note": "outcome: chain_saga_rhine_frisia.s02.out_querns (Saxmund goes west by his own road)" },
+    { "key": "word_only", "label_key": "chain_saga_rhine_frisia.s02.opt_word_only", "label": "You have said the word; go on with your trade", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_2", "flag ch_saga_rhine_frisia_wait for 30" ],
+      "note": "outcome: chain_saga_rhine_frisia.s02.out_word_only (time only; Saxmund goes west by his own road)" }
+   ],
+   "memory": {
+    "carry": "carried Saxmund west over the Lauwers",
+    "querns": "took the widow's order for quernstones",
+    "word_only": "brought Wlemar's word and went"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s03_three_lands",
+   "note": "Step 3: Winaldum, thirty days or more after step 2, before 806. The three lands and their three scales are the Lex Frisionum's own: between Vlie and Lauwers a noble 80 solidi at three pennies the solidus; between Lauwers and Weser 106 solidi and 2 pennies at two; between Sincfal and Vlie 100 at two and a half (Lex Fris. I and the money clauses, as read in dossiers/wijnaldum.md 46, emuthon.md 47 and 81, medemelacha.md 43) (?): 240, 214 and 250 pennies. Charlemagne's heavier penny came in 793/794 (about 1.7 g for about 1.3 g: economy/silver_coin.md); the hunger is Annales Laureshamenses 793. That the wise men met and reckoned with beans, and asked a merchant, is invented. The riddle Wlemar pays with is riddle_exeter_13_ten_chickens (riddles_793.json): a counting riddle, six and four, for a man who has just counted. Sets ch_saga_rhine_frisia_3 and _reckoned or _tilted.",
+   "stage": "harbour",
+   "when": "moored and port.id = wijnaldum and flag.ch_saga_rhine_frisia_2 and not flag.ch_saga_rhine_frisia_3 and not flag.ch_saga_rhine_frisia_wait and year < 806 and not flag.ch_saga_rhine_frisia_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wlemar": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [55, 68], "fixed": true, "note": "Wlemar, as in step 1" },
+    "saxmund": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [40, 55], "fixed": false, "note": "Saxmund, as in step 2: a guest on the terp" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s03.title",
+   "title": "Three numbers for one man",
+   "intention_key": "chain_saga_rhine_frisia.s03.intention",
+   "intention": "On the terp at Winaldum two wise men sit with a heap of beans between them, pricing a dead noble in three lands. They want a man who handles the king's new pennies every day.",
+   "lines": [
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s03.wlemar_three" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s03.saxmund_same" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s03.wlemar_new" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s03.saxmund_boat", "when": "flag.ch_saga_rhine_frisia_carried_sax" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s03.wlemar_west" }
+   ],
+   "options": [
+    { "key": "reckon", "label_key": "chain_saga_rhine_frisia.s03.opt_reckon", "label": "Reckon the three scales in the king's new pennies", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_3",
+                   { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "flag ch_saga_rhine_frisia_reckoned", "give_riddle riddle_exeter_13_ten_chickens", "deed fair_dealing", "npc wlemar feeling +6 reckoned", "npc saxmund feeling +4 reckoned" ],
+                     "failure": [ "npc wlemar feeling +2 tried", "morale -0.02" ] } ],
+      "note": "outcome: chain_saga_rhine_frisia.s03.out_reckon_success or .out_reckon_failure" },
+    { "key": "tilt", "label_key": "chain_saga_rhine_frisia.s03.opt_tilt", "label": "Reckon it so the middle land comes out dearest", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_3", "flag ch_saga_rhine_frisia_tilted", "silver +20", "npc saxmund feeling -8 tilted", "npc wlemar feeling -2 tilted" ],
+      "note": "outcome: chain_saga_rhine_frisia.s03.out_tilt" },
+    { "key": "decline", "label_key": "chain_saga_rhine_frisia.s03.opt_decline", "label": "Say a carrier is no reckoner", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_3", "npc wlemar feeling +1 declined" ],
+      "note": "outcome: chain_saga_rhine_frisia.s03.out_decline (pride only)" }
+   ],
+   "memory": {
+    "reckon": "reckoned the three scales true",
+    "reckon.failure": "lost the count at the half pennies",
+    "tilt": "reckoned the scales fat for the middle land",
+    "decline": "would not reckon"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s04_west_man",
+   "note": "Step 4: Medemelacha, after step 3, before 806. The western scale, 100, 50 and 25 solidi, four to two to one, and oath-helpers by the same count: Lex Fris. I for the land between Sincfal and Vlie (dossiers/medemelacha.md 43, witla.md 78). Wounds paid by their length among the western Frisians: Additio III, as dossiers/medemelacha.md 67 reads it (?). The Lex names no wise man of the west: the old man and his grandson are invented, and so is his refusal to travel. Sets ch_saga_rhine_frisia_4 and _west_true (the whole of it carried) or _west_garbled or _west_numbers.",
+   "stage": "harbour",
+   "when": "moored and port.id = medemelacha and flag.ch_saga_rhine_frisia_3 and not flag.ch_saga_rhine_frisia_4 and year < 806 and not flag.ch_saga_rhine_frisia_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "oldman": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [68, 78], "fixed": true, "note": "invented: the man who says the law west of the Vlie" },
+    "grandson": { "role": "crewman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [16, 20], "fixed": false, "note": "invented: his daughter's son, who has the western law by heart" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s04.title",
+   "title": "The old man of the west",
+   "intention_key": "chain_saga_rhine_frisia.s04.intention",
+   "intention": "The man who says the law west of the Vlie sits by his fire at Medemelacha with a rug over his knees. He will not go in a boat again, but he will say it all three times, slowly, for whoever is to carry it.",
+   "lines": [
+    { "who": "oldman", "key": "chain_saga_rhine_frisia.s04.old_ratio" },
+    { "who": "oldman", "key": "chain_saga_rhine_frisia.s04.old_wound" },
+    { "who": "oldman", "key": "chain_saga_rhine_frisia.s04.old_boy" },
+    { "who": "grandson", "key": "chain_saga_rhine_frisia.s04.boy_cow" },
+    { "who": "oldman", "key": "chain_saga_rhine_frisia.s04.old_clerk" }
+   ],
+   "options": [
+    { "key": "learn", "label_key": "chain_saga_rhine_frisia.s04.opt_learn", "label": "Learn it by heart, three times through", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_4",
+                   { "chance": 0.65,
+                     "success": [ "flag ch_saga_rhine_frisia_west_true", "npc oldman feeling +6 learned" ],
+                     "failure": [ "flag ch_saga_rhine_frisia_west_garbled", "npc oldman feeling +2 tried" ] } ],
+      "note": "outcome: chain_saga_rhine_frisia.s04.out_learn_success or .out_learn_failure (the numbers hold, the reasons slip; the chain goes on)" },
+    { "key": "hire", "label_key": "chain_saga_rhine_frisia.s04.opt_hire", "label": "Take the grandson as a hand; he has it all", "check": "silver >= 16",
+      "cost": "silver 16",
+      "effects": [ "flag ch_saga_rhine_frisia_4", "flag ch_saga_rhine_frisia_west_true", "flag ch_saga_rhine_frisia_west_boy", "hire grandson", "npc oldman feeling +8 took_boy" ],
+      "note": "outcome: chain_saga_rhine_frisia.s04.out_hire (the turn's reward: a hand who knows a law by heart)" },
+    { "key": "notch", "label_key": "chain_saga_rhine_frisia.s04.opt_notch", "label": "Cut the numbers on a tally stick", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_4", "flag ch_saga_rhine_frisia_west_numbers" ],
+      "note": "outcome: chain_saga_rhine_frisia.s04.out_notch (time only: the numbers, not the reasons)" }
+   ],
+   "memory": {
+    "learn": "learned the western law by heart",
+    "learn.failure": "learned the western numbers and lost the reasons",
+    "hire": "took his grandson to sea",
+    "notch": "cut his numbers on a stick"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s05_missi",
+   "note": "Step 5: Dorestad, spring and summer, 802 to 805. The wait is the years themselves. In 802 Charles, emperor since Christmas 800, sent messengers through the realm in pairs, a churchman and a count, strangers to their district (Capitulare missorum generale, MGH Capit. I no. 33), and in October at Aachen 'gathered the dukes, the counts and the rest of the Christian people with the men of law, and had all the laws in his realm read out, and each man's law given to him, and mended wherever it was needed, and the mended law written, and that the judges should judge by what was written and take no gifts' (Annales Laureshamenses 802; our rendering). Einhard c. 29: he had the unwritten laws of all the peoples under him set down. The Lex Saxonum and the Ewa ad Amorem of the IJssel Franks are of the same work (lore/law_tolls.md 5.4). That the Frisians were heard at the palace of Noviomagus on the way is invented: the place of the hearing is not recorded (?). The clerk and the count are invented. Ten shillings are 120 d in the king's reckoning. Sets ch_saga_rhine_frisia_5 and _kings_fee or _told_clerk; _wait runs 20 days.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year >= 802 and year < 806 and month >= 3 and month <= 9 and flag.ch_saga_rhine_frisia_4 and not flag.ch_saga_rhine_frisia_5 and not flag.ch_saga_rhine_frisia_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "port", "age": [25, 40], "fixed": false, "note": "invented: the clerk of the churchman of a pair of missi" },
+    "kings_man": { "role": "kings_man", "people": "frankish", "faith": "christian", "tongue": "port", "age": [35, 55], "fixed": false, "note": "invented: the count of the pair, a stranger to the district" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s05.title",
+   "title": "The emperor's question",
+   "intention_key": "chain_saga_rhine_frisia.s05.intention",
+   "intention": "Two of the emperor's messengers are at Dorestad, a count and a churchman, strangers to the district as the new order has it. The churchman's clerk is asking along the dam heads who knows the Frisians' law, and the toll man has pointed at you.",
+   "lines": [
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.s05.clerk_order" },
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.s05.clerk_where" },
+    { "who": "kings_man", "key": "chain_saga_rhine_frisia.s05.count_judges" },
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.s05.clerk_fee" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_saga_rhine_frisia.s05.opt_carry", "label": "Undertake to bring the wise men to the palace", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_5", "flag ch_saga_rhine_frisia_kings_fee", "flag ch_saga_rhine_frisia_wait for 20", "silver +120", "npc clerk feeling +5 undertook" ],
+      "note": "outcome: chain_saga_rhine_frisia.s05.out_carry (the turn's silver: the emperor's carriage money)" },
+    { "key": "tell", "label_key": "chain_saga_rhine_frisia.s05.opt_tell", "label": "Tell the clerk what was said on the terp", "check": "flag.ch_saga_rhine_frisia_reckoned or flag.ch_saga_rhine_frisia_tilted or flag.ch_saga_rhine_frisia_west_true or flag.ch_saga_rhine_frisia_west_numbers",
+      "effects": [ "flag ch_saga_rhine_frisia_5", "flag ch_saga_rhine_frisia_told_clerk", "flag ch_saga_rhine_frisia_wait for 20", "silver +40", "npc clerk feeling +8 told" ],
+      "note": "outcome: chain_saga_rhine_frisia.s05.out_tell (the wise men will know of it)" },
+    { "key": "quiet", "label_key": "chain_saga_rhine_frisia.s05.opt_quiet", "label": "Say you carry wool", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_5", "flag ch_saga_rhine_frisia_wait for 20", "npc clerk feeling -2 quiet" ],
+      "note": "outcome: chain_saga_rhine_frisia.s05.out_quiet (pride only: a rider finds the terp without you, and Wlemar sends for your boat all the same)" }
+   ],
+   "memory": {
+    "carry": "undertook to bring the Frisian wise men",
+    "tell": "told what the wise men reckoned",
+    "quiet": "said he carried wool"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s06_aboard",
+   "note": "Step 6: Winaldum, twenty days or more after step 5, before 807. The quarrel is the Lex Frisionum's own two faces. The sand the tide covers: Additio sapientum XI, De honore templorum: 'Qui fanum effregerit et ibi aliquid de sacris tulerit, ducitur ad mare, et in sabulo, quod accessus maris operire solet, finduntur aures eius, et castratur, et immolatur diis quorum templa violavit' (the Latin as in dossiers/wijnaldum.md 73 and the spine's sources; the English is ours), set after the words that mark the law beyond the Lauwers. Whether it was still used is not known; most think it an old judgement that was said and not done. Saxmund's refusal is invented and rests on the lost inheritance (step 2). The player's answer is a leaning, not yet a deed: ch_saga_rhine_frisia_lean_all, _lean_clean or _lean_land. Both wise men come aboard for Noviomagus. Sets ch_saga_rhine_frisia_6.",
+   "stage": "harbour",
+   "when": "moored and port.id = wijnaldum and flag.ch_saga_rhine_frisia_5 and not flag.ch_saga_rhine_frisia_6 and not flag.ch_saga_rhine_frisia_wait and year < 807 and not flag.ch_saga_rhine_frisia_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wlemar": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [55, 68], "fixed": true, "note": "Wlemar, as in step 1" },
+    "saxmund": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [40, 55], "fixed": false, "note": "Saxmund, as in step 2" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s06.title",
+   "title": "Two wise men and one boat",
+   "intention_key": "chain_saga_rhine_frisia.s06.intention",
+   "intention": "The summons has come to Winaldum. Wlemar and Saxmund stand on the beach with a bundle each, and have been disagreeing since first light about what they will say when a Frank holds a pen over it.",
+   "lines": [
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s06.wlemar_all" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s06.saxmund_sand" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s06.wlemar_dry" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s06.saxmund_land" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s06.wlemar_told", "when": "flag.ch_saga_rhine_frisia_told_clerk" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s06.wlemar_ask" }
+   ],
+   "options": [
+    { "key": "all", "label_key": "chain_saga_rhine_frisia.s06.opt_all", "label": "Say all of it, as it was judged", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_6", "flag ch_saga_rhine_frisia_lean_all", "passenger wlemar to noviomagus", "passenger saxmund to noviomagus", "npc wlemar feeling +5 said_all" ],
+      "note": "outcome: chain_saga_rhine_frisia.s06.out_all" },
+    { "key": "clean", "label_key": "chain_saga_rhine_frisia.s06.opt_clean", "label": "Say what a Christian king can put his name to", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_6", "flag ch_saga_rhine_frisia_lean_clean", "passenger wlemar to noviomagus", "passenger saxmund to noviomagus", "npc wlemar feeling -2 said_clean", "npc saxmund feeling -5 said_clean" ],
+      "note": "outcome: chain_saga_rhine_frisia.s06.out_clean" },
+    { "key": "land", "label_key": "chain_saga_rhine_frisia.s06.opt_land", "label": "Ask for the land first", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_6", "flag ch_saga_rhine_frisia_lean_land", "passenger wlemar to noviomagus", "passenger saxmund to noviomagus", "npc saxmund feeling +8 said_land" ],
+      "note": "outcome: chain_saga_rhine_frisia.s06.out_land" }
+   ],
+   "memory": {
+    "all": "said the law should be told whole",
+    "clean": "said the old judgements should be left out",
+    "land": "said the land should be asked for first"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s07_bishop",
+   "note": "Step 7, a side step that opens the hard road: Traiectum, with the wise men aboard, before 807. The way from the Almere to the Rhine is the Vecht, under Saint Martin's (dossiers/traiectum.md, medemelacha.md 11). The Christian clauses the deacon wants said first are the law's own: a man in feud has peace in church, in his house, and on the way to and from church and court (Additio I.1, Wlemar's: 'Homo faidosus pacem habeat in ecclesia, in domo sua, ad ecclesiam eundo, de ecclesia redeundo, ad placitum eundo, de placito redeundo', as chains/house_rival.md quotes it); Sunday work four solidi, twelve beyond the Lauwers (tit. XVIII, as dossiers/doccinga.md 46 reads it (?)). The bishop is cast.hamacar to 806 and is not named. That Utrecht pressed its wishes on the wise men, and that a letter of the bishop carried a plea for the disinherited, is invented; a bishop's letter as the way into a palace is ordinary. Sets ch_saga_rhine_frisia_7 and _bishop_letter or _plea.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_saga_rhine_frisia_6 and not flag.ch_saga_rhine_frisia_7 and not flag.ch_saga_rhine_frisia_8 and year < 807 and not flag.ch_saga_rhine_frisia_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "deacon": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "port", "age": [28, 45], "fixed": true, "note": "invented: a deacon of Saint Martin's who speaks for the bishop (cast.hamacar)" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s07.title",
+   "title": "Saint Martin's opinion",
+   "intention_key": "chain_saga_rhine_frisia.s07.intention",
+   "intention": "The way south goes up the Vecht under Saint Martin's. The bishop's deacon is waiting on the bank; news of two wise men in one boat has outrun you.",
+   "lines": [
+    { "who": "deacon", "key": "chain_saga_rhine_frisia.s07.deacon_first" },
+    { "who": "deacon", "key": "chain_saga_rhine_frisia.s07.deacon_shrine" },
+    { "who": "deacon", "key": "chain_saga_rhine_frisia.s07.deacon_letter" },
+    { "who": "deacon", "key": "chain_saga_rhine_frisia.s07.deacon_plea" }
+   ],
+   "options": [
+    { "key": "letter", "label_key": "chain_saga_rhine_frisia.s07.opt_letter", "label": "Take the bishop's letter to the palace clerk", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_7", "flag ch_saga_rhine_frisia_bishop_letter", "learn latin +0.05", "npc deacon feeling +5 took_letter" ],
+      "note": "outcome: chain_saga_rhine_frisia.s07.out_letter" },
+    { "key": "plea", "label_key": "chain_saga_rhine_frisia.s07.opt_plea", "label": "Give alms for Saint Martin's poor, and ask him to write for the widow's sons", "check": "silver >= 20",
+      "cost": "silver 20",
+      "effects": [ "flag ch_saga_rhine_frisia_7", "flag ch_saga_rhine_frisia_plea", "deed gave_alms", "learn latin +0.05", "npc deacon feeling +4 asked_plea" ],
+      "note": "outcome: chain_saga_rhine_frisia.s07.out_plea (opens the road to the inheritance at the hearing)" },
+    { "key": "refuse", "label_key": "chain_saga_rhine_frisia.s07.opt_refuse", "label": "Say the wise men speak for themselves", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_7", "npc deacon feeling -3 refused" ],
+      "note": "outcome: chain_saga_rhine_frisia.s07.out_refuse (pride only)" }
+   ],
+   "memory": {
+    "letter": "carried the bishop's letter to the palace",
+    "plea": "gave alms and asked a letter for the widow's sons",
+    "refuse": "would carry no letter"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s08_palace",
+   "note": "Step 8: Noviomagus, with the wise men aboard, 802 to 806. The palace above the Waal is Charles's own (Einhard c. 17; he kept Easter there in 804, 806 and 808: Annales regni Francorum; dossiers/noviomagus.md). The Saxons' law and the law of the IJssel Franks were taken down in the same years (Lex Saxonum, Ewa ad Amorem: lore/law_tolls.md 5.4); that their law-men waited here beside the Frisians is invented (?). The doorkeeper's price is ordinary. The step is a real wait: ch_saga_rhine_frisia_hear_wait runs twelve days, five with a letter, three with a gift. Sets ch_saga_rhine_frisia_8.",
+   "stage": "harbour",
+   "when": "moored and port.id = noviomagus and year >= 802 and year < 807 and flag.ch_saga_rhine_frisia_6 and not flag.ch_saga_rhine_frisia_8 and not flag.ch_saga_rhine_frisia_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "port", "age": [25, 40], "fixed": false, "note": "the clerk of step 5" },
+    "wlemar": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [55, 68], "fixed": false, "note": "Wlemar, your passenger" },
+    "saxmund": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [40, 55], "fixed": false, "note": "Saxmund, your passenger" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s08.title",
+   "title": "The palace above the Waal",
+   "intention_key": "chain_saga_rhine_frisia.s08.intention",
+   "intention": "Noviomagus is full of law. Saxons with the faces of hostages, Franks of the IJssel with a chest of their own, and clerks walking fast. The Frisians are to be heard after the Saxons, and the Saxons have a great deal to say.",
+   "lines": [
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.s08.clerk_turn" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s08.wlemar_wait" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s08.saxmund_door" },
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.s08.clerk_paid", "when": "flag.ch_saga_rhine_frisia_kings_fee" }
+   ],
+   "options": [
+    { "key": "wait", "label_key": "chain_saga_rhine_frisia.s08.opt_wait", "label": "Wait your turn behind the Saxons", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_8", "flag ch_saga_rhine_frisia_hear_wait for 12", "npc wlemar feeling +2 waited" ],
+      "note": "outcome: chain_saga_rhine_frisia.s08.out_wait (time only: twelve days)" },
+    { "key": "letter", "label_key": "chain_saga_rhine_frisia.s08.opt_letter", "label": "Send in the bishop's letter", "check": "flag.ch_saga_rhine_frisia_bishop_letter or flag.ch_saga_rhine_frisia_plea",
+      "effects": [ "flag ch_saga_rhine_frisia_8", "flag ch_saga_rhine_frisia_hear_wait for 5", "deed carried_letters", "npc clerk feeling +4 letter" ],
+      "note": "outcome: chain_saga_rhine_frisia.s08.out_letter (five days)" },
+    { "key": "gift", "label_key": "chain_saga_rhine_frisia.s08.opt_gift", "label": "Find the doorkeeper who can count to thirty", "check": "silver >= 30",
+      "cost": "silver 30",
+      "effects": [ "flag ch_saga_rhine_frisia_8", "flag ch_saga_rhine_frisia_hear_wait for 3", "deed bribed_officer", "npc saxmund feeling +2 gift", "npc wlemar feeling -2 gift" ],
+      "note": "outcome: chain_saga_rhine_frisia.s08.out_gift (three days)" }
+   ],
+   "memory": {
+    "wait": "waited his turn at the palace",
+    "letter": "came in on a bishop's letter",
+    "gift": "paid the doorkeeper"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s09_hearing",
+   "note": "Step 9, the turn of the whole chain: Noviomagus, when the wait of step 8 is over. What is written is what the Lex Frisionum holds: the three lands and their scales (tit. I), the kettle (tit. III), the lots (tit. XIV), the Sunday fine (tit. XVIII), the hand of the harper, the goldsmith and the woman who weaves fresum (Additio II, Wlemar's), the public way on the river that may not be blocked, twelve solidi (Additio VI, Saxmund's), and the sand the tide covers (Additio XI); and above two parts of the additions the heading that these judgements Wlemar said, and these Saxmund (lore/law_tolls.md 5; dossiers/wijnaldum.md 46, 72, 73, 85). That a merchant stood between the wise men and the pen is the game's. Four roads: road_draft (as it was said: what happened), road_king (one clean law: check a little Latin, the bishop's letter, or the leaning of step 6), road_land (the inheritance asked first: check the plea of step 7), road_unwritten (they go home). ch_saga_rhine_frisia_end_wait runs 60 days: the assembly is after harvest and news is as slow as a boat. Sets ch_saga_rhine_frisia_9.",
+   "stage": "harbour",
+   "when": "moored and port.id = noviomagus and flag.ch_saga_rhine_frisia_8 and not flag.ch_saga_rhine_frisia_9 and not flag.ch_saga_rhine_frisia_hear_wait and not flag.ch_saga_rhine_frisia_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "port", "age": [25, 40], "fixed": false, "note": "the clerk of step 5" },
+    "wlemar": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [55, 68], "fixed": false, "note": "Wlemar" },
+    "saxmund": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [40, 55], "fixed": false, "note": "Saxmund" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s09.title",
+   "title": "What is written",
+   "intention_key": "chain_saga_rhine_frisia.s09.intention",
+   "intention": "A bare room, a trestle, a clerk with a pen and a boy with a horn of ink. The wise men speak Frisian; the clerk has Frankish and Latin. You stand between, and what goes on the skin goes through your mouth.",
+   "lines": [
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.s09.clerk_begin" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s09.wlemar_begin" },
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.s09.clerk_scales" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s09.wlemar_west", "when": "flag.ch_saga_rhine_frisia_west_true" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.s09.wlemar_west_thin", "when": "not flag.ch_saga_rhine_frisia_west_true" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s09.saxmund_sand" },
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.s09.clerk_margin" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.s09.saxmund_land" }
+   ],
+   "options": [
+    { "key": "as_said", "label_key": "chain_saga_rhine_frisia.s09.opt_as_said", "label": "Put it into Frankish as they say it, all of it", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_9", "flag ch_saga_rhine_frisia_road_draft", "flag ch_saga_rhine_frisia_end_wait for 60", "npc wlemar feeling +8 as_said", "npc saxmund feeling +3 as_said", "npc clerk feeling +2 as_said" ],
+      "note": "outcome: chain_saga_rhine_frisia.s09.out_as_said (what happened)" },
+    { "key": "kings_law", "label_key": "chain_saga_rhine_frisia.s09.opt_kings_law", "label": "Help the clerk make one clean law of it", "check": "learned.latin > 0 or flag.ch_saga_rhine_frisia_bishop_letter or flag.ch_saga_rhine_frisia_lean_clean",
+      "effects": [ "flag ch_saga_rhine_frisia_9", "flag ch_saga_rhine_frisia_road_king", "flag ch_saga_rhine_frisia_end_wait for 60", "npc clerk feeling +12 kings_law", "npc wlemar feeling -8 kings_law", "npc saxmund feeling -20 kings_law", "learn latin +0.05" ],
+      "note": "outcome: chain_saga_rhine_frisia.s09.out_kings_law (history changed)" },
+    { "key": "land", "label_key": "chain_saga_rhine_frisia.s09.opt_land", "label": "Lay the letter for the widow's sons on the trestle before a word is said", "check": "flag.ch_saga_rhine_frisia_plea",
+      "effects": [ "flag ch_saga_rhine_frisia_9", "flag ch_saga_rhine_frisia_road_land", "flag ch_saga_rhine_frisia_end_wait for 60", "deed carried_letters", "npc saxmund feeling +20 land", "npc wlemar feeling +6 land" ],
+      "note": "outcome: chain_saga_rhine_frisia.s09.out_land (history changed; the hard road: it needs the alms and the plea of step 7)" },
+    { "key": "home", "label_key": "chain_saga_rhine_frisia.s09.opt_home", "label": "Tell them it has kept in their heads this long", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_9", "flag ch_saga_rhine_frisia_road_unwritten", "flag ch_saga_rhine_frisia_end_wait for 60", "npc saxmund feeling +12 home", "npc clerk feeling -20 home" ],
+      "note": "outcome: chain_saga_rhine_frisia.s09.out_home (history changed)" }
+   ],
+   "memory": {
+    "as_said": "put the law into Frankish as it was said",
+    "kings_law": "helped make one clean law of it",
+    "land": "laid the plea for the disinherited before the law",
+    "home": "sent the wise men home with the law unwritten"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.end_draft",
+   "note": "Ending 1, what happened: Winaldum, sixty days or more after the hearing. The law of the Frisians was written about 802 as a rough working text: three scales side by side, Christian and heathen judgements together, the wise men's additions under their own names. It was never made into a finished law, and is known only from Herold's print at Basel in 1557, from a book now lost (lore/law_tolls.md 5.1; en.wikipedia.org/wiki/Lex_Frisionum, read 6 Oct 2026). The emperor's question about the sand, the hearth pennies and the oath-right are invented. Rewards: unlock_title_oathworthy_three_lands (a stranger's oath taken as a landsman's: the worth of oath-helpers is the law's own, tit. I) on every road; unlock_factor_wijnaldum; the hard road (the western law carried whole, the scales reckoned true, nothing told to the clerk behind their backs, no name bought off the list) adds unlock_plot_wijnaldum. Sets ch_saga_rhine_frisia_end_draft and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = wijnaldum and flag.ch_saga_rhine_frisia_road_draft and not flag.ch_saga_rhine_frisia_end_wait and not flag.ch_saga_rhine_frisia_end_draft",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wlemar": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [55, 70], "fixed": true, "note": "Wlemar" }
+   },
+   "title_key": "chain_saga_rhine_frisia.end_draft.title",
+   "title": "As it was said",
+   "intention_key": "chain_saga_rhine_frisia.end_draft.intention",
+   "intention": "Winaldum, after the assembly. Wlemar is back on his mound. The clerk's leaves went to Aachen in a chest with the Saxons' law and the rest, and were read out before the emperor, the old gods and all.",
+   "lines": [
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.end_draft.wlemar_read" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.end_draft.wlemar_unfinished" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.end_draft.wlemar_hearths" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.end_draft.wlemar_oath" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.end_draft.wlemar_names" }
+   ],
+   "options": [
+    { "key": "silver", "label_key": "chain_saga_rhine_frisia.end_draft.opt_silver", "label": "Take the hearth pennies and the oath-right", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_end_draft", "flag ch_saga_rhine_frisia_done", "flag unlock_title_oathworthy_three_lands", "silver +800", "news chain_saga_rhine_frisia.news_written at dorestad", "npc wlemar feeling +10 ended" ],
+      "note": "finale: 800 d and the title. outcome: chain_saga_rhine_frisia.end_draft.out_silver" },
+    { "key": "factor", "label_key": "chain_saga_rhine_frisia.end_draft.opt_factor", "label": "Take less silver, and his sister's son to keep your goods here", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_end_draft", "flag ch_saga_rhine_frisia_done", "flag unlock_title_oathworthy_three_lands", "flag unlock_factor_wijnaldum", "silver +600", "news chain_saga_rhine_frisia.news_written at dorestad", "npc wlemar feeling +12 ended" ],
+      "note": "finale: 600 d, the title and a factor at Winaldum. outcome: chain_saga_rhine_frisia.end_draft.out_factor" },
+    { "key": "plot", "label_key": "chain_saga_rhine_frisia.end_draft.opt_plot", "label": "Ask for a house plot by the landing as well", "check": "flag.ch_saga_rhine_frisia_west_true and flag.ch_saga_rhine_frisia_reckoned and not flag.ch_saga_rhine_frisia_told_clerk and not flag.ch_saga_rhine_frisia_bought_out",
+      "effects": [ "flag ch_saga_rhine_frisia_end_draft", "flag ch_saga_rhine_frisia_done", "flag unlock_title_oathworthy_three_lands", "flag unlock_factor_wijnaldum", "flag unlock_plot_wijnaldum", "silver +900", "news chain_saga_rhine_frisia.news_written at dorestad", "npc wlemar feeling +15 ended" ],
+      "note": "the hard road: 900 d, the title, a factor and a plot. outcome: chain_saga_rhine_frisia.end_draft.out_plot" }
+   ],
+   "memory": {
+    "silver": "carried the law to the pen and took the hearth pennies",
+    "factor": "carried the law to the pen and took a factor on the terp",
+    "plot": "carried the law to the pen and was given ground on the terp"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.end_king",
+   "note": "Ending 2, history changed (changed_lex_frisionum_finished): Dorestad, sixty days or more after the hearing. In this telling the emperor has what he asked for at Aachen: one mended law of the Frisians, written fair, one scale in his own pennies, the church's peace at its head and no gods on any beach. What would follow is in the chain page. Rewards: unlock_charter_dorestad (toll freedom at Dorestad was a thing the king gave: Charles freed Saint-Germain-des-Pres of the toll at Dorestad, Quentovic and elsewhere in 779, MGH DD Kar. 1 no. 122 (?)); the hard road (scales reckoned true and the western law carried whole, so the clean law is at least a right one) adds unlock_title_emperors_merchant (merchants under the palace's own protection are in Louis the Pious's praeceptum negotiatorum of 828, Formulae imperiales 37: early here (?)). The cost that lasts: ch_saga_rhine_frisia_cold_terps, unless the silver is sent to the widow. Sets ch_saga_rhine_frisia_end_king and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_saga_rhine_frisia_road_king and not flag.ch_saga_rhine_frisia_end_wait and not flag.ch_saga_rhine_frisia_end_king",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "port", "age": [25, 40], "fixed": false, "note": "the clerk of step 5, back from Aachen" },
+    "tollman": { "role": "tollman", "people": "port", "faith": "port", "tongue": "port", "age": [30, 60], "fixed": true, "note": "Dorestad's toll man (cast.dorestad's, as the spine has him)" }
+   },
+   "title_key": "chain_saga_rhine_frisia.end_king.title",
+   "title": "The emperor's law of the Frisians",
+   "intention_key": "chain_saga_rhine_frisia.end_king.intention",
+   "intention": "Dorestad, after the assembly. The clerk is back from Aachen with a fair copy under his arm and a sealed skin for you. The toll man is reading the seal upside down and not liking it.",
+   "lines": [
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.end_king.clerk_read" },
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.end_king.clerk_one" },
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.end_king.clerk_charter" },
+    { "who": "tollman", "key": "chain_saga_rhine_frisia.end_king.tollman_seal" },
+    { "who": "clerk", "key": "chain_saga_rhine_frisia.end_king.clerk_east" }
+   ],
+   "options": [
+    { "key": "charter", "label_key": "chain_saga_rhine_frisia.end_king.opt_charter", "label": "Take the charter and the emperor's silver", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_end_king", "flag ch_saga_rhine_frisia_done", "flag changed_lex_frisionum_finished", "flag unlock_charter_dorestad", "flag ch_saga_rhine_frisia_cold_terps", "silver +900", "news chain_saga_rhine_frisia.news_proclaimed at dorestad", "npc clerk feeling +8 ended", "npc tollman feeling -4 charter" ],
+      "note": "finale: 900 d and the charter; the east is cold to you. outcome: chain_saga_rhine_frisia.end_king.out_charter" },
+    { "key": "widow", "label_key": "chain_saga_rhine_frisia.end_king.opt_widow", "label": "Take the charter; send the silver to the widow at the Ems mouth", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_end_king", "flag ch_saga_rhine_frisia_done", "flag changed_lex_frisionum_finished", "flag unlock_charter_dorestad", "flag ch_saga_rhine_frisia_sent_silver", "silver +200", "deed gave_alms", "news chain_saga_rhine_frisia.news_proclaimed at dorestad", "npc tollman feeling -4 charter" ],
+      "note": "finale: the charter and 200 d; 700 d go east, and the east is not cold. outcome: chain_saga_rhine_frisia.end_king.out_widow" },
+    { "key": "sworn", "label_key": "chain_saga_rhine_frisia.end_king.opt_sworn", "label": "Ask to be reckoned among the emperor's own merchants", "check": "flag.ch_saga_rhine_frisia_reckoned and flag.ch_saga_rhine_frisia_west_true",
+      "effects": [ "flag ch_saga_rhine_frisia_end_king", "flag ch_saga_rhine_frisia_done", "flag changed_lex_frisionum_finished", "flag unlock_charter_dorestad", "flag unlock_title_emperors_merchant", "flag ch_saga_rhine_frisia_cold_terps", "silver +1100", "news chain_saga_rhine_frisia.news_proclaimed at dorestad", "npc clerk feeling +12 ended", "npc tollman feeling -6 charter" ],
+      "note": "the hard road: 1,100 d, the charter and the palace's protection; the east is cold to you. outcome: chain_saga_rhine_frisia.end_king.out_sworn" }
+   ],
+   "memory": {
+    "charter": "took the emperor's charter for the clean law",
+    "widow": "took the charter and sent the silver east",
+    "sworn": "was made one of the emperor's merchants for the clean law"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.end_land",
+   "note": "Ending 3, history changed (changed_frisian_inheritance_802): Emuthon, sixty days or more after the hearing. In truth the right of inheritance came back only in 814, by Louis the Pious in the first months of his reign (the Astronomer, Vita Hludowici c. 24); here the emperor gives it at the assembly of 802, with the law. What would follow is in the chain page. The widow's sons and the gifts of the houses that have their land again are invented. Rewards: unlock_plot_emuthon on every road; unlock_factor_emuthon; the hard road (Saxmund carried in your own boat and the western law carried whole, nothing told behind their backs) gives unlock_partner_saxmunds_nephew, a sworn partner with a boat of his own. Sets ch_saga_rhine_frisia_end_land and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and flag.ch_saga_rhine_frisia_road_land and not flag.ch_saga_rhine_frisia_end_wait and not flag.ch_saga_rhine_frisia_end_land",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "saxmund": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [40, 57], "fixed": true, "note": "Saxmund" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [35, 52], "fixed": true, "note": "invented: Saxmund's sister" }
+   },
+   "title_key": "chain_saga_rhine_frisia.end_land.title",
+   "title": "The sons of ninety-three",
+   "intention_key": "chain_saga_rhine_frisia.end_land.intention",
+   "intention": "The Ems mouth, after the assembly. The count's man has ridden off the widow's farm with his tally sticks, and there is smoke from more roofs than there was. Saxmund is waiting at the landing, which he has not done before.",
+   "lines": [
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.end_land.saxmund_given" },
+    { "who": "widow", "key": "chain_saga_rhine_frisia.end_land.widow_field" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.end_land.saxmund_written" },
+    { "who": "widow", "key": "chain_saga_rhine_frisia.end_land.widow_houses" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.end_land.saxmund_offer" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_saga_rhine_frisia.end_land.opt_plot", "label": "Take the ground by the landing and what the houses sent", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_end_land", "flag ch_saga_rhine_frisia_done", "flag changed_frisian_inheritance_802", "flag unlock_plot_emuthon", "silver +500", "goods frisian_cloth +8", "goods cattle_hides +10", "news chain_saga_rhine_frisia.news_inheritance at dorestad", "npc saxmund feeling +12 ended", "npc widow feeling +12 ended" ],
+      "note": "finale: 500 d, cloth and hides (about 700 d in all) and a plot at Emuthon. outcome: chain_saga_rhine_frisia.end_land.out_plot" },
+    { "key": "factor", "label_key": "chain_saga_rhine_frisia.end_land.opt_factor", "label": "Ask for the younger son to keep your goods here", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_end_land", "flag ch_saga_rhine_frisia_done", "flag changed_frisian_inheritance_802", "flag unlock_plot_emuthon", "flag unlock_factor_emuthon", "silver +400", "goods frisian_cloth +8", "news chain_saga_rhine_frisia.news_inheritance at dorestad", "npc saxmund feeling +12 ended", "npc widow feeling +15 ended" ],
+      "note": "finale: 400 d and cloth, the plot and a factor. outcome: chain_saga_rhine_frisia.end_land.out_factor" },
+    { "key": "partner", "label_key": "chain_saga_rhine_frisia.end_land.opt_partner", "label": "Ask for the elder son as a sworn partner, with a boat of his own", "check": "flag.ch_saga_rhine_frisia_carried_sax and flag.ch_saga_rhine_frisia_west_true and not flag.ch_saga_rhine_frisia_told_clerk",
+      "effects": [ "flag ch_saga_rhine_frisia_end_land", "flag ch_saga_rhine_frisia_done", "flag changed_frisian_inheritance_802", "flag unlock_plot_emuthon", "flag unlock_partner_saxmunds_nephew", "silver +700", "goods frisian_cloth +8", "goods cattle_hides +10", "news chain_saga_rhine_frisia.news_inheritance at dorestad", "npc saxmund feeling +18 ended", "npc widow feeling +12 ended" ],
+      "note": "the hard road: 700 d, cloth and hides, the plot and a sworn partner. outcome: chain_saga_rhine_frisia.end_land.out_partner" }
+   ],
+   "memory": {
+    "plot": "won back the fathers' land and took ground at the landing",
+    "factor": "won back the fathers' land and took the younger son as factor",
+    "partner": "won back the fathers' land and took the elder son as partner"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.end_unwritten",
+   "note": "Ending 4, history changed (changed_lex_frisionum_unwritten): Doccinga, sixty days or more after the hearing, at the altar where the lots lay in step 1. In this telling there is no Lex Frisionum: the emperor's chest at Aachen holds the Saxons' law and the Franks', and for the Frisians a note that they have none they can remember. What would follow is in the chain page. The peace sworn on the altar is modelled on the law's own peace for a man in feud (Additio I.1); that it was given to a stranger is invented. Rewards: unlock_title_peace_of_three_lands on every road; unlock_pilot_lauwers (the Lauwers mouth, a bay still forming about 800: dossiers/doccinga.md 10); the hard road (Saxmund carried, the scales reckoned true, the western law carried whole) gives unlock_heirloom_law_of_three_lands: the house itself is taught the law, and an heir inherits it. The cost that lasts: ch_saga_rhine_frisia_missi_remember. Sets ch_saga_rhine_frisia_end_unwritten and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = doccinga and flag.ch_saga_rhine_frisia_road_unwritten and not flag.ch_saga_rhine_frisia_end_wait and not flag.ch_saga_rhine_frisia_end_unwritten",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wlemar": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [55, 70], "fixed": true, "note": "Wlemar" },
+    "saxmund": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [40, 57], "fixed": false, "note": "Saxmund" }
+   },
+   "title_key": "chain_saga_rhine_frisia.end_unwritten.title",
+   "title": "Kept in the head",
+   "intention_key": "chain_saga_rhine_frisia.end_unwritten.intention",
+   "intention": "Doccinga, after the assembly. The two wise men are in Boniface's church, by the altar where the twigs lay. The emperor's chest went to Aachen with a gap in it the size of the Frisians.",
+   "lines": [
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.end_unwritten.wlemar_laughed" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.end_unwritten.saxmund_ours" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.end_unwritten.wlemar_dies" },
+    { "who": "saxmund", "key": "chain_saga_rhine_frisia.end_unwritten.saxmund_peace" },
+    { "who": "wlemar", "key": "chain_saga_rhine_frisia.end_unwritten.wlemar_watch" }
+   ],
+   "options": [
+    { "key": "peace", "label_key": "chain_saga_rhine_frisia.end_unwritten.opt_peace", "label": "Take the peace of the three lands and the hearth pennies", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_end_unwritten", "flag ch_saga_rhine_frisia_done", "flag changed_lex_frisionum_unwritten", "flag unlock_title_peace_of_three_lands", "flag ch_saga_rhine_frisia_missi_remember", "silver +700", "news chain_saga_rhine_frisia.news_forgotten at dorestad", "npc wlemar feeling +8 ended", "npc saxmund feeling +12 ended" ],
+      "note": "finale: 700 d and the peace; the palace remembers. outcome: chain_saga_rhine_frisia.end_unwritten.out_peace" },
+    { "key": "pilot", "label_key": "chain_saga_rhine_frisia.end_unwritten.opt_pilot", "label": "Ask as well for a man who knows the Lauwers mouth", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_end_unwritten", "flag ch_saga_rhine_frisia_done", "flag changed_lex_frisionum_unwritten", "flag unlock_title_peace_of_three_lands", "flag unlock_pilot_lauwers", "flag ch_saga_rhine_frisia_missi_remember", "silver +600", "news chain_saga_rhine_frisia.news_forgotten at dorestad", "npc wlemar feeling +8 ended", "npc saxmund feeling +12 ended" ],
+      "note": "finale: 600 d, the peace and the Lauwers marks; the palace remembers. outcome: chain_saga_rhine_frisia.end_unwritten.out_pilot" },
+    { "key": "taught", "label_key": "chain_saga_rhine_frisia.end_unwritten.opt_taught", "label": "Ask to be taught the law itself, all three lands", "check": "flag.ch_saga_rhine_frisia_carried_sax and flag.ch_saga_rhine_frisia_reckoned and flag.ch_saga_rhine_frisia_west_true",
+      "effects": [ "flag ch_saga_rhine_frisia_end_unwritten", "flag ch_saga_rhine_frisia_done", "flag changed_lex_frisionum_unwritten", "flag unlock_title_peace_of_three_lands", "flag unlock_heirloom_law_of_three_lands", "flag ch_saga_rhine_frisia_missi_remember", "silver +900", "news chain_saga_rhine_frisia.news_forgotten at dorestad", "npc wlemar feeling +15 ended", "npc saxmund feeling +15 ended" ],
+      "note": "the hard road: 900 d, the peace, and the law itself as the house's heirloom; the palace remembers. outcome: chain_saga_rhine_frisia.end_unwritten.out_taught" }
+   ],
+   "memory": {
+    "peace": "kept the law out of the king's chest and took the peace",
+    "pilot": "kept the law out of the king's chest and was shown the Lauwers",
+    "taught": "kept the law out of the king's chest and was taught it"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhine_frisia.s10_given_back",
+   "note": "The last card, twelve years on, for every house that did not win the land in 802: Emuthon, 814 to 821. Charles died at Aachen on 28 January 814. His son Louis in the first months of his reign 'restored to the Saxons and Frisians the right of their fathers' inheritance, which under his father they had lawfully lost for their faithlessness; some called it generosity and others want of foresight' (the Astronomer, Vita Hludowici c. 24; our rendering). The widow's son is invented. A step's reward, and a factor at Emuthon for the house that asked first (the leaning of step 6 or the plea of step 7). Sets ch_saga_rhine_frisia_814.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and year >= 814 and year < 822 and flag.ch_saga_rhine_frisia_9 and not flag.ch_saga_rhine_frisia_road_land and not flag.ch_saga_rhine_frisia_814",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "son": { "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 40], "fixed": true, "note": "invented: the widow's elder son, Saxmund's nephew" }
+   },
+   "title_key": "chain_saga_rhine_frisia.s10.title",
+   "title": "What the son gave back",
+   "intention_key": "chain_saga_rhine_frisia.s10.intention",
+   "intention": "The Ems mouth, a long time after. A man of thirty is setting boundary stakes along a ditch as if each one were a nail in something. He knows your boat before he knows you.",
+   "lines": [
+    { "who": "son", "key": "chain_saga_rhine_frisia.s10.son_news" },
+    { "who": "son", "key": "chain_saga_rhine_frisia.s10.son_mother" },
+    { "who": "son", "key": "chain_saga_rhine_frisia.s10.son_uncle" },
+    { "who": "son", "key": "chain_saga_rhine_frisia.s10.son_king_law", "when": "flag.ch_saga_rhine_frisia_end_king" },
+    { "who": "son", "key": "chain_saga_rhine_frisia.s10.son_asked", "when": "flag.ch_saga_rhine_frisia_lean_land or flag.ch_saga_rhine_frisia_plea" },
+    { "who": "son", "key": "chain_saga_rhine_frisia.s10.son_heir", "when": "generation > 1" }
+   ],
+   "options": [
+    { "key": "remembered", "label_key": "chain_saga_rhine_frisia.s10.opt_remembered", "label": "Be remembered as the house that asked first", "check": "flag.ch_saga_rhine_frisia_lean_land or flag.ch_saga_rhine_frisia_plea",
+      "effects": [ "flag ch_saga_rhine_frisia_814", "flag unlock_factor_emuthon", "silver +200", "commission iron_tools 6 by 150 premium 1.5", "npc son feeling +15 remembered" ],
+      "note": "outcome: chain_saga_rhine_frisia.s10.out_remembered (200 d, an order with a premium, and a factor at Emuthon)" },
+    { "key": "trade", "label_key": "chain_saga_rhine_frisia.s10.opt_trade", "label": "Ask what a farm with an heir needs", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_rhine_frisia_814", "commission iron_tools 6 by 150 premium 1.5", "price_shock emuthon iron_tools x1.3 for 90", "npc son feeling +6 trade" ],
+      "note": "outcome: chain_saga_rhine_frisia.s10.out_trade (an order with a premium and a price word)" },
+    { "key": "go", "label_key": "chain_saga_rhine_frisia.s10.opt_go", "label": "Wish him a dry harvest and go", "check": "true",
+      "effects": [ "flag ch_saga_rhine_frisia_814", "npc son feeling +2 go" ],
+      "note": "outcome: chain_saga_rhine_frisia.s10.out_go (time only)" }
+   ],
+   "memory": {
+    "remembered": "was the house that asked for the land first",
+    "trade": "sold iron to a farm that had its heir again",
+    "go": "wished him a dry harvest"
+   }
+  }
+ ]
+}

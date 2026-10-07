@@ -1,0 +1,147 @@
+{
+ "about": "THE LEVEL CHAIN - every level, anchor, join and named route of the voyage (Design/gateways_and_level_chain.md 2.2, with the user's decisions of 4 October 2026 in Design/DECISIONS.md). Anchors are in the level's own Unity metres (x east, z north). An anchor's heading is OUTWARD: the way a ship faces as she leaves the level by it (degrees from north). 'arrive' is where a ship coming in by that anchor is put, and her heading, at a join that re-poses her (a mouth or a haul); a corridor join (bend, narrows, reeds, strait, weather) maps anchor onto anchor instead. A 'planned' level is on the chain but not built: its joins prompt '(not built yet)' and its sailed metres are the design's estimate. Read by Kapman.Chain.ChainData; checked by ChainCheck and the ChainDataTests.",
+ "version": 1,
+ "home": "dorestad",
+ "pace": {
+  "riverMps": 1.6,
+  "seaMps": 2.8,
+  "reachMps": 2.572,
+  "about": "The player's ship (the Gislinge stand-in, decision 5): rowing in a river place (LevelInfo.shipSpeed in DorestadBuilder), sailing on an ocean level (OceanBuilder), and her cruising speed under way on a cut-out reach (5 knots, the replica trials' middle), which sets the date jump at a join (decision 9: Dorestad-London about 46 game hours at 5 knots over the real 430 km)."
+ },
+ "levels": [
+  {
+   "id": "dorestad",
+   "name": "Dorestad",
+   "kind": "river_place",
+   "state": "generated",
+   "scene": "L_Dorestad",
+   "bake": "levels/dorestad",
+   "realMetresPerUnit": 1,
+   "layer": "Level0",
+   "latitude": 51.979, "longitude": 5.339,
+   "frame": { "crs": "EPSG:28992", "origin": [149140.0, 440840.0], "yaw": 0 },
+   "water": { "base": 2.44, "tide": false, "currentMps": 0.4, "pushesShips": true, "preset": "river_brown", "profile": "kromme_rijn_dorestad",
+              "about": "pushesShips: the user, 4 Oct (DECISIONS.md): the stream pushes the ship through Dorestad; DorestadBuilder sets RiverCurrent from here." },
+   "ports": ["dorestad"],
+   "about": "Kept long (decision 1): from the berth at the storehouse dam past the bend's apex to the bake's edge, 1,752 m of the Kromme Rijn: 18.3 minutes rowing at 1.6 m/s, 14.6 with the stream under her. The join to the sea is the builder's exit today (DorestadTown: plan.exitDownstream, the channel's fourth point from its end, 60 m inside the bake's edge).",
+   "channel": [[3719.6, 1468.4], [3621.8, 1489.2], [3524.0, 1510.0], [3432.7, 1548.0], [3346.0, 1597.8], [3259.7, 1648.2], [3192.7, 1721.9], [3151.7, 1812.4], [3138.8, 1911.3], [3147.0, 2010.9], [3167.3, 2108.7], [3195.6, 2204.6], [3227.8, 2299.3], [3261.1, 2393.6], [3292.2, 2488.6], [3314.5, 2586.0], [3325.9, 2685.2], [3324.7, 2785.1], [3310.2, 2883.8], [3281.8, 2979.6], [3238.9, 3069.8], [3181.8, 3151.8], [3113.1, 3224.2], [3034.4, 3285.7], [2947.4, 3334.8], [2853.9, 3369.9], [2756.6, 3392.5], [2678.4, 3401.7]],
+   "channelFlowsToEnd": true,
+   "chartRoute": [[51.96919, 5.35606], [51.96938, 5.35463], [51.96956, 5.35321], [51.96991, 5.35188], [51.97035, 5.35062], [51.9708, 5.34936], [51.97147, 5.34839], [51.97228, 5.34779], [51.97317, 5.3476], [51.97406, 5.34772], [51.97494, 5.34801], [51.97581, 5.34842], [51.97666, 5.34889], [51.9775, 5.34938], [51.97836, 5.34983], [51.97923, 5.35015], [51.98013, 5.35032], [51.98102, 5.3503], [51.98191, 5.35009], [51.98277, 5.34967], [51.98358, 5.34905], [51.98432, 5.34822], [51.98497, 5.34722], [51.98552, 5.34607], [51.98596, 5.3448], [51.98628, 5.34344], [51.98648, 5.34202], [51.98656, 5.34089]],
+   "anchors": [
+    { "id": "berth", "kind": "berth", "port": "dorestad", "pos": [3105.11, 1981.58], "heading": 6.3, "waterLevel": 2.44, "tideShare": 0,
+      "about": "The player's mooring at a storehouse dam's head just past the bend's apex (DorestadTown, as built in L_Dorestad)." },
+    { "id": "down", "kind": "join", "pos": [2737.98, 3395.41], "heading": 278.8, "waterLevel": 2.44, "tideShare": 0, "promptRadius": 90,
+      "arrive": { "pos": [2929.87, 3341.89], "heading": 118.3 },
+      "about": "plan.exitDownstream (the prompt, radius 90 m) and plan.entryFromSea (where she comes in, 200 m upstream, facing up the river)." }
+   ]
+  },
+  {
+   "id": "northsea_south",
+   "name": "The southern North Sea",
+   "kind": "ocean",
+   "state": "generated",
+   "scene": "L_NorthSea",
+   "bake": "levels/northsea_south",
+   "realMetresPerUnit": 150,
+   "layer": "Level1",
+   "latitude": 52.04514, "longitude": 2.27575,
+   "frame": { "crs": "kapman_world", "origin": [-430080.0, -675840.0], "yaw": 0,
+              "about": "The bake's real_extent_world corner: real WorldFrame metres = origin + local x 150." },
+   "water": { "base": 0, "tide": true, "currentMps": 0, "pushesShips": false, "preset": "sea_south", "profile": "o1_southern_north_sea" },
+   "ports": ["dofras", "witla", "quentovic"],
+   "anchors": [
+    { "id": "rhine_mouth", "kind": "join", "pos": [2549.79, 1706.24], "heading": 60, "waterLevel": 0, "tideShare": 1, "promptRadius": 60,
+      "arrive": { "pos": [2465.36, 1657.49], "heading": 240 },
+      "about": "OceanBuilder's mouthIn (the prompt, 35% of the way out from the Rhine mouth at Katwijk) and its offshore entry 150 m (22.5 km real) off the mouth, facing out to sea." },
+    { "id": "thames_mouth", "kind": "join", "pos": [1067.26, 1318.71], "heading": 225, "waterLevel": 0, "tideShare": 1, "promptRadius": 60,
+      "arrive": { "pos": [1067.26, 1318.71], "heading": 90 },
+      "about": "60 m off 'The Thames mouth' (Offshore in OceanBuilder); outward toward the mouth, in facing east as the builder's entry." },
+    { "id": "walichrum", "kind": "join", "pos": [2112.27, 1310.35], "heading": 120, "waterLevel": 0, "tideShare": 1, "promptRadius": 50,
+      "arrive": { "pos": [2112.27, 1310.35], "heading": 270 },
+      "about": "50 m off Walichrum's strand; outward toward the beach market, in facing west as the builder's entry." }
+   ]
+  },
+  {
+   "id": "lundenwic",
+   "name": "Lundenwic",
+   "kind": "river_place",
+   "state": "planned",
+   "realMetresPerUnit": 1,
+   "layer": "Level0",
+   "latitude": 51.511, "longitude": -0.121,
+   "water": { "base": 0, "tide": true, "currentMps": 0, "pushesShips": false, "preset": "river_thames", "profile": "thames_lundenwic" },
+   "ports": ["lundenwic"],
+   "plannedMetres": 600,
+   "about": "Not built: the strand market on the Thames. Its sailed metres are the design's 'Lundenwic's approach' (gateways 2.3); its chart line the last 600 m along the Strand (guess).",
+   "chartRoute": [[51.5095, -0.1124], [51.511, -0.121]],
+   "anchors": [
+    { "id": "sea", "kind": "join", "tideShare": 1 },
+    { "id": "berth", "kind": "berth", "port": "lundenwic" }
+   ]
+  },
+  {
+   "id": "walichrum",
+   "name": "Walichrum",
+   "kind": "river_place",
+   "state": "planned",
+   "realMetresPerUnit": 1,
+   "layer": "Level0",
+   "latitude": 51.565, "longitude": 3.497,
+   "water": { "base": 0, "tide": true, "currentMps": 0, "pushesShips": false, "preset": "sea_south", "profile": "walcheren_coast_domburg" },
+   "ports": ["walichrum"],
+   "plannedMetres": 400,
+   "about": "Not built: the beach market on the dunes of Walcheren, a harbour place with a sea surface. 400 m from the sea anchor to the strand (guess).",
+   "chartRoute": [[51.5668, 3.4919], [51.565, 3.497]],
+   "anchors": [
+    { "id": "sea", "kind": "join", "tideShare": 1 },
+    { "id": "berth", "kind": "berth", "port": "walichrum" }
+   ]
+  }
+ ],
+ "joins": [
+  {
+   "id": "rhine_mouth",
+   "a": "dorestad/down", "b": "northsea_south/rhine_mouth",
+   "kind": "mouth", "hide": "deck_beat", "twoWay": true,
+   "realKm": 109.9,
+   "realKmSource": "The cut-out reach (derived): the Kromme Rijn below the exit (28 km from Wijk bij Duurstede to Utrecht, nl.wikipedia.org/wiki/Kromme_Rijn, less the 2.6 km of it inside the level), Utrecht to Harmelen about 10 km (guess) and the Oude Rijn's 52 km to Katwijk (en.wikipedia.org/wiki/Oude_Rijn_(Utrecht_and_South_Holland)): 87.4 km; then 22.5 km out to the sea level's arrival point (150 m at 1:150).",
+   "prompt": { "a": "Sail down the Rhine to the sea", "b": "Sail up the Rhine to Dorestad" },
+   "beat": { "seconds": 4, "skipSeconds": 1, "skippableAfterFirst": true,
+             "about": "Decision 2: a 3-5 s shot from the deck as the river opens to the sea, skippable after the first time (then a 0.5 s dip and 0.5 s hold)." }
+  },
+  {
+   "id": "thames_mouth",
+   "a": "northsea_south/thames_mouth", "b": "lundenwic/sea",
+   "kind": "mouth", "hide": "deck_beat", "twoWay": true,
+   "realKm": 94.9,
+   "realKmSource": "The anchor to the Thames mouth (70 m at 1:150 = 10.5 km) and the river up to the Strand, about 85 km (guess: the bake's straight line is 73 km and the reaches wind), less Lundenwic's own 0.6 km.",
+   "prompt": { "a": "Sail up the Thames to Lundenwic", "b": "Stand out to sea" },
+   "beat": { "seconds": 4, "skipSeconds": 1, "skippableAfterFirst": true }
+  },
+  {
+   "id": "walichrum",
+   "a": "northsea_south/walichrum", "b": "walichrum/sea",
+   "kind": "mouth", "hide": "deck_beat", "twoWay": true,
+   "realKm": 11.6,
+   "realKmSource": "The anchor to Walichrum's strand (80 m at 1:150 = 12.0 km) less the place's own 0.4 km.",
+   "prompt": { "a": "Put in at Walichrum", "b": "Stand out to sea" },
+   "beat": { "seconds": 4, "skipSeconds": 1, "skippableAfterFirst": true }
+  }
+ ],
+ "routes": [
+  {
+   "id": "dorestad_lundenwic",
+   "stops": ["dorestad/berth", "dorestad/down", "northsea_south/rhine_mouth", "northsea_south/thames_mouth", "lundenwic/sea", "lundenwic/berth"],
+   "budgetMinutes": 33,
+   "realKm": 430,
+   "about": "Played minutes at 1x (decision 1, Dorestad kept long): Dorestad 18.3, the deck beat, the sea 1,439 m at 2.8 m/s 8.6, the deck beat, Lundenwic (planned) 6.3: about 33. When Traiectum's reach and the Katwijk mouth place are built (gateways 2.3: 4.2 and 6.3 minutes more) it rises to about 45. The date also jumps at each join by the cut-out reach at 5 knots (decision 9): 109.9 + 94.9 km, about 22 game hours, so the voyage ends about 55 game hours after casting off. realKm: the first build's 85 Rhine + 225 sea + 120 Thames."
+  },
+  {
+   "id": "lundenwic_dorestad",
+   "stops": ["lundenwic/berth", "lundenwic/sea", "northsea_south/thames_mouth", "northsea_south/rhine_mouth", "dorestad/down", "dorestad/berth"],
+   "budgetMinutes": 32,
+   "realKm": 430,
+   "about": "Home again: the sea 1,532 m to the Rhine prompt, Dorestad 1,552 m from the arrival point up to the berth; with the stream off the river costs no more coming up."
+  }
+ ]
+}

@@ -1,0 +1,655 @@
+{
+ "about": "CHAIN silver_road (Design/content/chains/silver_road.md): the road east to Aldeigjuborg and the silver of the Caliphate, from 797. Fourteen cards. A Svea trader at Dorestad pays with a coin that has writing and no face; the merchant follows it to Birka, learns the scale, sails east in company to the Volkhov, sees what the silver is paid for, and chooses. Four endings: the Svea keeps the road and the merchant is his sworn partner in the west (end_partner, as it really went); the merchant carries people east for silver (end_slaver, also as it really went); he buys a Frisian ship's boy out of the pen and takes him home (end_ransom, the honest road); he goes east without the Svea and sets a Frisian house on the Volkhov (end_frisian_house, history changed). Progress is flags ch_silver_road_1 to _10; the branch flags, the waits, the endings and the grand rewards are listed in the chain page. Cards with weight 0 are reached only by 'schedule' (their 'when' says when they belong). The spine's shared flags of the thread silver_road are set where its hooks say: sv_first_dirham, sv_scale, sv_moneyer_trusts. The words are in Data/writing/chain_silver_road.json; each option's note names the writing key of its outcome text (the engine shows the effects' own facts; the outcome keys are for the integrator). Nobody in these years says 'dirham' or 'Rus': the speech has 'the Saracens' silver', 'the writing silver', 'the east road', 'Aldeigja'. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_silver_road.s01_faceless_coin",
+   "note": "Step 1, the start (drawn at Dorestad in the sailing months from 797, once the house has made three calls). A Svea trader pays on the scale with cut silver, and among it is a thin coin with writing on both sides and no king's head. Sources: men of Birka had been to Dorstadt (Rimbert, Vita Anskarii c. 27, of about 852; c. 20 for Catla's voyage); the oldest hoard at Staraya Ladoga closes with a coin of 786/7 and dirhams reach the Baltic about 800 (Noonan 1998; spine thread silver_road); a dirham weighs about 2.9 g, the new denier about 1.7 g (Frankfurt 794 c. 5, MGH Capit. I no. 28). That a dirham reached Dorestad as early as 797 is our invention (?). Cast: cast.holmfast, cast.sigimar. Sets ch_silver_road_1, the spine's sv_first_dirham, and on 'buy' sv_moneyer_trusts and ch_silver_road_has_coin.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year >= 797 and year < 810 and port.visits >= 3 and not flag.ch_silver_road_1",
+   "weight": 0.8,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [5, 6, 7, 8, 9],
+   "actors": {
+    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 50], "fixed": true, "note": "cast.holmfast" },
+    "moneyer": { "role": "moneyer", "people": "frankish", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true, "note": "cast.sigimar" }
+   },
+   "title_key": "chain_silver_road.s01.title",
+   "title": "A coin with no face",
+   "intention_key": "chain_silver_road.s01.intention",
+   "intention": "A Svea trader pays for wine on a folding scale. Among his cut silver lies a thin broad coin with writing on both sides and no king's head. The moneyer has come down from the upper town to look at it.",
+   "lines": [
+    { "who": "svea", "key": "chain_silver_road.s01.svea_counts" },
+    { "who": "moneyer", "key": "chain_silver_road.s01.moneyer_weight" },
+    { "who": "moneyer", "key": "chain_silver_road.s01.moneyer_law", "when": "reform.coin" },
+    { "who": "svea", "key": "chain_silver_road.s01.svea_scale", "when": "flag.sv_scale" },
+    { "who": "svea", "key": "chain_silver_road.s01.svea_no_scale", "when": "not flag.sv_scale" }
+   ],
+   "options": [
+    { "key": "buy", "label_key": "chain_silver_road.s01.opt_buy", "label": "Buy the coin for its weight and half again, and give it to the moneyer to study",
+      "check": "silver >= 6", "cost": "silver 6",
+      "effects": [ "npc moneyer feeling +8 coin", "npc svea feeling +2 bought", "flag sv_first_dirham", "flag sv_moneyer_trusts",
+                   "flag ch_silver_road_has_coin", "flag ch_silver_road_1" ],
+      "note": "outcome: chain_silver_road.s01.out_buy" },
+    { "key": "sell", "label_key": "chain_silver_road.s01.opt_sell", "label": "Sell him a cask of wine on his own scale",
+      "check": "hold.rhenish_wine > 0", "cost": "goods rhenish_wine 1",
+      "effects": [ { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "silver +85", "npc svea feeling +4 sold" ],
+                     "failure": [ "silver +55", "npc svea feeling +1 sold" ] },
+                   "flag sv_first_dirham", "flag ch_silver_road_1" ],
+      "note": "outcome: chain_silver_road.s01.out_sell_success / out_sell_failure (the loss is your own reading of a scale you do not know; he does not cheat)" },
+    { "key": "ask", "label_key": "chain_silver_road.s01.opt_ask", "label": "Ask him where such silver comes from",
+      "check": "true", "default": true,
+      "effects": [ "npc svea feeling +5 asked", "price_shock birka rhenish_wine x1.2 for 120", "flag sv_first_dirham", "flag ch_silver_road_1" ],
+      "note": "outcome: chain_silver_road.s01.out_ask (the price word is true: wine is dear at Birka)" }
+   ],
+   "memory": {
+    "buy": "bought the coin with the writing",
+    "sell": "sold him wine on his scale",
+    "ask": "asked where the silver came from"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s02_scale",
+   "note": "Step 2 (drawn at Birka in the market months, after step 1). Holmfast's booth: silver by weight, coin cut to make the weight and nicked to test it. Sources: folding scales and lead and bronze weights from graves and floors at Birka (peoples/svea_gotlandic.md; spine thread silver_road); Birka 'contained many rich merchants' (Rimbert c. 19). Dirhams at Birka from about 800. Cast: cast.holmfast. Sets ch_silver_road_2 and schedules step 3; 'scale' sets the spine's sv_scale.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and flag.ch_silver_road_1 and not flag.ch_silver_road_2 and year < 830",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [5, 6, 7, 8],
+   "actors": {
+    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 55], "fixed": true, "note": "cast.holmfast" },
+    "smith": { "role": "goldsmith", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [25, 60], "fixed": true, "note": "a caster of weights and scale pans; invented" }
+   },
+   "title_key": "chain_silver_road.s02.title",
+   "title": "Counted twice",
+   "intention_key": "chain_silver_road.s02.intention",
+   "intention": "At Birka nobody asks whose head is on your silver. Holmfast's booth has furs to the roof, a scale, and a bowl of coins cut in halves and quarters. The man in the next booth offers to lend you his scale; he holds the beam with his thumb.",
+   "lines": [
+    { "who": "svea", "key": "chain_silver_road.s02.svea_greet" },
+    { "who": "svea", "key": "chain_silver_road.s02.svea_coin", "when": "flag.ch_silver_road_has_coin" },
+    { "who": "svea", "key": "chain_silver_road.s02.svea_nick" },
+    { "who": "smith", "key": "chain_silver_road.s02.smith_weights" }
+   ],
+   "options": [
+    { "key": "scale", "label_key": "chain_silver_road.s02.opt_scale", "label": "Buy a scale and a bag of weights, and have Holmfast teach you the nick",
+      "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "flag sv_scale", "tongue old_norse = 0.5", "npc svea feeling +6 scale", "npc smith feeling +3 bought",
+                   "flag ch_silver_road_2", "schedule harbour.chain_silver_road.s03_order in 2 at birka" ],
+      "note": "outcome: chain_silver_road.s02.out_scale" },
+    { "key": "borrow", "label_key": "chain_silver_road.s02.opt_borrow", "label": "Trade on the neighbour's scale and watch his thumb",
+      "check": "hold.value > 0",
+      "effects": [ { "chance": 0.45, "by": "crew.trade_best",
+                     "success": [ "silver +35", "npc svea feeling +3 sharp" ],
+                     "failure": [ "silver -20" ] },
+                   "flag ch_silver_road_2", "schedule harbour.chain_silver_road.s03_order in 2 at birka" ],
+      "note": "outcome: chain_silver_road.s02.out_borrow_success / out_borrow_failure (the intention warns of the thumb)" },
+    { "key": "watch", "label_key": "chain_silver_road.s02.opt_watch", "label": "Sit a day by his booth and watch the weighing",
+      "check": "true", "default": true,
+      "effects": [ "npc svea feeling +4 watched", "learn runes +0.1", "flag ch_silver_road_2",
+                   "schedule harbour.chain_silver_road.s03_order in 2 at birka" ],
+      "note": "outcome: chain_silver_road.s02.out_watch (he marks his tally in runes on a stick)" }
+   ],
+   "memory": {
+    "scale": "bought a scale and learned the nick",
+    "borrow.failure": "was shorted on a borrowed scale",
+    "borrow": "traded on a borrowed scale",
+    "watch": "sat a day and watched the weighing"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s03_order",
+   "note": "Step 3 (scheduled two days after step 2, at Birka). Holmfast goes east each summer and says what the east wants from the Rhine. Sources: the Rus bring beaver, black fox and swords to market (Ibn Khurradadhbih, about 846/885: of a later generation, used for what the road carried); Frankish blades in the north and the king's bans: no mail coat out of the realm (Herstal 779 c. 20), no arms to the Slavs and Avars and trade only at the named posts (Thionville 805 c. 7; chronicle_793.json 805-12-thionville-arms, 805-12-thionville-border-posts) (spine thread swords_north); glass beads and Rhine wine among what Birka wants (peoples/svea_gotlandic.md). From Birka to the Rus five days by sea (Adam of Bremen, scholion: LATER, about 1075, used for the distance only). Cast: cast.holmfast. Sets ch_silver_road_3, one of ch_silver_road_blades / ch_silver_road_lawful, and the timers ch_silver_road_wait_a (240 days: until next summer) and ch_silver_road_baltic (40 days: the sea card of step 4).",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and flag.ch_silver_road_2 and not flag.ch_silver_road_3",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 55], "fixed": true, "note": "cast.holmfast" }
+   },
+   "title_key": "chain_silver_road.s03.title",
+   "title": "What the east wants",
+   "intention_key": "chain_silver_road.s03.intention",
+   "intention": "Holmfast is baling skins for the winter. He goes east when the ice lets go and comes back with the silver. He has been thinking about what a man from the Rhine could put in his ship.",
+   "lines": [
+    { "who": "svea", "key": "chain_silver_road.s03.svea_east" },
+    { "who": "svea", "key": "chain_silver_road.s03.svea_wants" },
+    { "who": "svea", "key": "chain_silver_road.s03.svea_law_779", "when": "year < 805" },
+    { "who": "svea", "key": "chain_silver_road.s03.svea_law_805", "when": "year >= 805" },
+    { "who": "svea", "key": "chain_silver_road.s03.svea_come" }
+   ],
+   "options": [
+    { "key": "blades", "label_key": "chain_silver_road.s03.opt_blades", "label": "Promise him four blades from the Rhine smiths",
+      "check": "true",
+      "effects": [ "npc svea feeling +6 blades", "goods squirrel +1", "flag ch_silver_road_blades", "flag ch_silver_road_3",
+                   "flag ch_silver_road_wait_a for 240", "flag ch_silver_road_baltic for 40" ],
+      "note": "outcome: chain_silver_road.s03.out_blades (the timber of squirrel is his earnest; the toll man's card at home is the danger, and his line warns of it)" },
+    { "key": "lawful", "label_key": "chain_silver_road.s03.opt_lawful", "label": "Promise beads and wine, which no toll man will take your boat for",
+      "check": "true", "default": true,
+      "effects": [ "npc svea feeling +3 beads", "goods squirrel +1", "flag ch_silver_road_lawful", "flag ch_silver_road_3",
+                   "flag ch_silver_road_wait_a for 240", "flag ch_silver_road_baltic for 40" ],
+      "note": "outcome: chain_silver_road.s03.out_lawful" },
+    { "key": "nothing", "label_key": "chain_silver_road.s03.opt_nothing", "label": "Promise nothing; say you will come and see",
+      "check": "true",
+      "effects": [ "npc svea feeling -1 nothing", "flag ch_silver_road_3", "flag ch_silver_road_wait_a for 240", "flag ch_silver_road_baltic for 40" ],
+      "note": "outcome: chain_silver_road.s03.out_nothing" }
+   ],
+   "memory": {
+    "blades": "promised four Rhine blades",
+    "lawful": "promised beads and wine",
+    "nothing": "promised nothing"
+   }
+  },
+  {
+   "id": "sea.chain_silver_road.s04_low_ship",
+   "note": "Step 4, a side step (a sea card in the forty days after step 3, while she is likely still in the Baltic; if it never comes the chain goes on without it). A Gotland boat, low in the water with a chest nobody mentions, her steering oar gone off a lee shore. Sources: the spine's sea hook for silver_road; Gotland's silver: over 700 hoards, the men who sail east each summer (peoples/svea_gotlandic.md); the way to Birka beset by pirates (Rimbert c. 10). The skipper is Botmund (invented; a Gotland name of the rune stones, names_placeholder.json (?)). Sets ch_silver_road_4; 'help' sets ch_silver_road_gute_friend, which opens the cheap road at step 8.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_silver_road_baltic and not flag.ch_silver_road_4",
+   "weight": 0.03,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "gute": { "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": false, "note": "Botmund of Paviken (invented)" }
+   },
+   "title_key": "chain_silver_road.s04.title",
+   "title": "Low in the water",
+   "intention_key": "chain_silver_road.s04.intention",
+   "intention": "A Gotland boat lies low in the water with her steering oar gone and a lee shore half a mile under her. Her men bail and do not wave. There is a chest amidships with a hide lashed over it.",
+   "lines": [
+    { "who": "gute", "key": "chain_silver_road.s04.gute_hail" },
+    { "who": "gute", "key": "chain_silver_road.s04.gute_chest" }
+   ],
+   "options": [
+    { "key": "help", "label_key": "chain_silver_road.s04.opt_help", "label": "Lay alongside, give her your spare oar and tow her off the shore",
+      "check": "true",
+      "effects": [ { "chance": 0.65, "by": "crew.seamanship_best",
+                     "success": [ "silver +36", "npc gute feeling +20 towed" ],
+                     "failure": [ "health -0.03", "npc gute feeling +12 tried" ] },
+                   "flag ch_silver_road_gute_friend", "flag sv_first_dirham", "flag ch_silver_road_4" ],
+      "note": "outcome: chain_silver_road.s04.out_help_success / out_help_failure (the tow parts and a hand is crushed; she comes off on the wind's turn all the same, and he remembers who tried)" },
+    { "key": "price", "label_key": "chain_silver_road.s04.opt_price", "label": "Name a price for the tow before you throw the line",
+      "check": "true",
+      "effects": [ "silver +70", "npc gute feeling -6 priced", "flag sv_first_dirham", "flag ch_silver_road_4" ],
+      "note": "outcome: chain_silver_road.s04.out_price" },
+    { "key": "stand", "label_key": "chain_silver_road.s04.opt_stand", "label": "Stand by to windward until the wind eases, and do no more",
+      "check": "true", "default": true,
+      "effects": [ "npc gute feeling +5 stood_by", "flag ch_silver_road_4" ],
+      "note": "outcome: chain_silver_road.s04.out_stand" }
+   ],
+   "memory": {
+    "help": "towed him off a lee shore",
+    "help.failure": "tried to tow him off a lee shore",
+    "price": "named a price before throwing the line",
+    "stand": "stood by until the wind eased"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s05_in_company",
+   "note": "Step 5 (drawn at Birka early in the next summer, once the timer of step 3 has run out). Holmfast's ship is loading for the east and he takes the merchant in company. Sources: the sea road in: the gulf, the short strong river (the Neva) and the shallow rough lake (realms/rus.json road north 1-2; Adam of Bremen's sailing times: LATER); sea ships stop at Aldeigjuborg below the rapids of the Volkhov (peoples/baltic_east.md); ships go out in May and are home by autumn (peoples/svea_gotlandic.md). Cast: cast.holmfast. Sets ch_silver_road_5 and one of ch_silver_road_5_blades, _5_goods, _5_empty; every road teaches some Norse.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and flag.ch_silver_road_3 and not flag.ch_silver_road_wait_a and not flag.ch_silver_road_5 and year < 835",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [5, 6, 7],
+   "actors": {
+    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 56], "fixed": true, "note": "cast.holmfast" }
+   },
+   "title_key": "chain_silver_road.s05.title",
+   "title": "In company",
+   "intention_key": "chain_silver_road.s05.intention",
+   "intention": "Four ships lie loaded off Birka's jetties, Holmfast's among them. They sail east together or not at all. He looks at your boat, then at what is in it.",
+   "lines": [
+    { "who": "svea", "key": "chain_silver_road.s05.svea_came" },
+    { "who": "svea", "key": "chain_silver_road.s05.svea_promised_blades", "when": "flag.ch_silver_road_blades" },
+    { "who": "svea", "key": "chain_silver_road.s05.svea_promised_beads", "when": "flag.ch_silver_road_lawful" },
+    { "who": "svea", "key": "chain_silver_road.s05.svea_lake" },
+    { "who": "svea", "key": "chain_silver_road.s05.svea_coast" }
+   ],
+   "options": [
+    { "key": "blades", "label_key": "chain_silver_road.s05.opt_blades", "label": "Show him the blades under the ballast",
+      "check": "hold.sword_blades >= 4",
+      "effects": [ "npc svea feeling +10 kept_word", "tongue old_norse = 0.75", "flag ch_silver_road_5_blades", "flag ch_silver_road_5" ],
+      "note": "outcome: chain_silver_road.s05.out_blades" },
+    { "key": "goods", "label_key": "chain_silver_road.s05.opt_goods", "label": "Show him beads and wine",
+      "check": "hold.glass_beads >= 10 or hold.rhenish_wine >= 3",
+      "effects": [ "npc svea feeling +6 kept_word", "tongue old_norse = 0.75", "flag ch_silver_road_5_goods", "flag ch_silver_road_5" ],
+      "note": "outcome: chain_silver_road.s05.out_goods" },
+    { "key": "empty", "label_key": "chain_silver_road.s05.opt_empty", "label": "Come as you are and offer to keep his tally",
+      "check": "true", "default": true,
+      "effects": [ "npc svea feeling +1 came", "tongue old_norse = 0.75", "flag ch_silver_road_5_empty", "flag ch_silver_road_5" ],
+      "note": "outcome: chain_silver_road.s05.out_empty" }
+   ],
+   "memory": {
+    "blades": "came with the blades he promised",
+    "goods": "came with beads and wine",
+    "empty": "came with empty hands and kept the tally"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s06_volkhov",
+   "note": "Step 6, the first turn (drawn at Aldeigjuborg in the open months, after step 5). The landing on the Volkhov: skins and wax from the woods, silver from the south, and a dealer in the biggest house. Sources: Staraya Ladoga from 753 by its timbers, a smith's Norse tools in the oldest layer, dirhams from 786/7; no lord named before 839 ('deal with whoever sits in the biggest house': realms/rus.json who_holds); the trappers are the Finnic peoples round the lake, who later pay 'a squirrel-skin and a beaver-skin from each hearth' (Primary Chronicle 6367 = 859 (?)); silver weighed, cut and scratched: the Peterhof hoard, about 805, with marks in four scripts (chronicle_793.json 805-peterhof-hoard). The dealer is Vigmund (invented; Vig- + -mund, names_placeholder.json). Cast: cast.holmfast. Sets ch_silver_road_6, the spine's sv_first_dirham, one of ch_silver_road_6_blades / _6_goods / _6_tally, and schedules step 7.",
+   "stage": "harbour",
+   "when": "moored and port.id = aldeigjuborg and flag.ch_silver_road_5 and not flag.ch_silver_road_6",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [6, 7, 8, 9],
+   "actors": {
+    "dealer": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 60], "fixed": true, "note": "Vigmund, the man in the biggest house (invented)" },
+    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 56], "fixed": false, "note": "cast.holmfast, here for the summer" }
+   },
+   "title_key": "chain_silver_road.s06.title",
+   "title": "The landing at Aldeigja",
+   "intention_key": "chain_silver_road.s06.intention",
+   "intention": "The river is brown and fast and the sea ships go no further: above the town it breaks over rock. Log houses, a smithy, skins stacked like firewood, wax in cakes. Men from the woods stand apart with their bundles and speak a tongue nobody on your boat knows. In the biggest house a man named Vigmund weighs out thin silver with writing on it.",
+   "lines": [
+    { "who": "svea", "key": "chain_silver_road.s06.svea_vouch" },
+    { "who": "dealer", "key": "chain_silver_road.s06.dealer_greet" },
+    { "who": "dealer", "key": "chain_silver_road.s06.dealer_silver" },
+    { "who": "dealer", "key": "chain_silver_road.s06.dealer_blades", "when": "hold.sword_blades >= 4" },
+    { "who": "dealer", "key": "chain_silver_road.s06.dealer_no_blades", "when": "hold.sword_blades < 4" }
+   ],
+   "options": [
+    { "key": "blades", "label_key": "chain_silver_road.s06.opt_blades", "label": "Sell him the four blades",
+      "check": "hold.sword_blades >= 4", "cost": "goods sword_blades 4",
+      "effects": [ "silver +340", "goods marten +1", "npc dealer feeling +10 blades", "flag ch_silver_road_6_blades", "flag sv_first_dirham",
+                   "flag ch_silver_road_6", "schedule harbour.chain_silver_road.s07_pen in 2 at aldeigjuborg" ],
+      "note": "outcome: chain_silver_road.s06.out_blades (the turn: about a hundred d over what the blades cost at home, and a timber of marten)" },
+    { "key": "beads", "label_key": "chain_silver_road.s06.opt_beads", "label": "Sell him ten strings of beads",
+      "check": "hold.glass_beads >= 10", "cost": "goods glass_beads 10",
+      "effects": [ "silver +200", "goods beaver +2", "npc dealer feeling +6 beads", "flag ch_silver_road_6_goods", "flag sv_first_dirham",
+                   "flag ch_silver_road_6", "schedule harbour.chain_silver_road.s07_pen in 2 at aldeigjuborg" ],
+      "note": "outcome: chain_silver_road.s06.out_beads (the men from the woods take beads before silver)" },
+    { "key": "wine", "label_key": "chain_silver_road.s06.opt_wine", "label": "Sell him three casks of Rhine wine",
+      "check": "hold.rhenish_wine >= 3", "cost": "goods rhenish_wine 3",
+      "effects": [ "silver +270", "goods wax +1", "npc dealer feeling +6 wine", "flag ch_silver_road_6_goods", "flag sv_first_dirham",
+                   "flag ch_silver_road_6", "schedule harbour.chain_silver_road.s07_pen in 2 at aldeigjuborg" ],
+      "note": "outcome: chain_silver_road.s06.out_wine" },
+    { "key": "tally", "label_key": "chain_silver_road.s06.opt_tally", "label": "Sell nothing; keep Holmfast's tally through the selling and take a hand's share",
+      "check": "true", "default": true,
+      "effects": [ "silver +40", "goods squirrel +2", "npc svea feeling +5 tally", "flag ch_silver_road_6_tally", "flag sv_first_dirham",
+                   "flag ch_silver_road_6", "schedule harbour.chain_silver_road.s07_pen in 2 at aldeigjuborg" ],
+      "note": "outcome: chain_silver_road.s06.out_tally" }
+   ],
+   "memory": {
+    "blades": "sold him four Rhine blades",
+    "beads": "sold him beads",
+    "wine": "sold him Rhine wine",
+    "tally": "kept the Svea's tally"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s07_pen",
+   "note": "Step 7, the heart of the chain (scheduled two days after step 6, at Aldeigjuborg). What the silver is paid for: people. Behind the dealer's house is a pen, and in it a Frisian ship's boy who can tally. Sources: slaves the chief thing the east road sells for silver (Ibn Rusta and Ibn Fadlan, 10th century: LATER, used for the trade and not quoted; peoples/baltic_east.md); Christians not to be sold out of the realm or to heathens (Herstal 779 c. 19; reputation_793.json sold_captives); the ransom of captives a Christian good work (Rimbert, Vita Anskarii c. 15 and 35: Anskar buys boys to teach them; Vita Rimberti c. 18: Rimbert gives his horse for a captive nun at Sliaswic; the chapter numbers were not re-checked tonight (?)); ships taken on the way to Birka (Rimbert c. 10). The boy is Folkbern (invented; Folk- + -bern), ship's boy of a Wijnaldum boat taken off the Danish coast. The price, a mark and two ounces (about 150 d of the new pennies), is our reckoning from later northern law, where a thrall is three marks (Västgötalagen: LATER) (?). Sets ch_silver_road_7, one of ch_silver_road_ransom / ch_silver_road_people / ch_silver_road_furs, and the timers ch_silver_road_wait_b (45 days: the way home) and ch_silver_road_wait_c (270 days: until next summer).",
+   "stage": "harbour",
+   "when": "moored and port.id = aldeigjuborg and flag.ch_silver_road_6 and not flag.ch_silver_road_7",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 60], "fixed": true, "note": "Vigmund (invented)" },
+    "boy": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [12, 15], "fixed": true, "note": "Folkbern of Wijnaldum (invented)" }
+   },
+   "title_key": "chain_silver_road.s07.title",
+   "title": "What the silver buys",
+   "intention_key": "chain_silver_road.s07.intention",
+   "intention": "Vigmund walks you behind his house to show you what goes south. A pen of split logs, roofed at one end. Some twenty people sit in it, roped by the neck in fours: Slavs from up the river, two women who speak something like Danish, and a boy with a tally stick who looks up when he hears your crew talk.",
+   "lines": [
+    { "who": "dealer", "key": "chain_silver_road.s07.dealer_people" },
+    { "who": "boy", "key": "chain_silver_road.s07.boy_speaks" },
+    { "who": "dealer", "key": "chain_silver_road.s07.dealer_boy" },
+    { "who": "dealer", "key": "chain_silver_road.s07.dealer_offer" }
+   ],
+   "options": [
+    { "key": "ransom", "label_key": "chain_silver_road.s07.opt_ransom", "label": "Weigh out a mark and two ounces and take the boy home",
+      "check": "silver >= 150", "cost": "silver 150",
+      "effects": [ "passenger boy to dorestad", "deed gave_alms", "npc dealer feeling +1 paid", "npc boy feeling +40 ransomed",
+                   "flag ch_silver_road_ransom", "flag ch_silver_road_7", "flag ch_silver_road_wait_b for 45", "flag ch_silver_road_wait_c for 270" ],
+      "note": "outcome: chain_silver_road.s07.out_ransom" },
+    { "key": "people", "label_key": "chain_silver_road.s07.opt_people", "label": "Give him your hand on six, sound and young, by next summer",
+      "check": "true",
+      "effects": [ "silver +30", "npc dealer feeling +10 hand", "flag ch_silver_road_people",
+                   "flag ch_silver_road_7", "flag ch_silver_road_wait_b for 45", "flag ch_silver_road_wait_c for 270" ],
+      "note": "outcome: chain_silver_road.s07.out_people (the 30 d is his earnest, weighed in cut silver; the road to end_slaver)" },
+    { "key": "furs", "label_key": "chain_silver_road.s07.opt_furs", "label": "Say your boat carries things that do not need feeding",
+      "check": "true", "default": true,
+      "effects": [ "npc dealer feeling -3 furs", "flag ch_silver_road_furs",
+                   "flag ch_silver_road_7", "flag ch_silver_road_wait_b for 45", "flag ch_silver_road_wait_c for 270" ],
+      "note": "outcome: chain_silver_road.s07.out_furs" }
+   ],
+   "memory": {
+    "ransom": "paid a mark and two ounces for the Frisian boy and took him home",
+    "people": "gave his hand on six by next summer",
+    "furs": "would carry skins and not people"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s08_under_floor",
+   "note": "Step 8 (drawn at Paviken on Gotland on any call after step 7; a branch, not a gate: the partner's ending does not need it). The Gotlanders go east each summer and put the silver under the floor; a shipwright offers to pilot the merchant east without the Svea. Sources: Paviken's shipwrights and smiths (ports_793.json); more silver found on Gotland than anywhere in the north, over 700 hoards, the Spillings hoard of 67 kg buried after 870 under a storehouse floor (peoples/svea_gotlandic.md; riddles_793.json rw_hoard_spillings); the spine's hook for Paviken. The 'skin in ten' the Svear are said to take for showing the way is invented (?). Botmund (invented). Sets ch_silver_road_8 and either ch_silver_road_own_road or ch_silver_road_keeps_faith.",
+   "stage": "harbour",
+   "when": "moored and port.id = paviken and flag.ch_silver_road_7 and not flag.ch_silver_road_8 and not flag.ch_silver_road_done",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "gute": { "role": "shipwright", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [30, 55], "fixed": true, "note": "Botmund of Paviken (invented)" }
+   },
+   "title_key": "chain_silver_road.s08.title",
+   "title": "Under the floor",
+   "intention_key": "chain_silver_road.s08.intention",
+   "intention": "Paviken smells of tar and hot iron. A shipwright named Botmund is laying a new floor of planks in his storehouse, over ground that has been dug not long ago. He sees you look and goes on laying planks.",
+   "lines": [
+    { "who": "gute", "key": "chain_silver_road.s08.gute_friend", "when": "flag.ch_silver_road_gute_friend" },
+    { "who": "gute", "key": "chain_silver_road.s08.gute_stranger", "when": "not flag.ch_silver_road_gute_friend" },
+    { "who": "gute", "key": "chain_silver_road.s08.gute_floor" },
+    { "who": "gute", "key": "chain_silver_road.s08.gute_offer" }
+   ],
+   "options": [
+    { "key": "friend", "label_key": "chain_silver_road.s08.opt_friend", "label": "Take his pilotage on the strength of the oar you lent him",
+      "check": "flag.ch_silver_road_gute_friend",
+      "effects": [ "npc gute feeling +8 agreed", "flag ch_silver_road_own_road", "flag ch_silver_road_8" ],
+      "note": "outcome: chain_silver_road.s08.out_own" },
+    { "key": "fee", "label_key": "chain_silver_road.s08.opt_fee", "label": "Pay him his fee, once, and go east next summer without the Svea",
+      "check": "silver >= 80", "cost": "silver 80",
+      "effects": [ "npc gute feeling +4 paid", "flag ch_silver_road_own_road", "flag ch_silver_road_8" ],
+      "note": "outcome: chain_silver_road.s08.out_own" },
+    { "key": "faith", "label_key": "chain_silver_road.s08.opt_faith", "label": "Say you went east with Holmfast and will go east with Holmfast",
+      "check": "true", "default": true,
+      "effects": [ "npc gute feeling +4 kept_faith", "price_shock paviken frisian_cloth x1.2 for 200", "flag ch_silver_road_keeps_faith", "flag ch_silver_road_8" ],
+      "note": "outcome: chain_silver_road.s08.out_faith (the price word is true: Gotland wants cloth)" }
+   ],
+   "memory": {
+    "friend": "took his pilotage for the oar's sake",
+    "fee": "paid his fee to go east without the Svea",
+    "faith": "kept faith with the Svea"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s09_moneyer",
+   "note": "Step 9, the second turn (drawn at Dorestad once the way home has been sailed: the timer of step 7). The moneyer and a bag of the east's silver. Sources: Frankfurt 794 c. 5: the new pennies with the king's name to be taken everywhere (MGH Capit. I no. 28); a dirham about 2.9 g to the denier's 1.7, so twenty weigh as thirty-four; the coin's writing is the Saracens' and carries no image; Ibrahim ibn Yaqub saw dirhams of Samarkand at Mainz in 965 (chronicle_793.json 965-ibrahim-hedeby): that such silver reached a Rhine mint in the 800s is the chain's own turn. Cast: cast.sigimar. Sets ch_silver_road_9 and one of ch_silver_road_mint (which the changed-history ending asks for), ch_silver_road_keeps_whole, or neither; 'mint' and 'gift' set the spine's sv_moneyer_trusts.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_silver_road_7 and not flag.ch_silver_road_wait_b and not flag.ch_silver_road_9 and year < 840",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "moneyer": { "role": "moneyer", "people": "frankish", "faith": "christian", "tongue": "port", "age": [40, 65], "fixed": true, "note": "cast.sigimar (or his heir at the mint)" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "port", "age": [30, 60], "fixed": true, "note": "a priest of the upper town who has talked with pilgrims back from Rome; invented" }
+   },
+   "title_key": "chain_silver_road.s09.title",
+   "title": "Twenty and thirty-four",
+   "intention_key": "chain_silver_road.s09.intention",
+   "intention": "You tip a bag of the east's silver onto the moneyer's bench in the upper town: whole coins, halves, quarters, all writing and no face. He weighs twenty of the whole ones against the king's pennies and does it again.",
+   "lines": [
+    { "who": "moneyer", "key": "chain_silver_road.s09.moneyer_before", "when": "flag.ch_silver_road_has_coin" },
+    { "who": "moneyer", "key": "chain_silver_road.s09.moneyer_weight" },
+    { "who": "priest", "key": "chain_silver_road.s09.priest_writing" },
+    { "who": "moneyer", "key": "chain_silver_road.s09.moneyer_law" },
+    { "who": "moneyer", "key": "chain_silver_road.s09.moneyer_more" }
+   ],
+   "options": [
+    { "key": "mint", "label_key": "chain_silver_road.s09.opt_mint", "label": "Sell him the bag for the pot, less his cut, and promise him more",
+      "check": "true",
+      "effects": [ "silver +160", "npc moneyer feeling +12 pot", "flag sv_moneyer_trusts", "flag ch_silver_road_mint",
+                   "news chain_silver_road.news.eastern_silver at dorestad", "flag ch_silver_road_9" ],
+      "note": "outcome: chain_silver_road.s09.out_mint (the turn: the better silver comes out as more pennies than it went in as weight)" },
+    { "key": "whole", "label_key": "chain_silver_road.s09.opt_whole", "label": "Keep it whole: north of the Eider it buys more than his pennies do",
+      "check": "true",
+      "effects": [ "npc moneyer feeling -2 kept", "flag sv_scale", "price_shock sliesthorp rhenish_wine x1.15 for 120", "flag ch_silver_road_keeps_whole", "flag ch_silver_road_9" ],
+      "note": "outcome: chain_silver_road.s09.out_whole" },
+    { "key": "gift", "label_key": "chain_silver_road.s09.opt_gift", "label": "Give him one whole coin to keep and ask only what he makes of it",
+      "check": "true", "default": true,
+      "effects": [ "npc moneyer feeling +10 gift", "npc priest feeling +3 asked", "flag sv_moneyer_trusts", "flag ch_silver_road_9" ],
+      "note": "outcome: chain_silver_road.s09.out_gift" }
+   ],
+   "memory": {
+    "mint": "brought the east's silver to the pot",
+    "whole": "kept the east's silver whole",
+    "gift": "gave a coin with writing to puzzle at"
+   }
+  },
+  {
+   "id": "crew.chain_silver_road.s10_three_silvers",
+   "note": "Step 10, a side step (a crew card at sea any time after step 6; the chain does not wait for it). The purse holds three kinds of silver and two of the crew argue about what the boat is worth. Sources: the spine's crew hook for silver_road (Ravn tests silver with a knife and his teeth and trusts no stamp; Aldger trusts the king's penny and nothing else); the three reckonings: the stamped penny (Frankfurt 794), weighed and nicked silver in the north, the east's coin by weight. Cast: cast.crew.ravn, cast.crew.aldger (if they are not aboard the forge gives two hands of their peoples, and the words still fit). Sets ch_silver_road_10; 'weigh' sets the spine's sv_scale.",
+   "stage": "crew",
+   "when": "under_way and days_at_sea >= 2 and flag.ch_silver_road_6 and not flag.ch_silver_road_10",
+   "weight": 0.02,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dane": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [20, 45], "fixed": false, "note": "cast.crew.ravn" },
+    "frisian": { "role": "crewman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [20, 50], "fixed": false, "note": "cast.crew.aldger" }
+   },
+   "title_key": "chain_silver_road.s10.title",
+   "title": "Three kinds of silver",
+   "intention_key": "chain_silver_road.s10.intention",
+   "intention": "The purse is open on a thwart: the king's pennies, cut silver from Birka, and the thin coins with writing. Two of your men have been asked what the boat is worth and have two answers.",
+   "lines": [
+    { "who": "frisian", "key": "chain_silver_road.s10.frisian_stamp" },
+    { "who": "dane", "key": "chain_silver_road.s10.dane_knife" },
+    { "who": "frisian", "key": "chain_silver_road.s10.frisian_writing" },
+    { "who": "dane", "key": "chain_silver_road.s10.dane_last" }
+   ],
+   "options": [
+    { "key": "weigh", "label_key": "chain_silver_road.s10.opt_weigh", "label": "Put it all on the scale: silver is what it weighs",
+      "check": "true",
+      "effects": [ "flag sv_scale", "morale +0.03", "npc dane feeling +5 weighed", "flag ch_silver_road_10" ],
+      "note": "outcome: chain_silver_road.s10.out_weigh" },
+    { "key": "stamp", "label_key": "chain_silver_road.s10.opt_stamp", "label": "Change it all at the next mint and know what you have",
+      "check": "true",
+      "effects": [ "morale +0.02", "npc frisian feeling +5 stamped", "flag ch_silver_road_trusts_stamp", "flag ch_silver_road_10" ],
+      "note": "outcome: chain_silver_road.s10.out_stamp" },
+    { "key": "argue", "label_key": "chain_silver_road.s10.opt_argue", "label": "Let them argue; it passes the watch",
+      "check": "true", "default": true,
+      "effects": [ "morale +0.05", "flag ch_silver_road_10" ],
+      "note": "outcome: chain_silver_road.s10.out_argue" }
+   ],
+   "memory": {
+    "weigh": "said silver is what it weighs",
+    "stamp": "said the king's stamp is what counts",
+    "argue": "let them argue it out"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s11_end_partner",
+   "note": "FINALE, ending end_partner: what really happened (drawn at Birka in the summer after step 7, for a house that has not gone east on its own and is not carrying people east). The Svea keeps the east road; the Frisian is his sworn partner in the west. Sources: the felag, the northern fellowship of one purse (the word is on 11th-century rune stones, the thing is older (?)); Birka men at Dorstadt and the traffic between them (Rimbert c. 20, 27); the eastern silver stayed in northern hands: the hoards of Gotland and Malaren against almost none on the Rhine before the 10th century (Noonan 1998). An oath on a ring is the heathen form (the Danes' oath to Alfred on the holy ring, Anglo-Saxon Chronicle 876: LATER, used for the custom). Cast: cast.holmfast. Sets ch_silver_road_end_partner and ch_silver_road_done; grand reward unlock_partner_holmfast (ring, cross) or unlock_factor_birka (bargain); 'ring' also sets ch_silver_road_ring_oath, which a priest at home may hear of.",
+   "stage": "harbour",
+   "when": "moored and port.id = birka and flag.ch_silver_road_7 and not flag.ch_silver_road_wait_c and not flag.ch_silver_road_own_road and not flag.ch_silver_road_done and (not flag.ch_silver_road_people or hold.captives = 0) and year < 840",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [5, 6, 7, 8],
+   "actors": {
+    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [38, 60], "fixed": true, "note": "cast.holmfast" }
+   },
+   "title_key": "chain_silver_road.s11.title",
+   "title": "One purse",
+   "intention_key": "chain_silver_road.s11.intention",
+   "intention": "Holmfast has set out two stools and a scale at his booth, and ale, which he does not often buy. A silver arm ring lies on the bench between the stools.",
+   "lines": [
+    { "who": "svea", "key": "chain_silver_road.s11.svea_counted" },
+    { "who": "svea", "key": "chain_silver_road.s11.svea_blades", "when": "flag.ch_silver_road_6_blades" },
+    { "who": "svea", "key": "chain_silver_road.s11.svea_ransom", "when": "flag.ch_silver_road_ransom" },
+    { "who": "svea", "key": "chain_silver_road.s11.svea_faith", "when": "flag.ch_silver_road_keeps_faith" },
+    { "who": "svea", "key": "chain_silver_road.s11.svea_offer" }
+   ],
+   "options": [
+    { "key": "ring", "label_key": "chain_silver_road.s11.opt_ring", "label": "Swear it his way, with your hand on the ring",
+      "check": "true",
+      "effects": [ "silver +700", "goods marten +2", "goods wax +3", "npc svea feeling +25 ring", "flag ch_silver_road_ring_oath",
+                   "flag unlock_partner_holmfast", "flag ch_silver_road_end_partner", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_partner at dorestad" ],
+      "note": "outcome: chain_silver_road.s11.out_ring" },
+    { "key": "cross", "label_key": "chain_silver_road.s11.opt_cross", "label": "Swear it your own way and let him swear his",
+      "check": "true", "default": true,
+      "effects": [ "silver +700", "goods marten +2", "goods wax +3", "npc svea feeling +15 own_oath",
+                   "flag unlock_partner_holmfast", "flag ch_silver_road_end_partner", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_partner at dorestad" ],
+      "note": "outcome: chain_silver_road.s11.out_cross" },
+    { "key": "bargain", "label_key": "chain_silver_road.s11.opt_bargain", "label": "No oath: a price each summer, and a man of yours kept at his booth",
+      "check": "true",
+      "effects": [ "silver +600", "goods marten +1", "npc svea feeling +4 bargain",
+                   "flag unlock_factor_birka", "flag ch_silver_road_end_partner", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_partner at dorestad" ],
+      "note": "outcome: chain_silver_road.s11.out_bargain" }
+   ],
+   "memory": {
+    "ring": "swore fellowship on the ring",
+    "cross": "swore fellowship in his own way",
+    "bargain": "would not swear, and struck a bargain"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s12_end_slaver",
+   "note": "FINALE, ending end_slaver: also what really happened, and what the silver costs (drawn at Aldeigjuborg in the summer after step 7, for the house that gave its hand at step 7 and comes with six captives in the hold). Sources: as step 7; the Church's and the king's law on selling Christians (reputation_793.json sold_captives; Herstal 779 c. 19); the trade in people as the thing that drew the silver north (Noonan 1998; peoples/baltic_east.md). The ship: a sea-going hull taken by the dealer for a debt (invented; the class is norse_allround_ship, which the east road used: peoples/baltic_east.md). Sets ch_silver_road_end_slaver, ch_silver_road_done and the lasting cost ch_silver_road_blood_silver (news of it goes home to Dorestad); grand reward unlock_ship_norse_allround_ship. 'back' unsets ch_silver_road_people and leaves the other endings open.",
+   "stage": "harbour",
+   "when": "moored and port.id = aldeigjuborg and flag.ch_silver_road_people and hold.captives >= 6 and not flag.ch_silver_road_wait_c and not flag.ch_silver_road_done",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [6, 7, 8, 9],
+   "actors": {
+    "dealer": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 62], "fixed": true, "note": "Vigmund (invented)" },
+    "boy": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [13, 16], "fixed": true, "note": "Folkbern (invented), still in the pen, keeping the tally" }
+   },
+   "title_key": "chain_silver_road.s12.title",
+   "title": "Six, sound and young",
+   "intention_key": "chain_silver_road.s12.intention",
+   "intention": "Vigmund has the six brought up from your boat and looks at their teeth and their hands. The Frisian boy stands behind him with the tally stick, a year taller, and cuts six notches without looking up.",
+   "lines": [
+    { "who": "dealer", "key": "chain_silver_road.s12.dealer_kept" },
+    { "who": "dealer", "key": "chain_silver_road.s12.dealer_price" },
+    { "who": "boy", "key": "chain_silver_road.s12.boy_tally" },
+    { "who": "dealer", "key": "chain_silver_road.s12.dealer_ship" }
+   ],
+   "options": [
+    { "key": "sell", "label_key": "chain_silver_road.s12.opt_sell", "label": "Take the silver and the ship",
+      "check": "true", "cost": "goods captives 6",
+      "effects": [ "silver +1700", "deed sold_captives", "npc dealer feeling +20 sold", "npc boy feeling -30 sold",
+                   "flag unlock_ship_norse_allround_ship", "flag ch_silver_road_blood_silver", "flag ch_silver_road_end_slaver", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_slaver at dorestad" ],
+      "note": "outcome: chain_silver_road.s12.out_sell" },
+    { "key": "boy", "label_key": "chain_silver_road.s12.opt_boy", "label": "Take less silver, the ship, and the Frisian boy",
+      "check": "true", "cost": "goods captives 6",
+      "effects": [ "silver +1450", "deed sold_captives", "passenger boy to dorestad", "npc dealer feeling +12 sold", "npc boy feeling +5 taken_home",
+                   "flag unlock_ship_norse_allround_ship", "flag ch_silver_road_blood_silver", "flag ch_silver_road_end_slaver", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_slaver at dorestad" ],
+      "note": "outcome: chain_silver_road.s12.out_boy (he goes home; he also cut the six notches)" },
+    { "key": "back", "label_key": "chain_silver_road.s12.opt_back", "label": "Turn back at his door: say the bargain is off",
+      "check": "true", "default": true,
+      "effects": [ "npc dealer feeling -20 broke_word", "flag ch_silver_road_people = 0", "flag ch_silver_road_broke_hand" ],
+      "note": "outcome: chain_silver_road.s12.out_back (the six are still in your hold and still yours to answer for; the other endings are open again)" }
+   ],
+   "memory": {
+    "sell": "brought six and took silver and a ship",
+    "boy": "brought six and took the Frisian boy in part",
+    "back": "gave his hand on six and broke it at the door"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s13_end_ransom",
+   "note": "FINALE, ending end_ransom: the honest road (drawn at Dorestad or Wijnaldum once the way home has been sailed, for the house that bought the boy out at step 7). His kin, and what he asks. Sources: the ransom of captives as a good work (Rimbert c. 15, 35; Vita Rimberti c. 17-18; chapter numbers not re-checked (?)); Wijnaldum, a great terp of Westergo (ports_793.json); fostering and service as the way a freed boy is bound to a house (invented for these people (?)); a man at Aldeigjuborg who speaks Frisian, Norse and some Slavic and can tally is what a western house would need there. Folkbern and his mother's brother are invented. Sets ch_silver_road_end_ransom and ch_silver_road_done; grand reward unlock_factor_aldeigjuborg on every option, and on 'nothing' (the honest road's honest end) a second: unlock_kin_folkbern.",
+   "stage": "harbour",
+   "when": "moored and (port.id = dorestad or port.id = wijnaldum) and flag.ch_silver_road_ransom and not flag.ch_silver_road_wait_b and not flag.ch_silver_road_done",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "boy": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [12, 16], "fixed": false, "note": "Folkbern (invented)" },
+    "kin": { "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 55], "fixed": false, "note": "his mother's brother, a terp farmer of Westergo who sells cloth at Dorestad (invented)" }
+   },
+   "title_key": "chain_silver_road.s13.title",
+   "title": "A mark and two ounces",
+   "intention_key": "chain_silver_road.s13.intention",
+   "intention": "A man on the landing knows the boy's face before the boy knows his. It is his mother's brother. By evening there are kin enough to fill the boat, and cloth and a little silver laid on a cloak in front of you.",
+   "lines": [
+    { "who": "kin", "key": "chain_silver_road.s13.kin_dorestad", "when": "port.id = dorestad" },
+    { "who": "kin", "key": "chain_silver_road.s13.kin_wijnaldum", "when": "port.id = wijnaldum" },
+    { "who": "kin", "key": "chain_silver_road.s13.kin_pay" },
+    { "who": "boy", "key": "chain_silver_road.s13.boy_ask" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_silver_road.s13.opt_take", "label": "Take what his kin lay down",
+      "check": "true",
+      "effects": [ "silver +400", "goods frisian_cloth +10", "npc kin feeling +10 paid",
+                   "flag unlock_factor_aldeigjuborg", "flag ch_silver_road_end_ransom", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_ransom at dorestad" ],
+      "note": "outcome: chain_silver_road.s13.out_take" },
+    { "key": "price", "label_key": "chain_silver_road.s13.opt_price", "label": "Take back the mark and two ounces, and not a penny over",
+      "check": "true",
+      "effects": [ "silver +150", "npc kin feeling +20 fair", "deed fair_dealing",
+                   "flag unlock_factor_aldeigjuborg", "flag ch_silver_road_end_ransom", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_ransom at dorestad" ],
+      "note": "outcome: chain_silver_road.s13.out_price" },
+    { "key": "nothing", "label_key": "chain_silver_road.s13.opt_nothing", "label": "Take nothing; ask only that the boy sail with you when he is ready",
+      "check": "true", "default": true,
+      "effects": [ "deed gave_alms", "hire boy", "tongue old_norse = 1", "tongue slavic = 0.5", "silver +500", "goods frisian_cloth +12",
+                   "npc kin feeling +40 gave", "npc boy feeling +30 sails",
+                   "flag unlock_factor_aldeigjuborg", "flag unlock_kin_folkbern", "flag ch_silver_road_end_ransom", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_ransom at dorestad" ],
+      "note": "outcome: chain_silver_road.s13.out_nothing (the hard road's double: the terp's gift, laid in the boat by night and not to be refused twice, a hand who speaks the east's tongues, and two grand rewards)" }
+   ],
+   "memory": {
+    "take": "took what the kin laid down",
+    "price": "took back the ransom and nothing over",
+    "nothing": "took nothing for the boy"
+   }
+  },
+  {
+   "id": "harbour.chain_silver_road.s14_end_frisian_house",
+   "note": "FINALE, ending end_frisian_house: history changed (drawn at Aldeigjuborg in the summer after step 7, for the house that took the Gotlander's pilotage at step 8). The merchant comes east without the Svea, and the dealer gives him ground for a house. What is real: no Frisian house on the Volkhov is known, and the east's silver stayed with the Svear, the Gotlanders and later the Rus; it is first seen on the Rhine in 965 (Ibrahim ibn Yaqub at Mainz). What is changed: a western house at the head of the road a century and a half early (changed_frisians_on_volkhov), and with 'mint' the east's silver into the pot at Dorestad in the lifetime of Charles (changed_dirhams_on_rhine). The pilot's words: the Neva, the lake crossed in the night calm, the twelve kilometres of river up to the town (realms/rus.json road north 1-2). Botmund and Vigmund are invented; cast.holmfast is wronged. Sets ch_silver_road_end_frisian_house and ch_silver_road_done; grand rewards unlock_plot_aldeigjuborg (every option) and on 'mint', the hardest road, unlock_pilot_volkhov as well; 'mint' and 'north' set the lasting cost ch_silver_road_holmfast_feud.",
+   "stage": "harbour",
+   "when": "moored and port.id = aldeigjuborg and flag.ch_silver_road_own_road and not flag.ch_silver_road_wait_c and not flag.ch_silver_road_done and (not flag.ch_silver_road_people or hold.captives < 6) and year < 840",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [6, 7, 8, 9],
+   "actors": {
+    "dealer": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 62], "fixed": true, "note": "Vigmund (invented)" },
+    "gute": { "role": "pilot", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [30, 56], "fixed": false, "note": "Botmund of Paviken (invented), who brought you in" }
+   },
+   "title_key": "chain_silver_road.s14.title",
+   "title": "Ground on the Volkhov",
+   "intention_key": "chain_silver_road.s14.intention",
+   "intention": "Botmund has brought you up the short river and over the lake in a night calm, and you lie at Aldeigja a week before any ship from Birka. Vigmund comes down to the landing himself and counts your crew, then looks behind you for a sail that is not there.",
+   "lines": [
+    { "who": "dealer", "key": "chain_silver_road.s14.dealer_alone" },
+    { "who": "dealer", "key": "chain_silver_road.s14.dealer_ground" },
+    { "who": "gute", "key": "chain_silver_road.s14.gute_flood" },
+    { "who": "dealer", "key": "chain_silver_road.s14.dealer_mint", "when": "flag.ch_silver_road_mint" },
+    { "who": "dealer", "key": "chain_silver_road.s14.dealer_holmfast" }
+   ],
+   "options": [
+    { "key": "mint", "label_key": "chain_silver_road.s14.opt_mint", "label": "Take the ground, and carry the silver straight to the pot on the Rhine",
+      "check": "flag.ch_silver_road_mint",
+      "effects": [ "silver +1500", "goods sable +1", "npc dealer feeling +15 house",
+                   "flag unlock_plot_aldeigjuborg", "flag unlock_pilot_volkhov", "flag changed_frisians_on_volkhov", "flag changed_dirhams_on_rhine",
+                   "flag ch_silver_road_holmfast_feud", "flag ch_silver_road_end_frisian_house", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_house at dorestad", "news chain_silver_road.news.end_house_birka at birka" ],
+      "note": "outcome: chain_silver_road.s14.out_mint (the hardest road: two grand rewards, and a Svea who will not forget)" },
+    { "key": "north", "label_key": "chain_silver_road.s14.opt_north", "label": "Take the ground, and keep the silver working in the north",
+      "check": "true",
+      "effects": [ "silver +1100", "goods sable +1", "npc dealer feeling +15 house",
+                   "flag unlock_plot_aldeigjuborg", "flag changed_frisians_on_volkhov",
+                   "flag ch_silver_road_holmfast_feud", "flag ch_silver_road_end_frisian_house", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_house_birka at birka" ],
+      "note": "outcome: chain_silver_road.s14.out_north" },
+    { "key": "third", "label_key": "chain_silver_road.s14.opt_third", "label": "Take the ground, and send Holmfast a third with your word on it",
+      "check": "true", "default": true,
+      "effects": [ "silver +750", "goods marten +1", "npc dealer feeling +8 house",
+                   "flag unlock_plot_aldeigjuborg", "flag changed_frisians_on_volkhov",
+                   "flag ch_silver_road_end_frisian_house", "flag ch_silver_road_done",
+                   "news chain_silver_road.news.end_house_birka at birka" ],
+      "note": "outcome: chain_silver_road.s14.out_third (pride and a third of the purse buy off the feud)" }
+   ],
+   "memory": {
+    "mint": "took ground on the Volkhov and carried the silver to the Rhine",
+    "north": "took ground on the Volkhov",
+    "third": "took ground on the Volkhov and sent the Svea his third"
+   }
+  }
+ ]
+}

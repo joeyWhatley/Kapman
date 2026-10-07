@@ -1,0 +1,10 @@
+--- a/Assets/Kapman/Code/Game/UI/Frame/Panels/PortPanel.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/Panels/PortPanel.cs
+@@ -34,6 +34,7 @@
+                 body.Add(FrameUi.P("She lies at no port. When she moors, what can be done there shows here."));
+                 return;
+             }
++            body.Add(ArtSlots.Shared.Banner(ArtSlots.Harbour(here.id), null, 1f));   // (the port from the water, shrunk to the window's width)
+             body.Add(FrameUi.H(here.Title));
+             body.Add(FrameUi.P(Reputation.Line(here)));
+             if (!FrameGame.PortMenuOpen)

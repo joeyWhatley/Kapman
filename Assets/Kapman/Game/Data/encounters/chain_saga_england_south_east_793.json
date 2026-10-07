@@ -1,0 +1,537 @@
+{
+ "about": "CHAIN saga_england_south_east: THE NINE SHIPS (Design/content/CHAINS.md; page Design/content/chains/saga_england_south_east.md; words Data/writing/chain_saga_england_south_east.json). The saga of the south-east in the years when the heathen men first stayed the winter on Thanet: Ealdorman Ealhhere of Kent, the ship fight at Sandwich (851) and the fight on the island (853) where he and Huda of Surrey died. Played at Sarre, Fordwic, Dofras, Lundenwic, Hamwic, Gipeswic and Dommoc, October 850 to 856. Fourteen cards. Step flags ch_saga_england_south_east_1 .. _10 (every later step asks only for _1 and its own window, so a missed step is never a dead end). Side flags: _watch (counted sails for the ealdorman), _asked, _creek (took the camp's order), _told, _nuns (carried the sisters), _warned_wic, _pilot, _supply, _led, _book, _gave_book, _sworn, _tide (set to 8: it is the 'by' of the chance in step 10), _lives, _fell, _carried, _shore, _camp. Endings: ch_saga_england_south_east_end_fallen (what happened), _end_lives (history changed: changed_thanet_853), _end_creek (the camp's man), _end_minster (the sisters' shipman). Every ending also sets ch_saga_england_south_east_done. Lasting costs: ch_saga_england_south_east_marked_by_fleet, ch_saga_england_south_east_kent_remembers. Every option's note names its outcome text. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_saga_england_south_east.s01_whom",
+   "note": "Step 1, the start (drawn at Sarre, Fordwic or Dofras from October 850 to May 851). The toll man asks whom you mean to sell to; the ealdorman stands behind him. Sources: 'The heathens now for the first time remained over winter in the Isle of Thanet' (Anglo-Saxon Chronicle 851, tr. J. Ingram 1823; the winter is taken as 850 to 851 (?)); Ealhhere, ealdorman of Kent, named 839 to 853, given forty hides at Lenham by King Aethelwulf in 850 (Wikipedia 'Ealhhere', the charter not read (?)); the king's toll at Sarre and Fordwic (Sawyer 29, dossiers/sarre.md); the beat 'whom do you mean to sell to' is places/sarre.json, story sarre.nine_sails. People: sarre.ealhhere (historical; the role 'chief' as in places/sarre.json); the toll man is the port's. That an ealdorman asked a merchant to count sails is ours (?). Sets ch_saga_england_south_east_1; _watch or _asked.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = fordwic or port.id = dofras) and ((year = 850 and month >= 10) or (year = 851 and month <= 5)) and not flag.ch_saga_england_south_east_1",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "tollman": { "role": "tollman", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 60], "fixed": true, "note": "the port's toll man" },
+    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "sarre.ealhhere, Ealdorman Ealhhere of Kent; historical" }
+   },
+   "title_key": "chain_saga_england_south_east.s01.title",
+   "title": "Whom do you mean to sell to",
+   "intention_key": "chain_saga_england_south_east.s01.intention",
+   "intention": "The toll man does not ask what you carry. He asks whom you mean to sell to. A big man in a red cloak stands behind him and listens to the answer.",
+   "lines": [
+    { "who": "tollman", "key": "chain_saga_england_south_east.s01.tollman_ask" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s01.chief_winter" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s01.chief_fed" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s01.chief_corn", "when": "hold.wheat > 0 or hold.barley > 0 or hold.rye > 0" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s01.chief_dofras", "when": "port.id = dofras" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s01.chief_count" }
+   ],
+   "options": [
+    { "key": "down", "label_key": "chain_saga_england_south_east.s01.opt_down", "label": "Go up at first light and count sails for him", "check": "true",
+      "effects": [ "silver +20", "toll eased 30", "npc chief feeling +8 counted", "flag ch_saga_england_south_east_watch", "flag ch_saga_england_south_east_1", "schedule harbour.chain_saga_england_south_east.s02_creek in 1 at sarre", "schedule harbour.chain_saga_england_south_east.s03_sisters in 2 at sarre", "schedule harbour.chain_saga_england_south_east.s04_count in 20 at lundenwic" ],
+      "note": "outcome: chain_saga_england_south_east.s01.out_down (costs a morning; 20 d and half toll for a month)" },
+    { "key": "strand", "label_key": "chain_saga_england_south_east.s01.opt_strand", "label": "Say you sell on the strand, in daylight, where the toll man can see", "check": "true", "default": true,
+      "effects": [ "toll sales", "npc tollman feeling +3 strand", "npc chief feeling +1 strand", "flag ch_saga_england_south_east_1", "schedule harbour.chain_saga_england_south_east.s02_creek in 1 at sarre", "schedule harbour.chain_saga_england_south_east.s03_sisters in 2 at sarre", "schedule harbour.chain_saga_england_south_east.s04_count in 20 at lundenwic" ],
+      "note": "outcome: chain_saga_england_south_east.s01.out_strand (costs nothing)" },
+    { "key": "ask", "label_key": "chain_saga_england_south_east.s01.opt_ask", "label": "Ask what an army on an island pays for bread", "check": "true",
+      "effects": [ "toll sales", "npc chief feeling -5 asked", "price_shock sarre wheat x1.5 for 60", "flag ch_saga_england_south_east_asked", "flag ch_saga_england_south_east_1", "schedule harbour.chain_saga_england_south_east.s02_creek in 1 at sarre", "schedule harbour.chain_saga_england_south_east.s03_sisters in 2 at sarre", "schedule harbour.chain_saga_england_south_east.s04_count in 20 at lundenwic" ],
+      "note": "outcome: chain_saga_england_south_east.s01.out_ask (costs pride and the ealdorman's ease; the price word is true: the island eats, and corn is dear on the strait)" }
+   ],
+   "memory": { "down": "counted sails on the down", "strand": "said he sold only on the strand", "ask": "asked what the camp paid for bread" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.s02_creek",
+   "note": "Step 2 (scheduled a day after step 1 at Sarre; also drawn there to June 851). A buyer from the camp wades out at dusk. Sources: the wintering on Thanet (Anglo-Saxon Chronicle 851); an army that winters must be fed, and armies of these years bought as well as took (the peace-and-payment of 865 on Thanet, Chronicle 865; the market the Northmen held on the Seine island in 861, Annals of St Bertin (?)); cut silver by weight is the Danes' money (BRIEF.md rule 2). The beat is places/sarre.json, story sarre.nine_sails. Ketil is invented (a common Norse name). Sets ch_saga_england_south_east_2; _creek if the order is taken, _told and _watch if the creek is given away.",
+   "stage": "harbour",
+   "when": "moored and port.id = sarre and ((year = 850 and month >= 10) or (year = 851 and month <= 6)) and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_2",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "buyer": { "role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [28, 45], "fixed": true, "note": "Ketil, who buys for the camp on the island; invented" }
+   },
+   "title_key": "chain_saga_england_south_east.s02.title",
+   "title": "The creek and the tide",
+   "intention_key": "chain_saga_england_south_east.s02.intention",
+   "intention": "At dusk a man wades out over the saltings to your boat, up to the thigh, holding a small folding balance above the water. He speaks like a Dane and names a creek and a tide.",
+   "lines": [
+    { "who": "buyer", "key": "chain_saga_england_south_east.s02.buyer_wade" },
+    { "who": "buyer", "key": "chain_saga_england_south_east.s02.buyer_price" },
+    { "who": "buyer", "key": "chain_saga_england_south_east.s02.buyer_silver" },
+    { "who": "buyer", "key": "chain_saga_england_south_east.s02.buyer_down", "when": "flag.ch_saga_england_south_east_watch" },
+    { "who": "buyer", "key": "chain_saga_england_south_east.s02.buyer_asked", "when": "flag.ch_saga_england_south_east_asked" },
+    { "who": "buyer", "key": "chain_saga_england_south_east.s02.buyer_tide" }
+   ],
+   "options": [
+    { "key": "sell", "label_key": "chain_saga_england_south_east.s02.opt_sell", "label": "Take his order: six sacks of wheat to the creek within the month", "check": "true",
+      "effects": [ "silver +30", "commission wheat 6 by 30 premium 2.0", "npc buyer feeling +8 sold", "flag ch_saga_england_south_east_creek", "flag ch_saga_england_south_east_2" ],
+      "note": "outcome: chain_saga_england_south_east.s02.out_sell (30 d of cut silver in earnest and an order at three times the strand's price; somebody may have seen the boat)" },
+    { "key": "tell", "label_key": "chain_saga_england_south_east.s02.opt_tell", "label": "Hear him out, then give the ealdorman's man the creek and the tide", "check": "true",
+      "effects": [ "silver +25", "toll eased 30", "npc buyer feeling -15 told", "flag ch_saga_england_south_east_told", "flag ch_saga_england_south_east_watch", "flag ch_saga_england_south_east_2" ],
+      "note": "outcome: chain_saga_england_south_east.s02.out_tell (25 d from the reeve; the creek is watched and the buyer knows who talked)" },
+    { "key": "no", "label_key": "chain_saga_england_south_east.s02.opt_no", "label": "Say your corn is spoken for, and wish him a dry walk home", "check": "true", "default": true,
+      "effects": [ "npc buyer feeling +1 refused", "news chain_saga_england_south_east.news.camp at here", "flag ch_saga_england_south_east_2" ],
+      "note": "outcome: chain_saga_england_south_east.s02.out_no (costs nothing; what he let fall about the camp is true and goes on the board)" }
+   ],
+   "memory": { "sell": "took the camp's order for wheat", "tell": "gave the creek away to the ealdorman", "no": "said his corn was spoken for" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.s03_sisters",
+   "note": "Step 3 (scheduled two days after step 1 at Sarre; also drawn there to June 851). A sister of the minster on the island asks for a passage for the books, the plate and the youngest. Sources: Minster-in-Thanet, St Mary's and the church of Peter and Paul with St Mildrith's body; its ships toll-free at Sarre and Fordwic, one 'lately built in the minster' (Sawyer 29, Sawyer 91; dossiers/sarre.md); the nuns of Lyminge were given a refuge inside Canterbury in 804 (Sawyer 160; chronicle_793.json), which is the precedent the sister names; Asser about 893 still knows a minster on Thanet, so the house was not destroyed in these years (dossiers/sarre.md section 8). The abbess of 850 is not known and is not named. Beornwynn is invented (Beorn- + -wynn). That anything was sent off the island in 850 is ours (?). Sets ch_saga_england_south_east_3; _nuns if they are carried. The Turn is paid here: the carriage money and a riddle.",
+   "stage": "harbour",
+   "when": "moored and port.id = sarre and ((year = 850 and month >= 10) or (year = 851 and month <= 6)) and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_3",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "nun": { "role": "nun", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 50], "fixed": true, "note": "Beornwynn, the minster's cellaress, who keeps its ship-house at Sarre; invented" }
+   },
+   "title_key": "chain_saga_england_south_east.s03.title",
+   "title": "The sisters on the island",
+   "intention_key": "chain_saga_england_south_east.s03.intention",
+   "intention": "At the abbess's ship-house a nun stands over four roped chests and six girls in travelling cloaks. The minster's own ship lies on her side in the shed with no one to sail her.",
+   "lines": [
+    { "who": "nun", "key": "chain_saga_england_south_east.s03.nun_island" },
+    { "who": "nun", "key": "chain_saga_england_south_east.s03.nun_cattle" },
+    { "who": "nun", "key": "chain_saga_england_south_east.s03.nun_lyminge" },
+    { "who": "nun", "key": "chain_saga_england_south_east.s03.nun_mildrith" },
+    { "who": "nun", "key": "chain_saga_england_south_east.s03.nun_ship" },
+    { "who": "nun", "key": "chain_saga_england_south_east.s03.nun_creek", "when": "flag.ch_saga_england_south_east_creek" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_saga_england_south_east.s03.opt_carry", "label": "Carry the sister, the girls and the chests up the Stour to Fordwic", "check": "true",
+      "effects": [ "silver +90", "passenger nun to fordwic", "give_riddle riddle_exeter_26_book", "deed carried_letters", "npc nun feeling +12 carried", "flag ch_saga_england_south_east_nuns", "flag ch_saga_england_south_east_3" ],
+      "note": "outcome: chain_saga_england_south_east.s03.out_carry (the Turn: 90 d of carriage money from the abbess's chest, a riddle from the girls, and the minster's goodwill)" },
+    { "key": "alms", "label_key": "chain_saga_england_south_east.s03.opt_alms", "label": "Give silver for a cart and oxen, and wish her the road", "check": "silver >= 15", "cost": "silver 15",
+      "effects": [ "deed gave_alms", "npc nun feeling +5 alms", "flag ch_saga_england_south_east_3" ],
+      "note": "outcome: chain_saga_england_south_east.s03.out_alms (15 d; they go by the ferry and the road, slower)" },
+    { "key": "decline", "label_key": "chain_saga_england_south_east.s03.opt_decline", "label": "Say the boat is laden, and tell her which tide is safest for the ferry", "check": "true", "default": true,
+      "effects": [ "npc nun feeling +1 advised", "flag ch_saga_england_south_east_3" ],
+      "note": "outcome: chain_saga_england_south_east.s03.out_decline (costs nothing)" }
+   ],
+   "memory": { "carry": "carried the sisters and the chests to Fordwic", "alms": "gave silver for a cart", "decline": "would not carry them but named the safe tide" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.s04_count",
+   "note": "Step 4 (scheduled twenty days after step 1 at Lundenwic; drawn there from February to June 851). The open beach before the storm: the host of the Frisians' yard and the Mercian king's wic-reeve. Sources: 'great slaughter in London' (Anglo-Saxon Chronicle 839 for 842, Ingram 1823); the 350 ships that stormed London in 851 and put King Beorhtwulf of the Mercians to flight (Chronicle 851); the ditches dug across the roads of the wic after 851 (places/lundenwic.json, era 842 to 870); Lundenwic is Mercian in these years (ports_793.json). People: lundenwic.ceolmund (invented in places/lundenwic.json from the plot name Ceolmundingchaga, Sawyer 208); the reeve is King Beorhtwulf's, invented and unnamed. That Kent sent its count of sails to London is from the tie in places/lundenwic.json and is ours (?). Sets ch_saga_england_south_east_4; _warned_wic if the yard is warned.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year = 851 and month >= 2 and month <= 6 and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_4",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "english", "faith": "christian", "tongue": "old_english", "age": [44, 48], "fixed": true, "note": "lundenwic.ceolmund, who keeps the Frisians' yard by the west road" },
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": true, "note": "King Beorhtwulf's wic-reeve; invented, unnamed" }
+   },
+   "title_key": "chain_saga_england_south_east.s04.title",
+   "title": "An open beach",
+   "intention_key": "chain_saga_england_south_east.s04.intention",
+   "intention": "The Strand is as open as it ever was: no bank, no ditch, booths down to the tide line. Your host wants to know what is on Thanet. The reeve wants to know why it should be his trouble.",
+   "lines": [
+    { "who": "host", "key": "chain_saga_england_south_east.s04.host_nine" },
+    { "who": "host", "key": "chain_saga_england_south_east.s04.host_ask" },
+    { "who": "reeve", "key": "chain_saga_england_south_east.s04.reeve_kent" },
+    { "who": "reeve", "key": "chain_saga_england_south_east.s04.reeve_count", "when": "flag.ch_saga_england_south_east_watch" },
+    { "who": "reeve", "key": "chain_saga_england_south_east.s04.reeve_ditch" },
+    { "who": "host", "key": "chain_saga_england_south_east.s04.host_spear" }
+   ],
+   "options": [
+    { "key": "warn", "label_key": "chain_saga_england_south_east.s04.opt_warn", "label": "Tell Ceolmund what a wintered fleet does in spring, and help him bury the yard's silver and weights", "check": "true",
+      "effects": [ "npc host feeling +12 warned", "flag ch_saga_england_south_east_warned_wic", "flag ch_saga_england_south_east_4" ],
+      "note": "outcome: chain_saga_england_south_east.s04.out_warn (costs a day's selling; it is remembered in steps 5 and 9)" },
+    { "key": "count", "label_key": "chain_saga_england_south_east.s04.opt_count", "label": "Give the reeve the ealdorman's count, keel by keel", "check": "flag.ch_saga_england_south_east_watch",
+      "effects": [ "silver +30", "toll eased 60", "deed carried_letters", "npc reeve feeling +6 count", "flag ch_saga_england_south_east_4" ],
+      "note": "outcome: chain_saga_england_south_east.s04.out_count (30 d and half toll for two months; he writes nothing down)" },
+    { "key": "trade", "label_key": "chain_saga_england_south_east.s04.opt_trade", "label": "Sell what you brought and say it is not your beach", "check": "true", "default": true,
+      "effects": [ "npc host feeling +1 traded", "price_shock lundenwic wheat x1.3 for 45", "flag ch_saga_england_south_east_4" ],
+      "note": "outcome: chain_saga_england_south_east.s04.out_trade (costs nothing; the price word is true: Kent's corn is not coming up the river this spring)" }
+   ],
+   "memory": { "warn": "told him to bury the weights before the fleet came", "count": "brought the count of sails from Kent", "trade": "sold his goods and said it was not his beach" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.s05_ships_wanted",
+   "note": "Step 5 (drawn at Hamwic or Dofras from July to October 851). After the storm: the king's men want ships in the water, and a shipwright from the Dour is buying tar and looking for a man who knows the south mouth of the Wantsum. Sources: 'The same year came three hundred and fifty ships into the mouth of the Thames; the crew of which went upon land, and stormed Canterbury and London; putting to flight Bertulf, king of the Mercians'; 'Ethelwulf and his son Ethelbald, at the head of the West-Saxon army, fought with them at Ockley, and made the greatest slaughter of the heathen army that we have ever heard reported to this present day' (Anglo-Saxon Chronicle 851, tr. Ingram 1823; chronicle_793.json 851-thanet-canterbury-london); Hamtun is the king's vill (Sawyer 288, dossiers/hamwic.md) and a near-empty shore by 851 (places/hamwic.json); boats are built up the Dour at Dofras (places/dofras.json, dofras.sheds). King Aethelstan, under-king of Kent 839 to 851, is King Aethelwulf's son. Where the ships of the Sandwich fight were found or fitted is not recorded: Hamwic and the Dour are ours (?). Wihtgar is invented (Wiht- + -gar). Sets ch_saga_england_south_east_5; _pilot or _supply.",
+   "stage": "harbour",
+   "when": "moored and (port.id = hamwic or port.id = dofras) and year = 851 and month >= 7 and month <= 10 and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_5",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wright": { "role": "shipwright", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 50], "fixed": false, "note": "Wihtgar, shipwright of the boat ground up the Dour at Dofras; invented. Met again in step 6 and in the ending end_lives" },
+    "kingsman": { "role": "kings_man", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 45], "fixed": false, "note": "a thegn of King Aethelstan of Kent; invented, unnamed" }
+   },
+   "title_key": "chain_saga_england_south_east.s05.title",
+   "title": "Ships wanted",
+   "intention_key": "chain_saga_england_south_east.s05.intention",
+   "intention": "A king's thegn with a new scar and a shipwright with tar to the elbows are going along the shore asking every master the same two things: what he has in his hold, and how well he knows the Wantsum.",
+   "lines": [
+    { "who": "kingsman", "key": "chain_saga_england_south_east.s05.kingsman_storm" },
+    { "who": "kingsman", "key": "chain_saga_england_south_east.s05.kingsman_aclea" },
+    { "who": "wright", "key": "chain_saga_england_south_east.s05.wright_hamwic", "when": "port.id = hamwic" },
+    { "who": "wright", "key": "chain_saga_england_south_east.s05.wright_dofras", "when": "port.id = dofras" },
+    { "who": "kingsman", "key": "chain_saga_england_south_east.s05.kingsman_weights", "when": "flag.ch_saga_england_south_east_warned_wic" },
+    { "who": "kingsman", "key": "chain_saga_england_south_east.s05.kingsman_mouth" }
+   ],
+   "options": [
+    { "key": "pilot", "label_key": "chain_saga_england_south_east.s05.opt_pilot", "label": "Say you know the south mouth, and will bring the king's ships in through it", "check": "true",
+      "effects": [ "silver +40", "npc kingsman feeling +8 pilot", "npc wright feeling +4 pilot", "news chain_saga_england_south_east.news.storm at here", "flag ch_saga_england_south_east_pilot", "flag ch_saga_england_south_east_5" ],
+      "note": "outcome: chain_saga_england_south_east.s05.out_pilot (40 d in earnest; it binds you to be on the Wantsum about Michaelmas)" },
+    { "key": "supply", "label_key": "chain_saga_england_south_east.s05.opt_supply", "label": "Take the wright's order for tar", "check": "true",
+      "effects": [ "commission tar 4 by 40 premium 0.8", "npc wright feeling +8 tar", "news chain_saga_england_south_east.news.storm at here", "flag ch_saga_england_south_east_supply", "flag ch_saga_england_south_east_5" ],
+      "note": "outcome: chain_saga_england_south_east.s05.out_supply (an order for four barrels of tar at a good premium)" },
+    { "key": "tell", "label_key": "chain_saga_england_south_east.s05.opt_tell", "label": "Tell them what you saw on the strait, and go about your trade", "check": "true", "default": true,
+      "effects": [ "npc kingsman feeling +2 told", "price_shock here tar x1.4 for 40", "news chain_saga_england_south_east.news.storm at here", "flag ch_saga_england_south_east_5" ],
+      "note": "outcome: chain_saga_england_south_east.s05.out_tell (costs nothing; the price word is true: every yard on the south coast wants tar)" }
+   ],
+   "memory": { "pilot": "offered to pilot the king's ships into the Wantsum", "supply": "took an order for tar for the king's ships", "tell": "told what he saw on the strait" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.s06_sandwich",
+   "note": "Step 6 (drawn at Sarre or Fordwic from August to November 851). The ship fight at Sandwich. Sources: 'The same year King Athelstan and Alderman Elchere fought in their ships, and slew a large army at Sandwich in Kent, taking nine ships and dispersing the rest' (Anglo-Saxon Chronicle 851, tr. Ingram 1823, read 6 Oct 2026 at avalon.law.yale.edu/medieval/ang09.asp): the first fight at sea in English record. Sandwich (Sondwic) is first named in this annal and lies at the south mouth of the Wantsum (dossiers/sarre.md). The season is not recorded: the chain puts it about Michaelmas, when a fleet goes home laden (?). Whether it came before or after the storming of Canterbury is not certain, the copies of the Chronicle order the year differently (?). King Aethelstan is not heard of after this year. People: King Aethelstan of Kent (historical), sarre.ealhhere (historical), Wihtgar (invented). Sets ch_saga_england_south_east_6; _led if the player steers. Schedules step 7.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = fordwic) and year = 851 and month >= 8 and month <= 11 and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_6",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "king": { "role": "king", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 35], "fixed": false, "note": "Aethelstan, under-king of Kent, Essex, Surrey and Sussex 839 to 851, eldest son of King Aethelwulf; historical" },
+    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "sarre.ealhhere; historical" },
+    "wright": { "role": "shipwright", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 50], "fixed": false, "note": "Wihtgar of the Dour, as in step 5; invented" }
+   },
+   "title_key": "chain_saga_england_south_east.s06.title",
+   "title": "They fought in their ships",
+   "intention_key": "chain_saga_england_south_east.s06.intention",
+   "intention": "Word runs down the strait that the fleet is coming home out of the Thames, low in the water with Canterbury's goods. In the south mouth, off the sand landing, the king's ships lie with their masts down, and nobody in Kent has done this before.",
+   "lines": [
+    { "who": "chief", "key": "chain_saga_england_south_east.s06.chief_wood" },
+    { "who": "king", "key": "chain_saga_england_south_east.s06.king_first" },
+    { "who": "wright", "key": "chain_saga_england_south_east.s06.wright_tar", "when": "flag.ch_saga_england_south_east_supply" },
+    { "who": "wright", "key": "chain_saga_england_south_east.s06.wright_green", "when": "not flag.ch_saga_england_south_east_supply" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s06.chief_pilot", "when": "flag.ch_saga_england_south_east_pilot" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s06.chief_sack", "when": "flag.ch_saga_england_south_east_creek" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s06.chief_ask" }
+   ],
+   "options": [
+    { "key": "lead", "label_key": "chain_saga_england_south_east.s06.opt_lead", "label": "Take the steering oar of the first ship and bring them out on the ebb", "check": "flag.ch_saga_england_south_east_pilot",
+      "effects": [ { "chance": 0.65, "by": "crew.seamanship_best",
+                     "success": [ "silver +220", "goods spearheads +3", "npc chief feeling +15 led", "npc king feeling +10 led" ],
+                     "failure": [ "silver +120", "health -0.1", "npc chief feeling +8 led" ] },
+                   "deed fought_raiders", "news chain_saga_england_south_east.news.nine_ships at here", "flag ch_saga_england_south_east_led", "flag ch_saga_england_south_east_watch", "flag ch_saga_england_south_east_6", "schedule harbour.chain_saga_england_south_east.s07_book in 40 at gipeswic" ],
+      "note": "outcome: chain_saga_england_south_east.s06.out_lead_success / out_lead_failure (likely. The Turn: 220 d and three bundles of spearheads from the prizes; or, touching the bar, 120 d and bruises. Nine ships are taken either way)" },
+    { "key": "call", "label_key": "chain_saga_england_south_east.s06.opt_call", "label": "Stand on the down with the watchman and call the sails as they come", "check": "true",
+      "effects": [ "silver +90", "npc chief feeling +8 called", "news chain_saga_england_south_east.news.nine_ships at here", "flag ch_saga_england_south_east_watch", "flag ch_saga_england_south_east_6", "schedule harbour.chain_saga_england_south_east.s07_book in 40 at gipeswic" ],
+      "note": "outcome: chain_saga_england_south_east.s06.out_call (sure. 90 d from the ealdorman's own purse)" },
+    { "key": "lie_up", "label_key": "chain_saga_england_south_east.s06.opt_lie_up", "label": "Lie up the Stour until it is over", "check": "true", "default": true,
+      "effects": [ "price_shock fordwic wheat x1.4 for 60", "news chain_saga_england_south_east.news.nine_ships at here", "flag ch_saga_england_south_east_6", "schedule harbour.chain_saga_england_south_east.s07_book in 40 at gipeswic" ],
+      "note": "outcome: chain_saga_england_south_east.s06.out_lie_up (costs nothing; the price word is true: Canterbury was stormed and has no corn)" }
+   ],
+   "memory": { "lead": "steered the first ship at Sandwich", "lead.failure": "steered the first ship at Sandwich and touched the bar", "call": "called the sails from the down at Sandwich", "lie_up": "lay up the Stour while the ships fought" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.s07_book",
+   "note": "Step 7 (scheduled forty days after step 6 at Gipeswic; drawn at Gipeswic or Dommoc from October 851 to the end of 852). A psalter out of Canterbury, its boards stripped, for sale on the East Angles' shore. Sources: Canterbury stormed in 851 (Anglo-Saxon Chronicle 851); books carried off for their covers and bought back with gold (the Old English inscription in the Stockholm Codex Aureus, where Ealdorman Alfred and his wife Waerburh say they bought the book from the heathen army 'with pure gold' and gave it to Christ Church, mid ninth century; our words, not a quotation, from Wikipedia 'Stockholm Codex Aureus' through dossiers/fordwic.md); Bishop Aethelwald of Dommoc swore obedience to Archbishop Ceolnoth in writing (Haddan and Stubbs III, pp. 659-660; places/dommoc.json, dommoc.aethelwald); Frisians under Rorik at Dorestad from 850 deal with the fleets (chronicle_793.json 850-rorik-dorestad; cast.rorik). This psalter and its seller are ours (?). Folcbald is invented (Folc- + -bald). Sets ch_saga_england_south_east_7; _book if it is bought.",
+   "stage": "harbour",
+   "when": "moored and (port.id = gipeswic or port.id = dommoc) and ((year = 851 and month >= 10) or year = 852) and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_7",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "seller": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 50], "fixed": false, "note": "Folcbald, a Frisian out of Rorik's Dorestad who buys what the fleet cannot use; invented" },
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 60], "fixed": true, "note": "at Dommoc a priest of Bishop Aethelwald's church (dommoc.aethelwald, historical, is named in the lines); at Gipeswic the priest of Saint Peter's by the ford" }
+   },
+   "title_key": "chain_saga_england_south_east.s07.title",
+   "title": "A book without its boards",
+   "intention_key": "chain_saga_england_south_east.s07.intention",
+   "intention": "Among hones and combs on a Frisian's cloth lies a book with bare oak boards, the nail holes still bright where a cover was torn off. A priest stands looking at it with his hands behind his back, as a man looks at a horse he cannot afford.",
+   "lines": [
+    { "who": "seller", "key": "chain_saga_england_south_east.s07.seller_parchment" },
+    { "who": "seller", "key": "chain_saga_england_south_east.s07.seller_price" },
+    { "who": "priest", "key": "chain_saga_england_south_east.s07.priest_hand" },
+    { "who": "priest", "key": "chain_saga_england_south_east.s07.priest_bishop", "when": "port.id = dommoc" },
+    { "who": "priest", "key": "chain_saga_england_south_east.s07.priest_poor", "when": "port.id = gipeswic" },
+    { "who": "seller", "key": "chain_saga_england_south_east.s07.seller_comb" }
+   ],
+   "options": [
+    { "key": "buy", "label_key": "chain_saga_england_south_east.s07.opt_buy", "label": "Pay his price and take the book for Canterbury", "check": "silver >= 120", "cost": "silver 120",
+      "effects": [ "learn latin +0.05", "npc priest feeling +10 bought", "npc seller feeling +3 bought", "flag ch_saga_england_south_east_book", "flag ch_saga_england_south_east_7" ],
+      "note": "outcome: chain_saga_england_south_east.s07.out_buy (120 d; the book is in the chest until Fordwic)" },
+    { "key": "haggle", "label_key": "chain_saga_england_south_east.s07.opt_haggle", "label": "Say bare boards are firewood, and beat him down", "check": "silver >= 120",
+      "effects": [ { "chance": 0.55, "by": "crew.trade_best",
+                     "success": [ "silver -70", "npc seller feeling +2 haggled" ],
+                     "failure": [ "silver -120", "npc seller feeling -5 haggled" ] },
+                   "npc priest feeling +6 bought", "flag ch_saga_england_south_east_book", "flag ch_saga_england_south_east_7" ],
+      "note": "outcome: chain_saga_england_south_east.s07.out_haggle_success / out_haggle_failure (likely: 70 d, or his full 120 d and a worse name with him; the book is yours either way)" },
+    { "key": "leave", "label_key": "chain_saga_england_south_east.s07.opt_leave", "label": "Tell the priest whose book it is, and leave it to the Church", "check": "true", "default": true,
+      "effects": [ "npc priest feeling +4 told", "flag ch_saga_england_south_east_7" ],
+      "note": "outcome: chain_saga_england_south_east.s07.out_leave (costs nothing; the priest sends word south and the book waits on the cloth)" }
+   ],
+   "memory": { "buy": "bought Canterbury's psalter off a Frisian's cloth", "haggle": "beat the price of a stolen psalter down", "haggle.failure": "tried to beat the price of a stolen psalter down", "leave": "said whose the book was and left it" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.s08_inside_the_wall",
+   "note": "Step 8 (drawn at Fordwic through 852). The year between: Canterbury mends its roofs, the archbishop's clerk takes back what comes back, and the ealdorman says where he is going next summer and tells merchants to keep off the strait that day (the warning before the danger of step 10). Sources: Ceolnoth, archbishop of Canterbury 833 to 870 (dossiers/fordwic.md); Canterbury stormed 851; the refuge of Lyminge's sisters inside the wall, 804 (Sawyer 160); the Codex Aureus ransom as in step 7; the writing room of Christ Church writes a worse hand each year (places/fordwic.json, era 826 to 850). The clerk Wigbeorht is invented (Wig- + -beorht). The reckoning over the creek is ours. Sets ch_saga_england_south_east_8; _gave_book; _sworn if the player owns to the creek and swears off the camp. The Turn is paid here for the book.",
+   "stage": "harbour",
+   "when": "moored and port.id = fordwic and year = 852 and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_8",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "scribe": { "role": "scribe", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 55], "fixed": true, "note": "Wigbeorht, a clerk of Archbishop Ceolnoth's (historical, named in the lines); invented" },
+    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "sarre.ealhhere; historical" }
+   },
+   "title_key": "chain_saga_england_south_east.s08.title",
+   "title": "Inside the wall",
+   "intention_key": "chain_saga_england_south_east.s08.intention",
+   "intention": "The landing below Canterbury smells of new thatch and old smoke. The archbishop's clerk is at the hythe with a list of what was taken, and the ealdorman is there too, on his way through, in no hurry to leave a merchant he knows.",
+   "lines": [
+    { "who": "scribe", "key": "chain_saga_england_south_east.s08.scribe_list" },
+    { "who": "scribe", "key": "chain_saga_england_south_east.s08.scribe_book", "when": "flag.ch_saga_england_south_east_book" },
+    { "who": "scribe", "key": "chain_saga_england_south_east.s08.scribe_sisters", "when": "flag.ch_saga_england_south_east_nuns" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s08.chief_fourth" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s08.chief_sack", "when": "flag.ch_saga_england_south_east_creek" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s08.chief_next" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s08.chief_keep_off" }
+   ],
+   "options": [
+    { "key": "give", "label_key": "chain_saga_england_south_east.s08.opt_give", "label": "Lay the psalter on Christ's altar and name no price", "check": "flag.ch_saga_england_south_east_book",
+      "effects": [ "silver +150", "learn latin +0.1", "give_riddle riddle_exeter_47_bookworm", "deed gave_alms", "npc scribe feeling +15 gave", "npc chief feeling +4 gave", "flag ch_saga_england_south_east_gave_book", "flag ch_saga_england_south_east_8" ],
+      "note": "outcome: chain_saga_england_south_east.s08.out_give (the Turn: the archbishop's gift of 150 d all the same, a riddle from the writing room and a lesson in letters)" },
+    { "key": "price", "label_key": "chain_saga_england_south_east.s08.opt_price", "label": "Name what you paid and a fair profit on it", "check": "flag.ch_saga_england_south_east_book",
+      "effects": [ "silver +240", "npc scribe feeling +2 sold", "flag ch_saga_england_south_east_gave_book", "flag ch_saga_england_south_east_8" ],
+      "note": "outcome: chain_saga_england_south_east.s08.out_price (the Turn: 240 d, counted slowly)" },
+    { "key": "swear", "label_key": "chain_saga_england_south_east.s08.opt_swear", "label": "Tell the ealdorman about the creek yourself, pay the fine and swear off the camp", "check": "flag.ch_saga_england_south_east_creek and silver >= 60", "cost": "silver 60",
+      "effects": [ "npc chief feeling +6 owned", "deed fair_dealing", "flag ch_saga_england_south_east_sworn", "flag ch_saga_england_south_east_8" ],
+      "note": "outcome: chain_saga_england_south_east.s08.out_swear (60 d; the creek road of step 10 is closed and the ealdorman's is open)" },
+    { "key": "listen", "label_key": "chain_saga_england_south_east.s08.opt_listen", "label": "Eat the hythe's bread and listen", "check": "true", "default": true,
+      "effects": [ "npc chief feeling +2 listened", "price_shock fordwic oak_timber x1.4 for 90", "flag ch_saga_england_south_east_8" ],
+      "note": "outcome: chain_saga_england_south_east.s08.out_listen (costs nothing; the price word is true: a stormed city buys timber for a year)" }
+   ],
+   "memory": { "give": "laid Canterbury's psalter on the altar and named no price", "price": "sold Canterbury its own psalter back", "swear": "owned to the creek and swore off the camp", "listen": "ate the hythe's bread and listened" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.s09_huda",
+   "note": "Step 9 (drawn at Lundenwic from January to June 853). Huda, ealdorman of Surrey, is over the river at the wic buying for a march into Kent, and asks a man who knows the strait how wide the water is. Sources: 'Elchere with the men of Kent, and Huda with the men of Surrey, fought in the Isle of Thanet with the heathen army' (Anglo-Saxon Chronicle 853, tr. Ingram 1823); the fleet of 851 'marched southward over the Thames into Surrey' (Chronicle 851), so Surrey had its own score; ditches two metres deep dug across the roads of the wic after 851 (places/lundenwic.json); the Wantsum 'fordable only in two places' (Bede I.25, tr. L. C. Jane 1903). Nothing is known of Huda but this annal: his words and his coming to Lundenwic are ours (?). People: Huda (historical); lundenwic.ceolmund. Sets ch_saga_england_south_east_9; _tide (to 8: it is the stat of the chance in step 10) if the player tells him how the water runs.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year = 853 and month <= 6 and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_9",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "huda": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Huda, ealdorman of Surrey, killed on Thanet in 853; historical, known only from the Chronicle" },
+    "host": { "role": "host", "people": "english", "faith": "christian", "tongue": "old_english", "age": [46, 50], "fixed": true, "note": "lundenwic.ceolmund" }
+   },
+   "title_key": "chain_saga_england_south_east.s09.title",
+   "title": "How wide is that water",
+   "intention_key": "chain_saga_england_south_east.s09.intention",
+   "intention": "There are ditches across the roads of the wic now, a man deep. At Ceolmund's yard a young ealdorman from over the river is buying ale by the cartload and asking Frisians about a strait he has never seen.",
+   "lines": [
+    { "who": "host", "key": "chain_saga_england_south_east.s09.host_ditch" },
+    { "who": "host", "key": "chain_saga_england_south_east.s09.host_weights", "when": "flag.ch_saga_england_south_east_warned_wic" },
+    { "who": "host", "key": "chain_saga_england_south_east.s09.host_burned", "when": "not flag.ch_saga_england_south_east_warned_wic" },
+    { "who": "huda", "key": "chain_saga_england_south_east.s09.huda_surrey" },
+    { "who": "huda", "key": "chain_saga_england_south_east.s09.huda_hay" },
+    { "who": "huda", "key": "chain_saga_england_south_east.s09.huda_water" }
+   ],
+   "options": [
+    { "key": "tide", "label_key": "chain_saga_england_south_east.s09.opt_tide", "label": "Tell him how the Wantsum runs: when the ford bares, and how fast it comes back", "check": "true",
+      "effects": [ "silver +20", "npc huda feeling +10 tide", "flag ch_saga_england_south_east_tide = 8", "flag ch_saga_england_south_east_9" ],
+      "note": "outcome: chain_saga_england_south_east.s09.out_tide (costs an evening; 20 d for the ale you did not drink. It turns the odds in step 10 from doubtful to sure)" },
+    { "key": "ale", "label_key": "chain_saga_england_south_east.s09.opt_ale", "label": "Take his order for ale for the march", "check": "true",
+      "effects": [ "commission ale 6 by 40 premium 0.6", "npc huda feeling +5 ale", "flag ch_saga_england_south_east_9" ],
+      "note": "outcome: chain_saga_england_south_east.s09.out_ale (an order for six casks at a premium)" },
+    { "key": "luck", "label_key": "chain_saga_england_south_east.s09.opt_luck", "label": "Wish him luck, and ask Ceolmund what sells", "check": "true", "default": true,
+      "effects": [ "npc host feeling +2 asked", "price_shock lundenwic ale x1.3 for 40", "flag ch_saga_england_south_east_9" ],
+      "note": "outcome: chain_saga_england_south_east.s09.out_luck (costs nothing; the price word is true: Surrey's levy is drinking the wic dry)" }
+   ],
+   "memory": { "tide": "told him how the Wantsum runs", "ale": "took an order for the levy's ale", "luck": "wished him luck" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.s10_at_the_ebb",
+   "note": "Step 10, the turn of the whole chain (drawn at Sarre from June to September 853). The men of Kent and Surrey go over to the island at the ebb. Sources: 'Elchere with the men of Kent, and Huda with the men of Surrey, fought in the Isle of Thanet with the heathen army, and soon obtained the victory; but there were many men slain and drowned on either hand, and both the aldermen killed' (Anglo-Saxon Chronicle 853, tr. Ingram 1823; the first half read 6 Oct 2026 at avalon.law.yale.edu, the second half as places/sarre.json has it); the oldest copy says they had the victory 'at first' (?). The season is not recorded: 'after the hay' is ours (?). 'Drowned' is read here as the tide coming back over the ford of the Wantsum, which is ours and likely (Bede I.25 for the two fords; dossiers/sarre.md for the strait). The warning was given in step 8 and is given again here by the ferryman. The chance of the option 'ford' is read by the flag ch_saga_england_south_east_tide (8 if the player told Huda how the water runs in step 9: sure; 0 if not: doubtful). People: sarre.ealhhere, Huda (historical); the ferryman is the port's. Sets ch_saga_england_south_east_10 and one of _lives, _fell (+ _carried), _shore, _camp; schedules the ending.",
+   "stage": "harbour",
+   "when": "moored and port.id = sarre and year = 853 and month >= 6 and month <= 9 and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_10",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [42, 52], "fixed": true, "note": "sarre.ealhhere; historical" },
+    "huda": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Huda of Surrey; historical" },
+    "ferryman": { "role": "ferryman", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 60], "fixed": true, "note": "the ferryman of the crossing at Sarre" }
+   },
+   "title_key": "chain_saga_england_south_east.s10.title",
+   "title": "At the ebb",
+   "intention_key": "chain_saga_england_south_east.s10.intention",
+   "intention": "The landing is full of men and no goods. Kent and Surrey are going over to the island when the ford bares. The ferryman has drawn his boat up and is watching the water, not the men.",
+   "lines": [
+    { "who": "ferryman", "key": "chain_saga_england_south_east.s10.ferryman_ford" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s10.chief_off" },
+    { "who": "chief", "key": "chain_saga_england_south_east.s10.chief_boat", "when": "flag.ch_saga_england_south_east_watch or flag.ch_saga_england_south_east_sworn" },
+    { "who": "huda", "key": "chain_saga_england_south_east.s10.huda_told", "when": "flag.ch_saga_england_south_east_tide" },
+    { "who": "huda", "key": "chain_saga_england_south_east.s10.huda_not_told", "when": "not flag.ch_saga_england_south_east_tide" },
+    { "who": "ferryman", "key": "chain_saga_england_south_east.s10.ferryman_warn" }
+   ],
+   "options": [
+    { "key": "ford", "label_key": "chain_saga_england_south_east.s10.opt_ford", "label": "Lie at the ford's end with the boat through the whole tide, and take off whoever comes", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "flag.ch_saga_england_south_east_tide",
+                     "success": [ "morale +0.1", "deed fought_raiders", "flag ch_saga_england_south_east_lives", "schedule harbour.chain_saga_england_south_east.end_lives in 5 at sarre" ],
+                     "failure": [ "health -0.1", "morale -0.05", "deed fought_raiders", "flag ch_saga_england_south_east_fell", "flag ch_saga_england_south_east_carried", "schedule harbour.chain_saga_england_south_east.end_fallen in 5 at sarre" ] },
+                   "news chain_saga_england_south_east.news.thanet at here", "flag ch_saga_england_south_east_10" ],
+      "note": "outcome: chain_saga_england_south_east.s10.out_ford_success / out_ford_failure (sure if Huda was told of the tide in step 9, doubtful if not. Success: the ealdorman comes back over the water alive, and history is changed. Failure: you carry him over dead, which is the hard road of the true ending)" },
+    { "key": "shore", "label_key": "chain_saga_england_south_east.s10.opt_shore", "label": "Lie under the minster's shore instead, for the sisters who stayed and the hurt", "check": "flag.ch_saga_england_south_east_nuns",
+      "effects": [ "deed gave_alms", "morale +0.05", "news chain_saga_england_south_east.news.thanet at here", "flag ch_saga_england_south_east_shore", "flag ch_saga_england_south_east_fell", "flag ch_saga_england_south_east_10", "schedule harbour.chain_saga_england_south_east.end_minster in 5 at sarre" ],
+      "note": "outcome: chain_saga_england_south_east.s10.out_shore (sure; a night's work with no pay in it yet)" },
+    { "key": "creek", "label_key": "chain_saga_england_south_east.s10.opt_creek", "label": "Go round to the creek on the same tide: whoever wins will want bread", "check": "flag.ch_saga_england_south_east_creek and not flag.ch_saga_england_south_east_sworn",
+      "effects": [ "silver +60", "news chain_saga_england_south_east.news.thanet at here", "flag ch_saga_england_south_east_camp", "flag ch_saga_england_south_east_fell", "flag ch_saga_england_south_east_10", "schedule harbour.chain_saga_england_south_east.end_creek in 5 at sarre" ],
+      "note": "outcome: chain_saga_england_south_east.s10.out_creek (60 d of cut silver that night, and the camp's road to its end)" },
+    { "key": "away", "label_key": "chain_saga_england_south_east.s10.opt_away", "label": "Stay off the strait, as he said", "check": "true", "default": true,
+      "effects": [ "news chain_saga_england_south_east.news.thanet at here", "flag ch_saga_england_south_east_fell", "flag ch_saga_england_south_east_10", "schedule harbour.chain_saga_england_south_east.end_fallen in 5 at sarre" ],
+      "note": "outcome: chain_saga_england_south_east.s10.out_away (costs nothing; it is what he asked)" }
+   ],
+   "memory": { "ford": "lay at the ford through the tide and took the ealdorman off", "ford.failure": "lay at the ford through the tide and carried the dead over", "shore": "lay under the minster's shore for the sisters and the hurt", "creek": "went to the camp's creek on the day of the fight", "away": "stayed off the strait" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.end_fallen",
+   "note": "Ending 1, WHAT HAPPENED (scheduled five days after step 10 at Sarre; drawn at Sarre or Fordwic to 856; it also comes to a player who was elsewhere on the day, from October 853). Both ealdormen are dead on the island and the heathen men are still there; in 855 they winter on Sheppey (Anglo-Saxon Chronicle 853 and 854 for 855, Ingram 1823). Sources for the people: Ealhhere's sister Ealhburh and his brother Aethelmod, who is ealdorman of Kent after him, are known from Kentish charters of about 850 to 860 (from memory, not checked tonight (?)); the gilded cup is places/sarre.json (sarre.ealhhere 'looks', and the ending 'watchman' of story sarre.nine_sails, where a widow sends it: here it is the sister, since no wife is recorded). The steward Osferth is invented (Os- + -ferth). Rewards: unlock_heirloom_ealhheres_cup, unlock_charter_sarre, or both by the hard road (the player who carried the body over). Sets ch_saga_england_south_east_end_fallen and ch_saga_england_south_east_done.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = fordwic) and year >= 853 and year <= 856 and flag.ch_saga_england_south_east_1 and not flag.ch_saga_england_south_east_done and not flag.ch_saga_england_south_east_lives and not flag.ch_saga_england_south_east_camp and not flag.ch_saga_england_south_east_shore and (flag.ch_saga_england_south_east_fell or year > 853 or month >= 10)",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 60], "fixed": false, "note": "Osferth, steward of the dead ealdorman's household, who speaks for his sister Ealhburh (historical (?)); invented" },
+    "ferryman": { "role": "ferryman", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 60], "fixed": true, "note": "the ferryman of the crossing" }
+   },
+   "title_key": "chain_saga_england_south_east.end_fallen.title",
+   "title": "Slain and drowned on either hand",
+   "intention_key": "chain_saga_england_south_east.end_fallen.intention",
+   "intention": "The ferry has been carrying back what the water gave up. A grey steward waits at the landing with a thing wrapped in a red cloak, and asks for the Frisian by name.",
+   "lines": [
+    { "who": "ferryman", "key": "chain_saga_england_south_east.end_fallen.ferryman_tide" },
+    { "who": "steward", "key": "chain_saga_england_south_east.end_fallen.steward_both" },
+    { "who": "steward", "key": "chain_saga_england_south_east.end_fallen.steward_carried", "when": "flag.ch_saga_england_south_east_carried" },
+    { "who": "steward", "key": "chain_saga_england_south_east.end_fallen.steward_absent", "when": "not flag.ch_saga_england_south_east_10" },
+    { "who": "steward", "key": "chain_saga_england_south_east.end_fallen.steward_creek", "when": "flag.ch_saga_england_south_east_creek and not flag.ch_saga_england_south_east_sworn" },
+    { "who": "steward", "key": "chain_saga_england_south_east.end_fallen.steward_sister" }
+   ],
+   "options": [
+    { "key": "cup", "label_key": "chain_saga_england_south_east.end_fallen.opt_cup", "label": "Take the gilded cup his sister sends", "check": "true", "default": true,
+      "effects": [ "silver +700", "npc steward feeling +8 cup", "flag unlock_heirloom_ealhheres_cup", "flag ch_saga_england_south_east_end_fallen", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_fallen.out_cup (700 d and the cup, which the house keeps)" },
+    { "key": "toll", "label_key": "chain_saga_england_south_east.end_fallen.opt_toll", "label": "Ask instead for what he promised: a keel free of toll at Sarre", "check": "true",
+      "effects": [ "silver +600", "toll none", "npc steward feeling +3 toll", "flag unlock_charter_sarre", "flag ch_saga_england_south_east_end_fallen", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_fallen.out_toll (600 d and the freedom of the toll at Sarre, by the new ealdorman's word)" },
+    { "key": "carried", "label_key": "chain_saga_england_south_east.end_fallen.opt_carried", "label": "Say only that you brought him over, and ask nothing", "check": "flag.ch_saga_england_south_east_carried",
+      "effects": [ "silver +1100", "deed fair_dealing", "npc steward feeling +20 carried", "flag unlock_heirloom_ealhheres_cup", "flag unlock_charter_sarre", "flag ch_saga_england_south_east_end_fallen", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_fallen.out_carried (the hard road: 1,100 d, the cup and the toll freedom both)" }
+   ],
+   "memory": { "cup": "took the dead ealdorman's cup", "toll": "asked for the toll freedom the ealdorman promised", "carried": "brought the ealdorman's body over and asked nothing" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.end_lives",
+   "note": "Ending 2, HISTORY CHANGED (scheduled five days after step 10 at Sarre; drawn at Sarre or Fordwic to 856). Ealhhere came back over the ford alive in the player's boat. What really happened is ending 1. Huda of Surrey is dead in this ending too. What stays true: the heathen men still hold the island that year. What follows is in the chain page: an ealdorman who knows ships alive in Kent in 855 and 865. One of the nine prizes of Sandwich as a gift: the ealdorman's joke about the fourth ship is places/sarre.json (sarre.ealhhere, rumour); a taken Danish ship is the class norse_allround_ship. Sets ch_saga_england_south_east_end_lives, changed_thanet_853, ch_saga_england_south_east_done, the lasting cost ch_saga_england_south_east_marked_by_fleet (the fleet knows the sail that took him off), and two grand rewards from unlock_ship_norse_allround_ship, unlock_title_ealdormans_friend, unlock_plot_sarre, unlock_charter_sarre.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = fordwic) and year >= 853 and year <= 856 and flag.ch_saga_england_south_east_lives and not flag.ch_saga_england_south_east_done",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [42, 52], "fixed": true, "note": "sarre.ealhhere, alive after 853: history changed" },
+    "wright": { "role": "shipwright", "people": "english", "faith": "christian", "tongue": "old_english", "age": [37, 52], "fixed": false, "note": "Wihtgar of the Dour, as in steps 5 and 6; invented" }
+   },
+   "title_key": "chain_saga_england_south_east.end_lives.title",
+   "title": "The fourth ship",
+   "intention_key": "chain_saga_england_south_east.end_lives.intention",
+   "intention": "The ealdorman sits on an upturned boat with one leg bound to a spar, drinking from a gilded cup. Drawn up beside him is a long Danish hull, newly tarred, with a shipwright under her counting rivets.",
+   "lines": [
+    { "who": "chief", "key": "chain_saga_england_south_east.end_lives.chief_swim" },
+    { "who": "chief", "key": "chain_saga_england_south_east.end_lives.chief_huda" },
+    { "who": "wright", "key": "chain_saga_england_south_east.end_lives.wright_hull" },
+    { "who": "chief", "key": "chain_saga_england_south_east.end_lives.chief_fourth" },
+    { "who": "chief", "key": "chain_saga_england_south_east.end_lives.chief_marked" },
+    { "who": "chief", "key": "chain_saga_england_south_east.end_lives.chief_ask" }
+   ],
+   "options": [
+    { "key": "ship", "label_key": "chain_saga_england_south_east.end_lives.opt_ship", "label": "Take the fourth ship", "check": "true",
+      "effects": [ "silver +1200", "npc chief feeling +20 ship", "flag unlock_ship_norse_allround_ship", "flag unlock_title_ealdormans_friend", "flag ch_saga_england_south_east_marked_by_fleet", "flag ch_saga_england_south_east_end_lives", "flag changed_thanet_853", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_lives.out_ship (the hard road: 1,200 d, the hull herself and the ealdorman's friendship)" },
+    { "key": "ground", "label_key": "chain_saga_england_south_east.end_lives.opt_ground", "label": "Ask ground above the tide here, and a keel free of toll", "check": "true",
+      "effects": [ "silver +1500", "toll none", "npc chief feeling +15 ground", "flag unlock_plot_sarre", "flag unlock_charter_sarre", "flag ch_saga_england_south_east_marked_by_fleet", "flag ch_saga_england_south_east_end_lives", "flag changed_thanet_853", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_lives.out_ground (the hard road: 1,500 d, a plot at Sarre and the freedom of its toll)" },
+    { "key": "little", "label_key": "chain_saga_england_south_east.end_lives.opt_little", "label": "Say a boat was at a ford, and ask only that his toll men know your sail", "check": "true", "default": true,
+      "effects": [ "silver +2000", "deed fair_dealing", "npc chief feeling +25 little", "flag unlock_title_ealdormans_friend", "flag unlock_charter_sarre", "flag ch_saga_england_south_east_marked_by_fleet", "flag ch_saga_england_south_east_end_lives", "flag changed_thanet_853", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_lives.out_little (the hard road: he pays 2,000 d anyway, with his friendship and the toll freedom)" }
+   ],
+   "memory": { "ship": "took the fourth of the nine ships from the ealdorman he saved", "ground": "asked ground and a free keel of the ealdorman he saved", "little": "saved the ealdorman and asked little" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.end_creek",
+   "note": "Ending 3, THE CAMP'S MAN (scheduled five days after step 10 at Sarre; drawn at Sarre or Dofras to 856). The player fed the camp to the end and is paid by it. History as it happened; the house's place in it is not the Chronicle's. Sources: the heathen men winter on Sheppey in 855 (Anglo-Saxon Chronicle 854 for 855); the Norse felag, a sworn partnership of purse and boat (CHAINS.md; the word is on later rune stones); cut silver by weight. The reward and its cost are places/sarre.json, story sarre.nine_sails, ending 'the_creek': the Danes of that fleet know this house and let it pass at sea; the reeves of Kent do not forget. Ketil is invented. Sets ch_saga_england_south_east_end_creek, ch_saga_england_south_east_done, the lasting cost ch_saga_england_south_east_kent_remembers, and unlock_title_fleets_peace with or without unlock_partner_ketil.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = dofras) and year >= 853 and year <= 856 and flag.ch_saga_england_south_east_camp and not flag.ch_saga_england_south_east_done",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "buyer": { "role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 48], "fixed": true, "note": "Ketil, the camp's buyer, as in step 2; invented" }
+   },
+   "title_key": "chain_saga_england_south_east.end_creek.title",
+   "title": "Cut honestly",
+   "intention_key": "chain_saga_england_south_east.end_creek.intention",
+   "intention": "Ketil does not wade any more. He comes along the shore in daylight with two men and a leather bag, and nobody at the toll post looks up, which is its own kind of looking.",
+   "lines": [
+    { "who": "buyer", "key": "chain_saga_england_south_east.end_creek.buyer_bread" },
+    { "who": "buyer", "key": "chain_saga_england_south_east.end_creek.buyer_dead" },
+    { "who": "buyer", "key": "chain_saga_england_south_east.end_creek.buyer_sheppey" },
+    { "who": "buyer", "key": "chain_saga_england_south_east.end_creek.buyer_stick" },
+    { "who": "buyer", "key": "chain_saga_england_south_east.end_creek.buyer_felag" }
+   ],
+   "options": [
+    { "key": "felag", "label_key": "chain_saga_england_south_east.end_creek.opt_felag", "label": "Lay your purse beside his and call it one", "check": "true",
+      "effects": [ "silver +900", "npc buyer feeling +20 felag", "flag unlock_partner_ketil", "flag unlock_title_fleets_peace", "flag ch_saga_england_south_east_kent_remembers", "flag ch_saga_england_south_east_end_creek", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_creek.out_felag (900 d, a sworn partner with a boat of his own, and the fleet's peace; Kent remembers)" },
+    { "key": "silver", "label_key": "chain_saga_england_south_east.end_creek.opt_silver", "label": "Take the bag by weight, and no oath", "check": "true", "default": true,
+      "effects": [ "silver +1800", "npc buyer feeling +6 paid", "flag unlock_title_fleets_peace", "flag ch_saga_england_south_east_kent_remembers", "flag ch_saga_england_south_east_end_creek", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_creek.out_silver (1,800 d of cut silver and the fleet's peace; Kent remembers)" },
+    { "key": "last", "label_key": "chain_saga_england_south_east.end_creek.opt_last", "label": "Take what you are owed, and tell him it was the last sack", "check": "true",
+      "effects": [ "silver +600", "npc buyer feeling -4 last", "flag unlock_title_fleets_peace", "flag ch_saga_england_south_east_kent_remembers", "flag ch_saga_england_south_east_end_creek", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_creek.out_last (costs pride and most of the bag: 600 d; he lets you keep the notched stick; Kent remembers all the same)" }
+   ],
+   "memory": { "felag": "swore partnership with the camp's buyer", "silver": "took the camp's silver by weight", "last": "took what he was owed and sold the camp no more" }
+  },
+  {
+   "id": "harbour.chain_saga_england_south_east.end_minster",
+   "note": "Ending 4, THE SISTERS' SHIPMAN (scheduled five days after step 10 at Sarre; drawn at Sarre or Fordwic to 856). The player lay under the minster's shore on the day of the fight and took off the sisters who had stayed and the hurt of both shires. History as it happened; the minster outlives these years (Asser, about 893, still knows it). Sources: the minster's ships free of toll at Sarre and Fordwic, and a worn-out ship replaced by another under the same freedom (Sawyer 29, dossiers/fordwic.md); the abbess's ship lent to a trusted master (places/sarre.json, ships: coaster_minster_ship); cloths laid on a saint's tomb and given as relics are the custom of the age (Gregory of Tours, Glory of the Martyrs 27, from memory (?)); St Mildrith's body stays at Minster until 1030. The abbess is not named: she is not known. Beornwynn is invented. Sets ch_saga_england_south_east_end_minster, ch_saga_england_south_east_done, and grand rewards from unlock_ship_coaster_minster_ship, unlock_charter_fordwic, unlock_charter_sarre, unlock_plot_sarre, unlock_relic_mildriths_cloth.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = fordwic) and year >= 853 and year <= 856 and flag.ch_saga_england_south_east_shore and not flag.ch_saga_england_south_east_done",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "nun": { "role": "nun", "people": "english", "faith": "christian", "tongue": "old_english", "age": [38, 53], "fixed": true, "note": "Beornwynn, as in step 3; invented" },
+    "abbess": { "role": "abbess", "people": "english", "faith": "christian", "tongue": "old_english", "age": [45, 70], "fixed": true, "note": "the abbess of Minster-in-Thanet in 853: not known, not named" }
+   },
+   "title_key": "chain_saga_england_south_east.end_minster.title",
+   "title": "The ship in the shed",
+   "intention_key": "chain_saga_england_south_east.end_minster.intention",
+   "intention": "The doors of the abbess's ship-house stand open for the first time in three years. The minster's ship has been turned upright and scraped, and the abbess herself has come over the water to see who is to have her.",
+   "lines": [
+    { "who": "nun", "key": "chain_saga_england_south_east.end_minster.nun_night" },
+    { "who": "abbess", "key": "chain_saga_england_south_east.end_minster.abbess_both" },
+    { "who": "abbess", "key": "chain_saga_england_south_east.end_minster.abbess_stay" },
+    { "who": "nun", "key": "chain_saga_england_south_east.end_minster.nun_ship" },
+    { "who": "abbess", "key": "chain_saga_england_south_east.end_minster.abbess_ask" }
+   ],
+   "options": [
+    { "key": "ship", "label_key": "chain_saga_england_south_east.end_minster.opt_ship", "label": "Take the steering oar of the minster's ship, under her freedom of toll", "check": "true",
+      "effects": [ "silver +600", "npc abbess feeling +15 ship", "flag unlock_ship_coaster_minster_ship", "flag unlock_charter_fordwic", "flag unlock_charter_sarre", "flag ch_saga_england_south_east_end_minster", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_minster.out_ship (600 d, the minster's ship to sail as her master, toll-free at Sarre and Fordwic as the old king's writing has it; the minster has the first look at what she carries)" },
+    { "key": "names", "label_key": "chain_saga_england_south_east.end_minster.opt_names", "label": "Ask a bay in the ship-house, and a place in the sisters' book of names", "check": "true",
+      "effects": [ "silver +800", "npc abbess feeling +20 names", "flag unlock_plot_sarre", "flag unlock_relic_mildriths_cloth", "flag ch_saga_england_south_east_end_minster", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_minster.out_names (800 d, a store bay at Sarre and a cloth that lay on Saint Mildrith's tomb)" },
+    { "key": "carriage", "label_key": "chain_saga_england_south_east.end_minster.opt_carriage", "label": "Ask the carriage money for a night's work, and no more", "check": "true", "default": true,
+      "effects": [ "silver +1000", "deed fair_dealing", "npc abbess feeling +10 carriage", "flag unlock_charter_sarre", "flag ch_saga_england_south_east_end_minster", "flag ch_saga_england_south_east_done" ],
+      "note": "outcome: chain_saga_england_south_east.end_minster.out_carriage (1,000 d and one keel of your own free of toll at Sarre, which she adds unasked)" }
+   ],
+   "memory": { "ship": "became master of the minster's ship", "names": "asked a bay in the ship-house and a place in the book of names", "carriage": "asked only the carriage money" }
+  }
+ ]
+}

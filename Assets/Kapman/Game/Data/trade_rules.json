@@ -1,0 +1,65 @@
+{
+ "about": "THE RULES OF TRADE - how the markets work, the money of the time and where it goes, the tolls and the laws. A table the game reads (edit freely; the numbers are STARTING GUESSES TO TUNE). All prices are reckoned in silver: one 'd' is a denier of Charlemagne's new standard of 793/4 (about 1.7 g); each zone shows them in its own reckoning.",
+
+ "coins": [
+  {"id": "denier", "name": "deniers", "short": "d", "silver_g": 1.7, "note": "The Frankish penny. Charlemagne's reform of 793/4 made it heavier (about 1.7 g); struck at Dorestad, Quentovic and every royal mint."},
+  {"id": "penny", "name": "pennies", "short": "p", "silver_g": 1.2, "note": "Offa's broad pennies and the older sceattas of England and Frisia (about 1-1.3 g)."},
+  {"id": "dirham", "name": "dirhams", "short": "dir", "silver_g": 2.9, "note": "Silver of the Caliphate, come north by the Volga and the Baltic; in the north it goes by weight, often cut."},
+  {"id": "hacksilver", "name": "hacksilver", "short": "g", "silver_g": 1.0, "note": "Silver by weight: cut rings, ingots and broken jewellery, weighed on folding scales (counted in grams)."}
+ ],
+
+ "zones": [
+  {"id": "frankish", "name": "the Frankish realm", "coin": "denier", "unit": "d", "unit_d": 1.0, "foreign_loss": 0.10, "toll": 0.10,
+   "regions": ["rhine_delta", "zeeland", "frisia", "rhineland", "meuse", "flanders", "neustria", "loire", "aquitaine", "saxony", "provence", "italy"],
+   "note": "Only the king's deniers are good money; other coin and silver go to the mint at a loss. The king's toll (the tenth) is taken at Dorestad, Quentovic and the river tolls."},
+  {"id": "english", "name": "the English kingdoms", "coin": "penny", "unit": "p", "unit_d": 0.706, "foreign_loss": 0.10, "toll": 0.10,
+   "regions": ["england_south", "england_east", "northumbria", "mercia_west"],
+   "note": "Offa's pennies are the money; foreign coin to the moneyer at a loss. Toll at London and the wics."},
+  {"id": "weight", "name": "the lands of weighed silver", "coin": "hacksilver", "unit": "g silver", "unit_d": 0.588, "foreign_loss": 0.03, "toll": 0.0,
+   "regions": ["jutland", "schleswig", "danish_isles", "skane", "wendland", "prussia", "curonia", "finns", "vestfold", "norway_west", "norway_north", "svealand", "gotland", "iceland", "greenland", "ireland", "dalriata", "shetland", "cornwall", "wales"],
+   "note": "No coin of their own: all silver goes by weight on the scales, coins too (nicked and tested: a little is lost). The king's men take their due in kind (to come)."},
+  {"id": "dirham", "name": "the dirham lands", "coin": "dirham", "unit": "dirhams", "unit_d": 1.706, "foreign_loss": 0.05, "toll": 0.10,
+   "regions": ["ladoga", "rus_volga", "khazaria", "caliphate", "spain"],
+   "note": "The Caliphate's silver is the money from the Volga to Cordoba. The Khazars take a tenth on the river trade."},
+  {"id": "byzantine", "name": "the Empire of the Romans", "coin": "hacksilver", "unit": "g silver", "unit_d": 0.588, "foreign_loss": 0.08, "toll": 0.10,
+   "regions": ["byzantium"],
+   "note": "Gold nomismata and silver miliaresia (to come); the kommerkion takes a tenth."}
+ ],
+
+ "laws": [
+  {"law": "arms", "zones": ["frankish"], "from": 779, "to": 0, "rule": "no export",
+   "note": "No byrnie may be sold out of the realm (Herstal, 779); no weapons or mail to the Slavs and Avars, on pain of losing all one carries (Thionville, 805). Frankish officers search ships at the borders."},
+  {"law": "arms", "zones": ["frankish"], "from": 864, "to": 0, "rule": "death",
+   "note": "Whoever sells arms or horses to the Northmen shall lose his life (Edict of Pitres, 864)."},
+  {"law": "horses", "zones": ["frankish"], "from": 864, "to": 0, "rule": "no export",
+   "note": "No horses to the Northmen, on pain of death (Edict of Pitres, 864)."},
+  {"law": "captives", "zones": ["frankish", "english"], "from": 0, "to": 0, "rule": "no export",
+   "note": "Christians may not be sold out of the realm, nor to pagans, Jews or Saracens. Pagan Slavs are sold lawfully through Verdun to Spain. The Church abhors the trade; the Norse and Rus markets do not care."},
+  {"law": "sacred", "zones": ["frankish", "english"], "from": 0, "to": 0, "rule": "no sale",
+   "note": "Buying and selling holy relics is simony; selling a church's plate is sacrilege."}
+ ],
+
+ "market": {
+  "spread": 0.20, "_spread": "the gap between what a market asks and what it pays (0.2: asks 10% over its price, pays 10% under)",
+  "stock_value": 150, "_stock_value": "deniers' worth of a good a market keeps in stock for each step of its size times how strongly it makes the good",
+  "stock_min": 1, "stock_max": 120, "_stock_minmax": "units in stock, at least and at most",
+  "regen": 0.05, "_regen": "the share of the gap back to its usual stock a market makes up each day (making, selling on, using up)",
+  "elasticity": 0.4, "_elasticity": "how hard the price answers scarcity: price x (usual stock / stock) ^ this",
+  "price_min": 0.6, "price_max": 2.2, "_price_minmax": "the most scarcity or plenty move a price (times its usual)",
+  "appetite_value": 80, "_appetite_value": "deniers' worth of a good a market takes at a good price, for each step of its size times how keenly it wants it",
+  "glut_elasticity": 0.5, "_glut_elasticity": "how fast the price a market pays falls as you sell it more than it wants",
+  "glut_fade": 0.05, "_glut_fade": "the share of a glut used up each day",
+  "unwanted": 0.6, "_unwanted": "what a market pays for a good it neither makes nor wants (times its value)",
+  "shock_fade": 0.03, "_shock_fade": "the share of a passing shortage or rush (a famine, a raid, a fair: the chronicle) that fades each day",
+  "cheap": 0.85, "dear": 1.2, "_cheap_dear": "a good's price in its cheap and dear months (its 'cheap' and 'dear' in goods_793.json)"
+ },
+
+ "start": {
+  "coins": {"denier": 40, "penny": 25, "dirham": 6, "hacksilver": 30},
+  "debt": 1920, "_debt": "deniers owed (eight pounds of silver) for the ship, to the count. Ruling 30 of 7 Oct 2026: it goes with SimRules.minMargin 0.25 (WorldSim.cs) or not at all; from a model, to be looked at again once the alpha is played",
+  "creditor": "creditor.count", "_creditor": "the key for the creditor's name in writing.json (yours to write)",
+  "due_month": 9, "due_day": 29, "due_name": "Michaelmas", "_due": "the day the debt falls due: the next one after the start (29 September 793 for a game begun 1 May 793). In 793 it is a Sunday",
+  "due_days": 365, "_due_days": "only used when no calendar is known (tests, a level with no clock)",
+  "world_from": "04-01", "_world_from": "month-day the world's traders and markets start: they are stepped to the clock's start before the first frame, so no market is untouched on the player's first morning. Empty: they start with the player"
+ }
+}

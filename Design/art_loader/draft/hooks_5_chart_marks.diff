@@ -1,0 +1,41 @@
+--- a/Assets/Kapman/Code/Game/Map/MapView.cs
++++ b/Assets/Kapman/Code/Game/Map/MapView.cs
+@@ -206,6 +206,8 @@
+             overlays.Add(courseLine);
+             shipMark = new VisualElement { pickingMode = PickingMode.Ignore };
+             shipMark.AddToClassList("map-ship");
++            // (her class from above, 32 x 16, bow to the right: the turn below is already made for that)
++            ArtSlots.Shared.ShowSized(shipMark, 1f, ArtSlots.ShipMark(ChartBody.Current != null ? ChartBody.Current.classId : "gislinge"));
+             overlays.Add(shipMark);
+             root.Add(layer);
+ 
+@@ -1094,6 +1096,7 @@
+                     });
+                     var dot = new VisualElement { pickingMode = PickingMode.Ignore };
+                     dot.AddToClassList("map-port-dot");
++                    ArtSlots.Shared.ShowSized(dot, 2f, ArtSlots.PortMark(def.id));   // (the port's own mark, 16 x 16 shown at twice its size)
+                     var name = new Label(def.name) { pickingMode = PickingMode.Ignore };
+                     name.AddToClassList("map-port-name");
+                     var noteLabel = new Label { pickingMode = PickingMode.Ignore };
+@@ -1263,6 +1266,7 @@
+                         {
+                             var mark = new VisualElement { pickingMode = PickingMode.Ignore };
+                             mark.AddToClassList("map-landmark");
++                            ArtSlots.Shared.ShowFinalSized(mark, 2f, ArtSlots.Hud("landmark"));   // (a piece of the frame: only once it is drawn)
+                             var name = new Label { pickingMode = PickingMode.Ignore };
+                             name.AddToClassList("map-landmark-name");
+                             overlays.Add(mark);
+@@ -1324,8 +1328,11 @@
+             }
+             var w = MapWorld.ToWorld(game.ship.transform.position);
+             shipMark.style.display = DisplayStyle.Flex;
+-            shipMark.style.left = (float)((w.x - viewWest) / mpp) - 9f;
+-            shipMark.style.top = (float)((viewNorth - w.z) / mpp) - 4f;
++            // (centred on her place whatever the mark's size: 18 x 8 as the stylesheet has it, 32 x 16 as a picture)
++            float halfW = float.IsNaN(shipMark.resolvedStyle.width) ? 9f : shipMark.resolvedStyle.width * 0.5f;
++            float halfH = float.IsNaN(shipMark.resolvedStyle.height) ? 4f : shipMark.resolvedStyle.height * 0.5f;
++            shipMark.style.left = (float)((w.x - viewWest) / mpp) - halfW;
++            shipMark.style.top = (float)((viewNorth - w.z) / mpp) - halfH;
+             shipMark.style.rotate = new Rotate(new Angle(game.ship.Heading - 90f, AngleUnit.Degree));
+         }
+ 

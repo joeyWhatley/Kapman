@@ -1,0 +1,942 @@
+{
+ "about": "THE WORDS - what the port menu, the market and the outcomes say, by culture (the trade region decides; a few ports differ). Plain and short (the user: \"just simplify it\"); the only differences are facts (no toll where silver goes by weight). Edit any word here. Your writing for each key still goes in writing.json. The glossary keeps the period terms and their sources, for reference.",
+ "placeholders": "{port} the port's name; {goods} '5 sacks of wheat'; {good} 'wheat'; {price} the price in the local reckoning; {coins} what changed hands; {back} the change; {toll_paid} the toll taken; in toll_line {toll} is the rate as a bare number, so write '{toll}%'. Buttons: about 12 characters (the market adds counts and '(Esc)').",
+ "culture_of_region": {
+  "rhineland": "frankish",
+  "meuse": "frankish",
+  "flanders": "frankish",
+  "neustria": "frankish",
+  "loire": "frankish",
+  "aquitaine": "frankish",
+  "saxony": "frankish",
+  "provence": "frankish",
+  "italy": "frankish",
+  "rhine_delta": "frisian",
+  "zeeland": "frisian",
+  "frisia": "frisian",
+  "england_south": "english",
+  "england_east": "english",
+  "northumbria": "english",
+  "mercia_west": "english",
+  "jutland": "norse",
+  "schleswig": "norse",
+  "danish_isles": "norse",
+  "skane": "norse",
+  "vestfold": "norse",
+  "norway_west": "norse",
+  "norway_north": "norse",
+  "svealand": "norse",
+  "gotland": "norse",
+  "iceland": "norse",
+  "greenland": "norse",
+  "wendland": "slavic",
+  "prussia": "baltic",
+  "curonia": "baltic",
+  "ladoga": "finnic_rus",
+  "rus_volga": "finnic_rus",
+  "ireland": "gaelic",
+  "dalriata": "gaelic"
+ },
+ "culture_of_port": {
+  "noviomagus": "frankish",
+  "daventre": "frankish",
+  "grobin": "norse"
+ },
+ "zone_culture": {
+  "frankish": "frankish",
+  "english": "english",
+  "weight": "norse",
+  "dirham": "finnic_rus",
+  "byzantine": "frankish"
+ },
+ "cultures": {
+  "frankish": {
+   "name": "Franks",
+   "market_title": "The market at {port}",
+   "arrive_intention": "Choose what to do.",
+   "menu": [
+    {
+     "key": "port.town",
+     "label": "Explore the town and markets",
+     "intention": "The town map, its market and its supplies."
+    },
+    {
+     "key": "port.news",
+     "label": "Talk to people",
+     "intention": "News, prices elsewhere, the weather (to come)."
+    },
+    {
+     "key": "port.leave",
+     "label": "Cast off",
+     "intention": "Leave port."
+    }
+   ],
+   "market": {
+    "leave": "Back to the ship",
+    "asks": "They ask",
+    "pays": "They pay",
+    "here": "In stock",
+    "aboard": "Aboard",
+    "buy": "Buy",
+    "sell": "Sell",
+    "sell_all": "Sell all",
+    "purse": "Your purse",
+    "hold": "Your hold",
+    "worth_here": "Worth here",
+    "owed": "Owed to",
+    "toll_line": "Toll: {toll}% of sales",
+    "seen_elsewhere": "Prices seen elsewhere",
+    "market_intention": "See what's for sale and what they'll pay."
+   },
+   "outcomes": {
+    "bought": "Bought {goods} for {price}: paid {coins}.",
+    "bought_change": "Bought {goods} for {price}: paid {coins}, {back} change.",
+    "sold": "Sold {goods} for {price}: got {coins}.",
+    "sold_toll": "Sold {goods} for {price}, less {toll_paid} toll: got {coins}.",
+    "no_silver": "Not enough silver.",
+    "no_room": "No room in the hold.",
+    "none_left": "None left.",
+    "not_dealt": "Nobody here trades {good}.",
+    "disrupted": "The market is shut since the raid: nobody will trade.",
+    "short_stock": "That was all they had.",
+    "short_room": "The hold is full.",
+    "short_silver": "Your silver ran out."
+   }
+  },
+  "frisian": {
+   "name": "Frisians (Fresones)",
+   "market_title": "The market at {port}",
+   "arrive_intention": "Choose what to do.",
+   "menu": [
+    {
+     "key": "port.town",
+     "label": "Explore the town and markets",
+     "intention": "The town map, its market and its supplies."
+    },
+    {
+     "key": "port.news",
+     "label": "Talk to people",
+     "intention": "News, prices elsewhere, the weather (to come)."
+    },
+    {
+     "key": "port.leave",
+     "label": "Cast off",
+     "intention": "Leave port."
+    }
+   ],
+   "market": {
+    "leave": "Back to the ship",
+    "asks": "They ask",
+    "pays": "They pay",
+    "here": "In stock",
+    "aboard": "Aboard",
+    "buy": "Buy",
+    "sell": "Sell",
+    "sell_all": "Sell all",
+    "purse": "Your purse",
+    "hold": "Your hold",
+    "worth_here": "Worth here",
+    "owed": "Owed to",
+    "toll_line": "Toll: {toll}% of sales",
+    "seen_elsewhere": "Prices seen elsewhere",
+    "market_intention": "See what's for sale and what they'll pay."
+   },
+   "outcomes": {
+    "bought": "Bought {goods} for {price}: paid {coins}.",
+    "bought_change": "Bought {goods} for {price}: paid {coins}, {back} change.",
+    "sold": "Sold {goods} for {price}: got {coins}.",
+    "sold_toll": "Sold {goods} for {price}, less {toll_paid} toll: got {coins}.",
+    "no_silver": "Not enough silver.",
+    "no_room": "No room in the hold.",
+    "none_left": "None left.",
+    "not_dealt": "Nobody here trades {good}.",
+    "disrupted": "The market is shut since the raid: nobody will trade.",
+    "short_stock": "That was all they had.",
+    "short_room": "The hold is full.",
+    "short_silver": "Your silver ran out."
+   }
+  },
+  "english": {
+   "name": "English",
+   "market_title": "The market at {port}",
+   "arrive_intention": "Choose what to do.",
+   "menu": [
+    {
+     "key": "port.town",
+     "label": "Explore the town and markets",
+     "intention": "The town map, its market and its supplies."
+    },
+    {
+     "key": "port.news",
+     "label": "Talk to people",
+     "intention": "News, prices elsewhere, the weather (to come)."
+    },
+    {
+     "key": "port.leave",
+     "label": "Cast off",
+     "intention": "Leave port."
+    }
+   ],
+   "market": {
+    "leave": "Back to the ship",
+    "asks": "They ask",
+    "pays": "They pay",
+    "here": "In stock",
+    "aboard": "Aboard",
+    "buy": "Buy",
+    "sell": "Sell",
+    "sell_all": "Sell all",
+    "purse": "Your purse",
+    "hold": "Your hold",
+    "worth_here": "Worth here",
+    "owed": "Owed to",
+    "toll_line": "Toll: {toll}% of sales",
+    "seen_elsewhere": "Prices seen elsewhere",
+    "market_intention": "See what's for sale and what they'll pay."
+   },
+   "outcomes": {
+    "bought": "Bought {goods} for {price}: paid {coins}.",
+    "bought_change": "Bought {goods} for {price}: paid {coins}, {back} change.",
+    "sold": "Sold {goods} for {price}: got {coins}.",
+    "sold_toll": "Sold {goods} for {price}, less {toll_paid} toll: got {coins}.",
+    "no_silver": "Not enough silver.",
+    "no_room": "No room in the hold.",
+    "none_left": "None left.",
+    "not_dealt": "Nobody here trades {good}.",
+    "disrupted": "The market is shut since the raid: nobody will trade.",
+    "short_stock": "That was all they had.",
+    "short_room": "The hold is full.",
+    "short_silver": "Your silver ran out."
+   }
+  },
+  "norse": {
+   "name": "Northmen (Danes, Svear and Norwegians)",
+   "market_title": "The market at {port}",
+   "arrive_intention": "Choose what to do.",
+   "menu": [
+    {
+     "key": "port.town",
+     "label": "Explore the town and markets",
+     "intention": "The town map, its market and its supplies."
+    },
+    {
+     "key": "port.news",
+     "label": "Talk to people",
+     "intention": "News, prices elsewhere, the weather (to come)."
+    },
+    {
+     "key": "port.leave",
+     "label": "Cast off",
+     "intention": "Leave port."
+    }
+   ],
+   "market": {
+    "leave": "Back to the ship",
+    "asks": "They ask",
+    "pays": "They pay",
+    "here": "In stock",
+    "aboard": "Aboard",
+    "buy": "Buy",
+    "sell": "Sell",
+    "sell_all": "Sell all",
+    "purse": "Your silver (by weight)",
+    "hold": "Your hold",
+    "worth_here": "Worth here",
+    "owed": "Owed to",
+    "toll_line": "No toll here",
+    "seen_elsewhere": "Prices seen elsewhere",
+    "market_intention": "See what's for sale and what they'll pay."
+   },
+   "outcomes": {
+    "bought": "Bought {goods} for {price}: paid {coins}.",
+    "bought_change": "Bought {goods} for {price}: paid {coins}, {back} change.",
+    "sold": "Sold {goods} for {price}: got {coins}.",
+    "sold_toll": "Sold {goods} for {price}, less {toll_paid} toll: got {coins}.",
+    "no_silver": "Not enough silver.",
+    "no_room": "No room in the hold.",
+    "none_left": "None left.",
+    "not_dealt": "Nobody here trades {good}.",
+    "disrupted": "The market is shut since the raid: nobody will trade.",
+    "short_stock": "That was all they had.",
+    "short_room": "The hold is full.",
+    "short_silver": "Your silver ran out."
+   },
+   "word": {
+    "person.quay": [
+     "the king's man at {place}",
+     "a boatman at {place}",
+     "a ship's carpenter at {place}",
+     "an ale-wife at {place}"
+    ]
+   }
+  },
+  "slavic": {
+   "name": "Obodrites (Wends)",
+   "market_title": "The market at {port}",
+   "arrive_intention": "Choose what to do.",
+   "menu": [
+    {
+     "key": "port.town",
+     "label": "Explore the town and markets",
+     "intention": "The town map, its market and its supplies."
+    },
+    {
+     "key": "port.news",
+     "label": "Talk to people",
+     "intention": "News, prices elsewhere, the weather (to come)."
+    },
+    {
+     "key": "port.leave",
+     "label": "Cast off",
+     "intention": "Leave port."
+    }
+   ],
+   "market": {
+    "leave": "Back to the ship",
+    "asks": "They ask",
+    "pays": "They pay",
+    "here": "In stock",
+    "aboard": "Aboard",
+    "buy": "Buy",
+    "sell": "Sell",
+    "sell_all": "Sell all",
+    "purse": "Your silver (by weight)",
+    "hold": "Your hold",
+    "worth_here": "Worth here",
+    "owed": "Owed to",
+    "toll_line": "No toll here",
+    "seen_elsewhere": "Prices seen elsewhere",
+    "market_intention": "See what's for sale and what they'll pay."
+   },
+   "outcomes": {
+    "bought": "Bought {goods} for {price}: paid {coins}.",
+    "bought_change": "Bought {goods} for {price}: paid {coins}, {back} change.",
+    "sold": "Sold {goods} for {price}: got {coins}.",
+    "sold_toll": "Sold {goods} for {price}, less {toll_paid} toll: got {coins}.",
+    "no_silver": "Not enough silver.",
+    "no_room": "No room in the hold.",
+    "none_left": "None left.",
+    "not_dealt": "Nobody here trades {good}.",
+    "disrupted": "The market is shut since the raid: nobody will trade.",
+    "short_stock": "That was all they had.",
+    "short_room": "The hold is full.",
+    "short_silver": "Your silver ran out."
+   }
+  },
+  "baltic": {
+   "name": "Este and Cori (Prussians and Curonians)",
+   "market_title": "The market at {port}",
+   "arrive_intention": "Choose what to do.",
+   "menu": [
+    {
+     "key": "port.town",
+     "label": "Explore the town and markets",
+     "intention": "The town map, its market and its supplies."
+    },
+    {
+     "key": "port.news",
+     "label": "Talk to people",
+     "intention": "News, prices elsewhere, the weather (to come)."
+    },
+    {
+     "key": "port.leave",
+     "label": "Cast off",
+     "intention": "Leave port."
+    }
+   ],
+   "market": {
+    "leave": "Back to the ship",
+    "asks": "They ask",
+    "pays": "They pay",
+    "here": "In stock",
+    "aboard": "Aboard",
+    "buy": "Buy",
+    "sell": "Sell",
+    "sell_all": "Sell all",
+    "purse": "Your silver (by weight)",
+    "hold": "Your hold",
+    "worth_here": "Worth here",
+    "owed": "Owed to",
+    "toll_line": "No toll here",
+    "seen_elsewhere": "Prices seen elsewhere",
+    "market_intention": "See what's for sale and what they'll pay."
+   },
+   "outcomes": {
+    "bought": "Bought {goods} for {price}: paid {coins}.",
+    "bought_change": "Bought {goods} for {price}: paid {coins}, {back} change.",
+    "sold": "Sold {goods} for {price}: got {coins}.",
+    "sold_toll": "Sold {goods} for {price}, less {toll_paid} toll: got {coins}.",
+    "no_silver": "Not enough silver.",
+    "no_room": "No room in the hold.",
+    "none_left": "None left.",
+    "not_dealt": "Nobody here trades {good}.",
+    "disrupted": "The market is shut since the raid: nobody will trade.",
+    "short_stock": "That was all they had.",
+    "short_room": "The hold is full.",
+    "short_silver": "Your silver ran out."
+   }
+  },
+  "finnic_rus": {
+   "name": "Ladoga folk (Finns, Slavs and Northmen)",
+   "market_title": "The market at {port}",
+   "arrive_intention": "Choose what to do.",
+   "menu": [
+    {
+     "key": "port.town",
+     "label": "Explore the town and markets",
+     "intention": "The town map, its market and its supplies."
+    },
+    {
+     "key": "port.news",
+     "label": "Talk to people",
+     "intention": "News, prices elsewhere, the weather (to come)."
+    },
+    {
+     "key": "port.leave",
+     "label": "Cast off",
+     "intention": "Leave port."
+    }
+   ],
+   "market": {
+    "leave": "Back to the ship",
+    "asks": "They ask",
+    "pays": "They pay",
+    "here": "In stock",
+    "aboard": "Aboard",
+    "buy": "Buy",
+    "sell": "Sell",
+    "sell_all": "Sell all",
+    "purse": "Your purse",
+    "hold": "Your hold",
+    "worth_here": "Worth here",
+    "owed": "Owed to",
+    "toll_line": "Toll: {toll}% of sales",
+    "seen_elsewhere": "Prices seen elsewhere",
+    "market_intention": "See what's for sale and what they'll pay."
+   },
+   "outcomes": {
+    "bought": "Bought {goods} for {price}: paid {coins}.",
+    "bought_change": "Bought {goods} for {price}: paid {coins}, {back} change.",
+    "sold": "Sold {goods} for {price}: got {coins}.",
+    "sold_toll": "Sold {goods} for {price}, less {toll_paid} toll: got {coins}.",
+    "no_silver": "Not enough silver.",
+    "no_room": "No room in the hold.",
+    "none_left": "None left.",
+    "not_dealt": "Nobody here trades {good}.",
+    "disrupted": "The market is shut since the raid: nobody will trade.",
+    "short_stock": "That was all they had.",
+    "short_room": "The hold is full.",
+    "short_silver": "Your silver ran out."
+   }
+  },
+  "gaelic": {
+   "name": "Gaels",
+   "market_title": "The market at {port}",
+   "arrive_intention": "Choose what to do.",
+   "menu": [
+    {
+     "key": "port.town",
+     "label": "Explore the town and markets",
+     "intention": "The town map, its market and its supplies."
+    },
+    {
+     "key": "port.news",
+     "label": "Talk to people",
+     "intention": "News, prices elsewhere, the weather (to come)."
+    },
+    {
+     "key": "port.leave",
+     "label": "Cast off",
+     "intention": "Leave port."
+    }
+   ],
+   "market": {
+    "leave": "Back to the ship",
+    "asks": "They ask",
+    "pays": "They pay",
+    "here": "In stock",
+    "aboard": "Aboard",
+    "buy": "Buy",
+    "sell": "Sell",
+    "sell_all": "Sell all",
+    "purse": "Your silver (by weight)",
+    "hold": "Your hold",
+    "worth_here": "Worth here",
+    "owed": "Owed to",
+    "toll_line": "No toll here",
+    "seen_elsewhere": "Prices seen elsewhere",
+    "market_intention": "See what's for sale and what they'll pay."
+   },
+   "outcomes": {
+    "bought": "Bought {goods} for {price}: paid {coins}.",
+    "bought_change": "Bought {goods} for {price}: paid {coins}, {back} change.",
+    "sold": "Sold {goods} for {price}: got {coins}.",
+    "sold_toll": "Sold {goods} for {price}, less {toll_paid} toll: got {coins}.",
+    "no_silver": "Not enough silver.",
+    "no_room": "No room in the hold.",
+    "none_left": "None left.",
+    "not_dealt": "Nobody here trades {good}.",
+    "disrupted": "The market is shut since the raid: nobody will trade.",
+    "short_stock": "That was all they had.",
+    "short_room": "The hold is full.",
+    "short_silver": "Your silver ran out."
+   }
+  }
+ },
+ "kinds": {
+  "emporium": {
+   "extra": [
+    {
+     "key": "port.tollhouse",
+     "label": "Visit the toll house",
+     "intention": "Tolls and permission to trade (to come).",
+     "hide_at": [
+      "truso",
+      "reric",
+      "aldeigjuborg"
+     ]
+    },
+    {
+     "key": "port.moneyer",
+     "label": "Exchange",
+     "intention": "Change foreign coin into local money, at a loss (to come)."
+    }
+   ],
+   "note": "The officer's title differs by culture. Frankish and Frisian emporia have the procurator (Gervold at Quentovic, 789-807; the procuratores at Dorestad, 815). English wics have the wic-reeve (wīcgerēfa). Northmen have the king's man, praefectus vici (Birka, 829-830). Truso, Reric and Aldeigjuborg have no known king's officer, so hide or reword the option there. The moneyer belongs only where coin is struck: Dorestad's DORSTAT deniers, Quentovic, and the English wics, where Offa's pennies carry the moneyer's name. In the lands of weighed silver it would be the scales instead. The market title at any emporium can read 'The emporium at {port}' (Bede for London, Alcuin for York, ARF 808 for Reric, Annales Bertiniani for Dorestad and Witla)."
+  },
+  "market": {
+   "extra": [
+    {
+     "key": "port.host",
+     "label": "Find lodging",
+     "intention": "A place to stay ashore for you and the crew (to come)."
+    }
+   ],
+   "note": "English law: whoever feeds and lodges a chapman 'come over the border' for three nights answers for him (Hlothhere and Eadric 15). At Serræ and Fordwic the king's toll-gatherers took toll per ship (S 29, 763/4), so a port.tollhouse option suits those two as well."
+  },
+  "town": {
+   "extra": [
+    {
+     "key": "port.host",
+     "label": "Find lodging",
+     "intention": "A place to stay ashore for you and the crew (to come)."
+    },
+    {
+     "key": "port.church",
+     "label": "Give alms at the church",
+     "intention": "Give silver to the church (to come)."
+    }
+   ],
+   "note": "Most towns are old Roman or bishops' cities (civitas): Rotomagus, Colonia, Mogontia, Namnetis, Burdigala, Traiectum, Parisius, Dommoc. Merchants gave alms there; Catla went to Dorestad to give alms (Rimbert c.20). Under Frankish law, sales of slaves (mancipia) were made before a bishop or count (779)."
+  },
+  "monastery": {
+   "extra": [
+    {
+     "key": "port.guesthouse",
+     "label": "Stay at the guest house",
+     "intention": "The monastery's guest house (to come)."
+    },
+    {
+     "key": "port.minster",
+     "label": "Trade with the monastery",
+     "intention": "Buy its surplus, sell what it needs (to come)."
+    }
+   ],
+   "note": "Frankish and English houses keep a porter (portarius) at the gate and a guest-house (cella hospitum), under the Rule of St Benedict 53 and 66. Iona is not Benedictine, but it receives guests in its hospitium and washes their feet (Adomnán I.4). Holy relics and church plate may not be sold (trade_rules: sacred). Raids: Lindisfarena on 8 June 793, Hí in 795, Herio in 799."
+  },
+  "royal seat": {
+   "extra": [
+    {
+     "key": "port.hall",
+     "label": "Visit the hall",
+     "intention": "Ask to be heard by the lord (to come)."
+    },
+    {
+     "key": "port.reeve",
+     "label": "Report to the king's officer",
+     "intention": "Strangers report their ship and cargo (to come)."
+    }
+   ],
+   "note": "Noviomagus is a palatium (ARF 777). Bebbanburg is a fortress-seat. Uppsalir, Hleiðr and Ögvaldsnes are halls (salr). Winaldum is a seat of Frisian lords: there was no Frisian king in 793, so read 'the lord's man' there, not 'the king's reeve'. On reeves: in 789 the king's reeve rode to three strange ships at Portland to bring the crews to the king's tun (Anglo-Saxon Chronicle 789). At Norse seats an assembly option (placitum, the þing) could come later (Rimbert)."
+  },
+  "fort": {
+   "extra": [
+    {
+     "key": "port.fort",
+     "label": "Visit the fort",
+     "intention": "Make yourself known at the fort (to come)."
+    }
+   ],
+   "note": "Andoverpis, a fort and landing on the Scheldt."
+  },
+  "village": {
+   "extra": [
+    {
+     "key": "port.host",
+     "label": "Find lodging",
+     "intention": "A place to stay ashore for you and the crew (to come)."
+    }
+   ],
+   "note": "Doccinga, a village on a dwelling mound. Keep 'terp' out of game text: the word is modern."
+  }
+ },
+ "ports": {
+  "sarre": {
+   "extra": [
+    {
+     "key": "port.tollhouse",
+     "label": "Visit the toll house",
+     "intention": "Tolls and permission to trade (to come)."
+    }
+   ]
+  },
+  "fordwic": {
+   "extra": [
+    {
+     "key": "port.tollhouse",
+     "label": "Visit the toll house",
+     "intention": "Tolls and permission to trade (to come)."
+    }
+   ]
+  }
+ },
+ "word": {
+  "about": "THE WORD ON THE ITEM - the one line under each good in the market, in your hold and on a port's card on the map: what you know of that good there, in words. Eight rules in order, the first that fits wins: hard news, a price you saw, a price someone told you, talk and rumour, the season, ships that sailed ahead, the law, nothing known. Rewrite any line here. How sure it is sits in the verb (you saw, he said, they say, there is a rumour); how old it is sits in the age words, never in days; who said it is a person, never a label. Only the 'seen' line may show a number ({price}); a told price is one of the three 'pays' words. A people or a single port can have its own words: put a 'word' block with the same keys under cultures.<people> or ports.<id> (the Northmen have their own quay folk, since no toll is taken there). A key with a list picks one of the list, the same one every time for the same note.",
+  "slots": "{good} the good, small ('Rhenish wine', 'salt herring'); {port} the port the line is about; {month} the month now; {age} the age words; {price} a price you saw, in that port's reckoning; {pays} well, the usual or poorly; {person} who told you; {place} where it was said; {people} a skipper's people; {news} the news as you heard it; {ships} a ship, two ships ...; {realm} whose law it is; {law} the law in full; {line} the month's plain line for that port (trade_year_793.json). A large first letter makes the word's first letter large: {Good}, {Person}, {Age}, {Ships}.",
+  "news": "{news}",
+  "news.shut": "{news} Nobody there is buying.",
+  "news.dear": "{news} {Good} is dear at {port} now.",
+  "news.cheap": "{news} {Good} goes cheap at {port} now.",
+  "seen": "You saw {good} pay {price} at {port}, {age}.",
+  "told": "{Person} said {port} was paying {pays} for {good}. {Age}.",
+  "talk": "They say {port} pays {pays} for {good}. {Age}.",
+  "talk.at": "They say at {place} that {port} pays {pays} for {good}. {Age}.",
+  "talk.fair": "They say there is a fair on at {port}: plenty of goods, and many buyers.",
+  "rumour": "There is a rumour that {port} pays {pays} for {good}.",
+  "saw": "You saw {port} paying {pays} for {good}, {age}. It may have changed.",
+  "season.wanted": "{port} wants {good} in {month}.",
+  "season.comes": "{Good} comes to market at {port} in {month}: plenty, and cheap.",
+  "season.dear": "{Good} is dear in {month}.",
+  "season.cheap": "{Good} is cheap in {month}.",
+  "ahead": "{Ships} left for {port} before you with {good} aboard.",
+  "ships.1": "a ship",
+  "ships.2": "two ships",
+  "ships.3": "three ships",
+  "ships.4": "four ships",
+  "ships.many": "several ships",
+  "law": "The law is on {good} at {port}.",
+  "law.no_export": "{Good} may not be carried out of {realm}. They search ships at {port}.",
+  "law.death": "Selling {good} to the Northmen costs a man his life in {realm}.",
+  "law.no_sale": "{Good} may not be bought or sold in {realm}: the Church forbids it.",
+  "none": "No word on {good} at {port}.",
+  "none.since": "No word on {good} at {port} {age}.",
+  "none.old": "Only old talk of {good} at {port}.",
+  "none.anywhere": "No word on {good} from anywhere.",
+  "age.this_morning": "this morning",
+  "age.yesterday": "yesterday",
+  "age.two_days": "two days back",
+  "age.few_days": "a few days back",
+  "age.last_week": "last week",
+  "age.fortnight": "a fortnight ago",
+  "age.last_month": "last month",
+  "age.since_spring": "since spring",
+  "age.since_summer": "since summer",
+  "age.since_autumn": "since autumn",
+  "age.since_winter": "since winter",
+  "age.old_talk": "old talk",
+  "pays.well": "well",
+  "pays.fair": "the usual",
+  "pays.poorly": "poorly",
+  "person.skipper": "a {people} skipper",
+  "person.skipper.plain": "a skipper",
+  "person.quay": [
+   "the toll man at {place}",
+   "a boatman at {place}",
+   "a porter at {place}",
+   "an ale-wife at {place}"
+  ],
+  "person.witness": "a man who saw it",
+  "person.letter": "a letter",
+  "person.someone": "a man on the quay",
+  "people.frankish": "Frankish",
+  "people.frisian": "Frisian",
+  "people.english": "English",
+  "people.norse": "Norse",
+  "people.slavic": "Wendish",
+  "people.baltic": "Baltic",
+  "people.finnic_rus": "Rus",
+  "people.gaelic": "Irish",
+  "mark.seen": "seen",
+  "mark.heard": "heard",
+  "mark.season": "the season",
+  "mark.law": "the law",
+  "mark.none": "nothing known"
+ },
+ "glossary": [
+  {
+   "term": "mercatus",
+   "meaning": "Market: both the gathering and the place. Toll was taken only at markets 'where common goods are bought and sold'.",
+   "source": "MGH Capitularia I (Boretius), toll rules of 805/806 and the Aachen capitularies of 809"
+  },
+  {
+   "term": "teloneum",
+   "meaning": "The king's toll on merchants' goods, taken at markets, landings, bridges and on ships.",
+   "source": "Herstal 779 c.18; Mantua 781 c.8; Thionville 805 (MGH Capit. I nos. 20, 90, 44)"
+  },
+  {
+   "term": "negotiatores (sing. negotiator)",
+   "meaning": "Merchants: the standard Frankish Latin word.",
+   "source": "Alcuin, Ep. 100 (Charlemagne to Offa, 796); Thionville 805 c.7; Annales regni Francorum 808"
+  },
+  {
+   "term": "cervisa",
+   "meaning": "Beer. Royal estates kept brewers.",
+   "source": "Capitulare de villis c.45, c.61 (c. 800), MGH Capit. I no. 32"
+  },
+  {
+   "term": "new deniers (novi denarii)",
+   "meaning": "Charlemagne's reformed silver penny, to be accepted in every place, city and market.",
+   "source": "Synod of Frankfurt 794 c.5 (MGH Capit. I no. 28)"
+  },
+  {
+   "term": "just measure (mensurae aequales et rectae, pondera iusta)",
+   "meaning": "'Equal and right measures and just weights', required of all.",
+   "source": "Admonitio generalis 789 c.74 (MGH Capit. I no. 22)"
+  },
+  {
+   "term": "loose the ship (solvere; 'soluta classe')",
+   "meaning": "To cast off and set sail. 'Loose the ship' renders the Latin.",
+   "source": "Annales regni Francorum 808"
+  },
+  {
+   "term": "count (comes; Frankish grafio)",
+   "meaning": "The king's officer over a county; the player's creditor.",
+   "source": "Lex Salica ('grafio'); MGH Capitularia I ('comes')"
+  },
+  {
+   "term": "wik (Latin vicus, Germanic wīk)",
+   "meaning": "Trading settlement. In 779 Quentovic was called plain 'Wicus'. No Frisian text survives from 793, so this Frisian use stands on the Latin and Old English forms.",
+   "source": "Charlemagne's diploma D.122 of 779 (MGH DD Kar. I no. 122)"
+  },
+  {
+   "term": "decima (the king's tenth)",
+   "meaning": "The king's toll on merchants' goods at Dorestad and Quentovic. Named only in 828, but it describes an established custom.",
+   "source": "Formulae imperiales 37 (828); Lebecq, Hommes, mers et terres du Nord II (2011)"
+  },
+  {
+   "term": "Fresones",
+   "meaning": "The Frisians.",
+   "source": "Annales regni Francorum 789; Ermoldus Nigellus (c. 826-830)"
+  },
+  {
+   "term": "wic (wīc)",
+   "meaning": "The trading settlement of an English kingdom (Lundenwic, Hamwic). It also meant any dwelling-place.",
+   "source": "Laws of Hlothhere and Eadric 16 (Kent, c. 673-685); Attenborough, Laws of the Earliest English Kings (1922)"
+  },
+  {
+   "term": "chapman (cēpemann, ciepemon)",
+   "meaning": "Trader.",
+   "source": "Hlothhere and Eadric 15; Ine 25 (Attenborough 1922)"
+  },
+  {
+   "term": "before witnesses (beforan gewitnessum)",
+   "meaning": "A buyer in the wic needed two or three honest men, or the king's wic-reeve, as witnesses.",
+   "source": "Hlothhere and Eadric 16; Ine 25"
+  },
+  {
+   "term": "spell",
+   "meaning": "Message, report, news. Use it rather than 'tidings', an 11th-c. Norse loan.",
+   "source": "Bosworth-Toller Anglo-Saxon Dictionary, s.v. spell"
+  },
+  {
+   "term": "clear ale, Welsh ale (hlūttor ealu, Wilisc ealu)",
+   "meaning": "Clear ale, and 'Welsh' ale (sweet and spiced): items of the food-rent.",
+   "source": "Laws of Ine 70.1 (Wessex, 688-726)"
+  },
+  {
+   "term": "keel (cēol)",
+   "meaning": "Ship.",
+   "source": "Gildas, De excidio 23 ('cyulis'); Anglo-Saxon Chronicle; Maxims I"
+  },
+  {
+   "term": "weorð",
+   "meaning": "Worth, value.",
+   "source": "Laws of Ine 55, 58-59"
+  },
+  {
+   "term": "pennies (pæning, penning)",
+   "meaning": "The English silver penny. Offa's heavy penny dates from c. 792/3.",
+   "source": "Ine 58-59; Naismith, Money and Power in Anglo-Saxon England (2012)"
+  },
+  {
+   "term": "toll-gatherers, ship-toll (thelonearii; exactio navis)",
+   "meaning": "The king's toll-takers, and the toll due on a ship (reckoned per ship) at London, Sarre and Fordwich.",
+   "source": "Sawyer S 86 (c. 733); S 29 (763/4)"
+  },
+  {
+   "term": "wic-reeve (wīcgerēfa)",
+   "meaning": "The king's officer in a trading town, who witnessed purchases.",
+   "source": "Hlothhere and Eadric 16; Anglo-Saxon Chronicle 896"
+  },
+  {
+   "term": "host (feormian, 'to feed and lodge')",
+   "meaning": "Whoever lodges a stranger or chapman for three nights answers for him.",
+   "source": "Hlothhere and Eadric 15"
+  },
+  {
+   "term": "reeve, the king's tun (cyninges tūn)",
+   "meaning": "The king's officer, and the king's estate, to which strangers' crews were brought.",
+   "source": "Anglo-Saxon Chronicle s.a. 789; Æthelweard, Chronicon (c. 980)"
+  },
+  {
+   "term": "hall (cyninges sele; Old Norse salr)",
+   "meaning": "The king's hall: in the English wic, and at Norse royal seats ('Sciringes heal').",
+   "source": "Hlothhere and Eadric 16; Ohthere in the Old English Orosius (c. 890, later)"
+  },
+  {
+   "term": "strand (Old English strand, Old Norse strǫnd)",
+   "meaning": "The shore. Northern markets began as seasonal gatherings on the shore.",
+   "source": "Bosworth-Toller; Cleasby-Vigfusson"
+  },
+  {
+   "term": "Northmen, Danes, Svear (Nordmanni, Dani, Sueones)",
+   "meaning": "The Frankish names for the northern peoples. 'Viking' was not a people's name in 793.",
+   "source": "Annales regni Francorum (777 onward); Rimbert, Vita Anskarii; Annales Bertiniani 839"
+  },
+  {
+   "term": "the king's man (praefectus vici)",
+   "meaning": "The king's officer over a market town: Herigar at Birka, 'prefect of the town and counsellor of the king'.",
+   "source": "Rimbert, Vita Anskarii c.11 (Anskar's visit, 829-830; later than 793)"
+  },
+  {
+   "term": "pirates (piratae)",
+   "meaning": "Sea-raiders. The merchants Anskar sailed with fought them and lost their ships.",
+   "source": "Rimbert, Vita Anskarii c.10 (829)"
+  },
+  {
+   "term": "emporium",
+   "meaning": "A great trading place. Used of London, York, Reric, Dorestad and Witla.",
+   "source": "Bede, HE II.3 (731); Alcuin's York poem; Annales regni Francorum 808, 809 ('in emporio Reric'); Annales Bertiniani 834-836"
+  },
+  {
+   "term": "vectigal",
+   "meaning": "Toll or dues. Reric brought Godfred's kingdom great profit through its tolls.",
+   "source": "Annales regni Francorum 808"
+  },
+  {
+   "term": "Obodrites (Abodriti)",
+   "meaning": "The Slavs of Wagria and Mecklenburg, Charlemagne's allies.",
+   "source": "Annales regni Francorum 789, 798, 808-809"
+  },
+  {
+   "term": "Wends",
+   "meaning": "The Germanic outsiders' name for the Slavs (Wulfstan's Weonodland). The Obodrites did not call themselves this.",
+   "source": "Wulfstan's account in the Old English Orosius (c. 890, later)"
+  },
+  {
+   "term": "Este",
+   "meaning": "The Prussians of the Vistula lagoon (not the modern Estonians).",
+   "source": "Wulfstan, Old English Orosius (c. 880-890, later)"
+  },
+  {
+   "term": "Cori",
+   "meaning": "The Curonians of the Courland coast.",
+   "source": "Rimbert, Vita Anskarii c.30 (events c. 854, later)"
+  },
+  {
+   "term": "burh",
+   "meaning": "Fort. 'Very many burhs, and in each a king' (Estland).",
+   "source": "Wulfstan, Old English Orosius (c. 890, later)"
+  },
+  {
+   "term": "mead, no ale (medo)",
+   "meaning": "'No ale is brewed among the Ests, but there is mead enough.'",
+   "source": "Wulfstan, Old English Orosius (c. 890, later)"
+  },
+  {
+   "term": "amber-workers",
+   "meaning": "Amber from the Sambian shore was gathered and worked at Truso.",
+   "source": "Excavations at Janów Pomorski (Truso), 8th-9th c.; Tacitus, Germania 45 (amber of the Aestii)"
+  },
+  {
+   "term": "dirham",
+   "meaning": "The Caliphate's silver coin. The Staraya Ladoga hoard's latest coin was minted in 786.",
+   "source": "Noonan, The Islamic World, Russia and the Vikings (1998)"
+  },
+  {
+   "term": "the tenth (al-'ushr)",
+   "meaning": "The tenth taken from merchants on the eastern rivers.",
+   "source": "Ibn Khurradadhbih, Kitab al-Masalik wa'l-Mamalik (c. 840s-870s, later); trans. Lunde & Stone (2012)"
+  },
+  {
+   "term": "furs from Ladoga",
+   "meaning": "Squirrel, marten, sable, beaver and black fox went west and south from Finnic hunters. In Finnic the word for money (raha) first meant a pelt.",
+   "source": "SSA (Suomen sanojen alkuperä) s.v. raha; Noonan 1998"
+  },
+  {
+   "term": "óenach",
+   "meaning": "The native Irish assembly-fair, held periodically under a king's truce, with law, games and trade. The Norse-loan 'margad' (market) is later.",
+   "source": "eDIL s.v. óenach; Kelly, A Guide to Early Irish Law (1988)"
+  },
+  {
+   "term": "scél",
+   "meaning": "News, tidings, a story.",
+   "source": "eDIL s.v. scél; Würzburg glosses (c. 750)"
+  },
+  {
+   "term": "lóg",
+   "meaning": "Price, value.",
+   "source": "eDIL s.v. lóg; Würzburg glosses (c. 750)"
+  },
+  {
+   "term": "silver by the ounce (ungae)",
+   "meaning": "There was no Irish coin. Silver went by weight: 1 ounce = 24 screpall.",
+   "source": "Kelly, A Guide to Early Irish Law (1988)"
+  },
+  {
+   "term": "guest-house (cella hospitum; hospitium; tech n-óiged)",
+   "meaning": "A monastery's lodging for guests, pilgrims and the poor.",
+   "source": "Rule of St Benedict 53; Adomnán, Vita Columbae I.4 (c. 700); Würzburg glosses Wb. 4a7"
+  },
+  {
+   "term": "porter at the gate (portarius)",
+   "meaning": "The monastery's gatekeeper, who answers arrivals.",
+   "source": "Rule of St Benedict 66"
+  },
+  {
+   "term": "moneyer",
+   "meaning": "The man who struck coin. Offa's pennies carry the moneyer's name; Dorestad's deniers read DORSTAT.",
+   "source": "Naismith, Money and Power in Anglo-Saxon England (2012); Coupland, studies of Carolingian coinage"
+  },
+  {
+   "term": "procurator",
+   "meaning": "The king's officer over the ports, who levied tolls. Gervold held the office 'especially at Quentovic', 789-807.",
+   "source": "Gesta abbatum Fontanellensium XII.2; Lebecq 2011"
+  },
+  {
+   "term": "palatium",
+   "meaning": "Royal palace (Noviomagus).",
+   "source": "Einhard, Vita Karoli 17 (c. 828), who says it was begun; the Annales regni Francorum (777) call it a villa"
+  },
+  {
+   "term": "civitas",
+   "meaning": "An old Roman or bishop's city: Rouen, Cologne, Mainz, Nantes, Bordeaux.",
+   "source": "Synod of Frankfurt 794 c.5 ('in omni civitate'); MGH Capit. I"
+  },
+  {
+   "term": "alms",
+   "meaning": "Gifts to the poor and the church, made by merchants too.",
+   "source": "Rimbert, Vita Anskarii c.20 (Catla goes to Dorestad to give alms)"
+  },
+  {
+   "term": "mancipia",
+   "meaning": "Slaves (the legal term). Their sale was to be made before a bishop or count.",
+   "source": "Herstal 779 c.19 (MGH Capit. I no. 20)"
+  },
+  {
+   "term": "Gaels; Dál Riata",
+   "meaning": "The Irish, and the Gaelic kingdom spanning Antrim and Argyll (Iona's country). In 793 'Scotti' means the Irish.",
+   "source": "Annals of Ulster; Adomnán, Vita Columbae"
+  }
+ ]
+}

@@ -1,0 +1,549 @@
+{
+ "about": "CHAIN kentish_revolt_796 (Design/content/CHAINS.md; page Design/content/chains/kentish_revolt_796.md; words Data/writing/chain_kentish_revolt_796.json). Kent rises against Mercia under Eadberht Praen after Offa's death, 796 to 798, and the Wantsum ports (Sarre, Fordwic, Dofras) are caught in it: whose tally to pay on, whom to sell spearheads and corn to, whose letters to carry, and what comes after when Coenwulf wins. Fourteen cards, August 796 to 800. Step flags ch_kentish_revolt_796_1 .. _10; side flags ch_kentish_revolt_796_kent, ch_kentish_revolt_796_mercia, ch_kentish_revolt_796_corn, ch_kentish_revolt_796_read, ch_kentish_revolt_796_offer, ch_kentish_revolt_796_pilot; endings ch_kentish_revolt_796_end_mercia (what happened), ch_kentish_revolt_796_end_kent (what happened, from the losing side), ch_kentish_revolt_796_end_both (the two-faced man's reckoning) and ch_kentish_revolt_796_end_spared (history changed: changed_kent_798_spared). Every ending also sets ch_kentish_revolt_796_done. Every option's note names its outcome text. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_kentish_revolt_796.s01_two_tallies",
+   "note": "Step 1, the start (drawn at Sarre, Dofras or Fordwic from August 796 to June 798). Two men at the toll bench with two tallies: the old king's toll man and a thegn's man of the new king of Kent. Sources: Offa died 29 July 796 (Anglo-Saxon Chronicle 794 for 796; chronicle_793.json 796-07-29-offa-dies); Eadberht Praen took Kent and Archbishop Aethelheard fled (chronicle_793.json 796-summer-eadberht-kent); the toll at Sarre and Fordwic was the king's own right and went by the ship (Sawyer 29, dossiers/sarre.md); 'nobody at the toll place is sure whose toll it is' (places/sarre.json, era 796-798). Two tallies on one bench are ours (?). People: the old toll man is the port's (at Sarre Dunwalh, sarre.tollman); Heahred is invented (Heah- + -red). Sets ch_kentish_revolt_796_1 and ch_kentish_revolt_796_paid_mercia or ch_kentish_revolt_796_paid_kent.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = dofras or port.id = fordwic) and ((year = 796 and month >= 8) or year = 797 or (year = 798 and month < 7)) and not flag.ch_kentish_revolt_796_1",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "old": { "role": "tollman", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 60], "fixed": true, "note": "the old king's toll man; at Sarre he is Dunwalh (sarre.tollman)" },
+    "new": { "role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 40], "fixed": false, "note": "Heahred, a Kentish thegn's man set at the bench for King Eadberht; invented" }
+   },
+   "title_key": "chain_kentish_revolt_796.s01.title",
+   "title": "Two tallies",
+   "intention_key": "chain_kentish_revolt_796.s01.intention",
+   "intention": "Two men sit at the toll bench where one used to sit, each with his own tally stick, and neither looks at the other.",
+   "lines": [
+    { "who": "old", "key": "chain_kentish_revolt_796.s01.old_lammas" },
+    { "who": "new", "key": "chain_kentish_revolt_796.s01.new_king" },
+    { "who": "old", "key": "chain_kentish_revolt_796.s01.old_priest" },
+    { "who": "new", "key": "chain_kentish_revolt_796.s01.new_bishop" },
+    { "who": "old", "key": "chain_kentish_revolt_796.s01.old_empty", "when": "hold.value = 0" },
+    { "who": "new", "key": "chain_kentish_revolt_796.s01.new_iron", "when": "hold.weapons > 0" }
+   ],
+   "options": [
+    { "key": "old", "label_key": "chain_kentish_revolt_796.s01.opt_old", "label": "Pay on the old tally, as you always have", "check": "true",
+      "effects": [ "toll sales", "npc old feeling +5 paid", "npc new feeling -4 passed_over", "flag ch_kentish_revolt_796_paid_mercia", "flag ch_kentish_revolt_796_1", "schedule harbour.chain_kentish_revolt_796.s03_new_pennies in 3 at fordwic", "schedule harbour.chain_kentish_revolt_796.s02_reeve_asks in 5 at lundenwic" ],
+      "note": "outcome: chain_kentish_revolt_796.s01.out_old" },
+    { "key": "new", "label_key": "chain_kentish_revolt_796.s01.opt_new", "label": "Pay on the new king's tally", "check": "true",
+      "effects": [ "toll sales", "npc new feeling +6 paid", "npc old feeling -3 passed_over", "price_shock fordwic spearheads x1.6 for 90", "flag ch_kentish_revolt_796_paid_kent", "flag ch_kentish_revolt_796_1", "schedule harbour.chain_kentish_revolt_796.s03_new_pennies in 3 at fordwic", "schedule harbour.chain_kentish_revolt_796.s02_reeve_asks in 5 at lundenwic" ],
+      "note": "outcome: chain_kentish_revolt_796.s01.out_new (the price word is true: Kent is buying iron)" },
+    { "key": "ask", "label_key": "chain_kentish_revolt_796.s01.opt_ask", "label": "Sell nothing today, and ask who is king in Kent", "check": "true", "default": true,
+      "effects": [ "toll none", "news chain_kentish_revolt_796.news.new_king at here", "flag ch_kentish_revolt_796_1", "schedule harbour.chain_kentish_revolt_796.s03_new_pennies in 3 at fordwic", "schedule harbour.chain_kentish_revolt_796.s02_reeve_asks in 5 at lundenwic" ],
+      "note": "outcome: chain_kentish_revolt_796.s01.out_ask (costs a day's selling and nothing else)" }
+   ],
+   "memory": { "old": "paid on the old king's tally", "new": "paid on King Eadberht's tally", "ask": "sold nothing and asked who was king" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.s02_reeve_asks",
+   "note": "Step 2 (scheduled 5 days after step 1; the first call at Lundenwic after it, before July 798). The Mercian wic-reeve wants eyes in Kent and no iron going there. Sources: the wic-reeve of Lundenwic (laws of Hlothhere and Eadric c. 16); Offa's son Ecgfrith reigned 141 days and Coenwulf was king by December 796 (chronicle_793.json 796-12-cenwulf-king); the rising probably began in earnest after Ecgfrith's death (Kirby, Earliest English Kings, p. 178, through Wikipedia 'Coenwulf of Mercia'). That a reeve asked merchants for word, and that the Wantsum trade then came round to the Strand, are ours (?). Cast: cast.wighelm. Sets ch_kentish_revolt_796_2; ch_kentish_revolt_796_mercia if the player agrees to be his eyes; ch_kentish_revolt_796_covered if he lies for Kent.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and (year < 798 or (year = 798 and month < 7)) and flag.ch_kentish_revolt_796_1 and not flag.ch_kentish_revolt_796_2",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 55], "fixed": true, "note": "cast.wighelm" }
+   },
+   "title_key": "chain_kentish_revolt_796.s02.title",
+   "title": "What the benches look like",
+   "intention_key": "chain_kentish_revolt_796.s02.intention",
+   "intention": "The wic-reeve has heard you came up from the Wantsum. He asks what you saw at the toll benches of Kent, and then asks it again.",
+   "lines": [
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s02.reeve_saw" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s02.reeve_ecgfrith", "when": "year = 796" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s02.reeve_coenwulf", "when": "year >= 797" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s02.reeve_iron" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s02.reeve_paid_kent", "when": "flag.ch_kentish_revolt_796_paid_kent" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s02.reeve_offer" }
+   ],
+   "options": [
+    { "key": "eyes", "label_key": "chain_kentish_revolt_796.s02.opt_eyes", "label": "Agree to bring him word of Kent each time you pass", "check": "true",
+      "effects": [ "silver +30", "npc reeve feeling +8 eyes", "toll eased 60", "flag ch_kentish_revolt_796_mercia", "flag ch_kentish_revolt_796_2" ],
+      "note": "outcome: chain_kentish_revolt_796.s02.out_eyes" },
+    { "key": "cover", "label_key": "chain_kentish_revolt_796.s02.opt_cover", "label": "Tell him Kent is quiet and poor, which is half true", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "npc reeve feeling +2 believed" ],
+                     "failure": [ "npc reeve feeling -8 lied" ] },
+                   "flag ch_kentish_revolt_796_covered", "flag ch_kentish_revolt_796_2" ],
+      "note": "outcome: chain_kentish_revolt_796.s02.out_cover_success / out_cover_failure (likely; a lie seen through costs his goodwill and nothing more yet)" },
+    { "key": "casks", "label_key": "chain_kentish_revolt_796.s02.opt_casks", "label": "Say you are a Frisian and count casks, not kings", "check": "true", "default": true,
+      "effects": [ "npc reeve feeling +1 casks", "price_shock lundenwic frankish_wine x1.3 for 60", "flag ch_kentish_revolt_796_2" ],
+      "note": "outcome: chain_kentish_revolt_796.s02.out_casks (costs nothing; he tells you a true price for it: wine that used to come by the Wantsum is short on the Strand)" }
+   ],
+   "memory": { "eyes": "agreed to bring word of Kent", "cover.success": "said Kent was quiet", "cover.failure": "lied to him about Kent", "casks": "said he counted casks, not kings" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.s03_new_pennies",
+   "note": "Step 3 (scheduled 3 days after step 1 at Fordwic, Canterbury's landing; also drawn there for anyone on the chain, before July 798). The new king's steward shows the new penny and wants iron or corn. Sources: pennies in Eadberht's name were struck at Canterbury (chronicle_793.json 796-summer-eadberht-kent, note); his moneyers are said to be Babba, Aethelmod and Iaenberht (from memory, not opened tonight (?)); Fordwic has the mint in npc_roles_793.json; Eadberht had been in exile under King Charles's protection (Wikipedia 'Eadberht III Praen'; Charles to Offa, 796, on the exiled priest Odberht, MGH Epistolae IV no. 100, if he is the same man (?)). Spearheads 40 d the bundle of ten (goods_793.json). People: Osnoth the steward is invented (Os- + -noth); the moneyer is unnamed. Sets ch_kentish_revolt_796_3; ch_kentish_revolt_796_kent (arms) or ch_kentish_revolt_796_corn.",
+   "stage": "harbour",
+   "when": "moored and port.id = fordwic and (year < 798 or (year = 798 and month < 7)) and flag.ch_kentish_revolt_796_1 and not flag.ch_kentish_revolt_796_3",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": true, "note": "Osnoth, steward of King Eadberht's hall at Canterbury; invented" },
+    "moneyer": { "role": "moneyer", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 55], "fixed": true, "note": "a Canterbury moneyer who struck for Offa and now strikes for Eadberht; unnamed" }
+   },
+   "title_key": "chain_kentish_revolt_796.s03.title",
+   "title": "A new name on the penny",
+   "intention_key": "chain_kentish_revolt_796.s03.intention",
+   "intention": "At the landing below Canterbury a moneyer lays a bright penny on your thwart. It carries a king's name you have not read on silver before.",
+   "lines": [
+    { "who": "moneyer", "key": "chain_kentish_revolt_796.s03.moneyer_penny" },
+    { "who": "moneyer", "key": "chain_kentish_revolt_796.s03.moneyer_weight" },
+    { "who": "steward", "key": "chain_kentish_revolt_796.s03.steward_wants" },
+    { "who": "steward", "key": "chain_kentish_revolt_796.s03.steward_franks" },
+    { "who": "steward", "key": "chain_kentish_revolt_796.s03.steward_corn" },
+    { "who": "moneyer", "key": "chain_kentish_revolt_796.s03.moneyer_warn" }
+   ],
+   "options": [
+    { "key": "arms", "label_key": "chain_kentish_revolt_796.s03.opt_arms", "label": "Take the order: six bundles of spearheads, landed here", "check": "true",
+      "effects": [ "commission spearheads 6 by 150 premium 0.8", "price_shock fordwic shields x1.5 for 150", "npc steward feeling +8 arms", "flag ch_kentish_revolt_796_kent", "flag ch_kentish_revolt_796_3" ],
+      "note": "outcome: chain_kentish_revolt_796.s03.out_arms (the turn on Kent's road: about 430 d for iron that costs 240; the moneyer's warning comes first)" },
+    { "key": "corn", "label_key": "chain_kentish_revolt_796.s03.opt_corn", "label": "Take an order for corn instead: men eat under any king", "check": "true",
+      "effects": [ "commission wheat 12 by 120 premium 0.5", "npc steward feeling +4 corn", "flag ch_kentish_revolt_796_corn", "flag ch_kentish_revolt_796_3" ],
+      "note": "outcome: chain_kentish_revolt_796.s03.out_corn" },
+    { "key": "none", "label_key": "chain_kentish_revolt_796.s03.opt_none", "label": "Weigh the new penny, praise it, and take no order", "check": "true", "default": true,
+      "effects": [ "npc moneyer feeling +3 weighed", "flag ch_kentish_revolt_796_3" ],
+      "note": "outcome: chain_kentish_revolt_796.s03.out_none (costs nothing)" }
+   ],
+   "memory": { "arms": "took the order for spearheads", "corn": "took an order for corn", "none": "weighed the penny and took no order" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.s04_alcuins_letter",
+   "note": "Step 4 (drawn at Quentovic in 797 or early 798 for anyone on the chain). The guest master of Saint-Josse has a letter from Abbot Alcuin to the people of Kent. Sources: Alcuin wrote in 797 to the people of Kent urging them to take their archbishop back, and lamented that scarcely anyone was left of the old stock of kings (MGH Epistolae IV no. 129, through Story, Carolingian Connections, p. 145, in Wikipedia 'Coenwulf of Mercia': our rendering, not a quotation); he also wrote to Aethelheard about his flight (no. 128 (?)). The cell of Saint-Josse near Quentovic was given to Alcuin for the lodging of travellers (places/quentovic.json; places/dofras.json story dofras.archbishops_chest). The priest Odberht among the exiles under the king's protection: Charles to Offa, 796 (MGH Epistolae IV no. 100), often taken to be Eadberht (?). How the letter crossed is not recorded: the Frisian boat is ours. People: Osmund is quentovic.osmund (invented). Sets ch_kentish_revolt_796_4; carrying sets ch_kentish_revolt_796_letter; staying to hear it sets ch_kentish_revolt_796_knows_letter.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and (year = 797 or (year = 798 and month < 5)) and flag.ch_kentish_revolt_796_1 and not flag.ch_kentish_revolt_796_4",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "guest": { "role": "guest_master", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 60], "fixed": true, "note": "quentovic.osmund, guest master of the cell of Saint-Josse" }
+   },
+   "title_key": "chain_kentish_revolt_796.s04.title",
+   "title": "To the people of Kent",
+   "intention_key": "chain_kentish_revolt_796.s04.intention",
+   "intention": "The guest master of Saint-Josse comes down to the Canche with a folded letter under his scapular. It is from his abbot, and it is addressed to a whole people.",
+   "lines": [
+    { "who": "guest", "key": "chain_kentish_revolt_796.s04.guest_abbot" },
+    { "who": "guest", "key": "chain_kentish_revolt_796.s04.guest_stock" },
+    { "who": "guest", "key": "chain_kentish_revolt_796.s04.guest_odberht" },
+    { "who": "guest", "key": "chain_kentish_revolt_796.s04.guest_spears", "when": "flag.ch_kentish_revolt_796_kent" },
+    { "who": "guest", "key": "chain_kentish_revolt_796.s04.guest_warn" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_kentish_revolt_796.s04.opt_carry", "label": "Take the letter to Canterbury's landing", "check": "true", "default": true,
+      "effects": [ "silver +10", "deed carried_letters", "npc guest feeling +8 carried", "flag ch_kentish_revolt_796_letter", "flag ch_kentish_revolt_796_4", "schedule harbour.chain_kentish_revolt_796.s06_church_door in 2 at fordwic" ],
+      "note": "outcome: chain_kentish_revolt_796.s04.out_carry" },
+    { "key": "hear", "label_key": "chain_kentish_revolt_796.s04.opt_hear", "label": "Take it, and stay three days to have a copy read to you", "check": "true",
+      "effects": [ "learn latin +0.1", "deed carried_letters", "npc guest feeling +10 heard", "flag ch_kentish_revolt_796_knows_letter", "flag ch_kentish_revolt_796_letter", "flag ch_kentish_revolt_796_4", "schedule harbour.chain_kentish_revolt_796.s06_church_door in 5 at fordwic" ],
+      "note": "outcome: chain_kentish_revolt_796.s04.out_hear (costs three days; he learns some Latin and what the letter says)" },
+    { "key": "decline", "label_key": "chain_kentish_revolt_796.s04.opt_decline", "label": "Say your boat is searched on both shores already", "check": "true",
+      "effects": [ "npc guest feeling -2 declined", "flag ch_kentish_revolt_796_4" ],
+      "note": "outcome: chain_kentish_revolt_796.s04.out_decline (costs nothing; the letter goes by another boat and the story goes on without it)" }
+   ],
+   "memory": { "carry": "took the abbot's letter for Kent", "hear": "took the letter and heard it read", "decline": "would not carry the letter" }
+  },
+  {
+   "id": "sea.chain_kentish_revolt_796.s05_watch_boat",
+   "note": "Step 5, optional (drawn at sea while the letter is aboard). A Kentish watch boat off the Foreland looks for letters to and from the archbishop who fled. Sources: Aethelheard fled Kent (Anglo-Saxon Chronicle; Alcuin's letters of 797); ship service and coast watch in Kent are recorded only later (dossiers/sarre.md), so this boat is ours (?). The warning is given first by the guest master at step 4. Sets ch_kentish_revolt_796_hailed; ch_kentish_revolt_796_letter_opened if she runs and is caught.",
+   "stage": "sea",
+   "when": "under_way and (year = 797 or year = 798) and flag.ch_kentish_revolt_796_letter and not flag.ch_kentish_revolt_796_6 and not flag.ch_kentish_revolt_796_hailed",
+   "rate": 0.04,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "watch": { "role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 45], "fixed": false, "note": "a Kentish thegn's man with eight oars; invented, unnamed" }
+   },
+   "title_key": "chain_kentish_revolt_796.s05.title",
+   "title": "Eight oars off the Foreland",
+   "intention_key": "chain_kentish_revolt_796.s05.intention",
+   "intention": "A boat with eight oars pulls out from under the white cliff and holds water across your bow. A man stands in her with a spear grounded on the bottom boards.",
+   "lines": [
+    { "who": "watch", "key": "chain_kentish_revolt_796.s05.watch_whose" },
+    { "who": "watch", "key": "chain_kentish_revolt_796.s05.watch_bishop" },
+    { "who": "watch", "key": "chain_kentish_revolt_796.s05.watch_frisian" }
+   ],
+   "options": [
+    { "key": "show", "label_key": "chain_kentish_revolt_796.s05.opt_show", "label": "Heave to and show the letter: it is written to Kent, not to Mercia", "check": "true",
+      "effects": [ "encounter heave_to",
+                   { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "npc watch feeling +5 shown" ],
+                     "failure": [ "morale -0.05", "npc watch feeling -3 doubted" ] },
+                   "flag ch_kentish_revolt_796_hailed" ],
+      "note": "outcome: chain_kentish_revolt_796.s05.out_show_success / out_show_failure (likely; failing costs half a day alongside while he sends ashore for a man who reads)" },
+    { "key": "search", "label_key": "chain_kentish_revolt_796.s05.opt_search", "label": "Heave to, let him turn the hold over, and say nothing", "check": "true", "default": true,
+      "effects": [ "encounter heave_to", "npc watch feeling +1 searched", "flag ch_kentish_revolt_796_hailed" ],
+      "note": "outcome: chain_kentish_revolt_796.s05.out_search (costs time only)" },
+    { "key": "run", "label_key": "chain_kentish_revolt_796.s05.opt_run", "label": "Bear away for the Goodwin shoals, where eight oars will not follow", "check": "true",
+      "effects": [ "encounter run",
+                   { "chance": 0.45, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05" ],
+                     "failure": [ "silver -40", "npc watch feeling -10 ran", "flag ch_kentish_revolt_796_letter_opened" ] },
+                   "flag ch_kentish_revolt_796_hailed" ],
+      "note": "outcome: chain_kentish_revolt_796.s05.out_run_success / out_run_failure (doubtful; caught, it costs a fine and a broken seal: the letter is read by the wrong men first and then sent on with you)" }
+   ],
+   "memory": { "show.success": "showed a letter written to Kent", "show.failure": "showed a letter he could not read", "search": "let himself be searched", "run.success": "ran for the shoals", "run.failure": "ran and was caught" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.s06_church_door",
+   "note": "Step 6 (scheduled by step 4 at Fordwic; also drawn there while the letter is aboard). Where the letter is to be heard. Sources: Alcuin's letter of 797 to the people of Kent (as step 4); Christ Church was probably plundered in the rising (Kirby, p. 178, through Wikipedia 'Coenwulf of Mercia') (?). Letters to a people were read out; that this one was read at a church door in Canterbury is ours (?). People: Wigheard, a priest of Christ Church who stayed, is invented (Wig- + -heard); Osnoth as step 3. Sets ch_kentish_revolt_796_6 and ch_kentish_revolt_796_letter_done, clears ch_kentish_revolt_796_letter; an open reading sets ch_kentish_revolt_796_read (the road to the changed ending).",
+   "stage": "harbour",
+   "when": "moored and port.id = fordwic and (year = 797 or (year = 798 and month < 7)) and flag.ch_kentish_revolt_796_letter and not flag.ch_kentish_revolt_796_6",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 55], "fixed": true, "note": "Wigheard, a priest of Christ Church who did not go with the archbishop; invented" },
+    "steward": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": true, "note": "Osnoth, the king's steward; invented" }
+   },
+   "title_key": "chain_kentish_revolt_796.s06.title",
+   "title": "A letter to everybody",
+   "intention_key": "chain_kentish_revolt_796.s06.intention",
+   "intention": "A priest and the king's steward both meet your boat at the landing. Each holds out a hand for the same letter.",
+   "lines": [
+    { "who": "priest", "key": "chain_kentish_revolt_796.s06.priest_door" },
+    { "who": "steward", "key": "chain_kentish_revolt_796.s06.steward_whose" },
+    { "who": "steward", "key": "chain_kentish_revolt_796.s06.steward_opened", "when": "flag.ch_kentish_revolt_796_letter_opened" },
+    { "who": "priest", "key": "chain_kentish_revolt_796.s06.priest_church" },
+    { "who": "priest", "key": "chain_kentish_revolt_796.s06.priest_warn" }
+   ],
+   "options": [
+    { "key": "read", "label_key": "chain_kentish_revolt_796.s06.opt_read", "label": "Have it read at the church door on Sunday, before whoever comes", "check": "true",
+      "effects": [ { "chance": 0.65, "by": "crew.trade_best",
+                     "success": [ "npc priest feeling +10 read", "npc steward feeling -2 read" ],
+                     "failure": [ "health -0.05", "npc priest feeling +10 read", "npc steward feeling -8 read" ] },
+                   "flag ch_kentish_revolt_796_read", "flag ch_kentish_revolt_796_letter_done", "flag ch_kentish_revolt_796_letter = 0", "flag ch_kentish_revolt_796_6" ],
+      "note": "outcome: chain_kentish_revolt_796.s06.out_read_success / out_read_failure (likely to pass quietly; if not, a stone or two is thrown and the letter is read all the same)" },
+    { "key": "steward", "label_key": "chain_kentish_revolt_796.s06.opt_steward", "label": "Give it to the steward, for his king's eyes first", "check": "true",
+      "effects": [ "silver +40", "npc steward feeling +8 letter", "npc priest feeling -6 letter", "flag ch_kentish_revolt_796_letter_done", "flag ch_kentish_revolt_796_letter = 0", "flag ch_kentish_revolt_796_6" ],
+      "note": "outcome: chain_kentish_revolt_796.s06.out_steward" },
+    { "key": "priest", "label_key": "chain_kentish_revolt_796.s06.opt_priest", "label": "Put it in the priest's hand and go out on the ebb", "check": "true", "default": true,
+      "effects": [ "npc priest feeling +4 letter", "flag ch_kentish_revolt_796_letter_done", "flag ch_kentish_revolt_796_letter = 0", "flag ch_kentish_revolt_796_6" ],
+      "note": "outcome: chain_kentish_revolt_796.s06.out_priest (costs nothing; the letter is delivered, and read to few)" }
+   ],
+   "memory": { "read.success": "had the abbot's letter read at the church door", "read.failure": "had the letter read, and was stoned for it", "steward": "gave the letter to the king's steward", "priest": "left the letter with the priest" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.s07_whose_coin",
+   "note": "Step 7, a turn (drawn at Dofras in 797 or early 798 for anyone on the chain). The Mercian king's reeve is gone from the bench and Eadberht's man hires the boat for a tide's lightering, and asks in what you will be paid. Sources: the reeve of Dofras 'changes, and changes again' (places/dofras.json, era 797-825; its reeve Hereberht, Offa's man, is invented); Eadberht's pennies were good silver of Offa's heavy standard as far as is known (?), so by weight they were worth what any penny was after he fell: the fear is real, the loss is not. Weaving at Dover (places/dofras.json). People: Ealdhun, Eadberht's man, is invented (Eald- + -hun); Beornflaed is dofras.alewife. Sets ch_kentish_revolt_796_7; ch_kentish_revolt_796_praen_coin if paid in the new pennies.",
+   "stage": "harbour",
+   "when": "moored and port.id = dofras and (year = 797 or (year = 798 and month < 7)) and flag.ch_kentish_revolt_796_1 and not flag.ch_kentish_revolt_796_7",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "buyer": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 50], "fixed": true, "note": "Ealdhun, King Eadberht's man on the reeve's bench at Dofras; invented" },
+    "alewife": { "role": "alewife", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [35, 60], "fixed": true, "note": "dofras.alewife, Beornflaed" }
+   },
+   "title_key": "chain_kentish_revolt_796.s07.title",
+   "title": "In whose coin",
+   "intention_key": "chain_kentish_revolt_796.s07.intention",
+   "intention": "The old reeve's bench at Dofras has a new man on it. The king's hall has stores lying on the shingle that must go round to the Stour, and yours is the only keel on the beach.",
+   "lines": [
+    { "who": "buyer", "key": "chain_kentish_revolt_796.s07.buyer_work" },
+    { "who": "buyer", "key": "chain_kentish_revolt_796.s07.buyer_coin" },
+    { "who": "alewife", "key": "chain_kentish_revolt_796.s07.alewife_reeve" },
+    { "who": "alewife", "key": "chain_kentish_revolt_796.s07.alewife_coin" },
+    { "who": "buyer", "key": "chain_kentish_revolt_796.s07.buyer_known", "when": "flag.ch_kentish_revolt_796_kent or flag.ch_kentish_revolt_796_corn" }
+   ],
+   "options": [
+    { "key": "new_coin", "label_key": "chain_kentish_revolt_796.s07.opt_new_coin", "label": "Do the work for the new pennies, a third over the rate", "check": "true",
+      "effects": [ "silver +160", "npc buyer feeling +6 freight", "flag ch_kentish_revolt_796_praen_coin", "flag ch_kentish_revolt_796_7" ],
+      "note": "outcome: chain_kentish_revolt_796.s07.out_new_coin (a turn: 160 d; the alewife's warning comes first)" },
+    { "key": "old_coin", "label_key": "chain_kentish_revolt_796.s07.opt_old_coin", "label": "Do it for old King Offa's pennies, and fewer of them", "check": "true",
+      "effects": [ "silver +100", "npc buyer feeling +2 freight", "flag ch_kentish_revolt_796_7" ],
+      "note": "outcome: chain_kentish_revolt_796.s07.out_old_coin" },
+    { "key": "cloth", "label_key": "chain_kentish_revolt_796.s07.opt_cloth", "label": "Do it for cloth off the Dofras looms", "check": "true",
+      "effects": [ "goods wool_cloth +7", "npc buyer feeling +4 freight", "npc alewife feeling +3 cloth", "flag ch_kentish_revolt_796_7" ],
+      "note": "outcome: chain_kentish_revolt_796.s07.out_cloth (seven bolts, worth about 126 d and more over the water)" },
+    { "key": "refuse", "label_key": "chain_kentish_revolt_796.s07.opt_refuse", "label": "Say the tide does not serve, and drink your ale", "check": "true", "default": true,
+      "effects": [ "npc buyer feeling -3 refused", "npc alewife feeling +2 ale", "flag ch_kentish_revolt_796_7" ],
+      "note": "outcome: chain_kentish_revolt_796.s07.out_refuse (costs nothing)" }
+   ],
+   "memory": { "new_coin": "carried the hall's stores for new pennies", "old_coin": "carried the stores for old pennies", "cloth": "carried the stores for cloth", "refuse": "said the tide did not serve" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.s08_popes_answer",
+   "note": "Step 8 (drawn at Lundenwic from January to June 798 for anyone on the chain). The pope's answer has come and the king will go into Kent this summer. Sources: Coenwulf wrote to Pope Leo III asking that the southern archbishopric be moved to London; Leo refused, and cast Eadberht out of the Church as a priest who had made himself king (Leo III to Coenwulf, 798, Haddan and Stubbs, Councils III; chronicle_793.json 798-leo-canterbury; English Historical Documents no. 205 through Wikipedia 'Coenwulf of Mercia': our rendering, not a quotation). The comparison with Julian the Apostate is from memory of that letter (?). The army went in 798; the season is not recorded (the chronicle table fires it at midsummer) (?). Where Aethelheard waited is not recorded: the game has him at Lundenwic under the Mercian king (spine, cast.aethelheard) (?). The archbishop's offer of a penitent's life for a kingdom laid down is ours: it is the door to the changed ending and opens only if the letter was read openly (ch_kentish_revolt_796_read). Cast: cast.wighelm, cast.aethelheard. Sets ch_kentish_revolt_796_8; ch_kentish_revolt_796_mercia with ch_kentish_revolt_796_pilot, or ch_kentish_revolt_796_offer, or ch_kentish_revolt_796_kent with ch_kentish_revolt_796_warned.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year = 798 and month < 7 and flag.ch_kentish_revolt_796_1 and not flag.ch_kentish_revolt_796_8",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 55], "fixed": true, "note": "cast.wighelm" },
+    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "age": [48, 60], "fixed": true, "note": "cast.aethelheard, archbishop of Canterbury, out of his see since 796; historical" }
+   },
+   "title_key": "chain_kentish_revolt_796.s08.title",
+   "title": "The answer from Rome",
+   "intention_key": "chain_kentish_revolt_796.s08.intention",
+   "intention": "The reeve sends for you to the king's hall in the wic. A tonsured man in a travelling cloak sits by the wall with a book chest at his feet, and lets the reeve do the talking.",
+   "lines": [
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s08.reeve_answer" },
+    { "who": "bishop", "key": "chain_kentish_revolt_796.s08.bishop_see" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s08.reeve_army" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s08.reeve_boats" },
+    { "who": "bishop", "key": "chain_kentish_revolt_796.s08.bishop_offer", "when": "flag.ch_kentish_revolt_796_read" },
+    { "who": "bishop", "key": "chain_kentish_revolt_796.s08.bishop_unread", "when": "flag.ch_kentish_revolt_796_letter_done and not flag.ch_kentish_revolt_796_read" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s08.reeve_spears", "when": "flag.ch_kentish_revolt_796_kent" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.s08.reeve_coin", "when": "flag.ch_kentish_revolt_796_praen_coin" }
+   ],
+   "options": [
+    { "key": "pilot", "label_key": "chain_kentish_revolt_796.s08.opt_pilot", "label": "Agree to bring the king's corn boats through the Wantsum when the army goes", "check": "true",
+      "effects": [ "silver +120", "npc reeve feeling +8 pilot", "flag ch_kentish_revolt_796_mercia", "flag ch_kentish_revolt_796_pilot", "flag ch_kentish_revolt_796_8" ],
+      "note": "outcome: chain_kentish_revolt_796.s08.out_pilot (a turn: 120 d in hand, the rest on the day)" },
+    { "key": "offer", "label_key": "chain_kentish_revolt_796.s08.opt_offer", "label": "Carry the archbishop's offer to Kent: lay the kingdom down, and live", "check": "flag.ch_kentish_revolt_796_read",
+      "effects": [ "deed carried_letters", "npc bishop feeling +10 offer", "flag ch_kentish_revolt_796_offer", "flag ch_kentish_revolt_796_8", "schedule harbour.chain_kentish_revolt_796.s09_night_at_sarre in 4 at sarre" ],
+      "note": "outcome: chain_kentish_revolt_796.s08.out_offer (only for the man whose letter was read at the church door: Kent knows his boat)" },
+    { "key": "warn", "label_key": "chain_kentish_revolt_796.s08.opt_warn", "label": "Say little, sail on the ebb, and tell Kent what is coming", "check": "true",
+      "effects": [ "flag ch_kentish_revolt_796_warned", "flag ch_kentish_revolt_796_kent", "flag ch_kentish_revolt_796_8" ],
+      "note": "outcome: chain_kentish_revolt_796.s08.out_warn (takes Kent's side for good)" },
+    { "key": "none", "label_key": "chain_kentish_revolt_796.s08.opt_none", "label": "Hear it out, and promise nothing to anyone", "check": "true", "default": true,
+      "effects": [ "npc reeve feeling -1 nothing", "news chain_kentish_revolt_796.news.army at here", "flag ch_kentish_revolt_796_8" ],
+      "note": "outcome: chain_kentish_revolt_796.s08.out_none (costs nothing)" }
+   ],
+   "memory": { "pilot": "agreed to pilot the king's corn boats", "offer": "took the archbishop's offer to Kent", "warn": "sailed to warn Kent", "none": "promised nothing" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.s09_night_at_sarre",
+   "note": "Step 9, the hard road only (scheduled 4 days after step 8 at Sarre, before August 798 and before the army comes). The offer is put to a tonsured king in the ferryman's hut. Sources: Eadberht had been a priest (the byname Praen; Leo III's letter of 798); he had lived in exile among the Franks (as step 3); what really followed was his capture and maiming (Anglo-Saxon Chronicle 796 for 798). This meeting, the offer and his going are invented: it is where the player may change history. Success sets ch_kentish_revolt_796_spared and changed_kent_798_spared and schedules the changed ending; failure sets ch_kentish_revolt_796_offer_refused and the story goes on to step 10. People: Eadberht Praen is historical (king of Kent 796 to 798); Heahred as step 1. Sets ch_kentish_revolt_796_9.",
+   "stage": "harbour",
+   "when": "moored and port.id = sarre and year = 798 and month < 8 and flag.ch_kentish_revolt_796_offer and not flag.ch_kentish_revolt_796_9 and not flag.ch_kentish_revolt_796_10",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "praen": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 45], "fixed": true, "note": "Eadberht Praen, king of Kent 796 to 798, once a priest; historical. His age is a guess (?)" },
+    "thegn": { "role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 40], "fixed": false, "note": "Heahred, the thegn's man of step 1; invented" }
+   },
+   "title_key": "chain_kentish_revolt_796.s09.title",
+   "title": "A night at the crossing",
+   "intention_key": "chain_kentish_revolt_796.s09.intention",
+   "intention": "After dark a man fetches you to the ferryman's hut above the strand. Inside, by one rushlight, sits a man with a king's ring on his hand and the mark of an old tonsure under his hair.",
+   "lines": [
+    { "who": "thegn", "key": "chain_kentish_revolt_796.s09.thegn_door" },
+    { "who": "praen", "key": "chain_kentish_revolt_796.s09.praen_reads" },
+    { "who": "praen", "key": "chain_kentish_revolt_796.s09.praen_julian" },
+    { "who": "praen", "key": "chain_kentish_revolt_796.s09.praen_franks" },
+    { "who": "thegn", "key": "chain_kentish_revolt_796.s09.thegn_no" },
+    { "who": "praen", "key": "chain_kentish_revolt_796.s09.praen_asks" }
+   ],
+   "options": [
+    { "key": "passage", "label_key": "chain_kentish_revolt_796.s09.opt_passage", "label": "Say it plainly: the army comes after the hay, and your boat can be over the water by first light", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "passenger praen to quentovic", "npc praen feeling +10 passage", "flag ch_kentish_revolt_796_spared", "flag changed_kent_798_spared", "schedule harbour.chain_kentish_revolt_796.end_spared in 40 at fordwic" ],
+                     "failure": [ "morale -0.05", "npc thegn feeling -6 offer", "flag ch_kentish_revolt_796_offer_refused" ] },
+                   "flag ch_kentish_revolt_796_9" ],
+      "note": "outcome: chain_kentish_revolt_796.s09.out_passage_success / out_passage_failure (doubtful)" },
+    { "key": "friend", "label_key": "chain_kentish_revolt_796.s09.opt_friend", "label": "Remind them whose corn and whose toll Kent has had from you, and put it as a friend", "check": "flag.ch_kentish_revolt_796_corn or flag.ch_kentish_revolt_796_paid_kent or flag.ch_kentish_revolt_796_kent",
+      "effects": [ { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "passenger praen to quentovic", "npc praen feeling +12 friend", "npc thegn feeling +4 friend", "flag ch_kentish_revolt_796_spared", "flag changed_kent_798_spared", "schedule harbour.chain_kentish_revolt_796.end_spared in 40 at fordwic" ],
+                     "failure": [ "npc thegn feeling -3 offer", "flag ch_kentish_revolt_796_offer_refused" ] },
+                   "flag ch_kentish_revolt_796_9" ],
+      "note": "outcome: chain_kentish_revolt_796.s09.out_friend_success / out_friend_failure (likely: a man who dealt with Kent is heard)" },
+    { "key": "leave", "label_key": "chain_kentish_revolt_796.s09.opt_leave", "label": "Lay the letter on the table and wait on the strand for the tide; the choosing is theirs", "check": "true", "default": true,
+      "effects": [ { "chance": 0.3,
+                     "success": [ "npc praen feeling +6 left", "flag ch_kentish_revolt_796_spared", "flag changed_kent_798_spared", "schedule harbour.chain_kentish_revolt_796.end_spared in 40 at fordwic" ],
+                     "failure": [ "flag ch_kentish_revolt_796_offer_refused" ] },
+                   "flag ch_kentish_revolt_796_9" ],
+      "note": "outcome: chain_kentish_revolt_796.s09.out_leave_success / out_leave_failure (doubtful; costs a night and nothing else. If he goes, he goes by his own road and not in your boat)" }
+   ],
+   "memory": { "passage.success": "took the king over the water", "passage.failure": "offered a king passage and was refused", "friend.success": "spoke as a friend and took the king over", "friend.failure": "spoke as a friend and was refused", "leave.success": "left the letter on the table", "leave.failure": "left the letter on the table" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.s10_as_far_as_the_marsh",
+   "note": "Step 10 (drawn at Sarre, Dofras or Fordwic from July 798 through 799, unless Kent was spared). The Mercian army is in Kent. Sources: 'Cynewulf [Cenwulf], King of Mercia, made inroads upon the inhabitants of Kent as far as the marsh; and the Mercians seized Edbert Pryn, their king, led him bound into Mercia' (Anglo-Saxon Chronicle 796 for 798, tr. J. Ingram, 1823; quoted in the intention and the news); the same annal adds that his eyes were put out and his hands cut off; the Marsh is Romney Marsh, the land of the Merscware (?). Christ Church and the Kentish minsters lost goods in these years (Kirby, p. 178 (?)). Fugitives taken off the beaches, plunder sold by spearmen and the king's corn boats in the Wantsum are ours. People: Beornheah, a thegn of the Marsh, is invented (Beorn- + -heah). Sets ch_kentish_revolt_796_10 and one of ch_kentish_revolt_796_ferried, ch_kentish_revolt_796_ferried_paid, ch_kentish_revolt_796_loot, ch_kentish_revolt_796_piloted.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = dofras or port.id = fordwic) and ((year = 798 and month >= 7) or year = 799) and flag.ch_kentish_revolt_796_1 and not flag.ch_kentish_revolt_796_spared and not flag.ch_kentish_revolt_796_10",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "thegn": { "role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": true, "note": "Beornheah, a Kentish thegn with land by the Marsh, with his wife, two children and nine of his people; invented" },
+    "soldier": { "role": "warrior", "people": "english", "faith": "christian", "tongue": "old_english", "age": [20, 40], "fixed": false, "note": "a Mercian spearman with a sack; invented, unnamed" }
+   },
+   "title_key": "chain_kentish_revolt_796.s10.title",
+   "title": "As far as the marsh",
+   "intention_key": "chain_kentish_revolt_796.s10.intention",
+   "intention": "This year the king of the Mercians made inroads upon the inhabitants of Kent as far as the marsh. Smoke stands along the down, and the beach is full of people who have never asked the price of a passage before.",
+   "lines": [
+    { "who": "thegn", "key": "chain_kentish_revolt_796.s10.thegn_boat" },
+    { "who": "thegn", "key": "chain_kentish_revolt_796.s10.thegn_king" },
+    { "who": "soldier", "key": "chain_kentish_revolt_796.s10.soldier_sack" },
+    { "who": "soldier", "key": "chain_kentish_revolt_796.s10.soldier_warn" },
+    { "who": "soldier", "key": "chain_kentish_revolt_796.s10.soldier_boats", "when": "flag.ch_kentish_revolt_796_pilot" },
+    { "who": "thegn", "key": "chain_kentish_revolt_796.s10.thegn_warned", "when": "flag.ch_kentish_revolt_796_warned" },
+    { "who": "thegn", "key": "chain_kentish_revolt_796.s10.thegn_refused", "when": "flag.ch_kentish_revolt_796_offer_refused" }
+   ],
+   "options": [
+    { "key": "free", "label_key": "chain_kentish_revolt_796.s10.opt_free", "label": "Take as many off the beach as she will carry, and ask nothing", "check": "true", "default": true,
+      "effects": [ "deed gave_alms", "morale +0.05", "npc thegn feeling +15 ferried", "news chain_kentish_revolt_796.news.waste at quentovic", "flag ch_kentish_revolt_796_ferried", "flag ch_kentish_revolt_796_10" ],
+      "note": "outcome: chain_kentish_revolt_796.s10.out_free (costs a tide and an empty hold)" },
+    { "key": "paid", "label_key": "chain_kentish_revolt_796.s10.opt_paid", "label": "Take the thegn's household over the water for his silver", "check": "true",
+      "effects": [ "silver +150", "npc thegn feeling +3 paid_passage", "news chain_kentish_revolt_796.news.waste at quentovic", "flag ch_kentish_revolt_796_ferried_paid", "flag ch_kentish_revolt_796_10" ],
+      "note": "outcome: chain_kentish_revolt_796.s10.out_paid" },
+    { "key": "loot", "label_key": "chain_kentish_revolt_796.s10.opt_loot", "label": "Buy what the spearman has in his sack", "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "goods church_plate +1", "goods wool_cloth +6", "npc soldier feeling +4 bought", "npc thegn feeling -10 loot", "news chain_kentish_revolt_796.news.waste at lundenwic", "flag ch_kentish_revolt_796_loot", "flag ch_kentish_revolt_796_10" ],
+      "note": "outcome: chain_kentish_revolt_796.s10.out_loot (about 350 d of goods for 60; the spearman himself says first who asks after church silver)" },
+    { "key": "pilot", "label_key": "chain_kentish_revolt_796.s10.opt_pilot", "label": "Bring the king's corn boats through the Wantsum, as you said you would", "check": "flag.ch_kentish_revolt_796_pilot",
+      "effects": [ "silver +160", "npc soldier feeling +5 piloted", "news chain_kentish_revolt_796.news.waste at lundenwic", "flag ch_kentish_revolt_796_piloted", "flag ch_kentish_revolt_796_10" ],
+      "note": "outcome: chain_kentish_revolt_796.s10.out_pilot" }
+   ],
+   "memory": { "free": "took people off the beach for nothing", "paid": "took a household over for silver", "loot": "bought plunder from a spearman", "pilot": "brought the Mercian corn boats through" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.end_mercia",
+   "note": "Ending 1, what happened (drawn at Sarre or Fordwic from September 798 to 800, for anyone who went through step 10 without taking Kent's side). Cuthred, Coenwulf's brother, is king of Kent; the archbishop is home; the land is burnt and wants corn. Sources: Cuthred king of Kent 798 to 807 (in charters by 801, Kirby p. 179); Aethelheard back at Canterbury (he goes to Rome in 801); toll freedom for a named ship at Sarre and Fordwic by a king's writing (Sawyer 29, King Eadberht II for Minster in Thanet, 763 or 764: dossiers/sarre.md), given to minsters as far as the charters show, so a merchant's is the game's stretch (?). People: Cuthred's reeve and the archbishop's clerk are invented and unnamed. Sets ch_kentish_revolt_796_end_mercia and ch_kentish_revolt_796_done, and one or two of unlock_charter_sarre, unlock_title_archbishops_man, unlock_charter_fordwic, unlock_plot_sarre.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = fordwic) and ((year = 798 and month >= 9) or year = 799 or year = 800) and flag.ch_kentish_revolt_796_10 and not flag.ch_kentish_revolt_796_kent and not flag.ch_kentish_revolt_796_spared and not flag.ch_kentish_revolt_796_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 50], "fixed": true, "note": "King Cuthred's reeve, a Mercian; invented, unnamed" },
+    "clerk": { "role": "clerk", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 45], "fixed": true, "note": "a clerk of Archbishop Aethelheard's household; invented, unnamed" }
+   },
+   "title_key": "chain_kentish_revolt_796.end_mercia.title",
+   "title": "One tally again",
+   "intention_key": "chain_kentish_revolt_796.end_mercia.intention",
+   "intention": "There is one man at the toll bench again, and one tally. Behind him the hall roofs are black rafters, and the first thing he asks any skipper is whether he carries corn.",
+   "lines": [
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_mercia.reeve_cuthred" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_mercia.reeve_bound" },
+    { "who": "clerk", "key": "chain_kentish_revolt_796.end_mercia.clerk_home" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_mercia.reeve_served", "when": "flag.ch_kentish_revolt_796_mercia" },
+    { "who": "clerk", "key": "chain_kentish_revolt_796.end_mercia.clerk_letter", "when": "flag.ch_kentish_revolt_796_letter_done" },
+    { "who": "clerk", "key": "chain_kentish_revolt_796.end_mercia.clerk_tried", "when": "flag.ch_kentish_revolt_796_offer_refused" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_mercia.reeve_coin", "when": "flag.ch_kentish_revolt_796_praen_coin" }
+   ],
+   "options": [
+    { "key": "writing", "label_key": "chain_kentish_revolt_796.end_mercia.opt_writing", "label": "Ask the king's writing: one keel of yours free of toll at Sarre, as the abbess's ships are", "check": "flag.ch_kentish_revolt_796_mercia",
+      "effects": [ "silver +700", "npc reeve feeling +10 writing", "flag unlock_charter_sarre", "flag ch_kentish_revolt_796_end_mercia", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_mercia.out_writing (finale: 700 d and the charter)" },
+    { "key": "tried", "label_key": "chain_kentish_revolt_796.end_mercia.opt_tried", "label": "Take what the archbishop offers the man who carried his word to Sarre", "check": "flag.ch_kentish_revolt_796_offer_refused",
+      "effects": [ "silver +1100", "npc clerk feeling +12 tried", "flag unlock_title_archbishops_man", "flag unlock_charter_fordwic", "flag ch_kentish_revolt_796_end_mercia", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_mercia.out_tried (the hard road that failed: 1,100 d and two grand rewards)" },
+    { "key": "church", "label_key": "chain_kentish_revolt_796.end_mercia.opt_church", "label": "Ask the archbishop's protection for the boat that carried the abbot's letter", "check": "flag.ch_kentish_revolt_796_letter_done",
+      "effects": [ "silver +600", "learn latin +0.1", "npc clerk feeling +8 protection", "flag unlock_title_archbishops_man", "flag ch_kentish_revolt_796_end_mercia", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_mercia.out_church (finale: 600 d and the archbishop's protection)" },
+    { "key": "ground", "label_key": "chain_kentish_revolt_796.end_mercia.opt_ground", "label": "Take a burnt toft by the Sarre landing for the asking, and the reeve's order for seed corn", "check": "true", "default": true,
+      "effects": [ "silver +250", "commission wheat 20 by 120 premium 1.0", "price_shock sarre wheat x2.0 for 180", "price_shock fordwic wheat x2.0 for 180", "flag unlock_plot_sarre", "flag ch_kentish_revolt_796_end_mercia", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_mercia.out_ground (open to anyone: 250 d of earnest, corn at double for half a year, twenty sacks ordered at double, and ground at Sarre: worth 600 d and more)" }
+   ],
+   "memory": { "writing": "was given the king's writing at Sarre", "tried": "was rewarded for carrying the offer", "church": "took the archbishop's protection", "ground": "took a burnt toft and an order for corn" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.end_kent",
+   "note": "Ending 2, what happened, from the losing side (drawn at Quentovic or Dofras from September 798 to 800, for a man who took Kent's side and never the reeve's). The Kentish who got away settle what they owe. Sources: Kent laid waste and its king led away bound (Anglo-Saxon Chronicle 796 for 798); exiles from English kingdoms lived under King Charles's protection (Charles to Offa, 796); a sworn partnership in a boat is the Norse felag of CHAINS.md, among the English a sworn fellowship (?); the Wantsum and the Stour mouth as waters to be learned (dossiers/sarre.md). That Kentish thegns fled to Quentovic in 798 is ours (?). People: Beornheah as step 10. Sets ch_kentish_revolt_796_end_kent, ch_kentish_revolt_796_done and the lasting cost ch_kentish_revolt_796_mercia_remembers, and one or two of unlock_partner_beornheah, unlock_pilot_wantsum, unlock_ship_coaster_minster_ship.",
+   "stage": "harbour",
+   "when": "moored and (port.id = quentovic or port.id = dofras) and ((year = 798 and month >= 9) or year = 799 or year = 800) and flag.ch_kentish_revolt_796_10 and flag.ch_kentish_revolt_796_kent and not flag.ch_kentish_revolt_796_mercia and not flag.ch_kentish_revolt_796_spared and not flag.ch_kentish_revolt_796_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "thegn": { "role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": true, "note": "Beornheah, the thegn of the Marsh, landless now; invented" }
+   },
+   "title_key": "chain_kentish_revolt_796.end_kent.title",
+   "title": "What Kent owes",
+   "intention_key": "chain_kentish_revolt_796.end_kent.intention",
+   "intention": "The thegn of the Marsh finds your boat before you have made fast. He has a sea chest, a boy of twelve, and a way of standing that says the chest is all of it.",
+   "lines": [
+    { "who": "thegn", "key": "chain_kentish_revolt_796.end_kent.thegn_owes" },
+    { "who": "thegn", "key": "chain_kentish_revolt_796.end_kent.thegn_king" },
+    { "who": "thegn", "key": "chain_kentish_revolt_796.end_kent.thegn_ferried", "when": "flag.ch_kentish_revolt_796_ferried" },
+    { "who": "thegn", "key": "chain_kentish_revolt_796.end_kent.thegn_paid", "when": "flag.ch_kentish_revolt_796_ferried_paid" },
+    { "who": "thegn", "key": "chain_kentish_revolt_796.end_kent.thegn_loot", "when": "flag.ch_kentish_revolt_796_loot" },
+    { "who": "thegn", "key": "chain_kentish_revolt_796.end_kent.thegn_reeve" }
+   ],
+   "options": [
+    { "key": "partner", "label_key": "chain_kentish_revolt_796.end_kent.opt_partner", "label": "Swear fellowship with him: his chest and his knowledge of the coast in a second boat", "check": "flag.ch_kentish_revolt_796_ferried",
+      "effects": [ "silver +600", "npc thegn feeling +15 fellowship", "flag unlock_partner_beornheah", "flag unlock_pilot_wantsum", "flag ch_kentish_revolt_796_mercia_remembers", "flag ch_kentish_revolt_796_end_kent", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_kent.out_partner (the honest road: 600 d and two grand rewards; only for the man who took people off the beach for nothing)" },
+    { "key": "keel", "label_key": "chain_kentish_revolt_796.end_kent.opt_keel", "label": "Take his coaster, got out of the Stour before the burning, against all that is owed", "check": "true",
+      "effects": [ "silver +250", "npc thegn feeling +4 keel", "flag unlock_ship_coaster_minster_ship", "flag ch_kentish_revolt_796_mercia_remembers", "flag ch_kentish_revolt_796_end_kent", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_kent.out_keel (finale: a ship and 250 d)" },
+    { "key": "wool", "label_key": "chain_kentish_revolt_796.end_kent.opt_wool", "label": "Take the last of his wool and be shown the swatchways of the Wantsum", "check": "true", "default": true,
+      "effects": [ "silver +100", "goods wool_cloth +30", "flag unlock_pilot_wantsum", "flag ch_kentish_revolt_796_mercia_remembers", "flag ch_kentish_revolt_796_end_kent", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_kent.out_wool (finale: thirty bolts, worth about 540 d, 100 d, and the water)" }
+   ],
+   "memory": { "partner": "swore fellowship", "keel": "took the coaster for the debt", "wool": "took the wool and the knowledge of the Wantsum" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.end_both",
+   "note": "Ending 3, the two-faced man's reckoning (drawn at Lundenwic from September 798 to 800, for a man who served the reeve and armed or warned Kent). The reeve lays two tallies side by side. Sources: London burned in 798 with great loss of life (Historia Regum 798; chronicle_793.json 798-london-fire-798), so the wic wants timber, corn and men who can find them; seized ships sold by a king's reeve are ours (?). Cast: cast.wighelm. Sets ch_kentish_revolt_796_end_both, ch_kentish_revolt_796_done, and unlock_factor_lundenwic with the cost ch_kentish_revolt_796_informer, or unlock_ship_north_sea_merchant_ship with ch_kentish_revolt_796_two_faced, or unlock_pilot_wantsum with ch_kentish_revolt_796_watched.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and ((year = 798 and month >= 9) or year = 799 or year = 800) and flag.ch_kentish_revolt_796_10 and flag.ch_kentish_revolt_796_kent and flag.ch_kentish_revolt_796_mercia and not flag.ch_kentish_revolt_796_spared and not flag.ch_kentish_revolt_796_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 55], "fixed": true, "note": "cast.wighelm" }
+   },
+   "title_key": "chain_kentish_revolt_796.end_both.title",
+   "title": "Two tallies, side by side",
+   "intention_key": "chain_kentish_revolt_796.end_both.intention",
+   "intention": "The Strand smells of wet ash. The reeve has two tally sticks on the table in the king's hall: what you did for his king, and what you did for the other one.",
+   "lines": [
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_both.reeve_two" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_both.reeve_fire" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_both.reeve_coin", "when": "flag.ch_kentish_revolt_796_praen_coin" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_both.reeve_choice" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_both.reeve_warn" }
+   ],
+   "options": [
+    { "key": "names", "label_key": "chain_kentish_revolt_796.end_both.opt_names", "label": "Buy his silence with names: who in Kent ordered iron, and who paid", "check": "true",
+      "effects": [ "silver +800", "npc reeve feeling +6 names", "flag unlock_factor_lundenwic", "flag ch_kentish_revolt_796_informer", "flag ch_kentish_revolt_796_end_both", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_both.out_names (finale: 800 d and a man on the Strand; the cost is said first in reeve_warn)" },
+    { "key": "hull", "label_key": "chain_kentish_revolt_796.end_both.opt_hull", "label": "Buy the Kentish trader he took at Fordwic, at a tenth of her worth", "check": "silver >= 300", "cost": "silver 300",
+      "effects": [ "npc reeve feeling +3 hull", "flag unlock_ship_north_sea_merchant_ship", "flag ch_kentish_revolt_796_two_faced", "flag ch_kentish_revolt_796_end_both", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_both.out_hull (finale: a sea-going ship worth several thousand for 300 d)" },
+    { "key": "plain", "label_key": "chain_kentish_revolt_796.end_both.opt_plain", "label": "Say a merchant sells to whoever stands on the beach, and wait", "check": "true", "default": true,
+      "effects": [ "silver +600", "commission wheat 20 by 90 premium 0.8", "flag unlock_pilot_wantsum", "flag ch_kentish_revolt_796_watched", "flag ch_kentish_revolt_796_end_both", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_both.out_plain (costs pride only: 600 d of earnest for the burnt wic's corn, and the reeve's leave to keep using the water you learned)" }
+   ],
+   "memory": { "names": "gave him names from Kent", "hull": "bought the seized Kentish ship", "plain": "said a merchant sells to whoever stands on the beach" }
+  },
+  {
+   "id": "harbour.chain_kentish_revolt_796.end_spared",
+   "note": "Ending 4, history changed (scheduled 40 days after step 9 at Fordwic; also drawn there to 800). Eadberht has laid the kingdom down and gone over the water, the Mercian king comes into Kent without burning it, and the archbishop comes home. What really happened is ending 1. Sources for what stays true: Cuthred king of Kent 798 to 807; Aethelheard archbishop to 805; Pope Leo's refusal to move the see (798). Invented: all the rest. Cast: cast.aethelheard. Sets ch_kentish_revolt_796_end_spared, changed_kent_798_spared, ch_kentish_revolt_796_done and two grand rewards from unlock_title_archbishops_man, unlock_charter_fordwic, unlock_plot_fordwic, unlock_factor_fordwic, unlock_charter_sarre.",
+   "stage": "harbour",
+   "when": "moored and port.id = fordwic and year >= 798 and year <= 800 and flag.ch_kentish_revolt_796_spared and not flag.ch_kentish_revolt_796_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "age": [48, 60], "fixed": true, "note": "cast.aethelheard, home at Canterbury; historical" },
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 50], "fixed": true, "note": "King Cuthred's reeve, a Mercian; invented, unnamed" }
+   },
+   "title_key": "chain_kentish_revolt_796.end_spared.title",
+   "title": "Roofs still on",
+   "intention_key": "chain_kentish_revolt_796.end_spared.intention",
+   "intention": "The landing below Canterbury is as it was: thatch on the halls, corn in the ricks, one man at the toll bench. The archbishop has walked down from the city himself to see a Frisian boat come in.",
+   "lines": [
+    { "who": "bishop", "key": "chain_kentish_revolt_796.end_spared.bishop_home" },
+    { "who": "bishop", "key": "chain_kentish_revolt_796.end_spared.bishop_penitent" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_spared.reeve_king" },
+    { "who": "reeve", "key": "chain_kentish_revolt_796.end_spared.reeve_spears", "when": "flag.ch_kentish_revolt_796_kent" },
+    { "who": "bishop", "key": "chain_kentish_revolt_796.end_spared.bishop_ask" }
+   ],
+   "options": [
+    { "key": "writing", "label_key": "chain_kentish_revolt_796.end_spared.opt_writing", "label": "Ask the archbishop's protection, and a keel free of toll at Fordwic", "check": "true",
+      "effects": [ "silver +1200", "npc bishop feeling +15 writing", "flag unlock_title_archbishops_man", "flag unlock_charter_fordwic", "flag ch_kentish_revolt_796_end_spared", "flag changed_kent_798_spared", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_spared.out_writing (hard road: 1,200 d and two grand rewards)" },
+    { "key": "ground", "label_key": "chain_kentish_revolt_796.end_spared.opt_ground", "label": "Ask ground by the Stour and a clerk of the church to keep your goods there", "check": "true",
+      "effects": [ "silver +900", "npc bishop feeling +10 ground", "flag unlock_plot_fordwic", "flag unlock_factor_fordwic", "flag ch_kentish_revolt_796_end_spared", "flag changed_kent_798_spared", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_spared.out_ground (hard road: 900 d and two grand rewards)" },
+    { "key": "little", "label_key": "chain_kentish_revolt_796.end_spared.opt_little", "label": "Ask only what the abbess's ships have at Sarre, and give a tenth of the gift to the poor of Kent", "check": "true", "default": true,
+      "effects": [ "silver +600", "deed gave_alms", "npc bishop feeling +20 little", "flag unlock_charter_sarre", "flag unlock_title_archbishops_man", "flag ch_kentish_revolt_796_end_spared", "flag changed_kent_798_spared", "flag ch_kentish_revolt_796_done" ],
+      "note": "outcome: chain_kentish_revolt_796.end_spared.out_little (hard road: 600 d, two grand rewards and a good name)" }
+   ],
+   "memory": { "writing": "asked the archbishop's protection and a free keel", "ground": "asked ground by the Stour", "little": "asked little and gave a tenth away" }
+  }
+ ]
+}

@@ -1,0 +1,578 @@
+{
+ "about": "CHAIN riddle_trail (Design/content/chains/riddle_trail.md): a riddle-setter whose rune sticks lead from Dorestad by Ripa, the open sea and the Slie to the Danish kings' hall at Hleidr, 796 to about 808. Thirteen cards. It tells the heart of the spine's thread riddle_road and sets its two flags where their meaning is met (rd_setter_known at the Slie ferry, rd_last_question when Ravn speaks). The setter is Hroald of Salhaugar, an old man who held the thul's seat, the reciter's, by the king's hall; his son Gunnvald, who held it after him, is dead, and the father sets riddles to find a head that can hold what the two of them knew. Both names are real: the Snoldelev stone (DR 248, Zealand, about 800, now in the National Museum in Copenhagen) reads 'Gunnvald's stone, Hroald's son's, thul at Salhaugar'. Everything else about them is ours. Four endings: the stone raised and the lore lost (what really happened: ch_riddle_trail_end_stone), Ravn named the old man's heir (the hard road: ch_riddle_trail_end_heir), the lore written on calfskin four hundred and seventy years before Iceland wrote it (history changed: ch_riddle_trail_end_written with changed_norse_lore_written), and the son's mound opened by night (ch_riddle_trail_end_mound, with a feud). Progress is flags ch_riddle_trail_1 to _9; the road chosen at Salhaugar is one of ch_riddle_trail_road_stone, _road_heir, _road_written, _road_mound. Every riddle given is a real id of riddles_793.json (r-gest-02, r-gest-28, r-gest-05, r-gest-23, r-gest-12, r-gest-27, r-gest-34) and the last question is the text t-gest-36. Scheduled cards have weight 0 and are reached only by 'schedule' (their 'when' says when they belong). The words are in Data/writing/chain_riddle_trail.json; each option's note names the writing key of its outcome text (the engine shows the effects' own facts; the outcome keys are for the integrator). Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_riddle_trail.s01_stick",
+   "note": "Step 1, the start (drawn at Dorestad from 796 to 805, once the house has called there a few times). A Danish skipper in from Ripa hands over a rune stick 'from a guest'. The riddle is Gestumblindi's second, the bridge (r-gest-02; Hervarar saga, Vigfusson and Powell 1883); riddles_793.json has it with a carter at Ripa, who here is the man the answer is owed to. The runes are cut in the old row with some of the new signs, as on the Snoldelev stone (DR 248: an early short-row inscription that keeps the old h and a signs). The hand is cast.crew.ravn, who knows the cutting and does not say so. Sets ch_riddle_trail_1.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year >= 796 and year < 806 and port.visits > 2 and not flag.ch_riddle_trail_1",
+   "weight": 0.8,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "skipper": { "role": "skipper", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": false, "note": "a Dane of Ripa with hides and whetstones; invented, unnamed" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_riddle_trail.s01.title",
+   "title": "A stick from a guest",
+   "intention_key": "chain_riddle_trail.s01.intention",
+   "intention": "A Danish skipper in from Ripa asks which boat is the Frisian's with the Northman in it, and holds out a stick of ash wood cut with runes.",
+   "lines": [
+    { "who": "skipper", "key": "chain_riddle_trail.s01.skipper_asked" },
+    { "who": "skipper", "key": "chain_riddle_trail.s01.skipper_guest" },
+    { "who": "skipper", "key": "chain_riddle_trail.s01.skipper_carter" },
+    { "who": "hand", "key": "chain_riddle_trail.s01.hand_runes" },
+    { "who": "hand", "key": "chain_riddle_trail.s01.hand_first_riddle", "when": "riddle.r-gest-01 = solved" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_riddle_trail.s01.opt_take", "label": "Take the stick and put it in the chest",
+      "check": "true", "default": true,
+      "effects": [ "give_riddle r-gest-02", "npc skipper feeling +3 took", "flag ch_riddle_trail_1" ],
+      "note": "outcome: chain_riddle_trail.s01.out_take" },
+    { "key": "read", "label_key": "chain_riddle_trail.s01.opt_read", "label": "Have Ravn read it to you, sign by sign",
+      "check": "true",
+      "effects": [ "give_riddle r-gest-02", "learn runes +0.05", "npc hand feeling +2 read", "flag ch_riddle_trail_1" ],
+      "note": "outcome: chain_riddle_trail.s01.out_read (time only; a little of the runes is learned)" },
+    { "key": "refuse", "label_key": "chain_riddle_trail.s01.opt_refuse", "label": "Say a Frisian carries cloth, not kindling",
+      "check": "true",
+      "effects": [ "give_riddle r-gest-02", "npc skipper feeling -2 refused", "flag ch_riddle_trail_1" ],
+      "note": "outcome: chain_riddle_trail.s01.out_refuse (pride only: he leaves the stick on the thwart; no dead end)" }
+   ],
+   "memory": {
+    "take": "took the guest's stick",
+    "read": "had the stick read aloud on the dam",
+    "refuse": "called the guest's stick kindling"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s02_carter",
+   "note": "Step 2 (drawn at Ripa on the next call after step 1). The carter who takes goods inland from the landing (riddles_793.json r-gest-02 acquire) hears the answer and hands on the second stick, the cow (r-gest-28, which the table gives to a cattle dealer of Ripa). Ripa's cattle and hide trade: ports_793.json and the dung layers of the market plots (?). The price word is true: Frisian cloth sells well at Ripa. Sets ch_riddle_trail_2.",
+   "stage": "harbour",
+   "when": "moored and port.id = ripa and flag.ch_riddle_trail_1 and not flag.ch_riddle_trail_2",
+   "weight": 5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "carter": { "role": "carter", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [40, 60], "fixed": true, "note": "invented, unnamed; once a houseman at Hleidr" }
+   },
+   "title_key": "chain_riddle_trail.s02.title",
+   "title": "The carter at the landing",
+   "intention_key": "chain_riddle_trail.s02.intention",
+   "intention": "A carter with two oxen waits at the landing at Ripa. He looks at the stick in your belt before he looks at your cargo.",
+   "lines": [
+    { "who": "carter", "key": "chain_riddle_trail.s02.carter_waited" },
+    { "who": "carter", "key": "chain_riddle_trail.s02.carter_rule" },
+    { "who": "carter", "key": "chain_riddle_trail.s02.carter_solved", "when": "riddle.r-gest-02 = solved" },
+    { "who": "carter", "key": "chain_riddle_trail.s02.carter_unsolved", "when": "riddle.r-gest-02 != solved" }
+   ],
+   "options": [
+    { "key": "answer", "label_key": "chain_riddle_trail.s02.opt_answer", "label": "Give him the answer",
+      "check": "riddle.r-gest-02 = solved", "default": true,
+      "effects": [ "silver +20", "deed won_riddle", "npc carter feeling +10 answered", "give_riddle r-gest-28", "price_shock ripa frisian_cloth x1.25 for 60", "flag ch_riddle_trail_2" ],
+      "note": "outcome: chain_riddle_trail.s02.out_answer (a little weighed silver, the next stick and a true price word)" },
+    { "key": "ale", "label_key": "chain_riddle_trail.s02.opt_ale", "label": "Buy the ale and let him say it himself (4 d)",
+      "check": "silver >= 4", "cost": "silver 4",
+      "effects": [ "npc carter feeling +3 drank", "give_riddle r-gest-28", "flag ch_riddle_trail_2" ],
+      "note": "outcome: chain_riddle_trail.s02.out_ale" },
+    { "key": "shrug", "label_key": "chain_riddle_trail.s02.opt_shrug", "label": "Say you do not know, and help him load instead",
+      "check": "true",
+      "effects": [ "npc carter feeling -2 did_not_know", "give_riddle r-gest-28", "flag ch_riddle_trail_2" ],
+      "note": "outcome: chain_riddle_trail.s02.out_shrug (time and pride only)" }
+   ],
+   "memory": {
+    "answer": "answered the way of ways",
+    "ale": "bought ale for the answer",
+    "shrug": "did not know, and loaded the cart"
+   }
+  },
+  {
+   "id": "sea.chain_riddle_trail.s03_fog_hail",
+   "note": "Step 3 (at sea after step 2). A Norse ship closes and her master asks for the Frisian with the guest's sticks; he passes on the fog riddle (r-gest-05, which riddles_793.json gives to the master of a Norse ship hailed at sea). The rumour is true: Rhenish wine is dear on the Slie. Silver north of the Eider goes by weight, in rings and wire (BRIEF.md rule 2). Sets ch_riddle_trail_3.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_riddle_trail_2 and not flag.ch_riddle_trail_3",
+   "rate": 0.05,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "master": { "role": "master", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": false, "note": "invented, unnamed; a Vestfold man bound for the Slie" }
+   },
+   "title_key": "chain_riddle_trail.s03.title",
+   "title": "A hail across the water",
+   "intention_key": "chain_riddle_trail.s03.intention",
+   "intention": "A Norse ship alters course to pass close. Her master stands on the stern with a stick in his hand and shouts a question over the water.",
+   "lines": [
+    { "who": "master", "key": "chain_riddle_trail.s03.master_fog", "when": "fog > 0.4" },
+    { "who": "master", "key": "chain_riddle_trail.s03.master_clear", "when": "fog <= 0.4" },
+    { "who": "master", "key": "chain_riddle_trail.s03.master_cow" },
+    { "who": "master", "key": "chain_riddle_trail.s03.master_slie" }
+   ],
+   "options": [
+    { "key": "answer", "label_key": "chain_riddle_trail.s03.opt_answer", "label": "Shout the carter's answer across",
+      "check": "riddle.r-gest-28 = solved",
+      "effects": [ "encounter close_and_hail", "silver +15", "deed won_riddle", "npc master feeling +8 answered", "give_riddle r-gest-05", "price_shock sliesthorp rhenish_wine x1.3 for 90", "flag ch_riddle_trail_3" ],
+      "note": "outcome: chain_riddle_trail.s03.out_answer (a twist of silver wire thrown aboard, the next stick, a true price word)" },
+    { "key": "close", "label_key": "chain_riddle_trail.s03.opt_close", "label": "Close with him and take the stick by hand",
+      "check": "true", "default": true,
+      "effects": [ "encounter close_and_hail", "npc master feeling +2 closed", "give_riddle r-gest-05", "flag ch_riddle_trail_3" ],
+      "note": "outcome: chain_riddle_trail.s03.out_close (time only)" },
+    { "key": "hold", "label_key": "chain_riddle_trail.s03.opt_hold", "label": "Hold your course; a strange ship is a strange ship",
+      "check": "true",
+      "effects": [ "npc master feeling -2 held_off", "give_riddle r-gest-05", "flag ch_riddle_trail_3" ],
+      "note": "outcome: chain_riddle_trail.s03.out_hold (he throws the stick aboard in passing; no dead end)" }
+   ],
+   "memory": {
+    "answer": "shouted the answer over the water",
+    "close": "came alongside for the stick",
+    "hold": "held his course"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s04_ferryman",
+   "note": "Step 4, the first turn (drawn at Sliesthorp on the next call after step 3). The ferryman on the Slie has the third wave riddle (r-gest-23, his in riddles_793.json and one of the set aegirs_daughters). He hears the fog riddle's answer, pays out what the setter left with him, and tells what the men who hold the sticks have in common: all sat on one bench, and the one who cut them calls himself Gest. This is the spine's hook for Sliesthorp and sets rd_setter_known. Gestumblindi, 'the blind guest', is the riddler of the saga of King Heidrek (written in the 13th century; the name is not used in the cards, only Gest). Sliesthorp is first named in 804 (Annales regni Francorum); the market at the head of the Slie is older (ports_793.json). Sets ch_riddle_trail_4.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_riddle_trail_3 and not flag.ch_riddle_trail_4",
+   "weight": 5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "ferryman": { "role": "ferryman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [45, 60], "fixed": true, "note": "invented, unnamed; sat on the low bench at Hleidr as a young man" }
+   },
+   "title_key": "chain_riddle_trail.s04.title",
+   "title": "The ferry on the Slie",
+   "intention_key": "chain_riddle_trail.s04.intention",
+   "intention": "The ferryman on the Slie will not take a fare from you. He wants a word instead, and he has a small heavy bag tied under his thwart.",
+   "lines": [
+    { "who": "ferryman", "key": "chain_riddle_trail.s04.ferryman_fare" },
+    { "who": "ferryman", "key": "chain_riddle_trail.s04.ferryman_bench" },
+    { "who": "ferryman", "key": "chain_riddle_trail.s04.ferryman_gest" },
+    { "who": "ferryman", "key": "chain_riddle_trail.s04.ferryman_godfred", "when": "year >= 804" },
+    { "who": "ferryman", "key": "chain_riddle_trail.s04.ferryman_swine" }
+   ],
+   "options": [
+    { "key": "answer", "label_key": "chain_riddle_trail.s04.opt_answer", "label": "Tell him what swallows water and woods and fears the wind",
+      "check": "riddle.r-gest-05 = solved", "default": true,
+      "effects": [ "silver +120", "deed won_riddle", "npc ferryman feeling +10 answered", "give_riddle r-gest-23", "tongue old_norse = 0.5", "flag rd_setter_known", "flag ch_riddle_trail_4" ],
+      "note": "outcome: chain_riddle_trail.s04.out_answer (the turn: the bag the setter left, about 120 d of ring silver by weight)" },
+    { "key": "row", "label_key": "chain_riddle_trail.s04.opt_row", "label": "Take the other oar for a day and listen",
+      "check": "true",
+      "effects": [ "silver +30", "npc ferryman feeling +6 rowed", "give_riddle r-gest-23", "tongue old_norse = 0.5", "flag rd_setter_known", "flag ch_riddle_trail_4" ],
+      "note": "outcome: chain_riddle_trail.s04.out_row (time only: a day's fares shared, and a day of Danish in the ear)" },
+    { "key": "pay", "label_key": "chain_riddle_trail.s04.opt_pay", "label": "Pay him to say plainly where the sticks come from (10 d)",
+      "check": "silver >= 10", "cost": "silver 10",
+      "effects": [ "npc ferryman feeling -3 paid", "give_riddle r-gest-23", "flag rd_setter_known", "flag ch_riddle_trail_4" ],
+      "note": "outcome: chain_riddle_trail.s04.out_pay" }
+   ],
+   "memory": {
+    "answer": "answered the fog",
+    "row": "rowed the ferry for a day",
+    "pay": "paid silver for a plain answer"
+   }
+  },
+  {
+   "id": "crew.chain_riddle_trail.s05_ravn_speaks",
+   "note": "Step 5 (a crew card at sea after step 4). Ravn (cast.crew.ravn) says who cut the sticks: Hroald, who held the reciter's seat at Salhaugar by the king's hall, and who set him the last question when he was young. He answered it, which is the one wrong thing to do with it, and left Hleidr. The last question is Gestumblindi's, what Odin said in Balder's ear (texts_793.json t-gest-36; it also ends the lay of Vafthruthnir, st. 54). This is the spine's rd_last_question. Hroald and Salhaugar are the Snoldelev stone's (DR 248); that Hroald taught Ravn is ours. The lookout is cast.crew.beornwine. If Ravn is not aboard, the card should be read as the man who took his place telling what Ravn told him (?). Sets ch_riddle_trail_5.",
+   "stage": "crew",
+   "when": "under_way and flag.ch_riddle_trail_4 and not flag.ch_riddle_trail_5",
+   "rate": 0.08,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_riddle_trail.s05.title",
+   "title": "The hand at the cutting",
+   "intention_key": "chain_riddle_trail.s05.intention",
+   "intention": "On the night watch Ravn lays the four sticks side by side on the thwart and runs his thumb along the cuts. He has known the hand since Dorestad.",
+   "lines": [
+    { "who": "hand", "key": "chain_riddle_trail.s05.hand_h_rune" },
+    { "who": "hand", "key": "chain_riddle_trail.s05.hand_hroald" },
+    { "who": "lookout", "key": "chain_riddle_trail.s05.lookout_thyle" },
+    { "who": "hand", "key": "chain_riddle_trail.s05.hand_bench" }
+   ],
+   "options": [
+    { "key": "ask", "label_key": "chain_riddle_trail.s05.opt_ask", "label": "Ask him what the last question was",
+      "check": "true", "default": true,
+      "effects": [ "give_text t-gest-36", "npc hand feeling +5 asked", "flag rd_last_question", "flag ch_riddle_trail_5" ],
+      "note": "outcome: chain_riddle_trail.s05.out_ask" },
+    { "key": "wait", "label_key": "chain_riddle_trail.s05.opt_wait", "label": "Take his watch at the oar and let him talk or not",
+      "check": "true",
+      "effects": [ "give_text t-gest-36", "npc hand feeling +9 waited", "morale +0.05", "flag rd_last_question", "flag ch_riddle_trail_5" ],
+      "note": "outcome: chain_riddle_trail.s05.out_wait (time only; he tells it all before light)" },
+    { "key": "press", "label_key": "chain_riddle_trail.s05.opt_press", "label": "Tell him a hand does not keep a secret from the man who pays him",
+      "check": "true",
+      "effects": [ "npc hand feeling -8 pressed", "morale -0.05", "flag ch_riddle_trail_5" ],
+      "note": "outcome: chain_riddle_trail.s05.out_press (he names the old man and the place and no more: the heir's road at Salhaugar stays shut, the other roads are open)" }
+   ],
+   "memory": {
+    "ask": "asked for the last question",
+    "wait": "took his watch and let him talk",
+    "press": "pressed him as his paymaster"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s06_kings_swine",
+   "note": "Step 6 (drawn at Hleidr on the next call after step 5). The steward of the hall lets no stranger up to the benches unasked; the swineherd of the king's estate has the next riddle (r-gest-12, his in riddles_793.json), and a broken stick from the hall's midden goes with it (r-gest-27, found there in the table). Great halls stood at Lejre from the 6th to the 10th century (excavations of Tom Christensen, Roskilde Museum; npc_roles_793.json ports.hleidr). That a king of the Danes kept his feasts here about 800 is likely and not recorded (?). Pigs driven to mast in the oak woods in autumn: common practice (?). Sets ch_riddle_trail_6 and schedules step 7, the feast, three to five nights on.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_riddle_trail_5 and not flag.ch_riddle_trail_6",
+   "weight": 5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [40, 60], "fixed": true, "note": "the steward of the king's hall; invented, unnamed" },
+    "swineherd": { "role": "herdsman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [25, 60], "fixed": true, "note": "the swineherd of the king's estate (riddles_793.json r-gest-12)" }
+   },
+   "title_key": "chain_riddle_trail.s06.title",
+   "title": "Where the king's swine root",
+   "intention_key": "chain_riddle_trail.s06.intention",
+   "intention": "Below the great hall at Hleidr the steward bars the path with his staff. Behind him a swineherd counts pigs out of a pen and does not get the same number twice.",
+   "lines": [
+    { "who": "steward", "key": "chain_riddle_trail.s06.steward_bar" },
+    { "who": "steward", "key": "chain_riddle_trail.s06.steward_ferry" },
+    { "who": "swineherd", "key": "chain_riddle_trail.s06.swineherd_count" },
+    { "who": "steward", "key": "chain_riddle_trail.s06.steward_feast" }
+   ],
+   "options": [
+    { "key": "answer", "label_key": "chain_riddle_trail.s06.opt_answer", "label": "Name the white-hooded brides for the steward",
+      "check": "riddle.r-gest-23 = solved", "default": true,
+      "effects": [ "deed won_riddle", "npc steward feeling +8 answered", "give_riddle r-gest-12", "give_riddle r-gest-27", "flag ch_riddle_trail_6", "schedule harbour.chain_riddle_trail.s07_hall in 3 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s06.out_answer (a place at the feast, the swineherd's riddle, and a broken stick from the midden)" },
+    { "key": "herd", "label_key": "chain_riddle_trail.s06.opt_herd", "label": "Help drive the pigs to the oak wood, and hear his riddle on the way",
+      "check": "true",
+      "effects": [ "npc swineherd feeling +8 herded", "give_riddle r-gest-12", "flag ch_riddle_trail_6", "schedule harbour.chain_riddle_trail.s07_hall in 5 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s06.out_herd (two days and your pride: the swineherd's word gets you in)" },
+    { "key": "gift", "label_key": "chain_riddle_trail.s06.opt_gift", "label": "Give the steward a guest's gift (20 d)",
+      "check": "silver >= 20", "cost": "silver 20",
+      "effects": [ "npc steward feeling +4 gift", "give_riddle r-gest-12", "flag ch_riddle_trail_6", "schedule harbour.chain_riddle_trail.s07_hall in 3 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s06.out_gift" }
+   ],
+   "memory": {
+    "answer": "named the waves at the gate",
+    "herd": "drove the king's pigs",
+    "gift": "gave a guest's gift"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s07_hall",
+   "note": "Step 7, the second turn (scheduled by step 6, at Hleidr). The feast in the hall. The king is seen across the fire and speaks through his men (BRIEF.md); he is not an actor. Sigfred is the last king of the Danes named before 798 (Annales regni Francorum 777, 782, 798), Godfred from 804 to 810: the lines name him only by year, and between 799 and 803 no name is given. The king's skald sets his own riddle, the pun on hawk and duck (r-gest-34, bought of him for 12 d in riddles_793.json). A guest who cannot answer drinks for it (the spine's riddle_road; the forfeit is ours (?)). The skald is the old thul's rival: he makes verses, the thul only remembered them. A silver arm-ring given down the bench is the lord's ordinary gift ('ring-giver'). Sets ch_riddle_trail_7 and schedules step 8 two nights on.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_riddle_trail_6 and not flag.ch_riddle_trail_7",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "skald": { "role": "skald", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [28, 45], "fixed": true, "note": "the king's skald; invented, unnamed" },
+    "steward": { "role": "steward", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [40, 60], "fixed": true }
+   },
+   "title_key": "chain_riddle_trail.s07.title",
+   "title": "The low bench",
+   "intention_key": "chain_riddle_trail.s07.intention",
+   "intention": "You are seated on the low bench by the door, far from the fire. The king's skald walks down the hall with a horn in his hand and stops in front of you.",
+   "lines": [
+    { "who": "steward", "key": "chain_riddle_trail.s07.steward_seat" },
+    { "who": "skald", "key": "chain_riddle_trail.s07.skald_sow" },
+    { "who": "skald", "key": "chain_riddle_trail.s07.skald_old_man" },
+    { "who": "skald", "key": "chain_riddle_trail.s07.skald_sigfred", "when": "year < 799" },
+    { "who": "skald", "key": "chain_riddle_trail.s07.skald_godfred", "when": "year >= 804 and year <= 810" },
+    { "who": "skald", "key": "chain_riddle_trail.s07.skald_horn" }
+   ],
+   "options": [
+    { "key": "answer", "label_key": "chain_riddle_trail.s07.opt_answer", "label": "Answer the swineherd's riddle before the whole bench",
+      "check": "riddle.r-gest-12 = solved", "default": true,
+      "effects": [ "silver +150", "deed won_riddle", "npc skald feeling -4 bested", "npc steward feeling +6 answered", "give_riddle r-gest-34", "flag ch_riddle_trail_7", "schedule harbour.chain_riddle_trail.s08_salhaugar in 2 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s07.out_answer (the turn: an arm-ring sent down the bench, about 150 d by weight; the skald's own riddle to take away)" },
+    { "key": "drink", "label_key": "chain_riddle_trail.s07.opt_drink", "label": "Say you cannot, and drink the horn dry for it",
+      "check": "true",
+      "effects": [ "health -0.03", "morale +0.05", "npc skald feeling +6 drank", "give_riddle r-gest-34", "flag ch_riddle_trail_7", "schedule harbour.chain_riddle_trail.s08_salhaugar in 2 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s07.out_drink (pride and a sore head; the hall likes a man who pays the forfeit)" },
+    { "key": "buy", "label_key": "chain_riddle_trail.s07.opt_buy", "label": "Buy the skald's own riddle of him, and ask where the old man sits (12 d)",
+      "check": "silver >= 12", "cost": "silver 12",
+      "effects": [ "npc skald feeling +3 bought", "give_riddle r-gest-34", "flag ch_riddle_trail_7", "schedule harbour.chain_riddle_trail.s08_salhaugar in 2 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s07.out_buy" }
+   ],
+   "memory": {
+    "answer": "answered before the bench",
+    "drink": "drank the forfeit",
+    "buy": "bought the skald's riddle"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s08_salhaugar",
+   "note": "Step 8, the choice (scheduled by step 7, at Hleidr: Salhaugar is a morning's walk to the south-east). The setter is met: Hroald, old and nearly blind, at his farm by the mounds. His son Gunnvald, who held the seat after him, died at the winter nights; a grey stone lies by the door, uncut. He set the riddles to find a head that holds what is put into it, because what he knows is nowhere but in him. The stone is real (Snoldelev, DR 248, about 800: 'Gunnvald's stone, Hroald's son's, thul at Salhaugar'; found 1810, in the National Museum since 1811); Salhaugar is taken to be Salløv by Snoldelev. Which of the two men the word thul belongs to is disputed (Rundata gives it to Gunnvald): here both held the seat (?). What a thul was is not certain: a reciter, a keeper of old lore (Old English thyle, Unferth in Beowulf; Hávamál's 'fimbulthul'). That Hroald outlived his son, was blind, taught Ravn or set riddles is ours. Calfskin scraped for writing was got wherever calves were; nobody in the north wrote on it in 800. The four roads: the stone (ch_riddle_trail_road_stone, step 10), the heir (road_heir, step 11: open only to one who was told the last question and has solved five riddles), the writing (road_written, step 12) and the mound by night (step 9). Sets ch_riddle_trail_8.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_riddle_trail_7 and not flag.ch_riddle_trail_8",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "setter": { "role": "setter", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [68, 75], "fixed": true, "note": "Hroald of Salhaugar: the name and the place are the Snoldelev stone's (DR 248); all else invented" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_riddle_trail.s08.title",
+   "title": "Salhaugar",
+   "intention_key": "chain_riddle_trail.s08.intention",
+   "intention": "At the farm by the mounds an old man sits on a bench in the sun with his face turned to the wrong side of you. A grey stone as long as a man lies by the door, and nothing is cut on it.",
+   "lines": [
+    { "who": "setter", "key": "chain_riddle_trail.s08.setter_frisian" },
+    { "who": "setter", "key": "chain_riddle_trail.s08.setter_son" },
+    { "who": "setter", "key": "chain_riddle_trail.s08.setter_why" },
+    { "who": "setter", "key": "chain_riddle_trail.s08.setter_ravn", "when": "flag.rd_last_question" },
+    { "who": "hand", "key": "chain_riddle_trail.s08.hand_stone" },
+    { "who": "lookout", "key": "chain_riddle_trail.s08.lookout_skins" },
+    { "who": "setter", "key": "chain_riddle_trail.s08.setter_rings" }
+   ],
+   "options": [
+    { "key": "stone", "label_key": "chain_riddle_trail.s08.opt_stone", "label": "Offer your crew and your rollers to set up the son's stone",
+      "check": "true", "default": true,
+      "effects": [ "npc setter feeling +10 stone", "flag ch_riddle_trail_road_stone", "flag ch_riddle_trail_8", "schedule harbour.chain_riddle_trail.s10_end_stone in 60 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s08.out_stone (costs nothing but a promise: come back when the carver has done, two moons on)" },
+    { "key": "heir", "label_key": "chain_riddle_trail.s08.opt_heir", "label": "Say there is a head in your boat that already holds half of it",
+      "check": "flag.rd_last_question and chest.riddles_solved >= 5",
+      "effects": [ "npc setter feeling +6 heir", "npc hand feeling +10 named", "flag ch_riddle_trail_road_heir", "flag ch_riddle_trail_8", "schedule harbour.chain_riddle_trail.s11_end_heir in 200 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s08.out_heir (the hard road: Ravn winters at Salhaugar or comes back to it, and the question is asked again in the hall after the winter)" },
+    { "key": "write", "label_key": "chain_riddle_trail.s08.opt_write", "label": "Say what is cut in stone lasts, and so does what is written on skin (40 d for calfskins)",
+      "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "npc setter feeling -2 skins", "npc lookout feeling +8 writing", "flag ch_riddle_trail_road_written", "flag ch_riddle_trail_8", "schedule harbour.chain_riddle_trail.s12_end_written in 150 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s08.out_write (history changed if it is carried through: the skins are scraped over the winter and Beornwine writes in the spring)" },
+    { "key": "mound", "label_key": "chain_riddle_trail.s08.opt_mound", "label": "Say little, and mark which mound is the new one",
+      "check": "true",
+      "effects": [ "npc hand feeling -5 mound", "flag ch_riddle_trail_8", "schedule harbour.chain_riddle_trail.s09_mound in 1 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s08.out_mound (nothing is done yet: the night card warns first and can still be walked away from)" }
+   ],
+   "memory": {
+    "stone": "offered to raise the stone",
+    "heir": "named Ravn to him",
+    "write": "spoke of writing on skins",
+    "mound": "asked which mound was new"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s09_mound",
+   "note": "Step 9 (scheduled by step 8's fourth option, the next night). The new mound at Salhaugar: the old man said his son was laid in it with the rings a king gave him. The warning comes first, from both the heathen and the Christian of the crew. Mound-breaking is known from the opened ship mounds of Oseberg and Gokstad, broken into in the 10th century (dendro dates of the diggers' spades (?)); the law-books of the north, written later, treat robbing the dead as a shameful crime (?). That Gunnvald lay in a mound is ours: the place name means the mounds by the hall, and the stone was not found on a grave (?). A failed dig or a turning back joins the stone's road, so there is no dead end. Sets ch_riddle_trail_9 and either ch_riddle_trail_road_mound or ch_riddle_trail_road_stone.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_riddle_trail_8 and not flag.ch_riddle_trail_9 and not flag.ch_riddle_trail_road_stone and not flag.ch_riddle_trail_road_heir and not flag.ch_riddle_trail_road_written",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "note": "cast.crew.aldger" }
+   },
+   "title_key": "chain_riddle_trail.s09.title",
+   "title": "The new mound",
+   "intention_key": "chain_riddle_trail.s09.intention",
+   "intention": "No moon. The new mound is the one where the turf has not knitted. There are two wooden spades in the boat, and the farm's dogs are quiet so far.",
+   "lines": [
+    { "who": "hand", "key": "chain_riddle_trail.s09.hand_warning" },
+    { "who": "steersman", "key": "chain_riddle_trail.s09.steersman_warning" },
+    { "who": "hand", "key": "chain_riddle_trail.s09.hand_spade" }
+   ],
+   "options": [
+    { "key": "dig", "label_key": "chain_riddle_trail.s09.opt_dig", "label": "Dig, quickly, and be down the fjord before light",
+      "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.eyes_best",
+                     "success": [ "silver +1100", "morale -0.1", "npc hand feeling -20 dug", "flag unlock_heirloom_gunnvalds_ring", "flag ch_riddle_trail_road_mound",
+                                  "schedule harbour.chain_riddle_trail.s13_end_mound in 60 at dorestad" ],
+                     "failure": [ "health -0.15", "silver -40", "morale -0.1", "npc hand feeling -12 dug", "flag ch_riddle_trail_caught_digging", "flag ch_riddle_trail_road_stone",
+                                  "schedule harbour.chain_riddle_trail.s10_end_stone in 60 at hleidr" ] },
+                   "flag ch_riddle_trail_9" ],
+      "note": "outcome: chain_riddle_trail.s09.out_dig_success / out_dig_failure (doubtful. Success: about 1,100 d of ring silver by weight and the dead man's arm-ring. Failure: the dogs, the housemen, a beating, a fine of 40 d, and the old man's price: you will haul his stone)" },
+    { "key": "ale", "label_key": "chain_riddle_trail.s09.opt_ale", "label": "Pour the ale you brought onto the mound instead, and go",
+      "check": "true", "default": true,
+      "effects": [ "morale +0.05", "npc hand feeling +8 poured", "flag ch_riddle_trail_road_stone", "flag ch_riddle_trail_9",
+                   "schedule harbour.chain_riddle_trail.s10_end_stone in 60 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s09.out_ale (pride only; the road goes on to the stone)" },
+    { "key": "back", "label_key": "chain_riddle_trail.s09.opt_back", "label": "Put the spades back under the thwart and say it was a walk",
+      "check": "true",
+      "effects": [ "npc hand feeling +3 turned_back", "flag ch_riddle_trail_road_stone", "flag ch_riddle_trail_9",
+                   "schedule harbour.chain_riddle_trail.s10_end_stone in 60 at hleidr" ],
+      "note": "outcome: chain_riddle_trail.s09.out_back" }
+   ],
+   "memory": {
+    "dig": "opened the mound",
+    "dig.failure": "was caught with a spade in the mound",
+    "ale": "poured ale on the mound",
+    "back": "turned back from the mound"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s10_end_stone",
+   "note": "ENDING 1, the stone (scheduled 60 days after the choice, at Hleidr): what really happened. The stone is cut and set up: the son's name, the father's, the seat and the place, and over the words three horns locked together and a turning cross of four arms, as they are on the stone to this day (the triple horn and the swastika of DR 248). Nothing of what the two men knew is cut on it, and nothing of it has come down. The old man pays with his son's rings, and the hall with a guest's place: 'the king's guest' is the ordinary standing of a foreign merchant under a lord's protection (Rimbert's Vita Anskarii shows merchants at Birka under the king's and prefect's care; Ohthere calls Alfred his lord). The reward text is Hávamál 76 (texts_793.json havamal_076, Bellows 1923), given as a stick, not quoted in the card. The third option is for a man who was caught in the mound or who will not stay. Sets ch_riddle_trail_end_stone.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_riddle_trail_road_stone and not flag.ch_riddle_trail_end_stone",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "setter": { "role": "setter", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [68, 75], "fixed": true, "note": "Hroald of Salhaugar (DR 248)" },
+    "carver": { "role": "rune_carver", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": false, "note": "invented, unnamed" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_riddle_trail.s10.title",
+   "title": "Gunnvald's stone",
+   "intention_key": "chain_riddle_trail.s10.intention",
+   "intention": "The carver has done. Two rows of runes, three horns locked together, and a wheel-cross with four bent arms. The stone lies on your rollers at the foot of the mounds with a hole dug for it.",
+   "lines": [
+    { "who": "carver", "key": "chain_riddle_trail.s10.carver_reads" },
+    { "who": "setter", "key": "chain_riddle_trail.s10.setter_fingers" },
+    { "who": "setter", "key": "chain_riddle_trail.s10.setter_caught", "when": "flag.ch_riddle_trail_caught_digging" },
+    { "who": "setter", "key": "chain_riddle_trail.s10.setter_nothing_else", "when": "not flag.ch_riddle_trail_caught_digging" },
+    { "who": "hand", "key": "chain_riddle_trail.s10.hand_stone" }
+   ],
+   "options": [
+    { "key": "raise", "label_key": "chain_riddle_trail.s10.opt_raise", "label": "Raise it with your own crew, and stand while he says the name",
+      "check": "true", "default": true,
+      "effects": [ "silver +800", "give_text havamal_076", "deed fair_dealing", "npc setter feeling +15 raised", "flag unlock_title_kings_guest_hleidr",
+                   "news chain_riddle_trail.news.stone at hleidr", "flag ch_riddle_trail_end_stone" ],
+      "note": "outcome: chain_riddle_trail.s10.out_raise (finale: the son's rings, about 800 d by weight, and a guest's place under the king's hand at Hleidr)" },
+    { "key": "carver", "label_key": "chain_riddle_trail.s10.opt_carver", "label": "Pay the carver yourself, so the old man keeps his son's rings (60 d)",
+      "check": "silver >= 60 and not flag.ch_riddle_trail_caught_digging", "cost": "silver 60",
+      "effects": [ "silver +700", "give_text havamal_076", "deed fair_dealing", "npc setter feeling +25 paid_carver", "flag unlock_title_kings_guest_hleidr", "flag unlock_heirloom_thuls_horn",
+                   "news chain_riddle_trail.news.stone at hleidr", "flag ch_riddle_trail_end_stone" ],
+      "note": "outcome: chain_riddle_trail.s10.out_carver (the generous road: the hall hears of it and the king sends about 700 d of silver down; the old man gives one of his three horns, a second grand reward)" },
+    { "key": "tide", "label_key": "chain_riddle_trail.s10.opt_tide", "label": "Set it upright, take what is owed and catch the tide",
+      "check": "true",
+      "effects": [ "silver +600", "npc setter feeling +2 left", "flag unlock_title_kings_guest_hleidr", "news chain_riddle_trail.news.stone at hleidr", "flag ch_riddle_trail_end_stone" ],
+      "note": "outcome: chain_riddle_trail.s10.out_tide (time saved, pride kept; the finale still pays 600 d by weight and the guest's place)" }
+   ],
+   "memory": {
+    "raise": "raised Gunnvald's stone",
+    "carver": "paid the carver for the stone",
+    "tide": "set the stone up and left"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s11_end_heir",
+   "note": "ENDING 2, the heir (scheduled 200 days after the choice, at Hleidr: a winter between): the hard road. In the hall, before the king's bench, Hroald asks the last question again (t-gest-36). The right answer is that no man knows it: in the saga King Heidrek answers 'none knows that but thou thyself' and so knows his guest for Odin; in the lay of Vafthruthnir the giant says the same and loses his head by it. Ravn answered it once with a guess. Now he may say what is true, and the seat that died with Gunnvald has a man in it: the stone is raised all the same, but what it stands for goes on. A small change to what happened (no thul of Salhaugar is heard of again), so the card sets ch_riddle_trail_ravn_heir for later cards and does not claim more. Ravn sails on with the house and goes back to the seat when the old man dies. The pilotage is the fjord up to Hleidr, the Isefjord and its narrow inner arm (ports_793.json hleidr: up the Roskilde fjord). Sets ch_riddle_trail_end_heir.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_riddle_trail_road_heir and not flag.ch_riddle_trail_end_heir",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "setter": { "role": "setter", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [68, 75], "fixed": true, "note": "Hroald of Salhaugar (DR 248)" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn" },
+    "skald": { "role": "skald", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [28, 45], "fixed": true }
+   },
+   "title_key": "chain_riddle_trail.s11.title",
+   "title": "The last question",
+   "intention_key": "chain_riddle_trail.s11.intention",
+   "intention": "The hall is full and for once it is quiet. The old man has been led to the middle of the floor. He turns his face toward your bench and asks the thing he asked Ravn thirty winters ago.",
+   "lines": [
+    { "who": "setter", "key": "chain_riddle_trail.s11.setter_asks" },
+    { "who": "skald", "key": "chain_riddle_trail.s11.skald_wager" },
+    { "who": "hand", "key": "chain_riddle_trail.s11.hand_low" }
+   ],
+   "options": [
+    { "key": "ravn", "label_key": "chain_riddle_trail.s11.opt_ravn", "label": "Say nothing. It is Ravn's question",
+      "check": "true", "default": true,
+      "effects": [ "silver +1400", "deed won_great_riddle", "tongue old_norse = 1", "learn runes +0.3", "npc hand feeling +25 last_question", "npc setter feeling +20 heir",
+                   "flag unlock_title_kings_guest_hleidr", "flag unlock_heirloom_thuls_horn", "flag unlock_pilot_isefjord", "flag ch_riddle_trail_ravn_heir", "flag ch_riddle_trail_end_heir" ],
+      "note": "outcome: chain_riddle_trail.s11.out_ravn (the hard road's finale: about 1,400 d in rings from the king and the old man together, the guest's place, a horn, the fjord's marks)" },
+    { "key": "self", "label_key": "chain_riddle_trail.s11.opt_self", "label": "Stand up and say it yourself: no man alive knows that",
+      "check": "true",
+      "effects": [ "silver +1200", "deed won_great_riddle", "tongue old_norse = 1", "npc hand feeling -6 spoke_first", "npc setter feeling +10 answered",
+                   "flag unlock_title_kings_guest_hleidr", "flag unlock_heirloom_thuls_horn", "flag ch_riddle_trail_ravn_heir", "flag ch_riddle_trail_end_heir" ],
+      "note": "outcome: chain_riddle_trail.s11.out_self (right, and it was not yours to say: the hall pays you and the old man takes Ravn anyway)" },
+    { "key": "guess", "label_key": "chain_riddle_trail.s11.opt_guess", "label": "Whisper Ravn a clever answer to give",
+      "check": "true",
+      "effects": [ "silver +600", "npc hand feeling +4 whispered", "npc skald feeling +6 laughed", "flag unlock_title_kings_guest_hleidr", "flag ch_riddle_trail_ravn_heir", "flag ch_riddle_trail_end_heir" ],
+      "note": "outcome: chain_riddle_trail.s11.out_guess (he does not take it. The hall laughs at the Frisian, the old man is pleased with the Northman, and the lesser finale is still paid)" }
+   ],
+   "memory": {
+    "ravn": "let Ravn answer the last question",
+    "self": "answered the last question himself",
+    "guess": "whispered a guess at the last question"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s12_end_written",
+   "note": "ENDING 3, the writing (scheduled 150 days after the choice, at Hleidr): HISTORY CHANGED. Over the winter the calfskins were scraped; now the old man says what he holds, verse by verse, and Beornwine (cast.crew.beornwine, schooled at Gyrwe) writes it in the letters of his school, sounding the Danish out as it is spoken. In truth the lays and riddles of the north were first written in Iceland in the 12th and 13th centuries (the Codex Regius about 1270), and of the Danes' own lore almost nothing in their tongue has come down. A book of it written about 800 would be four hundred and seventy years older than anything we have. The options are what becomes of the book. York: the minster school of Eoforwic, Alcuin's school, whose letter-carrier is cast.sigewine; the price is ours. The cost that lasts: Alcuin wrote in 797 to a bishop that the songs of the heathen had no place at a churchman's table, 'what has Ingeld to do with Christ?' (MGH Epistolae IV no. 124; our own words, not a quotation; the bishop was long taken for Higbald of Lindisfarne, now for Unwona of Leicester (?)). Ingeld is a hero of the songs of this very hall. So a churchman who knows what is in the book may ask questions: ch_riddle_trail_bishop_watches. All three options set changed_norse_lore_written and ch_riddle_trail_end_written.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_riddle_trail_road_written and not flag.ch_riddle_trail_end_written",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "setter": { "role": "setter", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [68, 75], "fixed": true, "note": "Hroald of Salhaugar (DR 248)" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "note": "cast.crew.beornwine" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_riddle_trail.s12.title",
+   "title": "The calfskin book",
+   "intention_key": "chain_riddle_trail.s12.intention",
+   "intention": "Nine days of it. The old man speaks with his eyes shut, Beornwine writes with his tongue between his teeth, and Ravn says each line again slowly so the boy can hear where the words end. Now there are five gatherings of calfskin, sewn, and the question of where they go.",
+   "lines": [
+    { "who": "setter", "key": "chain_riddle_trail.s12.setter_dead_skin" },
+    { "who": "lookout", "key": "chain_riddle_trail.s12.lookout_letters" },
+    { "who": "lookout", "key": "chain_riddle_trail.s12.lookout_ingeld", "when": "year >= 797" },
+    { "who": "hand", "key": "chain_riddle_trail.s12.hand_book" },
+    { "who": "setter", "key": "chain_riddle_trail.s12.setter_where" }
+   ],
+   "options": [
+    { "key": "keep", "label_key": "chain_riddle_trail.s12.opt_keep", "label": "Keep the book in your own chest, for the house",
+      "check": "true", "default": true,
+      "effects": [ "silver +700", "learn runes +0.3", "learn latin +0.2", "npc setter feeling +10 kept", "npc lookout feeling +10 wrote",
+                   "flag unlock_heirloom_thuls_book", "flag changed_norse_lore_written", "flag ch_riddle_trail_end_written" ],
+      "note": "outcome: chain_riddle_trail.s12.out_keep (finale: the old man's rings, about 700 d by weight, and a book an heir inherits)" },
+    { "key": "york", "label_key": "chain_riddle_trail.s12.opt_york", "label": "Promise it to the school at Eoforwic, which pays for wonders",
+      "check": "true",
+      "effects": [ "silver +1500", "deed carried_letters", "npc lookout feeling +15 york", "npc setter feeling -4 sold",
+                   "flag unlock_factor_eoforwic", "flag ch_riddle_trail_bishop_watches", "flag changed_norse_lore_written", "flag ch_riddle_trail_end_written" ],
+      "note": "outcome: chain_riddle_trail.s12.out_york (the richest road: the old man's rings and the school's price together, about 1,500 d; a clerk of the minster who will keep your goods at Eoforwic; and a churchman who has read what is in it)" },
+    { "key": "kin", "label_key": "chain_riddle_trail.s12.opt_kin", "label": "Leave it at Salhaugar with his daughter's sons, who cannot read it",
+      "check": "true",
+      "effects": [ "silver +600", "npc setter feeling +20 left_book", "flag unlock_title_kings_guest_hleidr", "flag changed_norse_lore_written", "flag ch_riddle_trail_end_written" ],
+      "note": "outcome: chain_riddle_trail.s12.out_kin (pride only: it is theirs. The finale is 600 d by weight and the guest's place at the hall)" }
+   ],
+   "memory": {
+    "keep": "kept the calfskin book",
+    "york": "sent the book to the school at York",
+    "kin": "left the book with his kin"
+   }
+  },
+  {
+   "id": "harbour.chain_riddle_trail.s13_end_mound",
+   "note": "ENDING 4, the mound (scheduled 60 days after a successful dig, at Dorestad). The silver was paid on the night (about 1,100 d of rings by weight, in step 9) with the dead man's arm-ring. Now the price comes: a Dane of Ripa lays a stick on your thwart with one word on it, and the hand will not sleep aboard. The word is nithing, the north's name for a man without honour (on later rune stones and in the laws; its use about 800 is assumed (?)). The old man had the stone cut all the same, and it stands. The three options are what is done with the ring: kept (the heirloom, and a feud with the men of the Danish isles: ch_riddle_trail_feud_salhaugar); given to Saint Martin's at Traiectum (the church's protection, unlock_title_saint_martins_man, and the feud stays: the Danes care nothing for Saint Martin); or sent back with a man's price in silver (no grand reward but peace: ch_riddle_trail_amends, and the silver of the night is kept). Saint Martin's men and the church's protection: Louis the Pious for Utrecht, 815, confirming older grants (dossiers/dorestad.md) (?). All set ch_riddle_trail_end_mound.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_riddle_trail_road_mound and not flag.ch_riddle_trail_end_mound",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "skipper": { "role": "skipper", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": false, "note": "the Dane of Ripa of step 1, or another like him" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_riddle_trail.s13.title",
+   "title": "One word on a stick",
+   "intention_key": "chain_riddle_trail.s13.intention",
+   "intention": "A Dane steps down onto the dam at Dorestad, lays a stick of ash on your thwart without a word, and walks back to his ship. There is one word cut on it.",
+   "lines": [
+    { "who": "hand", "key": "chain_riddle_trail.s13.hand_reads" },
+    { "who": "hand", "key": "chain_riddle_trail.s13.hand_stone_stands" },
+    { "who": "skipper", "key": "chain_riddle_trail.s13.skipper_turns" }
+   ],
+   "options": [
+    { "key": "keep", "label_key": "chain_riddle_trail.s13.opt_keep", "label": "Burn the stick and wear the ring",
+      "check": "true",
+      "effects": [ "npc hand feeling -10 kept_ring", "npc skipper feeling -30 nithing", "flag ch_riddle_trail_feud_salhaugar", "flag ch_riddle_trail_end_mound" ],
+      "note": "outcome: chain_riddle_trail.s13.out_keep (the heirloom unlock_heirloom_gunnvalds_ring stays with the house, and so does the feud)" },
+    { "key": "church", "label_key": "chain_riddle_trail.s13.opt_church", "label": "Carry the ring to Saint Martin's altar at Traiectum",
+      "check": "true",
+      "effects": [ "deed gave_alms", "npc hand feeling -4 gave_ring", "flag unlock_heirloom_gunnvalds_ring = 0", "flag unlock_title_saint_martins_man",
+                   "flag ch_riddle_trail_feud_salhaugar", "flag ch_riddle_trail_end_mound" ],
+      "note": "outcome: chain_riddle_trail.s13.out_church (the church's protection in place of the ring; the Danes' grudge is untouched)" },
+    { "key": "amends", "label_key": "chain_riddle_trail.s13.opt_amends", "label": "Send the ring back to Salhaugar with a man's price in silver (300 d)",
+      "check": "silver >= 300", "cost": "silver 300",
+      "effects": [ "npc hand feeling +12 amends", "npc skipper feeling +5 amends", "flag unlock_heirloom_gunnvalds_ring = 0", "flag ch_riddle_trail_amends", "flag ch_riddle_trail_end_mound" ],
+      "note": "outcome: chain_riddle_trail.s13.out_amends (the feud is ended before it is begun; some 800 d of the night's silver is still yours, and nothing else)" }
+   ],
+   "memory": {
+    "keep": "kept a dead man's ring",
+    "church": "gave the dead man's ring to Saint Martin",
+    "amends": "sent the ring back with a man's price"
+   }
+  }
+ ]
+}

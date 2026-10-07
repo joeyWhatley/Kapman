@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c677472832daf245afc4c6b3220e307, type: 3}
+  m_Name: ShipStageKit
+  m_EditorClassIdentifier: Kapman.Game::Kapman.Game.ShipView.ShipStageKit
+  ship: {fileID: 5571232482700262890, guid: 713d63de8570eb145b5900b481a2403c, type: 3}
+  modelLength: 17.88
+  modelBeam: 5.01
+  keelBelowOrigin: 0.41
+  deckHeight: 1.45
+  gunwaleHeight: 2.09
+  modelWaterline: 1.2
+  scaleToClass: 1
+  shownLength: 0
+  fitOut: 1
+  mastAhead: 1.15
+  hide:
+  - Ship_Shields_L
+  - Ship_Shields_R
+  - Ship_Shiled_Holder
+  - Ship_Oars_L
+  - Ship_Oars_R
+  - Benches_R
+  - Benches_R (1)
+  - WeaponRack_1
+  - Cup_1
+  - Cup_2
+  - Cup_3
+  - Bedroll_1
+  - Sack_1
+  - Sack_2
+  - Sack_3
+  - Barrel_1
+  - Crate_1
+  - Bucket_2
+  - Rope_1
+  oar: {fileID: 3601332914735507470, guid: af8b5a7b0a8197641bb557423ae281c4, type: 3}
+  thwart: {fileID: 8713319414684509779, guid: 5c2003353240b94409e93ba82f618c62, type: 3}
+  oarOutboard: 2.18
+  thwartLength: 1.15
+  pairBeam: 2.3
+  men:
+  - {fileID: 4535777523354052584, guid: d2aaf23d5d4f1a548ab7aa2340c544dc, type: 3}
+  - {fileID: 8097490239313561553, guid: 9e2816f4ac17e82499ea025c62cbb9ab, type: 3}
+  - {fileID: 7839042715944555861, guid: 5401a5d1af76ece4aa7ae60ffd6621c8, type: 3}
+  - {fileID: 2393738166493610631, guid: 9d36afcbe76d8714a93df349dfe41f56, type: 3}
+  deckPlank: {fileID: 6888701142596312778, guid: 51fb6972332af854dae4aa03213a362b, type: 3}
+  deckPlankSize: {x: 2.12, y: 0.098, z: 0.469}
+  stringer: {fileID: 8296610712594813617, guid: 7fc8bffccfc32e74cacef2efdb764585, type: 3}
+  stringerSize: {x: 3.09, y: 0.108, z: 0.562}
+  pile: {fileID: 3291773466191249681, guid: bed60aaa5b0d8cc4d9a0c351bff9acbd, type: 3}
+  pileSize: {x: 0.33, y: 0.234}
+  barrel: {fileID: 9028652381734529356, guid: 7f7ee5188bb5e084b84744f52d7a734a, type: 3}
+  crate: {fileID: 877043158284555611, guid: 7bb22f21dab14194a91c1e398c0043e9, type: 3}
+  sackA: {fileID: 3523306771499175815, guid: 247f06675ba70854d885f994c70e0397, type: 3}
+  sackB: {fileID: 5635150392863452053, guid: e5dd5d919c8714949ad909fa71db682b, type: 3}
+  ropeCoil: {fileID: 5330220522847906465, guid: 3817a022f95112748adcd0e9f3bd8d35, type: 3}
+  bucket: {fileID: 2939342960023595893, guid: e881a6b62b1d213429cfb23699f958fe, type: 3}
+  swaps:
+  - from: SMV_BasePallete
+    to: {fileID: 2100000, guid: 012704c024d83ad43bf29910b2091484, type: 2}
+  - from: SMV_Weapons
+    to: {fileID: 2100000, guid: 7c4ff9557c1176a409dbb80400171e7c, type: 2}
+  - from: SMV_Environment
+    to: {fileID: 2100000, guid: 49e4bcb3224cf964f8fa01a75fed895d, type: 2}
+  water: {fileID: 2100000, guid: 15e0e060fba2f3c4180d1e418d586f21, type: 2}
+  shore: {fileID: 2100000, guid: 450c742c2b80f174ea9869ab39ac7dd6, type: 2}
+  wake: {fileID: 2100000, guid: f79a965066a5a4942880367641a61820, type: 2}
+  line: {fileID: 2100000, guid: 4d6c7d897a4b2d54e8b111b8e508f761, type: 2}
+  rain: {fileID: 2100000, guid: 2926b9979b946204b9ccdf9e0b2485d1, type: 2}
+  waterExclusion: {fileID: 2100000, guid: 1e520c84f7fd17c46af5586f6632155c, type: 2}
+  wakeFoam: {fileID: 2100000, guid: e4b13b46602f9f14e9d2934e71fc0ccc, type: 2}
+  stars: {fileID: 8900000, guid: 2d65f40d873928d49a29ed21127e14d5, type: 3}
+  psxModel: {fileID: 4800000, guid: 361578181062fd2438028173e774430e, type: 3}
+  psxSea: {fileID: 4800000, guid: 40be831921197d040a20702fac4e26a8, type: 3}
+  psxSprite: {fileID: 4800000, guid: 20401d469af3c094685117ae6d1b0afd, type: 3}
+  psxScreen: {fileID: 4800000, guid: 6a113757d0c129f46bae5ea7302457f1, type: 3}
+  psxSeaTile: {fileID: 0}
+  psxGrain: {fileID: 0}
+  startLook: plain
+  sea: 1
+  layer: 31
+  origin: {x: 0, y: 0, z: -50000}
+  smallHeight: 270
+  bigHeight: 1080
+  smallEvery: 2
+  smallRate: 30
+  bigRate: 60
+  smallRateRiding: 20
+  bigRateRiding: 30
+  land: 0
+  mist: 900
+  mistTop: 70
+  pierLength: 48
+  eyeHeight: 0.34
+  aimHeight: 0.2
+  sunLux: 130000
+  moonBoost: 1.5
+  exposureFloor: -8
+  exposureCeiling: 15.5
+  exposureBias: -1.8
+  nightDarkness: 1.6

@@ -1,0 +1,486 @@
+{
+ "about": "CHAIN lindisfarne_book (Design/content/CHAINS.md; page Design/content/chains/lindisfarne_book.md; words Data/writing/chain_lindisfarne_book.json). A gospel book carried off from Lindisfarne on 8 June 793 and seen for sale in the north: found, bought, stolen or left, and what the bishop will do for the man who brings it home. Thirteen cards, from August 793 (the trail is open to 815; the island takes its book back in any year before 875). Part of the spine's threads holy_island and book_road: sets lf_trail_north, lf_knows_boys and lf_ransom_paid, bk_knows_worth, bk_parchment and bk_carried where a step is also the thread's step. Step flags ch_lindisfarne_book_1, _2, _3, _crew, _5, _6, _7, _8, _9; state flags _mount, _name, _marks, _words, _wrap, _aboard, _bought, _stolen, _seen, _caught, _retaken, _wet, _feud, _gift, _ransom, _shown, _alms, _left, _left_wait (a timer); endings ch_lindisfarne_book_end_home (history changed: changed_lindisfarne_book_home), ch_lindisfarne_book_end_york (history changed: changed_lindisfarne_book_york), ch_lindisfarne_book_end_alms (history changed: changed_lindisfarne_book_kings_gift), ch_lindisfarne_book_end_left (what the sources allow: nothing is recorded as coming back). The book is a flag (ch_lindisfarne_book_aboard), not a unit of the good 'books', so it cannot be sold by mistake at a market. The book itself is invented: a lesser gospel book of the house, not the great Gospels, which no early source says were harmed. Every option's note names its outcome text. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_lindisfarne_book.s01_strip_of_gilt",
+   "note": "Step 1, a start (drawn at Skiringssal, Ripa or Sliesthorp from August 793 to 803). A dealer in oddments has a strip of gilt bronze with knotwork and rivet holes: a mount torn from a book's board. Sources: church metalwork from Britain and Ireland cut up and worn as brooches is found in Norse women's graves of the ninth century (Wamers 1985, from memory) (?); the spine's holy_island hook at Skiringssal (a little house-shaped box, a cup, a strip of gilt): the house-shaped box is modelled on the shrine in Copenhagen with the later runes 'Ranvaik owns this casket' (from memory) (?). The dealer Ketil is invented (a common Norse name). Sets ch_lindisfarne_book_1 and the spine's lf_trail_north; buying sets ch_lindisfarne_book_mount; drinking sets ch_lindisfarne_book_name.",
+   "stage": "harbour",
+   "when": "moored and (port.id = skiringssal or port.id = ripa or port.id = sliesthorp) and (year > 793 or month >= 8) and year < 804 and not flag.ch_lindisfarne_book_1 and not flag.ch_lindisfarne_book_5",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "merchant", "people": "port", "faith": "port", "tongue": "port", "sex": "m", "age": [30, 55], "fixed": true, "note": "Ketil, a dealer in oddments who follows the summer markets; invented" }
+   },
+   "title_key": "chain_lindisfarne_book.s01.title",
+   "title": "A strip of gilt",
+   "intention_key": "chain_lindisfarne_book.s01.intention",
+   "intention": "On a dealer's cloth, between a cup and a little box shaped like a house, lies a strip of gilt bronze worked in knots, with four rivet holes and no rivets.",
+   "lines": [
+    { "who": "dealer", "key": "chain_lindisfarne_book.s01.dealer_tray" },
+    { "who": "dealer", "key": "chain_lindisfarne_book.s01.dealer_skins" },
+    { "who": "dealer", "key": "chain_lindisfarne_book.s01.dealer_women" },
+    { "who": "dealer", "key": "chain_lindisfarne_book.s01.dealer_unsold" }
+   ],
+   "options": [
+    { "key": "buy", "label_key": "chain_lindisfarne_book.s01.opt_buy", "label": "Buy the strip for twelve pennies' weight", "check": "silver >= 12", "cost": "silver 12",
+      "effects": [ "npc dealer feeling +4 bought", "flag ch_lindisfarne_book_mount", "flag lf_trail_north", "flag ch_lindisfarne_book_1" ],
+      "note": "outcome: chain_lindisfarne_book.s01.out_buy (the mount is a token: the bishop knows it at step 2)" },
+    { "key": "ask", "label_key": "chain_lindisfarne_book.s01.opt_ask", "label": "Leave the strip and ask where the skins went", "check": "true", "default": true,
+      "effects": [ "flag lf_trail_north", "flag ch_lindisfarne_book_1" ],
+      "note": "outcome: chain_lindisfarne_book.s01.out_ask (costs nothing; the trail goes west to a hall on the Karmsund)" },
+    { "key": "drink", "label_key": "chain_lindisfarne_book.s01.opt_drink", "label": "Sit down with him over ale, in his own tongue", "check": "tongue.old_norse >= 0.5",
+      "effects": [ "npc dealer feeling +6 drank", "flag ch_lindisfarne_book_name", "flag lf_trail_north", "flag ch_lindisfarne_book_1" ],
+      "note": "outcome: chain_lindisfarne_book.s01.out_drink (costs an evening; he gives the name Thorleif and what the man wants)" }
+   ],
+   "memory": { "buy": "bought the gilt strip", "ask": "asked after the skins", "drink": "drank with him and listened" }
+  },
+  {
+   "id": "harbour.chain_lindisfarne_book.s02_what_is_gone",
+   "note": "Step 2, the other start (drawn at Lindisfarena while Higbald lives: to May 803). The bishop counts what is gone and tells how the book is known. Sources: Higbald, bishop 780 or 781 to 25 May 803 (Symeon, Historia Dunelmensis ecclesiae xx, tr. Stevenson 1855); Alcuin to Higbald, 793 (MGH Epistolae IV no. 20): he will speak to King Charles about the youths led away (not quoted); wine or ale allowed to the brethren since 737 (Symeon, Historia regum 854); the spine's hook (the names of the boys, the silver from the shrine, the cover of a gospel book; ransom in wax, wine or what silver is left). The book, its scribe Wigfrith (Wig- + -frith) and the hole in the first leaf of John are invented; scribes did write round holes in the skin. The great Gospels are said to be safe, which is all the sources allow. Cast: cast.higbald. Sets ch_lindisfarne_book_2, ch_lindisfarne_book_marks and the spine's lf_knows_boys.",
+   "stage": "harbour",
+   "when": "moored and port.id = lindisfarena and (year < 803 or (year = 803 and month < 5)) and not flag.ch_lindisfarne_book_2 and not flag.ch_lindisfarne_book_aboard and not flag.ch_lindisfarne_book_9",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [60, 72], "fixed": true, "note": "cast.higbald, historical" }
+   },
+   "title_key": "chain_lindisfarne_book.s02.title",
+   "title": "What is gone",
+   "intention_key": "chain_lindisfarne_book.s02.intention",
+   "intention": "The bishop stands in a church with its doors off and counts on his fingers what the heathen men took. He has done it before; he does not need to think.",
+   "lines": [
+    { "who": "bishop", "key": "chain_lindisfarne_book.s02.bishop_count" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s02.bishop_book" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s02.bishop_marks" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s02.bishop_mount", "when": "flag.ch_lindisfarne_book_mount" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s02.bishop_trail", "when": "flag.ch_lindisfarne_book_1 and not flag.ch_lindisfarne_book_mount" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s02.bishop_boys" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s02.bishop_pay" }
+   ],
+   "options": [
+    { "key": "look", "label_key": "chain_lindisfarne_book.s02.opt_look", "label": "Say you will keep your eyes open in the north", "check": "true", "default": true,
+      "effects": [ "npc bishop feeling +5 promised", "flag ch_lindisfarne_book_marks", "flag lf_knows_boys", "flag ch_lindisfarne_book_2", "schedule harbour.chain_lindisfarne_book.s03_calves in 3 at eoforwic" ],
+      "note": "outcome: chain_lindisfarne_book.s02.out_look (costs nothing)" },
+    { "key": "mount", "label_key": "chain_lindisfarne_book.s02.opt_mount", "label": "Put the gilt strip in his hand", "check": "flag.ch_lindisfarne_book_mount",
+      "effects": [ "goods wax +1", "npc bishop feeling +14 mount", "flag ch_lindisfarne_book_marks", "flag lf_knows_boys", "flag ch_lindisfarne_book_2", "schedule harbour.chain_lindisfarne_book.s03_calves in 3 at eoforwic" ],
+      "note": "outcome: chain_lindisfarne_book.s02.out_mount (he knows it; a cake of wax is all he has to give today)" },
+    { "key": "order", "label_key": "chain_lindisfarne_book.s02.opt_order", "label": "Ask what the altar is short of, and take his order for wine", "check": "true",
+      "effects": [ "commission rhenish_wine 4 by 240 premium 1.6", "npc bishop feeling +8 order", "flag ch_lindisfarne_book_marks", "flag lf_knows_boys", "flag ch_lindisfarne_book_2", "schedule harbour.chain_lindisfarne_book.s03_calves in 3 at eoforwic" ],
+      "note": "outcome: chain_lindisfarne_book.s02.out_order (the turn: four casks at a premium, paid by the house's estates)" }
+   ],
+   "memory": { "look": "promised to look in the north", "mount": "brought back a mount of the book", "order": "took the altar's order for wine" }
+  },
+  {
+   "id": "harbour.chain_lindisfarne_book.s03_calves",
+   "note": "Step 3, optional (scheduled by step 2; the first call at Eoforwic after it). A scribe of the minster says what a book is worth and to whom. Sources: the great Gospels of Lindisfarne took some 150 calfskins (dossiers/lindisfarena.md); Alcuin's letter of 793 to King Aethelred (MGH Epistolae IV no. 16; texts_793.json alcuin_793), which the spine has read aloud at York; the spine's book_road hook (a scribe will price any book you describe: sets bk_knows_worth) and holy_island hook (the minster collecting for ransom); the riddle of the book (Exeter Book 26, Tupper 1910; riddles_793.json) tells the making of a gospel book from the calf to the gold. The Frisians' flight of 773 (Altfrid, Vita Liudgeri I.11) is the chain york_blood's; here it is one dry line. The scribe Eadwulf is invented (Ead- + -wulf). Sets ch_lindisfarne_book_3; learning sets bk_knows_worth; the order sets bk_parchment.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and year < 815 and flag.ch_lindisfarne_book_2 and not flag.ch_lindisfarne_book_3 and not flag.ch_lindisfarne_book_aboard and not flag.ch_lindisfarne_book_9",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "scribe": { "role": "scribe", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "Eadwulf, a scribe of the minster school; invented" }
+   },
+   "title_key": "chain_lindisfarne_book.s03.title",
+   "title": "A herd of calves",
+   "intention_key": "chain_lindisfarne_book.s03.intention",
+   "intention": "In the minster's writing room a scribe hears your errand from the island without looking up, finishes his line, wipes the pen and then tells you what a book is.",
+   "lines": [
+    { "who": "scribe", "key": "chain_lindisfarne_book.s03.scribe_calves" },
+    { "who": "scribe", "key": "chain_lindisfarne_book.s03.scribe_worth" },
+    { "who": "scribe", "key": "chain_lindisfarne_book.s03.scribe_heathen" },
+    { "who": "scribe", "key": "chain_lindisfarne_book.s03.scribe_letter" },
+    { "who": "scribe", "key": "chain_lindisfarne_book.s03.scribe_frisian" },
+    { "who": "scribe", "key": "chain_lindisfarne_book.s03.scribe_cold" }
+   ],
+   "options": [
+    { "key": "learn", "label_key": "chain_lindisfarne_book.s03.opt_learn", "label": "Stay three days and learn to tell a gospel book from a psalter", "check": "true", "default": true,
+      "effects": [ "learn latin +0.1", "give_riddle riddle_exeter_26_book", "npc scribe feeling +6 learned", "flag bk_knows_worth", "flag ch_lindisfarne_book_3" ],
+      "note": "outcome: chain_lindisfarne_book.s03.out_learn (costs three days; the worth of a book, some Latin and a riddle)" },
+    { "key": "order", "label_key": "chain_lindisfarne_book.s03.opt_order", "label": "Take the writing room's order for colours", "check": "true",
+      "effects": [ "commission pigments 2 by 300 premium 1.7", "give_text alcuin_793", "npc scribe feeling +4 order", "flag bk_parchment", "flag ch_lindisfarne_book_3" ],
+      "note": "outcome: chain_lindisfarne_book.s03.out_order (the turn: two loads of pigments at a premium, and a copy of Alcuin's letter)" },
+    { "key": "letter", "label_key": "chain_lindisfarne_book.s03.opt_letter", "label": "Ask only for a copy of Alcuin's letter, to show whose errand you are on", "check": "true",
+      "effects": [ "give_text alcuin_793", "npc scribe feeling +2 letter", "flag ch_lindisfarne_book_3" ],
+      "note": "outcome: chain_lindisfarne_book.s03.out_letter (costs nothing)" }
+   ],
+   "memory": { "learn": "stayed three days to learn books", "order": "took the order for colours", "letter": "asked for Alcuin's letter" }
+  },
+  {
+   "id": "crew.chain_lindisfarne_book.s04_hole_in_the_page",
+   "note": "Step 4, optional (a crew card, any time after step 1 or 2). The English lookout was schooled at Gyrwe and saw the book as a boy; his brother was an oblate on the island. Sources: the spine's cast (cast.crew.beornwine; his brother cast.tidwine) and its book_road hook for the crew (a wet book is a ruined book: where it rides in a seven-metre boat is a real question). Oiled or waxed skins as wrapping are ours (?). Sets ch_lindisfarne_book_crew; the wrap sets ch_lindisfarne_book_wrap; the lesson sets ch_lindisfarne_book_words and ch_lindisfarne_book_marks.",
+   "stage": "crew",
+   "when": "(flag.ch_lindisfarne_book_1 or flag.ch_lindisfarne_book_2) and not flag.ch_lindisfarne_book_crew and not flag.ch_lindisfarne_book_9 and year < 815",
+   "weight": 0.03,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [18, 40], "fixed": true, "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_lindisfarne_book.s04.title",
+   "title": "The hole in the page",
+   "intention_key": "chain_lindisfarne_book.s04.intention",
+   "intention": "The English lookout has been quiet for a day, which is not like him. At the evening meal he says he has seen the book you are asking after.",
+   "lines": [
+    { "who": "lookout", "key": "chain_lindisfarne_book.s04.lookout_seen" },
+    { "who": "lookout", "key": "chain_lindisfarne_book.s04.lookout_hole" },
+    { "who": "lookout", "key": "chain_lindisfarne_book.s04.lookout_wet" },
+    { "who": "lookout", "key": "chain_lindisfarne_book.s04.lookout_brother" }
+   ],
+   "options": [
+    { "key": "wrap", "label_key": "chain_lindisfarne_book.s04.opt_wrap", "label": "Have him sew a sealskin wrap and clear the dry place under the stern board", "check": "true", "default": true,
+      "effects": [ "npc lookout feeling +5 wrap", "morale +0.02", "flag ch_lindisfarne_book_wrap", "flag ch_lindisfarne_book_crew" ],
+      "note": "outcome: chain_lindisfarne_book.s04.out_wrap (costs a spare skin; the book rides dry at step 6)" },
+    { "key": "words", "label_key": "chain_lindisfarne_book.s04.opt_words", "label": "Have him teach you the first words of John, to test any book you are shown", "check": "true",
+      "effects": [ "learn latin +0.05", "npc lookout feeling +5 taught", "flag ch_lindisfarne_book_words", "flag ch_lindisfarne_book_marks", "flag ch_lindisfarne_book_crew" ],
+      "note": "outcome: chain_lindisfarne_book.s04.out_words (costs an evening; you can find the leaf with the hole yourself)" },
+    { "key": "sea", "label_key": "chain_lindisfarne_book.s04.opt_sea", "label": "Tell him a lookout looks at the sea", "check": "true",
+      "effects": [ "npc lookout feeling -3 silenced", "morale -0.02", "flag ch_lindisfarne_book_crew" ],
+      "note": "outcome: chain_lindisfarne_book.s04.out_sea (costs a little of the boat's good humour)" }
+   ],
+   "memory": { "wrap": "had the wrap sewn", "words": "learned the first words of John", "sea": "told him to mind the sea" }
+  },
+  {
+   "id": "harbour.chain_lindisfarne_book.s05_box_of_skins",
+   "note": "Step 5, the book itself (drawn at Ogvaldsnes or Skiringssal in the sailing months, from August 793 to 814, for anyone past step 1 or 2). The ship's chief who was west over the sea in 793 has it: the boards and the gold are gone, the leaves are whole, and he will sell for swords or weighed silver, never for prayers. Sources: the spine's hooks at Ogvaldsnes (a woman wears a brooch that was a book mount; he will sell for silver by weight or a sword, never for prayers; a book in a heathen house, the leaves kept because the pictures are fine); that Christians bought books back from the heathen with gold is the inscription of the Stockholm Codex Aureus, mid ninth century: the ealdorman Aelfred and his wife Werburg bought it from the heathen army with pure gold and gave it to Christ Church (our rendering, from memory) (?); no silver coin in the north, so the price is by weight (BRIEF.md rule 2). Who the raiders of 793 were is not known: Thorleif is the spine's invention. Cast: cast.thorleif; his wife Gunnhild is invented (Gunn- + -hildr). Sets ch_lindisfarne_book_5; buying sets _bought, _aboard and the spine's lf_ransom_paid; leaving it sets _seen; the night sets _stolen and _feud, or _caught.",
+   "stage": "harbour",
+   "when": "moored and (port.id = ogvaldsnes or port.id = skiringssal) and (year > 793 or month >= 8) and year < 815 and month >= 5 and month <= 9 and (flag.ch_lindisfarne_book_1 or flag.ch_lindisfarne_book_2) and not flag.ch_lindisfarne_book_5",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "chief": { "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [33, 55], "fixed": true, "note": "cast.thorleif" },
+    "wife": { "role": "farm_wife", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "f", "age": [28, 50], "fixed": true, "note": "Gunnhild, Thorleif's wife; invented" }
+   },
+   "title_key": "chain_lindisfarne_book.s05.title",
+   "title": "A box of skins",
+   "intention_key": "chain_lindisfarne_book.s05.intention",
+   "intention": "A big red-fair man has a thing to show to anyone who trades with Christians: a block of sewn calfskins without boards, the first leaf a page of knots in red, yellow and green.",
+   "lines": [
+    { "who": "chief", "key": "chain_lindisfarne_book.s05.chief_landing" },
+    { "who": "chief", "key": "chain_lindisfarne_book.s05.chief_name", "when": "flag.ch_lindisfarne_book_name" },
+    { "who": "chief", "key": "chain_lindisfarne_book.s05.chief_skins" },
+    { "who": "chief", "key": "chain_lindisfarne_book.s05.chief_hole", "when": "flag.ch_lindisfarne_book_marks" },
+    { "who": "chief", "key": "chain_lindisfarne_book.s05.chief_no_marks", "when": "not flag.ch_lindisfarne_book_marks" },
+    { "who": "wife", "key": "chain_lindisfarne_book.s05.wife_brooch", "when": "port.id = ogvaldsnes" },
+    { "who": "chief", "key": "chain_lindisfarne_book.s05.chief_price" },
+    { "who": "chief", "key": "chain_lindisfarne_book.s05.chief_hounds" }
+   ],
+   "options": [
+    { "key": "silver", "label_key": "chain_lindisfarne_book.s05.opt_silver", "label": "Weigh him out three hundred pennies of silver", "check": "silver >= 300", "cost": "silver 300",
+      "effects": [ "npc chief feeling +6 paid", "flag ch_lindisfarne_book_bought", "flag ch_lindisfarne_book_aboard", "flag lf_ransom_paid", "flag ch_lindisfarne_book_5" ],
+      "note": "outcome: chain_lindisfarne_book.s05.out_silver" },
+    { "key": "swords", "label_key": "chain_lindisfarne_book.s05.opt_swords", "label": "Give him two Frankish swords for it", "check": "hold.swords >= 2", "cost": "goods swords 2",
+      "effects": [ "npc chief feeling +12 swords", "flag ch_lindisfarne_book_bought", "flag ch_lindisfarne_book_aboard", "flag lf_ransom_paid", "flag ch_lindisfarne_book_5" ],
+      "note": "outcome: chain_lindisfarne_book.s05.out_swords (what he wants most; what the swords do afterwards is not on the card)" },
+    { "key": "tell", "label_key": "chain_lindisfarne_book.s05.opt_tell", "label": "Tell him what it is and whose, and leave it on his chest", "check": "true", "default": true,
+      "effects": [ "npc chief feeling +8 told", "flag ch_lindisfarne_book_seen", "flag ch_lindisfarne_book_5", "schedule harbour.chain_lindisfarne_book.s08_asulfs_lot in 240 at sliesthorp" ],
+      "note": "outcome: chain_lindisfarne_book.s05.out_tell (costs nothing; the book goes south with the autumn lot and is seen again at Sliesthorp next year)" },
+    { "key": "night", "label_key": "chain_lindisfarne_book.s05.opt_night", "label": "Say nothing, and come back for it after dark", "check": "true",
+      "effects": [ { "chance": 0.45, "by": "crew.eyes_best",
+                     "success": [ "npc chief feeling -40 robbed", "flag ch_lindisfarne_book_stolen", "flag ch_lindisfarne_book_feud", "flag ch_lindisfarne_book_aboard", "flag lf_ransom_paid" ],
+                     "failure": [ "health -0.15", "morale -0.1", "npc chief feeling -30 caught", "flag ch_lindisfarne_book_caught", "schedule harbour.chain_lindisfarne_book.s08_asulfs_lot in 240 at sliesthorp" ] },
+                   "flag ch_lindisfarne_book_5" ],
+      "note": "outcome: chain_lindisfarne_book.s05.out_night_success / out_night_failure (doubtful; the hounds are told of first in chief_hounds; a failure is a beating and the long road by Sliesthorp)" }
+   ],
+   "memory": { "silver": "paid in weighed silver", "swords": "paid in swords", "tell": "said what it was and left it", "night.success": "took it in the night", "night.failure": "was caught at the chest in the night" }
+  },
+  {
+   "id": "sea.chain_lindisfarne_book.s06_green_water",
+   "note": "Step 6 (at sea with the book aboard; drawn once). A sea is coming over the quarter and the book must ride somewhere. Sources: the spine's book_road hook for the crew; Symeon tells of a gospel book lost overboard about 880 and found unharmed on the sands (Historia Dunelmensis ecclesiae xxvi-xxvii): that is another book and a later story, and is not told here. Cast: cast.crew.aldger. Sets ch_lindisfarne_book_6; a failed chance sets ch_lindisfarne_book_wet (the book is spoiled in part, not lost).",
+   "stage": "sea",
+   "when": "under_way and flag.ch_lindisfarne_book_aboard and not flag.ch_lindisfarne_book_6",
+   "weight": 0.02,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [30, 55], "fixed": true, "note": "cast.crew.aldger" }
+   },
+   "title_key": "chain_lindisfarne_book.s06.title",
+   "title": "Green water",
+   "intention_key": "chain_lindisfarne_book.s06.intention",
+   "intention": "The wind backs and hardens in the afternoon. The steersman looks at the sky to windward and then at the bundle of calfskins in the bottom of the boat.",
+   "lines": [
+    { "who": "steersman", "key": "chain_lindisfarne_book.s06.steersman_worst" },
+    { "who": "steersman", "key": "chain_lindisfarne_book.s06.steersman_wrap", "when": "flag.ch_lindisfarne_book_wrap" },
+    { "who": "steersman", "key": "chain_lindisfarne_book.s06.steersman_no_wrap", "when": "not flag.ch_lindisfarne_book_wrap" }
+   ],
+   "options": [
+    { "key": "heave", "label_key": "chain_lindisfarne_book.s06.opt_heave", "label": "Shorten sail, lie to, and hold it on your knees under the tilt until it blows through", "check": "true", "default": true,
+      "effects": [ "morale -0.03", "flag ch_lindisfarne_book_6" ],
+      "note": "outcome: chain_lindisfarne_book.s06.out_heave (sure; costs most of a day and a wet night)" },
+    { "key": "dry", "label_key": "chain_lindisfarne_book.s06.opt_dry", "label": "It rides in the sealskin under the stern board: sail on", "check": "flag.ch_lindisfarne_book_wrap",
+      "effects": [ "morale +0.02", "flag ch_lindisfarne_book_6" ],
+      "note": "outcome: chain_lindisfarne_book.s06.out_dry (sure; the wrap of step 4 pays here)" },
+    { "key": "drive", "label_key": "chain_lindisfarne_book.s06.opt_drive", "label": "Wedge it under the thwart with the spare sail over it and drive on", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.02" ],
+                     "failure": [ "morale -0.05", "flag ch_lindisfarne_book_wet" ] },
+                   "flag ch_lindisfarne_book_6" ],
+      "note": "outcome: chain_lindisfarne_book.s06.out_drive_success / out_drive_failure (doubtful; the steersman says the worst first)" }
+   ],
+   "memory": { "heave": "lay to for the book's sake", "dry": "sailed on with the book wrapped", "drive.success": "drove on and kept it dry", "drive.failure": "drove on and let the sea into the book" }
+  },
+  {
+   "id": "sea.chain_lindisfarne_book.s07_square_sail",
+   "note": "Step 7, the thief's road only (at sea with the stolen book aboard; drawn once). Thorleif's ship comes up astern. Sources: the spine's holy_island hook at sea (the same square sail seen again); the game has no battle screen, so this is a card (BRIEF.md). Cast: cast.thorleif, cast.crew.beornwine. Sets ch_lindisfarne_book_7; paying clears _feud and sets _bought; a lost race or a handing back clears _aboard, _stolen and _feud, sets _retaken and schedules step 8.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_lindisfarne_book_stolen and flag.ch_lindisfarne_book_aboard and not flag.ch_lindisfarne_book_7",
+   "weight": 0.03,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "chief": { "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [33, 55], "fixed": true, "note": "cast.thorleif" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [18, 40], "fixed": true, "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_lindisfarne_book.s07.title",
+   "title": "The same square sail",
+   "intention_key": "chain_lindisfarne_book.s07.intention",
+   "intention": "A sail lifts astern at first light and does not fall behind. By mid morning there are shields along her side and a big man standing in her bow, in no hurry.",
+   "lines": [
+    { "who": "lookout", "key": "chain_lindisfarne_book.s07.lookout_sail" },
+    { "who": "chief", "key": "chain_lindisfarne_book.s07.chief_forgot" },
+    { "who": "chief", "key": "chain_lindisfarne_book.s07.chief_price" },
+    { "who": "chief", "key": "chain_lindisfarne_book.s07.chief_story" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_lindisfarne_book.s07.opt_pay", "label": "Lie to and weigh out his price, with the price of his night's sleep on top", "check": "silver >= 360", "cost": "silver 360",
+      "effects": [ "npc chief feeling +25 paid_late", "flag ch_lindisfarne_book_feud = 0", "flag ch_lindisfarne_book_bought", "flag ch_lindisfarne_book_7" ],
+      "note": "outcome: chain_lindisfarne_book.s07.out_pay (the feud ends; the book is yours by his own word)" },
+    { "key": "run", "label_key": "chain_lindisfarne_book.s07.opt_run", "label": "Run for shoal water, where her keel cannot follow yours", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05" ],
+                     "failure": [ "health -0.1", "flag ch_lindisfarne_book_aboard = 0", "flag lf_ransom_paid = 0", "flag ch_lindisfarne_book_stolen = 0", "flag ch_lindisfarne_book_feud = 0", "flag ch_lindisfarne_book_retaken", "schedule harbour.chain_lindisfarne_book.s08_asulfs_lot in 200 at sliesthorp" ] },
+                   "flag ch_lindisfarne_book_7" ],
+      "note": "outcome: chain_lindisfarne_book.s07.out_run_success / out_run_failure (doubtful; a lost race costs the book and some skin, not the boat; the book is seen again at Sliesthorp)" },
+    { "key": "hand", "label_key": "chain_lindisfarne_book.s07.opt_hand", "label": "Lie to and hand it back over the gunwale", "check": "true",
+      "effects": [ "npc chief feeling +15 handed_back", "flag ch_lindisfarne_book_aboard = 0", "flag lf_ransom_paid = 0", "flag ch_lindisfarne_book_stolen = 0", "flag ch_lindisfarne_book_feud = 0", "flag ch_lindisfarne_book_retaken", "flag ch_lindisfarne_book_7", "schedule harbour.chain_lindisfarne_book.s08_asulfs_lot in 200 at sliesthorp" ],
+      "note": "outcome: chain_lindisfarne_book.s07.out_hand (costs pride only; he laughs, and the book is seen again at Sliesthorp)" }
+   ],
+   "memory": { "pay": "paid late, and over the price", "run.success": "outran him over the shoals", "run.failure": "ran and was caught", "hand": "handed the book back at sea" }
+  },
+  {
+   "id": "harbour.chain_lindisfarne_book.s08_asulfs_lot",
+   "note": "Step 8, the second chance (scheduled at Sliesthorp 240 days after the book was left or the theft failed, 200 after it was retaken at sea: the next sailing year). The dealer in captives has the book in a lot, and a Svea is bidding for the skins. Sources: the spine's hooks at Sliesthorp (cast.asulf remembers every lot; Christians cannot be sold south to the Franks) and at Birka (cast.holmfast keeps an Englishman who can tally and read marks); skins scraped and written on again are known from every writing room; Asulf names prices in ounces of silver and never haggles twice (spine). Cast: cast.asulf, cast.holmfast. Sets ch_lindisfarne_book_8; buying sets _bought, _aboard and lf_ransom_paid; letting it go sets _left and the timer _left_wait (300 days).",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year < 817 and flag.ch_lindisfarne_book_5 and not flag.ch_lindisfarne_book_aboard and not flag.ch_lindisfarne_book_8 and (flag.ch_lindisfarne_book_seen or flag.ch_lindisfarne_book_caught or flag.ch_lindisfarne_book_retaken)",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [38, 62], "fixed": true, "note": "cast.asulf" },
+    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 60], "fixed": true, "note": "cast.holmfast" }
+   },
+   "title_key": "chain_lindisfarne_book.s08.title",
+   "title": "Asulf's lot",
+   "intention_key": "chain_lindisfarne_book.s08.intention",
+   "intention": "On a bench outside the dealer's pen, with a sealskin, two cups and a bell without a tongue, lies the block of calfskins. A spare, pale-eyed Svea is counting its leaves for the second time.",
+   "lines": [
+    { "who": "dealer", "key": "chain_lindisfarne_book.s08.dealer_told", "when": "flag.ch_lindisfarne_book_seen" },
+    { "who": "dealer", "key": "chain_lindisfarne_book.s08.dealer_night", "when": "flag.ch_lindisfarne_book_caught or flag.ch_lindisfarne_book_retaken" },
+    { "who": "svea", "key": "chain_lindisfarne_book.s08.svea_bid" },
+    { "who": "svea", "key": "chain_lindisfarne_book.s08.svea_reader" },
+    { "who": "dealer", "key": "chain_lindisfarne_book.s08.dealer_price" },
+    { "who": "dealer", "key": "chain_lindisfarne_book.s08.dealer_law" }
+   ],
+   "options": [
+    { "key": "silver", "label_key": "chain_lindisfarne_book.s08.opt_silver", "label": "Outbid the Svea: fifteen ounces, two hundred and fifty pennies' weight", "check": "silver >= 250", "cost": "silver 250",
+      "effects": [ "npc dealer feeling +4 paid", "npc svea feeling -4 outbid", "flag ch_lindisfarne_book_bought", "flag ch_lindisfarne_book_aboard", "flag lf_ransom_paid", "flag ch_lindisfarne_book_8" ],
+      "note": "outcome: chain_lindisfarne_book.s08.out_silver" },
+    { "key": "blades", "label_key": "chain_lindisfarne_book.s08.opt_blades", "label": "Give the dealer two Frankish swords for it", "check": "hold.swords >= 2", "cost": "goods swords 2",
+      "effects": [ "npc dealer feeling +10 swords", "npc svea feeling -4 outbid", "flag ch_lindisfarne_book_bought", "flag ch_lindisfarne_book_aboard", "flag lf_ransom_paid", "flag ch_lindisfarne_book_8" ],
+      "note": "outcome: chain_lindisfarne_book.s08.out_blades (blades buy more captives than silver does, he says)" },
+    { "key": "tell", "label_key": "chain_lindisfarne_book.s08.opt_tell", "label": "Tell the Svea truly what a house of monks would give for it, and let it go east", "check": "true", "default": true,
+      "effects": [ "npc dealer feeling +10 raised_price", "npc svea feeling +2 true_word", "flag ch_lindisfarne_book_left", "flag ch_lindisfarne_book_left_wait for 300", "flag ch_lindisfarne_book_8" ],
+      "note": "outcome: chain_lindisfarne_book.s08.out_tell (costs nothing; the Svea pays twenty ounces on your word, the book goes to Birka, and a year on the man who took it owes you for a true word)" }
+   ],
+   "memory": { "silver": "outbid the Svea in silver", "blades": "paid in swords", "tell": "told the book's true worth and let it go" }
+  },
+  {
+   "id": "harbour.chain_lindisfarne_book.s09_low_water",
+   "note": "Step 9 (drawn at Lindisfarena with the book aboard, in any year before the community leaves in 875). The book is carried over the sand at low water. Sources: Higbald died 25 May 803; Ecgberht was consecrated at Bywell on 11 June 803 and was bishop to 821 (Symeon, Historia Dunelmensis ecclesiae xx; dossiers/lindisfarena.md); Cuthbert's day is 20 March and Aidan's 31 August (Bede, Historia ecclesiastica III.17); in Bede's day the house had no money, only cattle (HE III.26). Cast: cast.higbald, then the bishop of the year. Giving or ransoming sets ch_lindisfarne_book_9 with _gift or _ransom, clears _aboard and lf_ransom_paid and sets the spine's bk_carried; keeping it aboard sets _shown and the card may come again.",
+   "stage": "harbour",
+   "when": "moored and port.id = lindisfarena and year < 875 and flag.ch_lindisfarne_book_aboard and not flag.ch_lindisfarne_book_9",
+   "weight": 8.0,
+   "cooldown_days": 20,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [45, 72], "fixed": true, "note": "cast.higbald to May 803; Ecgberht 803-821; later the bishop of the year, unnamed" }
+   },
+   "title_key": "chain_lindisfarne_book.s09.title",
+   "title": "Low water",
+   "intention_key": "chain_lindisfarne_book.s09.intention",
+   "intention": "You carry the bundle up from the boat over wet sand. Word has run ahead of you: the brethren are standing outside the church, and nobody speaks.",
+   "lines": [
+    { "who": "bishop", "key": "chain_lindisfarne_book.s09.higbald_hole", "when": "year < 803 or (year = 803 and month < 6)" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s09.ecgberht_hole", "when": "(year > 803 or (year = 803 and month >= 6)) and year < 822" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s09.later_hole", "when": "year >= 822" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s09.bishop_wet", "when": "flag.ch_lindisfarne_book_wet" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s09.bishop_stolen", "when": "flag.ch_lindisfarne_book_feud" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s09.bishop_shown", "when": "flag.ch_lindisfarne_book_shown" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.s09.bishop_feast" }
+   ],
+   "options": [
+    { "key": "give", "label_key": "chain_lindisfarne_book.s09.opt_give", "label": "Lay it in his hands and ask nothing", "check": "true", "default": true,
+      "effects": [ "deed gave_alms", "npc bishop feeling +30 gave", "flag ch_lindisfarne_book_gift", "flag ch_lindisfarne_book_aboard = 0", "flag lf_ransom_paid = 0", "flag bk_carried", "flag ch_lindisfarne_book_9" ],
+      "note": "outcome: chain_lindisfarne_book.s09.out_give (the honest road; the reckoning is at the next feast, step end_home)" },
+    { "key": "ransom", "label_key": "chain_lindisfarne_book.s09.opt_ransom", "label": "Give it over, and ask back what it cost you and a fair freight", "check": "true",
+      "effects": [ "deed fair_dealing", "npc bishop feeling +12 ransomed", "flag ch_lindisfarne_book_ransom", "flag ch_lindisfarne_book_aboard = 0", "flag lf_ransom_paid = 0", "flag bk_carried", "flag ch_lindisfarne_book_9" ],
+      "note": "outcome: chain_lindisfarne_book.s09.out_ransom (the reckoning is at the next feast, step end_home)" },
+    { "key": "keep", "label_key": "chain_lindisfarne_book.s09.opt_keep", "label": "Let him see it, and carry it back to the boat: others will pay more", "check": "true",
+      "effects": [ "npc bishop feeling -15 kept", "flag ch_lindisfarne_book_shown" ],
+      "note": "outcome: chain_lindisfarne_book.s09.out_keep (costs his good opinion; the book stays aboard, and York and Quentovic are open)" }
+   ],
+   "memory": { "give": "laid the book in the bishop's hands and asked nothing", "ransom": "brought the book home for its price", "keep": "showed the book and carried it away again" }
+  },
+  {
+   "id": "harbour.chain_lindisfarne_book.end_home",
+   "note": "ENDING home: history changed (drawn at Lindisfarena in March or August, the months of Cuthbert's and Aidan's days, after step 9). The book is laid on the altar and the house pays as it can. Sources: no source says that anything taken in 793 came back, so this is the player's doing; cloths that had lain on a saint's coffin were given as relics (the unlock table's unlock_relic_cuthbert_cloth); names of friends and givers were written in a book of life kept on the altar: Lindisfarne's own, the Durham Liber Vitae, is of about 840 and whether a list was kept in the 790s is not known (?); the king's men at Bebbanburg saw the sails and did not come (the spine's hook; not in any source) (?); by 854 the house held a dozen estates from the Tweed to the Tyne (Symeon, Historia regum 854). Cast: cast.higbald or the bishop of the year; the thegn Ecgwulf's kinsman is unnamed. Sets ch_lindisfarne_book_end_home and changed_lindisfarne_book_home; grand rewards unlock_title_cuthberts_man, unlock_relic_cuthbert_cloth (the giver's road only) or unlock_plot_lindisfarena.",
+   "stage": "harbour",
+   "when": "moored and port.id = lindisfarena and year < 875 and (month = 3 or month = 8) and flag.ch_lindisfarne_book_9 and not flag.ch_lindisfarne_book_end_home",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [45, 72], "fixed": true, "note": "cast.higbald to May 803; Ecgberht 803-821; later the bishop of the year, unnamed" },
+    "thegn": { "role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 55], "fixed": false, "note": "a thegn of the king's rock at Bebbanburg; invented, unnamed" }
+   },
+   "title_key": "chain_lindisfarne_book.end_home.title",
+   "title": "On the altar",
+   "intention_key": "chain_lindisfarne_book.end_home.intention",
+   "intention": "On the feast the book lies open on the altar at the first leaf of John. The brethren from the estates are here, and a thegn from the king's rock, and a merchant who is asked to stand at the front.",
+   "lines": [
+    { "who": "bishop", "key": "chain_lindisfarne_book.end_home.bishop_altar" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.end_home.bishop_gift", "when": "flag.ch_lindisfarne_book_gift" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.end_home.bishop_ransom", "when": "flag.ch_lindisfarne_book_ransom" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.end_home.bishop_wet", "when": "flag.ch_lindisfarne_book_wet" },
+    { "who": "thegn", "key": "chain_lindisfarne_book.end_home.thegn_rock" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.end_home.bishop_feud", "when": "flag.ch_lindisfarne_book_feud" },
+    { "who": "bishop", "key": "chain_lindisfarne_book.end_home.bishop_offer" }
+   ],
+   "options": [
+    { "key": "peace", "label_key": "chain_lindisfarne_book.end_home.opt_peace", "label": "Take what he offers the giver: your name in the book of life, a cloth from the saint's coffin, and the carrying of the house's wine", "check": "flag.ch_lindisfarne_book_gift",
+      "effects": [ "silver +600", "commission rhenish_wine 6 by 300 premium 1.8", "npc bishop feeling +20 peace", "flag unlock_title_cuthberts_man", "flag unlock_relic_cuthbert_cloth", "flag ch_lindisfarne_book_end_home", "flag changed_lindisfarne_book_home", "news chain_lindisfarne_book.news.home at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_home.out_peace (the hard road's finale: 600 d that the thegn and York's collection press on you, two grand rewards and a commission)" },
+    { "key": "silver", "label_key": "chain_lindisfarne_book.end_home.opt_silver", "label": "Take the ransom: York's collection, the thegn's silver and the house's wax", "check": "true", "default": true,
+      "effects": [ "silver +900", "goods wax +10", "npc bishop feeling +10 ransom", "flag unlock_title_cuthberts_man", "flag ch_lindisfarne_book_end_home", "flag changed_lindisfarne_book_home", "news chain_lindisfarne_book.news.home at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_home.out_silver (1,300 d in silver and wax, and the saint's peace)" },
+    { "key": "strand", "label_key": "chain_lindisfarne_book.end_home.opt_strand", "label": "Ask for ground instead: a boat strand and a storehouse inside the harbour sands", "check": "true",
+      "effects": [ "silver +400", "goods wax +6", "npc bishop feeling +10 strand", "flag unlock_plot_lindisfarena", "flag ch_lindisfarne_book_end_home", "flag changed_lindisfarne_book_home", "news chain_lindisfarne_book.news.home at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_home.out_strand (640 d in silver and wax, and a plot on the bishop's island)" }
+   ],
+   "memory": { "peace": "took the saint's peace and the cloth", "silver": "took the ransom", "strand": "took ground on the island" }
+  },
+  {
+   "id": "harbour.chain_lindisfarne_book.end_york",
+   "note": "ENDING york: history changed (drawn at Eoforwic before 809 with the book aboard). The archbishop will buy it for the minster. Sources: Eanbald I died 10 August 796; Eanbald II, Alcuin's pupil, was archbishop from August 796 and is last heard of in 808; Alcuin scolded him for the armed men he kept (spine, cast.eanbald); the minster's library was the richest north of the Alps and is not heard of after the army took York in 866-867 (?); land in a town was a lord's to give: the unlock table has a house among the Frisians of York and a man there. Cast: cast.eanbald; the scribe Eadwulf, invented. Selling sets ch_lindisfarne_book_end_york, changed_lindisfarne_book_york and the lasting cost ch_lindisfarne_book_island_remembers; refusing costs his good opinion and the card may come again. Grand rewards unlock_factor_eoforwic or unlock_plot_eoforwic.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and year < 809 and flag.ch_lindisfarne_book_aboard and not flag.ch_lindisfarne_book_end_york",
+   "weight": 3.0,
+   "cooldown_days": 90,
+   "actors": {
+    "archbishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [38, 65], "fixed": true, "note": "cast.eanbald (Eanbald I to August 796, Eanbald II after), historical" },
+    "scribe": { "role": "scribe", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "Eadwulf, a scribe of the minster school; invented" }
+   },
+   "title_key": "chain_lindisfarne_book.end_york.title",
+   "title": "A house with walls",
+   "intention_key": "chain_lindisfarne_book.end_york.intention",
+   "intention": "The scribe has told his lord what lies in your boat. The archbishop comes down to the staith himself, which he does not do for wine.",
+   "lines": [
+    { "who": "scribe", "key": "chain_lindisfarne_book.end_york.scribe_hand" },
+    { "who": "archbishop", "key": "chain_lindisfarne_book.end_york.arch_walls" },
+    { "who": "archbishop", "key": "chain_lindisfarne_book.end_york.arch_shown", "when": "flag.ch_lindisfarne_book_shown" },
+    { "who": "archbishop", "key": "chain_lindisfarne_book.end_york.arch_offer" },
+    { "who": "scribe", "key": "chain_lindisfarne_book.end_york.scribe_worth", "when": "flag.bk_knows_worth" },
+    { "who": "archbishop", "key": "chain_lindisfarne_book.end_york.arch_island" }
+   ],
+   "options": [
+    { "key": "silver", "label_key": "chain_lindisfarne_book.end_york.opt_silver", "label": "Sell it for his first price in silver, and a clerk of the minster to keep your goods here", "check": "true",
+      "effects": [ "silver +1200", "npc archbishop feeling +15 sold", "flag unlock_factor_eoforwic", "flag ch_lindisfarne_book_aboard = 0", "flag lf_ransom_paid = 0", "flag bk_carried", "flag ch_lindisfarne_book_island_remembers", "flag ch_lindisfarne_book_end_york", "flag changed_lindisfarne_book_york", "news chain_lindisfarne_book.news.york at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_york.out_silver (1,200 d and a man at Eoforwic)" },
+    { "key": "worth", "label_key": "chain_lindisfarne_book.end_york.opt_worth", "label": "Name the price the scribe taught you: a herd, a year and the saint's name", "check": "flag.bk_knows_worth",
+      "effects": [ "silver +1700", "npc archbishop feeling +10 sold_dear", "flag unlock_factor_eoforwic", "flag ch_lindisfarne_book_aboard = 0", "flag lf_ransom_paid = 0", "flag bk_carried", "flag ch_lindisfarne_book_island_remembers", "flag ch_lindisfarne_book_end_york", "flag changed_lindisfarne_book_york", "news chain_lindisfarne_book.news.york at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_york.out_worth (1,700 d and a man at Eoforwic: what step 3 was for)" },
+    { "key": "plot", "label_key": "chain_lindisfarne_book.end_york.opt_plot", "label": "Sell it for less silver and a house plot by the Ouse", "check": "true",
+      "effects": [ "silver +600", "npc archbishop feeling +15 sold", "flag unlock_plot_eoforwic", "flag ch_lindisfarne_book_aboard = 0", "flag lf_ransom_paid = 0", "flag bk_carried", "flag ch_lindisfarne_book_island_remembers", "flag ch_lindisfarne_book_end_york", "flag changed_lindisfarne_book_york", "news chain_lindisfarne_book.news.york at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_york.out_plot (600 d and ground at Eoforwic)" },
+    { "key": "refuse", "label_key": "chain_lindisfarne_book.end_york.opt_refuse", "label": "Say it is not for sale here: it goes to the island", "check": "true", "default": true,
+      "effects": [ "npc archbishop feeling -6 refused", "npc scribe feeling +6 refused" ],
+      "note": "outcome: chain_lindisfarne_book.end_york.out_refuse (costs a great man's good opinion; the book stays aboard)" }
+   ],
+   "memory": { "silver": "sold Saint Cuthbert's book to the minster", "worth": "sold Saint Cuthbert's book dear", "plot": "sold Saint Cuthbert's book for ground", "refuse": "would not sell the island's book" }
+  },
+  {
+   "id": "harbour.chain_lindisfarne_book.end_alms",
+   "note": "ENDING alms: history changed (drawn at Quentovic from 794 to Alcuin's death in May 804, with the book aboard). Alcuin's letter-carrier waits at the hospice with his master's answer and the king's alms. Sources: Alcuin to Higbald, 793 (MGH Epistolae IV no. 20): when King Charles comes home he will go to him about the youths led away (not quoted); that the king gave alms for ransom is the spine's guess (?); Alcuin held the cell of Saint-Josse by Quentovic as a hospice for travellers from 792 (?); Gervold of Saint-Wandrille took the king's tolls at Quentovic to 806 (Gesta abbatum Fontanellensium c. 12); toll freedom at Quentovic was the king's to give, as to Saint-Germain in 779 (the unlock table's unlock_charter_quentovic); Alcuin was abbot of Tours from 796 and died 19 May 804. Cast: cast.sigewine, with cast.alcuin and cast.gervold spoken of. Giving it into his hands sets ch_lindisfarne_book_end_alms and changed_lindisfarne_book_kings_gift; taking the alms and carrying on sets ch_lindisfarne_book_alms (the turn). Grand reward unlock_charter_quentovic.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 794 and (year < 804 or (year = 804 and month < 5)) and flag.ch_lindisfarne_book_aboard and not flag.ch_lindisfarne_book_alms and not flag.ch_lindisfarne_book_end_alms",
+   "weight": 3.0,
+   "cooldown_days": 120,
+   "actors": {
+    "monk": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [34, 50], "fixed": true, "note": "cast.sigewine" }
+   },
+   "title_key": "chain_lindisfarne_book.end_alms.title",
+   "title": "The king's alms",
+   "intention_key": "chain_lindisfarne_book.end_alms.intention",
+   "intention": "A tall stooping monk in a patched cowl has been asking along the bank for a ship that goes north. He sees what you carry before you have said a word, and sits down on a mooring post.",
+   "lines": [
+    { "who": "monk", "key": "chain_lindisfarne_book.end_alms.monk_sorry" },
+    { "who": "monk", "key": "chain_lindisfarne_book.end_alms.monk_answer" },
+    { "who": "monk", "key": "chain_lindisfarne_book.end_alms.monk_tours", "when": "year >= 796" },
+    { "who": "monk", "key": "chain_lindisfarne_book.end_alms.monk_offer" },
+    { "who": "monk", "key": "chain_lindisfarne_book.end_alms.monk_toll" },
+    { "who": "monk", "key": "chain_lindisfarne_book.end_alms.monk_sea" }
+   ],
+   "options": [
+    { "key": "king", "label_key": "chain_lindisfarne_book.end_alms.opt_king", "label": "Give it into his hands for the king's alms: he will take it to the island as King Charles's gift", "check": "true",
+      "effects": [ "silver +1000", "deed fair_dealing", "npc monk feeling +15 kings_gift", "flag unlock_charter_quentovic", "flag ch_lindisfarne_book_aboard = 0", "flag lf_ransom_paid = 0", "flag bk_carried", "flag ch_lindisfarne_book_end_alms", "flag changed_lindisfarne_book_kings_gift", "news chain_lindisfarne_book.news.alms at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_alms.out_king (1,000 d and the abbot's writing of toll freedom at Quentovic)" },
+    { "key": "carry", "label_key": "chain_lindisfarne_book.end_alms.opt_carry", "label": "Take part of the alms toward what you paid, and Alcuin's letter, and carry the book home yourself", "check": "true", "default": true,
+      "effects": [ "silver +150", "deed carried_letters", "give_text alcuin_793", "npc monk feeling +10 carried", "flag ch_lindisfarne_book_alms" ],
+      "note": "outcome: chain_lindisfarne_book.end_alms.out_carry (the turn: 150 d and a letter; the book stays aboard for the island)" },
+    { "key": "read", "label_key": "chain_lindisfarne_book.end_alms.opt_read", "label": "Let him read in it for an evening, and decide nothing", "check": "true",
+      "effects": [ "learn latin +0.05", "npc monk feeling +6 read" ],
+      "note": "outcome: chain_lindisfarne_book.end_alms.out_read (costs an evening; he reads aloud and you follow some of it)" }
+   ],
+   "memory": { "king": "gave the book over for the king's alms", "carry": "took the letter and carried the book on", "read": "let him read in the book" }
+  },
+  {
+   "id": "harbour.chain_lindisfarne_book.end_left",
+   "note": "ENDING left: what the sources allow (drawn at Ogvaldsnes or Skiringssal in the sailing months, 300 days or more after the book was let go at step 8). Nothing taken in 793 is recorded as coming home; the mounts are worn as brooches and the leaves are at Birka. The man who took it owes for a true word. Sources: as step 1 for the brooches; walrus ivory came south from the far north of Norway (Ohthere's account to King Alfred, about 890; texts_793.json ohthere); the Karmsund is the sheltered way north that Ogvaldsnes stands on (ports_793.json); guest-friendship and laying goods together (felag: the unlock table's unlock_partner_felagi; the word is on rune stones of the tenth century and later, so for the 790s it is an older custom under a later name) (?); the spine's Birka hook (a Svea keeps an Englishman who can read marks: cast.tidwine, who is the chain holy_island's to find). Cast: cast.thorleif; Gunnhild, invented. Sets ch_lindisfarne_book_end_left; grand rewards unlock_title_thorleifs_guest, unlock_partner_felagi (with the lasting cost ch_lindisfarne_book_raiders_friend) or unlock_pilot_karmsund (with ch_lindisfarne_book_word, word carried to the island).",
+   "stage": "harbour",
+   "when": "moored and (port.id = ogvaldsnes or port.id = skiringssal) and month >= 5 and month <= 9 and flag.ch_lindisfarne_book_left and not flag.ch_lindisfarne_book_left_wait and not flag.ch_lindisfarne_book_end_left",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "chief": { "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [34, 60], "fixed": true, "note": "cast.thorleif" },
+    "wife": { "role": "farm_wife", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "f", "age": [29, 55], "fixed": true, "note": "Gunnhild, Thorleif's wife; invented" }
+   },
+   "title_key": "chain_lindisfarne_book.end_left.title",
+   "title": "A true word",
+   "intention_key": "chain_lindisfarne_book.end_left.intention",
+   "intention": "The big red-fair man sees your sail before you see him, and sends a boy down to say there is a place for you on the bench and that nobody will ask what you paid for it.",
+   "lines": [
+    { "who": "chief", "key": "chain_lindisfarne_book.end_left.chief_ounces" },
+    { "who": "chief", "key": "chain_lindisfarne_book.end_left.chief_night", "when": "flag.ch_lindisfarne_book_caught or flag.ch_lindisfarne_book_retaken" },
+    { "who": "wife", "key": "chain_lindisfarne_book.end_left.wife_brooch", "when": "port.id = ogvaldsnes" },
+    { "who": "chief", "key": "chain_lindisfarne_book.end_left.chief_east" },
+    { "who": "chief", "key": "chain_lindisfarne_book.end_left.chief_offer" }
+   ],
+   "options": [
+    { "key": "tusks", "label_key": "chain_lindisfarne_book.end_left.opt_tusks", "label": "Take his gift of walrus tooth, and a guest's place in his hall and on his coast", "check": "true", "default": true,
+      "effects": [ "goods walrus_ivory +8", "npc chief feeling +20 guest", "flag unlock_title_thorleifs_guest", "flag ch_lindisfarne_book_end_left", "news chain_lindisfarne_book.news.left at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_left.out_tusks (eight tusks, about 720 d, and a chief's guest-right)" },
+    { "key": "felag", "label_key": "chain_lindisfarne_book.end_left.opt_felag", "label": "Lay goods together with his sister's son, who has a boat and no silver", "check": "tongue.old_norse >= 0.5",
+      "effects": [ "goods marten +5", "npc chief feeling +25 partner", "flag unlock_partner_felagi", "flag ch_lindisfarne_book_raiders_friend", "flag ch_lindisfarne_book_end_left", "news chain_lindisfarne_book.news.left at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_left.out_felag (five bundles of marten, about 600 d, and a sworn partner; Christians will hear whose kin he is)" },
+    { "key": "word", "label_key": "chain_lindisfarne_book.end_left.opt_word", "label": "Take your share by weight and the marks of the sound, and carry word to the island of where its book lies", "check": "true",
+      "effects": [ "silver +600", "npc chief feeling +10 share", "flag unlock_pilot_karmsund", "flag ch_lindisfarne_book_word", "flag ch_lindisfarne_book_end_left", "news chain_lindisfarne_book.news.left at here" ],
+      "note": "outcome: chain_lindisfarne_book.end_left.out_word (600 d, the Karmsund's marks, and a thing to tell the bishop)" }
+   ],
+   "memory": { "tusks": "took a guest's place in the hall", "felag": "laid goods together with his kinsman", "word": "took his share and the marks of the sound" }
+  }
+ ]
+}

@@ -1,0 +1,625 @@
+{
+ "about": "CHAIN coast_watch_810 (Design/content/chains/coast_watch_810.md): the emperor's coast watch and Godfred's two hundred ships, 808 to 812. Fourteen cards. The count at Dorestad calls boats and men to the watch on the river mouths (s01); the watch post at Walichrum is four boats, two of them barges (s02); in the Danes' harbours every rope-walk is sold out (s03); a Frisian mound can be warned (s04); the fleet is seen at sea (s05); the mound at Emuthon must find its part of the hundred pounds (s06) and a Dane weighs it on the strand with his own weights (s07); the emperor's host eats the river bare and his elephant dies at Lippeham (s08); the emperor's envoys ask where the watch was (s09); in the hard winter three men want the boat for three different springs (s10); the old Roman light at Bononia is lit again (s11). Three endings: the emperor's ships at Ganda (end_fleet), the thing on the mound at Emuthon (end_islands), the oath on the Eider (end_eider). Progress is flags ch_coast_watch_810_1 to _11; the branch flags, the three end flags, the grand rewards and the three 'changed_' flags are listed in the chain page. The spine's flags gf_warned and gf_paid_share (thread godfreds_market) are set here. Only s01 and s10 are needed to reach an ending; every other step is optional and colours what the endings offer. Cards are drawn on a call at their port in their months and years, so the waits are the real ones of 810 and 811. The forge names the people; the words call them Count Folcbert (cast.folcbert), Gerwin, Sibrand, Tetta, Sibo, Ketil and Baldric (invented, attested name parts); the Dane among the crew is cast.crew.ravn. The words are in Data/writing/chain_coast_watch_810.json; each option's note names the writing key of its outcome text. Sources in the notes and the chain page: Annales regni Francorum 800, 808 to 811; Einhard, Vita Karoli 14, 17, 22, 32; MGH Capitularia I nos. 34, 46, 48, 51, 64, 74. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_coast_watch_810.s01_muster",
+   "note": "Step 1, the start: Dorestad, 808 to May 810, drawn on a call there once the house has made two calls. Count Folcbert (cast.folcbert, invented man in a real office) has the order read: ships and a watch on the river mouths. Sources: Charles sets up a fleet and posts guards on the coast of the Gallic sea, March 800 (ARF 800; chronicle 800-03-channel-coastguard); 'de navigia praeparando circa litoralia maris' (Capitulare missorum of 802, MGH Capit. I no. 34 c. 13a (?)); the ships ordered built, 808 (MGH Capit. I no. 51 c. 9-10; chronicle 808-march-land-sea); stations and watches at every port and river mouth (Einhard, Vita Karoli 17); of the poorer Frisians six equip a seventh for the host (Memoratorium of 807, MGH Capit. I no. 48 c. 3 (?)). Reric burned 808 (ARF 808); Count Egbert at Esesfeld, March 810 (ARF 809). Sets ch_coast_watch_810_1 and one of _roll, _paid_seventh, _aside.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and (year = 808 or year = 809 or (year = 810 and month < 6)) and port.visits >= 2 and not flag.ch_coast_watch_810_1",
+   "weight": 1.2,
+   "once": true,
+   "cooldown_days": 120,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 55], "fixed": true, "note": "Folcbert, cast.folcbert" },
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [22, 40], "fixed": true, "note": "the count's clerk, unnamed" }
+   },
+   "title_key": "chain_coast_watch_810.s01.title",
+   "title": "The watch roll",
+   "intention_key": "chain_coast_watch_810.s01.intention",
+   "intention": "On the dam at Dorestad the count's clerk reads out an order of the emperor: boats and men for a watch on the river mouths. The count looks along the row of keels and stops at yours.",
+   "lines": [
+    { "who": "clerk", "key": "chain_coast_watch_810.s01.clerk_order" },
+    { "who": "count", "key": "chain_coast_watch_810.s01.count_seventh" },
+    { "who": "count", "key": "chain_coast_watch_810.s01.count_reric", "when": "year >= 809" },
+    { "who": "clerk", "key": "chain_coast_watch_810.s01.clerk_esesfeld", "when": "year = 810" },
+    { "who": "count", "key": "chain_coast_watch_810.s01.count_shipman" }
+   ],
+   "options": [
+    { "key": "roll", "label_key": "chain_coast_watch_810.s01.opt_roll", "label": "Put your boat on the watch roll",
+      "check": "true",
+      "effects": [ "toll eased 60", "npc count feeling +8 roll", "flag ch_coast_watch_810_roll", "flag ch_coast_watch_810_1" ],
+      "note": "outcome: chain_coast_watch_810.s01.out_roll" },
+    { "key": "seventh", "label_key": "chain_coast_watch_810.s01.opt_seventh", "label": "Pay your part of a seventh man and keep your summer",
+      "check": "silver >= 20", "cost": "silver 20",
+      "effects": [ "npc count feeling +2 paid", "flag ch_coast_watch_810_paid_seventh", "flag ch_coast_watch_810_1" ],
+      "note": "outcome: chain_coast_watch_810.s01.out_seventh" },
+    { "key": "small", "label_key": "chain_coast_watch_810.s01.opt_small", "label": "Say the boat is too small to stop anything, and ask what the watch is for",
+      "check": "true", "default": true,
+      "effects": [ "npc clerk feeling +3 asked", "npc count feeling -2 small", "flag ch_coast_watch_810_aside", "flag ch_coast_watch_810_1" ],
+      "note": "outcome: chain_coast_watch_810.s01.out_small (costs only the count's good opinion; the clerk says where the posts are)" }
+   ],
+   "memory": {
+    "roll": "put his boat on the watch roll",
+    "seventh": "paid toward a seventh man",
+    "small": "said his boat was too small for the watch"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.s02_watch_post",
+   "note": "Step 2 (optional): Walichrum, at the mouth of the Scheldt, from step 1 until June 810, drawn on a call there. The watch as it was: Einhard says stations and watches were set at all the ports and river mouths where ships could enter (Vita Karoli 17); what such a post looked like is not recorded, so the four boats, the beacon pile and the commander Gerwin (Ger- + -win) are INVENTED. The man who is 'the seventh part of a soldier' is the Memoratorium of 807 again. That the watch could see a fleet and not stop one is what 810 showed. Sets ch_coast_watch_810_2 and one of _stood, _letter.",
+   "stage": "harbour",
+   "when": "moored and port.id = walichrum and flag.ch_coast_watch_810_1 and not flag.ch_coast_watch_810_2 and (year < 810 or (year = 810 and month < 7))",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 60,
+   "actors": {
+    "commander": { "role": "commander", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [35, 55], "fixed": true, "note": "Gerwin, invented" },
+    "farmer": { "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [20, 40], "fixed": false, "note": "a levied man on the beacon, unnamed" }
+   },
+   "title_key": "chain_coast_watch_810.s02.title",
+   "title": "Four boats on the sand",
+   "intention_key": "chain_coast_watch_810.s02.intention",
+   "intention": "On the dune at Walichrum stands a pile of driftwood under a cowhide, ready to burn. Below it four boats lie on the sand. Two of them are river barges.",
+   "lines": [
+    { "who": "commander", "key": "chain_coast_watch_810.s02.commander_barges" },
+    { "who": "commander", "key": "chain_coast_watch_810.s02.commander_orders" },
+    { "who": "farmer", "key": "chain_coast_watch_810.s02.farmer_seventh" },
+    { "who": "commander", "key": "chain_coast_watch_810.s02.commander_roll", "when": "flag.ch_coast_watch_810_roll" },
+    { "who": "commander", "key": "chain_coast_watch_810.s02.commander_ask" }
+   ],
+   "options": [
+    { "key": "stand", "label_key": "chain_coast_watch_810.s02.opt_stand", "label": "Stand a week on the watch with your boat",
+      "check": "true",
+      "effects": [ "silver +24", "npc commander feeling +8 stood", "flag ch_coast_watch_810_stood", "flag ch_coast_watch_810_2" ],
+      "note": "outcome: chain_coast_watch_810.s02.out_stand (a week gone; the count's ration money)" },
+    { "key": "letter", "label_key": "chain_coast_watch_810.s02.opt_letter", "label": "Carry his letter up the river: the watch can see a fleet, not stop one",
+      "check": "true",
+      "effects": [ "silver +10", "deed carried_letters", "npc commander feeling +6 letter", "flag ch_coast_watch_810_letter", "flag ch_coast_watch_810_2" ],
+      "note": "outcome: chain_coast_watch_810.s02.out_letter" },
+    { "key": "sell", "label_key": "chain_coast_watch_810.s02.opt_sell", "label": "Sell them bread and ale and say nothing about the barges",
+      "check": "true", "default": true,
+      "effects": [ "silver +30", "npc commander feeling +1 sold", "flag ch_coast_watch_810_2" ],
+      "note": "outcome: chain_coast_watch_810.s02.out_sell" }
+   ],
+   "memory": {
+    "stand": "stood a week on the watch",
+    "letter": "carried a letter about the watch",
+    "sell": "sold the watch its bread"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.s03_ships_gather",
+   "note": "Step 3 (optional): Ripa or Sliesthorp, 809 to May 810, drawn on a call there. The king's men gather ships (spine thread godfreds_market, hooks ripa and sliesthorp). Sources: two hundred ships from Nordmannia (ARF 810); Godfred counted Frisia and Saxony as his own provinces and boasted he would soon come to Aachen (Einhard, Vita Karoli 14); he had sent word to the emperor by merchants in 809 (ARF 809), so a merchant asked whose man he is fits. What the fleet bought and where it gathered is not recorded: the rope and bread are INVENTED. The Dane of the crew is cast.crew.ravn, who 'knows men in that fleet and says less than he means' (spine). Selling bread to the king's buyers breaks no capitulary (the ban of 805 is on arms and mail) but a count would mind. Sets ch_coast_watch_810_3 and _word; _sold_fleet.",
+   "stage": "harbour",
+   "when": "moored and (port.id = ripa or port.id = sliesthorp) and flag.ch_coast_watch_810_1 and not flag.ch_coast_watch_810_3 and (year = 809 or (year = 810 and month < 6))",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 60,
+   "actors": {
+    "kingsman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": true, "note": "a man of King Godfred's at the landing, unnamed" },
+    "merchant": { "role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 55], "fixed": false, "note": "a Dane who sells rope, unnamed" },
+    "hand": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "age": [40, 60], "fixed": true, "note": "the old Dane of your crew (cast.crew.ravn)" }
+   },
+   "title_key": "chain_coast_watch_810.s03.title",
+   "title": "Rope for two hundred keels",
+   "intention_key": "chain_coast_watch_810.s03.intention",
+   "intention": "The landing is full of ships that are not trading. Men are stepping masts and carrying bread aboard by the sack. A king's man walks down to see what a Frisian keel is doing here.",
+   "lines": [
+    { "who": "kingsman", "key": "chain_coast_watch_810.s03.kingsman_whose" },
+    { "who": "merchant", "key": "chain_coast_watch_810.s03.merchant_rope" },
+    { "who": "hand", "key": "chain_coast_watch_810.s03.hand_bread" },
+    { "who": "kingsman", "key": "chain_coast_watch_810.s03.kingsman_boast" }
+   ],
+   "options": [
+    { "key": "listen", "label_key": "chain_coast_watch_810.s03.opt_listen", "label": "Buy the ale and let your Dane ask his questions",
+      "check": "silver >= 6", "cost": "silver 6",
+      "effects": [ "npc merchant feeling +4 drank", "flag ch_coast_watch_810_word", "flag ch_coast_watch_810_3" ],
+      "note": "outcome: chain_coast_watch_810.s03.out_listen (a rumour that is true)" },
+    { "key": "sell", "label_key": "chain_coast_watch_810.s03.opt_sell", "label": "Sell the king's buyers bread and rope at their price",
+      "check": "true",
+      "effects": [ "silver +140", "npc kingsman feeling +8 sold", "flag ch_coast_watch_810_sold_fleet", "flag ch_coast_watch_810_word", "flag ch_coast_watch_810_3" ],
+      "note": "outcome: chain_coast_watch_810.s03.out_sell (a turn's payout; it is remembered on both shores)" },
+    { "key": "nobody", "label_key": "chain_coast_watch_810.s03.opt_nobody", "label": "Say you are nobody's man, and trade as on any other day",
+      "check": "true", "default": true,
+      "effects": [ "npc kingsman feeling -2 nobody", "flag ch_coast_watch_810_3" ],
+      "note": "outcome: chain_coast_watch_810.s03.out_nobody" }
+   ],
+   "memory": {
+    "listen": "drank and listened in the king's harbour",
+    "sell": "sold bread and rope to the king's fleet",
+    "nobody": "said he was nobody's man"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.s04_warning",
+   "note": "Step 4 (optional): a Frisian landing (Emuthon, Doccinga, Wijnaldum or Medemelacha), March to June 810, drawn on a call there. The warning. Real: the fleet ravaged all the islands off the Frisian shore (ARF 810); the sun was eclipsed on 7 June 810, a Friday three weeks after Pentecost (ARF 810; chronicle 810-06-07-solar-eclipse). INVENTED: that anybody warned them. Sets the spine's flag gf_warned ('he brought warning of the fleet to a Frisian port before it came') and changed_frisia_warned_810: the mound's cattle are inland and its best silver hidden when the ships come, so the fights go no better but the Danes carry less away. No sea dykes yet in 810, so the word goes from mound to mound by boat and on foot at low water. Sets ch_coast_watch_810_4.",
+   "stage": "harbour",
+   "when": "moored and (port.id = emuthon or port.id = doccinga or port.id = wijnaldum or port.id = medemelacha) and flag.ch_coast_watch_810_1 and not flag.ch_coast_watch_810_4 and year = 810 and month >= 3 and month <= 6",
+   "weight": 35,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "elder": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 68], "fixed": true, "note": "the law-speaker of the place (at Emuthon: Sibrand, invented)" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [35, 55], "fixed": true, "note": "a widow with a flock (at Emuthon: Tetta, invented)" }
+   },
+   "title_key": "chain_coast_watch_810.s04.title",
+   "title": "A rumour is not a cargo",
+   "intention_key": "chain_coast_watch_810.s04.intention",
+   "intention": "The mound is at its spring work: ewes and lambs on the salt grass, wool on every fence. Nobody here has heard anything from the north, and nobody is looking that way.",
+   "lines": [
+    { "who": "elder", "key": "chain_coast_watch_810.s04.elder_counted" },
+    { "who": "widow", "key": "chain_coast_watch_810.s04.widow_host" },
+    { "who": "elder", "key": "chain_coast_watch_810.s04.elder_hot", "when": "flag.ch_coast_watch_810_word" },
+    { "who": "elder", "key": "chain_coast_watch_810.s04.elder_sun", "when": "month >= 6" }
+   ],
+   "options": [
+    { "key": "warn", "label_key": "chain_coast_watch_810.s04.opt_warn", "label": "Tell them what you heard in the Danes' harbour: two hundred keels, this summer",
+      "check": "flag.ch_coast_watch_810_word",
+      "effects": [ "npc elder feeling +12 warned", "npc widow feeling +6 warned", "flag gf_warned", "flag changed_frisia_warned_810", "flag ch_coast_watch_810_warned", "flag ch_coast_watch_810_4" ],
+      "note": "outcome: chain_coast_watch_810.s04.out_warn (history changed a little: the cattle are inland when the ships come)" },
+    { "key": "count", "label_key": "chain_coast_watch_810.s04.opt_count", "label": "Tell them to send to the count for men, as the law says",
+      "check": "true",
+      "effects": [ "npc elder feeling +2 count", "flag ch_coast_watch_810_sent_count", "flag ch_coast_watch_810_4" ],
+      "note": "outcome: chain_coast_watch_810.s04.out_count (a rider goes; the count is with the host)" },
+    { "key": "quiet", "label_key": "chain_coast_watch_810.s04.opt_quiet", "label": "Trade and keep your news to yourself",
+      "check": "true", "default": true,
+      "effects": [ "silver +20", "flag ch_coast_watch_810_4" ],
+      "note": "outcome: chain_coast_watch_810.s04.out_quiet" }
+   ],
+   "memory": {
+    "warn": "brought word of the fleet before it came",
+    "count": "told them to send to the count",
+    "quiet": "traded and said nothing"
+   }
+  },
+  {
+   "id": "sea.chain_coast_watch_810.s05_two_hundred",
+   "note": "Step 5 (optional): at sea, June and July 810. The fleet seen from the masthead (spine thread godfreds_market, the hook 'at sea': run, pay or parley). Source: 'a fleet of two hundred ships from Nordmannia' (ARF 810); Godfred himself stayed at home (ARF 810). The lookout and the old Dane are your own crew (cast.crew.ravn). The engine has no variable for which sea she is in, so this card can come up anywhere under way in those two months: see 'needs' in the chain page. Lying on the flats until dark costs only the day. Sets ch_coast_watch_810_5; _ran, _parley, _word.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_coast_watch_810_1 and not flag.ch_coast_watch_810_5 and year = 810 and month >= 6 and month <= 7",
+   "rate": 0.3,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "lookout": { "role": "lookout", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [16, 22], "fixed": true, "note": "the youngest hand, in the bow" },
+    "hand": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "age": [40, 60], "fixed": true, "note": "the old Dane of your crew (cast.crew.ravn)" }
+   },
+   "title_key": "chain_coast_watch_810.s05.title",
+   "title": "Sails to the north",
+   "intention_key": "chain_coast_watch_810.s05.intention",
+   "intention": "To the north the edge of the sea is rough with sails, more than any trading season ever put out. They are coming down along the islands under oar and sail together.",
+   "lines": [
+    { "who": "lookout", "key": "chain_coast_watch_810.s05.lookout_count" },
+    { "who": "hand", "key": "chain_coast_watch_810.s05.hand_kings" },
+    { "who": "hand", "key": "chain_coast_watch_810.s05.hand_bread", "when": "flag.ch_coast_watch_810_sold_fleet" },
+    { "who": "hand", "key": "chain_coast_watch_810.s05.hand_thief" }
+   ],
+   "options": [
+    { "key": "lie", "label_key": "chain_coast_watch_810.s05.opt_lie", "label": "Drop the sail and the mast and lie on the flats until dark (sure)",
+      "check": "true", "default": true,
+      "effects": [ "flag ch_coast_watch_810_5" ],
+      "note": "outcome: chain_coast_watch_810.s05.out_lie (costs the day)" },
+    { "key": "run", "label_key": "chain_coast_watch_810.s05.opt_run", "label": "Put her before the wind and run for the river (likely)",
+      "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05", "flag ch_coast_watch_810_ran" ],
+                     "failure": [ "silver -40", "deed paid_raiders", "morale -0.05" ] },
+                   "flag ch_coast_watch_810_5" ],
+      "note": "outcome: chain_coast_watch_810.s05.out_run_success / out_run_failure (the hand has warned what running looks like)" },
+    { "key": "hail", "label_key": "chain_coast_watch_810.s05.opt_hail", "label": "Stand on, and hail the nearest ship in her own tongue (likely)",
+      "check": "tongue.old_norse >= 0.3 or flag.ch_coast_watch_810_sold_fleet",
+      "effects": [ { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "morale +0.03", "flag ch_coast_watch_810_parley", "flag ch_coast_watch_810_word" ],
+                     "failure": [ "silver -30", "deed paid_raiders" ] },
+                   "flag ch_coast_watch_810_5" ],
+      "note": "outcome: chain_coast_watch_810.s05.out_hail_success / out_hail_failure" }
+   ],
+   "memory": {
+    "lie": "lay on the flats while the fleet passed",
+    "run.success": "outran the king's fleet",
+    "run.failure": "ran from the fleet and was caught",
+    "hail.success": "hailed the fleet and was let go",
+    "hail.failure": "hailed the fleet and paid for it"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.s06_hundred_pounds",
+   "note": "Step 6: Emuthon, June 810 to May 811, drawn on a call there. The hundred pounds (spine thread godfreds_market, hook emuthon; realms/frisia_lotharingia.md card 2). Source: the fleet 'fought three battles with the Frisians, and the Danes, being victorious, laid a tribute on the conquered, and a hundred pounds of silver had already been paid by the Frisians' (ARF 810, in our own words). A hundred pounds is 24,000 pennies. How it was shared out is not recorded: a part for each mound, four pounds for Emuthon, is INVENTED. Emuthon in 810: a trading mound on the Ems with large ewe flocks and wool cloth, no church yet; Bant off the river mouth; the nearest chapel Liudger's at Leer (dossiers/emuthon.md). Buying a needy man's goods far under their worth is 'foul gain' in the capitulary of Nijmegen, 806 (MGH Capit. I no. 46 c. 15-17 (?)). The cattle plague of 810 killed the oxen (ARF 810). Sibrand (Sib- + -brand) and Tetta are invented. Sets ch_coast_watch_810_6 and one of gf_paid_share (the spine's flag), _cheap, _ferried.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and flag.ch_coast_watch_810_1 and not flag.ch_coast_watch_810_6 and ((year = 810 and month >= 6) or (year = 811 and month <= 5))",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "elder": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 68], "fixed": true, "note": "Sibrand, the law-speaker of the mound, invented" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [35, 55], "fixed": true, "note": "Tetta, invented" }
+   },
+   "title_key": "chain_coast_watch_810.s06.title",
+   "title": "A hundred pounds",
+   "intention_key": "chain_coast_watch_810.s06.intention",
+   "intention": "Three fights have been lost. The Danes have set the whole coast a tribute of a hundred pounds of silver, and the mound at Emuthon must find four of them.",
+   "lines": [
+    { "who": "elder", "key": "chain_coast_watch_810.s06.elder_three", "when": "year = 810 and month <= 7" },
+    { "who": "elder", "key": "chain_coast_watch_810.s06.elder_share" },
+    { "who": "widow", "key": "chain_coast_watch_810.s06.widow_roped", "when": "year = 810 and month <= 7" },
+    { "who": "elder", "key": "chain_coast_watch_810.s06.elder_borrowed", "when": "year = 811 or month >= 8" },
+    { "who": "elder", "key": "chain_coast_watch_810.s06.elder_warned", "when": "flag.ch_coast_watch_810_warned" },
+    { "who": "elder", "key": "chain_coast_watch_810.s06.elder_law" }
+   ],
+   "options": [
+    { "key": "give", "label_key": "chain_coast_watch_810.s06.opt_give", "label": "Put sixty pennies on the scale as your share, as if you lived here",
+      "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "npc elder feeling +15 gave", "npc widow feeling +8 gave", "flag gf_paid_share", "flag ch_coast_watch_810_6" ],
+      "note": "outcome: chain_coast_watch_810.s06.out_give" },
+    { "key": "cloth", "label_key": "chain_coast_watch_810.s06.opt_cloth", "label": "Buy their cloth for ready silver, at a third of its worth",
+      "check": "silver >= 90", "cost": "silver 90",
+      "effects": [ "goods frisian_cloth +6", "npc elder feeling -6 cheap", "flag ch_coast_watch_810_cheap", "flag ch_coast_watch_810_6" ],
+      "note": "outcome: chain_coast_watch_810.s06.out_cloth (a turn's payout, about 200 d clear; lawful, and written down as lawful)" },
+    { "key": "ferry", "label_key": "chain_coast_watch_810.s06.opt_ferry", "label": "Keep your purse shut, and carry the women, the children and the ewes up the river",
+      "check": "true", "default": true,
+      "effects": [ "npc widow feeling +12 ferried", "npc elder feeling +5 ferried", "flag ch_coast_watch_810_ferried", "flag ch_coast_watch_810_6" ],
+      "note": "outcome: chain_coast_watch_810.s06.out_ferry (costs two days and the smell)" }
+   ],
+   "memory": {
+    "give": "put silver on the scale that he did not owe",
+    "cloth": "bought the mound's cloth at a third",
+    "ferry": "carried the women and the ewes up the river"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.s07_weighing",
+   "note": "Step 7 (optional): Emuthon, June and July 810, after step 6, drawn on a call there. The weighing on the strand. Real: tribute by weight of silver (ARF 810); folding balances and lead weights are common finds in the North of this age, and the Danes' ounce was not the Frankish one; Godfred stayed at home and boasted he would come to Aachen with a great host (Einhard, Vita Karoli 14; ARF 810). INVENTED: Ketil (a common Danish name), the twelve roped men, the quarrel over the weights. That Frankish pennies went into the pan as plain silver: coin was weighed, not counted, in the North before about 825 (BRIEF rule 2). Sets ch_coast_watch_810_7 and one of _ransomed, _true_weight, _boast.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and flag.ch_coast_watch_810_6 and not flag.ch_coast_watch_810_7 and year = 810 and month >= 6 and month <= 7",
+   "weight": 60,
+   "once": true,
+   "cooldown_days": 5,
+   "actors": {
+    "chief": { "role": "raider_chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 45], "fixed": true, "note": "Ketil, a ship's chief of the king's fleet, invented" },
+    "elder": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 68], "fixed": true, "note": "Sibrand" }
+   },
+   "title_key": "chain_coast_watch_810.s07.title",
+   "title": "His weights",
+   "intention_key": "chain_coast_watch_810.s07.intention",
+   "intention": "On the strand below the mound a Dane sits on a sea chest with a folding balance. The mound's silver goes in one pan, his lead weights in the other. Twelve men sit roped by the boats.",
+   "lines": [
+    { "who": "chief", "key": "chain_coast_watch_810.s07.chief_pan" },
+    { "who": "chief", "key": "chain_coast_watch_810.s07.chief_honest" },
+    { "who": "elder", "key": "chain_coast_watch_810.s07.elder_five" },
+    { "who": "chief", "key": "chain_coast_watch_810.s07.chief_bread", "when": "flag.ch_coast_watch_810_sold_fleet" },
+    { "who": "chief", "key": "chain_coast_watch_810.s07.chief_king" }
+   ],
+   "options": [
+    { "key": "ransom", "label_key": "chain_coast_watch_810.s07.opt_ransom", "label": "Buy the twelve roped men free at his price",
+      "check": "silver >= 80", "cost": "silver 80",
+      "effects": [ "npc elder feeling +15 ransomed", "npc chief feeling +4 ransomed", "flag ch_coast_watch_810_ransomed", "flag ch_coast_watch_810_7" ],
+      "note": "outcome: chain_coast_watch_810.s07.out_ransom" },
+    { "key": "weights", "label_key": "chain_coast_watch_810.s07.opt_weights", "label": "Set your own Dorestad pound in the other pan, before everyone (doubtful)",
+      "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "npc chief feeling +6 weights", "npc elder feeling +10 weights", "flag ch_coast_watch_810_true_weight" ],
+                     "failure": [ "silver -20", "npc chief feeling -6 weights" ] },
+                   "flag ch_coast_watch_810_7" ],
+      "note": "outcome: chain_coast_watch_810.s07.out_weights_success / out_weights_failure (he has said his weights are heavier: the danger is plain)" },
+    { "key": "watch", "label_key": "chain_coast_watch_810.s07.opt_watch", "label": "Stand by, watch the weighing, and remember what he says of his king",
+      "check": "true", "default": true,
+      "effects": [ "flag ch_coast_watch_810_boast", "flag ch_coast_watch_810_7" ],
+      "note": "outcome: chain_coast_watch_810.s07.out_watch" }
+   ],
+   "memory": {
+    "ransom": "bought twelve roped men free",
+    "weights.success": "set a true pound against his weights",
+    "weights.failure": "quarrelled with his weights and paid for it",
+    "watch": "stood by at the weighing"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.s08_host",
+   "note": "Step 8 (optional): Dorestad, Noviomagus or Diusburg, June to September 810, drawn on a call there. The emperor's host (spine hooks dorestad and diusburg). Sources: at the news Charles sent out to gather the host, crossed the Rhine at Lippeham and waited there for his troops, and 'the elephant which Aaron, king of the Saracens, had sent him died there suddenly'; he camped where the Aller meets the Weser; there he heard that the fleet had gone home and that Godfred had been killed by one of his own following (ARF 810, in our own words). Lippeham lay about the mouth of the Lippe, a day below Diusburg (?). The cattle plague that killed nearly all the host's oxen (ARF 810), and the rumour that men of Duke Grimoald of Benevento went about with a poison dust (Agobard, De grandine 16). Three months' food carried from the march: the Boulogne capitulary, 811 (MGH Capit. I no. 74 c. 8), set down a year later (?). The provisioner is unnamed. Sets ch_coast_watch_810_8; _fed_host.",
+   "stage": "harbour",
+   "when": "moored and (port.id = dorestad or port.id = noviomagus or port.id = diusburg) and flag.ch_coast_watch_810_1 and not flag.ch_coast_watch_810_8 and year = 810 and month >= 6 and month <= 9",
+   "weight": 35,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [30, 55], "fixed": true, "note": "a provisioner of the host, unnamed" },
+    "carter": { "role": "carter", "people": "port", "faith": "christian", "tongue": "port", "age": [25, 55], "fixed": false, "note": "a carter whose oxen have died, unnamed" }
+   },
+   "title_key": "chain_coast_watch_810.s08.title",
+   "title": "The host eats",
+   "intention_key": "chain_coast_watch_810.s08.intention",
+   "intention": "The emperor has called out the host against the Danish king. Every boat on the river is wanted for bread, and everything an army eats costs half as much again.",
+   "lines": [
+    { "who": "steward", "key": "chain_coast_watch_810.s08.steward_bread" },
+    { "who": "carter", "key": "chain_coast_watch_810.s08.carter_oxen" },
+    { "who": "steward", "key": "chain_coast_watch_810.s08.steward_elephant", "when": "port.id = diusburg" },
+    { "who": "steward", "key": "chain_coast_watch_810.s08.steward_dead", "when": "month >= 8" }
+   ],
+   "options": [
+    { "key": "bread", "label_key": "chain_coast_watch_810.s08.opt_bread", "label": "Take the host's order for ship's bread",
+      "check": "true",
+      "effects": [ "commission ships_bread 8 by 40 premium 0.8", "npc steward feeling +5 bread", "flag ch_coast_watch_810_fed_host", "flag ch_coast_watch_810_8" ],
+      "note": "outcome: chain_coast_watch_810.s08.out_bread (a commission with a premium: a turn's payout)" },
+    { "key": "carry", "label_key": "chain_coast_watch_810.s08.opt_carry", "label": "Hire the boat to the host for a fortnight's carrying",
+      "check": "true",
+      "effects": [ "silver +110", "morale -0.03", "flag ch_coast_watch_810_fed_host", "flag ch_coast_watch_810_8" ],
+      "note": "outcome: chain_coast_watch_810.s08.out_carry (a turn's payout; a fortnight gone)" },
+    { "key": "clear", "label_key": "chain_coast_watch_810.s08.opt_clear", "label": "Stay clear of the host, and mark what bread is fetching",
+      "check": "true", "default": true,
+      "effects": [ "price_shock here ships_bread x1.4 for 40", "flag ch_coast_watch_810_8" ],
+      "note": "outcome: chain_coast_watch_810.s08.out_clear (a true price word)" }
+   ],
+   "memory": {
+    "bread": "took the host's order for bread",
+    "carry": "hired his boat to the host",
+    "clear": "stayed clear of the host"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.s09_inquiry",
+   "note": "Step 9 (optional): Dorestad, September 810 to February 811, drawn on a call there. The emperor's envoys on the coast. Sources: the news of the fleet reached Charles at Aachen (ARF 810); the capitulary of 810 for the missi sent out that year has a head 'on timber for building ships' (MGH Capit. I no. 64 c. 16; chronicle 810-fleet-ordered-810); 'the emperor had ordered a fleet built the year before' (ARF 811); ships built on the rivers of Gaul and Germany that run into the northern sea (Einhard, Vita Karoli 17). INVENTED: that the envoys held a hearing at Dorestad and what was said. It is modelled on what the next emperor did after Walcheren fell in 837, when he held an inquiry at Nijmegen into those he had set to guard the coast and it was found that the Frisians' disobedience had made the defence impossible (Annales Bertiniani 837, in our own words). Telling the truth costs the goodwill of Count Folcbert, who holds the house's debt. Sets ch_coast_watch_810_9 and _told_truth or _blamed.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_coast_watch_810_1 and not flag.ch_coast_watch_810_9 and ((year = 810 and month >= 9) or (year = 811 and month <= 2))",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "envoy": { "role": "envoy", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "one of the emperor's envoys sent to the coasts in 810, unnamed" },
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 55], "fixed": true, "note": "Folcbert, cast.folcbert" },
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [22, 40], "fixed": true, "note": "the count's clerk" }
+   },
+   "title_key": "chain_coast_watch_810.s09.title",
+   "title": "Where was the watch?",
+   "intention_key": "chain_coast_watch_810.s09.intention",
+   "intention": "The emperor's envoys are going down the coast with one question. At Dorestad one of them sits in the count's hall with a clerk beside him, and the count stands.",
+   "lines": [
+    { "who": "envoy", "key": "chain_coast_watch_810.s09.envoy_where" },
+    { "who": "count", "key": "chain_coast_watch_810.s09.count_ran" },
+    { "who": "envoy", "key": "chain_coast_watch_810.s09.envoy_letter", "when": "flag.ch_coast_watch_810_letter" },
+    { "who": "envoy", "key": "chain_coast_watch_810.s09.envoy_shipman" },
+    { "who": "clerk", "key": "chain_coast_watch_810.s09.clerk_timber" }
+   ],
+   "options": [
+    { "key": "truth", "label_key": "chain_coast_watch_810.s09.opt_truth", "label": "Say what you saw: barges, farmers, and no lord within a day's ride of the boats",
+      "check": "true",
+      "effects": [ "npc envoy feeling +12 truth", "npc count feeling -12 truth", "flag ch_coast_watch_810_told_truth", "flag ch_coast_watch_810_9" ],
+      "note": "outcome: chain_coast_watch_810.s09.out_truth (it costs the count's goodwill and opens the hard roads)" },
+    { "key": "blame", "label_key": "chain_coast_watch_810.s09.opt_blame", "label": "Say what the count says: the Frisians ran",
+      "check": "true",
+      "effects": [ "silver +40", "npc count feeling +10 agreed", "npc envoy feeling -3 agreed", "flag ch_coast_watch_810_blamed", "flag ch_coast_watch_810_9" ],
+      "note": "outcome: chain_coast_watch_810.s09.out_blame" },
+    { "key": "shrug", "label_key": "chain_coast_watch_810.s09.opt_shrug", "label": "Say you carry cloth, not opinions",
+      "check": "true", "default": true,
+      "effects": [ "npc envoy feeling -1 shrug", "flag ch_coast_watch_810_9" ],
+      "note": "outcome: chain_coast_watch_810.s09.out_shrug" }
+   ],
+   "memory": {
+    "truth": "told the emperor's envoy what the watch was",
+    "blame": "said the Frisians ran",
+    "shrug": "said he carried cloth, not opinions"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.s10_hard_winter",
+   "note": "Step 10, the parting of the roads: Dorestad, November 810 to August 811, drawn on a call there; it needs only step 1. Sources: a very hard winter, the frost shutting the roads between Franks and Danes, so that the peace Hemming asked for could only be sworn on weapons until spring (Annales Xantenses 810; ARF 811); in spring twelve men of each people met on the Eider (ARF 811), led for the Franks by Count Wala, son of Bernhard; ships built for the fleet at Ganda (ARF 811). The three callers are INVENTED: the count's clerk, Sibrand's son, and a Saxon interpreter in Count Wala's following. Sets ch_coast_watch_810_10 and one of _road_fleet, _road_islands, _road_eider. The fleet road is always open; the islands road needs step 6; the Eider road needs something the Danes know you by, or their tongue.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_coast_watch_810_1 and not flag.ch_coast_watch_810_10 and ((year = 810 and month >= 11) or (year = 811 and month <= 8))",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 20,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [22, 40], "fixed": true, "note": "the count's clerk" },
+    "son": { "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [20, 30], "fixed": false, "note": "Sibrand's son, come up the river from Emuthon, unnamed" },
+    "interpreter": { "role": "interpreter", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "age": [30, 50], "fixed": false, "note": "a Saxon who speaks Danish, in Count Wala's following, invented" }
+   },
+   "title_key": "chain_coast_watch_810.s10.title",
+   "title": "Three springs",
+   "intention_key": "chain_coast_watch_810.s10.intention",
+   "intention": "The Danish king is dead by his own man's hand, and his nephew wants peace. At Dorestad three men come to your fire, and each has a use for your boat when the year opens.",
+   "lines": [
+    { "who": "clerk", "key": "chain_coast_watch_810.s10.clerk_ganda" },
+    { "who": "clerk", "key": "chain_coast_watch_810.s10.clerk_nearer", "when": "flag.ch_coast_watch_810_told_truth" },
+    { "who": "son", "key": "chain_coast_watch_810.s10.son_thing", "when": "flag.ch_coast_watch_810_6" },
+    { "who": "interpreter", "key": "chain_coast_watch_810.s10.interpreter_twelve" },
+    { "who": "interpreter", "key": "chain_coast_watch_810.s10.interpreter_frost", "when": "year = 810 or month <= 3" }
+   ],
+   "options": [
+    { "key": "fleet", "label_key": "chain_coast_watch_810.s10.opt_fleet", "label": "Go to Ganda in the autumn, for the emperor's ships",
+      "check": "true", "default": true,
+      "effects": [ "npc clerk feeling +4 fleet", "flag ch_coast_watch_810_road_fleet", "flag ch_coast_watch_810_10" ],
+      "note": "outcome: chain_coast_watch_810.s10.out_fleet" },
+    { "key": "islands", "label_key": "chain_coast_watch_810.s10.opt_islands", "label": "Go back to the mound at Emuthon after the shearing",
+      "check": "flag.ch_coast_watch_810_6",
+      "effects": [ "npc son feeling +6 islands", "flag ch_coast_watch_810_road_islands", "flag ch_coast_watch_810_10" ],
+      "note": "outcome: chain_coast_watch_810.s10.out_islands" },
+    { "key": "eider", "label_key": "chain_coast_watch_810.s10.opt_eider", "label": "Go north with the Saxon, to the swearing on the Eider",
+      "check": "flag.ch_coast_watch_810_sold_fleet or flag.ch_coast_watch_810_boast or flag.ch_coast_watch_810_parley or flag.ch_coast_watch_810_ransomed or flag.ch_coast_watch_810_true_weight or tongue.old_norse >= 0.3",
+      "effects": [ "npc interpreter feeling +6 eider", "flag ch_coast_watch_810_road_eider", "flag ch_coast_watch_810_10" ],
+      "note": "outcome: chain_coast_watch_810.s10.out_eider" }
+   ],
+   "memory": {
+    "fleet": "chose the emperor's ships",
+    "islands": "chose the mound at Emuthon",
+    "eider": "chose the swearing on the Eider"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.s11_light",
+   "note": "Step 11 (optional, the fleet road): Quentovic, August to November 811, drawn on a call there. Sources: in the autumn of 811 the emperor went to the sea town of Bononia (Boulogne) to look at the fleet he had ordered built the year before, 'and he restored the lighthouse set up there in old times to guide the course of sailors, and had a fire lit on its top by night' (ARF 811, in our own words; chronicle 811-10-boulogne-lighthouse); the capitulary given at Boulogne orders that whenever a fleet is sent the lords themselves go aboard and be ready for it (MGH Capit. I no. 74 c. 11; chronicle 811-10-boulogne-capitulary). Boulogne is a day's sail north of Quentovic and is not a port of the game, so the card lies at Quentovic. The seasick lord and the harbour man are INVENTED. Sets ch_coast_watch_810_11; _piloted, _saw_light.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and flag.ch_coast_watch_810_road_fleet and not flag.ch_coast_watch_810_11 and not flag.ch_coast_watch_810_done and year = 811 and month >= 8 and month <= 11",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "harbourman": { "role": "harbour_master", "people": "port", "faith": "port", "tongue": "port", "age": [35, 60], "fixed": true, "note": "the harbour man of Quentovic, unnamed" },
+    "lord": { "role": "skipper", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [25, 45], "fixed": false, "note": "a lord's son set over one of the new ships, invented, unnamed" }
+   },
+   "title_key": "chain_coast_watch_810.s11.title",
+   "title": "The old light",
+   "intention_key": "chain_coast_watch_810.s11.intention",
+   "intention": "A day up the coast, at Bononia, the emperor's new ships are gathering under the old Roman tower. At Quentovic every pitch boiler and rope maker is working for the fleet.",
+   "lines": [
+    { "who": "harbourman", "key": "chain_coast_watch_810.s11.harbourman_tower" },
+    { "who": "lord", "key": "chain_coast_watch_810.s11.lord_sick" },
+    { "who": "harbourman", "key": "chain_coast_watch_810.s11.harbourman_pitch" },
+    { "who": "lord", "key": "chain_coast_watch_810.s11.lord_ask" }
+   ],
+   "options": [
+    { "key": "pilot", "label_key": "chain_coast_watch_810.s11.opt_pilot", "label": "Take the lord's ship up to Bononia for him",
+      "check": "true",
+      "effects": [ "silver +120", "npc lord feeling +10 piloted", "flag ch_coast_watch_810_piloted", "flag ch_coast_watch_810_11" ],
+      "note": "outcome: chain_coast_watch_810.s11.out_pilot (a turn's payout; three days)" },
+    { "key": "pitch", "label_key": "chain_coast_watch_810.s11.opt_pitch", "label": "Take the fleet's order for pitch",
+      "check": "true",
+      "effects": [ "commission pitch 6 by 45 premium 0.7", "npc harbourman feeling +4 pitch", "flag ch_coast_watch_810_11" ],
+      "note": "outcome: chain_coast_watch_810.s11.out_pitch (a commission with a premium)" },
+    { "key": "look", "label_key": "chain_coast_watch_810.s11.opt_look", "label": "Sail up at dusk and see the fire lit",
+      "check": "true", "default": true,
+      "effects": [ "morale +0.05", "flag ch_coast_watch_810_saw_light", "flag ch_coast_watch_810_11" ],
+      "note": "outcome: chain_coast_watch_810.s11.out_look (costs a day)" }
+   ],
+   "memory": {
+    "pilot": "took a lord's ship to Bononia for him",
+    "pitch": "took the fleet's order for pitch",
+    "look": "went to see the old light lit"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.end_fleet",
+   "note": "ENDING 1, the emperor's ships: Ganda, September 811 to the end of 812, drawn on a call there. Flag ch_coast_watch_810_end_fleet. Sources: from Boulogne the emperor 'came to the river Scheldt, to the place called Ganda, and looked at the ships built for that same fleet', and was back at Aachen about the middle of November (ARF 811; chronicle 811-11-ghent-ships; dossiers/ganda.md); he was tall, and in his last years limped a little on one foot (Einhard, Vita Karoli 22). How many ships, and where on the bank, nobody knows (dossiers/ganda.md): thirty hulls, the green oak, the spare keel and the wright Baldric (Bald- + -ric) are INVENTED. What really happened is the plain road: lords were ordered aboard (Boulogne capitulary c. 11), the fleet is not heard of again, and in the 830s nobody watched the coast. The hard road (needs the truth told at the inquiry, and a turn on the watch, the roll or the warning) is history changed: changed_coast_watch_frisian, a watch of sworn Frisian shipmen paid in toll freedom, with a duty that lasts (ch_coast_watch_810_watch_duty). Grand rewards: unlock_ship_north_sea_merchant_ship; or unlock_charter_dorestad and unlock_title_emperors_man; or unlock_title_counts_shipman.",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and flag.ch_coast_watch_810_road_fleet and not flag.ch_coast_watch_810_done and ((year = 811 and month >= 9) or year = 812)",
+   "weight": 50,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wright": { "role": "shipwright", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Baldric, master of the emperor's yard at Ganda, invented" },
+    "envoy": { "role": "envoy", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "the emperor's envoy of the Dorestad hearing, unnamed" }
+   },
+   "title_key": "chain_coast_watch_810.end_fleet.title",
+   "title": "The ships at Ganda",
+   "intention_key": "chain_coast_watch_810.end_fleet.intention",
+   "intention": "On the bank of the Scheldt at Ganda the new ships lie in a row, tarred and smelling of it. Men are waiting to be told who is to sail them.",
+   "lines": [
+    { "who": "wright", "key": "chain_coast_watch_810.end_fleet.wright_green" },
+    { "who": "envoy", "key": "chain_coast_watch_810.end_fleet.envoy_emperor", "when": "year = 811 and month >= 11" },
+    { "who": "envoy", "key": "chain_coast_watch_810.end_fleet.envoy_lords" },
+    { "who": "envoy", "key": "chain_coast_watch_810.end_fleet.envoy_idea", "when": "flag.ch_coast_watch_810_told_truth" },
+    { "who": "wright", "key": "chain_coast_watch_810.end_fleet.wright_spare" },
+    { "who": "wright", "key": "chain_coast_watch_810.end_fleet.wright_light", "when": "flag.ch_coast_watch_810_saw_light or flag.ch_coast_watch_810_piloted" }
+   ],
+   "options": [
+    { "key": "hull", "label_key": "chain_coast_watch_810.end_fleet.opt_hull", "label": "Take your season's pay, and ask for the spare hull",
+      "check": "true",
+      "effects": [ "silver +600", "npc wright feeling +10 hull", "flag unlock_ship_north_sea_merchant_ship", "flag ch_coast_watch_810_end_fleet", "flag ch_coast_watch_810_done" ],
+      "note": "outcome: chain_coast_watch_810.end_fleet.out_hull (what really happened to the fleet; you come out of it with a sea-going keel)" },
+    { "key": "frisian", "label_key": "chain_coast_watch_810.end_fleet.opt_frisian", "label": "Tell the envoy your idea: sworn Frisian shipmen on the watch, paid in toll freedom",
+      "check": "flag.ch_coast_watch_810_told_truth and (flag.ch_coast_watch_810_stood or flag.ch_coast_watch_810_roll or flag.gf_warned)",
+      "effects": [ "silver +1200", "npc envoy feeling +15 idea", "flag unlock_charter_dorestad", "flag unlock_title_emperors_man", "flag changed_coast_watch_frisian", "flag ch_coast_watch_810_watch_duty", "news chain_coast_watch_810.news_frisian_watch at dorestad", "flag ch_coast_watch_810_end_fleet", "flag ch_coast_watch_810_done" ],
+      "note": "outcome: chain_coast_watch_810.end_fleet.out_frisian (the hard road: history changed; two grand rewards and a duty of forty days a summer)" },
+    { "key": "wage", "label_key": "chain_coast_watch_810.end_fleet.opt_wage", "label": "Pilot the new ships down to the sea, take the count's silver and go home",
+      "check": "true", "default": true,
+      "effects": [ "silver +900", "flag unlock_title_counts_shipman", "flag ch_coast_watch_810_end_fleet", "flag ch_coast_watch_810_done" ],
+      "note": "outcome: chain_coast_watch_810.end_fleet.out_wage" }
+   ],
+   "memory": {
+    "hull": "took the spare hull at Ganda",
+    "frisian": "spoke for a watch of sworn shipmen",
+    "wage": "piloted the emperor's ships to the sea"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.end_islands",
+   "note": "ENDING 2, the mound: Emuthon, May 811 to the end of 812, drawn on a call there (also the road for a house that did step 6 and then missed the winter card: from September 811). Flag ch_coast_watch_810_end_islands. Real: the peace sworn on the Eider in spring 811 (ARF 811); the Frisian law-speaker, the asega, and judgment at the people's meeting (Lex Frisionum; lore/law_tolls.md); Louis gave the Frisians back their right of inheritance in 814 (Astronomer, Vita Hludowici 24 (?)). INVENTED: the thing after the shearing and what it offers; Sibo, Tetta's grandson (a Frisian short name). What really happened is the plain road: the coast paid, mended, and was raided again (Chron. Moiss. 813). The hard road (needs the warning or the ransom, and not the cheap cloth) is history changed: changed_frisian_beacons_811, the mounds from Bant to the Lauwers swear a watch of their own with a fire on each, three hundred years before the sworn Frisian districts are heard of (?). Grand rewards: unlock_plot_emuthon; or unlock_factor_emuthon; or unlock_plot_emuthon and unlock_kin_fosterling_sibo.",
+   "stage": "harbour",
+   "when": "moored and port.id = emuthon and not flag.ch_coast_watch_810_done and ((flag.ch_coast_watch_810_road_islands and ((year = 811 and month >= 5) or year = 812)) or (flag.ch_coast_watch_810_6 and not flag.ch_coast_watch_810_10 and ((year = 811 and month >= 9) or year = 812)))",
+   "weight": 50,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "elder": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 68], "fixed": true, "note": "Sibrand" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [35, 55], "fixed": true, "note": "Tetta" },
+    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [11, 13], "fixed": false, "note": "Sibo, Tetta's grandson, invented" }
+   },
+   "title_key": "chain_coast_watch_810.end_islands.title",
+   "title": "The thing on the mound",
+   "intention_key": "chain_coast_watch_810.end_islands.intention",
+   "intention": "The shearing is done and the mound holds its meeting on the green by the creek. Peace has been sworn on the Eider. The oxen are dead and the wool is good.",
+   "lines": [
+    { "who": "elder", "key": "chain_coast_watch_810.end_islands.elder_matters" },
+    { "who": "elder", "key": "chain_coast_watch_810.end_islands.elder_scale", "when": "flag.gf_paid_share" },
+    { "who": "widow", "key": "chain_coast_watch_810.end_islands.widow_ewes", "when": "flag.ch_coast_watch_810_ferried" },
+    { "who": "widow", "key": "chain_coast_watch_810.end_islands.widow_son", "when": "flag.ch_coast_watch_810_ransomed" },
+    { "who": "elder", "key": "chain_coast_watch_810.end_islands.elder_cheap", "when": "flag.ch_coast_watch_810_cheap" },
+    { "who": "elder", "key": "chain_coast_watch_810.end_islands.elder_word", "when": "flag.gf_warned" },
+    { "who": "elder", "key": "chain_coast_watch_810.end_islands.elder_fires" },
+    { "who": "boy", "key": "chain_coast_watch_810.end_islands.boy_boat" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_coast_watch_810.end_islands.opt_plot", "label": "Take the house plot they offer on the mound",
+      "check": "true", "default": true,
+      "effects": [ "goods frisian_cloth +14", "npc elder feeling +8 plot", "flag unlock_plot_emuthon", "flag ch_coast_watch_810_end_islands", "flag ch_coast_watch_810_done" ],
+      "note": "outcome: chain_coast_watch_810.end_islands.out_plot (fourteen bolts are about 670 d)" },
+    { "key": "factor", "label_key": "chain_coast_watch_810.end_islands.opt_factor", "label": "Ask for a sworn man to keep your goods here instead",
+      "check": "true",
+      "effects": [ "silver +650", "npc elder feeling +5 factor", "flag unlock_factor_emuthon", "flag ch_coast_watch_810_end_islands", "flag ch_coast_watch_810_done" ],
+      "note": "outcome: chain_coast_watch_810.end_islands.out_factor" },
+    { "key": "fires", "label_key": "chain_coast_watch_810.end_islands.opt_fires", "label": "Swear into their watch: your boat carries the word between the fires, and the boy sails with you",
+      "check": "(flag.gf_warned or flag.ch_coast_watch_810_ransomed) and not flag.ch_coast_watch_810_cheap",
+      "effects": [ "silver +400", "goods frisian_cloth +20", "npc elder feeling +15 fires", "npc widow feeling +15 fires", "flag unlock_plot_emuthon", "flag unlock_kin_fosterling_sibo", "flag changed_frisian_beacons_811", "news chain_coast_watch_810.news_beacons at emuthon", "flag ch_coast_watch_810_end_islands", "flag ch_coast_watch_810_done" ],
+      "note": "outcome: chain_coast_watch_810.end_islands.out_fires (the hard road: history changed; two grand rewards)" }
+   ],
+   "memory": {
+    "plot": "took a house plot on the mound",
+    "factor": "asked for a sworn man at Emuthon",
+    "fires": "swore into the watch of the mounds"
+   }
+  },
+  {
+   "id": "harbour.chain_coast_watch_810.end_eider",
+   "note": "ENDING 3, the oath on the Eider: Sliesthorp, March 811 to the end of 812, drawn on a call there. Flag ch_coast_watch_810_end_eider. Sources: 'the peace announced between the emperor and Hemming, king of the Danes, was only sworn on arms because of the hardness of the winter, which closed the road between the parties, until with the return of spring twelve nobles of each people met on the river Eider and confirmed it by oaths given in turn, each after his own rite and custom' (ARF 811, in our own words). The Franks: Count Wala son of Bernhard, Burchard, Unroch, Uodo, Meginhard, Bernhard, Egbert, Theotheri, Abo, Osdag, Wigman; the Danes: Hemming's brothers Hankwin and Angandeo, Osfrid called Turdimulo, Warstein, Suomi, Urm, Osfrid son of Heiligen, Osfrid of Sconaowe (Skane), Hebbi, Aowin (ARF 811; the spellings vary). Hemming died that winter and the kingdom was fought over in 812 (ARF 812); the peace was sworn again in 813 (ARF 813). The Eider is a day's ride south of Sliesthorp (?). INVENTED: the spokesman, the Saxon interpreter, and Ketil turned trader. What really happened is the plain road: the oath named no merchants. The hard road is history changed: changed_eider_peace_merchants, the clause that traders of both realms cross with their goods and buy and sell in peace, which the Danes and Franks really agreed only in 873 (Annales Fuldenses 873). The other chain lost_brother has its own clause (changed_eider_peace_captives); the two do not clash. Every road here sets ch_coast_watch_810_danes_man: at Dorestad the count counts you a Dane's friend. Grand rewards: unlock_charter_sliesthorp; or that and unlock_title_danish_guest_right; or unlock_partner_ketil.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_coast_watch_810_road_eider and not flag.ch_coast_watch_810_done and ((year = 811 and month >= 3) or year = 812)",
+   "weight": 50,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "spokesman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [35, 55], "fixed": true, "note": "the spokesman of the king's brothers, unnamed" },
+    "interpreter": { "role": "interpreter", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "age": [30, 50], "fixed": false, "note": "the Saxon of step 10" },
+    "ketil": { "role": "skipper", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 45], "fixed": true, "note": "Ketil, the ship's chief of the weighing, now without an errand" }
+   },
+   "title_key": "chain_coast_watch_810.end_eider.title",
+   "title": "Each after his own custom",
+   "intention_key": "chain_coast_watch_810.end_eider.intention",
+   "intention": "A day's ride south of Sliesthorp twelve Franks and twelve Danes meet on the Eider to swear peace, each side by its own custom. Both sides want one man who is believed on the other bank.",
+   "lines": [
+    { "who": "spokesman", "key": "chain_coast_watch_810.end_eider.spokesman_twelve" },
+    { "who": "interpreter", "key": "chain_coast_watch_810.end_eider.interpreter_wala" },
+    { "who": "spokesman", "key": "chain_coast_watch_810.end_eider.spokesman_sworn", "when": "year = 811 and month >= 6" },
+    { "who": "spokesman", "key": "chain_coast_watch_810.end_eider.spokesman_812", "when": "year = 812" },
+    { "who": "ketil", "key": "chain_coast_watch_810.end_eider.ketil_errand" },
+    { "who": "ketil", "key": "chain_coast_watch_810.end_eider.ketil_pound", "when": "flag.ch_coast_watch_810_true_weight" }
+   ],
+   "options": [
+    { "key": "gate", "label_key": "chain_coast_watch_810.end_eider.opt_gate", "label": "Stand witness for both sides, and ask the freedom of the king's gate for your boat",
+      "check": "true", "default": true,
+      "effects": [ "silver +800", "npc spokesman feeling +10 witness", "flag unlock_charter_sliesthorp", "flag ch_coast_watch_810_danes_man", "flag ch_coast_watch_810_end_eider", "flag ch_coast_watch_810_done" ],
+      "note": "outcome: chain_coast_watch_810.end_eider.out_gate (what really happened: the oath names no merchants; you are paid by both sides)" },
+    { "key": "clause", "label_key": "chain_coast_watch_810.end_eider.opt_clause", "label": "Ask that the oath name merchants: traders of both peoples to cross with their goods in peace",
+      "check": "flag.ch_coast_watch_810_ransomed or flag.ch_coast_watch_810_true_weight or flag.ch_coast_watch_810_told_truth or tongue.old_norse >= 0.5",
+      "effects": [ "silver +400", "goods marten +6", "npc spokesman feeling +12 clause", "npc interpreter feeling +10 clause", "flag unlock_charter_sliesthorp", "flag unlock_title_danish_guest_right", "flag changed_eider_peace_merchants", "flag ch_coast_watch_810_danes_man", "news chain_coast_watch_810.news_merchants_peace at sliesthorp", "flag ch_coast_watch_810_end_eider", "flag ch_coast_watch_810_done" ],
+      "note": "outcome: chain_coast_watch_810.end_eider.out_clause (the hard road: history changed; two grand rewards; six timbers of marten are about 720 d)" },
+    { "key": "partner", "label_key": "chain_coast_watch_810.end_eider.opt_partner", "label": "Let the lords swear, and join hands with the Dane who has a ship and no errand",
+      "check": "true",
+      "effects": [ "goods amber +10", "goods marten +4", "npc ketil feeling +20 partner", "flag unlock_partner_ketil", "flag ch_coast_watch_810_danes_man", "flag ch_coast_watch_810_end_eider", "flag ch_coast_watch_810_done" ],
+      "note": "outcome: chain_coast_watch_810.end_eider.out_partner (about 780 d in amber and marten, and a second keel)" }
+   ],
+   "memory": {
+    "gate": "stood witness at the Eider",
+    "clause": "asked that the oath name merchants",
+    "partner": "joined hands with a Dane of the fleet"
+   }
+  }
+ ]
+}

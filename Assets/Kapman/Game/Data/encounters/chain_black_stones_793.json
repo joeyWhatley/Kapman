@@ -1,0 +1,527 @@
+{
+ "about": "CHAIN black_stones (Design/content/CHAINS.md; page Design/content/chains/black_stones.md; words Data/writing/chain_black_stones.json). The quarrel of King Charles and King Offa that shut the ports about 789-790, and the letter of 796 about black stones and the length of cloaks: a Frisian of Dorestad caught between two kings. Fourteen cards, 793 to 796 (endings may be collected to 799). The spine's thread black_stones: its flags bs_ban_heard, bs_letter and bs_peace are set here where a step is also the thread's step. Step flags ch_black_stones_1 .. _10; endings ch_black_stones_end_early (history changed: changed_offa_peace_early), ch_black_stones_end_peace (what happened), ch_black_stones_end_shut (history changed: changed_offa_letter_lost), ch_black_stones_end_runner. Every option's note names its outcome text. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_black_stones.s01_unsold_stones",
+   "note": "Step 1, the start (drawn at Dorestad before 796). Quernstones finished for the English trade lie unsold; the skippers argue whether the king's order binds Frisians. Sources: Gesta abbatum Fontanellensium c. 12 (the order that no one from Britain and the English people should touch the shore of Gaul to trade); Alcuin to Colcu, 790 (MGH Epistolae IV no. 7: sailing forbidden to merchants on both sides); Dorestad's quern cutters finishing Mayen roughouts (dossiers/dorestad.md). Whether the order bound Frisians is not recorded (?). Cast: cast.thiadbod; the cutter Folkmar is invented (Folc- + -mar). Sets ch_black_stones_1 and, on trust, ch_black_stones_trust.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year < 796 and not flag.bs_peace and not flag.ch_black_stones_1",
+   "weight": 1.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "cutter": { "role": "craftsman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [35, 55], "fixed": true, "note": "Folkmar, a quern cutter of the vicus; invented" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [38, 45], "fixed": true, "note": "cast.thiadbod" }
+   },
+   "title_key": "chain_black_stones.s01.title",
+   "title": "Stones nobody fetches",
+   "intention_key": "chain_black_stones.s01.intention",
+   "intention": "Behind the dams a quern cutter sits on a pile of finished black stones, cut for the English trade and unsold since the ports were shut.",
+   "lines": [
+    { "who": "cutter", "key": "chain_black_stones.s01.cutter_pile" },
+    { "who": "cutter", "key": "chain_black_stones.s01.cutter_length" },
+    { "who": "cutter", "key": "chain_black_stones.s01.cutter_carrying", "when": "hold.quernstones > 0" },
+    { "who": "rival", "key": "chain_black_stones.s01.rival_binds" },
+    { "who": "rival", "key": "chain_black_stones.s01.rival_marriage" }
+   ],
+   "options": [
+    { "key": "trust", "label_key": "chain_black_stones.s01.opt_trust", "label": "Take four pairs on trust and try the Strand", "check": "true",
+      "effects": [ "goods quernstones +4", "npc cutter feeling +6 trusted", "flag ch_black_stones_trust", "flag ch_black_stones_1", "schedule harbour.chain_black_stones.s02_reeve in 2 at lundenwic" ],
+      "note": "outcome: chain_black_stones.s01.out_trust" },
+    { "key": "buy", "label_key": "chain_black_stones.s01.opt_buy", "label": "Buy four pairs at his price, six pennies the pair", "check": "silver >= 24", "cost": "silver 24",
+      "effects": [ "goods quernstones +4", "npc cutter feeling +3 bought", "price_shock lundenwic quernstones x1.5 for 60", "flag ch_black_stones_1", "schedule harbour.chain_black_stones.s02_reeve in 2 at lundenwic" ],
+      "note": "outcome: chain_black_stones.s01.out_buy (half the common price; the price word for Lundenwic is true while the ban holds)" },
+    { "key": "ask", "label_key": "chain_black_stones.s01.opt_ask", "label": "Leave the stones and ask what the kings fell out over", "check": "true",
+      "effects": [ "npc rival feeling +2 asked", "news chain_black_stones.news.ban at dorestad", "flag ch_black_stones_1", "schedule harbour.chain_black_stones.s02_reeve in 2 at lundenwic" ],
+      "note": "outcome: chain_black_stones.s01.out_ask (costs nothing; the story goes on at Lundenwic)" }
+   ],
+   "memory": { "trust": "took stones on trust", "buy": "bought stones cheap", "ask": "asked about the quarrel" }
+  },
+  {
+   "id": "harbour.chain_black_stones.s02_reeve",
+   "note": "Step 2 (scheduled by step 1; the first call at Lundenwic after it). The wic-reeve turns Frankish hulls away. Sources: the wic-reeve of Lundenwic in the laws of Hlothhere and Eadric c. 16; the ban as step 1; no reeve is recorded turning Franks away (dossiers/lundenwic.md) (?). Offa had King Aethelberht of the East Angles beheaded in 794 (Anglo-Saxon Chronicle 792 for 794). Cast: cast.wighelm. Sets ch_black_stones_2 and the spine's bs_ban_heard; the road round sets ch_black_stones_round.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year < 797 and not flag.bs_peace and flag.ch_black_stones_1 and not flag.ch_black_stones_2",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "cast.wighelm" }
+   },
+   "title_key": "chain_black_stones.s02.title",
+   "title": "Whose man are you",
+   "intention_key": "chain_black_stones.s02.intention",
+   "intention": "The king's wic-reeve walks down the Strand with two armed men before your keel has touched. No ship of the Frankish king's people is to land here.",
+   "lines": [
+    { "who": "reeve", "key": "chain_black_stones.s02.reeve_whose" },
+    { "who": "reeve", "key": "chain_black_stones.s02.reeve_again" },
+    { "who": "reeve", "key": "chain_black_stones.s02.reeve_stones", "when": "hold.quernstones > 0" },
+    { "who": "reeve", "key": "chain_black_stones.s02.reeve_no_stones", "when": "hold.quernstones = 0" },
+    { "who": "reeve", "key": "chain_black_stones.s02.reeve_794", "when": "year >= 794" }
+   ],
+   "options": [
+    { "key": "gift", "label_key": "chain_black_stones.s02.opt_gift", "label": "Give him a gift and a story: Frisians beached here before either king was born", "check": "silver >= 20 and npc.reeve.feeling >= wary", "cost": "silver 20",
+      "effects": [ "deed bribed_officer", "npc reeve feeling +8 gift", "toll eased 30", "price_shock lundenwic quernstones x1.6 for 30", "flag bs_ban_heard", "flag ch_black_stones_2", "schedule harbour.chain_black_stones.s04_letter in 25 at lundenwic" ],
+      "note": "outcome: chain_black_stones.s02.out_gift" },
+    { "key": "wait", "label_key": "chain_black_stones.s02.opt_wait", "label": "Lie off the beach three tides and let him see who comes to your boat", "check": "true", "default": true,
+      "effects": [ "morale -0.05", "npc reeve feeling +4 waited", "price_shock lundenwic quernstones x1.6 for 30", "flag bs_ban_heard", "flag ch_black_stones_2", "schedule harbour.chain_black_stones.s04_letter in 25 at lundenwic" ],
+      "note": "outcome: chain_black_stones.s02.out_wait (costs time and pride only)" },
+    { "key": "round", "label_key": "chain_black_stones.s02.opt_round", "label": "Put about and go round by Hamwic, where another king's reeve asks less", "check": "true",
+      "effects": [ "npc reeve feeling -3 left", "flag bs_ban_heard", "flag ch_black_stones_round", "flag ch_black_stones_2", "schedule harbour.chain_black_stones.s03_hamwic in 3 at hamwic", "schedule harbour.chain_black_stones.s04_letter in 40 at lundenwic" ],
+      "note": "outcome: chain_black_stones.s02.out_round" }
+   ],
+   "memory": { "gift": "gave a gift and a story", "wait": "lay off the beach three tides", "round": "put about for Hamwic" }
+  },
+  {
+   "id": "harbour.chain_black_stones.s03_hamwic",
+   "note": "Step 3h, the way round (scheduled by the road round or by a refusal at step 4; also drawn at Hamwic for anyone on the chain). The West Saxon wic stays half open; Thiadbod's man sends English cloaks over as pilgrims' bundles. Sources: Beorhtric of Wessex married Offa's daughter Eadburh (Anglo-Saxon Chronicle 787 for 789); how far the ban reached is not recorded (spine: the game lets Hamwic stay half open) (?); traders hiding among pilgrims are in Charles's letter of 796 (MGH Epistolae IV no. 100; Giles 1847 from William of Malmesbury). Cast: cast.thiadbod's man Hildulf, invented (Hild- + -ulf). Sets ch_black_stones_3h; ch_black_stones_runner if the cloth is run; ch_black_stones_watched if it is caught.",
+   "stage": "harbour",
+   "when": "moored and port.id = hamwic and year < 797 and not flag.bs_peace and flag.ch_black_stones_2 and not flag.ch_black_stones_3h and not flag.ch_black_stones_9",
+   "weight": 2.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "factor": { "role": "factor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 45], "fixed": true, "note": "Hildulf, Thiadbod's man at Hamwic; invented" },
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 50], "fixed": false, "note": "a weaver's son dressed for Rome; invented, unnamed" }
+   },
+   "title_key": "chain_black_stones.s03.title",
+   "title": "The size of the gap",
+   "intention_key": "chain_black_stones.s03.intention",
+   "intention": "At Hamwic a man of Thiadbod's is roping bundles for a party of pilgrims. The bundles are square, and heavy for men who own nothing.",
+   "lines": [
+    { "who": "factor", "key": "chain_black_stones.s03.factor_gap" },
+    { "who": "pilgrim", "key": "chain_black_stones.s03.pilgrim_thresholds" },
+    { "who": "factor", "key": "chain_black_stones.s03.factor_bundles" },
+    { "who": "factor", "key": "chain_black_stones.s03.factor_warn" },
+    { "who": "factor", "key": "chain_black_stones.s03.factor_refused", "when": "flag.ch_black_stones_refused" }
+   ],
+   "options": [
+    { "key": "run", "label_key": "chain_black_stones.s03.opt_run", "label": "Carry six bundles over to the Canche for a third share", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "silver +110", "npc factor feeling +6 ran" ],
+                     "failure": [ "silver -30", "deed goods_seized", "npc factor feeling -4 caught", "flag ch_black_stones_watched" ] },
+                   "flag ch_black_stones_runner", "flag ch_black_stones_3h" ],
+      "note": "outcome: chain_black_stones.s03.out_run_success / out_run_failure (likely; the danger is told first in factor_warn)" },
+    { "key": "open", "label_key": "chain_black_stones.s03.opt_open", "label": "Sell your own goods openly here and leave his bundles alone", "check": "true",
+      "effects": [ "deed fair_dealing", "price_shock hamwic quernstones x1.4 for 30", "flag ch_black_stones_3h" ],
+      "note": "outcome: chain_black_stones.s03.out_open" },
+    { "key": "ale", "label_key": "chain_black_stones.s03.opt_ale", "label": "Buy the pilgrim ale and let him talk", "check": "true",
+      "effects": [ "npc pilgrim feeling +4 ale", "tongue old_english = 0.75", "flag ch_black_stones_knows_bundles", "flag ch_black_stones_3h" ],
+      "note": "outcome: chain_black_stones.s03.out_ale (costs an evening; the English of the south coast comes easier after it)" }
+   ],
+   "memory": { "run.success": "carried the bundles over", "run.failure": "lost a bundle to the toll man", "open": "would not touch the bundles", "ale": "bought ale and listened" }
+  },
+  {
+   "id": "harbour.chain_black_stones.s04_letter",
+   "note": "Step 4 (scheduled 25 days after step 2, or 40 by the road round, at Lundenwic). The reeve wants a quiet ship to take a letter to Gervold's clerk at Quentovic, and a rod cut to the length of the stones his king wants. Sources: Gervold was Offa's friend, Offa's letters to him lay at Saint-Wandrille, and he went to Offa many times as the king's envoy (Gesta abbatum Fontanellensium c. 12); Offa 'made known his wish about the length of the stones' (Charles to Offa, 796, MGH Epistolae IV no. 100, our rendering). That the length went as a rod, and that a reeve wrote, are ours (?). Cast: cast.wighelm, cast.gervold. Sets ch_black_stones_4; carrying sets the spine's bs_letter and ch_black_stones_rod; refusing sets ch_black_stones_refused and ch_black_stones_runner.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and (year < 796 or (year = 796 and month < 4)) and not flag.bs_peace and flag.ch_black_stones_2 and not flag.ch_black_stones_4",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "cast.wighelm" }
+   },
+   "title_key": "chain_black_stones.s04.title",
+   "title": "A hazel rod",
+   "intention_key": "chain_black_stones.s04.intention",
+   "intention": "The reeve comes to your boat alone, after dark, with a sealed letter and a peeled hazel rod as long as a man's forearm and hand.",
+   "lines": [
+    { "who": "reeve", "key": "chain_black_stones.s04.reeve_hamwic", "when": "flag.ch_black_stones_round" },
+    { "who": "reeve", "key": "chain_black_stones.s04.reeve_quiet_ship" },
+    { "who": "reeve", "key": "chain_black_stones.s04.reeve_abbot" },
+    { "who": "reeve", "key": "chain_black_stones.s04.reeve_rod" },
+    { "who": "reeve", "key": "chain_black_stones.s04.reeve_runner", "when": "flag.ch_black_stones_runner" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_black_stones.s04.opt_carry", "label": "Take the letter and the rod to Quentovic", "check": "true", "default": true,
+      "effects": [ "silver +12", "deed carried_letters", "npc reeve feeling +8 carried", "flag bs_letter", "flag ch_black_stones_rod", "flag ch_black_stones_4", "schedule harbour.chain_black_stones.s06_quentovic in 1 at quentovic" ],
+      "note": "outcome: chain_black_stones.s04.out_carry" },
+    { "key": "price", "label_key": "chain_black_stones.s04.opt_price", "label": "Take them, and name a price for the risk", "check": "npc.reeve.feeling >= easy",
+      "effects": [ "silver +40", "npc reeve feeling -4 priced", "flag bs_letter", "flag ch_black_stones_rod", "flag ch_black_stones_4", "schedule harbour.chain_black_stones.s06_quentovic in 1 at quentovic" ],
+      "note": "outcome: chain_black_stones.s04.out_price" },
+    { "key": "refuse", "label_key": "chain_black_stones.s04.opt_refuse", "label": "Say you carry stones, not kings' letters, and go Thiadbod's way round", "check": "true",
+      "effects": [ "npc reeve feeling -8 refused", "flag ch_black_stones_refused", "flag ch_black_stones_runner", "flag ch_black_stones_4", "schedule harbour.chain_black_stones.s03_hamwic in 3 at hamwic" ],
+      "note": "outcome: chain_black_stones.s04.out_refuse (the runner's road: it ends at Hamwic in end_runner)" }
+   ],
+   "memory": { "carry": "took the letter and the rod", "price": "took the letter for a price", "refuse": "would not carry the king's letter" }
+  },
+  {
+   "id": "sea.chain_black_stones.s05_kings_boat",
+   "note": "Step 5, optional (drawn at sea while the letter is aboard). A Frankish king's boat in the Channel asks whose cloth that is. Sources: the spine's sea hook for the thread; coast guards and ships against the Northmen are ordered by Charles only from 800 (Annales regni Francorum 800), so a king's boat in 793-796 is the toll-gatherer's own, which is ours (?). The order in the officer's mouth is the Gesta's, our rendering. Sets ch_black_stones_hailed; ch_black_stones_seal_shown, or ch_black_stones_letter_taken if she runs and is caught.",
+   "stage": "sea",
+   "when": "under_way and year < 797 and flag.bs_letter and flag.ch_black_stones_4 and not flag.ch_black_stones_refused and not flag.ch_black_stones_6 and not flag.ch_black_stones_hailed",
+   "rate": 0.03,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "officer": { "role": "kings_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [30, 50], "fixed": false, "note": "a man of the toll-gatherer of the Channel ports, with twelve oars; invented, unnamed" }
+   },
+   "title_key": "chain_black_stones.s05.title",
+   "title": "Whose cloth is that",
+   "intention_key": "chain_black_stones.s05.intention",
+   "intention": "A long boat with twelve oars comes out from under the land and lies across your course. She has more oars than you have men.",
+   "lines": [
+    { "who": "officer", "key": "chain_black_stones.s05.officer_whose" },
+    { "who": "officer", "key": "chain_black_stones.s05.officer_order" },
+    { "who": "officer", "key": "chain_black_stones.s05.officer_frisian" }
+   ],
+   "options": [
+    { "key": "seal", "label_key": "chain_black_stones.s05.opt_seal", "label": "Heave to and show the seal: a letter for the abbot who keeps the king's tolls", "check": "true",
+      "effects": [ "encounter heave_to",
+                   { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "npc officer feeling +4 seal", "flag ch_black_stones_seal_shown" ],
+                     "failure": [ "morale -0.05", "npc officer feeling -4 doubted" ] },
+                   "flag ch_black_stones_hailed" ],
+      "note": "outcome: chain_black_stones.s05.out_seal_success / out_seal_failure (likely; failing costs a day alongside)" },
+    { "key": "search", "label_key": "chain_black_stones.s05.opt_search", "label": "Heave to, let him search, and say nothing of the letter", "check": "true", "default": true,
+      "effects": [ "encounter heave_to", "npc officer feeling +1 searched", "flag ch_black_stones_hailed" ],
+      "note": "outcome: chain_black_stones.s05.out_search (costs time only)" },
+    { "key": "run", "label_key": "chain_black_stones.s05.opt_run", "label": "Run for the shoal water where twelve oars cannot follow", "check": "true",
+      "effects": [ "encounter run",
+                   { "chance": 0.45, "by": "crew.seamanship_best",
+                     "success": [ "deed fled_kings_men" ],
+                     "failure": [ "law seizure", "deed goods_seized", "npc officer feeling -15 ran", "flag ch_black_stones_letter_taken" ] },
+                   "flag ch_black_stones_hailed" ],
+      "note": "outcome: chain_black_stones.s05.out_run_success / out_run_failure (doubtful; caught, the cargo is seized and the letter goes to the abbot in the king's boat: the story goes on at Quentovic)" }
+   ],
+   "memory": { "seal.success": "showed the abbot's seal", "seal.failure": "showed a seal he doubted", "search": "let himself be searched", "run.success": "ran from the king's boat", "run.failure": "ran and was caught" }
+  },
+  {
+   "id": "harbour.chain_black_stones.s06_quentovic",
+   "note": "Step 6 (scheduled by step 4; the first call at Quentovic after it). Gervold's toll house: his clerk takes the letter and the rod; an English ship lies under arrest. Sources: Gervold 'for many years procurator over the kingdom's trade, collecting tributes and tolls in divers ports and cities, chiefly at Quentawich' (Gesta abbatum Fontanellensium c. 12, the spine's rendering); he roofed Saint Peter's and Saint Michael's with lead (same chapter); English lead as the likely source (?). The arrested ship is the spine's hook; her master Hunberht is invented (Hun- + -berht). Sets ch_black_stones_6, clears bs_letter; ch_black_stones_ship_freed, or ch_black_stones_read with ch_black_stones_seal_seen.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 797 and flag.ch_black_stones_4 and not flag.ch_black_stones_refused and not flag.ch_black_stones_6",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [25, 45], "fixed": true, "note": "the abbot's clerk at the toll house; invented, unnamed" },
+    "skipper": { "role": "skipper", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 50], "fixed": false, "note": "Hunberht, master of the arrested English ship; invented" }
+   },
+   "title_key": "chain_black_stones.s06.title",
+   "title": "The abbot's toll house",
+   "intention_key": "chain_black_stones.s06.intention",
+   "intention": "At the toll house on the Canche the abbot's clerk holds out his hand for the letter. On the mud below lies an English ship with a seal on her hatch and a smell of wet wool.",
+   "lines": [
+    { "who": "clerk", "key": "chain_black_stones.s06.clerk_hand", "when": "not flag.ch_black_stones_letter_taken" },
+    { "who": "clerk", "key": "chain_black_stones.s06.clerk_came_before", "when": "flag.ch_black_stones_letter_taken" },
+    { "who": "clerk", "key": "chain_black_stones.s06.clerk_rod" },
+    { "who": "skipper", "key": "chain_black_stones.s06.skipper_wool" },
+    { "who": "clerk", "key": "chain_black_stones.s06.clerk_lead" }
+   ],
+   "options": [
+    { "key": "hand", "label_key": "chain_black_stones.s06.opt_hand", "label": "Give letter and rod into the clerk's hand, as they were given you", "check": "true", "default": true,
+      "effects": [ "silver +20", "deed carried_letters", "npc clerk feeling +8 sealed", "toll eased 30", "flag bs_letter = 0", "flag ch_black_stones_6", "schedule harbour.chain_black_stones.s07_wandrille in 20 at rotomagus" ],
+      "note": "outcome: chain_black_stones.s06.out_hand" },
+    { "key": "skipper", "label_key": "chain_black_stones.s06.opt_skipper", "label": "Give them over, and ask the English ship's release instead of thanks", "check": "true",
+      "effects": [ "deed carried_letters",
+                   { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "npc skipper feeling +20 freed", "npc clerk feeling +2 asked", "flag ch_black_stones_ship_freed" ],
+                     "failure": [ "npc skipper feeling +5 tried", "npc clerk feeling -3 asked" ] },
+                   "flag bs_letter = 0", "flag ch_black_stones_6", "schedule harbour.chain_black_stones.s07_wandrille in 20 at rotomagus" ],
+      "note": "outcome: chain_black_stones.s06.out_skipper_success / out_skipper_failure (doubtful; costs the thanks, not the story)" },
+    { "key": "read", "label_key": "chain_black_stones.s06.opt_read", "label": "First let Thiadbod's man lift the seal with a hot knife, for silver", "check": "not flag.ch_black_stones_letter_taken",
+      "effects": [ "silver +90",
+                   { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "npc clerk feeling +2 sealed" ],
+                     "failure": [ "npc clerk feeling -15 seal", "flag ch_black_stones_seal_seen" ] },
+                   "flag ch_black_stones_read", "flag bs_letter = 0", "flag ch_black_stones_6", "schedule harbour.chain_black_stones.s07_wandrille in 20 at rotomagus" ],
+      "note": "outcome: chain_black_stones.s06.out_read_success / out_read_failure (doubtful that the clerk misses it; either way the letter is delivered)" }
+   ],
+   "memory": { "hand": "brought the letter sealed", "skipper.success": "asked the English ship free and got it", "skipper.failure": "asked the English ship free", "read.success": "brought the letter", "read.failure": "brought a letter with a mended seal" }
+  },
+  {
+   "id": "harbour.chain_black_stones.s07_wandrille",
+   "note": "Step 7 (scheduled 20 days after step 6, at Rotomagus). Saint-Wandrille, Gervold's own house, lies down the Seine: Offa's letters are in its chest, and a monk says what the quarrel was about. Sources: Gesta abbatum Fontanellensium c. 12: the younger Charles asked for Offa's daughter; Offa would not agree unless Bertha, Charles's daughter, were given to his son; the king, 'somewhat moved' (aliquantulum commotus, our rendering), gave the order; Offa's letters to Gervold still lay at the abbey. Charles asks that the cloaks be made as they used to come (MGH Epistolae IV no. 100); that the old length went as a knotted cord is ours (?). The monk's complaint of the cold is the scribes' own (marginal notes of the period). Cast: cast.gervold, cast.sigewine. Sets ch_black_stones_7, ch_black_stones_cord and the spine's bs_letter.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year < 797 and flag.ch_black_stones_6 and not flag.ch_black_stones_7",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [52, 62], "fixed": true, "note": "cast.gervold (abbot 787 to 806)" },
+    "monk": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "age": [33, 42], "fixed": false, "note": "cast.sigewine, copying a book at Saint-Wandrille" }
+   },
+   "title_key": "chain_black_stones.s07.title",
+   "title": "What it was about",
+   "intention_key": "chain_black_stones.s07.intention",
+   "intention": "A boat from Saint-Wandrille lies at the quay of Rotomagus. The abbot has come up the river himself with an answer, and with him an English monk who has seen the inside of the abbey's letter chest.",
+   "lines": [
+    { "who": "monk", "key": "chain_black_stones.s07.monk_chest" },
+    { "who": "monk", "key": "chain_black_stones.s07.monk_marriage" },
+    { "who": "monk", "key": "chain_black_stones.s07.monk_cold" },
+    { "who": "abbot", "key": "chain_black_stones.s07.abbot_seal", "when": "flag.ch_black_stones_seal_seen" },
+    { "who": "abbot", "key": "chain_black_stones.s07.abbot_answer" },
+    { "who": "abbot", "key": "chain_black_stones.s07.abbot_cord" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_black_stones.s07.opt_carry", "label": "Take the answer and the knotted cord back to Lundenwic", "check": "true", "default": true,
+      "effects": [ "silver +25", "deed carried_letters", "npc abbot feeling +8 carried", "flag bs_letter", "flag ch_black_stones_cord", "flag ch_black_stones_7", "schedule harbour.chain_black_stones.s09_answer in 30 at lundenwic" ],
+      "note": "outcome: chain_black_stones.s07.out_carry" },
+    { "key": "letters", "label_key": "chain_black_stones.s07.opt_letters", "label": "Take them, and stay a week for the monk to teach you what a seal says", "check": "true",
+      "effects": [ "learn latin +0.1", "give_riddle riddle_aldhelm_23_trutina", "npc monk feeling +6 taught", "npc abbot feeling +4 carried", "deed carried_letters", "flag bs_letter", "flag ch_black_stones_cord", "flag ch_black_stones_7", "schedule harbour.chain_black_stones.s09_answer in 37 at lundenwic" ],
+      "note": "outcome: chain_black_stones.s07.out_letters (costs a week; Aldhelm's riddle of the scales goes into the chest)" },
+    { "key": "wine", "label_key": "chain_black_stones.s07.opt_wine", "label": "Take them, and ask a cask of the abbey's wine for the freight", "check": "true",
+      "effects": [ "goods frankish_wine +1", "npc abbot feeling -2 freight", "deed carried_letters", "flag bs_letter", "flag ch_black_stones_cord", "flag ch_black_stones_7", "schedule harbour.chain_black_stones.s09_answer in 30 at lundenwic" ],
+      "note": "outcome: chain_black_stones.s07.out_wine" }
+   ],
+   "memory": { "carry": "took the abbot's answer", "letters": "stayed to learn letters", "wine": "took a cask for the freight" }
+  },
+  {
+   "id": "harbour.chain_black_stones.s08_colonia",
+   "note": "Step 8, optional, a turn (drawn at Colonia for anyone who has carried the rod). A stone dealer wants to know what length the English king asked for. Sources: Mayen lava roughouts come down the Rhine by Cologne and are finished at Dorestad (dossiers/colonia.md, dossiers/dorestad.md); the black stones are usually read as these quernstones, by others as dark stone for building or fonts (?). The dealer Gerwin is invented (Ger- + -win). Sets ch_black_stones_8; ch_black_stones_length_sold or ch_black_stones_stones_cut.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and year < 797 and flag.ch_black_stones_rod and not flag.ch_black_stones_8",
+   "weight": 2.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [35, 60], "fixed": true, "note": "Gerwin, a dealer in Mayen stone on the Rhine bank; invented" }
+   },
+   "title_key": "chain_black_stones.s08.title",
+   "title": "The length of a king's stone",
+   "intention_key": "chain_black_stones.s08.intention",
+   "intention": "On the Rhine bank at Colonia a stone dealer has heard that a Frisian boat carried a rod over the sea. He would like to see your gunwale, where you notched it.",
+   "lines": [
+    { "who": "dealer", "key": "chain_black_stones.s08.dealer_roughouts" },
+    { "who": "dealer", "key": "chain_black_stones.s08.dealer_length" },
+    { "who": "dealer", "key": "chain_black_stones.s08.dealer_doubt" }
+   ],
+   "options": [
+    { "key": "sell", "label_key": "chain_black_stones.s08.opt_sell", "label": "Sell him the length, notch for notch", "check": "true",
+      "effects": [ "silver +150", "npc dealer feeling +5 length", "price_shock colonia quernstones x1.2 for 60", "flag ch_black_stones_length_sold", "flag ch_black_stones_8" ],
+      "note": "outcome: chain_black_stones.s08.out_sell" },
+    { "key": "order", "label_key": "chain_black_stones.s08.opt_order", "label": "Keep the length yours: pay him to cut twelve pairs to it and hold them for you", "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "npc dealer feeling +8 order", "give_riddle riddle_tatwine_39_coticulo", "flag ch_black_stones_stones_cut", "flag ch_black_stones_8" ],
+      "note": "outcome: chain_black_stones.s08.out_order (pays at the ending: the first stones of the right length are yours)" },
+    { "key": "talk", "label_key": "chain_black_stones.s08.opt_talk", "label": "Show him nothing, and ask what the pits send down this year", "check": "true",
+      "effects": [ "npc dealer feeling -1 nothing", "price_shock dorestad quernstones x0.8 for 45", "flag ch_black_stones_8" ],
+      "note": "outcome: chain_black_stones.s08.out_talk (a true price word: stones are cheap at Dorestad while nobody fetches them)" }
+   ],
+   "memory": { "sell": "sold the king's length", "order": "ordered stones to the king's length", "talk": "kept the length to himself" }
+  },
+  {
+   "id": "harbour.chain_black_stones.s09_answer",
+   "note": "Step 9 (scheduled 30 days after step 7, at Lundenwic). The abbot's answer and the cord reach the reeve; the cloak-makers ask why the Franks want them longer; Thiadbod, whose ship the reeve lets land, would pay for the answer to go astray. Sources: Lundenwic's weavers in almost every house (dossiers/lundenwic.md); the cloaks in Charles's letter (MGH Epistolae IV no. 100) and Notker I.34 on short cloaks (Grant 1907, not quoted here); lead for Gervold's roofs (Gesta c. 12; the lead in the king's store is ours (?)). Cast: cast.wighelm, cast.thiadbod. Sets ch_black_stones_9, clears bs_letter; ch_black_stones_lead, or ch_black_stones_sold.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year < 797 and flag.ch_black_stones_7 and not flag.ch_black_stones_9",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "cast.wighelm" },
+    "weaver": { "role": "weaver", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [30, 60], "fixed": true, "note": "a cloak-maker of the wic; invented, unnamed" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [38, 45], "fixed": true, "note": "cast.thiadbod" }
+   },
+   "title_key": "chain_black_stones.s09.title",
+   "title": "A knotted cord",
+   "intention_key": "chain_black_stones.s09.intention",
+   "intention": "You are back on the Strand with the abbot's answer and the cord. Thiadbod's big ship lies on the beach where no Frankish hull should be, and he reaches you before the reeve does.",
+   "lines": [
+    { "who": "rival", "key": "chain_black_stones.s09.rival_worth" },
+    { "who": "rival", "key": "chain_black_stones.s09.rival_read", "when": "flag.ch_black_stones_read" },
+    { "who": "weaver", "key": "chain_black_stones.s09.weaver_longer" },
+    { "who": "reeve", "key": "chain_black_stones.s09.reeve_hour" },
+    { "who": "reeve", "key": "chain_black_stones.s09.reeve_lead" }
+   ],
+   "options": [
+    { "key": "deliver", "label_key": "chain_black_stones.s09.opt_deliver", "label": "Give the reeve the answer and the cord", "check": "true", "default": true,
+      "effects": [ "silver +30", "deed carried_letters", "npc reeve feeling +10 answer", "npc rival feeling -4 answer", "npc weaver feeling +2 cord", "flag bs_letter = 0", "flag ch_black_stones_9" ],
+      "note": "outcome: chain_black_stones.s09.out_deliver (the road to end_peace)" },
+    { "key": "lead", "label_key": "chain_black_stones.s09.opt_lead", "label": "Give them over, and take the eight uncounted pigs of lead as ballast for the abbot", "check": "true",
+      "effects": [ "goods lead +8", "deed carried_letters", "npc reeve feeling +12 lead", "npc rival feeling -4 answer", "flag bs_letter = 0", "flag ch_black_stones_lead", "flag ch_black_stones_9", "schedule harbour.chain_black_stones.s10_lead in 12 at quentovic" ],
+      "note": "outcome: chain_black_stones.s09.out_lead (the hard road: 200 kg of another king's lead through the ban)" },
+    { "key": "sell", "label_key": "chain_black_stones.s09.opt_sell", "label": "Let the answer go astray into Thiadbod's hand", "check": "true",
+      "effects": [ "silver +240", "npc rival feeling +12 sold", "npc reeve feeling -6 no_answer", "flag bs_letter = 0", "flag ch_black_stones_sold", "flag ch_black_stones_9" ],
+      "note": "outcome: chain_black_stones.s09.out_sell (a pound of silver; the road to end_shut, where history is changed)" }
+   ],
+   "memory": { "deliver": "brought the abbot's answer", "lead": "brought the answer and took the lead", "sell": "sold the abbot's answer" }
+  },
+  {
+   "id": "harbour.chain_black_stones.s10_lead",
+   "note": "Step 10, the hard road (scheduled 12 days after step 9, at Quentovic). The lead for the abbey's roofs. Sources: Gervold roofed Saint Peter's and Saint Michael's with lead, and went to Offa 'many times' as the king's envoy (Gesta abbatum Fontanellensium c. 12); the Gesta says his plea stopped the king's order, Alcuin in 790 that sailing was forbidden on both sides: the game has the ban real but leaky (spine). That one boat's lead moved an abbot to go again is ours (?). Cast: cast.gervold. Sets ch_black_stones_10; landing the lead sets ch_black_stones_lead_done and the timer ch_black_stones_envoys (150 days: the abbot's embassy and a winter).",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 797 and flag.ch_black_stones_lead and not flag.ch_black_stones_10",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [52, 62], "fixed": true, "note": "cast.gervold" },
+    "tollman": { "role": "tollman", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [30, 60], "fixed": true, "note": "the toll man of Quentovic, the abbot's own officer" }
+   },
+   "title_key": "chain_black_stones.s10.title",
+   "title": "Rain on an altar",
+   "intention_key": "chain_black_stones.s10.intention",
+   "intention": "The toll man of Quentovic looks into your boat, sees eight grey pigs of lead under the bottom boards, and sends a boy running for the abbot.",
+   "lines": [
+    { "who": "tollman", "key": "chain_black_stones.s10.tollman_where", "when": "hold.lead > 0" },
+    { "who": "abbot", "key": "chain_black_stones.s10.abbot_gone", "when": "hold.lead = 0" },
+    { "who": "abbot", "key": "chain_black_stones.s10.abbot_roofs" },
+    { "who": "abbot", "key": "chain_black_stones.s10.abbot_embassy", "when": "hold.lead >= 8" }
+   ],
+   "options": [
+    { "key": "land", "label_key": "chain_black_stones.s10.opt_land", "label": "Land all eight pigs openly, on the abbot's word", "check": "hold.lead >= 8", "cost": "goods lead 8",
+      "effects": [ "silver +160", "toll none", "npc abbot feeling +15 lead", "npc tollman feeling +3 lead", "flag ch_black_stones_lead_done", "flag ch_black_stones_envoys for 150", "flag ch_black_stones_10" ],
+      "note": "outcome: chain_black_stones.s10.out_land (a turn payout; the road to end_early, where history is changed)" },
+    { "key": "keep", "label_key": "chain_black_stones.s10.opt_keep", "label": "Say the lead is your own cargo and sell it at the smiths' price", "check": "hold.lead > 0",
+      "effects": [ "toll sales", "npc abbot feeling -10 kept", "price_shock quentovic lead x1.5 for 20", "flag ch_black_stones_10" ],
+      "note": "outcome: chain_black_stones.s10.out_keep (lead is dear here while the ban holds; the road goes on to end_peace)" },
+    { "key": "tell", "label_key": "chain_black_stones.s10.opt_tell", "label": "Tell him plainly what became of the lead, and stand to hear the answer", "check": "true",
+      "effects": [ "npc abbot feeling -3 told", "flag ch_black_stones_10" ],
+      "note": "outcome: chain_black_stones.s10.out_tell (costs pride only; the road goes on to end_peace)" }
+   ],
+   "memory": { "land": "landed lead for the church roofs", "keep": "sold the abbot's lead for himself", "tell": "told the truth about the lead" }
+  },
+  {
+   "id": "harbour.chain_black_stones.end_early",
+   "note": "ENDING: the early peace, the hard road, HISTORY CHANGED (drawn at Lundenwic from the Easter after the abbot's embassy, 794 to early 796). Flags ch_black_stones_end_early, changed_offa_peace_early, bs_peace. Grand rewards: unlock_title_two_kings_merchant with one of unlock_charter_lundenwic, unlock_factor_quentovic, unlock_plot_lundenwic. What really happened: the peace is known only from Charles's letter of 796 (MGH Epistolae IV no. 100), in which each king's merchants have the other's protection and may appeal to the king; Gervold went to Offa many times as envoy (Gesta c. 12). Here it comes a year or two sooner, by a rod, a cord and eight pigs of lead. A Frisian toll-free at Lundenwic by a king's writing is modelled on the later toll charters of English kings for ships at Lundenwic (Aethelbald for the bishops of Rochester and Worcester and for Minster in Thanet, 730s-740s) (?). Cast: cast.wighelm, cast.gervold.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and flag.ch_black_stones_lead_done and not flag.ch_black_stones_envoys and not flag.ch_black_stones_sold and ((year = 794 and month >= 4) or year = 795 or (year = 796 and month < 4)) and not flag.ch_black_stones_end_early and not flag.ch_black_stones_end_peace",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "cast.wighelm" },
+    "abbot": { "role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [52, 62], "fixed": false, "note": "cast.gervold, at Lundenwic as the king's envoy" }
+   },
+   "title_key": "chain_black_stones.end_early.title",
+   "title": "The beach is open",
+   "intention_key": "chain_black_stones.end_early.intention",
+   "intention": "A Frankish ship lies on the Strand with her mast down and nobody shouting at her. The abbot of Saint-Wandrille stands beside the reeve, and both of them are waiting for you.",
+   "lines": [
+    { "who": "abbot", "key": "chain_black_stones.end_early.abbot_peace" },
+    { "who": "abbot", "key": "chain_black_stones.end_early.abbot_what_it_took" },
+    { "who": "reeve", "key": "chain_black_stones.end_early.reeve_first" },
+    { "who": "reeve", "key": "chain_black_stones.end_early.reeve_stones_cut", "when": "flag.ch_black_stones_stones_cut" },
+    { "who": "abbot", "key": "chain_black_stones.end_early.abbot_cloaks" }
+   ],
+   "options": [
+    { "key": "charter", "label_key": "chain_black_stones.end_early.opt_charter", "label": "Ask the king's writing: your goods toll-free on the Strand", "check": "true",
+      "effects": [ "silver +1200", "commission quernstones 6 by 120 premium 1.0", "npc reeve feeling +15 peace", "deed kept_commission", "flag unlock_charter_lundenwic", "flag unlock_title_two_kings_merchant", "flag bs_peace", "flag changed_offa_peace_early", "flag ch_black_stones_end_early", "news chain_black_stones.news.early at lundenwic" ],
+      "note": "outcome: chain_black_stones.end_early.out_charter" },
+    { "key": "factor", "label_key": "chain_black_stones.end_early.opt_factor", "label": "Ask the abbot instead: a man of yours in his toll house on the Canche", "check": "true",
+      "effects": [ "silver +1400", "commission lead 8 by 150 premium 0.8", "npc abbot feeling +15 peace", "flag unlock_factor_quentovic", "flag unlock_title_two_kings_merchant", "flag bs_peace", "flag changed_offa_peace_early", "flag ch_black_stones_end_early", "news chain_black_stones.news.early at lundenwic" ],
+      "note": "outcome: chain_black_stones.end_early.out_factor" },
+    { "key": "plot", "label_key": "chain_black_stones.end_early.opt_plot", "label": "Ask for ground on the Strand, and the first order for the quern cutter of Dorestad", "check": "true",
+      "effects": [ "silver +900", "commission quernstones 6 by 120 premium 1.0", "deed fair_dealing", "npc reeve feeling +10 peace", "flag unlock_plot_lundenwic", "flag unlock_title_two_kings_merchant", "flag ch_black_stones_cutter_paid", "flag bs_peace", "flag changed_offa_peace_early", "flag ch_black_stones_end_early", "news chain_black_stones.news.early at lundenwic" ],
+      "note": "outcome: chain_black_stones.end_early.out_plot" },
+    { "key": "stones", "label_key": "chain_black_stones.end_early.opt_stones", "label": "Your twelve pairs lie cut at Colonia: ask the writing, and sell the first stones yourself", "check": "flag.ch_black_stones_stones_cut",
+      "effects": [ "silver +1500", "goods quernstones +4", "npc reeve feeling +15 peace", "flag unlock_charter_lundenwic", "flag unlock_title_two_kings_merchant", "flag bs_peace", "flag changed_offa_peace_early", "flag ch_black_stones_end_early", "news chain_black_stones.news.early at lundenwic" ],
+      "note": "outcome: chain_black_stones.end_early.out_stones (the order placed at Colonia in step 8 pays here: eight pairs sold at the first price, four left aboard)" }
+   ],
+   "memory": { "stones": "sold the first stones of the king's length", "charter": "took the king's writing at the early peace", "factor": "took a place in the toll house at the early peace", "plot": "took ground on the Strand at the early peace" }
+  },
+  {
+   "id": "harbour.chain_black_stones.end_peace",
+   "note": "ENDING: the peace of 796, WHAT REALLY HAPPENED (drawn at Lundenwic from May 796 for anyone who heard the ban and neither sold the answer nor refused the letter). Flags ch_black_stones_end_peace, bs_peace. Grand rewards: unlock_charter_lundenwic for the carrier of the answer; with unlock_factor_quentovic for one who also landed the lead (the hard road, when the early peace was missed); unlock_pilot_thames for anyone. Sources: Charles to Offa, 796 (MGH Epistolae IV no. 100; in part in William of Malmesbury, tr. J. A. Giles 1847). Quoted from Giles in reeve_letter and reeve_gifts: 'go peaceably without any molestation', 'not seeking the cause of religion, but that of gain', 'pay the customary tolls in proper places', 'a belt, an Hungarian sword, and two silk cloaks'; the stones and cloaks are our own rendering. Offa died 29 July 796, three days before Lammas; his son Ecgfrith reigned 141 days (Anglo-Saxon Chronicle 794 for 796). Cast: cast.wighelm.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and flag.ch_black_stones_2 and not flag.ch_black_stones_sold and not flag.ch_black_stones_refused and ((year = 796 and month >= 5) or (year > 796 and year < 800)) and not flag.ch_black_stones_end_early and not flag.ch_black_stones_end_peace",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 52], "fixed": true, "note": "cast.wighelm" },
+    "skipper": { "role": "skipper", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 52], "fixed": false, "note": "Hunberht, whose ship lay under arrest at Quentovic; invented" }
+   },
+   "title_key": "chain_black_stones.end_peace.title",
+   "title": "As a brother",
+   "intention_key": "chain_black_stones.end_peace.intention",
+   "intention": "The reeve has a letter read aloud on the Strand, in English, by a priest who turns it out of the Latin as he goes. It is from the Frankish king to his own, and it speaks of stones.",
+   "lines": [
+    { "who": "reeve", "key": "chain_black_stones.end_peace.reeve_letter" },
+    { "who": "reeve", "key": "chain_black_stones.end_peace.reeve_stones" },
+    { "who": "reeve", "key": "chain_black_stones.end_peace.reeve_gifts" },
+    { "who": "reeve", "key": "chain_black_stones.end_peace.reeve_dead", "when": "(year = 796 and month >= 8) or year > 796" },
+    { "who": "reeve", "key": "chain_black_stones.end_peace.reeve_bundles", "when": "flag.ch_black_stones_runner" },
+    { "who": "skipper", "key": "chain_black_stones.end_peace.skipper_thanks", "when": "flag.ch_black_stones_ship_freed" }
+   ],
+   "options": [
+    { "key": "charter", "label_key": "chain_black_stones.end_peace.opt_charter", "label": "You carried the answer: ask to land the first stones, toll-free by the king's writing", "check": "flag.ch_black_stones_9",
+      "effects": [ "silver +800", "commission quernstones 6 by 120 premium 1.0", "npc reeve feeling +12 peace", "flag unlock_charter_lundenwic", "flag bs_peace", "flag ch_black_stones_end_peace", "news chain_black_stones.news.peace at lundenwic" ],
+      "note": "outcome: chain_black_stones.end_peace.out_charter" },
+    { "key": "both", "label_key": "chain_black_stones.end_peace.opt_both", "label": "You carried the lead too: ask the writing here and a man of yours at the abbot's toll house", "check": "flag.ch_black_stones_lead_done",
+      "effects": [ "silver +1500", "commission quernstones 6 by 120 premium 1.0", "npc reeve feeling +15 peace", "flag unlock_charter_lundenwic", "flag unlock_factor_quentovic", "flag bs_peace", "flag ch_black_stones_end_peace", "news chain_black_stones.news.peace at lundenwic" ],
+      "note": "outcome: chain_black_stones.end_peace.out_both (the hard road)" },
+    { "key": "order", "label_key": "chain_black_stones.end_peace.opt_order", "label": "Ask only for the reeve's order for stones, paid down, and his pilot to show you the river", "check": "true",
+      "effects": [ "silver +600", "commission quernstones 6 by 150 premium 0.5", "npc reeve feeling +5 peace", "flag unlock_pilot_thames", "flag bs_peace", "flag ch_black_stones_end_peace", "news chain_black_stones.news.peace at lundenwic" ],
+      "note": "outcome: chain_black_stones.end_peace.out_order (open to anyone who reached the Strand in the shut years)" },
+    { "key": "stones", "label_key": "chain_black_stones.end_peace.opt_stones", "label": "Your twelve pairs lie cut at Colonia: ask the writing, and sell the first stones yourself", "check": "flag.ch_black_stones_stones_cut and flag.ch_black_stones_9",
+      "effects": [ "silver +1100", "goods quernstones +4", "npc reeve feeling +12 peace", "flag unlock_charter_lundenwic", "flag bs_peace", "flag ch_black_stones_end_peace", "news chain_black_stones.news.peace at lundenwic" ],
+      "note": "outcome: chain_black_stones.end_peace.out_stones (the order placed at Colonia in step 8 pays here: eight pairs sold at the first price, four left aboard)" }
+   ],
+   "memory": { "stones": "sold the first stones of the king's length", "charter": "landed the first stones after the peace", "both": "landed the first stones and kept a man on the Canche", "order": "took the reeve's order for stones" }
+  },
+  {
+   "id": "harbour.chain_black_stones.end_shut",
+   "note": "ENDING: the answer sold, HISTORY CHANGED (drawn at Hamwic from Lammas 796 for one who sold the abbot's answer at step 9). Flags ch_black_stones_end_shut, changed_offa_letter_lost; lasting cost ch_black_stones_abbot_remembers unless the player owns up. Grand rewards: unlock_factor_hamwic or unlock_pilot_solent. What really happened: the letter of 796 was written and Offa died on 29 July with the quarrel mended. Here no answer reached him: the letter about black stones is never written, he dies unreconciled, and the ports stay shut under Coenwulf, who has Kent's rising on his hands (Eadberht Praen, 796-798: Anglo-Saxon Chronicle). The engine's card long.offa_letter.796 must not fire when changed_offa_letter_lost is set (see 'needs' in the chain page). Cast: cast.thiadbod and his man Hildulf (invented).",
+   "stage": "harbour",
+   "when": "moored and port.id = hamwic and flag.ch_black_stones_sold and ((year = 796 and month >= 8) or (year > 796 and year < 800)) and not flag.ch_black_stones_end_shut",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [40, 46], "fixed": false, "note": "cast.thiadbod" },
+    "factor": { "role": "factor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 48], "fixed": true, "note": "Hildulf, Thiadbod's man at Hamwic; invented" }
+   },
+   "title_key": "chain_black_stones.end_shut.title",
+   "title": "The quarrel outlives the king",
+   "intention_key": "chain_black_stones.end_shut.intention",
+   "intention": "Offa is dead and no letter came. At Hamwic Thiadbod has a tally laid out on a cask head, and half of it is in your name.",
+   "lines": [
+    { "who": "rival", "key": "chain_black_stones.end_shut.rival_dead_king" },
+    { "who": "rival", "key": "chain_black_stones.end_shut.rival_gap" },
+    { "who": "factor", "key": "chain_black_stones.end_shut.factor_abbot" },
+    { "who": "factor", "key": "chain_black_stones.end_shut.factor_cutter", "when": "flag.ch_black_stones_trust" }
+   ],
+   "options": [
+    { "key": "share", "label_key": "chain_black_stones.end_shut.opt_share", "label": "Take your share of the shut years, and a man of your own in the gap at Hamwic", "check": "true",
+      "effects": [ "silver +900", "npc rival feeling +10 share", "price_shock lundenwic quernstones x1.8 for 365", "price_shock dorestad quernstones x0.7 for 365", "flag unlock_factor_hamwic", "flag ch_black_stones_abbot_remembers", "flag changed_offa_letter_lost", "flag ch_black_stones_end_shut", "news chain_black_stones.news.shut at hamwic" ],
+      "note": "outcome: chain_black_stones.end_shut.out_share" },
+    { "key": "silver", "label_key": "chain_black_stones.end_shut.opt_silver", "label": "Take it all in silver, with the marks of the Solent creeks, and be seen with neither of them again", "check": "true",
+      "effects": [ "silver +1300", "npc rival feeling -5 silver", "price_shock lundenwic quernstones x1.8 for 365", "flag unlock_pilot_solent", "flag ch_black_stones_abbot_remembers", "flag changed_offa_letter_lost", "flag ch_black_stones_end_shut", "news chain_black_stones.news.shut at hamwic" ],
+      "note": "outcome: chain_black_stones.end_shut.out_silver" },
+    { "key": "own_up", "label_key": "chain_black_stones.end_shut.opt_own_up", "label": "Send the abbot word of what his answer said, late, under your own name", "check": "true",
+      "effects": [ "silver +600", "npc rival feeling -20 owned_up", "deed carried_letters", "flag unlock_pilot_solent", "flag bs_peace", "flag changed_offa_letter_lost", "flag ch_black_stones_owned_up", "flag ch_black_stones_end_shut", "news chain_black_stones.news.late at hamwic" ],
+      "note": "outcome: chain_black_stones.end_shut.out_own_up (costs pride and Thiadbod's goodwill; the peace is made late, with the next king, and no abbot remembers you ill)" }
+   ],
+   "memory": { "share": "took a share of the shut years", "silver": "took his silver and went", "own_up": "owned to the abbot what he had sold" }
+  },
+  {
+   "id": "harbour.chain_black_stones.end_runner",
+   "note": "ENDING: the runner's reckoning, history as it was, seen from the wrong side of the letter (drawn at Hamwic from May 796 for one who refused the reeve's letter at step 4). Flags ch_black_stones_end_runner, bs_peace; lasting cost ch_black_stones_watched unless the slipped tolls are paid. Grand rewards: unlock_factor_hamwic or unlock_pilot_solent. Sources: Charles to Offa, 796: those among the pilgrims 'not seeking the cause of religion, but that of gain' are to 'pay the customary tolls in proper places' (Giles 1847); after 796 the toll man at Quentovic opens pilgrims' bundles (spine hook, dossiers/quentovic.md). Cast: Thiadbod's man Hildulf (invented).",
+   "stage": "harbour",
+   "when": "moored and port.id = hamwic and flag.ch_black_stones_refused and ((year = 796 and month >= 5) or (year > 796 and year < 800)) and not flag.ch_black_stones_end_runner",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "factor": { "role": "factor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 48], "fixed": true, "note": "Hildulf, Thiadbod's man at Hamwic; invented" },
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 55], "fixed": false, "note": "the weaver's son, back from the Canche without his bundle; invented, unnamed" }
+   },
+   "title_key": "chain_black_stones.end_runner.title",
+   "title": "A line for us",
+   "intention_key": "chain_black_stones.end_runner.intention",
+   "intention": "The kings have made it up. At Hamwic Thiadbod's man reckons the shut years on a tally stick, and a pilgrim has come home from the Canche with nothing on his back.",
+   "lines": [
+    { "who": "factor", "key": "chain_black_stones.end_runner.factor_letter" },
+    { "who": "pilgrim", "key": "chain_black_stones.end_runner.pilgrim_opened" },
+    { "who": "factor", "key": "chain_black_stones.end_runner.factor_tally" },
+    { "who": "factor", "key": "chain_black_stones.end_runner.factor_asked_first" },
+    { "who": "factor", "key": "chain_black_stones.end_runner.factor_watched", "when": "flag.ch_black_stones_watched" }
+   ],
+   "options": [
+    { "key": "house", "label_key": "chain_black_stones.end_runner.opt_house", "label": "Take your share, and keep a man at Hamwic for honest trade now the gap is closed", "check": "true",
+      "effects": [ "silver +800", "npc factor feeling +8 share", "flag unlock_factor_hamwic", "flag ch_black_stones_watched", "flag bs_peace", "flag ch_black_stones_end_runner", "news chain_black_stones.news.peace at hamwic" ],
+      "note": "outcome: chain_black_stones.end_runner.out_house" },
+    { "key": "creeks", "label_key": "chain_black_stones.end_runner.opt_creeks", "label": "Take silver, and what the shut years taught: every creek and bar of the Solent", "check": "true",
+      "effects": [ "silver +1000", "flag unlock_pilot_solent", "flag ch_black_stones_watched", "flag bs_peace", "flag ch_black_stones_end_runner", "news chain_black_stones.news.peace at hamwic" ],
+      "note": "outcome: chain_black_stones.end_runner.out_creeks" },
+    { "key": "clean", "label_key": "chain_black_stones.end_runner.opt_clean", "label": "Pay the tolls you slipped, before the reeve of the wic as witness, and start clean", "check": "true",
+      "effects": [ "silver +600", "deed fair_dealing", "toll eased 120", "flag unlock_pilot_solent", "flag ch_black_stones_paid_tolls", "flag bs_peace", "flag ch_black_stones_end_runner", "news chain_black_stones.news.peace at hamwic" ],
+      "note": "outcome: chain_black_stones.end_runner.out_clean (costs pride and 200 d of the share; no toll man's list carries your name)" }
+   ],
+   "memory": { "house": "took his share and kept a house at Hamwic", "creeks": "took silver and the creeks", "clean": "paid the tolls he had slipped" }
+  }
+ ]
+}

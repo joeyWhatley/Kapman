@@ -1,0 +1,13 @@
+long_793.json
+
+Cards seen: 9 in the first 250 lines (the ninth is cut off after its second choice; the file goes on).
+
+- long.offa_quarrel.ports_shut — asks: with the English and Frankish shores shut to each other, keep north, buy two pair of black stones (14 d), or stand the skipper ale to learn the way round (3 d). At stake: silver (3 or 14 d), goods (quernstones), the skipper's goodwill, a year's knowledge of the way round.
+- harbour.years_arms.mail_buyer — asks: sell a Dane a banned mail coat after dark, refuse, or report him to the toll man. At stake: goods (one byrnie) for 260 d silver, against seizure of goods and a mark against you (standing); reporting eases the toll but loses the Dane.
+- long.frankfurt.kings_price — asks: have your measure checked and marked (2 d), keep the old measure, or hear the whole of the king's price. At stake: silver (2 d, or a 12 d fine on an even chance), standing (a lost case, the steward's regard).
+- harbour.years_coin.old_pennies — asks: what to do with old light pennies: let them be weighed at a loss, take them to the moneyer, try to pass them at face, or keep them for the north. At stake: silver (8 d, 5 d, or 15 d if caught), standing (a lost case, the seller's regard).
+- long.offa_letter.796 — asks: now the kings are friends, take an order for black stones, an order for English cloaks, or just hear it out. At stake: goods and time (four of the goods owed within 120 days, at a premium); no silver risked.
+- long.arms_ban.border_posts — asks: ask which border posts a boat can reach, buy iron tools instead of blades (40 d), ask the clerk for the riddle of mail, or shrug the law off as not yours. At stake: silver (40 d) for goods (iron tools); otherwise only news and a riddle.
+- harbour.years_famine.corn_805 — asks: in the famine, sell two sacks of wheat at the emperor's price, sell them to the highest bidder, give a sack at the church door, or promise six sacks in forty days. At stake: goods (wheat), silver (18 d fair, 44 d dear or 6 d and a fine), standing (fair dealing or alms against a lost case and the priest's anger), crew spirits, time (the forty days).
+- harbour.years_arms.finders_half — asks: having seen sword hilts in a rival's wool bales, inform and claim the finder's share, say nothing, or take silver from him for silence. At stake: silver (90 d on a 7 in 10 chance, or 25 d), standing (a won or lost case), a man (the rival's regard, lost badly if you inform).
+- long.reric.merchants_moved — asks: on the word that Reric is destroyed and its merchants moved to Sliesthorp, send word after the men you knew (4 d) or buy the last cake of Wendish wax (30 d); further choices not seen. At stake: silver (4 or 30 d), goods (wax), the skipper's goodwill.

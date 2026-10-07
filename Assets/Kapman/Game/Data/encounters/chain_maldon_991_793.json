@@ -1,0 +1,540 @@
+{
+ "about": "CHAIN maldon_991 (Design/content/CHAINS.md; page Design/content/chains/maldon_991.md; words Data/writing/chain_maldon_991.json). The tribute years, 991 to 1002: Ipswich plundered and the ealdorman killed at Maldon, the first tribute of ten thousand pounds, London holding against ninety-four ships in 994, the fleet wintering at Southampton with sixteen thousand pounds and nothing to spend it on, English pennies in every purse at Hedeby, a Danish merchant with an English wife at Billingsgate, and the king's order for Saint Brice's day 1002. Fourteen cards, August 991 to 1008. Step flags ch_maldon_991_1 .. _11; side flags ch_maldon_991_paid, _bought, _ransomed, _loot, _lent, _victual, _served, _fleet, _toki, _asgot, _partner, _surety, _warned, _informer, _watched, _toki_saved, _stood_by, _blood_goods, _buried; shared spine flags en_paid_share and en_followed_silver; endings ch_maldon_991_end_north (what happened, from the Danish shore), ch_maldon_991_end_london (what happened, from the English shore) and ch_maldon_991_end_saved (history changed: changed_brice_1002_gunhild_lives). Every ending also sets ch_maldon_991_done. Every option's note names its outcome text. The word of the time for the tribute is gafol; 'Danegeld' is never used. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_maldon_991.s01_first_tribute",
+   "note": "Step 1, the start (drawn at Gipeswic, Lundenwic or Sarre from August 991 to the end of 993). Ipswich has been plundered, Ealdorman Byrhtnoth is dead at Maldon, and the tribute is being raised on every hide. Sources: Anglo-Saxon Chronicle 991 ('This year was Ipswich plundered; and very soon afterwards was Alderman Britnoth slain at Maldon', tr. Ingram 1823, read 6 Oct 2026 at avalon.law.yale.edu/medieval/ang10.asp); the tribute of 10,000 pounds on Archbishop Sigeric's counsel (same annal; chronicle_793.json 991-08-maldon); ninety-three ships at Folkestone, Sandwich and Ipswich (ASC A, under 993). That the tribute fell on the hide and that churches and thegns sold plate and land to find coin is the general picture of the later gelds (realms/england_south.md) and is assumed for 991 (?). The reeve Eadnoth (Ead- + -noth) and the woman Wulfgyth are invented. The card long.maldon.first_tribute (long_793.json) tells the same year in one card; this chain does not read its flags except long_follows_tribute in step 5. Sets ch_maldon_991_1; ch_maldon_991_paid and en_paid_share, or ch_maldon_991_bought.",
+   "stage": "harbour",
+   "when": "moored and (port.id = gipeswic or port.id = lundenwic or port.id = sarre) and ((year = 991 and month >= 8) or year = 992 or year = 993) and not flag.ch_maldon_991_1",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": true, "note": "the king's reeve of the port; at Gipeswic he is Eadnoth, invented" },
+    "woman": { "role": "survivor", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 40], "fixed": false, "note": "Wulfgyth, a fuller's wife of Gipeswic whose husband was carried to the ships; invented" }
+   },
+   "title_key": "chain_maldon_991.s01.title",
+   "title": "The first tribute",
+   "intention_key": "chain_maldon_991.s01.intention",
+   "intention": "The reeve has a table set up on the strand and a list of hides. Ipswich has been plundered, the ealdorman is dead at Maldon, and the king's council has agreed to pay the fleet ten thousand pounds.",
+   "lines": [
+    { "who": "reeve", "key": "chain_maldon_991.s01.reeve_count" },
+    { "who": "reeve", "key": "chain_maldon_991.s01.reeve_sigeric" },
+    { "who": "woman", "key": "chain_maldon_991.s01.woman_ships" },
+    { "who": "woman", "key": "chain_maldon_991.s01.woman_rouen" },
+    { "who": "reeve", "key": "chain_maldon_991.s01.reeve_stranger" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_maldon_991.s01.opt_pay", "label": "Put forty pennies toward the town's share, though no hide here is yours", "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "npc reeve feeling +8 paid", "toll eased 60", "flag en_paid_share", "flag ch_maldon_991_paid", "flag ch_maldon_991_1", "schedule harbour.chain_maldon_991.s02_rouen_quay in 12 at rotomagus" ],
+      "note": "outcome: chain_maldon_991.s01.out_pay" },
+    { "key": "buy", "label_key": "chain_maldon_991.s01.opt_buy", "label": "Buy the chalice the minster must sell to find its share (150 d)", "check": "silver >= 150", "cost": "silver 150",
+      "effects": [ "goods church_plate +1", "flag ch_maldon_991_bought", "flag ch_maldon_991_1", "schedule harbour.chain_maldon_991.s02_rouen_quay in 12 at rotomagus" ],
+      "note": "outcome: chain_maldon_991.s01.out_buy (a piece worth about 240 d for 150: the first of many things sold to pay the fleet)" },
+    { "key": "ask", "label_key": "chain_maldon_991.s01.opt_ask", "label": "Pay nothing, and ask where the ships took their people", "check": "true", "default": true,
+      "effects": [ "news chain_maldon_991.news.tribute at here", "flag ch_maldon_991_1", "schedule harbour.chain_maldon_991.s02_rouen_quay in 12 at rotomagus" ],
+      "note": "outcome: chain_maldon_991.s01.out_ask (costs nothing; the answer is Rouen)" }
+   ],
+   "memory": { "pay": "paid toward the town's share of the tribute", "buy": "bought the minster's chalice in the tribute year", "ask": "paid nothing and asked after the taken" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.s02_rouen_quay",
+   "note": "Step 2 (scheduled 12 days after step 1 at Rotomagus; also drawn there to 994). People and goods of Ipswich are for sale on the quay of Rouen, a few months after the English king and the Norman duke swore before the pope's legate that neither would take in the other's enemies. Sources: the peace of Rouen, 1 March 991, made by Leo bishop of Trevi for Pope John XV, the English envoys Bishop Aethelsige, Leofstan and Aethelnoth (the pope's letter, kept by William of Malmesbury, Gesta Regum ii.166; from memory (?)); Rouen as the place where the raiders' loot and captives were sold (spine.json price_of_england, hook rotomagus; Dudo and William of Jumieges for the fleets' welcome there (?)). That Ipswich people of 991 were sold at Rouen is ours (?). The dealer, the duke's man and the fuller Leofric are invented. Sets ch_maldon_991_2; ch_maldon_991_ransomed or ch_maldon_991_loot.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 991 and year <= 994 and flag.ch_maldon_991_1 and not flag.ch_maldon_991_2",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": false, "note": "a man of the fleet with a rope of eleven people and a heap of cloth; invented, unnamed" },
+    "captive": { "role": "captive", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofric, a fuller of Gipeswic, Wulfgyth's husband; invented" },
+    "duke": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [30, 50], "fixed": true, "note": "Duke Richard's man on the quay; invented, unnamed" }
+   },
+   "title_key": "chain_maldon_991.s02.title",
+   "title": "Sold at Rouen",
+   "intention_key": "chain_maldon_991.s02.intention",
+   "intention": "On the duke's quay a man of the fleet is selling eleven people on a rope and a heap of English cloth. Their speech is the speech of Ipswich.",
+   "lines": [
+    { "who": "dealer", "key": "chain_maldon_991.s02.dealer_price" },
+    { "who": "captive", "key": "chain_maldon_991.s02.captive_fuller" },
+    { "who": "duke", "key": "chain_maldon_991.s02.duke_toll" },
+    { "who": "duke", "key": "chain_maldon_991.s02.duke_oath" }
+   ],
+   "options": [
+    { "key": "ransom", "label_key": "chain_maldon_991.s02.opt_ransom", "label": "Buy the fuller and the two women free and carry them home (150 d)", "check": "silver >= 150", "cost": "silver 150",
+      "effects": [ "deed gave_alms", "npc captive feeling +25 ransomed", "passenger captive to gipeswic", "flag ch_maldon_991_ransomed", "flag ch_maldon_991_2", "schedule harbour.chain_maldon_991.s03_song_of_the_fight in 10 at gipeswic" ],
+      "note": "outcome: chain_maldon_991.s02.out_ransom (ransom is a good work, not a purchase: the deed is gave_alms)" },
+    { "key": "sworn", "label_key": "chain_maldon_991.s02.opt_sworn", "label": "Tell the duke's man what was sworn in this town on the first day of March", "check": "true",
+      "effects": [ { "chance": 0.4, "by": "crew.trade_best",
+                     "success": [ "npc duke feeling +5 reminded", "npc captive feeling +20 freed", "passenger captive to gipeswic", "flag ch_maldon_991_ransomed", "schedule harbour.chain_maldon_991.s03_song_of_the_fight in 10 at gipeswic" ],
+                     "failure": [ "npc duke feeling -5 lectured", "npc dealer feeling -8 meddled", "morale -0.03" ] },
+                   "flag ch_maldon_991_2" ],
+      "note": "outcome: chain_maldon_991.s02.out_sworn_success / out_sworn_failure (doubtful; failing costs pride and the dealer's temper, nothing more)" },
+    { "key": "cloth", "label_key": "chain_maldon_991.s02.opt_cloth", "label": "Buy the cloth and the altar cross, and ask no one whose they were (80 d)", "check": "silver >= 80", "cost": "silver 80",
+      "effects": [ "goods wool_cloth +6", "goods church_plate +1", "npc dealer feeling +5 bought", "flag ch_maldon_991_loot", "flag ch_maldon_991_2" ],
+      "note": "outcome: chain_maldon_991.s02.out_cloth (about 350 d of goods for 80; the cross can be known again)" },
+    { "key": "walk", "label_key": "chain_maldon_991.s02.opt_walk", "label": "Look, remember the faces, and walk on", "check": "true", "default": true,
+      "effects": [ "news chain_maldon_991.news.rouen at here", "flag ch_maldon_991_2" ],
+      "note": "outcome: chain_maldon_991.s02.out_walk (costs nothing)" }
+   ],
+   "memory": { "ransom": "bought three Ipswich people free", "sworn.success": "shamed the duke's man into freeing three", "sworn.failure": "spoke of the oath and was told to mind his casks", "cloth": "bought Ipswich plunder", "walk": "looked and walked on" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.s03_song_of_the_fight",
+   "note": "Step 3 (scheduled at Gipeswic 10 days after a ransom at step 2; also drawn there from 992 to 995). The town is roofing itself again; a singer has the song of the ealdorman's fight; the minster is short of coin for the next demand. Sources: The Battle of Maldon, made soon after 991 (texts_793.json maldon_991, tr. Lumsden); the herald's offer of peace for gold and the ealdorman's answer are in it and are not quoted here beyond what texts_793.json holds. A church borrowing coin to pay the fleet: Archbishop Sigeric borrowed 90 pounds of silver and 200 mancuses of gold from Bishop Aescwig against an estate at Risborough, so that the army would not burn Christ Church (charter S 882, of 995; from memory (?)). The moneyer of Gipeswic is places/gipeswic.json's Leofsige. Wulfgyth and the mass-priest are invented. Sets ch_maldon_991_3; ch_maldon_991_lent.",
+   "stage": "harbour",
+   "when": "moored and port.id = gipeswic and ((year = 991 and month >= 9) or (year >= 992 and year <= 995)) and flag.ch_maldon_991_1 and not flag.ch_maldon_991_3",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "woman": { "role": "survivor", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 40], "fixed": false, "note": "Wulfgyth, the fuller's wife of step 1; invented" },
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 60], "fixed": true, "note": "the mass-priest of the minster at Gipeswic; invented, unnamed" },
+    "singer": { "role": "singer", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 65], "fixed": false, "note": "a man who was in the ealdorman's following and came away; invented, unnamed" }
+   },
+   "title_key": "chain_maldon_991.s03.title",
+   "title": "The song of the fight",
+   "intention_key": "chain_maldon_991.s03.intention",
+   "intention": "Ipswich has new thatch on half its houses. In the ale-house a grey man is singing how the ealdorman stood at the causeway, and the mass-priest is waiting for him to finish so he can ask you for money.",
+   "lines": [
+    { "who": "singer", "key": "chain_maldon_991.s03.singer_causeway" },
+    { "who": "woman", "key": "chain_maldon_991.s03.woman_home", "when": "flag.ch_maldon_991_ransomed" },
+    { "who": "woman", "key": "chain_maldon_991.s03.woman_waiting", "when": "not flag.ch_maldon_991_ransomed" },
+    { "who": "priest", "key": "chain_maldon_991.s03.priest_cross", "when": "flag.ch_maldon_991_loot" },
+    { "who": "priest", "key": "chain_maldon_991.s03.priest_loan" }
+   ],
+   "options": [
+    { "key": "thanks", "label_key": "chain_maldon_991.s03.opt_thanks", "label": "Take what the fullers' street has gathered for you", "check": "flag.ch_maldon_991_ransomed",
+      "effects": [ "silver +100", "goods wool_cloth +8", "npc woman feeling +20 thanked", "toll eased 120", "flag ch_maldon_991_3" ],
+      "note": "outcome: chain_maldon_991.s03.out_thanks (turn: 100 d and eight bolts, about 244 d in all)" },
+    { "key": "lend", "label_key": "chain_maldon_991.s03.opt_lend", "label": "Lend the minster a hundred pennies against its next tribute, with no day named", "check": "silver >= 100", "cost": "silver 100",
+      "effects": [ "npc priest feeling +15 lent", "toll eased 180", "learn latin +0.1", "flag ch_maldon_991_lent", "flag ch_maldon_991_3" ],
+      "note": "outcome: chain_maldon_991.s03.out_lend (no interest: the Church forbids it; the loan comes back in ending 2 as a king's writ)" },
+    { "key": "song", "label_key": "chain_maldon_991.s03.opt_song", "label": "Buy the singer his ale and hear the song to the end", "check": "true", "default": true,
+      "effects": [ "give_text maldon_991", "morale +0.03", "npc singer feeling +8 heard", "flag ch_maldon_991_3" ],
+      "note": "outcome: chain_maldon_991.s03.out_song (costs an evening; the song goes into the chest)" }
+   ],
+   "memory": { "thanks": "took the fullers' thanks", "lend": "lent the minster a hundred pennies", "song": "heard the song of the fight to the end" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.s04_london_holds",
+   "note": "Step 4 (drawn at Lundenwic from September 994 to the end of 995; needs no earlier step and sets ch_maldon_991_1 itself, so the chain can be met here too). Olaf and Swein came to London on the Nativity of Saint Mary with ninety-four ships and the townsmen beat them off; the army then harried the coasts, took horses, and was offered tribute and food; it wintered at Southampton, fed from all the West Saxon kingdom, and was paid 16,000 pounds. Sources: Anglo-Saxon Chronicle 994 ('This year came Anlaf and Sweyne to London, on the Nativity of St. Mary, with four and ninety ships', tr. Ingram 1823, avalon.law.yale.edu/medieval/ang10.asp); chronicle_793.json 994-09-08-london-attack. That the port-reeve hired merchant boats to carry the food is ours (?). The port-reeve Wulfmund (Wulf- + -mund) and the bridge-ward are invented. Sets ch_maldon_991_1, ch_maldon_991_4; ch_maldon_991_victual, or ch_maldon_991_paid and en_paid_share.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and ((year = 994 and month >= 9) or year = 995) and not flag.ch_maldon_991_4",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": true, "note": "Wulfmund, port-reeve of London; invented" },
+    "ward": { "role": "ferryman", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 50], "fixed": false, "note": "a lighterman who stood on the wall on Saint Mary's day; invented, unnamed" }
+   },
+   "title_key": "chain_maldon_991.s04.title",
+   "title": "London holds",
+   "intention_key": "chain_maldon_991.s04.intention",
+   "intention": "There are scorch marks on the river wall and a burnt longship on the mud below it. London held. The fleet has gone round to Southampton for the winter, and the king has agreed to feed it and pay it sixteen thousand pounds.",
+   "lines": [
+    { "who": "ward", "key": "chain_maldon_991.s04.ward_wall" },
+    { "who": "ward", "key": "chain_maldon_991.s04.ward_paid" },
+    { "who": "reeve", "key": "chain_maldon_991.s04.reeve_feed" },
+    { "who": "reeve", "key": "chain_maldon_991.s04.reeve_paid_before", "when": "flag.ch_maldon_991_paid" },
+    { "who": "reeve", "key": "chain_maldon_991.s04.reeve_boats" }
+   ],
+   "options": [
+    { "key": "victual", "label_key": "chain_maldon_991.s04.opt_victual", "label": "Take the king's load on trust: ten sacks of flour and six casks of ale for the fleet at Southampton", "check": "true",
+      "effects": [ "goods flour +10", "goods ale +6", "npc reeve feeling +5 victual", "flag ch_maldon_991_victual", "flag ch_maldon_991_1", "flag ch_maldon_991_4", "schedule harbour.chain_maldon_991.s05_winter_camp in 6 at hamwic" ],
+      "note": "outcome: chain_maldon_991.s04.out_victual (the load is the king's; it is paid for at step 5 when it is handed over whole)" },
+    { "key": "share", "label_key": "chain_maldon_991.s04.opt_share", "label": "Lay sixty pennies on the reeve's table toward London's share", "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "npc reeve feeling +10 paid", "toll eased 90", "flag en_paid_share", "flag ch_maldon_991_paid", "flag ch_maldon_991_1", "flag ch_maldon_991_4", "schedule harbour.chain_maldon_991.s05_winter_camp in 6 at hamwic" ],
+      "note": "outcome: chain_maldon_991.s04.out_share" },
+    { "key": "clear", "label_key": "chain_maldon_991.s04.opt_clear", "label": "Sell what you came to sell, and ask only what an army with silver is short of", "check": "true", "default": true,
+      "effects": [ "news chain_maldon_991.news.london at here", "price_shock hamwic ale x1.8 for 120", "price_shock hamwic frankish_wine x1.6 for 120", "flag ch_maldon_991_1", "flag ch_maldon_991_4", "schedule harbour.chain_maldon_991.s05_winter_camp in 6 at hamwic" ],
+      "note": "outcome: chain_maldon_991.s04.out_clear (two true price words: drink is dear where the fleet lies)" }
+   ],
+   "memory": { "victual": "took the king's food for the fleet", "share": "paid toward London's share", "clear": "asked what the army was short of" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.s05_winter_camp",
+   "note": "Step 5, the turn (scheduled at Hamwic 6 days after step 4; also drawn there from October 994 to May 995). The fleet's winter camp at Southampton: ninety-four crews with sixteen thousand pounds and a town with nothing left to sell. Olaf has gone to the king at Andover, with hostages sent to the ships, been received at the bishop's hands with the king as sponsor, and promised never again to come to England in enmity. Sources: Anglo-Saxon Chronicle 994 (winter quarters at Southampton; Bishop Aelfheah and Ealdorman Aethelweard fetch Anlaf to Andover; his promise, 'as he also performed'); the treaty II Aethelred with Olaf, Jostein and Guthmund, which gives every merchant ship peace in a river mouth (lore/law_tolls.md 7.3; from memory (?)). Toke (DR 295), a merchant of Hedeby who followed the fleet to sell to it, is invented, and so is the steersman. Sets ch_maldon_991_5 and ch_maldon_991_toki; ch_maldon_991_served, or ch_maldon_991_fleet and en_followed_silver.",
+   "stage": "harbour",
+   "when": "moored and port.id = hamwic and ((year = 994 and month >= 10) or (year = 995 and month <= 5)) and flag.ch_maldon_991_4 and not flag.ch_maldon_991_5",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "toke": { "role": "merchant", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [24, 30], "fixed": true, "note": "Toke Asgotsson of Hedeby, prime-signed, with a hammer and a cross on one cord; invented (name: DR 295)" },
+    "chief": { "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": false, "note": "a steersman of Olaf's fleet; invented, unnamed" }
+   },
+   "title_key": "chain_maldon_991.s05.title",
+   "title": "The winter camp",
+   "intention_key": "chain_maldon_991.s05.intention",
+   "intention": "Ninety-four ships lie drawn up along the Itchen under tilts. Their crews have been paid in new pennies, and Southampton has nothing left that a man could want to buy.",
+   "lines": [
+    { "who": "chief", "key": "chain_maldon_991.s05.chief_pennies" },
+    { "who": "chief", "key": "chain_maldon_991.s05.chief_andover" },
+    { "who": "toke", "key": "chain_maldon_991.s05.toke_who" },
+    { "who": "toke", "key": "chain_maldon_991.s05.toke_peace" },
+    { "who": "toke", "key": "chain_maldon_991.s05.toke_follow", "when": "flag.long_follows_tribute" }
+   ],
+   "options": [
+    { "key": "deliver", "label_key": "chain_maldon_991.s05.opt_deliver", "label": "Hand over the king's flour and ale whole, and take the king's price", "check": "flag.ch_maldon_991_victual and hold.flour >= 10 and hold.ale >= 6", "cost": [ "goods flour 10", "goods ale 6" ],
+      "effects": [ "silver +160", "deed kept_commission", "flag ch_maldon_991_served", "flag ch_maldon_991_toki", "flag ch_maldon_991_5" ],
+      "note": "outcome: chain_maldon_991.s05.out_deliver (turn: 160 d from the king's reeve for carrying about 140 d of food)" },
+    { "key": "sell", "label_key": "chain_maldon_991.s05.opt_sell", "label": "Give the fleet first pick of your hold, and take a purse for it on top of the price", "check": "hold.value > 0",
+      "effects": [ "silver +220", "npc chief feeling +8 sold", "price_shock hamwic frankish_wine x2.0 for 90", "flag en_followed_silver", "flag ch_maldon_991_fleet", "flag ch_maldon_991_toki", "flag ch_maldon_991_5" ],
+      "note": "outcome: chain_maldon_991.s05.out_sell (turn: 220 d for first pick, and wine at double here for 90 days; the reeves remember who fed the fleet for gain)" },
+    { "key": "toke", "label_key": "chain_maldon_991.s05.opt_toke", "label": "Sell nothing yet. Sit by the Hedeby man's fire and learn how he talks to them", "check": "true", "default": true,
+      "effects": [ "tongue old_norse = 0.5", "npc toke feeling +12 fire", "price_shock sliesthorp frankish_wine x1.5 for 180", "flag ch_maldon_991_toki", "flag ch_maldon_991_5" ],
+      "note": "outcome: chain_maldon_991.s05.out_toke (costs an evening: half the Danish tongue and a true price word for Hedeby)" }
+   ],
+   "memory": { "deliver": "handed over the king's food whole", "sell": "gave the fleet first pick of his hold", "toke": "sat by Toke's fire at the winter camp" }
+  },
+  {
+   "id": "sea.chain_maldon_991.s06_silver_ship",
+   "note": "Step 6, optional (drawn at sea from 995 to 1001 after step 4). A ship of the paid fleet going home, low in the water and in a good humour. Sources: spine.json price_of_england, the sea hook ('a fleet with a tribute aboard, in a good humour'); the peace for merchant ships in II Aethelred (lore/law_tolls.md 7.3 (?)); Olaf's fleet left in 995, and the army of 997 to 1000 went to Normandy in 1000 (Anglo-Saxon Chronicle 1000). The ship and her steersman are invented. Sets ch_maldon_991_hailed; ch_maldon_991_fleet and en_followed_silver if the player sells to her.",
+   "stage": "sea",
+   "when": "under_way and year >= 995 and year <= 1001 and flag.ch_maldon_991_4 and not flag.ch_maldon_991_hailed",
+   "rate": 0.02,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "chief": { "role": "raider_chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": false, "note": "the steersman of a homeward ship; invented, unnamed" }
+   },
+   "title_key": "chain_maldon_991.s06.title",
+   "title": "A ship going home heavy",
+   "intention_key": "chain_maldon_991.s06.intention",
+   "intention": "A longship comes down on you under a striped sail, deep in the water for her kind. She does not shorten sail and she does not take her shields off the rail. Somebody aboard is singing.",
+   "lines": [
+    { "who": "chief", "key": "chain_maldon_991.s06.chief_hail" },
+    { "who": "chief", "key": "chain_maldon_991.s06.chief_peace" },
+    { "who": "chief", "key": "chain_maldon_991.s06.chief_thirst" }
+   ],
+   "options": [
+    { "key": "ale", "label_key": "chain_maldon_991.s06.opt_ale", "label": "Close and pass a cask of ale across; let them name its price", "check": "hold.ale > 0", "cost": "goods ale 1",
+      "effects": [ "encounter close_and_hail", "silver +70", "npc chief feeling +8 ale", "flag en_followed_silver", "flag ch_maldon_991_fleet", "flag ch_maldon_991_hailed" ],
+      "note": "outcome: chain_maldon_991.s06.out_ale (a 10 d cask for seventy English pennies, thrown in a hat)" },
+    { "key": "news", "label_key": "chain_maldon_991.s06.opt_news", "label": "Heave to and ask where they will spend it", "check": "true", "default": true,
+      "effects": [ "encounter heave_to", "price_shock sliesthorp rhenish_wine x1.5 for 120", "price_shock sliesthorp silk x1.4 for 120", "flag ch_maldon_991_hailed" ],
+      "note": "outcome: chain_maldon_991.s06.out_news (costs an hour; two true price words for Hedeby)" },
+    { "key": "run", "label_key": "chain_maldon_991.s06.opt_run", "label": "Bear away. A sworn peace is a long way from here", "check": "true",
+      "effects": [ "encounter run",
+                   { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.03" ],
+                     "failure": [ "silver -20", "morale -0.05" ] },
+                   "flag ch_maldon_991_hailed" ],
+      "note": "outcome: chain_maldon_991.s06.out_run_success / out_run_failure (likely; overhauled, it costs a joke at your expense and twenty pennies of 'pilot's fee')" }
+   ],
+   "memory": { "ale": "sold them a cask at sea", "news": "hove to and asked where the silver would go", "run.success": "ran and was let go", "run.failure": "ran and was overhauled" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.s07_pennies_north",
+   "note": "Step 7 (drawn at Sliesthorp from 995 to 1001 after step 1). English pennies in every purse at Hedeby, and King Swein striking his own, copied from King Aethelred's. Sources: more pennies of Aethelred have been found in Scandinavia than in England (spine.json price_of_england); Swein's penny of about 995, a copy of Aethelred's Crux type, signed by a moneyer Godwine 'among the Danes' (economy/silver_coin.md, the northern kings' pennies; the legend GODWINE M-AN DNER from memory (?)); the Swedish rune stones of men who 'took geld in England' are a little later (U 344, Yttergarde (?)). That the moneyer worked at Hedeby itself is not known: the mint is unplaced (?). Asgot (name: Ronninge stone), Toke's father, is invented. Sets ch_maldon_991_7 and ch_maldon_991_asgot; ch_maldon_991_fleet and en_followed_silver if the player sells into the silver.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year >= 995 and year <= 1001 and flag.ch_maldon_991_1 and not flag.ch_maldon_991_7",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "asgot": { "role": "merchant", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [50, 65], "fixed": true, "note": "Asgot, a merchant with a plot by the south jetty, Toke's father; invented" },
+    "moneyer": { "role": "moneyer", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 50], "fixed": true, "note": "an English moneyer in King Swein's pay; the coin names one Godwine (?); his face and words are the game's" }
+   },
+   "title_key": "chain_maldon_991.s07.title",
+   "title": "Pennies in the north",
+   "intention_key": "chain_maldon_991.s07.intention",
+   "intention": "At Hedeby a fisherman pays for a knife with King Aethelred's head. Men home from England are buying everything twice, and by the south jetty an Englishman is striking pennies for the king of the Danes.",
+   "lines": [
+    { "who": "asgot", "key": "chain_maldon_991.s07.asgot_prices" },
+    { "who": "asgot", "key": "chain_maldon_991.s07.asgot_son", "when": "flag.ch_maldon_991_toki" },
+    { "who": "asgot", "key": "chain_maldon_991.s07.asgot_son_unknown", "when": "not flag.ch_maldon_991_toki" },
+    { "who": "moneyer", "key": "chain_maldon_991.s07.moneyer_copy" },
+    { "who": "moneyer", "key": "chain_maldon_991.s07.moneyer_home" }
+   ],
+   "options": [
+    { "key": "order", "label_key": "chain_maldon_991.s07.opt_order", "label": "Take Asgot's order: eight casks of Rhenish wine before the next winter, at his price", "check": "true",
+      "effects": [ "commission rhenish_wine 8 by 240 premium 0.8", "npc asgot feeling +10 order", "flag ch_maldon_991_asgot", "flag ch_maldon_991_7" ],
+      "note": "outcome: chain_maldon_991.s07.out_order (turn: eight casks at nearly double, about 380 d over the market)" },
+    { "key": "sell", "label_key": "chain_maldon_991.s07.opt_sell", "label": "Sell into the silver: let the men home from England bid against each other", "check": "hold.value > 0",
+      "effects": [ "silver +160", "price_shock sliesthorp frankish_wine x1.6 for 120", "flag en_followed_silver", "flag ch_maldon_991_fleet", "flag ch_maldon_991_asgot", "flag ch_maldon_991_7" ],
+      "note": "outcome: chain_maldon_991.s07.out_sell (turn: 160 d over the market, and wine dear here for 120 days)" },
+    { "key": "weigh", "label_key": "chain_maldon_991.s07.opt_weigh", "label": "Weigh one of the new Danish pennies against an English one, and say what you find", "check": "true", "default": true,
+      "effects": [ "npc moneyer feeling +8 weighed", "news chain_maldon_991.news.pennies at here", "price_shock sliesthorp wool_cloth x1.4 for 90", "flag ch_maldon_991_asgot", "flag ch_maldon_991_7" ],
+      "note": "outcome: chain_maldon_991.s07.out_weigh (costs nothing: the news, and a true price word)" }
+   ],
+   "memory": { "order": "took Asgot's order for Rhenish wine", "sell": "sold into the English silver", "weigh": "weighed the Danish penny against the English" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.s08_billingsgate",
+   "note": "Step 8 (drawn at Lundenwic from 997 to 1001 after step 1). The toll rules are read at Billingsgate, and Toke of Hedeby has a house by the hythe and an English wife. Sources: IV Aethelred 2 (about 1000 (?)): a small boat a halfpenny, a larger boat with a sail a penny, a keel or hulk fourpence; the men of Rouen with wine and blubber fish; the emperor's men worthy of good laws like the Londoners (chronicle_793.json 1000-london-tolls; harbour.years_london.emperors_men in long_793.json). Danes settled in English towns as traders after the peace of 994: the charter S 909 speaks of the Danes 'who had sprung up in this island' (from memory (?)). Toke is invented; his wife Leofflaed bears a name from the will S 1462; that a Dane held a house in London in 1000 is likely and unproved (?). Sets ch_maldon_991_8 and ch_maldon_991_toki; ch_maldon_991_partner or ch_maldon_991_surety.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year >= 997 and year <= 1001 and flag.ch_maldon_991_1 and not flag.ch_maldon_991_8",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "toke": { "role": "merchant", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [27, 37], "fixed": true, "note": "Toke Asgotsson, now of London; invented" },
+    "wife": { "role": "weaver", "people": "english", "faith": "christian", "tongue": "old_english", "age": [22, 32], "fixed": true, "note": "Leofflaed, a Londoner, Toke's wife; invented" },
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [38, 60], "fixed": true, "note": "Wulfmund, port-reeve of London; invented" }
+   },
+   "title_key": "chain_maldon_991.s08.title",
+   "title": "The house by the hythe",
+   "intention_key": "chain_maldon_991.s08.intention",
+   "intention": "At Billingsgate the toll is called out by the size of the ship. Behind the hythe a Dane has built a house in the English manner, with a storehouse he cannot fill alone and a wife who keeps the tally.",
+   "lines": [
+    { "who": "reeve", "key": "chain_maldon_991.s08.reeve_toll" },
+    { "who": "toke", "key": "chain_maldon_991.s08.toke_again", "when": "flag.ch_maldon_991_toki" },
+    { "who": "toke", "key": "chain_maldon_991.s08.toke_first", "when": "not flag.ch_maldon_991_toki" },
+    { "who": "toke", "key": "chain_maldon_991.s08.toke_father", "when": "flag.ch_maldon_991_asgot" },
+    { "who": "wife", "key": "chain_maldon_991.s08.wife_tally" },
+    { "who": "toke", "key": "chain_maldon_991.s08.toke_offer" }
+   ],
+   "options": [
+    { "key": "shares", "label_key": "chain_maldon_991.s08.opt_shares", "label": "Go shares in his storehouse (120 d), and take his first order", "check": "silver >= 120", "cost": "silver 120",
+      "effects": [ "commission frankish_wine 10 by 200 premium 0.6", "npc toke feeling +15 shares", "npc wife feeling +8 shares", "flag ch_maldon_991_partner", "flag ch_maldon_991_toki", "flag ch_maldon_991_8" ],
+      "note": "outcome: chain_maldon_991.s08.out_shares (turn: ten casks at +60%, about 480 d over the market at London's price, and a share in the house)" },
+    { "key": "surety", "label_key": "chain_maldon_991.s08.opt_surety", "label": "Stand surety for him before the reeve: your name beside a Dane's on the stick", "check": "true",
+      "effects": [ "npc toke feeling +12 surety", "npc wife feeling +10 surety", "npc reeve feeling -2 surety", "toll eased 90", "flag ch_maldon_991_surety", "flag ch_maldon_991_toki", "flag ch_maldon_991_8" ],
+      "note": "outcome: chain_maldon_991.s08.out_surety (costs nothing now; Toke lets his own lighter carry your goods, which halves what the toll finds)" },
+    { "key": "halfpenny", "label_key": "chain_maldon_991.s08.opt_halfpenny", "label": "Pay your toll, eat at his table, and keep your name off other men's sticks", "check": "true", "default": true,
+      "effects": [ "npc toke feeling +3 guest", "news chain_maldon_991.news.billingsgate at here", "flag ch_maldon_991_toki", "flag ch_maldon_991_8" ],
+      "note": "outcome: chain_maldon_991.s08.out_halfpenny (costs nothing)" }
+   ],
+   "memory": { "shares": "went shares in Toke's storehouse", "surety": "stood surety for a Dane", "halfpenny": "ate at Toke's table and signed nothing" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.s09_who_deals_with_danes",
+   "note": "Step 9, the warning (drawn at Lundenwic or Hamwic from June 1001 to October 1002 after step 1). Pallig, who had the king's gold and land, has gone over to the fleet with his ships; twenty-four thousand pounds have been paid; the king has a Norman wife; and the reeve is asking which merchants deal with Danes. Sources: Anglo-Saxon Chronicle A 1001 (Pallig joined the army with the ships he could gather, 'in spite of all the pledges he had given', after great gifts of estates, gold and silver; Whitelock's rendering, from memory (?)); ASC 1002 (the tribute of 24,000 pounds through Ealdorman Leofsige; 'the lady, Richard's daughter' came in the spring; tr. Ingram 1823, avalon.law.yale.edu/medieval/ang11.asp). That reeves listed the Danes of the ports beforehand is ours (?). People: Wulfmund, Toke and the alewife are invented. Sets ch_maldon_991_9; ch_maldon_991_warned, ch_maldon_991_informer, ch_maldon_991_surety or ch_maldon_991_watched.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = hamwic) and ((year = 1001 and month >= 6) or (year = 1002 and month <= 10)) and flag.ch_maldon_991_1 and not flag.ch_maldon_991_9",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 62], "fixed": true, "note": "the port-reeve (at London, Wulfmund); invented" },
+    "alewife": { "role": "alewife", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 55], "fixed": true, "note": "the alewife by the hythe; invented, unnamed" },
+    "toke": { "role": "merchant", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [31, 38], "fixed": true, "note": "Toke Asgotsson; invented" }
+   },
+   "title_key": "chain_maldon_991.s09.title",
+   "title": "Who deals with Danes",
+   "intention_key": "chain_maldon_991.s09.intention",
+   "intention": "The reeve is going from keel to keel with a clerk and a wax board. He is not asking what you carry. He is asking who you sell to, and what tongue they answer in.",
+   "lines": [
+    { "who": "reeve", "key": "chain_maldon_991.s09.reeve_pallig" },
+    { "who": "reeve", "key": "chain_maldon_991.s09.reeve_paid", "when": "year = 1002" },
+    { "who": "alewife", "key": "chain_maldon_991.s09.alewife_talk" },
+    { "who": "alewife", "key": "chain_maldon_991.s09.alewife_lady", "when": "year = 1002 and month >= 4" },
+    { "who": "toke", "key": "chain_maldon_991.s09.toke_born_here" },
+    { "who": "reeve", "key": "chain_maldon_991.s09.reeve_fed_fleet", "when": "flag.ch_maldon_991_fleet" }
+   ],
+   "options": [
+    { "key": "vouch", "label_key": "chain_maldon_991.s09.opt_vouch", "label": "Vouch for Toke: he pays his toll, hears Mass and has children baptised here", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "npc reeve feeling +3 vouched", "npc toke feeling +8 vouched", "flag ch_maldon_991_surety" ],
+                     "failure": [ "npc reeve feeling -8 vouched", "npc toke feeling +8 vouched", "flag ch_maldon_991_watched" ] },
+                   "flag ch_maldon_991_9" ],
+      "note": "outcome: chain_maldon_991.s09.out_vouch_success / out_vouch_failure (likely; failing puts your own name on the wax board)" },
+    { "key": "warn", "label_key": "chain_maldon_991.s09.opt_warn", "label": "Say little to the reeve, and tell Toke to sell up and be over the sea before winter", "check": "true",
+      "effects": [ "npc toke feeling +5 warned", "flag ch_maldon_991_warned", "flag ch_maldon_991_9" ],
+      "note": "outcome: chain_maldon_991.s09.out_warn (he does not go; he sends his silver and his eldest boy to Hedeby, and keeps a boat ready)" },
+    { "key": "names", "label_key": "chain_maldon_991.s09.opt_names", "label": "Give the reeve the names of the Danes you deal with, and take what he pays for them", "check": "true",
+      "effects": [ "silver +60", "npc reeve feeling +10 names", "npc toke feeling -30 named", "toll eased 120", "flag ch_maldon_991_informer", "flag ch_maldon_991_9" ],
+      "note": "outcome: chain_maldon_991.s09.out_names (60 d and an easy toll; it lasts: ending 2 pays an informer in a dead man's ground)" },
+    { "key": "wine", "label_key": "chain_maldon_991.s09.opt_wine", "label": "Say you sell wine, and everyone who has a mouth buys it", "check": "true", "default": true,
+      "effects": [ "npc reeve feeling -1 wine", "flag ch_maldon_991_9" ],
+      "note": "outcome: chain_maldon_991.s09.out_wine (costs nothing but his patience)" }
+   ],
+   "memory": { "vouch.success": "vouched for Toke and was believed", "vouch.failure": "vouched for a Dane and was written down", "warn": "told Toke to be gone before winter", "names": "gave the reeve the Danes' names", "wine": "said he sold wine to anyone with a mouth" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.s10_the_kings_writ",
+   "note": "Step 10, the night before (drawn at Lundenwic in October and November 1002 after step 1; the month is as near as the engine's clock comes to the twelfth of November). The king's order has reached the reeves: all the Danish men in England are to be killed on Saint Brice's mass-day. Sources: Anglo-Saxon Chronicle 1002 (the king ordered slain all the Danish men who were in England, on Saint Brice's mass-day, because he was told they would take his life by treachery and then his councillors' and have his kingdom; chronicle_793.json 1002-11-13-st-brice); the charter S 909 for Saint Frideswide's, Oxford (1004), which calls it 'a most just extermination' and tells how the Danes of that town broke into the church and were burned in it (from memory (?)). Gunhild, sister of King Swein and wife of Pallig, a hostage killed in the slaughter with her husband and son, is known only from William of Malmesbury, Gesta Regum ii.177, written about 1125, and is doubted (?); that she was held at London, and everything a merchant does here, is ours. How many died, and whether any died in London, is not known (?). The danger is warned of in step 9. People: the priest Leofwine (Leof- + -wine) and Toke are invented. Sets ch_maldon_991_10; ch_maldon_991_saved with changed_brice_1002_gunhild_lives and ch_maldon_991_wanted, or ch_maldon_991_toki_saved, or ch_maldon_991_stood_by.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year = 1002 and month >= 10 and month <= 11 and flag.ch_maldon_991_1 and not flag.ch_maldon_991_10",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 55], "fixed": true, "note": "Leofwine, a mass-priest who writes for the port-reeve; invented" },
+    "toke": { "role": "merchant", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [32, 38], "fixed": true, "note": "Toke Asgotsson; invented" },
+    "gunhild": { "role": "hostage", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [28, 40], "fixed": true, "note": "Gunhild, King Swein's sister, a hostage with her young son; historical only by William of Malmesbury's word (?)" }
+   },
+   "title_key": "chain_maldon_991.s10.title",
+   "title": "The king's writ",
+   "intention_key": "chain_maldon_991.s10.intention",
+   "intention": "Two days after Martinmas is Saint Brice's mass-day. A priest who writes for the reeve comes aboard after dark, will not sit, and tells you what the king's writ says is to be done on it.",
+   "lines": [
+    { "who": "priest", "key": "chain_maldon_991.s10.priest_writ" },
+    { "who": "priest", "key": "chain_maldon_991.s10.priest_why" },
+    { "who": "priest", "key": "chain_maldon_991.s10.priest_hostage" },
+    { "who": "toke", "key": "chain_maldon_991.s10.toke_boat", "when": "flag.ch_maldon_991_warned" },
+    { "who": "toke", "key": "chain_maldon_991.s10.toke_door", "when": "not flag.ch_maldon_991_warned" },
+    { "who": "priest", "key": "chain_maldon_991.s10.priest_named", "when": "flag.ch_maldon_991_informer" }
+   ],
+   "options": [
+    { "key": "gunhild", "label_key": "chain_maldon_991.s10.opt_gunhild", "label": "Go with Toke to the reeve's guest house, bring out the king of the Danes' sister and her boy, and drop down river on the ebb", "check": "flag.ch_maldon_991_partner or flag.ch_maldon_991_surety or flag.ch_maldon_991_warned",
+      "effects": [ { "chance": 0.45, "by": "crew.seamanship_best",
+                     "success": [ "passenger gunhild to sliesthorp", "npc gunhild feeling +30 carried", "npc toke feeling +25 carried", "deed fled_kings_men", "flag ch_maldon_991_saved", "flag changed_brice_1002_gunhild_lives", "flag ch_maldon_991_toki_saved", "flag ch_maldon_991_wanted", "schedule harbour.chain_maldon_991.end_saved in 14 at sliesthorp" ],
+                     "failure": [ "silver -120", "health -0.05", "passenger toke to sliesthorp", "npc toke feeling +20 carried", "flag ch_maldon_991_toki_saved", "flag ch_maldon_991_watched" ] },
+                   "flag ch_maldon_991_10" ],
+      "note": "outcome: chain_maldon_991.s10.out_gunhild_success / out_gunhild_failure (doubtful, the hard road: the door stays shut, a watchman's club and a fine of 120 d, and Toke and his sons are still got away. Success changes history and makes the house the English king's enemy)" },
+    { "key": "toke", "label_key": "chain_maldon_991.s10.opt_toke", "label": "Take Toke and his sons aboard under the tilt and sail before the bell for prime", "check": "true",
+      "effects": [ "passenger toke to sliesthorp", "npc toke feeling +25 carried", "flag ch_maldon_991_toki_saved", "flag ch_maldon_991_10" ],
+      "note": "outcome: chain_maldon_991.s10.out_toke (sure; costs the cargo space and a November crossing; Leofflaed, who is English, stays to hold the house)" },
+    { "key": "stay", "label_key": "chain_maldon_991.s10.opt_stay", "label": "Keep your men aboard, your hatch shut, and your boat where she lies", "check": "true", "default": true,
+      "effects": [ "npc priest feeling -3 stayed", "flag ch_maldon_991_stood_by", "flag ch_maldon_991_10" ],
+      "note": "outcome: chain_maldon_991.s10.out_stay (costs nothing that can be counted)" }
+   ],
+   "memory": { "gunhild.success": "carried the king of the Danes' sister out of London", "gunhild.failure": "tried the guest-house door and got Toke away instead", "toke": "took Toke and his sons over the sea", "stay": "kept his hatch shut on Saint Brice's eve" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.s11_brices_morrow",
+   "note": "Step 11 (drawn at Lundenwic or Gipeswic from November 1002 to the end of 1003 after step 1, unless Gunhild was carried off, in which case the player is over the sea). The days after: the reeve sells what the dead owned; the news from Oxford comes down the river. Sources: Anglo-Saxon Chronicle 1002; S 909, King Aethelred's charter of 1004 restoring Saint Frideswide's, burned with the Danes inside it (from memory (?)); the mass burials of young men found at St John's College, Oxford (2008) and on Ridgeway Hill, Dorset (2009) have been linked to these years, not surely (?). What was done in London or Ipswich is not recorded, and the sale of the dead men's goods is ours (?). People: Wulfmund, Leofflaed and Leofwine are invented. Sets ch_maldon_991_11; ch_maldon_991_blood_goods or ch_maldon_991_buried.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = gipeswic) and ((year = 1002 and month >= 11) or year = 1003) and flag.ch_maldon_991_1 and not flag.ch_maldon_991_saved and not flag.ch_maldon_991_11",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 62], "fixed": true, "note": "the port-reeve (at London, Wulfmund); invented" },
+    "wife": { "role": "weaver", "people": "english", "faith": "christian", "tongue": "old_english", "age": [27, 34], "fixed": true, "note": "Leofflaed, Toke's wife; invented" },
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 55], "fixed": true, "note": "Leofwine, the mass-priest of step 10; invented" }
+   },
+   "title_key": "chain_maldon_991.s11.title",
+   "title": "Brice's morrow",
+   "intention_key": "chain_maldon_991.s11.intention",
+   "intention": "There are goods laid out on the hythe with nobody standing behind them: sea chests, a balance, cloaks, a child's shoes. The reeve is selling them for the king. Nobody is bidding much.",
+   "lines": [
+    { "who": "reeve", "key": "chain_maldon_991.s11.reeve_sale" },
+    { "who": "priest", "key": "chain_maldon_991.s11.priest_oxford" },
+    { "who": "wife", "key": "chain_maldon_991.s11.wife_over_sea", "when": "flag.ch_maldon_991_toki_saved" },
+    { "who": "wife", "key": "chain_maldon_991.s11.wife_hythe", "when": "not flag.ch_maldon_991_toki_saved" },
+    { "who": "priest", "key": "chain_maldon_991.s11.priest_ground", "when": "not flag.ch_maldon_991_toki_saved" }
+   ],
+   "options": [
+    { "key": "buy", "label_key": "chain_maldon_991.s11.opt_buy", "label": "Bid for the lot: ivory, cloth and brooches at a hundred pennies", "check": "silver >= 100", "cost": "silver 100",
+      "effects": [ "goods walrus_ivory +2", "goods wool_cloth +6", "goods brooches +3", "npc reeve feeling +5 bought", "npc wife feeling -25 bought", "flag ch_maldon_991_blood_goods", "flag ch_maldon_991_11" ],
+      "note": "outcome: chain_maldon_991.s11.out_buy (about 360 d of goods for 100; it lasts: they are known goods, and Hedeby will know them)" },
+    { "key": "bury", "label_key": "chain_maldon_991.s11.opt_bury", "label": "Buy nothing. Give the priest thirty pennies for graves and Masses, whoever they are for", "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "deed gave_alms", "npc priest feeling +12 buried", "npc wife feeling +15 buried", "flag ch_maldon_991_buried", "flag ch_maldon_991_11" ],
+      "note": "outcome: chain_maldon_991.s11.out_bury" },
+    { "key": "load", "label_key": "chain_maldon_991.s11.opt_load", "label": "Buy nothing, say nothing, and carry the news where it is not yet known", "check": "true", "default": true,
+      "effects": [ "news chain_maldon_991.news.brice at here", "flag ch_maldon_991_11" ],
+      "note": "outcome: chain_maldon_991.s11.out_load (costs nothing)" }
+   ],
+   "memory": { "buy": "bought the dead Danes' goods", "bury": "paid for graves and Masses", "load": "bought nothing and carried the news" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.end_north",
+   "note": "Ending 1, what happened, seen from the Danish shore (drawn at Sliesthorp from November 1002 to 1006 for a player who followed the silver or carried Toke over, and did not carry Gunhild). King Swein is readying the fleet that sacks Exeter and Wilton in 1003 and Norwich and Thetford in 1004. Sources: Anglo-Saxon Chronicle 1003 ('This year was Exeter demolished, through the French churl Hugh, whom the lady had appointed her steward there', tr. Ingram 1823) and 1004; the fellowship of sworn partners, the felag, on Danish rune stones of about 1000 (DR 1 at Hedeby names a 'felagi' of King Swein's man Skarde (?)). Asgot and Toke are invented. Sets ch_maldon_991_end_north, ch_maldon_991_done and one or two of unlock_partner_toke, unlock_factor_sliesthorp, unlock_ship_norse_allround_ship, unlock_plot_sliesthorp; the plain option also sets ch_maldon_991_fed_the_fleet, which the English reeves remember.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and ((year = 1002 and month >= 11) or (year >= 1003 and year <= 1006)) and (flag.ch_maldon_991_fleet or flag.ch_maldon_991_toki_saved) and not flag.ch_maldon_991_saved and not flag.ch_maldon_991_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "asgot": { "role": "merchant", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [57, 72], "fixed": true, "note": "Asgot, Toke's father; invented" },
+    "toke": { "role": "merchant", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [32, 42], "fixed": true, "note": "Toke Asgotsson, if he lived; invented" }
+   },
+   "title_key": "chain_maldon_991.end_north.title",
+   "title": "What the silver bought",
+   "intention_key": "chain_maldon_991.end_north.intention",
+   "intention": "At Hedeby they are tarring hulls in the cold, which nobody does without a reason. The king's ships go to England after the lambing. Old Asgot has a table laid in his house by the south jetty, and a reckoning to make with you.",
+   "lines": [
+    { "who": "asgot", "key": "chain_maldon_991.end_north.asgot_fleet" },
+    { "who": "asgot", "key": "chain_maldon_991.end_north.asgot_son_home", "when": "flag.ch_maldon_991_toki_saved" },
+    { "who": "asgot", "key": "chain_maldon_991.end_north.asgot_son_dead", "when": "not flag.ch_maldon_991_toki_saved" },
+    { "who": "toke", "key": "chain_maldon_991.end_north.toke_house", "when": "flag.ch_maldon_991_toki_saved" },
+    { "who": "asgot", "key": "chain_maldon_991.end_north.asgot_goods", "when": "flag.ch_maldon_991_blood_goods" },
+    { "who": "asgot", "key": "chain_maldon_991.end_north.asgot_ask" }
+   ],
+   "options": [
+    { "key": "felag", "label_key": "chain_maldon_991.end_north.opt_felag", "label": "Swear fellowship with Toke: one purse, two boats, and his father's store at Hedeby for both", "check": "flag.ch_maldon_991_toki_saved",
+      "effects": [ "silver +700", "npc toke feeling +20 felag", "npc asgot feeling +20 felag", "flag unlock_partner_toke", "flag unlock_factor_sliesthorp", "flag ch_maldon_991_end_north", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_north.out_felag (the honest road of this ending: 700 d and two grand rewards)" },
+    { "key": "ship", "label_key": "chain_maldon_991.end_north.opt_ship", "label": "Buy the ship Asgot had built with English pennies, for what the timber cost him (300 d)", "check": "silver >= 300", "cost": "silver 300",
+      "effects": [ "npc asgot feeling +8 ship", "flag unlock_ship_norse_allround_ship", "flag ch_maldon_991_end_north", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_north.out_ship (a sea-going ship worth several thousand for 300 d)" },
+    { "key": "plot", "label_key": "chain_maldon_991.end_north.opt_plot", "label": "Take your reckoning in pennies, and the strip of ground beside his jetty", "check": "true", "default": true,
+      "effects": [ "silver +900", "npc asgot feeling +5 plot", "flag unlock_plot_sliesthorp", "flag ch_maldon_991_fed_the_fleet", "flag ch_maldon_991_end_north", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_north.out_plot (900 d and a plot; the cost that lasts is ch_maldon_991_fed_the_fleet)" }
+   ],
+   "memory": { "felag": "swore fellowship with Toke", "ship": "bought the ship built with English pennies", "plot": "took his reckoning and the ground by the jetty" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.end_london",
+   "note": "Ending 2, what happened, seen from the English shore (drawn at Lundenwic from December 1002 to 1006 for any player who began the chain and did not carry Gunhild). The Danes of the port are dead or gone, their keels are not coming, and the fleet is. Sources: IV Aethelred 2.8: the emperor's men who come in their ships are held worthy of good laws like the Londoners (about 1000 (?); chronicle_793.json 1000-london-tolls); Anglo-Saxon Chronicle 1003-1004 for Swein's return. A king's writ to one merchant house is ours (?): the oldest writs that survive are of these years and are for churches. People: Wulfmund, Leofflaed and Leofwine are invented. Sets ch_maldon_991_end_london, ch_maldon_991_done and one of unlock_charter_lundenwic, unlock_plot_lundenwic (with ch_maldon_991_dead_mans_ground), unlock_factor_lundenwic, unlock_pilot_thames.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and ((year = 1002 and month = 12) or (year >= 1003 and year <= 1006)) and flag.ch_maldon_991_1 and not flag.ch_maldon_991_saved and not flag.ch_maldon_991_done",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [41, 65], "fixed": true, "note": "Wulfmund, port-reeve of London; invented" },
+    "wife": { "role": "weaver", "people": "english", "faith": "christian", "tongue": "old_english", "age": [27, 38], "fixed": true, "note": "Leofflaed, Toke's wife or widow; invented" }
+   },
+   "title_key": "chain_maldon_991.end_london.title",
+   "title": "An empty hythe",
+   "intention_key": "chain_maldon_991.end_london.intention",
+   "intention": "Billingsgate has room at it, which it never had. The Danish keels did not come this year. The reeve stands at the head of the hythe with his stick and counts the boats that did, and yours is one of them.",
+   "lines": [
+    { "who": "reeve", "key": "chain_maldon_991.end_london.reeve_empty" },
+    { "who": "reeve", "key": "chain_maldon_991.end_london.reeve_swein" },
+    { "who": "reeve", "key": "chain_maldon_991.end_london.reeve_served", "when": "flag.ch_maldon_991_paid or flag.ch_maldon_991_lent or flag.ch_maldon_991_served or flag.ch_maldon_991_ransomed" },
+    { "who": "reeve", "key": "chain_maldon_991.end_london.reeve_watched", "when": "flag.ch_maldon_991_watched" },
+    { "who": "wife", "key": "chain_maldon_991.end_london.wife_house", "when": "flag.ch_maldon_991_partner or flag.ch_maldon_991_surety" },
+    { "who": "reeve", "key": "chain_maldon_991.end_london.reeve_ask" }
+   ],
+   "options": [
+    { "key": "writ", "label_key": "chain_maldon_991.end_london.opt_writ", "label": "Ask the king's writ: your house to trade here as the Londoners do, free of the toll at this hythe", "check": "flag.ch_maldon_991_paid or flag.ch_maldon_991_lent or flag.ch_maldon_991_served or flag.ch_maldon_991_ransomed",
+      "effects": [ "silver +800", "npc reeve feeling +12 writ", "flag unlock_charter_lundenwic", "flag ch_maldon_991_end_london", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_london.out_writ (for the man who paid, lent, carried or ransomed: 800 d, which holds the minster's loan and the king's thanks, and the charter)" },
+    { "key": "toft", "label_key": "chain_maldon_991.end_london.opt_toft", "label": "Take what the reeve offers the man who gave him names: a dead Dane's toft behind the hythe", "check": "flag.ch_maldon_991_informer or flag.ch_maldon_991_blood_goods",
+      "effects": [ "silver +600", "npc reeve feeling +8 toft", "npc wife feeling -40 toft", "flag unlock_plot_lundenwic", "flag ch_maldon_991_dead_mans_ground", "flag ch_maldon_991_end_london", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_london.out_toft (600 d and a plot; the cost that lasts is ch_maldon_991_dead_mans_ground: the Danes come back as kings in 1013)" },
+    { "key": "house", "label_key": "chain_maldon_991.end_london.opt_house", "label": "Keep the share in Toke's storehouse, with Leofflaed to hold the key and the tally for both houses", "check": "flag.ch_maldon_991_partner or flag.ch_maldon_991_surety",
+      "effects": [ "silver +700", "npc wife feeling +20 house", "flag unlock_factor_lundenwic", "flag ch_maldon_991_end_london", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_london.out_house (700 d of the house's stock turned to coin, and a factor at London)" },
+    { "key": "river", "label_key": "chain_maldon_991.end_london.opt_river", "label": "Ask nothing of the king. Carry what the Danish keels used to carry, and learn the river from the lightermen", "check": "true", "default": true,
+      "effects": [ "silver +600", "commission frankish_wine 12 by 200 premium 0.6", "npc reeve feeling +5 river", "flag unlock_pilot_thames", "flag ch_maldon_991_end_london", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_london.out_river (open to anyone: 600 d of freight money paid ahead, twelve casks on order at +60%, and the Thames to the bridge)" }
+   ],
+   "memory": { "writ": "asked the king's writ at Billingsgate", "toft": "took a dead Dane's toft", "house": "kept the share in Toke's house with Leofflaed", "river": "asked nothing and took the Danes' freight" }
+  },
+  {
+   "id": "harbour.chain_maldon_991.end_saved",
+   "note": "Ending 3, history changed (scheduled at Sliesthorp 14 days after a success at step 10; also drawn there and at Ripa to 1008). Gunhild and her son are alive in her brother's kingdom. What really happened, if William of Malmesbury is right, is that she was beheaded after seeing her husband and son killed, and foretold that her blood would cost England dear (Gesta Regum ii.177 (?)); what really happened in any case is endings 1 and 2. Sources for what stays true: Swein had already come for tribute in 994 and comes again in 1003 (Anglo-Saxon Chronicle); a king's guest-right and protection for a foreign merchant is the ordinary form (Rimbert, Vita Anskarii, for Birka and Hedeby; Cnut's letter of 1027 for his own merchants). Invented: all the rest. Sets ch_maldon_991_end_saved, changed_brice_1002_gunhild_lives, ch_maldon_991_done, and two grand rewards from unlock_title_sweins_guest, unlock_charter_sliesthorp, unlock_ship_norse_allround_ship, unlock_partner_toke, unlock_heirloom_gunhilds_ring. ch_maldon_991_wanted (set at step 10) is the cost that lasts.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sliesthorp or port.id = ripa) and year >= 1002 and year <= 1008 and flag.ch_maldon_991_saved and not flag.ch_maldon_991_done",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "gunhild": { "role": "hostage", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [28, 40], "fixed": true, "note": "Gunhild, King Swein's sister (William of Malmesbury (?)); alive only in the game" },
+    "kingsman": { "role": "kings_man", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [30, 55], "fixed": true, "note": "a man of King Swein's household; invented, unnamed" },
+    "toke": { "role": "merchant", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [32, 44], "fixed": true, "note": "Toke Asgotsson; invented" }
+   },
+   "title_key": "chain_maldon_991.end_saved.title",
+   "title": "The king's sister",
+   "intention_key": "chain_maldon_991.end_saved.intention",
+   "intention": "A man of the king's household is waiting on the jetty with twelve others and a led horse. He looks first at the woman and the boy coming up your gangplank, counts them, and only then looks at you.",
+   "lines": [
+    { "who": "kingsman", "key": "chain_maldon_991.end_saved.kingsman_counted" },
+    { "who": "gunhild", "key": "chain_maldon_991.end_saved.gunhild_door" },
+    { "who": "gunhild", "key": "chain_maldon_991.end_saved.gunhild_husband" },
+    { "who": "toke", "key": "chain_maldon_991.end_saved.toke_wife" },
+    { "who": "kingsman", "key": "chain_maldon_991.end_saved.kingsman_swein" },
+    { "who": "kingsman", "key": "chain_maldon_991.end_saved.kingsman_ask" }
+   ],
+   "options": [
+    { "key": "guest", "label_key": "chain_maldon_991.end_saved.opt_guest", "label": "Ask to be the king's guest: his protection on your house, and your keels free of toll at Hedeby", "check": "true",
+      "effects": [ "silver +1500", "npc kingsman feeling +15 guest", "flag unlock_title_sweins_guest", "flag unlock_charter_sliesthorp", "flag ch_maldon_991_end_saved", "flag changed_brice_1002_gunhild_lives", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_saved.out_guest (hard road: 1,500 d and two grand rewards)" },
+    { "key": "ship", "label_key": "chain_maldon_991.end_saved.opt_ship", "label": "Ask for a ship of the king's own building, and Toke to sail your old one beside her", "check": "true",
+      "effects": [ "silver +1000", "npc toke feeling +20 ship", "flag unlock_ship_norse_allround_ship", "flag unlock_partner_toke", "flag ch_maldon_991_end_saved", "flag changed_brice_1002_gunhild_lives", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_saved.out_ship (hard road: 1,000 d and two grand rewards)" },
+    { "key": "peace", "label_key": "chain_maldon_991.end_saved.opt_peace", "label": "Ask only that when his ships go to England they keep what was sworn in 994: peace for a merchant keel in a river mouth", "check": "true", "default": true,
+      "effects": [ "silver +800", "npc gunhild feeling +20 peace", "npc kingsman feeling +10 peace", "flag unlock_title_sweins_guest", "flag unlock_heirloom_gunhilds_ring", "flag ch_maldon_991_peace_asked", "flag ch_maldon_991_end_saved", "flag changed_brice_1002_gunhild_lives", "flag ch_maldon_991_done" ],
+      "note": "outcome: chain_maldon_991.end_saved.out_peace (hard road: 800 d, two grand rewards, and a promise a later card may keep: ch_maldon_991_peace_asked)" }
+   ],
+   "memory": { "guest": "asked to be King Swein's guest", "ship": "asked a ship and a partner", "peace": "asked the king to keep the merchants' peace" }
+  }
+ ]
+}

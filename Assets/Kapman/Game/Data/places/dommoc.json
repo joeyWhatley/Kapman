@@ -1,0 +1,589 @@
+{
+ "about": "Dommoc (the game puts it at Dunwich) on the East Anglian coast: one port, written 6 October 2026 from Design/content/dossiers/dommoc.md and the spine. A draft in the game's own files, for the user to overwrite. (?) marks what is not attested. Nothing of the Dommoc of 793 has been dug: it is under the sea. The bishops, the abbot Lull, the kings and the dated facts are real; the haven, the strand, the ale-house and every other named person are the game's. Woven with the other ports of the region on 7 Oct 2026: the 'fisherman of Dommoc' whom three people of Gipeswic are tied to is made real as the pilot's line (Hunberht in 793, Hunwine about 900, Hunstan about 1000), the two tellings of the dead king's pennies are made to agree, beats are added at Gipeswic, Dofras, Hamwic, Fordwic and Lundenwic, and the region's cards (Data/encounters/england_south_east_793.json) are hung on the sites and the beats.",
+ "region": "england_south_east",
+ "ports": [
+  {
+   "port": "dommoc",
+   "summary": "A bishop's town on a cliff of sand and gravel, a short day's sail north of the Orwell mouth, with heath behind it and an open river mouth on its north side where boats lie. Felix, the first bishop of the East Angles, was given his seat here about 630, and his successors still keep it. A merchant comes for rope, hemp and salt fish and for whatever the bishop's letters are worth, and brings what a church cannot grow: wine, oil, incense, wax and books.",
+   "seasons": "Felix's mass falls in Lent, on the eighth day of March, and King Æthelberht's from 795 in May, when the first ships are out. Hemp is pulled after Lammas and lies rotting in the pond until Michaelmas, and in those same weeks the herring come down the coast and every boat is at sea. In winter the haven is open but empty, and the cliff loses a little to each north-easterly gale.",
+   "history": [
+    { "year": 630, "text": "About this year Felix, a bishop from Burgundy, was given his see in the city Dommoc by King Sigeberht, and after seventeen years 'ended his days there in peace'.", "source": "Bede, Ecclesiastical History II.15 (tr. A. M. Sellar, 1907)" },
+    { "year": 631, "text": "About this year King Sigeberht 'founded a school wherein boys should be taught letters', with masters whom Felix brought from Kent. Bede does not say where; that it was at Dommoc is a later guess (?).", "source": "Bede III.18 (Sellar 1907), with her note 377" },
+    { "year": 654, "text": "About this year King Anna of the East Angles was killed by Penda of Mercia and buried at Blythburgh, up the river from Dommoc. In the same year Botolph began his minster at Icanho.", "source": "Liber Eliensis, by way of en.wikipedia Anna of East Anglia (?); Anglo-Saxon Chronicle 654" },
+    { "year": 672, "text": "About this year the East Angles' diocese was divided: Dommoc kept the south and a second bishop sat at Elmham for the north.", "source": "Bede IV.5, Sellar's note 573; Handbook of British Chronology" },
+    { "year": 675, "text": "About this year soil gathered in the bottom of a hollow road that ran down through the town to the shore (between 655 and 770 at the outside).", "source": "Sear, Scaife and Langdon, Touching the Tide survey (2015), pp. 13-14" },
+    { "year": 793, "text": "This year the bishop of Dommoc was Ælfhun, consecrated between 789 and 793, or if he was not yet consecrated, Heardred before him.", "source": "Handbook of British Chronology, as given at en.wikipedia Bishop of Dunwich (ancient)" },
+    { "year": 794, "text": "This year 'Offa, King of Mercia, commanded that King Ethelbert should be beheaded', and took the East Angles' kingdom. His day is kept on 20 May.", "source": "Anglo-Saxon Chronicle 792 (tr. J. Ingram, 1823); chronicle_793.json 794-aethelberht-beheaded" },
+    { "year": 796, "text": "This year Offa died, and for a year or two the East Angles had a king of their own, Eadwald, known only from some twelve of his pennies.", "source": "en.wikipedia Eadwald of East Anglia; chronicle_793.json 796-eadwald-east-anglia" },
+    { "year": 798, "text": "In this year or the year before 'Bishop Alfun died at Sudbury, and was buried at Dunwich. After him Tidfrith was elected to the see.' Tidfrith's written oath to Archbishop Æthelheard survives.", "source": "Anglo-Saxon Chronicle 799 (Ingram 1823; manuscript F gives 797); Haddan and Stubbs III (1871), p. 511; chronicle_793.json 799-aelfhun" },
+    { "year": 800, "text": "Between 798 and 804 Alcuin wrote from Tours to Tidfrith of Dommoc and Alhheard of Elmham, whom the abbot Lull had praised to him in person: preach to everyone, and have my name remembered in your churches.", "source": "Haddan and Stubbs III, pp. 551-552 (the dossier's paraphrase)" },
+    { "year": 803, "text": "This year at the council of Clofesho Tidfrith signed as bishop 'of the city of Dummuca', with the abbots Wulfheard and Lull and the priests Ceolhelm, Cynulf, Tilberht and Eadberht.", "source": "Haddan and Stubbs III, p. 547" },
+    { "year": 816, "text": "This year on 27 July Tidfrith sat with Sibba of Elmham at the council of Chelsea, King Coenwulf of Mercia being present.", "source": "Haddan and Stubbs III, p. 579" },
+    { "year": 825, "text": "About this year the East Angles asked King Ecgberht of the West Saxons for 'peace and protection against the terror of the Mercians' and killed Beornwulf, the Mercians' king. In the same year Wilred signed at Clofesho, first as bishop elect of Dommoc and then as bishop.", "source": "Anglo-Saxon Chronicle 823, 825 (Ingram 1823); Haddan and Stubbs III, notes to 825" },
+    { "year": 841, "text": "This year 'in Lindsey, East-Anglia, and Kent, were many men slain by the army'.", "source": "Anglo-Saxon Chronicle 838 (Ingram 1823)" },
+    { "year": 865, "text": "This year a great heathen army took winter quarters among the East Angles, 'where they were soon horsed'. Where it lay is not said.", "source": "Anglo-Saxon Chronicle 866 (Ingram 1823)" },
+    { "year": 869, "text": "This year on 20 November King Edmund was killed by the army. No bishop of Dommoc is heard of after Æthelwald, whose oath to Archbishop Ceolnoth and whose bronze seal survive. No text says what the army did at Dommoc.", "source": "Anglo-Saxon Chronicle 870; Haddan and Stubbs III, pp. 659-660; chronicle_793.json 869-11-20-edmund-killed" },
+    { "year": 880, "text": "This year Guthrum's army went from Cirencester into East Anglia, 'settled, and divided the land'. Guthrum, baptised Æthelstan, struck pennies of his own and died in 890.", "source": "Anglo-Saxon Chronicle 880, 890 (Ingram 1823)" },
+    { "year": 917, "text": "This year 'all the army in East-Anglia swore union' with King Edward.", "source": "Anglo-Saxon Chronicle 921 (Ingram 1823)" },
+    { "year": 952, "text": "Before 953 Bishop Theodred of London, who had the care of Suffolk, named a bishop's seat at Hoxne in his will; from about 955 one bishop at Elmham had all the East Angles. Dommoc had no bishop again.", "source": "en.wikipedia Theodred (bishop of London); Bishop of Elmham" },
+    { "year": 1004, "text": "This year Swein's fleet burned Norwich, and Ulfcytel and the East Angles fought it hard. In 1010 the army landed at Ipswich after Easter and burned East Anglia for three months.", "source": "Anglo-Saxon Chronicle 1004, 1010" },
+    { "year": 1017, "text": "This year King Cnut gave East Anglia to Earl Thorkell.", "source": "Anglo-Saxon Chronicle 1017" },
+    { "year": 1066, "text": "In this year Edric of Laxfield held Dommoc, by then called Dunwich: two ploughlands, one church, twelve cottagers and a hundred and twenty burgesses, rendering ten pounds. The abbot of Ely had eighty more burgesses on fourteen acres. There was no exchanger in the town, but one at Blythburgh.", "source": "Domesday Book, Suffolk, fols 311b-312b and 385b, as translated in the Victoria History of Suffolk I (1911), pp. 450-451" },
+    { "year": 1086, "text": "After the game's end the king's clerks wrote of the two ploughlands: 'now 1. The sea carried away the other.' The town then gave sixty thousand herrings a year.", "source": "Domesday Book, as above; told in the game only as an easter egg" }
+   ],
+   "eras": [
+    { "from": 793, "to": 793, "text": "The last year of an East Anglian king. A small town round a bishop's church on the cliff: priests, boys at their letters (?), ploughmen, herdsmen and the people of the hemp pond. A few boats lie in the river mouth. The news of Lindisfarne is two weeks old and the bishop wants to hear it from someone who has been north." },
+    { "from": 794, "to": 798, "text": "The king is dead by Offa's order and a Mercian king's man sits on the strand asking whose ship that is. The Frankish quarrel reaches this coast too (?): wine for the altar is short. In May people go quietly to pray for the dead king. Offa dies in 796 and for a year or two there are pennies with Eadwald's name; then the Mercians are back. Bishop Ælfhun dies at Sudbury and is carried home." },
+    { "from": 799, "to": 824, "text": "Bishop Tidfrith's years: a careful man who rides to the Mercian king's councils and comes back with law to read out. The ports are open, Alcuin's letter lies in the church chest, and the boys' bench is full. Rope and hemp go to Gipeswic's shipmasters every autumn." },
+    { "from": 825, "to": 864, "text": "The East Angles have kings of their own again, Æthelstan and then Edmund, and pennies with their names. Bishop Wilred, then Æthelwald. From 841 sails off the coast are counted before they are greeted, and the church plate is not left on the altar overnight." },
+    { "from": 865, "to": 879, "text": "The army's years. In 865 it winters among the East Angles and takes their horses; in 869 it comes back and the king is killed. Nobody writes what happens at Dommoc. The bishop's name is not written again. The church stands with a priest or without one; the boys' bench is empty; the hemp is still pulled, because armies need rope as much as anyone." },
+    { "from": 880, "to": 917, "text": "A Danish king's land. The plough-lands have new lords with Danish names who were baptised with Guthrum or were not. Silver is weighed as well as counted and fines are reckoned in ores. Pennies with Saint Edmund's name pass on the strand, struck by the people who killed him. A priest says mass in Felix's church; no bishop comes." },
+    { "from": 918, "to": 990, "text": "Under the English kings. The bishop who has the care of this shore sits far off, at London, then Hoxne, then Elmham. The town grows without him, on herring: more boats in the haven every autumn, salt brought in, fish going inland in barrels. Men of the town are called to the hundred court and fined if they stay away." },
+    { "from": 991, "to": 1016, "text": "The fleets are back. Ipswich is plundered in 991, Norwich burned in 1004, all East Anglia burned for three months in 1010. Ulfcytel leads the East Angles and loses bravely. The haven empties when a fleet is on the coast and the herring are left to swim." },
+    { "from": 1017, "to": 1066, "text": "Earl Thorkell's land and then the English earls', in King Cnut's peace and after it. A herring town of two hundred households under Edric of Laxfield and the abbot of Ely, with one church of Saint Felix. Nobody alive has seen a bishop here. The old people say the shore was further out when they were children, and they are right." }
+   ],
+   "sites": [
+    { "id": "dommoc.haven", "kind": "beach", "name": "The haven mouth", "from": 0, "to": 0,
+      "see": "A wide river mouth open to the sea, grey water over mud, with the town's cliff on the south side and low marsh to the north. Three or four boats lie on the shingle above the tide line with their oars stacked in them. Behind, upriver, the tower-less roof of Blythburgh's church shows across the reeds on a clear day. Gulls, wind, wet rope and weed.",
+      "do": ["act:load", "act:wait_wind", "act:ask_harbour", "act:hire_pilot", "act:hire_porters", "person:dommoc.hunberht", "person:dommoc.fisherman", "card:harbour.pole_in_the_haven.dommoc"],
+      "source": "The Dunwich river and the Blyth reached the sea in one open estuary north of the town (dunwich.org.uk, location); the shingle that choked it came in 1287 and 1328 (Touching the Tide 2015, p. 3). Where boats lay in 793 is not known (?)." },
+    { "id": "dommoc.hard", "kind": "shipyard", "name": "The boat hard", "from": 0, "to": 0,
+      "see": "A shelf of gravel inside the haven where a boat can be walked up on rollers at the top of the tide. One hull lies propped on her side with a plank out; a tar pot smokes on three stones. Coils of new pale rope hang from a post, waiting to be rove. Hammering, the smell of tar and hot pitch.",
+      "do": ["act:repair", "act:careen", "act:fit_upgrade", "act:buy_ship", "act:buy_tools"],
+      "source": "The game's (?): no ship or yard has been found, and the only wreck off the old harbour is later than 1750 (dunwich.org.uk, latest news). New rigging here follows from the hemp pond." },
+    { "id": "dommoc.strand", "kind": "market", "name": "The strand under the cliff", "from": 0, "to": 0,
+      "see": "Firm sand at the foot of a yellow cliff, with a path cut slantwise up it to the town. When a boat is in, goods are laid on hides and sailcloth: rope in coils, hemp in bundles, split fish drying on a rack, pots from Gipeswic. A folding scale hangs from an oar stuck in the sand. Above, against the sky, the reed roof of the bishop's church.",
+      "do": ["market", "act:haggle", "act:sample", "act:weigh_silver", "act:test_silver", "person:dommoc.wigferth", "card:harbour.three_questions.dommoc"],
+      "source": "No market, toll or fair is recorded here before 1066 (?): a beach sale is the game's. Ipswich ware reached Blythburgh (en.wikipedia Blythburgh Priory). Weighed silver belongs to the Danish years, from 880." },
+    { "id": "dommoc.church", "kind": "church", "name": "The bishop's church", "from": 0, "to": 870,
+      "see": "A long timber church with a reed roof on the highest ground of the cliff, a tall wooden cross before its west door, graves round it under the turf. Inside it is dim and smells of wax and old thatch: a stone altar, one hanging lamp, a carved chair with a cushion that only one man sits in. Boys' voices saying a psalm, and under them the sea.",
+      "do": ["act:hear_mass", "act:alms", "act:vow", "act:sanctuary", "act:bury", "act:remember", "act:gift", "person:dommoc.aelfhun", "person:dommoc.tidfrith", "person:dommoc.aethelwald", "card:harbour.wine_for_the_altar.dommoc", "card:harbour.last_seal.dommoc"],
+      "source": "Felix's seat and first grave (Bede II.15); Bishop Ælfhun was buried here in 797 or 798 (Anglo-Saxon Chronicle 799). The fabric and dedication are unknown: timber and reed are the game's (?). Whether Felix's bones still lay here is not known; later they were at Soham." },
+    { "id": "dommoc.st_felix", "kind": "church", "name": "The church with no bishop", "from": 871, "to": 0,
+      "see": "The same church on the cliff, patched, with one priest and no chair. The cross before the door has been set up again in new wood. On the wall inside someone has scratched a ship. By the end, in King Edward's day, it is called Saint Felix's and the churchyard wall is a good deal nearer the cliff edge than it was.",
+      "do": ["act:hear_mass", "act:alms", "act:vow", "act:bury", "act:remember", "act:ask_news"],
+      "source": "One church in 1066 (Domesday Book); the Victoria History of Suffolk II calls it Saint Felix's. Whether it stood on the old site is not known (?)." },
+    { "id": "dommoc.bishops_house", "kind": "hall", "name": "The bishop's house and the boys' bench", "from": 0, "to": 870,
+      "see": "A timber hall beside the church with a hearth in the middle and a book chest by the wall, iron-bound, with two locks. Along the lit side, under the open shutters, a bench of boys with wax tablets on their knees and a master walking behind them. Wet cloaks steaming on pegs. It smells of smoke, ink and boiled fish.",
+      "do": ["act:audience", "act:read_text", "act:copy_text", "act:riddles", "act:lodge", "act:ask_news", "person:dommoc.lull", "card:harbour.boys_bench.dommoc", "card:harbour.bishops_oath.dommoc", "card:harbour.letters_up_the_cliff.dommoc"],
+      "source": "King Sigeberht's school, 'wherein boys should be taught letters' (Bede III.18): that it stood at Dommoc is a later guess (?). The abbots and priests who signed with Tidfrith in 803 (Haddan and Stubbs III, p. 547) are the household the game puts here." },
+    { "id": "dommoc.pond", "kind": "workshop", "name": "The retting pond and the rope walk", "from": 0, "to": 0,
+      "see": "A black pond in the marsh below the town, full of hemp stalks held under water with stones and hurdles. Beside it women strip the grey fibre from rotted stems and beat it on a block; along the bank a man walks backward, paying out yarn, while a child turns a crank at the far post. The stink can be smelt from the haven. Frogs, flies, the creak of the crank.",
+      "do": ["act:buy_at_source", "act:commission", "act:sample", "act:haggle", "person:dommoc.wulfgyth", "card:harbour.sixty_fathoms.dommoc"],
+      "source": "A pond by St James Street whose mud is up to nine-tenths hemp pollen, with hemp seeds, used from about the 5th century to the 11th; only the third such pit known in Britain (Touching the Tide 2015, pp. 24-28). The rope walk and its crank are the game's (?)." },
+    { "id": "dommoc.alehouse", "kind": "tavern", "name": "Tidswith's ale-house", "from": 0, "to": 0,
+      "see": "A low house at the top of the cliff path with a bush on a pole over the door and a bench outside facing the sea. Inside: a hearth, a trestle, a cask on a cradle, wooden cups, a board scratched for a game with pebbles for men. Fishermen with their backs to the wall. Malt, peat smoke and wet wool.",
+      "do": ["act:drink", "act:rumours", "act:dice", "act:tafl", "act:riddles", "act:hire_crew", "act:lodge", "person:dommoc.tidswith", "card:harbour.tidswiths_board.dommoc"],
+      "source": "Invented; an ale-wife's house is the ordinary place for news in an English town (Ine's and later laws on ale-houses) (?)." },
+    { "id": "dommoc.cliff_top", "kind": "field", "name": "The cliff-top fields", "from": 0, "to": 0,
+      "see": "Plough strips and rough pasture running to the very edge, where the turf hangs over like a lip. In the cliff face below, a dark band shows where older people threw their rubbish: ash, oyster and whelk shells, broken red pots. Sheep graze to the brink and do not fall. Far out, a line of white where the sea breaks on a bank.",
+      "do": ["act:provision", "act:buy_at_source", "act:ask_omen", "card:harbour.hunters_badger.dommoc"],
+      "source": "Plough, pasture, oak and hazel by the marsh pollen (Touching the Tide 2015, p. 28). Roman and 'perhaps Saxon' sherds, a pit of ash with oyster, cockle and whelk shells and bronze keys were seen in the cliff top in 1858 (Victoria History of Suffolk I, Romano-British list). The medieval town's east edge is now seabed (dunwich.org.uk, coastal change)." },
+    { "id": "dommoc.blythburgh", "kind": "shrine", "name": "King Anna's grave at Blythburgh", "from": 0, "to": 0,
+      "see": "Less than a morning's walk up the river, or one tide in a small boat: a church on a rise above the reed beds, and inside it a king's grave under a worn cloth, with a lamp. A priest keeps it and writes on a tablet of whalebone. In the later years there is a man here with a bench and a scale who gives new pennies for old.",
+      "do": ["act:vow", "act:alms", "act:remember", "act:offer", "act:change_coin", "act:cross", "card:harbour.kings_grave.dommoc"],
+      "source": "King Anna, killed in 653 or 654, lay at Blythburgh and his tomb was still honoured in the 12th century (Liber Eliensis, by way of en.wikipedia) (?). A whalebone writing tablet with runes was found there (British Museum). Domesday Book: no exchanger at Dunwich in 1066 but one at Blythburgh; the game allows coin to be changed there from about 1000 only (?)." },
+    { "id": "dommoc.hundred", "kind": "thing", "name": "The hundred's meeting place", "from": 900, "to": 0,
+      "see": "A flat-topped mound on the heath road behind the town, with a thorn tree and a ring of trodden grass. On court days men stand in a half circle with their cloaks pinned back, one speaks and the rest answer together. A thief's goods lie in a heap by the tree; the thief himself has been sent up the river. Larks, and a cold wind off the heath.",
+      "do": ["act:hear_law", "act:lawsuit", "act:witness", "act:oath"],
+      "source": "Domesday Book: two or three men of Dunwich must go to the Hundred when warned or forfeit two ores; a thief taken at Dunwich is judged there, punished in body at Blythburgh, and his goods go to Dunwich's lord. The law is written in 1086; the date it began and the mound are the game's (?)." },
+    { "id": "dommoc.herring_strand", "kind": "fishery", "name": "The herring strand", "from": 950, "to": 0,
+      "see": "The whole beach north of the cliff path in autumn: twenty boats drawn up, nets spread to dry over oars, women gutting at trestles with their sleeves tied back, barrels and grey heaps of salt. The sand shines with scales. Every gull on the coast is here and every one is screaming.",
+      "do": ["act:buy_at_source", "act:provision", "act:hire_crew", "act:load", "act:haggle", "person:dommoc.herringman", "card:harbour.dies_come_ashore.dommoc"],
+      "source": "By 1086 the town gave 60,000 herrings a year and Gilbert Blund's eighty men 8,000 more (Domesday Book; Victoria History of Suffolk I). For 793 a fishery is likely, not proven: the game opens this strand only from about 950 (?)." }
+   ],
+   "people": [
+    { "id": "dommoc.aelfhun", "name": "Ælfhun", "historical": true, "role": "bishop", "people": "english", "faith": "christian",
+      "born": 735, "died": 798, "from": 793, "to": 798,
+      "trait": "An old bishop of a small see: gentle, tired, careful with every candle, and unable to hide what he thinks of the Mercian king.",
+      "want": "Wine and wax enough to keep the altar through the year, and true news of what was done at Lindisfarne.",
+      "fear": "That he will be asked to say in his own church that the beheading of his king was just.",
+      "voice": "Slow and kind. Asks about a stranger's own saint before he asks about his cargo. Stops in the middle of a sentence when a Mercian comes in.",
+      "looks": "About sixty, small and thin, tonsured white, a plain undyed habit with a darned hem, a wooden staff with a curled head, a worn silver ring; his hands shake a little.",
+      "knows": ["what the church needs and will give for it: wine, oil, incense, wax", "who was king here and how he died, told only out of doors", "the road inland to Sudbury and the houses that lodge a traveller", "which priest reads, which only sings"],
+      "ties": [
+       { "to": "dommoc.lull", "tie": "friend", "note": "the abbot is the one man here he can speak Latin with for pleasure" },
+       { "to": "dommoc.wigferth", "tie": "rival", "note": "the king's man stands at the back at mass and watches who is prayed for" },
+       { "to": "dommoc.hunberht", "tie": "friend", "note": "baptised his children; is rowed up to Blythburgh by him each year" },
+       { "to": "cast.higbald", "tie": "friend", "note": "a fellow bishop on the same sea; wants to send him wax and a letter after the raid" },
+       { "to": "gipeswic.hereberht", "tie": "taught", "note": "the mass-priest by the ford at Gipeswic was a boy on this bench and was sent from this house" },
+       { "to": "cast.aethelheard", "tie": "serves", "note": "owes Canterbury his obedience, and knows whose man the archbishop is" },
+       { "to": "gipeswic.lul", "tie": "friend", "note": "the moneyer who struck the dead king's pennies; sent the bishop one to keep (?)" },
+       { "to": "dommoc.tidfrith", "tie": "taught", "note": "his priest and his successor: the old man taught him to read a council's mind and not only its decrees" },
+       { "to": "gipeswic.eadstan", "tie": "friend", "note": "the reeve at Gipeswic was given his office by the dead king and has not forgotten it; the bishop reminds him, gently, whose ear a bishop has (?)" },
+       { "to": "gipeswic.tilbeorht", "tie": "friend", "note": "the potter sends a crate each Michaelmas and hopes to be asked for a pitcher; the bishop has not the heart to say the old jugs do (?)" }
+      ],
+      "lines": {
+       "greet": "You are from over the sea. God keep you. Have you been north this summer? We hear a thing about Saint Cuthbert's church that I would rather not believe.",
+       "greet_again": "The Frisian again. Sit. The boys have been asking whether your boat really has only four men in her.",
+       "rumour": [
+        "Our king went to Offa's hall to ask for a daughter. That is all I will say indoors.",
+        "They say false grain stood in the Franks' fields last year, that a hand could touch and no mouth could eat. Is it so?",
+        "I am to ride to Sudbury before winter. At my age a horse is a penance, and I have not been given another."
+       ],
+       "saying": "Felix means happy. He made this shore so, Bede says. It takes more than one man's name to keep it so.",
+       "farewell": "Go with God, and come at Lent if you can: our own saint's mass, and nobody to sell us wax for it."
+      },
+      "source": "Real: bishop of Dommoc from 789x793; 'Bishop Alfun died at Sudbury, and was buried at Dunwich' (Anglo-Saxon Chronicle 799, Ingram 1823; rather 797 or 798). His age, looks and temper are invented (?)." },
+    { "id": "dommoc.tidfrith", "name": "Tidfrith", "historical": true, "role": "bishop", "people": "english", "faith": "christian",
+      "born": 760, "died": 0, "from": 798, "to": 816,
+      "trait": "A younger, exact bishop who has sworn obedience in writing and means it; rides to every council and reads the law out when he comes home.",
+      "want": "Books for a see that has almost none, his letters carried dry, and to deserve what Alcuin wrote to him.",
+      "fear": "That the great teacher's letter praised a man he has not yet become.",
+      "voice": "Brisk and plain. Counts on his fingers. Quotes the letter from Tours a little too often and knows it.",
+      "looks": "Late thirties, tall, a strong jaw, tonsured brown hair, a dark wool habit under a good riding cloak, mud to the knee, a wax tablet and stylus hanging at his belt.",
+      "knows": ["what was decided at the last council, and which Mercian lords were there", "what a book is worth and who has one to copy", "the archbishop's whereabouts and whether the road to him is safe", "who will be the next priest at Blythburgh"],
+      "ties": [
+       { "to": "dommoc.lull", "tie": "owes", "note": "the abbot spoke well of him to Alcuin, and the letter came of it" },
+       { "to": "dommoc.aelfhun", "tie": "taught", "note": "was the old bishop's priest and buried him" },
+       { "to": "dommoc.wulfgyth", "tie": "friend", "note": "buys her cord for the church lamps and pays on the day, which she tells everyone" },
+       { "to": "cast.alcuin", "tie": "taught", "note": "has one letter from him, to himself and the bishop of Elmham, and keeps it in the book chest" },
+       { "to": "cast.aethelheard", "tie": "serves", "note": "swore his obedience to him in writing in 798, signed with his own hand and the cross" },
+       { "to": "cast.sigewine", "tie": "friend", "note": "the monk who brought the letter from Tours, seasick and apologising" },
+       { "to": "gipeswic.hereberht", "tie": "friend", "note": "his priest at Gipeswic, who sends him the news of the wic with every pot seller" },
+       { "to": "fordwic.scribe", "tie": "owes", "note": "Christ Church's scribes wrote out the form of his oath; he owes them wax for it (?)" },
+       { "to": "gyrwe.scribe", "tie": "friend", "note": "the scribe at Bede's house to whom he has written for the chapters on his own people (?)" }
+      ],
+      "lines": {
+       "greet": "A boat from Dorestad. Good. I need three things carried and one thing bought, and I pay for all four.",
+       "greet_again": "You came back, and in the week you said. I shall start trusting your boat more than the king's roads.",
+       "rumour": [
+        "Alcuin writes that a bishop's mouth should be the trumpet of God. I read it to the priests. Two of them looked at their feet.",
+        "At the council I sat four places from the king. Near enough to see he does not listen either.",
+        "Bede wrote of Felix and of this city. We have not got the book. A see that cannot read its own beginning."
+       ],
+       "saying": "A priest's rank is no worldly game. Alcuin said it first. I only say it louder.",
+       "farewell": "Keep my letter under the thwart and not under the bilge. God speed you. Come before the herring, not after."
+      },
+      "source": "Real: bishop from 798, last seen at the council of Chelsea, 27 July 816; a successor is known by 824. His oath to Æthelheard and his attestation of 803 survive (Haddan and Stubbs III, pp. 511, 547, 579); Alcuin's letter, pp. 551-552. His birth year, looks and temper are invented (?)." },
+    { "id": "dommoc.lull", "name": "Lull", "historical": true, "role": "abbot", "people": "english", "faith": "christian",
+      "born": 745, "died": 0, "from": 793, "to": 806,
+      "trait": "An abbot of some small house hereabouts who teaches the boys when he is in the town: travelled, cheerful, vain of his Latin, and has met everyone.",
+      "want": "A passage over the sea to the great teacher again, and a riddle he has not heard.",
+      "fear": "Dying before he has seen a library with more than one chest in it for the second time.",
+      "voice": "Talks in turns and questions like a schoolmaster. Laughs before the end of his own jokes. Sets a riddle instead of answering.",
+      "looks": "About fifty, round and red-faced, tonsured, a patched black habit with chalk on the sleeve, a satchel of tablets, a hazel switch he points with and never uses.",
+      "knows": ["the Latin riddles of Aldhelm, by heart, and who taught them to whom", "the way to Tours and what Alcuin is like at table", "which houses in the kingdom have books and which only say so", "every boy on the bench and what his father pays"],
+      "ties": [
+       { "to": "dommoc.tidfrith", "tie": "friend", "note": "praised him to Alcuin in person, and enjoys having been right" },
+       { "to": "dommoc.aelfhun", "tie": "friend", "note": "they argue about the date of Easter tables for pleasure" },
+       { "to": "dommoc.tidswith", "tie": "owes", "note": "an ale score she has stopped counting aloud" },
+       { "to": "cast.alcuin", "tie": "friend", "note": "has spoken with him face to face, and tells the story with a new detail each time" },
+       { "to": "cast.sigewine", "tie": "friend", "note": "shared a ship with him once; neither enjoyed it" },
+       { "to": "gipeswic.lul", "tie": "rival", "note": "the moneyer of the same name gets his letters, and he gets the moneyer's bills (?)" },
+       { "to": "namnetis.eadhelm", "tie": "friend", "note": "an Englishman on the Loire road who lodges monks bound for Tours (?)" },
+       { "to": "hamwic.ceolhelm", "tie": "rival", "note": "the priest of the shore church at Hamwic has Aldhelm by heart too: each has heard that the other has a word wrong (?)" }
+      ],
+      "lines": {
+       "greet": "A merchant. Then you can count. Can you read? No matter, the boys cannot either yet. Sit and tell me a thing I do not know.",
+       "greet_again": "My Frisian. I have a question saved for you since the last moon. It has four feet in the morning. No, that is another one.",
+       "rumour": [
+        "There are three Lulls. One was bishop at Mainz and is dead. One strikes the king's pennies. I am the one with no silver.",
+        "Alcuin gives his pupils pet names. He did not give me one. I have decided that this is a compliment.",
+        "Down the coast they say Felix sat in the old Roman fort by the Orwell mouth, not here. Do not repeat that to the bishop."
+       ],
+       "saying": "What a boy learns with a riddle he keeps. What he learns with a rod he keeps too, but he hates you for it.",
+       "farewell": "Go on. Bring me back a hard one. A Northman's, if they have any that are not about ale."
+      },
+      "source": "Real in name and office only: 'Lull abbas' signs with Bishop Tidfrith at Clofesho in 803 (Haddan and Stubbs III, p. 547), and Alcuin says Lull praised both East Anglian bishops to him in person (pp. 551-552). His house is not named; that he taught at Dommoc, his dates, looks and manner are invented (?). The other Lulls are real: Lul of Mainz (died 786) and the East Anglian moneyer Lul." },
+    { "id": "dommoc.wigferth", "name": "Wigferth", "historical": false, "role": "kings_man", "people": "english", "faith": "christian",
+      "born": 762, "died": 0, "from": 794, "to": 800,
+      "trait": "A young Mercian of Offa's household, set on a strange coast to watch a harbour and a bishop: stiff, bored, and not as hard as his orders.",
+      "want": "To be called home with a good report; failing that, a cask of real wine and somebody to play at the board with.",
+      "fear": "Offa while he lives, and after 796 the East Angles, who remember whose man he is.",
+      "voice": "Clipped and formal, in a Mercian accent the fishermen mimic. Asks whose ship, whose cloth, whose man. Thaws over a game.",
+      "looks": "Thirty or so, tall, fair moustache, a red cloak with a silver disc brooch, a long knife in a tooled sheath, good riding boots ruined by salt, a spear he leans on.",
+      "knows": ["the king's order about ships from the Frankish shore, and how much of it he must enforce", "what is said at Offa's hall, a month old", "which East Anglian thegns have made their peace and which have not", "that the wic-reeve at Lundenwic gives a token to ships he has passed"],
+      "ties": [
+       { "to": "cast.wighelm", "tie": "serves", "note": "takes his rule from the wic-reeve at Lundenwic, and honours his token" },
+       { "to": "dommoc.aelfhun", "tie": "rival", "note": "is to report whether the dead king is prayed for; has not yet done so" },
+       { "to": "dommoc.tidswith", "tie": "loves", "note": "the only house that will serve him; he is there every evening and says it is duty" },
+       { "to": "dommoc.hunberht", "tie": "rival", "note": "the pilot will not tell him which creek a boat can enter after dark" },
+       { "to": "cast.gervold", "tie": "rival", "note": "has never met him, but every Frankish toll is Gervold's and so every quarrel is too" },
+       { "to": "gipeswic.eadstan", "tie": "rival", "note": "the old reeve at Gipeswic reads the king's word aloud and then looks at the river; Wigferth was told to watch a bishop, and wonders who watches the reeve (?)" }
+      ],
+      "lines": {
+       "greet": "Stand there. Whose ship is that, whose man are you, and from which shore? I ask three times. It is the king's way.",
+       "greet_again": "The Frisian. I have your answers by heart. Give me a new one: what is wine fetching across the water?",
+       "rumour": [
+        "King Offa asked the Frank for a daughter and the Frank shut his ports. So I watch a beach. That is statecraft.",
+        "The bishop prays for the souls of all Christian kings. He says it slowly. I know which one he means.",
+        "They have a game here with pebbles on a board. The ale-wife beats me at it. I let her."
+       ],
+       "saying": "A king's order is like a net. It is made for the large fish. I was not told what to do about the small ones.",
+       "farewell": "Go, then. If any man asks, I searched you. You may tell him I was thorough."
+      },
+      "source": "Invented. No reeve or king's man of Dommoc is recorded; whether the ban on Frankish ships reached this coast is not known (?) (spine.json, black_stones). Name: Wig- + -ferth." },
+    { "id": "dommoc.hunberht", "name": "Hunberht", "historical": false, "role": "pilot", "people": "english", "faith": "christian",
+      "born": 755, "died": 818, "from": 793, "to": 818,
+      "trait": "The haven's pilot and best fisherman: unhurried, weather-wise, remembers every hull and every man who paid him short.",
+      "want": "His sons in boats of their own, and the bank off the haven mouth to stay where he left it.",
+      "fear": "The north-easter that comes with a spring tide; and a sail he does not know, since the news from the north.",
+      "voice": "Says little, looking at the sky. Names a boat before her master. Gives the bad news about the weather as a kindness.",
+      "looks": "About forty, broad and bow-legged, a brown weathered face, grey in a short beard, a tarred hood, a sealskin apron, a sounding pole taller than he is.",
+      "knows": ["the haven mouth, the creeks and the banks offshore at every state of the tide", "tomorrow's weather, nearly always", "which boats are in, whose they are and what they brought", "who on this coast buys rope and who will have a boat to sell"],
+      "ties": [
+       { "to": "dommoc.wulfgyth", "tie": "kin", "note": "his wife's sister; he rigs his boats with her rope and tells strangers there is none better" },
+       { "to": "dommoc.aelfhun", "tie": "friend", "note": "rows the old bishop to Blythburgh and is prayed for by name" },
+       { "to": "dommoc.wigferth", "tie": "rival", "note": "answers the Mercian's questions truthfully and uselessly" },
+       { "to": "dommoc.tidswith", "tie": "friend", "note": "has had the same seat by her door for twenty years" },
+       { "to": "gipeswic.wigmund", "tie": "kin", "note": "the Orwell pilot is his cousin through their mothers: they hand ships on to each other along the coast and compare lies about the banks (?)" },
+       { "to": "cast.thiadbod", "tie": "owes", "note": "the big Frisian once paid him double; he has not worked out what for, and it troubles him" },
+       { "to": "dommoc.fisherman", "tie": "kin", "note": "Hunwine, his son's son's son, who keeps the haven when there is no bishop left to row" },
+       { "to": "dommoc.aethelwald", "tie": "serves", "note": "not he but his grandsons, who keep the haven in the last bishop's day and row the church's chest inland for him (?)" }
+      ],
+      "lines": {
+       "greet": "A Dorestad boat, clinker, four oars. I had you from the cliff. Come in on my pole; the bank has shifted since Easter.",
+       "greet_again": "You. Same boat, new patch on the sail. Lay her where you lay last time. I have kept the place.",
+       "rumour": [
+        "A Gipeswic master ordered rope from my wife's sister at Lammas and has not come for it. Ask her. Do not ask her loudly.",
+        "The cliff lost a cart's length this winter. My father's father ploughed where you are floating.",
+        "Wind is going north-east by morning. You may not believe me today. You will tomorrow."
+       ],
+       "saying": "The sea is a lord that takes his rent in land. He has never once been late for it.",
+       "farewell": "Go out on the last of the ebb and keep the church over the thorn tree. After that you are God's business."
+      },
+      "source": "Invented; fishermen and boats are likely here but not proven for 793 (dossier, section 4). The lost land is Domesday Book's ('The sea carried away the other'), said early. Name: Hun- + -berht." },
+    { "id": "dommoc.wulfgyth", "name": "Wulfgyth", "historical": false, "role": "craftsman", "people": "english", "faith": "christian",
+      "born": 758, "died": 822, "from": 793, "to": 822,
+      "trait": "The rope-maker by the pond, a widow with a walk of her own and four women working for her: blunt, proud of her lay, and hard about a broken bargain.",
+      "want": "To be paid for what she has made, and her rope asked for by name in Gipeswic.",
+      "fear": "A wet autumn that rots the hemp past use; and a shipmaster who orders and does not come.",
+      "voice": "Loud over the crank. Talks with her hands, which are never empty. Prices by the fathom and will not round down.",
+      "looks": "Mid thirties, strong arms, hands grey and cracked from the pond, a brown gown kilted to the knee, a linen head-cloth, a hank of yarn always over one shoulder.",
+      "knows": ["rope, cord and net twine: what they cost here and what a good lay looks like", "which shipmasters pay and which promise", "the hemp harvest, a month before anyone else", "everything Hunberht knows, a day later and with the names in"],
+      "ties": [
+       { "to": "dommoc.hunberht", "tie": "kin", "note": "her dead sister's husband; she feeds his sons when he is at sea" },
+       { "to": "dommoc.tidfrith", "tie": "friend", "note": "the bishop pays on the day; she holds him up as a pattern to every skipper" },
+       { "to": "dommoc.tidswith", "tie": "rival", "note": "the ale-wife says the pond can be smelt in her ale; Wulfgyth says it improves it" },
+       { "to": "gipeswic.tilbeorht", "tie": "rival", "note": "the potter trades his pots for her cord and says he gets the better of it; the shipmaster who owes her is his neighbour (?)" },
+       { "to": "cast.thiadburg", "tie": "friend", "note": "the Dorestad widow bought her cord one year and sent word that it held; she has not forgotten it" }
+      ],
+      "lines": {
+       "greet": "Mind the pond. If you have come to say it stinks, I know. If you have come for rope, feel that and tell me I am wrong.",
+       "greet_again": "The Frisian with the small boat. Did my rope hold? Then say so in Gipeswic, where they pretend theirs is as good.",
+       "rumour": [
+        "Sixty fathoms of cable lying in my shed since Lammas. A Gipeswic man's word is worth less than his rope, and I made his rope.",
+        "Hemp hangs the thief and holds the ship. One field, two trades.",
+        "The Mercian asked what we burn that smells so. I said the stalks. He stood in the smoke hoping for a vision and got a cough."
+       ],
+       "saying": "Three strands hold where one breaks. That is in the priest's book too, he tells me, so it must be true.",
+       "farewell": "Go on, then. Keep it coiled dry and it will outlast your boat. Possibly you."
+      },
+      "source": "Invented; the hemp pond and its long use are from Touching the Tide 2015, pp. 24-28, whose authors note the hemp was 'the non-toxic variety'. Her saying is after Ecclesiastes 4.12. Name: Wulf- + -gyth." },
+    { "id": "dommoc.tidswith", "name": "Tidswith", "historical": false, "role": "alewife", "people": "english", "faith": "christian",
+      "born": 760, "died": 815, "from": 793, "to": 815,
+      "trait": "Keeps the ale-house at the top of the cliff path: sharp, fair, remembers what every man drinks and what he said when he had drunk it.",
+      "want": "Malt at a decent price, a quiet house, and the Mercian to make up his mind.",
+      "fear": "A fight in her house when the king's man is in it; and a dear year for barley.",
+      "voice": "Quick and low. Answers a question with the price of the answer. Laughs once, shortly.",
+      "looks": "Early thirties, small and quick, dark hair under a yellow head-cloth, a striped apron, a bunch of wooden tallies on a thong at her waist, a jug in her hand.",
+      "knows": ["who is in the town, who has silver and who is hiring", "what was said in her house last night, for a price or for a friend", "the price of malt and barley from here to Gipeswic", "how to win at the pebble game, and how to lose at it when it pays"],
+      "ties": [
+       { "to": "dommoc.wigferth", "tie": "loves", "note": "has not said so, and would deny it in front of the fishermen" },
+       { "to": "dommoc.lull", "tie": "friend", "note": "lets the abbot's score run because he sends her the boys' fathers" },
+       { "to": "dommoc.wulfgyth", "tie": "rival", "note": "an old quarrel about the smell of the pond that both of them enjoy" },
+       { "to": "dommoc.hunberht", "tie": "friend", "note": "he brings her the first fish of the season and she brings him the first cup" },
+       { "to": "gipeswic.eadwynn", "tie": "kin", "note": "a cousin on her mother's side who keeps the ale-house by the bank there and sends news with the pot sellers (?)" }
+      ],
+      "lines": {
+       "greet": "Ale is a farthing's worth a cup or four for a cut penny. News costs more. Sit where you can see the door.",
+       "greet_again": "You drink slow and you pay. I kept your cup. The corner seat is the pilot's; any other.",
+       "rumour": [
+        "The Mercian comes every evening to watch the door for enemies of the king. He has been watching my jug.",
+        "Malt is dear and getting dearer. If you carry barley, come to me before you go down to the strand.",
+        "A man in from the north sat there and did not speak for two cups. Then he said the heathens took the boys as well."
+       ],
+       "saying": "The cup remembers who paid for it. Better than the drinker does.",
+       "farewell": "Mind the path down. It is shorter than it was last year, and steeper after my ale."
+      },
+      "source": "Invented. 'A farthing's worth' means a quarter of a cut penny; round farthings are much later. Name: Tid- + -swith." },
+    { "id": "dommoc.aethelwald", "name": "Æthelwald", "historical": true, "role": "bishop", "people": "english", "faith": "christian",
+      "born": 805, "died": 0, "from": 850, "to": 870,
+      "trait": "The last bishop of Dommoc that any list names: old, orderly, and quite clear about what is coming.",
+      "want": "The books, the plate and the seal of his church put where the army will not find them.",
+      "fear": "Not the army: that nobody will be left who knows there was a bishop here.",
+      "voice": "Dry and exact, like a man making an inventory. Does not raise his voice. Thanks people by name.",
+      "looks": "Past sixty, spare, white tonsure, a faded dark vestment, a small bronze seal like a cone on a cord at his belt, set with tiny red stones that catch the light.",
+      "knows": ["where the army lay last winter and whose horses it took", "what the church still has in its chest and what has already gone inland", "the road to Hoxne and the people on it who can be trusted", "the names of all the bishops of Dommoc since Felix, in order"],
+      "ties": [
+       { "to": "fordwic.scribe", "tie": "owes", "note": "swore his obedience to Archbishop Ceolnoth at Canterbury, in writing; the scribes there keep the leaf" },
+       { "to": "dommoc.hunberht", "tie": "friend", "note": "knows the pilot's grandsons, who keep the haven now, and trusts their boat more than the road" },
+       { "to": "dommoc.fisherman", "tie": "friend", "note": "the old pilot's great-grandson, a boy at the oar when the bishop's bundle goes up the river" }
+      ],
+      "lines": {
+       "greet": "A merchant, in this year. Either you are brave or nobody has told you. Come in; I have an errand that needs a man nobody is watching.",
+       "greet_again": "You are back. Then the road to the river is still open, or you came by sea and do not know. Tell me which.",
+       "rumour": [
+        "They wintered among us and we gave them horses. A man who has your horses will come back for your saddle.",
+        "King Edmund is young and will fight. I have told him what I think. He was courteous about it.",
+        "I am the fourteenth or fifteenth since Felix. The list has a gap, and I could not mend it. Soon it will not matter."
+       ],
+       "saying": "Write the name down. What is written can be lost, but what is not written is lost already.",
+       "farewell": "God keep your keel. If you come again and find no bishop, give the wax to whoever is saying mass."
+      },
+      "source": "Real: bishop from 845x870, the last known; his oath to Archbishop Ceolnoth and his seal, SIG EDILVVALDI EP, survive (Haddan and Stubbs III, pp. 659-660; Victoria History of Suffolk I, the seal). The game's years for him, his age and his words are invented (?); the number of bishops since Felix is uncertain." },
+    {
+     "id": "dommoc.fisherman", "name": "Hunwine", "historical": false, "role": "fisherman", "people": "english", "faith": "christian",
+     "born": 852, "died": 915, "from": 880, "to": 915,
+     "trait": "The pilot of the haven in the Danish years, old Hunberht's line: a fisherman who lost his fathers' plough-strips at the sharing of the land and kept their sea marks.",
+     "want": "The strips on the cliff top back, or their price; failing that, to see the Dane who has them lose at something.",
+     "fear": "That his sons will take Danish names to get on; and the cliff, which is taking the strips anyway.",
+     "voice": "Slow, level, looks at the sky as his fathers did. Says 'ours' of land he has not ploughed for twenty years.",
+     "looks": "About thirty in 880, broad and bow-legged, a weathered face, a tarred hood, a sealskin apron, a sounding pole with his great-grandfather's notches on it.",
+     "knows": [
+      "the haven mouth and the banks offshore, as his fathers left them and as the sea has moved them",
+      "which farms on this coast changed hands at the sharing, and to whom",
+      "that the last bishop's things went up the river and into the pond, and that nobody has asked for them",
+      "what a Dane pays for rope and for a boat, in weighed silver"
+     ],
+     "ties": [
+      { "to": "dommoc.hunberht", "tie": "kin", "note": "his father's father's father: he has the pole and the seat by the ale-house door" },
+      { "to": "gipeswic.toki", "tie": "rival", "note": "the Dane at Gipeswic who weighs silver honestly and sits on the strips that were this family's; each knows the other knows (?)" },
+      { "to": "dommoc.aethelwald", "tie": "serves", "note": "as a boy he pulled an oar in the boat that took the bishop's chest up the river, and has not said where it went" },
+      { "to": "dommoc.herringman", "tie": "kin", "note": "Hunstan, his grandson's son, in whose day the family owns four herring boats and no land at all" }
+     ],
+     "lines": {
+      "greet": "A Frisian boat, four oars. Come in on my pole. The bank is where my grandfather left it; the land behind is not.",
+      "greet_again": "You again. Lay her where you lay before. I keep the place, as we kept it for your people in the bishops' time.",
+      "rumour": [
+       "A Dane has our two strips on the cliff top. He was given them, he says. The sea was given them too, and is taking its share first.",
+       "There was a bishop here when I was a boy. I rowed for him once. Ask the priest his name and see if he knows it.",
+       "The Danes pay for rope in cut silver and do not haggle. Then they ask what lies north of here. I have never yet remembered."
+      ],
+      "saying": "The sea takes land and gives herring. My fathers had both. I have the herring.",
+      "farewell": "Out on the last of the ebb. Keep the church over the thorn. The thorn is new; the church is the same one."
+     },
+     "source": "Invented, to stand where places/gipeswic.json ties Toki (880-912) to 'dommoc.fisherman', an English family whose farm he was given. Guthrum's army 'settled, and divided the land' in 880 (Anglo-Saxon Chronicle); nothing is recorded of Dommoc in those years (dossier 8). The family's line from Hunberht is this file's own. Name: Hun- + -wine, alliterating with his forefather's."
+    },
+    {
+     "id": "dommoc.herringman", "name": "Hunstan", "historical": false, "role": "fisherman", "people": "english", "faith": "christian",
+     "born": 955, "died": 1022, "from": 985, "to": 1022,
+     "trait": "A herring-master of the town that has forgotten it had bishops: four boats, a salting shed, and a sister married to a moneyer at Gipeswic.",
+     "want": "Salt before Lammas, barrels before Michaelmas, and his sister's children out of any town that has a mint in it when the ships come.",
+     "fear": "A fleet on the coast in the herring weeks, when every boat he has is at sea and every man with her.",
+     "voice": "Loud over the gulls, short of time from Lammas to Martinmas and slow as a tide the rest of the year.",
+     "looks": "About thirty-five in 991, thick-set, red hands scarred white by the salt, a hooded cloak stiff with scales, a horn at his belt for calling the boats in.",
+     "knows": [
+      "when the herring come down the coast, to the week, and what a barrel fetches inland",
+      "who has salt to sell and who only says so",
+      "what was done at Gipeswic in the year of the ninety-three ships, from his sister",
+      "that a thief taken here is judged here and sent up the river to be punished"
+     ],
+     "ties": [
+      { "to": "gipeswic.leofsige", "tie": "kin", "note": "the Gipeswic moneyer is his sister's husband: when the ships come, the children and the dies come to him" },
+      { "to": "dommoc.fisherman", "tie": "kin", "note": "Hunwine was his father's grandfather; he has the pole, and uses it to prop the shed door" },
+      { "to": "cast.thorkell", "tie": "feud", "note": "the tall Dane's army burned his sister's house in 1010; after 1017 the same man is his earl, and takes a share of the herring" }
+     ],
+     "lines": {
+      "greet": "If you have salt, talk. If you have not, stand out of the way of the women, and I will talk at Martinmas.",
+      "greet_again": "The Frisian who came with salt. Good. Your barrels are headed up and marked. Count them; I did.",
+      "rumour": [
+       "My sister's man strikes pennies at Gipeswic. They pay the Danes with them. I catch herring, the Danes eat that too. One family, feeding one army.",
+       "The old people say the shore was further out when they were children. They said it when I was a child. Somebody is going to be right.",
+       "A thief was taken on the strand at Lammas. We judged him here, and walked him up the river for the rest. The town kept his boat."
+      ],
+      "saying": "A herring does not ask who is king. Be a little like the herring.",
+      "farewell": "Go before the boats come in or you will not get off the strand till dark. God keep you from sails you cannot name."
+     },
+     "source": "Invented, to stand where places/gipeswic.json ties the moneyer Leofsige (991-1018) to 'dommoc.fisherman', his wife's people who took his children in. The herring town, its two hundred burgesses and the thief punished at Blythburgh: Domesday Book for 1066 and 1086, read back a generation or two (?); Ipswich plundered in 991 and the land burned from there in 1010, Thorkell earl from 1017: Anglo-Saxon Chronicle. Name: Hun- + -stan, alliterating with his forefathers'."
+    }
+   ],
+   "stories": [
+    { "id": "dommoc.kings_penny", "title": "The dead king's penny", "thread": "black_stones",
+      "summary": "In 794 Offa has the East Angles' king beheaded, and a Mercian king's man comes to watch the bishop's harbour and turn away ships from the Frankish shore (?). The bishop wants two things he may not ask for aloud: wine for the altar, and one penny with the dead king's name on it to lay there.",
+      "picture": "A small silver penny in an old man's open palm, a she-wolf and two infants on it, held under a church lamp; behind him in the doorway the outline of a man with a spear.",
+      "beats": [
+       { "at": "dommoc.strand", "when": "year >= 794 and year < 797", "text": "Wigferth asks whose ship, three times. A Frisian is the Frankish king's man, he says, and the order is the order. He may still be talked to: with the wic-reeve's token, with a game, or with a cup of what is in the hold.", "card": "harbour.three_questions.dommoc" },
+       { "at": "dommoc.church", "when": "year >= 794 and year < 797", "text": "Bishop Ælfhun walks you out among the graves before he speaks. The Mass wine is nearly gone. And Lul the moneyer at Gipeswic struck pennies for the dead king: he would like one, to keep by the altar on the twentieth of May.", "card": "harbour.wine_for_the_altar.dommoc" },
+       { "at": "gipeswic.mint", "when": "year >= 794 and year < 797", "text": "Lul strikes for Offa now and does not like to be asked. There were not many of the old king's pennies, he says, and one die had the wolf and the twins on it, after the Romans. He shows two in a rag and says they are the last; he will part with one, to the right buyer. (To a man he trusts he has a purse of twelve to send over the sea: the story gipeswic.wolf_pennies.)", "card": "harbour.wolf_pennies.gipeswic" },
+       { "at": "lundenwic.strand_hard", "when": "year >= 794 and year < 797 and flag.bs_ban_heard", "text": "Wighelm the wic-reeve, having had his gift and his story, gives a notched tally that says this Frisian has been looked at. It is honoured by his man at Dommoc.", "card": "" },
+       { "at": "dommoc.alehouse", "when": "year >= 794 and year < 797", "text": "Tidswith says the Mercian wants the same penny: a thing to show at Offa's hall as proof of who is still prayed for here. He would pay well. She says this without looking up from the cask.", "card": "harbour.tidswiths_board.dommoc" },
+       { "at": "dofras.beach", "when": "year >= 794 and year < 798", "text": "A priest of the East Angles waits on the shingle at Dofras for a ship toward Rome. He was a boy on the bench at Dommoc. Shown the dead king's penny he weeps, and swears to lay one at Saint Peter's.", "card": "harbour.priest_for_rome.dofras" },
+       { "at": "dommoc.church", "when": "year >= 797", "text": "After Offa's death the ports open (flag bs_peace elsewhere tells it). On the dead king's day people come up the cliff path openly. Whoever has the penny, the story of how it came here is told at the door.", "card": "" }
+      ],
+      "links": ["cast.wighelm", "cast.gervold", "dommoc.aelfhun", "dommoc.wigferth", "dommoc.tidswith", "gipeswic.lul", "gipeswic.eadstan", "gipeswic", "lundenwic", "dofras"],
+      "endings": [
+       { "id": "on_the_altar", "how": "You brought the penny and the wine to the bishop and told the Mercian nothing.", "text": "The penny lies under the altar cloth. The bishop names the merchant's house at mass with the church's friends. When Wigferth is called home he says, at the ale-house, that he always knew, and that he was thorough.", "reward": "Sets dommoc_penny_altar. The bishop a fast friend; the unlock dommoc.bishops_table; wine sold to the church at a third over the strand's price while the ban lasts; a deed the East Angles remember." },
+       { "id": "to_the_mercian", "how": "You sold the penny to Wigferth.", "text": "He pays in good new pennies and looks ashamed of it. The report goes to Offa's hall. Nothing is done to the old bishop, who dies at Sudbury soon after, but nobody on the cliff path asks you in.", "reward": "Sets dommoc_penny_sold. 60 pennies and Wigferth's word at Lundenwic (the wic-reeve easy for a year); the bishop, the pilot and the rope-maker cool until the next bishop." },
+       { "id": "kept_it", "how": "You kept the penny for yourself.", "text": "It goes in the chest with the other strange coins. A moneyer at Dorestad turns it over many times and offers its weight and half again. It is the only one he has ever seen, and he will be right for eleven hundred years.", "reward": "Sets dommoc_penny_kept. A coin for the chest that Sigimar will puzzle over (a line from him, and standing with the mint); nothing gained or lost at Dommoc but the bishop's question, asked again each visit." }
+      ],
+      "reward": "A place at a bishop's table and a name said at mass, or a Mercian's silver, or the rarest penny in England in your own chest." },
+    { "id": "dommoc.trumpet", "title": "The trumpet of God", "thread": "book_road",
+      "summary": "The new bishop Tidfrith must send his written oath to the archbishop, has a letter from Alcuin he cannot live up to without books, and learns that Bede wrote the story of his own see in a book his church does not own. He wants it copied at Bede's house and carried home dry.",
+      "picture": "A tall bishop holding an open letter to the light of a shutter, a seasick monk with a satchel slumped on the bench beside him, an empty iron-bound book chest standing open between them.",
+      "beats": [
+       { "at": "dommoc.church", "when": "year >= 798 and year < 800", "text": "Bishop Ælfhun comes home from Sudbury on a cart and is buried by the altar. Tidfrith is chosen. His oath is written: the Trinity, the judgement by fire, obedience to Canterbury all his days, signed with his hand and the cross. It must reach the archbishop.", "card": "" },
+       { "at": "fordwic.christ_church", "when": "year >= 798 and year < 801 and flag.dommoc_oath_taken", "text": "The archbishop is newly back in Kent after the rising. His clerks take the leaf, read it twice and put it with the others. One of them asks, not unkindly, where Dommoc is.", "card": "harbour.leaves_for_canterbury.fordwic" },
+       { "at": "dommoc.bishops_house", "when": "year >= 798 and year < 805", "text": "Sigewine has come from Tours with a letter for the two East Anglian bishops: preach to everyone; your mouth should be the trumpet of God. Lull is delighted. Tidfrith reads it three times and asks what books a see ought to have.", "card": "harbour.bishops_oath.dommoc" },
+       { "at": "gipeswic.st_peters", "when": "year >= 798 and year < 817", "text": "The mass-priest by the ford at Gipeswic has a quire of Bede that Alcuin's letter-carrier left with him unfinished, with a promise. It is the place where Felix comes to the East Angles. He will lend it north to be copied whole, if it comes back.", "card": "harbour.priest_by_the_ford.gipeswic" },
+       { "at": "gyrwe.scriptorium", "when": "year >= 798 and year < 817", "text": "Bede's house will copy the chapters on the East Angles, or the whole history for a herd's worth of calfskin and a year. The scribe finds the place with his finger: Felix, the city Dommoc, seventeen years.", "card": "" },
+       { "at": "lundenwic.st_pauls", "when": "year >= 798 and year < 813", "text": "At Saint Paul's the priest Eanwulf asks whether the East Angles' new bishop is the one who wants Bede. He has no Bede either, and would pay to have the same copy made twice.", "card": "harbour.priest_of_saint_pauls.lundenwic" },
+       { "at": "dommoc.bishops_house", "when": "year >= 799 and year < 817 and flag.bk_carried", "text": "The book is opened on the bench and the boys crowd round. Lull reads the chapter aloud and stops at the word for happy. Tidfrith says: so we were a city.", "card": "harbour.bishops_oath.dommoc" }
+      ],
+      "links": ["cast.aethelheard", "cast.alcuin", "cast.sigewine", "dommoc.tidfrith", "dommoc.lull", "dommoc.aelfhun", "gipeswic.hereberht", "lundenwic.eanwulf", "gyrwe.scribe", "fordwic.scribe", "gipeswic"],
+      "endings": [
+       { "id": "the_whole_book", "how": "You carried the oath to the archbishop and brought the whole of Bede's history from Gyrwe.", "text": "It is the first book in the chest that is not for the altar. The boys learn to read out of it. Tidfrith writes to Tours that Alcuin's name is remembered in his church, and now it is true.", "reward": "Sets bk_carried and dommoc_bede_home. 300 pennies and a cake of wax a year from the bishop for life; the unlock dommoc.boys_bench; standing with the English church; Tidfrith a fast friend." },
+       { "id": "the_chapters", "how": "You brought only the leaves on the East Angles, which was all the silver would buy.", "text": "Six leaves in a wrapper. Lull says a see can begin with less; Felix began with none. They are sewn into the front of the psalter.", "reward": "Sets bk_carried. 90 pennies; the bishop friendly; the boys' bench open to the merchant's own boy or crewman for a fee." },
+       { "id": "sold_south", "how": "You had the book copied and sold it to a richer house for more.", "text": "A Frankish abbey pays in gold for a clean copy of Bede. At Dommoc the bishop hears of it by the next ship, as bishops do. He says nothing, and gives his next letter to another boat.", "reward": "About 420 pennies; sets bk_knows_worth; Tidfrith and Lull cool; no letters to carry from this see while he lives." },
+       { "id": "lost_at_sea", "how": "The book was lost, wetted or thrown over in a gale.", "text": "You come back with the story and no book. Tidfrith asks whether the men were saved, then whether the leaf with Felix was among what was lost. Then he asks if you would go again.", "reward": "Sets bk_lost. No silver; the bishop's regard kept if the truth was told; the errand may be taken once more." }
+      ],
+      "reward": "A bishop who owes you his see's own beginning, and a bench where your people can learn letters." },
+    { "id": "dommoc.boys_bench_riddles", "title": "Three from the bench", "thread": "riddle_road",
+      "summary": "Abbot Lull sets the boys Aldhelm's riddles and sets a visiting merchant the same, one at a time. Each answer lies in plain sight somewhere on this coast: a thing to write on, a thing in the cliff, a thing that stood by the Orwell mouth.",
+      "picture": "A round abbot pointing a hazel switch at a row of boys with wax tablets, one boy with his hand up, a merchant in sea clothes sitting at the end of the bench as if he were the largest pupil.",
+      "beats": [
+       { "at": "dommoc.bishops_house", "when": "year < 807", "text": "Lull gives the first (riddles_793.json riddle_aldhelm_32_pugillares): honey-bees gave me my inside, the wood my outside, and iron ploughs me. He will not hear the answer until you have seen one.", "card": "harbour.boys_bench.dommoc" },
+       { "at": "dommoc.blythburgh", "when": "year < 807", "text": "The priest at King Anna's grave keeps his reckonings on a tablet of whalebone with a wax face, and has cut a row of runes in the border where a Latin scribe would rule lines. He lets it be handled.", "card": "harbour.kings_grave.dommoc" },
+       { "at": "dommoc.cliff_top", "when": "year < 807", "text": "The second (riddle_exeter_77_oyster) is footless, fixed, and eaten raw. The band of shells in the cliff face, among red potsherds no potter at Gipeswic made, says who ate them here first.", "card": "harbour.hunters_badger.dommoc" },
+       { "at": "gipeswic.estuary", "when": "year < 807", "text": "The third (riddle_aldhelm_92_farus) stands on a height and shows ships the way with fire. Wigmund the Orwell pilot points north of the river mouth to the old stone fort on its cliff, and says that is where Felix really sat. He has never seen a fire on it.", "card": "harbour.fowlers_swan.gipeswic" },
+       { "at": "dofras.height", "when": "year < 807", "text": "At Dofras the answer to the third stands on a cliff with jackdaws in it: a tower of eight sides that once showed ships their road. The old steersman at its foot has a riddle of his own on it, in English, and no Latin at all.", "card": "harbour.dead_light.dofras" },
+       { "at": "hamwic.shore_church", "when": "year < 807", "text": "The priest at Hamwic was schooled where Aldhelm's verses are still said, and has the tablet and the lighthouse by heart. He says the abbot at Dommoc has one word of the first wrong. The abbot says the same of him.", "card": "harbour.cask_and_cup.hamwic" },
+       { "at": "dommoc.bishops_house", "when": "year < 807", "text": "Lull hears all three. On the third he asks what the pilot said about Felix, and is quiet for the space of a prayer, which for him is long.", "card": "" }
+      ],
+      "links": ["dommoc.lull", "cast.alcuin", "cast.sigewine", "gipeswic.wigmund", "dofras.pilot", "hamwic.ceolhelm", "dofras", "hamwic"],
+      "endings": [
+       { "id": "all_three", "how": "You answered all three and told Lull about the fort.", "text": "He writes the fort's claim on a tablet, looks at it, and smooths the wax flat again with his thumb. Then he gives you a fourth riddle of his own making, which is not very good, and a letter of greeting to any schoolmaster on the monks' road.", "reward": "The three riddles in the chest (give_riddle riddle_aldhelm_32_pugillares, riddle_exeter_77_oyster, riddle_aldhelm_92_farus); sets dommoc_lull_letter, which opens the schoolmasters at Traiectum and Fordwic a step sooner; the work dommoc.work.beacon may be paid for." },
+       { "id": "kept_quiet", "how": "You answered all three and kept the pilot's words to yourself.", "text": "Lull is pleased and suspects nothing. The bishop's see remains where the bishop believes it to be.", "reward": "The three riddles in the chest; Lull friendly; no letter." },
+       { "id": "gave_up", "how": "You asked a boy on the bench for the answers.", "text": "The boy sells them for a honey cake and tells Lull within the day. Lull sets you the same three again in front of the whole bench, slowly, as to a child.", "reward": "The riddles, unsolved, in the chest; a joke at the ale-house that follows the merchant for a year; nothing lost with Lull, who enjoyed it." }
+      ],
+      "reward": "Three riddles, a schoolmaster's letter that opens other schools, and the right to raise a fire on the cliff." },
+    { "id": "dommoc.last_seal", "title": "The bishop's seal", "thread": "price_of_england",
+      "summary": "In 865 the great army winters among the East Angles and takes their horses; in 869 it comes back. Bishop Æthelwald, who knows there will be no bishop after him, asks a merchant nobody is watching to carry the church's last things inland: the books, a little plate, and his seal.",
+      "picture": "An old bishop pressing a small bronze cone set with red stones into a merchant's hand at a church door at dusk; behind them, far down the coast, a line of smoke.",
+      "beats": [
+       { "at": "gipeswic.bank", "when": "year >= 865 and year < 870", "text": "The army's winter camp wants horses and gets them. A Dane on the bank buys rope by the cart and asks, in passing, what there is to the north along the coast. Nobody answers him and he does not ask twice.", "card": "" },
+       { "at": "dommoc.church", "when": "year >= 866 and year < 870", "text": "Æthelwald has the chest open and a list. The books to Hoxne, where the church has land and friends. The plate to be sunk in the pond, where no man will put his arm. The seal he turns over in his fingers and keeps a while longer.", "card": "harbour.last_seal.dommoc" },
+       { "at": "dommoc.pond", "when": "year >= 866 and year < 870", "text": "The rope-makers take the bundle without a word and weight it under the hemp with the stones. The head woman says her mother's mother made cord for this church's lamps, and that the pond keeps what it is given.", "card": "" },
+       { "at": "dommoc.church", "when": "year >= 869 and year < 871", "text": "After Martinmas the news comes that the king is dead. The bishop gives you the seal: bronze, two rows of little arches, a beast's head in each with red stones for eyes. Take it up the river road to the island by Hoxne, he says, and give it to the priest there, or to the ground.", "card": "harbour.last_seal.dommoc" },
+       { "at": "dommoc.st_felix", "when": "year >= 871", "text": "The church stands. A priest says mass in it. Asked about the bishop, he says there was one, and that he does not know his name.", "card": "" },
+       { "at": "fordwic.christ_church", "when": "year >= 866 and year < 889", "text": "At Christ Church the leaf on which the last bishop of Dommoc swore his obedience lies with the others. A clerk asks whether anyone is still saying Mass on that cliff, and writes down what he is told.", "card": "" },
+       { "at": "gipeswic.cornhill", "when": "year >= 880 and year < 913", "text": "If the seal was sold to the scales it is seen again here: on a cord round a child's neck, in the hall of a Dane who took land at the sharing. Toki knows what it is, and will not say whose child.", "card": "harbour.pan_not_the_face.gipeswic" }
+      ],
+      "links": ["dommoc.aethelwald", "cast.thorkell", "cast.cnut", "dommoc.fisherman", "gipeswic.toki", "fordwic.scribe", "gipeswic", "fordwic"],
+      "endings": [
+       { "id": "to_the_ground", "how": "You carried the seal inland and, finding no priest, buried it by the island near Hoxne.", "text": "It lies in a field for nine hundred and fifty years. A labourer digs it up; a child is given it for a toy and throws it on the fire; the mother pulls it out. One red stone is left. You know none of this. You know only that you did what he asked.", "reward": "Sets dommoc_seal_buried. A deed the church remembers through every later age; from 950 the priests of Hoxne and Elmham know the house's name (standing with the English church passes to the heir undiminished); the bishop's list, in his hand, for the chest." },
+       { "id": "to_the_scales", "how": "You sold the seal to the army's men as bronze and garnets.", "text": "A Dane weighs it, picks out a stone with his knife point to see if it is glass, and pays in hacked silver. It is not much. The seal is seen years later on a cord round a child's neck in a hall near Gipeswic.", "reward": "Sets dommoc_seal_sold. 40 pennies' weight of cut silver and an easy word with the army's buyers at Gipeswic; shunned by the clergy of this coast for a generation." },
+       { "id": "stayed", "how": "You would not take it, and offered the bishop a passage over the sea instead.", "text": "He thanks you by name and says a bishop does not leave before his church does. He keeps the seal. Neither is written of again.", "reward": "Sets dommoc_seal_refused. Nothing gained; nothing held against the house. The priest of the later church, told the story, says a mass for an unnamed bishop every year on the day you told it." }
+      ],
+      "reward": "The end of a see, kept by the one house that knows where its seal lies." },
+    { "id": "dommoc.sixty_fathoms", "title": "Sixty fathoms", "thread": "",
+      "summary": "A Gipeswic shipmaster ordered sixty fathoms of anchor cable and a full set of rigging from Wulfgyth at Lammas and has not come for them. She has a summer's hemp tied up in another man's rope, and a merchant with an empty boat is the first useful thing she has seen since.",
+      "picture": "A great pale coil of new cable as high as a child in an open shed, a woman with her arms folded standing beside it, a black pond behind and a small boat waiting on the mud.",
+      "beats": [
+       { "at": "dommoc.haven", "when": "year < 823", "text": "Hunberht mentions the rope, and that it is better not to mention it loudly.", "card": "harbour.pole_in_the_haven.dommoc" },
+       { "at": "dommoc.pond", "when": "year < 823", "text": "Wulfgyth shows the coil. Three strands, hard laid, tarred at the ends. She wants her price, eighty pennies, or the man's reason, and would rather have both. She will let it go on a tally to a merchant the pilot vouches for.", "card": "harbour.sixty_fathoms.dommoc" },
+       { "at": "gipeswic.bank", "when": "year < 823", "text": "The shipmaster's ship went on the sand in the river mouth before Michaelmas. He is alive, ashamed and without silver until she is floated, which needs a cable he cannot pay for.", "card": "harbour.ship_on_the_sand.gipeswic" },
+       { "at": "gipeswic.potters", "when": "year < 823", "text": "Tilbeorht knows the stranded master: his neighbour, a careful man until this autumn. He says the rope-maker will be paid, and offers a crate of pots toward it, which he thinks handsome.", "card": "harbour.top_of_the_kiln.gipeswic" },
+       { "at": "dorestad.beach", "when": "year < 823", "text": "On the Rhine a good English cable is worth half as much again as on the cliff. The shipwrights at Dorestad feel the lay, say nothing, and ask how much more there is.", "card": "" },
+       { "at": "dommoc.pond", "when": "year < 823", "text": "You come back with silver, with a tally, or with a story.", "card": "harbour.sixty_fathoms.dommoc" }
+      ],
+      "links": ["dommoc.wulfgyth", "dommoc.hunberht", "gipeswic.wigmund", "gipeswic.eadstan", "cast.thiadburg", "cast.thiadbod", "gipeswic.tilbeorht", "gipeswic"],
+      "endings": [
+       { "id": "floated_her", "how": "You took the cable to Gipeswic on trust and the stranded ship was hauled off with it.", "text": "The shipmaster pays in full at the next moon and adds a crate of pots, which Wulfgyth says are ugly and puts on her shelf. He orders again. She makes him pay first.", "reward": "Sets dommoc_cable_floated. 20 pennies' carriage; the unlock dommoc.makers_price; a friend among Gipeswic's shipmasters; Wulfgyth and Hunberht fast friends." },
+       { "id": "bought_it", "how": "You paid her price and rigged your own boat with it.", "text": "She comes down to the hard herself to see it rove, and re-lays one splice that does not please her.", "reward": "New rigging fitted at the hard at cost (fit_upgrade); 80 pennies spent; Wulfgyth friendly; the boat's gear lasts half as long again between repairs." },
+       { "id": "sold_on_the_rhine", "how": "You bought it at her price and sold it at Dorestad.", "text": "A fair trade and she says so. The Gipeswic man's ship breaks up on the sand in the first winter gale. Wulfgyth hears who had the cable and where it went, and prices by the fathom for you afterwards, as for any stranger.", "reward": "About 40 pennies clear; Dorestad's shipwrights ask for Dommoc rope by name (rope sells there a tenth dearer for the house); no maker's price here." }
+      ],
+      "reward": "The rope-maker's trust and her price, or a quick profit on the Rhine: not both." }
+   ],
+   "works": [
+    { "id": "dommoc.work.hard", "name": "A brushwood hard in the haven", "what": "Faggots of hazel and wattle hurdles pegged down over the mud with oak stakes, above the boat hard, so that a loaded boat can be grounded and worked dry-shod at any state of the tide.",
+      "cost_d": 200, "days": 20, "from": 793, "to": 1066,
+      "needs": "The pilot's goodwill (Hunberht's, or his heirs'), and a visit between hay harvest and Michaelmas, when the mud is firmest.",
+      "gives": "Loading and careening here take half the time, and the house's boat has a berth of her own that the pilot keeps.",
+      "picture": "Men laying woven hurdles over shining mud at low water, a boy driving a stake with a wooden maul, the cliff and church behind.",
+      "source": "The game's (?): the harbour of 793 is unknown. Hazel is in the marsh pollen (Touching the Tide 2015, p. 28); brushwood and hurdle hards are the ordinary landing of the period, as on Gipeswic's waterfront." },
+    { "id": "dommoc.work.rope_shed", "name": "A roofed rope walk", "what": "A long open-sided shed of posts and reed thatch over Wulfgyth's walk, with a second crank, so that rope can be laid in wet weather and a longer cable made in one piece.",
+      "cost_d": 300, "days": 40, "from": 793, "to": 1066,
+      "needs": "The rope-maker's trust: the story Sixty fathoms ended well, or three fair bargains at the pond.",
+      "gives": "Rope and cord here at the maker's price for the house, a tenth more rope on the strand each season, and cable long enough for a larger ship's anchor.",
+      "picture": "A long low thatched roof on posts beside a black pond, a pale rope stretched taut beneath it from end to end, a child at a crank.",
+      "source": "Hemp was retted here from about the 5th century to the 11th (Touching the Tide 2015, pp. 24-28). The shed is invented in the period's manner (?)." },
+    { "id": "dommoc.work.beacon", "name": "A fire basket on the cliff", "what": "An iron basket on an oak post at the cliff's edge by the church, with a store of furze and a boy paid to light it on fog nights and when boats are late in the herring weeks.",
+      "cost_d": 240, "days": 15, "from": 793, "to": 1066,
+      "needs": "The bishop's leave while there is a bishop, afterwards the priest's; and Lull's third riddle answered, or the pilot's word.",
+      "gives": "The haven can be entered at dusk and in haze without a pilot; the fishermen's goodwill; the house's name called over the boats at the blessing of the nets.",
+      "picture": "A burning iron basket on a post at a cliff edge at dusk, sparks blowing inland, small boats pulling for the river mouth below.",
+      "source": "Invented (?). The idea is Aldhelm's riddle of the lighthouse (riddles_793.json riddle_aldhelm_92_farus) and the Roman pharos at Dofras; a coast beacon for shipping is not attested in England this early." },
+    { "id": "dommoc.work.psalter", "name": "A psalter for the boys' bench", "what": "A plain book of the psalms, without gold, bought or copied for the school so that six boys need no longer learn from one worn leaf held up by the master.",
+      "cost_d": 360, "days": 0, "from": 793, "to": 870,
+      "needs": "A book carried here whole and dry, or its price given to the bishop.",
+      "gives": "One of the house, a son or a crewman, may sit the bench over a winter and come away reading (learn latin); the house is prayed for by the boys every day at the first office.",
+      "picture": "Six boys' heads bent over one open book on a bench under a shutter, a master's hand pointing at a line.",
+      "source": "The school of Bede III.18 (if it was here (?)); a book's price from goods_793.json; Alcuin's request that his name be remembered in their churches is the pattern for the prayers." },
+    { "id": "dommoc.work.salt_house", "name": "A salting house on the strand", "what": "A long shed with a hearth, brine tubs and racks, and a stack of the house's own barrels, where herring bought wet off the boats can be gutted, salted and headed up before they spoil.",
+      "cost_d": 480, "days": 30, "from": 950, "to": 1066,
+      "needs": "Leave from the town's lord (by 1066 Edric of Laxfield or the abbot of Ely's reeve), and salt brought in before Lammas.",
+      "gives": "Herring at the boat's price in the season, a third under the strand's, and a full cargo ready in days and not weeks; the house counts as a burgess's.",
+      "picture": "An open shed full of barrels and women at gutting trestles, a merchant counting hoops, the beach beyond crowded with boats.",
+      "source": "Domesday Book's herring rents and burgesses (Victoria History of Suffolk I, pp. 450-451). The shed is invented (?)." }
+   ],
+   "ships": [
+    { "class": "west_small_boat", "how": "bought second-hand", "from": 793, "to": 1066,
+      "note": "A fisherman's open boat off the haven shingle, sold when a man dies or goes into another's boat. From the tenth century there are many more of them, built for the herring.",
+      "picture": "A small tarred open boat on shingle with a net heaped in her and a pair of oars across the thwarts.",
+      "source": "Fishing here is likely but not proven for 793; by 1086 the town's herring renders imply a fleet (Domesday Book). No boat has been found (?)." },
+    { "class": "coaster_minster_ship", "how": "hired", "from": 793, "to": 870,
+      "note": "The bishop's own boat, which carries him and his goods along the coast and up the rivers. She can be hired with her steersman between his journeys by a merchant he trusts, and comes rigged with Dommoc rope.",
+      "picture": "A beamy open sailing boat with a small cross at her stem being loaded with a book chest and casks, a priest watching from the shingle.",
+      "source": "The class is the minster and estate coaster of ship_classes_793.json. That the bishops of Dommoc kept one is a guess from the see's position on the coast (?)." },
+    { "class": "norse_small_boat", "how": "bought second-hand", "from": 880, "to": 1066,
+      "note": "After the army divides the land, slim clinker boats of the Danish kind lie in the haven beside the English ones, and their owners sell them as readily as horses.",
+      "picture": "A slender clinker boat with a high curved stem drawn up among broader fishing boats, a man with a plaited beard sitting on her gunwale.",
+      "source": "Guthrum's army 'settled, and divided the land' in 880 (Anglo-Saxon Chronicle). Danish boats at Dommoc itself are the game's (?)." }
+   ],
+   "sayings": [
+    { "text": "Felix by name, and he freed the whole province from long unhappiness: so his name came true.", "source": "After Bede, Ecclesiastical History II.15, who makes the play on 'felix' himself (our rendering)" },
+    { "text": "This year Offa, King of Mercia, commanded that King Ethelbert should be beheaded.", "source": "Anglo-Saxon Chronicle 792, tr. J. Ingram (1823)" },
+    { "text": "Bishop Alfun died at Sudbury, and was buried at Dunwich. After him Tidfrith was elected to the see.", "source": "Anglo-Saxon Chronicle 799, tr. J. Ingram (1823)" },
+    { "text": "Let your mouth be the trumpet of God. A priest's rank is no worldly game.", "source": "Alcuin to Bishops Tidfrith and Alhheard, 798 x 804 (Haddan and Stubbs III, pp. 551-552; our paraphrase)" },
+    { "text": "Hemp hangs the thief and holds the ship.", "source": "Invented in the period's manner, on the pattern of the Exeter riddles' one thing with two uses" },
+    { "text": "The sea is a lord that takes his rent in land.", "source": "Invented in the period's manner; after Domesday Book's 'The sea carried away the other'" },
+    { "text": "There are three Lulls: a dead bishop, a moneyer, and the one with no silver.", "source": "Invented; Lul of Mainz (died 786), the East Anglian moneyer Lul, and the abbot Lull of 803 are all real" },
+    { "text": "The king went to ask for a daughter and they kept his head as a bride-gift.", "source": "Invented in the period's manner, as bitter understatement; the wooing is from the later Lives of Æthelberht (?), the beheading from the Chronicle" },
+    { "text": "A margin in the psalter at Dommoc: The sea is loud today. The ink will not dry. Thank God it is nearly dark.", "source": "Invented, on the pattern of Irish and English scribes' marginal complaints" },
+    { "text": "A threefold cord is not quickly broken.", "source": "Ecclesiastes 4.12 (Douay-Rheims / Authorised Version wording), as a rope-maker would have it from the priest" },
+    { "text": "Where they were soon horsed.", "source": "Anglo-Saxon Chronicle 866, tr. J. Ingram (1823), of the great army among the East Angles; said here of any guest who leaves with more than he came with" }
+   ],
+   "easter_eggs": [
+    { "text": "The bishop's seal is a little bronze cone with two rows of arches, a beast's head in each with garnet eyes, and the letters SIG EDILVVALDI EP round a star. It will be dug up in a field near Eye, given to a child as a toy and thrown on the fire; the mother will pull it out. One garnet is left. It is in the British Museum.", "where": "dommoc.church", "source": "Victoria History of Suffolk I (1911), the Eye seal; acquired 1822" },
+    { "text": "The bishop's church has one old gospel book that the priests say was Felix's own. Seven hundred years on, the king's men will value such a book at twenty pence: 'garnished with a little silver on the one side, the residue little worth'. Then it is lost.", "where": "dommoc.bishops_house", "source": "Victoria History of Suffolk II, Priory of Eye, pp. 72-76: the Red Book of Eye, valued 1536 (spelling made modern). That the book of 793 is the same one is the game's (?)." },
+    { "text": "In the dark band of rubbish in the cliff, among the oyster shells, a small bunch of bronze keys sticks out of the ash. Nobody knows what they opened. In 1858 somebody will pick them out of the cliff top and nobody will know then either.", "where": "dommoc.cliff_top", "source": "Victoria History of Suffolk I, Romano-British list under Dunwich" },
+    { "text": "Stand in the smoke of the burning hemp stalks as long as you like. The wise men who will one day study the pond's mud write, with some feeling, that it was not that kind of hemp.", "where": "dommoc.pond", "source": "Touching the Tide survey (2015), p. 26: 'This was the non-toxic variety!'" },
+    { "text": "The priest at Blythburgh writes on a tablet of whalebone and has cut runes in its border. It will lie in the ground there and come at last to a glass case in London.", "where": "dommoc.blythburgh", "source": "en.wikipedia Blythburgh Priory: a whalebone writing tablet with runes, British Museum" },
+    { "text": "Ask where Felix lies and you are shown a place by the altar. Ask twice and a priest admits the bones went inland long ago. Later still, monks from one fen abbey will steal them from another and row away from their pursuers in a fog.", "where": "dommoc.church", "source": "William of Malmesbury and the Ramsey tradition, by way of en.wikipedia Felix of Burgundy; the year is not given (?)" },
+    { "text": "A Gipeswic pilot will tell you Felix sat in the old stone fort above the Orwell mouth, not on this cliff at all. Five hundred years on, monks at Rochester write the same thing down. Neither place can prove it: both are under the sea.", "where": "dommoc.alehouse", "source": "en.wikipedia Dommoc; Walton Castle, Suffolk: the Roman fort went over the cliff by 1754" },
+    { "text": "The dead king's penny shows a she-wolf suckling twins, copied from a Roman coin four hundred years old. Four of his pennies are known. One found in a Sussex field will sell for more than this whole town renders in 1066, many thousand times over.", "where": "dommoc.church", "source": "en.wikipedia Æthelberht II of East Anglia: the moneyer Lul's penny; a find of 2014 sold for 78,000 pounds" },
+    { "text": "Hunberht says his father's father ploughed where your boat is floating. In 1086 the king's clerks will write it more shortly: two ploughlands, 'now 1. The sea carried away the other.'", "where": "dommoc.haven", "source": "Domesday Book, Suffolk (Victoria History of Suffolk I, pp. 450-451)" },
+    { "text": "On a still night there are no bells to be heard under the water. There is nothing down there yet but sand. Come back in a thousand years.", "where": "dommoc.cliff_top", "source": "The drowned town and its bells are a tale of the centuries after 1066 (en.wikipedia Dunwich)" },
+    { "text": "In 1066 a thief taken here is judged here and then walked up the river to Blythburgh to be punished, while his goods stay behind with the lord. The town keeps the profit and sends the trouble upstream.", "where": "dommoc.hundred", "source": "Domesday Book, Suffolk, fol. 312" }
+   ],
+   "unlocks": [
+    { "id": "dommoc.pilots_berth", "what": "A kept berth and a free pilot in the haven", "how": "Three visits in which Hunberht was paid in full, or the brushwood hard built.", "gives": "hire_pilot and ask_harbour cost nothing here; the pilot's weather word is given unasked (wait_wind shows tomorrow's wind). His sons and grandsons keep it for the house's heirs at half strength, as feeling does." },
+    { "id": "dommoc.bishops_table", "what": "A place at the bishop's table", "how": "End the story of the dead king's penny at the altar, or bring Bede's book home.", "gives": "Free lodging at the bishop's house (lodge); the bishop's letters to carry, each a small paid errand to Gipeswic, Fordwic or Lundenwic; the church buys wine, oil, incense and wax from the house first, at a tenth over the strand's price. Ends with the see, about 870." },
+    { "id": "dommoc.boys_bench", "what": "A seat on the boys' bench", "how": "Bring the whole of Bede's history from Gyrwe, or pay for the psalter.", "gives": "learn latin for one of the house over a winter spent here; read_text and copy_text at the bishop's house without a fee." },
+    { "id": "dommoc.makers_price", "what": "Rope at the maker's price", "how": "End Sixty fathoms by floating the Gipeswic ship, or build the roofed rope walk.", "gives": "buy_at_source at the pond: rope, hemp and cord about a sixth under the strand's price; fit_upgrade for rigging at the hard at cost. Passes to the rope-maker's heirs while the hemp is pulled." },
+    { "id": "dommoc.landing_leave", "what": "Leave to land while the ports are shut", "how": "Between 794 and 796: show Wighelm's tally from Lundenwic, or beat Wigferth at the board three times and lose the fourth.", "gives": "The Mercian king's man asks his three questions and writes nothing down: goods from the Frankish shore may be sold on the strand during the ban." },
+    { "id": "dommoc.lulls_letter", "what": "A schoolmaster's letter of greeting", "how": "Answer Lull's three riddles and tell him what the Gipeswic pilot said.", "gives": "A leaf for the chest that any master on the monks' road will read: riddle setters in church schools start one step friendlier, and the fire basket on the cliff may be paid for." },
+    { "id": "dommoc.name_in_the_list", "what": "The bishops' list in the last bishop's hand", "how": "Carry Æthelwald's seal inland and put it in the ground as he asked.", "gives": "A text for the chest; standing with the English church that passes to the heir undiminished; from 950 the priest here says a yearly mass for the house." },
+    { "id": "dommoc.burgess", "what": "A burgess's standing in the herring town", "how": "From 950: build the salting house and trade here in three herring seasons.", "gives": "Herring at the boat's price in the season; a voice at the hundred's meeting place (lawsuit and witness count as a townsman's); a plot by the cliff path that is a little smaller each generation." }
+   ],
+   "sources": [
+    "Design/content/dossiers/dommoc.md (4 October 2026): the research this file is built on; its section 8 lists what must not be claimed.",
+    "Bede, Ecclesiastical History of England II.15, III.18, IV.5, tr. A. M. Sellar (1907), with her notes 377 and 573: https://www.gutenberg.org/ebooks/38326",
+    "The Anglo-Saxon Chronicle, tr. J. Ingram (1823), cited by his year, which can be a few years out: https://www.gutenberg.org/ebooks/657",
+    "A. W. Haddan and W. Stubbs, Councils and Ecclesiastical Documents relating to Great Britain and Ireland, III (1871), pp. 511, 547, 551-552, 579, 659-660: https://archive.org/details/councilsecclesia03hadduoft",
+    "Domesday Book, Suffolk, fols 311b-312b and 385b, as translated in The Victoria History of the County of Suffolk, I (1911), pp. 450-451, with the Romano-British list, the Eye seal and the herring rents: https://archive.org/details/victoriahis01page ; checked by the dossier against https://opendomesday.org/place/TM4770/dunwich/",
+    "'Priory of Eye', Victoria History of Suffolk, II, pp. 72-76: https://www.british-history.ac.uk/vch/suff/vol2/pp72-76",
+    "D. A. Sear, R. G. Scaife, C. Langdon, Touching the Tide: Dunwich Land based Archaeological Survey 2014-15 (University of Southampton, 2015): http://www.dunwich.org.uk/resources/documents/Touching_The_Tide_Project_Report_Cliff_and_Core_survey2014.pdf",
+    "The Dunwich project website (D. Sear): http://www.dunwich.org.uk/history/ ; /location/ ; /coastal_change/ ; /latest_news/",
+    "Handbook of British Chronology, 3rd edn (1986), p. 216, not opened: its dates as given at https://en.wikipedia.org/wiki/Bishop_of_Dunwich_(ancient)",
+    "English Wikipedia: Dommoc; Dunwich; Felix of Burgundy; Æthelberht II of East Anglia; Eadwald of East Anglia; Æthelstan of East Anglia; Kingdom of East Anglia; Anna of East Anglia; Blythburgh Priory; Walton Castle, Suffolk; Theodred (bishop of London); Bishop of Elmham",
+    "Design/content/spine.json and spine.md: the threads black_stones, book_road, riddle_road and price_of_england, and the cast (Alcuin, Æthelheard, Sigewine, Wighelm, Gervold, Higbald, Thiadbod, Thiadburg, Thorkell, Cnut).",
+    "Design/content/realms/england_south.json (who holds Dommoc in which years); Design/content/lore/calendar.json (Felix 8 March, Botolph 17 June, Edmund 20 November); Design/content/economy/food.md (the herring rents).",
+    "Assets/Kapman/Game/Data: ports_793.json, goods_793.json, riddles_793.json, chronicle_793.json, ship_classes_793.json, encounters/npc_roles_793.json.",
+    "Not opened, and so not relied on: S. E. Rigold, 'The supposed see of Dunwich', Journal of the British Archaeological Association 24 (1961) and 37 (1974); J. Haslam, 'Dommoc and Dunwich: a reappraisal', Anglo-Saxon Studies in Archaeology and History 5 (1992); D. Whitelock, 'The pre-Viking age church in East Anglia', Anglo-Saxon England 1 (1972)."
+   ]
+  }
+ ]
+}

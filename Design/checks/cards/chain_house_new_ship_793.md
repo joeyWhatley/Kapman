@@ -1,0 +1,10 @@
+chain_house_new_ship_793.json
+
+Cards seen: 6 in the first 250 lines (the sixth cut off in its options; the file's own note says fourteen cards).
+
+- harbour.chain_house_new_ship.s01_wright — asks: order a bigger ship from the Dorestad wright (a pound in earnest, half a pound and your name, or go away to think). Stake: silver (240 or 120), standing (the half needs "known"), time (30 days if you think).
+- harbour.chain_house_new_ship.s02_oak — asks: choose the timber at Colonia (fourteen standing oaks, cheap dry windfalls, lend the crew to the clearing, or the one great oak for a river ship). Stake: silver (280 / 110 / 160), the crew's health and morale, time (25 to 100 days' wait), a flawed hull on the cheap road, the earnest lost on the river road.
+- harbour.chain_house_new_ship.s03_keel — asks: settle the short timber when the raft is in (send for three more oaks, raise the old ship's knees from the north harbour, or build with what came). Stake: silver (60), standing (the old keel needs "known"), the crew's health, time (20 or 30 days of frost), the wright's regard and a flawed hull if you make do.
+- harbour.chain_house_new_ship.s04_iron — asks: get the rivets at Daventre (buy ten kegs, carry the smith's blooms for a week and pay half, or buy nothing). Stake: silver (130 or 65), goods (ten kegs of rivets), the crew's health, time (a week's work, or 20 days if you leave).
+- harbour.chain_house_new_ship.s05_weavers — asks: get a sail at Wijnaldum (order it half down, pay the first half in quernstones and wine, buy cloak-cloth sewn up today, or not yet). Stake: silver (90 or 110), goods (2 quernstones and 1 wine), time (110 days on the looms, or 20 if you leave), a flawed ship on the quick road.
+- harbour.chain_house_new_ship.s06_sail — asks: pay for the woven sail while another skipper bids for it (pay the second half as agreed, or pay and match his offer as a gift; further options not seen). Stake: silver (90 or 135), goods (the sailcloth), standing (a fair-dealing deed, the weaver's regard).

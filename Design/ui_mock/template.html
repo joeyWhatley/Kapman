@@ -1,0 +1,425 @@
+<title>Kapman Table</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Pixelify+Sans:wght@400;600&display=swap">
+<style>
+/* Layout: one game screen (16:9) you can operate, then the same screen explained as five depths. One dark world, the game's own. */
+:root {
+  color-scheme: dark;
+  --night: #0b0810; --ink: #150f1c; --well: #1d1426; --plum: #4a1c4a; --byz: #702963; --mauve: #9a4a8a; --lilac: #c77fb0;
+  --gold: #d9a441; --palegold: #f0d27a; --paper: #f6efe0; --mute: #aaa4ae; --dim: #7a7281;
+  --good: #7f9a4a; --fair: #d9a441; --bad: #c9553a; --seaink: #9ec4cc;
+  --read: "Gentium Book Plus", Georgia, "Times New Roman", serif;
+  --mark: "Pixelify Sans", "Courier New", monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--night); color: var(--paper); font-family: var(--read); font-size: 17px; line-height: 1.5; }
+.wrap { max-width: 1280px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px; display: flex; flex-direction: column; gap: 28px; }
+h1 { font-family: var(--mark); font-weight: 600; font-size: clamp(26px, 4vw, 40px); letter-spacing: .04em; margin: 0; color: var(--palegold); text-wrap: balance; }
+h2 { font-family: var(--mark); font-weight: 600; font-size: 20px; letter-spacing: .06em; text-transform: uppercase; color: var(--lilac); margin: 0 0 10px; }
+p { margin: 0; max-width: 68ch; }
+.lede { color: var(--mute); }
+kbd { font-family: var(--mark); font-size: .85em; border: 1px solid var(--byz); background: var(--ink); padding: 0 .4em; color: var(--palegold); }
+
+/* ---- the screen ---- */
+.scroller { overflow-x: auto; border: 2px solid var(--byz); box-shadow: 0 0 0 2px var(--night), 0 0 0 3px var(--plum); }
+.screen { position: relative; aspect-ratio: 16 / 9; min-width: 960px; container-type: inline-size; overflow: hidden; background: #1b2340; user-select: none; }
+.screen > * { font-size: 1.02cqw; }
+.chart { position: absolute; inset: 0; }
+.chart img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; image-rendering: pixelated; display: block; }
+.chart svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.veil { position: absolute; inset: 0; background: radial-gradient(ellipse 34% 44% at 58% 52%, transparent 60%, rgba(11,8,16,.72) 100%); pointer-events: none; }
+.panel { background: rgba(13, 9, 19, .93); border: .16em solid var(--byz); box-shadow: inset 0 0 0 .1em #2e1233, 0 0 0 .1em var(--night); color: var(--paper); }
+.lab { font-family: var(--mark); letter-spacing: .08em; text-transform: uppercase; font-size: .82em; color: var(--lilac); }
+.num { font-family: var(--mark); color: var(--palegold); font-variant-numeric: tabular-nums; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible { outline: .16em solid var(--palegold); outline-offset: .1em; }
+
+/* depth 1: the frame */
+.day { position: absolute; left: 0; right: 0; top: 0; height: 3.4em; display: flex; align-items: stretch; gap: 0; border-width: 0 0 .16em 0; }
+.day .date { padding: 0 1.1em; display: flex; flex-direction: column; justify-content: center; min-width: 13em; border-right: .1em solid var(--plum); }
+.day .date b { font-family: var(--mark); font-weight: 600; color: var(--palegold); font-size: 1.05em; letter-spacing: .04em; }
+.day .date span { color: var(--mute); font-size: .82em; }
+.stick { position: relative; flex: 1; }
+.stick .season { position: absolute; top: 0; bottom: 0; display: flex; align-items: flex-start; padding: .12em 0 0 .5em; font-family: var(--mark); font-size: .72em; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); border-left: .1em solid var(--plum); }
+.stick .today { position: absolute; top: 0; bottom: 0; width: .22em; background: var(--palegold); }
+.notch { position: absolute; top: 1.05em; transform: translateX(-.35em); display: flex; flex-direction: row; align-items: center; gap: .4em; background: none; border: 0; padding: 0; }
+.notch.low { top: 2.15em; }
+.notch i { width: .7em; height: .7em; background: var(--mauve); transform: rotate(45deg); }
+.notch.bad i { background: var(--bad); } .notch.good i { background: var(--good); } .notch.gold i { background: var(--gold); }
+.notch span { font-size: .78em; color: var(--paper); white-space: nowrap; }
+.speed { display: flex; align-items: center; gap: .3em; padding: 0 .9em; border-left: .1em solid var(--plum); }
+.speed button { background: var(--well); border: .1em solid var(--plum); padding: .15em .6em; font-family: var(--mark); font-size: .9em; }
+.speed button.on { background: var(--byz); border-color: var(--lilac); color: var(--palegold); }
+.speed .waits { font-family: var(--mark); font-size: .8em; color: var(--gold); margin-left: .5em; min-width: 9em; }
+
+.tally { position: absolute; left: 0; right: 0; bottom: 0; height: 2.9em; display: flex; align-items: center; gap: 1.6em; padding: 0 1.1em; border-width: .16em 0 0 0; }
+.tally .cell { display: flex; align-items: baseline; gap: .5em; white-space: nowrap; }
+.hold { display: grid; grid-template-columns: repeat(11, .62em); gap: .1em; align-self: center; }
+.hold i { height: .62em; background: var(--well); border: .06em solid var(--plum); }
+.hold i.f1 { background: var(--byz); } .hold i.f2 { background: var(--gold); } .hold i.f3 { background: var(--good); }
+.tally .grow { flex: 1; }
+
+/* depth 2: the rail and its drawer */
+.rail { position: absolute; left: 0; top: 3.4em; bottom: 2.9em; width: 4.6em; display: flex; flex-direction: column; border-width: 0 .16em 0 0; }
+.rail button { flex: 0 0 auto; height: 4.3em; background: none; border: 0; border-bottom: .1em solid var(--plum); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .15em; color: var(--mute); }
+.rail button svg { width: 1.7em; height: 1.7em; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.rail button span { font-family: var(--mark); font-size: .68em; letter-spacing: .08em; text-transform: uppercase; }
+.rail button:hover { color: var(--paper); background: var(--well); }
+.rail button.on { color: var(--palegold); background: var(--byz); }
+.rail .keys { margin-top: auto; padding: .6em .3em; font-size: .68em; color: var(--dim); text-align: center; font-family: var(--mark); }
+.drawer { position: absolute; left: 4.6em; top: 3.4em; bottom: 2.9em; width: 25em; border-width: 0 .16em 0 0; display: flex; flex-direction: column; }
+.subs { display: flex; border-bottom: .1em solid var(--plum); }
+.subs button { flex: 1; background: none; border: 0; border-right: .1em solid var(--plum); padding: .5em .2em; font-family: var(--mark); font-size: .78em; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+.subs button:last-child { border-right: 0; }
+.subs button.on { color: var(--palegold); background: var(--well); box-shadow: inset 0 -.2em 0 var(--gold); }
+.body { padding: .9em 1em; overflow: auto; display: flex; flex-direction: column; gap: .7em; flex: 1; }
+.body h3 { margin: 0; font-family: var(--mark); font-weight: 600; font-size: 1.15em; color: var(--palegold); letter-spacing: .03em; }
+.body p { font-size: .98em; color: var(--paper); }
+.body .mute { color: var(--mute); font-size: .88em; }
+.row { display: flex; justify-content: space-between; gap: 1em; border-bottom: .06em dotted var(--plum); padding: .22em 0; font-size: .95em; }
+.row em { font-style: italic; color: var(--mute); }
+.word { border-left: .22em solid var(--mauve); padding: .1em 0 .1em .6em; font-style: italic; color: var(--paper); font-size: .93em; }
+.word.seen { border-color: var(--good); } .word.heard { border-color: var(--gold); } .word.none { border-color: var(--dim); color: var(--mute); }
+.tag { font-family: var(--mark); font-size: .68em; letter-spacing: .08em; text-transform: uppercase; padding: .05em .45em; border: .08em solid currentColor; color: var(--mute); white-space: nowrap; }
+.tag.good { color: var(--good); } .tag.fair { color: var(--gold); } .tag.bad { color: var(--bad); }
+.act { display: block; width: 100%; text-align: left; background: var(--well); border: .1em solid var(--plum); padding: .45em .7em; font-size: .98em; }
+.act:hover { border-color: var(--lilac); background: #2a1b33; }
+.act small { float: right; color: var(--gold); font-family: var(--mark); font-size: .8em; }
+.man { display: grid; grid-template-columns: 2.6em 1fr; gap: .6em; align-items: center; border-bottom: .06em dotted var(--plum); padding-bottom: .5em; }
+.man .face { width: 2.6em; height: 2.6em; background: var(--plum); border: .1em solid var(--mauve); display: grid; place-items: center; font-family: var(--mark); color: var(--palegold); }
+.heart { display: inline-grid; grid-auto-flow: column; gap: .12em; vertical-align: middle; }
+.heart i { width: .5em; height: .5em; background: var(--bad); } .heart i.o { background: var(--well); border: .06em solid var(--plum); }
+
+/* depth 0's own layers */
+.layers { position: absolute; left: 5.4em; bottom: 3.7em; display: flex; flex-direction: column; gap: .35em; align-items: flex-start; transition: left .18s; }
+.screen.drawer-open .layers { left: 30.4em; }
+.layers .bar { display: flex; }
+.layers .bar button { background: rgba(13,9,19,.93); border: .12em solid var(--byz); border-right-width: 0; padding: .3em .75em; font-family: var(--mark); font-size: .8em; letter-spacing: .07em; text-transform: uppercase; color: var(--mute); }
+.layers .bar button:last-child { border-right-width: .12em; }
+.layers .bar button.on { background: var(--byz); color: var(--palegold); }
+.layers .chips { display: flex; gap: .3em; flex-wrap: wrap; max-width: 34em; }
+.layers .chips button { background: rgba(13,9,19,.93); border: .1em solid var(--plum); padding: .15em .6em; font-size: .86em; color: var(--paper); }
+.layers .chips button.on { border-color: var(--gold); color: var(--palegold); }
+.layers .legend { background: rgba(13,9,19,.93); border: .1em solid var(--plum); padding: .25em .6em; font-size: .82em; color: var(--mute); max-width: 34em; }
+
+/* marks on the chart */
+.port { position: absolute; transform: translate(-.5em, -50%); background: none; border: 0; padding: 0; display: flex; align-items: center; gap: .3em; }
+.port i { width: .8em; height: .8em; background: var(--night); border: .16em solid var(--paper); flex: none; }
+.port.big i { width: 1em; height: 1em; }
+.port.lft { flex-direction: row-reverse; transform: translate(calc(-100% + .5em), -50%); }
+.port b { font-weight: 400; font-size: .95em; background: rgba(13,9,19,.86); border: .08em solid var(--plum); padding: 0 .35em; white-space: nowrap; color: var(--paper); }
+.port:hover b, .port.sel b { border-color: var(--gold); color: var(--palegold); }
+.port.sel i { background: var(--gold); }
+.port u { text-decoration: none; font-family: var(--mark); font-size: .78em; padding: 0 .3em; border: .08em solid currentColor; background: rgba(13,9,19,.9); white-space: nowrap; }
+.port u.good { color: var(--good); } .port u.fair { color: var(--gold); } .port u.bad { color: var(--bad); } .port u.none { color: var(--dim); }
+.ship { position: absolute; width: 1.5em; height: .7em; background: var(--palegold); border: .12em solid var(--night); transform: translate(-50%, -50%) rotate(-62deg); clip-path: polygon(0 20%, 70% 0, 100% 50%, 70% 100%, 0 80%); }
+.shipring { position: absolute; width: 2.6em; height: 2.6em; border: .12em dashed var(--palegold); border-radius: 50%; transform: translate(-50%, -50%); opacity: .7; }
+.sail { position: absolute; transform: translate(-50%, -50%); width: .9em; height: .9em; background: var(--paper); clip-path: polygon(50% 0, 100% 100%, 0 100%); opacity: .9; }
+.arrow { position: absolute; width: 2.2em; height: .16em; background: var(--seaink); transform-origin: 0 50%; opacity: .85; }
+.arrow::after { content: ""; position: absolute; right: -.1em; top: -.3em; border-left: .6em solid var(--seaink); border-top: .38em solid transparent; border-bottom: .38em solid transparent; }
+.note { position: absolute; transform: translate(-50%, -100%); background: rgba(13,9,19,.92); border: .1em solid var(--gold); padding: .1em .45em; font-size: .84em; white-space: nowrap; }
+.note.bad { border-color: var(--bad); }
+
+/* depth 3: the place */
+.place { position: absolute; right: 0; top: 3.4em; bottom: 2.9em; width: 25em; border-width: 0 0 0 .16em; display: flex; flex-direction: column; }
+.place .head { padding: .7em 1em .6em; border-bottom: .1em solid var(--plum); display: flex; flex-direction: column; gap: .25em; }
+.place .head h3 { margin: 0; font-family: var(--mark); font-weight: 600; font-size: 1.35em; color: var(--palegold); }
+.place .head .x { position: absolute; right: .5em; top: .4em; background: none; border: 0; color: var(--mute); font-family: var(--mark); font-size: 1.1em; }
+
+/* depth 4: the card */
+.card { position: absolute; left: 50%; bottom: 3.7em; transform: translateX(-50%); width: 30em; padding: .8em 1em; display: flex; flex-direction: column; gap: .5em; border-color: var(--gold); }
+.card h3 { margin: 0; font-family: var(--mark); font-weight: 600; font-size: 1.1em; color: var(--palegold); }
+.card p { font-size: .98em; }
+.depthmark { position: absolute; font-family: var(--mark); font-size: .7em; letter-spacing: .1em; color: var(--night); background: var(--gold); padding: 0 .4em; pointer-events: none; }
+.screen:not(.show-depths) .depthmark { display: none; }
+
+/* ---- below the screen ---- */
+.tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.tools button { background: var(--ink); border: 1px solid var(--byz); padding: 6px 12px; font-family: var(--mark); font-size: 14px; letter-spacing: .05em; }
+.tools button:hover { border-color: var(--lilac); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 16px; }
+th { font-family: var(--mark); font-weight: 600; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--lilac); text-align: left; border-bottom: 2px solid var(--byz); padding: 6px 12px 6px 0; }
+td { border-bottom: 1px solid #2e1233; padding: 9px 12px 9px 0; vertical-align: top; }
+td:first-child { font-family: var(--mark); color: var(--palegold); white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 28px; }
+.rules div { border-left: 3px solid var(--byz); padding-left: 12px; min-width: 0; }
+.rules b { font-family: var(--mark); font-weight: 600; color: var(--palegold); letter-spacing: .03em; display: block; }
+.rules span { color: var(--mute); font-size: 15.5px; }
+@media (prefers-reduced-motion: reduce) { .layers { transition: none; } }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:10px">
+    <h1>The table</h1>
+    <p class="lede">A working mockup of Kapman's screen, on your own map. Click the tabs on the left, the layer buttons at the bottom, a port, and the choices on the card. Everything has one place and one depth, and <kbd>Esc</kbd> always closes the deepest thing open. Names of men and sample prices are examples.</p>
+  </header>
+
+  <div class="tools">
+    <button id="t-depths" type="button">Show the five depths</button>
+    <button id="t-card" type="button">Deal a card</button>
+    <button id="t-sea" type="button">Put her at sea</button>
+    <span class="lede" id="t-say" style="font-size:15px"></span>
+  </div>
+
+  <div class="scroller">
+    <div class="screen" id="screen">
+      <div class="chart" id="chart">
+        <img alt="The placeholder chart: the North Sea from York to Cologne" src="__MAP__">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" id="lines"></svg>
+        <div class="veil" id="veil" hidden></div>
+        <div id="overlay"></div>
+        <div id="ports"></div>
+        <div class="shipring" id="ring"></div>
+        <div class="ship" id="ship"></div>
+      </div>
+
+      <div class="panel day">
+        <div class="date"><b>21 June 793</b><span>Midsummer eve · the third hour</span></div>
+        <div class="stick" id="stick"></div>
+        <div class="speed">
+          <button type="button">II</button><button type="button" class="on">1x</button><button type="button">2x</button><button type="button">4x</button>
+          <span class="waits" id="waits"></span>
+        </div>
+      </div>
+
+      <nav class="panel rail" id="rail" aria-label="Your things"></nav>
+      <aside class="panel drawer" id="drawer" hidden></aside>
+
+      <div class="layers" id="layers">
+        <div class="legend" id="legend" hidden></div>
+        <div class="chips" id="chips"></div>
+        <div class="bar" id="bar"></div>
+      </div>
+
+      <aside class="panel place" id="place" hidden></aside>
+      <div class="panel card" id="card" hidden></div>
+
+      <div class="panel tally">
+        <div class="cell"><span class="lab">Silver</span><span class="num">86 d</span></div>
+        <div class="cell"><span class="lab">Owed</span><span class="num">480 d</span><span class="tag fair">Michaelmas</span></div>
+        <div class="cell"><span class="lab">Stores</span><span class="num">9 days</span></div>
+        <div class="cell"><span class="lab">Hold</span><span class="hold" id="hold"></span><span class="num">410 / 660 kg</span></div>
+        <div class="cell"><span class="lab">Crew</span><span class="heart"><i></i><i></i><i></i><i class="o"></i></span></div>
+        <div class="grow"></div>
+        <div class="cell"><span class="lab">Wind</span><span class="num">W 5 m/s</span><span class="tag good">fair for the river</span></div>
+      </div>
+
+      <span class="depthmark" style="left:42%;top:46%">0 the chart</span>
+      <span class="depthmark" style="left:20%;top:.6em">1 the frame</span>
+      <span class="depthmark" style="left:.4em;top:9em">2 your things</span>
+      <span class="depthmark" style="right:.6em;top:9em">3 the place</span>
+      <span class="depthmark" style="left:47%;bottom:11em">4 the card</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>Five depths</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Depth</th><th>Where</th><th>What it holds</th><th>Its sub-layers</th><th>Keys</th></tr></thead>
+        <tbody>
+          <tr><td>0 The chart</td><td>The whole screen</td><td>Your map, her mark, the course, other sails, the fog</td><td>Five map layers, each with chips: Trade (a good), Sea (wind, tide, ice, lanes), People (realm, faith, tongue, standing), News (raids, famine, fairs), Known (seen, heard, notes)</td><td><kbd>Q</kbd> <kbd>W</kbd> <kbd>E</kbd> <kbd>R</kbd> <kbd>T</kbd></td></tr>
+          <tr><td>1 The frame</td><td>Top and bottom strips, always there</td><td>The day stick: today, the season, the dates that matter to you. The tally: silver, debt, stores, hold, crew, wind</td><td>Each notch and each cell opens the tab that owns it</td><td><kbd>Space</kbd> <kbd>+</kbd> <kbd>-</kbd></td></tr>
+          <tr><td>2 Your things</td><td>Left rail, one drawer at a time</td><td>What you carry with you everywhere</td><td>Ship (Hold, Stores, Hull), Crew (Men, Council), Ledger (Prices, Buyers, Debts, Log), Chest (Texts, Riddles, Notes), Chronicle (This year, The age, Your house)</td><td><kbd>1</kbd> to <kbd>5</kbd>, <kbd>Tab</kbd></td></tr>
+          <tr><td>3 The place</td><td>Right panel, when you pick something on the chart or lie in port</td><td>What is here, not what is yours</td><td>A port: Quay, Market, People, Toll, Church. A sail: Hail, Deal, Keep clear. Open sea: Weather, Soundings</td><td>Click, <kbd>Tab</kbd></td></tr>
+          <tr><td>4 The card</td><td>Bottom centre, small, never over her</td><td>One thing that happens: a fact, two or three choices, the odds as a word</td><td>None. A card is one screen</td><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>The rules that make it easy</h2>
+    <div class="rules">
+      <div><b>Left is yours, right is here</b><span>Your ship, crew, ledger and chest are always on the left. The port, sail or water you are looking at is always on the right. You never hunt for a panel.</span></div>
+      <div><b>One thing per depth</b><span>One drawer, one place, one card. Opening another swaps it. Nothing stacks.</span></div>
+      <div><b>She is never covered</b><span>The middle of the chart is kept clear. When panels open, the chart slides so her mark stays in view.</span></div>
+      <div><b>The clock waits while you think</b><span>A drawer, a place or a card holds the clock. The day stick says so. Only sailing and waiting spend days.</span></div>
+      <div><b>The frame is the table of contents</b><span>Click the debt on the tally and the Ledger opens at Debts. Click the fair on the day stick and the chart goes there.</span></div>
+      <div><b>Layers answer one question each</b><span>Where does it pay? What is the sea doing? Whose water is this? What has happened? What do I know? One at a time, and the legend says how old the answer is.</span></div>
+      <div><b>Words before numbers</b><span>Every good carries its word: what you saw or were told, by whom, how long ago. The number is there when you saw it yourself.</span></div>
+      <div><b>One look</b><span>Night glass, a Byzantium edge, gold for what is yours to spend. Pixel type for labels and numbers, a book face for reading.</span></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const D = __DATA__;
+const $ = id => document.getElementById(id);
+const screen = $("screen");
+const state = { tab: null, sub: {}, layer: null, chip: {}, port: "dorestad", atSea: false, card: false };
+
+// ---------- depth 1: the day stick ----------
+(function () {
+  const s = $("stick");
+  const seasons = [["Summer", 0], ["Harvest", 22], ["Autumn", 45], ["Winter: the sea shut", 76]];
+  s.innerHTML = seasons.map(([n, x]) => `<div class="season" style="left:${x}%;right:0">${n}</div>`).join("") +
+    `<div class="today" style="left:6%"></div>` +
+    [["St John's fires", 7.5, "good", "Tomorrow night. Dorestad feasts; no market on the day."],
+     ["Buyer: Abbot's wine", 19, "gold", "Ten casks at Lundenwic by Lammas, 1 August."],
+     ["Michaelmas: 480 d", 49, "bad", "The count's day, 29 September."],
+     ["Saint-Denis fair", 54, "gold", "From 9 October. Frisians sell cloth and buy wine."],
+     ["Martinmas", 71, "", "11 November. New wine comes down the Rhine. The sea closes."]]
+      .map(([n, x, c, tip], i) => `<button type="button" class="notch ${c} ${i % 2 ? "low" : ""}" style="left:${x}%" title="${tip}" data-tip="${tip}"><i></i><span>${n}</span></button>`).join("");
+  s.addEventListener("click", e => { const b = e.target.closest(".notch"); if (b) $("t-say").textContent = b.dataset.tip; });
+})();
+$("hold").innerHTML = Array.from({ length: 33 }, (_, i) => `<i class="${i < 12 ? "f1" : i < 17 ? "f2" : i < 20 ? "f3" : ""}"></i>`).join("");
+
+// ---------- depth 2: the rail and the drawer ----------
+const ICON = {
+  ship: '<path d="M3 15h18l-3 5H6z"/><path d="M12 3v12M12 4l6 9H12"/>',
+  crew: '<circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6M14 20c0-3 1-5 4-5s4 2 4 5"/>',
+  ledger: '<path d="M5 3h12l2 3v15H5z"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+  chest: '<path d="M3 10c0-4 3-6 9-6s9 2 9 6v10H3z"/><path d="M3 12h18M11 12v3h2v-3"/>',
+  chron: '<path d="M4 4h10l6 6v10H4z"/><path d="M14 4v6h6M8 14h8M8 17h6"/>'
+};
+const TABS = [
+  { id: "ship", name: "Ship", subs: ["Hold", "Stores", "Hull"] },
+  { id: "crew", name: "Crew", subs: ["Men", "Council"] },
+  { id: "ledger", name: "Ledger", subs: ["Prices", "Buyers", "Debts", "Log"] },
+  { id: "chest", name: "Chest", subs: ["Texts", "Riddles", "Notes"] },
+  { id: "chron", name: "Chronicle", subs: ["This year", "The age", "Your house"] }
+];
+const rows = a => a.map(([l, r]) => `<div class="row"><span>${l}</span><span>${r}</span></div>`).join("");
+const word = (cls, t) => `<div class="word ${cls}">${t}</div>`;
+const BODY = {
+  "ship/Hold": () => `<h3>The Gislinge boat</h3><p class="mute">7.7 m, four men, 660 kg of room. Heavy things low and amidships.</p>` +
+    rows([["Rhenish wine, 6 casks", '<span class="num">360 kg</span>'], ["Mayen querns, 2", '<span class="num">50 kg</span>'], ["Badorf jars, a crate", '<span class="num">nothing spare</span>']]) +
+    word("heard", "A Frisian skipper said Lundenwic was paying well for wine. Last week.") + word("seen", "You saw querns fetch 14 d at Gipeswic. In May."),
+  "ship/Stores": () => `<h3>Stores</h3>` + rows([["Bread and dried fish", '<span class="num">9 days</span>'], ["Water and ale", '<span class="num">12 days</span>'], ["To Lundenwic by the coast", '<span class="num">2 to 4 days</span>']]) +
+    `<p class="mute">Stores are counted in days, for four men. The day stick shows what a course will eat before you set it.</p>`,
+  "ship/Hull": () => `<h3>Hull and rig</h3>` + rows([["Planking", '<span class="tag good">sound</span>'], ["Sail", '<span class="tag fair">patched</span>'], ["Steering oar", '<span class="tag good">sound</span>'], ["Tar", '<span class="num">last done in March</span>']]),
+  "crew/Men": () => D.men.map(m => `<div class="man"><div class="face">${m.n[0]}</div><div><b>${m.n}</b> <span class="mute">of ${m.home} · ${m.faith}</span><br><span class="mute">${m.trait}. Wants: ${m.want}.</span> <span class="heart">${[0,1,2].map(i => `<i class="${i < m.heart ? "" : "o"}"></i>`).join("")}</span></div></div>`).join("") + `<p class="mute">Example men. Each has one trait, one want and one fear, and speaks in the cards.</p>`,
+  "crew/Council": () => `<h3>Before a crossing</h3><p>Ask the four before you leave the coast. Their answers are the odds you cannot see.</p>` +
+    `<button class="act" type="button">Ask the steersman about the weather<small>likely</small></button><button class="act" type="button">Ask who has sailed to Lundenwic<small>sure</small></button>`,
+  "ledger/Prices": () => `<h3>What you know of the markets</h3><p class="mute">Thirty-four markets. The freshest word is four days old.</p>` +
+    D.goods.map(g => `<div class="row"><span>${g.n}</span><span class="tag ${g.c}">${g.t}</span></div>${word(g.w, g.word)}`).join(""),
+  "ledger/Buyers": () => `<h3>Buyers</h3>` + rows([["The abbot at Lundenwic", "ten casks by Lammas"], ["A smith at Traiectum", "bar iron, any day"]]) + `<p class="mute">A voyage has a buyer and a date. Both sit on the day stick.</p>`,
+  "ledger/Debts": () => `<h3>Debts</h3>` + rows([["The count at Dorestad", '<span class="num">480 d</span>'], ["Due", "Michaelmas, 29 September"], ["If it is missed", "the count takes the boat"]]),
+  "ledger/Log": () => `<h3>The voyage log</h3>` + rows([["14 June, Dorestad to Traiectum", '<span class="num">+11 d</span>'], ["9 June, Witla to Dorestad", '<span class="num">+38 d</span>'], ["2 June, Walichrum to Witla", '<span class="num">-6 d</span>']]) + `<p class="mute">One line a run: what it made after bread and wages, and who did what. Read back to you in winter.</p>`,
+  "chest/Texts": () => `<h3>On a parchment leaf</h3><p><i>Bitter is the wind to-night, it tosses the ocean's white hair: to-night I fear not the fierce warriors of Norway coursing on the Irish Sea.</i></p><p class="mute">An Irish monk, about 850. Kuno Meyer's English, 1911.</p>` +
+    `<button class="act" type="button">Beowulf, the first fitt<small>the steersman knows it</small></button><button class="act" type="button">The Seafarer<small>bought at Lundenwic</small></button>`,
+  "chest/Riddles": () => `<h3>A riddle on a rune stick</h3><p><i>Men's damager, words' hinderer, and yet words' arouser.</i></p><p class="mute">Two tries left. Drag a thing you know onto it.</p>` + `<button class="act" type="button">Ale<small>doubtful</small></button><button class="act" type="button">The wind<small>doubtful</small></button>`,
+  "chest/Notes": () => `<h3>Your notes</h3>` + rows([["The bar at the Rhine mouth", "cross on the flood"], ["Toll-keeper at Quentovic", "takes a cask kindly"]]) + `<p class="mute">Notes pin to the chart. The Known layer shows them.</p>`,
+  "chron/This year": () => `<h3>793</h3>` + rows([["8 June", "Heathen men sack Lindisfarne. <em>13 days old</em>"], ["May", "Great famine in Northumbria. <em>32 days old</em>"], ["Spring", "Fiery dragons seen over Northumbria. <em>42 days old</em>"]]) + `<p class="mute">News is as old as the ship that brought it.</p>`,
+  "chron/The age": () => `<h3>Before you</h3>` + rows([["777", "The king grants the toll at Dorestad"], ["785", "Widukind is baptised"], ["789", "The first ships of Northmen at Portland"]]),
+  "chron/Your house": () => `<h3>Your house</h3><p>One boat, one debt, no heir yet.</p><p class="mute">A wreck costs the boat and the cargo. The house goes on: your heir takes the chart, the chest, one feud and one friend.</p>`
+};
+function drawRail() {
+  $("rail").innerHTML = TABS.map((t, i) => `<button type="button" data-tab="${t.id}" class="${state.tab === t.id ? "on" : ""}" title="${t.name} (${i + 1})"><svg viewBox="0 0 24 24">${ICON[t.id]}</svg><span>${t.name}</span></button>`).join("") + `<div class="keys">1-5<br>Esc</div>`;
+}
+function drawDrawer() {
+  const d = $("drawer"); const t = TABS.find(x => x.id === state.tab);
+  d.hidden = !t; screen.classList.toggle("drawer-open", !!t);
+  if (!t) return;
+  const sub = state.sub[t.id] || t.subs[0];
+  d.innerHTML = `<div class="subs">${t.subs.map(s => `<button type="button" data-sub="${s}" class="${s === sub ? "on" : ""}">${s}</button>`).join("")}</div><div class="body">${BODY[t.id + "/" + sub]()}</div>`;
+}
+$("rail").addEventListener("click", e => { const b = e.target.closest("button[data-tab]"); if (!b) return; state.tab = state.tab === b.dataset.tab ? null : b.dataset.tab; refresh(); });
+$("drawer").addEventListener("click", e => { const b = e.target.closest("button[data-sub]"); if (!b) return; state.sub[state.tab] = b.dataset.sub; drawDrawer(); });
+
+// ---------- depth 0: the chart, its layers and their chips ----------
+const LAYERS = [
+  { id: "trade", name: "Trade", chips: ["Wine", "Wool", "Salt", "Grain"], legend: "Where it pays, by what you know. Green: pays well. Gold: fair. Red: poor. Grey: no word since spring." },
+  { id: "sea", name: "Sea", chips: ["Wind", "Tide", "Lanes"], legend: "The wind as it blows now where you can see it; the tide at the mouths; the ways a boat like yours can go." },
+  { id: "people", name: "People", chips: ["Realm", "Faith", "Standing"], legend: "Whose water it is, what they hold to, and how they regard you." },
+  { id: "news", name: "News", chips: ["All", "Raids", "Fairs"], legend: "What has happened, where, and how old the word is." },
+  { id: "known", name: "Known", chips: ["Seen", "Notes"], legend: "The waters she has seen; the rest lies under the veil. Your notes are pinned where you made them." }
+];
+const pct = p => `left:${p.x}%;top:${p.y}%`;
+function drawPorts() {
+  const L = state.layer, chip = L ? (state.chip[L] || LAYERS.find(l => l.id === L).chips[0]) : null;
+  $("ports").innerHTML = D.ports.map(p => {
+    let extra = "";
+    if (L === "trade") { const v = (p.trade || {})[chip]; extra = v ? `<u class="${v[0]}">${v[1]}</u>` : `<u class="none">no word</u>`; }
+    if (L === "people") { const v = chip === "Realm" ? p.realm : chip === "Faith" ? p.faith : p.standing; extra = `<u class="${chip === "Standing" ? (v === "trusted" ? "good" : v === "a stranger" ? "none" : "fair") : "fair"}">${v}</u>`; }
+    return `<button type="button" class="port ${p.big ? "big" : ""} ${p.lft ? "lft" : ""} ${state.port === p.id ? "sel" : ""}" style="${pct(p)}" data-port="${p.id}"><i></i><b>${p.name}</b>${extra}</button>`;
+  }).join("");
+}
+function drawOverlay() {
+  const L = state.layer, chip = L ? (state.chip[L] || LAYERS.find(l => l.id === L).chips[0]) : null;
+  let html = "", lines = "";
+  const course = D.course.map(c => c.join(",")).join(" ");
+  lines += `<polyline points="${course}" fill="none" stroke="#f0d27a" stroke-width=".35" stroke-dasharray="1.1 .7" vector-effect="non-scaling-stroke" style="stroke-width:2px"/>`;
+  if (L === "sea") {
+    if (chip === "Wind") html += D.winds.map(w => `<div class="arrow" style="left:${w.x}%;top:${w.y}%;transform:rotate(${w.a}deg)"></div>`).join("");
+    if (chip === "Tide") html += D.tides.map(t => `<div class="note" style="${pct(t)}">${t.t}</div>`).join("");
+    if (chip === "Lanes") lines += D.lanes.map(l => `<polyline points="${l.map(c => c.join(",")).join(" ")}" fill="none" stroke="#9ec4cc" style="stroke-width:1.5px" stroke-dasharray=".6 .6" vector-effect="non-scaling-stroke"/>`).join("");
+  }
+  if (L === "news") html += D.news.filter(n => chip === "All" || n.k === chip).map(n => `<div class="note ${n.bad ? "bad" : ""}" style="${pct(n)}">${n.t}</div>`).join("");
+  if (L === "known" && chip === "Notes") html += D.notes.map(n => `<div class="note" style="${pct(n)}">${n.t}</div>`).join("");
+  html += D.sails.map(s => `<div class="sail" style="${pct(s)}" title="A sail made out"></div>`).join("");
+  $("veil").hidden = L !== "known";
+  $("overlay").innerHTML = html; $("lines").innerHTML = lines;
+  const sp = state.atSea ? D.atSea : D.ports.find(p => p.id === "dorestad");
+  $("ship").style.cssText = pct(sp); $("ring").style.cssText = pct(sp);
+}
+function drawLayers() {
+  $("bar").innerHTML = LAYERS.map((l, i) => `<button type="button" data-layer="${l.id}" class="${state.layer === l.id ? "on" : ""}" title="${l.name} (${"QWERT"[i]})">${l.name}</button>`).join("");
+  const l = LAYERS.find(x => x.id === state.layer);
+  $("chips").innerHTML = l ? l.chips.map(c => `<button type="button" data-chip="${c}" class="${(state.chip[l.id] || l.chips[0]) === c ? "on" : ""}">${c}</button>`).join("") : "";
+  $("legend").hidden = !l; if (l) $("legend").textContent = l.legend;
+}
+$("bar").addEventListener("click", e => { const b = e.target.closest("button[data-layer]"); if (!b) return; state.layer = state.layer === b.dataset.layer ? null : b.dataset.layer; refresh(); });
+$("chips").addEventListener("click", e => { const b = e.target.closest("button[data-chip]"); if (!b) return; state.chip[state.layer] = b.dataset.chip; refresh(); });
+
+// ---------- depth 3: the place ----------
+const PSUBS = ["Quay", "Market", "People", "Toll", "Church"];
+function placeBody(p, sub) {
+  if (sub === "Quay") return (state.atSea || p.id !== "dorestad" ? `<p class="mute">By water from where she lies: ${p.km} km, about ${p.days}.</p><button class="act" type="button">Set course for ${p.name}<small>${p.days}</small></button>` :
+      `<button class="act" type="button">Cast off<small>the clock runs</small></button><button class="act" type="button">Find lodging till dawn<small>1 night</small></button><button class="act" type="button">Wait for the fair wind<small>1 to 3 days</small></button>`) +
+      `<button class="act" type="button">Take on stores<small>2 d a day</small></button>`;
+  if (sub === "Market") return `<p class="mute">${p.market}</p>` + D.goods.slice(0, 3).map(g => `<div class="row"><span>${g.n}</span><span class="num">${g.here}</span></div>${word(g.w, g.word)}`).join("");
+  if (sub === "People") return `<p class="mute">Three talks a call. Choose how you speak: plain, warm or hard.</p><button class="act" type="button">The toll-keeper<small>knows the law</small></button><button class="act" type="button">A skipper in from Lundenwic<small>knows prices</small></button><button class="act" type="button">The priest<small>knows the news</small></button>`;
+  if (sub === "Toll") return rows([["The king's toll", "a tenth of what you sell"], ["Your standing here", p.standing], ["Arms and captives", "searched for"]]);
+  return `<p>${p.church}</p><button class="act" type="button">Give alms<small>standing</small></button><button class="act" type="button">Hear the news of the house<small>sure</small></button>`;
+}
+function drawPlace() {
+  const el = $("place"); const p = D.ports.find(x => x.id === state.port);
+  el.hidden = !p; if (!p) return;
+  const sub = state.psub || "Quay";
+  el.innerHTML = `<div class="head"><button class="x" type="button" data-close="1" aria-label="Close">x</button><h3>${p.name}</h3><span class="mute">${p.modern} · ${p.kind} · ${p.realm}</span>${word(p.w, p.word)}</div>` +
+    `<div class="subs">${PSUBS.map(s => `<button type="button" data-psub="${s}" class="${s === sub ? "on" : ""}">${s}</button>`).join("")}</div><div class="body">${placeBody(p, sub)}</div>`;
+}
+$("ports").addEventListener("click", e => { const b = e.target.closest("button[data-port]"); if (!b) return; state.port = b.dataset.port; state.psub = "Quay"; refresh(); });
+$("place").addEventListener("click", e => {
+  if (e.target.closest("[data-close]")) { state.port = null; refresh(); return; }
+  const b = e.target.closest("button[data-psub]"); if (b) { state.psub = b.dataset.psub; drawPlace(); }
+});
+
+// ---------- depth 4: the card ----------
+function drawCard() {
+  const c = $("card"); c.hidden = !state.card; if (!state.card) return;
+  c.innerHTML = state.card === "done" ? `<h3>She holds her course</h3><p>The sail falls astern by noon. Nothing lost but the worry.</p><button class="act" type="button" data-pick="x">Sail on</button>` :
+    `<h3>A sail to the north-west</h3><p>The lookout makes her out an hour before dusk: low, long, no cargo showing. She has not altered for you yet.</p>` +
+    `<button class="act" type="button" data-pick="1">Hold your course and watch her<small>likely fine</small></button>` +
+    `<button class="act" type="button" data-pick="2">Stand in for the shoals where she cannot follow<small>sure, costs half a day</small></button>` +
+    `<button class="act" type="button" data-pick="3">Hail her<small>doubtful</small></button>`;
+}
+$("card").addEventListener("click", e => { const b = e.target.closest("button[data-pick]"); if (!b) return; state.card = b.dataset.pick === "x" ? false : "done"; refresh(); });
+
+// ---------- the whole ----------
+function refresh() {
+  drawRail(); drawDrawer(); drawLayers(); drawPorts(); drawOverlay(); drawPlace(); drawCard();
+  const held = !!(state.tab || state.port || state.card);
+  $("waits").textContent = held ? "the clock waits" : "the clock runs";
+  $("waits").style.color = held ? "" : "var(--good)";
+}
+function closeDeepest() {
+  if (state.card) state.card = false; else if (state.port) state.port = null; else if (state.tab) state.tab = null; else if (state.layer) state.layer = null;
+  refresh();
+}
+document.addEventListener("keydown", e => {
+  if (e.target.closest("input, textarea")) return;
+  const k = e.key.toLowerCase();
+  if (k === "escape") closeDeepest();
+  else if ("12345".includes(k) && !state.card) { const t = TABS[+k - 1].id; state.tab = state.tab === t ? null : t; refresh(); }
+  else if ("qwert".includes(k) && k.length === 1) { const l = LAYERS["qwert".indexOf(k)].id; state.layer = state.layer === l ? null : l; refresh(); }
+});
+$("t-depths").addEventListener("click", () => { const on = screen.classList.toggle("show-depths"); $("t-depths").textContent = on ? "Hide the five depths" : "Show the five depths"; if (on) { state.tab = state.tab || "ledger"; state.port = state.port || "dorestad"; state.card = state.card || true; state.layer = state.layer || "trade"; refresh(); } });
+$("t-card").addEventListener("click", () => { state.card = true; refresh(); });
+$("t-sea").addEventListener("click", () => { state.atSea = !state.atSea; state.port = state.atSea ? null : "dorestad"; $("t-sea").textContent = state.atSea ? "Bring her into port" : "Put her at sea"; refresh(); });
+state.layer = "trade";
+refresh();
+</script>

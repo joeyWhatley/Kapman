@@ -1,0 +1,37 @@
+{
+  "about": "The king's men and the law at sea and in port (Plans/ai_fleets.md, phase 5). In 793 the law was kept at ports, tolls and borders: officials at the great toll places searched ships, above all those leaving the realm (Herstal 779: no byrnies out of the realm). Coastguard boats come only with Charles's coast defence of 800 and the fleets of 811 (Boulogne, Ghent). Which goods a law bites on, where and when: trade_rules.json 'laws'. Strictness is the chance a ship is searched at all; what's found depends on how much the hold hides. Starting guesses, uncertain items marked (?).",
+  "units": "chances 0-1; real km; deniers",
+  "port_searches": {
+    "about": "chance a ship leaving is searched, by port; the rest of a zone takes its zone's default",
+    "dorestad": 0.6, "quentovic": 0.6, "traiectum": 0.3, "witla": 0.35, "walichrum": 0.3, "rotomagus": 0.3, "parisius": 0.25,
+    "namnetis": 0.25, "burdigala": 0.2, "colonia": 0.2, "mogontia": 0.2, "diusburg": 0.2, "ganda": 0.15, "andoverpis": 0.3,
+    "lundenwic": 0.35, "hamwic": 0.3, "sarre": 0.35, "fordwic": 0.25, "dofras": 0.25, "gipeswic": 0.2, "eoforwic": 0.25,
+    "basis": "the royal tolls of the Frankish realm (Dorestad, Quentovic - Gervold, procurator of the ports, 787-806), Kentish and London tolls in the 8th-century toll charters (?)"
+  },
+  "zone_default": { "frankish": 0.12, "english": 0.1 },
+  "stations": [
+    { "id": "dorestad_toll", "port": "dorestad", "realm": "frankish", "radius_km": 25, "strictness": 0.5 },
+    { "id": "quentovic", "port": "quentovic", "realm": "frankish", "radius_km": 30, "strictness": 0.5 },
+    { "id": "seine_mouth", "port": "rotomagus", "realm": "frankish", "radius_km": 40, "strictness": 0.35 },
+    { "id": "rhine_mouth", "port": "witla", "realm": "frankish", "radius_km": 30, "strictness": 0.35 },
+    { "id": "lundenwic", "port": "lundenwic", "realm": "english", "radius_km": 25, "strictness": 0.3 },
+    { "id": "hamwic", "port": "hamwic", "realm": "english", "radius_km": 25, "strictness": 0.25 },
+    { "id": "sarre", "port": "sarre", "realm": "english", "radius_km": 20, "strictness": 0.3 }
+  ],
+  "guard_boats_from": 800,
+  "test_guard_boats_now": false,
+  "search": {
+    "cover_max": 0.6,
+    "about_cover": "a full hold hides up to 60% of what's searched for (cover = cover_max x how full the hold is)",
+    "fine_share": 0.25,
+    "gift_share": 0.1, "gift_min_d": 12,
+    "gift_taken": 0.55,
+    "about_gift": "a gift of a tenth of the goods' worth (at least 12 d); taken more often by laxer officers (x (1 - strictness/2)); refused, they search hard and fine double",
+    "run_escape": 0.45,
+    "dump_min_km": 2
+  },
+  "ai": {
+    "searched": true,
+    "about": "the world's traders leaving a searching port, bound out of the realm, are searched by the same chances"
+  }
+}

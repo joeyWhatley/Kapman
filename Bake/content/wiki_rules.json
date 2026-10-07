@@ -1,0 +1,1110 @@
+{
+ "about": "THE WIKI'S HAND-WRITTEN PART (Design/wiki.md; DECISIONS.md, 7 October 2026, rulings 3 and 6). Bake/content/make_wiki.py folds this file into Bake/content/out/wiki_793.json. 'pages' are the How to play pages, one for each rule the player must understand, in the order the book lists them. Each has: id (the page becomes rule.<id>), title, brief (the box under the pointer), game (the rule in plain words), names (the words that link to it, as they are written), see (other pages it leads to, beside those its text names), built (true: the rule is in the game today as the page says it; false: it is ruled but not built, so the page should be held back), built_note (what is there today, for the lead, not for the player), holds (where the rule is ruled). A page may also have known and source, where the project's own data gives a record for the rule. Words in {braces} are filled from the data by the baker: {stats_what} (self_793.json), {pasts} (self_793.json), {food_goods} and {drink_goods} (voyage_rules.json), {coin_notes} (trade_rules.json). 'peoples' gives each people's title, the word for one of them, and the forms that link to it. 'faiths' gives each faith's linking forms, the words for one who keeps it and for those who keep it. 'extra_names' are forms no rule finds. 'do_not_link' are words too common or too many-sided to link (with a small or a large first letter alike). 'shields' are phrases that hold a name inside them and must not link: the linker matches a shield like a name and makes no link of it (New York is not York). Written 7 Oct 2026 from the code under Assets/Kapman/Code/Game as it stood that morning and from Design/wiring_plan.md section 8. Yours to overwrite.",
+ "pages": [
+  {
+   "id": "wiki",
+   "title": "This book",
+   "brief": "What you know, and how you came to know it. The rules are here from the first day; the world comes in as you learn it.",
+   "game": "This book holds what you know and how you came to know it. The rules are all here from the first day. A port comes in when you see it or hear it named, a good when you see it traded, a person when you meet them, a word when someone says it to you. The true account of a dated event shows only when that day has passed in your game. Each page keeps two things apart: what a thing is in the game, and what the record says of it, with its source. A word in the link colour, anywhere on the screen, has a page: rest the pointer on it for a brief word, and click it to open the page. A (?) marks what the record leaves in doubt or what was not checked, and LATER marks a source written long after.",
+   "names": [
+    "This book",
+    "the wiki",
+    "the Wiki"
+   ],
+   "see": [],
+   "built": false,
+   "built_note": "On 7 Oct, 10:40, no Wiki panel stood in Assets/Kapman/Code/Game/UI/Frame/Panels, and wiring_plan.md 8.8 says the panel and the links are not built. If the panel builder has reached it since, set this to true.",
+   "holds": "DECISIONS.md, 7 October, rulings 3 and 6; Design/wiki.md."
+  },
+  {
+   "id": "days",
+   "title": "Days and the clock",
+   "brief": "Days are what everything costs. The clock has a pause and five speeds, and only a card or a talk that needs an answer holds it.",
+   "game": "Days are what everything costs: bread is eaten by the day, pay is owed by the day, and the debt falls due on a day. The clock has a pause and five speeds. At speed 1 a minute of the game passes in each second of yours, and a day in 24 minutes. At speed 2 a day passes in 6 minutes, at speed 3 in a minute, at speed 4 in fifteen seconds, at speed 5 in four seconds. No time is skipped at any speed: the same things happen, only sooner, and resting and waiting for a tide run at the speed you have chosen. Windows never hold the clock, at sea or in port, so you read, plan, trade and look things up while she sails. Only a card or a talk that needs an answer holds it, and your own pause. When a card holds the clock you may set it running again at once, with Space or a clock button: the card stays open and waits. The clock slows by itself when something needs you: nearing the port you are bound for, made fast, raiders made out, little bread, the debt's day. The plus key then goes back to the speed you had. Each of these has a switch under Menu, The clock. Space pauses and goes on; the plus and minus keys change the speed.",
+   "names": [
+    "Days and the clock",
+    "the clock",
+    "The clock"
+   ],
+   "see": [
+    "rule.card_waits",
+    "rule.debt",
+    "rule.measure"
+   ],
+   "built": true,
+   "built_note": "PanelClock.OnlyCards and PanelClock.GoOn; GameSpeed (pause and five speeds; Space; + and -); the game steps its own clock a game minute at a time (ClockStepper, KapmanGame.RunClock), so a wait runs at the chosen speed; ClockDrops and ClockSettings are the clock's own drops and their switches.",
+   "holds": "DECISIONS.md, 7 October: the picker's ruling 1 (no time is skipped) and rulings 5 and 6 of later the same day ('It stops the clock but you can override it immediately if you want'), and ruling 26 (five speeds, like CK3)."
+  },
+  {
+   "id": "card_waits",
+   "title": "A card left unanswered",
+   "brief": "A card you leave open while the clock runs answers itself: an ordinary one after seven days, a pressing one sooner.",
+   "game": "A card opens and holds the clock. If you set the clock running without answering, an ordinary card stays open for seven days of the game and then takes one of its choices by itself. The card names which choice; if it names none, it takes the one that changes least. It says so in the log. A pressing card, such as a raider, a squall or a man overboard, holds the ship where she is until it is answered, and takes its choice after a shorter time of its own, set by the card. The seven days count only while the clock runs.",
+   "names": [
+    "A card left unanswered",
+    "pressing card",
+    "ordinary card"
+   ],
+   "see": [
+    "rule.days",
+    "rule.popups"
+   ],
+   "built": false,
+   "built_note": "Not in the game. A card whose hold was let go is marked (Float.released in FrameRoot.Floats.cs), but nothing counts its days, and the cards' files have no urgency and name no choice to take (wiring_plan.md 8.9).",
+   "holds": "DECISIONS.md, 7 October, rulings 10 and 12. Ruling 12 corrects 10: an ordinary card waits a week, not for ever."
+  },
+  {
+   "id": "self",
+   "title": "Who you are",
+   "brief": "Three picks before the first morning: your people, your faith and your past.",
+   "game": "Before the first morning you make three picks: your people, your faith and your past. Your people sets where you begin, your first tongue, the tongues you half know, and the colours of the chart. Your faith sets what you may do on which day, what you may carry and how you swear. Your past tilts your stats and puts one thing in your chest. The pasts are: {pasts}.",
+   "names": [
+    "Who you are"
+   ],
+   "see": [
+    "rule.stats",
+    "rule.faith_days",
+    "rule.tongues"
+   ],
+   "built": true,
+   "built_note": "FrameRoot.Self.cs asks the three picks on a new game; Self.Begin makes the self; ChartWorld.StartAt lays her at her people's port; a click on a people shows the chart in its colours. Of what a faith asks, nothing bites yet (see Faith and days).",
+   "holds": "Design/fate_faith_and_self.md sections 1 and 6a; story/self_793.json."
+  },
+  {
+   "id": "stats",
+   "title": "The five stats",
+   "brief": "Tongue, Name, Nerve, Lore and Troth, each from one pip to five. They rise by use, never by spending points.",
+   "game": "You have five stats. {stats_what}. Each runs from one pip to five. All begin at one, and Troth at three; your past adds its tilt. A stat rises by use and never by spending points: each check you win by it adds a share of a pip, and a larger share against someone who resisted you. Troth is not raised that way: it follows how you keep the days and duties of your own faith.",
+   "names": [
+    "The five stats",
+    "five stats",
+    "Tongue",
+    "Nerve",
+    "Lore",
+    "Troth",
+    "[Name]",
+    "pips"
+   ],
+   "see": [
+    "rule.talk",
+    "rule.self"
+   ],
+   "built": true,
+   "built_note": "Self.cs: five stats of 1 to 5, the start from self_793.json, Self.Used (a third of a pip against one who resisted, a tenth otherwise, less the higher the stat). The cards read me.tongue and the rest. Nothing moves Troth yet, and the other ways a stat rises or falls in self_793.json are not wired.",
+   "holds": "Design/fate_faith_and_self.md section 2; story/self_793.json."
+  },
+  {
+   "id": "talk",
+   "title": "Talk and the odds",
+   "brief": "A choice that rests on a stat wears its name, like [Nerve]. Its odds are a word: sure, likely or doubtful.",
+   "game": "In a talk or on a card each choice says what it is. A choice that rests on one of your five stats wears the stat's name before it, like [Nerve]. Where there is a chance in it, the odds are given as a word: sure, likely or doubtful. Each pip of the stat above three makes the chance a little better, and each pip below three a little worse. What came of your choice is written out before you go on.",
+   "names": [
+    "Talk and the odds",
+    "the odds"
+   ],
+   "see": [
+    "rule.stats",
+    "rule.popups"
+   ],
+   "built": true,
+   "built_note": "FloatOption has a tag and odds as a word; the engine's rule is the written chance plus 0.05 for each pip over three (EncounterGameVars.cs, Effects). Quote, As kin, the gift and how you look (fate_faith_and_self.md section 2) are not built and are not described here.",
+   "holds": "DECISIONS.md, 4 October, no. 18 (odds as a word); Design/fate_faith_and_self.md section 2."
+  },
+  {
+   "id": "popups",
+   "title": "Cards and talks",
+   "brief": "A card or a talk opens as a window floating over the chart. One that needs an answer holds the clock.",
+   "game": "A card or a talk opens as a window floating over the middle of the chart, and whoever speaks stands in the portrait's place while he speaks. Several may be up at once; a click brings one forward. Keys 1 to 9 take a choice of the one in front, Enter takes its marked choice, and Esc shuts it if it may be shut. One that needs an answer holds the clock until you answer, or until you set the clock running yourself.",
+   "names": [
+    "Cards and talks"
+   ],
+   "see": [
+    "rule.days",
+    "rule.card_waits",
+    "rule.talk"
+   ],
+   "built": true,
+   "built_note": "FrameRoot.Floats.cs (FloatSpec, CardFloat, TalkFloat, AlertFloats). A speaker's face is an empty shape until the cards' people are joined to the places files' people (wiring_plan.md 8.8).",
+   "holds": "DECISIONS.md, 7 October, ruling 2 (pop-ups over the middle of the chart) and the picker's ruling 3 (whoever is speaking, while they speak)."
+  },
+  {
+   "id": "voyage",
+   "title": "Setting a course",
+   "brief": "Pick a port in the Voyage window and set its course. She sails it by herself: you do not steer.",
+   "game": "The Voyage window lists the ports you know, seen or only heard of, each with the days to it for your boat as a low and a high figure. Pick one and its course is drawn on the chart; a click on a port's mark picks it too. Set this course charts it. In port she stays moored until you cast off; at sea she takes the new course up at once. You do not steer her: she sails her course by herself.",
+   "names": [
+    "Setting a course",
+    "the Voyage window",
+    "The Voyage window",
+    "Set this course"
+   ],
+   "see": [
+    "rule.b_cast_off",
+    "rule.measure",
+    "rule.wind"
+   ],
+   "built": true,
+   "built_note": "VoyagePanel.cs, Course, VoyagePlanner (VoyagePlanner.Moored holds a course set in port until Cast off), ChartBody.cs (no steering on the chart).",
+   "holds": "DECISIONS.md, 4 October night (the chart is the game: set a course, her mark moves on the clock); 7 October, ruling 1 (a window sets, a button does)."
+  },
+  {
+   "id": "measure",
+   "title": "The measure",
+   "brief": "Click two places on the chart: the measure draws the way by water and says the days, low and high.",
+   "game": "The measure tells you a way in days before you spend them. Take it up with its button, or with D, and click two places on the chart. It draws the way between them by water and says how many days it would take your boat: a low figure for a fair wind and a high one for a light wind dead ahead. A third click begins again, a click on a port's mark takes that port, and Esc puts the measure down.",
+   "names": [
+    "The measure",
+    "the measure"
+   ],
+   "see": [
+    "rule.chart_tools",
+    "rule.voyage"
+   ],
+   "built": true,
+   "built_note": "FrameRoot.Measure.cs and FramePassage.cs. Its button is still one of the eight (FrameRoot.Rack.cs); ruling 8 moves it to the right with the chart tools, which is not done.",
+   "holds": "DECISIONS.md, 7 October (a measure in days) and ruling 8 of later the same day."
+  },
+  {
+   "id": "chart_tools",
+   "title": "The chart tools",
+   "brief": "Everything that belongs to the chart stands on the right; everything else on the left.",
+   "game": "Everything that belongs to the chart stands on the right of the screen, with the portrait and the view of the ship. The chart tools are the measure in days, nearer, farther, find her, names, winds, sails and pins. Everything else stands on the left.",
+   "names": [
+    "The chart tools",
+    "chart tools"
+   ],
+   "see": [
+    "rule.measure",
+    "rule.ship_view"
+   ],
+   "built": false,
+   "built_note": "Not in the game: no chart tools stand on the right, and the measure is still among the eight buttons (wiring_plan.md 8.9).",
+   "holds": "DECISIONS.md, 7 October, ruling 8."
+  },
+  {
+   "id": "ship_view",
+   "title": "The view of the ship",
+   "brief": "A window on your own ship: water only, with the sea, the weather and the wind as they are.",
+   "game": "The window at the bottom right is a view of your own ship. It shows water only, with a simple dock when she is moored. The sea, the weather and the wind are shown as they are, and the crew row when she is under oars.",
+   "names": [
+    "The view of the ship",
+    "the view of the ship",
+    "view of your ship"
+   ],
+   "see": [
+    "rule.ship_swap",
+    "rule.wind"
+   ],
+   "built": false,
+   "built_note": "Today the window is a drawn stand-in (FrameShipView), with where she is and the wind under it. The 3D view is the lead's to build after the builders and the reviewer (ruling 11).",
+   "holds": "DECISIONS.md, 7 October, ruling 11."
+  },
+  {
+   "id": "ship_swap",
+   "title": "The ship and the chart change places",
+   "brief": "A button on the top left corner of the view of the ship: she fills the screen and the chart goes small.",
+   "game": "The view of the ship has a button on its top left corner. Press it and she fills the screen behind the frame, and the chart goes small in her window. Press it again and they change back.",
+   "names": [
+    "The ship and the chart change places",
+    "change places with the chart"
+   ],
+   "see": [
+    "rule.ship_view"
+   ],
+   "built": false,
+   "built_note": "Not in the game: the ship window has no button and there is no small chart (wiring_plan.md 8.9).",
+   "holds": "DECISIONS.md, 7 October, ruling 7."
+  },
+  {
+   "id": "windows",
+   "title": "Windows and workspaces",
+   "brief": "The left side is tiled with windows. Any window holds any panel; keys 1 to 4 change workspace.",
+   "game": "The left side of the frame is tiled with windows, and any window can hold any panel. There are four workspaces, on keys 1 to 4, and each keeps its own windows. R, C and T lay the windows as rows, columns or tabs. N opens a new window and X shuts the one you are in; the arrow keys or a click move from one to the next, and the one you are in is edged in gold. A window's title steps to the next panel, or picks any from the list.",
+   "names": [
+    "Windows and workspaces",
+    "workspace",
+    "workspaces"
+   ],
+   "see": [
+    "rule.buttons",
+    "rule.panels_brief"
+   ],
+   "built": true,
+   "built_note": "FrameRoot.cs and FrameWindows.cs: four workspaces (the mock-up has a fifth for the Wiki). Panels built on 7 Oct, 10:40: Voyage, Trade, Port, Hold, Tasks, The word, Chronicle, Event.",
+   "holds": "DECISIONS.md, 7 October, ruling 2 (a window system like i3 or sway)."
+  },
+  {
+   "id": "panels_brief",
+   "title": "Brief panels and full windows",
+   "brief": "Every panel has a brief face of one to four lines. Press it for its full window.",
+   "game": "Every panel has two faces. In the left column it is brief: one to four lines, the first the one that matters now, in a small, medium or large size. Press it and its full window opens over the chart, with all its controls.",
+   "names": [
+    "Brief panels and full windows"
+   ],
+   "see": [
+    "rule.windows"
+   ],
+   "built": false,
+   "built_note": "Not in the game: FramePanel.Fill is the full face and is all there is (wiring_plan.md 8.9).",
+   "holds": "DECISIONS.md, 7 October, ruling 9."
+  },
+  {
+   "id": "buttons",
+   "title": "The eight buttons",
+   "brief": "Eight buttons under the top bar. Each does one thing; they are apart from the windows.",
+   "game": "Under the top bar stand eight buttons, four by two. Each does one thing when pressed. They are apart from the windows below them: a button does, a window shows and sets. A press acts at once and writes a line in the log, or opens a small window with the choices. A button that cannot be used now is greyed, and says why when the pointer rests on it and when it is pressed.",
+   "names": [
+    "The eight buttons",
+    "eight buttons",
+    "function buttons"
+   ],
+   "see": [
+    "rule.b_cast_off",
+    "rule.b_wait",
+    "rule.b_oars",
+    "rule.b_look_out",
+    "rule.b_sound",
+    "rule.b_hail",
+    "rule.b_rest",
+    "rule.b_offer"
+   ],
+   "built": true,
+   "built_note": "FrameRoot.Rack.cs. As built the eight are Cast off, Wait, Measure, Look out, Sound, Hail, Rest, Offer: Measure stands where ruling 8 puts Oars.",
+   "holds": "DECISIONS.md, 7 October, rulings 1 and 8."
+  },
+  {
+   "id": "b_cast_off",
+   "title": "Cast off, Lie to, Sail on",
+   "brief": "In port it lets her go on the course you set. At sea it stops her, and then sends her on.",
+   "game": "In port, with a course set in the Voyage window, Cast off lets her go. At sea the same button is Lie to: she stops where she is, and the clock runs on. When she lies to by that button it becomes Sail on, and she takes her course up again. With no course set it is greyed and says so.",
+   "names": [
+    "Cast off",
+    "cast off",
+    "Lie to",
+    "Sail on"
+   ],
+   "see": [
+    "rule.voyage",
+    "rule.buttons"
+   ],
+   "built": true,
+   "built_note": "FrameRoot.Rack.cs, case CastOff. This Sail on is the course taken up again, at the clock's own speed: it is not the struck 'Sail on' of the book, which skipped time.",
+   "holds": "DECISIONS.md, 7 October, ruling 1."
+  },
+  {
+   "id": "b_wait",
+   "title": "Wait",
+   "brief": "Wait till first light, or till the wind is fair for your course. The clock runs, and bread is eaten.",
+   "game": "Wait asks for what: till first light, or till the wind is fair for your course. The clock runs while you wait, and bread is eaten. At sea she lies to meanwhile, and takes her course up again by herself when the wait is over. Press the button again to stop waiting. A tide she must have before the flats on her course is waited for without your asking.",
+   "names": [
+    "wait for first light",
+    "wait for a fair wind",
+    "Stop waiting"
+   ],
+   "see": [
+    "rule.tides",
+    "rule.days",
+    "rule.buttons"
+   ],
+   "built": true,
+   "built_note": "FrameWait in FrameRoot.Rack.cs. The mock-up's third choice, till the flood at the bar, is not a choice here: TideWait does it by itself.",
+   "holds": "DECISIONS.md, 7 October, ruling 1; 4 October, no. 8 (waiting in port costs days)."
+  },
+  {
+   "id": "b_oars",
+   "title": "Oars",
+   "brief": "Out oars, or back to the sail.",
+   "game": "Oars puts the oars out, or brings them in and sets the sail again. It has the place among the eight that the measure had.",
+   "names": [
+    "Out oars",
+    "out oars"
+   ],
+   "see": [
+    "rule.wind",
+    "rule.buttons"
+   ],
+   "built": false,
+   "built_note": "Not in the game: the rack has Measure in this place. She rows by herself in a calm, or when rowing beats tacking (Travel.Speed). The ruling says only: 'Oars (out oars, or sail) has its place for now'.",
+   "holds": "DECISIONS.md, 7 October, ruling 8."
+  },
+  {
+   "id": "b_look_out",
+   "title": "Look out",
+   "brief": "What can be seen from the masthead now: the wind and the sky, the sails in sight, the nearest port you know.",
+   "game": "Look out says what can be seen from the masthead now. First come the wind and the sky. Then the sails in sight, the nearest first: what she is if she is near enough to make out, and otherwise only that a sail is there, and where. Last comes the nearest port you know, if one lies near. What the lookout sees between times he says in the log by himself.",
+   "names": [
+    "Look out",
+    "the lookout",
+    "The lookout"
+   ],
+   "see": [
+    "rule.buttons"
+   ],
+   "built": true,
+   "built_note": "FrameRoot.Rack.cs, LookOutFloat and LookoutLog; SeaWatch.",
+   "holds": "DECISIONS.md, 7 October, ruling 1."
+  },
+  {
+   "id": "b_sound",
+   "title": "Sound",
+   "brief": "Heave the lead: how much water there is on this stretch of her course.",
+   "game": "Sound heaves the lead. It says how much water there is at the shallowest of the stretch of her course she is on, in fathoms. It warns when a stretch dries at low water: she must cross that on the flood. It needs a course to sound along.",
+   "names": [
+    "the lead",
+    "The lead",
+    "heave the lead",
+    "Heave the lead"
+   ],
+   "see": [
+    "rule.tides",
+    "rule.buttons"
+   ],
+   "built": true,
+   "built_note": "FrameRoot.Rack.cs, Sounding: the lanes' own depths along the leg she is on. It does not say what the bottom is.",
+   "holds": "DECISIONS.md, 7 October, ruling 1."
+  },
+  {
+   "id": "b_hail",
+   "title": "Hail",
+   "brief": "Hail a sail in sight, the shore, or your own crew.",
+   "game": "Hail calls to a sail in sight, to the shore, or to your own crew.",
+   "names": [
+    "Hailing"
+   ],
+   "see": [
+    "rule.buttons"
+   ],
+   "built": false,
+   "built_note": "The button writes 'not yet' in the log (FrameRoot.Rack.cs). Meetings at sea do not happen on the chart yet (wiring_plan.md 8.8). The ruling names the button; what a hail does is not ruled beyond these words, so the page says no more.",
+   "holds": "DECISIONS.md, 7 October, ruling 1."
+  },
+  {
+   "id": "b_rest",
+   "title": "Rest",
+   "brief": "All hands rest for a watch. No time is skipped for it.",
+   "game": "Rest gives all hands a watch of rest. No time is skipped for it: the clock keeps the speed you have chosen while they sleep.",
+   "names": [
+    "a watch of rest"
+   ],
+   "see": [
+    "rule.days",
+    "rule.crew",
+    "rule.buttons"
+   ],
+   "built": false,
+   "built_note": "The button writes 'not yet' in the log. The old Rest.cs ([Z] at night, till dawn) is still in the code and is capped to the clock's own speed under the frame; whether [Z] still answers on the chart was not checked.",
+   "holds": "DECISIONS.md, 7 October, rulings 1 and 5."
+  },
+  {
+   "id": "b_offer",
+   "title": "Offer",
+   "brief": "An offering, or a vow, by your own faith.",
+   "game": "Offer makes an offering or a vow, by your own faith.",
+   "names": [
+    "an offering",
+    "a vow"
+   ],
+   "see": [
+    "rule.faith_days",
+    "rule.buttons"
+   ],
+   "built": false,
+   "built_note": "The button writes 'not yet' in the log: 'Offerings and vows come with the faiths.' What an offering costs and does is not ruled, so the page says no more.",
+   "holds": "DECISIONS.md, 7 October, ruling 1."
+  },
+  {
+   "id": "port_window",
+   "title": "In port",
+   "brief": "The Port window says where she lies, how you stand there, and what can be done.",
+   "game": "When she moors, the Port window says where she lies, how you stand there, and what can be done: the talk of the waterfront and the errands of the place. What a line leads to opens as a window over the chart. The market is the Trade window, and casting off is the button above the windows.",
+   "names": [
+    "the Port window",
+    "The Port window"
+   ],
+   "see": [
+    "rule.trade",
+    "rule.standing",
+    "rule.b_cast_off"
+   ],
+   "built": true,
+   "built_note": "PortPanel.cs shows the port's own menu, which the ports' graph still makes. The sites, people and acts of the places files are not read by the game yet.",
+   "holds": "DECISIONS.md, 7 October, rulings 1 and 2."
+  },
+  {
+   "id": "trade",
+   "title": "Buying and selling",
+   "brief": "The Trade window shows the market where she lies. A good is cheap where it is made and dear where it is wanted.",
+   "game": "The Trade window shows the market where she lies: what they ask for each good, what they pay, how many lie there and how many you have aboard. Buy and Sell deal one at a time. A market asks a little over its price and pays a little under. A good is cheap where it is made and dear where it is wanted, and a market that is sold more than it wants pays less for the next. Looking at a market is seeing its prices: they go into what you know. At sea there is no market.",
+   "names": [
+    "Buying and selling",
+    "the Trade window",
+    "The Trade window"
+   ],
+   "see": [
+    "rule.toll",
+    "rule.word",
+    "rule.silver",
+    "rule.hold"
+   ],
+   "built": true,
+   "built_note": "TradePanel.cs, Trade.cs, Deal.cs, Market.cs, trade_rules.json (spread 0.20: a tenth over, a tenth under). The seasons and the chronicle's shocks move prices too (Seasons.cs, Shocks.cs).",
+   "holds": "GAME_MAKER.md 4.1; DECISIONS.md, 4 October, no. 16 (the seasons are trade strategy)."
+  },
+  {
+   "id": "silver",
+   "title": "Silver and the penny",
+   "brief": "All prices, tolls and the debt are reckoned in silver pennies, written d.",
+   "game": "All prices, tolls and the debt are reckoned in silver pennies, written d. Each realm takes its own coin at its full worth: the Frankish penny among the Franks, the English penny among the English. In the north there is no coin of their own and all silver goes by weight on the scales. Coin and silver that are not the place's own are taken for less than their weight.",
+   "known": "{coin_notes}",
+   "source": "Assets/Kapman/Game/Data/trade_rules.json (the notes on the coins); Design/content/economy/silver_coin.md",
+   "names": [
+    "Silver and the penny",
+    "penny",
+    "pennies",
+    "the king's pennies",
+    "denier",
+    "deniers",
+    "weighed silver",
+    "hacksilver"
+   ],
+   "see": [
+    "rule.trade",
+    "rule.toll"
+   ],
+   "built": true,
+   "built_note": "Purse.cs and the zones of trade_rules.json (foreign_loss a tenth among Franks and English, less where silver is weighed).",
+   "holds": "Assets/Kapman/Game/Data/trade_rules.json; GAME_MAKER.md 4.1 would fold the four coins into one purse until 865, which is not ruled by the user and is not done."
+  },
+  {
+   "id": "toll",
+   "title": "The toll",
+   "brief": "Taken from what you sell: a tenth among the Franks, a twentieth among the English, none where silver goes by weight.",
+   "game": "The toll is taken from what you sell, not from what you buy. In the Frankish realm it is a tenth, among the English a twentieth, and where silver goes by weight there is none. The Trade window says the toll before you sell, and each sale says what was taken. A card may ease the toll at a port for a time.",
+   "known": "The Frankish king's toll, the tenth, was taken at Dorestad, at Quentovic and at the river tolls. Among the English, toll was taken at London and at the wics.",
+   "source": "Assets/Kapman/Game/Data/trade_rules.json (the notes on the money zones); Design/content/lore/law_tolls.md",
+   "names": [
+    "The toll",
+    "the toll",
+    "toll",
+    "the tenth"
+   ],
+   "see": [
+    "rule.trade"
+   ],
+   "built": true,
+   "built_note": "Deal.cs: the zone's toll comes off what the market pays; EncounterRunner.TollFactor eases it; Chest.TollFreeAt frees a port where a riddle won that.",
+   "holds": "Assets/Kapman/Game/Data/trade_rules.json; GAME_MAKER.md 4.1."
+  },
+  {
+   "id": "word",
+   "title": "The word, and how old it is",
+   "brief": "You know a price only where you have seen it or been told it. Every word says how it came and how old it is.",
+   "game": "You know a price only where you have seen it or been told it. Every word says how it came to you: seen with your own eyes, told by one who saw it, talk, a written word, a rumour, or what every merchant knows. It also says how old it is, and a price goes half stale in a month. Under each good in the Trade window stands one line: the freshest thing you know of it elsewhere, or else what the season or the law means for it. A price you were told is given as a word and not a number: it pays well, poorly, or the usual. The Word window lists every market you have word of, the freshest first.",
+   "names": [
+    "The word, and how old it is",
+    "the Word window",
+    "The Word window",
+    "freshest word"
+   ],
+   "see": [
+    "rule.news",
+    "rule.trade"
+   ],
+   "built": true,
+   "built_note": "Known.cs, Word.cs, PriceNotes.cs, WordLine, WordPanel; the numbers are knowing_793.json.",
+   "holds": "DECISIONS.md, 4 October night (next build: the word on the item); GAME_MAKER.md 4.1."
+  },
+  {
+   "id": "news",
+   "title": "News",
+   "brief": "News is as old as the ship that brought it. The Chronicle window keeps what you have heard.",
+   "game": "News is as old as the ship that brought it. The Chronicle window holds what you have heard, the newest first: when a thing happened, and when word of it reached you. What happened before your first morning every merchant knows already. Other talk heard on the water, such as a raid told of by a passing ship, stands below it.",
+   "names": [
+    "Chronicle window",
+    "as old as the ship that brought it"
+   ],
+   "see": [
+    "rule.word",
+    "rule.wiki"
+   ],
+   "built": true,
+   "built_note": "ChroniclePanel.cs, Known.EntryFact, Known.News.",
+   "holds": "GAME_MAKER.md 4.1 (a price is a word: a teller, a place, an age)."
+  },
+  {
+   "id": "standing",
+   "title": "Standing",
+   "brief": "Each port and each region keeps its own opinion of you, from very bad to very good.",
+   "game": "Each port and each region keeps its own standing with you. A deed counts in full where it was done, in part across its region, and a little among the same people elsewhere; each people weighs a deed by its own values. Word of a deed travels with the ships, as news does. Standing moves your prices there, how hard the king's men search you, and whether a place will deal with you at all. The Port window says how you stand where she lies.",
+   "names": [
+    "Standing",
+    "your standing",
+    "Your standing"
+   ],
+   "see": [
+    "rule.port_window",
+    "rule.news"
+   ],
+   "built": true,
+   "built_note": "Reputation.cs and reputation_793.json; PortPanel prints Reputation.Line.",
+   "holds": "Assets/Kapman/Game/Data/reputation_793.json; GAME_MAKER.md 4.4; DECISIONS.md, 7 October, the picker's ruling 4 (word of the slave trade travels as news does)."
+  },
+  {
+   "id": "debt",
+   "title": "The debt",
+   "brief": "You begin owing the count 1,920 pennies, eight pounds of silver: a fixed sum, due on a day.",
+   "game": "You begin owing the count 1,920 pennies: eight pounds of silver. It is a fixed sum, due on a day. The top bar says what you owe, the day it falls due and how many days are left, and it turns to a warning in the last fourteen. You pay toward it at any market, from the Tasks window: twenty pennies at a time, or all of it. The four casks of wine aboard at the start are the count's own: what they fetch is his stake, not your gain.",
+   "names": [
+    "The debt",
+    "the debt"
+   ],
+   "see": [
+    "rule.debt_day",
+    "rule.tasks",
+    "rule.days"
+   ],
+   "built": true,
+   "built_note": "Trade.Debt, Trade.DebtDue, Trade.DebtDaysLeft, Trade.PayDebt; the top bar (FrameGame.DebtLine) and TasksPanel. The count's casks: Lot.whose in the hold, Trade.SaleReckoned. Nothing happens yet when the day passes unpaid: the bar counts the days overdue. The count's own chain of cards still names the old sum of 480 pennies: Bake/economy/apply_debt_sum_cards.py changes it once the content pass is merged.",
+   "holds": "DECISIONS.md, 4 October, no. 10 (the debt is a fixed sum due on a day); 7 October, ruling 30 (eight pounds, with the traders' margin of a quarter)."
+  },
+  {
+   "id": "debt_day",
+   "title": "The day of the debt",
+   "brief": "The debt falls due at Michaelmas, the twenty-ninth of September: a hundred and fifty-one days after a first morning on the first of May.",
+   "game": "The debt falls due at Michaelmas, the twenty-ninth of September: a hundred and fifty-one days after a first morning on the first of May. In 793 that day is a Sunday. On the Lord's day no market is held and no court sits, so have the silver in hand by the Saturday. The sum is 1,920 pennies.",
+   "names": [
+    "The day of the debt"
+   ],
+   "see": [
+    "rule.debt"
+   ],
+   "built": true,
+   "built_note": "Trade.Begin with the calendar sets the day (trade_rules.json: due_month, due_day, due_name); FrameGame.DebtDay says it and FrameGame.DebtDayWarning warns of the Sunday in the Tasks and House windows. One sum, 1,920 d, with no choice of terms (the hard terms of no. 10 are not built). self_793.json gives each people its own creditor and its own day; ChartWorld.cs says the debt is the same at every home for now. The game does not yet shut a market on a Sunday: the warning is the period's rule, not the engine's.",
+   "holds": "DECISIONS.md, 4 October, no. 10; 7 October, rulings 14 (due on a day) and 30 (eight pounds); GAME_MAKER.md 4.5; Design/checks/calendar_first_season.md (Michaelmas 793 a Sunday)."
+  },
+  {
+   "id": "tasks",
+   "title": "Orders and tasks",
+   "brief": "The Tasks window holds what you have taken on: the debt first, then the orders.",
+   "game": "The Tasks window holds what you have taken on: the debt and its day first, then the orders you have taken, each with the days it has left. Orders are posted in the ports. When she lies in one, the window lists those posted there, and Take takes one. When you carry what was ordered to its port, Deliver hands it over.",
+   "names": [
+    "Orders and tasks",
+    "the Tasks window",
+    "The Tasks window"
+   ],
+   "see": [
+    "rule.debt"
+   ],
+   "built": true,
+   "built_note": "TasksPanel.cs and Commissions.cs. The game carries no passengers, and the window says so.",
+   "holds": "GAME_MAKER.md 4.6 (a promise with a day)."
+  },
+  {
+   "id": "hold",
+   "title": "The hold",
+   "brief": "What she carries, the room taken and the room left. Light, bulky goods take more room than they weigh.",
+   "game": "The Hold window lists what she carries: each good, what it weighs and what it cost you, the room taken and the room left. Room is counted in kilograms, but light and bulky goods take more room than they weigh, so wool fills her before stone does. The water casks take their room too. Below the goods stand the crew's stores, as days of food and days of drink.",
+   "names": [
+    "The hold",
+    "the Hold window",
+    "The Hold window"
+   ],
+   "see": [
+    "rule.deep",
+    "rule.food",
+    "rule.trade"
+   ],
+   "built": true,
+   "built_note": "Hold.cs (a good's room is its weight times its bulk) and HoldPanel.cs.",
+   "holds": "Assets/Kapman/Game/Data/goods_793.json (bulk); GAME_MAKER.md section 3 (stage 1 shows lots and 'full')."
+  },
+  {
+   "id": "deep",
+   "title": "How deep she sits",
+   "brief": "The more she carries, the deeper she sits: light, fair or deep.",
+   "game": "The more she carries, the deeper she sits in the water. The Hold window says it in one of three words: light, fair or deep.",
+   "names": [
+    "How deep she sits",
+    "load line"
+   ],
+   "see": [
+    "rule.hold",
+    "rule.tides"
+   ],
+   "built": false,
+   "built_note": "Not in the game: the hold counts room only. GAME_MAKER.md section 3 gives the load line (light, fair, deep) and three places to stow (low, high, dry) for stage 2. What a deep load costs her in speed or at a bar is not ruled anywhere, so this page does not say.",
+   "holds": "GAME_MAKER.md section 3 (the hold, stage 2), which DECISIONS.md of 7 October names as the book to follow."
+  },
+  {
+   "id": "food",
+   "title": "Food and drink",
+   "brief": "Each man eats and drinks every day aboard. The top bar says how many days of bread are left.",
+   "game": "Each man eats and drinks every day aboard. Food is bought at a market and carried in the hold: {food_goods}. Drink is {drink_goods}, and water when those are gone. Water is put aboard free in any port, in four casks. The top bar says how many days of bread are left. Men with no food or nothing to drink lose health and heart, and thirst is the quicker of the two.",
+   "names": [
+    "Food and drink",
+    "days of bread"
+   ],
+   "see": [
+    "rule.crew",
+    "rule.hold"
+   ],
+   "built": true,
+   "built_note": "Voyage.cs and voyage_rules.json: 0.7 kg of food and 3 litres of drink a man a day; four casks of 60 litres.",
+   "holds": "Assets/Kapman/Game/Data/voyage_rules.json."
+  },
+  {
+   "id": "pay",
+   "title": "The crew's pay",
+   "brief": "A quarter of a penny a man for every day aboard, paid in port.",
+   "game": "Each man is owed a quarter of a penny for every day aboard. He is paid in port, out of your silver. When pay has been owed more than a week the crew lose heart. A man owed fourteen days may go ashore for good at the next port.",
+   "names": [
+    "The crew's pay",
+    "pay owed"
+   ],
+   "see": [
+    "rule.crew",
+    "rule.silver"
+   ],
+   "built": true,
+   "built_note": "Voyage.cs and voyage_rules.json (pay_per_man_day 0.25, leave_if_owed_days 14).",
+   "holds": "GAME_MAKER.md 4.4 (wages, one rule: 0.25 d a man a day aboard, paid in port)."
+  },
+  {
+   "id": "crew",
+   "title": "The crew",
+   "brief": "Four men work the boat. Two words say how they are: their health and their heart.",
+   "game": "Four men work the boat. The frame says how they are in two words: their health (sound, worn, ailing or sick) and their heart (in good heart, steady, low or close to leaving). Hunger, thirst and pay long owed bring both down, and days in port bring them back. In rough water the men are seasick until they find their sea legs, after about six days at sea.",
+   "names": [
+    "The crew",
+    "the crew"
+   ],
+   "see": [
+    "rule.crew_men",
+    "rule.food",
+    "rule.pay"
+   ],
+   "built": true,
+   "built_note": "Voyage.cs (men, health, heart, seasickness); the words are FrameGame.HealthWord and HeartWord, shown in the portrait block. There is no Crew window yet.",
+   "holds": "Assets/Kapman/Game/Data/voyage_rules.json; DECISIONS of 1 October (four men), as voyage_rules.json records."
+  },
+  {
+   "id": "crew_men",
+   "title": "The four men",
+   "brief": "Each of the four has a name, a seat and one want of his own.",
+   "game": "Each of the four men has a name, a seat and one want of his own. The seats are the helm, the lookout, the lead and the weather. The man in a seat is the one who speaks when his matter comes up.",
+   "names": [
+    "The four men",
+    "the four men"
+   ],
+   "see": [
+    "rule.crew",
+    "rule.bonds"
+   ],
+   "built": false,
+   "built_note": "Not in the game: the crew is a number of men with one health and one heart (Voyage.cs).",
+   "holds": "GAME_MAKER.md 4.4 (four men with names, each in a seat)."
+  },
+  {
+   "id": "wind",
+   "title": "Wind, sail and oar",
+   "brief": "She sails her course by herself and makes what speed the wind allows. In a calm the crew row.",
+   "game": "She sails her course by herself and makes what speed the wind allows. She is fastest with the wind on her quarter, and slower with it dead astern. She cannot sail straight into the wind: she works to and fro across it and makes poor way. In a calm, or when rowing makes better way than tacking, the crew row. In a gale she lies to until it has blown over.",
+   "names": [
+    "Wind, sail and oar",
+    "fair wind",
+    "foul wind"
+   ],
+   "see": [
+    "rule.b_oars",
+    "rule.voyage",
+    "rule.measure"
+   ],
+   "built": true,
+   "built_note": "Travel.Speed and ChartBody.cs: her class's own speeds from ship_classes_793.json, a gale over 17 metres a second, the oars as a day's mean.",
+   "holds": "DECISIONS.md, 4 October night (her mark moves on the clock at a real ship's speed); ship_classes_793.json."
+  },
+  {
+   "id": "tides",
+   "title": "Tides and the bar",
+   "brief": "Where the way in lies over flats, she waits for the tide by herself. Aground, you choose how to get her off.",
+   "game": "A bar is a shoal across a river mouth, and flats are ground that dries at low water. Her course keeps off the flats where there is another way, but some ports have no way in but over them. Before such a stretch, if there is not water enough for her, she lies to at its edge and waits for the tide by herself, at the speed of the clock. If no tide soon to come gives enough, she goes over on the best high water there is, and may stick. Aground, you choose how to get her off: wait for the tide, row her off, or over the side and push.",
+   "names": [
+    "Tides and the bar",
+    "the flats",
+    "aground",
+    "Aground",
+    "the tide"
+   ],
+   "see": [
+    "rule.b_sound",
+    "rule.b_wait",
+    "rule.deep"
+   ],
+   "built": true,
+   "built_note": "TideWait.cs and Aground.cs, with their pace capped to the clock's by FrameRoot. Whether the chart scene carries a tide (LevelWater) could not be checked without running Unity: on a level with no tide there is no waiting.",
+   "holds": "The user's rule of 3 October in TideWait.cs ('the crew will stop completely and just wait ... until the tide is back up'); DECISIONS.md, 7 October, ruling 5."
+  },
+  {
+   "id": "faith_days",
+   "title": "Faith and days",
+   "brief": "Your faith has a calendar. Its days are yours to keep or to break, and they move prices.",
+   "game": "Your faith is a way of living with a calendar. The days it keeps are yours to keep or to break: a Christian who sells on a Sunday makes silver and loses Troth. Feasts and fasts move prices too: fish is dear in Lent. The page of each day says what it asks, and what it makes dear or cheap.",
+   "names": [
+    "Faith and days"
+   ],
+   "see": [
+    "rule.stats",
+    "rule.b_offer",
+    "rule.self"
+   ],
+   "built": false,
+   "built_note": "The engine knows the main feasts (Runtime/Levels/Feasts.cs) and a card can ask whether today is one, but calendar_793.json is not read by the game: no day shuts a market, moves a price or moves Troth yet.",
+   "holds": "Design/fate_faith_and_self.md section 3 ('the calendar bites'); story/calendar_793.json."
+  },
+  {
+   "id": "tongues",
+   "title": "Tongues and the turning line",
+   "brief": "People speak plain English with words of their own tongue set in. At a moment that matters a line turns from their tongue into English as you watch.",
+   "game": "People speak plain English in the game, with words of their own tongue set in where a stranger would hear them first: greetings, oaths, kin words, trade words and curses. A word in another tongue has a page here once you have heard it. At a moment that matters a line comes up whole in the speaker's own tongue and turns into English word by word. How fast it turns, and how much of it, is how well you know that tongue: one you know turns at once, one you half know turns slowly and keeps its hard words, and one you do not know does not turn unless a man aboard speaks it. A word you have seen turn ten times stays English from the start.",
+   "names": [
+    "Tongues and the turning line",
+    "turning line"
+   ],
+   "see": [
+    "rule.self",
+    "rule.wiki"
+   ],
+   "built": false,
+   "built_note": "Self.cs keeps how well each tongue is known and how often a piece has been seen (StaysAfter = 10), but the game does not read tongues_793.json and the turning itself is not in the frame (FloatSpec.content is where it would go).",
+   "holds": "Design/fate_faith_and_self.md section 6c; story/tongues_793.json."
+  },
+  {
+   "id": "bonds",
+   "title": "Bonds",
+   "brief": "You may bind yourself to anyone you meet, by four steps: known, trusted, bound, sworn or beloved.",
+   "game": "You may bind yourself to anyone you meet. A bond grows by four steps: known, by meeting and talk; trusted, by a favour done and a thing kept quiet; bound, by an oath, a shared danger or a gift that cost you; and sworn or beloved, as in marriage, sworn brotherhood, fostering or godparenthood. Each step is a talk with your stats in it, and each takes seasons. What a bond gives is what that person is. What it costs is that it can be used against you, and that people die.",
+   "names": [
+    "Bonds",
+    "a bond"
+   ],
+   "see": [
+    "rule.talk",
+    "rule.crew_men"
+   ],
+   "built": false,
+   "built_note": "Not in the game. The game does keep who has been met (Self.MarkMet), and the frame has the dots a bond would be drawn with.",
+   "holds": "Design/fate_faith_and_self.md section 6d (bonds with anyone)."
+  },
+  {
+   "id": "saving",
+   "title": "Saving",
+   "brief": "F5 saves the game and F9 loads it again.",
+   "game": "F5 saves the game and F9 loads it again; the menu saves and loads too. A save holds the whole game: the day, where she lies and where she is bound, the crew and their stores, your silver, the hold and the debt, every market, the other ships, and all you have seen and heard. You cannot save while something is going on, such as a meeting or an open card: the game says so.",
+   "names": [
+    "Saving"
+   ],
+   "see": [],
+   "built": true,
+   "built_note": "SaveGame.cs (one gzipped file a slot; F5 and F9 use the slot 'quick'); the self is kept with it (ContentSave, key 'self'). Not tried again from the frame for this page.",
+   "holds": "Assets/Kapman/Code/Game/SaveGame.cs. An older answer of 2 October ('save any time') is not what the code does."
+  }
+ ],
+ "peoples": {
+  "frisian": {
+   "title": "The Frisians",
+   "one": "a Frisian",
+   "names": [
+    "Frisian",
+    "Frisians",
+    "Frisia"
+   ]
+  },
+  "frankish": {
+   "title": "The Franks",
+   "one": "a Frank",
+   "names": [
+    "Frank",
+    "Franks",
+    "Frankish",
+    "Francia"
+   ]
+  },
+  "romance": {
+   "title": "The Romance speakers",
+   "one": "a Romance speaker",
+   "names": [
+    "Romance speakers",
+    "Romance-speaking"
+   ]
+  },
+  "saxon": {
+   "title": "The Old Saxons",
+   "one": "a Saxon",
+   "names": [
+    "Old Saxons",
+    "Old Saxon",
+    "Saxons",
+    "Saxon",
+    "Saxony"
+   ]
+  },
+  "english": {
+   "title": "The English",
+   "one": "one of the English",
+   "names": [
+    "English",
+    "Englishman",
+    "Englishmen",
+    "Mercians",
+    "Mercian",
+    "Mercia",
+    "West Saxons",
+    "West Saxon",
+    "Wessex",
+    "Kentishmen",
+    "Kentish",
+    "Kent",
+    "East Angles",
+    "East Anglia",
+    "Northumbrians",
+    "Northumbrian",
+    "Northumbria"
+   ]
+  },
+  "danish": {
+   "title": "The Danes",
+   "one": "a Dane",
+   "names": [
+    "Dane",
+    "Danes",
+    "Danish"
+   ]
+  },
+  "norse": {
+   "title": "The Northmen",
+   "one": "one of the Northmen",
+   "names": [
+    "Northman",
+    "Northmen",
+    "Norse",
+    "Norseman",
+    "Norsemen"
+   ]
+  },
+  "svea": {
+   "title": "The Svear",
+   "one": "one of the Svear",
+   "names": [
+    "Svear",
+    "Svea"
+   ]
+  },
+  "gute": {
+   "title": "The Gotlanders",
+   "one": "a Gotlander",
+   "names": [
+    "Gotlanders",
+    "Gotlander",
+    "Gotland"
+   ]
+  },
+  "wendish": {
+   "title": "The Wends",
+   "one": "a Wend",
+   "names": [
+    "Wend",
+    "Wends",
+    "Wendish",
+    "Obodrites",
+    "Obodrite",
+    "Wilzi"
+   ]
+  },
+  "slavic": {
+   "title": "The Slavs of Ilmen and the Volkhov",
+   "one": "a Slav",
+   "names": [
+    "Slavs",
+    "Slav"
+   ]
+  },
+  "baltic": {
+   "title": "The Prussians and Curonians",
+   "one": "a Prussian or a Curonian",
+   "names": [
+    "Prussians",
+    "Prussian",
+    "Curonians",
+    "Curonian"
+   ]
+  },
+  "finnic_rus": {
+   "title": "The Finnic peoples round Ladoga",
+   "one": "one of the Finnic peoples",
+   "names": [
+    "Finns",
+    "Finnic"
+   ]
+  },
+  "irish": {
+   "title": "The Irish",
+   "one": "one of the Irish",
+   "names": [
+    "Irish",
+    "Irishman",
+    "Irishmen"
+   ]
+  },
+  "gaelic": {
+   "title": "The Gaels of Dal Riata",
+   "one": "a Gael",
+   "names": [
+    "Gaels",
+    "Gael",
+    "Dal Riata",
+    "Dál Riata"
+   ]
+  }
+ },
+ "faiths": {
+  "christian": {
+   "one": "a Christian",
+   "many": "Christians of Rome",
+   "names": [
+    "Christian",
+    "Christians"
+   ]
+  },
+  "christian_irish": {
+   "one": "a Christian of the Irish houses",
+   "many": "Christians of the Irish houses",
+   "names": [
+    "the Irish houses"
+   ]
+  },
+  "old_gods": {
+   "one": "one who keeps the old gods",
+   "many": "those who keep the old gods",
+   "names": [
+    "the old gods",
+    "The old gods",
+    "heathen",
+    "heathens"
+   ]
+  },
+  "prime_signed": {
+   "one": "prime-signed",
+   "many": "the prime-signed",
+   "names": [
+    "prime-signed",
+    "Prime-signed",
+    "the first signing"
+   ]
+  },
+  "slavic_gods": {
+   "one": "one who keeps the gods of the Wends",
+   "many": "those who keep the gods of the Wends",
+   "names": [
+    "the gods of the Wends"
+   ]
+  },
+  "jewish": {
+   "one": "a Jew",
+   "many": "Jews",
+   "names": [
+    "Jew",
+    "Jews",
+    "Jewish"
+   ]
+  },
+  "muslim": {
+   "one": "a Muslim",
+   "many": "Muslims",
+   "names": [
+    "Muslim",
+    "Muslims",
+    "Saracen",
+    "Saracens"
+   ]
+  },
+  "christian_greek": {
+   "one": "a Greek Christian",
+   "many": "Greek Christians",
+   "names": [
+    "Greek Christian",
+    "Greek Christians"
+   ]
+  }
+ },
+ "extra_names": [
+  {
+   "name": "querns",
+   "page": "good.quernstones"
+  },
+  {
+   "name": "quern",
+   "page": "good.quernstones"
+  },
+  {
+   "name": "Mayen querns",
+   "page": "good.quernstones"
+  },
+  {
+   "name": "quern-stones",
+   "page": "good.quernstones"
+  },
+  {
+   "name": "knarr",
+   "page": "ship.knarr"
+  },
+  {
+   "name": "currach",
+   "page": "ship.currach"
+  },
+  {
+   "name": "house boat",
+   "page": "ship.gislinge"
+  },
+  {
+   "name": "King Charles",
+   "page": "person.wt.charles"
+  }
+ ],
+ "do_not_link": [
+  "lead",
+  "red",
+  "down",
+  "seed",
+  "pots",
+  "ware",
+  "vessels",
+  "tools",
+  "plate",
+  "mast",
+  "masts",
+  "pelts",
+  "skins",
+  "hides",
+  "trim",
+  "figs",
+  "got",
+  "Name",
+  "Wait",
+  "Sound",
+  "Rest",
+  "Offer",
+  "Hail",
+  "Oars",
+  "bar",
+  "the bar"
+ ],
+ "shields": [
+  "New York",
+  "York Powell",
+  "Henry Adams Bellows",
+  "Exeter Book",
+  "Old English Orosius",
+  "Oxford UP",
+  "Cambridge UP"
+ ]
+}

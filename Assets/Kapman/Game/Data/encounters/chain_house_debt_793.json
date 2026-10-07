@@ -1,0 +1,615 @@
+{
+ "about": "THE CHAIN house_debt (Design/content/CHAINS.md; the page is Design/content/chains/house_debt.md): the 1,920 pennies (it was 480 until 7 Oct 2026) owed to the count of Dorestad for the boat, from the split tally on the first morning (21 June 793) to the count's friendship, his enmity, Saint Martin's protection or the rival's dam head. Fourteen cards, four endings (flags ch_house_debt_end_friend, ch_house_debt_end_enemy, ch_house_debt_end_st_martin, ch_house_debt_end_sold). Cast (Design/content/spine.json): the count is cast.folcbert, the steward cast.hartwin, the rival skipper cast.thiadbod, the widow cast.thiadburg, the moneyer cast.sigimar, the bishop cast.hamacar (the only historical person). Cards with weight 0 come only when another card schedules them or names them in 'then'; their 'when' says when they belong. The engine has no verb that changes the debt itself, so a payment is a cost in silver and the flags ch_house_debt_owed (480 or 0) and ch_house_debt_cleared say where the tally stands (see 'needs' in the page). Words: Data/writing/chain_house_debt.json. A draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_house_debt.s01_tally",
+   "note": "Step 1, the start: Dorestad, the first call of a new game (21 June 793). Weight 40 so that it is all but sure to be the first card drawn: it is the game's opening. Steward: cast.hartwin. Sources: trade_rules.json start (480 d, creditor.count); Design/DECISIONS.md no. 10 (480 d by Michaelmas); spine thread counts_day. No count of Dorestad is named in the 790s (Design/content/dossiers/dorestad.md 8): the count is invented. Lending at interest forbidden to all: Admonitio generalis 789 c. 5 (MGH Capit. I no. 22; de.wikipedia 'Zinsverbot') (?). The split tally is the game's device, recorded only from about 1100 (LATER).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year < 796 and not flag.ch_house_debt_1 and not flag.lender_opening",
+   "weight": 40,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "port", "tongue": "port", "age": [50, 60], "fixed": true, "note": "cast.hartwin" }
+   },
+   "title_key": "chain_house_debt.s01.title",
+   "title": "The tally",
+   "intention_key": "chain_house_debt.s01.intention",
+   "intention": "The count's steward waits at the dam head with a hazel stick split down its length: 1,920 pennies lent for the boat, due at Michaelmas.",
+   "lines": [
+    { "who": "steward", "key": "chain_house_debt.s01.cut" },
+    { "who": "steward", "key": "chain_house_debt.s01.day", "when": "year < 794 and month <= 9" },
+    { "who": "steward", "key": "chain_house_debt.s01.day_late", "when": "year > 793 or month > 9" },
+    { "who": "steward", "key": "chain_house_debt.s01.law" },
+    { "who": "steward", "key": "chain_house_debt.s01.wants", "when": "standing >= known" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_house_debt.s01.take", "label": "Take your half and say you will be there", "check": "true", "default": true,
+      "effects": [ "flag ch_house_debt_1", "flag ch_house_debt_owed = 1920", "npc steward feeling +2 took",
+                   "news chain_house_debt.news_corn at dorestad",
+                   "schedule harbour.chain_house_debt.s02_rival in 20 at dorestad",
+                   "schedule harbour.chain_house_debt.s03_michaelmas in 100 at dorestad" ] },
+    { "key": "gift", "label_key": "chain_house_debt.s01.gift", "label": "Leave twelve pennies for the count's table, as the custom is", "check": "silver >= 12",
+      "cost": "silver 12",
+      "effects": [ "flag ch_house_debt_1", "flag ch_house_debt_owed = 1920", "flag ch_house_debt_gift", "npc steward feeling +6 gift",
+                   "news chain_house_debt.news_corn at dorestad",
+                   "schedule harbour.chain_house_debt.s02_rival in 20 at dorestad",
+                   "schedule harbour.chain_house_debt.s03_michaelmas in 100 at dorestad" ] },
+    { "key": "argue", "label_key": "chain_house_debt.s01.argue", "label": "Say the boat was never worth eight pounds", "check": "true",
+      "effects": [ "flag ch_house_debt_1", "flag ch_house_debt_owed = 1920", "npc steward feeling -4 argued",
+                   "news chain_house_debt.news_corn at dorestad",
+                   "schedule harbour.chain_house_debt.s02_rival in 20 at dorestad",
+                   "schedule harbour.chain_house_debt.s03_michaelmas in 100 at dorestad" ] }
+   ],
+   "memory": {
+    "take": "took his half of the tally",
+    "gift": "left a gift for the count's table",
+    "argue": "argued the price of the boat"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s02_rival",
+   "note": "Step 2: Dorestad, about twenty days after the tally (scheduled by step 1). The warning of the chain's danger: the rival buys other men's tallies. Rival: cast.thiadbod; widow: cast.thiadburg; Sibrad is an invented oarsman (Sib- + -rad, names_placeholder.json). The English cloth: the ports of Charles and Offa were shut to each other's merchants from about 789 to 796 (spine thread black_stones; Gesta abbatum Fontanellensium c. 12), so the order is a risk he passes on.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_debt_1 and not flag.ch_house_debt_2",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "port", "tongue": "port", "age": [36, 44], "fixed": true, "note": "cast.thiadbod" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "port", "tongue": "port", "sex": "f", "age": [40, 48], "fixed": true, "note": "cast.thiadburg" }
+   },
+   "title_key": "chain_house_debt.s02.title",
+   "title": "A friend on the bank road",
+   "intention_key": "chain_house_debt.s02.intention",
+   "intention": "Thiadbod, who has the best dam head in Dorestad, comes along the bank road to wish you well. His sister, the widow Thiadburg, watches from her storehouse door.",
+   "lines": [
+    { "who": "rival", "key": "chain_house_debt.s02.greet" },
+    { "who": "rival", "key": "chain_house_debt.s02.offer" },
+    { "who": "rival", "key": "chain_house_debt.s02.count" },
+    { "who": "widow", "key": "chain_house_debt.s02.warn" },
+    { "who": "widow", "key": "chain_house_debt.s02.english", "when": "year < 797" },
+    { "who": "widow", "key": "chain_house_debt.s02.lend", "when": "standing >= known" }
+   ],
+   "options": [
+    { "key": "take_order", "label_key": "chain_house_debt.s02.take_order", "label": "Take his order for English cloth", "check": "true",
+      "effects": [ "flag ch_house_debt_2", "flag ch_house_debt_2a", "commission wool_cloth 6 by 60 premium 0.3",
+                   "npc rival feeling +6 obliged", "npc widow feeling -3 obliged" ] },
+    { "key": "decline", "label_key": "chain_house_debt.s02.decline", "label": "Thank him and take no favours", "check": "true",
+      "effects": [ "flag ch_house_debt_2", "flag ch_house_debt_2b", "npc rival feeling -2 declined", "npc widow feeling +3 declined" ] },
+    { "key": "ask_tallies", "label_key": "chain_house_debt.s02.ask_tallies", "label": "Ask him, before his sister, whose sticks hang in his storehouse", "check": "true",
+      "effects": [ "flag ch_house_debt_2", "flag ch_house_debt_2c", "npc rival feeling -8 asked", "npc widow feeling +8 asked" ] }
+   ],
+   "memory": {
+    "take_order": "took Thiadbod's order and his favour",
+    "decline": "took no favours from Thiadbod",
+    "ask_tallies": "asked Thiadbod about the bought tallies"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s03_michaelmas",
+   "note": "Step 3: Dorestad, the first reckoning, due from Michaelmas (29 September) 793 (scheduled by step 1; it opens at the first mooring at Dorestad after the day). Count: cast.folcbert, in the hall at De Geer (a lord's seat by the digs; that it is the count's is our guess (?): dossier dorestad 2). 'On the day' is to the end of October 793. Branches: 3a paid, 3b a year's grace for the boat's work (spine flags db_extension, db_service), 3c the boat pledged. Sources: Michaelmas as a feast: Council of Mainz 813 c. 36 (spine calendar); the loss on the Weser: chronicle_793.json 793-summer-rustringen-defeat (Annales regni Francorum, revised, 793); the famine: 793-great-famine; no more than was lent: Admonitio generalis 789 c. 5 (?). Paying on the day uses the deed kept_commission, the nearest there is.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_debt_1 and not flag.ch_house_debt_3",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "port", "tongue": "port", "age": [42, 48], "fixed": true, "note": "cast.folcbert" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "port", "tongue": "port", "age": [50, 60], "fixed": true, "note": "cast.hartwin" }
+   },
+   "title_key": "chain_house_debt.s03.title",
+   "title": "The count's day",
+   "intention_key": "chain_house_debt.s03.intention",
+   "intention": "The reckoning. In the count's hall the steward lays the two halves of the hazel stick together on the board, and the count looks at you over them.",
+   "lines": [
+    { "who": "steward", "key": "chain_house_debt.s03.fit" },
+    { "who": "count", "key": "chain_house_debt.s03.ontime", "when": "year < 794 and month <= 10" },
+    { "who": "count", "key": "chain_house_debt.s03.late", "when": "year > 793 or month > 10" },
+    { "who": "count", "key": "chain_house_debt.s03.gift", "when": "flag.ch_house_debt_gift" },
+    { "who": "count", "key": "chain_house_debt.s03.weser", "when": "year = 793" },
+    { "who": "count", "key": "chain_house_debt.s03.law" },
+    { "who": "count", "key": "chain_house_debt.s03.corn" },
+    { "who": "steward", "key": "chain_house_debt.s03.hawk" }
+   ],
+   "options": [
+    { "key": "pay_day", "label_key": "chain_house_debt.s03.pay_day", "label": "Count out what you still owe, on the day", "check": "debt_short <= 0 and year < 794 and month <= 10",
+            "effects": [ "law debt_paid", "flag ch_house_debt_3", "flag ch_house_debt_3a", "flag ch_house_debt_paid_on_the_day", "flag ch_house_debt_cleared",
+                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag ch_house_debt_long", "deed kept_commission",
+                   "npc count feeling +15 paid_on_the_day", "npc steward feeling +8 paid", "toll eased 90",
+                   "news chain_house_debt.news_host at dorestad",
+                   "schedule harbour.chain_house_debt.s04_bread in 45 at dorestad" ] },
+    { "key": "pay_late", "label_key": "chain_house_debt.s03.pay_late", "label": "Count out what you still owe, late", "check": "debt_short <= 0 and (year > 793 or month > 10)",
+            "effects": [ "law debt_paid", "flag ch_house_debt_3", "flag ch_house_debt_3a", "flag ch_house_debt_cleared", "flag ch_house_debt_owed = 0", "law debt_cleared",
+                   "flag ch_house_debt_long", "npc count feeling +5 paid_late", "npc steward feeling +4 paid",
+                   "news chain_house_debt.news_host at dorestad",
+                   "schedule harbour.chain_house_debt.s04_bread in 45 at dorestad" ] },
+    { "key": "grace", "label_key": "chain_house_debt.s03.grace", "label": "Ask until next Michaelmas, and offer the boat's work for it", "check": "year < 794 and standing >= known",
+      "effects": [ "flag ch_house_debt_3", "flag ch_house_debt_3b", "flag db_extension", "flag db_service", "npc count feeling +2 grace",
+                   "schedule harbour.chain_house_debt.s04_bread in 45 at dorestad",
+                   "schedule harbour.chain_house_debt.s05_new_penny in 290 at dorestad" ] },
+    { "key": "pledge", "label_key": "chain_house_debt.s03.pledge", "label": "Lay the mooring rope on the board: the boat is his pledge", "check": "true",
+      "effects": [ "flag ch_house_debt_3", "flag ch_house_debt_3c", "flag ch_house_debt_pledged", "npc count feeling -6 pledged",
+                   "npc steward feeling -2 pledged",
+                   "schedule harbour.chain_house_debt.s04_bread in 45 at dorestad",
+                   "schedule harbour.chain_house_debt.s05_new_penny in 290 at dorestad" ] }
+   ],
+   "memory": {
+    "pay_day": "paid the debt for the boat on the day",
+    "pay_late": "paid the debt for the boat, late",
+    "grace": "asked a year and offered the boat's work",
+    "pledge": "pledged the boat"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s04_bread",
+   "note": "Step 4: Dorestad, about Martinmas 793, in the great famine (scheduled by step 3, which warns of it in the count's own words). A side step for every road: who is fed. Branches: 4a to the count at his price, 4b on the dams at the hungry price, 4c shared with the church door, 4d none. Steward: cast.hartwin; the priest serves Saint Martin's church above Dorestad (the Upkirika, given to Utrecht in 777: dossier dorestad 2). Sources: the famine of 793: chronicle_793.json 793-great-famine (Annales Laureshamenses, Chronicon Moissiacense, Annales Mosellani); the just price of wheat, four pennies the measure, and lords to keep their people from starving, were set at Frankfurt only in June 794 (MGH Capit. I no. 28 c. 4; 794-06-01-frankfurt-prices), so here the price is the count's own. Six and twelve pennies the sack are the game's (goods_793.json wheat 6 d).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_debt_3 and not flag.ch_house_debt_4",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "steward": { "role": "steward", "people": "frankish", "faith": "port", "tongue": "port", "age": [50, 60], "fixed": true, "note": "cast.hartwin" },
+    "priest": { "role": "priest", "people": "port", "faith": "port", "tongue": "port", "age": [30, 55], "fixed": true, "note": "the priest of Saint Martin's church above Dorestad; invented" }
+   },
+   "title_key": "chain_house_debt.s04.title",
+   "title": "The hungry winter",
+   "intention_key": "chain_house_debt.s04.intention",
+   "intention": "The count's steward stands on the bank with a list of the households on the count's land that have eaten their seed corn. He looks into every hold that comes up the river.",
+   "lines": [
+    { "who": "steward", "key": "chain_house_debt.s04.list" },
+    { "who": "steward", "key": "chain_house_debt.s04.frost", "when": "month >= 11 or month <= 3" },
+    { "who": "steward", "key": "chain_house_debt.s04.price" },
+    { "who": "steward", "key": "chain_house_debt.s04.corn_seen", "when": "hold.wheat >= 1" },
+    { "who": "steward", "key": "chain_house_debt.s04.no_corn", "when": "hold.wheat = 0" },
+    { "who": "steward", "key": "chain_house_debt.s04.service", "when": "flag.ch_house_debt_3b" },
+    { "who": "priest", "key": "chain_house_debt.s04.door" },
+    { "who": "steward", "key": "chain_house_debt.s04.host", "when": "flag.ch_house_debt_long" }
+   ],
+   "options": [
+    { "key": "to_count", "label_key": "chain_house_debt.s04.to_count", "label": "Sell the count four sacks at his price", "check": "hold.wheat >= 4",
+      "cost": "goods wheat 4",
+      "effects": [ "silver +24", "flag ch_house_debt_4", "flag ch_house_debt_4a", "flag ch_house_debt_fed_his_people",
+                   "npc steward feeling +10 fed", "toll eased 60" ] },
+    { "key": "to_dams", "label_key": "chain_house_debt.s04.to_dams", "label": "Sell four sacks on the dams at the hungry price", "check": "hold.wheat >= 4",
+      "cost": "goods wheat 4",
+      "effects": [ "silver +48", "flag ch_house_debt_4", "flag ch_house_debt_4b", "npc steward feeling -8 hungry_price",
+                   "npc priest feeling -4 hungry_price" ] },
+    { "key": "to_poor", "label_key": "chain_house_debt.s04.to_poor", "label": "Carry two sacks to the church door and sell him the other two", "check": "hold.wheat >= 4",
+      "cost": "goods wheat 4",
+      "effects": [ "silver +12", "deed gave_alms", "flag ch_house_debt_4", "flag ch_house_debt_4c", "flag ch_house_debt_fed_his_people",
+                   "npc priest feeling +12 alms", "npc steward feeling +6 fed", "morale +0.05" ] },
+    { "key": "none", "label_key": "chain_house_debt.s04.none", "label": "You have no corn to spare", "check": "true",
+      "effects": [ "flag ch_house_debt_4", "flag ch_house_debt_4d", "npc steward feeling -1 none" ] }
+   ],
+   "memory": {
+    "to_count": "sold the count wheat at his price in the hungry winter",
+    "to_dams": "sold wheat at the hungry price",
+    "to_poor": "gave wheat at the church door",
+    "none": "had no corn to spare"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s05_new_penny",
+   "note": "Step 5: Dorestad, after midsummer 794 (scheduled by step 3 for those who still owe): the king's new heavy penny, and whether a tally of 1,920 pennies is paid by tale or by weight. Branches: 5a by tale (the count has near a third more silver than he lent: the flag ch_house_debt_tale_taken is a true grievance later), 5b by weight, 5c left to Michaelmas. Moneyer: cast.sigimar. Sources: the new denarii to be taken everywhere, and fifteen shillings from a free man who refuses them: Frankfurt, June 794, c. 5 (MGH Capit. I no. 28; Fordham sourcebook 'Monetary Regulations of the Carolingians', read 4 Oct 2026; chronicle_793.json 794-06-frankfurt-new-denier); the light penny of about 1.3 g until 793/4 and the monogram penny of about 1.7 g after: dossier dorestad 4; 480 x 1.3 / 1.7 = 367. Whether old debts were to be paid by tale or by weight no source says: the dispute is ours (?). The riddle is Symphosius 91, money (riddles_793.json).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_debt_3 and flag.ch_house_debt_owed and not flag.ch_house_debt_5 and year >= 794",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "port", "tongue": "port", "age": [42, 48], "fixed": true, "note": "cast.folcbert" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "port", "tongue": "port", "age": [50, 60], "fixed": true, "note": "cast.hartwin" },
+    "moneyer": { "role": "moneyer", "people": "frankish", "faith": "port", "tongue": "port", "age": [38, 46], "fixed": true, "note": "cast.sigimar" }
+   },
+   "title_key": "chain_house_debt.s05.title",
+   "title": "The king's new penny",
+   "intention_key": "chain_house_debt.s05.intention",
+   "intention": "The mint at Dorestad is striking the king's new penny, broad and heavy. The count has heard the law from Frankfurt read, and has sent for every man whose stick still hangs in his hall.",
+   "lines": [
+    { "who": "moneyer", "key": "chain_house_debt.s05.weigh" },
+    { "who": "count", "key": "chain_house_debt.s05.law" },
+    { "who": "steward", "key": "chain_house_debt.s05.tale" },
+    { "who": "moneyer", "key": "chain_house_debt.s05.weight" },
+    { "who": "count", "key": "chain_house_debt.s05.word" },
+    { "who": "steward", "key": "chain_house_debt.s05.fed", "when": "flag.ch_house_debt_fed_his_people" },
+    { "who": "steward", "key": "chain_house_debt.s05.pledged", "when": "flag.ch_house_debt_pledged" }
+   ],
+   "options": [
+    { "key": "pay_tale", "label_key": "chain_house_debt.s05.pay_tale", "label": "Pay what you owe by tale in the new pennies, and see the stick burned", "check": "debt_short <= 0",
+            "effects": [ "law debt_paid", "flag ch_house_debt_5", "flag ch_house_debt_5a", "flag ch_house_debt_tale_taken", "flag ch_house_debt_cleared",
+                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag ch_house_debt_long", "npc count feeling +12 tale", "npc steward feeling +6 paid",
+                   "npc moneyer feeling -2 tale", "news chain_house_debt.news_host at dorestad" ] },
+    { "key": "pay_weight", "label_key": "chain_house_debt.s05.pay_weight", "label": "Have the moneyer weigh out what you owe in new pennies, about three for every four by tale, and pay that", "check": "debt_weight_short <= 0",
+            "effects": [ "law debt_weight", "flag ch_house_debt_5", "flag ch_house_debt_5b", "flag ch_house_debt_cleared", "flag ch_house_debt_owed = 0", "law debt_cleared",
+                   "flag ch_house_debt_long", "npc count feeling -6 weight", "npc moneyer feeling +8 weighed",
+                   "give_riddle riddle_symphosius_91_pecunia", "news chain_house_debt.news_host at dorestad" ] },
+    { "key": "stand", "label_key": "chain_house_debt.s05.stand", "label": "Say you will answer at Michaelmas", "check": "true",
+      "effects": [ "flag ch_house_debt_5", "flag ch_house_debt_5c", "npc count feeling -2 waited",
+                   "schedule harbour.chain_house_debt.s06_bid in 80 at dorestad" ] }
+   ],
+   "memory": {
+    "pay_tale": "paid the tally by tale in the new pennies",
+    "pay_weight": "paid the tally by the moneyer's weight",
+    "stand": "let the tally stand till Michaelmas"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s06_bid",
+   "note": "Step 6: Dorestad, Michaelmas 794 (scheduled by step 5; it comes a second time if the bishop is asked and gives nothing). The rival offers the count the full tale for the stick. Branches: 6a matched and paid, 6b the widow's surety (spine flag db_surety; the lasting cost is the flag ch_house_debt_widow_share), 6c to the bishop, 6d sold (spine flag db_bought; the ending is step 14). Rival cast.thiadbod, widow cast.thiadburg. Sources: the host of autumn 794, two armies into Saxony: chronicle_793.json 794-autumn-sintfeld (Annales regni Francorum 794). The sale of a debt and the widow's lending on goods are the spine's (thread counts_day); a third share of a venture for the lender follows the shape of the later commenda, thin in the north (Design/economy_and_trade.md 2.9) (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_debt_5c and flag.ch_house_debt_owed and year >= 794",
+   "weight": 0,
+   "cooldown_days": 3,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "port", "tongue": "port", "age": [42, 48], "fixed": true, "note": "cast.folcbert" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "port", "tongue": "port", "age": [50, 60], "fixed": true, "note": "cast.hartwin" },
+    "rival": { "role": "skipper", "people": "frisian", "faith": "port", "tongue": "port", "age": [36, 44], "fixed": true, "note": "cast.thiadbod" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "port", "tongue": "port", "sex": "f", "age": [40, 48], "fixed": true, "note": "cast.thiadburg" }
+   },
+   "title_key": "chain_house_debt.s06.title",
+   "title": "The stick for sale",
+   "intention_key": "chain_house_debt.s06.intention",
+   "intention": "The count is making ready to ride with the host, and he does not mean to leave an open stick behind him. Thiadbod stands at his elbow. On the board lie your tally, a purse and a cask of wine.",
+   "lines": [
+    { "who": "count", "key": "chain_house_debt.s06.ride", "when": "year = 794" },
+    { "who": "count", "key": "chain_house_debt.s06.ride_later", "when": "year > 794" },
+    { "who": "count", "key": "chain_house_debt.s06.bid" },
+    { "who": "count", "key": "chain_house_debt.s06.back", "when": "flag.ch_house_debt_7c" },
+    { "who": "rival", "key": "chain_house_debt.s06.kind" },
+    { "who": "rival", "key": "chain_house_debt.s06.obliged", "when": "flag.ch_house_debt_2a" },
+    { "who": "widow", "key": "chain_house_debt.s06.surety", "when": "npc.widow.feeling >= easy" },
+    { "who": "widow", "key": "chain_house_debt.s06.cold", "when": "npc.widow.feeling < easy" },
+    { "who": "steward", "key": "chain_house_debt.s06.utrecht", "when": "not flag.ch_house_debt_7" }
+   ],
+   "options": [
+    { "key": "pay", "label_key": "chain_house_debt.s06.pay", "label": "Match the bid: what you owe, in new pennies, and the stick is burned", "check": "debt_short <= 0",
+            "effects": [ "law debt_paid", "flag ch_house_debt_6", "flag ch_house_debt_6a", "flag ch_house_debt_tale_taken", "flag ch_house_debt_cleared",
+                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag ch_house_debt_long", "npc count feeling +6 matched", "npc rival feeling -10 outbid",
+                   "news chain_house_debt.news_host at dorestad" ] },
+    { "key": "surety", "label_key": "chain_house_debt.s06.surety_take", "label": "Take the widow's surety: a quarter of the debt now and a third of three cargoes", "check": "debt_quarter_short <= 0 and npc.widow.feeling >= easy",
+            "effects": [ "law debt_quarter", "flag ch_house_debt_6", "flag ch_house_debt_6b", "flag db_surety", "flag ch_house_debt_widow_share", "flag ch_house_debt_cleared",
+                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag ch_house_debt_long", "npc widow feeling +10 surety", "npc rival feeling -12 outbid",
+                   "news chain_house_debt.news_host at dorestad" ] },
+    { "key": "bishop", "label_key": "chain_house_debt.s06.bishop", "label": "Say the bishop will hear of it, and go down to Utrecht", "check": "not flag.ch_house_debt_7",
+      "effects": [ "flag ch_house_debt_6", "flag ch_house_debt_6c", "npc count feeling -8 bishop",
+                   "schedule harbour.chain_house_debt.s07_bishop in 1 at traiectum" ] },
+    { "key": "sold", "label_key": "chain_house_debt.s06.sold", "label": "Let him sell it", "check": "true",
+      "effects": [ "flag ch_house_debt_6", "flag ch_house_debt_6d", "flag db_bought", "npc rival feeling +5 sold", "npc widow feeling -5 sold" ],
+      "then": "harbour.chain_house_debt.s14_sold" }
+   ],
+   "memory": {
+    "pay": "matched Thiadbod's bid and paid by tale",
+    "surety": "took the widow's surety",
+    "bishop": "went to the bishop about the tally",
+    "sold": "let the tally be sold to Thiadbod"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s07_bishop",
+   "note": "Step 7: Traiectum (Utrecht), a day's row below Dorestad, autumn 794 (scheduled by step 6). Bishop: cast.hamacar, historical (bishop about 790 to 806 in the bishops' list; nothing else is known of him, so his words are invented). Branches: 7a Saint Martin's man (the ending is step 13), 7b the letter and the weight paid through the bishop's clerk (spine flag db_surety; the deed carried_letters), 7c nothing, and back to step 6. Sources: Saint Martin's men on the banks at Dorestad owe the king's officers nothing, nobody may lodge in their houses or take their goods at death: Louis the Pious, 18 March 815, confirming older grants (Oorkondenboek Sticht Utrecht I no. 56; dossier dorestad 4); that this already held in 794 is assumed (?). Usury forbidden to every Christian: Admonitio generalis 789 c. 5; the definition, more asked back than was given, is Nijmegen 806 c. 11 (MGH Capit. I no. 46) (?). The stone fort and Saint Martin's church: dossier traiectum 1-2.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_house_debt_6c and not flag.ch_house_debt_7 and year < 807",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "port", "tongue": "port", "age": [48, 56], "fixed": true, "note": "cast.hamacar (historical)" }
+   },
+   "title_key": "chain_house_debt.s07.title",
+   "title": "Saint Martin's man",
+   "intention_key": "chain_house_debt.s07.intention",
+   "intention": "Inside the old stone fort at Utrecht the bishop hears you between the hours, a deacon with a book beside him. He has waited a long time for a complaint against the count of Dorestad that he could put in writing.",
+   "lines": [
+    { "who": "bishop", "key": "chain_house_debt.s07.greet" },
+    { "who": "bishop", "key": "chain_house_debt.s07.usury" },
+    { "who": "bishop", "key": "chain_house_debt.s07.price" },
+    { "who": "bishop", "key": "chain_house_debt.s07.martin" },
+    { "who": "bishop", "key": "chain_house_debt.s07.think" }
+   ],
+   "options": [
+    { "key": "st_martin", "label_key": "chain_house_debt.s07.st_martin", "label": "Kneel, and put your hands between his", "check": "true",
+      "effects": [ "flag ch_house_debt_7", "flag ch_house_debt_7a", "npc bishop feeling +10 knelt" ],
+      "then": "harbour.chain_house_debt.s13_st_martin" },
+    { "key": "letter", "label_key": "chain_house_debt.s07.letter", "label": "Ask for the letter and pay the debt by weight to his clerk", "check": "debt_weight_short <= 0",
+            "effects": [ "law debt_weight", "flag ch_house_debt_7", "flag ch_house_debt_7b", "flag ch_house_debt_bishops_letter", "flag db_surety", "flag ch_house_debt_cleared",
+                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag ch_house_debt_long", "deed carried_letters", "npc bishop feeling +6 letter",
+                   "news chain_house_debt.news_host at dorestad" ] },
+    { "key": "back", "label_key": "chain_house_debt.s07.back", "label": "Thank him and go back up the river as you came", "check": "true",
+      "effects": [ "flag ch_house_debt_7", "flag ch_house_debt_7c", "npc bishop feeling -1 went_back",
+                   "schedule harbour.chain_house_debt.s06_bid in 3 at dorestad" ] }
+   ],
+   "memory": {
+    "st_martin": "became Saint Martin's man",
+    "letter": "took the bishop's letter on usury and paid the weight",
+    "back": "asked and took nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s08_host",
+   "note": "Step 8, a turn on the long road (the tally closed, the house its own): Daventre, April to August of 794 to 799, drawn on a call there. The stores of the host that goes into Saxony each year. Branches: 8a served (ch_house_debt_served_host; on a failed chance the boat is kept unpaid, ch_house_debt_pressed, a true grievance later), 8b supplied, 8c refused. The count's man is invented. Sources: Daventre on the host's road east, grain and salt meat bought up each May (spine thread saxon_end; dossier daventre 1); 794 two armies: chronicle_793.json 794-autumn-sintfeld; 795 to the Elbe and more hostages than before: 795-summer-bardowick-campaign; 797 the king's ships hauled over land and by river into Saxony: 797-summer-ships-into-saxony (Annales Guelferbytani 797). A penny a load is the game's.",
+   "stage": "harbour",
+   "when": "moored and port.id = daventre and flag.ch_house_debt_long and not flag.ch_house_debt_8 and not flag.ch_house_debt_10 and year >= 794 and year < 800",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 30,
+   "months": [4, 5, 6, 7, 8],
+   "actors": {
+    "man": { "role": "lords_man", "people": "frankish", "faith": "port", "tongue": "port", "age": [28, 45], "fixed": false, "note": "the count's man with the stores; invented" }
+   },
+   "title_key": "chain_house_debt.s08.title",
+   "title": "Stores for the host",
+   "intention_key": "chain_house_debt.s08.intention",
+   "intention": "Carts and horse lines on the river bank at Daventre, and one of the count's men counting sacks on a wax tablet. The host goes east into Saxony again, and its stores must cross the river and go up it.",
+   "lines": [
+    { "who": "man", "key": "chain_house_debt.s08.greet" },
+    { "who": "man", "key": "chain_house_debt.s08.work" },
+    { "who": "man", "key": "chain_house_debt.s08.y794", "when": "year = 794" },
+    { "who": "man", "key": "chain_house_debt.s08.y795", "when": "year = 795" },
+    { "who": "man", "key": "chain_house_debt.s08.y797", "when": "year = 797" },
+    { "who": "man", "key": "chain_house_debt.s08.other", "when": "year = 796 or year >= 798" },
+    { "who": "man", "key": "chain_house_debt.s08.risk" },
+    { "who": "man", "key": "chain_house_debt.s08.hawk" }
+   ],
+   "options": [
+    { "key": "serve", "label_key": "chain_house_debt.s08.serve", "label": "Carry the stores for twelve days", "check": "true",
+      "effects": [ { "chance": 0.8, "by": "crew.seamanship_best",
+                     "success": [ "silver +120", "flag ch_house_debt_8", "flag ch_house_debt_8a", "flag ch_house_debt_served_host",
+                                  "commission salt_pork 4 by 300 premium 0.5", "npc man feeling +8 served" ],
+                     "failure": [ "silver +50", "health -0.05", "flag ch_house_debt_8", "flag ch_house_debt_8a", "flag ch_house_debt_served_host",
+                                  "flag ch_house_debt_pressed", "npc man feeling +4 served" ] } ] },
+    { "key": "supply", "label_key": "chain_house_debt.s08.supply", "label": "Take his order for salt pork instead", "check": "true",
+      "effects": [ "commission salt_pork 4 by 40 premium 0.5", "flag ch_house_debt_8", "flag ch_house_debt_8b", "npc man feeling +2 supplied" ] },
+    { "key": "refuse", "label_key": "chain_house_debt.s08.refuse", "label": "Say the boat has her own summer", "check": "true",
+      "effects": [ "flag ch_house_debt_8", "flag ch_house_debt_8c", "npc man feeling -6 refused" ] }
+   ],
+   "memory": {
+    "serve.success": "carried the host's stores and was paid",
+    "serve.failure": "carried the host's stores and was kept unpaid when the water fell",
+    "supply": "took an order for the host",
+    "refuse": "would not carry for the host"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s09_hawk",
+   "note": "Step 9, a turn on the long road: Dorestad, whenever she lies there with a falcon aboard (the steward names the wish in steps 1, 3 and 8). Branches: 9a given (ch_house_debt_hawk: with the debt paid on the day it opens the hard road's finale), 9b sold; keeping her sets nothing and the card may come again. Sources: falcons as gifts between the great: goods_793.json falcons; Boniface sent a hawk and two falcons to King Aethelbald of Mercia about 745, and King Aethelberht of Kent asked him for two more (Boniface's letters, Tangl nos. 69 and 105) (?). The king winters at Aachen from 794: chronicle_793.json 794-12-25-aachen-winter. That a white northern hawk reached a Frankish count in the 790s is our own (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_debt_long and hold.falcons >= 1 and not flag.ch_house_debt_9 and not flag.ch_house_debt_10 and year < 806",
+   "weight": 40,
+   "cooldown_days": 60,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "port", "tongue": "port", "age": [42, 48], "fixed": true, "note": "cast.folcbert" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "port", "tongue": "port", "age": [50, 60], "fixed": true, "note": "cast.hartwin" }
+   },
+   "title_key": "chain_house_debt.s09.title",
+   "title": "A hawk from the north",
+   "intention_key": "chain_house_debt.s09.intention",
+   "intention": "The count has come down to the dam head himself, which he does not do. Somebody has told him what sits on the perch in your stern.",
+   "lines": [
+    { "who": "count", "key": "chain_house_debt.s09.see" },
+    { "who": "steward", "key": "chain_house_debt.s09.steward" },
+    { "who": "count", "key": "chain_house_debt.s09.king" },
+    { "who": "count", "key": "chain_house_debt.s09.ask", "when": "flag.ch_house_debt_paid_on_the_day" },
+    { "who": "steward", "key": "chain_house_debt.s09.price" }
+   ],
+   "options": [
+    { "key": "give", "label_key": "chain_house_debt.s09.give", "label": "Give him the hawk for the king", "check": "hold.falcons >= 1",
+      "cost": "goods falcons 1",
+      "effects": [ "flag ch_house_debt_9", "flag ch_house_debt_9a", "flag ch_house_debt_hawk", "silver +120", "npc count feeling +20 hawk",
+                   "npc steward feeling +4 hawk", "toll eased 180" ] },
+    { "key": "sell", "label_key": "chain_house_debt.s09.sell", "label": "Sell him the hawk at the dam's price", "check": "hold.falcons >= 1",
+      "cost": "goods falcons 1",
+      "effects": [ "flag ch_house_debt_9", "flag ch_house_debt_9b", "silver +200", "npc count feeling +3 sold_hawk" ] },
+    { "key": "keep", "label_key": "chain_house_debt.s09.keep", "label": "Keep her for another market", "check": "true",
+      "effects": [ "npc count feeling -3 kept_hawk" ] }
+   ],
+   "memory": {
+    "give": "gave the count a hawk for the king",
+    "sell": "sold the count a hawk",
+    "keep": "kept the hawk from the count"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s10_envoys",
+   "note": "Step 10, the long road's last choice: Dorestad, April to October of 796 to 805, drawn on a call there. The king's man takes the oath and hears wrongs; the merchant speaks for the count (the ending is step 11) or tells how tallies are sold in his hall (step 12). Before 802 the king's man is a poor vassal of the palace and the complaint is only likely to be heard (ch_house_debt_judged or ch_house_debt_unheard); from 802 the envoys are great men and it is sure. Envoy and clerk invented: no envoy to the Dorestad district is recorded. Sources: Charles to Offa, 796: 'traders have due protection within our kingdom ... let them appeal to us or our judges' (tr. in E. P. Cheyney, Readings in English History, Boston 1922, p. 56; chronicle_793.json 796-spring-offa-letter); the oath of every man from twelve years up and the envoys sent to do justice, none 'kept back from the right path of justice by the adulation or the reward of any man': Capitulare missorum generale 802 c. 1-2 (tr. E. F. Henderson 1896; chronicle_793.json 802-spring-oath-of-802); an earlier general oath after the plot of 792: MGH Capit. I no. 25 (?); in 802 the king would no longer send poorer vassals of the palace to do justice, because of gifts: Annales Laureshamenses 802, from memory (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_debt_long and not flag.ch_house_debt_10 and year >= 796 and year < 806 and (hold.falcons = 0 or flag.ch_house_debt_9)",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 30,
+   "months": [4, 5, 6, 7, 8, 9, 10],
+   "actors": {
+    "envoy": { "role": "kings_man", "people": "frankish", "faith": "port", "tongue": "port", "age": [35, 55], "fixed": true, "note": "the king's man; invented" },
+    "count": { "role": "count", "people": "frankish", "faith": "port", "tongue": "port", "age": [42, 48], "fixed": true, "note": "cast.folcbert" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "port", "tongue": "port", "age": [50, 60], "fixed": true, "note": "cast.hartwin" }
+   },
+   "title_key": "chain_house_debt.s10.title",
+   "title": "The king's man",
+   "intention_key": "chain_house_debt.s10.intention",
+   "intention": "Strangers sit at the count's own board, sent to take every free man's oath and to hear any man's wrong. The count stands by the door of his own hall, and every tally stick in it lies on the board.",
+   "lines": [
+    { "who": "envoy", "key": "chain_house_debt.s10.oath", "when": "year < 801" },
+    { "who": "envoy", "key": "chain_house_debt.s10.oath_emperor", "when": "year >= 801" },
+    { "who": "envoy", "key": "chain_house_debt.s10.traders" },
+    { "who": "steward", "key": "chain_house_debt.s10.poor", "when": "year < 802" },
+    { "who": "steward", "key": "chain_house_debt.s10.great", "when": "year >= 802" },
+    { "who": "count", "key": "chain_house_debt.s10.friendly", "when": "flag.ch_house_debt_served_host or flag.ch_house_debt_hawk or flag.ch_house_debt_fed_his_people" },
+    { "who": "count", "key": "chain_house_debt.s10.cold", "when": "not flag.ch_house_debt_served_host and not flag.ch_house_debt_hawk and not flag.ch_house_debt_fed_his_people" },
+    { "who": "envoy", "key": "chain_house_debt.s10.sticks" }
+   ],
+   "options": [
+    { "key": "speak_for", "label_key": "chain_house_debt.s10.speak_for", "label": "Say the count dealt justly with you", "check": "true",
+      "effects": [ "flag ch_house_debt_10", "flag ch_house_debt_spoke_for", "npc count feeling +15 spoke_for" ],
+      "then": "harbour.chain_house_debt.s11_friend" },
+    { "key": "complain_early", "label_key": "chain_house_debt.s10.complain", "label": "Tell him how sticks are sold in this hall", "check": "year < 802",
+      "effects": [ { "chance": 0.6,
+                     "success": [ "flag ch_house_debt_10", "flag ch_house_debt_judged", "deed won_case", "npc count feeling -30 complained" ],
+                     "failure": [ "flag ch_house_debt_10", "flag ch_house_debt_unheard", "deed lost_case", "npc count feeling -30 complained" ] } ],
+      "then": "harbour.chain_house_debt.s12_enemy" },
+    { "key": "complain_late", "label_key": "chain_house_debt.s10.complain_envoys", "label": "Tell the emperor's envoys how sticks are sold in this hall", "check": "year >= 802",
+      "effects": [ "flag ch_house_debt_10", "flag ch_house_debt_judged", "deed won_case", "npc count feeling -30 complained" ],
+      "then": "harbour.chain_house_debt.s12_enemy" }
+   ],
+   "memory": {
+    "speak_for": "spoke for the count before the king's man",
+    "complain_early.success": "complained of the count and was heard",
+    "complain_early.failure": "complained of the count and was not heard",
+    "complain_late": "complained of the count to the emperor's envoys"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s11_friend",
+   "note": "Step 11, an ending: THE COUNT'S FRIENDSHIP (flag ch_house_debt_end_friend), after step 10. Three finales: the ground on the king's bank (unlock_plot_dorestad); a seat among the seven who find judgment (unlock_title_doomsman_dorestad), for a man who fed the count's people, served the host or paid by tale; and the hard road, for the man who paid on the day and gave the hawk: the ground and a charter of toll freedom (unlock_charter_dorestad), which is history changed (changed_dorestad_toll_charter). Sources: seven judgment-finders (scabini) in the count's court: Design/content/peoples/frankish.md 3 (the capitularies; for a Frisian merchant among them (?)); a hen as a yearly due: the polyptych of Irminon (peoples/frankish.md 2); the bolt of silk: the Avar treasure, shared by the king among his great men in 796 (Annales regni Francorum 796; Einhard, Vita Karoli c. 13; chronicle_793.json 796-winter-avar-ring-plundered, 796-autumn-avar-treasure-shared); no layman known free of the tenth at Dorestad: the emperor's own merchants pay it there in 828 (Praeceptum negotiatorum, MGH Formulae imperiales no. 37; dossier dorestad 4) (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_debt_spoke_for and not flag.ch_house_debt_end_friend",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "port", "tongue": "port", "age": [42, 48], "fixed": true, "note": "cast.folcbert" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "port", "tongue": "port", "age": [50, 60], "fixed": true, "note": "cast.hartwin" }
+   },
+   "title_key": "chain_house_debt.s11.title",
+   "title": "A hen at Michaelmas",
+   "intention_key": "chain_house_debt.s11.intention",
+   "intention": "The king's man has ridden on. The count sends for you, not to the hall but to the bank below it, where a strip of the king's ground runs down to the water between two dam heads.",
+   "lines": [
+    { "who": "count", "key": "chain_house_debt.s11.thanks" },
+    { "who": "steward", "key": "chain_house_debt.s11.burn" },
+    { "who": "count", "key": "chain_house_debt.s11.offer" },
+    { "who": "count", "key": "chain_house_debt.s11.silk" },
+    { "who": "count", "key": "chain_house_debt.s11.seat", "when": "flag.ch_house_debt_fed_his_people or flag.ch_house_debt_served_host or flag.ch_house_debt_tale_taken" },
+    { "who": "count", "key": "chain_house_debt.s11.hawk", "when": "flag.ch_house_debt_hawk and flag.ch_house_debt_paid_on_the_day" }
+   ],
+   "options": [
+    { "key": "dam_head", "label_key": "chain_house_debt.s11.dam_head", "label": "Take the ground on the king's bank", "check": "true",
+      "effects": [ "flag ch_house_debt_end_friend", "flag unlock_plot_dorestad", "goods silk +1", "commission rhenish_wine 12 by 240 premium 0.8",
+                   "toll eased 365", "npc count feeling +10 friend", "npc steward feeling +6 friend" ] },
+    { "key": "seat", "label_key": "chain_house_debt.s11.seat_take", "label": "Ask instead for a seat among the seven who find judgment", "check": "flag.ch_house_debt_fed_his_people or flag.ch_house_debt_served_host or flag.ch_house_debt_tale_taken",
+      "effects": [ "flag ch_house_debt_end_friend", "flag unlock_title_doomsman_dorestad", "goods silk +1", "commission rhenish_wine 12 by 240 premium 0.8",
+                   "toll eased 365", "npc count feeling +10 friend", "npc steward feeling +6 friend" ] },
+    { "key": "charter", "label_key": "chain_house_debt.s11.charter", "label": "Ask him to carry your asking to the king: the freedom of the toll", "check": "flag.ch_house_debt_hawk and flag.ch_house_debt_paid_on_the_day",
+      "effects": [ "flag ch_house_debt_end_friend", "flag ch_house_debt_end_friend_hard", "flag unlock_plot_dorestad", "flag unlock_charter_dorestad",
+                   "flag changed_dorestad_toll_charter", "goods silk +2", "commission rhenish_wine 16 by 365 premium 1.0", "toll none",
+                   "npc count feeling +15 friend", "npc steward feeling +6 friend" ] }
+   ],
+   "memory": {
+    "dam_head": "took ground on the king's bank from the count",
+    "seat": "sits among the seven in the count's court",
+    "charter": "won the freedom of the toll through the count"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s12_enemy",
+   "note": "Step 12, an ending: THE COUNT'S ENMITY (flag ch_house_debt_end_enemy; the lasting cost is the flag ch_house_debt_count_enemy), after step 10. Three finales: heard, the king's protection and the palace's carrying (unlock_title_kings_protection); heard, with what was taken given back twofold, for a man who paid by tale or whose boat was kept unpaid; unheard, the bishop's wall at Utrecht (unlock_factor_traiectum). The clerk is the bishop of Utrecht's; invented. Sources: the king's ban of sixty shillings: Lex Ribuaria 65 and the Capitulare Saxonicum of 797 (?); twofold amends: the Lex Frisionum has a thief pay double (title III) (?); a merchant under the king's protection, his ship not to be taken: attested for the emperor's merchants in 828 (Praeceptum negotiatorum), assumed possible a generation earlier (?); bishop and count disputing fines: the spine (cast.hamacar). Under the engine an order is posted at the port of the card, so the palace's orders are delivered at Dorestad; the bishop's wants are price shocks at Traiectum.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and (flag.ch_house_debt_judged or flag.ch_house_debt_unheard) and not flag.ch_house_debt_end_enemy",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "envoy": { "role": "kings_man", "people": "frankish", "faith": "port", "tongue": "port", "age": [35, 55], "fixed": true, "note": "the king's man; invented" },
+    "count": { "role": "count", "people": "frankish", "faith": "port", "tongue": "port", "age": [42, 48], "fixed": true, "note": "cast.folcbert" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "port", "tongue": "port", "age": [50, 60], "fixed": true, "note": "cast.hartwin" },
+    "clerk": { "role": "clerk", "people": "frisian", "faith": "port", "tongue": "port", "age": [22, 40], "fixed": false, "note": "a clerk of the bishop of Utrecht; invented" }
+   },
+   "title_key": "chain_house_debt.s12.title",
+   "title": "The count's enemy",
+   "intention_key": "chain_house_debt.s12.intention",
+   "intention": "The hall is quiet. The king's man has finished with the sticks, and the count has come back in from the door to hear what is said of him at his own board.",
+   "lines": [
+    { "who": "envoy", "key": "chain_house_debt.s12.judged", "when": "flag.ch_house_debt_judged" },
+    { "who": "envoy", "key": "chain_house_debt.s12.letter_given", "when": "flag.ch_house_debt_judged" },
+    { "who": "envoy", "key": "chain_house_debt.s12.unheard", "when": "flag.ch_house_debt_unheard" },
+    { "key": "chain_house_debt.s12.horse", "when": "flag.ch_house_debt_unheard" },
+    { "who": "count", "key": "chain_house_debt.s12.count" },
+    { "who": "steward", "key": "chain_house_debt.s12.steward" },
+    { "who": "clerk", "key": "chain_house_debt.s12.clerk", "when": "flag.ch_house_debt_unheard" }
+   ],
+   "options": [
+    { "key": "letter", "label_key": "chain_house_debt.s12.letter", "label": "Take the king's man's letter and carry for the palace", "check": "flag.ch_house_debt_judged",
+      "effects": [ "flag ch_house_debt_end_enemy", "flag ch_house_debt_count_enemy", "flag unlock_title_kings_protection", "silver +240",
+                   "commission frisian_cloth 10 by 200 premium 0.6", "commission rhenish_wine 8 by 200 premium 0.6",
+                   "npc envoy feeling +10 heard", "npc steward feeling -4 enemy" ] },
+    { "key": "restitution", "label_key": "chain_house_debt.s12.restitution", "label": "Take the letter, and ask back twofold what was taken from you", "check": "flag.ch_house_debt_judged and (flag.ch_house_debt_tale_taken or flag.ch_house_debt_pressed)",
+      "effects": [ "flag ch_house_debt_end_enemy", "flag ch_house_debt_count_enemy", "flag unlock_title_kings_protection", "silver +466",
+                   "commission frisian_cloth 10 by 200 premium 0.6", "commission rhenish_wine 8 by 200 premium 0.6",
+                   "npc envoy feeling +10 heard", "npc count feeling -10 amends", "npc steward feeling -4 enemy" ] },
+    { "key": "utrecht", "label_key": "chain_house_debt.s12.utrecht", "label": "Go down to Utrecht, and trade from behind the bishop's wall", "check": "flag.ch_house_debt_unheard",
+      "effects": [ "flag ch_house_debt_end_enemy", "flag ch_house_debt_count_enemy", "flag unlock_factor_traiectum", "silver +300",
+                   "price_shock traiectum wax x1.5 for 240", "price_shock traiectum rhenish_wine x1.4 for 240",
+                   "npc clerk feeling +8 utrecht", "npc steward feeling -4 enemy" ] }
+   ],
+   "memory": {
+    "letter": "took the king's protection against the count",
+    "restitution": "had back twofold what the count took",
+    "utrecht": "went over to the bishop's side of the river"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s13_st_martin",
+   "note": "Step 13, an ending: FREEDOM BOUGHT ANOTHER WAY, as Saint Martin's man (flag ch_house_debt_end_st_martin; the lasting cost is the flag ch_house_debt_st_martins_man: he carries for the church when asked and is judged in the bishop's hall), after step 7 at Traiectum. The church pays the count; the reward is the freedom of the toll on Saint Martin's bank at Dorestad (unlock_charter_dorestad). This is the ending nearest to what the sources show: such men stood on those banks. Sources: Oorkondenboek Sticht Utrecht I no. 48 (8 June 777: the church above Dorestad and its bank) and no. 56 (18 March 815: the men of the church on the banks free of the king's dues, lodging and seizure), by the dossier dorestad 2, 4; the bishop's wants, wax, wine and letters: the spine (cast.hamacar); hands between hands: Tassilo commends himself so in 757 (Annales regni Francorum) (?). Aldhelm's riddle of the scales is in texts_793.json.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_house_debt_7a and not flag.ch_house_debt_end_st_martin",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "port", "tongue": "port", "age": [48, 56], "fixed": true, "note": "cast.hamacar (historical)" }
+   },
+   "title_key": "chain_house_debt.s13.title",
+   "title": "Hands between hands",
+   "intention_key": "chain_house_debt.s13.intention",
+   "intention": "In the small stone church of Saint Martin, inside the fort at Utrecht, you kneel and put your hands between the bishop's. A clerk writes your name under the names of the saint's other men on the banks at Dorestad.",
+   "lines": [
+    { "who": "bishop", "key": "chain_house_debt.s13.hands" },
+    { "who": "bishop", "key": "chain_house_debt.s13.count" },
+    { "who": "bishop", "key": "chain_house_debt.s13.house" },
+    { "who": "bishop", "key": "chain_house_debt.s13.due" }
+   ],
+   "options": [
+    { "key": "wax_wine", "label_key": "chain_house_debt.s13.wax_wine", "label": "Ask what Saint Martin wants carried first", "check": "true",
+      "effects": [ "flag ch_house_debt_end_st_martin", "flag ch_house_debt_st_martins_man", "flag db_surety", "flag ch_house_debt_cleared",
+                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag unlock_charter_dorestad", "commission wax 8 by 240 premium 0.6",
+                   "commission rhenish_wine 8 by 240 premium 0.6", "npc bishop feeling +15 his_man" ] },
+    { "key": "school", "label_key": "chain_house_debt.s13.school", "label": "Ask that a clerk teach your house its letters", "check": "true",
+      "effects": [ "flag ch_house_debt_end_st_martin", "flag ch_house_debt_st_martins_man", "flag db_surety", "flag ch_house_debt_cleared",
+                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag unlock_charter_dorestad", "learn latin +0.5", "give_text aldhelm_23_trutina",
+                   "commission wax 8 by 240 premium 0.6", "npc bishop feeling +15 his_man" ] }
+   ],
+   "memory": {
+    "wax_wine": "is Saint Martin's man and carries for the church",
+    "school": "is Saint Martin's man and asked for letters"
+   }
+  },
+  {
+   "id": "harbour.chain_house_debt.s14_sold",
+   "note": "Step 14, an ending: SOLD (flag ch_house_debt_end_sold; the lasting cost is the flag ch_house_debt_thiadbods_man: a third of what the boat earns is his), after step 6 at Dorestad. The rival holds the tally and does not call it in; the reward is a sworn partner with the best dam head on the river (unlock_partner_thiadbod) and his goods in the hold. With the widow as witness the third cannot be raised (ch_house_debt_terms_witnessed). Rival cast.thiadbod, widow cast.thiadburg; Sibrad invented. Sources: Frisian merchants trading in company: the spine (thread counts_day; the sworn felag by that name is Norse and later (?)); witnesses to a bargain: Frankish and Frisian law prove by witnesses and oath-helpers (peoples/frisian.md 3).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_house_debt_6d and not flag.ch_house_debt_end_sold",
+   "weight": 0,
+   "cooldown_days": 30,
+   "actors": {
+    "rival": { "role": "skipper", "people": "frisian", "faith": "port", "tongue": "port", "age": [36, 44], "fixed": true, "note": "cast.thiadbod" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "port", "tongue": "port", "sex": "f", "age": [40, 48], "fixed": true, "note": "cast.thiadburg" }
+   },
+   "title_key": "chain_house_debt.s14.title",
+   "title": "Thiadbod's second boat",
+   "intention_key": "chain_house_debt.s14.intention",
+   "intention": "The count has ridden east with the host. Your hazel stick hangs in Thiadbod's storehouse now, on a peg between two others, and Thiadbod is pouring the wine himself.",
+   "lines": [
+    { "who": "rival", "key": "chain_house_debt.s14.stick" },
+    { "who": "rival", "key": "chain_house_debt.s14.terms" },
+    { "who": "rival", "key": "chain_house_debt.s14.obliged", "when": "flag.ch_house_debt_2a" },
+    { "who": "widow", "key": "chain_house_debt.s14.widow" }
+   ],
+   "options": [
+    { "key": "swear", "label_key": "chain_house_debt.s14.swear", "label": "Drink with him and sail as his second boat", "check": "true",
+      "effects": [ "flag ch_house_debt_end_sold", "flag ch_house_debt_thiadbods_man", "flag ch_house_debt_cleared", "flag ch_house_debt_owed = 0", "law debt_cleared",
+                   "flag unlock_partner_thiadbod", "goods frisian_cloth +8", "goods rhenish_wine +3", "silver +100", "toll eased 365",
+                   "npc rival feeling +10 sworn" ] },
+    { "key": "witness", "label_key": "chain_house_debt.s14.witness", "label": "Ask the widow to stand witness to the terms first", "check": "true",
+      "effects": [ "flag ch_house_debt_end_sold", "flag ch_house_debt_thiadbods_man", "flag ch_house_debt_terms_witnessed", "flag ch_house_debt_cleared",
+                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag unlock_partner_thiadbod", "goods frisian_cloth +6", "goods rhenish_wine +3", "silver +100",
+                   "toll eased 365", "npc widow feeling +8 witness", "npc rival feeling -3 witness" ] }
+   ],
+   "memory": {
+    "swear": "sails as Thiadbod's second boat",
+    "witness": "sails as Thiadbod's second boat, on witnessed terms"
+   }
+  }
+ ]
+}

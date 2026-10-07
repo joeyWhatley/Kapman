@@ -1,0 +1,546 @@
+{
+ "about": "CHAIN tiel_1020 (Design/content/CHAINS.md; page Design/content/chains/tiel_1020.md; words Data/writing/chain_tiel_1020.json). The merchants of Tiel after the lost battle at Vlaardingen (29 July 1018), as the monk Alpert describes them about 1021-1024: they judge their own cases, swear each other clear of debts, keep a common chest and drink together; and they say the emperor gave them a charter for it, which nobody has seen. A seat among them, and what it costs. Fourteen cards, August 1018 to 1030. Tiel is not yet in ports_793.json, so the cards told at Tiel open at Noviomagus, a morning's drift up the Waal (see 'needs' in the page). Step flags ch_tiel_1020_1 .. _10; side flags _witnessed, _asked, _london, _count, _told, _informed, _fair, _silent, _perjured, _settled, _stood, _kept_out, _amends, _claim, _cologne_friend, _paid_in, _charter_plan, _toll_plan, _charter_won, _charter_fair, _charter_lost, _company, _spoke_well, _claim_heard, _bishop; lasting costs _shut_out, _counts_dog; endings ch_tiel_1020_end_seat, _end_guest, _end_charter, _end_bishop, _end_count, and ch_tiel_1020_done; history changed: changed_tiel_charter_1020, changed_tiel_toll_peace. An option's outcome text is the writing key named in its note.",
+ "cards": [
+  {
+   "id": "harbour.chain_tiel_1020.s01_closed_fist",
+   "note": "Step 1, the start (drawn at Noviomagus, Traiectum, Daventre or Colonia from August 1018 to 1022). An English wool seller asks a Tiel man for a debt; the Tiel man swears it away with his fellows swearing beside him. Source: Alpert of Metz, De diversitate temporum II.20: a Tiel man who has borrowed denies it and swears at once, and a thing that can be hidden in one hand is sworn away with the other (from memory, our rendering (?)); English trade of Tiel (Alpert II.20-21; lowlands_saxony.md). People: Wigbold (Wig- + -bold) and Saewine (Sae- + -wine) are invented. Sets ch_tiel_1020_1, and _witnessed or _asked.",
+   "stage": "harbour",
+   "when": "moored and (port.id = noviomagus or port.id = traiectum or port.id = daventre or port.id = colonia) and ((year = 1018 and month >= 8) or (year >= 1019 and year <= 1022)) and not flag.ch_tiel_1020_1",
+   "weight": 2.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold, a merchant of Tiel; invented" },
+    "stranger": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": false, "note": "Saewine, a wool seller of London; invented" }
+   },
+   "title_key": "chain_tiel_1020.s01.title",
+   "title": "The closed fist",
+   "intention_key": "chain_tiel_1020.s01.intention",
+   "intention": "On the bank an Englishman asks a Tiel merchant for the price of twelve sacks of wool. The Tiel man holds up a closed fist and swears he owes nothing. Six men of Tiel swear with him.",
+   "lines": [
+    { "who": "stranger", "key": "chain_tiel_1020.s01.stranger_sacks" },
+    { "who": "fist", "key": "chain_tiel_1020.s01.fist_oath" },
+    { "who": "stranger", "key": "chain_tiel_1020.s01.stranger_you" },
+    { "who": "fist", "key": "chain_tiel_1020.s01.fist_ditches", "when": "year <= 1019" },
+    { "who": "fist", "key": "chain_tiel_1020.s01.fist_friend", "when": "flag.long_tiel_friend" }
+   ],
+   "options": [
+    { "key": "witness", "label_key": "chain_tiel_1020.s01.opt_witness", "label": "Say what you saw: twelve sacks went over his gunwale", "check": "true",
+      "effects": [ "deed fair_dealing", "npc stranger feeling +12 witness", "npc fist feeling -8 witness", "price_shock lundenwic rhenish_wine x1.3 for 90", "flag ch_tiel_1020_witnessed", "flag ch_tiel_1020_1", "schedule harbour.chain_tiel_1020.s02_morning_ale in 20 at noviomagus" ],
+      "note": "outcome: chain_tiel_1020.s01.out_witness (one word against seven; the Englishman's thanks is a true price word: wine is dear in London)" },
+    { "key": "ask", "label_key": "chain_tiel_1020.s01.opt_ask", "label": "Ask the Tiel man what a seat on that bench costs", "check": "true",
+      "effects": [ "npc fist feeling +4 asked", "npc stranger feeling -4 asked", "flag ch_tiel_1020_asked", "flag ch_tiel_1020_1", "schedule harbour.chain_tiel_1020.s02_morning_ale in 20 at noviomagus" ],
+      "note": "outcome: chain_tiel_1020.s01.out_ask" },
+    { "key": "quiet", "label_key": "chain_tiel_1020.s01.opt_quiet", "label": "Say nothing, and watch how it is done", "check": "true", "default": true,
+      "effects": [ "news chain_tiel_1020.news.fist at here", "flag ch_tiel_1020_1", "schedule harbour.chain_tiel_1020.s02_morning_ale in 20 at noviomagus" ],
+      "note": "outcome: chain_tiel_1020.s01.out_quiet (costs nothing)" }
+   ],
+   "memory": { "witness": "bore witness against a Tiel man", "ask": "asked the price of a seat at Tiel", "quiet": "watched an oath and said nothing" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.s02_morning_ale",
+   "note": "Step 2 (Noviomagus, 20 days after step 1, standing for Tiel; also drawn). The bench at Tiel at first light: the terms of a seat. Source: Alpert II.20: they give themselves to drinking from early morning, and the man who tells foul stories in the loudest voice to make the common people laugh is most praised; they pool money and feast on it at set times (from memory (?)). The terms (two to swear for you, a pound of pennies, a clean year) are ours (?). The story told is Exeter riddle 25, the onion (texts_793.json exeter_25_onion; the book is of the later 10th century). People: Sibrand is noviomagus.tiel_merchant; Wigbold as step 1. Sets ch_tiel_1020_2.",
+   "stage": "harbour",
+   "when": "moored and port.id = noviomagus and flag.ch_tiel_1020_1 and not flag.ch_tiel_1020_2 and year <= 1024",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand of Tiel (noviomagus.tiel_merchant), who keeps the common chest" },
+    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold; invented" },
+    "alewife": { "role": "alewife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 55], "fixed": true, "note": "the woman who brews for the bench at Tiel; invented, unnamed" }
+   },
+   "title_key": "chain_tiel_1020.s02.title",
+   "title": "The morning cask",
+   "intention_key": "chain_tiel_1020.s02.intention",
+   "intention": "Sibrand takes you down the Waal to Tiel. The sun is not over the dyke and the bench by the toll house is already full, and the cask already open.",
+   "lines": [
+    { "who": "elder", "key": "chain_tiel_1020.s02.elder_emperor" },
+    { "who": "fist", "key": "chain_tiel_1020.s02.fist_story" },
+    { "who": "alewife", "key": "chain_tiel_1020.s02.alewife_monk" },
+    { "who": "elder", "key": "chain_tiel_1020.s02.elder_terms" },
+    { "who": "elder", "key": "chain_tiel_1020.s02.elder_witnessed", "when": "flag.ch_tiel_1020_witnessed" },
+    { "who": "fist", "key": "chain_tiel_1020.s02.fist_asked", "when": "flag.ch_tiel_1020_asked" }
+   ],
+   "options": [
+    { "key": "story", "label_key": "chain_tiel_1020.s02.opt_story", "label": "Tell the one about what stands up in a bed and makes a wife weep", "check": "true",
+      "effects": [ { "chance": 0.6, "success": [ "npc elder feeling +10 story", "npc fist feeling +8 story", "morale +0.05", "give_text exeter_25_onion" ], "failure": [ "npc elder feeling +2 story", "morale -0.02" ] },
+                   "flag ch_tiel_1020_2", "schedule harbour.chain_tiel_1020.s03_emperors_men in 14 at lundenwic", "schedule harbour.chain_tiel_1020.s06_oath_day in 60 at noviomagus" ],
+      "note": "outcome: chain_tiel_1020.s02.out_story_success / out_story_failure (likely; failing costs a laugh in the wrong place)" },
+    { "key": "cask", "label_key": "chain_tiel_1020.s02.opt_cask", "label": "Pay for the next cask", "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "npc elder feeling +8 cask", "npc fist feeling +6 cask", "npc alewife feeling +6 cask", "flag ch_tiel_1020_2", "schedule harbour.chain_tiel_1020.s03_emperors_men in 14 at lundenwic", "schedule harbour.chain_tiel_1020.s06_oath_day in 60 at noviomagus" ],
+      "note": "outcome: chain_tiel_1020.s02.out_cask" },
+    { "key": "listen", "label_key": "chain_tiel_1020.s02.opt_listen", "label": "Drink what is poured and listen", "check": "true", "default": true,
+      "effects": [ "npc elder feeling +2 listened", "flag ch_tiel_1020_2", "schedule harbour.chain_tiel_1020.s03_emperors_men in 14 at lundenwic", "schedule harbour.chain_tiel_1020.s06_oath_day in 60 at noviomagus" ],
+      "note": "outcome: chain_tiel_1020.s02.out_listen (costs a morning)" }
+   ],
+   "memory": { "story.success": "told the onion story well", "story.failure": "told a story badly", "cask": "paid for a cask", "listen": "sat and listened" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.s03_emperors_men",
+   "note": "Step 3 (Lundenwic, 14 days after step 2; also drawn). The Tiel men's man in London and the dues of the emperor's men. Source: the London toll rules called IV Aethelred (about 1000; printed by Liebermann, Gesetze I): the men of the emperor who come in their ships are worthy of good laws as the Londoners are; at Christmas and at Easter they give two grey cloths and one brown, ten pounds of pepper, five pairs of gloves and two kegs of vinegar (from memory (?); also realms/frisia_lotharingia.md under the 1000s). Cnut is king from 1016 (cast.cnut). Aelfric's merchant: texts_793.json aelfric_merchant. People: Everwin (Ever- + -win) is invented. Sets ch_tiel_1020_3, and _london if he is helped.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and flag.ch_tiel_1020_2 and not flag.ch_tiel_1020_3 and year <= 1025",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "factor": { "role": "factor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 55], "fixed": true, "note": "Everwin, who keeps the Tiel men's goods at London; invented" }
+   },
+   "title_key": "chain_tiel_1020.s03.title",
+   "title": "The emperor's men",
+   "intention_key": "chain_tiel_1020.s03.intention",
+   "intention": "Below the bridge a Tiel man has a store of his own and a tally of what the bench owes the king's reeve before Easter. He is counting gloves.",
+   "lines": [
+    { "who": "factor", "key": "chain_tiel_1020.s03.factor_law" },
+    { "who": "factor", "key": "chain_tiel_1020.s03.factor_dues" },
+    { "who": "factor", "key": "chain_tiel_1020.s03.factor_pepper" },
+    { "who": "factor", "key": "chain_tiel_1020.s03.factor_dirk" },
+    { "who": "factor", "key": "chain_tiel_1020.s03.factor_cnut" }
+   ],
+   "options": [
+    { "key": "pepper", "label_key": "chain_tiel_1020.s03.opt_pepper", "label": "Take the order: ten pounds of pepper for the reeve's due", "check": "true",
+      "effects": [ "commission pepper 10 by 150 premium 0.6", "npc factor feeling +8 pepper", "flag ch_tiel_1020_london", "flag ch_tiel_1020_3" ],
+      "note": "outcome: chain_tiel_1020.s03.out_pepper (turn: ten pounds at six tenths over the price, about 290 d of gain)" },
+    { "key": "lend", "label_key": "chain_tiel_1020.s03.opt_lend", "label": "Lend him 100 d against eight bolts of English cloth", "check": "silver >= 100", "cost": "silver 100",
+      "effects": [ "goods wool_cloth +8", "npc factor feeling +10 lent", "flag ch_tiel_1020_london", "flag ch_tiel_1020_3" ],
+      "note": "outcome: chain_tiel_1020.s03.out_lend (turn: 144 d of cloth for 100 d, and a man who will swear for you)" },
+    { "key": "hear", "label_key": "chain_tiel_1020.s03.opt_hear", "label": "Hear how the emperor's men stand in London, and promise nothing", "check": "true", "default": true,
+      "effects": [ "give_text aelfric_merchant", "price_shock lundenwic pepper x1.4 for 120", "flag ch_tiel_1020_3" ],
+      "note": "outcome: chain_tiel_1020.s03.out_hear (a text and a true price word)" }
+   ],
+   "memory": { "pepper": "took the order for the Easter pepper", "lend": "lent silver for the reeve's due", "hear": "listened and promised nothing" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.s04_counts_man",
+   "note": "Step 4, optional (drawn at Traiectum, Noviomagus, Daventre or Medemelacha after step 2, 1018 to 1025; it tells what happened at the river mouth on the way in, because Flardinga is not yet a port). Count Dirk's steward buys ears. Source: Dirk III built a fort at Vlaardingen and took toll of all who went down to the sea; the Tiel men complained that they could no longer go to Britain nor the Britons come to them, and that the emperor's tolls would fail; the army sent against him was cut down among the ditches on 29 July 1018 and the toll stood (Alpert II.20-21; Thietmar VIII (?); chronicle_793.json 1018-07-29-vlaardingen). That the count bought word of the bench is ours (?). People: Meinward (Mein- + -ward) is invented. Sets ch_tiel_1020_4, and _count or _told.",
+   "stage": "harbour",
+   "when": "moored and (port.id = traiectum or port.id = noviomagus or port.id = daventre or port.id = medemelacha) and flag.ch_tiel_1020_2 and not flag.ch_tiel_1020_4 and ((year = 1018 and month >= 8) or (year >= 1019 and year <= 1025))",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 55], "fixed": true, "note": "Meinward, Count Dirk's steward at the toll; invented" }
+   },
+   "title_key": "chain_tiel_1020.s04.title",
+   "title": "The count's man at the mouth",
+   "intention_key": "chain_tiel_1020.s04.intention",
+   "intention": "At the mouth, under the count's fort, his man came aboard as he comes aboard every keel. This time he knew your name, and where you had been drinking.",
+   "lines": [
+    { "who": "steward", "key": "chain_tiel_1020.s04.steward_toll" },
+    { "who": "steward", "key": "chain_tiel_1020.s04.steward_ditches" },
+    { "who": "steward", "key": "chain_tiel_1020.s04.steward_offer" },
+    { "who": "steward", "key": "chain_tiel_1020.s04.steward_paid", "when": "flag.long_dirk_toll_paid" }
+   ],
+   "options": [
+    { "key": "tally", "label_key": "chain_tiel_1020.s04.opt_tally", "label": "Take the count's tally: his cheese to London, no toll at the mouth, and a word now and then", "check": "true",
+      "effects": [ "silver +120", "goods cheese +20", "npc steward feeling +10 tally", "flag ch_tiel_1020_count", "flag ch_tiel_1020_4" ],
+      "note": "outcome: chain_tiel_1020.s04.out_tally (turn: 120 d and twenty wheels of cheese; the road to the count's ending)" },
+    { "key": "cargo", "label_key": "chain_tiel_1020.s04.opt_cargo", "label": "Tell him you carry cargo, not words, and pay as every keel pays", "check": "true", "default": true,
+      "effects": [ "npc steward feeling -2 refused", "flag ch_tiel_1020_4" ],
+      "note": "outcome: chain_tiel_1020.s04.out_cargo (costs nothing new)" },
+    { "key": "tell", "label_key": "chain_tiel_1020.s04.opt_tell", "label": "Refuse, and tell Sibrand that the count is buying ears", "check": "true",
+      "effects": [ "npc steward feeling -8 told", "flag ch_tiel_1020_told", "flag ch_tiel_1020_4" ],
+      "note": "outcome: chain_tiel_1020.s04.out_tell (the bench remembers it at the ending)" }
+   ],
+   "memory": { "tally": "took the count's tally", "cargo": "would carry no words", "tell": "told the Tiel men of the offer" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.s05_monk_asks",
+   "note": "Step 5, optional (drawn at Traiectum after step 2, 1019 to 1024). The monk Alpert asks what the Tiel men do. Source: Alpert of Metz wrote De diversitate temporum, on the years 990 to 1021, and dedicated it to Bishop Burchard of Worms; he also wrote the miracles of Saint Walburg at Tiel; he died in or after 1024 (en and nl Wikipedia, 'Alpert of Metz', read 6 Oct 2026). Where he lived is not known: the diocese of Utrecht, perhaps the abbey of Hohorst (?). His chapter II.20 must rest on somebody's telling: here it may be the player's. That the chest buries the drowned and feeds widows is ours (?), after the alms, fire and wreck agreements allowed in 779 (Herstal c. 16). People: Alpert is historical. Sets ch_tiel_1020_5, and _informed, _fair or _silent.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_tiel_1020_2 and not flag.ch_tiel_1020_5 and year >= 1019 and year <= 1024",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "monk": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Alpert, called of Metz, a monk writing a book of the events of his own time; historical" }
+   },
+   "title_key": "chain_tiel_1020.s05.title",
+   "title": "A monk with a wax tablet",
+   "intention_key": "chain_tiel_1020.s05.intention",
+   "intention": "A monk waits by your boat with a tablet and a stylus. He has heard you drink at Tiel, and he asks his questions like a man who has already written the answers.",
+   "lines": [
+    { "who": "monk", "key": "chain_tiel_1020.s05.monk_book" },
+    { "who": "monk", "key": "chain_tiel_1020.s05.monk_fist" },
+    { "who": "monk", "key": "chain_tiel_1020.s05.monk_charter" },
+    { "who": "monk", "key": "chain_tiel_1020.s05.monk_walburg" }
+   ],
+   "options": [
+    { "key": "all", "label_key": "chain_tiel_1020.s05.opt_all", "label": "Tell him all of it: the fist, the oath, the morning cask", "check": "true",
+      "effects": [ "learn latin +0.1", "npc monk feeling +12 told_all", "flag ch_tiel_1020_informed", "flag ch_tiel_1020_5" ],
+      "note": "outcome: chain_tiel_1020.s05.out_all (he reads you his page; the bench will hear of it)" },
+    { "key": "fair", "label_key": "chain_tiel_1020.s05.opt_fair", "label": "Tell him the other half too: the chest buries a drowned brother and feeds his widow", "check": "true",
+      "effects": [ "learn latin +0.05", "npc monk feeling +6 told_fair", "flag ch_tiel_1020_fair", "flag ch_tiel_1020_5" ],
+      "note": "outcome: chain_tiel_1020.s05.out_fair (he writes less than he hoped)" },
+    { "key": "silent", "label_key": "chain_tiel_1020.s05.opt_silent", "label": "Say a guest does not carry the bench out through the door", "check": "true", "default": true,
+      "effects": [ "npc monk feeling -3 silent", "flag ch_tiel_1020_silent", "flag ch_tiel_1020_5" ],
+      "note": "outcome: chain_tiel_1020.s05.out_silent (costs nothing; he has other mouths)" }
+   ],
+   "memory": { "all": "told him everything of Tiel", "fair": "told him both halves", "silent": "would not speak of his hosts" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.s06_oath_day",
+   "note": "Step 6, the turn (Noviomagus for Tiel, 60 days after step 2; also drawn once any of steps 3 to 5 is done). A Cologne wine seller sues Wigbold for nine casks unpaid; the bench will swear him clear and asks the newcomer to be one of the hands. Source: Alpert II.20: they judge not by law but by their own will; a borrower denies and swears at once, and perjury is held as nothing (from memory (?)); Tiel's close tie to Cologne is in the digs (lowlands_saxony.md). Seven hands to an oath is the common number of oath-helpers, not Alpert's (?). People: Wezelo, a short Rhenish name of the 11th century (?), is invented. Sets ch_tiel_1020_6, and _perjured, _settled, _stood or _kept_out.",
+   "stage": "harbour",
+   "when": "moored and port.id = noviomagus and flag.ch_tiel_1020_2 and (flag.ch_tiel_1020_3 or flag.ch_tiel_1020_4 or flag.ch_tiel_1020_5) and not flag.ch_tiel_1020_6 and year <= 1025",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)" },
+    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold; invented" },
+    "stranger": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Wezelo, a wine seller of Cologne; invented" }
+   },
+   "title_key": "chain_tiel_1020.s06.title",
+   "title": "Seven hands",
+   "intention_key": "chain_tiel_1020.s06.intention",
+   "intention": "On the bank at Tiel a Cologne man says Wigbold had fifteen casks at Martinmas and paid for six. You were there when they were rolled ashore. There were fifteen. Sibrand is looking at you.",
+   "lines": [
+    { "who": "stranger", "key": "chain_tiel_1020.s06.stranger_casks" },
+    { "who": "fist", "key": "chain_tiel_1020.s06.fist_six" },
+    { "who": "elder", "key": "chain_tiel_1020.s06.elder_hands" },
+    { "who": "stranger", "key": "chain_tiel_1020.s06.stranger_count" },
+    { "who": "elder", "key": "chain_tiel_1020.s06.elder_witnessed", "when": "flag.ch_tiel_1020_witnessed" },
+    { "who": "elder", "key": "chain_tiel_1020.s06.elder_told", "when": "flag.ch_tiel_1020_told" }
+   ],
+   "options": [
+    { "key": "swear", "label_key": "chain_tiel_1020.s06.opt_swear", "label": "Lay your hand with theirs and swear he owes nothing", "check": "true",
+      "effects": [ "silver +150", "npc elder feeling +12 swore", "npc fist feeling +15 swore", "npc stranger feeling -30 swore", "flag ch_tiel_1020_perjured", "flag ch_tiel_1020_6", "schedule harbour.chain_tiel_1020.s07_cologne in 30 at colonia" ],
+      "note": "outcome: chain_tiel_1020.s06.out_swear (turn: 150 d from Wigbold; a false oath that Cologne remembers)" },
+    { "key": "settle", "label_key": "chain_tiel_1020.s06.opt_settle", "label": "Keep your hand down, and say the chest should pay him and take it back from Wigbold", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "deed fair_dealing", "npc elder feeling +6 settled", "npc stranger feeling +15 settled", "npc fist feeling -10 settled", "flag ch_tiel_1020_settled" ],
+                     "failure": [ "npc elder feeling -4 stood", "npc stranger feeling +6 stood", "morale -0.03", "flag ch_tiel_1020_stood" ] },
+                   "flag ch_tiel_1020_6", "schedule harbour.chain_tiel_1020.s07_cologne in 30 at colonia" ],
+      "note": "outcome: chain_tiel_1020.s06.out_settle_success / out_settle_failure (doubtful; failing costs warmth on the bench and nothing else)" },
+    { "key": "out", "label_key": "chain_tiel_1020.s06.opt_out", "label": "Say you stood too far off to count, and keep your hand in your belt", "check": "true", "default": true,
+      "effects": [ "npc elder feeling -2 kept_out", "flag ch_tiel_1020_kept_out", "flag ch_tiel_1020_6", "schedule harbour.chain_tiel_1020.s07_cologne in 30 at colonia" ],
+      "note": "outcome: chain_tiel_1020.s06.out_out (costs pride)" }
+   ],
+   "memory": { "swear": "swore with the bench", "settle.success": "made the chest pay a stranger", "settle.failure": "would not swear, and was not heeded", "out": "kept his hand in his belt" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.s07_cologne",
+   "note": "Step 7 (Colonia, 30 days after step 6; also drawn). What Cologne remembers of the oath day. Source: Tiel's trade is Rhenish wine, pots and stone down from Cologne (lowlands_saxony.md; the digs at Tiel); a claim may be carried to the bishop of Utrecht, in whose diocese Tiel lies and whose church of Saint Walburg stands there (?). People: Wezelo as step 6. Sets ch_tiel_1020_7, and _cologne_friend, _amends or _claim.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and flag.ch_tiel_1020_6 and not flag.ch_tiel_1020_7 and year <= 1026",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "stranger": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Wezelo of Cologne; invented" }
+   },
+   "title_key": "chain_tiel_1020.s07.title",
+   "title": "What Cologne remembers",
+   "intention_key": "chain_tiel_1020.s07.intention",
+   "intention": "Wezelo's cellar is under the old wall, cool and full. He knows your boat before she touches the strand, and he comes down to the water himself.",
+   "lines": [
+    { "who": "stranger", "key": "chain_tiel_1020.s07.stranger_swore", "when": "flag.ch_tiel_1020_perjured" },
+    { "who": "stranger", "key": "chain_tiel_1020.s07.stranger_settled", "when": "flag.ch_tiel_1020_settled" },
+    { "who": "stranger", "key": "chain_tiel_1020.s07.stranger_stood", "when": "flag.ch_tiel_1020_stood or flag.ch_tiel_1020_kept_out" },
+    { "who": "stranger", "key": "chain_tiel_1020.s07.stranger_tiel" },
+    { "who": "stranger", "key": "chain_tiel_1020.s07.stranger_bishop" }
+   ],
+   "options": [
+    { "key": "order", "label_key": "chain_tiel_1020.s07.opt_order", "label": "Take his order: twelve casks down the river on your own name", "check": "flag.ch_tiel_1020_settled",
+      "effects": [ "silver +80", "commission rhenish_wine 12 by 120 premium 0.5", "npc stranger feeling +10 order", "flag ch_tiel_1020_cologne_friend", "flag ch_tiel_1020_7" ],
+      "note": "outcome: chain_tiel_1020.s07.out_order (turn: 80 d of earnest and twelve casks at half over, about 360 d of gain)" },
+    { "key": "amends", "label_key": "chain_tiel_1020.s07.opt_amends", "label": "Pay him for the nine casks out of your own chest, and say why", "check": "flag.ch_tiel_1020_perjured and silver >= 150", "cost": "silver 150",
+      "effects": [ "deed fair_dealing", "npc stranger feeling +40 amends", "goods rhenish_wine +2", "flag ch_tiel_1020_amends", "flag ch_tiel_1020_cologne_friend", "flag ch_tiel_1020_7" ],
+      "note": "outcome: chain_tiel_1020.s07.out_amends (gives back Wigbold's 150 d; two casks and a clean name at Cologne)" },
+    { "key": "claim", "label_key": "chain_tiel_1020.s07.opt_claim", "label": "Offer to carry his claim to the bishop's court at Utrecht", "check": "true",
+      "effects": [ "deed carried_letters", "npc stranger feeling +10 claim", "silver +20", "flag ch_tiel_1020_claim", "flag ch_tiel_1020_7" ],
+      "note": "outcome: chain_tiel_1020.s07.out_claim (20 d of carriage; the claim can be handed in at step 10)" },
+    { "key": "plain", "label_key": "chain_tiel_1020.s07.opt_plain", "label": "Buy your wine like any stranger and say nothing of Tiel", "check": "true", "default": true,
+      "effects": [ "price_shock colonia pingsdorf_ware x0.8 for 60", "flag ch_tiel_1020_7" ],
+      "note": "outcome: chain_tiel_1020.s07.out_plain (a true price word: the potters' boats are in and pots are cheap)" }
+   ],
+   "memory": { "order": "took an order on his own name", "amends": "paid a Tiel man's debt himself", "claim": "carried a claim to the bishop", "plain": "bought wine and said nothing" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.s08_common_chest",
+   "note": "Step 8 (Noviomagus for Tiel, in the winter after step 6: November to February). The common chest is opened: the newcomer's pound, and what the year's gain should buy. Source: Alpert II.20: they put money together, share it out among themselves for gain, and from it pay for feasts at set times of the year, and on the high feasts they give themselves to drunkenness as if it were a solemn duty; and they say the emperor handed down and confirmed their way of judging by a charter (from memory (?)). No such charter survives. Henry II dies on 13 July 1024, so the charter can only be asked for until 1023. The pound of entry and the vote are ours (?). Sets ch_tiel_1020_8, and _paid_in, _charter_plan or _toll_plan.",
+   "stage": "harbour",
+   "when": "moored and port.id = noviomagus and flag.ch_tiel_1020_6 and not flag.ch_tiel_1020_8 and (month >= 11 or month <= 2) and year <= 1026",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant), who keeps the chest" },
+    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold; invented" }
+   },
+   "title_key": "chain_tiel_1020.s08.title",
+   "title": "The common chest",
+   "intention_key": "chain_tiel_1020.s08.intention",
+   "intention": "The boats are drawn up at Tiel and the chest is carried out. Three men have its three keys. The year's gain is counted on a cloak, and Sibrand asks the bench what it should buy.",
+   "lines": [
+    { "who": "elder", "key": "chain_tiel_1020.s08.elder_count" },
+    { "who": "elder", "key": "chain_tiel_1020.s08.elder_pound" },
+    { "who": "fist", "key": "chain_tiel_1020.s08.fist_feast" },
+    { "who": "elder", "key": "chain_tiel_1020.s08.elder_charter" },
+    { "who": "fist", "key": "chain_tiel_1020.s08.fist_perjured", "when": "flag.ch_tiel_1020_perjured" },
+    { "who": "elder", "key": "chain_tiel_1020.s08.elder_settled", "when": "flag.ch_tiel_1020_settled" },
+    { "who": "elder", "key": "chain_tiel_1020.s08.elder_informed", "when": "flag.ch_tiel_1020_informed" }
+   ],
+   "options": [
+    { "key": "feast", "label_key": "chain_tiel_1020.s08.opt_feast", "label": "Put in your pound, and let it be drunk as it always was", "check": "silver >= 240", "cost": "silver 240",
+      "effects": [ "npc elder feeling +8 paid_in", "npc fist feeling +6 paid_in", "morale +0.05", "flag ch_tiel_1020_paid_in", "flag ch_tiel_1020_8", "schedule harbour.chain_tiel_1020.s10_bishops_question in 120 at traiectum" ],
+      "note": "outcome: chain_tiel_1020.s08.out_feast (240 d into the chest; it comes back with gain at the ending)" },
+    { "key": "charter", "label_key": "chain_tiel_1020.s08.opt_charter", "label": "Put in your pound, and say: buy the writing you say you have", "check": "silver >= 240 and not flag.ch_tiel_1020_count and year <= 1023", "cost": "silver 240",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "npc elder feeling +10 charter", "flag ch_tiel_1020_charter_plan", "schedule harbour.chain_tiel_1020.s09_the_writing in 60 at noviomagus" ],
+                     "failure": [ "npc elder feeling -3 charter", "schedule harbour.chain_tiel_1020.s10_bishops_question in 120 at traiectum" ] },
+                   "flag ch_tiel_1020_paid_in", "flag ch_tiel_1020_8" ],
+      "note": "outcome: chain_tiel_1020.s08.out_charter_success / out_charter_failure (likely; the hard road: laughed down, the pound is still paid in)" },
+    { "key": "toll", "label_key": "chain_tiel_1020.s08.opt_toll", "label": "Put in your pound, and say: offer the count a fixed sum each Martinmas and be done", "check": "silver >= 240", "cost": "silver 240",
+      "effects": [ "npc elder feeling -2 toll", "flag ch_tiel_1020_toll_plan", "flag ch_tiel_1020_paid_in", "flag ch_tiel_1020_8", "schedule harbour.chain_tiel_1020.s10_bishops_question in 120 at traiectum" ],
+      "note": "outcome: chain_tiel_1020.s08.out_toll (the bench does not like it and does not forbid it; it matters to the count's ending)" },
+    { "key": "guest", "label_key": "chain_tiel_1020.s08.opt_guest", "label": "Keep your pound this winter and drink as a guest", "check": "true", "default": true,
+      "effects": [ "flag ch_tiel_1020_8", "schedule harbour.chain_tiel_1020.s10_bishops_question in 120 at traiectum" ],
+      "note": "outcome: chain_tiel_1020.s08.out_guest (costs nothing; the pound can still be paid at the ending)" }
+   ],
+   "memory": { "feast": "paid his pound into the chest", "charter.success": "talked the bench into buying a charter", "charter.failure": "was laughed down about the charter", "toll": "spoke for peace with the count", "guest": "kept his pound" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.s09_the_writing",
+   "note": "Step 9, the hard road only (Noviomagus, 60 days after step 8, until June 1024). The emperor's chaplain asks what exactly is to be written. Source: Alpert's 'they say' a charter of the emperor confirms their judging (II.20); none is known. A king's charter was drawn by a chaplain of the chancery, asked for through a bishop or a great man, and paid for with a gift (?); Henry II kept Easter at Nijmegen in 1018 and died on 13 July 1024; that he was at Nijmegen again in these years is likely and unchecked (?). Merchants with a king's writing: Otto II for Magdeburg, 975 (DD O II 112). People: the chaplain is invented and unnamed; Sibrand as before. Sets ch_tiel_1020_9, and _charter_won (with _charter_fair) or _charter_lost.",
+   "stage": "harbour",
+   "when": "moored and port.id = noviomagus and flag.ch_tiel_1020_charter_plan and not flag.ch_tiel_1020_9 and (year <= 1023 or (year = 1024 and month <= 6))",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "age": [30, 50], "fixed": true, "note": "a chaplain of the emperor's chapel who draws charters; invented, unnamed" },
+    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)" }
+   },
+   "title_key": "chain_tiel_1020.s09.title",
+   "title": "What is to be written",
+   "intention_key": "chain_tiel_1020.s09.intention",
+   "intention": "The emperor is on the hill. In the clerks' room a chaplain rules a sheet of calfskin and asks Sibrand what, exactly, the emperor is to have granted. Sibrand looks at you.",
+   "lines": [
+    { "who": "clerk", "key": "chain_tiel_1020.s09.clerk_what" },
+    { "who": "elder", "key": "chain_tiel_1020.s09.elder_all" },
+    { "who": "clerk", "key": "chain_tiel_1020.s09.clerk_bishop" },
+    { "who": "clerk", "key": "chain_tiel_1020.s09.clerk_magdeburg" },
+    { "who": "clerk", "key": "chain_tiel_1020.s09.clerk_reader", "when": "learned.latin > 0 or chest.latin_count > 0" }
+   ],
+   "options": [
+    { "key": "modest", "label_key": "chain_tiel_1020.s09.opt_modest", "label": "Ask for what is true: Tiel men judge trade among themselves, and answer strangers before the king's man", "check": "true",
+      "effects": [ { "chance": 0.65, "by": "crew.trade_best",
+                     "success": [ "npc clerk feeling +8 modest", "flag ch_tiel_1020_charter_won", "flag ch_tiel_1020_charter_fair", "schedule harbour.chain_tiel_1020.end_charter in 40 at noviomagus" ],
+                     "failure": [ "silver -40", "flag ch_tiel_1020_charter_lost", "schedule harbour.chain_tiel_1020.s10_bishops_question in 60 at traiectum" ] },
+                   "flag ch_tiel_1020_9" ],
+      "note": "outcome: chain_tiel_1020.s09.out_modest_success / out_modest_failure (likely; failing costs 40 d of gifts and sends the story on to the bishop)" },
+    { "key": "all", "label_key": "chain_tiel_1020.s09.opt_all", "label": "Ask for all the bench claims: its own judgement over anyone who trades at Tiel, and the oath that clears a debt", "check": "true",
+      "effects": [ { "chance": 0.3, "by": "crew.trade_best",
+                     "success": [ "npc elder feeling +12 all", "flag ch_tiel_1020_charter_won", "schedule harbour.chain_tiel_1020.end_charter in 40 at noviomagus" ],
+                     "failure": [ "silver -80", "npc clerk feeling -8 all", "flag ch_tiel_1020_charter_lost", "schedule harbour.chain_tiel_1020.s10_bishops_question in 60 at traiectum" ] },
+                   "flag ch_tiel_1020_9" ],
+      "note": "outcome: chain_tiel_1020.s09.out_all_success / out_all_failure (doubtful; the chaplain warns that the bishop will speak against it)" },
+    { "key": "read", "label_key": "chain_tiel_1020.s09.opt_read", "label": "Ask for what is true, and read the draft yourself before the seal goes on", "check": "learned.latin > 0 or chest.latin_count > 0",
+      "effects": [ { "chance": 0.85,
+                     "success": [ "npc clerk feeling +10 read", "learn latin +0.05", "flag ch_tiel_1020_charter_won", "flag ch_tiel_1020_charter_fair", "schedule harbour.chain_tiel_1020.end_charter in 40 at noviomagus" ],
+                     "failure": [ "silver -40", "flag ch_tiel_1020_charter_lost", "schedule harbour.chain_tiel_1020.s10_bishops_question in 60 at traiectum" ] },
+                   "flag ch_tiel_1020_9" ],
+      "note": "outcome: chain_tiel_1020.s09.out_read_success / out_read_failure (sure, for a house that has Latin)" },
+    { "key": "drop", "label_key": "chain_tiel_1020.s09.opt_drop", "label": "Tell Sibrand the price is too high, and carry the chest home", "check": "true", "default": true,
+      "effects": [ "npc elder feeling -2 dropped", "flag ch_tiel_1020_charter_lost", "flag ch_tiel_1020_9", "schedule harbour.chain_tiel_1020.s10_bishops_question in 60 at traiectum" ],
+      "note": "outcome: chain_tiel_1020.s09.out_drop (costs pride; the story goes on to the bishop)" }
+   ],
+   "memory": { "modest.success": "won the Tiel men a true charter", "modest.failure": "asked for a charter and was put off", "all.success": "won the Tiel men all they claimed", "all.failure": "asked too much of the emperor", "read.success": "read the charter before the seal", "read.failure": "asked for a charter and was put off", "drop": "gave up the charter" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.s10_bishops_question",
+   "note": "Step 10 (Traiectum, 120 days after step 8 or 60 after a lost charter; also drawn; not for a house that won the charter). Bishop Adalbold asks the merchants who trade at Tiel how debts are sworn away there. Source: Adalbold II, bishop of Utrecht 1010 to 27 November 1026; he stood with the Tiel men against Dirk in 1018 and fled to the ships at Vlaardingen (Alpert II.21; realms/frisia_lotharingia.json); in 1026 King Conrad gave the bishop the count's rights in Teisterbant, the land of Tiel (wp nl Sticht Utrecht). Alpert's book went to Burchard of Worms, whose Decretum has a book on perjury (book XII (?)). The bishop's asking is ours (?). Sets ch_tiel_1020_10, and _company (with _spoke_well), _claim_heard or _bishop.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_tiel_1020_8 and not flag.ch_tiel_1020_10 and not flag.ch_tiel_1020_charter_won and (not flag.ch_tiel_1020_charter_plan or flag.ch_tiel_1020_9 or year >= 1025) and year <= 1026",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [45, 60], "fixed": true, "note": "Adalbold II, bishop of Utrecht 1010 to 1026; historical" },
+    "clerk": { "role": "clerk", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [25, 45], "fixed": false, "note": "the bishop's clerk; invented, unnamed" }
+   },
+   "title_key": "chain_tiel_1020.s10.title",
+   "title": "The bishop's question",
+   "intention_key": "chain_tiel_1020.s10.intention",
+   "intention": "The bishop's clerk fetches you from the Stathe. In the hall the bishop has a monk's book open before him and a row of river merchants on the bench, none of them from Tiel.",
+   "lines": [
+    { "who": "bishop", "key": "chain_tiel_1020.s10.bishop_ditches" },
+    { "who": "bishop", "key": "chain_tiel_1020.s10.bishop_book" },
+    { "who": "bishop", "key": "chain_tiel_1020.s10.bishop_ask" },
+    { "who": "clerk", "key": "chain_tiel_1020.s10.clerk_sibrand" },
+    { "who": "bishop", "key": "chain_tiel_1020.s10.bishop_lost", "when": "flag.ch_tiel_1020_charter_lost" },
+    { "who": "bishop", "key": "chain_tiel_1020.s10.bishop_informed", "when": "flag.ch_tiel_1020_informed" }
+   ],
+   "options": [
+    { "key": "company", "label_key": "chain_tiel_1020.s10.opt_company", "label": "Speak for the bench: they pay the king's toll, bury their dead, and no law forbids a man to drink with his friends", "check": "not flag.ch_tiel_1020_informed",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "npc bishop feeling -4 company", "flag ch_tiel_1020_spoke_well" ],
+                     "failure": [ "npc bishop feeling -12 company" ] },
+                   "flag ch_tiel_1020_company", "flag ch_tiel_1020_10", "schedule harbour.chain_tiel_1020.end_seat in 40 at noviomagus" ],
+      "note": "outcome: chain_tiel_1020.s10.out_company_success / out_company_failure (likely; failing costs the bishop's goodwill, and the bench still hears that you spoke)" },
+    { "key": "claim", "label_key": "chain_tiel_1020.s10.opt_claim", "label": "Hand in the Cologne man's claim, and ask only that he be paid", "check": "flag.ch_tiel_1020_claim",
+      "effects": [ "deed fair_dealing", "npc bishop feeling +8 claim", "flag ch_tiel_1020_claim_heard", "flag ch_tiel_1020_10", "schedule harbour.chain_tiel_1020.end_seat in 40 at noviomagus" ],
+      "note": "outcome: chain_tiel_1020.s10.out_claim (the chest pays Wezelo; the bench grumbles and respects it)" },
+    { "key": "bishop", "label_key": "chain_tiel_1020.s10.opt_bishop", "label": "Tell the bishop what you have seen sworn", "check": "true",
+      "effects": [ "npc bishop feeling +15 told", "news chain_tiel_1020.news.bishop at here", "flag ch_tiel_1020_bishop", "flag ch_tiel_1020_10", "schedule harbour.chain_tiel_1020.end_bishop in 40 at traiectum" ],
+      "note": "outcome: chain_tiel_1020.s10.out_bishop (the road to the bishop's ending; the Tiel bench is closed to you)" },
+    { "key": "away", "label_key": "chain_tiel_1020.s10.opt_away", "label": "Say you are a stranger at Tiel and saw nothing worth a bishop's time", "check": "true", "default": true,
+      "effects": [ "npc bishop feeling -2 away", "flag ch_tiel_1020_10", "schedule harbour.chain_tiel_1020.end_seat in 40 at noviomagus" ],
+      "note": "outcome: chain_tiel_1020.s10.out_away (costs nothing)" }
+   ],
+   "memory": { "company.success": "spoke well for the Tiel men", "company.failure": "spoke for the Tiel men", "claim": "handed in a stranger's claim", "bishop": "told what he saw sworn at Tiel", "away": "saw nothing" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.end_seat",
+   "note": "Ending 1, what happened (Noviomagus for Tiel, 40 days after step 10, to 1030; for a house that did not go to the bishop or the count and won no charter). The bench goes on as Alpert describes it: its own judgement, its chest, its cup, and a charter nobody has seen. Source: Alpert II.20; the bishop of Utrecht holds the count's rights in Teisterbant from 1026. A sworn brother's standing (his oath backed by all, a share of the common gain) is what Alpert describes from outside; the keeper of a key and the London store are ours (?). Sets ch_tiel_1020_end_seat (or ch_tiel_1020_end_guest for the man who stays a guest) and ch_tiel_1020_done, with unlock_title_tiel_sworn_brother, unlock_factor_lundenwic or unlock_pilot_waal.",
+   "stage": "harbour",
+   "when": "moored and port.id = noviomagus and flag.ch_tiel_1020_10 and not flag.ch_tiel_1020_bishop and not flag.ch_tiel_1020_count and not flag.ch_tiel_1020_charter_won and not flag.ch_tiel_1020_done and year <= 1030",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 70], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)" },
+    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 50], "fixed": true, "note": "Wigbold; invented" }
+   },
+   "title_key": "chain_tiel_1020.end_seat.title",
+   "title": "The cup goes round",
+   "intention_key": "chain_tiel_1020.end_seat.intention",
+   "intention": "It is a feast day at Tiel and the bench is set out under the toll house wall. A place has been left on it, next to Wigbold. The chest stands open and the big cup is full.",
+   "lines": [
+    { "who": "elder", "key": "chain_tiel_1020.end_seat.elder_place" },
+    { "who": "fist", "key": "chain_tiel_1020.end_seat.fist_swear" },
+    { "who": "elder", "key": "chain_tiel_1020.end_seat.elder_spoke", "when": "flag.ch_tiel_1020_company" },
+    { "who": "elder", "key": "chain_tiel_1020.end_seat.elder_honest", "when": "flag.ch_tiel_1020_settled or flag.ch_tiel_1020_amends or flag.ch_tiel_1020_claim_heard" },
+    { "who": "elder", "key": "chain_tiel_1020.end_seat.elder_told", "when": "flag.ch_tiel_1020_told" },
+    { "who": "elder", "key": "chain_tiel_1020.end_seat.elder_bishop_count", "when": "year >= 1026" }
+   ],
+   "options": [
+    { "key": "key", "label_key": "chain_tiel_1020.end_seat.opt_key", "label": "Take the cup, and the third key of the chest that Sibrand holds out", "check": "flag.ch_tiel_1020_paid_in and (flag.ch_tiel_1020_settled or flag.ch_tiel_1020_amends or flag.ch_tiel_1020_claim_heard)",
+      "effects": [ "silver +1400", "npc elder feeling +15 key", "flag unlock_title_tiel_sworn_brother", "flag unlock_factor_lundenwic", "flag ch_tiel_1020_end_seat", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_seat.out_key (the honest road: 1,400 d, the seat, and the bench's store at London)" },
+    { "key": "cup", "label_key": "chain_tiel_1020.end_seat.opt_cup", "label": "Take the cup and your share of the year", "check": "flag.ch_tiel_1020_paid_in",
+      "effects": [ "silver +800", "npc elder feeling +10 cup", "npc fist feeling +10 cup", "flag unlock_title_tiel_sworn_brother", "flag ch_tiel_1020_end_seat", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_seat.out_cup (finale: 800 d and the seat)" },
+    { "key": "late", "label_key": "chain_tiel_1020.end_seat.opt_late", "label": "Count your pound onto the cloak now, and take the cup", "check": "not flag.ch_tiel_1020_paid_in and silver >= 240", "cost": "silver 240",
+      "effects": [ "silver +840", "npc elder feeling +8 cup", "flag ch_tiel_1020_paid_in", "flag unlock_title_tiel_sworn_brother", "flag ch_tiel_1020_end_seat", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_seat.out_late (finale: 600 d clear and the seat)" },
+    { "key": "guest", "label_key": "chain_tiel_1020.end_seat.opt_guest", "label": "Stay a guest of the bench: carry for them, swear for nobody", "check": "true", "default": true,
+      "effects": [ "goods rhenish_wine +6", "commission raw_wool 40 by 200 premium 1.0", "npc elder feeling +4 guest", "flag unlock_pilot_waal", "flag ch_tiel_1020_end_guest", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_seat.out_guest (the fifth ending, open to anyone: six casks, forty sacks of wool to carry at double, and the Waal's sands shown: worth about 700 d)" }
+   ],
+   "memory": { "key": "was given a key of the chest", "cup": "was sworn in at Tiel", "late": "was sworn in at Tiel", "guest": "stayed a guest of the bench" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.end_charter",
+   "note": "Ending 2, history changed (Noviomagus for Tiel, 40 days after step 9 is won, to 1030). The emperor's writing is read out at Tiel: the charter Alpert says they only claimed now exists. Source: Alpert II.20 ('they say'); no charter for Tiel's merchants is known, and the oldest written merchant rights in these lands are a century later (?). The toll freedom follows the form of Otto II for Magdeburg, 975. Sets ch_tiel_1020_end_charter, changed_tiel_charter_1020 and ch_tiel_1020_done, with unlock_title_tiel_sworn_brother and unlock_charter_noviomagus (the king's toll on the Waal; to be unlock_charter_tiele when the port exists).",
+   "stage": "harbour",
+   "when": "moored and port.id = noviomagus and flag.ch_tiel_1020_charter_won and not flag.ch_tiel_1020_done and year <= 1030",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 70], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 60], "fixed": true, "note": "the priest of Saint Walburg's at Tiel, who reads the Latin out; invented, unnamed" }
+   },
+   "title_key": "chain_tiel_1020.end_charter.title",
+   "title": "The writing is read",
+   "intention_key": "chain_tiel_1020.end_charter.intention",
+   "intention": "The whole bank of Tiel stands before Saint Walburg's door. The priest holds a sheet with the emperor's seal on it and turns the Latin into plain speech, a line at a time.",
+   "lines": [
+    { "who": "priest", "key": "chain_tiel_1020.end_charter.priest_reads" },
+    { "who": "priest", "key": "chain_tiel_1020.end_charter.priest_fair", "when": "flag.ch_tiel_1020_charter_fair" },
+    { "who": "priest", "key": "chain_tiel_1020.end_charter.priest_all", "when": "not flag.ch_tiel_1020_charter_fair" },
+    { "who": "elder", "key": "chain_tiel_1020.end_charter.elder_seen" },
+    { "who": "elder", "key": "chain_tiel_1020.end_charter.elder_monk" }
+   ],
+   "options": [
+    { "key": "named", "label_key": "chain_tiel_1020.end_charter.opt_named", "label": "Take the seat, and have your house named in the writing among those who asked for it", "check": "flag.ch_tiel_1020_charter_fair",
+      "effects": [ "silver +1500", "npc elder feeling +20 named", "flag unlock_title_tiel_sworn_brother", "flag unlock_charter_noviomagus", "flag ch_tiel_1020_end_charter", "flag changed_tiel_charter_1020", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_charter.out_named (the hard road: 1,500 d, the seat, and freedom of the king's toll on the Waal)" },
+    { "key": "seat", "label_key": "chain_tiel_1020.end_charter.opt_seat", "label": "Take the seat and your share", "check": "true", "default": true,
+      "effects": [ "silver +1000", "npc elder feeling +12 seat", "flag unlock_title_tiel_sworn_brother", "flag ch_tiel_1020_end_charter", "flag changed_tiel_charter_1020", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_charter.out_seat (finale: 1,000 d and the seat)" },
+    { "key": "silver", "label_key": "chain_tiel_1020.end_charter.opt_silver", "label": "Take silver for your part, keep the toll freedom, and stay your own man", "check": "true",
+      "effects": [ "silver +1200", "npc elder feeling +4 silver", "flag unlock_charter_noviomagus", "flag ch_tiel_1020_end_charter", "flag changed_tiel_charter_1020", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_charter.out_silver (finale: 1,200 d and the toll freedom, no seat)" }
+   ],
+   "memory": { "named": "was named in the emperor's charter", "seat": "took his seat under the charter", "silver": "took silver and stayed his own man" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.end_bishop",
+   "note": "Ending 3 (Traiectum, 40 days after step 10, to 1030; for the house that told the bishop). The bishop's reward, and a page in a monk's book. Source: Adalbold II died 27 November 1026, Bernold followed in 1027 (wp nl, the Utrecht bishops' list (?)); the bishop holds the count's rights over Tiel from 1026; toll freedom and ground on the Stathe are the bishop's to give (places/traiectum.json); Saint Martin is the patron of Utrecht. Alpert's chapter names no informant. Sets ch_tiel_1020_end_bishop and ch_tiel_1020_done, with unlock_charter_traiectum, unlock_plot_traiectum, unlock_factor_traiectum or unlock_title_st_martins_man, and the lasting cost ch_tiel_1020_shut_out unless mercy is asked.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_tiel_1020_bishop and not flag.ch_tiel_1020_done and year <= 1030",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [45, 65], "fixed": true, "note": "Adalbold II to 1026, Bernold from 1027; historical" },
+    "monk": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 65], "fixed": true, "note": "Alpert, while he lives (to 1024 or a little after); historical" }
+   },
+   "title_key": "chain_tiel_1020.end_bishop.title",
+   "title": "A page without your name",
+   "intention_key": "chain_tiel_1020.end_bishop.intention",
+   "intention": "In the bishop's hall a clerk has a strip of parchment ready and the bishop's ring lies on the table. On the Stathe, a Tiel man you know turns his back as you pass.",
+   "lines": [
+    { "who": "bishop", "key": "chain_tiel_1020.end_bishop.bishop_thanks" },
+    { "who": "bishop", "key": "chain_tiel_1020.end_bishop.bishop_count", "when": "year >= 1026" },
+    { "who": "monk", "key": "chain_tiel_1020.end_bishop.monk_page", "when": "year <= 1024" },
+    { "who": "bishop", "key": "chain_tiel_1020.end_bishop.bishop_offer" }
+   ],
+   "options": [
+    { "key": "charter", "label_key": "chain_tiel_1020.end_bishop.opt_charter", "label": "Ask the bishop's writing: your keels free of his toll at Utrecht, as Saint Martin's man", "check": "true",
+      "effects": [ "silver +700", "npc bishop feeling +10 charter", "flag unlock_charter_traiectum", "flag unlock_title_st_martins_man", "flag ch_tiel_1020_shut_out", "flag ch_tiel_1020_end_bishop", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_bishop.out_charter (finale: 700 d, the charter and the bishop's protection; no Tiel man will swear for you)" },
+    { "key": "plot", "label_key": "chain_tiel_1020.end_bishop.opt_plot", "label": "Ask ground on the Stathe and a man of the bishop's to keep your store", "check": "true",
+      "effects": [ "silver +600", "npc bishop feeling +8 plot", "flag unlock_plot_traiectum", "flag unlock_factor_traiectum", "flag ch_tiel_1020_shut_out", "flag ch_tiel_1020_end_bishop", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_bishop.out_plot (finale: 600 d, a plot and a factor at Utrecht; the same cost)" },
+    { "key": "mercy", "label_key": "chain_tiel_1020.end_bishop.opt_mercy", "label": "Ask him to take the false oath from the Tiel men and leave them their cup and their chest", "check": "true", "default": true,
+      "effects": [ "silver +600", "deed fair_dealing", "npc bishop feeling +4 mercy", "flag unlock_title_st_martins_man", "flag ch_tiel_1020_end_bishop", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_bishop.out_mercy (finale: 600 d and the bishop's protection; costs pride, and the bench does not shut you out)" }
+   ],
+   "memory": { "charter": "took the bishop's charter", "plot": "took ground on the Stathe", "mercy": "asked mercy for the Tiel men" }
+  },
+  {
+   "id": "harbour.chain_tiel_1020.end_count",
+   "note": "Ending 4 (drawn at Traiectum, Noviomagus, Daventre or Medemelacha after step 8, to 1030, for the house that took the count's tally and did not go to the bishop; it tells a call at the count's fort at the river mouth). Count Dirk III pays his man. Source: Dirk III, count in West Frisia 993 to 27 May 1039, kept his fort and his toll after 1018 and the emperor let it be (Alpert II.21; wp nl Slag bij Vlaardingen); the round fort on its mound (lowlands_saxony.md, Flardinga). A fixed yearly sum in place of the toll is not recorded: it is history changed (?). The sands of the Merwede are learned from the men who watch them. Sets ch_tiel_1020_end_count and ch_tiel_1020_done, with unlock_pilot_merwede and unlock_title_count_dirks_man or (the hard road) unlock_title_tiel_sworn_brother and changed_tiel_toll_peace; lasting cost ch_tiel_1020_counts_dog.",
+   "stage": "harbour",
+   "when": "moored and (port.id = traiectum or port.id = noviomagus or port.id = daventre or port.id = medemelacha) and flag.ch_tiel_1020_count and flag.ch_tiel_1020_8 and not flag.ch_tiel_1020_bishop and not flag.ch_tiel_1020_charter_won and not flag.ch_tiel_1020_done and year <= 1030",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 50], "fixed": true, "note": "Dirk III, count in West Frisia 993 to 1039; historical" },
+    "steward": { "role": "steward", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 60], "fixed": true, "note": "Meinward; invented" }
+   },
+   "title_key": "chain_tiel_1020.end_count.title",
+   "title": "The fort in the marsh",
+   "intention_key": "chain_tiel_1020.end_count.intention",
+   "intention": "On your way in, at the mouth, the steward did not come aboard. He waved you to the creek under the round fort, and the count himself came down the mound to look at your boat.",
+   "lines": [
+    { "who": "count", "key": "chain_tiel_1020.end_count.count_ditches" },
+    { "who": "count", "key": "chain_tiel_1020.end_count.count_toll" },
+    { "who": "steward", "key": "chain_tiel_1020.end_count.steward_words" },
+    { "who": "count", "key": "chain_tiel_1020.end_count.count_plan", "when": "flag.ch_tiel_1020_toll_plan" }
+   ],
+   "options": [
+    { "key": "peace", "label_key": "chain_tiel_1020.end_count.opt_peace", "label": "Bring him the bench's offer: a fixed sum each Martinmas, and no Tiel keel searched", "check": "flag.ch_tiel_1020_toll_plan",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "silver +1500", "npc count feeling +15 peace", "flag unlock_pilot_merwede", "flag unlock_title_tiel_sworn_brother", "flag changed_tiel_toll_peace" ],
+                     "failure": [ "silver +700", "npc count feeling +4 peace", "flag unlock_pilot_merwede", "flag ch_tiel_1020_counts_dog" ] },
+                   "flag ch_tiel_1020_end_count", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_count.out_peace_success / out_peace_failure (the hard road, likely: 1,500 d, the river and a seat at Tiel after all; failing, 700 d and the river)" },
+    { "key": "shipman", "label_key": "chain_tiel_1020.end_count.opt_shipman", "label": "Be the count's shipman: his goods in your hold, his men showing you the sands", "check": "true", "default": true,
+      "effects": [ "silver +900", "npc count feeling +10 shipman", "flag unlock_title_count_dirks_man", "flag unlock_pilot_merwede", "flag ch_tiel_1020_counts_dog", "flag ch_tiel_1020_end_count", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_count.out_shipman (finale: 900 d, the count's protection and the Merwede)" },
+    { "key": "farm", "label_key": "chain_tiel_1020.end_count.opt_farm", "label": "Ask for silver: a share of this year's toll, counted now", "check": "true",
+      "effects": [ "silver +1200", "npc count feeling +2 farm", "flag unlock_pilot_merwede", "flag ch_tiel_1020_counts_dog", "flag ch_tiel_1020_end_count", "flag ch_tiel_1020_done" ],
+      "note": "outcome: chain_tiel_1020.end_count.out_farm (finale: 1,200 d and the Merwede; no protection)" }
+   ],
+   "memory": { "peace.success": "made peace between the count and Tiel", "peace.failure": "brought an offer the count refused", "shipman": "became the count's shipman", "farm": "took a share of the toll" }
+  }
+ ]
+}

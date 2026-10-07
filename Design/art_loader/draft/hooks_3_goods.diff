@@ -1,0 +1,32 @@
+--- a/Assets/Kapman/Code/Game/UI/Frame/Panels/TradePanel.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/Panels/TradePanel.cs
+@@ -69,7 +69,7 @@
+                 foreach (var (good, count) in Trade.Hold.Contents)
+                 {
+                     n++;
+-                    body.Add(FrameUi.Ln(FrameGame.Units(good, count), null));
++                    body.Add(ArtSlots.Shared.Before(FrameUi.Ln(FrameGame.Units(good, count), null), ArtSlots.Good(good.id)));
+                     body.Add(new WordLine(Known.WordOn(good, ask)));
+                 }
+                 if (n == 0)
+@@ -110,7 +110,8 @@
+                 string unit = string.IsNullOrEmpty(good.unit) ? "" : $" By the {good.unit.Split(' ')[0]}.";
+                 var buy = g.OnOffer ? FrameUi.Btn("Buy", () => DealOne(good.id, true), "Buy one") : null;
+                 var sell = held > 0 ? FrameUi.Btn("Sell", () => DealOne(good.id, false), "Sell one") : null;
+-                var line = FrameUi.Ln(good.name, asks + pays + unit, held > 0 ? FrameUi.Num(held.ToString()) : null, buy, sell);
++                var line = ArtSlots.Shared.Before(FrameUi.Ln(good.name, asks + pays + unit, held > 0 ? FrameUi.Num(held.ToString()) : null, buy, sell),
++                                                  ArtSlots.Good(good.id));
+                 if (held > 0)
+                     line.tooltip = $"{held} aboard, cost you {Trade.Hold.CostEach(good.id):0.#} d each.";
+                 body.Add(line);
+--- a/Assets/Kapman/Code/Game/UI/Frame/Panels/HoldPanel.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/Panels/HoldPanel.cs
+@@ -37,7 +37,7 @@
+                 kinds++;
+                 double cost = hold.CostEach(good.id) * count;
+                 string small = cost > 0.5 ? $"Cost you {cost:0} d." : "Your own from the start.";
+-                body.Add(FrameUi.Ln(FrameGame.Units(good, count), small, FrameUi.Num($"{count * good.kg:0} kg")));
++                body.Add(ArtSlots.Shared.Before(FrameUi.Ln(FrameGame.Units(good, count), small, FrameUi.Num($"{count * good.kg:0} kg")), ArtSlots.Good(good.id)));
+             }
+             if (kinds == 0)
+                 body.Add(FrameUi.P("She is empty."));

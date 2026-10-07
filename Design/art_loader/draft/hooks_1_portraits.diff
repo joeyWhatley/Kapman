@@ -1,0 +1,126 @@
+--- a/Assets/Kapman/Code/Game/UI/Frame/FrameDrawn.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FrameDrawn.cs
+@@ -103,7 +103,9 @@
+     public sealed class FrameFace : VisualElement
+     {
+         string who = "", slot = "";
+-        Texture2D picture;
++        /// <summary>The slot shown where this one has no picture: the stand-in of the person's role (ArtSlots.Role). Set it
++        /// before <see cref="Who"/> or <see cref="Slot"/>.</summary>
++        public string StandIn = "";
+ 
+         public FrameFace(string cls)
+         {
+@@ -127,7 +129,7 @@
+                     return;
+                 who = value ?? "";
+                 var people = MapPalette.Current;
+-                Slot = who == "you" ? FrameArt.Self(people != null ? people.people : "frisian", false) : "";
++                Slot = who == "you" ? ArtSlots.Self(people != null ? people.people : "frisian", false) : "";
+             }
+         }
+ 
+@@ -138,8 +140,7 @@
+             set
+             {
+                 slot = value ?? "";
+-                picture = FrameArt.Load(slot);
+-                style.backgroundImage = picture != null ? new StyleBackground(picture) : new StyleBackground(StyleKeyword.None);
++                ArtSlots.Shared.Show(this, slot, StandIn);               // (the slot's picture, else the stand-in's: kept and followed while on screen)
+                 MarkDirtyRepaint();
+             }
+         }
+@@ -147,7 +148,7 @@
+         void Paint(MeshGenerationContext ctx)
+         {
+             var r = contentRect;
+-            if (picture != null || r.width < 4f || r.height < 4f)
++            if (ArtSlots.Shared.Shows(this) || r.width < 4f || r.height < 4f)
+                 return;
+             // no picture: an empty shape in the panel's own tones (no face is made up)
+             var p = ctx.painter2D;
+--- a/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.cs
+@@ -340,6 +340,7 @@
+             MeasureUpdate();
+             SelfUpdate();
+             FloatsUpdate();
++            ArtSlots.Shared.Pump();                                      // (a picture saved again on disk is seen; what is not shown is let go)
+         }
+ 
+         /// <summary>The frame's edge and accent follow the world's palette (the player's people).</summary>
+@@ -608,6 +609,8 @@
+         public struct WhoIs
+         {
+             public string name, line1, line2, line3, say, face;
++            /// <summary>The slot file of their portrait and of its stand-in, the role's (ArtSlots); null: none.</summary>
++            public string slot, standIn;
+         }
+ 
+         void FillWho()
+@@ -632,7 +635,10 @@
+             Line(whoLines[1], now.line2);
+             Line(whoLines[2], now.line3);
+             Line(whoSay, now.say);
++            face.StandIn = now.standIn ?? "";
+             face.Who = now.face ?? now.name ?? "";
++            if (!string.IsNullOrEmpty(now.slot) && face.Slot != now.slot)
++                face.Slot = now.slot;
+         }
+ 
+         static void Line(Label l, string text)
+--- a/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.Floats.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/FrameRoot.Floats.cs
+@@ -27,6 +27,9 @@
+         public string who = "", speaker = "", speakerLine = "";
+         /// <summary>Whose face place it has (a name or an id; null: no face).</summary>
+         public string face;
++        /// <summary>The slot files (ArtSlots) of the speaker's portrait and of its stand-in, the role's; and of the picture
++        /// across the top with its stand-in (a card's own, and its stage's). Null: none.</summary>
++        public string portrait, portraitAny, picture, pictureAny;
+         /// <summary>The words, in order; an unwritten one (a placeholder for the writers) is shown small and pale.</summary>
+         public readonly List<(string text, bool written)> lines = new List<(string, bool)>();
+         /// <summary>Small print under the words; and what came of the choice, once made.</summary>
+@@ -184,7 +187,12 @@
+ 
+             var top = Box("frame-float-top");
+             if (spec.face != null)
+-                top.Add(new FrameFace("frame-float-face") { Who = spec.face });
++            {
++                var face = new FrameFace("frame-float-face") { StandIn = spec.portraitAny ?? "", Who = spec.face };
++                if (!string.IsNullOrEmpty(spec.portrait))
++                    face.Slot = spec.portrait;
++                top.Add(face);
++            }
+             var words = Box("frame-float-words");
+             var title = Text("frame-float-title");
+             title.text = spec.title ?? "";
+@@ -451,7 +459,7 @@
+                         say = text.Length > 110 ? text.Substring(0, 107).TrimEnd() + "..." : text;
+                         break;
+                     }
+-                now = new WhoIs { name = s.speaker, line1 = s.speakerLine, line2 = "", line3 = "", say = say, face = s.face ?? s.speaker };
++                now = new WhoIs { name = s.speaker, line1 = s.speakerLine, line2 = "", line3 = "", say = say, face = s.face ?? s.speaker, slot = s.portrait, standIn = s.portraitAny };
+                 return;
+             }
+         }
+@@ -509,6 +517,9 @@
+             {
+                 spec.who = s.Speaker(first);
+                 spec.face = first.id;
++                // (their own portrait, else their role's stand-in; card_rules_793.json's "portrait" goes here when it is loaded)
++                spec.portrait = ArtSlots.Person(first.id);
++                spec.portraitAny = ArtSlots.Role(first.role);
+                 spec.speaker = first.name.Length > 0 ? first.name : spec.who;
+                 spec.speakerLine = first.name.Length > 0 && spec.who.StartsWith(first.name + ", ", StringComparison.Ordinal)
+                     ? Cap(spec.who.Substring(first.name.Length + 2)) : "";
+--- a/Assets/Kapman/Code/Game/UI/Frame/PersonTalk.cs
++++ b/Assets/Kapman/Code/Game/UI/Frame/PersonTalk.cs
+@@ -97,6 +97,7 @@
+                 speaker = p.name.Length > 0 ? p.name : Cap(p.Role),
+                 speakerLine = Cap(p.Role) + (port != null ? " of " + port.name : ""),
+                 face = p.id, mustAnswer = false, holdsClock = false, shut = leave,
++                portrait = ArtSlots.Person(p.id), portraitAny = ArtSlots.Role(p.role),   // (their own portrait, else the stand-in of their role)
+                 tongue = TongueBook.Current.Of(p.people),               // (a word of their own tongue in a line is set apart)
+             };
+             // THE TONGUES (7 Oct 2026): a greeting begins with a word of the speaker's own tongue, and where the tongues

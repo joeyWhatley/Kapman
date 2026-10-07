@@ -1,0 +1,539 @@
+{
+ "about": "CHAIN saga_northumbria_irish_sea: THE SAINT ON THE ROAD (Design/content/CHAINS.md; page Design/content/chains/saga_northumbria_irish_sea.md; words Data/writing/chain_saga_northumbria_irish_sea.json). The saga of Northumbria and the Irish Sea, 875 to 883: Bishop Eardulf and Abbot Eadred leave Lindisfarne with Saint Cuthbert's body before Halfdan's army, wander seven years with seven bearers and a cart, try to sail for Ireland from the Derwent's mouth and are turned back by a storm that takes the gospel book, find the book on the sands at Whithorn, and end by having the army buy a slave boy, Guthred son of Harthacnut, from a widow and make him king (Historia de Sancto Cuthberto 12-13, 20; Symeon, Libellus ii.6, ii.10-13; Anglo-Saxon Chronicle 875, 876; Annals of Ulster 877, 878). Fourteen cards: eleven steps (s01 to s11: nine harbour, one sea, one crew) and three endings. Step flags ch_saga_northumbria_irish_sea_1 .. _11 and ch_saga_northumbria_irish_sea_on (the chain is begun: set by step 1 or step 2). What the player did: _ferried, _bought, _alms, _reeves_eyes, _saints_eyes, _plate, _boy_aboard, _fed_army, _counted, _ketil_friend, _pilot, _iona_letter, _shrine_carried, _hull_promised, _warned, _turned_back, _book_lost, _book_saved, _found_book, _saint_in_ireland, _boy_free, _boy_baptised, _boy_sold, _lent, _spoke, _boy_given, _boy_sold_dear, _boy_kept. Endings: ch_saga_northumbria_irish_sea_end_oswigesdune (what happened), ch_saga_northumbria_irish_sea_end_ireland (history changed: changed_cuthbert_in_ireland), ch_saga_northumbria_irish_sea_end_ships_boy (history changed: changed_guthred_never_king); ch_saga_northumbria_irish_sea_done closes the chain. Lasting costs: ch_saga_northumbria_irish_sea_sold_a_king, ch_saga_northumbria_irish_sea_blamed_in_northumbria, ch_saga_northumbria_irish_sea_saint_denied. Each option's note names its outcome text. Written 6 Oct 2026; a draft for the user to overwrite. (?) marks what could not be checked.",
+ "cards": [
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.s01_the_island_empties",
+   "note": "Step 1, the start (drawn at Lindisfarena, 875 to 876). Bishop Eardulf (bishop 854 to 899) and Eadred, abbot of Carlisle, take up Saint Cuthbert's body with Oswald's head, some of Aidan's bones and the bones of three bishops, 241 years after the founding, because Halfdan lies on the Tyne (Symeon, Libellus de exordio ii.6; Historia de Sancto Cuthberto 20; dossiers/lindisfarena.md section 5). Seven bearers, four of them named: Hunred, Stitheard, Edmund, Franco (Libellus ii.12, by the dossier's count xxvii). That a merchant's boat took the coffin over the water is invented; the tide road to the island is real. Cast: Eardulf, Eadred, Hunred (all real). Sets ch_saga_northumbria_irish_sea_1 and ch_saga_northumbria_irish_sea_on; _ferried, _bought or _alms.",
+   "stage": "harbour",
+   "when": "moored and port.id = lindisfarena and year >= 875 and year <= 876 and not flag.ch_saga_northumbria_irish_sea_1",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [50, 65], "fixed": true, "note": "Eardulf, bishop of Lindisfarne 854 to 899; real" },
+    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 60], "fixed": true, "note": "Eadred, abbot of Carlisle, called Lulisc; real" },
+    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [22, 35], "fixed": true, "note": "Hunred, one of the seven bearers; real, the name from Symeon" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s01.title",
+   "title": "The island empties",
+   "intention_key": "chain_saga_northumbria_irish_sea.s01.intention",
+   "intention": "On the holy island the church door stands open and a coffin of carved oak is on a cart in the yard. Monks are loading books. Nobody is singing.",
+   "lines": [
+    { "who": "bishop", "key": "chain_saga_northumbria_irish_sea.s01.bishop_leave" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s01.abbot_tyne" },
+    { "who": "bishop", "key": "chain_saga_northumbria_irish_sea.s01.bishop_years" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s01.bearer_tide" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s01.bearer_tongue", "when": "tongue.old_english < 0.5" }
+   ],
+   "options": [
+    { "key": "ferry", "label_key": "chain_saga_northumbria_irish_sea.s01.opt_ferry", "label": "Take the coffin and the books over the water on your hull, at the top of the tide", "check": "true", "default": true,
+      "effects": [ "deed gave_alms", "npc bishop feeling +10 ferried", "npc bearer feeling +8 ferried", "flag ch_saga_northumbria_irish_sea_ferried", "flag ch_saga_northumbria_irish_sea_1", "flag ch_saga_northumbria_irish_sea_on", "schedule harbour.chain_saga_northumbria_irish_sea.s02_the_rock_shuts in 20 at bebbanburg" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s01.out_ferry (costs a tide and nothing else)" },
+    { "key": "buy", "label_key": "chain_saga_northumbria_irish_sea.s01.opt_buy", "label": "Buy what they cannot carry: the wax and the spare parchment, for forty pennies", "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "goods wax +4", "goods parchment +2", "npc abbot feeling -2 bought", "flag ch_saga_northumbria_irish_sea_bought", "flag ch_saga_northumbria_irish_sea_1", "flag ch_saga_northumbria_irish_sea_on", "schedule harbour.chain_saga_northumbria_irish_sea.s02_the_rock_shuts in 20 at bebbanburg" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s01.out_buy (a fair bargain and a cold one)" },
+    { "key": "alms", "label_key": "chain_saga_northumbria_irish_sea.s01.opt_alms", "label": "Give twenty pennies for the road", "check": "silver >= 20", "cost": "silver 20",
+      "effects": [ "deed gave_alms", "npc bishop feeling +6 alms", "flag ch_saga_northumbria_irish_sea_alms", "flag ch_saga_northumbria_irish_sea_1", "flag ch_saga_northumbria_irish_sea_on", "schedule harbour.chain_saga_northumbria_irish_sea.s02_the_rock_shuts in 20 at bebbanburg" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s01.out_alms" }
+   ],
+   "memory": { "ferry": "took the saint over the water", "buy": "bought what the island could not carry", "alms": "gave silver for the road" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.s02_the_rock_shuts",
+   "note": "Step 2 (scheduled twenty days after step 1; also drawn at Bebbanburg 875 to 877, where it can begin the chain for a player who missed the island). The lord of the rock will not take the saint in. Sources: kings 'beyond the Tyne' under the army, Ricsige to 876 and Ecgberht II after (Historia regum 873, 876; realms/northumbria_york.json rulers); Halfdan 'fixed his winter-quarters by the river Tine' (Anglo-Saxon Chronicle 875, Ingram 1823, by way of dossiers/gyrwe.md). That Bamburgh refused the body is invented (?): the sources say only that the bearers went from place to place and found no rest. The reeve is invented, unnamed; Stitheard is one of the four named bearers (real name). Sets ch_saga_northumbria_irish_sea_2 and ch_saga_northumbria_irish_sea_on; _reeves_eyes or _saints_eyes.",
+   "stage": "harbour",
+   "when": "moored and port.id = bebbanburg and year >= 875 and year <= 877 and not flag.ch_saga_northumbria_irish_sea_2",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 55], "fixed": true, "note": "the reeve of the rock for the king beyond the Tyne; invented, unnamed" },
+    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 40], "fixed": true, "note": "Stitheard, one of the seven bearers; real name" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s02.title",
+   "title": "The rock shuts",
+   "intention_key": "chain_saga_northumbria_irish_sea.s02.intention",
+   "intention": "Under the rock of Bamburgh a monk is buying barley with a silver spoon. The gate above him is shut, and the reeve has come down to see who else has landed.",
+   "lines": [
+    { "who": "reeve", "key": "chain_saga_northumbria_irish_sea.s02.reeve_no_room" },
+    { "who": "reeve", "key": "chain_saga_northumbria_irish_sea.s02.reeve_count" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s02.bearer_road" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s02.bearer_ferried", "when": "flag.ch_saga_northumbria_irish_sea_ferried" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s02.bearer_late", "when": "not flag.ch_saga_northumbria_irish_sea_1" }
+   ],
+   "options": [
+    { "key": "reeve", "label_key": "chain_saga_northumbria_irish_sea.s02.opt_reeve", "label": "Take the reeve's thirty pennies to go and count the ships on the Tyne", "check": "true",
+      "effects": [ "silver +30", "npc reeve feeling +6 agreed", "flag ch_saga_northumbria_irish_sea_reeves_eyes", "flag ch_saga_northumbria_irish_sea_2", "flag ch_saga_northumbria_irish_sea_on", "schedule harbour.chain_saga_northumbria_irish_sea.s03_halfdans_winter in 10 at gyrwe" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s02.out_reeve (he pays first, because he does not expect to see you twice)" },
+    { "key": "saint", "label_key": "chain_saga_northumbria_irish_sea.s02.opt_saint", "label": "Go and look at the Tyne for the bearers instead, and take nothing for it", "check": "true", "default": true,
+      "effects": [ "npc bearer feeling +8 looked", "npc reeve feeling -2 refused", "flag ch_saga_northumbria_irish_sea_saints_eyes", "flag ch_saga_northumbria_irish_sea_2", "flag ch_saga_northumbria_irish_sea_on", "schedule harbour.chain_saga_northumbria_irish_sea.s03_halfdans_winter in 10 at gyrwe" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s02.out_saint (costs nothing but the reeve's silver)" },
+    { "key": "corn", "label_key": "chain_saga_northumbria_irish_sea.s02.opt_corn", "label": "Sell the monk two loads of barley at a good year's price, and keep the spoon out of it", "check": "hold.barley >= 2", "cost": "goods barley 2",
+      "effects": [ "silver +14", "deed fair_dealing", "npc bearer feeling +6 corn", "flag ch_saga_northumbria_irish_sea_2", "flag ch_saga_northumbria_irish_sea_on" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s02.out_corn" }
+   ],
+   "memory": { "reeve": "took silver to count the ships", "saint": "went to look at the Tyne for the saint", "corn": "sold barley at a fair price" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.s03_halfdans_winter",
+   "note": "Step 3, a turn (scheduled by step 2; drawn at Gyrwe 875 to 876). Halfdan's part of the great army lies on the Tyne, sells what it has taken, and sells a boy. Sources: Anglo-Saxon Chronicle 875 ('fixed his winter-quarters by the river Tine', Ingram 1823) and 876; Symeon, Libellus ii.6 (Halfdan entering the Tyne with a fleet); Historia de Sancto Cuthberto 13: Guthred son of Harthacnut, a boy whom the Danes had sold as a slave to a widow at Whittingham. When and where he was sold is not recorded: the game puts the sale in the Tyne camp in these years (?). That Jarrow's church was burned in 875 is tradition, not Symeon's word (dossiers/gyrwe.md) (?): the card says only a church without a roof. Cast: Guthred (real); Ketil, a shipman of Halfdan's (invented; Ketill is a common Norse name); the widow's man (invented, unnamed). Sets ch_saga_northumbria_irish_sea_3; _plate, _boy_aboard, _fed_army or _counted. Buying the boy is the seed of both changed endings.",
+   "stage": "harbour",
+   "when": "moored and port.id = gyrwe and flag.ch_saga_northumbria_irish_sea_on and not flag.ch_saga_northumbria_irish_sea_3 and year >= 875 and year <= 876",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "ketil": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [25, 38], "fixed": true, "note": "Ketil, a shipman of Halfdan's following; invented" },
+    "boy": { "role": "child", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [11, 13], "fixed": true, "note": "Guthred son of Harthacnut, king at York 883 to 895; real. His age is a guess (?)" },
+    "widowsman": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 60], "fixed": false, "note": "the steward of a widow at Whittingham; invented, unnamed" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s03.title",
+   "title": "Halfdan's winter",
+   "intention_key": "chain_saga_northumbria_irish_sea.s03.intention",
+   "intention": "The Tyne is full of long ships drawn up side by side, under a church with no roof. A Dane has spread altar silver on a sail, and beside it stands a boy with a rope on his wrist.",
+   "lines": [
+    { "who": "ketil", "key": "chain_saga_northumbria_irish_sea.s03.ketil_ships" },
+    { "who": "ketil", "key": "chain_saga_northumbria_irish_sea.s03.ketil_weight" },
+    { "who": "widowsman", "key": "chain_saga_northumbria_irish_sea.s03.widowsman_bid" },
+    { "who": "ketil", "key": "chain_saga_northumbria_irish_sea.s03.ketil_boy" },
+    { "who": "boy", "key": "chain_saga_northumbria_irish_sea.s03.boy_name" },
+    { "who": "ketil", "key": "chain_saga_northumbria_irish_sea.s03.ketil_fingers", "when": "tongue.old_norse < 0.5" }
+   ],
+   "options": [
+    { "key": "plate", "label_key": "chain_saga_northumbria_irish_sea.s03.opt_plate", "label": "Buy the altar silver back by weight: ninety pennies", "check": "silver >= 90", "cost": "silver 90",
+      "effects": [ "goods church_plate +2", "npc ketil feeling +4 bought", "flag ch_saga_northumbria_irish_sea_plate", "flag ch_saga_northumbria_irish_sea_3" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s03.out_plate (worth more than its weight to the church it came from; step 10 and the ending ask for it)" },
+    { "key": "boy", "label_key": "chain_saga_northumbria_irish_sea.s03.opt_boy", "label": "Outbid the widow's man for the boy: forty pennies", "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "deed bought_captives", "npc boy feeling +5 bought", "npc ketil feeling +3 bought", "flag ch_saga_northumbria_irish_sea_boy_aboard", "flag ch_saga_northumbria_irish_sea_3" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s03.out_boy (history's widow goes home without him; he is your ship's boy from now on)" },
+    { "key": "sell", "label_key": "chain_saga_northumbria_irish_sea.s03.opt_sell", "label": "Sell the camp two casks of Rhine wine and ask nothing about the silver", "check": "hold.rhenish_wine >= 2", "cost": "goods rhenish_wine 2",
+      "effects": [ "silver +200", "npc ketil feeling +8 wine", "flag ch_saga_northumbria_irish_sea_fed_army", "flag ch_saga_northumbria_irish_sea_3" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s03.out_sell (a camp pays what a hall pays)" },
+    { "key": "count", "label_key": "chain_saga_northumbria_irish_sea.s03.opt_count", "label": "Count the ships, eat his fish, and go", "check": "true", "default": true,
+      "effects": [ "npc ketil feeling +3 ate", "price_shock gyrwe rhenish_wine x1.5 for 120", "flag ch_saga_northumbria_irish_sea_counted", "flag ch_saga_northumbria_irish_sea_3" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s03.out_count (costs nothing; the price word is true: an army's camp is dry)" }
+   ],
+   "memory": { "plate": "bought back the altar silver", "boy": "bought the boy", "sell": "sold wine to the camp", "count": "ate fish and counted ships" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.s04_three_ships",
+   "note": "Step 4, a turn, optional (drawn at Duiblinn 877 to 879). Halfdan's own army drove him out; he left the Tyne with three ships and fell in Ireland. Sources: Historia de Sancto Cuthberto 12 (he went mad and stank, his army drove him out, he fled with three ships and soon died); Annals of Ulster 877 (Albann, king of the dark heathens, killed in a fight with the fair heathens at Loch Cuan, Strangford Lough; paraphrased, from memory of the entry (?)); AU 875 (he had killed Oistin son of Amlaib by treachery: realms/irish_sea.json); Barid lord at the ship-fort 873 to 881 (dossiers/duiblinn.md). Cast: Ketil (invented), come out of the fight with his life; a shipmaster of Barid's (invented, unnamed). Sets ch_saga_northumbria_irish_sea_4; _ketil_friend, _pilot.",
+   "stage": "harbour",
+   "when": "moored and port.id = duiblinn and flag.ch_saga_northumbria_irish_sea_on and not flag.ch_saga_northumbria_irish_sea_4 and year >= 877 and year <= 879",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "ketil": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [27, 42], "fixed": true, "note": "Ketil; invented" },
+    "shipmaster": { "role": "skipper", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "a shipmaster of Barid's at the ship-fort; invented, unnamed" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s04.title",
+   "title": "Three ships",
+   "intention_key": "chain_saga_northumbria_irish_sea.s04.intention",
+   "intention": "At the ship-fort on the black pool a mail coat and a king's saddle are for sale on the strand. A Dane with a new scar is sitting on the saddle.",
+   "lines": [
+    { "who": "shipmaster", "key": "chain_saga_northumbria_irish_sea.s04.shipmaster_albann" },
+    { "who": "ketil", "key": "chain_saga_northumbria_irish_sea.s04.ketil_fish", "when": "flag.ch_saga_northumbria_irish_sea_3" },
+    { "who": "ketil", "key": "chain_saga_northumbria_irish_sea.s04.ketil_stranger", "when": "not flag.ch_saga_northumbria_irish_sea_3" },
+    { "who": "ketil", "key": "chain_saga_northumbria_irish_sea.s04.ketil_stank" },
+    { "who": "ketil", "key": "chain_saga_northumbria_irish_sea.s04.ketil_land" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_saga_northumbria_irish_sea.s04.opt_carry", "label": "Carry him home to the Humber for his word and nothing else", "check": "true",
+      "effects": [ "npc ketil feeling +15 carried", "flag ch_saga_northumbria_irish_sea_ketil_friend", "flag ch_saga_northumbria_irish_sea_4" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s04.out_carry (costs a berth; he is the man who speaks for you in the army at step 10)" },
+    { "key": "pilot", "label_key": "chain_saga_northumbria_irish_sea.s04.opt_pilot", "label": "Hire him for thirty pennies: he knows this sea from the Liffey to the Solway", "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "hire ketil", "npc ketil feeling +10 hired", "flag ch_saga_northumbria_irish_sea_pilot", "flag ch_saga_northumbria_irish_sea_ketil_friend", "flag ch_saga_northumbria_irish_sea_4" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s04.out_pilot (a hired man with a skill; with him the crossing at step 7 is likely, not doubtful)" },
+    { "key": "news", "label_key": "chain_saga_northumbria_irish_sea.s04.opt_news", "label": "Buy him a drink and take the news east", "check": "true", "default": true,
+      "effects": [ "npc ketil feeling +3 drank", "news chain_saga_northumbria_irish_sea.news.halfdan at eoforwic", "price_shock duiblinn rhenish_wine x1.4 for 180", "flag ch_saga_northumbria_irish_sea_4" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s04.out_news (costs a cup; the price word is true: the fort wants wine and grain)" }
+   ],
+   "memory": { "carry": "carried him home from Ireland", "pilot": "hired him as pilot", "news": "bought him a drink" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.s05_columbas_shrine",
+   "note": "Step 5, a turn, optional (drawn at Hi 878 to 879). In 878 the shrine of Columba and his other relics came to Ireland in flight from the foreigners (Annals of Ulster 878, paraphrased; dossiers/hi.md section 5). Feradach was abbot of Hi, died 880 (dossiers/hi.md). Lindisfarne was founded from this island by Aidan in 635, and some of Aidan's bones were in Cuthbert's coffin (Bede, Historia ecclesiastica III.3, III.26; Symeon ii.6). That Hi wrote to Cuthbert's people offering house room in Ireland is invented, to give the real attempt on Ireland a cause (?). The text given is the Irish quatrain on the rough wind (texts_793.json irish_viking_terror). Cast: Feradach (real); a brother (invented, unnamed). Sets ch_saga_northumbria_irish_sea_5; _iona_letter, _shrine_carried.",
+   "stage": "harbour",
+   "when": "moored and port.id = hi and flag.ch_saga_northumbria_irish_sea_on and not flag.ch_saga_northumbria_irish_sea_5 and year >= 878 and year <= 879",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "gaelic", "faith": "christian", "tongue": "irish", "sex": "m", "age": [50, 70], "fixed": true, "note": "Feradach, abbot of Hi, died 880; real" },
+    "brother": { "role": "monk", "people": "gaelic", "faith": "christian", "tongue": "irish", "sex": "m", "age": [20, 40], "fixed": false, "note": "a keeper of the shrine; invented, unnamed" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s05.title",
+   "title": "Columba's shrine",
+   "intention_key": "chain_saga_northumbria_irish_sea.s05.intention",
+   "intention": "On the white strand of Hi a shrine of yew and bronze is being lashed into a hide boat. The abbot watches it go as a man watches his own roof carried off.",
+   "lines": [
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s05.abbot_shrine" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s05.abbot_aidan" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s05.abbot_letter" },
+    { "who": "brother", "key": "chain_saga_northumbria_irish_sea.s05.brother_wind" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s05.abbot_ferried", "when": "flag.ch_saga_northumbria_irish_sea_ferried" }
+   ],
+   "options": [
+    { "key": "letter", "label_key": "chain_saga_northumbria_irish_sea.s05.opt_letter", "label": "Take the abbot's letter for Bishop Eardulf, wherever he is", "check": "true", "default": true,
+      "effects": [ "deed carried_letters", "learn latin +0.1", "give_text irish_viking_terror", "npc abbot feeling +10 letter", "flag ch_saga_northumbria_irish_sea_iona_letter", "flag ch_saga_northumbria_irish_sea_5" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s05.out_letter (costs nothing; the road to the best Irish ending runs through it)" },
+    { "key": "shrine", "label_key": "chain_saga_northumbria_irish_sea.s05.opt_shrine", "label": "Take two of the shrine's keepers and their baggage over to the Irish shore", "check": "true",
+      "effects": [ "goods books +1", "deed gave_alms", "npc brother feeling +10 carried", "npc abbot feeling +6 carried", "flag ch_saga_northumbria_irish_sea_shrine_carried", "flag ch_saga_northumbria_irish_sea_5" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s05.out_shrine (three days; they pay with a small psalter, which is worth a good voyage)" },
+    { "key": "wine", "label_key": "chain_saga_northumbria_irish_sea.s05.opt_wine", "label": "Sell them a cask for the Mass, against an arm-ring by weight", "check": "hold.rhenish_wine >= 1", "cost": "goods rhenish_wine 1",
+      "effects": [ "silver +90", "deed fair_dealing", "npc abbot feeling +4 wine", "flag ch_saga_northumbria_irish_sea_5" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s05.out_wine" }
+   ],
+   "memory": { "letter": "took the letter for Cuthbert's people", "shrine": "carried the keepers of the shrine", "wine": "sold wine for the Mass" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.s06_the_waste_city",
+   "note": "Step 6 (drawn at Legacaestir 878 to 881). The bishop and the abbot mean to take the body to Ireland from the mouth of the Derwent, and have told only the oldest and wisest (Symeon, Libellus ii.11; dossiers/lindisfarena.md: 'A ship for Ireland is driven back to the Derwent's mouth'). The year of the attempt is not recorded: the game allows 878 to 881 (?). There is no port for the Derwent on the chart, so the bearers' man looks for a hull at the nearest landing on that sea: Legacaestir, which the Chronicle still calls a waste city in 893 (Anglo-Saxon Chronicle 894 for 893; dossiers/legacaestir.md). Hunger on the road, a salted horse's head and one cheese: a story in the Durham tradition (?). Cast: Franco, one of the four named bearers (real name; what he was like is invented). Sets ch_saga_northumbria_irish_sea_6; _hull_promised or _warned.",
+   "stage": "harbour",
+   "when": "moored and port.id = legacaestir and flag.ch_saga_northumbria_irish_sea_on and not flag.ch_saga_northumbria_irish_sea_6 and not flag.ch_saga_northumbria_irish_sea_saint_in_ireland and year >= 878 and year <= 881",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [28, 45], "fixed": true, "note": "Franco, one of the seven bearers; real name" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s06.title",
+   "title": "The waste city",
+   "intention_key": "chain_saga_northumbria_irish_sea.s06.intention",
+   "intention": "Legacaestir: Roman walls with ash trees growing out of them and six roofs by the landing. A thin monk has been asking every hull on the Dee the same question.",
+   "lines": [
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s06.franco_name" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s06.franco_ask" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s06.franco_hunger" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s06.franco_letter", "when": "flag.ch_saga_northumbria_irish_sea_iona_letter" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s06.franco_ferried", "when": "flag.ch_saga_northumbria_irish_sea_ferried" }
+   ],
+   "options": [
+    { "key": "hull", "label_key": "chain_saga_northumbria_irish_sea.s06.opt_hull", "label": "Promise your hull at the Derwent's mouth before the moon is new", "check": "true",
+      "effects": [ "npc bearer feeling +10 promised", "flag ch_saga_northumbria_irish_sea_hull_promised", "flag ch_saga_northumbria_irish_sea_6" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s06.out_hull (step 7 comes at sea, on your next passage)" },
+    { "key": "stores", "label_key": "chain_saga_northumbria_irish_sea.s06.opt_stores", "label": "Give him ship's bread for nine and let them find another keel", "check": "hold.ships_bread >= 2", "cost": "goods ships_bread 2",
+      "effects": [ "deed gave_alms", "npc bearer feeling +6 bread", "flag ch_saga_northumbria_irish_sea_book_lost", "flag ch_saga_northumbria_irish_sea_turned_back", "flag ch_saga_northumbria_irish_sea_6", "schedule harbour.chain_saga_northumbria_irish_sea.s08_the_low_tide in 60 at legacaestir" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s06.out_stores (they sail without you, as they did: the storm and the lost book are told at step 8)" },
+    { "key": "truth", "label_key": "chain_saga_northumbria_irish_sea.s06.opt_truth", "label": "Tell him what the Irish shore is like now, and promise nothing", "check": "true", "default": true,
+      "effects": [ "npc bearer feeling +2 warned", "flag ch_saga_northumbria_irish_sea_warned", "flag ch_saga_northumbria_irish_sea_book_lost", "flag ch_saga_northumbria_irish_sea_turned_back", "flag ch_saga_northumbria_irish_sea_6", "schedule harbour.chain_saga_northumbria_irish_sea.s08_the_low_tide in 60 at legacaestir" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s06.out_truth (costs nothing; they sail anyway, without you)" }
+   ],
+   "memory": { "hull": "promised his hull for Ireland", "stores": "gave bread for the road", "truth": "told the truth about the Irish shore" }
+  },
+  {
+   "id": "sea.chain_saga_northumbria_irish_sea.s07_three_waves",
+   "note": "Step 7 (a sea card, drawn under way once the hull is promised). The crossing. Symeon, Libellus ii.11: the bishop, the abbot and a few went aboard at the Derwent's mouth while the people, who had not been told, wept on the shore; a storm rose, three great waves fell on the ship and the water that came aboard turned to blood; the ship heeled and the gospel book, bound in gold and gems, went into the sea; they put back. The danger warns first: the wind backs before the seas come. The red water is told as the men saw it. History is the first option. Holding on and reaching Ireland is history changed (flag ch_saga_northumbria_irish_sea_saint_in_ireland; the ending sets changed_cuthbert_in_ireland). Cast: Eardulf, Eadred (real); the player's steersman. Sets ch_saga_northumbria_irish_sea_7; _turned_back with _book_lost or _book_saved, or _saint_in_ireland.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_saga_northumbria_irish_sea_hull_promised and not flag.ch_saga_northumbria_irish_sea_7",
+   "weight": 0.25,
+   "rate": 0.25,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [55, 70], "fixed": true, "note": "Eardulf; real" },
+    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [45, 65], "fixed": true, "note": "Eadred; real" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [28, 55], "fixed": true }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s07.title",
+   "title": "Three waves",
+   "intention_key": "chain_saga_northumbria_irish_sea.s07.intention",
+   "intention": "Off the Derwent's mouth, with the coffin lashed amidships and the people left crying on the sand. The wind has backed into the west and the first big sea has come aboard.",
+   "lines": [
+    { "who": "steersman", "key": "chain_saga_northumbria_irish_sea.s07.steersman_backs" },
+    { "who": "bishop", "key": "chain_saga_northumbria_irish_sea.s07.bishop_shore" },
+    { "who": "steersman", "key": "chain_saga_northumbria_irish_sea.s07.steersman_red" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s07.abbot_book" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s07.abbot_letter", "when": "flag.ch_saga_northumbria_irish_sea_iona_letter" }
+   ],
+   "options": [
+    { "key": "back", "label_key": "chain_saga_northumbria_irish_sea.s07.opt_back", "label": "Put about and run back for the Derwent", "check": "true", "default": true,
+      "effects": [ "npc bishop feeling +4 back", "flag ch_saga_northumbria_irish_sea_turned_back", "flag ch_saga_northumbria_irish_sea_book_lost", "flag ch_saga_northumbria_irish_sea_7", "schedule harbour.chain_saga_northumbria_irish_sea.s08_the_low_tide in 40 at legacaestir" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s07.out_back (sure; what happened: the book goes overboard as she comes round)" },
+    { "key": "book", "label_key": "chain_saga_northumbria_irish_sea.s07.opt_book", "label": "Leave the helm to the steersman, put about, and lash the book-chest yourself", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "npc abbot feeling +12 book", "learn latin +0.1", "flag ch_saga_northumbria_irish_sea_turned_back", "flag ch_saga_northumbria_irish_sea_book_saved", "flag ch_saga_northumbria_irish_sea_7" ],
+                     "failure": [ "health -0.1", "npc abbot feeling +4 tried", "flag ch_saga_northumbria_irish_sea_turned_back", "flag ch_saga_northumbria_irish_sea_book_lost", "flag ch_saga_northumbria_irish_sea_7", "schedule harbour.chain_saga_northumbria_irish_sea.s08_the_low_tide in 40 at legacaestir" ] } ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s07.out_book, or chain_saga_northumbria_irish_sea.s07.out_book_fail (likely; failed, you are hurt and the book goes all the same)" },
+    { "key": "on", "label_key": "chain_saga_northumbria_irish_sea.s07.opt_on", "label": "Hold on for Ireland", "check": "true",
+      "effects": [ { "chance": 0.3, "by": "crew.seamanship_best",
+                     "success": [ "npc bishop feeling +15 ireland", "morale +0.1", "flag ch_saga_northumbria_irish_sea_saint_in_ireland", "flag ch_saga_northumbria_irish_sea_7", "schedule harbour.chain_saga_northumbria_irish_sea.end_ireland in 200 at hi" ],
+                     "failure": [ "health -0.15", "morale -0.1", "flag ch_saga_northumbria_irish_sea_turned_back", "flag ch_saga_northumbria_irish_sea_book_lost", "flag ch_saga_northumbria_irish_sea_7", "schedule harbour.chain_saga_northumbria_irish_sea.s08_the_low_tide in 40 at legacaestir" ] } ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s07.out_on, or chain_saga_northumbria_irish_sea.s07.out_on_fail (doubtful; failed, she is driven back hurt and the book is lost: the story goes on by the road it really took)" },
+    { "key": "pilot", "label_key": "chain_saga_northumbria_irish_sea.s07.opt_pilot", "label": "Give Ketil the helm, who knows this sea, and hold on for Ireland", "check": "flag.ch_saga_northumbria_irish_sea_pilot",
+      "effects": [ { "chance": 0.65, "by": "crew.seamanship_best",
+                     "success": [ "npc bishop feeling +15 ireland", "morale +0.1", "flag ch_saga_northumbria_irish_sea_saint_in_ireland", "flag ch_saga_northumbria_irish_sea_7", "schedule harbour.chain_saga_northumbria_irish_sea.end_ireland in 200 at hi" ],
+                     "failure": [ "health -0.1", "morale -0.05", "flag ch_saga_northumbria_irish_sea_turned_back", "flag ch_saga_northumbria_irish_sea_book_lost", "flag ch_saga_northumbria_irish_sea_7", "schedule harbour.chain_saga_northumbria_irish_sea.s08_the_low_tide in 40 at legacaestir" ] } ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s07.out_pilot, or chain_saga_northumbria_irish_sea.s07.out_on_fail (likely, with the pilot of step 4)" }
+   ],
+   "memory": { "back": "put back for the Derwent", "book.success": "saved the gospel book", "book.failure": "tried to save the book", "on.success": "brought the saint to Ireland", "on.failure": "was driven back", "pilot.success": "brought the saint to Ireland", "pilot.failure": "was driven back" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.s08_the_low_tide",
+   "note": "Step 8 (scheduled forty to sixty days after the storm; drawn at Legacaestir while the book is lost, to 883). Hunred's dream. Symeon, Libellus ii.12: Saint Cuthbert appeared to Hunred and told him to look for the book on the shore at the lowest ebb, and to take a bridle he would find hanging on a tree and show it to a horse, which would come and draw the cart; the sea had gone back three miles and the book lay on the sand at Whithorn (Candida Casa) unharmed. The gospel book is by Durham tradition the Lindisfarne Gospels, with staining said to be from sea water (?). The thief of the cheese turned into a fox is a later Durham story (?). There is no port for Whithorn: the card is at the landing where the bearers know the player, and going with Hunred is told in the outcome. The book is found whatever is chosen, as it was. The riddle is Exeter 26, the book (riddles_793.json). Cast: Hunred (real). Sets ch_saga_northumbria_irish_sea_8; _found_book.",
+   "stage": "harbour",
+   "when": "moored and port.id = legacaestir and flag.ch_saga_northumbria_irish_sea_book_lost and not flag.ch_saga_northumbria_irish_sea_8 and not flag.ch_saga_northumbria_irish_sea_saint_in_ireland and year <= 883",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 40], "fixed": true, "note": "Hunred, one of the seven bearers; real" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s08.title",
+   "title": "The low tide",
+   "intention_key": "chain_saga_northumbria_irish_sea.s08.intention",
+   "intention": "The bearer Hunred has walked four days down the coast to find a boat. He has had a dream, and he tells it like a man reading out a bill of lading.",
+   "lines": [
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s08.hunred_storm", "when": "not flag.ch_saga_northumbria_irish_sea_7" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s08.hunred_dream" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s08.hunred_bridle" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s08.hunred_cheese" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.s08.hunred_ask" }
+   ],
+   "options": [
+    { "key": "sail", "label_key": "chain_saga_northumbria_irish_sea.s08.opt_sail", "label": "Take him north to the Whithorn sands and walk the ebb with him", "check": "true",
+      "effects": [ "give_riddle riddle_exeter_26_book", "learn latin +0.15", "deed gave_alms", "npc bearer feeling +15 walked", "flag ch_saga_northumbria_irish_sea_found_book", "flag ch_saga_northumbria_irish_sea_8" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s08.out_sail (six days there and back; you are one of the men who saw it lying there)" },
+    { "key": "bread", "label_key": "chain_saga_northumbria_irish_sea.s08.opt_bread", "label": "Give him bread for the road and keep to your trade", "check": "hold.ships_bread >= 1", "cost": "goods ships_bread 1",
+      "effects": [ "npc bearer feeling +6 bread", "flag ch_saga_northumbria_irish_sea_8" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s08.out_bread" },
+    { "key": "doubt", "label_key": "chain_saga_northumbria_irish_sea.s08.opt_doubt", "label": "Tell him what salt water does to a book, and wish him a dry road", "check": "true", "default": true,
+      "effects": [ "npc bearer feeling -3 doubted", "flag ch_saga_northumbria_irish_sea_8" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s08.out_doubt (costs nothing now, and a little pride at step 10, when the abbot shows you the book)" }
+   ],
+   "memory": { "sail": "walked the Whithorn sands with him", "bread": "gave bread for the road", "doubt": "doubted the dream" }
+  },
+  {
+   "id": "crew.chain_saga_northumbria_irish_sea.s09_harthacnuts_son",
+   "note": "Step 9, a crew card, only for a player who bought the boy at step 3 (drawn by the hour, 877 to 882). The boy has grown into a seaman and the crew want to know what he is. Sources: Historia de Sancto Cuthberto 13 for his name and his father's; that the Guthred of history was a Christian when he was made king, or became one then (he was buried in York minster in 895: Aethelweard iv.3; dossiers/eoforwic.md) (?). Everything he does aboard is invented. Selling him on puts history back: the widow at Whittingham has her boy after all. Sets ch_saga_northumbria_irish_sea_9; _boy_free, _boy_baptised, or _boy_sold with _boy_aboard cleared.",
+   "stage": "crew",
+   "when": "flag.ch_saga_northumbria_irish_sea_boy_aboard and not flag.ch_saga_northumbria_irish_sea_9 and year >= 877 and year <= 882",
+   "weight": 0.05,
+   "rate": 0.05,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "boy": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [14, 19], "fixed": true, "note": "Guthred son of Harthacnut; real" },
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [28, 55], "fixed": true }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s09.title",
+   "title": "Harthacnut's son",
+   "intention_key": "chain_saga_northumbria_irish_sea.s09.intention",
+   "intention": "The boy you bought on the Tyne can hand, reef and steer, and eats like two men. The steersman has come aft to ask what he is to be called on the tally: thrall, or crew.",
+   "lines": [
+    { "who": "steersman", "key": "chain_saga_northumbria_irish_sea.s09.steersman_tally" },
+    { "who": "boy", "key": "chain_saga_northumbria_irish_sea.s09.boy_father" },
+    { "who": "boy", "key": "chain_saga_northumbria_irish_sea.s09.boy_stay" },
+    { "who": "steersman", "key": "chain_saga_northumbria_irish_sea.s09.steersman_font" }
+   ],
+   "options": [
+    { "key": "free", "label_key": "chain_saga_northumbria_irish_sea.s09.opt_free", "label": "Free him before the crew, with a share like any man's", "check": "true", "default": true,
+      "effects": [ "morale +0.1", "npc boy feeling +20 freed", "flag ch_saga_northumbria_irish_sea_boy_free", "flag ch_saga_northumbria_irish_sea_9" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s09.out_free (costs forty pennies' worth of thrall and nothing else)" },
+    { "key": "baptise", "label_key": "chain_saga_northumbria_irish_sea.s09.opt_baptise", "label": "Free him, and stand godfather to him at the next church: ten pennies for the white cloth", "check": "silver >= 10", "cost": "silver 10",
+      "effects": [ "deed gave_alms", "morale +0.05", "npc boy feeling +15 godfather", "flag ch_saga_northumbria_irish_sea_boy_free", "flag ch_saga_northumbria_irish_sea_boy_baptised", "flag ch_saga_northumbria_irish_sea_9" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s09.out_baptise" },
+    { "key": "sell", "label_key": "chain_saga_northumbria_irish_sea.s09.opt_sell", "label": "Sell him on: the widow at Whittingham still wants a boy", "check": "true",
+      "effects": [ "silver +60", "deed sold_captives", "morale -0.05", "flag ch_saga_northumbria_irish_sea_boy_aboard = 0", "flag ch_saga_northumbria_irish_sea_boy_sold", "flag ch_saga_northumbria_irish_sea_9" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s09.out_sell (history is put back as it was)" }
+   ],
+   "memory": { "free": "freed him before the crew", "baptise": "stood godfather to him", "sell": "sold him to the widow" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.s10_the_abbots_dream",
+   "note": "Step 10 (drawn at Eoforwic 882 to 883). York has had no king since Halfdan was driven out (realms/northumbria_york.json rulers 877-883); the saint's people have been four months at Crayke, guests of Abbot Geve (Symeon, Libellus ii.13). Abbot Eadred's dream: Saint Cuthbert tells him to go over the Tyne to the army of the Danes, and say that they must find the boy Guthred son of Harthacnut, whom they sold to a widow at Whittingham, pay her the price, and make him king on the hill called Oswigesdune with a gold ring on his right arm (Historia de Sancto Cuthberto 13; our rendering, no words quoted). The 'holds' of the army are the Chronicle's word for its great men (Anglo-Saxon Chronicle 905, 910). Cast: Eadred (real); a hold of the army (invented, unnamed); Ketil (invented). Sets ch_saga_northumbria_irish_sea_10; _lent or _spoke. A player with the boy aboard is sent to step 11.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_saga_northumbria_irish_sea_on and not flag.ch_saga_northumbria_irish_sea_10 and not flag.ch_saga_northumbria_irish_sea_saint_in_ireland and year >= 882 and year <= 883",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [48, 68], "fixed": true, "note": "Eadred; real" },
+    "hold": { "role": "chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "a hold of the army at York; invented, unnamed" },
+    "ketil": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [32, 46], "fixed": true, "note": "Ketil; invented" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s10.title",
+   "title": "The abbot's dream",
+   "intention_key": "chain_saga_northumbria_irish_sea.s10.intention",
+   "intention": "York has had no king for six winters and the army's great men drink in separate halls. Abbot Eadred has come in from Crayke to buy lamp oil, and he looks like a man who has not slept on purpose.",
+   "lines": [
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s10.abbot_dream" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s10.abbot_price" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s10.abbot_book_sands", "when": "flag.ch_saga_northumbria_irish_sea_book_lost and not flag.ch_saga_northumbria_irish_sea_found_book" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s10.abbot_book_walked", "when": "flag.ch_saga_northumbria_irish_sea_found_book" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s10.abbot_book_saved", "when": "flag.ch_saga_northumbria_irish_sea_book_saved" },
+    { "who": "hold", "key": "chain_saga_northumbria_irish_sea.s10.hold_laugh" },
+    { "who": "ketil", "key": "chain_saga_northumbria_irish_sea.s10.ketil_speaks", "when": "flag.ch_saga_northumbria_irish_sea_ketil_friend" }
+   ],
+   "options": [
+    { "key": "lend", "label_key": "chain_saga_northumbria_irish_sea.s10.opt_lend", "label": "Lend the abbot the boy's price, eighty pennies, against the saint's word", "check": "silver >= 80 and not flag.ch_saga_northumbria_irish_sea_boy_aboard", "cost": "silver 80",
+      "effects": [ "deed gave_alms", "npc abbot feeling +15 lent", "flag ch_saga_northumbria_irish_sea_lent", "flag ch_saga_northumbria_irish_sea_10", "schedule harbour.chain_saga_northumbria_irish_sea.end_oswigesdune in 45 at gyrwe" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s10.out_lend" },
+    { "key": "speak", "label_key": "chain_saga_northumbria_irish_sea.s10.opt_speak", "label": "Go into the hall and put the dream to the army in their own tongue", "check": "(flag.ch_saga_northumbria_irish_sea_ketil_friend or tongue.old_norse >= 0.5) and not flag.ch_saga_northumbria_irish_sea_boy_aboard",
+      "effects": [ "npc hold feeling +8 spoke", "npc abbot feeling +10 spoke", "flag ch_saga_northumbria_irish_sea_spoke", "flag ch_saga_northumbria_irish_sea_10", "schedule harbour.chain_saga_northumbria_irish_sea.end_oswigesdune in 45 at gyrwe" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s10.out_speak (costs an evening of being laughed at)" },
+    { "key": "mine", "label_key": "chain_saga_northumbria_irish_sea.s10.opt_mine", "label": "Tell him the boy is not at Whittingham. He is on your ship", "check": "flag.ch_saga_northumbria_irish_sea_boy_aboard",
+      "effects": [ "npc abbot feeling +5 told", "flag ch_saga_northumbria_irish_sea_10", "schedule harbour.chain_saga_northumbria_irish_sea.s11_the_price_of_a_king in 3 at eoforwic" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s10.out_mine (step 11 follows in three days)" },
+    { "key": "listen", "label_key": "chain_saga_northumbria_irish_sea.s10.opt_listen", "label": "Hear the dream out and keep your purse shut", "check": "true", "default": true,
+      "effects": [ "npc abbot feeling +2 heard", "news chain_saga_northumbria_irish_sea.news.crayke at eoforwic", "flag ch_saga_northumbria_irish_sea_10" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s10.out_listen (costs nothing; the ending still comes)" }
+   ],
+   "memory": { "lend": "lent the price of the boy", "speak": "spoke for the dream in the hall", "mine": "said the boy was on his ship", "listen": "heard the dream out" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.s11_the_price_of_a_king",
+   "note": "Step 11, only for a player who has the boy aboard (scheduled three days after step 10; also drawn at any of the four Northumbrian ports, 883 to 890, so that he is found). The abbot has come for the boy the saint named, and the boy is yours. Source: Historia de Sancto Cuthberto 13 (the price was to be paid to the widow: here the player stands where she stood). A slave's price of about a pound is the common English figure of the laws (?); 480 pennies, two pounds, is the game's 'king's price' and the house's first debt. Giving him is the honest road and leads to the richest form of the true ending. Keeping him, if he is a free man who can refuse, is history changed: no King Guthred (ending end_ships_boy). Cast: Eadred, Guthred (real). Sets ch_saga_northumbria_irish_sea_11; _boy_given, _boy_sold_dear with _sold_a_king, or _boy_kept; clears _boy_aboard unless he is kept.",
+   "stage": "harbour",
+   "when": "moored and (port.id = eoforwic or port.id = gyrwe or port.id = bebbanburg or port.id = lindisfarena) and flag.ch_saga_northumbria_irish_sea_boy_aboard and not flag.ch_saga_northumbria_irish_sea_11 and not flag.ch_saga_northumbria_irish_sea_saint_in_ireland and year >= 882 and year <= 890",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [48, 70], "fixed": true, "note": "Eadred; real" },
+    "boy": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [18, 22], "fixed": true, "note": "Guthred son of Harthacnut; real" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.s11.title",
+   "title": "The price of a king",
+   "intention_key": "chain_saga_northumbria_irish_sea.s11.intention",
+   "intention": "The abbot stands on the landing with two of the army's great men behind him. They are all looking at your crewman, who is looking at a rope he has no need to coil.",
+   "lines": [
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s11.abbot_him" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.s11.abbot_widow" },
+    { "who": "boy", "key": "chain_saga_northumbria_irish_sea.s11.boy_thrall", "when": "not flag.ch_saga_northumbria_irish_sea_boy_free" },
+    { "who": "boy", "key": "chain_saga_northumbria_irish_sea.s11.boy_free", "when": "flag.ch_saga_northumbria_irish_sea_boy_free" },
+    { "who": "boy", "key": "chain_saga_northumbria_irish_sea.s11.boy_baptised", "when": "flag.ch_saga_northumbria_irish_sea_boy_baptised" }
+   ],
+   "options": [
+    { "key": "give", "label_key": "chain_saga_northumbria_irish_sea.s11.opt_give", "label": "Give him up for nothing, and go with him to the hill", "check": "true", "default": true,
+      "effects": [ "deed fair_dealing", "npc boy feeling +25 given", "npc abbot feeling +15 given", "flag ch_saga_northumbria_irish_sea_boy_aboard = 0", "flag ch_saga_northumbria_irish_sea_boy_given", "flag ch_saga_northumbria_irish_sea_11", "schedule harbour.chain_saga_northumbria_irish_sea.end_oswigesdune in 30 at gyrwe" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s11.out_give (costs a good hand; the hard and honest road)" },
+    { "key": "sell", "label_key": "chain_saga_northumbria_irish_sea.s11.opt_sell", "label": "Name a king's price: four hundred and eighty pennies, weighed", "check": "true",
+      "effects": [ "silver +480", "deed sold_captives", "npc abbot feeling -10 sold", "npc boy feeling -15 sold", "flag ch_saga_northumbria_irish_sea_boy_aboard = 0", "flag ch_saga_northumbria_irish_sea_boy_sold_dear", "flag ch_saga_northumbria_irish_sea_sold_a_king", "flag ch_saga_northumbria_irish_sea_11", "schedule harbour.chain_saga_northumbria_irish_sea.end_oswigesdune in 30 at gyrwe" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s11.out_sell (the army pays; the king remembers what he cost: a lasting flag)" },
+    { "key": "keep", "label_key": "chain_saga_northumbria_irish_sea.s11.opt_keep", "label": "Say he is a free man with a share in this ship, and let him answer for himself", "check": "flag.ch_saga_northumbria_irish_sea_boy_free",
+      "effects": [ "npc boy feeling +20 kept", "npc abbot feeling -15 refused", "flag ch_saga_northumbria_irish_sea_boy_kept", "flag ch_saga_northumbria_irish_sea_11", "schedule harbour.chain_saga_northumbria_irish_sea.end_ships_boy in 60" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.s11.out_keep (history changed: he will not be bought twice. Only a freed man can refuse)" }
+   ],
+   "memory": { "give": "gave the boy up freely", "sell": "sold the boy at a king's price", "keep": "let the boy refuse" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.end_oswigesdune",
+   "note": "ENDING: what happened (scheduled by steps 10 and 11; also drawn at Gyrwe, Eoforwic, Lindisfarena or Bebbanburg, 883 to 890, for anyone who began the chain and did not change it, so no road ends with nothing). Historia de Sancto Cuthberto 13 and Symeon ii.13: the army and the English made Guthred king on Oswigesdune with a gold ring on his right arm and swore peace over the saint's body; the bishop brought the body to Cunecacestre (Chester-le-Street); the king gave the saint all the land between Tyne and Wear and the right that whoever fled to the body should have peace thirty-seven days and nights. Where Oswigesdune was is not known (?): the card lies on the Tyne, in the land that was given. Rewards: unlock_charter_gyrwe (the saint's land is the bishop's to free of toll: he is lord between Tyne and Wear from 883); for those who gave, lent or spoke, unlock_title_st_cuthberts_man as well (a named man of the saint's peace); for the one who gave the boy freely, the king's own gifts: unlock_plot_eoforwic and unlock_title_kings_guest; for returned altar silver, unlock_relic_cuthbert_cloth. Sets ch_saga_northumbria_irish_sea_end_oswigesdune and ch_saga_northumbria_irish_sea_done.",
+   "stage": "harbour",
+   "when": "moored and (port.id = gyrwe or port.id = eoforwic or port.id = lindisfarena or port.id = bebbanburg) and flag.ch_saga_northumbria_irish_sea_on and not flag.ch_saga_northumbria_irish_sea_saint_in_ireland and not flag.ch_saga_northumbria_irish_sea_boy_aboard and not flag.ch_saga_northumbria_irish_sea_boy_kept and not flag.ch_saga_northumbria_irish_sea_done and year >= 883 and year <= 890",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [58, 75], "fixed": true, "note": "Eardulf; real" },
+    "king": { "role": "king", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [18, 28], "fixed": true, "note": "Guthred son of Harthacnut, king 883 to 895; real" },
+    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [50, 70], "fixed": true, "note": "Eadred; real" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.end_oswigesdune.title",
+   "title": "The gold ring",
+   "intention_key": "chain_saga_northumbria_irish_sea.end_oswigesdune.intention",
+   "intention": "This year the army and the English together took a king: a young Dane bought out of a widow's yard, with a gold ring on his right arm and the saint's coffin beside him on the hill.",
+   "lines": [
+    { "who": "bishop", "key": "chain_saga_northumbria_irish_sea.end_oswigesdune.bishop_land" },
+    { "who": "bishop", "key": "chain_saga_northumbria_irish_sea.end_oswigesdune.bishop_days" },
+    { "who": "king", "key": "chain_saga_northumbria_irish_sea.end_oswigesdune.king_given", "when": "flag.ch_saga_northumbria_irish_sea_boy_given" },
+    { "who": "king", "key": "chain_saga_northumbria_irish_sea.end_oswigesdune.king_sold", "when": "flag.ch_saga_northumbria_irish_sea_boy_sold_dear" },
+    { "who": "king", "key": "chain_saga_northumbria_irish_sea.end_oswigesdune.king_stranger", "when": "not flag.ch_saga_northumbria_irish_sea_boy_given and not flag.ch_saga_northumbria_irish_sea_boy_sold_dear" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.end_oswigesdune.abbot_lent", "when": "flag.ch_saga_northumbria_irish_sea_lent" },
+    { "who": "bishop", "key": "chain_saga_northumbria_irish_sea.end_oswigesdune.bishop_ferried", "when": "flag.ch_saga_northumbria_irish_sea_ferried" }
+   ],
+   "options": [
+    { "key": "kings_friend", "label_key": "chain_saga_northumbria_irish_sea.end_oswigesdune.opt_kings_friend", "label": "Take what the king offers the man who gave him up for nothing", "check": "flag.ch_saga_northumbria_irish_sea_boy_given",
+      "effects": [ "silver +1500", "toll eased 365", "npc king feeling +30 friend", "news chain_saga_northumbria_irish_sea.news.guthred at eoforwic", "flag unlock_charter_gyrwe", "flag unlock_plot_eoforwic", "flag unlock_title_kings_guest", "flag ch_saga_northumbria_irish_sea_end_oswigesdune", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_oswigesdune.out_kings_friend (the hard road: 1,500 d in arm-rings, the saint's charter on the Tyne, a plot at York, the king's guest)" },
+    { "key": "witness", "label_key": "chain_saga_northumbria_irish_sea.end_oswigesdune.opt_witness", "label": "Stand among the witnesses as one who lent or spoke, and take the saint's hand for it", "check": "flag.ch_saga_northumbria_irish_sea_lent or flag.ch_saga_northumbria_irish_sea_spoke",
+      "effects": [ "silver +900", "toll eased 180", "npc bishop feeling +20 witness", "news chain_saga_northumbria_irish_sea.news.guthred at eoforwic", "flag unlock_charter_gyrwe", "flag unlock_title_st_cuthberts_man", "flag ch_saga_northumbria_irish_sea_end_oswigesdune", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_oswigesdune.out_witness (900 d, the charter and a name in the saint's peace)" },
+    { "key": "altar", "label_key": "chain_saga_northumbria_irish_sea.end_oswigesdune.opt_altar", "label": "Lay the altar silver from the Tyne on the new altar", "check": "flag.ch_saga_northumbria_irish_sea_plate and hold.church_plate >= 2", "cost": "goods church_plate 2",
+      "effects": [ "silver +700", "deed gave_alms", "npc bishop feeling +25 altar", "news chain_saga_northumbria_irish_sea.news.guthred at eoforwic", "flag unlock_charter_gyrwe", "flag unlock_relic_cuthbert_cloth", "flag ch_saga_northumbria_irish_sea_end_oswigesdune", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_oswigesdune.out_altar (700 d from the king's gift to the church, the charter, and a strip of the cloth that lay on the coffin)" },
+    { "key": "peace", "label_key": "chain_saga_northumbria_irish_sea.end_oswigesdune.opt_peace", "label": "Ask only the saint's peace for your hull between Tyne and Wear, and the carrying of his first rents", "check": "true", "default": true,
+      "effects": [ "silver +600", "commission fleeces 12 by 240 premium 0.5", "news chain_saga_northumbria_irish_sea.news.guthred at eoforwic", "flag unlock_charter_gyrwe", "flag ch_saga_northumbria_irish_sea_end_oswigesdune", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_oswigesdune.out_peace (600 d paid forward for carrying the saint's wool, and the charter: every road has this)" }
+   ],
+   "memory": { "kings_friend": "gave the king up for nothing", "witness": "stood witness on the hill", "altar": "laid the altar silver on the altar", "peace": "asked for the saint's peace" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.end_ireland",
+   "note": "ENDING: history changed (scheduled 200 days after a crossing that reached Ireland; also drawn at Hi or Duiblinn from 879). In truth the ship was driven back (Symeon ii.11) and the saint never left Britain. Here he lies in Ireland among Columba's family, whose shrine went over in 878 (Annals of Ulster 878). What follows in later years: no dream at Crayke, so no King Guthred and no peace of 883 (the army takes a king of its own kind); no land between Tyne and Wear for the saint, no thirty-seven days' sanctuary, no Chester-le-Street in 883 and no Durham in 995; the English of the north lose the one lord the Danes feared; the Irish church gains a second great shrine and the pilgrims who follow it. Flann son of Mael Duin was abbot of Hi 880 to 891 (dossiers/hi.md); in 879 the card is too early for him by a year (?). A stranger has no honour-price in Irish law until a king or abbot names him his guest (realms/irish_sea.md, 'Who protects'). Rewards: unlock_title_abbots_guest; with the letter of step 5, unlock_relic_cuthbert_cloth as well (hard road); or unlock_factor_hi; or, with a freed Guthred aboard, unlock_partner_guthred (and changed_guthred_never_king). Lasting cost: ch_saga_northumbria_irish_sea_blamed_in_northumbria. Sets ch_saga_northumbria_irish_sea_end_ireland, changed_cuthbert_in_ireland, ch_saga_northumbria_irish_sea_done.",
+   "stage": "harbour",
+   "when": "moored and (port.id = hi or port.id = duiblinn) and flag.ch_saga_northumbria_irish_sea_saint_in_ireland and not flag.ch_saga_northumbria_irish_sea_done and year >= 879",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "gaelic", "faith": "christian", "tongue": "irish", "sex": "m", "age": [45, 65], "fixed": true, "note": "Flann son of Mael Duin, abbot of Hi 880 to 891; real" },
+    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [28, 45], "fixed": true, "note": "Hunred, the bearer; real" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.end_ireland.title",
+   "title": "Two saints in one house",
+   "intention_key": "chain_saga_northumbria_irish_sea.end_ireland.intention",
+   "intention": "Cuthbert of the English lies in Ireland now, a day's walk from Columba's shrine, and the bearer who carried him seven years has learned to ask for bread in Irish.",
+   "lines": [
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.end_ireland.abbot_rests" },
+    { "who": "abbot", "key": "chain_saga_northumbria_irish_sea.end_ireland.abbot_letter", "when": "flag.ch_saga_northumbria_irish_sea_iona_letter" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.end_ireland.hunred_home" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.end_ireland.hunred_blame" },
+    { "who": "bearer", "key": "chain_saga_northumbria_irish_sea.end_ireland.hunred_boy", "when": "flag.ch_saga_northumbria_irish_sea_boy_aboard" }
+   ],
+   "options": [
+    { "key": "guest", "label_key": "chain_saga_northumbria_irish_sea.end_ireland.opt_guest", "label": "Take the abbot's protection: his guest on every shore where Columba's word runs", "check": "true", "default": true,
+      "effects": [ "silver +800", "npc abbot feeling +20 guest", "news chain_saga_northumbria_irish_sea.news.ireland at eoforwic", "flag unlock_title_abbots_guest", "flag ch_saga_northumbria_irish_sea_end_ireland", "flag changed_cuthbert_in_ireland", "flag ch_saga_northumbria_irish_sea_blamed_in_northumbria", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_ireland.out_guest (800 d in arm-rings from a king of Mide, and an honour-price in Ireland)" },
+    { "key": "cloth", "label_key": "chain_saga_northumbria_irish_sea.end_ireland.opt_cloth", "label": "You carried the letter that called them: ask for the abbot's protection, and a strip of the saint's cloth for your house", "check": "flag.ch_saga_northumbria_irish_sea_iona_letter",
+      "effects": [ "silver +1000", "learn latin +0.3", "npc abbot feeling +25 cloth", "news chain_saga_northumbria_irish_sea.news.ireland at eoforwic", "flag unlock_title_abbots_guest", "flag unlock_relic_cuthbert_cloth", "flag ch_saga_northumbria_irish_sea_end_ireland", "flag changed_cuthbert_in_ireland", "flag ch_saga_northumbria_irish_sea_blamed_in_northumbria", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_ireland.out_cloth (the hard road: 1,000 d, the protection and a relic the house keeps)" },
+    { "key": "cellar", "label_key": "chain_saga_northumbria_irish_sea.end_ireland.opt_cellar", "label": "Ask for no honour: only to be the man who brings the wine for Columba's houses", "check": "true",
+      "effects": [ "silver +600", "commission rhenish_wine 12 by 365 premium 0.8", "npc abbot feeling +10 cellar", "news chain_saga_northumbria_irish_sea.news.ireland at eoforwic", "flag unlock_factor_hi", "flag ch_saga_northumbria_irish_sea_end_ireland", "flag changed_cuthbert_in_ireland", "flag ch_saga_northumbria_irish_sea_blamed_in_northumbria", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_ireland.out_cellar (600 d, a wine commission at a high premium, and the cellarer of Hi as your factor)" },
+    { "key": "fellow", "label_key": "chain_saga_northumbria_irish_sea.end_ireland.opt_fellow", "label": "Take the protection, and swear fellowship here with Harthacnut's son, whom nobody now will come to buy", "check": "flag.ch_saga_northumbria_irish_sea_boy_aboard and flag.ch_saga_northumbria_irish_sea_boy_free",
+      "effects": [ "silver +800", "npc abbot feeling +15 guest", "news chain_saga_northumbria_irish_sea.news.ireland at eoforwic", "flag unlock_title_abbots_guest", "flag unlock_partner_guthred", "flag changed_guthred_never_king", "flag ch_saga_northumbria_irish_sea_end_ireland", "flag changed_cuthbert_in_ireland", "flag ch_saga_northumbria_irish_sea_blamed_in_northumbria", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_ireland.out_fellow (800 d, the protection, and a sworn partner who would have been a king)" }
+   ],
+   "memory": { "guest": "took the abbot's protection", "cloth": "asked for the saint's cloth", "cellar": "asked for the wine trade", "fellow": "swore fellowship with Harthacnut's son" }
+  },
+  {
+   "id": "harbour.chain_saga_northumbria_irish_sea.end_ships_boy",
+   "note": "ENDING: history changed (scheduled sixty days after step 11's refusal; drawn at any port after it). In truth the army paid the widow and made Guthred king in 883 (Historia de Sancto Cuthberto 13); he ruled twelve years, gave the saint the land between Tyne and Wear, and was buried in York minster on 24 August 895 (Aethelweard iv.3). Here he has refused, as a free man, to be bought a second time. What follows in later years: the army at York takes a heathen king of its own choosing; there is no sworn peace between Dane and English in 883 and no grant to the saint; the saint's people stay at Crayke on an abbot's charity and Chester-le-Street is not founded; the first Christian king of the Danes of York comes a generation late or not at all. His kin at York are the game's invention: the History names his father and nothing more (?). The felag, a sworn fellowship of shared goods, is the Norse merchants' own form (CHAINS.md unlock_partner). Rewards: unlock_partner_guthred, or unlock_kin_guthred_foster, or unlock_plot_eoforwic. Lasting cost: ch_saga_northumbria_irish_sea_saint_denied. Sets ch_saga_northumbria_irish_sea_end_ships_boy, changed_guthred_never_king, ch_saga_northumbria_irish_sea_done.",
+   "stage": "harbour",
+   "when": "moored and flag.ch_saga_northumbria_irish_sea_boy_kept and not flag.ch_saga_northumbria_irish_sea_done",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "boy": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [19, 24], "fixed": true, "note": "Guthred son of Harthacnut; real" },
+    "kinsman": { "role": "envoy", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [40, 60], "fixed": false, "note": "a man of his father's kin from York; invented, unnamed" }
+   },
+   "title_key": "chain_saga_northumbria_irish_sea.end_ships_boy.title",
+   "title": "Not bought twice",
+   "intention_key": "chain_saga_northumbria_irish_sea.end_ships_boy.intention",
+   "intention": "The army at York has shouted for another king, and the saint is still a guest at Crayke. A grey Dane has come down to your hull with a bag of arm-rings for the son of a friend he thought was dead.",
+   "lines": [
+    { "who": "kinsman", "key": "chain_saga_northumbria_irish_sea.end_ships_boy.kinsman_rings" },
+    { "who": "kinsman", "key": "chain_saga_northumbria_irish_sea.end_ships_boy.kinsman_king" },
+    { "who": "boy", "key": "chain_saga_northumbria_irish_sea.end_ships_boy.guthred_ring" },
+    { "who": "boy", "key": "chain_saga_northumbria_irish_sea.end_ships_boy.guthred_offer" },
+    { "who": "boy", "key": "chain_saga_northumbria_irish_sea.end_ships_boy.guthred_font", "when": "flag.ch_saga_northumbria_irish_sea_boy_baptised" }
+   ],
+   "options": [
+    { "key": "felag", "label_key": "chain_saga_northumbria_irish_sea.end_ships_boy.opt_felag", "label": "Swear fellowship: his kin's silver buys a second hull, and he sails it", "check": "true", "default": true,
+      "effects": [ "silver +700", "npc boy feeling +25 felag", "news chain_saga_northumbria_irish_sea.news.no_king at eoforwic", "flag unlock_partner_guthred", "flag ch_saga_northumbria_irish_sea_end_ships_boy", "flag changed_guthred_never_king", "flag ch_saga_northumbria_irish_sea_saint_denied", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_ships_boy.out_felag (700 d as your half of the common purse, and a sworn partner with a second boat)" },
+    { "key": "foster", "label_key": "chain_saga_northumbria_irish_sea.end_ships_boy.opt_foster", "label": "Take him into the house as a foster-son, with his kin's gift for his keeping", "check": "true",
+      "effects": [ "silver +900", "npc boy feeling +20 foster", "npc kinsman feeling +15 foster", "news chain_saga_northumbria_irish_sea.news.no_king at eoforwic", "flag unlock_kin_guthred_foster", "flag ch_saga_northumbria_irish_sea_end_ships_boy", "flag changed_guthred_never_king", "flag ch_saga_northumbria_irish_sea_saint_denied", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_ships_boy.out_foster (900 d, and kin among the Danes of York)" },
+    { "key": "york", "label_key": "chain_saga_northumbria_irish_sea.end_ships_boy.opt_york", "label": "Send him to York with his rings and your good word, and ask a plot on the river from his kin", "check": "true",
+      "effects": [ "silver +600", "npc kinsman feeling +20 sent", "news chain_saga_northumbria_irish_sea.news.no_king at eoforwic", "flag unlock_plot_eoforwic", "flag ch_saga_northumbria_irish_sea_end_ships_boy", "flag changed_guthred_never_king", "flag ch_saga_northumbria_irish_sea_saint_denied", "flag ch_saga_northumbria_irish_sea_done" ],
+      "note": "outcome: chain_saga_northumbria_irish_sea.end_ships_boy.out_york (600 d and a plot at York; he is a great man's son again, and still not a king)" }
+   ],
+   "memory": { "felag": "swore fellowship with him", "foster": "took him as a foster-son", "york": "sent him home to York" }
+  }
+ ]
+}

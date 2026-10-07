@@ -1,0 +1,17 @@
+{
+  "about": "THE CHRONICLE'S SHOCKS TO THE MARKETS (economy design 2.5, nights one and two): what an entry of chronicle_793.json does to the markets of the ports it names (or every port of its regions). By id first, then by kind; an entry with neither moves no market. goods: 'all', 'food' (the goods table's Food), a category name, or good ids joined by commas. stock_left: the share of the stock left at once (above 1 fills: a fair). dearer: the share dearer, held for 'days' (or, with days 0, until the entry's end) and then fading at trade_rules' shock_fade. disrupt_days: the market takes no deals for this many days (a raid, a burning). size_loss: a burned market is rebuilt this many steps of size smaller (its usual stock and appetite shrink with it); burns: the port ids burned, joined by commas (empty: every port the entry hits). ruin: the port ids ruined for good, joined by commas: a ruined market takes no more deals and its size falls a step at each new year after, to nothing (a port whose last year in ports_793.json has passed is ruined anyway, from the new year). The design's burnings close a market for 180 days with a wait action; at 1x play (design 2.0) the 21 days of the burning kind stand in. Edit freely: the game reads this file.",
+  "by_id": {
+    "793-great-famine": { "goods": "wheat,rye,barley,oats,malt,flour", "stock_left": 0.55, "dearer": 1.0, "days": 0, "note": "grain very dear across the Frankish lands until the harvest of 794 (the entry's end)" },
+    "793-06-08-lindisfarena-raid": { "goods": "all", "stock_left": 0.15, "dearer": 0.6, "days": 30, "disrupt_days": 10, "note": "the monastery sacked: nothing to sell for ten days, then a thin market" },
+    "794-drought-harvest": { "goods": "food", "stock_left": 0.8, "dearer": 0.35, "days": 120 },
+    "836-witla-antwerp-burned": { "goods": "all", "stock_left": 0.2, "dearer": 0.5, "days": 30, "disrupt_days": 21, "size_loss": 1, "burns": "witla,andoverpis", "note": "Witla and Antwerp burned and rebuilt smaller (Witla's last year is 836 anyway); Dorestad raided again but not burned (guess at the numbers, as the burning kind)" },
+    "846-dorestad-burned": { "goods": "all", "stock_left": 0.2, "dearer": 0.5, "days": 30, "disrupt_days": 21, "size_loss": 1, "burns": "dorestad", "note": "Dorestad burned while Lothar watched from Nijmegen: rebuilt a step smaller; Nijmegen's market feels the raid but was not burned (guess at the numbers, as the burning kind)" },
+    "863-dorestad-last": { "goods": "all", "stock_left": 0.1, "dearer": 0.8, "days": 60, "disrupt_days": 120, "ruin": "dorestad", "note": "the last sack of Dorestad: ruined from that day (no more deals; its size falls a step a year, to nothing by 868); Cologne is raided but stands" },
+    "1066-hedeby-slavs": { "goods": "all", "stock_left": 0.2, "dearer": 0.5, "days": 30, "disrupt_days": 21, "size_loss": 1, "burns": "sliesthorp", "note": "the Slavs sack Schleswig: Sliesthorp burned again and rebuilt smaller (guess at the numbers, as the burning kind)" }
+  },
+  "by_kind": {
+    "famine": { "goods": "food", "stock_left": 0.7, "dearer": 0.6, "days": 0 },
+    "raid": { "goods": "all", "stock_left": 0.3, "dearer": 0.4, "days": 20, "disrupt_days": 7 },
+    "burning": { "goods": "all", "stock_left": 0.2, "dearer": 0.5, "days": 30, "disrupt_days": 21, "size_loss": 1, "note": "burned (Hamburg 845, Tiel 1006, Hedeby 1050): shut 21 days, rebuilt a step smaller" }
+  }
+}

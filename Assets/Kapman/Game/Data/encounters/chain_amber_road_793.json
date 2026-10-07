@@ -1,0 +1,555 @@
+{
+ "about": "CHAIN amber_road (Design/content/CHAINS.md; page Design/content/chains/amber_road.md; words Data/writing/chain_amber_road.json). Amber from the Ests at Truso, as Wulfstan saw them about 890 (Old English Orosius; texts_793.json wulfstan): a king in every fort, mares' milk for the rich and mead for the poor and no ale at all, the dead kept cold in their houses for months, their goods laid out along a mile and ridden for, every stranger who dies there burned. Fourteen cards. The body of the chain is open while Truso stands in ports_793.json (to 850); the last card is Wulfstan himself at Sliesthorp, 880 to 899, for the heir. Step flags ch_amber_road_1 .. _9; endings ch_amber_road_end_rider (the stranger who rode), ch_amber_road_end_guest (what happened: a guest who learned the trade), ch_amber_road_end_ale (history changed: changed_ests_brew_ale), ch_amber_road_end_shut (history changed: changed_ests_bar_strangers). Every option's note names its outcome text. Spoken lines call people by what they are (the Dane, the steward, the brew-wife) because the engine forges the names. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_amber_road.s01_beadmaker",
+   "note": "Step 1, one of the two starts (drawn at Ripa or Sliesthorp before 846). A bead-maker's raw amber has come through three hands; he says where it comes from and shows how it is told from resin and glass. Sources: amber worked into beads at Ribe and Hedeby (goods_793.json amber; economy/furs_amber_ivory_slaves.md: workshop waste at Ripa, Sliesthorp, Truso); the seven days and the Wends to starboard are Wulfstan's (texts_793.json wulfstan); that the Ests wonder at the price is Tacitus, Germania 45 (from memory (?)). The three tests (it draws chaff when rubbed, floats in brine, is warm on the lip) are craft knowledge with no source of the period (?). The bead-maker Toki is invented (a Danish name of the rune stones). Sets ch_amber_road_1 and, by two of the three options, ch_amber_road_rub.",
+   "stage": "harbour",
+   "when": "moored and (port.id = ripa or port.id = sliesthorp) and year < 846 and not flag.ch_amber_road_1 and not flag.ch_amber_road_2",
+   "weight": 1.5,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "beadmaker": { "role": "craftsman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "Toki, a bead-maker; invented" }
+   },
+   "title_key": "chain_amber_road.s01.title",
+   "title": "Sea-stone",
+   "intention_key": "chain_amber_road.s01.intention",
+   "intention": "A bead-maker sits in a litter of yellow chips, sorting a sack of raw amber into what he can use and what he was cheated with.",
+   "lines": [
+    { "who": "beadmaker", "key": "chain_amber_road.s01.hands" },
+    { "who": "beadmaker", "key": "chain_amber_road.s01.where" },
+    { "who": "beadmaker", "key": "chain_amber_road.s01.price" },
+    { "who": "beadmaker", "key": "chain_amber_road.s01.yours", "when": "hold.amber > 0" },
+    { "who": "beadmaker", "key": "chain_amber_road.s01.tongue" }
+   ],
+   "options": [
+    { "key": "watch", "label_key": "chain_amber_road.s01.opt_watch", "label": "Sit by his bench for the afternoon and watch how he tells good from bad", "check": "true", "default": true,
+      "effects": [ "flag ch_amber_road_rub", "npc beadmaker feeling +3 watched", "flag ch_amber_road_1" ],
+      "note": "outcome: chain_amber_road.s01.out_watch (costs the afternoon; the three tests)" },
+    { "key": "buy", "label_key": "chain_amber_road.s01.opt_buy", "label": "Buy a sack of his raw amber and have him sort it in front of you", "check": "silver >= 36", "cost": "silver 36",
+      "effects": [ "goods amber +1", "flag ch_amber_road_rub", "npc beadmaker feeling +5 bought", "flag ch_amber_road_1" ],
+      "note": "outcome: chain_amber_road.s01.out_buy (a sack at 36 d, a little over the common 30: the price is for the sorting)" },
+    { "key": "order", "label_key": "chain_amber_road.s01.opt_order", "label": "Ask what he would pay for amber brought straight from the lake", "check": "true",
+      "effects": [ "commission amber 6 by 240 premium 0.5", "npc beadmaker feeling +2 asked", "flag ch_amber_road_1" ],
+      "note": "outcome: chain_amber_road.s01.out_order (an order for six sacks at half as much again, within eight months; no lesson)" }
+   ],
+   "memory": { "watch": "sat by the bench and watched", "buy": "bought a sack and had it sorted", "order": "asked for an order" }
+  },
+  {
+   "id": "harbour.chain_amber_road.s02_wake",
+   "note": "Step 2, the other start (drawn at Truso on any call before 850; it does not need step 1). The king of the fort is dead and lies in his house; his store is shut until he is burned; the stranger is offered a drink. Source, all Wulfstan (texts_793.json wulfstan; our rendering): a king in every fort; the king and the richest men drink mares' milk, the poor and the slaves mead; no ale is brewed among the Ests, but there is mead enough; the dead lie unburnt a month, sometimes two, kings and great men longer, sometimes half a year, and all that while there is drinking and play. Danes with scales at the lake market: spine.md, thread 7, Truso. That the king's store is shut during the wake while gleanings are sold on the beach is ours (?). The host Ketil (a Dane settled at Truso) and the steward Nalube (a Prussian name recorded only in the 13th century (?)) are invented. Sets ch_amber_road_2 and one of ch_amber_road_milk, ch_amber_road_low_bench, ch_amber_road_ale_tasted.",
+   "stage": "harbour",
+   "when": "moored and port.id = truso and year < 850 and not flag.ch_amber_road_2",
+   "weight": 6,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ketil, a Dane who keeps a guest house and a pair of scales on the beach at Truso; invented" },
+    "steward": { "role": "steward", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "m", "age": [40, 60], "fixed": true, "note": "Nalube, steward of the dead king's house; invented" }
+   },
+   "title_key": "chain_amber_road.s02.title",
+   "title": "A wake on the lake",
+   "intention_key": "chain_amber_road.s02.intention",
+   "intention": "The beach at Truso is full of boats and nobody is selling. Up in the fort they are drinking. A Dane with a pair of scales in his belt comes down to see who you are.",
+   "lines": [
+    { "who": "host", "key": "chain_amber_road.s02.wake" },
+    { "who": "host", "key": "chain_amber_road.s02.store" },
+    { "who": "host", "key": "chain_amber_road.s02.kings" },
+    { "who": "host", "key": "chain_amber_road.s02.toki", "when": "flag.ch_amber_road_1" },
+    { "who": "steward", "key": "chain_amber_road.s02.steward" },
+    { "who": "host", "key": "chain_amber_road.s02.drink" }
+   ],
+   "options": [
+    { "key": "milk", "label_key": "chain_amber_road.s02.opt_milk", "label": "Take the mares' milk, and keep your face still", "check": "true",
+      "effects": [ "flag ch_amber_road_milk", "npc steward feeling +8 milk", "npc host feeling +2 milk", "flag ch_amber_road_2", "schedule harbour.chain_amber_road.s03_cold in 3 at truso" ],
+      "note": "outcome: chain_amber_road.s02.out_milk (costs pride and a stomach; they seat him high)" },
+    { "key": "mead", "label_key": "chain_amber_road.s02.opt_mead", "label": "Take the mead: it is what you know", "check": "true", "default": true,
+      "effects": [ "flag ch_amber_road_low_bench", "npc steward feeling +2 mead", "flag ch_amber_road_2", "schedule harbour.chain_amber_road.s03_cold in 3 at truso" ],
+      "note": "outcome: chain_amber_road.s02.out_mead (seated low, among the men who gather the amber: step 4 has a way round the beach seller)" },
+    { "key": "ale", "label_key": "chain_amber_road.s02.opt_ale", "label": "Send to the boat for the last of your own ale and pour it for them", "check": "true",
+      "effects": [ "morale -0.03", "flag ch_amber_road_ale_tasted", "npc steward feeling +5 ale", "flag ch_amber_road_2", "schedule harbour.chain_amber_road.s03_cold in 3 at truso" ],
+      "note": "outcome: chain_amber_road.s02.out_ale (the crew lose their ale; the dead king's brother tastes it: the road to the ale ending opens)" }
+   ],
+   "memory": { "milk": "drank the mares' milk", "mead": "drank mead on the low bench", "ale": "poured his own ale at the wake" }
+  },
+  {
+   "id": "harbour.chain_amber_road.s03_cold",
+   "note": "Step 3 (scheduled by step 2; three days on). The dead king in his house, and the kin that can make cold. Source: Wulfstan (our rendering): there is among the Ests a kin that can make cold, and so the dead lie long and do not rot; set two vessels of ale or water before them and they bring it about that both are frozen over, summer or winter. How it was done is not recorded: the pit of winter ice under the bench is a guess (?), and the card leaves half of it untold. The cold-wife Drua (a late Prussian woman's name (?)) is invented. Sets ch_amber_road_3; ch_amber_road_gift, or ch_amber_road_cold_known.",
+   "stage": "harbour",
+   "when": "moored and port.id = truso and flag.ch_amber_road_2 and not flag.ch_amber_road_3",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ketil" },
+    "coldwife": { "role": "wise_woman", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "f", "age": [45, 70], "fixed": true, "note": "Drua, of the kin that makes cold; invented" }
+   },
+   "title_key": "chain_amber_road.s03.title",
+   "title": "The cold house",
+   "intention_key": "chain_amber_road.s03.intention",
+   "intention": "They take you in to see the dead king. He lies on a bench in his own house, dressed, his weapons beside him, and the room is as cold as the bottom of a well.",
+   "lines": [
+    { "who": "host", "key": "chain_amber_road.s03.weeks" },
+    { "who": "host", "key": "chain_amber_road.s03.bowls" },
+    { "who": "host", "key": "chain_amber_road.s03.summer", "when": "month >= 5 and month <= 9" },
+    { "who": "coldwife", "key": "chain_amber_road.s03.coldwife" },
+    { "who": "host", "key": "chain_amber_road.s03.head", "when": "flag.ch_amber_road_milk" },
+    { "who": "host", "key": "chain_amber_road.s03.heaps" }
+   ],
+   "options": [
+    { "key": "gift", "label_key": "chain_amber_road.s03.opt_gift", "label": "Lay silver at the dead man's feet, as his own people do", "check": "silver >= 15", "cost": "silver 15",
+      "effects": [ "flag ch_amber_road_gift", "npc coldwife feeling +6 gift", "flag ch_amber_road_3", "schedule harbour.chain_amber_road.s04_lesson in 4 at truso" ],
+      "note": "outcome: chain_amber_road.s03.out_gift (remembered at the endings)" },
+    { "key": "ask", "label_key": "chain_amber_road.s03.opt_ask", "label": "Ask the woman, through the Dane, how the cold is made", "check": "true",
+      "effects": [ { "chance": 0.4, "by": "crew.trade_best",
+                     "success": [ "flag ch_amber_road_cold_known", "npc coldwife feeling +4 asked" ],
+                     "failure": [ "npc coldwife feeling -3 pried" ] },
+                   "flag ch_amber_road_3", "schedule harbour.chain_amber_road.s04_lesson in 4 at truso" ],
+      "note": "outcome: chain_amber_road.s03.out_ask_success / out_ask_failure (doubtful; failing costs a place by the door and nothing else)" },
+    { "key": "look", "label_key": "chain_amber_road.s03.opt_look", "label": "Stand where you are told and keep your hands to yourself", "check": "true", "default": true,
+      "effects": [ "npc host feeling +2 quiet", "flag ch_amber_road_3", "schedule harbour.chain_amber_road.s04_lesson in 4 at truso" ],
+      "note": "outcome: chain_amber_road.s03.out_look (costs nothing; he counts the heaps)" }
+   ],
+   "memory": { "gift": "laid silver by the dead king", "ask.success": "asked about the cold and was shown", "ask.failure": "pried into the cold", "look": "stood quiet in the cold house" }
+  },
+  {
+   "id": "harbour.chain_amber_road.s04_lesson",
+   "note": "Step 4, a turn (scheduled by step 3; four days on). A woman sells gleanings on the beach in three wet heaps at one price; the Dane weighs and says nothing. The trade that has to be learned. Sources: Tacitus, Germania 45: the Aestii gather amber, bring it unworked and take their price with wonder (from memory (?)); it is turned round here: by 800 they know to the grain what a stranger does not. Amber gathered on the west shore (Witland, Samland) after the autumn storms: goods_793.json amber. Pine resin boiled hard and yellow glass passed as amber are our guess at the frauds (?). The seller Nameda (a late Prussian woman's name (?)) is invented. Sets ch_amber_road_4; pays four or five sacks to the careful (about 120 to 150 d for 30 to 45 d).",
+   "stage": "harbour",
+   "when": "moored and port.id = truso and flag.ch_amber_road_3 and not flag.ch_amber_road_4",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "seller": { "role": "widow", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "f", "age": [30, 55], "fixed": true, "note": "Nameda, a gatherer's widow who sells off a cloth on the shingle; invented" },
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ketil" }
+   },
+   "title_key": "chain_amber_road.s04.title",
+   "title": "Three heaps",
+   "intention_key": "chain_amber_road.s04.intention",
+   "intention": "A woman has spread a cloth on the shingle: yellow lumps in three heaps, wetted so they shine. She names one price for all of it. The Dane holds his scales and looks at the lake.",
+   "lines": [
+    { "who": "seller", "key": "chain_amber_road.s04.seller" },
+    { "who": "host", "key": "chain_amber_road.s04.weigh" },
+    { "who": "host", "key": "chain_amber_road.s04.grandfather" },
+    { "who": "host", "key": "chain_amber_road.s04.knows", "when": "flag.ch_amber_road_rub" },
+    { "who": "host", "key": "chain_amber_road.s04.knows_not", "when": "not flag.ch_amber_road_rub" },
+    { "who": "host", "key": "chain_amber_road.s04.low_bench", "when": "flag.ch_amber_road_low_bench" }
+   ],
+   "options": [
+    { "key": "test", "label_key": "chain_amber_road.s04.opt_test", "label": "Test it piece by piece: sleeve, brine and lip", "check": "flag.ch_amber_road_rub and silver >= 45", "cost": "silver 45",
+      "effects": [ "goods amber +4", "npc seller feeling +5 tested", "flag ch_amber_road_4", "schedule harbour.chain_amber_road.s05_stranger in 4 at truso" ],
+      "note": "outcome: chain_amber_road.s04.out_test (four sacks of true amber for 45 d)" },
+    { "key": "look", "label_key": "chain_amber_road.s04.opt_look", "label": "Buy by the look of it", "check": "silver >= 45", "cost": "silver 45",
+      "effects": [ { "chance": 0.4, "by": "crew.trade_best",
+                     "success": [ "goods amber +4", "npc seller feeling +2 lucky" ],
+                     "failure": [ "goods amber +1", "flag ch_amber_road_rub", "npc seller feeling +4 fooled" ] },
+                   "flag ch_amber_road_4", "schedule harbour.chain_amber_road.s05_stranger in 4 at truso" ],
+      "note": "outcome: chain_amber_road.s04.out_look_success / out_look_failure (doubtful; failing leaves one sack of true stone and the lesson paid for: ch_amber_road_rub)" },
+    { "key": "ask", "label_key": "chain_amber_road.s04.opt_ask", "label": "Buy nothing. Ask her to show you what she would not buy herself", "check": "true", "default": true,
+      "effects": [ "flag ch_amber_road_rub", "npc seller feeling +3 asked", "tongue baltic = 0.5", "flag ch_amber_road_4", "schedule harbour.chain_amber_road.s05_stranger in 4 at truso" ],
+      "note": "outcome: chain_amber_road.s04.out_ask (costs pride; the lesson, and a morning of her words for things)" },
+    { "key": "gatherers", "label_key": "chain_amber_road.s04.opt_gatherers", "label": "Go round her: the men from the low bench sell on the shore itself", "check": "flag.ch_amber_road_low_bench and silver >= 30", "cost": "silver 30",
+      "effects": [ "goods amber +5", "npc seller feeling -2 passed", "flag ch_amber_road_gatherers", "flag ch_amber_road_4", "schedule harbour.chain_amber_road.s05_stranger in 4 at truso" ],
+      "note": "outcome: chain_amber_road.s04.out_gatherers (five sacks straight off the beach, sand and weed and all, for 30 d: what the mead bought)" }
+   ],
+   "memory": { "test": "tested every piece", "look.success": "bought by eye and was lucky", "look.failure": "bought resin and glass", "ask": "asked to be taught", "gatherers": "went round her to the gatherers" }
+  },
+  {
+   "id": "harbour.chain_amber_road.s05_stranger",
+   "note": "Step 5 (scheduled by step 4; four days on). A baptised Frisian has died in the guest house and his son has promised him earth. Source: Wulfstan (our rendering): it is a custom among the Ests that a man of every tongue shall be burned, and if a bone is found unburnt they must make great atonement for it. Who pays the atonement is not said: that it falls on the house that kept the dead man is ours (?). There is no church nearer than Saxony before the 850s (Anskar's churches at Sliesthorp and Ripa: realms/denmark.md), so Christian ground here is a grave in the sand of the spit with a cross of driftwood. The dead man Wigbod (Wig- + -bod) and his son Wigmar (Wig- + -mar), Frisians of the Weser mouth, are invented. Sets ch_amber_road_5; ch_amber_road_body_out, ch_amber_road_burned or ch_amber_road_atoned. The riddle of ice is Symphosius 10 (riddles_793.json).",
+   "stage": "harbour",
+   "when": "moored and port.id = truso and flag.ch_amber_road_4 and not flag.ch_amber_road_5",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "son": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [18, 26], "fixed": false, "note": "Wigmar, son of the dead Frisian Wigbod; invented" },
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ketil" },
+    "steward": { "role": "steward", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "m", "age": [40, 60], "fixed": true, "note": "Nalube" }
+   },
+   "title_key": "chain_amber_road.s05.title",
+   "title": "Every tongue burns",
+   "intention_key": "chain_amber_road.s05.intention",
+   "intention": "A Frisian has died of a fever in the Dane's guest house, a very long way from a priest. His son comes to you because you are the only other baptised skipper on the lake.",
+   "lines": [
+    { "who": "son", "key": "chain_amber_road.s05.son_law" },
+    { "who": "son", "key": "chain_amber_road.s05.son_promise" },
+    { "who": "host", "key": "chain_amber_road.s05.host_house" },
+    { "who": "steward", "key": "chain_amber_road.s05.steward" },
+    { "who": "host", "key": "chain_amber_road.s05.host_warn" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_amber_road.s05.opt_carry", "label": "Take the body out by night and bury him in the sand of the spit, by the sea", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "flag ch_amber_road_body_out", "silver +30", "npc son feeling +20 buried", "give_riddle riddle_symphosius_10_glacies" ],
+                     "failure": [ "silver -60", "flag ch_amber_road_atoned", "npc host feeling -12 caught", "npc steward feeling -8 caught", "npc son feeling +8 tried" ] },
+                   "flag ch_amber_road_5", "schedule harbour.chain_amber_road.s06_steward in 3 at truso" ],
+      "note": "outcome: chain_amber_road.s05.out_carry_success / out_carry_failure (doubtful; caught on the lake, he pays 60 d of the atonement and the man is burned all the same)" },
+    { "key": "burn", "label_key": "chain_amber_road.s05.opt_burn", "label": "Stand by the son at their fire, and say the prayers you know", "check": "true", "default": true,
+      "effects": [ "flag ch_amber_road_burned", "morale -0.03", "npc steward feeling +6 kept_law", "npc son feeling +5 stood_by", "npc host feeling +4 kept_law", "flag ch_amber_road_5", "schedule harbour.chain_amber_road.s06_steward in 3 at truso" ],
+      "note": "outcome: chain_amber_road.s05.out_burn (costs nothing but what the crew think of it)" },
+    { "key": "atone", "label_key": "chain_amber_road.s05.opt_atone", "label": "Pay the atonement beforehand, so that nobody rakes the ash too closely", "check": "silver >= 50", "cost": "silver 50",
+      "effects": [ "flag ch_amber_road_atoned", "npc son feeling +14 bone", "npc host feeling +4 paid", "npc steward feeling +2 paid", "give_riddle riddle_symphosius_10_glacies", "flag ch_amber_road_5", "schedule harbour.chain_amber_road.s06_steward in 3 at truso" ],
+      "note": "outcome: chain_amber_road.s05.out_atone (50 d; one bone goes home in the son's shirt to lie in earth)" }
+   ],
+   "memory": { "carry.success": "carried a dead man out to Christian ground", "carry.failure": "was caught with a dead man on the lake", "burn": "stood by at the burning of a baptised man", "atone": "paid the atonement beforehand" }
+  },
+  {
+   "id": "harbour.chain_amber_road.s06_steward",
+   "note": "Step 6 (scheduled by step 5; three days on). The day of the burning is named and the riding explained; the stranger says what he will bring. Source: Wulfstan (our rendering): on the day they carry him to the pyre they divide what is left of his goods into five or six parts, sometimes more; they lay the largest about a mile from the fort, then the next, and the least nearest the fort; all the men with the swiftest horses in the land gather five or six miles from the goods and ride for them, and the first takes the largest part, and each keeps what he reaches; for that reason swift horses are very dear there; most of the wealth is spent in the long lying and in what is laid by the road, which strangers ride for and take. That a stranger may ride is in the text itself. The heir Gedune, the dead king's brother (a late Prussian name (?)), is invented. Sets ch_amber_road_6 and schedules the race seventy days on; ch_amber_road_horse_errand or ch_amber_road_brew_errand.",
+   "stage": "harbour",
+   "when": "moored and port.id = truso and flag.ch_amber_road_5 and not flag.ch_amber_road_6",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ketil" },
+    "steward": { "role": "steward", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "m", "age": [40, 60], "fixed": true, "note": "Nalube" },
+    "heir": { "role": "chief", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "m", "age": [30, 45], "fixed": true, "note": "Gedune, the dead king's brother, who will be king of the fort; invented" }
+   },
+   "title_key": "chain_amber_road.s06.title",
+   "title": "The day is named",
+   "intention_key": "chain_amber_road.s06.intention",
+   "intention": "The king will be burned at the second new moon from now. The steward has begun to divide what is left of his goods into five heaps, and the fort has begun to talk about horses.",
+   "lines": [
+    { "who": "host", "key": "chain_amber_road.s06.heaps" },
+    { "who": "host", "key": "chain_amber_road.s06.strangers" },
+    { "who": "steward", "key": "chain_amber_road.s06.far_heap" },
+    { "who": "heir", "key": "chain_amber_road.s06.heir_ale", "when": "flag.ch_amber_road_ale_tasted" },
+    { "who": "host", "key": "chain_amber_road.s06.host_ale", "when": "flag.ch_amber_road_ale_tasted" },
+    { "who": "host", "key": "chain_amber_road.s06.time" }
+   ],
+   "options": [
+    { "key": "horse", "label_key": "chain_amber_road.s06.opt_horse", "label": "Say you will be back with a horse", "check": "true",
+      "effects": [ "flag ch_amber_road_horse_errand", "commission horses 1 by 80 premium 1.0", "npc steward feeling +2 horse", "flag ch_amber_road_6", "schedule harbour.chain_amber_road.s09_race in 70 at truso" ],
+      "note": "outcome: chain_amber_road.s06.out_horse (an order stands at Truso for one horse at double: he may sell on it, or keep the horse and ride)" },
+    { "key": "ale", "label_key": "chain_amber_road.s06.opt_ale", "label": "Say you will be back with ale and a woman who can brew it", "check": "flag.ch_amber_road_ale_tasted",
+      "effects": [ "flag ch_amber_road_brew_errand", "commission malt 6 by 80 premium 1.0", "npc heir feeling +5 ale", "flag ch_amber_road_6", "schedule harbour.chain_amber_road.s09_race in 70 at truso" ],
+      "note": "outcome: chain_amber_road.s06.out_ale (an order for six sacks of malt at double)" },
+    { "key": "stay", "label_key": "chain_amber_road.s06.opt_stay", "label": "Say only that you will be there", "check": "true", "default": true,
+      "effects": [ "commission frisian_cloth 4 by 80 premium 0.3", "npc steward feeling +1 plain", "flag ch_amber_road_6", "schedule harbour.chain_amber_road.s09_race in 70 at truso" ],
+      "note": "outcome: chain_amber_road.s06.out_stay (the steward wants four bolts of cloth for the wake: Adam of Bremen IV.18 has the Sembi giving marten for woollen cloaks, about 1075: LATER)" }
+   ],
+   "memory": { "horse": "said he would bring a horse", "ale": "said he would bring ale", "stay": "said he would be there" }
+  },
+  {
+   "id": "harbour.chain_amber_road.s07_west",
+   "note": "Step 7, the errand in the west (drawn at Sliesthorp or Ripa between step 6 and the race; it comes again after twelve days if he said 'not now'). A Jute with one fast grey horse, and a brew-wife who wants a share and not a wage. Sources: swift horses very dear among the Ests (Wulfstan); brewing is women's household work (npc_roles_793.json alewife); horses carried in ships are shown later on the Bayeux embroidery, about 1070 (LATER), and the Danes' horses crossed to England in 892 (Anglo-Saxon Chronicle 893 for 892, 'with horses and all'). The horse costs twice the table's 120 d. The dealer Asbjorn and the brew-wife Tofa are invented (Danish names of the rune stones). Sets ch_amber_road_7; ch_amber_road_grey, ch_amber_road_brew.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sliesthorp or port.id = ripa) and flag.ch_amber_road_6 and not flag.ch_amber_road_7 and not flag.ch_amber_road_9",
+   "weight": 5,
+   "cooldown_days": 12,
+   "actors": {
+    "dealer": { "role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "Asbjorn, a horse dealer from the Jutland heath; invented" },
+    "brewster": { "role": "alewife", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "f", "age": [28, 45], "fixed": true, "note": "Tofa, a widow who brews in her husband's brother's house; invented" }
+   },
+   "title_key": "chain_amber_road.s07.title",
+   "title": "The grey and the brew-wife",
+   "intention_key": "chain_amber_road.s07.intention",
+   "intention": "Behind the landing a Jute is walking a string of horses, one of them a lean grey that the others give room to. Next door is an ale-house where the ale is good and the woman who makes it is not pleased with her life.",
+   "lines": [
+    { "who": "dealer", "key": "chain_amber_road.s07.grey" },
+    { "who": "dealer", "key": "chain_amber_road.s07.price" },
+    { "who": "dealer", "key": "chain_amber_road.s07.boat" },
+    { "who": "brewster", "key": "chain_amber_road.s07.brew_people", "when": "flag.ch_amber_road_ale_tasted" },
+    { "who": "brewster", "key": "chain_amber_road.s07.brew_share", "when": "flag.ch_amber_road_ale_tasted" },
+    { "who": "brewster", "key": "chain_amber_road.s07.brew_none", "when": "not flag.ch_amber_road_ale_tasted" }
+   ],
+   "options": [
+    { "key": "grey", "label_key": "chain_amber_road.s07.opt_grey", "label": "Buy the grey at his price", "check": "silver >= 240", "cost": "silver 240",
+      "effects": [ "goods horses +1", "flag ch_amber_road_grey", "npc dealer feeling +5 bought", "flag ch_amber_road_7" ],
+      "note": "outcome: chain_amber_road.s07.out_grey (240 d, twice a common horse)" },
+    { "key": "brew", "label_key": "chain_amber_road.s07.opt_brew", "label": "Take the brew-wife east, for a share", "check": "flag.ch_amber_road_ale_tasted and silver >= 40", "cost": "silver 40",
+      "effects": [ "passenger brewster to truso", "goods malt +2", "flag ch_amber_road_brew", "npc brewster feeling +8 share", "flag ch_amber_road_7" ],
+      "note": "outcome: chain_amber_road.s07.out_brew (40 d for her cauldron and malt of her choosing)" },
+    { "key": "both", "label_key": "chain_amber_road.s07.opt_both", "label": "Take both: the horse in the bottom of the boat and the woman on top of the malt", "check": "flag.ch_amber_road_ale_tasted and silver >= 280", "cost": "silver 280",
+      "effects": [ "goods horses +1", "flag ch_amber_road_grey", "passenger brewster to truso", "goods malt +2", "flag ch_amber_road_brew", "npc dealer feeling +5 bought", "npc brewster feeling +8 share", "flag ch_amber_road_7" ],
+      "note": "outcome: chain_amber_road.s07.out_both (280 d; at the race he must still choose one)" },
+    { "key": "later", "label_key": "chain_amber_road.s07.opt_later", "label": "Not now", "check": "true", "default": true,
+      "effects": [ "npc dealer feeling +0 looked" ],
+      "note": "outcome: chain_amber_road.s07.out_later (nothing is set: the card may come again while the days last)" }
+   ],
+   "memory": { "grey": "bought the grey", "brew": "took the brew-wife east", "both": "bought the grey and took the brew-wife", "later": "looked and went away" }
+  },
+  {
+   "id": "sea.chain_amber_road.s08_wends",
+   "note": "Step 8, optional (drawn at sea after step 2 while amber or a horse is aboard). A Wendish boat puts out from the shore that Wulfstan had to starboard all the way to the Vistula's mouth. Sources: 'Weonodland was on his starboard all the way to Wislemutha' (Wulfstan, our rendering); the oath on water is the brief's own guess about the Wends (BRIEF.md tone guide (?)); honey and wax from the Wends and Prussians: goods_793.json mead, honey. The danger warns first: he has more oars than you have men. Sets ch_amber_road_8; ch_amber_road_wend_peace.",
+   "stage": "sea",
+   "when": "under_way and year < 851 and flag.ch_amber_road_2 and not flag.ch_amber_road_8 and not flag.ch_amber_road_9 and (hold.amber > 0 or hold.horses > 0)",
+   "rate": 0.02,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wend": { "role": "chief", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [30, 50], "fixed": false, "note": "a lord's man of the Wendish shore with a long boat; invented, unnamed" }
+   },
+   "title_key": "chain_amber_road.s08.title",
+   "title": "The gate on the water",
+   "intention_key": "chain_amber_road.s08.intention",
+   "intention": "The Wends' land has lain to one side of you for three days. Now a long low boat puts out from it with more oars than you have men, and a man in her bow holds up an open hand, which may mean peace and may mean five.",
+   "lines": [
+    { "who": "wend", "key": "chain_amber_road.s08.gate" },
+    { "who": "wend", "key": "chain_amber_road.s08.swear" },
+    { "who": "wend", "key": "chain_amber_road.s08.horse", "when": "hold.horses > 0" },
+    { "who": "wend", "key": "chain_amber_road.s08.amber", "when": "hold.amber > 0 and hold.horses = 0" }
+   ],
+   "options": [
+    { "key": "swear", "label_key": "chain_amber_road.s08.opt_swear", "label": "Heave to and swear on the water, as he asks", "check": "true", "default": true,
+      "effects": [ "encounter heave_to", "npc wend feeling +4 swore", "flag ch_amber_road_8" ],
+      "note": "outcome: chain_amber_road.s08.out_swear (costs the afternoon and a cup of drink)" },
+    { "key": "gift", "label_key": "chain_amber_road.s08.opt_gift", "label": "Heave to, swear, and give a guest's gift for his peace this season", "check": "silver >= 15", "cost": "silver 15",
+      "effects": [ "encounter heave_to", "goods honey +1", "npc wend feeling +10 gift", "flag ch_amber_road_wend_peace for 240", "flag ch_amber_road_8" ],
+      "note": "outcome: chain_amber_road.s08.out_gift (15 d; a crock of honey comes back over the gunwale, worth more than the gift)" },
+    { "key": "run", "label_key": "chain_amber_road.s08.opt_run", "label": "Keep the sail full and do not stop", "check": "true",
+      "effects": [ "encounter run",
+                   { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.03" ],
+                     "failure": [ "silver -40", "morale -0.05", "npc wend feeling -10 ran" ] },
+                   "flag ch_amber_road_8" ],
+      "note": "outcome: chain_amber_road.s08.out_run_success / out_run_failure (doubtful; caught, he takes his gift himself and counts generously)" }
+   ],
+   "memory": { "swear": "swore on the water", "gift": "swore and gave a gift", "run.success": "ran past the gate", "run.failure": "ran and was caught" }
+  },
+  {
+   "id": "harbour.chain_amber_road.s09_race",
+   "note": "Step 9 (scheduled by step 6; seventy days on, at Truso). The day of the burning: the heaps along the mile, the riders, and the choice that makes the ending. Source: Wulfstan, as at step 6; and: when his goods are all spent so, they carry him out and burn him with his weapons and clothes. A stranger riding is in the text; a stranger winning is not said, and nothing says he could not. The danger warns first: the Dane says what a thief at a burning pays, and who pays with him. Sets ch_amber_road_9 and schedules one ending: ch_amber_road_won or ch_amber_road_rode (end_rider), ch_amber_road_served (end_ale), neither (end_guest), ch_amber_road_thief with ch_amber_road_truso_shut (end_shut, at Sliesthorp).",
+   "stage": "harbour",
+   "when": "moored and port.id = truso and flag.ch_amber_road_6 and not flag.ch_amber_road_9",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ketil" },
+    "heir": { "role": "chief", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "m", "age": [30, 45], "fixed": true, "note": "Gedune" }
+   },
+   "title_key": "chain_amber_road.s09.title",
+   "title": "The mile",
+   "intention_key": "chain_amber_road.s09.intention",
+   "intention": "The heaps are out along the road: the smallest by the gate, the largest a mile off where the road tops the rise. Five miles beyond that every fast horse in the land is being walked in circles. The dead king is still in his house. He goes to the fire when the last heap is taken.",
+   "lines": [
+    { "who": "host", "key": "chain_amber_road.s09.order" },
+    { "who": "host", "key": "chain_amber_road.s09.clean" },
+    { "who": "heir", "key": "chain_amber_road.s09.heir" },
+    { "who": "host", "key": "chain_amber_road.s09.your_horse", "when": "hold.horses > 0" },
+    { "who": "host", "key": "chain_amber_road.s09.your_ale", "when": "flag.ch_amber_road_brew" },
+    { "who": "host", "key": "chain_amber_road.s09.yourself", "when": "hold.horses = 0 and not flag.ch_amber_road_brew" },
+    { "who": "host", "key": "chain_amber_road.s09.thief_warning" }
+   ],
+   "options": [
+    { "key": "ride", "label_key": "chain_amber_road.s09.opt_ride", "label": "Ride for the far heap", "check": "hold.horses > 0",
+      "effects": [ { "chance": 0.55,
+                     "success": [ "flag ch_amber_road_won", "npc heir feeling +20 won", "morale +0.1" ],
+                     "failure": [ "flag ch_amber_road_rode", "npc heir feeling +10 rode", "morale +0.03" ] },
+                   "flag ch_amber_road_9", "schedule harbour.chain_amber_road.end_rider in 1 at truso" ],
+      "note": "outcome: chain_amber_road.s09.out_ride_success / out_ride_failure (likely; failing he still comes to a nearer heap, and the ending is the rider's either way)" },
+    { "key": "ale", "label_key": "chain_amber_road.s09.opt_ale", "label": "Have the ale carried up to the fire", "check": "flag.ch_amber_road_brew",
+      "effects": [ "flag ch_amber_road_served", "npc heir feeling +15 ale", "flag ch_amber_road_9", "schedule harbour.chain_amber_road.end_ale in 1 at truso" ],
+      "note": "outcome: chain_amber_road.s09.out_ale (sure: she has been at it three days)" },
+    { "key": "watch", "label_key": "chain_amber_road.s09.opt_watch", "label": "Stand at the gate with the Dane and watch", "check": "true", "default": true,
+      "effects": [ "npc host feeling +3 watched", "flag ch_amber_road_9", "schedule harbour.chain_amber_road.end_guest in 1 at truso" ],
+      "note": "outcome: chain_amber_road.s09.out_watch (costs nothing; the guest's ending)" },
+    { "key": "steal", "label_key": "chain_amber_road.s09.opt_steal", "label": "While every eye is on the road, lift what you can from the near heaps and be on the lake by dark", "check": "true",
+      "effects": [ { "chance": 0.45, "by": "crew.eyes_best",
+                     "success": [ "goods amber +6", "goods marten +1" ],
+                     "failure": [ "silver -80", "flag ch_amber_road_caught", "morale -0.08" ] },
+                   "npc host feeling -30 thief", "flag ch_amber_road_thief", "flag ch_amber_road_truso_shut", "flag ch_amber_road_9", "schedule harbour.chain_amber_road.end_shut in 10 at sliesthorp" ],
+      "note": "outcome: chain_amber_road.s09.out_steal_success / out_steal_failure (doubtful; either way Truso is shut to him and the Dane pays the atonement: the ending is at Sliesthorp)" }
+   ],
+   "memory": { "ride.success": "rode a stranger's horse to the far heap", "ride.failure": "rode and took a near heap", "ale": "served ale at a king's burning", "watch": "watched the riding from the gate", "steal.success": "robbed the heaps at a burning", "steal.failure": "was caught robbing the heaps" }
+  },
+  {
+   "id": "harbour.chain_amber_road.end_rider",
+   "note": "ENDING: the stranger who rode (scheduled by step 9, the morning after the burning). The hard road: a horse bought dear, carried seven days in an open boat, and ridden. Source: Wulfstan: strangers ride for the goods and take them; each keeps what he reaches; so swift horses are very dear there. Finale 620 to about 2,000 d in goods and silver at the table's values. Grand rewards: unlock_title_est_guest_friend (the new king's hand: his house's boat is a guest's boat at this fort; guest-friendship across the sea is the north's own way, Havamal 41-44) and, for the winner, unlock_heirloom_burning_bridle (the dead king's bridle from the far heap) or unlock_plot_truso (ground by the lake; the finds at Janow Pomorski show strangers' houses on the shore (?)). Sets ch_amber_road_end_rider.",
+   "stage": "harbour",
+   "when": "moored and port.id = truso and (flag.ch_amber_road_won or flag.ch_amber_road_rode) and not flag.ch_amber_road_end_rider",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ketil" },
+    "heir": { "role": "chief", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "m", "age": [30, 45], "fixed": true, "note": "Gedune, king of the fort since last night" }
+   },
+   "title_key": "chain_amber_road.end_rider.title",
+   "title": "The Frisian on the horse",
+   "intention_key": "chain_amber_road.end_rider.intention",
+   "intention": "The king burned at dusk with his weapons and his clothes. This morning the women rake the ash for bone, and your horse stands at the Dane's door with half the fort looking at him.",
+   "lines": [
+    { "who": "host", "key": "chain_amber_road.end_rider.won", "when": "flag.ch_amber_road_won" },
+    { "who": "host", "key": "chain_amber_road.end_rider.rode", "when": "flag.ch_amber_road_rode" },
+    { "who": "heir", "key": "chain_amber_road.end_rider.heir_horse" },
+    { "who": "host", "key": "chain_amber_road.end_rider.host_horse" },
+    { "who": "heir", "key": "chain_amber_road.end_rider.heir_hand" }
+   ],
+   "options": [
+    { "key": "keep", "label_key": "chain_amber_road.end_rider.opt_keep", "label": "Take the far heap home, and keep the horse", "check": "flag.ch_amber_road_won",
+      "effects": [ "goods amber +14", "goods marten +4", "silver +420", "flag unlock_title_est_guest_friend", "flag unlock_heirloom_burning_bridle", "flag ch_amber_road_end_rider", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_rider.out_keep (the far heap: 14 sacks of amber, 4 timbers of marten, 420 d of cut silver, and the bridle)" },
+    { "key": "sell", "label_key": "chain_amber_road.end_rider.opt_sell", "label": "Take the far heap, sell the king the horse, and ask for ground by the lake", "check": "flag.ch_amber_road_won and hold.horses > 0", "cost": "goods horses 1",
+      "effects": [ "goods amber +14", "goods marten +4", "silver +1120", "flag unlock_title_est_guest_friend", "flag unlock_plot_truso", "npc heir feeling +15 sold", "flag ch_amber_road_end_rider", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_rider.out_sell (the heap, 700 d for the horse on top of the heap's 420, and a house plot)" },
+    { "key": "small_sell", "label_key": "chain_amber_road.end_rider.opt_small_sell", "label": "Take your heap, and sell the king the horse that came in ahead of two kings' sons", "check": "flag.ch_amber_road_rode and hold.horses > 0", "cost": "goods horses 1",
+      "effects": [ "goods amber +6", "silver +520", "flag unlock_title_est_guest_friend", "npc heir feeling +10 sold", "flag ch_amber_road_end_rider", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_rider.out_small_sell (6 sacks and 520 d)" },
+    { "key": "small_keep", "label_key": "chain_amber_road.end_rider.opt_small_keep", "label": "Take your heap and the king's hand, and keep the horse for the next burning", "check": "flag.ch_amber_road_rode",
+      "effects": [ "goods amber +8", "goods marten +1", "silver +260", "flag unlock_title_est_guest_friend", "flag ch_amber_road_end_rider", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_rider.out_small_keep (8 sacks, a timber of marten, 260 d, and a horse still worth a great deal on this shore)" }
+   ],
+   "memory": { "keep": "took the far heap and kept the horse", "sell": "sold the winning horse to the king", "small_sell": "sold the king his horse", "small_keep": "kept his horse for the next burning" }
+  },
+  {
+   "id": "harbour.chain_amber_road.end_ale",
+   "note": "ENDING: history changed (scheduled by step 9, the morning after the burning). Wulfstan, about 890: 'no ale is brewed among the Ests, but there is mead enough' (our rendering). Here a brew-wife from the west has served ale at a king's burning and the new king wants a brewhouse: ale among the Ests two lifetimes or more before anyone records it. The Old Prussian word alu is glossed 'mead' and piwis 'beer' in the Elbing vocabulary of about 1400 (from memory (?); LATER): the card lets them call the new drink by an old word. Sets ch_amber_road_end_ale and changed_ests_brew_ale. Finale 860 to 1,100 d in amber and silver, with malt dear at Truso for a year. Grand rewards: unlock_work_truso_brewhouse with unlock_factor_truso (the brew-wife keeps his goods), or unlock_charter_truso (the king's peace: no gift owed at this fort), or unlock_title_est_guest_friend.",
+   "stage": "harbour",
+   "when": "moored and port.id = truso and flag.ch_amber_road_served and not flag.ch_amber_road_end_ale",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "heir": { "role": "chief", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "m", "age": [30, 45], "fixed": true, "note": "Gedune, king of the fort since last night" },
+    "brewster": { "role": "alewife", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "f", "age": [28, 45], "fixed": true, "note": "Tofa" },
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ketil" }
+   },
+   "title_key": "chain_amber_road.end_ale.title",
+   "title": "Neither milk nor mead",
+   "intention_key": "chain_amber_road.end_ale.intention",
+   "intention": "They drank mead at the burning and mares' milk at the high bench, as they always have, and then they drank the brew-wife's ale until the cask sucked air. This morning the dead king's brother, who is king now, has sent for her and for you.",
+   "lines": [
+    { "who": "heir", "key": "chain_amber_road.end_ale.heir_neither" },
+    { "who": "brewster", "key": "chain_amber_road.end_ale.brew_malt" },
+    { "who": "host", "key": "chain_amber_road.end_ale.host_say" },
+    { "who": "host", "key": "chain_amber_road.end_ale.host_barley" },
+    { "who": "brewster", "key": "chain_amber_road.end_ale.brew_word" }
+   ],
+   "options": [
+    { "key": "brewhouse", "label_key": "chain_amber_road.end_ale.opt_brewhouse", "label": "Leave her here with her share and a brewhouse, and take the malt trade", "check": "true", "default": true,
+      "effects": [ "goods amber +12", "silver +300", "commission malt 20 by 240 premium 1.0", "price_shock truso malt x2 for 365", "flag unlock_work_truso_brewhouse", "flag unlock_factor_truso", "npc brewster feeling +15 brewhouse", "flag changed_ests_brew_ale", "flag ch_amber_road_end_ale", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_ale.out_brewhouse (12 sacks, 300 d, an order for twenty sacks of malt at double, a brewhouse inside the palisade and a woman who keeps his goods)" },
+    { "key": "amber", "label_key": "chain_amber_road.end_ale.opt_amber", "label": "Take the king's thanks in amber now, and his peace on your boat", "check": "true",
+      "effects": [ "goods amber +30", "silver +200", "price_shock truso malt x2 for 365", "flag unlock_charter_truso", "npc heir feeling +8 thanks", "flag changed_ests_brew_ale", "flag ch_amber_road_end_ale", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_ale.out_amber (30 sacks, 200 d, and the king's peace: no gift owed at this fort)" },
+    { "key": "hand", "label_key": "chain_amber_road.end_ale.opt_hand", "label": "Ask for the king's hand between his house and yours, and first pick of each winter's amber", "check": "true",
+      "effects": [ "goods amber +16", "silver +380", "price_shock truso amber x0.6 for 365", "price_shock truso malt x2 for 365", "flag unlock_title_est_guest_friend", "npc heir feeling +15 hand", "flag changed_ests_brew_ale", "flag ch_amber_road_end_ale", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_ale.out_hand (16 sacks, 380 d, amber cheap at Truso for a year, and guest-friendship with the king's house)" }
+   ],
+   "memory": { "brewhouse": "left a brew-wife and a brewhouse at Truso", "amber": "took the king's thanks in amber", "hand": "took the king's hand" }
+  },
+  {
+   "id": "harbour.chain_amber_road.end_guest",
+   "note": "ENDING: what happened (scheduled by step 9, the morning after the burning). Strangers traded on the Ests' lake as guests, weighed amber against silver and went home; the Ests kept their kings, their milk, their mead and their fire, and were still as Wulfstan found them two generations on. The king's store opens the day after the burning (ours (?)); a guest who sat out the wake is paid what he won at the wake's play (Wulfstan: drinking and play all the while the dead man lies within) and is weighed first. Finale 600 to 680 d in amber with silver. Grand rewards, one of: unlock_factor_truso (the Dane keeps his goods), unlock_pilot_estmere (the bars of the Vistula's mouth, the Estmere fifteen miles broad and the Ilfing up to the lake: Wulfstan's own way in), unlock_partner_wigmar (the dead Frisian's son, if his father was got to earth or atoned for), unlock_upgrade_ice_chest (a chest of the cold-wife's packing, if he was shown the cold: how it was done is a guess (?)). Sets ch_amber_road_end_guest.",
+   "stage": "harbour",
+   "when": "moored and port.id = truso and flag.ch_amber_road_9 and not flag.ch_amber_road_won and not flag.ch_amber_road_rode and not flag.ch_amber_road_served and not flag.ch_amber_road_thief and not flag.ch_amber_road_end_guest",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "host": { "role": "host", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "Ketil" },
+    "steward": { "role": "steward", "people": "baltic", "faith": "baltic_gods", "tongue": "baltic", "sex": "m", "age": [40, 60], "fixed": true, "note": "Nalube" },
+    "son": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [18, 26], "fixed": false, "note": "Wigmar" }
+   },
+   "title_key": "chain_amber_road.end_guest.title",
+   "title": "The store opens",
+   "intention_key": "chain_amber_road.end_guest.intention",
+   "intention": "The king burned at dusk. This morning his store is open, the steward sits before it with the Dane's scales, and the lake is full of boats that waited as long as you did.",
+   "lines": [
+    { "who": "host", "key": "chain_amber_road.end_guest.waiting" },
+    { "who": "steward", "key": "chain_amber_road.end_guest.steward" },
+    { "who": "host", "key": "chain_amber_road.end_guest.gift", "when": "flag.ch_amber_road_gift" },
+    { "who": "host", "key": "chain_amber_road.end_guest.horse", "when": "hold.horses > 0" },
+    { "who": "son", "key": "chain_amber_road.end_guest.son", "when": "flag.ch_amber_road_body_out or flag.ch_amber_road_atoned" },
+    { "who": "host", "key": "chain_amber_road.end_guest.old" }
+   ],
+   "options": [
+    { "key": "factor", "label_key": "chain_amber_road.end_guest.opt_factor", "label": "Buy at the first weighing, and take the Dane as your man on the lake", "check": "silver >= 100", "cost": "silver 100",
+      "effects": [ "goods amber +26", "flag unlock_factor_truso", "npc host feeling +15 factor", "flag ch_amber_road_end_guest", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_guest.out_factor (26 sacks for 100 d: his winnings at the wake and the first weighing together)" },
+    { "key": "pilot", "label_key": "chain_amber_road.end_guest.opt_pilot", "label": "Take your winnings in amber, and have the Dane's boy show you every bar from the river mouth to the lake", "check": "true", "default": true,
+      "effects": [ "goods amber +20", "flag unlock_pilot_estmere", "npc host feeling +6 pilot", "flag ch_amber_road_end_guest", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_guest.out_pilot (20 sacks and the way in; costs nothing)" },
+    { "key": "partner", "label_key": "chain_amber_road.end_guest.opt_partner", "label": "Go in with the dead Frisian's son: his father's buyers, your knowledge of the lake", "check": "flag.ch_amber_road_body_out or flag.ch_amber_road_atoned",
+      "effects": [ "goods amber +16", "silver +150", "flag unlock_partner_wigmar", "npc son feeling +20 partner", "flag ch_amber_road_end_guest", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_guest.out_partner (16 sacks, 150 d of his father's last sale, and a sworn partner with a boat on the Weser)" },
+    { "key": "ice", "label_key": "chain_amber_road.end_guest.opt_ice", "label": "Ask the cold-wife's price for a chest of her packing in your hold", "check": "flag.ch_amber_road_cold_known and silver >= 60", "cost": "silver 60",
+      "effects": [ "goods amber +22", "flag unlock_upgrade_ice_chest", "flag ch_amber_road_end_guest", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_guest.out_ice (22 sacks won and weighed, and for 60 d a chest that keeps fish and butter a month)" }
+   ],
+   "memory": { "factor": "made the Dane his man on the lake", "pilot": "learned the way in", "partner": "went in with the Frisian's son", "ice": "bought a chest of cold" }
+  },
+  {
+   "id": "harbour.chain_amber_road.end_shut",
+   "note": "ENDING: history changed for the worse (scheduled by the theft at step 9; at Sliesthorp ten days on). He robbed the heaps at a king's burning. The Dane who answered for him has paid the atonement with his house, and the Ests hold strangers to the beach: no stranger in the fort, at a wake or on a horse. Wulfstan about 890 saw strangers ride; here he will not be let see it. Sources: the 'great atonement' is Wulfstan's word for a bone left unburnt; that a host answers for his guest is the north's and Kent's rule (npc_roles_793.json host); the rest is ours. Sets ch_amber_road_end_shut and, unless he makes amends, changed_ests_bar_strangers; ch_amber_road_truso_shut is the cost that lasts. Finale 600 to 640 d. Grand rewards: unlock_factor_sliesthorp (a bead-maker who does not ask), or unlock_pilot_curonia (the Curonians' amber shore north of the Neman, as far as Grobin), or, by the costly road, the Dane restored and unlock_factor_truso.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_amber_road_thief and not flag.ch_amber_road_end_shut",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "skipper": { "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": false, "note": "a Gotland skipper in from the east; invented, unnamed" },
+    "beadmaker": { "role": "craftsman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "a bead-maker of Sliesthorp; invented" }
+   },
+   "title_key": "chain_amber_road.end_shut.title",
+   "title": "A handful of the lake",
+   "intention_key": "chain_amber_road.end_shut.intention",
+   "intention": "A Gotland boat came in from the east two days before you. By the time you make fast, the bead-makers' row knows what a Frisian did at a king's burning on the Ests' lake.",
+   "lines": [
+    { "who": "skipper", "key": "chain_amber_road.end_shut.host_paid" },
+    { "who": "skipper", "key": "chain_amber_road.end_shut.beach" },
+    { "who": "skipper", "key": "chain_amber_road.end_shut.caught", "when": "flag.ch_amber_road_caught" },
+    { "who": "beadmaker", "key": "chain_amber_road.end_shut.beadmaker" }
+   ],
+   "options": [
+    { "key": "sell", "label_key": "chain_amber_road.end_shut.opt_sell", "label": "Sell the bead-maker what you know and what you took, and let him do your buying in the east", "check": "true", "default": true,
+      "effects": [ "silver +620", "flag unlock_factor_sliesthorp", "flag changed_ests_bar_strangers", "flag ch_amber_road_end_shut", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_shut.out_sell (620 d for the lake's prices, its seasons and the loot's worth; a man at Sliesthorp who works his amber from wherever it comes)" },
+    { "key": "curonians", "label_key": "chain_amber_road.end_shut.opt_curonians", "label": "Pay the Gotlander to show you the Curonians' shore: they have amber too, and have not heard of you", "check": "true",
+      "effects": [ "silver +600", "flag unlock_pilot_curonia", "npc skipper feeling +4 paid", "flag changed_ests_bar_strangers", "flag ch_amber_road_end_shut", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_shut.out_curonians (600 d from the bead-makers' row, less nothing: the Gotlander takes his pay in what you know of Truso)" },
+    { "key": "amends", "label_key": "chain_amber_road.end_shut.opt_amends", "label": "Send the whole atonement east with the Gotlander, and more, in the Dane's name", "check": "silver >= 300", "cost": "silver 300",
+      "effects": [ "flag ch_amber_road_amends", "flag ch_amber_road_truso_shut = 0", "flag unlock_factor_truso", "deed fair_dealing", "npc skipper feeling +10 amends", "flag ch_amber_road_end_shut", "flag ch_amber_road_done" ],
+      "note": "outcome: chain_amber_road.end_shut.out_amends (300 d: the Dane has his house again and holds his goods, the fort lets strangers ride again, and he himself is never asked inside the palisade)" }
+   ],
+   "memory": { "sell": "sold what he took from a burning", "curonians": "asked the way to the Curonians", "amends": "sent the atonement east" }
+  },
+  {
+   "id": "harbour.chain_amber_road.x_wulfstan",
+   "note": "AFTERWORD, for the heir (drawn at Sliesthorp, 880 to 899; open to every house, with more to say to one that knows the lake). Wulfstan (cast.wulfstan; real; of the English by his name) is back from Truso and tells his voyage as he will tell it to King Alfred. Source: the Old English Orosius, about 890 (texts_793.json wulfstan; chronicle_793.json 890-ohthere-wulfstan); the lines are our rendering of his words. What the house did two generations before changes two of his sentences: 'no ale is brewed among the Ests' (changed_ests_brew_ale) and 'strangers ride for it and take it' (changed_ests_bar_strangers). The clerk who writes it down for him at Sliesthorp and lets a leaf be copied is invented (?): the account was written at Alfred's court. NEEDS: ports_793.json ends Truso in 850, which Wulfstan's own voyage contradicts. Sets ch_amber_road_wulfstan.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year >= 880 and year < 900 and not flag.ch_amber_road_wulfstan",
+   "weight": 2,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wulfstan": { "role": "skipper", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 45], "fixed": true, "note": "cast.wulfstan" },
+    "clerk": { "role": "clerk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [22, 35], "fixed": false, "note": "an English clerk in his company; invented, unnamed" }
+   },
+   "title_key": "chain_amber_road.x_wulfstan.title",
+   "title": "Lands to port, lands to starboard",
+   "intention_key": "chain_amber_road.x_wulfstan.intention",
+   "intention": "An Englishman is back from the Ests' lake with a string of rough amber round his wrist and a great deal to say. He means to tell all of it to his king. First he wants to tell it to someone who can say whether he has it right.",
+   "lines": [
+    { "who": "wulfstan", "key": "chain_amber_road.x_wulfstan.seven" },
+    { "who": "wulfstan", "key": "chain_amber_road.x_wulfstan.lands" },
+    { "who": "wulfstan", "key": "chain_amber_road.x_wulfstan.kings" },
+    { "who": "wulfstan", "key": "chain_amber_road.x_wulfstan.no_ale", "when": "not flag.changed_ests_brew_ale" },
+    { "who": "wulfstan", "key": "chain_amber_road.x_wulfstan.ale", "when": "flag.changed_ests_brew_ale" },
+    { "who": "wulfstan", "key": "chain_amber_road.x_wulfstan.ride", "when": "not flag.changed_ests_bar_strangers" },
+    { "who": "wulfstan", "key": "chain_amber_road.x_wulfstan.barred", "when": "flag.changed_ests_bar_strangers" },
+    { "who": "wulfstan", "key": "chain_amber_road.x_wulfstan.rider", "when": "flag.ch_amber_road_end_rider" },
+    { "who": "wulfstan", "key": "chain_amber_road.x_wulfstan.cold" },
+    { "who": "clerk", "key": "chain_amber_road.x_wulfstan.clerk" }
+   ],
+   "options": [
+    { "key": "hear", "label_key": "chain_amber_road.x_wulfstan.opt_hear", "label": "Hear him through, and put him right where your house knows better", "check": "true", "default": true,
+      "effects": [ "give_text wulfstan", "npc wulfstan feeling +10 heard", "flag ch_amber_road_wulfstan" ],
+      "note": "outcome: chain_amber_road.x_wulfstan.out_hear (the afternoon; the clerk's leaf goes in the chest)" },
+    { "key": "sell", "label_key": "chain_amber_road.x_wulfstan.opt_sell", "label": "Tell him what your house knows of the bars at the river mouth, for a price", "check": "flag.ch_amber_road_done",
+      "effects": [ "silver +120", "give_text wulfstan", "npc wulfstan feeling +4 sold", "flag ch_amber_road_wulfstan" ],
+      "note": "outcome: chain_amber_road.x_wulfstan.out_sell (120 d and the leaf)" },
+    { "key": "silent", "label_key": "chain_amber_road.x_wulfstan.opt_silent", "label": "Let him talk, and tell him nothing: the road is your house's", "check": "true",
+      "effects": [ "npc wulfstan feeling -2 silent", "flag ch_amber_road_wulfstan" ],
+      "note": "outcome: chain_amber_road.x_wulfstan.out_silent (nothing given, nothing got; he sails for England all the same)" }
+   ],
+   "memory": { "hear": "heard the voyage through", "sell": "sold him the bars of the river mouth", "silent": "listened and said nothing" }
+  }
+ ]
+}

@@ -1,0 +1,445 @@
+/* THE GLASS (the user, 2026-10-03: "make all the UI transparent"): every panel is rgba(34, 22, 40, 0.96), see-through; the text has a soft shadow so it reads over the light chart and the sea. Change the 0.6 to tune it. */
+
+/* THE MARKET PANEL - black see-through glass, a hard thin black line round every edge, square corners, light text
+   (the user, 2026-10-01: "tint the UI to be black but see through with a hard thin black line around the bezels ...
+   make them hard corners"). A clear book serif, Gentium Book Plus (SIL Open Font License, Fonts/GentiumBookPlus-OFL.txt):
+   the uncial hand was "hard to read". The scene behind is blurred while it's open (MiniatureLook's frost). */
+
+.market-root {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+/* docked beside the map (the town view): the right-hand side, full height below the map's top bar */
+.market-root.docked {
+    justify-content: center;
+    align-items: flex-end;
+    padding: 64px 16px 16px 0;
+}
+
+/* (darker glass than the rest: a dense table over the busy map read poorly at 0.6) */
+.market-root.docked .market-box {
+    width: 60%;
+    height: 100%;
+    max-width: 60%;
+    max-height: 100%;
+    background-color: rgba(28, 18, 34, 0.98);
+}
+
+/* docked, the columns close up so the whole row fits */
+.market-root.docked .market-right {
+    flex-grow: 0.72;
+}
+
+.market-root.docked .c-name {
+    min-width: 120px;
+}
+
+.market-root.docked .c-unit {
+    width: 104px;
+}
+
+.market-root.docked .c-num {
+    width: 66px;
+}
+
+.market-root.docked .c-buttons {
+    width: 136px;
+}
+
+.market-box {
+    width: 1260px;
+    height: 770px;
+    max-width: 96%;
+    max-height: 94%;
+    background-color: rgba(34, 22, 40, 0.96);
+    border-radius: 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    padding: 20px 24px 14px 24px;
+    color: rgb(232, 231, 226);
+}
+
+.market-head {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.market-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: 28px;
+    color: rgb(240, 239, 234);
+}
+
+.market-subtitle {
+    font-size: 12px;
+    color: rgba(232, 231, 226, 0.6);
+    margin-top: 3px;
+}
+
+.market-writing {
+    font-size: 13px;
+    margin-top: 6px;
+    white-space: normal;
+}
+
+.market-writing.placeholder {
+    color: rgba(232, 231, 226, 0.42);
+    -unity-font-style: italic;
+}
+
+.market-leave {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    border-radius: 10px;
+    color: rgb(232, 231, 226);
+    font-size: 14px;
+    padding: 7px 14px;
+}
+
+.market-leave:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.market-body {
+    flex-direction: row;
+    flex-grow: 1;
+    min-height: 0;
+}
+
+.market-left {
+    flex-grow: 1.9;
+    flex-basis: 0;
+    margin-right: 14px;
+    min-height: 0;
+}
+
+.market-right {
+    flex-grow: 1;
+    flex-basis: 0;
+    min-height: 0;
+}
+
+.market-tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.market-tab {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    border-radius: 10px;
+    color: rgba(232, 231, 226, 0.85);
+    font-size: 12px;
+    padding: 3px 10px;
+    margin: 0 4px 4px 0;
+}
+
+.market-tab:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+.market-tab.on {
+    background-color: rgba(232, 231, 226, 0.9);
+    color: rgb(34, 22, 40);
+}
+
+.market-list {
+    flex-grow: 1;
+    min-height: 0;
+}
+
+.market-row-head, .market-row {
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 8px;
+}
+
+.market-row-head {
+    border-bottom-width: 1px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    font-size: 11px;
+    color: rgba(232, 231, 226, 0.6);
+}
+
+.market-row {
+    border-radius: 10px;
+    margin: 1px 0;
+}
+
+.market-row:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.market-row.picked {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* A GOOD AND THE WORD ON IT (MarketPanel.Row): the row of numbers and, under it, the one line of what you know of the
+   good elsewhere (WordLine). The whole item lights on hover and when picked, not the row alone. */
+.market-item {
+    margin: 1px 0;
+}
+
+.market-item .market-row {
+    margin: 0;
+    padding-bottom: 1px;
+}
+
+.market-item .market-row:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.market-item:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.market-item.picked {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* THE WORD ON THE ITEM (WordLine): a small drawn mark (an eye: seen; an ear: heard; a sun: the season; a seal: the
+   law; a dash: nothing known), a wedge for the tilt (up: the price there leans up; down: it leans down), and the line
+   in italics. The marks are drawn in their 'color'. The same classes are in MapView.uss for the port's card. */
+.word-line {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0 8px 5px 8px;
+}
+
+.word-mark {
+    width: 12px;
+    height: 12px;
+    margin: 1px 5px 0 0;
+    flex-shrink: 0;
+    color: rgba(232, 231, 226, 0.72);
+}
+
+.word-mark.law {
+    color: rgb(222, 118, 100);
+}
+
+.word-mark.none {
+    color: rgba(232, 231, 226, 0.35);
+}
+
+.word-tilt {
+    width: 8px;
+    height: 12px;
+    margin: 1px 5px 0 0;
+    flex-shrink: 0;
+    color: rgba(232, 231, 226, 0.85);
+}
+
+.word-tilt.down {
+    color: rgba(232, 231, 226, 0.5);
+}
+
+.word-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    font-size: 11px;
+    -unity-font-style: italic;
+    color: rgba(232, 231, 226, 0.68);
+    white-space: normal;
+    padding: 0;
+    margin: 0;
+}
+
+.word-line.none .word-text {
+    color: rgba(232, 231, 226, 0.42);
+}
+
+/* in the hold's card, the word sits under its good with no inset */
+.market-card .word-line {
+    padding: 0 0 4px 0;
+}
+
+.c-name {
+    flex-grow: 1;
+    flex-basis: 0;
+    min-width: 160px;
+}
+
+.c-unit {
+    width: 130px;
+    font-size: 11px;
+    color: rgba(232, 231, 226, 0.58);
+    white-space: normal;
+}
+
+.c-num {
+    width: 84px;
+    -unity-text-align: middle-right;
+    font-size: 13px;
+    padding-right: 6px;
+}
+
+.c-buttons {
+    width: 150px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.good-name {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: 16px;
+    color: rgb(240, 239, 234);
+}
+
+.good-marks {
+    font-size: 10px;
+    color: rgba(232, 231, 226, 0.5);
+}
+
+.good-marks.made, .good-marks.wanted {
+    color: rgba(232, 231, 226, 0.78);
+}
+
+.good-law {
+    font-size: 10px;
+    color: rgb(222, 118, 100);
+}
+
+.market-act {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    border-radius: 10px;
+    color: rgb(232, 231, 226);
+    font-size: 12px;
+    padding: 2px 6px;
+    margin: 1px 0 1px 4px;
+    flex-shrink: 0;
+    width: 62px;
+    -unity-text-align: middle-center;
+}
+
+.market-act:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.market-act.sell {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.market-act.sell:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.market-card {
+    background-color: rgba(0, 0, 0, 0.28);
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+}
+
+.market-details {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.card-heading {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: 17px;
+    color: rgb(240, 239, 234);
+    margin-bottom: 4px;
+}
+
+.card-subheading {
+    font-size: 13px;
+    color: rgba(232, 231, 226, 0.75);
+    margin-top: 8px;
+    margin-bottom: 2px;
+}
+
+.card-line {
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 12px;
+    margin: 1px 0;
+}
+
+.card-line #r {
+    color: rgba(232, 231, 226, 0.62);
+    -unity-text-align: middle-right;
+    white-space: normal;
+    flex-shrink: 1;
+}
+
+.card-line.strong #l, .card-line.strong #r {
+    color: rgb(240, 239, 234);
+    -unity-font-style: bold;
+}
+
+.card-line.debt #l, .card-line.debt #r {
+    color: rgb(222, 118, 100);
+}
+
+.card-note {
+    font-size: 12px;
+    white-space: normal;
+    color: rgba(232, 231, 226, 0.85);
+    margin: 2px 0;
+}
+
+.card-note.period {
+    -unity-font-style: italic;
+    color: rgba(232, 231, 226, 0.55);
+}
+
+.card-note.law {
+    color: rgb(222, 118, 100);
+}
+
+.card-note.risk {
+    color: rgb(214, 160, 110);
+}
+
+.card-note.sources {
+    font-size: 10px;
+    color: rgba(232, 231, 226, 0.45);
+}
+
+.hold-bar {
+    height: 6px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.12);
+    margin: 4px 0 6px 0;
+}
+
+.hold-fill {
+    height: 6px;
+    border-radius: 10px;
+    background-color: rgba(232, 231, 226, 0.8);
+}
+
+.market-outcome {
+    font-size: 13px;
+    color: rgb(232, 231, 226);
+    white-space: normal;
+    margin-top: 10px;
+    min-height: 34px;
+}
+
+.market-outcome.failed {
+    color: rgb(222, 118, 100);
+}

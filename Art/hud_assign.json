@@ -1,0 +1,1460 @@
+{
+ "about": "Where each piece of the Command frame goes and how it is cut. slice = left, top, right, bottom in pixels (null: not stretched). today = the class of Assets/Kapman/Game/UI/Frame.uss, or the sign drawn in code, that shows this piece in the game now (empty: nothing shows it yet). The game takes Art/final/<file> when it is there, else Art/placeholder/<file>.",
+ "pieces": {
+  "hud.frame_screen": {
+   "file": "hud/hud.frame_screen.png",
+   "group": "frames",
+   "name": "The frame round the whole screen",
+   "w": 48,
+   "h": 48,
+   "slice": [
+    12,
+    12,
+    12,
+    12
+   ],
+   "where": "Round the whole screen, over the edge of the chart.",
+   "today": ""
+  },
+  "hud.frame_window": {
+   "file": "hud/hud.frame_window.png",
+   "group": "frames",
+   "name": "A window",
+   "w": 24,
+   "h": 24,
+   "slice": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "where": "Round every panel on the left (Voyage, Trade, Yourself and the rest) and round the block of chart tools on the right.",
+   "today": ".frame-win"
+  },
+  "hud.frame_window_focus": {
+   "file": "hud/hud.frame_window_focus.png",
+   "group": "frames",
+   "name": "The window in focus",
+   "w": 24,
+   "h": 24,
+   "slice": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "where": "Round the one tiled window the keys now act on.",
+   "today": ".frame-win.focus"
+  },
+  "hud.frame_popup": {
+   "file": "hud/hud.frame_popup.png",
+   "group": "frames",
+   "name": "A floating window",
+   "w": 32,
+   "h": 32,
+   "slice": [
+    10,
+    10,
+    10,
+    10
+   ],
+   "where": "Round everything that floats over the middle of the chart: a card, a talk, the full window of a panel, the wiki.",
+   "today": ".frame-float"
+  },
+  "hud.frame_ship": {
+   "file": "hud/hud.frame_ship.png",
+   "group": "frames",
+   "name": "The frame of the ship window",
+   "w": 24,
+   "h": 24,
+   "slice": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "where": "Round the live view of your ship, bottom right.",
+   "today": ".frame-ship-view"
+  },
+  "hud.frame_portrait": {
+   "file": "hud/hud.frame_portrait.png",
+   "group": "frames",
+   "name": "The portrait block",
+   "w": 24,
+   "h": 24,
+   "slice": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "where": "Round the portrait top right: yours, or whoever is speaking, with the name and two lines under it.",
+   "today": ".frame-who"
+  },
+  "hud.frame_face": {
+   "file": "hud/hud.frame_face.png",
+   "group": "frames",
+   "name": "The frame of a face",
+   "w": 68,
+   "h": 84,
+   "slice": null,
+   "where": "Round a 64 x 80 portrait, in a floating window and in the portrait block.",
+   "today": ".frame-face, .frame-float-face"
+  },
+  "hud.bar_top": {
+   "file": "hud/hud.bar_top.png",
+   "group": "frames",
+   "name": "The settings bar",
+   "w": 48,
+   "h": 16,
+   "slice": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "where": "Along the top: menu, date, hour, silver, days of bread, the clock.",
+   "today": ".frame-top"
+  },
+  "hud.bar_log": {
+   "file": "hud/hud.bar_log.png",
+   "group": "frames",
+   "name": "The log",
+   "w": 24,
+   "h": 24,
+   "slice": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "where": "Under the chart: the last lines of what happened.",
+   "today": ".frame-log"
+  },
+  "hud.bar_work": {
+   "file": "hud/hud.bar_work.png",
+   "group": "frames",
+   "name": "The workspace bar",
+   "w": 24,
+   "h": 12,
+   "slice": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "where": "Under the tiled windows: the workspaces (1 Sea, 2 Port and so on) and the layouts.",
+   "today": ".frame-wmbar"
+  },
+  "hud.fn_button": {
+   "file": "hud/hud.fn_button.png",
+   "group": "buttons",
+   "name": "A function button, at rest",
+   "w": 36,
+   "h": 24,
+   "slice": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "where": "The rack of eight under the settings bar: cast off or lie to, wait, oars, look out, sound, hail, rest, offer.",
+   "today": ".frame-verb"
+  },
+  "hud.fn_button_down": {
+   "file": "hud/hud.fn_button_down.png",
+   "group": "buttons",
+   "name": "A function button, pressed",
+   "w": 36,
+   "h": 24,
+   "slice": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "where": "The same button while it is held, or while the thing is on (the oars are out).",
+   "today": ".frame-verb.on"
+  },
+  "hud.fn_button_off": {
+   "file": "hud/hud.fn_button_off.png",
+   "group": "buttons",
+   "name": "A function button that cannot be used now",
+   "w": 36,
+   "h": 24,
+   "slice": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "where": "The same button when the thing cannot be done here (no hailing with no one in sight).",
+   "today": ".frame-verb.off"
+  },
+  "hud.small_button": {
+   "file": "hud/hud.small_button.png",
+   "group": "buttons",
+   "name": "A small button",
+   "w": 16,
+   "h": 10,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "Inside a window: Buy, Sell, Talk, Gift, Read, Show. In the settings bar: under each clock mark. In the list you pick a panel from.",
+   "today": ".frame-k, .frame-pick"
+  },
+  "hud.small_button_on": {
+   "file": "hud/hud.small_button_on.png",
+   "group": "buttons",
+   "name": "A small button, chosen",
+   "w": 16,
+   "h": 10,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "A small button that is on: the way of sailing you chose, the speed the clock runs at, the panel a window now holds.",
+   "today": ".frame-k.on, .frame-pick.on"
+  },
+  "hud.tab": {
+   "file": "hud/hud.tab.png",
+   "group": "buttons",
+   "name": "A tab",
+   "w": 24,
+   "h": 10,
+   "slice": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "where": "Above a window laid as tabs: one for each window not shown.",
+   "today": ".frame-tab"
+  },
+  "hud.tab_on": {
+   "file": "hud/hud.tab_on.png",
+   "group": "buttons",
+   "name": "The tab that is open",
+   "w": 24,
+   "h": 10,
+   "slice": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "where": "The tab of the window now shown.",
+   "today": ".frame-tab.on"
+  },
+  "hud.chip": {
+   "file": "hud/hud.chip.png",
+   "group": "buttons",
+   "name": "A chip",
+   "w": 16,
+   "h": 9,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "In the workspace bar: a workspace or a layout that is not chosen.",
+   "today": ".frame-wm"
+  },
+  "hud.chip_on": {
+   "file": "hud/hud.chip_on.png",
+   "group": "buttons",
+   "name": "The chip that is chosen",
+   "w": 16,
+   "h": 9,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "In the workspace bar: the workspace you are in, the layout in use.",
+   "today": ".frame-wm.on"
+  },
+  "hud.option": {
+   "file": "hud/hud.option.png",
+   "group": "buttons",
+   "name": "A choice",
+   "w": 24,
+   "h": 12,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "In a floating window: one row for each thing you may answer, with its odds at the right.",
+   "today": ".frame-option"
+  },
+  "hud.option_hover": {
+   "file": "hud/hud.option_hover.png",
+   "group": "buttons",
+   "name": "A choice under the cursor",
+   "w": 24,
+   "h": 12,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "The choice the cursor is over, or the one the number key picked.",
+   "today": ".frame-option:hover"
+  },
+  "hud.row": {
+   "file": "hud/hud.row.png",
+   "group": "buttons",
+   "name": "A line in a list",
+   "w": 16,
+   "h": 12,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "Inside a window: one line of a list (a port, a good, a man of the crew).",
+   "today": ".frame-ln"
+  },
+  "hud.row_on": {
+   "file": "hud/hud.row_on.png",
+   "group": "buttons",
+   "name": "The line that is chosen",
+   "w": 16,
+   "h": 12,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "The line you chose (the port you are bound for).",
+   "today": ".frame-ln.sel"
+  },
+  "hud.tag": {
+   "file": "hud/hud.tag.png",
+   "group": "buttons",
+   "name": "A tag",
+   "w": 16,
+   "h": 8,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "At the end of a line: one or two words (a day ahead, trusted, worn).",
+   "today": ".frame-tag"
+  },
+  "hud.title": {
+   "file": "hud/hud.title.png",
+   "group": "buttons",
+   "name": "A window's title strip",
+   "w": 24,
+   "h": 10,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "Along the top of each window, under its frame: the arrows, the name, the cross.",
+   "today": ".frame-win-head"
+  },
+  "hud.arrow_left": {
+   "file": "hud/hud.arrow_left.png",
+   "group": "marks",
+   "name": "The arrow to the panel before",
+   "w": 5,
+   "h": 7,
+   "slice": null,
+   "where": "Left in a window's title strip.",
+   "today": "FrameGlyph.Kind.Left"
+  },
+  "hud.arrow_right": {
+   "file": "hud/hud.arrow_right.png",
+   "group": "marks",
+   "name": "The arrow to the next panel",
+   "w": 5,
+   "h": 7,
+   "slice": null,
+   "where": "Right in a window's title strip.",
+   "today": "FrameGlyph.Kind.Right"
+  },
+  "hud.arrow_pick": {
+   "file": "hud/hud.arrow_pick.png",
+   "group": "marks",
+   "name": "The mark that a name opens a list",
+   "w": 7,
+   "h": 5,
+   "slice": null,
+   "where": "After a window's name.",
+   "today": "FrameGlyph.Kind.Down"
+  },
+  "hud.win_close": {
+   "file": "hud/hud.win_close.png",
+   "group": "marks",
+   "name": "Shut a window",
+   "w": 7,
+   "h": 7,
+   "slice": null,
+   "where": "Top right of a window and of a floating window.",
+   "today": "FrameGlyph.Kind.Cross"
+  },
+  "hud.win_add": {
+   "file": "hud/hud.win_add.png",
+   "group": "marks",
+   "name": "Open a new window",
+   "w": 7,
+   "h": 7,
+   "slice": null,
+   "where": "At the right end of the workspace bar.",
+   "today": "FrameGlyph.Kind.Plus"
+  },
+  "hud.lock": {
+   "file": "hud/hud.lock.png",
+   "group": "marks",
+   "name": "Not yet known",
+   "w": 7,
+   "h": 9,
+   "slice": null,
+   "where": "In the wiki: before a page your skipper has not heard of.",
+   "today": ""
+  },
+  "hud.pip_full": {
+   "file": "hud/hud.pip_full.png",
+   "group": "marks",
+   "name": "A pip, filled",
+   "w": 5,
+   "h": 5,
+   "slice": null,
+   "where": "Stats (Tongue, Name, Nerve, Lore, Troth), the mood of the crew, how well you know a tongue.",
+   "today": ".frame-pip"
+  },
+  "hud.pip_empty": {
+   "file": "hud/hud.pip_empty.png",
+   "group": "marks",
+   "name": "A pip, empty",
+   "w": 5,
+   "h": 5,
+   "slice": null,
+   "where": "The same rows: the levels not yet reached.",
+   "today": ".frame-pip.off"
+  },
+  "hud.scroll": {
+   "file": "hud/hud.scroll.png",
+   "group": "marks",
+   "name": "The scroll thumb",
+   "w": 4,
+   "h": 8,
+   "slice": [
+    2,
+    2,
+    2,
+    2
+   ],
+   "where": "At the right of a window whose list is longer than the window.",
+   "today": ".unity-base-slider__dragger"
+  },
+  "hud.measure_point": {
+   "file": "hud/hud.measure_point.png",
+   "group": "marks",
+   "name": "An end of the measure",
+   "w": 5,
+   "h": 5,
+   "slice": null,
+   "where": "On the chart: where you clicked with the measure.",
+   "today": ""
+  },
+  "hud.measure_dash": {
+   "file": "hud/hud.measure_dash.png",
+   "group": "marks",
+   "name": "The line of the measure",
+   "w": 8,
+   "h": 2,
+   "slice": null,
+   "where": "On the chart, repeated along the way by water between the two ends.",
+   "today": ""
+  },
+  "hud.lay_rows": {
+   "file": "hud/hud.lay_rows.png",
+   "group": "marks",
+   "name": "Layout: rows",
+   "w": 9,
+   "h": 7,
+   "slice": null,
+   "where": "In the workspace bar.",
+   "today": ""
+  },
+  "hud.lay_cols": {
+   "file": "hud/hud.lay_cols.png",
+   "group": "marks",
+   "name": "Layout: columns",
+   "w": 9,
+   "h": 7,
+   "slice": null,
+   "where": "In the workspace bar.",
+   "today": ""
+  },
+  "hud.lay_tabs": {
+   "file": "hud/hud.lay_tabs.png",
+   "group": "marks",
+   "name": "Layout: tabs",
+   "w": 9,
+   "h": 7,
+   "slice": null,
+   "where": "In the workspace bar.",
+   "today": ""
+  },
+  "hud.menu": {
+   "file": "hud/hud.menu.png",
+   "group": "marks",
+   "name": "The menu button",
+   "w": 12,
+   "h": 12,
+   "slice": null,
+   "where": "Top left of the settings bar.",
+   "today": ""
+  },
+  "hud.fn.cast_off": {
+   "file": "hud/hud.fn.cast_off.png",
+   "group": "function icons",
+   "name": "Function: Cast off",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its function button in the rack of eight.",
+   "today": "FrameIcon.Kind.CastOff"
+  },
+  "hud.fn.lie_to": {
+   "file": "hud/hud.fn.lie_to.png",
+   "group": "function icons",
+   "name": "Function: Lie to",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its function button in the rack of eight.",
+   "today": ""
+  },
+  "hud.fn.wait": {
+   "file": "hud/hud.fn.wait.png",
+   "group": "function icons",
+   "name": "Function: Wait",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its function button in the rack of eight.",
+   "today": "FrameIcon.Kind.Wait"
+  },
+  "hud.fn.oars": {
+   "file": "hud/hud.fn.oars.png",
+   "group": "function icons",
+   "name": "Function: Oars",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its function button in the rack of eight.",
+   "today": ""
+  },
+  "hud.fn.look_out": {
+   "file": "hud/hud.fn.look_out.png",
+   "group": "function icons",
+   "name": "Function: Look out",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its function button in the rack of eight.",
+   "today": "FrameIcon.Kind.LookOut"
+  },
+  "hud.fn.sound": {
+   "file": "hud/hud.fn.sound.png",
+   "group": "function icons",
+   "name": "Function: Sound",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its function button in the rack of eight.",
+   "today": "FrameIcon.Kind.Sound"
+  },
+  "hud.fn.hail": {
+   "file": "hud/hud.fn.hail.png",
+   "group": "function icons",
+   "name": "Function: Hail",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its function button in the rack of eight.",
+   "today": "FrameIcon.Kind.Hail"
+  },
+  "hud.fn.rest": {
+   "file": "hud/hud.fn.rest.png",
+   "group": "function icons",
+   "name": "Function: Rest",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its function button in the rack of eight.",
+   "today": "FrameIcon.Kind.Rest"
+  },
+  "hud.fn.offer": {
+   "file": "hud/hud.fn.offer.png",
+   "group": "function icons",
+   "name": "Function: Offer",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its function button in the rack of eight.",
+   "today": "FrameIcon.Kind.Offer"
+  },
+  "hud.panel.voyage": {
+   "file": "hud/hud.panel.voyage.png",
+   "group": "panel icons",
+   "name": "Panel: Voyage",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Voyage window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.trade": {
+   "file": "hud/hud.panel.trade.png",
+   "group": "panel icons",
+   "name": "Panel: Trade",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Trade window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.hold": {
+   "file": "hud/hud.panel.hold.png",
+   "group": "panel icons",
+   "name": "Panel: Hold",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Hold window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.people": {
+   "file": "hud/hud.panel.people.png",
+   "group": "panel icons",
+   "name": "Panel: People here",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the People here window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.crew": {
+   "file": "hud/hud.panel.crew.png",
+   "group": "panel icons",
+   "name": "Panel: Crew",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Crew window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.tasks": {
+   "file": "hud/hud.panel.tasks.png",
+   "group": "panel icons",
+   "name": "Panel: Tasks",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Tasks window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.event": {
+   "file": "hud/hud.panel.event.png",
+   "group": "panel icons",
+   "name": "Panel: Event",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Event window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.self": {
+   "file": "hud/hud.panel.self.png",
+   "group": "panel icons",
+   "name": "Panel: Yourself",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Yourself window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.bonds": {
+   "file": "hud/hud.panel.bonds.png",
+   "group": "panel icons",
+   "name": "Panel: Bonds",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Bonds window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.word": {
+   "file": "hud/hud.panel.word.png",
+   "group": "panel icons",
+   "name": "Panel: The word",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the The word window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.faith": {
+   "file": "hud/hud.panel.faith.png",
+   "group": "panel icons",
+   "name": "Panel: Faith and days",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Faith and days window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.chron": {
+   "file": "hud/hud.panel.chron.png",
+   "group": "panel icons",
+   "name": "Panel: Chronicle",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Chronicle window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.chest": {
+   "file": "hud/hud.panel.chest.png",
+   "group": "panel icons",
+   "name": "Panel: Chest",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Chest window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.house": {
+   "file": "hud/hud.panel.house.png",
+   "group": "panel icons",
+   "name": "Panel: House",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the House window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.field": {
+   "file": "hud/hud.panel.field.png",
+   "group": "panel icons",
+   "name": "Panel: The field",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the The field window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.sky": {
+   "file": "hud/hud.panel.sky.png",
+   "group": "panel icons",
+   "name": "Panel: Wind and tide",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Wind and tide window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.tongues": {
+   "file": "hud/hud.panel.tongues.png",
+   "group": "panel icons",
+   "name": "Panel: Tongues",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Tongues window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.ship": {
+   "file": "hud/hud.panel.ship.png",
+   "group": "panel icons",
+   "name": "Panel: Ship",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Ship window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.panel.wiki": {
+   "file": "hud/hud.panel.wiki.png",
+   "group": "panel icons",
+   "name": "Panel: Wiki",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "Before the name of the Wiki window, and in the list you pick a panel from.",
+   "today": ""
+  },
+  "hud.stat.tongue": {
+   "file": "hud/hud.stat.tongue.png",
+   "group": "stat icons",
+   "name": "Stat: Tongue",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the Yourself window, and before a choice in a talk that the stat opens.",
+   "today": ""
+  },
+  "hud.stat.name": {
+   "file": "hud/hud.stat.name.png",
+   "group": "stat icons",
+   "name": "Stat: Name",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the Yourself window, and before a choice in a talk that the stat opens.",
+   "today": ""
+  },
+  "hud.stat.nerve": {
+   "file": "hud/hud.stat.nerve.png",
+   "group": "stat icons",
+   "name": "Stat: Nerve",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the Yourself window, and before a choice in a talk that the stat opens.",
+   "today": ""
+  },
+  "hud.stat.lore": {
+   "file": "hud/hud.stat.lore.png",
+   "group": "stat icons",
+   "name": "Stat: Lore",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the Yourself window, and before a choice in a talk that the stat opens.",
+   "today": ""
+  },
+  "hud.stat.troth": {
+   "file": "hud/hud.stat.troth.png",
+   "group": "stat icons",
+   "name": "Stat: Troth",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the Yourself window, and before a choice in a talk that the stat opens.",
+   "today": ""
+  },
+  "shipview.back.river.day": {
+   "file": "shipview/shipview.back.river.day.png",
+   "group": "ship window",
+   "name": "On the river, by day",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is on the river by day.",
+   "today": ""
+  },
+  "shipview.back.river.dusk": {
+   "file": "shipview/shipview.back.river.dusk.png",
+   "group": "ship window",
+   "name": "On the river, at dusk or dawn",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is on the river at dusk or dawn.",
+   "today": ""
+  },
+  "shipview.back.river.night": {
+   "file": "shipview/shipview.back.river.night.png",
+   "group": "ship window",
+   "name": "On the river, at night",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is on the river at night.",
+   "today": ""
+  },
+  "shipview.back.coast.day": {
+   "file": "shipview/shipview.back.coast.day.png",
+   "group": "ship window",
+   "name": "Off the coast, by day",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is off the coast by day.",
+   "today": ""
+  },
+  "shipview.back.coast.dusk": {
+   "file": "shipview/shipview.back.coast.dusk.png",
+   "group": "ship window",
+   "name": "Off the coast, at dusk or dawn",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is off the coast at dusk or dawn.",
+   "today": ""
+  },
+  "shipview.back.coast.night": {
+   "file": "shipview/shipview.back.coast.night.png",
+   "group": "ship window",
+   "name": "Off the coast, at night",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is off the coast at night.",
+   "today": ""
+  },
+  "shipview.back.sea.day": {
+   "file": "shipview/shipview.back.sea.day.png",
+   "group": "ship window",
+   "name": "Open sea, by day",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is open sea by day.",
+   "today": ""
+  },
+  "shipview.back.sea.dusk": {
+   "file": "shipview/shipview.back.sea.dusk.png",
+   "group": "ship window",
+   "name": "Open sea, at dusk or dawn",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is open sea at dusk or dawn.",
+   "today": ""
+  },
+  "shipview.back.sea.night": {
+   "file": "shipview/shipview.back.sea.night.png",
+   "group": "ship window",
+   "name": "Open sea, at night",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is open sea at night.",
+   "today": ""
+  },
+  "shipview.back.port.day": {
+   "file": "shipview/shipview.back.port.day.png",
+   "group": "ship window",
+   "name": "In port, by day",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is in port by day.",
+   "today": ""
+  },
+  "shipview.back.port.dusk": {
+   "file": "shipview/shipview.back.port.dusk.png",
+   "group": "ship window",
+   "name": "In port, at dusk or dawn",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is in port at dusk or dawn.",
+   "today": ""
+  },
+  "shipview.back.port.night": {
+   "file": "shipview/shipview.back.port.night.png",
+   "group": "ship window",
+   "name": "In port, at night",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window, bottom right, behind your ship when she is in port at night.",
+   "today": ""
+  },
+  "shipview.over.fog": {
+   "file": "shipview/shipview.over.fog.png",
+   "group": "ship window",
+   "name": "Fog, laid over the view",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window in fog, over the backdrop and the ship.",
+   "today": ""
+  },
+  "shipview.over.rain": {
+   "file": "shipview/shipview.over.rain.png",
+   "group": "ship window",
+   "name": "Rain and spray, laid over the view",
+   "w": 160,
+   "h": 96,
+   "slice": null,
+   "where": "The ship window in a gale, over the backdrop and the ship.",
+   "today": ""
+  },
+  "shipview.sun": {
+   "file": "shipview/shipview.sun.png",
+   "group": "ship window",
+   "name": "The sun",
+   "w": 9,
+   "h": 9,
+   "slice": null,
+   "where": "The ship window: the game moves it across the sky by the hour.",
+   "today": ""
+  },
+  "shipview.moon": {
+   "file": "shipview/shipview.moon.png",
+   "group": "ship window",
+   "name": "The moon",
+   "w": 9,
+   "h": 9,
+   "slice": null,
+   "where": "The ship window at night: the game moves it by the hour.",
+   "today": ""
+  },
+  "hud.swap": {
+   "file": "hud/hud.swap.png",
+   "group": "marks",
+   "name": "Change places: the ship and the chart",
+   "w": 12,
+   "h": 12,
+   "slice": null,
+   "where": "On the top left corner of the view of the ship.",
+   "today": ""
+  },
+  "hud.win_open": {
+   "file": "hud/hud.win_open.png",
+   "group": "marks",
+   "name": "Open the full window",
+   "w": 7,
+   "h": 7,
+   "slice": null,
+   "where": "In the title strip of a panel on the left.",
+   "today": ""
+  },
+  "hud.win_size": {
+   "file": "hud/hud.win_size.png",
+   "group": "marks",
+   "name": "Change the size of a panel",
+   "w": 7,
+   "h": 7,
+   "slice": null,
+   "where": "In the title strip of a panel; the game may write S, M or L in its place.",
+   "today": ""
+  },
+  "hud.pressing": {
+   "file": "hud/hud.pressing.png",
+   "group": "marks",
+   "name": "A pressing card",
+   "w": 9,
+   "h": 9,
+   "slice": null,
+   "where": "On a floating window that must be answered: it holds the ship where she is until it is.",
+   "today": ""
+  },
+  "hud.mini_her": {
+   "file": "hud/hud.mini_her.png",
+   "group": "marks",
+   "name": "Her mark on the small chart",
+   "w": 5,
+   "h": 5,
+   "slice": null,
+   "where": "On the chart when it is shown small in the window bottom right.",
+   "today": ""
+  },
+  "hud.frame_tip": {
+   "file": "hud/hud.frame_tip.png",
+   "group": "frames",
+   "name": "The brief overview under the cursor",
+   "w": 16,
+   "h": 16,
+   "slice": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "where": "Round the small box that shows when the cursor rests on a linked word.",
+   "today": ""
+  },
+  "hud.tool_button": {
+   "file": "hud/hud.tool_button.png",
+   "group": "buttons",
+   "name": "A chart tool, at rest",
+   "w": 24,
+   "h": 12,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "The chart tools on the right: measure, nearer, farther, find her, names, winds, sails, pins.",
+   "today": ""
+  },
+  "hud.tool_button_on": {
+   "file": "hud/hud.tool_button_on.png",
+   "group": "buttons",
+   "name": "A chart tool that is on",
+   "w": 24,
+   "h": 12,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "A chart tool that is switched on (names shown, the measure in your hand).",
+   "today": ""
+  },
+  "hud.chart.measure": {
+   "file": "hud/hud.chart.measure.png",
+   "group": "chart tool icons",
+   "name": "Chart tool: Measure",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its button among the chart tools, right of the screen under the portrait.",
+   "today": "FrameIcon.Kind.Measure"
+  },
+  "hud.chart.nearer": {
+   "file": "hud/hud.chart.nearer.png",
+   "group": "chart tool icons",
+   "name": "Chart tool: Nearer",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its button among the chart tools, right of the screen under the portrait.",
+   "today": ""
+  },
+  "hud.chart.farther": {
+   "file": "hud/hud.chart.farther.png",
+   "group": "chart tool icons",
+   "name": "Chart tool: Farther",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its button among the chart tools, right of the screen under the portrait.",
+   "today": ""
+  },
+  "hud.chart.find_her": {
+   "file": "hud/hud.chart.find_her.png",
+   "group": "chart tool icons",
+   "name": "Chart tool: Find her",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its button among the chart tools, right of the screen under the portrait.",
+   "today": ""
+  },
+  "hud.chart.names": {
+   "file": "hud/hud.chart.names.png",
+   "group": "chart tool icons",
+   "name": "Chart tool: Names",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its button among the chart tools, right of the screen under the portrait.",
+   "today": ""
+  },
+  "hud.chart.winds": {
+   "file": "hud/hud.chart.winds.png",
+   "group": "chart tool icons",
+   "name": "Chart tool: Winds",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its button among the chart tools, right of the screen under the portrait.",
+   "today": ""
+  },
+  "hud.chart.sails": {
+   "file": "hud/hud.chart.sails.png",
+   "group": "chart tool icons",
+   "name": "Chart tool: Sails",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its button among the chart tools, right of the screen under the portrait.",
+   "today": ""
+  },
+  "hud.chart.pins": {
+   "file": "hud/hud.chart.pins.png",
+   "group": "chart tool icons",
+   "name": "Chart tool: Pins",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "On its button among the chart tools, right of the screen under the portrait.",
+   "today": ""
+  },
+  "hud.wiki.how_to_play": {
+   "file": "hud/hud.wiki.how_to_play.png",
+   "group": "wiki icons",
+   "name": "Wiki: How to play",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the wiki: beside the kind of a page, and in the small box under the cursor.",
+   "today": ""
+  },
+  "hud.wiki.ports": {
+   "file": "hud/hud.wiki.ports.png",
+   "group": "wiki icons",
+   "name": "Wiki: Ports",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the wiki: beside the kind of a page, and in the small box under the cursor.",
+   "today": ""
+  },
+  "hud.wiki.trade": {
+   "file": "hud/hud.wiki.trade.png",
+   "group": "wiki icons",
+   "name": "Wiki: Trade",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the wiki: beside the kind of a page, and in the small box under the cursor.",
+   "today": ""
+  },
+  "hud.wiki.peoples": {
+   "file": "hud/hud.wiki.peoples.png",
+   "group": "wiki icons",
+   "name": "Wiki: Peoples",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the wiki: beside the kind of a page, and in the small box under the cursor.",
+   "today": ""
+  },
+  "hud.wiki.faith_and_days": {
+   "file": "hud/hud.wiki.faith_and_days.png",
+   "group": "wiki icons",
+   "name": "Wiki: Faith and days",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the wiki: beside the kind of a page, and in the small box under the cursor.",
+   "today": ""
+  },
+  "hud.wiki.ship_and_sea": {
+   "file": "hud/hud.wiki.ship_and_sea.png",
+   "group": "wiki icons",
+   "name": "Wiki: Ship and sea",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the wiki: beside the kind of a page, and in the small box under the cursor.",
+   "today": ""
+  },
+  "hud.wiki.words": {
+   "file": "hud/hud.wiki.words.png",
+   "group": "wiki icons",
+   "name": "Wiki: Words",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the wiki: beside the kind of a page, and in the small box under the cursor.",
+   "today": ""
+  },
+  "hud.wiki.events": {
+   "file": "hud/hud.wiki.events.png",
+   "group": "wiki icons",
+   "name": "Wiki: Events",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the wiki: beside the kind of a page, and in the small box under the cursor.",
+   "today": ""
+  },
+  "hud.wiki.people": {
+   "file": "hud/hud.wiki.people.png",
+   "group": "wiki icons",
+   "name": "Wiki: People",
+   "w": 16,
+   "h": 16,
+   "slice": null,
+   "where": "In the wiki: beside the kind of a page, and in the small box under the cursor.",
+   "today": ""
+  },
+  "hud.field": {
+   "file": "hud/hud.field.png",
+   "group": "buttons",
+   "name": "A place to type",
+   "w": 16,
+   "h": 10,
+   "slice": [
+    4,
+    4,
+    4,
+    4
+   ],
+   "where": "In the wiki: the line you type a word into to find its page. In the chest: a note of your own.",
+   "today": ""
+  },
+  "hud.main_button": {
+   "file": "hud/hud.main_button.png",
+   "group": "buttons",
+   "name": "The main button of a window",
+   "w": 24,
+   "h": 14,
+   "slice": [
+    5,
+    5,
+    5,
+    5
+   ],
+   "where": "At the foot of a full window: the one thing the window is for ('Cast off for Traiectum').",
+   "today": ".frame-k.go"
+  },
+  "hud.scroll_track": {
+   "file": "hud/hud.scroll_track.png",
+   "group": "marks",
+   "name": "The groove of the scroll bar",
+   "w": 4,
+   "h": 8,
+   "slice": [
+    2,
+    2,
+    2,
+    2
+   ],
+   "where": "At the right of a window whose list is longer than the window, under the scroll thumb.",
+   "today": ".unity-base-slider__tracker"
+  },
+  "hud.rule": {
+   "file": "hud/hud.rule.png",
+   "group": "marks",
+   "name": "A dividing line",
+   "w": 8,
+   "h": 1,
+   "slice": null,
+   "where": "Inside a window, between two parts (under a heading, above the foot of a wiki page). The game pulls it out to the window's width.",
+   "today": ".frame-sep"
+  },
+  "hud.landmark": {
+   "file": "hud/hud.landmark.png",
+   "group": "marks",
+   "name": "A landmark on the chart",
+   "w": 5,
+   "h": 5,
+   "slice": null,
+   "where": "On the chart, at a named landmark (a headland, a tower, a bar), with its name beside it by the game.",
+   "today": ".map-landmark (MapView.uss)"
+  },
+  "hud.tilt.up": {
+   "file": "hud/hud.tilt.up.png",
+   "group": "marks",
+   "name": "The price leans up there",
+   "w": 5,
+   "h": 5,
+   "slice": null,
+   "where": "In the Trade window and The word window, after the mark of how you know a price: it is worth carrying there.",
+   "today": ".word-tilt.up"
+  },
+  "hud.tilt.down": {
+   "file": "hud/hud.tilt.down.png",
+   "group": "marks",
+   "name": "The price leans down there",
+   "w": 5,
+   "h": 5,
+   "slice": null,
+   "where": "The same place: the price there leans down.",
+   "today": ".word-tilt.down"
+  },
+  "hud.clock.pause": {
+   "file": "hud/hud.clock.pause.png",
+   "group": "marks",
+   "name": "The clock: held",
+   "w": 9,
+   "h": 7,
+   "slice": null,
+   "where": "At the right end of the settings bar, on a small button: the four ways the clock can stand. The one that is on is lit by its button.",
+   "today": ""
+  },
+  "hud.clock.x1": {
+   "file": "hud/hud.clock.x1.png",
+   "group": "marks",
+   "name": "The clock: a game minute a second",
+   "w": 9,
+   "h": 7,
+   "slice": null,
+   "where": "At the right end of the settings bar, on a small button: the four ways the clock can stand. The one that is on is lit by its button.",
+   "today": ""
+  },
+  "hud.clock.x2": {
+   "file": "hud/hud.clock.x2.png",
+   "group": "marks",
+   "name": "The clock: twice as fast",
+   "w": 9,
+   "h": 7,
+   "slice": null,
+   "where": "At the right end of the settings bar, on a small button: the four ways the clock can stand. The one that is on is lit by its button.",
+   "today": ""
+  },
+  "hud.clock.x4": {
+   "file": "hud/hud.clock.x4.png",
+   "group": "marks",
+   "name": "The clock: four times as fast",
+   "w": 9,
+   "h": 7,
+   "slice": null,
+   "where": "At the right end of the settings bar, on a small button: the four ways the clock can stand. The one that is on is lit by its button.",
+   "today": ""
+  },
+  "hud.word.seen": {
+   "file": "hud/hud.word.seen.png",
+   "group": "marks",
+   "name": "How you know a price: you saw it yourself",
+   "w": 7,
+   "h": 7,
+   "slice": null,
+   "where": "In the Trade window, The word window and a port's lines on the chart: before each line of what you know of a good.",
+   "today": ".word-mark.seen"
+  },
+  "hud.word.heard": {
+   "file": "hud/hud.word.heard.png",
+   "group": "marks",
+   "name": "How you know a price: you were told it",
+   "w": 7,
+   "h": 7,
+   "slice": null,
+   "where": "In the Trade window, The word window and a port's lines on the chart: before each line of what you know of a good.",
+   "today": ".word-mark.heard"
+  },
+  "hud.word.season": {
+   "file": "hud/hud.word.season.png",
+   "group": "marks",
+   "name": "How you know a price: it is the season's doing",
+   "w": 7,
+   "h": 7,
+   "slice": null,
+   "where": "In the Trade window, The word window and a port's lines on the chart: before each line of what you know of a good.",
+   "today": ".word-mark.season"
+  },
+  "hud.word.law": {
+   "file": "hud/hud.word.law.png",
+   "group": "marks",
+   "name": "How you know a price: the law is on it",
+   "w": 7,
+   "h": 7,
+   "slice": null,
+   "where": "In the Trade window, The word window and a port's lines on the chart: before each line of what you know of a good.",
+   "today": ".word-mark.law"
+  },
+  "hud.word.none": {
+   "file": "hud/hud.word.none.png",
+   "group": "marks",
+   "name": "How you know a price: nothing is known",
+   "w": 7,
+   "h": 7,
+   "slice": null,
+   "where": "In the Trade window, The word window and a port's lines on the chart: before each line of what you know of a good.",
+   "today": ".word-mark.none"
+  }
+ }
+}

@@ -1,0 +1,84 @@
+# The Rus, 780-1070: as a merchant lives it
+
+Research for the writers, 6 Oct 2026. Every fact here has its date, source and doubt in `rus.json` beside this file (tables: rulers, wars, raids, laws, coins, church, and two extra, `who_holds` and `road`); custom, oaths and names are in `../peoples/baltic_east.md`. **late** = written long after (the kings' sagas, Tatishchev). (?) = doubtful, or not checked. PVL = the Primary Chronicle of Kiev (about 1113), whose years before about 945 were reckoned afterwards and are all (?). N1L = the Novgorod chronicle. DAI = the emperor Constantine's book, about 950. Say "the Rus" and "Gardar"; never "Russia".
+
+**What it is.** Not a kingdom at first, and not one country ever. A river road with a harbour at the north end. **Aldeigjuborg** (Ladoga, our only port here) is where a sea ship stops: twelve kilometres up the Volkhov, below the rapids. Beyond it everything goes by river boat and other men's leave: 200 km to **Holmgard** (the fort by Lake Ilmen, and from about 950 Novgorod beside it), then either east by the Volga to the Bulghars, the Khazars and the caliph's silver, or south by the portages and the Dnieper to **Kiev**, the seven rapids and the Greeks. A Frisian boat of 7.7 m can lie at Aldeigjuborg and no further. What the player meets of the rest is its goods, its silver, its news and its hired men passing through.
+
+## The four standing answers
+
+- **Who must be paid.** At Aldeigjuborg, the lord of the town, who changes nine times (see `who_holds`): nobody named to 838; tribute-taking Northmen to 865; Rurik's and Oleg's men; the Kiev prince's men at Novgorod; from 1019 to about 1045 a Swedish jarl for the princess Ingigerd (**late**); then Novgorod again. Above the town, a river pilot. On the Volga, the Bulghar king takes a tenth of every cargo and one slave in ten (Ibn Fadlan, 922); the Khazar king at Itil a tenth, until 969. On the Dnieper below Kiev, the Pechenegs, if they catch you. At Constantinople the Rus pay no toll by treaty; other strangers pay a tenth. On the Bavarian Danube, Rus wax and slaves pay the king's toll (about 904).
+- **Who protects.** From 882 to 1054 Novgorod pays the Varangians 300 grivnas a year "for peace": a Northman's ship on the Volkhov sails under that. The prince's convoy on the Dnieper, which leaves in June and waits for nobody (DAI). The treaties of 911 and 945: a wreck is helped and not robbed, a runaway is returned, a dead man's goods go to his kin. At Itil, to 969, a judge of your own faith, one of seven. From 1016 Yaroslav's law at Novgorod: a merchant's life is worth 40 grivnas, the same as a retainer's, and a stranger from over the sea clears himself by his oath alone.
+- **What is forbidden.** At Constantinople: coming without the prince's written charter (from 945); entering armed, or more than fifty at a time, or by any gate but one; buying silk for more than 50 gold pieces a man, or any silk without the eparch's stamp; wintering there or at the Dnieper mouth. On the Volga, passing Itil to the sea without the king's leave. In the Rus land: buying furs from the trapper before the tribute is taken (custom, not written); sheltering a runaway slave past three days (3 grivnas, 1016); pulling a man's beard (12 grivnas). After 988, swearing by Perun in the prince's towns.
+- **When to stay away.** Aldeigjuborg about 859-866 (burned to the ground about 865) and 997 (burned by Jarl Eirik; he harries for some summers). The road to Kiev 977-980 and 1015-1019 (brothers' wars), 1024-1026. Constantinople 860, 941-944, 969-971, 1043-1046. The lower Volga 913 and after 965. Novgorod in 1021 and the winter of 1066-1067 (sacked from Polotsk). Kiev in 968, 1017-1018, 1036 and September 1068. Every year: the Volkhov and the lake are ice from early winter to late April (?), and nobody is at home in Kiev from November to April, when the princes are out taking tribute.
+
+## Decade by decade
+
+- **780s-790s.** A trading place of Northmen, Finns and Slavs, a generation old (timbers of 753), with no lord any writer names. The first dirhams lie in its ground from 786/7. Furs out; beads, combs and blades in. Bring scales: silver is weighed and cut, and a marten skin is money too.
+- **800s-820s.** The silver comes steadily by the Khazars and the Volga. A hoard by the Gulf of Finland (youngest coin about 805) has marks scratched in four scripts, Norse runes among them (?). A Frisian meets the east as thin coins with writing and no king's face.
+- **830s.** A lord at last: in 839 men who call their people Rhos and their king a khagan reach the emperor Louis at Ingelheim by way of Constantinople, because the road home was shut by wild peoples. They prove to be Svear, and are held as spies. Ladoga is taken by a band of Northmen about 840 (the diggers' reading).
+- **840s-850s.** Khazar-struck dirhams, one kind naming Moses. Ibn Khordadbeh writes down the Rus merchants' roads: beaver, black fox and swords; a tenth to the Greeks, a tenth to the Khazars; camels from the Caspian to Baghdad, where they say they are Christians and pay the poll tax. 859: Varangians take tribute of the northern tribes (?).
+- **860s.** 18 June 860: 200 Rus ships at Constantinople while the emperor is away. In the north the tribes drive the Varangians out, fall on each other, and send over the sea for a prince: Rurik, by the chronicle's 862 (?). Ladoga burns about 865. **Stay away**; the silver of these years went into the ground and stayed there.
+- **870s-890s.** Rurik dies (879 ?); Oleg takes Kiev by pretending to be a merchant fleet (882 ?) and holds the whole road. Novgorod's 300 grivnas begin. The Dnieper tribes pay Oleg, not the Khazars. But few new dirhams come for a generation: trade in furs, cut silver and trust. Ladoga is rebuilt bigger; new building about 894.
+- **900s-910s.** The flood: heavy Samanid silver by caravan to Bulghar. 2 September 911: the first treaty with the Greeks, sworn by fifteen envoys with Norse names. 913: a Rus fleet buys its way past Itil for half the plunder, robs the Caspian, and is cut down on the way home.
+- **920s-930s.** The best years. May 922: Ibn Fadlan at Bulghar sees the Rus traders, their idols asked for a buyer who will not haggle, and a chief burned in his ship. Igor rules in Kiev.
+- **940s.** 11 June 941: Igor's fleet burned with Greek fire; no Rus at Constantinople for three seasons. 943: Rus hold Bardha'a on the Kura and die of the flux. 945: the harder treaty (charter, 50 gold pieces of silk). Autumn 945: Igor killed taking tribute twice. Olga burns Iskorosten and, in 947, sets fixed tribute stations in the north.
+- **950s.** The yearly round as the emperor describes it: tribute all winter, boats in spring, convoy in June, home before the cold. 957: Olga at the Great Palace with over forty merchants. 959: she asks Otto I for a bishop; Adalbert comes in 961 and goes home in 962. Novgorod the town grows up. Peak silver, then the ebb.
+- **960s.** Sviatoslav breaks the Khazars (Sarkel 965; Itil 968-969). The customs house is gone and so is the peace of the lower river. 968: Pechenegs ring Kiev. He prefers the Danube.
+- **970s.** 971: shut in Dorostolon, he makes peace. Spring 972: killed at the rapids; his skull is a cup. 977-980: his sons' war. Vladimir flees "over the sea", comes back with a hired host, takes Polotsk and Kiev (978 or 980). The host sits unpaid in Kiev's market for a month.
+- **980s.** Idols on the hill (980). 983: a Christian Varangian and his son killed by the crowd. 985: peace with the Bulghars "until stone floats and hops sink". 988: baptism, the emperor's sister, 6,000 men to the emperor's pay. 989: Perun thrown in the Volkhov. The first Rus coin, for show.
+- **990s.** Forts against the Pechenegs, manned from the north. 996: the Tithe Church; fines, not death, for robbers. **997: Jarl Eirik burns Aldeigjuborg** (a poem of about 1010 says so). German and English pennies begin to take the dirham's place.
+- **1000s.** The last eastern silver. 1008: Bruno of Querfurt rides through Vladimir's frontier wall to the Pechenegs. Yaroslav is prince at Novgorod (about 1010 ?).
+- **1010s.** 1014: Novgorod stops paying Kiev. 1015: Vladimir dies; Boris and Gleb are killed; the Novgorod men kill Yaroslav's Varangians for laying hands on their wives. 1016: Lyubech, and the law. 1018: Boleslaw of Poland in Kiev; Novgorod breaks Yaroslav's boats and taxes itself to hire men. 1019: Yaroslav wins. **Good business for any ship that carries fighting men.** Ladoga goes to the jarl Ragnvald (**late**).
+- **1020s.** 1021: Polotsk sacks Novgorod. 1024: Listven by night; famine at Suzdal. 1026: the Dnieper divides two brothers, and "great quiet". 1029: Olaf Haraldsson comes through Aldeigjuborg into exile and leaves his son Magnus at Yaroslav's court (**late**).
+- **1030s.** 1030: the fort of Yuryev among the Chud; 300 Novgorod children set to books. Harald Sigurdsson, fifteen, comes east after Stiklestad (**late**). 1036: Mstislav dies, the Pechenegs are broken before Kiev, one lord again. 1037: Holy Wisdom in Kiev.
+- **1040s.** A campaign most summers on the Baltic side: captives at market. About 1041 Ingvar's Svear fleet is lost in the far south-east (the rune stones; see `sweden_gotland.json`). 1043: the last attack on Constantinople; Rus merchants there are rounded up; peace about 1046. Harald comes back through with his gold, marries Yaroslav's daughter, and sails from Aldeigjuborg (**late**). Stone church at Novgorod, 1045-1050.
+- **1050s.** 1051: a Rus metropolitan, and Yaroslav's daughter Anna queen of France. 20 February 1054: Yaroslav dies; five sons, five towns; the 300 grivnas stop. Silver is now bars and western pennies.
+- **1060s.** 1061: the Cumans' first raid. Winter 1066-1067: Vseslav of Polotsk burns Novgorod and takes the bells of Holy Wisdom. 15 September 1068: Kiev's market rises and makes the prisoner prince. 1069: the old prince comes back with Poles and moves the market up the hill, under his eye.
+
+## Ten scenes
+
+1. **Ash at Aldeigjuborg, about 865.** The player comes up the Volkhov for furs and finds charred posts, nobody to weigh with, and a man digging where he thinks his father hid the silver.
+2. **Held at Ingelheim, May 839.** Tall men from Constantinople say they are Rhos. The emperor thinks they are Svear spies. A Frisian who has been to Birka knows their speech and is asked what they are.
+3. **Merchants under the hill, Kiev, 882 (?).** Boats tie up below the town; word goes up that traders bound for the Greeks would speak with the lords. The cargo is armed men.
+4. **The idol and the buyer, Bulghar, 922.** A Rus lays bread, onions and drink before a wooden post and asks for a merchant with much silver who will not argue. Then he turns round and sees the player.
+5. **Fire on the water, 11 June 941.** Told second-hand at Aldeigjuborg by a man with a burned arm: the Greeks hold lightning in tubes. Nobody believes him; the price of silk doubles anyway.
+6. **Aeifor, the fourth rapid.** Everything unloaded; slaves walked six miles in chains; boats on shoulders; riders on the skyline. The convoy does not wait for a man who falls behind (DAI 9).
+7. **The potter and Perun, Novgorod, 989.** At dawn a man bringing pots to town finds the god washed against the bank, pushes him off with a pole and tells him he has eaten and drunk enough.
+8. **Two grivnas a head, Kiev, 978.** The hired Northmen want their ransom from every townsman. The prince says: wait a month for the marten skins. A skipper may carry the ones who stop waiting on to the emperor.
+9. **The broken boats, Novgorod, 1018.** The prince has lost everything and means to flee over the sea. The townsmen take axes to his boats, then pass the hat: four kunas a man, ten grivnas an elder. They want ships to fetch fighting men, now.
+10. **The bells go to Polotsk, winter 1066-1067.** The year the player's house ends in England, Novgorod burns to the Nerev quarter and the bells of Holy Wisdom are hauled away on sledges.
+
+Also good: Yakun's gold-woven cloak lost at Listven (1024); the boy with the bridle walking through the Pecheneg camp (968); the deacon Gregory asking not to be cursed for his slips (1057); Ana the queen signing in her own letters (1063); grain fetched up the Volga from the Bulghars in a famine (1024).
+
+## Against chronicle_793.json
+
+**It has, and rightly** (eighteen entries): the Peterhof hoard (805), the Rhos at Ingelheim (839), Constantinople (860), Rurik (862, marked uncertain), Oleg at Kiev (882), Oleg's campaign (907, marked uncertain), the treaty of 911, the Caspian raid (913), Ibn Fadlan (922), Greek fire (941), Igor's treaty (944), Olga (957), the fall of the Khazars (969), the Bulghar peace (985), the baptism (988), the end of the silver (1000), Yaroslav's law (1016), the last attack (1043).
+
+**It lacks** (all in `rus.json` with sources):
+
+1. Anything that happens **at our own port**. Aldeigjuborg is named in two entries (862, 1016) and neither is an event there. Missing: the burning about 865; the rebuilding about 894; **Jarl Eirik's burning in 997**; the jarldom of Ragnvald from 1019 (**late**).
+2. The backstory for the log's first page: the place founded about 753, first dirhams 786/7.
+3. Every change of ruler. No entry carries `"realm": "rus"`. Wanted: Oleg (879 ?), Igor (912 ?), Olga (945), Sviatoslav (964), Yaropolk (972), Vladimir (978/980), Sviatopolk (1015), Yaroslav (1016, 1019), the three sons (1054), Vseslav and the rising (1068).
+4. The 300 grivnas Novgorod pays the Varangians, 882-1054: the standing peace a northern ship sails under.
+5. The silver's tides: the thin years about 875-900 and the Samanid flood from about 900. The chronicle has the beginning (805) and the end (1000) and nothing between.
+6. The Raffelstetten toll, about 904: Rus wax and slaves on the Bavarian Danube, the one place the Rus touch the Frankish toll system.
+7. Bardha'a, 943; Igor's death and Olga's fixed tribute stations, 945-947; Adalbert's failed mission, 959-962.
+8. Sarkel in 965 as its own entry; the Pechenegs at Kiev, 968; Dorostolon, 971; **Sviatoslav killed at the rapids, 972**.
+9. The brothers' war of 977-980 and the unpaid Varangians in Kiev; the idols (980); the Varangian martyrs (983); Novgorod's baptism (989); Vladimir's coin (from about 988).
+10. 1014-1019 entire: the tribute stopped, the Novgorod killing of the Varangians, Lyubech, Boleslaw in Kiev (14 August 1018), the levy at Novgorod, the Alta. These are the years a ship from the west earns most carrying men.
+11. Novgorod sacked in 1021 and burned in 1066-1067; Listven (1024) and Gorodets (1026); the Pechenegs broken (1036); Holy Wisdom at Kiev (1037) and Novgorod (1045-1050).
+12. Olaf, Magnus and Harald passing through (1029-1045, **late**); Ingvar (about 1041); Anna's marriage (19 May 1051); Yaroslav's death (20 February 1054); the first Cumans (1061); the Kiev rising (15 September 1068).
+13. The Rus year (DAI): no standing entry says that nothing leaves Kiev before June or that the north is ice to late April.
+
+**Wrong, or at odds with the tables:**
+
+1. `1030-07-29-stiklestad` says Olaf came "back from Russia". No such name in 1030: say Gardar, or the Rus.
+2. `969-khazaria-fall` puts one war in one year. PVL has Sarkel in 965; Ibn Hawqal has Itil in 968-969 (its own note says so). Split it, or the Volga closes four years late. It also spells the prince Svyatoslav; `rus.json` and the other entries need one spelling.
+3. `985-bulghar-peace` gives the effect "Rus and Bulghar merchants trade freely". PVL has a peace and an oath only. The trade terms are Tatishchev's treaty of 1006, eighteenth-century and doubted.
+4. `1016-yaroslav-pravda` says "Varangians and townsmen alike". The law treats them differently: a Varangian or Kolbyag swears alone, a townsman needs witnesses. It names the port `aldeigjuborg`, which from 1019 is the jarl's by the sagas, not the Novgorod governor's.
+5. `1043-rus-constantinople` says a Rus merchant was killed. Skylitzes says a man of rank among them, in a market quarrel.
+6. `988-vladimir-baptised` says the Varangian Guard was formed. The 6,000 men of 988 are sure; the Guard under that name is later. Better: "6,000 Rus and Northmen in the emperor's pay".
+7. `862-rurik-ladoga` has a Rus prince settle at the port in 862; the ground says the place burned to nothing about 865. Keep the entry (it is honestly marked) but give 865 its own, with certainty likely.
+8. `882-oleg-kiev` and most others list the region `ladoga` only. Kiev has no region in goods_793.json; if the Dnieper is ever on the chart, these need one.
+9. `1047-10-25-harald-hardrada` brings Harald "back from the Varangian Guard". He came by Kiev and Aldeigjuborg, about 1045, with Yaroslav's daughter as his wife (**late**), and shared Norway with Magnus from 1046.
+10. `944-igor-treaty` fires in October 944; PVL puts the text under 945. Either is defensible; `rus.json` uses 945.

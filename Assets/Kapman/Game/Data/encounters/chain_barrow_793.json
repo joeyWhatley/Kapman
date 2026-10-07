@@ -1,0 +1,1558 @@
+{
+ "about": "CHAIN barrow (Design/content/chains/barrow.md): a broken burial mound on the hoe above the Deben (Sutton Hoo), 793 to about 813. Thirteen cards. A fowler at Gipeswic tells of gold showing in a mound the gale has broken, beside the gallows the king's reeve keeps among the old kings; the boat lands; the four men of the crew (the spine's Aldger, Ravn, Brunger and Beornwine) each want a different thing done with a dead heathen's gold; a fever follows; a goldsmith at Dorestad knows old work; an old woman of the old kings' kin says who lies there (Raedwald of the two altars, Bede II.15, if it is he); the reeve hangs a potter's lad and asks after boats; and on a second night the great ship mound lies whole beside the broken one. Four endings: back into the earth (what really happened: the ship mound lay whole until 1939; the hard road), the bishop at Dommoc (Gregory's letter to Mellitus, Bede I.30), the king's reeve (the finder's share), and the goldsmith's crucible. To open the great mound is history changed: flag changed_sutton_hoo_opened. Written 6 Oct 2026; a draft for the user to overwrite. Every *_key has its words in Data/writing/chain_barrow.json; an option's outcome key is named in its note. (?) marks what could not be checked.",
+ "cards": [
+  {
+   "id": "harbour.chain_barrow.s01_fowlers_word",
+   "note": "Step 1, the start (drawn at Gipeswic from 793 to 811). A fowler of the Deben tells of the hoe: the mounds of the old kings above the river, the gallows the reeve keeps there, and a mound a gale has broken. The place is Sutton Hoo: about twenty mounds on a spur ('hoo', a hill shaped like a heel spur) over the tidal Deben, 11 km from the sea; a gallows stood on Mound 5 and executed people were buried round it from the 8th and 9th centuries onwards (Wikipedia 'Sutton Hoo', read 6 Oct 2026; Carver's excavations). The broken mound is ours: most of the mounds were robbed at dates nobody knows. King Aethelberht's penny with the she-wolf and twins: dossiers/gipeswic.md. He was beheaded at Offa's order in 794 (Anglo-Saxon Chronicle s.a. 792). The gallows line is the warning for steps 2, 7 and 8. Sets ch_barrow_1; ch_barrow_way if he is paid.",
+   "stage": "harbour",
+   "when": "moored and port.id = gipeswic and year < 812 and not flag.ch_barrow_1",
+   "weight": 0.8,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "fowler": {
+     "role": "fowler",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Saewine (invented: Sae- + -wine), a fowler of the Deben"
+    }
+   },
+   "title_key": "chain_barrow.s01.title",
+   "title": "The fowler's word",
+   "intention_key": "chain_barrow.s01.intention",
+   "intention": "A fowler sells duck and teal from a pole on the strand at Gipeswic.",
+   "lines": [
+    {
+     "who": "fowler",
+     "key": "chain_barrow.s01.fowler_birds"
+    },
+    {
+     "who": "fowler",
+     "key": "chain_barrow.s01.fowler_hoe"
+    },
+    {
+     "who": "fowler",
+     "key": "chain_barrow.s01.fowler_gallows"
+    },
+    {
+     "who": "fowler",
+     "key": "chain_barrow.s01.fowler_break"
+    },
+    {
+     "who": "fowler",
+     "key": "chain_barrow.s01.fowler_king_young",
+     "when": "year < 794",
+     "note": "Aethelberht II's she-wolf penny"
+    },
+    {
+     "who": "fowler",
+     "key": "chain_barrow.s01.fowler_king_gone",
+     "when": "year >= 794",
+     "note": "Anglo-Saxon Chronicle s.a. 792 (for 794)"
+    }
+   ],
+   "options": [
+    {
+     "key": "birds",
+     "label_key": "chain_barrow.s01.opt_birds",
+     "label": "Buy a brace of duck (4 d) and ask him the way in over the Deben bar",
+     "check": "silver >= 4",
+     "cost": "silver 4",
+     "effects": [
+      "health +0.02",
+      "npc fowler feeling +6 bought",
+      "flag ch_barrow_way",
+      "flag ch_barrow_1"
+     ],
+     "note": "outcome: chain_barrow.s01.out_birds"
+    },
+    {
+     "key": "ask",
+     "label_key": "chain_barrow.s01.opt_ask",
+     "label": "Ask him whose dead they are",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "npc fowler feeling +3 asked",
+      "flag ch_barrow_1"
+     ],
+     "note": "outcome: chain_barrow.s01.out_ask"
+    },
+    {
+     "key": "no_cargo",
+     "label_key": "chain_barrow.s01.opt_no_cargo",
+     "label": "Tell him dead kings are no cargo of yours",
+     "check": "true",
+     "effects": [
+      "flag ch_barrow_1"
+     ],
+     "note": "outcome: chain_barrow.s01.out_no_cargo"
+    }
+   ],
+   "memory": {
+    "birds": "bought duck and asked the way over the bar",
+    "ask": "asked whose dead lie on the hoe",
+    "no_cargo": "said dead kings were no cargo of his"
+   }
+  },
+  {
+   "id": "sea.chain_barrow.s02_the_hoe",
+   "note": "Step 2 (a sea card, drawn soon after she sails once step 1 is done: the Deben is the next river north of the Orwell). The landing under the hoe and the broken mound. The gold mount is modelled on the gold and garnet belt and sword fittings of Sutton Hoo Mounds 1 and 17 (stepped garnets in cells over stamped foil); the bronze bowl with burnt bone is as the cremations in bronze bowls of Mounds 5 to 7 (Carver; from memory (?)). The shifting bar of the Deben is real. A failed dig is seen from the far bank (ch_barrow_seen), which the reeve uses in step 7; the gallows in step 1 was the warning. Sets ch_barrow_2 and ch_barrow_piece (the gold aboard) or ch_barrow_clean (nothing touched).",
+   "stage": "sea",
+   "when": "under_way and flag.ch_barrow_1 and not flag.ch_barrow_2",
+   "rate": 0.3,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "lookout": {
+     "role": "lookout",
+     "people": "english",
+     "faith": "christian",
+     "note": "cast.crew.beornwine"
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "norse",
+     "faith": "old_gods",
+     "note": "cast.crew.ravn"
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "note": "cast.crew.aldger"
+    }
+   },
+   "title_key": "chain_barrow.s02.title",
+   "title": "The hoe",
+   "intention_key": "chain_barrow.s02.intention",
+   "intention": "The Deben opens two hours up the coast.",
+   "lines": [
+    {
+     "who": "lookout",
+     "key": "chain_barrow.s02.lookout_there"
+    },
+    {
+     "key": "chain_barrow.s02.the_thing"
+    },
+    {
+     "who": "hand",
+     "key": "chain_barrow.s02.hand_given"
+    },
+    {
+     "who": "steersman",
+     "key": "chain_barrow.s02.steersman_heathen"
+    },
+    {
+     "key": "chain_barrow.s02.the_way",
+     "when": "flag.ch_barrow_way"
+    }
+   ],
+   "options": [
+    {
+     "key": "take",
+     "label_key": "chain_barrow.s02.opt_take",
+     "label": "Take the gold mount that shows, and nothing more",
+     "check": "true",
+     "effects": [
+      "flag ch_barrow_piece",
+      "npc hand feeling -5 took",
+      "npc steersman feeling -2 took",
+      "flag ch_barrow_2"
+     ],
+     "note": "outcome: chain_barrow.s02.out_take"
+    },
+    {
+     "key": "dig",
+     "label_key": "chain_barrow.s02.opt_dig",
+     "label": "Dig with the bailer and your hands for one tide",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.55,
+       "by": "crew.eyes_best",
+       "success": [
+        "flag ch_barrow_piece",
+        "silver +24",
+        "npc hand feeling -8 dug",
+        "flag ch_barrow_2"
+       ],
+       "failure": [
+        "flag ch_barrow_piece",
+        "flag ch_barrow_seen",
+        "morale -0.03",
+        "npc hand feeling -8 dug",
+        "flag ch_barrow_2"
+       ]
+      }
+     ],
+     "note": "outcome: chain_barrow.s02.out_dig_success, chain_barrow.s02.out_dig_failure (the silver buckle is 24 d by weight; seen from the far bank on a failure)"
+    },
+    {
+     "key": "cover",
+     "label_key": "chain_barrow.s02.opt_cover",
+     "label": "Touch nothing. Pull turf down over the break",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_barrow_clean",
+      "npc hand feeling +8 covered",
+      "morale +0.03",
+      "flag ch_barrow_2"
+     ],
+     "note": "outcome: chain_barrow.s02.out_cover"
+    }
+   ],
+   "memory": {
+    "take": "took the gold that showed in the mound",
+    "dig": "dug in the mound for a tide",
+    "dig.failure": "dug in the mound and was seen from the river",
+    "cover": "covered the gold and touched nothing"
+   }
+  },
+  {
+   "id": "crew.chain_barrow.s03_the_quarrel",
+   "note": "Step 3 (a crew card, the night after the landing). The four men of the spine's crew each have a reason. Aldger: gold is made clean by the church. Ravn: the dead keep what they were given; the ship mound at Ogvaldsnes is Storhaug on Karmoy, a ship burial dated 779 (from memory (?)); that a mound's dweller walks after a robber is the belief of the later sagas, set back here (?). Brunger: the Capitulatio de partibus Saxoniae c. 22 (c. 782-785) orders the bodies of Christian Saxons carried to the church's cemeteries and not to the mounds of the pagans (MGH Capit. I no. 26). Beornwine: Felix's Life of Guthlac (730-740, written for King Aelfwald of the East Angles) says Guthlac's mound at Crowland had been dug open by greedy men hoping for treasure (c. 28; Wikipedia 'Guthlac of Crowland', read 6 Oct 2026); and the dragon's hoard and the stolen cup are Beowulf, fitt XXXII (texts_793.json beowulf_32). Nothing is quoted. Sets ch_barrow_3, a six-day timer ch_barrow_ague, and ch_barrow_vow_church or ch_barrow_vow_back if a word is given.",
+   "stage": "crew",
+   "when": "under_way and flag.ch_barrow_2 and not flag.ch_barrow_3",
+   "rate": 0.15,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "note": "cast.crew.aldger"
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "norse",
+     "faith": "old_gods",
+     "note": "cast.crew.ravn"
+    },
+    "mate": {
+     "role": "mate",
+     "people": "saxon",
+     "faith": "christian",
+     "note": "cast.crew.brunger"
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "english",
+     "faith": "christian",
+     "note": "cast.crew.beornwine"
+    }
+   },
+   "title_key": "chain_barrow.s03.title",
+   "title": "Four men and a dead one",
+   "intention_key": "chain_barrow.s03.intention",
+   "intention": "That night, at anchor behind the shingle, nobody sleeps.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "chain_barrow.s03.steersman_piece",
+     "when": "flag.ch_barrow_piece"
+    },
+    {
+     "who": "steersman",
+     "key": "chain_barrow.s03.steersman_clean",
+     "when": "flag.ch_barrow_clean"
+    },
+    {
+     "who": "hand",
+     "key": "chain_barrow.s03.hand_ship"
+    },
+    {
+     "who": "hand",
+     "key": "chain_barrow.s03.hand_back",
+     "when": "flag.ch_barrow_piece"
+    },
+    {
+     "who": "mate",
+     "key": "chain_barrow.s03.mate_weser"
+    },
+    {
+     "who": "lookout",
+     "key": "chain_barrow.s03.lookout_guthlac"
+    },
+    {
+     "who": "lookout",
+     "key": "chain_barrow.s03.lookout_dragon"
+    }
+   ],
+   "options": [
+    {
+     "key": "church",
+     "label_key": "chain_barrow.s03.opt_church",
+     "label": "Give the steersman your word: the bishop will hear of it",
+     "check": "true",
+     "effects": [
+      "flag ch_barrow_vow_church",
+      "npc steersman feeling +10 vow",
+      "npc hand feeling -4 vow_church",
+      "flag ch_barrow_ague for 6",
+      "flag ch_barrow_3"
+     ],
+     "note": "outcome: chain_barrow.s03.out_church"
+    },
+    {
+     "key": "back",
+     "label_key": "chain_barrow.s03.opt_back",
+     "label": "Give the Northman your word: the hill is left to its dead",
+     "check": "true",
+     "effects": [
+      "flag ch_barrow_vow_back",
+      "npc hand feeling +10 vow",
+      "npc mate feeling +6 vow_back",
+      "npc steersman feeling -2 vow_back",
+      "flag ch_barrow_ague for 6",
+      "flag ch_barrow_3"
+     ],
+     "note": "outcome: chain_barrow.s03.out_back"
+    },
+    {
+     "key": "hear",
+     "label_key": "chain_barrow.s03.opt_hear",
+     "label": "Hear them all out, and promise nothing",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "give_text beowulf_32",
+      "morale +0.03",
+      "flag ch_barrow_ague for 6",
+      "flag ch_barrow_3"
+     ],
+     "note": "outcome: chain_barrow.s03.out_hear (the text is Beowulf fitt XXXII, the hoard and the dragon)"
+    }
+   ],
+   "memory": {
+    "church": "gave his word that the bishop would hear of the mound",
+    "back": "gave his word that the mound would be left to its dead",
+    "hear": "heard the men out and promised nothing"
+   }
+  },
+  {
+   "id": "crew.chain_barrow.s04_the_fever",
+   "note": "Step 4 (a crew card, six days or more after the quarrel). The Saxon has the shaking sickness of the marshes, which comes every third day: the spring sickness (lencten adl) of the Old English leechbooks (?); the fens' sickness is in Felix's Guthlac. The men blame the mound. A cut penny given to the water is a heathen offering as the old_gods chain has them; fasting, prayer and the sign of the cross are the church's answer. No option harms: the fever passes on the third day whatever is done, and the men credit what was done. Sets ch_barrow_4 and ch_barrow_rite_old or ch_barrow_rite_new.",
+   "stage": "crew",
+   "when": "under_way and flag.ch_barrow_3 and not flag.ch_barrow_ague and not flag.ch_barrow_4",
+   "rate": 0.1,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "hand": {
+     "role": "crewman",
+     "people": "norse",
+     "faith": "old_gods",
+     "note": "cast.crew.ravn"
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "note": "cast.crew.aldger"
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "english",
+     "faith": "christian",
+     "note": "cast.crew.beornwine"
+    },
+    "mate": {
+     "role": "mate",
+     "people": "saxon",
+     "faith": "christian",
+     "note": "cast.crew.brunger"
+    }
+   },
+   "title_key": "chain_barrow.s04.title",
+   "title": "The third day",
+   "intention_key": "chain_barrow.s04.intention",
+   "intention": "The Saxon cannot hold his oar.",
+   "lines": [
+    {
+     "who": "hand",
+     "key": "chain_barrow.s04.hand_followed",
+     "when": "not flag.ch_barrow_clean"
+    },
+    {
+     "who": "hand",
+     "key": "chain_barrow.s04.hand_still",
+     "when": "flag.ch_barrow_clean"
+    },
+    {
+     "who": "steersman",
+     "key": "chain_barrow.s04.steersman_fast"
+    },
+    {
+     "who": "lookout",
+     "key": "chain_barrow.s04.lookout_marsh"
+    },
+    {
+     "who": "mate",
+     "key": "chain_barrow.s04.mate_row"
+    }
+   ],
+   "options": [
+    {
+     "key": "silver",
+     "label_key": "chain_barrow.s04.opt_silver",
+     "label": "Cut six pennies and give them to the sea, as the Northman asks",
+     "check": "silver >= 6",
+     "cost": "silver 6",
+     "effects": [
+      "morale +0.04",
+      "npc hand feeling +6 offering",
+      "npc steersman feeling -4 offering",
+      "flag ch_barrow_rite_old",
+      "flag ch_barrow_4"
+     ],
+     "note": "outcome: chain_barrow.s04.out_silver"
+    },
+    {
+     "key": "fast",
+     "label_key": "chain_barrow.s04.opt_fast",
+     "label": "Fast a day and let the steersman pray over him",
+     "check": "true",
+     "effects": [
+      "morale +0.03",
+      "npc steersman feeling +6 prayed",
+      "npc hand feeling -2 prayed",
+      "flag ch_barrow_rite_new",
+      "flag ch_barrow_4"
+     ],
+     "note": "outcome: chain_barrow.s04.out_fast"
+    },
+    {
+     "key": "oar",
+     "label_key": "chain_barrow.s04.opt_oar",
+     "label": "Take his oar yourself, and give him warm ale and your dry cloak",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "health +0.05",
+      "npc mate feeling +10 oar",
+      "flag ch_barrow_4"
+     ],
+     "note": "outcome: chain_barrow.s04.out_oar"
+    }
+   ],
+   "memory": {
+    "silver": "gave cut silver to the sea for the dead man",
+    "fast": "fasted and had the steersman pray",
+    "oar": "rowed the sick man's watch himself"
+   }
+  },
+  {
+   "id": "harbour.chain_barrow.s05_the_goldsmith",
+   "note": "Step 5 (drawn at Dorestad once the fever is past). Folcmar the goldsmith (invented) knows old English work when he sees it. Garnet cloisonné over stamped gold foil is the work of the 6th and 7th centuries; it stops when the garnets stop coming, about the middle of the 7th century (the usual account; (?)). Gold to silver at one for twelve is the Carolingian reckoning (the Edict of Pitres, 864, c. 24, fixes it; earlier by custom (?)). The mount, about 18 g of gold, is 160 d: the chain's first turn payout. The riddles are the Exeter Book's on ore or gold (riddles_793.json riddle_exeter_83_ore, Tupper 1910) and Gestumblindi's on the goldsmith's hammer (r-gest-04). Sets ch_barrow_5 and a timer ch_barrow_rest of 45 days; ch_barrow_piece_sold if it is melted; ch_barrow_buyer if he is asked about a whole grave.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_barrow_4 and not flag.ch_barrow_5",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "goldsmith": {
+     "role": "goldsmith",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      50,
+      65
+     ],
+     "fixed": true,
+     "note": "Folcmar (invented: Folc- + -mar), a goldsmith behind the moneyer's house"
+    }
+   },
+   "title_key": "chain_barrow.s05.title",
+   "title": "Old work",
+   "intention_key": "chain_barrow.s05.intention",
+   "intention": "A goldsmith has his bench in a lean-to behind the moneyer's house at Dorestad.",
+   "lines": [
+    {
+     "who": "goldsmith",
+     "key": "chain_barrow.s05.smith_look",
+     "when": "flag.ch_barrow_piece"
+    },
+    {
+     "who": "goldsmith",
+     "key": "chain_barrow.s05.smith_weight",
+     "when": "flag.ch_barrow_piece"
+    },
+    {
+     "who": "goldsmith",
+     "key": "chain_barrow.s05.smith_nothing",
+     "when": "not flag.ch_barrow_piece"
+    },
+    {
+     "who": "goldsmith",
+     "key": "chain_barrow.s05.smith_where"
+    },
+    {
+     "who": "goldsmith",
+     "key": "chain_barrow.s05.smith_more"
+    }
+   ],
+   "options": [
+    {
+     "key": "sell",
+     "label_key": "chain_barrow.s05.opt_sell",
+     "label": "Sell him the gold mount for melting (160 d)",
+     "check": "flag.ch_barrow_piece",
+     "effects": [
+      "silver +160",
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_piece_sold",
+      "npc goldsmith feeling +5 sold",
+      "flag ch_barrow_rest for 45",
+      "flag ch_barrow_5"
+     ],
+     "note": "outcome: chain_barrow.s05.out_sell (turn payout: 160 d)"
+    },
+    {
+     "key": "ask",
+     "label_key": "chain_barrow.s05.opt_ask",
+     "label": "Ask him about the old gold work, and sell nothing",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "give_riddle riddle_exeter_83_ore",
+      "npc goldsmith feeling +4 asked",
+      "flag ch_barrow_rest for 45",
+      "flag ch_barrow_5"
+     ],
+     "note": "outcome: chain_barrow.s05.out_ask"
+    },
+    {
+     "key": "grave",
+     "label_key": "chain_barrow.s05.opt_grave",
+     "label": "Ask what a whole grave of such work would bring",
+     "check": "true",
+     "effects": [
+      "flag ch_barrow_buyer",
+      "give_riddle r-gest-04",
+      "npc goldsmith feeling +3 grave",
+      "flag ch_barrow_rest for 45",
+      "flag ch_barrow_5"
+     ],
+     "note": "outcome: chain_barrow.s05.out_grave"
+    }
+   ],
+   "memory": {
+    "sell": "sold old English gold for melting",
+    "ask": "asked about old gold work and sold nothing",
+    "grave": "asked what a whole grave of gold would bring"
+   }
+  },
+  {
+   "id": "harbour.chain_barrow.s06_the_kin",
+   "note": "Step 6 (drawn at Gipeswic or Dommoc, 45 days or more after the goldsmith). Leofwaru (invented), an old woman of the old kings' kin by the distaff side, says who lies on the hoe. Raedwald, king of the East Angles, was baptised in Kent and at home kept in one temple an altar for Christ and a small one for offerings to devils; King Aldwulf saw that temple as a boy (Bede, Historia ecclesiastica II.15). That the great ship mound is his has been the likeliest reading since 1940 and is still disputed (Wikipedia 'Sutton Hoo'): she says so. The kings' names are Bede's and the Anglian collection's: Wuffa, Tytila, Raedwald, Eorpwald, Anna, Aelfwald (d. 749), after whom the line is lost. Aethelberht was killed at Offa's order in 794; Offa died in July 796; Eadwald struck coin as king of the East Angles from about 796 and Coenwulf of Mercia had the kingdom again by about 798 to 805 (Wikipedia 'Eadwald of East Anglia', read 6 Oct 2026). Her last line is the warning for steps 7 and 8. Sets ch_barrow_6 and a timer ch_barrow_winter of 60 days; ch_barrow_kin_known if she is told.",
+   "stage": "harbour",
+   "when": "moored and (port.id = gipeswic or port.id = dommoc) and flag.ch_barrow_5 and not flag.ch_barrow_rest and not flag.ch_barrow_6",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "widow": {
+     "role": "widow",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "f",
+     "age": [
+      60,
+      75
+     ],
+     "fixed": true,
+     "note": "Leofwaru (invented: Leof- + -waru), of the old kings' kin on the distaff side"
+    }
+   },
+   "title_key": "chain_barrow.s06.title",
+   "title": "The distaff side",
+   "intention_key": "chain_barrow.s06.intention",
+   "intention": "An old woman sells wool by the fleece at the edge of the market.",
+   "lines": [
+    {
+     "who": "widow",
+     "key": "chain_barrow.s06.widow_kin"
+    },
+    {
+     "who": "widow",
+     "key": "chain_barrow.s06.widow_raedwald",
+     "note": "Bede HE II.15"
+    },
+    {
+     "who": "widow",
+     "key": "chain_barrow.s06.widow_young_king",
+     "when": "year < 794"
+    },
+    {
+     "who": "widow",
+     "key": "chain_barrow.s06.widow_offa",
+     "when": "year >= 794 and year < 797"
+    },
+    {
+     "who": "widow",
+     "key": "chain_barrow.s06.widow_masters",
+     "when": "year >= 797"
+    },
+    {
+     "who": "widow",
+     "key": "chain_barrow.s06.widow_watch"
+    }
+   ],
+   "options": [
+    {
+     "key": "tell",
+     "label_key": "chain_barrow.s06.opt_tell",
+     "label": "Tell her what you saw on the hoe, all of it",
+     "check": "true",
+     "effects": [
+      "npc widow feeling +10 told",
+      "flag ch_barrow_kin_known",
+      "flag ch_barrow_winter for 60",
+      "flag ch_barrow_6"
+     ],
+     "note": "outcome: chain_barrow.s06.out_tell"
+    },
+    {
+     "key": "kings",
+     "label_key": "chain_barrow.s06.opt_kings",
+     "label": "Ask her to say the kings, and say nothing yourself",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "npc widow feeling +5 listened",
+      "flag ch_barrow_winter for 60",
+      "flag ch_barrow_6"
+     ],
+     "note": "outcome: chain_barrow.s06.out_kings"
+    },
+    {
+     "key": "whose",
+     "label_key": "chain_barrow.s06.opt_whose",
+     "label": "Ask her whose the gold in such a hill is now",
+     "check": "true",
+     "effects": [
+      "npc widow feeling +2 asked",
+      "flag ch_barrow_winter for 60",
+      "flag ch_barrow_6"
+     ],
+     "note": "outcome: chain_barrow.s06.out_whose"
+    }
+   ],
+   "memory": {
+    "tell": "told her what he saw on the hoe",
+    "kings": "asked her to say the old kings",
+    "whose": "asked her whose the gold is"
+   }
+  },
+  {
+   "id": "harbour.chain_barrow.s07_the_reeve",
+   "note": "Step 7 (drawn at Gipeswic in the sailing months, 60 days or more after step 6). The reeve has hanged a potter's lad, Dudda (invented; Gipeswic is the town of the Ipswich-ware potters), who dug in the broken mound by daylight; the gallows on the hoe is the one of step 1. That treasure found in the earth is the king's is written down only in the 12th century (Leges Henrici Primi 10.1, 'thesaurus inventus' among the king's rights); a finder's share by custom is ours (?). The kings by year are as in step 6. To deny is a chance: if it fails the house pays 40 d and the hoe is watched (ch_barrow_watched). Sets ch_barrow_7; ch_barrow_reeve_knows if he is told; ch_barrow_church_named if the bishop is named.",
+   "stage": "harbour",
+   "when": "moored and port.id = gipeswic and flag.ch_barrow_6 and not flag.ch_barrow_winter and not flag.ch_barrow_7 and month >= 3 and month <= 10",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": {
+     "role": "reeve",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "the king's reeve at Gipeswic, unnamed"
+    }
+   },
+   "title_key": "chain_barrow.s07.title",
+   "title": "The reeve asks after boats",
+   "intention_key": "chain_barrow.s07.intention",
+   "intention": "The reeve of Gipeswic is on the strand himself when you come in, which he is not for most boats.",
+   "lines": [
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s07.reeve_dudda"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s07.reeve_king_793",
+     "when": "year < 794"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s07.reeve_king_offa",
+     "when": "year >= 794 and year < 797"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s07.reeve_king_eadwald",
+     "when": "year >= 797 and year < 799",
+     "note": "Eadwald is known only from his coins (?)"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s07.reeve_king_coenwulf",
+     "when": "year >= 799"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s07.reeve_seen",
+     "when": "flag.ch_barrow_seen"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s07.reeve_not_seen",
+     "when": "not flag.ch_barrow_seen"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s07.reeve_finder"
+    }
+   ],
+   "options": [
+    {
+     "key": "tell",
+     "label_key": "chain_barrow.s07.opt_tell",
+     "label": "Tell him all of it, as it happened",
+     "check": "true",
+     "effects": [
+      "deed fair_dealing",
+      "npc reeve feeling +10 told",
+      "toll eased 60",
+      "flag ch_barrow_reeve_knows",
+      "flag ch_barrow_7"
+     ],
+     "note": "outcome: chain_barrow.s07.out_tell"
+    },
+    {
+     "key": "deny",
+     "label_key": "chain_barrow.s07.opt_deny",
+     "label": "Say you bought duck from a fowler and sailed for home",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.trade_best",
+       "success": [
+        "flag ch_barrow_7"
+       ],
+       "failure": [
+        "silver -40",
+        "npc reeve feeling -15 lied",
+        "flag ch_barrow_watched",
+        "flag ch_barrow_7"
+       ]
+      }
+     ],
+     "note": "outcome: chain_barrow.s07.out_deny_success, chain_barrow.s07.out_deny_failure (likely; a failure costs 40 d and sets a watch on the hoe)"
+    },
+    {
+     "key": "bishop",
+     "label_key": "chain_barrow.s07.opt_bishop",
+     "label": "Say it is a matter for the bishop, and that you are on your way to him",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "npc reeve feeling -4 bishop",
+      "flag ch_barrow_church_named",
+      "flag ch_barrow_7"
+     ],
+     "note": "outcome: chain_barrow.s07.out_bishop"
+    }
+   ],
+   "memory": {
+    "tell": "told the reeve all he saw on the hoe",
+    "deny": "said he only bought duck",
+    "deny.failure": "lied about the hoe and was caught in it",
+    "bishop": "put the matter in the bishop's hand"
+   }
+  },
+  {
+   "id": "sea.chain_barrow.s08_the_great_mound",
+   "note": "Step 8 (a sea card, drawn soon after she sails from Gipeswic once the reeve has asked). The second landing, at night. The great mound at the river end is Sutton Hoo Mound 1: a ship 27 m long with a chamber amidships, and in it the helm, the sword with gold and garnet at the hilt, the great gold buckle, a purse of thirty-seven small gold coins, silver dishes with the stamps of the emperor Anastasius, and more (Wikipedia 'Sutton Hoo'). It lay whole until 1939. To open it is the chain's change of history: a success sets ch_barrow_great and changed_sutton_hoo_opened. A failure leaves a pit that missed the chamber, as the robbers' pit of the 16th century really did, and the small mound's leavings aboard (ch_barrow_hoard). The small mound's goods (a blue glass cup, buckles, gold from a sword, a pouch lid) are as what robbers left in Mound 2 and what lay in Mound 17 (Wikipedia 'Sutton Hoo'). Laying turf back sets ch_barrow_closed. Sets ch_barrow_8.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_barrow_7 and not flag.ch_barrow_8",
+   "rate": 0.3,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "hand": {
+     "role": "crewman",
+     "people": "norse",
+     "faith": "old_gods",
+     "note": "cast.crew.ravn"
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "english",
+     "faith": "christian",
+     "note": "cast.crew.beornwine"
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "note": "cast.crew.aldger"
+    },
+    "mate": {
+     "role": "mate",
+     "people": "saxon",
+     "faith": "christian",
+     "note": "cast.crew.brunger"
+    }
+   },
+   "title_key": "chain_barrow.s08.title",
+   "title": "The long hill",
+   "intention_key": "chain_barrow.s08.intention",
+   "intention": "The Deben again, on the night flood.",
+   "lines": [
+    {
+     "who": "hand",
+     "key": "chain_barrow.s08.hand_shape"
+    },
+    {
+     "who": "lookout",
+     "key": "chain_barrow.s08.lookout_king",
+     "when": "flag.ch_barrow_6"
+    },
+    {
+     "who": "steersman",
+     "key": "chain_barrow.s08.steersman_spoiled"
+    },
+    {
+     "who": "mate",
+     "key": "chain_barrow.s08.mate_turf"
+    },
+    {
+     "who": "lookout",
+     "key": "chain_barrow.s08.lookout_horn",
+     "when": "flag.ch_barrow_watched"
+    },
+    {
+     "who": "hand",
+     "key": "chain_barrow.s08.hand_word",
+     "when": "flag.ch_barrow_vow_back"
+    }
+   ],
+   "options": [
+    {
+     "key": "great",
+     "label_key": "chain_barrow.s08.opt_great",
+     "label": "Open the great mound from the top: two nights and the day between",
+     "check": "crew >= 3",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.eyes_best",
+       "success": [
+        "flag ch_barrow_great",
+        "flag changed_sutton_hoo_opened",
+        "npc hand feeling -15 great",
+        "morale -0.03",
+        "flag ch_barrow_8"
+       ],
+       "failure": [
+        "flag ch_barrow_hoard",
+        "goods glass_vessels +1",
+        "flag ch_barrow_seen",
+        "npc hand feeling -10 great",
+        "morale -0.05",
+        "flag ch_barrow_8"
+       ]
+      }
+     ],
+     "note": "outcome: chain_barrow.s08.out_great_success, chain_barrow.s08.out_great_failure (likely; success is history changed; failure leaves a pit that missed, and the small mound's goods aboard)"
+    },
+    {
+     "key": "small",
+     "label_key": "chain_barrow.s08.opt_small",
+     "label": "Clear what the potter left in the small mound, and go",
+     "check": "true",
+     "effects": [
+      "flag ch_barrow_hoard",
+      "goods glass_vessels +1",
+      "npc hand feeling -8 small",
+      "flag ch_barrow_8"
+     ],
+     "note": "outcome: chain_barrow.s08.out_small (turn payout: the blue glass cup is cargo (72 d); the rest is the hoard, paid at the ending)"
+    },
+    {
+     "key": "close",
+     "label_key": "chain_barrow.s08.opt_close",
+     "label": "Lay back what you took, and turf the break over",
+     "check": "true",
+     "effects": [
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_closed",
+      "npc hand feeling +12 closed",
+      "npc mate feeling +6 closed",
+      "morale +0.05",
+      "flag ch_barrow_8"
+     ],
+     "note": "outcome: chain_barrow.s08.out_close"
+    },
+    {
+     "key": "look",
+     "label_key": "chain_barrow.s08.opt_look",
+     "label": "Look from the river, and go out on the ebb",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_barrow_8"
+     ],
+     "note": "outcome: chain_barrow.s08.out_look"
+    }
+   ],
+   "memory": {
+    "great": "opened the great mound on the hoe",
+    "great.failure": "dug into the great mound and missed",
+    "small": "cleared the broken mound",
+    "close": "turfed the broken mound over",
+    "look": "looked at the hoe from the river and went"
+   }
+  },
+  {
+   "id": "crew.chain_barrow.s09_the_reckoning",
+   "note": "Step 9 (a crew card, drawn at sea after the second landing): where it goes. Each road schedules its own ending: back into the earth and word to the kin (30 days, Gipeswic), the bishop (20 days, Dommoc), the king's reeve (30 days, Gipeswic), or the goldsmith's crucible (25 days, Dorestad). A man who opened the great mound cannot put it back past a watch (the first choice is closed to him); a man with only the one piece or nothing has nothing a goldsmith would open his door for (the last is closed to him). The lines about a word given are the vows of step 3. Sets ch_barrow_9 and one of ch_barrow_to_earth, ch_barrow_to_church, ch_barrow_to_king, ch_barrow_to_sale.",
+   "stage": "crew",
+   "when": "under_way and flag.ch_barrow_8 and not flag.ch_barrow_9",
+   "rate": 0.2,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "note": "cast.crew.aldger"
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "norse",
+     "faith": "old_gods",
+     "note": "cast.crew.ravn"
+    },
+    "mate": {
+     "role": "mate",
+     "people": "saxon",
+     "faith": "christian",
+     "note": "cast.crew.brunger"
+    },
+    "lookout": {
+     "role": "lookout",
+     "people": "english",
+     "faith": "christian",
+     "note": "cast.crew.beornwine"
+    }
+   },
+   "title_key": "chain_barrow.s09.title",
+   "title": "The last voice",
+   "intention_key": "chain_barrow.s09.intention",
+   "intention": "With the land going down astern the steersman ships his oar.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "chain_barrow.s09.steersman_bishop"
+    },
+    {
+     "who": "hand",
+     "key": "chain_barrow.s09.hand_earth"
+    },
+    {
+     "who": "mate",
+     "key": "chain_barrow.s09.mate_kings"
+    },
+    {
+     "who": "lookout",
+     "key": "chain_barrow.s09.lookout_share"
+    },
+    {
+     "who": "lookout",
+     "key": "chain_barrow.s09.lookout_buyer",
+     "when": "flag.ch_barrow_buyer"
+    },
+    {
+     "who": "steersman",
+     "key": "chain_barrow.s09.steersman_word",
+     "when": "flag.ch_barrow_vow_church"
+    },
+    {
+     "who": "hand",
+     "key": "chain_barrow.s09.hand_word",
+     "when": "flag.ch_barrow_vow_back"
+    },
+    {
+     "who": "hand",
+     "key": "chain_barrow.s09.hand_too_late",
+     "when": "flag.ch_barrow_great"
+    }
+   ],
+   "options": [
+    {
+     "key": "earth",
+     "label_key": "chain_barrow.s09.opt_earth",
+     "label": "Back into the earth, and word of it to the old kings' kin",
+     "check": "not flag.ch_barrow_great",
+     "effects": [
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_hoard = 0",
+      "flag ch_barrow_to_earth",
+      "npc hand feeling +12 earth",
+      "npc mate feeling +6 earth",
+      "morale +0.04",
+      "schedule harbour.chain_barrow.s10_end_earth in 30 at gipeswic",
+      "flag ch_barrow_9"
+     ],
+     "note": "outcome: chain_barrow.s09.out_earth"
+    },
+    {
+     "key": "church",
+     "label_key": "chain_barrow.s09.opt_church",
+     "label": "To the bishop at Dommoc",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "flag ch_barrow_to_church",
+      "npc steersman feeling +10 church",
+      "npc hand feeling -4 church",
+      "schedule harbour.chain_barrow.s11_end_church in 20 at dommoc",
+      "flag ch_barrow_9"
+     ],
+     "note": "outcome: chain_barrow.s09.out_church"
+    },
+    {
+     "key": "king",
+     "label_key": "chain_barrow.s09.opt_king",
+     "label": "To the king's reeve at Gipeswic, for the finder's share",
+     "check": "true",
+     "effects": [
+      "flag ch_barrow_to_king",
+      "npc mate feeling -8 king",
+      "npc hand feeling -6 king",
+      "schedule harbour.chain_barrow.s12_end_king in 30 at gipeswic",
+      "flag ch_barrow_9"
+     ],
+     "note": "outcome: chain_barrow.s09.out_king"
+    },
+    {
+     "key": "sale",
+     "label_key": "chain_barrow.s09.opt_sale",
+     "label": "To the goldsmith at Dorestad, after dark",
+     "check": "flag.ch_barrow_hoard or flag.ch_barrow_great",
+     "effects": [
+      "flag ch_barrow_to_sale",
+      "npc hand feeling -20 sale",
+      "npc steersman feeling -8 sale",
+      "morale -0.05",
+      "schedule harbour.chain_barrow.s13_end_sold in 25 at dorestad",
+      "flag ch_barrow_9"
+     ],
+     "note": "outcome: chain_barrow.s09.out_sale"
+    }
+   ],
+   "memory": {
+    "earth": "chose to put the gold back in the earth",
+    "church": "chose to take the matter to the bishop",
+    "king": "chose to take the matter to the king's reeve",
+    "sale": "chose to sell the dead man's gold"
+   }
+  },
+  {
+   "id": "harbour.chain_barrow.s10_end_earth",
+   "note": "ENDING 'earth' (scheduled 30 days after step 9, at Gipeswic): what really happened, and the hard road. The great ship mound lay whole until 1939, and the gold of it stayed in the ground for thirteen hundred years. The old kings' kin pay in what such a family has: a toft on the Orwell bank (Gipeswic's plots ran down to the river; wells lined with old wine casks are found there: dossiers/gipeswic.md), wool rents in the coin of three kings, a ring of her own. Handing over land with a turf from it before witnesses is the later custom, set back here (?). The fowler's gift is the knowledge of the Deben bar. Sets ch_barrow_end_earth and two grand rewards: unlock_pilot_deben with unlock_plot_gipeswic or unlock_heirloom_wuffing_ring.",
+   "stage": "harbour",
+   "when": "moored and port.id = gipeswic and flag.ch_barrow_to_earth and not flag.ch_barrow_end_earth",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "widow": {
+     "role": "widow",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "f",
+     "age": [
+      60,
+      75
+     ],
+     "fixed": true,
+     "note": "Leofwaru (invented: Leof- + -waru), of the old kings' kin on the distaff side"
+    },
+    "fowler": {
+     "role": "fowler",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "Saewine (invented: Sae- + -wine), a fowler of the Deben"
+    }
+   },
+   "title_key": "chain_barrow.s10.title",
+   "title": "Green side up",
+   "intention_key": "chain_barrow.s10.intention",
+   "intention": "Leofwaru is at the edge of the market with her fleeces, and the fowler is with her.",
+   "lines": [
+    {
+     "who": "widow",
+     "key": "chain_barrow.s10.widow_shut"
+    },
+    {
+     "who": "widow",
+     "key": "chain_barrow.s10.widow_choose"
+    },
+    {
+     "who": "fowler",
+     "key": "chain_barrow.s10.fowler_bar"
+    },
+    {
+     "who": "widow",
+     "key": "chain_barrow.s10.widow_not_this_year",
+     "when": "year >= 794"
+    },
+    {
+     "key": "chain_barrow.s10.chronicle"
+    }
+   ],
+   "options": [
+    {
+     "key": "toft",
+     "label_key": "chain_barrow.s10.opt_toft",
+     "label": "Take the toft by the quay",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "silver +600",
+      "npc widow feeling +20 toft",
+      "npc fowler feeling +10 bar",
+      "flag unlock_plot_gipeswic",
+      "flag unlock_pilot_deben",
+      "flag ch_barrow_end_earth"
+     ],
+     "note": "outcome: chain_barrow.s10.out_toft (finale, hard road: 600 d, unlock_plot_gipeswic and unlock_pilot_deben)"
+    },
+    {
+     "key": "ring",
+     "label_key": "chain_barrow.s10.opt_ring",
+     "label": "Take the ring",
+     "check": "true",
+     "effects": [
+      "silver +900",
+      "npc widow feeling +20 ring",
+      "npc fowler feeling +10 bar",
+      "flag unlock_heirloom_wuffing_ring",
+      "flag unlock_pilot_deben",
+      "flag ch_barrow_end_earth"
+     ],
+     "note": "outcome: chain_barrow.s10.out_ring (finale, hard road: 900 d, unlock_heirloom_wuffing_ring and unlock_pilot_deben)"
+    }
+   ],
+   "memory": {
+    "toft": "took the toft at Gipeswic from the old kings' kin",
+    "ring": "took a ring of the old kings' kin, freely given"
+   }
+  },
+  {
+   "id": "harbour.chain_barrow.s11_end_church",
+   "note": "ENDING 'church' (scheduled 20 days after step 9, at Dommoc, the East Angles' bishop's seat since Felix, c. 630). The bishop's first line is Pope Gregory's letter to Mellitus of 601: the temples of the English are not to be pulled down, but the idols cast out, holy water sprinkled and altars set up (Bede, Historia ecclesiastica I.30); it is retold, not quoted. Raedwald's baptism in Kent: Bede II.15. Botolph began his minster at Icanho (Iken on the Alde) in 654 (Anglo-Saxon Chronicle 654); a cloth laid on a saint's tomb is the commonest relic of the age. The bishop's letter for the boat is modelled on the churches' own toll-free ships (the charters of King Aethelbald for London, 730s and 740s (?)). The cross on the hoe is ours; the gallows there in fact went on into the 11th century, so with it the place's history is changed a little. With the great mound's goods the king's gear becomes church plate (changed_sutton_hoo_opened was set in step 8). Sets ch_barrow_end_church; grand rewards unlock_title_st_felix_man, and with a hoard unlock_relic_st_botolph_cloth, and with the great hoard unlock_work_gipeswic_hoe_cross.",
+   "stage": "harbour",
+   "when": "moored and port.id = dommoc and flag.ch_barrow_to_church and not flag.ch_barrow_end_church",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": {
+     "role": "bishop",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      50,
+      75
+     ],
+     "fixed": true,
+     "note": "the bishop of the East Angles at Dommoc: Aelfhun to 798 (Anglo-Saxon Chronicle 798), then Tidfrith (?); the card does not name him"
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "note": "cast.crew.aldger"
+    }
+   },
+   "title_key": "chain_barrow.s11.title",
+   "title": "A cup for the altar",
+   "intention_key": "chain_barrow.s11.intention",
+   "intention": "The bishop of the East Angles receives you in the porch of his church at Dommoc, with the sea loud behind it.",
+   "lines": [
+    {
+     "who": "bishop",
+     "key": "chain_barrow.s11.bishop_gregory",
+     "note": "Bede HE I.30, retold"
+    },
+    {
+     "who": "bishop",
+     "key": "chain_barrow.s11.bishop_gold"
+    },
+    {
+     "who": "bishop",
+     "key": "chain_barrow.s11.bishop_raedwald"
+    },
+    {
+     "who": "bishop",
+     "key": "chain_barrow.s11.bishop_cross"
+    },
+    {
+     "who": "bishop",
+     "key": "chain_barrow.s11.bishop_helm",
+     "when": "flag.ch_barrow_great"
+    },
+    {
+     "key": "chain_barrow.s11.chronicle"
+    }
+   ],
+   "options": [
+    {
+     "key": "freight",
+     "label_key": "chain_barrow.s11.opt_freight",
+     "label": "Take the church's freight, and the bishop's hand over the boat",
+     "check": "not flag.ch_barrow_hoard and not flag.ch_barrow_great",
+     "effects": [
+      "silver +650",
+      "commission frankish_wine 4 by 180 premium 0.5",
+      "toll eased 365",
+      "deed gave_alms",
+      "npc bishop feeling +20 gave",
+      "npc steersman feeling +8 church",
+      "flag ch_barrow_piece = 0",
+      "flag unlock_title_st_felix_man",
+      "flag ch_barrow_end_church"
+     ],
+     "note": "outcome: chain_barrow.s11.out_freight (finale: 650 d of freight paid ahead, a wine commission, a year's eased toll, and unlock_title_st_felix_man)"
+    },
+    {
+     "key": "sack",
+     "label_key": "chain_barrow.s11.opt_sack",
+     "label": "Give him the sack, and take his freight and a relic for the mast",
+     "check": "flag.ch_barrow_hoard and not flag.ch_barrow_great",
+     "effects": [
+      "silver +1000",
+      "commission frankish_wine 4 by 180 premium 0.5",
+      "toll eased 365",
+      "deed gave_alms",
+      "npc bishop feeling +25 gave",
+      "npc steersman feeling +8 church",
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_hoard = 0",
+      "flag unlock_title_st_felix_man",
+      "flag unlock_relic_st_botolph_cloth",
+      "flag ch_barrow_end_church"
+     ],
+     "note": "outcome: chain_barrow.s11.out_sack (finale: 1,000 d, a wine commission, unlock_title_st_felix_man and unlock_relic_st_botolph_cloth)"
+    },
+    {
+     "key": "gear",
+     "label_key": "chain_barrow.s11.opt_gear",
+     "label": "Give him the king's gear, and take his freight, a relic, and the cross in your name",
+     "check": "flag.ch_barrow_great",
+     "effects": [
+      "silver +1500",
+      "commission frankish_wine 4 by 180 premium 0.5",
+      "toll eased 365",
+      "deed gave_alms",
+      "npc bishop feeling +30 gave",
+      "npc steersman feeling +8 church",
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_great = 0",
+      "flag unlock_title_st_felix_man",
+      "flag unlock_relic_st_botolph_cloth",
+      "flag unlock_work_gipeswic_hoe_cross",
+      "flag ch_barrow_end_church"
+     ],
+     "note": "outcome: chain_barrow.s11.out_gear (finale: 1,500 d, a wine commission, unlock_title_st_felix_man, unlock_relic_st_botolph_cloth and unlock_work_gipeswic_hoe_cross; history changed)"
+    }
+   ],
+   "memory": {
+    "freight": "brought word of the mound to the bishop",
+    "sack": "gave the mound's gold to the bishop",
+    "gear": "gave a king's grave goods to the bishop"
+   }
+  },
+  {
+   "id": "harbour.chain_barrow.s12_end_king",
+   "note": "ENDING 'king' (scheduled 30 days after step 9, at Gipeswic). The reeve pays the finder before the town. A third to the finder is ours (?). The king's leaf is modelled on King Aethelbald's remissions of the toll on one ship at the port of London to Rochester, Minster-in-Thanet and the bishop of London (Sawyer 86, 87, 88, 91, 98, 1788; 730s and 740s; from memory (?)): Latin on parchment, with the king's cross and his witnesses' crosses, and no seal. Such a grant to a foreign layman is the game's. The king by year is as in step 6: before 794 the gold stays with the East Angles' own king, and the year after he is dead and it is Offa's; from 794 it goes to Mercia. With the great mound's goods a king's regalia is broken up among another king's men (changed_sutton_hoo_opened). The lasting cost is the old kin's enmity (ch_barrow_kin_enmity). Sets ch_barrow_end_king; grand reward unlock_charter_gipeswic, and with the great hoard unlock_title_kings_merchant_gipeswic.",
+   "stage": "harbour",
+   "when": "moored and port.id = gipeswic and flag.ch_barrow_to_king and not flag.ch_barrow_end_king",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": {
+     "role": "reeve",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "the king's reeve at Gipeswic, unnamed"
+    }
+   },
+   "title_key": "chain_barrow.s12.title",
+   "title": "The finder's third",
+   "intention_key": "chain_barrow.s12.intention",
+   "intention": "The reeve has the king's word, and two of the king's thegns to see it done.",
+   "lines": [
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s12.reeve_dug",
+     "when": "not flag.ch_barrow_hoard and not flag.ch_barrow_great"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s12.reeve_sack",
+     "when": "flag.ch_barrow_hoard and not flag.ch_barrow_great"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s12.reeve_helm",
+     "when": "flag.ch_barrow_great"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s12.reeve_word"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s12.reeve_young_king",
+     "when": "year < 794"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s12.reeve_tamworth",
+     "when": "year >= 794 and year < 797"
+    },
+    {
+     "who": "reeve",
+     "key": "chain_barrow.s12.reeve_west",
+     "when": "year >= 797"
+    },
+    {
+     "key": "chain_barrow.s12.old_woman"
+    },
+    {
+     "key": "chain_barrow.s12.chronicle"
+    }
+   ],
+   "options": [
+    {
+     "key": "share",
+     "label_key": "chain_barrow.s12.opt_share",
+     "label": "Take the finder's share and the king's leaf",
+     "check": "not flag.ch_barrow_hoard and not flag.ch_barrow_great",
+     "effects": [
+      "silver +700",
+      "npc reeve feeling +15 finder",
+      "flag ch_barrow_piece = 0",
+      "flag unlock_charter_gipeswic",
+      "flag ch_barrow_kin_enmity",
+      "flag ch_barrow_end_king"
+     ],
+     "note": "outcome: chain_barrow.s12.out_share (finale: 700 d and unlock_charter_gipeswic; the lasting cost ch_barrow_kin_enmity)"
+    },
+    {
+     "key": "sack",
+     "label_key": "chain_barrow.s12.opt_sack",
+     "label": "Hand over the sack for the finder's share and the king's leaf",
+     "check": "flag.ch_barrow_hoard and not flag.ch_barrow_great",
+     "effects": [
+      "silver +1100",
+      "npc reeve feeling +15 finder",
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_hoard = 0",
+      "flag unlock_charter_gipeswic",
+      "flag ch_barrow_kin_enmity",
+      "flag ch_barrow_end_king"
+     ],
+     "note": "outcome: chain_barrow.s12.out_sack (finale: 1,100 d and unlock_charter_gipeswic; the lasting cost ch_barrow_kin_enmity)"
+    },
+    {
+     "key": "gear",
+     "label_key": "chain_barrow.s12.opt_gear",
+     "label": "Hand over the king's gear for the finder's share, the leaf, and a seat among the king's merchants",
+     "check": "flag.ch_barrow_great",
+     "effects": [
+      "silver +2000",
+      "npc reeve feeling +20 finder",
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_great = 0",
+      "flag unlock_charter_gipeswic",
+      "flag unlock_title_kings_merchant_gipeswic",
+      "flag ch_barrow_kin_enmity",
+      "flag ch_barrow_end_king"
+     ],
+     "note": "outcome: chain_barrow.s12.out_gear (finale: 2,000 d, unlock_charter_gipeswic and unlock_title_kings_merchant_gipeswic; history changed; the lasting cost ch_barrow_kin_enmity)"
+    }
+   ],
+   "memory": {
+    "share": "took the finder's share for telling of the mound",
+    "sack": "gave the mound's gold to the king for a share",
+    "gear": "gave a king's grave goods to another king"
+   }
+  },
+  {
+   "id": "harbour.chain_barrow.s13_end_sold",
+   "note": "ENDING 'sold' (scheduled 25 days after step 9, at Dorestad). The crucible. Gold for silver at one to twelve, less the goldsmith's fire and silence. With the small mound's goods this is only what happened to most of the hoe's mounds, by hands nobody recorded. With the great mound's it is the chain's largest change of history: the helm, the buckle and the Greek silver of Sutton Hoo Mound 1 are melted at Dorestad or scattered, and the men of 1939 find an empty ship (changed_sutton_hoo_opened, set in step 8). The dishes' stamps are the emperor Anastasius's (491-518). The helm is iron with tinned bronze, silver wire and garnets (Wikipedia 'Sutton Hoo helmet', from memory (?)). The lasting costs: a mound-breaker's name (ch_barrow_mound_breaker), and with the great hoard the Northman leaves the boat (ch_barrow_ravn_gone: for the spine to act on). Sets ch_barrow_end_sold; grand reward unlock_heirloom_garnet_pommel, unlock_heirloom_old_kings_helm, or unlock_ship_north_sea_merchant_ship (a place on the slip, not the hull).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_barrow_to_sale and not flag.ch_barrow_end_sold",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "goldsmith": {
+     "role": "goldsmith",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      50,
+      65
+     ],
+     "fixed": true,
+     "note": "Folcmar (invented: Folc- + -mar), a goldsmith behind the moneyer's house"
+    },
+    "hand": {
+     "role": "crewman",
+     "people": "norse",
+     "faith": "old_gods",
+     "note": "cast.crew.ravn"
+    },
+    "steersman": {
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "note": "cast.crew.aldger"
+    }
+   },
+   "title_key": "chain_barrow.s13.title",
+   "title": "After dark, by the back",
+   "intention_key": "chain_barrow.s13.intention",
+   "intention": "After dark, by the back, without the Northman.",
+   "lines": [
+    {
+     "who": "goldsmith",
+     "key": "chain_barrow.s13.smith_martinmas"
+    },
+    {
+     "who": "goldsmith",
+     "key": "chain_barrow.s13.smith_silence"
+    },
+    {
+     "who": "goldsmith",
+     "key": "chain_barrow.s13.smith_pommel",
+     "when": "flag.ch_barrow_hoard and not flag.ch_barrow_great"
+    },
+    {
+     "who": "goldsmith",
+     "key": "chain_barrow.s13.smith_helm",
+     "when": "flag.ch_barrow_great"
+    },
+    {
+     "key": "chain_barrow.s13.the_boat"
+    }
+   ],
+   "options": [
+    {
+     "key": "pommel",
+     "label_key": "chain_barrow.s13.opt_pommel",
+     "label": "Sell it, and keep the sword's gold pommel",
+     "check": "flag.ch_barrow_hoard and not flag.ch_barrow_great",
+     "effects": [
+      "silver +1300",
+      "npc goldsmith feeling +10 sold",
+      "npc hand feeling -30 sold",
+      "npc steersman feeling -6 sold",
+      "morale -0.08",
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_mound_breaker",
+      "flag ch_barrow_hoard = 0",
+      "flag unlock_heirloom_garnet_pommel",
+      "flag ch_barrow_end_sold"
+     ],
+     "note": "outcome: chain_barrow.s13.out_pommel (finale: 1,300 d and unlock_heirloom_garnet_pommel; the lasting cost ch_barrow_mound_breaker)"
+    },
+    {
+     "key": "helm",
+     "label_key": "chain_barrow.s13.opt_helm",
+     "label": "Sell the gold and the silver, and keep the helm",
+     "check": "flag.ch_barrow_great",
+     "effects": [
+      "silver +2200",
+      "npc goldsmith feeling +10 sold",
+      "npc hand feeling -30 sold",
+      "npc steersman feeling -6 sold",
+      "morale -0.08",
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_mound_breaker",
+      "flag ch_barrow_great = 0",
+      "flag ch_barrow_ravn_gone",
+      "flag unlock_heirloom_old_kings_helm",
+      "flag ch_barrow_end_sold"
+     ],
+     "note": "outcome: chain_barrow.s13.out_helm (finale: 2,200 d and unlock_heirloom_old_kings_helm; history changed; the lasting costs ch_barrow_mound_breaker and ch_barrow_ravn_gone)"
+    },
+    {
+     "key": "all",
+     "label_key": "chain_barrow.s13.opt_all",
+     "label": "Sell it all, the helm too, and have him speak for you at the shipwright's",
+     "check": "flag.ch_barrow_great",
+     "effects": [
+      "silver +2500",
+      "npc goldsmith feeling +10 sold",
+      "npc hand feeling -30 sold",
+      "npc steersman feeling -6 sold",
+      "morale -0.08",
+      "flag ch_barrow_piece = 0",
+      "flag ch_barrow_mound_breaker",
+      "flag ch_barrow_great = 0",
+      "flag ch_barrow_ravn_gone",
+      "flag unlock_ship_north_sea_merchant_ship",
+      "flag ch_barrow_end_sold"
+     ],
+     "note": "outcome: chain_barrow.s13.out_all (finale: 2,500 d and unlock_ship_north_sea_merchant_ship (the place on the slip); history changed; the lasting costs ch_barrow_mound_breaker and ch_barrow_ravn_gone)"
+    }
+   ],
+   "memory": {
+    "pommel": "sold a dead man's gold for melting",
+    "helm": "sold a king's grave goods and kept the helm",
+    "all": "sold a king's grave goods, helm and all"
+   }
+  }
+ ]
+}

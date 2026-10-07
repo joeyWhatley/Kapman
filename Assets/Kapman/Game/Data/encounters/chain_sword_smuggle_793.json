@@ -1,0 +1,609 @@
+{
+ "about": "CHAIN sword_smuggle (Design/content/chains/sword_smuggle.md): Frankish swords going north against the king's bans, 795 to about 812. Thirteen cards. The spine's thread swords_north. A smith of Colonia (Reginbald, invented) has blades the count never counted; the count's man searches the boat at Dorestad; the crew have their say at sea; a dealer on the Slie (the spine's cast.asulf) buys for weighed silver or for captives; a second, bigger cargo goes north in a wine cask past the watch boat at the river mouth; a lord of the Danes asks for the smith himself; and then, on a Frisian landing, a blade with the smith's mark comes back in a dead man. Four endings: the runner (what really happened: the blades went north all the same), the king's finder (the hard road, with the finder's share of Thionville 805), the smith carried north (history changed: flag changed_frankish_smith_north), and the blade laid down at Saint Martin's. Progress is flags ch_sword_smuggle_1 to _9; the spine's flags sw_ran_blades, sw_marked and sw_buyer_known are set where their meaning is met. Scheduled cards have weight 0 and are reached only by 'schedule' (their 'when' says when they belong; the scheduler does not read it). The words are in Data/writing/chain_sword_smuggle.json; each option's note names the writing key of its outcome text (the engine shows the effects' own facts; the outcome keys are for the integrator). Law: capitularies of Herstal 779, of 803, of Thionville 805 and of Boulogne 811, as in chronicle_793.json. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_sword_smuggle.s01_smiths_street",
+   "note": "Step 1, the start (drawn at Colonia from 795 once the house has 120 d aboard). Reginbald the smith (invented: Regin- + -bald) has four blades the count's man never counted. Sources: Herstal 779 c. 20, no byrnie sold out of the realm (MGH Capit. I no. 20); the missi's capitulary of 803, no arm-rings or byrnies to merchants (chronicle_793.json 803-arms-to-merchants-803); Thionville 805 c. 7 (805-12-thionville-border-posts); swords made in the Rhineland and wanted in the north (goods_793.json swords; dossiers/colonia.md). The mark of a hammer in a ring is ours; inlaid marks on blades of the time are known (?). The name in the iron is the +VLFBERH+T inlay, from about 800 (Wikipedia 'Ulfberht swords'); who he was and where he worked is not known (?). Sets ch_sword_smuggle_1 and one of ch_sword_smuggle_carrying, ch_sword_smuggle_clean.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and year >= 795 and year < 808 and silver >= 120 and not flag.ch_sword_smuggle_1",
+   "weight": 0.8,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "smith": { "role": "smith", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [45, 55], "fixed": true, "note": "Reginbald, invented" },
+    "buyer": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [25, 45], "fixed": false, "note": "the count's man, buying blades for his lord's following" }
+   },
+   "title_key": "chain_sword_smuggle.s01.title",
+   "title": "The smiths' street",
+   "intention_key": "chain_sword_smuggle.s01.intention",
+   "intention": "On the smiths' street at Colonia a count's man counts blades into a cart. When he has gone the smith shows you four he did not count.",
+   "lines": [
+    { "who": "buyer", "key": "chain_sword_smuggle.s01.buyer_law_mail", "when": "year < 805", "note": "Herstal 779 c. 20; the missi's capitulary of 803" },
+    { "who": "buyer", "key": "chain_sword_smuggle.s01.buyer_law_805", "when": "year >= 805", "note": "Thionville 805 c. 7" },
+    { "who": "smith", "key": "chain_sword_smuggle.s01.smith_frisian" },
+    { "who": "smith", "key": "chain_sword_smuggle.s01.smith_offer" },
+    { "who": "smith", "key": "chain_sword_smuggle.s01.smith_mark" },
+    { "who": "smith", "key": "chain_sword_smuggle.s01.smith_name_in_iron", "when": "year >= 800", "note": "the +VLFBERH+T inlay (?)" }
+   ],
+   "options": [
+    { "key": "buy", "label_key": "chain_sword_smuggle.s01.opt_buy", "label": "Buy the four blades (180 d) and stow them under the ballast",
+      "check": "silver >= 180", "cost": "silver 180",
+      "effects": [ "goods swords +4", "npc smith feeling +6 bought", "flag ch_sword_smuggle_carrying", "flag ch_sword_smuggle_1",
+                   "schedule harbour.chain_sword_smuggle.s02_search in 10 at dorestad" ],
+      "note": "outcome: chain_sword_smuggle.s01.out_buy (45 d the blade at the forge; 84 d is the table's price)" },
+    { "key": "one", "label_key": "chain_sword_smuggle.s01.opt_one", "label": "Buy one, openly, for your own belt (50 d)",
+      "check": "silver >= 50", "cost": "silver 50",
+      "effects": [ "goods swords +1", "npc smith feeling +3 one_blade", "give_riddle riddle_exeter_20_sword", "flag ch_sword_smuggle_clean", "flag ch_sword_smuggle_1",
+                   "schedule harbour.chain_sword_smuggle.s02_search in 10 at dorestad" ],
+      "note": "outcome: chain_sword_smuggle.s01.out_one (a free man may wear his own sword; the riddle is the Exeter Book's sword riddle, Tupper 1910, from riddles_793.json)" },
+    { "key": "ale", "label_key": "chain_sword_smuggle.s01.opt_ale", "label": "Say your boat carries wine and stones, and drink his ale",
+      "check": "true", "default": true,
+      "effects": [ "npc smith feeling +2 drank", "price_shock sliesthorp iron_tools x1.3 for 90", "flag ch_sword_smuggle_clean", "flag ch_sword_smuggle_1",
+                   "schedule harbour.chain_sword_smuggle.s02_search in 10 at dorestad" ],
+      "note": "outcome: chain_sword_smuggle.s01.out_ale (time only; the price word is true: the Danes pay well for Rhenish tools)" }
+   ],
+   "memory": {
+    "buy": "bought four uncounted blades",
+    "one": "bought one blade for his own belt",
+    "ale": "drank the smith's ale and bought nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s02_search",
+   "note": "Step 2 (scheduled 10 days after step 1, at Dorestad: the passage down the Rhine). The count's man searches the boat; somebody was seen on the smiths' street. It is the spine's hook for Dorestad (the toll man's search) beside the arrival card harbour.tollman.frankish. Sources as step 1; from 805 a merchant found with arms loses all he carries, half to the palace and half between the officer and the finder (Thionville c. 7: the tollman's line). Cast: the count's man is of cast.folcbert's following. Sets ch_sword_smuggle_2; the spine's sw_ran_blades (past the search unseen) or sw_marked (caught).",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_sword_smuggle_1 and not flag.ch_sword_smuggle_2",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "tollman": { "role": "tollman", "people": "port", "faith": "port", "tongue": "port", "age": [30, 60], "fixed": true },
+    "searcher": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [28, 45], "fixed": false, "note": "a man of the count's (cast.folcbert), with two spearmen" }
+   },
+   "title_key": "chain_sword_smuggle.s02.title",
+   "title": "Ballast out",
+   "intention_key": "chain_sword_smuggle.s02.intention",
+   "intention": "The toll man is not alone on the dam. A man of the count's stands by him with two spearmen, and they mean to have your ballast out.",
+   "lines": [
+    { "who": "tollman", "key": "chain_sword_smuggle.s02.tollman_not_mine" },
+    { "who": "searcher", "key": "chain_sword_smuggle.s02.searcher_street" },
+    { "who": "tollman", "key": "chain_sword_smuggle.s02.tollman_law_mail", "when": "year < 805" },
+    { "who": "tollman", "key": "chain_sword_smuggle.s02.tollman_law_805", "when": "year >= 805", "note": "Thionville 805 c. 7" },
+    { "who": "searcher", "key": "chain_sword_smuggle.s02.searcher_belt", "when": "flag.ch_sword_smuggle_clean" }
+   ],
+   "options": [
+    { "key": "hide", "label_key": "chain_sword_smuggle.s02.opt_hide", "label": "Leave the blades under the stones and let them look",
+      "check": "flag.ch_sword_smuggle_carrying",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "flag sw_ran_blades", "npc tollman feeling -2 searched" ],
+                     "failure": [ "goods swords -4", "law seizure", "deed goods_seized", "npc tollman feeling -20 caught", "flag sw_marked",
+                                  "flag ch_sword_smuggle_carrying = 0", "flag ch_sword_smuggle_clean" ] },
+                   "flag ch_sword_smuggle_2" ],
+      "note": "outcome: chain_sword_smuggle.s02.out_hide_success / out_hide_failure (a failed search hurts and the story goes on by the honest road)" },
+    { "key": "gift", "label_key": "chain_sword_smuggle.s02.opt_gift", "label": "Thirty pennies in the toll man's hand before the spearmen reach the boat",
+      "check": "silver >= 30 and flag.ch_sword_smuggle_carrying and npc.tollman.feeling >= wary", "cost": "silver 30",
+      "effects": [ "deed bribed_officer", "npc tollman feeling +6 gift", "flag sw_ran_blades", "flag ch_sword_smuggle_2" ],
+      "note": "outcome: chain_sword_smuggle.s02.out_gift" },
+    { "key": "yield", "label_key": "chain_sword_smuggle.s02.opt_yield", "label": "Say the blades were bought for the count's own men, and sell them to him at his price",
+      "check": "flag.ch_sword_smuggle_carrying", "cost": "goods swords 4",
+      "effects": [ "silver +150", "npc searcher feeling +6 sold_to_count", "flag ch_sword_smuggle_carrying = 0", "flag ch_sword_smuggle_clean", "flag ch_sword_smuggle_2" ],
+      "note": "outcome: chain_sword_smuggle.s02.out_yield (pride only: 30 d under what was paid)" },
+    { "key": "open", "label_key": "chain_sword_smuggle.s02.opt_open", "label": "Lift the boards yourself and show them everything",
+      "check": "not flag.ch_sword_smuggle_carrying", "default": true,
+      "effects": [ "deed fair_dealing", "npc tollman feeling +5 honest", "npc searcher feeling +4 honest", "toll eased 30", "flag ch_sword_smuggle_2" ],
+      "note": "outcome: chain_sword_smuggle.s02.out_open (time only)" }
+   ],
+   "memory": {
+    "hide": "let the count's man search and he found nothing",
+    "hide.failure": "caught with blades under the ballast",
+    "gift": "gave a gift before a search",
+    "yield": "sold the blades to the count",
+    "open": "lifted his own boards for the search"
+   }
+  },
+  {
+   "id": "crew.chain_sword_smuggle.s03_crews_word",
+   "note": "Step 3 (a crew card, drawn under way while the first blades are aboard; it is passed over if the boat reaches the buyer first). The spine's hook for the crew: Ravn (cast.crew.ravn) says the Franks made the law because they fear the edge; Aldger (cast.crew.aldger) will not row a cargo that can hang him; Brunger (cast.crew.brunger), a Saxon baptised by the sword, would arm anyone the king calls an enemy. The lines are true of them and harmless in other mouths. The riddle is the Gestumblindi riddle of the smith's bellows (riddles_793.json r-gest-09), where 'wound-leek' is a sword. Sets ch_sword_smuggle_3.",
+   "stage": "crew",
+   "when": "under_way and flag.ch_sword_smuggle_2 and flag.ch_sword_smuggle_carrying and not flag.ch_sword_smuggle_3 and not flag.ch_sword_smuggle_4",
+   "rate": 0.06,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "note": "cast.crew.aldger" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn" },
+    "mate": { "role": "mate", "people": "saxon", "faith": "christian", "note": "cast.crew.brunger" }
+   },
+   "title_key": "chain_sword_smuggle.s03.title",
+   "title": "What lies under the stones",
+   "intention_key": "chain_sword_smuggle.s03.intention",
+   "intention": "The men know what lies under the ballast. The steersman wants it said aloud before the boat is out of Frankish water.",
+   "lines": [
+    { "who": "steersman", "key": "chain_sword_smuggle.s03.steersman_counted" },
+    { "who": "steersman", "key": "chain_sword_smuggle.s03.steersman_805", "when": "year >= 805" },
+    { "who": "hand", "key": "chain_sword_smuggle.s03.hand_edge" },
+    { "who": "mate", "key": "chain_sword_smuggle.s03.mate_enemies" }
+   ],
+   "options": [
+    { "key": "share", "label_key": "chain_sword_smuggle.s03.opt_share", "label": "Promise each man a share of what the blades bring",
+      "check": "true",
+      "effects": [ "morale +0.05", "npc hand feeling +4 shared", "give_riddle r-gest-09", "flag ch_sword_smuggle_crew_share", "flag ch_sword_smuggle_3" ],
+      "note": "outcome: chain_sword_smuggle.s03.out_share" },
+    { "key": "overboard", "label_key": "chain_sword_smuggle.s03.opt_overboard", "label": "Have the bundle over the side tonight and say no more of it",
+      "check": "true", "cost": "goods swords 4",
+      "effects": [ "morale +0.03", "npc steersman feeling +8 overboard", "npc hand feeling -3 overboard", "flag ch_sword_smuggle_carrying = 0", "flag ch_sword_smuggle_clean", "flag ch_sword_smuggle_3" ],
+      "note": "outcome: chain_sword_smuggle.s03.out_overboard (the cargo is lost, by the master's own choice)" },
+    { "key": "order", "label_key": "chain_sword_smuggle.s03.opt_order", "label": "Tell the steersman his work is the tide, and yours the cargo",
+      "check": "true",
+      "effects": [ "morale -0.04", "npc steersman feeling -8 ordered", "flag ch_sword_smuggle_3" ],
+      "note": "outcome: chain_sword_smuggle.s03.out_order (pride only, and his)" }
+   ],
+   "memory": {
+    "share": "promised the men a share of the blades",
+    "overboard": "put the blades over the side",
+    "order": "told the steersman to mind the tide"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s04_buyer",
+   "note": "Step 4 (drawn at Sliesthorp or Ripa after the search; a turn). The buyer: Asulf (cast.asulf), a dealer in captives who would rather have blades than silver. Sources: the spine's hook for Sliesthorp (a Dane pays double in weighed silver; Asulf pays in captives); silver by weight north of the Eider, no coin before about 825 (BRIEF.md rule 2); Anskar bought Danish and Slav boys (Rimbert c. 15, tr. Robinson 1921); Godfred moved the merchants of Reric to Sliesthorp in 808 (Annales regni Francorum 808; chronicle 808-summer-reric-destroyed). Four ounces the blade is the game's price: about 65 d, a blade without its hilt at the forge being 45 d; the ounce (eyrir) of about 27 g is the later Norse weight (?). Sets ch_sword_smuggle_4, the spine's sw_buyer_known, and the timer ch_sword_smuggle_rest (40 days).",
+   "stage": "harbour",
+   "when": "moored and (port.id = sliesthorp or port.id = ripa) and flag.ch_sword_smuggle_2 and not flag.ch_sword_smuggle_4",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [38, 55], "fixed": true, "note": "cast.asulf (to 815)" }
+   },
+   "title_key": "chain_sword_smuggle.s04.title",
+   "title": "The man with the hazel switch",
+   "intention_key": "chain_sword_smuggle.s04.intention",
+   "intention": "A stout Dane with a hazel switch has watched your boat since she touched. He deals in people, and asks what else came from the river.",
+   "lines": [
+    { "who": "dealer", "key": "chain_sword_smuggle.s04.dealer_river" },
+    { "who": "dealer", "key": "chain_sword_smuggle.s04.dealer_four", "when": "flag.ch_sword_smuggle_carrying" },
+    { "who": "dealer", "key": "chain_sword_smuggle.s04.dealer_nothing", "when": "not flag.ch_sword_smuggle_carrying" },
+    { "who": "dealer", "key": "chain_sword_smuggle.s04.dealer_price" },
+    { "who": "dealer", "key": "chain_sword_smuggle.s04.dealer_reric", "when": "year >= 808", "note": "Annales regni Francorum 808" }
+   ],
+   "options": [
+    { "key": "silver", "label_key": "chain_sword_smuggle.s04.opt_silver", "label": "Sell the four blades for weighed silver",
+      "check": "flag.ch_sword_smuggle_carrying and hold.swords >= 4", "cost": "goods swords 4",
+      "effects": [ "silver +260", "npc dealer feeling +8 sold_blades", "flag ch_sword_smuggle_carrying = 0", "flag ch_sword_smuggle_sold_north", "flag sw_buyer_known",
+                   "flag ch_sword_smuggle_4", "flag ch_sword_smuggle_rest for 40" ],
+      "note": "outcome: chain_sword_smuggle.s04.out_silver (a turn: 260 d for what cost 180)" },
+    { "key": "captives", "label_key": "chain_sword_smuggle.s04.opt_captives", "label": "Take three people from his pen for the blades",
+      "check": "flag.ch_sword_smuggle_carrying and hold.swords >= 4", "cost": "goods swords 4",
+      "effects": [ "goods captives +3", "deed bought_captives", "npc dealer feeling +10 took_captives", "flag ch_sword_smuggle_carrying = 0", "flag ch_sword_smuggle_sold_north",
+                   "flag sw_buyer_known", "flag ch_sword_smuggle_4", "flag ch_sword_smuggle_rest for 40" ],
+      "note": "outcome: chain_sword_smuggle.s04.out_captives (heathen Wends: lawful to carry, and to free)" },
+    { "key": "nothing", "label_key": "chain_sword_smuggle.s04.opt_nothing", "label": "Sell him no blades, and hear what else he wants",
+      "check": "true", "default": true,
+      "effects": [ "commission iron_tools 6 by 150 premium 0.5", "npc dealer feeling +2 heard", "flag sw_buyer_known", "flag ch_sword_smuggle_4", "flag ch_sword_smuggle_rest for 40" ],
+      "note": "outcome: chain_sword_smuggle.s04.out_nothing (time only; a lawful commission with a premium)" }
+   ],
+   "memory": {
+    "silver": "sold him four Frankish blades for silver",
+    "captives": "took captives for four blades",
+    "nothing": "sold him no blades"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s05_the_cask",
+   "note": "Step 5 (drawn at Colonia from 40 days after step 4). The smith has a wine cask with no wine in it: eight blades in straw and tallow, as the big houses send them (the spine: Thiadbod sends blades north in wine casks and has never been caught). He warns of the watch boat at the river mouth: every danger warns first. His journeyman Hrodwin (invented: Hrod- + -win) asks what a smith is worth in the north. Sources: Thionville 805 c. 6, a byrnie for every man with twelve manses, so the lords take all the mail there is (chronicle 805-12-thionville-arms); Boulogne 811, churches not to give or sell byrnies or swords to outsiders (811-10-boulogne-capitulary); Charles had ships built and watches set at the river mouths from 800 (Einhard, Vita Karoli c. 17). Sets ch_sword_smuggle_5 and one of ch_sword_smuggle_carrying with ch_sword_smuggle_big, ch_sword_smuggle_tools, ch_sword_smuggle_boy_asked.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and flag.ch_sword_smuggle_4 and not flag.ch_sword_smuggle_5 and not flag.ch_sword_smuggle_rest",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "smith": { "role": "smith", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [45, 55], "fixed": true, "note": "Reginbald, invented" },
+    "journeyman": { "role": "craftsman", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [20, 26], "fixed": true, "note": "Hrodwin, invented: the smith's man at the bellows and the grinding stone" }
+   },
+   "title_key": "chain_sword_smuggle.s05.title",
+   "title": "A cask with no wine in it",
+   "intention_key": "chain_sword_smuggle.s05.intention",
+   "intention": "A wine cask stands in Reginbald's forge with its head off. There is straw in it, and tallow, and room for eight blades.",
+   "lines": [
+    { "who": "smith", "key": "chain_sword_smuggle.s05.smith_back", "when": "flag.ch_sword_smuggle_sold_north" },
+    { "who": "smith", "key": "chain_sword_smuggle.s05.smith_back_clean", "when": "not flag.ch_sword_smuggle_sold_north" },
+    { "who": "smith", "key": "chain_sword_smuggle.s05.smith_cask" },
+    { "who": "smith", "key": "chain_sword_smuggle.s05.smith_watch_boat", "note": "the warning: Einhard, Vita Karoli c. 17" },
+    { "who": "smith", "key": "chain_sword_smuggle.s05.smith_twelve_manses", "when": "year >= 806", "note": "Thionville 805 c. 6" },
+    { "who": "smith", "key": "chain_sword_smuggle.s05.smith_abbey", "when": "year >= 811", "note": "Boulogne 811" },
+    { "who": "journeyman", "key": "chain_sword_smuggle.s05.journeyman_ask" }
+   ],
+   "options": [
+    { "key": "cask", "label_key": "chain_sword_smuggle.s05.opt_cask", "label": "Buy the cask of eight (400 d)",
+      "check": "silver >= 400", "cost": "silver 400",
+      "effects": [ "goods swords +8", "npc smith feeling +8 bought_cask", "flag ch_sword_smuggle_carrying", "flag ch_sword_smuggle_big", "flag ch_sword_smuggle_5" ],
+      "note": "outcome: chain_sword_smuggle.s05.out_cask (50 d the blade, hilted this time)" },
+    { "key": "tools", "label_key": "chain_sword_smuggle.s05.opt_tools", "label": "Carry his lawful iron instead: six bundles of tools (90 d)",
+      "check": "silver >= 90", "cost": "silver 90",
+      "effects": [ "goods iron_tools +6", "npc smith feeling +3 bought_tools", "flag ch_sword_smuggle_tools", "flag ch_sword_smuggle_5" ],
+      "note": "outcome: chain_sword_smuggle.s05.out_tools (15 d the bundle at the forge; 30 d is the table's price)" },
+    { "key": "ask", "label_key": "chain_sword_smuggle.s05.opt_ask", "label": "Buy nothing, and promise the boy to ask his question in the north",
+      "check": "true", "default": true,
+      "effects": [ "npc journeyman feeling +6 will_ask", "npc smith feeling -1 no_sale", "flag ch_sword_smuggle_boy_asked", "flag ch_sword_smuggle_5" ],
+      "note": "outcome: chain_sword_smuggle.s05.out_ask (time only)" }
+   ],
+   "memory": {
+    "cask": "bought a cask of eight blades",
+    "tools": "bought tools and no blades",
+    "ask": "bought nothing and took the boy's question north"
+   }
+  },
+  {
+   "id": "sea.chain_sword_smuggle.s06_watch_boat",
+   "note": "Step 6 (drawn under way after step 5). The spine's hook for the sea: a king's ship off the Frisian coast stops and searches the ballast, the casks, the bilge (npc_text_encounters.md sample 18). Sources: Einhard, Vita Karoli c. 17: a fleet built against the Northmen and watches set at the harbours and river mouths (from 800; again in 810-811: chronicle 811-10-boulogne-capitulary). Before 800 the boat is the count's own, which is ours (?). A man who runs is known afterwards by his boat (the spine's sw_marked). Sets ch_sword_smuggle_6.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_sword_smuggle_5 and not flag.ch_sword_smuggle_6",
+   "rate": 0.05,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "captain": { "role": "commander", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [28, 50], "fixed": false, "note": "the captain of the watch boat" }
+   },
+   "title_key": "chain_sword_smuggle.s06.title",
+   "title": "The watch boat",
+   "intention_key": "chain_sword_smuggle.s06.intention",
+   "intention": "A long boat with a painted shield at her stem stands out from the river mouth under oars and calls on you to lie to.",
+   "lines": [
+    { "who": "captain", "key": "chain_sword_smuggle.s06.captain_counts", "when": "year < 800" },
+    { "who": "captain", "key": "chain_sword_smuggle.s06.captain_kings", "when": "year >= 800", "note": "Einhard, Vita Karoli c. 17" },
+    { "who": "captain", "key": "chain_sword_smuggle.s06.captain_marked", "when": "flag.sw_marked" },
+    { "who": "captain", "key": "chain_sword_smuggle.s06.captain_casks" }
+   ],
+   "options": [
+    { "key": "search", "label_key": "chain_sword_smuggle.s06.opt_search", "label": "Lie to with an empty conscience and let them look",
+      "check": "not flag.ch_sword_smuggle_carrying", "default": true,
+      "effects": [ "encounter heave_to", "deed fair_dealing", "npc captain feeling +5 clean", "flag ch_sword_smuggle_6" ],
+      "note": "outcome: chain_sword_smuggle.s06.out_search (time only)" },
+    { "key": "among_wine", "label_key": "chain_sword_smuggle.s06.opt_among_wine", "label": "Lie to, with the cask standing among the wine",
+      "check": "flag.ch_sword_smuggle_carrying",
+      "effects": [ "encounter heave_to",
+                   { "chance": 0.55, "by": "crew.trade_best",
+                     "success": [ "flag sw_ran_blades", "npc captain feeling +1 passed" ],
+                     "failure": [ "goods swords -8", "silver -60", "deed goods_seized", "morale -0.05", "npc captain feeling -15 caught", "flag sw_marked",
+                                  "flag ch_sword_smuggle_carrying = 0" ] },
+                   "flag ch_sword_smuggle_6" ],
+      "note": "outcome: chain_sword_smuggle.s06.out_among_wine_success / out_among_wine_failure" },
+    { "key": "run", "label_key": "chain_sword_smuggle.s06.opt_run", "label": "Put her over the shoals where a long boat cannot follow",
+      "check": "true",
+      "effects": [ "encounter run",
+                   { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "deed fled_kings_men", "morale +0.04" ],
+                     "failure": [ "goods swords -8", "silver -80", "deed taken_for_judgement", "morale -0.06", "npc captain feeling -20 ran", "flag ch_sword_smuggle_carrying = 0" ] },
+                   "flag sw_marked", "flag ch_sword_smuggle_6" ],
+      "note": "outcome: chain_sword_smuggle.s06.out_run_success / out_run_failure (either way the boat is known)" },
+    { "key": "over", "label_key": "chain_sword_smuggle.s06.opt_over", "label": "Roll the cask over the lee side while their sail hides you, then lie to",
+      "check": "flag.ch_sword_smuggle_carrying", "cost": "goods swords 8",
+      "effects": [ "encounter heave_to", "npc captain feeling +2 nothing_found", "flag ch_sword_smuggle_carrying = 0", "flag ch_sword_smuggle_6" ],
+      "note": "outcome: chain_sword_smuggle.s06.out_over (the cargo is lost, by the master's own choice)" }
+   ],
+   "memory": {
+    "search": "lay to and had nothing aboard",
+    "among_wine": "lay to and the search found nothing",
+    "among_wine.failure": "caught with a cask of blades among the wine",
+    "run": "ran from the watch boat over the shoals",
+    "run.failure": "ran from the watch boat and was taken",
+    "over": "lay to with nothing aboard, and a cask missing from the tier"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s07_the_offer",
+   "note": "Step 7 (drawn at Sliesthorp after the watch boat; a turn). Asulf has a guest who buys for a lord with many ships: before 804 no lord is named (Sigfred is king of the Danes in the Frankish annals to 798 and little more than a name: realms/denmark.md); from 804 he is King Godfred's man (cast.godfred, first named in 804, killed 810: chronicle 804-summer-godfred-sliesthorp). The offer for the smith himself is ours; that the north wanted the makers as well as the blades is shown by blades with the Frankish name inlaid wrongly, held to be copies made outside the Rhineland (Wikipedia 'Ulfberht swords') (?). Notker's tale of Northmen's envoys and the testing of swords (De Carolo Magno II.18, tr. Grant 1907) stands behind the spokesman's line and is not quoted (?). Sets ch_sword_smuggle_7, ch_sword_smuggle_offer, and the timer ch_sword_smuggle_wait (120 days).",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_sword_smuggle_6 and not flag.ch_sword_smuggle_7",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [38, 55], "fixed": true, "note": "cast.asulf (to 815)" },
+    "spokesman": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": false, "note": "a lord's man with gold on his arm; from 804 King Godfred's (cast.godfred speaks to merchants through a spokesman)" }
+   },
+   "title_key": "chain_sword_smuggle.s07.title",
+   "title": "The net and the fish",
+   "intention_key": "chain_sword_smuggle.s07.intention",
+   "intention": "Asulf has a guest at his booth: a man with gold on his arm who does not say whose man he is. He wants blades, and then he wants more than blades.",
+   "lines": [
+    { "who": "dealer", "key": "chain_sword_smuggle.s07.dealer_guest" },
+    { "who": "dealer", "key": "chain_sword_smuggle.s07.dealer_careful", "when": "not flag.ch_sword_smuggle_sold_north and not flag.ch_sword_smuggle_carrying" },
+    { "who": "spokesman", "key": "chain_sword_smuggle.s07.spokesman_lord", "when": "year < 804" },
+    { "who": "spokesman", "key": "chain_sword_smuggle.s07.spokesman_king", "when": "year >= 804", "note": "Godfred counts his ships against the emperor's (the spine's cast.godfred)" },
+    { "who": "spokesman", "key": "chain_sword_smuggle.s07.spokesman_net" },
+    { "who": "dealer", "key": "chain_sword_smuggle.s07.dealer_boy", "when": "flag.ch_sword_smuggle_boy_asked" }
+   ],
+   "options": [
+    { "key": "sell", "label_key": "chain_sword_smuggle.s07.opt_sell", "label": "Sell the eight blades from the cask",
+      "check": "flag.ch_sword_smuggle_carrying and hold.swords >= 8", "cost": "goods swords 8",
+      "effects": [ "silver +640", "npc dealer feeling +8 sold_cask", "npc spokesman feeling +6 sold_cask", "flag ch_sword_smuggle_carrying = 0", "flag ch_sword_smuggle_sold_north",
+                   "flag ch_sword_smuggle_offer", "flag ch_sword_smuggle_7", "flag ch_sword_smuggle_wait for 120" ],
+      "note": "outcome: chain_sword_smuggle.s07.out_sell (a turn: 640 d for what cost 400)" },
+    { "key": "tools", "label_key": "chain_sword_smuggle.s07.opt_tools", "label": "Sell six bundles of Rhenish tools, and no blades",
+      "check": "hold.iron_tools >= 6", "cost": "goods iron_tools 6",
+      "effects": [ "silver +270", "npc dealer feeling +3 sold_tools", "flag ch_sword_smuggle_offer", "flag ch_sword_smuggle_7", "flag ch_sword_smuggle_wait for 120" ],
+      "note": "outcome: chain_sword_smuggle.s07.out_tools (a turn, lawful: 270 d for what cost 90)" },
+    { "key": "hear", "label_key": "chain_sword_smuggle.s07.opt_hear", "label": "Sell nothing; hear the offer out and drink with them",
+      "check": "true", "default": true,
+      "effects": [ "npc spokesman feeling +3 heard", "price_shock sliesthorp rhenish_wine x1.2 for 60", "tongue old_norse = 0.5", "flag ch_sword_smuggle_offer", "flag ch_sword_smuggle_7",
+                   "flag ch_sword_smuggle_wait for 120" ],
+      "note": "outcome: chain_sword_smuggle.s07.out_hear (time only; a true price word and an evening's worth of the Danish tongue)" }
+   ],
+   "memory": {
+    "sell": "sold a cask of eight blades",
+    "tools": "sold tools and no blades",
+    "hear": "heard the offer and sold nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s08_blade_comes_back",
+   "note": "Step 8 (drawn at a Frisian landing, or at Traiectum or Dorestad where the boat is brought up the river, from 120 days after step 7): the day a sold blade comes back. Folcbod (invented: Folc- + -bod), who set eel traps in the outer channels, lies dead in his boat with a Frankish blade left in him; it carries the smith's mark. His widow Liafburg (Liaf- + -burg) and his son Eilger (Eil- + -ger) stand by. Sources: in 810 a fleet of two hundred ships from the land of the Northmen came to Frisia, ravaged the islands, beat the Frisians in three fights and took a hundred pounds of silver as tribute (Annales regni Francorum 810; chronicle 810-summer-frisia-raid-810): the year line of 810 says so in our own words. Sea robbery on the Frisian coast before 810 is not recorded and is ours (?). The spine: 'a blade sold in 800 can come back'. Sets ch_sword_smuggle_8 and one of ch_sword_smuggle_told (with ch_sword_smuggle_paid_widow), ch_sword_smuggle_silent.",
+   "stage": "harbour",
+   "when": "moored and (port.id = doccinga or port.id = wijnaldum or port.id = emuthon or port.id = medemelacha or port.id = traiectum or port.id = dorestad) and flag.ch_sword_smuggle_7 and not flag.ch_sword_smuggle_8 and not flag.ch_sword_smuggle_wait",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [28, 40], "fixed": true, "note": "Liafburg, invented" },
+    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [9, 11], "fixed": true, "note": "Eilger, invented: her son" }
+   },
+   "title_key": "chain_sword_smuggle.s08.title",
+   "title": "The mark below the hilt",
+   "intention_key": "chain_sword_smuggle.s08.intention",
+   "intention": "Men stand round a small boat on the landing. A dead man lies in her, an eel fisher of the outer channels, and the sword that killed him is still there.",
+   "lines": [
+    { "key": "chain_sword_smuggle.s08.year_810", "when": "year = 810", "note": "Annales regni Francorum 810, in our own words" },
+    { "key": "chain_sword_smuggle.s08.three_ships", "when": "year != 810", "note": "ours (?)" },
+    { "who": "widow", "key": "chain_sword_smuggle.s08.widow_left_it" },
+    { "key": "chain_sword_smuggle.s08.the_mark" },
+    { "key": "chain_sword_smuggle.s08.you_carried", "when": "flag.ch_sword_smuggle_sold_north" },
+    { "key": "chain_sword_smuggle.s08.you_knew", "when": "not flag.ch_sword_smuggle_sold_north" },
+    { "who": "widow", "key": "chain_sword_smuggle.s08.widow_ask" },
+    { "who": "boy", "key": "chain_sword_smuggle.s08.boy_ours" }
+   ],
+   "options": [
+    { "key": "truth", "label_key": "chain_sword_smuggle.s08.opt_truth", "label": "Tell her whose mark it is, and all you know of how it came here",
+      "check": "true", "default": true,
+      "effects": [ "npc widow feeling -6 told", "flag ch_sword_smuggle_told", "flag ch_sword_smuggle_8", "schedule harbour.chain_sword_smuggle.s09_kings_men in 30 at dorestad" ],
+      "note": "outcome: chain_sword_smuggle.s08.out_truth (pride only)" },
+    { "key": "price", "label_key": "chain_sword_smuggle.s08.opt_price", "label": "Tell her, and lay a hundred pennies on the thwart toward the man's price",
+      "check": "silver >= 100", "cost": "silver 100",
+      "effects": [ "deed gave_alms", "npc widow feeling +10 paid", "flag ch_sword_smuggle_told", "flag ch_sword_smuggle_paid_widow", "flag ch_sword_smuggle_8",
+                   "schedule harbour.chain_sword_smuggle.s09_kings_men in 30 at dorestad" ],
+      "note": "outcome: chain_sword_smuggle.s08.out_price (not the wergild: the killers owe that, and are gone)" },
+    { "key": "silent", "label_key": "chain_sword_smuggle.s08.opt_silent", "label": "Say only that it is Frankish and good, and buy it from her (60 d)",
+      "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "goods swords +1", "npc widow feeling +3 bought_blade", "flag ch_sword_smuggle_silent", "flag ch_sword_smuggle_8",
+                   "schedule harbour.chain_sword_smuggle.s09_kings_men in 30 at dorestad" ],
+      "note": "outcome: chain_sword_smuggle.s08.out_silent" }
+   ],
+   "memory": {
+    "truth": "told her whose mark was on the blade",
+    "price": "told her the truth and paid toward her man's price",
+    "silent": "bought the blade and said nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s09_kings_men",
+   "note": "Step 9 (scheduled 30 days after step 8, at Dorestad): the fork to the four endings. The king's men are asking who carries blades north. Sources: missi dominici sent in pairs, a churchman and a count, strangers to the district (the capitulary of 802; role kings_man in npc_roles_793.json): before 802 it is the count acting on a letter from the palace, which is ours (?). Thionville 805 c. 7: a merchant found with arms loses all he carries, half to the palace, the other half shared between the officer and the finder (MGH Capit. I no. 44; chronicle 805-12-thionville-border-posts). Sets ch_sword_smuggle_9 and one of ch_sword_smuggle_informed, ch_sword_smuggle_warned, ch_sword_smuggle_swore_off, ch_sword_smuggle_ran_on.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_sword_smuggle_8 and not flag.ch_sword_smuggle_9",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "missus": { "role": "kings_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 55], "fixed": false, "note": "a count from another district, sent by the palace" },
+    "tollman": { "role": "tollman", "people": "port", "faith": "port", "tongue": "port", "age": [30, 60], "fixed": true }
+   },
+   "title_key": "chain_sword_smuggle.s09.title",
+   "title": "What lies between",
+   "intention_key": "chain_sword_smuggle.s09.intention",
+   "intention": "The king's men are at Dorestad, asking who carries blades north. They know a street in Colonia and a booth on the Slie, and they have sent for you.",
+   "lines": [
+    { "key": "chain_sword_smuggle.s09.pairs", "when": "year >= 802", "note": "the capitulary of 802" },
+    { "key": "chain_sword_smuggle.s09.letter", "when": "year < 802" },
+    { "who": "missus", "key": "chain_sword_smuggle.s09.missus_between", "when": "not flag.sw_marked" },
+    { "who": "missus", "key": "chain_sword_smuggle.s09.missus_marked", "when": "flag.sw_marked" },
+    { "who": "missus", "key": "chain_sword_smuggle.s09.missus_share_805", "when": "year >= 805", "note": "Thionville 805 c. 7" },
+    { "who": "missus", "key": "chain_sword_smuggle.s09.missus_remembers", "when": "year < 805" },
+    { "who": "tollman", "key": "chain_sword_smuggle.s09.tollman_aside" }
+   ],
+   "options": [
+    { "key": "inform", "label_key": "chain_sword_smuggle.s09.opt_inform", "label": "Give them the road: the forge, the cask, the booth on the Slie",
+      "check": "true",
+      "effects": [ "npc missus feeling +15 informed", "flag ch_sword_smuggle_informed", "flag ch_sword_smuggle_9", "schedule harbour.chain_sword_smuggle.s11_end_finder in 40 at dorestad" ],
+      "note": "outcome: chain_sword_smuggle.s09.out_inform (the hard road: it costs two men who trusted you)" },
+    { "key": "warn", "label_key": "chain_sword_smuggle.s09.opt_warn", "label": "Tell them nothing, go up the river by night and take the smith north",
+      "check": "flag.ch_sword_smuggle_offer",
+      "effects": [ "npc missus feeling -10 silent", "flag sw_marked", "flag ch_sword_smuggle_warned", "flag ch_sword_smuggle_9",
+                   "schedule harbour.chain_sword_smuggle.s12_end_smith_north in 45 at sliesthorp" ],
+      "note": "outcome: chain_sword_smuggle.s09.out_warn (history changed)" },
+    { "key": "swear_off", "label_key": "chain_sword_smuggle.s09.opt_swear_off", "label": "Tell them what you did and what you saw, and take the blade to Saint Martin's",
+      "check": "true", "default": true,
+      "effects": [ "npc missus feeling +3 owned", "flag ch_sword_smuggle_swore_off", "flag ch_sword_smuggle_9", "schedule harbour.chain_sword_smuggle.s13_end_laid_down in 30 at traiectum" ],
+      "note": "outcome: chain_sword_smuggle.s09.out_swear_off (pride only)" },
+    { "key": "run_on", "label_key": "chain_sword_smuggle.s09.opt_run_on", "label": "Say you carry wine, and go on carrying blades",
+      "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "npc missus feeling -2 wine" ],
+                     "failure": [ "silver -60", "npc missus feeling -12 lied", "flag sw_marked" ] },
+                   "flag ch_sword_smuggle_ran_on", "flag ch_sword_smuggle_9", "schedule harbour.chain_sword_smuggle.s10_end_runner in 60 at sliesthorp" ],
+      "note": "outcome: chain_sword_smuggle.s09.out_run_on_success / out_run_on_failure (what really happened: the blades went north all the same)" }
+   ],
+   "memory": {
+    "inform": "gave the king's men the sword road",
+    "warn": "told the king's men nothing",
+    "swear_off": "owned what he had carried and swore off it",
+    "run_on": "said he carried wine",
+    "run_on.failure": "lied to the king's men and was not believed"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s10_end_runner",
+   "note": "ENDING 'runner' (scheduled 60 days after step 9, at Sliesthorp): what really happened. The bans did not hold: about 170 blades with the Frankish name inlaid lie in the north and east, most of them in Norway, Sweden, the Baltic lands and Rus (Wikipedia 'Ulfberht swords'), and the law had to be made again in 811 and, with death for it, in 864 (chronicle 864-06-25-pitres). The guest-right of a foreign merchant under a lord's protection and a plot by the water are as at the trading places of the north (the plots of Ribe and Hedeby were laid out in rows; from memory (?)). Sets ch_sword_smuggle_end_runner; grand reward unlock_plot_sliesthorp or unlock_title_danish_guest_right; the lasting cost ch_sword_smuggle_blood_owed (the dead man's kin know whose cargo it was) and, with the plot, the spine's sw_marked.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_sword_smuggle_ran_on and not flag.ch_sword_smuggle_end_runner",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [38, 55], "fixed": true, "note": "cast.asulf (to 815)" },
+    "spokesman": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": false, "note": "the lord's man of step 7" }
+   },
+   "title_key": "chain_sword_smuggle.s10.title",
+   "title": "The river's man",
+   "intention_key": "chain_sword_smuggle.s10.intention",
+   "intention": "Asulf has ale on the board and the lord's man beside him. They have counted what your boat has brought north, and they mean to keep you.",
+   "lines": [
+    { "who": "dealer", "key": "chain_sword_smuggle.s10.dealer_river" },
+    { "who": "spokesman", "key": "chain_sword_smuggle.s10.spokesman_plot" },
+    { "who": "dealer", "key": "chain_sword_smuggle.s10.dealer_fisher", "when": "flag.ch_sword_smuggle_silent" },
+    { "who": "dealer", "key": "chain_sword_smuggle.s10.dealer_told", "when": "flag.ch_sword_smuggle_told" },
+    { "key": "chain_sword_smuggle.s10.chronicle" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_sword_smuggle.s10.opt_plot", "label": "Take the plot by the water and the lord's peace on it",
+      "check": "true", "default": true,
+      "effects": [ "silver +900", "goods marten +3", "npc dealer feeling +20 settled", "flag unlock_plot_sliesthorp", "flag sw_marked", "flag ch_sword_smuggle_blood_owed",
+                   "flag ch_sword_smuggle_end_runner" ],
+      "note": "outcome: chain_sword_smuggle.s10.out_plot (finale: 900 d, three marten skins worth 360 d, and the grand reward unlock_plot_sliesthorp)" },
+    { "key": "purse", "label_key": "chain_sword_smuggle.s10.opt_purse", "label": "Take silver and a guest's seat, and no house the Franks can name",
+      "check": "true",
+      "effects": [ "silver +1300", "npc dealer feeling +10 guest", "flag unlock_title_danish_guest_right", "flag ch_sword_smuggle_blood_owed", "flag ch_sword_smuggle_end_runner" ],
+      "note": "outcome: chain_sword_smuggle.s10.out_purse (finale: 1,300 d and the grand reward unlock_title_danish_guest_right)" }
+   ],
+   "memory": {
+    "plot": "took a plot on the Slie under the lord's peace",
+    "purse": "took silver and a guest's seat"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s11_end_finder",
+   "note": "ENDING 'kings_man' (scheduled 40 days after step 9, at Dorestad): the hard road, and the richest. The count's court; the road is closed for a season. Sources: Thionville 805 c. 7, half of the seized goods to the palace and half shared between the officer and the finder (MGH Capit. I no. 44): before 805 the reward is the king's grace, which is ours (?). The king's protection for merchants: Louis the Pious's letter for merchants of the palace, 828, freeing them of toll everywhere but Quentovic, Dorestad and the passes (Formulae imperiales no. 37; from memory (?)): a toll charter for Dorestad itself is a grant beyond it, and ours. A smith made a man of the palace is as the smiths of the royal estates (Capitulare de villis c. 45) (?). The big house (cast.thiadbod) is not touched: chain house_rival owns his fate. Sets ch_sword_smuggle_end_kings_man; grand rewards unlock_title_kings_protection and unlock_charter_dorestad; the lasting cost ch_sword_smuggle_dane_enmity.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_sword_smuggle_informed and not flag.ch_sword_smuggle_end_kings_man",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "missus": { "role": "kings_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 55], "fixed": false, "note": "the king's man of step 9" },
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [25, 50], "fixed": false, "note": "his clerk, with the list of what was seized" }
+   },
+   "title_key": "chain_sword_smuggle.s11.title",
+   "title": "The finder's share",
+   "intention_key": "chain_sword_smuggle.s11.intention",
+   "intention": "At the count's court a clerk reads out what was taken: a cask of blades on the dam, a forge at Colonia sealed, a wine shipper of the lower town in irons. Then he reads your name.",
+   "lines": [
+    { "who": "clerk", "key": "chain_sword_smuggle.s11.clerk_list" },
+    { "who": "missus", "key": "chain_sword_smuggle.s11.missus_share_805", "when": "year >= 805", "note": "Thionville 805 c. 7" },
+    { "who": "missus", "key": "chain_sword_smuggle.s11.missus_grace", "when": "year < 805" },
+    { "who": "missus", "key": "chain_sword_smuggle.s11.missus_smith" },
+    { "who": "missus", "key": "chain_sword_smuggle.s11.missus_big_house" },
+    { "key": "chain_sword_smuggle.s11.chronicle" }
+   ],
+   "options": [
+    { "key": "share", "label_key": "chain_sword_smuggle.s11.opt_share", "label": "Take the finder's share, weighed out before the court",
+      "check": "true", "default": true,
+      "effects": [ "silver +1600", "npc missus feeling +10 took_share", "flag unlock_title_kings_protection", "flag unlock_charter_dorestad", "flag ch_sword_smuggle_dane_enmity",
+                   "flag ch_sword_smuggle_end_kings_man", "news chain_sword_smuggle.news.road_closed at dorestad", "price_shock sliesthorp swords x1.5 for 240" ],
+      "note": "outcome: chain_sword_smuggle.s11.out_share (hard road: 1,600 d and two grand rewards; the smith is made a man of the palace and his forge is not his own)" },
+    { "key": "smith", "label_key": "chain_sword_smuggle.s11.opt_smith", "label": "Take a third of it, and ask that the smith keep his forge and his hands",
+      "check": "true",
+      "effects": [ "silver +600", "npc missus feeling +4 asked_mercy", "flag unlock_title_kings_protection", "flag unlock_charter_dorestad", "flag ch_sword_smuggle_smith_spared",
+                   "flag ch_sword_smuggle_dane_enmity", "flag ch_sword_smuggle_end_kings_man", "news chain_sword_smuggle.news.road_closed at dorestad",
+                   "price_shock sliesthorp swords x1.5 for 240" ],
+      "note": "outcome: chain_sword_smuggle.s11.out_smith (600 d and the same two grand rewards; Reginbald works on under the count's eye)" }
+   ],
+   "memory": {
+    "share": "took the finder's share",
+    "smith": "took a third and asked mercy for the smith"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s12_end_smith_north",
+   "note": "ENDING 'smith_north' (scheduled 45 days after step 9, at Sliesthorp): HISTORY CHANGED. A Rhineland master forges on the Slie with his own mark, a lifetime before the north made such blades for itself. What is true: the Frankish blades were made in the Rhineland and only hilted in the north (goods_793.json sword_blades); blades with the name inlaid wrongly are held to be later copies (Wikipedia 'Ulfberht swords') (?). No Frankish smith is recorded going north; the house by the water, the iron and the charcoal are the spokesman's offer of step 7. Sets changed_frankish_smith_north and ch_sword_smuggle_end_smith_north; grand reward unlock_work_sliesthorp_forge with unlock_factor_sliesthorp, or unlock_heirloom_first_northern_blade; the lasting cost is the spine's sw_marked and ch_sword_smuggle_rhine_watched (the palace has the house's name).",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_sword_smuggle_warned and not flag.ch_sword_smuggle_end_smith_north",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "smith": { "role": "smith", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 58], "fixed": true, "note": "Reginbald, invented, now at Sliesthorp" },
+    "spokesman": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": false, "note": "the lord's man of step 7" }
+   },
+   "title_key": "chain_sword_smuggle.s12.title",
+   "title": "A forge on the Slie",
+   "intention_key": "chain_sword_smuggle.s12.intention",
+   "intention": "There is a new house by the water at Sliesthorp with a turf roof and a smoke that is not a cooking smoke. Reginbald is at the anvil, and the lord's man is watching him work.",
+   "lines": [
+    { "key": "chain_sword_smuggle.s12.journey" },
+    { "who": "smith", "key": "chain_sword_smuggle.s12.smith_charcoal" },
+    { "who": "smith", "key": "chain_sword_smuggle.s12.smith_hrodwin" },
+    { "who": "spokesman", "key": "chain_sword_smuggle.s12.spokesman_net" },
+    { "who": "smith", "key": "chain_sword_smuggle.s12.smith_first" },
+    { "key": "chain_sword_smuggle.s12.chronicle" }
+   ],
+   "options": [
+    { "key": "partner", "label_key": "chain_sword_smuggle.s12.opt_partner", "label": "Take a third of the forge's work to sell, and keep your goods in his house",
+      "check": "true", "default": true,
+      "effects": [ "silver +800", "npc smith feeling +20 partner", "flag unlock_work_sliesthorp_forge", "flag unlock_factor_sliesthorp", "flag changed_frankish_smith_north",
+                   "flag ch_sword_smuggle_rhine_watched", "flag ch_sword_smuggle_end_smith_north", "price_shock sliesthorp swords x0.7 for 365",
+                   "news chain_sword_smuggle.news.forge_on_slie at sliesthorp" ],
+      "note": "outcome: chain_sword_smuggle.s12.out_partner (finale: 800 d, the forge as a work at Sliesthorp and the smith as the house's factor there)" },
+    { "key": "blade", "label_key": "chain_sword_smuggle.s12.opt_blade", "label": "Take the first blade and the lord's purse, and no part in what follows",
+      "check": "true",
+      "effects": [ "silver +1100", "goods swords +1", "npc smith feeling +10 first_blade", "flag unlock_heirloom_first_northern_blade", "flag changed_frankish_smith_north",
+                   "flag ch_sword_smuggle_rhine_watched", "flag ch_sword_smuggle_end_smith_north", "price_shock sliesthorp swords x0.7 for 365",
+                   "news chain_sword_smuggle.news.forge_on_slie at sliesthorp" ],
+      "note": "outcome: chain_sword_smuggle.s12.out_blade (finale: 1,100 d and the heirloom)" }
+   ],
+   "memory": {
+    "partner": "became his partner in the forge on the Slie",
+    "blade": "took the first blade forged on the Slie"
+   }
+  },
+  {
+   "id": "harbour.chain_sword_smuggle.s13_end_laid_down",
+   "note": "ENDING 'laid_down' (scheduled 30 days after step 9, at Traiectum): the blade is given to Saint Martin and the house takes the saint's side of the river. Sources: Saint Martin's church at Utrecht (Traiectum) and its men on the banks at Dorestad, who owe the king's officers nothing: Louis the Pious for Utrecht, 18 March 815, confirming older grants (Oorkondenboek Sticht Utrecht I no. 56, in dossiers/dorestad.md); that it held before 815 is assumed (?). Fostering a dead man's son is the custom of every people of this coast. Iron given to a church and worked into its door is ours. A free man who gives himself to a saint for a yearly due of wax is a Carolingian institution (from memory (?)). Sets ch_sword_smuggle_end_laid_down; grand rewards unlock_title_st_martins_man and, if the boy is taken aboard, unlock_kin_fosterling_eilger.",
+   "stage": "harbour",
+   "when": "moored and port.id = traiectum and flag.ch_sword_smuggle_swore_off and not flag.ch_sword_smuggle_end_laid_down",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [35, 60], "fixed": true, "note": "a priest of Saint Martin's" },
+    "widow": { "role": "widow", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [28, 40], "fixed": true, "note": "Liafburg, invented" },
+    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [9, 11], "fixed": true, "note": "Eilger, invented" }
+   },
+   "title_key": "chain_sword_smuggle.s13.title",
+   "title": "Iron for the saint",
+   "intention_key": "chain_sword_smuggle.s13.intention",
+   "intention": "The blade lies on a cloth before the altar of Saint Martin at Traiectum. The dead man's widow has come up the river with her son to see what is done with it.",
+   "lines": [
+    { "who": "priest", "key": "chain_sword_smuggle.s13.priest_hinge" },
+    { "who": "priest", "key": "chain_sword_smuggle.s13.priest_wine" },
+    { "who": "widow", "key": "chain_sword_smuggle.s13.widow_paid", "when": "flag.ch_sword_smuggle_paid_widow" },
+    { "who": "widow", "key": "chain_sword_smuggle.s13.widow_unpaid", "when": "not flag.ch_sword_smuggle_paid_widow" },
+    { "who": "boy", "key": "chain_sword_smuggle.s13.boy_boat" },
+    { "key": "chain_sword_smuggle.s13.chronicle" }
+   ],
+   "options": [
+    { "key": "foster", "label_key": "chain_sword_smuggle.s13.opt_foster", "label": "Take the boy aboard as your fosterling, and carry the saint's wine",
+      "check": "true", "default": true,
+      "effects": [ "silver +650", "commission rhenish_wine 6 by 200 premium 0.6", "deed gave_alms", "npc priest feeling +15 gave_blade", "npc widow feeling +20 fostered", "morale +0.05", "toll eased 365",
+                   "flag unlock_title_st_martins_man", "flag unlock_kin_fosterling_eilger", "flag ch_sword_smuggle_end_laid_down" ],
+      "note": "outcome: chain_sword_smuggle.s13.out_foster (finale: 650 d of freight paid before the voyage, a wine commission at a premium, a year of eased toll, and two grand rewards)" },
+    { "key": "keep", "label_key": "chain_sword_smuggle.s13.opt_keep", "label": "Leave the boy with his mother, pay his keep to the church, and carry the saint's wine",
+      "check": "silver >= 120", "cost": "silver 120",
+      "effects": [ "silver +900", "commission rhenish_wine 6 by 200 premium 0.6", "deed gave_alms", "npc priest feeling +18 gave_blade", "npc widow feeling +12 kept", "toll eased 365",
+                   "flag unlock_title_st_martins_man", "flag ch_sword_smuggle_end_laid_down" ],
+      "note": "outcome: chain_sword_smuggle.s13.out_keep (finale: 900 d of freight, less 120 d for the boy's keep, the same commission and eased toll, and one grand reward)" }
+   ],
+   "memory": {
+    "foster": "gave the blade to Saint Martin and fostered the dead man's son",
+    "keep": "gave the blade to Saint Martin and paid the boy's keep"
+   }
+  }
+ ]
+}

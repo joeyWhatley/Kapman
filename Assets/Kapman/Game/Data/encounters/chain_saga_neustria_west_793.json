@@ -1,0 +1,536 @@
+{
+ "about": "CHAIN saga_neustria_west: the saint who left his island. Saint Philibert's monastery on Herio (Noirmoutier), 830 to 836: the abbot's wall, the fight on the saint's feast in 835, the king's leave to move the body, and the seventh day of June 836, with a coda at Saint-Denis about 838 to 840. Fourteen cards: nine steps, four endings and the coda. Endings: the saint carried to the mainland (what happened); the island and its rakers (what happened, seen from the sand); the saint stays behind a manned wall (history changed); the monks' lead sold on the Seine (the Breton lead thieves of Ermentarius, Miracles I.81). Words: Data/writing/chain_saga_neustria_west.json. Page: Design/content/chains/saga_neustria_west.md. Written 6 Oct 2026 from Design/content/dossiers/herio.md, namnetis.md, burdigala.md, rotomagus.md and parisius.md; a draft for the user to overwrite. It tells in full the story herio.saints_road of places/herio.json and keeps that story's three endings. Flags: ch_saga_neustria_west_<n> for the steps; the roads _road_saint, _road_hold, _road_island, _road_lead; _oil, _letter, _fought, _isl, _told, _provided, _abbot_cool, _marks, _marks_duty, _carried, _late, _carter, _lead_warned, _lead_back, _tithe, _saints_grudge, _book; the endings ch_saga_neustria_west_end_saint, _end_island, _end_held, _end_lead; the places file's herio_saint_carried; history changed: changed_herio_836.",
+ "cards": [
+  {
+   "id": "harbour.chain_saga_neustria_west.s01_wall",
+   "note": "Step 1, the start (drawn at Herio or Namnetis, 830 to midsummer 835). The abbot is walling a house he empties every spring. Sources: the diploma of Louis and Lothar, 2 August 830, for Abbot Hilbod's castrum 'around the monastery', guarded by the abbey's own men; the monks at Deas from early spring to the end of autumn (Ermentarius, Miracles I.1; charter of 16 March 819); the monastery's lead taken off for fear of the Northmen and laid at Furca (Miracles I.81; when it was taken off is not said (?)); six abbey boats toll-free on the Loire (Pippin I, 18 May 826); the Bordeaux oil ship (Vita Filiberti); all as read in dossiers/herio.md. People: herio.hilbod (real), herio.natalis (invented). Sets ch_saga_neustria_west_1.",
+   "stage": "harbour",
+   "when": "moored and (port.id = herio or port.id = namnetis) and year >= 830 and (year < 835 or (year = 835 and month < 7)) and not flag.ch_saga_neustria_west_1",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod, abbot of Herio from 824/825 (herio.hilbod); real" },
+    "monk": { "role": "monk", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [60, 70], "fixed": true, "note": "Natalis, the salt brother (herio.natalis); invented" }
+   },
+   "title_key": "chain_saga_neustria_west.s01.title",
+   "title": "The abbot's wall",
+   "intention_key": "chain_saga_neustria_west.s01.intention",
+   "intention": "A bank of earth and oak stakes is going up round Saint Philibert's monastery, and the lead is coming off the church roof. The salt is the same price as ever.",
+   "lines": [
+    { "who": "", "key": "chain_saga_neustria_west.s01.narr_herio", "when": "port.id = herio" },
+    { "who": "", "key": "chain_saga_neustria_west.s01.narr_namnetis", "when": "port.id = namnetis" },
+    { "who": "monk", "key": "chain_saga_neustria_west.s01.natalis_wall" },
+    { "who": "monk", "key": "chain_saga_neustria_west.s01.natalis_lead" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s01.hilbod_stakes", "when": "port.id = herio" },
+    { "who": "monk", "key": "chain_saga_neustria_west.s01.natalis_order", "when": "port.id = namnetis" },
+    { "who": "monk", "key": "chain_saga_neustria_west.s01.natalis_oil" }
+   ],
+   "options": [
+    { "key": "stakes", "label_key": "chain_saga_neustria_west.s01.opt_stakes", "label": "Take the abbot's order: four loads of squared oak for the wall", "check": "true",
+      "effects": [ "commission oak_timber 4 by 150 premium 0.4", "npc abbot feeling +4 order", "flag ch_saga_neustria_west_1", "schedule harbour.chain_saga_neustria_west.s02_oil in 14 at burdigala" ],
+      "note": "outcome: chain_saga_neustria_west.s01.out_stakes" },
+    { "key": "work", "label_key": "chain_saga_neustria_west.s01.opt_work", "label": "Lend your crew to the bank for a day, for bread and the salt brother's talk", "check": "true",
+      "effects": [ "npc monk feeling +6 worked", "npc abbot feeling +2 worked", "give_riddle riddle_aldhelm_02_ventus", "flag ch_saga_neustria_west_1", "schedule harbour.chain_saga_neustria_west.s02_oil in 14 at burdigala" ],
+      "note": "outcome: chain_saga_neustria_west.s01.out_work (a day; Natalis gives Aldhelm's riddle of the wind, which he had at Tours)" },
+    { "key": "salt", "label_key": "chain_saga_neustria_west.s01.opt_salt", "label": "Load your salt and ask nothing", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_1", "schedule harbour.chain_saga_neustria_west.s02_oil in 14 at burdigala" ],
+      "note": "outcome: chain_saga_neustria_west.s01.out_salt (costs nothing)" }
+   ],
+   "memory": { "stakes": "took the order for the oak", "work": "lent his crew to the wall", "salt": "bought salt and asked nothing" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.s02_oil",
+   "note": "Step 2, a side errand that can be missed (Burdigala, from a fortnight after step 1). The oil for the three lamps. Sources: three lamps burning day and night at the head of the tomb (Miracles II.8); a ship from Bordeaux with forty measures of lamp oil in Philibert's day (Vita Filiberti); pagan ships among the islands of Aquitaine, 799 (Alcuin), Bouin sacked 820 (Royal Frankish Annals): dossiers/herio.md and burdigala.md. Leontius is invented: the son of the oil seller Felix of places/burdigala.json (burdigala.oil_seller, to 814); the name is an old one at Bordeaux (two bishops Leontius, sixth century). No oil seller of Bordeaux is named in any source. Sets ch_saga_neustria_west_2; _oil or _letter.",
+   "stage": "harbour",
+   "when": "moored and port.id = burdigala and flag.ch_saga_neustria_west_1 and not flag.ch_saga_neustria_west_2 and not flag.ch_saga_neustria_west_7 and year <= 836",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "merchant": { "role": "merchant", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [35, 50], "fixed": true, "note": "Leontius, son of Felix the oil seller (burdigala.oil_seller); invented" }
+   },
+   "title_key": "chain_saga_neustria_west.s02.title",
+   "title": "Nine jars owed",
+   "intention_key": "chain_saga_neustria_west.s02.intention",
+   "intention": "Leontius the oil seller, Felix's son, has lamp oil in his store that should have gone north to the salt island. He is not sending his ship.",
+   "lines": [
+    { "who": "merchant", "key": "chain_saga_neustria_west.s02.leo_greet" },
+    { "who": "merchant", "key": "chain_saga_neustria_west.s02.leo_ships" },
+    { "who": "merchant", "key": "chain_saga_neustria_west.s02.leo_father" },
+    { "who": "", "key": "chain_saga_neustria_west.s02.narr_jars" }
+   ],
+   "options": [
+    { "key": "trust", "label_key": "chain_saga_neustria_west.s02.opt_trust", "label": "Carry four jars north on his trust, the freight paid now", "check": "true", "default": true,
+      "effects": [ "silver +24", "npc merchant feeling +6 carried", "flag ch_saga_neustria_west_oil", "flag ch_saga_neustria_west_2" ],
+      "note": "outcome: chain_saga_neustria_west.s02.out_trust (the jars are the abbey's and are not counted in the hold)" },
+    { "key": "buy", "label_key": "chain_saga_neustria_west.s02.opt_buy", "label": "Buy six jars for yourself at his price", "check": "silver >= 190", "cost": "silver 190",
+      "effects": [ "goods olive_oil +6", "npc merchant feeling +2 bought", "flag ch_saga_neustria_west_2" ],
+      "note": "outcome: chain_saga_neustria_west.s02.out_buy (six jars for 190 d; the table's value is 40 d a jar)" },
+    { "key": "letter", "label_key": "chain_saga_neustria_west.s02.opt_letter", "label": "Carry only his letter of demand to the abbot", "check": "true",
+      "effects": [ "deed carried_letters", "silver +6", "flag ch_saga_neustria_west_letter", "flag ch_saga_neustria_west_2" ],
+      "note": "outcome: chain_saga_neustria_west.s02.out_letter" }
+   ],
+   "memory": { "trust": "carried the saint's oil on trust", "buy": "bought six jars", "letter": "carried a letter of demand" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.s03_feast",
+   "note": "Step 3 (Herio, August 835 for the day itself; until May 836 for the telling of it). The fight on the saint's feast. Sources: Ermentarius, Miracles II.11, and the Annals of Angouleme 835 as quoted by Poupardin: nine ships on 20 August, the saint's feast; fighting from the ninth hour to evening; 484 Northmen said killed, one defender and many horses; Count Rainald of Herbauge fought there; a monk of Corbie dreamed the saint in white with a golden sword going out by the west gate (dossiers/herio.md 5, 7). Cartron doubts the date and the number; the game keeps the day and lets the people doubt the number. People: namnetis.rainald (real), herio.hilbod (real), herio.martinus (invented). Sets ch_saga_neustria_west_3; _fought or _isl.",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and flag.ch_saga_neustria_west_1 and not flag.ch_saga_neustria_west_3 and not flag.ch_saga_neustria_west_7 and ((year = 835 and month >= 8) or (year = 836 and month <= 5))",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 50], "fixed": true, "note": "Rainald, count of Herbauge by 835 (namnetis.rainald); real" },
+    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
+    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 26], "fixed": true, "note": "Martinus, Maura's grandson (herio.martinus); invented" }
+   },
+   "title_key": "chain_saga_neustria_west.s03.title",
+   "title": "The saint's feast",
+   "intention_key": "chain_saga_neustria_west.s03.intention",
+   "intention": "On the feast of Saint Philibert nine ships of the Northmen came to the island, and the island fought them from the ninth hour until evening.",
+   "lines": [
+    { "who": "", "key": "chain_saga_neustria_west.s03.narr_day", "when": "year = 835 and month = 8" },
+    { "who": "count", "key": "chain_saga_neustria_west.s03.rainald_day", "when": "year = 835 and month = 8" },
+    { "who": "salter", "key": "chain_saga_neustria_west.s03.martin_day", "when": "year = 835 and month = 8" },
+    { "who": "", "key": "chain_saga_neustria_west.s03.narr_after", "when": "not (year = 835 and month = 8)" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s03.hilbod_after", "when": "not (year = 835 and month = 8)" },
+    { "who": "salter", "key": "chain_saga_neustria_west.s03.martin_after", "when": "not (year = 835 and month = 8)" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s03.hilbod_lesson" },
+    { "who": "", "key": "chain_saga_neustria_west.s03.narr_oil", "when": "flag.ch_saga_neustria_west_oil" }
+   ],
+   "options": [
+    { "key": "wall", "label_key": "chain_saga_neustria_west.s03.opt_wall", "label": "Stand at the west gate with the abbey's men", "check": "year = 835 and month = 8",
+      "effects": [ { "chance": 0.7, "by": "crew.fight_best",
+                     "success": [ "deed fought_raiders", "npc count feeling +10 stood", "npc abbot feeling +8 stood", "silver +40", "flag ch_saga_neustria_west_fought", "flag ch_saga_neustria_west_3", "news chain_saga_neustria_west.news.feast_fight at here", "schedule harbour.chain_saga_neustria_west.s04_council in 30 at namnetis" ],
+                     "failure": [ "health -0.2", "deed fought_raiders", "npc count feeling +6 stood", "flag ch_saga_neustria_west_fought", "flag ch_saga_neustria_west_3", "news chain_saga_neustria_west.news.feast_fight at here", "schedule harbour.chain_saga_neustria_west.s04_council in 30 at namnetis" ] } ],
+      "note": "outcome: chain_saga_neustria_west.s03.out_wall_ok, .out_wall_fail (hurt, and the story goes on)" },
+    { "key": "boats", "label_key": "chain_saga_neustria_west.s03.opt_boats", "label": "Take the rakers' children across the lagoon in your boat", "check": "year = 835 and month = 8",
+      "effects": [ "npc salter feeling +12 children", "flag ch_saga_neustria_west_isl", "flag ch_saga_neustria_west_3", "news chain_saga_neustria_west.news.feast_fight at here", "schedule harbour.chain_saga_neustria_west.s04_council in 30 at namnetis" ],
+      "note": "outcome: chain_saga_neustria_west.s03.out_boats" },
+    { "key": "after", "label_key": "chain_saga_neustria_west.s03.opt_after", "label": "Keep off until it is over, then help bury what the tide left", "check": "true", "default": true,
+      "effects": [ "npc abbot feeling +1 buried", "flag ch_saga_neustria_west_3", "schedule harbour.chain_saga_neustria_west.s04_council in 30 at namnetis" ],
+      "note": "outcome: chain_saga_neustria_west.s03.out_after (costs nothing but a day and some pride)" }
+   ],
+   "memory": { "wall": "stood at the west gate on the feast", "wall.failure": "was hurt at the west gate on the feast", "boats": "carried the children over the lagoon", "after": "came in when it was over" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.s04_council",
+   "note": "Step 4, the turn (Namnetis, September 835 to May 836). Hilbod has leave to move the saint. Sources: Ermentarius, Miracles I.1: the abbot went to King Pippin (Pippin I of Aquitaine, died 838), whose assembly agreed the move; the reason given: because of the ebbs (ledones) 'our men' cannot always reach the island, and the Northmen can whenever the sea is calm; the fear that the tomb would be dug up and the bones scattered or thrown in the sea (dossiers/herio.md 1, 6). Gunhard, bishop of Nantes 835 to 843, and his friendship with Hilbod: places/namnetis.json (the friendship is that file's (?)). Where the assembly sat is not in the dossier (?); that Hilbod came home by Namnetis and that the count offered men are invented. People: namnetis.gunhard, herio.hilbod, namnetis.rainald (all real). Sets ch_saga_neustria_west_4 and one road: _road_saint, _road_hold or _road_island.",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and flag.ch_saga_neustria_west_1 and not flag.ch_saga_neustria_west_4 and not flag.ch_saga_neustria_west_7 and ((year = 835 and month >= 9) or (year = 836 and month <= 5))",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 55], "fixed": true, "note": "Gunhard, bishop of Nantes 835 to 843 (namnetis.gunhard); real" },
+    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 50], "fixed": true, "note": "Rainald of Herbauge (namnetis.rainald); real" }
+   },
+   "title_key": "chain_saga_neustria_west.s04.title",
+   "title": "The ebbs",
+   "intention_key": "chain_saga_neustria_west.s04.intention",
+   "intention": "Abbot Hilbod is at the bishop's house in Namnetis, back from King Pippin's assembly with leave to take Saint Philibert off the island.",
+   "lines": [
+    { "who": "bishop", "key": "chain_saga_neustria_west.s04.gunhard_ask" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s04.hilbod_council" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s04.hilbod_day" },
+    { "who": "count", "key": "chain_saga_neustria_west.s04.rainald_road" },
+    { "who": "", "key": "chain_saga_neustria_west.s04.narr_fought", "when": "flag.ch_saga_neustria_west_fought" },
+    { "who": "bishop", "key": "chain_saga_neustria_west.s04.gunhard_island" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s04.hilbod_fear" }
+   ],
+   "options": [
+    { "key": "ship", "label_key": "chain_saga_neustria_west.s04.opt_ship", "label": "Offer your ship for the crossing", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_road_saint", "flag ch_saga_neustria_west_4", "npc abbot feeling +8 offered", "silver +120" ],
+      "note": "outcome: chain_saga_neustria_west.s04.out_ship (the turn: half a pound of pennies in earnest, for a frame, rollers and pitch)" },
+    { "key": "marks", "label_key": "chain_saga_neustria_west.s04.opt_marks", "label": "Say the channel can be marked and a ferry kept at Furca, and offer to prove it", "check": "silver >= 150", "cost": "silver 150",
+      "effects": [ "flag ch_saga_neustria_west_road_hold", "flag ch_saga_neustria_west_4", "npc count feeling +6 marks", "npc abbot feeling -2 marks", "schedule harbour.chain_saga_neustria_west.s05_marks in 40 at herio" ],
+      "note": "outcome: chain_saga_neustria_west.s04.out_marks (150 d for withies, a flat boat and men; the road to history changed)" },
+    { "key": "island", "label_key": "chain_saga_neustria_west.s04.opt_island", "label": "Say nothing in this hall. Go and tell the island", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_road_island", "flag ch_saga_neustria_west_4", "schedule harbour.chain_saga_neustria_west.s05_rakers in 14 at herio" ],
+      "note": "outcome: chain_saga_neustria_west.s04.out_island (costs nothing)" }
+   ],
+   "memory": { "ship": "offered his ship for the saint", "marks": "said the channel could be marked", "island": "said nothing in the bishop's hall" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.s05_marks",
+   "note": "Step 5 on the road _road_hold (Herio, before June 836). A trial before the count. Sources: the monastery's channel (alveus) dries at the ebb (Vita Filiberti 28); the king's council on the ebbs (Miracles I.1); horsemen fought on the island in 835 (Miracles II.11). Invented: the marks, the ferry, the trial, and that anyone offered it; withies to mark a channel are the common practice of tidal waters and are in no text of the bay (?). Martinus learned the ebbs from old Ursus (places/herio.json). Sets ch_saga_neustria_west_5; _marks on success; on failure _road_saint.",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and flag.ch_saga_neustria_west_road_hold and not flag.ch_saga_neustria_west_5 and not flag.ch_saga_neustria_west_7 and ((year = 835 and month >= 9) or (year = 836 and month <= 5))",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 26], "fixed": true, "note": "Martinus (herio.martinus); invented" },
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 50], "fixed": true, "note": "Rainald of Herbauge (namnetis.rainald); real" },
+    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" }
+   },
+   "title_key": "chain_saga_neustria_west.s05m.title",
+   "title": "A road over the water",
+   "intention_key": "chain_saga_neustria_west.s05m.intention",
+   "intention": "The monastery's channel dries at the ebb and fills on the flood. Between the two there is an hour when a flat boat on a marked line could bring horsemen across. The count has come to the far shore to see it done.",
+   "lines": [
+    { "who": "salter", "key": "chain_saga_neustria_west.s05m.martin_marks" },
+    { "who": "salter", "key": "chain_saga_neustria_west.s05m.martin_why" },
+    { "who": "count", "key": "chain_saga_neustria_west.s05m.rainald_trial" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s05m.hilbod_watch" }
+   ],
+   "options": [
+    { "key": "trial", "label_key": "chain_saga_neustria_west.s05m.opt_trial", "label": "Set the marks and bring the horsemen over on the half tide", "check": "true",
+      "effects": [ { "chance": 0.55, "by": "crew.seamanship_best",
+                     "success": [ "flag ch_saga_neustria_west_marks", "flag ch_saga_neustria_west_5", "npc count feeling +10 crossed", "npc salter feeling +6 marks", "silver +150" ],
+                     "failure": [ "silver -60", "npc count feeling -4 horse", "flag ch_saga_neustria_west_road_saint", "flag ch_saga_neustria_west_5" ] } ],
+      "note": "outcome: chain_saga_neustria_west.s05m.out_ok, .out_fail (a horse lost; the story goes on by the saint's road)" },
+    { "key": "sound", "label_key": "chain_saga_neustria_west.s05m.opt_sound", "label": "Pay Martinus and four rakers to sound every yard first, then try it", "check": "silver >= 80", "cost": "silver 80",
+      "effects": [ { "chance": 0.85, "by": "crew.seamanship_best",
+                     "success": [ "flag ch_saga_neustria_west_marks", "flag ch_saga_neustria_west_5", "npc count feeling +10 crossed", "npc salter feeling +10 paid", "silver +150" ],
+                     "failure": [ "silver -60", "npc count feeling -4 horse", "npc salter feeling +4 paid", "flag ch_saga_neustria_west_road_saint", "flag ch_saga_neustria_west_5" ] } ],
+      "note": "outcome: chain_saga_neustria_west.s05m.out_ok, .out_fail" },
+    { "key": "yield", "label_key": "chain_saga_neustria_west.s05m.opt_yield", "label": "It cannot be proved in one spring. Tell Hilbod he was right", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_road_saint", "flag ch_saga_neustria_west_5", "npc abbot feeling +4 yielded" ],
+      "note": "outcome: chain_saga_neustria_west.s05m.out_yield (costs pride)" }
+   ],
+   "memory": { "trial": "brought the count's horsemen over the channel", "trial.failure": "lost a horse in the channel", "sound": "sounded the channel and brought the horsemen over", "sound.failure": "lost a horse in the channel", "yield": "said the abbot was right" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.s05_rakers",
+   "note": "Step 5 on the road _road_island (Herio, before June 836). The islanders. Sources: the islanders (insulani) had a lord of their own and were not the monks' people; they still lived on the island about 838 to 840 (Miracles I.1, I.81); the island 'never wholly without a few monks' (Falco 22); dossiers/herio.md 1, 5. Invented: the three heaps and their sharing, what was told and by whom, and what the abbot left; the beat is that of places/herio.json, story herio.saints_road ('They are not coming to Deas. Nobody has asked them.'). People: herio.martinus, herio.natalis (invented). Sets ch_saga_neustria_west_5; _told; _abbot_cool (a lasting cost); or _provided with _road_saint (the hard and honest road).",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and flag.ch_saga_neustria_west_road_island and not flag.ch_saga_neustria_west_5 and not flag.ch_saga_neustria_west_7 and ((year = 835 and month >= 9) or (year = 836 and month <= 5))",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 26], "fixed": true, "note": "Martinus (herio.martinus); invented" },
+    "monk": { "role": "monk", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [66, 72], "fixed": true, "note": "Natalis, the salt brother (herio.natalis); invented" }
+   },
+   "title_key": "chain_saga_neustria_west.s05r.title",
+   "title": "What the island is left with",
+   "intention_key": "chain_saga_neustria_west.s05r.intention",
+   "intention": "On the salt heaps the rakers ask you what the monks will not tell them: is the saint going, and is the wall to be manned after.",
+   "lines": [
+    { "who": "salter", "key": "chain_saga_neustria_west.s05r.martin_ask" },
+    { "who": "salter", "key": "chain_saga_neustria_west.s05r.martin_stay" },
+    { "who": "monk", "key": "chain_saga_neustria_west.s05r.natalis_fear" },
+    { "who": "", "key": "chain_saga_neustria_west.s05r.narr_heaps" },
+    { "who": "", "key": "chain_saga_neustria_west.s05r.narr_isl", "when": "flag.ch_saga_neustria_west_isl" }
+   ],
+   "options": [
+    { "key": "hide", "label_key": "chain_saga_neustria_west.s05r.opt_hide", "label": "Tell them all of it, and help carry the third heap to the lagoon side", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_told", "flag ch_saga_neustria_west_abbot_cool", "flag ch_saga_neustria_west_5", "npc salter feeling +15 told", "goods sea_salt +4" ],
+      "note": "outcome: chain_saga_neustria_west.s05r.out_hide (the abbot will know who told)" },
+    { "key": "plead", "label_key": "chain_saga_neustria_west.s05r.opt_plead", "label": "Tell them, then go up to the abbot with Martinus and ask what he will leave", "check": "true",
+      "effects": [ { "chance": 0.6,
+                     "success": [ "flag ch_saga_neustria_west_told", "flag ch_saga_neustria_west_provided", "flag ch_saga_neustria_west_road_saint", "flag ch_saga_neustria_west_5", "npc salter feeling +12 pleaded", "npc monk feeling +6 pleaded" ],
+                     "failure": [ "flag ch_saga_neustria_west_told", "flag ch_saga_neustria_west_abbot_cool", "flag ch_saga_neustria_west_5", "npc salter feeling +8 pleaded" ] } ],
+      "note": "outcome: chain_saga_neustria_west.s05r.out_plead_ok (the hard road: a priest, two brothers, a paid wall and a third of the salt, written down), .out_plead_fail" },
+    { "key": "hint", "label_key": "chain_saga_neustria_west.s05r.opt_hint", "label": "Say only that the abbot has been to the king, and let them work it out", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_5", "npc salter feeling +3 hinted" ],
+      "note": "outcome: chain_saga_neustria_west.s05r.out_hint (costs nothing)" }
+   ],
+   "memory": { "hide": "told the island and hid the third heap", "plead": "spoke for the island before the abbot", "plead.failure": "spoke for the island and was sent away", "hint": "would not say it outright" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.s06_riwal",
+   "note": "Step 6, an offer that can be refused (Namnetis, October 835 to June 836, after the council). The monks' lead. Sources: Ermentarius, Miracles I.81: about 838 to 840 Breton ships with yards, sails and anchors came to Furca 'to trade', having brought grain and carrying away 'only salt'; the monastery's lead lay there for fear of the Northmen, and a Breton crew took some, 'partly by theft, partly by buying on the quiet'; their ship had a steersman (gubernator) and a bow lookout (proreta) (dossiers/herio.md 3, 4). The game moves the theft two to four years earlier, to before the saint's going (?). Riwal is invented: a Breton name of the Redon charters (Riuual), from memory (?). There is no Breton people or tongue in the tables: he is given 'romance' here (see the report's needs). Sets ch_saga_neustria_west_6; _road_lead, or _lead_warned.",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and flag.ch_saga_neustria_west_4 and not flag.ch_saga_neustria_west_6 and not flag.ch_saga_neustria_west_7 and ((year = 835 and month >= 10) or (year = 836 and month <= 6))",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "skipper": { "role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 45], "fixed": true, "note": "Riwal, a Breton master of the salt run; invented. A Breton: the tables have no such people yet" },
+    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod), not on the card: named for the option that goes to his man" }
+   },
+   "title_key": "chain_saga_neustria_west.s06.title",
+   "title": "Lead in a shed",
+   "intention_key": "chain_saga_neustria_west.s06.intention",
+   "intention": "Riwal, a Breton master who brings grain to the bay and takes away only salt, has looked through the cracks of the monks' shed at Furca.",
+   "lines": [
+    { "who": "skipper", "key": "chain_saga_neustria_west.s06.riwal_offer" },
+    { "who": "skipper", "key": "chain_saga_neustria_west.s06.riwal_where" },
+    { "who": "skipper", "key": "chain_saga_neustria_west.s06.riwal_dry" },
+    { "who": "", "key": "chain_saga_neustria_west.s06.narr_ship" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_saga_neustria_west.s06.opt_take", "label": "Take the third share", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_road_lead", "flag ch_saga_neustria_west_6", "npc skipper feeling +8 partner", "schedule sea.chain_saga_neustria_west.s08_no_wind in 4" ],
+      "note": "outcome: chain_saga_neustria_west.s06.out_take (the lead rides in both hulls and is not counted in the hold; the danger is said: it is a saint's roof)" },
+    { "key": "refuse", "label_key": "chain_saga_neustria_west.s06.opt_refuse", "label": "No. Leave that shed alone", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_6", "npc skipper feeling -3 refused" ],
+      "note": "outcome: chain_saga_neustria_west.s06.out_refuse (costs nothing)" },
+    { "key": "tell", "label_key": "chain_saga_neustria_west.s06.opt_tell", "label": "Go to the abbot's man with it", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_lead_warned", "flag ch_saga_neustria_west_6", "npc skipper feeling -10 informed", "npc abbot feeling +8 warned", "silver +30", "commission lead 6 by 240 premium 0.5" ],
+      "note": "outcome: chain_saga_neustria_west.s06.out_tell (first refusal on the abbey's lead: an order for six pigs for the roof at Deas)" }
+   ],
+   "memory": { "take": "went shares in the monks' lead", "refuse": "would not touch the lead", "tell": "told the abbot's man about the shed" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.s07_june",
+   "note": "Step 7, the day (Herio, June 836; a house that comes later, to 842, finds the pit in the floor). Sources: Ermentarius, Miracles I.2: the tomb dug out on 7 June 836 and the body shipped in its marble coffin from the island to Furca, a fast run before a north-west wind, then carried on men's shoulders by Ampan, Varenne and Paulx to Deas, 7 to 11 June; the coffin's carrying frame (scala); three lamps at the head of the tomb (II.8); 'never wholly without a few monks' (Falco 22); the stolen lead came back as sheets and was recast in lumps (I.81): dossiers/herio.md. Easter 836 fell on 9 April, so 7 June is the tenth day after Pentecost (our reckoning (?)). Whose ship carried the saint is not written: that is the room the player stands in. People: herio.hilbod, herio.ermentarius (real), herio.martinus (invented). Sets ch_saga_neustria_west_7; _carried with herio_saint_carried; _late; or _carter.",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and flag.ch_saga_neustria_west_1 and not flag.ch_saga_neustria_west_7 and not flag.ch_saga_neustria_west_marks and not flag.ch_saga_neustria_west_road_lead and ((year = 836 and month >= 6) or (year >= 837 and year <= 842))",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
+    "scribe": { "role": "scribe", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [24, 30], "fixed": true, "note": "Ermentarius, monk and eyewitness, author of the Miracles (herio.ermentarius); real" },
+    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 28], "fixed": true, "note": "Martinus (herio.martinus); invented" }
+   },
+   "title_key": "chain_saga_neustria_west.s07.title",
+   "title": "The seventh day of June",
+   "intention_key": "chain_saga_neustria_west.s07.intention",
+   "intention": "The founder of the house leaves his island in his marble coffin, by ship for Furca and then by road to Deas.",
+   "lines": [
+    { "who": "", "key": "chain_saga_neustria_west.s07.narr_day", "when": "year = 836 and month = 6" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s07.hilbod_tide", "when": "year = 836 and month = 6" },
+    { "who": "scribe", "key": "chain_saga_neustria_west.s07.erm_write", "when": "year = 836 and month = 6" },
+    { "who": "", "key": "chain_saga_neustria_west.s07.narr_late", "when": "not (year = 836 and month = 6)" },
+    { "who": "salter", "key": "chain_saga_neustria_west.s07.martin_sand" },
+    { "who": "", "key": "chain_saga_neustria_west.s07.narr_provided", "when": "flag.ch_saga_neustria_west_provided" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s07.hilbod_lead", "when": "flag.ch_saga_neustria_west_lead_back and year = 836 and month = 6" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_saga_neustria_west.s07.opt_carry", "label": "Take the coffin aboard at the top of the flood", "check": "year = 836 and month = 6 and (flag.ch_saga_neustria_west_road_saint or npc.abbot.feeling >= friendly)",
+      "effects": [ { "chance": 0.7, "by": "crew.seamanship_best",
+                     "success": [ "flag ch_saga_neustria_west_carried", "flag herio_saint_carried", "flag ch_saga_neustria_west_7", "npc abbot feeling +15 carried", "npc scribe feeling +10 carried", "schedule harbour.chain_saga_neustria_west.e1_saint in 30 at namnetis" ],
+                     "failure": [ "flag ch_saga_neustria_west_carried", "flag herio_saint_carried", "flag ch_saga_neustria_west_late", "flag ch_saga_neustria_west_7", "morale -0.1", "npc abbot feeling +5 late", "schedule harbour.chain_saga_neustria_west.e1_saint in 30 at namnetis" ] } ],
+      "note": "outcome: chain_saga_neustria_west.s07.out_carry_ok, .out_carry_fail (she touches on the bar and the saint waits a tide; he reaches Furca all the same)" },
+    { "key": "goods", "label_key": "chain_saga_neustria_west.s07.opt_goods", "label": "Let the abbey's own boat take him. Carry the house's goods and the last of the lead", "check": "true",
+      "effects": [ "silver +180", "flag ch_saga_neustria_west_carter", "flag ch_saga_neustria_west_7", "npc abbot feeling +3 carter", "schedule harbour.chain_saga_neustria_west.e1_saint in 30 at namnetis" ],
+      "note": "outcome: chain_saga_neustria_west.s07.out_goods (180 d, as the story herio.saints_road has it)" },
+    { "key": "sand", "label_key": "chain_saga_neustria_west.s07.opt_sand", "label": "Stand on the sand with the rakers", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_7", "npc salter feeling +8 stood", "schedule harbour.chain_saga_neustria_west.e2_island in 60 at herio" ],
+      "note": "outcome: chain_saga_neustria_west.s07.out_sand (costs nothing)" }
+   ],
+   "memory": { "carry": "carried Saint Philibert to Furca", "carry.failure": "carried the saint and touched on the bar", "goods": "carried the house's goods", "sand": "stood on the sand with the rakers" }
+  },
+  {
+   "id": "sea.chain_saga_neustria_west.s08_no_wind",
+   "note": "Step 8 on the road _road_lead (at sea, four days after the lead is taken). The calm off Batz. Source: Ermentarius, Miracles I.81: the lead thieves, driven to Batz, saw a horseman with three spears charge them over the sea; a cripple there, cured in a dream, was sent to tell them why they had no wind; the lead came back (dossiers/herio.md 7). Told here as it is in the book; the game does not say whether the rider was there. Sets ch_saga_neustria_west_8; clears _road_lead and sets _lead_back if the lead goes home; else _tithe or _saints_grudge.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_saga_neustria_west_road_lead and not flag.ch_saga_neustria_west_8",
+   "rate": 0.2,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "lookout": { "role": "lookout", "people": "ship", "faith": "ship", "tongue": "ship", "sex": "m", "age": [18, 40], "fixed": false, "note": "the player's own bow man" },
+    "skipper": { "role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 45], "fixed": true, "note": "Riwal the Breton, in company; invented" }
+   },
+   "title_key": "chain_saga_neustria_west.s08.title",
+   "title": "No wind off Batz",
+   "intention_key": "chain_saga_neustria_west.s08.intention",
+   "intention": "With the monks' lead under the salt, the wind dies off the island of Batz and does not come back. Riwal's ship lies a bowshot off, as still as yours.",
+   "lines": [
+    { "who": "lookout", "key": "chain_saga_neustria_west.s08.lookout_rider" },
+    { "who": "skipper", "key": "chain_saga_neustria_west.s08.riwal_hail" },
+    { "who": "", "key": "chain_saga_neustria_west.s08.narr_cripple" }
+   ],
+   "options": [
+    { "key": "back", "label_key": "chain_saga_neustria_west.s08.opt_back", "label": "Put about and take it back to Furca", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_road_lead = 0", "flag ch_saga_neustria_west_lead_back", "flag ch_saga_neustria_west_8", "morale +0.1", "npc skipper feeling -6 turned" ],
+      "note": "outcome: chain_saga_neustria_west.s08.out_back (costs the share and some pride; the story goes back to the island)" },
+    { "key": "row", "label_key": "chain_saga_neustria_west.s08.opt_row", "label": "Out oars. Saints do not ride on water", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew",
+                     "success": [ "flag ch_saga_neustria_west_8", "morale -0.1", "schedule harbour.chain_saga_neustria_west.e4_lead in 10 at rotomagus" ],
+                     "failure": [ "flag ch_saga_neustria_west_8", "health -0.1", "morale -0.15", "flag ch_saga_neustria_west_saints_grudge", "schedule harbour.chain_saga_neustria_west.e4_lead in 14 at rotomagus" ] } ],
+      "note": "outcome: chain_saga_neustria_west.s08.out_row_ok, .out_row_fail (three days at the oars and short water; the story goes on to the Seine)" },
+    { "key": "vow", "label_key": "chain_saga_neustria_west.s08.opt_vow", "label": "Vow the saint a tenth of the price and a lamp's oil, and wait", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_tithe", "flag ch_saga_neustria_west_8", "schedule harbour.chain_saga_neustria_west.e4_lead in 14 at rotomagus" ],
+      "note": "outcome: chain_saga_neustria_west.s08.out_vow (costs a tenth, later)" }
+   ],
+   "memory": { "back": "turned back with the lead", "row": "rowed on with the saint's lead", "vow": "vowed the saint a tenth" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.e1_saint",
+   "note": "ENDING 1, what happened: the saint on the mainland (Namnetis, a month after the day). Sources: the body reached Deas on 11 June 836, with cures along the road; women admitted to Deas for one year, feast to feast (Miracles I.2, I.29, I.71); the abbey's six toll-free boats (Pippin I, 826); the six pounds of silver owed yearly to the royal chamber (diploma of 830); the frame (scala) the coffin was carried on (I.2); Gunhard defended Hilbod when people called it faint heart (places/namnetis.json (?)): dossiers/herio.md. The guest right, the room in the boats and the sums are invented, and are the unlock herio.saints_guest of places/herio.json. Sets ch_saga_neustria_west_end_saint and one grand reward: unlock_title_guest_of_saint_philibert, unlock_charter_namnetis, both the title and unlock_factor_herio (the hard road), or unlock_upgrade_rollers_tackle.",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and flag.ch_saga_neustria_west_7 and (flag.ch_saga_neustria_west_carried or flag.ch_saga_neustria_west_carter) and not flag.ch_saga_neustria_west_end_saint",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 55], "fixed": true, "note": "Gunhard (namnetis.gunhard); real" },
+    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
+    "scribe": { "role": "scribe", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [24, 30], "fixed": true, "note": "Ermentarius (herio.ermentarius); real" }
+   },
+   "title_key": "chain_saga_neustria_west.e1.title",
+   "title": "A guest of Saint Philibert",
+   "intention_key": "chain_saga_neustria_west.e1.intention",
+   "intention": "The saint reached Deas on men's shoulders in four days. At Namnetis the abbot settles his accounts before the summer is out.",
+   "lines": [
+    { "who": "bishop", "key": "chain_saga_neustria_west.e1.gunhard_road" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.e1.hilbod_thanks", "when": "flag.ch_saga_neustria_west_carried and not flag.ch_saga_neustria_west_late" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.e1.hilbod_late", "when": "flag.ch_saga_neustria_west_late" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.e1.hilbod_carter", "when": "flag.ch_saga_neustria_west_carter" },
+    { "who": "scribe", "key": "chain_saga_neustria_west.e1.erm_book", "when": "flag.ch_saga_neustria_west_carried" },
+    { "who": "bishop", "key": "chain_saga_neustria_west.e1.gunhard_empty" },
+    { "who": "", "key": "chain_saga_neustria_west.e1.narr_provided", "when": "flag.ch_saga_neustria_west_provided" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.e1.hilbod_blame" }
+   ],
+   "options": [
+    { "key": "guest", "label_key": "chain_saga_neustria_west.e1.opt_guest", "label": "Ask for a guest's place wherever the saint lies", "check": "flag.ch_saga_neustria_west_carried",
+      "effects": [ "flag ch_saga_neustria_west_end_saint", "flag unlock_title_guest_of_saint_philibert", "silver +720", "npc abbot feeling +10 guest", "news chain_saga_neustria_west.news.saint_moved at here" ],
+      "note": "outcome: chain_saga_neustria_west.e1.out_guest (three pounds of pennies and the guest right, which an heir inherits)" },
+    { "key": "boats", "label_key": "chain_saga_neustria_west.e1.opt_boats", "label": "Ask for room in the abbey's six boats on the Loire, toll-free", "check": "flag.ch_saga_neustria_west_carried",
+      "effects": [ "flag ch_saga_neustria_west_end_saint", "flag unlock_charter_namnetis", "silver +600", "npc abbot feeling +6 boats", "news chain_saga_neustria_west.news.saint_moved at here" ],
+      "note": "outcome: chain_saga_neustria_west.e1.out_boats (toll freedom at Namnetis under the abbey's privilege)" },
+    { "key": "both", "label_key": "chain_saga_neustria_west.e1.opt_both", "label": "Ask for the guest's place, and for the island's share to be kept as it was written", "check": "flag.ch_saga_neustria_west_carried and flag.ch_saga_neustria_west_provided",
+      "effects": [ "flag ch_saga_neustria_west_end_saint", "flag unlock_title_guest_of_saint_philibert", "flag unlock_factor_herio", "silver +1200", "npc abbot feeling +8 guest", "npc bishop feeling +8 island", "news chain_saga_neustria_west.news.saint_moved at here" ],
+      "note": "outcome: chain_saga_neustria_west.e1.out_both (the hard road: five pounds, the guest right, and Martinus as the house's man on the island)" },
+    { "key": "fee", "label_key": "chain_saga_neustria_west.e1.opt_fee", "label": "Take the carter's fee, and the coffin's frame and rollers", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_end_saint", "flag unlock_upgrade_rollers_tackle", "silver +440", "npc abbot feeling +3 fee", "news chain_saga_neustria_west.news.saint_moved at here" ],
+      "note": "outcome: chain_saga_neustria_west.e1.out_fee (with the 180 d of the day, 620 d; the rollers and tackle fitted to the ship)" }
+   ],
+   "memory": { "guest": "was made a guest of Saint Philibert", "boats": "was given room in the abbey's boats", "both": "spoke for the island and was made the saint's guest", "fee": "took the carter's fee" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.e2_island",
+   "note": "ENDING 2, what happened, seen from the sand: the island and its rakers (Herio, two months after the day, about the saint's feast). Sources: islanders still on the island and Breton ships bringing grain and taking 'only salt', about 838 to 840 (Miracles I.81); a few monks always there (Falco 22); the fort still standing (dossiers/herio.md 5). The third heap, its sale and the shares are invented; the ending is 'stood_with_the_island' of places/herio.json, and the berth is that file's unlock herio.lagoon_berth. Sets ch_saga_neustria_west_end_island and unlock_factor_herio or unlock_plot_herio.",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and flag.ch_saga_neustria_west_7 and not flag.ch_saga_neustria_west_carried and not flag.ch_saga_neustria_west_carter and not flag.ch_saga_neustria_west_end_island",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 30], "fixed": true, "note": "Martinus (herio.martinus); invented" }
+   },
+   "title_key": "chain_saga_neustria_west.e2.title",
+   "title": "One lamp",
+   "intention_key": "chain_saga_neustria_west.e2.intention",
+   "intention": "The saint's feast comes round with no saint. The islanders keep it anyway, on the sand, and count what the monks left.",
+   "lines": [
+    { "who": "salter", "key": "chain_saga_neustria_west.e2.martin_lamp" },
+    { "who": "salter", "key": "chain_saga_neustria_west.e2.martin_asked" },
+    { "who": "salter", "key": "chain_saga_neustria_west.e2.martin_heap", "when": "flag.ch_saga_neustria_west_told" },
+    { "who": "salter", "key": "chain_saga_neustria_west.e2.martin_plain", "when": "not flag.ch_saga_neustria_west_told" },
+    { "who": "", "key": "chain_saga_neustria_west.e2.narr_fort" },
+    { "who": "", "key": "chain_saga_neustria_west.e2.narr_cool", "when": "flag.ch_saga_neustria_west_abbot_cool" }
+   ],
+   "options": [
+    { "key": "factor", "label_key": "chain_saga_neustria_west.e2.opt_factor", "label": "Leave your tally and your salt with Martinus", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_end_island", "flag unlock_factor_herio", "silver +640", "npc salter feeling +15 factor" ],
+      "note": "outcome: chain_saga_neustria_west.e2.out_factor" },
+    { "key": "berth", "label_key": "chain_saga_neustria_west.e2.opt_berth", "label": "Ask for a berth on the lagoon side and a store dug in the dune", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_end_island", "flag unlock_plot_herio", "silver +600", "npc salter feeling +10 berth" ],
+      "note": "outcome: chain_saga_neustria_west.e2.out_berth" },
+    { "key": "salt", "label_key": "chain_saga_neustria_west.e2.opt_salt", "label": "Take part of your share in salt, and a raker's welcome", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_end_island", "flag unlock_factor_herio", "goods sea_salt +10", "silver +570", "npc salter feeling +12 salt" ],
+      "note": "outcome: chain_saga_neustria_west.e2.out_salt" }
+   ],
+   "memory": { "factor": "left his tally with Martinus", "berth": "took a berth on the lagoon side", "salt": "took his share in salt" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.e3_held",
+   "note": "ENDING 3, HISTORY CHANGED: the saint stays behind a manned wall (Herio, from the saint's feast of 836). What happened: the council judged that the ebbs kept the count's men off the island, and the body was moved on 7 June 836 (Miracles I.1 to I.2); it went on to Cunault (858), Messay (862) and Tournus (875), and Herio burned in July 846 (Annals of Angouleme). Here the channel is marked, a ferry lies at Furca and the count keeps men on the wall: all invented. The page says what would follow. Sets ch_saga_neustria_west_end_held, changed_herio_836, unlock_pilot_loire (the second grand reward of the hard road) and one of unlock_plot_herio, unlock_work_herio_ferry, unlock_title_guest_of_saint_philibert; and a lasting duty, ch_saga_neustria_west_marks_duty.",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and flag.ch_saga_neustria_west_marks and not flag.ch_saga_neustria_west_end_held and ((year = 836 and month >= 8) or (year >= 837 and year <= 842))",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 60], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 55], "fixed": true, "note": "Rainald of Herbauge (namnetis.rainald); real" },
+    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 30], "fixed": true, "note": "Martinus (herio.martinus); invented" },
+    "scribe": { "role": "scribe", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [24, 32], "fixed": true, "note": "Ermentarius (herio.ermentarius); real" }
+   },
+   "title_key": "chain_saga_neustria_west.e3.title",
+   "title": "Three lamps",
+   "intention_key": "chain_saga_neustria_west.e3.intention",
+   "intention": "The saint's feast, and the marble coffin lies where it has lain since the founder died. The count's men are on the wall, and a flat ferry lies at Furca.",
+   "lines": [
+    { "who": "", "key": "chain_saga_neustria_west.e3.narr_vigil" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.e3.hilbod_stayed" },
+    { "who": "count", "key": "chain_saga_neustria_west.e3.rainald_men" },
+    { "who": "salter", "key": "chain_saga_neustria_west.e3.martin_withies" },
+    { "who": "scribe", "key": "chain_saga_neustria_west.e3.erm_book" }
+   ],
+   "options": [
+    { "key": "store", "label_key": "chain_saga_neustria_west.e3.opt_store", "label": "Take the locked store inside the wall", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_end_held", "flag changed_herio_836", "flag unlock_plot_herio", "flag unlock_pilot_loire", "flag ch_saga_neustria_west_marks_duty", "silver +900", "npc abbot feeling +10 stayed", "news chain_saga_neustria_west.news.saint_stays at here" ],
+      "note": "outcome: chain_saga_neustria_west.e3.out_store" },
+    { "key": "ferry", "label_key": "chain_saga_neustria_west.e3.opt_ferry", "label": "Take the ferry at Furca for your house, with its fare", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_end_held", "flag changed_herio_836", "flag unlock_work_herio_ferry", "flag unlock_pilot_loire", "flag ch_saga_neustria_west_marks_duty", "silver +720", "npc count feeling +8 ferry", "news chain_saga_neustria_west.news.saint_stays at here" ],
+      "note": "outcome: chain_saga_neustria_west.e3.out_ferry" },
+    { "key": "name", "label_key": "chain_saga_neustria_west.e3.opt_name", "label": "Ask only that your name be said at the tomb", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_end_held", "flag changed_herio_836", "flag unlock_title_guest_of_saint_philibert", "flag unlock_pilot_loire", "flag ch_saga_neustria_west_marks_duty", "silver +600", "npc abbot feeling +14 name", "news chain_saga_neustria_west.news.saint_stays at here" ],
+      "note": "outcome: chain_saga_neustria_west.e3.out_name" }
+   ],
+   "memory": { "store": "kept the saint on his island and took a store in the wall", "ferry": "kept the saint on his island and took the ferry", "name": "kept the saint on his island and asked for a prayer" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.e4_lead",
+   "note": "ENDING 4: the monks' lead sold on the Seine (Rotomagus, ten to fourteen days after the calm). Sources: Philibert founded Jumieges, below Rouen, about 654, before he was driven out and built on Herio about 675 (Vita Filiberti; dossiers/herio.md 1; the year 654 from memory (?)); his feast, 20 August; lead wanted for church roofs in Neustria (goods_793.json; Gervold roofed two churches with lead, Gesta of Fontenelle). In Ermentarius the lead came back (Miracles I.81): here the player may sell it. The cellarer of Jumieges is invented and unnamed; that Jumieges bought lead at Rouen in 836 is invented. Sets ch_saga_neustria_west_end_lead and unlock_partner_riwal or unlock_factor_rotomagus; a lasting cost, ch_saga_neustria_west_saints_grudge, unless the tithe is paid or the truth told.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and flag.ch_saga_neustria_west_road_lead and flag.ch_saga_neustria_west_8 and not flag.ch_saga_neustria_west_end_lead",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "cellarer": { "role": "cellarer", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [40, 60], "fixed": true, "note": "the cellarer of Jumieges, buying at the Rouen quay; invented, unnamed" },
+    "skipper": { "role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 45], "fixed": true, "note": "Riwal the Breton; invented" }
+   },
+   "title_key": "chain_saga_neustria_west.e4.title",
+   "title": "Whose roof it was",
+   "intention_key": "chain_saga_neustria_west.e4.intention",
+   "intention": "At Rotomagus the cellarer of Jumieges is buying lead for a leaking aisle. Jumieges is the first house Saint Philibert founded, two tides down the river.",
+   "lines": [
+    { "who": "cellarer", "key": "chain_saga_neustria_west.e4.cell_weigh" },
+    { "who": "cellarer", "key": "chain_saga_neustria_west.e4.cell_founder" },
+    { "who": "skipper", "key": "chain_saga_neustria_west.e4.riwal_english" },
+    { "who": "", "key": "chain_saga_neustria_west.e4.narr_grudge", "when": "flag.ch_saga_neustria_west_saints_grudge" },
+    { "who": "", "key": "chain_saga_neustria_west.e4.narr_tithe", "when": "flag.ch_saga_neustria_west_tithe" }
+   ],
+   "options": [
+    { "key": "silent", "label_key": "chain_saga_neustria_west.e4.opt_silent", "label": "Say it came from the English, and sell", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_end_lead", "silver +1100", "flag unlock_partner_riwal", "flag ch_saga_neustria_west_saints_grudge", "npc skipper feeling +10 sold" ],
+      "note": "outcome: chain_saga_neustria_west.e4.out_silent (the best price, and the saint's grudge on the house)" },
+    { "key": "tithe", "label_key": "chain_saga_neustria_west.e4.opt_tithe", "label": "Sell, and set a tenth and a lamp's oil aside for the saint", "check": "flag.ch_saga_neustria_west_tithe",
+      "effects": [ "flag ch_saga_neustria_west_end_lead", "silver +950", "flag unlock_partner_riwal", "flag ch_saga_neustria_west_saints_grudge = 0", "npc skipper feeling +4 sold" ],
+      "note": "outcome: chain_saga_neustria_west.e4.out_tithe" },
+    { "key": "truth", "label_key": "chain_saga_neustria_west.e4.opt_truth", "label": "Tell the cellarer whose roof it was", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_end_lead", "silver +650", "flag unlock_factor_rotomagus", "flag ch_saga_neustria_west_saints_grudge = 0", "npc cellarer feeling +12 truth", "npc skipper feeling -15 truth" ],
+      "note": "outcome: chain_saga_neustria_west.e4.out_truth (costs pride and a partner; the cellarer pays a finder's price and writes to Hilbod)" }
+   ],
+   "memory": { "silent": "sold the saint's lead as English", "tithe": "sold the lead and paid the saint a tenth", "truth": "told whose roof the lead was from" }
+  },
+  {
+   "id": "harbour.chain_saga_neustria_west.s13_book",
+   "note": "The coda, after any ending (Parisius, 838 to 840). The first book of the Miracles. Sources: Ermentarius wrote book I about 838 to 840 and sent it to Hilduin, abbot of Saint-Denis (814 to 840/841), to be corrected (Poupardin 1905, as in dossiers/herio.md 3); Hilduin's chapel of 832 where eight monks sang day and night, and Saint-Denis buying parchment (dossiers/parisius.md; the spine's book_road); the 484 dead (Miracles II.11, which is in book II, written after 862: the game lets Hilduin hear the number early (?)); the lead thieves (I.81). People: parisius.hilduin (real). That Hilduin questioned a shipman is invented. Sets ch_saga_neustria_west_book.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and year >= 838 and year <= 840 and (flag.ch_saga_neustria_west_end_saint or flag.ch_saga_neustria_west_end_island or flag.ch_saga_neustria_west_end_held or flag.ch_saga_neustria_west_end_lead) and not flag.ch_saga_neustria_west_book",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "abbot": { "role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 60], "fixed": true, "note": "Hilduin, abbot of Saint-Denis (parisius.hilduin); real" }
+   },
+   "title_key": "chain_saga_neustria_west.s13.title",
+   "title": "The first book",
+   "intention_key": "chain_saga_neustria_west.s13.intention",
+   "intention": "Abbot Hilduin of Saint-Denis has been sent a book of the wonders of Saint Philibert by a young monk of the west, to be corrected. He has heard that you were there.",
+   "lines": [
+    { "who": "abbot", "key": "chain_saga_neustria_west.s13.hilduin_ask" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s13.hilduin_count" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s13.hilduin_lead", "when": "flag.ch_saga_neustria_west_end_lead" },
+    { "who": "abbot", "key": "chain_saga_neustria_west.s13.hilduin_stayed", "when": "flag.ch_saga_neustria_west_end_held" },
+    { "who": "", "key": "chain_saga_neustria_west.s13.narr_chapel" }
+   ],
+   "options": [
+    { "key": "plain", "label_key": "chain_saga_neustria_west.s13.opt_plain", "label": "Tell it as you saw it", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_book", "npc abbot feeling +6 plain", "learn latin +0.1", "silver +60", "commission parchment 3 by 180 premium 0.5" ],
+      "note": "outcome: chain_saga_neustria_west.s13.out_plain" },
+    { "key": "monks", "label_key": "chain_saga_neustria_west.s13.opt_monks", "label": "Tell it as the monks tell it", "check": "true",
+      "effects": [ "flag ch_saga_neustria_west_book", "npc abbot feeling +2 monks", "silver +100" ],
+      "note": "outcome: chain_saga_neustria_west.s13.out_monks" },
+    { "key": "tides", "label_key": "chain_saga_neustria_west.s13.opt_tides", "label": "Say a shipman counts tides, not miracles", "check": "true", "default": true,
+      "effects": [ "flag ch_saga_neustria_west_book" ],
+      "note": "outcome: chain_saga_neustria_west.s13.out_tides (costs nothing)" }
+   ],
+   "memory": { "plain": "told the abbot what he saw on Herio", "monks": "told it as the monks tell it", "tides": "would not speak of miracles" }
+  }
+ ]
+}

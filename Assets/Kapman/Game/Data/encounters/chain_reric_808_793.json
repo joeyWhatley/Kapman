@@ -1,0 +1,684 @@
+{
+ "about": "CHAIN reric_808 (Design/content/chains/reric_808.md): King Godfred destroys the Wends' market of Reric in the summer of 808 and carries its merchants to Sliesthorp (Annales regni Francorum 808). Fourteen cards, 798 to about 810. The spine's thread godfreds_market. A Wendish wax merchant (the spine's cast.dragomir) wants Frankish iron and a friend in the west; in the spring of 808 the king's ships are called out and a dealer in people (cast.asulf) knows where they are bound; the merchant can warn one man, warn the whole beach, count the booths for the king, or sell out and go; in high summer the sails come into the bay; those who are taken row north in the king's wake and are set down on the strand at Sliesthorp, where the king has a wall ordered; in 809 the king sends word to the emperor by merchants (true: ARF 809) and the house may carry it to Dorestad. Four endings: the king's new town (what really happened), faith kept with the Wend (the honest road), Reric holds (history changed: flag changed_reric_survives), and the king's finder (the beach sold). Progress is flags ch_reric_808_1 to _10 and the branch flags named in each note; the spine's flags gf_reric_friend and gf_warned are set where their meaning is met. Cards with weight 0 are reached only by 'schedule'. Every option's note names its outcome text in Data/writing/chain_reric_808.json. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_reric_808.s01_wax_booth",
+   "note": "Step 1, the start (drawn at Reric, or at Sliesthorp where the Wend has come with wax, 798 to 807). Dragomir is the spine's cast.dragomir (invented), an Obodrite trader in wax, honey and furs; he speaks through an interpreter until he trusts you. Sources: Reric 'which by its tolls was of great profit to his kingdom' (Annales regni Francorum 808: chronicle_793.json 808-summer-reric-destroyed); Thrasco given the Saxons' land beyond the Elbe in 804 (ARF 804); Thionville 805 c. 7, merchants going to the Slavs to go no further than the named posts (Bardowick first) and to carry no arms (chronicle 805-12-thionville-border-posts): tools are not arms. Wax and honey are the Wends' goods (goods_793.json: wendland 3). Sets ch_reric_808_1; ch_reric_808_order if the order is taken.",
+   "stage": "harbour",
+   "when": "moored and (port.id = reric or port.id = sliesthorp) and year >= 798 and year < 808 and not flag.ch_reric_808_1",
+   "weight": 1.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 46], "fixed": true, "note": "Dragomir, cast.dragomir" },
+    "interp": { "role": "interpreter", "people": "saxon", "faith": "old_gods", "tongue": "port", "sex": "m", "age": [20, 60], "fixed": false, "note": "a Saxon from over the Elbe who has both tongues" }
+   },
+   "title_key": "chain_reric_808.s01.title",
+   "title": "The wax booth",
+   "intention_key": "chain_reric_808.s01.intention",
+   "intention": "A Wend sits before a stack of wax cakes with a tally in his hand and a Saxon beside him to carry his words. He has been watching your boat since she came in.",
+   "lines": [
+    { "who": "interp", "key": "chain_reric_808.s01.interp_sit" },
+    { "who": "wend", "key": "chain_reric_808.s01.wend_at_reric", "when": "port.id = reric" },
+    { "who": "wend", "key": "chain_reric_808.s01.wend_at_slie", "when": "port.id = sliesthorp" },
+    { "who": "wend", "key": "chain_reric_808.s01.wend_iron", "when": "year < 804" },
+    { "who": "wend", "key": "chain_reric_808.s01.wend_iron_804", "when": "year >= 804", "note": "ARF 804: the land beyond the Elbe given to the Obodrites" },
+    { "who": "wend", "key": "chain_reric_808.s01.wend_law_805", "when": "year >= 805", "note": "Thionville 805 c. 7" },
+    { "who": "wend", "key": "chain_reric_808.s01.wend_toll", "when": "port.id = reric", "note": "ARF 808: the tolls of Reric profited Godfred's kingdom" }
+   ],
+   "options": [
+    { "key": "order", "label_key": "chain_reric_808.s01.opt_order", "label": "Take his order: six crates of Rhineland tools, brought to his booth at Reric",
+      "check": "true", "default": true,
+      "effects": [ "npc wend feeling +5 took_order", "price_shock reric iron_tools x1.5 for 365", "flag ch_reric_808_order", "flag ch_reric_808_1" ],
+      "note": "outcome: chain_reric_808.s01.out_order (a true price word: iron tools are dear on the Wends' beach)" },
+    { "key": "wax", "label_key": "chain_reric_808.s01.opt_wax", "label": "Buy three cakes of his wax now (75 d) and promise nothing",
+      "check": "silver >= 75", "cost": "silver 75",
+      "effects": [ "goods wax +3", "npc wend feeling +2 bought_wax", "give_riddle riddle_exeter_27_mead", "flag ch_reric_808_1" ],
+      "note": "outcome: chain_reric_808.s01.out_wax (25 d the cake at the source; 40 d is the table's price). The riddle is the Exeter Book mead riddle (riddle_exeter_27_mead, Tupper 1910, in riddles_793.json): what the bees bring from the groves. The Saxon tells it, as one his own people have." },
+    { "key": "table", "label_key": "chain_reric_808.s01.opt_table", "label": "Buy nothing, eat at his table and learn ten words of his tongue",
+      "check": "true",
+      "effects": [ "npc wend feeling +4 ate", "tongue slavic = 0.5", "price_shock reric honey x0.8 for 120", "flag ch_reric_808_1" ],
+      "note": "outcome: chain_reric_808.s01.out_table (time only; a true price word: honey is cheap at Reric after the bees are taken)" }
+   ],
+   "memory": {
+    "order": "took an order for iron tools",
+    "wax": "bought wax and promised nothing",
+    "table": "ate at his table and bought nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s02_iron_for_wax",
+   "note": "Step 2 (drawn at Reric on the next call after step 1, until midsummer 808). The tools are delivered, or not. Thrasco's man takes the beach's toll, and a part of it goes over the water to the Danish king (ARF 808: the emporium profited Godfred's kingdom by its tolls; how it was shared is not said (?)). The oath on water is the brief's own guess about the Wends (?). The spine's flag gf_reric_friend ('did a service for cast.dragomir at Reric before 808') is set when the tools are brought or given. Sets ch_reric_808_2. Turn payout: six cakes of wax and a timber of marten for six crates of tools.",
+   "stage": "harbour",
+   "when": "moored and port.id = reric and flag.ch_reric_808_1 and not flag.ch_reric_808_2 and (year < 808 or (year = 808 and month < 7))",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 46], "fixed": true, "note": "Dragomir, cast.dragomir" },
+    "chiefsman": { "role": "lords_man", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [30, 55], "fixed": true, "note": "Prince Thrasco's man on the beach (cast.thrasco's following), who takes the toll" }
+   },
+   "title_key": "chain_reric_808.s02.title",
+   "title": "Iron for wax",
+   "intention_key": "chain_reric_808.s02.intention",
+   "intention": "Dragomir's booth is the third from the water at Reric. He knows your boat before she grounds and has his wife set out bread and honey.",
+   "lines": [
+    { "who": "wend", "key": "chain_reric_808.s02.wend_greet_order", "when": "flag.ch_reric_808_order" },
+    { "who": "wend", "key": "chain_reric_808.s02.wend_greet_plain", "when": "not flag.ch_reric_808_order" },
+    { "who": "wend", "key": "chain_reric_808.s02.wend_ploughs", "when": "year >= 804" },
+    { "who": "chiefsman", "key": "chain_reric_808.s02.chiefsman_toll" },
+    { "who": "wend", "key": "chain_reric_808.s02.wend_danes", "when": "year >= 804", "note": "ARF 804: Godfred with his fleet and horsemen at Sliesthorp" },
+    { "who": "wend", "key": "chain_reric_808.s02.wend_oath" }
+   ],
+   "options": [
+    { "key": "deliver", "label_key": "chain_reric_808.s02.opt_deliver", "label": "Hand over six crates of tools for six cakes of wax and a timber of marten",
+      "check": "hold.iron_tools >= 6", "cost": "goods iron_tools 6",
+      "effects": [ "goods wax +6", "goods marten +1", "npc wend feeling +12 kept_word", "deed kept_commission", "flag gf_reric_friend", "flag ch_reric_808_2" ],
+      "note": "outcome: chain_reric_808.s02.out_deliver (tools worth 180 d by the table for goods worth 360 d)" },
+    { "key": "gift", "label_key": "chain_reric_808.s02.opt_gift", "label": "Give him two crates as a guest's gift and ask no price",
+      "check": "hold.iron_tools >= 2", "cost": "goods iron_tools 2",
+      "effects": [ "goods honey +3", "npc wend feeling +16 gift", "tongue slavic = 0.5", "flag gf_reric_friend", "flag ch_reric_808_2" ],
+      "note": "outcome: chain_reric_808.s02.out_gift (he answers a gift with a gift, and swears friendship over water)" },
+    { "key": "empty", "label_key": "chain_reric_808.s02.opt_empty", "label": "Tell him plainly you have brought no iron, and eat his bread",
+      "check": "true", "default": true,
+      "effects": [ "npc wend feeling +1 came_empty", "price_shock reric iron_tools x1.5 for 240", "flag ch_reric_808_2" ],
+      "note": "outcome: chain_reric_808.s02.out_empty (pride only; the price word still holds)" }
+   ],
+   "memory": {
+    "deliver": "brought the iron he promised",
+    "gift": "gave iron as a guest's gift",
+    "empty": "came with no iron and said so"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s03_ships_called",
+   "note": "Step 3, and a second way into the chain (drawn at Sliesthorp, Ripa or Hleidr from spring to midsummer 808, whether or not step 1 was met). The king's ships are called out. Asulf is the spine's cast.asulf (invented), a dealer in captives who serves the king's wars. Sources: ARF 808: Godfred crossed with his army into the Obodrites' land; the Wilzi, old enemies of the Obodrites, joined him of their own will; the spine places the gathering of ships at Ripa and Sliesthorp. That a dealer bought fetters beforehand is ours. This is the warning before the danger (CHAINS.md rule 5). Sets ch_reric_808_3; ch_reric_808_knows when the merchant learns where the ships are bound; ch_reric_808_kings_offer when the king's man asks him to count the booths.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sliesthorp or port.id = ripa or port.id = hleidr) and year = 808 and month >= 3 and month <= 7 and not flag.ch_reric_808_3",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [48, 56], "fixed": true, "note": "Asulf, cast.asulf" },
+    "kingsman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "a man of King Godfred's following (cast.godfred), who speaks for him to merchants" }
+   },
+   "title_key": "chain_reric_808.s03.title",
+   "title": "Ships called out",
+   "intention_key": "chain_reric_808.s03.intention",
+   "intention": "There are more hulls on the strand than the trade can account for, and men tarring them who are not shipmen. Asulf the dealer is buying rope by the coil.",
+   "lines": [
+    { "who": "dealer", "key": "chain_reric_808.s03.dealer_rope" },
+    { "who": "dealer", "key": "chain_reric_808.s03.dealer_knows_you", "when": "flag.ch_reric_808_1" },
+    { "who": "kingsman", "key": "chain_reric_808.s03.kingsman_whose" },
+    { "who": "dealer", "key": "chain_reric_808.s03.dealer_bread" }
+   ],
+   "options": [
+    { "key": "ale", "label_key": "chain_reric_808.s03.opt_ale", "label": "Stand Asulf a jar of ale (15 d) and ask where a man buys so much rope for",
+      "check": "silver >= 15", "cost": "silver 15",
+      "effects": [ "npc dealer feeling +4 drank", "flag ch_reric_808_knows", "flag ch_reric_808_3" ],
+      "note": "outcome: chain_reric_808.s03.out_ale (he says it: the Wends' land, and the beach at Reric last of all)" },
+    { "key": "ask", "label_key": "chain_reric_808.s03.opt_ask", "label": "Ask the king's man to his face where the ships are bound",
+      "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "npc kingsman feeling +5 asked", "flag ch_reric_808_kings_offer" ],
+                     "failure": [ "silver -24", "npc kingsman feeling -8 asked" ] },
+                   "flag ch_reric_808_knows", "flag ch_reric_808_3" ],
+      "note": "outcome: chain_reric_808.s03.out_ask_success (he tells you, and offers work: count the Wends' booths for the king) / out_ask_failure (he asks whose man you are; a gift of two ounces answers him; you learn it from his anger all the same)" },
+    { "key": "sell", "label_key": "chain_reric_808.s03.opt_sell", "label": "Ask nothing: an army eats, and you have things to sell",
+      "check": "true", "default": true,
+      "effects": [ "price_shock here ale x1.4 for 40", "price_shock here ships_bread x1.4 for 40", "flag ch_reric_808_3" ],
+      "note": "outcome: chain_reric_808.s03.out_sell (time only; a true price word: bread and ale are dear where the ships gather)" }
+   ],
+   "memory": {
+    "ale": "bought ale and asked about the rope",
+    "ask": "asked where the king's ships were bound",
+    "ask.failure": "asked too much and paid for it",
+    "sell": "sold to the fleet and asked nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s04_word_on_the_beach",
+   "note": "Step 4 (drawn at Reric in 808 before July, by a merchant who knows where the ships are bound). The choice the chain turns on. Told alone, Dragomir puts his best goods in the merchant's boat to go west (flag ch_reric_808_goods: six cakes of wax and three timbers of marten, 600 d by the table, which are HIS). Told aloud, the beach may believe a Frisian or may not: ARF 808 says Thrasco fled 'distrusting the loyalty of his people', so a quarrelling beach is true to the year; if they believe, they carry their goods behind the island that shelters the bay (Poel) before the fleet comes (flag ch_reric_808_hid: history changed). Counted for the king, the booths are sold (flag ch_reric_808_counted; only if the king's man made the offer in step 3). Or the merchant sells out and goes (ch_reric_808_left). Sets ch_reric_808_4; gf_reric_friend when Dragomir is warned.",
+   "stage": "harbour",
+   "when": "moored and port.id = reric and year = 808 and month < 7 and flag.ch_reric_808_knows and not flag.ch_reric_808_4 and not flag.ch_reric_808_5",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 48], "fixed": true, "note": "Dragomir, cast.dragomir" },
+    "chiefsman": { "role": "lords_man", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [30, 55], "fixed": true, "note": "Prince Thrasco's man on the beach" }
+   },
+   "title_key": "chain_reric_808.s04.title",
+   "title": "A word on the beach",
+   "intention_key": "chain_reric_808.s04.intention",
+   "intention": "Reric trades as it always has: wax, furs, people, and the smell of pitch. You are the only man on the beach who knows what the rope at the Danish landing is for.",
+   "lines": [
+    { "who": "wend", "key": "chain_reric_808.s04.wend_friend", "when": "flag.gf_reric_friend" },
+    { "who": "wend", "key": "chain_reric_808.s04.wend_stranger", "when": "not flag.gf_reric_friend" },
+    { "who": "chiefsman", "key": "chain_reric_808.s04.chiefsman_quiet" },
+    { "who": "chiefsman", "key": "chain_reric_808.s04.chiefsman_wilzi", "note": "ARF 808: the Wilzi with Godfred" }
+   ],
+   "options": [
+    { "key": "quiet", "label_key": "chain_reric_808.s04.opt_quiet", "label": "Tell Dragomir alone, after dark, and let him do as he thinks best",
+      "check": "true", "default": true,
+      "effects": [ "goods wax +6", "goods marten +3", "npc wend feeling +15 warned", "flag gf_reric_friend", "flag ch_reric_808_goods", "flag ch_reric_808_4" ],
+      "note": "outcome: chain_reric_808.s04.out_quiet (he will not leave his booth, but his best goods go into your boat: sell them in the west and keep the silver for him)" },
+    { "key": "aloud", "label_key": "chain_reric_808.s04.opt_aloud", "label": "Say it aloud before Thrasco's man and the whole beach",
+      "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "npc chiefsman feeling +10 warned", "npc wend feeling +15 warned", "flag ch_reric_808_hid" ],
+                     "failure": [ "npc chiefsman feeling -10 tale_bearer", "goods wax +6", "goods marten +3", "npc wend feeling +10 warned", "flag ch_reric_808_goods" ] },
+                   "flag gf_reric_friend", "flag ch_reric_808_4" ],
+      "note": "outcome: chain_reric_808.s04.out_aloud_success (they believe you: boats are loaded by night and taken behind the island) / out_aloud_failure (Thrasco's man calls it a Dane's tale to empty the beach; only Dragomir believes, and loads your boat with his goods)" },
+    { "key": "count", "label_key": "chain_reric_808.s04.opt_count", "label": "Walk the beach and count the booths for the king's man",
+      "check": "flag.ch_reric_808_kings_offer",
+      "effects": [ "npc wend feeling -2 counted", "flag ch_reric_808_counted", "flag ch_reric_808_4" ],
+      "note": "outcome: chain_reric_808.s04.out_count (forty-one booths, nine with a locked chest; nobody asks why a Frisian walks so slowly)" },
+    { "key": "leave", "label_key": "chain_reric_808.s04.opt_leave", "label": "Say nothing, sell out your cargo and be gone before the moon changes",
+      "check": "true",
+      "effects": [ "price_shock reric rhenish_wine x1.2 for 20", "flag ch_reric_808_left", "flag ch_reric_808_4" ],
+      "note": "outcome: chain_reric_808.s04.out_leave (time only: it is not your beach)" }
+   ],
+   "memory": {
+    "quiet": "warned him of the king's ships",
+    "aloud": "warned the whole beach",
+    "aloud.failure": "was called a tale-bearer for his warning",
+    "count": "walked the beach counting booths",
+    "leave": "sold out and left before the trouble"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s05_sails_in_the_bay",
+   "note": "Step 5, the event (drawn at Reric in July and August 808 with a weight that makes it sure; chronicle 808-summer-reric-destroyed fires on 1 August). Sources: ARF 808: before he went home Godfred destroyed the emporium on the shore which in the Danes' tongue was called Reric and which by its tolls was of great profit to his kingdom, and carrying the merchants off from there he weighed anchor and came with his whole army to the harbour called Sliesthorp; he had hanged Godelaib, another chief, taken by treachery; Thrasco had fled; Reginold, his brother's son, was killed at the storming of a stronghold with many Danish nobles. The danger was warned of in step 3. A Frisian is the emperor's man, and 808 to 810 are enemy years (realms/denmark.md): the plea rests on a gift. Sets ch_reric_808_5 and one of ch_reric_808_carried, ch_reric_808_slipped, ch_reric_808_pleaded; a merchant whose warning was believed may lie behind the island with the Wends.",
+   "stage": "harbour",
+   "when": "moored and port.id = reric and year = 808 and month >= 7 and month <= 8 and not flag.ch_reric_808_5",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "spokesman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "the man who speaks for King Godfred (cast.godfred) to merchants; the king is seen and does not speak" },
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 48], "fixed": true, "note": "Dragomir, cast.dragomir" }
+   },
+   "title_key": "chain_reric_808.s05.title",
+   "title": "Sails in the bay",
+   "intention_key": "chain_reric_808.s05.intention",
+   "intention": "At first light the bay is full of ships. By noon the king's men are going from booth to booth with a tally, and everything that can be carried is going down to the water.",
+   "lines": [
+    { "who": "spokesman", "key": "chain_reric_808.s05.spokesman_word" },
+    { "who": "spokesman", "key": "chain_reric_808.s05.spokesman_toll", "note": "ARF 808: the tolls" },
+    { "who": "spokesman", "key": "chain_reric_808.s05.spokesman_counted", "when": "flag.ch_reric_808_counted" },
+    { "who": "spokesman", "key": "chain_reric_808.s05.spokesman_frisian", "when": "not flag.ch_reric_808_counted" },
+    { "who": "wend", "key": "chain_reric_808.s05.wend_godelaib", "when": "not flag.ch_reric_808_hid", "note": "ARF 808: Godelaib hanged, Thrasco fled" },
+    { "who": "wend", "key": "chain_reric_808.s05.wend_island", "when": "flag.ch_reric_808_hid" }
+   ],
+   "options": [
+    { "key": "go", "label_key": "chain_reric_808.s05.opt_go", "label": "Take the king's peace: load where his men point and sail with the fleet",
+      "check": "true", "default": true,
+      "effects": [ "npc spokesman feeling +4 obeyed", "flag ch_reric_808_carried", "flag ch_reric_808_5",
+                   "news chain_reric_808.news.reric_burned at sliesthorp", "price_shock sliesthorp wax x0.7 for 120" ],
+      "note": "outcome: chain_reric_808.s05.out_go (pride only: a merchant of Dorestad counted with the Wends)" },
+    { "key": "slip", "label_key": "chain_reric_808.s05.opt_slip", "label": "Slip the cable in the dark and row for the open bay",
+      "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.06", "deed fled_kings_men", "flag ch_reric_808_slipped" ],
+                     "failure": [ "silver -50", "health -0.05", "npc spokesman feeling -10 ran", "flag ch_reric_808_carried" ] },
+                   "flag ch_reric_808_5", "news chain_reric_808.news.reric_burned at sliesthorp", "price_shock sliesthorp wax x0.7 for 120" ],
+      "note": "outcome: chain_reric_808.s05.out_slip_success (past the guard ships on the ebb with muffled oars) / out_slip_failure (a guard ship lies across the channel: a blow, a fine of four ounces, and a place in the line all the same)" },
+    { "key": "plead", "label_key": "chain_reric_808.s05.opt_plead", "label": "Say a Frisian is no Wend, and lay five ounces of silver (60 d) on the king's tally",
+      "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "npc spokesman feeling +6 gift", "flag ch_reric_808_pleaded", "flag ch_reric_808_5",
+                   "news chain_reric_808.news.reric_burned at sliesthorp", "price_shock sliesthorp wax x0.7 for 120" ],
+      "note": "outcome: chain_reric_808.s05.out_plead (in the north the toll is a gift: he takes it, and tells you where the king's market is from now on)" },
+    { "key": "island", "label_key": "chain_reric_808.s05.opt_island", "label": "Lie behind the island with the Wends' boats until the smoke is gone",
+      "check": "flag.ch_reric_808_hid",
+      "effects": [ { "chance": 0.7, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05", "npc wend feeling +8 hid_together" ],
+                     "failure": [ "silver -40", "npc wend feeling +4 hid_together" ] },
+                   "flag ch_reric_808_5", "news chain_reric_808.news.reric_empty at sliesthorp" ],
+      "note": "outcome: chain_reric_808.s05.out_island_success (two days in the reeds; the king burns empty booths and sails) / out_island_failure (a Danish boat noses round the point; silver sends her back, and she says nothing of what she saw)" }
+   ],
+   "memory": {
+    "go": "went with the king's fleet as he was told",
+    "slip": "slipped his cable and got away",
+    "slip.failure": "tried to run and was caught",
+    "plead": "bought his way out with a gift to the king",
+    "island": "lay hidden behind the island"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s06_heard_of_it",
+   "note": "Step 5 by another road (drawn at any port but Reric from September 808 to the end of 809, for a merchant who knew Dragomir or saw the ships gather and was not on the beach when they came). No dead ends: the story goes on at Sliesthorp. Sources: ARF 808 as step 5; that the plunder was sold cheap afterwards is the engine's 'after_raid' pattern (npc_text_encounters.md 2.8). The Chronicle-voice line is ours, in the manner of the annals; nothing is quoted. Sets ch_reric_808_5 and ch_reric_808_absent.",
+   "stage": "harbour",
+   "when": "moored and port.id != reric and (flag.ch_reric_808_1 or flag.ch_reric_808_3) and not flag.ch_reric_808_5 and not flag.ch_reric_808_hid and ((year = 808 and month >= 9) or year = 809)",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "skipper": { "role": "skipper", "people": "port", "faith": "port", "tongue": "port", "sex": "m", "age": [25, 60], "fixed": false, "note": "a shipman in from the east with the news" }
+   },
+   "title_key": "chain_reric_808.s06.title",
+   "title": "News from the east",
+   "intention_key": "chain_reric_808.s06.intention",
+   "intention": "A shipman in from the Baltic has news he has told four times today and is glad to tell a fifth.",
+   "lines": [
+    { "who": "skipper", "key": "chain_reric_808.s06.skipper_annal" },
+    { "who": "skipper", "key": "chain_reric_808.s06.skipper_merchants" },
+    { "who": "skipper", "key": "chain_reric_808.s06.skipper_goods_left", "when": "flag.ch_reric_808_goods" },
+    { "who": "skipper", "key": "chain_reric_808.s06.skipper_wall", "note": "ARF 808: the rampart and its one gate" },
+    { "who": "skipper", "key": "chain_reric_808.s06.skipper_thrasco", "when": "year = 809 and month >= 10", "note": "ARF 809: Thrasco killed at Reric by Godfred's men; the season is not given (?)" }
+   ],
+   "options": [
+    { "key": "ask", "label_key": "chain_reric_808.s06.opt_ask", "label": "Ask after a Wend named Dragomir, with a booth third from the water",
+      "check": "flag.ch_reric_808_1", "default": true,
+      "effects": [ "npc skipper feeling +2 asked", "flag ch_reric_808_absent", "flag ch_reric_808_5" ],
+      "note": "outcome: chain_reric_808.s06.out_ask (time only: 'they are all at Sliesthorp now, those that lived')" },
+    { "key": "buy", "label_key": "chain_reric_808.s06.opt_buy", "label": "Buy four cakes of wax from him (80 d), and do not ask whose it was",
+      "check": "silver >= 80", "cost": "silver 80",
+      "effects": [ "goods wax +4", "flag ch_reric_808_bought_loot", "flag ch_reric_808_absent", "flag ch_reric_808_5" ],
+      "note": "outcome: chain_reric_808.s06.out_buy (20 d the cake: the Danes are selling what they carried off)" },
+    { "key": "nothing", "label_key": "chain_reric_808.s06.opt_nothing", "label": "Hear him out and say nothing",
+      "check": "true",
+      "effects": [ "price_shock sliesthorp wax x0.7 for 120", "flag ch_reric_808_absent", "flag ch_reric_808_5" ],
+      "note": "outcome: chain_reric_808.s06.out_nothing (time only; a true price word: wax is cheap at Sliesthorp this season)" }
+   ],
+   "memory": {
+    "ask": "asked after a Wend of Reric",
+    "buy": "bought wax that came from Reric",
+    "nothing": "heard the news of Reric"
+   }
+  },
+  {
+   "id": "sea.chain_reric_808.s07_kings_wake",
+   "note": "Step 6 (a sea card, drawn under way in 808 after the burning, for a boat that sails with the fleet or has run from it). In the line: the king's ships, the Wends' own boats rowed by their owners under guard, and a ship that carries Reginold home, the king's brother's son (ARF 808). Run from the line: a guard ship off the point. Each danger was chosen in step 5; each side has a way that costs only pride. Whether the dead were carried home is not said in the annals (?). Sets ch_reric_808_7; may turn ch_reric_808_carried into ch_reric_808_slipped or back.",
+   "stage": "sea",
+   "when": "under_way and year = 808 and flag.ch_reric_808_5 and not flag.ch_reric_808_7 and not flag.ch_reric_808_8 and (flag.ch_reric_808_carried or flag.ch_reric_808_slipped)",
+   "rate": 0.08,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "captain": { "role": "commander", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [28, 50], "fixed": false, "note": "the steersman of a guard ship of the king's" },
+    "hand": { "role": "crewman", "people": "norse", "faith": "old_gods", "note": "cast.crew.ravn, who knows men in that fleet" }
+   },
+   "title_key": "chain_reric_808.s07.title",
+   "title": "In the king's wake",
+   "intention_key": "chain_reric_808.s07.intention",
+   "intention": "The fleet goes north along the land in a long line, and the guard ships keep the outside of it.",
+   "lines": [
+    { "who": "captain", "key": "chain_reric_808.s07.captain_line", "when": "flag.ch_reric_808_carried" },
+    { "who": "hand", "key": "chain_reric_808.s07.hand_reginold", "when": "flag.ch_reric_808_carried", "note": "ARF 808: Reginold killed" },
+    { "who": "hand", "key": "chain_reric_808.s07.hand_dusk", "when": "flag.ch_reric_808_carried" },
+    { "who": "hand", "key": "chain_reric_808.s07.hand_sail_astern", "when": "flag.ch_reric_808_slipped" },
+    { "who": "captain", "key": "chain_reric_808.s07.captain_hail", "when": "flag.ch_reric_808_slipped" }
+   ],
+   "options": [
+    { "key": "keep", "label_key": "chain_reric_808.s07.opt_keep", "label": "Keep your place in the line",
+      "check": "flag.ch_reric_808_carried", "default": true,
+      "effects": [ "npc captain feeling +2 kept_line", "flag ch_reric_808_7" ],
+      "note": "outcome: chain_reric_808.s07.out_keep (time only)" },
+    { "key": "astern", "label_key": "chain_reric_808.s07.opt_astern", "label": "Drop astern at dusk, a boat's length at a time, and turn away with the dark",
+      "check": "flag.ch_reric_808_carried",
+      "effects": [ { "chance": 0.45, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05", "deed fled_kings_men", "flag ch_reric_808_carried = 0", "flag ch_reric_808_slipped" ],
+                     "failure": [ "health -0.05", "silver -30", "npc captain feeling -8 strayed" ] },
+                   "flag ch_reric_808_7" ],
+      "note": "outcome: chain_reric_808.s07.out_astern_success / out_astern_failure (a spear in the planking, a gift taken, and a guard ship beside you to the Slie)" },
+    { "key": "run", "label_key": "chain_reric_808.s07.opt_run", "label": "Run for it over the shoal water where she cannot follow",
+      "check": "flag.ch_reric_808_slipped",
+      "effects": [ "encounter run",
+                   { "chance": 0.55, "by": "crew.seamanship_best",
+                     "success": [ "morale +0.05" ],
+                     "failure": [ "silver -50", "npc captain feeling -8 ran", "flag ch_reric_808_slipped = 0", "flag ch_reric_808_carried" ] },
+                   "flag ch_reric_808_7" ],
+      "note": "outcome: chain_reric_808.s07.out_run_success / out_run_failure (she has more oars than you have: four ounces, and a place in the line)" },
+    { "key": "heave", "label_key": "chain_reric_808.s07.opt_heave", "label": "Heave to and say you are bound for the Slie like all the rest",
+      "check": "flag.ch_reric_808_slipped",
+      "effects": [ "encounter heave_to", "flag ch_reric_808_slipped = 0", "flag ch_reric_808_carried", "flag ch_reric_808_7" ],
+      "note": "outcome: chain_reric_808.s07.out_heave (pride only: he puts you back in the line and thinks no more of it)" }
+   ],
+   "memory": {
+    "keep": "kept his place in the line",
+    "astern": "dropped out of the line at dusk",
+    "astern.failure": "strayed from the line and was fetched back",
+    "run": "ran from a guard ship",
+    "run.failure": "ran and was overhauled",
+    "heave": "hove to when hailed"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s08_set_down",
+   "note": "Step 7 (drawn at Sliesthorp on the first call after the burning, to the end of 810). The merchants of Reric are set down on the strand and the wall is ordered. Sources: ARF 808: at Sliesthorp the king stayed some days and decided to close the border of his kingdom toward Saxony with a rampart from the eastern bay to the western sea, along the north bank of the Eider, with one gate for wagons and horsemen, and shared the work among the leaders of his troops (chronicle 808-summer-danevirke). That plots were marked out for the newcomers is an inference from the planned look of Hedeby's earliest harbour settlement (?); that the merchants owed days at the wall is ours. Asulf (cast.asulf) has Wends in his pen; Ratimir, Dragomir's sister's son, is invented (Rati- + -mir, names_placeholder.json). This card chooses the road to an ending: the king's new town (ch_reric_808_road_town), faith kept with Dragomir (ch_reric_808_road_faith), or the finder's share (ch_reric_808_road_finder, only for one who counted the booths). Sets ch_reric_808_8.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_reric_808_5 and not flag.ch_reric_808_8 and not flag.ch_reric_808_hid and year <= 810",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "spokesman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "the king's spokesman" },
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 48], "fixed": true, "note": "Dragomir, cast.dragomir" },
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [48, 56], "fixed": true, "note": "Asulf, cast.asulf" }
+   },
+   "title_key": "chain_reric_808.s08.title",
+   "title": "Set down",
+   "intention_key": "chain_reric_808.s08.intention",
+   "intention": "On the strand at Sliesthorp the king's men are pacing out plots with a rope and driving hazel rods at the corners. The people of Reric sit on what they carried and wait to be told which rods are theirs.",
+   "lines": [
+    { "who": "spokesman", "key": "chain_reric_808.s08.spokesman_plots" },
+    { "who": "spokesman", "key": "chain_reric_808.s08.spokesman_wall", "note": "ARF 808: the rampart, the one gate" },
+    { "who": "wend", "key": "chain_reric_808.s08.wend_goods", "when": "flag.ch_reric_808_goods" },
+    { "who": "wend", "key": "chain_reric_808.s08.wend_nothing", "when": "not flag.ch_reric_808_goods" },
+    { "who": "wend", "key": "chain_reric_808.s08.wend_absent", "when": "flag.ch_reric_808_absent" },
+    { "who": "dealer", "key": "chain_reric_808.s08.dealer_pen" },
+    { "who": "dealer", "key": "chain_reric_808.s08.dealer_counted", "when": "flag.ch_reric_808_counted" }
+   ],
+   "options": [
+    { "key": "town", "label_key": "chain_reric_808.s08.opt_town", "label": "Have a rod driven for yourself: a plot of the king's, and your days owed at the wall",
+      "check": "true", "default": true,
+      "effects": [ "npc spokesman feeling +8 settled", "flag ch_reric_808_road_town", "flag ch_reric_808_8",
+                   "schedule harbour.chain_reric_808.s11_end_new_town in 240 at sliesthorp" ],
+      "note": "outcome: chain_reric_808.s08.out_town (pride only: a Frisian's rod among the Wends'. The plot must be held over a winter before it is yours.)" },
+    { "key": "faith", "label_key": "chain_reric_808.s08.opt_faith", "label": "Tell Dragomir his wax and furs are safe in the west and will come back to him as silver",
+      "check": "flag.ch_reric_808_goods",
+      "effects": [ "npc wend feeling +12 kept_faith", "flag ch_reric_808_road_faith", "flag ch_reric_808_8",
+                   "schedule harbour.chain_reric_808.s12_end_kept_faith in 200 at sliesthorp" ],
+      "note": "outcome: chain_reric_808.s08.out_faith (he asks for no oath: 'you came back, that is the oath')" },
+    { "key": "boy", "label_key": "chain_reric_808.s08.opt_boy", "label": "Buy his sister's son out of Asulf's pen (90 d) and bring the boy to him",
+      "check": "silver >= 90 and not flag.ch_reric_808_goods", "cost": "silver 90",
+      "effects": [ "npc wend feeling +20 freed_kin", "npc dealer feeling +2 bought", "flag gf_reric_friend", "flag ch_reric_808_road_faith", "flag ch_reric_808_8",
+                   "schedule harbour.chain_reric_808.s12_end_kept_faith in 200 at sliesthorp" ],
+      "note": "outcome: chain_reric_808.s08.out_boy (Asulf never haggles twice: seven and a half ounces, and the rope comes off)" },
+    { "key": "finder", "label_key": "chain_reric_808.s08.opt_finder", "label": "Go to the spokesman and ask what a count of forty-one booths is worth",
+      "check": "flag.ch_reric_808_counted",
+      "effects": [ "npc spokesman feeling +6 finder", "npc wend feeling -30 sold_us", "flag ch_reric_808_road_finder", "flag ch_reric_808_8",
+                   "schedule harbour.chain_reric_808.s14_end_kings_finder in 60 at sliesthorp" ],
+      "note": "outcome: chain_reric_808.s08.out_finder (he says: when the taking is shared out, after the wall is begun. Dragomir sees you go to him.)" }
+   ],
+   "memory": {
+    "town": "took a plot of the king's at Sliesthorp",
+    "faith": "said the goods were safe and would come back as silver",
+    "boy": "bought a boy out of the pen and gave him back",
+    "finder": "asked the king's man for a finder's share"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s09_word_by_merchants",
+   "note": "Step 8 (drawn at Sliesthorp from March to July 809, for any merchant who was in the story of the burning). True: in 809 Godfred sent word to the emperor 'by certain merchants' (per negotiatores quosdam, ARF 809) that he had heard the emperor was angry with him for leading an army against the Obodrites, that he wished to clear himself, that the others had broken the peace first, and asked for a meeting of counts beyond the Elbe; they met at Badenfliot and nothing came of it (chronicle 809-badenfliot). Who the merchants were is not said: here the house may be one of them. Sets ch_reric_808_9; ch_reric_808_word when the message is taken (schedules step 9 at Dorestad).",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year = 809 and month >= 3 and month <= 7 and flag.ch_reric_808_5 and not flag.ch_reric_808_9",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "spokesman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "the king's spokesman" },
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 48], "fixed": true, "note": "Dragomir, cast.dragomir" }
+   },
+   "title_key": "chain_reric_808.s09.title",
+   "title": "Word by merchants",
+   "intention_key": "chain_reric_808.s09.intention",
+   "intention": "The king's spokesman comes down to your boat himself, which he has not done before, and sends his men out of hearing.",
+   "lines": [
+    { "who": "spokesman", "key": "chain_reric_808.s09.spokesman_why_you" },
+    { "who": "spokesman", "key": "chain_reric_808.s09.spokesman_message", "note": "ARF 809, in our own words" },
+    { "who": "spokesman", "key": "chain_reric_808.s09.spokesman_pay" },
+    { "who": "wend", "key": "chain_reric_808.s09.wend_also", "when": "flag.gf_reric_friend and not flag.ch_reric_808_road_finder" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_reric_808.s09.opt_carry", "label": "Carry the king's word to the count at Dorestad, as it was said and no more",
+      "check": "true", "default": true,
+      "effects": [ "silver +40", "npc spokesman feeling +6 carried", "flag ch_reric_808_word", "flag ch_reric_808_9",
+                   "schedule harbour.chain_reric_808.s10_counts_hall in 20 at dorestad" ],
+      "note": "outcome: chain_reric_808.s09.out_carry (a cut of an arm-ring, three ounces and a little, before you sail)" },
+    { "key": "both", "label_key": "chain_reric_808.s09.opt_both", "label": "Carry the king's word, and Dragomir's with it: that the Wends on the Slie are held, not settled",
+      "check": "flag.gf_reric_friend and not flag.ch_reric_808_road_finder",
+      "effects": [ "silver +40", "npc spokesman feeling +6 carried", "npc wend feeling +8 carried_word", "flag ch_reric_808_word", "flag ch_reric_808_word_wend", "flag ch_reric_808_9",
+                   "schedule harbour.chain_reric_808.s10_counts_hall in 20 at dorestad" ],
+      "note": "outcome: chain_reric_808.s09.out_both (two messages in one head, and only one of them paid for)" },
+    { "key": "refuse", "label_key": "chain_reric_808.s09.opt_refuse", "label": "Say you sell wine and are nobody's mouth",
+      "check": "true",
+      "effects": [ "npc spokesman feeling -4 refused", "price_shock sliesthorp rhenish_wine x1.3 for 60", "flag ch_reric_808_9" ],
+      "note": "outcome: chain_reric_808.s09.out_refuse (pride only, and his; a true price word: with the border shut, wine is dear on the Slie)" }
+   ],
+   "memory": {
+    "carry": "carried the king's word south",
+    "both": "carried the king's word south",
+    "refuse": "would not carry the king's word"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s10_counts_hall",
+   "note": "Step 9 (scheduled 20 days after step 8, at Dorestad: the passage home). The word is given to the count (the spine's cast.folcbert, invented, count at Dorestad). Sources: ARF 809: the meeting at Badenfliot on the Stör, without result; the emperor then had a stronghold built beyond the Elbe at Esesfeld (chronicle 809-badenfliot; 810 for the building (?)). To tell all that was seen (the wall, the one gate, the ships) meets the spine's flag gf_warned ('brought warning of the fleet to a Frisian port before it came': the fleet came in 810), and sets ch_reric_808_two_tongues, which the king's spokesman will know of. Turn payout: up to 160 d and the toll eased for half a year. Sets ch_reric_808_10.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_reric_808_word and not flag.ch_reric_808_10",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [35, 60], "fixed": true, "note": "the count at Dorestad, cast.folcbert" },
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "port", "sex": "m", "age": [22, 50], "fixed": false, "note": "the count's clerk, with a wax tablet" }
+   },
+   "title_key": "chain_reric_808.s10.title",
+   "title": "The count's hall",
+   "intention_key": "chain_reric_808.s10.intention",
+   "intention": "The count hears you standing, with a clerk at his elbow who writes on wax and does not look up.",
+   "lines": [
+    { "who": "count", "key": "chain_reric_808.s10.count_merchants" },
+    { "who": "count", "key": "chain_reric_808.s10.count_answer" },
+    { "who": "clerk", "key": "chain_reric_808.s10.clerk_what_else" },
+    { "who": "count", "key": "chain_reric_808.s10.count_wends", "when": "flag.ch_reric_808_word_wend" }
+   ],
+   "options": [
+    { "key": "plain", "label_key": "chain_reric_808.s10.opt_plain", "label": "Give the king's words as they were given, and nothing of your own",
+      "check": "true", "default": true,
+      "effects": [ "silver +60", "deed carried_letters", "npc count feeling +5 carried_word", "toll eased 60", "flag ch_reric_808_10" ],
+      "note": "outcome: chain_reric_808.s10.out_plain" },
+    { "key": "all", "label_key": "chain_reric_808.s10.opt_all", "label": "Give the words, and then everything you saw: the wall, the one gate, the ships on the strand",
+      "check": "true",
+      "effects": [ "silver +120", "deed carried_letters", "npc count feeling +12 told_all", "toll eased 180", "flag gf_warned", "flag ch_reric_808_two_tongues", "flag ch_reric_808_10" ],
+      "note": "outcome: chain_reric_808.s10.out_all (ten shillings from the count's own purse; and a clerk's tablet is read by more than one man)" },
+    { "key": "tollman", "label_key": "chain_reric_808.s10.opt_tollman", "label": "Say you were given words for the count and would as soon be rid of them: let the clerk have them, and go",
+      "check": "true",
+      "effects": [ "npc count feeling -2 curt", "flag ch_reric_808_10" ],
+      "note": "outcome: chain_reric_808.s10.out_tollman (time only)" }
+   ],
+   "memory": {
+    "plain": "brought the Danish king's word",
+    "all": "brought the Danish king's word and all he had seen",
+    "tollman": "left the Danish king's word with a clerk"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s11_end_new_town",
+   "note": "ENDING 'the king's new town' (scheduled 240 days after step 7, at Sliesthorp: a winter held). What really happened: the merchants of Reric stayed where the king set them, and the market at the head of the Slie grew into Hedeby (ARF 808; ports_793.json sliesthorp). Lines by year: Thrasco killed at Reric by Godfred's men (ARF 809); Godfred killed by one of his own following and Hemming king (ARF 810); twelve men a side swear peace on the Eider (ARF 811). Grand reward: a charter of the king's word (unlock_charter_sliesthorp), unless the house told the count everything (ch_reric_808_two_tongues); or a plot (unlock_plot_sliesthorp); or a guest's standing (unlock_title_guest_on_the_slie). Cost that lasts: ch_reric_808_danes_man, counted a Dane's man by Franks and Frisians in the enemy years to 811. Sets ch_reric_808_end_new_town.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_reric_808_road_town and not flag.ch_reric_808_end_new_town",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "spokesman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "the king's spokesman" },
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 50], "fixed": true, "note": "Dragomir, cast.dragomir" }
+   },
+   "title_key": "chain_reric_808.s11.title",
+   "title": "The king's new town",
+   "intention_key": "chain_reric_808.s11.intention",
+   "intention": "A winter has gone over the rods on the strand. There are roofs between them now, a plank road down to the water, and smoke from forty hearths that burned last year on another shore.",
+   "lines": [
+    { "who": "spokesman", "key": "chain_reric_808.s11.spokesman_held" },
+    { "who": "spokesman", "key": "chain_reric_808.s11.spokesman_two_tongues", "when": "flag.ch_reric_808_two_tongues" },
+    { "who": "wend", "key": "chain_reric_808.s11.wend_neighbour", "when": "not flag.ch_reric_808_goods" },
+    { "who": "wend", "key": "chain_reric_808.s11.wend_wax_kept", "when": "flag.ch_reric_808_goods" },
+    { "who": "wend", "key": "chain_reric_808.s11.wend_thrasco", "when": "year >= 810", "note": "ARF 809" },
+    { "who": "spokesman", "key": "chain_reric_808.s11.spokesman_hemming", "when": "year >= 811", "note": "ARF 810, 811" }
+   ],
+   "options": [
+    { "key": "charter", "label_key": "chain_reric_808.s11.opt_charter", "label": "Hold the plot by the king's word, free of the landing gift, as the first comers were promised",
+      "check": "not flag.ch_reric_808_two_tongues", "default": true,
+      "effects": [ "silver +300", "goods marten +4", "npc spokesman feeling +10 kings_guest", "flag unlock_charter_sliesthorp", "flag ch_reric_808_danes_man for 900",
+                   "flag ch_reric_808_end_new_town", "news chain_reric_808.news.new_town at dorestad" ],
+      "note": "outcome: chain_reric_808.s11.out_charter (a winter's trade from the plot: 300 d by weight and four timbers of marten, 780 d in all, and no gift owed at the landing)" },
+    { "key": "plot", "label_key": "chain_reric_808.s11.opt_plot", "label": "Build on the plot: a house and a store among the Wends' booths",
+      "check": "true",
+      "effects": [ "silver +400", "goods wax +8", "flag unlock_plot_sliesthorp", "flag ch_reric_808_danes_man for 900",
+                   "flag ch_reric_808_end_new_town", "news chain_reric_808.news.new_town at dorestad" ],
+      "note": "outcome: chain_reric_808.s11.out_plot (400 d and eight cakes of wax, 720 d in all, and a roof of your own on the Slie)" },
+    { "key": "guest", "label_key": "chain_reric_808.s11.opt_guest", "label": "Sell the plot to a Saxon who wants it more, and stay a guest",
+      "check": "true",
+      "effects": [ "silver +700", "flag unlock_title_guest_on_the_slie", "flag ch_reric_808_end_new_town", "news chain_reric_808.news.new_town at dorestad" ],
+      "note": "outcome: chain_reric_808.s11.out_guest (700 d by weight, a guest's seat at the king's landing, and no man in Frisia can say whose man you are)" }
+   ],
+   "memory": {
+    "charter": "holds a plot by the king's word",
+    "plot": "built among the Wends' booths",
+    "guest": "sold his plot and stayed a guest"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s12_end_kept_faith",
+   "note": "ENDING 'faith kept' (scheduled 200 days after step 7, at Sliesthorp). The honest road: the goods got out are paid for, or a kinsman was bought free. Dragomir becomes a sworn partner with a boat of his own (unlock_partner_dragomir): partnership in a boat between men of different peoples is the Norse felag, known from the rune stones of the 10th and 11th centuries and assumed here for the 9th (?); the Svea trader who brings his kin's wax is the spine's cast.holmfast, his friend. The whole price paid is the hard road and gives a second grand reward, the silver temple ring his wife wore (unlock_heirloom_wend_temple_ring: such rings of twisted wire are the Wendish women's ornament in the spine's description; their 9th-century date is not checked (?)). A man with no silver may give his hand on it (unlock_factor_sliesthorp, and ch_reric_808_owes_dragomir). Sets ch_reric_808_end_kept_faith.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_reric_808_road_faith and not flag.ch_reric_808_end_kept_faith",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 50], "fixed": true, "note": "Dragomir, cast.dragomir" },
+    "wife": { "role": "farm_wife", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "f", "age": [28, 44], "fixed": true, "note": "Liuba, Dragomir's wife (invented: Liub-, names_placeholder.json)" }
+   },
+   "title_key": "chain_reric_808.s12.title",
+   "title": "Faith kept",
+   "intention_key": "chain_reric_808.s12.intention",
+   "intention": "Dragomir has a roof on the Slie now, lower than the one that burned. He sets out bread and honey as he did at Reric, and does not ask the question he has waited two hundred days to ask.",
+   "lines": [
+    { "who": "wend", "key": "chain_reric_808.s12.wend_waited", "when": "flag.ch_reric_808_goods" },
+    { "who": "wend", "key": "chain_reric_808.s12.wend_boy", "when": "not flag.ch_reric_808_goods" },
+    { "who": "wend", "key": "chain_reric_808.s12.wend_holmfast" },
+    { "who": "wend", "key": "chain_reric_808.s12.wend_gate" },
+    { "who": "wife", "key": "chain_reric_808.s12.wife_ring" },
+    { "who": "wend", "key": "chain_reric_808.s12.wend_thrasco", "when": "year >= 810", "note": "ARF 809" }
+   ],
+   "options": [
+    { "key": "whole", "label_key": "chain_reric_808.s12.opt_whole", "label": "Count out the whole price of his goods (480 d) and take nothing for the carrying",
+      "check": "flag.ch_reric_808_goods and silver >= 480", "cost": "silver 480",
+      "effects": [ "goods marten +8", "goods wax +10", "goods amber +4", "npc wend feeling +30 paid_whole", "deed fair_dealing",
+                   "flag unlock_partner_dragomir", "flag unlock_heirloom_wend_temple_ring", "flag ch_reric_808_end_kept_faith",
+                   "news chain_reric_808.news.faith_kept at sliesthorp" ],
+      "note": "outcome: chain_reric_808.s12.out_whole (the hard road. Eight timbers of marten, ten cakes of wax and four sacks of amber as the first lading of the partnership, 1,480 d by the table; the ring is his wife's gift.)" },
+    { "key": "freight", "label_key": "chain_reric_808.s12.opt_freight", "label": "Count out the price less a fair freight (360 d)",
+      "check": "flag.ch_reric_808_goods and silver >= 360", "cost": "silver 360",
+      "effects": [ "goods marten +5", "goods wax +6", "npc wend feeling +18 paid_fair", "deed fair_dealing",
+                   "flag unlock_partner_dragomir", "flag ch_reric_808_end_kept_faith", "news chain_reric_808.news.faith_kept at sliesthorp" ],
+      "note": "outcome: chain_reric_808.s12.out_freight (five timbers of marten and six cakes of wax, 840 d by the table, and a partner)" },
+    { "key": "boy", "label_key": "chain_reric_808.s12.opt_boy", "label": "Say the boy was a gift, and ask what a Wend and a Frisian might carry together",
+      "check": "not flag.ch_reric_808_goods", "default": true,
+      "effects": [ "goods marten +4", "goods wax +6", "npc wend feeling +15 partner",
+                   "flag unlock_partner_dragomir", "flag ch_reric_808_end_kept_faith", "news chain_reric_808.news.faith_kept at sliesthorp" ],
+      "note": "outcome: chain_reric_808.s12.out_boy (four timbers of marten and six cakes of wax, 720 d by the table, and a partner)" },
+    { "key": "hand", "label_key": "chain_reric_808.s12.opt_hand", "label": "Tell him the silver is not all there yet: give him your hand on it, and a year",
+      "check": "flag.ch_reric_808_goods",
+      "effects": [ "npc wend feeling +4 asked_time", "flag unlock_factor_sliesthorp", "flag ch_reric_808_owes_dragomir", "flag ch_reric_808_end_kept_faith" ],
+      "note": "outcome: chain_reric_808.s12.out_hand (pride only. You keep what his goods brought, 600 d by the table, and owe it; he keeps your goods on the Slie meanwhile, where he can see them.)" }
+   ],
+   "memory": {
+    "whole": "paid the whole price of the goods he carried out",
+    "freight": "paid for the goods less a fair freight",
+    "boy": "asked nothing for the boy",
+    "hand": "asked a year to pay"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s13_end_reric_holds",
+   "note": "ENDING 'Reric holds' (HISTORY CHANGED; drawn from September 808 at Reric or at any Baltic or Danish landing, where a Wend boat finds the merchant whose warning was believed). The booths burned empty; the merchants were behind the island; nobody was carried to the Slie, and the beach is built again. Sets changed_reric_survives. Under it: wells at Gross Stromkendorf with timbers felled as late as 811 (dendrochronology, de.wikipedia 'Reric', read 6 Oct 2026), and ARF 809, which still calls the place an emporium when Thrasco is killed there: something of Reric outlived 808 even as it happened. Grand rewards: a booth of the house's own on the new beach and a sworn partner (the hardest road: two), or the partner alone, or the Wends' pilotage of their bay (unlock_pilot_wendish_bay). Cost that lasts: ch_reric_808_godfred_enmity until the king is dead (810). The game must keep the port open when the flag is set: see 'needs' in the chain page. Sets ch_reric_808_end_reric_holds.",
+   "stage": "harbour",
+   "when": "moored and (port.id = reric or port.id = sliesthorp or port.id = ahus or port.id = hleidr or port.id = truso or port.id = birka or port.id = paviken or port.id = ripa) and flag.ch_reric_808_hid and not flag.ch_reric_808_end_reric_holds and ((year = 808 and month >= 9) or (year >= 809 and year <= 812))",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 50], "fixed": true, "note": "Dragomir, cast.dragomir" },
+    "chiefsman": { "role": "lords_man", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [30, 55], "fixed": true, "note": "Prince Thrasco's man" }
+   },
+   "title_key": "chain_reric_808.s13.title",
+   "title": "Reric holds",
+   "intention_key": "chain_reric_808.s13.intention",
+   "intention": "A Wend boat lies at the landing with new wax in her and a face you know at the steering oar. Dragomir has been asking for a Frisian boat at every beach for a month.",
+   "lines": [
+    { "who": "wend", "key": "chain_reric_808.s13.wend_found_you", "when": "port.id != reric" },
+    { "who": "wend", "key": "chain_reric_808.s13.wend_at_home", "when": "port.id = reric" },
+    { "who": "wend", "key": "chain_reric_808.s13.wend_what_burned" },
+    { "who": "chiefsman", "key": "chain_reric_808.s13.chiefsman_thanks" },
+    { "who": "chiefsman", "key": "chain_reric_808.s13.chiefsman_king" },
+    { "who": "wend", "key": "chain_reric_808.s13.wend_slie", "note": "what did not happen: nobody set down at Sliesthorp" }
+   ],
+   "options": [
+    { "key": "booth", "label_key": "chain_reric_808.s13.opt_booth", "label": "Take what the beach offers: a booth in your own name, third from the water, and Dragomir's hand as a partner",
+      "check": "true", "default": true,
+      "effects": [ "goods marten +8", "goods wax +12", "goods honey +8", "npc wend feeling +30 saved_beach", "npc chiefsman feeling +20 saved_beach",
+                   "flag unlock_plot_reric", "flag unlock_partner_dragomir", "flag changed_reric_survives", "flag ch_reric_808_godfred_enmity for 700",
+                   "flag ch_reric_808_end_reric_holds", "news chain_reric_808.news.reric_holds at sliesthorp", "price_shock sliesthorp wax x1.3 for 365" ],
+      "note": "outcome: chain_reric_808.s13.out_booth (eight timbers of marten, twelve cakes of wax and eight crocks of honey, 1,632 d by the table; a booth and a partner)" },
+    { "key": "partner", "label_key": "chain_reric_808.s13.opt_partner", "label": "Take no ground on a beach a king has marked: a partner, and a lading",
+      "check": "true",
+      "effects": [ "goods marten +10", "goods wax +8", "npc wend feeling +25 saved_beach",
+                   "flag unlock_partner_dragomir", "flag changed_reric_survives", "flag ch_reric_808_godfred_enmity for 700",
+                   "flag ch_reric_808_end_reric_holds", "news chain_reric_808.news.reric_holds at sliesthorp", "price_shock sliesthorp wax x1.3 for 365" ],
+      "note": "outcome: chain_reric_808.s13.out_partner (ten timbers of marten and eight cakes of wax, 1,520 d by the table)" },
+    { "key": "pilot", "label_key": "chain_reric_808.s13.opt_pilot", "label": "Ask only for what you used: the way through the shoals behind the island",
+      "check": "true",
+      "effects": [ "goods marten +6", "goods wax +6", "npc wend feeling +20 saved_beach", "tongue slavic = 1",
+                   "flag unlock_pilot_wendish_bay", "flag changed_reric_survives", "flag ch_reric_808_godfred_enmity for 700",
+                   "flag ch_reric_808_end_reric_holds", "news chain_reric_808.news.reric_holds at sliesthorp", "price_shock sliesthorp wax x1.3 for 365" ],
+      "note": "outcome: chain_reric_808.s13.out_pilot (they load you all the same: six timbers of marten and six cakes of wax, 960 d by the table; and a Wend sits a month at your steering oar)" }
+   ],
+   "memory": {
+    "booth": "saved the beach and took a booth on it",
+    "partner": "saved the beach and took a partner",
+    "pilot": "saved the beach and asked only for the way in"
+   }
+  },
+  {
+   "id": "harbour.chain_reric_808.s14_end_kings_finder",
+   "note": "ENDING 'the king's finder' (scheduled 60 days after step 7, at Sliesthorp, for one who counted the booths). The beach sold. The taking is shared out when the wall is begun: the finder may have a Wendish boat that was rowed north by her owner (unlock_ship_baltic_coastal_boat, ship_classes_793.json), or a corner of Asulf's store (unlock_factor_sliesthorp), or the king's peace and silver (unlock_title_kings_peace_of_the_danes). That a king's man shared plunder with those who served him is the custom of every following; the Frankish law of 805 gives an informer a part of what is seized (Thionville c. 7), which is the nearest written rule and is not the Danes' (?). Cost that lasts: ch_reric_808_wend_feud (the Wends of the Slie will not deal with the house, and Dragomir remembers), and ch_reric_808_danes_man. Sets ch_reric_808_end_kings_finder.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_reric_808_road_finder and not flag.ch_reric_808_end_kings_finder",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "spokesman": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "the king's spokesman" },
+    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [48, 56], "fixed": true, "note": "Asulf, cast.asulf" },
+    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "sex": "m", "age": [34, 50], "fixed": true, "note": "Dragomir, cast.dragomir" }
+   },
+   "title_key": "chain_reric_808.s14.title",
+   "title": "The finder's share",
+   "intention_key": "chain_reric_808.s14.intention",
+   "intention": "The taking of Reric is shared out on the strand, by tally, with a scale. The king's spokesman calls the leaders of the ships first, then the men who were useful.",
+   "lines": [
+    { "who": "spokesman", "key": "chain_reric_808.s14.spokesman_tally" },
+    { "who": "spokesman", "key": "chain_reric_808.s14.spokesman_choose" },
+    { "who": "dealer", "key": "chain_reric_808.s14.dealer_store" },
+    { "who": "wend", "key": "chain_reric_808.s14.wend_water" }
+   ],
+   "options": [
+    { "key": "boat", "label_key": "chain_reric_808.s14.opt_boat", "label": "Take the Wend boat drawn up by the rods, and fifty ounces of silver",
+      "check": "true", "default": true,
+      "effects": [ "silver +600", "npc wend feeling -40 took_boat", "flag unlock_ship_baltic_coastal_boat", "flag ch_reric_808_wend_feud", "flag ch_reric_808_danes_man for 900",
+                   "flag ch_reric_808_end_kings_finder" ],
+      "note": "outcome: chain_reric_808.s14.out_boat (600 d by weight and a second hull; her owner watches you look her over)" },
+    { "key": "store", "label_key": "chain_reric_808.s14.opt_store", "label": "Take silver, and Asulf's offer: a corner of his store and his man to watch it",
+      "check": "true",
+      "effects": [ "silver +900", "npc dealer feeling +10 partner", "flag unlock_factor_sliesthorp", "flag ch_reric_808_wend_feud", "flag ch_reric_808_danes_man for 900",
+                   "flag ch_reric_808_end_kings_finder" ],
+      "note": "outcome: chain_reric_808.s14.out_store (900 d by weight, and your goods lie beside his pen)" },
+    { "key": "peace", "label_key": "chain_reric_808.s14.opt_peace", "label": "Take the silver and the king's peace, and nothing that had an owner you knew",
+      "check": "true",
+      "effects": [ "silver +700", "npc spokesman feeling +6 kings_peace", "flag unlock_title_kings_peace_of_the_danes", "flag ch_reric_808_wend_feud", "flag ch_reric_808_danes_man for 900",
+                   "flag ch_reric_808_end_kings_finder" ],
+      "note": "outcome: chain_reric_808.s14.out_peace (700 d by weight; pride, of a kind)" }
+   ],
+   "memory": {
+    "boat": "took a Wend's boat as his share of Reric",
+    "store": "took silver for Reric and shares a store with the dealer",
+    "peace": "took silver and the king's peace for Reric"
+   }
+  }
+ ]
+}

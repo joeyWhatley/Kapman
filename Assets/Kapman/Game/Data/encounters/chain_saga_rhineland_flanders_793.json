@@ -1,0 +1,647 @@
+{
+ "about": "CHAIN saga_rhineland_flanders (Design/content/chains/saga_rhineland_flanders.md): GATES, BARS AND LOCKS. The saga of the Rhineland and Flanders is the five years in which the great army came off the sea and up the rivers: the winter camp in Saint Bavo's at Ganda (November 879), the wasted Scheldt (880), Colonia burned and its clergy fled to Mogontia with the saints' bodies (winter 881-882), the potters' earthquake and Archbishop Liutbert's wall and ditch (881-882), Colonia rebuilt 'with gates, bars and locks' (883), and the winter the Northmen sat in Diusburg while Duke Henry let them take no plunder (883-884). Sources: Annales Vedastini 879-881, Anglo-Saxon Chronicle 880, Annales Fuldenses 881-883, Regino of Pruem 884, as read in Design/content/dossiers (ganda, andoverpis, colonia, mogontia, diusburg) and chronicle_793.json; our own rendering, no modern translation quoted. No other chain tells these years. Fourteen cards, November 879 to 884 (the epilogue to 890). People met in more than one port (all invented, names of attested parts): Erminburg the ale-wife (Ganda, then Andoverpis), her man Odalbert the shipwright (taken at Ganda, found at Diusburg, home at Andoverpis), Soti the Dane who sells the army's takings (Ganda, then Diusburg and the Scheldt), Gozbert the keeper of Saint Peter's (Colonia, Mogontia, Colonia), the Frisian brothers Eilbod (Mogontia) and Eilward (Diusburg). Real: Duke Henry (died 28 August 886), Archbishop Liutbert of Mogontia (863-889), named in lines; Godfrid, the emperor Charles. Four endings: ch_saga_rhineland_flanders_end_held (history changed: Diusburg is not taken; flag changed_diusburg_883), _end_henry (what really happened: the duke's carrier), _end_wolf (the fort's trader), _end_after (the burnt well). A second change of history lies in the middle: flag changed_cologne_881 (Colonia shuts new gates in the winter of 881-882 and is not burned). Progress: every step sets its own flag ch_saga_rhineland_flanders_1 to _9 and _14; the flag _on means the saga has begun; branch flags are named in each note; every ending sets _done. Steps 1, 2, 3, 5 and 6 are each a way in (a house that trades only on the Rhine meets the saga at Colonia, Mogontia or Diusburg): they are roads, not gates, drawn at their port in their true months with a high weight, so a step missed in its year never stops the chain. Waits are real: the true dates, and the flag _wait set 'for' a number of days. No card is scheduled. Each option's note names its outcome text (chain_saga_rhineland_flanders.sNN.out_<option>) in Data/writing/chain_saga_rhineland_flanders.json. Written 6 Oct 2026. A draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s01_camp_at_saint_bavo",
+   "note": "Step 1, a way in (drawn at Ganda from November 879 to October 880). The army from Fulham winters 'in Gandao monasterio' from November 879 (Annales Vedastini 879); it 'went from Fulham over sea to Ghent in Frankland, and sat there a year' (Anglo-Saxon Chronicle 880, Ingram 1823); chronicle_793.json 879-11-ghent-army. Saint Bavo's community had fled with the relics (dossiers/ganda.md 5; whether in 851 or 879 is not settled (?)). A man of the portus carried off by Northmen is in the Miracles of Bavo (dossiers/ganda.md 3: to Rouen, undated); shipwrights on this bank are in the annals for 811. Ours: that the camp sold its takings on the bank, Soti the dealer (invented; Soti is an attested Danish name), Erminburg the ale-wife (invented; Ermin- and -burg are attested Frankish name parts) and her man Odalbert the wright (invented; Odal- and -bert). Sets ch_saga_rhineland_flanders_1 and _on; then _bought_loot, or _carried.",
+   "stage": "harbour",
+   "when": "moored and port.id = ganda and ((year = 879 and month >= 11) or (year = 880 and month <= 10)) and not flag.ch_saga_rhineland_flanders_1 and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "raider": { "role": "raider", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 38], "fixed": true, "note": "Soti (invented), who sells what the army takes" },
+    "alewife": { "role": "alewife", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "f", "age": [28, 34], "fixed": true, "note": "Erminburg (invented), ale-wife of the bank at Ganda" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s01.title",
+   "title": "The camp at Saint Bavo's",
+   "intention_key": "chain_saga_rhineland_flanders.s01.intention",
+   "intention": "The heathen army that crossed from England sits in the abbey of Saint Bavo. On the bank below it a market is laid out on old sailcloth: altar cloths, English pennies, a bell without its clapper.",
+   "lines": [
+    { "who": "raider", "key": "chain_saga_rhineland_flanders.s01.raider_greet" },
+    { "who": "raider", "key": "chain_saga_rhineland_flanders.s01.raider_cup" },
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s01.alewife_wright" },
+    { "who": "raider", "key": "chain_saga_rhineland_flanders.s01.raider_wright" },
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s01.alewife_sister" }
+   ],
+   "options": [
+    { "key": "buy", "label_key": "chain_saga_rhineland_flanders.s01.opt_buy", "label": "Buy the silver cup for sixty pennies",
+      "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "goods church_plate +1", "npc raider feeling +6 bought", "npc alewife feeling -4 bought", "flag ch_saga_rhineland_flanders_bought_loot", "flag ch_saga_rhineland_flanders_1", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s01.out_buy (a cup worth four times the price, with a saint's name round the rim; a toll man will ask how you came by it)" },
+    { "key": "carry", "label_key": "chain_saga_rhineland_flanders.s01.opt_carry", "label": "Buy nothing; take Erminburg and her children down the river to her sister at Andoverpis",
+      "check": "true",
+      "effects": [ "passenger alewife to andoverpis", "npc alewife feeling +12 carried", "flag ch_saga_rhineland_flanders_carried", "flag ch_saga_rhineland_flanders_1", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s01.out_carry (costs a berth and a day; she brings a brewing vat, three children and her man's adze)" },
+    { "key": "ask", "label_key": "chain_saga_rhineland_flanders.s01.opt_ask", "label": "Buy nothing; ask the Dane how long the army means to sit here",
+      "check": "true", "default": true,
+      "effects": [ "npc raider feeling +2 asked", "news chain_saga_rhineland_flanders.news.ghent at ganda", "flag ch_saga_rhineland_flanders_1", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s01.out_ask (a true word: a year here, then the rivers where the kings are brothers; pride only)" }
+   ],
+   "memory": {
+    "buy": "bought a church's cup from the camp",
+    "carry": "carried Erminburg and her children out of Ganda",
+    "ask": "asked how long the army would stay"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s02_ale_at_the_werf",
+   "note": "Step 2, a way in (drawn at Andoverpis from December 879 to October 881). In 880 the army wastes Tournai and every monastery on the Scheldt, moves to Courtrai in November 880, and after its defeat at Saucourt (3 August 881) comes back to Ganda to refit its ships before going to the Maas (Annales Vedastini 880, 881; dossiers/ganda.md 5; chronicle_793.json 881-08-03-saucourt). Andoverpis in these years is close-set timber houses on sill beams at the werf, with antler-comb makers, and no rampart yet (dossiers/andoverpis.md 2 and 4, after Bellens 2021); its church is Saint Peter and Saint Paul's (charter of 726). Ours: that refugees came down to the werf, the ransom chest, the boy out of the camp, and the priest Bertwin (invented; Bert- and -win). Erminburg is step 1's ale-wife. Sets ch_saga_rhineland_flanders_2 and _on; then _letter, _alms.",
+   "stage": "harbour",
+   "when": "moored and port.id = andoverpis and ((year = 879 and month >= 12) or year = 880 or (year = 881 and month <= 10)) and not flag.ch_saga_rhineland_flanders_2 and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "alewife": { "role": "alewife", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "f", "age": [28, 35], "fixed": true, "note": "Erminburg (invented), of Ganda, brewing at her sister's" },
+    "priest": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [38, 50], "fixed": true, "note": "Bertwin (invented), priest of Saint Peter and Saint Paul's" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s02.title",
+   "title": "Ale at the werf",
+   "intention_key": "chain_saga_rhineland_flanders.s02.intention",
+   "intention": "The landing at Andoverpis is full of people who do not live here: abbey tenants from up the Scheldt with their beasts, and a woman of Ganda brewing in a borrowed vat.",
+   "lines": [
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s02.alewife_carried", "when": "flag.ch_saga_rhineland_flanders_carried" },
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s02.alewife_stranger", "when": "not flag.ch_saga_rhineland_flanders_carried" },
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s02.alewife_boy" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s02.priest_scheldt", "note": "Annales Vedastini 880: Tournai and the monasteries on the Scheldt" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s02.priest_leaf" },
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s02.alewife_combs" }
+   ],
+   "options": [
+    { "key": "letter", "label_key": "chain_saga_rhineland_flanders.s02.opt_letter", "label": "Carry the priest's leaf to Gozbert, the keeper of Saint Peter's at Colonia",
+      "check": "true", "default": true,
+      "effects": [ "deed carried_letters", "npc priest feeling +6 letter", "flag ch_saga_rhineland_flanders_letter", "flag ch_saga_rhineland_flanders_2", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s02.out_letter (a folded leaf of old parchment, sewn shut; costs nothing)" },
+    { "key": "alms", "label_key": "chain_saga_rhineland_flanders.s02.opt_alms", "label": "Put thirty pennies in the ransom chest, and take the leaf as well",
+      "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "deed gave_alms", "deed carried_letters", "npc priest feeling +10 alms", "npc alewife feeling +5 alms", "flag ch_saga_rhineland_flanders_alms", "flag ch_saga_rhineland_flanders_letter", "flag ch_saga_rhineland_flanders_2", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s02.out_alms (thirty pennies buys back a child, the priest says, or a third of a ploughman)" },
+    { "key": "combs", "label_key": "chain_saga_rhineland_flanders.s02.opt_combs", "label": "Buy the comb-makers' stock at their price: they want silver they can run with",
+      "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "goods combs +6", "flag ch_saga_rhineland_flanders_2", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s02.out_combs (six bundles of antler combs, worth near twice the price up the Rhine; a fair bargain for both)" },
+    { "key": "listen", "label_key": "chain_saga_rhineland_flanders.s02.opt_listen", "label": "Drink a cup of her ale and listen",
+      "check": "true",
+      "effects": [ "morale +0.05", "news chain_saga_rhineland_flanders.news.scheldt at andoverpis", "flag ch_saga_rhineland_flanders_2", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s02.out_listen (a true word: after the harvest the ships go to the Maas; time only)" }
+   ],
+   "memory": {
+    "letter": "took the priest's leaf for Colonia",
+    "alms": "gave to the ransom chest",
+    "combs": "bought the comb-makers' stock",
+    "listen": "drank and listened"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s03_ransom_or_gates",
+   "note": "Step 3, a way in (drawn at Colonia from August to December 881). In November 881 the army makes its camp at Elsloo on the Maas; in the winter it burns Colonia and Bonn 'with churches and buildings', and 'those who could get away, canons and nuns, fled to Mogontia, carrying with them the treasures of the churches and the bodies of the saints' (Annales Fuldenses 881, our rendering; chronicle_793.json 881-winter-aachen-cologne). A ransom paid in January did not save the town (dossiers/colonia.md 5, after de.wikipedia 'Raubzuege der Wikinger in das Rheinland' (?)). In 883 it was rebuilt 'with gates, bars and locks' (AF 883), which is why this card has the gates of 881 without doors: that is ours, as are the argument in the porch, Gozbert the keeper (invented; Goz- and -bert) and Reginbald the wine shipper (invented; Regin- and -bald). The Roman wall: 3.9 km, nine gates, 8 m high (dossiers/colonia.md 1). The archbishop is Willibert (870-889), not shown. HISTORY CHANGED on the option 'gates' if it succeeds: flag changed_cologne_881 (the town shuts new doors and is passed by, as it really was in 883). Sets ch_saga_rhineland_flanders_3, _on and the wait; then _gates and changed_cologne_881, or _ransom_paid, or _saints.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and year = 881 and month >= 8 and not flag.ch_saga_rhineland_flanders_3 and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [40, 50], "fixed": true, "note": "Gozbert (invented), keeper of the treasure of Saint Peter's" },
+    "merchant": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 58], "fixed": true, "note": "Reginbald (invented), a wine shipper who speaks for paying" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s03.title",
+   "title": "Ransom or gates",
+   "intention_key": "chain_saga_rhineland_flanders.s03.intention",
+   "intention": "Colonia's Roman wall still stands four men high, but two of its nine gates have no doors and a third is a gap with a cart in it. In the porch of Saint Peter's the town is arguing about a chest of silver.",
+   "lines": [
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s03.priest_letter", "when": "flag.ch_saga_rhineland_flanders_letter" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s03.priest_no_letter", "when": "not flag.ch_saga_rhineland_flanders_letter" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s03.merchant_pay" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s03.priest_twice" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s03.merchant_oaks" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s03.priest_boat" }
+   ],
+   "options": [
+    { "key": "gates", "label_key": "chain_saga_rhineland_flanders.s03.opt_gates", "label": "Speak for the gates: tell the porch what a paid army does next",
+      "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.trade_best",
+                     "success": [ "npc priest feeling +10 gates", "npc merchant feeling -3 gates", "flag ch_saga_rhineland_flanders_gates", "flag changed_cologne_881", "commission oak_timber 8 by 90 premium 1.6", "flag ch_saga_rhineland_flanders_3", "flag ch_saga_rhineland_flanders_on", "flag ch_saga_rhineland_flanders_wait for 20" ],
+                     "failure": [ "npc priest feeling +4 spoke", "flag ch_saga_rhineland_flanders_ransom_paid", "flag ch_saga_rhineland_flanders_3", "flag ch_saga_rhineland_flanders_on", "flag ch_saga_rhineland_flanders_wait for 20" ] } ],
+      "note": "outcome: chain_saga_rhineland_flanders.s03.out_gates_success (the chest is opened for oak and iron, and the town orders eight loads of oak from you at a premium) or .out_gates_failure (they thank a stranger and vote for the ransom; pride only)" },
+    { "key": "saints", "label_key": "chain_saga_rhineland_flanders.s03.opt_saints", "label": "Offer the keeper your boat: the saints and the altar plate to Mogontia, tonight",
+      "check": "true",
+      "effects": [ "passenger priest to mogontia", "npc priest feeling +12 saints", "flag ch_saga_rhineland_flanders_saints", "flag ch_saga_rhineland_flanders_3", "flag ch_saga_rhineland_flanders_on", "flag ch_saga_rhineland_flanders_wait for 20" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s03.out_saints (long boxes wrapped in altar cloths and four sealed chests, loaded by lantern; the freight is paid at Mogontia, step 4)" },
+    { "key": "leave", "label_key": "chain_saga_rhineland_flanders.s03.opt_leave", "label": "Say it is not your town, and ask only what oak and iron would fetch if they chose gates",
+      "check": "true",
+      "effects": [ "news chain_saga_rhineland_flanders.news.cologne_argues at colonia", "flag ch_saga_rhineland_flanders_3", "flag ch_saga_rhineland_flanders_on", "flag ch_saga_rhineland_flanders_wait for 20" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s03.out_leave (a price word and nothing else; the town pays its ransom in January and burns within the month, as it really did)" }
+   ],
+   "memory": {
+    "gates": "spoke in the porch for the gates, and was heard",
+    "gates.failure": "spoke in the porch for the gates, and was not heard",
+    "saints": "carried the saints and the plate to Mogontia",
+    "leave": "said it was not his town"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s04_what_the_potters_said",
+   "note": "Step 4 (drawn at Mogontia from February to September 882, after step 3). 'On the third day before the Kalends of January, before cockcrow, there was an earthquake at Mogontia ... earthen vessels, as the potters bore witness, were knocked against each other and broken' (Annales Fuldenses 881, our rendering: 30 December 881). The clergy of Colonia and Bonn are in the town with the treasures and the saints' bodies (AF 881). The king's chapel at Aachen used as a stable: AF 881. Saint Alban's on the hill south of the wall is where the great are buried (dossiers/mogontia.md 2); that Colonia's saints were lodged there is ours. Gozbert is step 3's keeper; the potter is unnamed. The pay of the middle of the chain (a Turn): the freight, or a place in Saint Peter's prayers with the key riddle and Latin lessons. Sets ch_saga_rhineland_flanders_4 and the wait; then _remembered.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and year = 882 and month >= 2 and month <= 9 and flag.ch_saga_rhineland_flanders_3 and not flag.ch_saga_rhineland_flanders_4 and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [40, 50], "fixed": true, "note": "Gozbert (invented), keeper of Saint Peter's at Colonia, a guest at Mogontia" },
+    "craftsman": { "role": "craftsman", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 55], "fixed": true, "note": "a potter of Mogontia (AF 881: 'as the potters bore witness')" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s04.title",
+   "title": "What the potters said",
+   "intention_key": "chain_saga_rhineland_flanders.s04.intention",
+   "intention": "Mogontia is full of Colonia's clergy. On the shore a potter is still sorting whole pots from broken ones: the earth shook here before cockcrow, five days after Christmas.",
+   "lines": [
+    { "who": "craftsman", "key": "chain_saga_rhineland_flanders.s04.potter_shelf" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s04.priest_seals", "when": "flag.ch_saga_rhineland_flanders_saints" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s04.priest_on_foot", "when": "not flag.ch_saga_rhineland_flanders_saints" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s04.priest_held", "when": "flag.ch_saga_rhineland_flanders_gates" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s04.priest_burned", "when": "not flag.ch_saga_rhineland_flanders_gates", "note": "AF 881; the January ransom (?)" },
+    { "who": "craftsman", "key": "chain_saga_rhineland_flanders.s04.potter_sign" }
+   ],
+   "options": [
+    { "key": "thanks", "label_key": "chain_saga_rhineland_flanders.s04.opt_thanks", "label": "Take what the keeper holds for you",
+      "check": "flag.ch_saga_rhineland_flanders_saints or flag.ch_saga_rhineland_flanders_gates",
+      "effects": [ "silver +200", "npc priest feeling +6 paid", "flag ch_saga_rhineland_flanders_4", "flag ch_saga_rhineland_flanders_wait for 20" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s04.out_thanks (two hundred pennies counted out of a chest you carried, or sent up from a town you kept)" },
+    { "key": "remembered", "label_key": "chain_saga_rhineland_flanders.s04.opt_remembered", "label": "Take no silver; ask to be named in Saint Peter's prayers, and to sit with the canons through Lent",
+      "check": "flag.ch_saga_rhineland_flanders_saints or flag.ch_saga_rhineland_flanders_gates",
+      "effects": [ "npc priest feeling +15 remembered", "learn latin +0.15", "give_riddle riddle_symphosius_04_clavis", "deed gave_alms", "flag ch_saga_rhineland_flanders_remembered", "flag ch_saga_rhineland_flanders_4", "flag ch_saga_rhineland_flanders_wait for 20" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s04.out_remembered (a name in a book, some Latin, and the keeper's own riddle: the key, Symphosius 4)" },
+    { "key": "pots", "label_key": "chain_saga_rhineland_flanders.s04.opt_pots", "label": "Buy the potter's sound pots: half Colonia is here without a bowl",
+      "check": "silver >= 24", "cost": "silver 24",
+      "effects": [ "goods badorf_ware +6", "npc craftsman feeling +5 bought", "flag ch_saga_rhineland_flanders_4", "flag ch_saga_rhineland_flanders_wait for 20" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s04.out_pots (six crates at four pennies; he throws in the cracked ones for nothing and says so)" },
+    { "key": "listen", "label_key": "chain_saga_rhineland_flanders.s04.opt_listen", "label": "Walk among the people of Colonia and listen",
+      "check": "true",
+      "effects": [ "news chain_saga_rhineland_flanders.news.cologne at mogontia", "flag ch_saga_rhineland_flanders_4", "flag ch_saga_rhineland_flanders_wait for 20" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s04.out_listen (time only; the true tale of the winter)" }
+   ],
+   "memory": {
+    "thanks": "took the keeper's thanks in silver",
+    "remembered": "asked for prayers and not silver",
+    "pots": "bought the pots that did not break",
+    "listen": "listened to the people of Colonia"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s05_ditch_outside_the_wall",
+   "note": "Step 5, a way in (drawn at Mogontia from May 882 to June 883). In 882, the Northmen having burned as far as Koblenz, the repair of Mogontia's wall was begun and a ditch dug outside it (Annales Fuldenses 882; dossiers/mogontia.md 2); the archbishop is Liutbert (863-889), named, not shown. The Frisians' shore: long plots from the wall to jetties; 'the best part of the city, where the Frisians lived' (AF 886, when it burned). In July 882 the emperor Charles besieged the camp on the Maas for twelve days and then made terms: Godfrid was baptised and given Frisia, and silver was paid; Franks who had gone into the fort 'some to trade, some to look at the works' were shut in when the Northmen closed the gate, and were killed or kept in irons for ransom (AF 882, our rendering; chronicle_793.json 882-07-asselt-godfrid). This is the warning for step 8's danger. Ours: the Frisian brothers Eilbod of Mogontia and Eilward of Diusburg (invented; Eil-, -bod and -ward are attested Frisian name parts), and the steward's order. Frisians at Diusburg are first written of in 893 (the Pruem estate book), the market there is dug from about 870-880 (dossiers/diusburg.md). Sets ch_saga_rhineland_flanders_5 and _on; then _word, _wall.",
+   "stage": "harbour",
+   "when": "moored and port.id = mogontia and ((year = 882 and month >= 5) or (year = 883 and month <= 6)) and not flag.ch_saga_rhineland_flanders_5 and not flag.ch_saga_rhineland_flanders_wait and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [46, 56], "fixed": true, "note": "Eilbod (invented), a Frisian of the shore at Mogontia" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 55], "fixed": true, "note": "the archbishop's steward for the wall (unnamed)" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s05.title",
+   "title": "The ditch outside the wall",
+   "intention_key": "chain_saga_rhineland_flanders.s05.intention",
+   "intention": "Archbishop Liutbert is mending the old wall of Mogontia and digging a ditch outside it. On the Frisians' shore, where the long plots run down to the jetties, a man in a short cloak is counting planks he has not yet sold.",
+   "lines": [
+    { "who": "steward", "key": "chain_saga_rhineland_flanders.s05.steward_wall" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s05.merchant_brother" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s05.merchant_maas", "when": "year = 883 or month >= 8", "note": "AF 882: the peace on the Maas and the traders shut in the fort" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s05.merchant_gate", "when": "year = 883 or month >= 8" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s05.merchant_tell" }
+   ],
+   "options": [
+    { "key": "word", "label_key": "chain_saga_rhineland_flanders.s05.opt_word", "label": "Carry Eilbod's word to his brother at Diusburg",
+      "check": "true", "default": true,
+      "effects": [ "deed carried_letters", "npc merchant feeling +8 word", "flag ch_saga_rhineland_flanders_word", "flag ch_saga_rhineland_flanders_5", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s05.out_word (no leaf: a tally stick with the house's mark and a message to say by heart)" },
+    { "key": "wall", "label_key": "chain_saga_rhineland_flanders.s05.opt_wall", "label": "Carry his word, and take the archbishop's order for oak as well",
+      "check": "true",
+      "effects": [ "deed carried_letters", "commission oak_timber 10 by 120 premium 1.7", "npc merchant feeling +8 word", "npc steward feeling +5 wall", "flag ch_saga_rhineland_flanders_word", "flag ch_saga_rhineland_flanders_wall", "flag ch_saga_rhineland_flanders_5", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s05.out_wall (ten loads of oak within 120 days at a premium; an order not kept is remembered)" },
+    { "key": "decline", "label_key": "chain_saga_rhineland_flanders.s05.opt_decline", "label": "Tell him a brother does not listen to a brother, and less to a stranger",
+      "check": "true",
+      "effects": [ "npc merchant feeling -2 declined", "news chain_saga_rhineland_flanders.news.asselt at mogontia", "flag ch_saga_rhineland_flanders_5", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s05.out_decline (he says that is true and no comfort; you keep the news of the Maas)" }
+   ],
+   "memory": {
+    "word": "took Eilbod's word for his brother",
+    "wall": "took Eilbod's word and the order for the wall",
+    "decline": "would not carry a brother's worry"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s06_where_the_ruhr_comes_in",
+   "note": "Step 6, a way in (drawn at Diusburg from March to October 883). The place: the king's court on a flood-free hill, unfortified in the ninth century, a market at its foot in use from about 870-880, a timber well tree-ring dated to 872, and Frisians who 'stay' there (written 893) (dossiers/diusburg.md 1 and 2, after Krause). 'Northmen who had come from Denmark to Kennemerland went up the Rhine by ship with Godfrid's consent' (Regino of Pruem, year 884, our rendering). Colonia has its new gates in 883 (AF 883). Ours: Eilward (step 5), his cloth and his children, the king's steward and his eleven men, and the bank: the digs found no rampart before the tenth century, so a bank staked across the neck of the hill in 883 is the player's doing and part of a changed history (step 10). Sets ch_saga_rhineland_flanders_6 and _on; then _moved, _bank, or _bought_cheap.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and year = 883 and month >= 3 and month <= 10 and not flag.ch_saga_rhineland_flanders_6 and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [36, 44], "fixed": true, "note": "Eilward (invented), Eilbod's younger brother, of the Frisians' bank at Diusburg" },
+    "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [40, 60], "fixed": true, "note": "the steward of the king's court on the hill (unnamed; none is recorded)" },
+    "child": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [10, 13], "fixed": true, "note": "Eilward's eldest girl, who minds the two small ones" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s06.title",
+   "title": "Where the Ruhr comes in",
+   "intention_key": "chain_saga_rhineland_flanders.s06.intention",
+   "intention": "Diusburg is a hill with the king's court on it, a market at its foot, one timber well, and the Frisians' houses along the bank. Nothing here has a wall.",
+   "lines": [
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s06.merchant_word", "when": "flag.ch_saga_rhineland_flanders_word" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s06.merchant_no_word", "when": "not flag.ch_saga_rhineland_flanders_word" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s06.merchant_toll" },
+    { "who": "steward", "key": "chain_saga_rhineland_flanders.s06.steward_ships", "note": "Regino 884: from Denmark to Kennemerland, with Godfrid's consent" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s06.merchant_ask" }
+   ],
+   "options": [
+    { "key": "move", "label_key": "chain_saga_rhineland_flanders.s06.opt_move", "label": "Take his cloth and his children up to Colonia, behind the new gates",
+      "check": "true",
+      "effects": [ "passenger child to colonia", "npc merchant feeling +8 moved", "flag ch_saga_rhineland_flanders_moved", "flag ch_saga_rhineland_flanders_6", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s06.out_move (three children and forty bolts under the hold cover; he stays for the house; costs the room and the days)" },
+    { "key": "bank", "label_key": "chain_saga_rhineland_flanders.s06.opt_bank", "label": "Stay a week: pay for stakes and bread, and help them throw a bank across the neck of the hill",
+      "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "npc merchant feeling +10 bank", "npc steward feeling +6 bank", "flag ch_saga_rhineland_flanders_bank", "flag ch_saga_rhineland_flanders_6", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s06.out_bank (a ditch a man deep and a bank with sharpened stakes; it needs spears behind it, which is step 7)" },
+    { "key": "buy", "label_key": "chain_saga_rhineland_flanders.s06.opt_buy", "label": "Offer to take eight bolts off his hands now, at thirty pennies the bolt",
+      "check": "silver >= 240", "cost": "silver 240",
+      "effects": [ "goods frisian_cloth +8", "npc merchant feeling -6 cheap", "flag ch_saga_rhineland_flanders_bought_cheap", "flag ch_saga_rhineland_flanders_6", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s06.out_buy (cloth worth 48 d a bolt for 30; he sells, and remembers the price)" },
+    { "key": "tell", "label_key": "chain_saga_rhineland_flanders.s06.opt_tell", "label": "Tell him what was done at the fort on the Maas, and leave it with him",
+      "check": "true",
+      "effects": [ "npc merchant feeling +2 told", "flag ch_saga_rhineland_flanders_6", "flag ch_saga_rhineland_flanders_on" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s06.out_tell (he hears you out and goes back to his bolts; time only)" }
+   ],
+   "memory": {
+    "move": "carried his children and his cloth to Colonia",
+    "bank": "dug the bank with them",
+    "buy": "bought his cloth at a frightened man's price",
+    "tell": "told him about the fort on the Maas"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s07_gates_bars_and_locks",
+   "note": "Step 7 (drawn at Colonia from June to November 883, once the saga has begun). 'Colonia Agrippina was rebuilt, without its churches and monasteries, and its walls were restored with gates, bars and locks' (Annales Fuldenses 883, our rendering). The same year 'the Northmen, coming up the bed of the Rhine, burned many places lately restored and took no small plunder; Liutbert, archbishop of Mogontia, met them with a few men, struck down not a few of them and shook the plunder out of them' (AF 883, our rendering). Duke Henry is the Henry who camps against the Northmen at Diusburg that winter (Regino 884); his buyer is invented and unnamed. Ours: that Henry's man bought stores at Colonia, and that a merchant's word could bring spears to Diusburg a month early: with step 6's bank that is the changed history of step 10. Gozbert is step 3's keeper. Sets ch_saga_rhineland_flanders_7; then _henry_early, or _victualler.",
+   "stage": "harbour",
+   "when": "moored and port.id = colonia and year = 883 and month >= 6 and month <= 11 and flag.ch_saga_rhineland_flanders_on and not flag.ch_saga_rhineland_flanders_7 and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [42, 52], "fixed": true, "note": "Gozbert (invented), keeper of Saint Peter's" },
+    "lords_man": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [28, 45], "fixed": true, "note": "Duke Henry's buyer (invented, unnamed)" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s07.title",
+   "title": "Gates, bars and locks",
+   "intention_key": "chain_saga_rhineland_flanders.s07.intention",
+   "intention": "Colonia's gates are shut at dusk now: oak bound with iron, each with a bar that one man cannot lift and a lock the smiths are still fitting. The gatekeepers are new to the work and enjoy it.",
+   "lines": [
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s07.priest_rebuilt", "when": "not flag.ch_saga_rhineland_flanders_gates", "note": "AF 883" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s07.priest_your_doors", "when": "flag.ch_saga_rhineland_flanders_gates" },
+    { "who": "priest", "key": "chain_saga_rhineland_flanders.s07.priest_named", "when": "flag.ch_saga_rhineland_flanders_remembered" },
+    { "who": "lords_man", "key": "chain_saga_rhineland_flanders.s07.buyer_stores" },
+    { "who": "lords_man", "key": "chain_saga_rhineland_flanders.s07.buyer_liutbert", "note": "AF 883" },
+    { "who": "lords_man", "key": "chain_saga_rhineland_flanders.s07.buyer_where" }
+   ],
+   "options": [
+    { "key": "tell", "label_key": "chain_saga_rhineland_flanders.s07.opt_tell", "label": "Tell him Diusburg has a hill, a new bank, eleven men and ships lying in Kennemerland: thirty spears before the frost would hold it",
+      "check": "flag.ch_saga_rhineland_flanders_bank",
+      "effects": [ "npc lords_man feeling +8 told", "flag ch_saga_rhineland_flanders_henry_early", "flag ch_saga_rhineland_flanders_7" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s07.out_tell (he asks how deep the ditch is, twice, and rides the same day); with the bank this leads to the ending _end_held" },
+    { "key": "order", "label_key": "chain_saga_rhineland_flanders.s07.opt_order", "label": "Take the duke's order: rye for a winter camp on the lower river",
+      "check": "true",
+      "effects": [ "commission rye 24 by 150 premium 1.8", "npc lords_man feeling +5 order", "flag ch_saga_rhineland_flanders_victualler", "flag ch_saga_rhineland_flanders_7" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s07.out_order (twenty-four sacks within 150 days at a premium; he does not say where the camp will be, because he does not know)" },
+    { "key": "fear", "label_key": "chain_saga_rhineland_flanders.s07.opt_fear", "label": "Say only that the Frisians at the Ruhr mouth are afraid, and let him weigh it",
+      "check": "true", "default": true,
+      "effects": [ "npc lords_man feeling +1 said", "flag ch_saga_rhineland_flanders_7" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s07.out_fear (he says everyone on this river is afraid and he cannot guard a fear; the duke comes when the ships have come, as he really did)" }
+   ],
+   "memory": {
+    "tell": "told the duke's man about the bank at Diusburg",
+    "order": "took the duke's order for rye",
+    "fear": "said the Frisians were afraid"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s08_winter_fort",
+   "note": "Step 8 (drawn at Diusburg from November 883 to March 884, once the saga has begun, unless the bank was dug and the duke warned: then step 10 comes instead). 'Occupying the town of Diusburh they built a fortification in that place in their usual way and stayed in it the whole winter. Duke Henry set his camp against them and allowed them to take no plunder' (Regino of Pruem, year 884, our rendering). Henry's camp is put at Broich, at the Hellweg's crossing of the Ruhr, by Krause (dossiers/diusburg.md 2). The burn layer across the settlement and what Krause reads as the plunder of the Frisians: dossiers/diusburg.md 2 and 8. THE DANGER IS WARNED: step 5 told of the traders shut inside the fort on the Maas (AF 882), and Eilward says it again here; the option 'fort' is a chance and its label says so. Soti is step 1's Dane; that he came on to the Rhine with this fleet is ours, as is all trade at the fort. Duke Henry (historical; died 28 August 886 before Paris) is shown at his camp. Sets ch_saga_rhineland_flanders_8 and the wait; then _fed (to the ending _end_henry), _fort (to _end_wolf), or _away (to _end_after).",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and ((year = 883 and month >= 11) or (year = 884 and month <= 3)) and flag.ch_saga_rhineland_flanders_on and not (flag.ch_saga_rhineland_flanders_bank and flag.ch_saga_rhineland_flanders_henry_early) and not flag.ch_saga_rhineland_flanders_8 and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 10.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "commander": { "role": "commander", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 55], "fixed": true, "note": "Duke Henry (historical; Regino's 'Heinricus dux')" },
+    "raider": { "role": "raider", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [34, 42], "fixed": true, "note": "Soti (invented), step 1's dealer" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [36, 45], "fixed": true, "note": "Eilward (invented), at the duke's camp" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s08.title",
+   "title": "The winter fort",
+   "intention_key": "chain_saga_rhineland_flanders.s08.intention",
+   "intention": "The hill at Diusburg has a fence of sharpened stakes round it and a bank thrown up in the Northmen's usual way, and the smoke above it is not Frisian smoke. Across the Ruhr, at the ford, lies Duke Henry's camp. Between the two nothing moves that he has not allowed.",
+   "lines": [
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s08.merchant_moved", "when": "flag.ch_saga_rhineland_flanders_moved" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s08.merchant_bank", "when": "flag.ch_saga_rhineland_flanders_bank" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s08.merchant_lost", "when": "not flag.ch_saga_rhineland_flanders_moved and not flag.ch_saga_rhineland_flanders_bank" },
+    { "who": "commander", "key": "chain_saga_rhineland_flanders.s08.duke_hen", "note": "Regino 884: no plunder" },
+    { "who": "raider", "key": "chain_saga_rhineland_flanders.s08.raider_known", "when": "flag.ch_saga_rhineland_flanders_1" },
+    { "who": "raider", "key": "chain_saga_rhineland_flanders.s08.raider_hail", "when": "not flag.ch_saga_rhineland_flanders_1" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s08.merchant_warn", "note": "the warning: AF 882" }
+   ],
+   "options": [
+    { "key": "feed", "label_key": "chain_saga_rhineland_flanders.s08.opt_feed", "label": "Sell six sacks of rye to the duke's camp, and take his order for more",
+      "check": "hold.rye >= 6", "cost": "goods rye 6",
+      "effects": [ "silver +60", "commission rye 20 by 75 premium 2.0", "npc commander feeling +10 fed", "npc merchant feeling +4 fed", "flag ch_saga_rhineland_flanders_fed", "flag ch_saga_rhineland_flanders_8", "flag ch_saga_rhineland_flanders_wait for 10" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s08.out_feed (ten pennies a sack, more than twice the price, and twenty more sacks wanted before the thaw at double)" },
+    { "key": "ferry", "label_key": "chain_saga_rhineland_flanders.s08.opt_ferry", "label": "Lie at the duke's bank and carry his men and his messages over the river until the thaw",
+      "check": "true",
+      "effects": [ "silver +20", "npc commander feeling +6 ferried", "flag ch_saga_rhineland_flanders_fed", "flag ch_saga_rhineland_flanders_8", "flag ch_saga_rhineland_flanders_wait for 10" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s08.out_ferry (cold work and twenty pennies; the duke learns your boat's name; costs only the days)" },
+    { "key": "fort", "label_key": "chain_saga_rhineland_flanders.s08.opt_fort", "label": "Row to the fort by night and trade bread for cloth, on the bank, with the boat afloat behind you",
+      "check": "hold.value > 0",
+      "effects": [ { "chance": 0.6, "by": "crew.eyes_best",
+                     "success": [ "goods frisian_cloth +5", "npc raider feeling +10 traded", "npc commander feeling -10 fort", "npc merchant feeling -10 fort", "flag ch_saga_rhineland_flanders_fort", "flag ch_saga_rhineland_flanders_8", "flag ch_saga_rhineland_flanders_wait for 10" ],
+                     "failure": [ "goods frisian_cloth +2", "health -0.1", "npc raider feeling +4 traded", "npc commander feeling -15 fort", "npc merchant feeling -10 fort", "flag ch_saga_rhineland_flanders_fort", "flag ch_saga_rhineland_flanders_8", "flag ch_saga_rhineland_flanders_wait for 10" ] } ],
+      "note": "outcome: chain_saga_rhineland_flanders.s08.out_fort_success (five bolts of Eilward's cloth for your stores, and the duke's watch sees nothing) or .out_fort_failure (the watch sees you; an arrow in a man's arm, two bolts, and the duke knows the boat)" },
+    { "key": "away", "label_key": "chain_saga_rhineland_flanders.s08.opt_away", "label": "Turn the boat and go back up the river",
+      "check": "true",
+      "effects": [ "flag ch_saga_rhineland_flanders_away", "flag ch_saga_rhineland_flanders_8" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s08.out_away (nothing gained and nothing owed; the chain ends at the burnt well, step 13)" }
+   ],
+   "memory": {
+    "feed": "sold rye to the duke's camp",
+    "ferry": "ferried for the duke through the winter",
+    "fort": "traded at the Northmen's fort",
+    "fort.failure": "was seen trading at the Northmen's fort",
+    "away": "turned back up the river"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s09_the_wright",
+   "note": "Step 9 (drawn at Diusburg from December 883 to March 884, ten days or more after step 8, unless the boat turned away). Two ship rivets of northern kind, 7 cm long, were found in the burn layer at Diusburg (dossiers/diusburg.md 2, after Krause): ships were mended there. The army refitted its ships at Ganda in 881 (Annales Vedastini 881). Ours: Odalbert (step 1's wright), four winters a captive, the ransom and the rescue. A skilled captive's ransom at 120 d is two and a half times the game's price of a captive (goods_793.json: 48 d). The night rescue is a chance and the line before it says how the ships are watched. Sets ch_saga_rhineland_flanders_9; then _wright, or _wright_word.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and ((year = 883 and month >= 12) or (year = 884 and month <= 3)) and flag.ch_saga_rhineland_flanders_8 and not flag.ch_saga_rhineland_flanders_away and not flag.ch_saga_rhineland_flanders_wait and not flag.ch_saga_rhineland_flanders_9 and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 10.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "shipwright": { "role": "shipwright", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [36, 44], "fixed": true, "note": "Odalbert (invented), of the bank at Ganda, Erminburg's man" },
+    "raider": { "role": "raider", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [34, 42], "fixed": true, "note": "Soti (invented)" },
+    "lords_man": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [28, 45], "fixed": true, "note": "a man of Duke Henry's watch (unnamed)" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s09.title",
+   "title": "Worth more than his weight",
+   "intention_key": "chain_saga_rhineland_flanders.s09.intention",
+   "intention": "Under the hill the Northmen have a ship up on rollers with three strakes off her. The man fitting the new planks works with a rope round his ankle and speaks the Frankish of the Scheldt.",
+   "lines": [
+    { "who": "shipwright", "key": "chain_saga_rhineland_flanders.s09.wright_name" },
+    { "who": "shipwright", "key": "chain_saga_rhineland_flanders.s09.wright_carried", "when": "flag.ch_saga_rhineland_flanders_carried" },
+    { "who": "shipwright", "key": "chain_saga_rhineland_flanders.s09.wright_asks", "when": "not flag.ch_saga_rhineland_flanders_carried" },
+    { "who": "raider", "key": "chain_saga_rhineland_flanders.s09.raider_price" },
+    { "who": "lords_man", "key": "chain_saga_rhineland_flanders.s09.watch_keels" },
+    { "who": "lords_man", "key": "chain_saga_rhineland_flanders.s09.watch_night" }
+   ],
+   "options": [
+    { "key": "ransom", "label_key": "chain_saga_rhineland_flanders.s09.opt_ransom", "label": "Weigh out a hundred and twenty pennies for him",
+      "check": "silver >= 120", "cost": "silver 120",
+      "effects": [ "deed gave_alms", "passenger shipwright to andoverpis", "npc shipwright feeling +20 ransomed", "npc raider feeling +5 paid", "flag ch_saga_rhineland_flanders_wright", "flag ch_saga_rhineland_flanders_9" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s09.out_ransom (the rope is cut with his own adze; he asks to be carried to Andoverpis, step 14)" },
+    { "key": "night", "label_key": "chain_saga_rhineland_flanders.s09.opt_night", "label": "Bring the boat under the bank in the dark and cut him loose",
+      "check": "true",
+      "effects": [ { "chance": 0.45, "by": "crew.seamanship_best",
+                     "success": [ "passenger shipwright to andoverpis", "npc shipwright feeling +25 freed", "npc raider feeling -20 stole", "flag ch_saga_rhineland_flanders_wright", "flag ch_saga_rhineland_flanders_9" ],
+                     "failure": [ "health -0.15", "npc raider feeling -20 stole", "npc shipwright feeling +8 tried", "flag ch_saga_rhineland_flanders_wright_word", "flag ch_saga_rhineland_flanders_9" ] } ],
+      "note": "outcome: chain_saga_rhineland_flanders.s09.out_night_success (he is in the boat before the watchman has finished waking) or .out_night_failure (a shout, a thrown spear, a cut man; Odalbert is taken inside the fence, and calls after you what to tell his wife)" },
+    { "key": "word", "label_key": "chain_saga_rhineland_flanders.s09.opt_word", "label": "Tell him you will carry word of him to Erminburg",
+      "check": "true", "default": true,
+      "effects": [ "npc shipwright feeling +6 word", "flag ch_saga_rhineland_flanders_wright_word", "flag ch_saga_rhineland_flanders_9" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s09.out_word (he gives you a trenail he has whittled, to show her; costs nothing)" }
+   ],
+   "memory": {
+    "ransom": "bought the wright out of the fort",
+    "night": "cut the wright loose by night",
+    "night.failure": "tried to cut the wright loose, and failed",
+    "word": "promised to carry word to his wife"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s10_end_hill_held",
+   "note": "ENDING 1, _end_held: HISTORY CHANGED (drawn at Diusburg from November 883 to the end of 886, when step 6's bank was dug and step 7's word reached the duke). What really happened is step 8: the Northmen occupied the town, fortified it and wintered there (Regino 884). Here the hill is held before they come, and they go back down the river: flag changed_diusburg_883. What would follow is on the chain's page: no burn layer, no hasty graves, the well of 872 clean, the Frisians of the 893 estate book richer and earlier, and perhaps a later palace, since the planned rebuilding after 883-884 was a rebuilding of what had burned (dossiers/diusburg.md 2). The hardest road, so it pays most and gives two grand rewards: a plot at Diusburg (Frisians held house ground there under Pruem by 893) and a sworn partner in Eilward (partnerships between merchants who 'stay' in one settlement and trade from another are the pattern of the Frisian houses at Mogontia, Colonia and Diusburg; ours). Odalbert swimming ashore is ours. Sets ch_saga_rhineland_flanders_end_held, changed_diusburg_883, _wright and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and ((year = 883 and month >= 11) or year = 884 or year = 885 or year = 886) and flag.ch_saga_rhineland_flanders_bank and flag.ch_saga_rhineland_flanders_henry_early and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "commander": { "role": "commander", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 55], "fixed": true, "note": "Duke Henry (historical)" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [36, 46], "fixed": true, "note": "Eilward (invented)" },
+    "shipwright": { "role": "shipwright", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [36, 44], "fixed": true, "note": "Odalbert (invented), who swam ashore" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s10.title",
+   "title": "The hill that was held",
+   "intention_key": "chain_saga_rhineland_flanders.s10.intention",
+   "intention": "The ships came up with the first frost. They looked at the ditch, the stakes and the duke's spears along the bank, lay one night on the far shore among the old Roman stones, and went back down with the stream.",
+   "lines": [
+    { "who": "commander", "key": "chain_saga_rhineland_flanders.s10.duke_day" },
+    { "who": "commander", "key": "chain_saga_rhineland_flanders.s10.duke_word" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s10.merchant_brother" },
+    { "who": "shipwright", "key": "chain_saga_rhineland_flanders.s10.wright_swam" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s10.merchant_offer" }
+   ],
+   "options": [
+    { "key": "partner", "label_key": "chain_saga_rhineland_flanders.s10.opt_partner", "label": "Take a plot beside the brothers, and lay goods together with Eilward: one purse, two boats",
+      "check": "true", "default": true,
+      "effects": [ "silver +1400", "flag unlock_plot_diusburg", "flag unlock_partner_eilward", "passenger shipwright to andoverpis", "npc merchant feeling +25 partner", "npc commander feeling +10 held", "deed fair_dealing", "news chain_saga_rhineland_flanders.news.diusburg_held at diusburg", "flag ch_saga_rhineland_flanders_wright", "flag changed_diusburg_883", "flag ch_saga_rhineland_flanders_end_held", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s10.out_partner (1,400 d from the brothers and the bank, a plot, and a sworn partner on the Rhine)" },
+    { "key": "silver", "label_key": "chain_saga_rhineland_flanders.s10.opt_silver", "label": "Take the plot, and your thanks in silver: you sail alone",
+      "check": "true",
+      "effects": [ "silver +2400", "flag unlock_plot_diusburg", "passenger shipwright to andoverpis", "npc merchant feeling +12 paid", "npc commander feeling +10 held", "news chain_saga_rhineland_flanders.news.diusburg_held at diusburg", "flag ch_saga_rhineland_flanders_wright", "flag changed_diusburg_883", "flag ch_saga_rhineland_flanders_end_held", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s10.out_silver (2,400 d: every Frisian house on the bank puts in, and the king's steward adds the court's)" },
+    { "key": "name", "label_key": "chain_saga_rhineland_flanders.s10.opt_name", "label": "Ask for a place at the bank, and that the duke should know your house by name",
+      "check": "true",
+      "effects": [ "silver +700", "flag unlock_plot_diusburg", "flag unlock_title_duke_henrys_man", "passenger shipwright to andoverpis", "npc merchant feeling +15 modest", "npc commander feeling +20 held", "news chain_saga_rhineland_flanders.news.diusburg_held at diusburg", "flag ch_saga_rhineland_flanders_wright", "flag changed_diusburg_883", "flag ch_saga_rhineland_flanders_end_held", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s10.out_name (700 d, a plot, and the duke's protection: it holds while he lives, to August 886)" }
+   ],
+   "memory": {
+    "partner": "held the hill, and swore fellowship with Eilward",
+    "silver": "held the hill, and took his thanks in silver",
+    "name": "held the hill, and asked only to be known"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s11_end_burned_camp",
+   "note": "ENDING 2, _end_henry: WHAT REALLY HAPPENED (drawn at Diusburg or Colonia from April 884 to June 886, for the house that fed or ferried for the duke in step 8). 'When spring came back they burned their camp and made for the places by the sea' (Regino of Pruem, year 884, our rendering). Burnt house walls across the whole settlement, a timber well filled with burnt rubble, and hasty burials, one of a man about two metres tall: Krause's digs, and his reading that they belong to that winter (dossiers/diusburg.md 2 and 8 (?)). Clamps that held moss caulking between planks are found at Diusburg from the ninth century (dossiers/diusburg.md 4): hence the caulkers' gift, ship_upgrades_793.json moss_laths. The grand reward is a lord's protection: Henry was the emperor's chief commander against the Northmen from 884 to his death before Paris on 28 August 886, when it lapses. The hard road (the Frisians carried to Colonia, or Colonia's gates, or its saints) adds a factor at Diusburg. Sets ch_saga_rhineland_flanders_end_henry and _done.",
+   "stage": "harbour",
+   "when": "moored and (port.id = diusburg or port.id = colonia) and ((year = 884 and month >= 4) or year = 885 or (year = 886 and month <= 6)) and flag.ch_saga_rhineland_flanders_fed and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "commander": { "role": "commander", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 56], "fixed": true, "note": "Duke Henry (historical), paying off his carriers" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [36, 46], "fixed": true, "note": "Eilward (invented)" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s11.title",
+   "title": "They burned their own camp",
+   "intention_key": "chain_saga_rhineland_flanders.s11.intention",
+   "intention": "In spring the Northmen set fire to their own fort and went back down to the sea coast with what they had come with. The hill at Diusburg is ash, and none of it is their gain. The duke is paying off his carriers.",
+   "lines": [
+    { "who": "commander", "key": "chain_saga_rhineland_flanders.s11.duke_winter", "note": "Regino 884" },
+    { "who": "commander", "key": "chain_saga_rhineland_flanders.s11.duke_pay" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s11.merchant_well", "note": "Krause's finds (?)" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s11.merchant_moved", "when": "flag.ch_saga_rhineland_flanders_moved" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s11.merchant_roof", "when": "not flag.ch_saga_rhineland_flanders_moved" }
+   ],
+   "options": [
+    { "key": "silver", "label_key": "chain_saga_rhineland_flanders.s11.opt_silver", "label": "Take the duke's silver and his protection",
+      "check": "true", "default": true,
+      "effects": [ "silver +1000", "flag unlock_title_duke_henrys_man", "toll eased 365", "deed kept_commission", "npc commander feeling +15 paid", "news chain_saga_rhineland_flanders.news.camp_burned at here", "flag ch_saga_rhineland_flanders_end_henry", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s11.out_silver (1,000 d and a word that opens doors on the lower Rhine while he lives)" },
+    { "key": "factor", "label_key": "chain_saga_rhineland_flanders.s11.opt_factor", "label": "Ask the duke to put his name to it: Eilward as your man at the Ruhr mouth, under his peace",
+      "check": "flag.ch_saga_rhineland_flanders_moved or flag.ch_saga_rhineland_flanders_gates or flag.ch_saga_rhineland_flanders_saints",
+      "effects": [ "silver +1600", "flag unlock_title_duke_henrys_man", "flag unlock_factor_diusburg", "toll eased 365", "deed kept_commission", "npc commander feeling +15 paid", "npc merchant feeling +20 factor", "news chain_saga_rhineland_flanders.news.camp_burned at here", "flag ch_saga_rhineland_flanders_end_henry", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s11.out_factor (the hard road: 1,600 d, the duke's protection, and a factor at Diusburg who owes you his children or his town's good name)" },
+    { "key": "roof", "label_key": "chain_saga_rhineland_flanders.s11.opt_roof", "label": "Leave four hundred of it for Eilward's roof, and let his caulkers see to your boat",
+      "check": "true",
+      "effects": [ "silver +600", "flag unlock_title_duke_henrys_man", "flag unlock_upgrade_moss_laths", "deed gave_alms", "npc merchant feeling +20 roof", "npc commander feeling +10 paid", "news chain_saga_rhineland_flanders.news.camp_burned at here", "flag ch_saga_rhineland_flanders_end_henry", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s11.out_roof (600 d, the duke's protection, and seams laid with moss under iron clamps as they do it at the Ruhr mouth)" }
+   ],
+   "memory": {
+    "silver": "was paid by the duke for the winter",
+    "factor": "was paid by the duke, and asked for Eilward as his man",
+    "roof": "left silver for Eilward's roof"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s12_end_wolfs_share",
+   "note": "ENDING 3, _end_wolf (drawn at Diusburg from March to June 884, or at Andoverpis from May 884 to the end of 885, for the house that traded at the fort in step 8). The Northmen burn their camp in spring and go back to the coast (Regino 884). Ours: all of it. What it rests on: the Norse felag, the laying of goods together by sworn partners (the word is on rune stones of about 1000, Sigtuna and elsewhere (?)); raiders who traded what they took (the camp markets of the great army in England; Rimbert on Birka's Danes (?)); and the Frankish bans on selling to the Northmen, which is why this ending carries a cost that lasts: the flag ch_saga_rhineland_flanders_wolf_mark (the duke's men and the Frisians of the Rhine remember the boat), unless the cloth is given back. Sets ch_saga_rhineland_flanders_end_wolf and _done.",
+   "stage": "harbour",
+   "when": "moored and ((port.id = diusburg and year = 884 and month >= 3 and month <= 6) or (port.id = andoverpis and ((year = 884 and month >= 5) or year = 885))) and flag.ch_saga_rhineland_flanders_fort and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "raider": { "role": "raider", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 43], "fixed": true, "note": "Soti (invented)" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [36, 46], "fixed": true, "note": "Eilward (invented) at Diusburg; at Andoverpis a Frisian skipper who knows whose cloth it is" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s12.title",
+   "title": "The wolf's share",
+   "intention_key": "chain_saga_rhineland_flanders.s12.intention",
+   "intention": "A long ship with one new strake lies off the bank with her mast down, low in the water. The Dane called Soti is paying what he owes before he goes to sea.",
+   "lines": [
+    { "who": "raider", "key": "chain_saga_rhineland_flanders.s12.raider_bread" },
+    { "who": "raider", "key": "chain_saga_rhineland_flanders.s12.raider_won" },
+    { "who": "raider", "key": "chain_saga_rhineland_flanders.s12.raider_felag" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s12.merchant_cloth", "when": "port.id = diusburg" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s12.merchant_cloth_scheldt", "when": "port.id = andoverpis" }
+   ],
+   "options": [
+    { "key": "felag", "label_key": "chain_saga_rhineland_flanders.s12.opt_felag", "label": "Lay goods together with him: your rivers, his markets",
+      "check": "true",
+      "effects": [ "silver +900", "goods frisian_cloth +10", "flag unlock_partner_soti", "flag ch_saga_rhineland_flanders_wolf_mark", "npc raider feeling +25 felag", "npc merchant feeling -25 wolf", "tongue old_norse = 0.5", "flag ch_saga_rhineland_flanders_end_wolf", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s12.out_felag (900 d, ten bolts worth 480 d, a sworn partner with a ship of his own, some of his tongue; and a name on the Rhine that will not wash)" },
+    { "key": "ring", "label_key": "chain_saga_rhineland_flanders.s12.opt_ring", "label": "Take your pay and no fellowship",
+      "check": "true", "default": true,
+      "effects": [ "silver +1500", "flag unlock_heirloom_sotis_arm_ring", "flag ch_saga_rhineland_flanders_wolf_mark", "npc raider feeling +8 paid", "npc merchant feeling -15 wolf", "flag ch_saga_rhineland_flanders_end_wolf", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s12.out_ring (1,500 d by weight, and an arm ring thrown across the water for the house to keep: shown to a Dane, it is a word in your favour)" },
+    { "key": "give_back", "label_key": "chain_saga_rhineland_flanders.s12.opt_give_back", "label": "Take what is owed you, and hand the Frisian cloth back to the Frisians",
+      "check": "true",
+      "effects": [ "silver +700", "flag unlock_factor_diusburg", "deed fair_dealing", "npc raider feeling +2 paid", "npc merchant feeling +20 gave_back", "flag ch_saga_rhineland_flanders_end_wolf", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s12.out_give_back (700 d; the cloth goes home, the mark is not laid on you, and the brothers keep your goods at the Ruhr mouth from then on, without ever quite saying why)" }
+   ],
+   "memory": {
+    "felag": "swore fellowship with Soti the Dane",
+    "ring": "took the Dane's silver and his ring",
+    "give_back": "gave the Frisians' cloth back"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s13_end_burnt_well",
+   "note": "ENDING 4, _end_after (drawn at Diusburg from April 884 to the end of 886 for any house in the saga that neither fed the duke nor traded at the fort: it turned away, or was elsewhere that winter). History as it was: the camp burned in spring 884 (Regino 884); burnt walls across the settlement and the timber well of 872 filled with burnt rubble; two ship rivets of northern kind, 7 cm long (dossiers/diusburg.md 2, after Krause); caulking clamps (the same, 4). Wine kept in a pit under the floor is ours, from the cellared houses of the later palace ring. Eilbod's purse is ours: the richer brother up the river sets the other up again, as the Frisian houses of Mogontia and Diusburg are one trade in two places. Every option is worth 600 d or more and gives a grand reward: a factor, or a plot. Sets ch_saga_rhineland_flanders_end_after and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = diusburg and ((year = 884 and month >= 4) or year = 885 or year = 886) and flag.ch_saga_rhineland_flanders_on and not flag.ch_saga_rhineland_flanders_fed and not flag.ch_saga_rhineland_flanders_fort and not (flag.ch_saga_rhineland_flanders_bank and flag.ch_saga_rhineland_flanders_henry_early) and not flag.ch_saga_rhineland_flanders_done",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [37, 47], "fixed": true, "note": "Eilward (invented)" },
+    "craftsman": { "role": "craftsman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [25, 50], "fixed": true, "note": "a caulker of the bank (unnamed; caulkers are in the digs)" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s13.title",
+   "title": "The burnt well",
+   "intention_key": "chain_saga_rhineland_flanders.s13.intention",
+   "intention": "The Northmen fired their camp in spring and went down to the sea. What they left of Diusburg is a black hill, a well choked with burnt timber, and Frisians sorting rivets out of the ash.",
+   "lines": [
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s13.merchant_henry", "note": "Regino 884" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s13.merchant_moved", "when": "flag.ch_saga_rhineland_flanders_moved" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s13.merchant_pit", "when": "not flag.ch_saga_rhineland_flanders_moved" },
+    { "who": "craftsman", "key": "chain_saga_rhineland_flanders.s13.caulker_rivets", "note": "the two northern rivets (Krause)" },
+    { "who": "merchant", "key": "chain_saga_rhineland_flanders.s13.merchant_purse" }
+   ],
+   "options": [
+    { "key": "purse", "label_key": "chain_saga_rhineland_flanders.s13.opt_purse", "label": "Take Eilbod's purse and the order for oak, and be the brothers' boat on the lower river",
+      "check": "true", "default": true,
+      "effects": [ "silver +600", "commission oak_timber 10 by 120 premium 1.6", "flag unlock_factor_diusburg", "npc merchant feeling +15 purse", "news chain_saga_rhineland_flanders.news.camp_burned at diusburg", "flag ch_saga_rhineland_flanders_end_after", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s13.out_purse (600 d, an order for ten loads of oak at a premium, and Eilward as your factor)" },
+    { "key": "caulk", "label_key": "chain_saga_rhineland_flanders.s13.opt_caulk", "label": "Take half the purse; for the other half let the caulkers lay your seams their way",
+      "check": "true",
+      "effects": [ "silver +300", "flag unlock_upgrade_moss_laths", "flag unlock_factor_diusburg", "npc merchant feeling +12 purse", "npc craftsman feeling +10 work", "news chain_saga_rhineland_flanders.news.camp_burned at diusburg", "flag ch_saga_rhineland_flanders_end_after", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s13.out_caulk (300 d, moss under iron clamps in every seam, and Eilward as your factor)" },
+    { "key": "plot", "label_key": "chain_saga_rhineland_flanders.s13.opt_plot", "label": "Leave the purse to him; ask for a burnt plot on the bank, and what is in the pit",
+      "check": "true",
+      "effects": [ "goods rhenish_wine +6", "silver +240", "flag unlock_plot_diusburg", "npc merchant feeling +18 plot", "news chain_saga_rhineland_flanders.news.camp_burned at diusburg", "flag ch_saga_rhineland_flanders_end_after", "flag ch_saga_rhineland_flanders_done" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s13.out_plot (a plot nobody else wants this year, six casks worth 360 d and 240 d from the purse he presses on you anyway)" }
+   ],
+   "memory": {
+    "purse": "took Eilbod's purse and became the brothers' boat",
+    "caulk": "had his boat caulked at Diusburg",
+    "plot": "asked for a burnt plot on the bank"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_rhineland_flanders.s14_first_cup",
+   "note": "Step 14, the epilogue (drawn at Andoverpis to the end of 890, once the wright is free or the saga has ended; not an ending: it closes the Scheldt people's story whatever the ending was). Houses on sill beams, close set, some of reused ship's timber: Andoverpis in the later ninth century (dossiers/andoverpis.md 2, after Bellens and Van de Walle). Ships were built on the Scheldt at Ganda in 811 and refitted there in 881 (Annales regni Francorum 811; Annales Vedastini 881). Towing gear for the rivers: boats are hauled up the Rhine by a rope from the bank 'as the custom is' (Wandalbert, Miracula sancti Goaris, 839; dossiers/mogontia.md 1); ship_upgrades_793.json tow_gear. The riddle is the Exeter Book's mead (riddles_793.json riddle_exeter_27_mead), given as the ale-wife's own. Ours: all the people. Sets ch_saga_rhineland_flanders_14.",
+   "stage": "harbour",
+   "when": "moored and port.id = andoverpis and year <= 890 and (flag.ch_saga_rhineland_flanders_wright or flag.ch_saga_rhineland_flanders_done) and flag.ch_saga_rhineland_flanders_on and not flag.ch_saga_rhineland_flanders_14",
+   "weight": 10.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "alewife": { "role": "alewife", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "f", "age": [32, 42], "fixed": true, "note": "Erminburg (invented)" },
+    "shipwright": { "role": "shipwright", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [37, 48], "fixed": true, "note": "Odalbert (invented); he speaks only if he is free" }
+   },
+   "title_key": "chain_saga_rhineland_flanders.s14.title",
+   "title": "The first cup",
+   "intention_key": "chain_saga_rhineland_flanders.s14.intention",
+   "intention": "Erminburg has a house of her own at the werf now, sill beams laid on the sand, and a vat that is hers. She sees your boat before it touches and comes down to the water.",
+   "lines": [
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s14.alewife_home", "when": "flag.ch_saga_rhineland_flanders_wright" },
+    { "who": "shipwright", "key": "chain_saga_rhineland_flanders.s14.wright_build", "when": "flag.ch_saga_rhineland_flanders_wright" },
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s14.alewife_word", "when": "flag.ch_saga_rhineland_flanders_wright_word and not flag.ch_saga_rhineland_flanders_wright" },
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s14.alewife_no_word", "when": "not flag.ch_saga_rhineland_flanders_wright_word and not flag.ch_saga_rhineland_flanders_wright" },
+    { "who": "alewife", "key": "chain_saga_rhineland_flanders.s14.alewife_cup" }
+   ],
+   "options": [
+    { "key": "refit", "label_key": "chain_saga_rhineland_flanders.s14.opt_refit", "label": "Ask Odalbert to fit your boat for the rivers: a towing mast and gear",
+      "check": "flag.ch_saga_rhineland_flanders_wright",
+      "effects": [ "flag unlock_upgrade_tow_gear", "npc shipwright feeling +10 work", "npc alewife feeling +10 home", "morale +0.1", "flag ch_saga_rhineland_flanders_14" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s14.out_refit (a short mast stepped forward, a towline of lime bast and a man who knows where every other boat's gear breaks)" },
+    { "key": "hire", "label_key": "chain_saga_rhineland_flanders.s14.opt_hire", "label": "Ask him to sail with you for a season, at a wright's wage",
+      "check": "flag.ch_saga_rhineland_flanders_wright",
+      "effects": [ "hire shipwright", "npc alewife feeling +2 hired", "flag ch_saga_rhineland_flanders_14" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s14.out_hire (a shipwright aboard; Erminburg says one season, and counts it out on her fingers)" },
+    { "key": "cup", "label_key": "chain_saga_rhineland_flanders.s14.opt_cup", "label": "Drink the first cup and ask for nothing",
+      "check": "true", "default": true,
+      "effects": [ "morale +0.1", "give_riddle riddle_exeter_27_mead", "npc alewife feeling +10 cup", "flag ch_saga_rhineland_flanders_14" ],
+      "note": "outcome: chain_saga_rhineland_flanders.s14.out_cup (ale for the whole crew and the ale-wife's riddle, which is about her own trade)" }
+   ],
+   "memory": {
+    "refit": "had Odalbert fit his boat",
+    "hire": "hired Odalbert for a season",
+    "cup": "drank the first cup"
+   }
+  }
+ ]
+}

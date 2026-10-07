@@ -1,0 +1,11 @@
+chain_rollo_911_793.json
+
+Cards seen: 7 in the first 250 lines (the 7th is cut off partway through its options; the file's own note says the chain has fourteen).
+
+- harbour.chain_rollo_911.s00_word — asks: hear a skipper's news of Rouen and choose to ask the bread price, buy him ale for the way up, or shrug it off. Stake: 2 silver for the ale; a price word (goods); standing with the skipper; nothing lost by refusing.
+- harbour.chain_rollo_911.s01_ruined_market — asks: sell to the Northmen's steward, sell to the archbishop's house, or sell nothing and walk the town. Stake: silver (+30 or +12); goods (needs a hold to sell north; wine price word); standing with steward or canon; time (30-day wait).
+- harbour.chain_rollo_911.s02_canons_errand — asks: carry the archbishop's letter to Paris unopened, let Ketil hear it first, or refuse to carry it. Stake: silver (+10 or +40); standing with canon, steward and later Count Robert's man.
+- harbour.chain_rollo_911.s03_counts_man — asks: tell the count's man the true count of ships at Rouen, say you count only casks, or lie and double the ships. Stake: silver (+100, +20, or a 40% chance of +140 else +20); standing with the count's man (-12 if the lie fails); time (40-day wait).
+- harbour.chain_rollo_911.s04_blades — asks: sell iron and horses to the camp against the king's law, offer wheat instead, or refuse. Stake: silver (+250); goods (blades/horses carried, or a wheat commission of 6 at a 1.6 premium, or a salt price word); standing with the Franks for good (armed flag closes the hard road of two endings); time (40-day wait).
+- harbour.chain_rollo_911.s05_after_chartres — asks: the fork after the defeat at Chartres: feed the camp from your own purse, take the archbishop's clerk up the river, or go to Paris with what you know. Stake: silver (60 to feed the camp); standing with steward, canon or wine seller; which ending road is open; time (20 or 60-day wait).
+- harbour.chain_rollo_911.s06_epte — asks: after waiting at the Epte meeting, ask Rollo what a keel pays now, ask to be written in the archbishop's roll, or ask nothing and mend sail (card cut off here). Stake: silver (+30 each way); half toll at Rotomagus for 180 days, or a little Latin, or crew morale; standing with Rollo or the canon; time (120-day wait).

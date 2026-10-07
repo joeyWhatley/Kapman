@@ -1,0 +1,1045 @@
+using System;
+using System.Collections.Generic;
+using Kapman.Encounters;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+
+namespace Kapman.Game.Frame
+{
+    /// <summary>One choice of a floating window: its words, a tag before them ("Nerve"), its odds as a word ("likely"),
+    /// whether it can be chosen (else the rule that forbids it, in words), whether Enter takes it, and what it does.</summary>
+    public sealed class FloatOption
+    {
+        public string label = "", tag = "", odds = "", rule = "";
+        public bool enabled = true, isDefault;
+        public Action pick;
+    }
+
+    /// <summary>What a floating window shows. Open one with FrameRoot.OpenFloat; open the same id again to change it in place.</summary>
+    public sealed class FloatSpec
+    {
+        /// <summary>One window an id: opening it again changes the window that is up.</summary>
+        public string id = "";
+        public string title = "";
+        /// <summary>The speaker's line under the title ("Thiadger, the toll man · easy"), and their name and what they are
+        /// for the portrait's place (whoever is speaking stands there while they speak). "" for none.</summary>
+        public string who = "", speaker = "", speakerLine = "";
+        /// <summary>Who they are, in a line under that: their people, their faith, their nature ("" for none).</summary>
+        public string about = "";
+        /// <summary>Whose face place it has (a name or an id; null: no face).</summary>
+        public string face;
+        /// <summary>The words, in order; an unwritten one (a placeholder for the writers) is shown small and pale.</summary>
+        public readonly List<(string text, bool written)> lines = new List<(string, bool)>();
+        /// <summary>Small print under the words; and what came of the choice, once made.</summary>
+        public string small = "", result = "";
+        public readonly List<FloatOption> options = new List<FloatOption>();
+        /// <summary>It cannot be shut without an answer (a card; a talk with no way back).</summary>
+        public bool mustAnswer;
+        /// <summary>The game's clock waits while it is up.</summary>
+        public bool holdsClock;
+        /// <summary>What shutting it does (the cross, Esc), when it may be shut. Null: it just goes.</summary>
+        public Action shut;
+        /// <summary>Its own content in place of the lines (a line that turns from a tongue into English, a picture).</summary>
+        public VisualElement content;
+        /// <summary>A class of the stylesheet for this window alone (a wider one, a taller one). "" for none.</summary>
+        public string look = "";
+        /// <summary>Lines that come up in the speaker's own tongue and turn into English piece by piece (FloatTurn), over
+        /// the plain lines. Only ever real lines of the tongues file.</summary>
+        public readonly List<FloatTurn> turns = new List<FloatTurn>();
+        /// <summary>The speaker's tongue (an id of the tongues file; "" for none): its words in the lines are set apart,
+        /// with their meaning on hover. And words set apart on purpose, whatever their tongue (a greeting put in).</summary>
+        public string tongue = "";
+        public readonly List<TongueWord> marks = new List<TongueWord>();
+    }
+
+    /// <summary>
+    /// FLOATING WINDOWS (the user, 7 Oct 2026: "There will be lots of popups"; "usually the conversation will be an event
+    /// pop up in the middle of the screen"). Cards and talk open over the middle of the chart: the speaker's face place,
+    /// the words, the choices (each with its odds as a word). Several may be up at once, each a little down and to the
+    /// right of the last; a click brings one to the front; the number keys choose on the front one, Enter takes its
+    /// marked choice, Esc shuts it if it may be shut. A card must be answered, and the clock waits while it does.
+    ///
+    /// What opens them by itself, on the chart:
+    ///   - THE CARD IN PLAY (EncounterRunner.Director.Current), in the old EncounterPanel's place;
+    ///   - A TALK: whatever the graphs put in the text panel that is not the port's own menu (the waterfront's talk, an
+    ///     errand's outcome, a meeting at sea), in the port's numbered menu's place (the menu itself is the Port window's);
+    ///   - AN URGENT ALERT (raiders made out, a guard boat, aground): it holds the game until it is answered.
+    /// Anything else opens one with <see cref="OpenFloat"/>.
+    /// </summary>
+    public partial class FrameRoot
+    {
+        sealed class Float
+        {
+            public FloatSpec spec;
+            public VisualElement el;
+            public Label hint;
+            public int slot;
+            public float hintUntil;
+            /// <summary>The player went on with it still open: it holds the clock no more, and waits.</summary>
+            public bool released;
+            /// <summary>The talking text of its lines (null: they stand whole), the lines already said, and the one being
+            /// said with how far it has got: a window drawn again goes on where it was.</summary>
+            public TextReveal reveal;
+            public readonly List<string> said = new List<string>();
+            public string saying = "";
+            public int sayingShown;
+            /// <summary>Its choices (put away while there is more to be said), and whether there is.</summary>
+            public VisualElement optionsBox;
+            public bool more;
+        }
+
+
+
+        /// <summary>The front window's talking text, if it is still being said (for a test, a tool).</summary>
+        public TextReveal FrontReveal => floats.Count > 0 ? floats[floats.Count - 1].reveal : null;
+
+        VisualElement floatLayer;
+        readonly List<Float> floats = new List<Float>();                 // in order of depth: the last is the front
+        int floatSlots;
+        EncounterDirector hooked;
+        EncounterSession cardShown;
+        bool cardChosen;
+        int talkVersion = -1;
+        string talkShape = "", talkKey = "";
+        Label talkLine;                                               // the line under a talk's title (it may run: a chase's numbers)
+        EncounterPanel oldCardPanel;
+        bool oldCardPanelOff;
+        readonly Dictionary<string, double> alertsAnswered = new Dictionary<string, double>();
+        readonly HashSet<string> alertsTold = new HashSet<string>();
+
+        /// <summary>A floating window that holds the clock is up (PanelClock asks).</summary>
+        public static bool FloatHoldsClock
+        {
+            get
+            {
+                var f = Current;
+                if (f == null)
+                    return false;
+                foreach (var w in f.floats)
+                    if (w.spec.holdsClock && !w.released)
+                        return true;
+                return false;
+            }
+        }
+
+        /// <summary>How many floating windows are up.</summary>
+        public int FloatCount => floats.Count;
+        /// <summary>The ids of the floating windows that are up, back to front.</summary>
+        public IEnumerable<string> FloatIds
+        {
+            get
+            {
+                foreach (var f in floats)
+                    yield return f.spec.id;
+            }
+        }
+
+        public bool FloatOpen(string id) => floats.Exists(f => f.spec.id == id);
+
+        // ------------------------------------------------------------------ opening and closing
+
+        /// <summary>Opens a floating window, or changes the one with the same id in place. A new one comes to the front.</summary>
+        public void OpenFloat(FloatSpec spec)
+        {
+            if (spec == null || floatLayer == null)
+                return;
+            var f = floats.Find(x => x.spec.id == spec.id);
+            bool fresh = f == null;
+            if (f == null)
+            {
+                f = new Float { slot = floatSlots++ % 5 };
+                floats.Add(f);
+            }
+            f.spec = spec;
+            f.el?.RemoveFromHierarchy();
+            f.el = Build(f);
+            if (fresh && Showtime.On)
+            {
+                // (a new window eases in; one drawn again is simply there)
+                var el = f.el;
+                el.AddToClassList("easing");
+                el.schedule.Execute(() => el.AddToClassList("eased")).StartingIn(20);
+            }
+            // (at its own depth: the layer's children are in the list's order)
+            floatLayer.Insert(Mathf.Min(floats.IndexOf(f), floatLayer.childCount), f.el);
+            Fronts();
+            nextFill = 0f;                                               // (whoever speaks stands in the portrait's place at once)
+        }
+
+        public void CloseFloat(string id)
+        {
+            var f = floats.Find(x => x.spec.id == id);
+            if (f == null)
+                return;
+            f.el?.RemoveFromHierarchy();
+            floats.Remove(f);
+            if (floats.Count == 0)
+                floatSlots = 0;
+            Fronts();
+            nextFill = 0f;
+        }
+
+        void ToFront(Float f)
+        {
+            if (floats.Count == 0 || floats[floats.Count - 1] == f || !floats.Contains(f))
+                return;
+            floats.Remove(f);
+            floats.Add(f);
+            f.el.BringToFront();
+            Fronts();
+            nextFill = 0f;
+        }
+
+        void Fronts()
+        {
+            for (int i = 0; i < floats.Count; i++)
+                floats[i].el.EnableInClassList("front", i == floats.Count - 1 && floats.Count > 1);
+        }
+
+        /// <summary>
+        /// The lines of a window somebody speaks in are said a letter at a time (TextReveal: the user, 7 Oct 2026, "a
+        /// Pokemon style text reveal"). Only where there is a speaker (a face, a name under the title); a window of the
+        /// game's own (the lookout's list, the creation) stands whole. Lines already said stay said when the window is
+        /// drawn again, and the one being said goes on from its letter.
+        /// </summary>
+        void Speak(Float f, ScrollView scroll)
+        {
+            f.reveal = null;
+            var spec = f.spec;
+            if (!Showtime.On || spec.content != null || (spec.face == null && string.IsNullOrEmpty(spec.who) && string.IsNullOrEmpty(spec.speaker)))
+                return;
+            var reveal = new TextReveal();
+            foreach (var child in scroll.contentContainer.Children())
+            {
+                if (child is TurningLine || child.ClassListContains("frame-float-small"))
+                    continue;
+                if (child is TextElement || child is SprinkledText)
+                    reveal.Add(child);
+            }
+            if (reveal.Count == 0)
+                return;
+            int same = 0;
+            while (same < f.said.Count && same < reveal.Count && f.said[same] == reveal.Key(same))
+                same++;
+            if (same < f.said.Count)
+                f.said.RemoveRange(same, f.said.Count - same);
+            reveal.OneAtATime = true;                                    // (a paragraph at any one time)
+            reveal.StartAt(same, same < reveal.Count && reveal.Key(same) == f.saying ? f.sayingShown : 0);
+            f.reveal = reveal;
+            // (a click anywhere on the face or the words)
+            (scroll.parent?.parent ?? scroll).RegisterCallback<PointerDownEvent>(_ =>
+            {
+                if (f.reveal != null && f.reveal.Advance())
+                {
+                    Said(f);
+                    Paging(f);
+                }
+            });
+        }
+
+        /// <summary>A window said one line at a time shows its choices when its last line has come; till then the line
+        /// under it says how to go on.</summary>
+        void Paging(Float f)
+        {
+            bool more = f.reveal != null && f.reveal.OneAtATime && !f.reveal.Done;
+            if (f.optionsBox != null)
+                f.optionsBox.style.display = more ? DisplayStyle.None : DisplayStyle.Flex;
+            if (more == f.more)
+                return;
+            f.more = more;
+            if (f.hint != null && f.hintUntil <= 0f)
+                f.hint.text = StandingHint(f);
+                HintShown(f);
+        }
+
+        static void Said(Float f)
+        {
+            var r = f.reveal;
+            if (r == null)
+                return;
+            while (f.said.Count < r.Index)
+                f.said.Add(r.Key(f.said.Count));
+            f.saying = r.Done ? "" : r.Key(r.Index);
+            f.sayingShown = r.Shown;
+        }
+
+        VisualElement Build(Float f)
+        {
+            var spec = f.spec;
+            var el = Slip("frame-float");
+            if (!string.IsNullOrEmpty(spec.look))
+                el.AddToClassList(spec.look);
+            // each a little down and to the right of the last, in the chart's free middle
+            // WHAT IS SAID STANDS IN THE FOOT (the user, 7 Oct 2026, late: "why is he speaking twice, once in the middle
+            // and once at the bottom; expand the bottom one for more wide text space for characters"). A window of words
+            // (a card, a talk, an alert) is docked there, wide and low, over the portrait's place and the log: who
+            // speaks at its left, the words in its middle, the choices at its right when they come. A window of the
+            // game's own making (a list, the choosing of who you are) still floats in the middle of the world.
+            bool docked = spec.content == null;
+            el.EnableInClassList("docked", docked);
+            if (!docked)
+            {
+                // (the world shows from the left side to the right edge and from the bar down to the foot: its middle)
+                el.style.left = Length.Percent(61.5f + f.slot * 2.4f);
+                el.style.top = Length.Percent(41.5f + f.slot * 3.2f);
+            }
+            el.RegisterCallback<PointerDownEvent>(_ => ToFront(f), TrickleDown.TrickleDown);
+
+            // its bar: its name, and its cross where it may be shut (a window that floats is the one kind with a bar)
+            var bar = Box("frame-float-bar");
+            var title = Text("frame-float-title");
+            title.text = spec.title ?? "";
+            bar.Add(title);
+            if (!spec.mustAnswer)
+            {
+                var shut = new Button(() => Shut(f)) { tooltip = "Shut  [Esc]" };
+                shut.AddToClassList("frame-float-shut");
+                shut.Add(new FrameGlyph(FrameGlyph.Kind.Cross));
+                bar.Add(shut);
+            }
+            el.Add(bar);
+            var top = Box("frame-float-top");
+            if (spec.face != null)
+                top.Add(new FrameFace("frame-float-face") { Who = spec.face });
+            var words = Box("frame-float-words");
+            if (!string.IsNullOrEmpty(spec.who))
+            {
+                var who = Text("frame-float-who");
+                who.text = spec.who;
+                words.Add(who);
+            }
+            if (!string.IsNullOrEmpty(spec.about))
+            {
+                var about = Text("frame-float-about");
+                about.text = spec.about;
+                words.Add(about);
+            }
+            var scroll = new ScrollView(ScrollViewMode.Vertical) { horizontalScrollerVisibility = ScrollerVisibility.Hidden };
+            scroll.AddToClassList("frame-float-scroll");
+            if (spec.content != null)
+                scroll.Add(spec.content);
+            foreach (var turn in spec.turns)
+                if (turn != null && turn.pairs.Count > 0)
+                    scroll.Add(new TurningLine(turn));
+            bool sprinkle = spec.tongue.Length > 0 || spec.marks.Count > 0;
+            foreach (var (text, written) in spec.lines)
+            {
+                if (string.IsNullOrEmpty(text))
+                    continue;
+                if (sprinkle && written)
+                {
+                    // (a line with words of the speaker's tongue in it: each set apart, its meaning on hover)
+                    var runs = TongueBook.Current.Mark(text, spec.tongue, spec.marks);
+                    if (runs.Exists(r => r.word != null))
+                    {
+                        scroll.Add(new SprinkledText(runs, "frame-float-sprinkle"));
+                        continue;
+                    }
+                }
+                var line = Text("frame-float-line");
+                line.text = text;
+                line.EnableInClassList("unwritten", !written);
+                scroll.Add(line);
+            }
+            if (!string.IsNullOrEmpty(spec.result))
+            {
+                var result = Text("frame-float-result");
+                result.text = spec.result;
+                scroll.Add(result);
+            }
+            if (!string.IsNullOrEmpty(spec.small))
+            {
+                var small = Text("frame-float-small");
+                small.text = spec.small;
+                scroll.Add(small);
+            }
+            words.Add(scroll);
+            top.Add(words);
+            // (the words and the choices in one body: one over the other in a window that floats, side by side in the foot)
+            var body = Box("frame-float-body");
+            body.Add(top);
+            el.Add(body);
+            Speak(f, scroll);
+            el.EnableInClassList("paged", f.reveal != null && f.reveal.OneAtATime);
+            f.optionsBox = null;
+
+            if (spec.options.Count > 0)
+            {
+                var list = Box("frame-float-options");
+                for (int i = 0; i < spec.options.Count; i++)
+                {
+                    var o = spec.options[i];
+                    int index = i;
+                    var b = new Button(() => Pick(f, index));
+                    b.AddToClassList("frame-option");
+                    b.SetEnabled(o.enabled);
+                    var number = Text("frame-option-number");
+                    number.text = (i + 1) + ".";
+                    b.Add(number);
+                    var w = Box("frame-option-words");
+                    var label = Text("frame-option-label");
+                    // (a choice whose own words end with its odds in brackets, "... (doubtful)", is not given them twice:
+                    // the odds stand at the line's right end)
+                    string said = o.label ?? "";
+                    if (!string.IsNullOrEmpty(o.odds) && said.EndsWith(" (" + o.odds + ")", StringComparison.Ordinal))
+                        said = said.Substring(0, said.Length - o.odds.Length - 3);
+                    label.text = (string.IsNullOrEmpty(o.tag) ? "" : "[" + o.tag + "] ") + said;
+                    w.Add(label);
+                    if (!o.enabled && !string.IsNullOrEmpty(o.rule))
+                    {
+                        var rule = Text("frame-option-rule");
+                        rule.text = o.rule;
+                        w.Add(rule);
+                    }
+                    b.Add(w);
+                    if (!string.IsNullOrEmpty(o.odds))
+                    {
+                        var odds = Text("frame-option-odds");
+                        odds.text = o.odds;
+                        b.Add(odds);
+                    }
+                    if (o.isDefault && o.enabled)
+                    {
+                        var key = Text("frame-option-key");
+                        key.text = "Enter";
+                        b.Add(key);
+                    }
+                    foreach (var child in b.Children())
+                        child.pickingMode = PickingMode.Ignore;
+                    list.Add(b);
+                }
+                body.Add(list);
+                f.optionsBox = list;
+            }
+            f.hint = Text("frame-float-hint");
+            f.more = f.reveal != null && f.reveal.OneAtATime && !f.reveal.Done;
+            f.hint.text = StandingHint(f);
+            HintShown(f);
+            el.Add(f.hint);
+            if (f.optionsBox != null && f.more)
+                f.optionsBox.style.display = DisplayStyle.None;
+            return el;
+        }
+
+        static void HintShown(Float f)
+        {
+            if (f != null && f.hint != null)
+                f.hint.style.display = string.IsNullOrEmpty(f.hint.text) ? DisplayStyle.None : DisplayStyle.Flex;
+        }
+
+        static string StandingHint(Float f)
+        {
+            // Nothing stands under a window any more (the user, 7 Oct 2026, late, of "Enter, or a click: go on.": "remove
+            // it, you don't have to explain everything like this"). What a key does is in the tips and in the book of
+            // rules; the line is kept for what has to be said once: why a choice cannot be taken.
+            return "";
+        }
+
+        void Hint(Float f, string text)
+        {
+            if (f.hint == null)
+                return;
+            f.hint.text = text ?? "";
+            HintShown(f);
+            f.hintUntil = Time.realtimeSinceStartup + 4f;
+        }
+
+        void Pick(Float f, int index)
+        {
+            if (index < 0 || index >= f.spec.options.Count)
+                return;
+            var o = f.spec.options[index];
+            if (!o.enabled)
+            {
+                Hint(f, string.IsNullOrEmpty(o.rule) ? "Not now." : o.rule);
+                return;
+            }
+            o.pick?.Invoke();
+        }
+
+        void Shut(Float f)
+        {
+            if (f.spec.mustAnswer)
+            {
+                Hint(f, "Choose one first.");
+                return;
+            }
+            if (f.spec.shut != null)
+                f.spec.shut();
+            else
+                CloseFloat(f.spec.id);
+        }
+
+        // ------------------------------------------------------------------ the frame's hooks
+
+        /// <summary>The layer the windows float in begins under the top bar: a window is placed and sized by shares of
+        /// it, so a tall one never lies over the bar, also where a small screen makes the bar two lines high.</summary>
+        partial void FloatsTop(float y)
+        {
+            if (floatLayer != null)
+                floatLayer.style.top = y;
+        }
+
+        partial void FloatsBuild()
+        {
+            floats.Clear();
+            floatSlots = 0;
+            floatLayer = new VisualElement { pickingMode = PickingMode.Ignore };
+            floatLayer.AddToClassList("frame-floats");
+            root.Add(floatLayer);
+            cardShown = null;
+            talkVersion = -1;
+        }
+
+        partial void FloatsEnable()
+        {
+            // only a card or a talk that needs an answer holds the clock, and the player may set it running again at once
+            // (Space, a speed button): what was holding lets go and stays open
+            PanelClock.Holds = () => FloatHoldsClock;
+            PanelClock.LetGo = () =>
+            {
+                foreach (var f in floats)
+                    if (f.spec.holdsClock && !f.released)
+                    {
+                        f.released = true;
+                        f.hintUntil = 0f;
+                        if (f.hint != null)
+                            f.hint.text = StandingHint(f);
+                            HintShown(f);
+                    }
+            };
+            // a card waits only for the title, the pause menu and the chest: it may open over the port's own business
+            // (and for a happening of the events table that is up and wants its answer: one thing at a time)
+            EncounterRunner.Blocked = () =>
+                (MainMenu.Current != null && (MainMenu.Current.Open || MainMenu.Current.OnTitle)) ||
+                Showtime.HoldsCards ||                                   // (the opening, and until Ravn has had his say)
+                (MapView.Current != null && MapView.Current.ChestOpen) ||
+                GameEvents.Current != null;
+        }
+
+        partial void FloatsDisable()
+        {
+            EncounterRunner.Blocked = null;
+            if (hooked != null)
+                hooked.Chose -= CardChose;
+            hooked = null;
+            if (oldCardPanelOff && oldCardPanel != null)
+                oldCardPanel.enabled = true;
+            oldCardPanelOff = false;
+            floats.Clear();
+        }
+
+        partial void FloatsUpdate()
+        {
+            if (!oldCardPanelOff && oldCardLooks < 8 && Time.realtimeSinceStartup >= nextOldCardLook)
+            {
+                // the card's old place (drawn with IMGUI over the scene) stands down: the card floats here now
+                // (looked for a few times as the scene comes up, not every frame for ever: a scene may have none)
+                oldCardLooks++;
+                nextOldCardLook = Time.realtimeSinceStartup + 0.5f;
+                oldCardPanel = oldCardPanel != null ? oldCardPanel : FindAnyObjectByType<EncounterPanel>();
+                if (oldCardPanel != null)
+                {
+                    oldCardPanel.enabled = false;
+                    oldCardPanelOff = true;
+                }
+            }
+            CardFloat();
+            TalkFloat();
+            AlertFloats();
+            PeopleLeftBehind();
+            TurningLine.TickAll();                                       // (a line turning from a tongue into English goes by the wall clock)
+            foreach (var f in floats)
+                if (f.reveal != null)
+                {
+                    f.reveal.Tick(Time.unscaledDeltaTime);
+                    Said(f);
+                    Paging(f);
+                }
+            float now = Time.realtimeSinceStartup;
+            foreach (var f in floats)
+                if (f.hintUntil > 0f && now > f.hintUntil)
+                {
+                    f.hintUntil = 0f;
+                    f.hint.text = StandingHint(f);
+                    HintShown(f);
+                }
+        }
+
+        /// <summary>A talk with someone of a port ends when she no longer lies there (cast off with the window still up,
+        /// she would have gone on talking with Ravn of Dorestat half way to Lundenwic). A moment's grace: the port's own
+        /// business may be off the panel for a frame between two of its steps.</summary>
+        void PeopleLeftBehind()
+        {
+            bool any = false;
+            foreach (var f in floats)
+                any |= f.spec.id.StartsWith(PersonPrefix, StringComparison.Ordinal);
+            if (!any)
+            {
+                peopleAwaySince = -1f;
+                return;
+            }
+            var here = FrameGame.PortHere;
+            bool away = false;
+            foreach (var f in floats)
+            {
+                if (!f.spec.id.StartsWith(PersonPrefix, StringComparison.Ordinal))
+                    continue;
+                var who = PlaceBook.Current.Person(f.spec.id.Substring(PersonPrefix.Length));
+                away |= here == null || who == null || who.port != here.id;
+            }
+            if (!away)
+            {
+                peopleAwaySince = -1f;
+                return;
+            }
+            float now = Time.realtimeSinceStartup;
+            if (peopleAwaySince < 0f)
+                peopleAwaySince = now;
+            if (now - peopleAwaySince < 1f)
+                return;
+            peopleAwaySince = -1f;
+            for (int i = floats.Count - 1; i >= 0; i--)
+            {
+                string id = floats[i].spec.id;
+                if (!id.StartsWith(PersonPrefix, StringComparison.Ordinal))
+                    continue;
+                var who = PlaceBook.Current.Person(id.Substring(PersonPrefix.Length));
+                if (here == null || who == null || who.port != here.id)
+                    CloseFloat(id);
+            }
+        }
+
+        const string PersonPrefix = "person:";
+        float peopleAwaySince = -1f, nextOldCardLook;
+        int oldCardLooks;
+
+        // ------------------------------------------------------------------ the saved game
+
+        /// <summary>A panel's full window is the floating window "full.&lt;panel id&gt;" (the ruling of 7 October: every
+        /// panel a brief face and a full window; the brief faces' builder opens them).</summary>
+        public const string FullPrefix = "full.";
+
+        partial void FloatsCapture()
+        {
+            if (FrameSave.OpenFull == null)
+                return;                                                   // (full windows are not built: what a save had is kept as it is)
+            FrameSave.Full.Clear();
+            foreach (var f in floats)                                     // back to front
+                if (f.spec.id.StartsWith(FullPrefix, StringComparison.Ordinal))
+                    FrameSave.Full.Add(new FrameSave.FullWindow
+                    {
+                        panel = f.spec.id.Substring(FullPrefix.Length),
+                        left = f.el.style.left.value.value, top = f.el.style.top.value.value,   // (percent, as Build sets them)
+                    });
+        }
+
+        /// <summary>A game was loaded under the frame. The windows over the chart that were of the game before go: a talk
+        /// with someone of a port, the lookout's, a wait's, a happening's. A card and a talk of the graphs follow the
+        /// loaded game by themselves (CardFloat, TalkFloat). The full windows the loaded game had open come back.</summary>
+        partial void FloatsLoaded()
+        {
+            for (int i = floats.Count - 1; i >= 0; i--)
+            {
+                string id = floats[i].spec.id;
+                if (id != CardId && id != TalkId && id != SelfId)
+                    CloseFloat(id);
+            }
+            eventUp = null;
+            alertsAnswered.Clear();
+            alertsTold.Clear();
+            seaLogSeen = -1;                                              // (the sea log is of the game before: not told again)
+            if (FrameSave.OpenFull == null)
+                return;
+            foreach (var w in FrameSave.Full.ToArray())
+            {
+                if (FramePanels.Get(w.panel) == null)
+                    continue;                                             // (a panel that is no longer there)
+                var el = FrameSave.OpenFull(w.panel);
+                if (el == null || w.left < 0f || w.top < 0f)
+                    continue;
+                el.style.left = Length.Percent(w.left);
+                el.style.top = Length.Percent(w.top);
+            }
+        }
+
+        partial void FloatsKeys(Keyboard kb, ref bool taken)
+        {
+            if (floats.Count == 0)
+                return;
+            var front = floats[floats.Count - 1];
+            for (int i = 0; i < 9; i++)
+                if (kb[Key.Digit1 + i].wasPressedThisFrame || kb[Key.Numpad1 + i].wasPressedThisFrame)
+                {
+                    taken = true;
+                    if (i < front.spec.options.Count && !front.more)     // (its choices are not up while there is more to be said)
+                        Pick(front, i);
+                    return;
+                }
+            if (kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame)
+            {
+                taken = true;
+                if (front.reveal != null && !front.reveal.Done)
+                {
+                    front.reveal.Advance();                              // (Enter while somebody speaks: the line is finished, the next begins)
+                    Said(front);
+                    Paging(front);
+                    return;
+                }
+                int enter = front.spec.options.FindIndex(o => o.isDefault && o.enabled);
+                if (enter < 0 && front.spec.options.Count == 1)
+                    enter = 0;
+                if (enter >= 0)
+                    Pick(front, enter);
+            }
+            else if (kb.escapeKey.wasPressedThisFrame)
+            {
+                taken = true;
+                Shut(front);
+            }
+        }
+
+        partial void FloatsWho(ref WhoIs now)
+        {
+            // whoever is speaking stands in the portrait's place while they speak: the front window with a speaker
+            for (int i = floats.Count - 1; i >= 0; i--)
+            {
+                var s = floats[i].spec;
+                if (string.IsNullOrEmpty(s.speaker) || s.content == null)
+                    continue;                                             // (a window of words is in the foot itself, over the portrait's place: said once)
+                string say = "";
+                foreach (var (text, written) in s.lines)
+                    if (written && !string.IsNullOrEmpty(text) && string.IsNullOrEmpty(s.result))   // (after the choice the line is the player's own, not theirs)
+                    {
+                        say = text.Length > 110 ? text.Substring(0, 107).TrimEnd() + "..." : text;
+                        break;
+                    }
+                now = new WhoIs { name = s.speaker, line1 = s.speakerLine, line2 = "", line3 = "", say = say, face = s.face ?? s.speaker };
+                return;
+            }
+        }
+
+        // ------------------------------------------------------------------ the card in play
+
+        const string CardId = "card";
+
+        void CardFloat()
+        {
+            var d = EncounterRunner.Director;
+            if (d != hooked)
+            {
+                if (hooked != null)
+                    hooked.Chose -= CardChose;
+                hooked = d;
+                if (d != null)
+                    d.Chose += CardChose;
+            }
+            var s = d != null ? d.Current : null;
+            if (s == null)
+            {
+                if (cardShown != null)
+                {
+                    cardShown = null;
+                    CloseFloat(CardId);
+                }
+                return;
+            }
+            if (s == cardShown && s.Chosen == cardChosen)
+                return;
+            bool fresh = s != cardShown;
+            cardShown = s;
+            cardChosen = s.Chosen;
+            OpenFloat(CardSpec(d, s));
+            if (fresh)
+                ToFront(floats.Find(f => f.spec.id == CardId));
+        }
+
+        /// <summary>Who somebody is, in one line under their name (the user, 7 Oct 2026, late: "add their personality type /
+        /// stats"): their people, their faith, and their nature where the places' files give them one (its first
+        /// clause). People have no figures of their own yet: when they do, they stand here.</summary>
+        public static string About(Npc who)
+        {
+            if (who == null)
+                return "";
+            var parts = new List<string>();
+            string people = SelfBook.Current.People(who.people)?.name ?? Cap((who.people ?? "").Replace('_', ' '));
+            string faith = SelfBook.Current.Faith(who.faith)?.name ?? Cap((who.faith ?? "").Replace('_', ' '));
+            if (people.Length > 0)
+                parts.Add(people);
+            if (faith.Length > 0)
+                parts.Add(faith);
+            string trait = PlaceBook.Current.Person(who.id)?.trait ?? "";
+            int cut = trait.IndexOfAny(new[] { ';', '.', ':' });
+            if (cut > 0)
+                trait = trait.Substring(0, cut);
+            if (trait.Length > 0)
+                parts.Add(trait);
+            return string.Join(" \u00b7 ", parts);
+        }
+
+        /// <summary>A card as a floating window: who speaks, the lines, the choices with their odds as a word; after the
+        /// choice, what came of it and the way on.</summary>
+        public static FloatSpec CardSpec(EncounterDirector d, EncounterSession s)
+        {
+            var spec = new FloatSpec { id = CardId, title = s.Title, holdsClock = !s.Chosen, mustAnswer = !s.Chosen };
+            Npc first = null;
+            var others = new List<string>();
+            foreach (var who in s.People)
+            {
+                if (first == null)
+                    first = who;
+                else
+                    others.Add(s.Speaker(who));
+            }
+            if (first != null)
+            {
+                spec.who = s.Speaker(first);
+                spec.face = first.id;
+                spec.speaker = first.name.Length > 0 ? first.name : spec.who;
+                spec.about = About(first);
+                spec.speakerLine = first.name.Length > 0 && spec.who.StartsWith(first.name + ", ", StringComparison.Ordinal)
+                    ? Cap(spec.who.Substring(first.name.Length + 2)) : "";
+                if (others.Count > 0)
+                    spec.who += "; with " + string.Join("; ", others);
+            }
+            else
+                spec.face = "";                                             // (a happening with nobody to speak: an empty place)
+            if (!s.Chosen)
+            {
+                foreach (var l in s.lines)
+                {
+                    // (a line that names a real line of the tongues file comes up as that line, in its own tongue, and
+                    // turns into English; a name the file does not have, or a line not yet spoken that year, is passed over)
+                    var real = l.turns.Length > 0 ? TongueBook.Current.Line(l.turns, s.world.year) : null;
+                    if (real != null)
+                        spec.turns.Add(FloatTurn.Of(real));
+                    else if (l.turns.Length > 0)
+                        ContentFiles.Warn("turns:" + l.turns, $"the card {s.card.id} names the line '{l.turns}' to turn from, and story/tongues_793.json has no such line for {s.world.year}: shown in English only");
+                    spec.lines.Add((l.text, l.written));
+                    if (spec.tongue.Length == 0 && l.tongue.Length > 0)
+                        spec.tongue = l.tongue;                           // (the first speaker's tongue: its words in the lines are set apart)
+                }
+                spec.small = s.Intention ?? "";
+                for (int i = 0; i < s.options.Count; i++)
+                {
+                    var o = s.options[i];
+                    int index = i;
+                    spec.options.Add(new FloatOption
+                    {
+                        label = o.label, tag = o.tag, odds = o.odds, enabled = o.enabled, rule = o.rule, isDefault = o.isDefault,
+                        pick = () => d.Choose(index),
+                    });
+                }
+            }
+            else
+            {
+                string chose = "";
+                foreach (var o in s.options)
+                    if (o.def.key == s.result.option)
+                        chose = o.Tagged;
+                if (chose.Length > 0)
+                    spec.lines.Add((chose, true));
+                spec.result = s.result.Text;
+                spec.options.Add(new FloatOption { label = "Go on", isDefault = true, pick = () => d.Continue() });
+                spec.shut = () => d.Continue();
+            }
+            return spec;
+        }
+
+        void CardChose(EncounterSession s, ChoiceResult r)
+        {
+            if (s != null && r != null && r.ok)
+                FrameLog.Add(r.Text);                                    // (what you did and what came of it, in sentences: no title and colon)
+        }
+
+        static string Cap(string s) => string.IsNullOrEmpty(s) ? s : char.ToUpperInvariant(s[0]) + s.Substring(1);
+
+        // ------------------------------------------------------------------ a talk (the text panel, but the port's own menu)
+
+        const string TalkId = "talk";
+
+        void TalkFloat()
+        {
+            var text = TextPanel.Current;
+            bool talk = text != null && text.Open && text.Key != TextPanel.PortMenuKey;
+            if (!talk)
+            {
+                if (talkVersion >= 0)
+                {
+                    talkVersion = -1;
+                    talkLine = null;
+                    CloseFloat(TalkId);
+                }
+                return;
+            }
+            if (text.Version == talkVersion)
+                return;
+            bool fresh = talkVersion < 0;
+            talkVersion = text.Version;
+            // (a line that runs, the chase's numbers twice a second: changed in place. Building the window again each
+            // time would lose a click that fell across the change)
+            string shape = TalkShape(text);
+            if (!fresh && shape == talkShape && talkLine != null && talkLine.panel != null)
+            {
+                talkLine.text = TalkLine(text);
+                return;
+            }
+            bool newTalk = fresh || text.Key != talkKey;
+            talkShape = shape;
+            talkKey = text.Key;
+            var spec = new FloatSpec { id = TalkId, title = text.TitleText, mustAnswer = true, holdsClock = true };
+            if (!string.IsNullOrEmpty(text.StoryText))
+                spec.lines.Add((text.StoryText, true));
+            // (a ship met: her facts begin with what she is, which is the window's title already: said once)
+            string facts = TalkLine(text);
+            if (facts.Length > 0)
+                spec.lines.Add((facts, true));
+            spec.result = text.OutcomeText;
+            int back = -1;
+            for (int i = 0; i < text.Options.Count; i++)
+            {
+                var (key, label, tip) = text.Options[i];
+                int index = i;
+                if (key == "port.back" || text.Options.Count == 1)
+                    back = i;
+                spec.options.Add(new FloatOption { label = label, isDefault = text.Options.Count == 1, pick = () => text.Pick(index) });
+            }
+            if (back >= 0)
+            {
+                // a talk with a way back may be shut: shutting it takes that way
+                int way = back;
+                spec.mustAnswer = false;
+                spec.holdsClock = false;                                   // (it needs no answer: the clock runs)
+                spec.shut = () => text.Pick(way);
+            }
+            else if (text.Options.Count == 0)
+            {
+                // (nothing to choose yet, or only something told: it must not hold the clock with no way to answer)
+                spec.mustAnswer = false;
+                spec.holdsClock = false;
+            }
+            else if (text.Key == "encounter.raiders.running")
+                spec.holdsClock = false;                                   // (a chase is live: it runs while she runs; the choices end it)
+            else if (GameSpeed.HeldFor("alongside"))
+            {
+                // (two ships lying together: the game holds the clock itself until they part, and Space does not let it
+                // run. The window must not say that it does; the talk's own first line says that time stands still.)
+                spec.holdsClock = false;
+            }
+            OpenFloat(spec);
+            var shown = floats.Find(f => f.spec.id == TalkId);
+            if (shown != null && newTalk)
+            {
+                // (another talk in the same window: its own hold on the clock, whatever the player did under the last)
+                shown.released = false;
+                shown.hint.text = StandingHint(shown);
+                HintShown(shown);
+            }
+            talkLine = null;
+            if (shown != null && facts.Length > 0)
+                shown.el.Query<Label>(className: "frame-float-line").ForEach(l =>
+                {
+                    if (l.text == facts)
+                        talkLine = l;
+                });
+            if (fresh)
+                ToFront(shown);
+        }
+
+        /// <summary>The line under a talk's title, as the window shows it: the panel's own, without the title said again at
+        /// its head ("A coaster of Dommoc. 7 km to the north." under the title "A coaster of Dommoc").</summary>
+        static string TalkLine(TextPanel text)
+        {
+            string line = text.IntentionText ?? "";
+            string title = text.TitleText ?? "";
+            if (title.Length > 0 && line.StartsWith(title + ". ", StringComparison.Ordinal))
+                line = line.Substring(title.Length + 2);
+            return line;
+        }
+
+        /// <summary>What a talk's window is built from, but the line under its title: when only that line has changed the
+        /// window is not built again.</summary>
+        static string TalkShape(TextPanel text)
+        {
+            var b = new System.Text.StringBuilder();
+            b.Append(text.Key).Append('|').Append(text.TitleText).Append('|').Append(text.StoryText).Append('|').Append(text.OutcomeText);
+            foreach (var (key, label, _) in text.Options)
+                b.Append('|').Append(key).Append('=').Append(label);
+            return b.ToString();
+        }
+
+        // ------------------------------------------------------------------ alerts
+
+        /// <summary>
+        /// What needs the player at sea (Alerts: raised while the map is open, and on the chart it always is). An urgent one
+        /// (raiders made out, a guard boat, aground) holds the game and floats until it is answered; the others are said in
+        /// the log, once. An urgent one answered and raised again the same day is let go without a word, so the game
+        /// cannot be held in a loop by something that is still in sight.
+        /// </summary>
+        void AlertFloats()
+        {
+            var game = KapmanGame.Current;
+            double today = game != null ? game.Day : 0.0;
+            Alert again = null;
+            foreach (var a in Alerts.Open)
+            {
+                if (!a.urgent)
+                {
+                    // (a sail made out is said by the lookout's own log already: FrameRoot.Rack.cs, LookoutLog)
+                    if (alertsTold.Add(a.id) && a.kind != "ship")
+                        FrameLog.Add(a.text.Replace(" Go to the ship to hail her.", ""));
+                    continue;
+                }
+                string id = "alert:" + a.id;
+                if (alertsAnswered.TryGetValue(a.id, out double day) && today - day < 1.0)
+                {
+                    again = a;                                             // (answered a little while ago: not asked again today)
+                    continue;
+                }
+                if (FloatOpen(id))
+                    continue;
+                var alert = a;
+                var spec = new FloatSpec { id = id, title = AlertTitle(a.kind), mustAnswer = true };
+                spec.lines.Add((a.text, true));
+                spec.options.Add(new FloatOption
+                {
+                    label = "Go on", isDefault = true,
+                    pick = () =>
+                    {
+                        alertsAnswered[alert.id] = KapmanGame.Current != null ? KapmanGame.Current.Day : 0.0;
+                        CloseFloat(id);
+                        Alerts.Answer(alert);
+                        FrameLog.Add(alert.text);
+                    },
+                });
+                OpenFloat(spec);
+            }
+            if (again != null)
+                Alerts.Answer(again);
+            // a float whose alert is over (the ship sailed out of sight) goes
+            for (int i = floats.Count - 1; i >= 0; i--)
+            {
+                string id = floats[i].spec.id;
+                if (!id.StartsWith("alert:", StringComparison.Ordinal))
+                    continue;
+                bool open = false;
+                foreach (var a in Alerts.Open)
+                    open |= "alert:" + a.id == id;
+                if (!open)
+                    CloseFloat(id);
+            }
+        }
+
+        static string AlertTitle(string kind)
+        {
+            switch (kind)
+            {
+                case "raiders": return "Raiders";
+                case "law": return "The king's men";
+                case "aground": return "Aground";
+                default: return "The lookout";
+            }
+        }
+    }
+}

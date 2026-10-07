@@ -1,0 +1,538 @@
+{
+ "about": "CHAIN pilgrim_road (Design/content/CHAINS.md; page Design/content/chains/pilgrim_road.md; words Data/writing/chain_pilgrim_road.json). The English road to Rome by way of Quentovic, 793 to 798: a Kentish widow bound for the thresholds of the Apostles, and in her party a priest of the old Kentish kings' kin whom King Offa would like closer to hand (Eadberht, later called Praen; usually identified with the priest Odberht of King Charles's letter to Offa of 796 (?)). Tolls and hosts: the Frankish toll house where pilgrims go free and a priest needs his bishop's letter, and the cell of Saint Josse that the king gave Alcuin to feed pilgrims. What a pilgrim brings back: a cloth from the Apostle's tomb, pepper and incense, a fever, a dead girl's shoes, and a sealed leaf that can raise Kent. Fourteen cards. Step flags ch_pilgrim_road_1 .. _10 and _12; endings ch_pilgrim_road_end_praen (what happened: Kent rises in 796), ch_pilgrim_road_end_quiet_kent (history changed: changed_kent_no_rising_796), ch_pilgrim_road_end_minster (the leaf locked away; the widow's own ending). Sea and crew cards are drawn by 'rate' (per game hour), harbour cards by 'weight', by schedule or by an option's 'then'. Every option's note names its outcome text. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_pilgrim_road.s01_waiting",
+   "note": "Step 1, the start (drawn at Dofras, Sarre, Fordwic or Lundenwic, April to September, before 795). Three English pilgrims want a keel to Cwantawic. Sources: Quentovic as the usual landing of the English bound for Rome (Bede, Historia ecclesiastica IV.1, Theodore in 668-669; Vita Bonifatii c. 5; dossiers/quentovic.md); English women on the Rome road (Boniface to Cuthbert of Canterbury, 747, Tangl no. 78); the spine's hook 'pilgrims waiting for a ship to Quentovic' at Dofras, Sarre and Fordwic. That Offa's reeves watched who left Kent is ours (?): what is recorded is that Offa asked King Charles for the exiles back (Charles to Offa, 796, MGH Epistolae IV no. 100). The widow Wilburh is invented (Wil- + -burh). The priest is Eadberht, later called Praen, historical; that he crossed as a widow's mass-priest, and when, are ours (?). Sets ch_pilgrim_road_1; _fare, _alms or _left; _aboard for 8 days.",
+   "stage": "harbour",
+   "when": "moored and (port.id = dofras or port.id = sarre or port.id = fordwic or port.id = lundenwic) and year < 795 and not flag.ch_pilgrim_road_1",
+   "weight": 1.5,
+   "once": true,
+   "cooldown_days": 365,
+   "months": [4, 5, 6, 7, 8, 9],
+   "actors": {
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [40, 50], "fixed": true, "note": "Wilburh, a Kentish thegn's widow; invented" },
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [33, 42], "fixed": true, "note": "Eadberht, later called Praen; historical (?)" }
+   },
+   "title_key": "chain_pilgrim_road.s01.title",
+   "title": "Three for the Apostles",
+   "intention_key": "chain_pilgrim_road.s01.intention",
+   "intention": "A widow, her mass-priest and a girl wait above the tide line with staffs and bundles. They want a keel to Cwantawic, and the priest keeps his back to the road.",
+   "lines": [
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s01.widow_asks" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s01.widow_why" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s01.widow_lundenwic", "when": "port.id = lundenwic" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s01.widow_kent", "when": "port.id != lundenwic" },
+    { "who": "priest", "key": "chain_pilgrim_road.s01.priest_blessing" }
+   ],
+   "options": [
+    { "key": "fare", "label_key": "chain_pilgrim_road.s01.opt_fare", "label": "Take them for a fare: ten pennies a head", "check": "true",
+      "effects": [ "silver +30", "npc pilgrim feeling +2 fare", "flag ch_pilgrim_road_fare", "flag ch_pilgrim_road_1", "flag ch_pilgrim_road_aboard for 8", "passenger pilgrim to quentovic", "passenger priest to quentovic", "schedule harbour.chain_pilgrim_road.s03_no_letter in 1 at quentovic" ],
+      "note": "outcome: chain_pilgrim_road.s01.out_fare" },
+    { "key": "alms", "label_key": "chain_pilgrim_road.s01.opt_alms", "label": "Take them for nothing but a prayer at the tomb", "check": "true", "default": true,
+      "effects": [ "deed gave_alms", "npc pilgrim feeling +10 alms", "morale +0.03", "flag ch_pilgrim_road_alms", "flag ch_pilgrim_road_1", "flag ch_pilgrim_road_aboard for 8", "passenger pilgrim to quentovic", "passenger priest to quentovic", "schedule harbour.chain_pilgrim_road.s03_no_letter in 1 at quentovic" ],
+      "note": "outcome: chain_pilgrim_road.s01.out_alms (costs three places in the boat and nothing else)" },
+    { "key": "hear", "label_key": "chain_pilgrim_road.s01.opt_hear", "label": "You are not bound that way: hear their road and wish them a keel", "check": "true",
+      "effects": [ "npc pilgrim feeling +1 heard", "flag ch_pilgrim_road_left", "flag ch_pilgrim_road_1", "schedule harbour.chain_pilgrim_road.s03_no_letter in 6 at quentovic" ],
+      "note": "outcome: chain_pilgrim_road.s01.out_hear (costs nothing; they cross with another skipper and the story goes on at the Canche)" }
+   ],
+   "memory": { "fare": "took a fare from pilgrims", "alms": "carried pilgrims for a prayer", "hear": "wished them a keel" }
+  },
+  {
+   "id": "sea.chain_pilgrim_road.s02_mid_channel",
+   "note": "Step 2, optional (drawn under way with the pilgrims aboard). The lookout sees that the widow serves her priest first. Sources: Kent had kings of its own until about 785, when Offa ruled it directly (charters; Anglo-Saxon Chronicle 773 for 776, Otford); Eadberht Praen's kinship to the old kings is not recorded and is ours (?); the road: about eleven weeks from the Channel to Rome (Archbishop Sigeric's stages of 990, British Library Cotton Tiberius B.v: LATER, and by Sombre near Wissant, not the Canche), the pass of the Mount of Jove, the English quarter by Saint Peter's (Anglo-Saxon Chronicle 816 for 817: 'the English school at Rome'). Cast: cast.crew.beornwine. Sets ch_pilgrim_road_2; _knows if the priest tells or the watch sees.",
+   "stage": "sea",
+   "when": "under_way and flag.ch_pilgrim_road_aboard and not flag.ch_pilgrim_road_2",
+   "rate": 0.35,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [33, 42], "fixed": true, "note": "Eadberht, later called Praen; historical (?)" },
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [40, 50], "fixed": true, "note": "Wilburh; invented" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [18, 40], "fixed": true, "note": "cast.crew.beornwine" }
+   },
+   "title_key": "chain_pilgrim_road.s02.title",
+   "title": "A priest who pulls an oar",
+   "intention_key": "chain_pilgrim_road.s02.intention",
+   "intention": "Mid-channel the wind drops. The widow's priest takes an oar unasked and pulls it like a man raised to it. When the bread goes round, the widow serves him before herself.",
+   "lines": [
+    { "who": "lookout", "key": "chain_pilgrim_road.s02.lookout_hours" },
+    { "who": "lookout", "key": "chain_pilgrim_road.s02.lookout_served" },
+    { "who": "priest", "key": "chain_pilgrim_road.s02.priest_oar" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s02.widow_silent" }
+   ],
+   "options": [
+    { "key": "ask", "label_key": "chain_pilgrim_road.s02.opt_ask", "label": "Ask him straight who he is", "check": "true",
+      "effects": [ "npc priest feeling +4 asked", "flag ch_pilgrim_road_knows", "flag ch_pilgrim_road_2" ],
+      "note": "outcome: chain_pilgrim_road.s02.out_ask" },
+    { "key": "watch", "label_key": "chain_pilgrim_road.s02.opt_watch", "label": "Say nothing and watch what the widow does", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.eyes_best", "success": [ "flag ch_pilgrim_road_knows" ], "failure": [ ] }, "flag ch_pilgrim_road_2" ],
+      "note": "outcome: chain_pilgrim_road.s02.out_watch_success or .out_watch_failure (costs nothing either way)" },
+    { "key": "road", "label_key": "chain_pilgrim_road.s02.opt_road", "label": "Leave him be and ask the widow about her road", "check": "true", "default": true,
+      "effects": [ "npc pilgrim feeling +5 asked", "morale +0.02", "flag ch_pilgrim_road_2" ],
+      "note": "outcome: chain_pilgrim_road.s02.out_road (a true account of the road to Rome)" }
+   ],
+   "memory": { "ask": "asked who he was", "watch": "watched and said nothing", "road": "asked about the road" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.s03_no_letter",
+   "note": "Step 3 (scheduled at Quentovic by step 1: the day after, or six days after if another skipper carried them). The toll: pilgrims go free, a priest needs his bishop's letter. Sources: pilgrims to Rome free of toll at bridges, passes and ferries (Pippin's capitulary of about 754-755, MGH Capitularia I no. 13 c. 4; lore/law_tolls.md); no wandering cleric to be received without letters of his bishop (Admonitio generalis, 789, c. 3 (?)); the procurator's toll house and the king's tenth at Quentovic, Abbot Gervold Offa's friend (Gesta abbatum Fontanellensium c. 12); Aethelheard, archbishop of Canterbury from 792-793, was Offa's man (spine: cast.aethelheard); from 796 traders found among pilgrims pay (Charles to Offa, 796). Cast: quentovic.hildric, the abbot's clerk. Sets ch_pilgrim_road_3; _vouched, or _named when the clerk writes the priest down.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and flag.ch_pilgrim_road_1 and not flag.ch_pilgrim_road_3",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [25, 50], "fixed": true, "note": "quentovic.hildric" },
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [40, 50], "fixed": true, "note": "Wilburh; invented" },
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [33, 42], "fixed": true, "note": "Eadberht, later called Praen; historical (?)" }
+   },
+   "title_key": "chain_pilgrim_road.s03.title",
+   "title": "A priest without a letter",
+   "intention_key": "chain_pilgrim_road.s03.intention",
+   "intention": "At the toll house on the Canche the clerk waves the widow and the girl through without looking up: pilgrims pay nothing. Then he looks up, and asks the priest for his bishop's letter.",
+   "lines": [
+    { "who": "clerk", "key": "chain_pilgrim_road.s03.clerk_free" },
+    { "who": "clerk", "key": "chain_pilgrim_road.s03.clerk_letter" },
+    { "who": "clerk", "key": "chain_pilgrim_road.s03.clerk_bundles", "when": "year >= 796" },
+    { "who": "clerk", "key": "chain_pilgrim_road.s03.clerk_brought", "when": "not flag.ch_pilgrim_road_left" },
+    { "who": "clerk", "key": "chain_pilgrim_road.s03.clerk_left", "when": "flag.ch_pilgrim_road_left" },
+    { "who": "priest", "key": "chain_pilgrim_road.s03.priest_lost", "when": "not flag.ch_pilgrim_road_knows" },
+    { "who": "priest", "key": "chain_pilgrim_road.s03.priest_bishop", "when": "flag.ch_pilgrim_road_knows" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s03.widow_answers" }
+   ],
+   "options": [
+    { "key": "vouch", "label_key": "chain_pilgrim_road.s03.opt_vouch", "label": "Swear that he is the widow's priest and no trader", "check": "true",
+      "effects": [ { "chance": 0.7, "by": "crew.trade_best",
+                     "success": [ "npc clerk feeling +3 swore", "flag ch_pilgrim_road_vouched", "toll eased 30" ],
+                     "failure": [ "npc clerk feeling -3 doubted", "flag ch_pilgrim_road_named" ] },
+                   "flag ch_pilgrim_road_3" ],
+      "then": "harbour.chain_pilgrim_road.s04_saint_josse",
+      "note": "outcome: chain_pilgrim_road.s03.out_vouch_success or .out_vouch_failure (likely; a doubted oath costs nothing but the name on the tablet)" },
+    { "key": "gift", "label_key": "chain_pilgrim_road.s03.opt_gift", "label": "Lay fifteen pennies on his table for the trouble of not writing", "check": "silver >= 15", "cost": "silver 15",
+      "effects": [ "deed bribed_officer", "npc clerk feeling +5 gift", "flag ch_pilgrim_road_3" ],
+      "then": "harbour.chain_pilgrim_road.s04_saint_josse",
+      "note": "outcome: chain_pilgrim_road.s03.out_gift" },
+    { "key": "let", "label_key": "chain_pilgrim_road.s03.opt_let", "label": "It is not your business: let him write the name down", "check": "true", "default": true,
+      "effects": [ "npc priest feeling -4 let", "flag ch_pilgrim_road_named", "flag ch_pilgrim_road_3" ],
+      "then": "harbour.chain_pilgrim_road.s04_saint_josse",
+      "note": "outcome: chain_pilgrim_road.s03.out_let (costs nothing now; the abbot who reads the tablets is King Offa's friend)" }
+   ],
+   "memory": { "vouch": "swore for a priest", "vouch.failure": "swore for a priest and was doubted", "gift": "paid for a blank tablet", "let": "let the priest be written down" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.s04_saint_josse",
+   "note": "Step 4 (follows step 3 at once by 'then': the cell lies a league down the same bank; the weight is only a way back in if the panel was closed). The hosts. Sources: King Charles 'once entrusted the cell of Saint Josse' to Alcuin 'to give alms to pilgrims', about 792 (Lupus of Ferrieres, letter 11; dossiers/quentovic.md); its care of 'those from over the sea and other poor' (Lupus, letter 71); Alcuin's priest Martin left sick there in the autumn of 794 (Alcuin, letter 25); Saint Josse's hair said to be cut by his keepers (later legend; dossier 6 (?)); the cell sent wax to Ferrieres (Lupus, letter 43: LATER). Cast: quentovic.osmund, the guest-master (invented). The mule, its price and the company for Saint-Riquier are ours. Sets ch_pilgrim_road_4, the timer ch_pilgrim_road_road (200 days) and _lent.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and flag.ch_pilgrim_road_3 and not flag.ch_pilgrim_road_4",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "guest_master": { "role": "guest_master", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "quentovic.osmund" },
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [40, 50], "fixed": true, "note": "Wilburh; invented" }
+   },
+   "title_key": "chain_pilgrim_road.s04.title",
+   "title": "The saint's guests",
+   "intention_key": "chain_pilgrim_road.s04.intention",
+   "intention": "A league down the bank the cell of Saint Josse takes in whoever comes over the sea. Pilgrims sit along the south wall with their staffs. The widow counts her silver twice, and it is the same both times.",
+   "lines": [
+    { "who": "guest_master", "key": "chain_pilgrim_road.s04.host_house" },
+    { "who": "guest_master", "key": "chain_pilgrim_road.s04.host_company" },
+    { "who": "guest_master", "key": "chain_pilgrim_road.s04.host_martin", "when": "year = 794 and month >= 9" },
+    { "who": "guest_master", "key": "chain_pilgrim_road.s04.host_hair" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s04.widow_mule" }
+   ],
+   "options": [
+    { "key": "lend", "label_key": "chain_pilgrim_road.s04.opt_lend", "label": "Lend her sixty pennies for a mule, to be settled when she comes back", "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "npc pilgrim feeling +10 lent", "npc guest_master feeling +4 lent", "flag ch_pilgrim_road_lent", "flag ch_pilgrim_road_road for 200", "flag ch_pilgrim_road_4" ],
+      "then": "harbour.chain_pilgrim_road.s05_half_penny",
+      "note": "outcome: chain_pilgrim_road.s04.out_lend (settled at step 8 in pepper and incense, if she lives)" },
+    { "key": "alms", "label_key": "chain_pilgrim_road.s04.opt_alms", "label": "Give the cell twelve pennies for the pilgrims' pot", "check": "silver >= 12", "cost": "silver 12",
+      "effects": [ "deed gave_alms", "npc guest_master feeling +8 alms", "give_riddle riddle_aldhelm_92_farus", "flag ch_pilgrim_road_road for 200", "flag ch_pilgrim_road_4" ],
+      "then": "harbour.chain_pilgrim_road.s05_half_penny",
+      "note": "outcome: chain_pilgrim_road.s04.out_alms (the guest-master pays in a riddle: Aldhelm's lighthouse)" },
+    { "key": "wish", "label_key": "chain_pilgrim_road.s04.opt_wish", "label": "Wish her a dry road: the monks will see to her", "check": "true", "default": true,
+      "effects": [ "npc guest_master feeling +1 wished", "price_shock quentovic wax x1.3 for 40", "flag ch_pilgrim_road_road for 200", "flag ch_pilgrim_road_4" ],
+      "then": "harbour.chain_pilgrim_road.s05_half_penny",
+      "note": "outcome: chain_pilgrim_road.s04.out_wish (costs nothing; a true price word: the cell is short of wax for the saint's lights)" }
+   ],
+   "memory": { "lend": "lent a pilgrim the price of a mule", "alms": "gave to the pilgrims' pot", "wish": "wished her a dry road" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.s05_half_penny",
+   "note": "Step 5 (follows step 4 at once by 'then', at dusk on the bank; the weight is only a way back in). The priest goes no further than the king's hall and asks for a token to be carried back to Kent. Sources: King Charles had taken the priest Odberht and other English exiles 'under the wings of his protection' and did not send them back to Offa (Charles to Offa, 796, MGH Epistolae IV no. 100, our rendering); pennies in the name of King Ecgberht of Kent, struck about 765 to 780, exist (?); a cut penny as a token is ours. Heahstan the steward is invented (Heah- + -stan). Sets ch_pilgrim_road_5; _token while the half penny is aboard; _promised if a price was asked.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and flag.ch_pilgrim_road_4 and not flag.ch_pilgrim_road_5",
+   "weight": 3.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [33, 42], "fixed": true, "note": "Eadberht, later called Praen; historical (?)" }
+   },
+   "title_key": "chain_pilgrim_road.s05.title",
+   "title": "Half a penny",
+   "intention_key": "chain_pilgrim_road.s05.intention",
+   "intention": "At dusk the priest walks you back along the bank. He is going no further than the Frankish king's hall, he says: Rome will wait for him. He holds out half of a cut penny.",
+   "lines": [
+    { "who": "priest", "key": "chain_pilgrim_road.s05.priest_penny" },
+    { "who": "priest", "key": "chain_pilgrim_road.s05.priest_errand" },
+    { "who": "priest", "key": "chain_pilgrim_road.s05.priest_known", "when": "flag.ch_pilgrim_road_knows" },
+    { "who": "priest", "key": "chain_pilgrim_road.s05.priest_unknown", "when": "not flag.ch_pilgrim_road_knows" },
+    { "who": "priest", "key": "chain_pilgrim_road.s05.priest_named", "when": "flag.ch_pilgrim_road_named" }
+   ],
+   "options": [
+    { "key": "take", "label_key": "chain_pilgrim_road.s05.opt_take", "label": "Take the half penny", "check": "true",
+      "effects": [ "npc priest feeling +8 took", "flag ch_pilgrim_road_token", "flag ch_pilgrim_road_5", "schedule harbour.chain_pilgrim_road.s06_two_men in 3 at dofras" ],
+      "note": "outcome: chain_pilgrim_road.s05.out_take" },
+    { "key": "price", "label_key": "chain_pilgrim_road.s05.opt_price", "label": "Take it, and ask what a king's kinsman pays a ferryman", "check": "true",
+      "effects": [ "silver +20", "npc priest feeling +3 priced", "flag ch_pilgrim_road_token", "flag ch_pilgrim_road_promised", "flag ch_pilgrim_road_5", "schedule harbour.chain_pilgrim_road.s06_two_men in 3 at dofras" ],
+      "note": "outcome: chain_pilgrim_road.s05.out_price" },
+    { "key": "refuse", "label_key": "chain_pilgrim_road.s05.opt_refuse", "label": "Give it back: you carry goods, not kingdoms", "check": "true", "default": true,
+      "effects": [ "npc priest feeling -2 refused", "flag ch_pilgrim_road_5" ],
+      "note": "outcome: chain_pilgrim_road.s05.out_refuse (costs nothing; the widow's road goes on without the errand)" }
+   ],
+   "memory": { "take": "took the half penny", "price": "took the half penny for a price", "refuse": "gave the half penny back" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.s06_two_men",
+   "note": "Step 6, a turn (scheduled at Dofras three days after step 5, for whoever took the half penny). The token's man and the king's reeve stand twenty paces apart. Sources: Offa ruled Kent directly from about 785 and asked King Charles for the exiles (as step 5); the king's reeve witnessing sales on the strand (laws of Hlothhere and Eadric c. 16 (?)); nobody is recorded questioning skippers (?). Cast: dofras.reeve (Hereberht, a Kentish thegn in a Mercian king's office; invented); Heahstan is invented. Sets ch_pilgrim_road_6 and clears _token; _token_given (and _seen if the reeve notices), _sold, or _dropped.",
+   "stage": "harbour",
+   "when": "moored and port.id = dofras and flag.ch_pilgrim_road_token and not flag.ch_pilgrim_road_6",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 60], "fixed": true, "note": "Heahstan, a thegn's steward; invented" },
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "dofras.reeve (Hereberht)" }
+   },
+   "title_key": "chain_pilgrim_road.s06.title",
+   "title": "Two men on the shingle",
+   "intention_key": "chain_pilgrim_road.s06.intention",
+   "intention": "At Dofras a steward is buying wine on the shingle and taking his time over it. Twenty paces off the king's reeve is asking each skipper whom he carried over this summer.",
+   "lines": [
+    { "who": "reeve", "key": "chain_pilgrim_road.s06.reeve_asks" },
+    { "who": "reeve", "key": "chain_pilgrim_road.s06.reeve_silver" },
+    { "who": "reeve", "key": "chain_pilgrim_road.s06.reeve_named", "when": "flag.ch_pilgrim_road_named" },
+    { "who": "steward", "key": "chain_pilgrim_road.s06.steward_wine" }
+   ],
+   "options": [
+    { "key": "give", "label_key": "chain_pilgrim_road.s06.opt_give", "label": "Bargain with the steward over wine you have not got, and pass the half penny with the handshake", "check": "true",
+      "effects": [ { "chance": 0.65, "by": "crew.eyes_best",
+                     "success": [ "silver +40", "npc steward feeling +10 token", "commission frankish_wine 2 by 90 premium 0.5" ],
+                     "failure": [ "silver -20", "npc steward feeling +6 token", "npc reeve feeling -6 seen", "flag ch_pilgrim_road_seen" ] },
+                   "flag ch_pilgrim_road_token_given", "flag ch_pilgrim_road_token = 0", "flag ch_pilgrim_road_6" ],
+      "note": "outcome: chain_pilgrim_road.s06.out_give_success or .out_give_failure (likely; if the reeve sees the handshake it costs a fine and his goodwill, and the token is still given)" },
+    { "key": "sell", "label_key": "chain_pilgrim_road.s06.opt_sell", "label": "Tell the reeve whom you carried, and show him the half penny", "check": "true",
+      "effects": [ "silver +120", "npc reeve feeling +10 told", "npc steward feeling -30 sold", "flag ch_pilgrim_road_sold", "flag ch_pilgrim_road_token = 0", "flag ch_pilgrim_road_6" ],
+      "note": "outcome: chain_pilgrim_road.s06.out_sell" },
+    { "key": "drop", "label_key": "chain_pilgrim_road.s06.opt_drop", "label": "Do neither: the half penny goes over the side at the first deep water", "check": "true", "default": true,
+      "effects": [ "flag ch_pilgrim_road_dropped", "flag ch_pilgrim_road_token = 0", "flag ch_pilgrim_road_6" ],
+      "note": "outcome: chain_pilgrim_road.s06.out_drop (costs nothing but the priest's errand)" }
+   ],
+   "memory": { "give": "passed something in a handshake", "give.failure": "was seen passing something", "sell": "told the reeve whom he carried", "drop": "answered nobody" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.s07_word_from_rome",
+   "note": "Step 7 (drawn at any Frankish port once the 200 days of the road have run). A monk on his way north from Rome brings word of the widow. Sources: the Roman fever and the English dead at Rome (Bede, Historia ecclesiastica III.29, Wigheard and his companions in 667; Boniface, Tangl no. 78); the 'schools' of the foreigners by Saint Peter's, Franks, Frisians, Saxons and Lombards, who met Pope Leo in 799 (Liber Pontificalis, Leo III c. 19 (?)); the English school and its church (Anglo-Saxon Chronicle 816 for 817; 874, Burgred buried 'in St Mary's church in the school of the English nation'); Pope Hadrian died on 25 December 795 (chronicle_793.json 795-12-25-hadrian-dies); King Charles kept the English exiles (as step 5). Cast: cast.sigewine. Sets ch_pilgrim_road_7; _sent_silver.",
+   "stage": "harbour",
+   "when": "moored and port.realm = franks and flag.ch_pilgrim_road_4 and not flag.ch_pilgrim_road_road and not flag.ch_pilgrim_road_7",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "monk": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 50], "fixed": true, "note": "cast.sigewine" }
+   },
+   "title_key": "chain_pilgrim_road.s07.title",
+   "title": "Word from the thresholds",
+   "intention_key": "chain_pilgrim_road.s07.intention",
+   "intention": "A Northumbrian monk with sore feet and a satchel of letters finds your boat. He has walked from Rome by Tours, and one of his messages is by word of mouth, for the Frisian who carried a widow of Kent.",
+   "lines": [
+    { "who": "monk", "key": "chain_pilgrim_road.s07.monk_girl" },
+    { "who": "monk", "key": "chain_pilgrim_road.s07.monk_fever" },
+    { "who": "monk", "key": "chain_pilgrim_road.s07.monk_pass" },
+    { "who": "monk", "key": "chain_pilgrim_road.s07.monk_mule", "when": "flag.ch_pilgrim_road_lent" },
+    { "who": "monk", "key": "chain_pilgrim_road.s07.monk_frisians" },
+    { "who": "monk", "key": "chain_pilgrim_road.s07.monk_pope", "when": "year >= 796 and year < 799" }
+   ],
+   "options": [
+    { "key": "send", "label_key": "chain_pilgrim_road.s07.opt_send", "label": "Send forty pennies south by the next company, for her road home", "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "deed gave_alms", "npc monk feeling +6 sent", "flag ch_pilgrim_road_sent_silver", "flag ch_pilgrim_road_7", "schedule harbour.chain_pilgrim_road.s08_what_she_brought in 120 at quentovic" ],
+      "note": "outcome: chain_pilgrim_road.s07.out_send" },
+    { "key": "word", "label_key": "chain_pilgrim_road.s07.opt_word", "label": "Send word only: the boat will be at the Canche", "check": "true", "default": true,
+      "effects": [ "npc monk feeling +2 word", "flag ch_pilgrim_road_7", "schedule harbour.chain_pilgrim_road.s08_what_she_brought in 120 at quentovic" ],
+      "note": "outcome: chain_pilgrim_road.s07.out_word (costs nothing)" },
+    { "key": "ask", "label_key": "chain_pilgrim_road.s07.opt_ask", "label": "Promise the boat, and ask him what became of the priest", "check": "true",
+      "effects": [ "npc monk feeling +3 asked", "learn latin +0.05", "give_riddle riddle_aldhelm_89_arca_libraria", "flag ch_pilgrim_road_7", "schedule harbour.chain_pilgrim_road.s08_what_she_brought in 120 at quentovic" ],
+      "note": "outcome: chain_pilgrim_road.s07.out_ask (true news of the exiles at the king's court, and Aldhelm's riddle of the book chest for the asking)" }
+   ],
+   "memory": { "send": "sent silver after a sick pilgrim", "word": "sent word to a pilgrim", "ask": "asked after the priest" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.s08_what_she_brought",
+   "note": "Step 8, a turn (scheduled at Quentovic 120 days after step 7). The widow is back at the cell with what a pilgrim brings. Sources: cloths laid on the Apostle's tomb and carried home as relics (Gregory the Great to the empress Constantina, 594, Registrum IV.30; Gregory of Tours, Glory of the Martyrs 27: the cloth weighed before and after (?)); English pilgrims and traders buying at Pavia (Honorantiae civitatis Papiae: LATER, about 1000 (?)); pepper, incense and silk as what the north cannot get (economy/pots_glass_luxuries.md); the Roman chant carried home by English pilgrims (Bede, Historia ecclesiastica IV.18, John the archcantor); Saint-Maurice at the foot of the pass (Sigeric's stages, 990: LATER). The sealed leaf left at the cell is ours. Cast: quentovic.osmund. Sets ch_pilgrim_road_8, _home_aboard for 10 days, _home_free.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and flag.ch_pilgrim_road_7 and not flag.ch_pilgrim_road_8",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [41, 52], "fixed": true, "note": "Wilburh; invented" },
+    "guest_master": { "role": "guest_master", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "quentovic.osmund" }
+   },
+   "title_key": "chain_pilgrim_road.s08.title",
+   "title": "What she brought back",
+   "intention_key": "chain_pilgrim_road.s08.intention",
+   "intention": "The widow sits against the south wall of the cell with her staff across her knees. She is half the weight she was. The girl's bundle lies beside her own.",
+   "lines": [
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s08.widow_cloth" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s08.widow_goods" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s08.widow_rest" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s08.widow_mule", "when": "flag.ch_pilgrim_road_lent" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s08.widow_silver", "when": "flag.ch_pilgrim_road_sent_silver" },
+    { "who": "guest_master", "key": "chain_pilgrim_road.s08.host_leaf" }
+   ],
+   "options": [
+    { "key": "settle", "label_key": "chain_pilgrim_road.s08.opt_settle", "label": "Take her home, and take the pepper and incense she offers against the mule", "check": "flag.ch_pilgrim_road_lent",
+      "effects": [ "goods pepper +2", "goods incense +2", "npc pilgrim feeling +4 settled", "flag ch_pilgrim_road_8", "flag ch_pilgrim_road_home_aboard for 10", "passenger pilgrim to sarre", "schedule harbour.chain_pilgrim_road.s10_sealed_leaf in 1 at sarre" ],
+      "note": "outcome: chain_pilgrim_road.s08.out_settle (168 d of Roman goods for 60 d lent)" },
+    { "key": "fare", "label_key": "chain_pilgrim_road.s08.opt_fare", "label": "Take her home for a length of the silk", "check": "true",
+      "effects": [ "goods silk_trim +1", "npc pilgrim feeling -2 fare", "flag ch_pilgrim_road_8", "flag ch_pilgrim_road_home_aboard for 10", "passenger pilgrim to sarre", "schedule harbour.chain_pilgrim_road.s10_sealed_leaf in 1 at sarre" ],
+      "note": "outcome: chain_pilgrim_road.s08.out_fare" },
+    { "key": "free", "label_key": "chain_pilgrim_road.s08.opt_free", "label": "Take her home for nothing", "check": "true", "default": true,
+      "effects": [ "deed gave_alms", "npc pilgrim feeling +10 free", "flag ch_pilgrim_road_home_free", "flag ch_pilgrim_road_8", "flag ch_pilgrim_road_home_aboard for 10", "passenger pilgrim to sarre", "schedule harbour.chain_pilgrim_road.s10_sealed_leaf in 1 at sarre" ],
+      "note": "outcome: chain_pilgrim_road.s08.out_free (costs a place in the boat; a loan is forgiven with it)" }
+   ],
+   "memory": { "settle": "settled the mule in pepper", "fare": "took silk for the passage home", "free": "carried her home for nothing" }
+  },
+  {
+   "id": "crew.chain_pilgrim_road.s09_third_day",
+   "note": "Step 9, optional (drawn under way with the widow aboard). Her fever comes back on its day and the crew look at the skipper. Sources: the fever that returns every third day was known and named (tertian; the leechbooks speak of it (?)); it was the common sickness of Rome and of the English marshes; relics and cloths laid on the sick (Bede, Historia ecclesiastica, passim). Cast: cast.crew.beornwine (once an oblate at Gyrwe), cast.crew.ravn. Sets ch_pilgrim_road_9.",
+   "stage": "crew",
+   "when": "under_way and flag.ch_pilgrim_road_home_aboard and not flag.ch_pilgrim_road_9",
+   "rate": 0.35,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [41, 52], "fixed": true, "note": "Wilburh; invented" },
+    "lookout": { "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [18, 40], "fixed": true, "note": "cast.crew.beornwine" },
+    "crewman": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [40, 50], "fixed": true, "note": "cast.crew.ravn" }
+   },
+   "title_key": "chain_pilgrim_road.s09.title",
+   "title": "The third day",
+   "intention_key": "chain_pilgrim_road.s09.intention",
+   "intention": "Off the Frankish shore the widow's fever comes back on its day. She lies under the bottom boards with her teeth shut and shakes the boat. The crew look at her, and then at you.",
+   "lines": [
+    { "who": "lookout", "key": "chain_pilgrim_road.s09.lookout_tertian" },
+    { "who": "crewman", "key": "chain_pilgrim_road.s09.ravn_rag" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s09.widow_sail" }
+   ],
+   "options": [
+    { "key": "cloak", "label_key": "chain_pilgrim_road.s09.opt_cloak", "label": "Put your own cloak over her and hold the course", "check": "true", "default": true,
+      "effects": [ "npc pilgrim feeling +6 cloak", "morale -0.03", "flag ch_pilgrim_road_9" ],
+      "note": "outcome: chain_pilgrim_road.s09.out_cloak (costs a cold night and a little of the crew's ease)" },
+    { "key": "cloth", "label_key": "chain_pilgrim_road.s09.opt_cloth", "label": "Let the lookout ask her to lay the cloth against the mast", "check": "true",
+      "effects": [ { "chance": 0.6, "success": [ "morale +0.08", "npc lookout feeling +4 cloth" ], "failure": [ "morale -0.04" ] }, "flag ch_pilgrim_road_9" ],
+      "note": "outcome: chain_pilgrim_road.s09.out_cloth_success or .out_cloth_failure (likely)" },
+    { "key": "tent", "label_key": "chain_pilgrim_road.s09.opt_tent", "label": "Heave to, rig the sail over her and lose the tide", "check": "true",
+      "effects": [ "morale +0.03", "npc pilgrim feeling +3 tent", "flag ch_pilgrim_road_9" ],
+      "note": "outcome: chain_pilgrim_road.s09.out_tent (costs half a day)" }
+   ],
+   "memory": { "cloak": "gave her his cloak", "cloth": "asked for the cloth on the mast", "tent": "lost a tide for her" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.s10_sealed_leaf",
+   "note": "Step 10, the choice (scheduled at Sarre the day after step 8). The widow is home and asks what to do with the priest's sealed leaf. Sources: Minster in Thanet's ships and its house at Sarre (Sawyer 29, 86, 91; places/sarre.json); charters and writings kept in a minster's chest; Offa died on 29 July 796 and Eadberht Praen took Kent (Anglo-Saxon Chronicle 794 for 796); Coenwulf laid Kent waste in 798 (Anglo-Saxon Chronicle 796 for 798). The leaf and what stood in it are ours. Cast: sarre.cwenburh, the nun who keeps the minster's ships (invented); the king's man is unnamed. Sets ch_pilgrim_road_10 and one of _10a (the leaf goes on), _10b (the king's man has it; before Lammas 796 only), _10c (the abbess's chest; with the timer ch_pilgrim_road_wait, 90 days).",
+   "stage": "harbour",
+   "when": "moored and port.id = sarre and flag.ch_pilgrim_road_8 and not flag.ch_pilgrim_road_10",
+   "weight": 0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [41, 52], "fixed": true, "note": "Wilburh; invented" },
+    "nun": { "role": "nun", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [30, 60], "fixed": true, "note": "sarre.cwenburh" },
+    "kings_man": { "role": "kings_man", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 55], "fixed": true, "note": "a Mercian of the reeve's following; invented, unnamed" }
+   },
+   "title_key": "chain_pilgrim_road.s10.title",
+   "title": "The sealed leaf",
+   "intention_key": "chain_pilgrim_road.s10.intention",
+   "intention": "At Sarre the widow kneels on the strand until the nun from the ship-house lifts her up. Then she takes the priest's sealed leaf out of her bundle and asks you what to do with it, because she can no longer tell what is a pilgrim's business.",
+   "lines": [
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s10.widow_heavier" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s10.widow_two_dead" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s10.widow_king", "when": "(year = 796 and month >= 8) or year = 797" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.s10.widow_late", "when": "year >= 798" },
+    { "who": "nun", "key": "chain_pilgrim_road.s10.nun_chest" },
+    { "who": "kings_man", "key": "chain_pilgrim_road.s10.kings_man_glad", "when": "year < 798 and (flag.ch_pilgrim_road_sold or flag.ch_pilgrim_road_named or flag.ch_pilgrim_road_seen)" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_pilgrim_road.s10.opt_carry", "label": "See the leaf over the ferry to the hall it is meant for", "check": "year < 798 and not flag.ch_pilgrim_road_sold and not flag.ch_pilgrim_road_named and not flag.ch_pilgrim_road_seen",
+      "effects": [ "npc pilgrim feeling +2 carried", "flag ch_pilgrim_road_10a", "flag ch_pilgrim_road_10" ],
+      "note": "outcome: chain_pilgrim_road.s10.out_carry (nobody is watching: sure)" },
+    { "key": "slip", "label_key": "chain_pilgrim_road.s10.opt_slip", "label": "Take the leaf over the ferry yourself, under the eyes of the king's man", "check": "year < 798 and (flag.ch_pilgrim_road_sold or flag.ch_pilgrim_road_named or flag.ch_pilgrim_road_seen)",
+      "effects": [ { "chance": 0.5, "by": "crew.eyes_best",
+                     "success": [ "flag ch_pilgrim_road_10a" ],
+                     "failure": [ "silver -30", "npc kings_man feeling -8 slipped", "flag ch_pilgrim_road_10c", "flag ch_pilgrim_road_wait for 90" ] },
+                   "flag ch_pilgrim_road_10" ],
+      "note": "outcome: chain_pilgrim_road.s10.out_slip_success or .out_slip_failure (doubtful: the danger is the horseman on the bank, who speaks in the lines; stopped, the leaf goes into the Wantsum unread and the story ends by the minster's road)" },
+    { "key": "give", "label_key": "chain_pilgrim_road.s10.opt_give", "label": "Give the leaf to the king's man", "check": "year < 796 or (year = 796 and month < 8)",
+      "effects": [ "silver +200", "npc kings_man feeling +10 gave", "npc pilgrim feeling -30 gave", "npc nun feeling -10 gave", "flag ch_pilgrim_road_10b", "flag ch_pilgrim_road_10" ],
+      "note": "outcome: chain_pilgrim_road.s10.out_give (only while King Offa lives: after Lammas 796 there is nobody to give it to)" },
+    { "key": "chest", "label_key": "chain_pilgrim_road.s10.opt_chest", "label": "Tell her it is no pilgrim's business, and let the abbess's chest have it", "check": "true", "default": true,
+      "effects": [ "npc nun feeling +8 chest", "npc pilgrim feeling +6 chest", "toll eased 60", "flag ch_pilgrim_road_10c", "flag ch_pilgrim_road_wait for 90", "flag ch_pilgrim_road_10" ],
+      "note": "outcome: chain_pilgrim_road.s10.out_chest (costs nothing; the nun has a word with the toll man)" }
+   ],
+   "memory": { "carry": "saw a leaf over the ferry", "slip": "took a leaf past the king's man", "slip.failure": "was stopped at the ferry", "give": "gave the leaf to the king's man", "chest": "sent the leaf to the abbess's chest" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.end_praen",
+   "note": "Ending 1, what happened (drawn at Sarre, Dofras or Fordwic from August 796 to the end of 797, if the leaf went on). Sources: 'Eadberht, whose other name was Praen, obtained the kingdom of Kent' on Offa's death (Anglo-Saxon Chronicle 794 for 796, our rendering); Archbishop Aethelheard, Offa's man, left Canterbury (chronicle_793.json 796-summer-eadberht-kent; Alcuin, letters 128-129 (?)); pennies in Eadberht's name exist (?); Pope Leo called him an apostate priest and likened him to Julian (Leo III to Coenwulf, 798, Haddan and Stubbs III p. 523 (?)); a king's writing freeing a ship of toll in the Wantsum follows Sawyer 29 (King Eadberht II of Kent for Minster in Thanet, about 763; places/sarre.json unlock sarre.abbess_freedom). The meeting, the nine men and the promise are ours. Sets ch_pilgrim_road_end_praen; grand rewards unlock_charter_sarre, unlock_title_kent_kings_man, unlock_factor_dofras; the lasting cost ch_pilgrim_road_praens_man (step 12 reads it in 798).",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = dofras or port.id = fordwic) and flag.ch_pilgrim_road_10a and ((year = 796 and month >= 8) or year = 797) and not flag.ch_pilgrim_road_end_praen and not flag.ch_pilgrim_road_end_minster",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "king": { "role": "king", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 45], "fixed": true, "note": "Eadberht Praen, king of Kent 796-798; historical" },
+    "steward": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 62], "fixed": true, "note": "Heahstan; invented" }
+   },
+   "title_key": "chain_pilgrim_road.end_praen.title",
+   "title": "The priest is over the water",
+   "intention_key": "chain_pilgrim_road.end_praen.intention",
+   "intention": "This year King Offa died, three days before Lammas, and before the corn was in Kent had a king of its own again. The men at the toll post say he was a priest. A steward is waiting on the strand with a horse for you.",
+   "lines": [
+    { "who": "steward", "key": "chain_pilgrim_road.end_praen.steward_landed" },
+    { "who": "steward", "key": "chain_pilgrim_road.end_praen.steward_leaf" },
+    { "who": "king", "key": "chain_pilgrim_road.end_praen.king_wrong" },
+    { "who": "king", "key": "chain_pilgrim_road.end_praen.king_pennies" },
+    { "who": "king", "key": "chain_pilgrim_road.end_praen.king_promised", "when": "flag.ch_pilgrim_road_promised" },
+    { "who": "king", "key": "chain_pilgrim_road.end_praen.king_gown" }
+   ],
+   "options": [
+    { "key": "writing", "label_key": "chain_pilgrim_road.end_praen.opt_writing", "label": "Ask for his writing: your keel free of toll in the Wantsum", "check": "true",
+      "effects": [ "silver +600", "npc king feeling +10 writing", "flag unlock_charter_sarre", "flag ch_pilgrim_road_praens_man", "flag ch_pilgrim_road_end_praen", "news chain_pilgrim_road.news.kent_king at dorestad" ],
+      "note": "outcome: chain_pilgrim_road.end_praen.out_writing (finale: 600 d and the charter; the cost that lasts is a name on a king's writing)" },
+    { "key": "sworn", "label_key": "chain_pilgrim_road.end_praen.opt_sworn", "label": "Take the writing and a place among his men, as the one who carried the half penny and helped the widow", "check": "flag.ch_pilgrim_road_token_given and (flag.ch_pilgrim_road_alms or flag.ch_pilgrim_road_lent)",
+      "effects": [ "silver +1200", "npc king feeling +20 sworn", "flag unlock_charter_sarre", "flag unlock_title_kent_kings_man", "flag ch_pilgrim_road_praens_man", "flag ch_pilgrim_road_end_praen", "news chain_pilgrim_road.news.kent_king at dorestad" ],
+      "note": "outcome: chain_pilgrim_road.end_praen.out_sworn (the hard road: 1,200 d and two grand rewards, for the token carried and the widow helped)" },
+    { "key": "pennies", "label_key": "chain_pilgrim_road.end_praen.opt_pennies", "label": "Take his new pennies and Heahstan's friendship, and nothing with your name on it", "check": "true", "default": true,
+      "effects": [ "silver +900", "npc steward feeling +15 friend", "flag unlock_factor_dofras", "flag ch_pilgrim_road_end_praen", "news chain_pilgrim_road.news.kent_king at dorestad" ],
+      "note": "outcome: chain_pilgrim_road.end_praen.out_pennies (finale: 900 d and a man at Dofras; nothing for a later king to find)" }
+   ],
+   "memory": { "writing": "took a king's writing", "sworn": "became the king's man", "pennies": "took pennies and no writing" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.end_quiet_kent",
+   "note": "Ending 2, history changed (drawn at Lundenwic or Dofras from August 796, if the king's man was given the leaf before Offa died). The names in the leaf were taken while Offa lived, so when he dies nobody in Kent rises: there is no King Eadberht Praen, the archbishop does not flee, and Coenwulf does not lay Kent waste in 798. Sources for what did happen: Anglo-Saxon Chronicle 794 for 796 and 796 for 798; Offa's hard hand (he had King Aethelberht of the East Angles beheaded in 794: Anglo-Saxon Chronicle 792 for 794); sons taken to a king's hall as hostages are the custom of the age. Cast: cast.wighelm at Lundenwic, dofras.reeve at Dofras. Sets ch_pilgrim_road_end_quiet_kent and changed_kent_no_rising_796; grand rewards unlock_title_kings_protection or unlock_plot_lundenwic; the lasting cost ch_pilgrim_road_kent_remembers (_atoned softens it).",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = dofras) and flag.ch_pilgrim_road_10b and ((year = 796 and month >= 8) or (year >= 797 and year < 803)) and not flag.ch_pilgrim_road_end_quiet_kent",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 62], "fixed": true, "note": "cast.wighelm at Lundenwic; dofras.reeve at Dofras" }
+   },
+   "title_key": "chain_pilgrim_road.end_quiet.title",
+   "title": "Kent kept quiet",
+   "intention_key": "chain_pilgrim_road.end_quiet.intention",
+   "intention": "This year King Offa died, three days before Lammas. In Kent, where men had waited ten years for that day, nobody stirred. The reeve has a bag for you that has been sealed for some time.",
+   "lines": [
+    { "who": "reeve", "key": "chain_pilgrim_road.end_quiet.reeve_names" },
+    { "who": "reeve", "key": "chain_pilgrim_road.end_quiet.reeve_fire" },
+    { "who": "reeve", "key": "chain_pilgrim_road.end_quiet.reeve_new_king", "when": "year >= 797" },
+    { "who": "reeve", "key": "chain_pilgrim_road.end_quiet.reeve_widow" }
+   ],
+   "options": [
+    { "key": "protection", "label_key": "chain_pilgrim_road.end_quiet.opt_protection", "label": "Take the bag, and the king's protection for your house", "check": "true",
+      "effects": [ "silver +800", "npc reeve feeling +8 paid", "flag unlock_title_kings_protection", "flag ch_pilgrim_road_kent_remembers", "flag changed_kent_no_rising_796", "flag ch_pilgrim_road_end_quiet_kent", "news chain_pilgrim_road.news.kent_quiet at dorestad" ],
+      "note": "outcome: chain_pilgrim_road.end_quiet.out_protection (finale: 800 d and the Mercian king's protection)" },
+    { "key": "plot", "label_key": "chain_pilgrim_road.end_quiet.opt_plot", "label": "Take the bag, and ask for ground on the Strand at Lundenwic", "check": "true",
+      "effects": [ "silver +600", "npc reeve feeling +8 paid", "flag unlock_plot_lundenwic", "flag ch_pilgrim_road_kent_remembers", "flag changed_kent_no_rising_796", "flag ch_pilgrim_road_end_quiet_kent", "news chain_pilgrim_road.news.kent_quiet at dorestad" ],
+      "note": "outcome: chain_pilgrim_road.end_quiet.out_plot (finale: 600 d and a plot)" },
+    { "key": "atone", "label_key": "chain_pilgrim_road.end_quiet.opt_atone", "label": "Take the protection, and send half the bag to Saint Josse for the men who cannot come home", "check": "true", "default": true,
+      "effects": [ "silver +400", "deed gave_alms", "flag unlock_title_kings_protection", "flag ch_pilgrim_road_atoned", "flag ch_pilgrim_road_kent_remembers", "flag changed_kent_no_rising_796", "flag ch_pilgrim_road_end_quiet_kent", "news chain_pilgrim_road.news.kent_quiet at dorestad" ],
+      "note": "outcome: chain_pilgrim_road.end_quiet.out_atone (finale: the bag is 800 d, half of it kept, with the protection; costs pride and 400 d)" }
+   ],
+   "memory": { "protection": "took the king's price", "plot": "took the king's price in ground", "atone": "sent half the price to the exiles" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.end_minster",
+   "note": "Ending 3, the widow's own (drawn at Sarre 90 days after the leaf went into the abbess's chest; also the way out for anyone who carried the leaf on and was not in Kent in 796-797). The rising of 796 happens or fails without the leaf; the widow gives her land to the minster and takes the veil. Sources: widows giving land to a minster and entering it (the Kentish charters, passim); Minster in Thanet's freedom from toll on its ships at Sarre and Fordwic, and a worn-out ship replaced under the same freedom (Sawyer 29; places/sarre.json unlock sarre.abbess_freedom); the names of friends and givers written in a church's book of life to be prayed for (the Durham Liber Vitae, begun about 840: LATER for Kent (?)); strips of holy cloth as relics (as step 8); Coenwulf took Eadberht Praen in 798 (Anglo-Saxon Chronicle 796 for 798). Cast: sarre.cwenburh. Sets ch_pilgrim_road_end_minster; grand rewards unlock_charter_sarre, unlock_relic_peters_cloth, unlock_title_minster_thanet_brother.",
+   "stage": "harbour",
+   "when": "moored and port.id = sarre and flag.ch_pilgrim_road_10 and not flag.ch_pilgrim_road_wait and (flag.ch_pilgrim_road_10c or (flag.ch_pilgrim_road_10a and year >= 798)) and not flag.ch_pilgrim_road_end_minster and not flag.ch_pilgrim_road_end_praen",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "nun": { "role": "nun", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [30, 62], "fixed": true, "note": "sarre.cwenburh" },
+    "pilgrim": { "role": "pilgrim", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [41, 55], "fixed": true, "note": "Wilburh, now a veiled widow of the minster; invented" }
+   },
+   "title_key": "chain_pilgrim_road.end_minster.title",
+   "title": "Written in the book",
+   "intention_key": "chain_pilgrim_road.end_minster.intention",
+   "intention": "The widow has given her land to the minster and taken the veil there. The nun who keeps the ships comes down to your boat with a tablet, a purse and a folded strip of cloth.",
+   "lines": [
+    { "who": "nun", "key": "chain_pilgrim_road.end_minster.nun_price" },
+    { "who": "nun", "key": "chain_pilgrim_road.end_minster.nun_chest", "when": "flag.ch_pilgrim_road_10c" },
+    { "who": "nun", "key": "chain_pilgrim_road.end_minster.nun_carried", "when": "flag.ch_pilgrim_road_10a" },
+    { "who": "nun", "key": "chain_pilgrim_road.end_minster.nun_king", "when": "(year = 796 and month >= 8) or year = 797" },
+    { "who": "nun", "key": "chain_pilgrim_road.end_minster.nun_marsh", "when": "year >= 798" },
+    { "who": "pilgrim", "key": "chain_pilgrim_road.end_minster.widow_fever" }
+   ],
+   "options": [
+    { "key": "cross", "label_key": "chain_pilgrim_road.end_minster.opt_cross", "label": "Take the purse, and ask that your keel sail under the abbess's cross", "check": "true",
+      "effects": [ "silver +650", "npc nun feeling +8 cross", "flag unlock_charter_sarre", "flag ch_pilgrim_road_end_minster" ],
+      "note": "outcome: chain_pilgrim_road.end_minster.out_cross (finale: 650 d and the minster's freedom from toll at Sarre and Fordwic)" },
+    { "key": "cloth", "label_key": "chain_pilgrim_road.end_minster.opt_cloth", "label": "Take the purse, and the strip of the cloth for under the mast", "check": "true",
+      "effects": [ "silver +650", "morale +0.1", "flag unlock_relic_peters_cloth", "flag ch_pilgrim_road_end_minster" ],
+      "note": "outcome: chain_pilgrim_road.end_minster.out_cloth (finale: 650 d and a relic the house keeps)" },
+    { "key": "both", "label_key": "chain_pilgrim_road.end_minster.opt_both", "label": "She says the one who asked no fare is to have both, and the minster's wine to fetch", "check": "flag.ch_pilgrim_road_home_free and (flag.ch_pilgrim_road_lent or flag.ch_pilgrim_road_sent_silver)",
+      "effects": [ "silver +1200", "npc nun feeling +12 both", "commission frankish_wine 6 by 120 premium 0.8", "flag unlock_charter_sarre", "flag unlock_relic_peters_cloth", "flag ch_pilgrim_road_end_minster" ],
+      "note": "outcome: chain_pilgrim_road.end_minster.out_both (the hard road: 1,200 d, two grand rewards and a commission, for the one who lent or sent silver and brought her home for nothing)" },
+    { "key": "book", "label_key": "chain_pilgrim_road.end_minster.opt_book", "label": "Ask only that your dead be written in the minster's book", "check": "true", "default": true,
+      "effects": [ "silver +650", "npc nun feeling +15 book", "npc pilgrim feeling +10 book", "flag unlock_title_minster_thanet_brother", "flag ch_pilgrim_road_end_minster" ],
+      "note": "outcome: chain_pilgrim_road.end_minster.out_book (finale: the purse is pressed on you all the same, and the house is prayed for at Minster while the minster stands)" }
+   ],
+   "memory": { "cross": "asked for the abbess's cross", "cloth": "asked for the cloth", "both": "was given both", "book": "asked to be written in the book" }
+  },
+  {
+   "id": "harbour.chain_pilgrim_road.s12_after_the_marsh",
+   "note": "Step 12, the reckoning after ending 1 (drawn at Sarre, Dofras or Fordwic from the autumn of 798 to 803). Sources: 'This year Coenwulf, king of the Mercians, laid waste Kent as far as the Marsh, and took Praen their king and led him bound into Mercia' (Anglo-Saxon Chronicle 796 for 798, our rendering); manuscript F adds that his eyes were put out and his hands cut off; Cuthred, Coenwulf's brother, king of Kent 798-807; William of Malmesbury has Coenwulf free him at the hallowing of Winchcombe in 811 (Gesta regum I.95: LATER (?)); a new king confirming an old writing for a payment is the custom of the charters. The Mercian with the list is ours. Sets ch_pilgrim_road_12; _confirmed, or ch_pilgrim_road_charter_void (the integrator should then withdraw unlock_charter_sarre if this chain alone gave it), _remembered_praen.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = dofras or port.id = fordwic) and flag.ch_pilgrim_road_end_praen and ((year = 798 and month >= 9) or (year > 798 and year < 804)) and not flag.ch_pilgrim_road_12",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "tollman": { "role": "tollman", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 65], "fixed": true, "note": "the port's toll man (sarre.tollman at Sarre)" },
+    "kings_man": { "role": "kings_man", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 55], "fixed": true, "note": "a Mercian of King Cuthred's following; invented, unnamed" }
+   },
+   "title_key": "chain_pilgrim_road.s12.title",
+   "title": "After the Marsh",
+   "intention_key": "chain_pilgrim_road.s12.intention",
+   "intention": "This year King Coenwulf laid Kent waste as far as the Marsh, took the priest who was its king, and led him bound into Mercia. At the toll post a Mercian sits beside the toll man with a list.",
+   "lines": [
+    { "who": "tollman", "key": "chain_pilgrim_road.s12.tollman_hands" },
+    { "who": "kings_man", "key": "chain_pilgrim_road.s12.kings_man_void" },
+    { "who": "kings_man", "key": "chain_pilgrim_road.s12.kings_man_yours", "when": "flag.ch_pilgrim_road_praens_man" },
+    { "who": "kings_man", "key": "chain_pilgrim_road.s12.kings_man_not_yours", "when": "not flag.ch_pilgrim_road_praens_man" },
+    { "who": "tollman", "key": "chain_pilgrim_road.s12.tollman_alive" }
+   ],
+   "options": [
+    { "key": "confirm", "label_key": "chain_pilgrim_road.s12.opt_confirm", "label": "Buy the new king's word over the old writing: a hundred and fifty pennies", "check": "flag.ch_pilgrim_road_praens_man and silver >= 150", "cost": "silver 150",
+      "effects": [ "npc kings_man feeling +6 confirmed", "flag ch_pilgrim_road_confirmed", "flag ch_pilgrim_road_praens_man = 0", "flag ch_pilgrim_road_12" ],
+      "note": "outcome: chain_pilgrim_road.s12.out_confirm (the charter stands under King Cuthred)" },
+    { "key": "lapse", "label_key": "chain_pilgrim_road.s12.opt_lapse", "label": "Let the writing lapse and keep your silver", "check": "flag.ch_pilgrim_road_praens_man",
+      "effects": [ "npc kings_man feeling +1 lapsed", "flag ch_pilgrim_road_charter_void", "flag ch_pilgrim_road_praens_man = 0", "flag ch_pilgrim_road_12" ],
+      "note": "outcome: chain_pilgrim_road.s12.out_lapse (costs the charter and nothing else)" },
+    { "key": "wine", "label_key": "chain_pilgrim_road.s12.opt_wine", "label": "Say that you sold the man wine, like half of Kent", "check": "not flag.ch_pilgrim_road_praens_man", "default": true,
+      "effects": [ "npc kings_man feeling +2 wine", "flag ch_pilgrim_road_12" ],
+      "note": "outcome: chain_pilgrim_road.s12.out_wine (costs nothing: there is no writing to find)" },
+    { "key": "keep", "label_key": "chain_pilgrim_road.s12.opt_keep", "label": "Ask where the priest is kept, and send thirty pennies for his keep", "check": "silver >= 30", "cost": "silver 30",
+      "effects": [ "deed gave_alms", "npc tollman feeling +6 keep", "npc kings_man feeling -3 keep", "flag ch_pilgrim_road_remembered_praen", "flag ch_pilgrim_road_12" ],
+      "note": "outcome: chain_pilgrim_road.s12.out_keep (a writing in his name, if there is one, is left unconfirmed: the integrator may treat it as void after this card)" }
+   ],
+   "memory": { "confirm": "bought the new king's word", "lapse": "let the old king's writing lapse", "wine": "said he sold the man wine", "keep": "sent silver for the blinded king's keep" }
+  }
+ ]
+}

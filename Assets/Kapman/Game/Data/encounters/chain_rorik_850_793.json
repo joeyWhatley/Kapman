@@ -1,0 +1,649 @@
+{
+ "about": "CHAIN rorik_850 (Design/content/chains/rorik_850.md): Rorik the Dane holds Dorestad from the emperor Lothar from 850, on his oath to pay in the king's dues and keep other pirates off the river (Annales Fuldenses 850, Annales Bertiniani 850). A heathen lord over a Christian port, and a merchant who must be his man or not. Fourteen cards, 850 to 867 (or 870 for a late comer). The spine's thread dorestad_falls. Cast (Design/content/spine.json): the count is cast.rorik (historical), the toll man cast.eystein (invented), the bishop is Hunger of Utrecht (historical, bishop 854 to 866); Thiadward, a grandson of cast.thiadbod, the priest Adalger and the Frisian spokesman Hiddo are ordinary invented people. Five endings: ch_rorik_850_end_sworn (the count's man: what really happened to those who held to him), ch_rorik_850_end_saved (history changed: the merchants of Dorestad are not killed in the estate in the flood winter of 863; flag changed_dorestad_863_merchants_saved), ch_rorik_850_end_witness (the bishop's witness), ch_rorik_850_end_cokingi (the Frisians who drive Rorik out in 867), ch_rorik_850_end_own_man (nobody's man). Progress is flags ch_rorik_850_1 to _13 and the branch flags named in each note; every ending sets ch_rorik_850_done. The spine's flags df_rorik_man, df_buried, df_warned and df_moved are set where their meaning is met. Waits are real: the flag ch_rorik_850_wait is set 'for' a number of days and the next step refuses it; other steps wait for their true year and season. No card is scheduled: each is drawn at its port once its flags and its years hold, with a high weight, so a step missed in its year never stops the chain (steps 3, 4, 6, 7, 9 and 10 are roads, not gates; step 14 asks only for step 2 and ends every road). Each option's note names its outcome text (chain_rorik_850.sNN.out_<option>) in Data/writing/chain_rorik_850.json. Written 6 Oct 2026. A draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_rorik_850.s01_dane_at_the_dam",
+   "note": "Step 1, the start (drawn at Dorestad from the summer of 850 to the end of 856). The toll man is now a Dane: Eystein, the spine's cast.eystein (invented). Thiadward is a grandson of cast.thiadbod (invented; Thiad- and -ward are attested Frisian name parts). Sources: Rorik 'was taken back into fealty on condition that he would faithfully handle the taxes and other matters pertaining to the royal fisc, and would resist the piratical attacks of the Danes' (Annales Fuldenses 850, our rendering); 'Rorik, the nephew of Harald, who had lately defected from Lothar, raised whole armies of Northmen with a vast number of ships and laid waste Frisia and the island of Batavia and other places along the Rhine and the Waal. Lothar, since he could not crush him, received him into his fealty and granted him Dorestad and other counties' (Annales Bertiniani 850, our rendering); chronicle_793.json 850-rorik-dorestad. The toll itself is taken by the arrival card harbour.tollman.frankish; this card adds no toll. Sets ch_rorik_850_1 and the wait; ch_rorik_850_waal if he will not deal.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and year >= 850 and (year > 850 or month >= 7) and year < 857 and not flag.ch_rorik_850_1",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "tollman": { "role": "tollman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "sex": "m", "age": [33, 40], "fixed": true, "note": "Eystein, cast.eystein: Rorik's man at the toll" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [28, 38], "fixed": true, "note": "Thiadward (invented), a grandson of cast.thiadbod" }
+   },
+   "title_key": "chain_rorik_850.s01.title",
+   "title": "The Dane at the dam",
+   "intention_key": "chain_rorik_850.s01.intention",
+   "intention": "Nine long ships lie along the upper bank with their masts down. The man at the toll house has a tally stick in his belt and an arm ring above it, and he is not a Frisian.",
+   "lines": [
+    { "who": "tollman", "key": "chain_rorik_850.s01.tollman_greet" },
+    { "who": "tollman", "key": "chain_rorik_850.s01.tollman_tenth" },
+    { "who": "merchant", "key": "chain_rorik_850.s01.merchant_betuwe", "note": "AB 850: Batavia laid waste by the same fleet" },
+    { "who": "tollman", "key": "chain_rorik_850.s01.tollman_pirates", "note": "AF 850: to resist the pirates" },
+    { "who": "merchant", "key": "chain_rorik_850.s01.merchant_waal" }
+   ],
+   "options": [
+    { "key": "name", "label_key": "chain_rorik_850.s01.opt_name", "label": "Give him your name and your house's mark, and ask for your father's place at the dam",
+      "check": "true", "default": true,
+      "effects": [ "npc tollman feeling +6 gave_name", "toll eased 30", "flag ch_rorik_850_1", "flag ch_rorik_850_wait for 30" ],
+      "note": "outcome: chain_rorik_850.s01.out_name (he cuts your mark on his stick; half toll for a month, as a welcome to old houses)" },
+    { "key": "ask", "label_key": "chain_rorik_850.s01.opt_ask", "label": "Ask him plainly what the emperor has granted, and for how long",
+      "check": "true",
+      "effects": [ "npc tollman feeling +3 asked", "news chain_rorik_850.news.grant at dorestad", "flag ch_rorik_850_1", "flag ch_rorik_850_wait for 30" ],
+      "note": "outcome: chain_rorik_850.s01.out_ask (a true word: Dorestad and other counties, for the dues and for keeping other Danes off; for as long as both are done)" },
+    { "key": "round", "label_key": "chain_rorik_850.s01.opt_round", "label": "Tell him nothing, and tell Thiadward you will go round by the Waal next time",
+      "check": "true",
+      "effects": [ "npc tollman feeling -4 went_round", "npc merchant feeling +4 went_round", "flag ch_rorik_850_waal", "flag ch_rorik_850_1", "flag ch_rorik_850_wait for 30" ],
+      "note": "outcome: chain_rorik_850.s01.out_round (pride only; Thiadward says the Waal is a day longer and has its own toll at Noviomagus)" }
+   ],
+   "memory": {
+    "name": "gave his name and his house's mark",
+    "ask": "asked what the emperor had granted",
+    "round": "would not give his name"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s02_hands",
+   "note": "Step 2 (drawn at Dorestad a month or more after step 1). Rorik (cast.rorik) holds the count's court and takes the oaths of the port's free men. Sources: all free men over twelve swore fidelity to the king, before his counts and missi (the general oath of 802: Capitulare missorum generale c. 2); commendation by the hands, as Harald the Dane did to Louis the Pious in 826 (Ermoldus Nigellus, In honorem Hludowici IV) (?) and Tassilo to Pippin in 757 (Annales regni Francorum 757). That Rorik took such oaths at Dorestad is not written anywhere: it is ours, from his being received 'into fealty' and set over the counties (AB 850). Rorik is a heathen in 850: his baptism is known only from a letter of about 863 (see step 10). Adalger the priest is invented (Adal- and -ger are attested). Sets ch_rorik_850_2 and the wait; then ch_rorik_850_sworn and the spine's df_rorik_man, or ch_rorik_850_kings_man, or ch_rorik_850_refused.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_rorik_850_1 and not flag.ch_rorik_850_wait and not flag.ch_rorik_850_2 and year < 863",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "danish", "faith": "old_gods", "tongue": "old_frankish", "sex": "m", "age": [38, 48], "fixed": true, "note": "Rorik, cast.rorik" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [40, 55], "fixed": true, "note": "Adalger (invented), priest of a church on the bank" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "sex": "m", "age": [33, 40], "fixed": true, "note": "Eystein, cast.eystein" }
+   },
+   "title_key": "chain_rorik_850.s02.title",
+   "title": "Hands between hands",
+   "intention_key": "chain_rorik_850.s02.intention",
+   "intention": "The count holds court in the old toll hall. The free men of the bank are called in by name, house by house, and yours is the next.",
+   "lines": [
+    { "who": "tollman", "key": "chain_rorik_850.s02.tollman_call" },
+    { "who": "count", "key": "chain_rorik_850.s02.count_terms" },
+    { "who": "count", "key": "chain_rorik_850.s02.count_waal", "when": "flag.ch_rorik_850_waal" },
+    { "who": "priest", "key": "chain_rorik_850.s02.priest_hands" },
+    { "who": "count", "key": "chain_rorik_850.s02.count_priest" },
+    { "who": "priest", "key": "chain_rorik_850.s02.priest_relics" }
+   ],
+   "options": [
+    { "key": "swear", "label_key": "chain_rorik_850.s02.opt_swear", "label": "Put your hands between his and be his man",
+      "check": "true",
+      "effects": [ "npc count feeling +15 swore", "npc priest feeling -6 swore", "toll eased 365", "flag df_rorik_man", "flag ch_rorik_850_sworn", "flag ch_rorik_850_2", "flag ch_rorik_850_wait for 60" ],
+      "note": "outcome: chain_rorik_850.s02.out_swear (half toll for a year and a place at his table; the priest does not look at you)" },
+    { "key": "emperor", "label_key": "chain_rorik_850.s02.opt_emperor", "label": "Swear the emperor's peace on the priest's relics, as your father did, and put your hands in no man's",
+      "check": "true", "default": true,
+      "effects": [ "npc count feeling +2 kings_oath", "npc priest feeling +6 kings_oath", "flag ch_rorik_850_kings_man", "flag ch_rorik_850_2", "flag ch_rorik_850_wait for 60" ],
+      "note": "outcome: chain_rorik_850.s02.out_emperor (the count laughs: then you and he serve the same lord, and he is the one with the ships)" },
+    { "key": "refuse", "label_key": "chain_rorik_850.s02.opt_refuse", "label": "Swear nothing: you pay the tenth, and that is all a toll is owed",
+      "check": "true",
+      "effects": [ "npc count feeling -8 refused", "npc priest feeling +3 refused", "flag ch_rorik_850_refused", "flag ch_rorik_850_2", "flag ch_rorik_850_wait for 60" ],
+      "note": "outcome: chain_rorik_850.s02.out_refuse (pride only; he has your name cut on a second stick, the short one)" }
+   ],
+   "memory": {
+    "swear": "put his hands between the count's",
+    "emperor": "swore to the emperor and to no man's hands",
+    "refuse": "would swear nothing"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s03_light_pennies",
+   "note": "Step 3, a side road (drawn at Dorestad two months or more after step 2, until the end of 856). The count's hall pays what it owes the house, ninety-six pennies by tale, in new pennies with Lothar's name that weigh short. Sources: the last coins of Dorestad are poor pennies in Lothar's name from about 850, probably struck under Rorik (Design/content/dossiers/dorestad.md, coin; Coupland, 'Dorestad in the ninth century: the numismatic evidence', Jaarboek voor Munt- en Penningkunde 75, 1988 (?)). That they weighed about three quarters of a good penny is the game's figure (?). The steward is the count's, a Dane. Sets ch_rorik_850_3.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_rorik_850_2 and not flag.ch_rorik_850_wait and not flag.ch_rorik_850_3 and year < 857",
+   "weight": 4.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "the count's steward, who keeps his hall and pays his debts" },
+    "moneyer": { "role": "moneyer", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 55], "fixed": true, "note": "the moneyer of Dorestad, who strikes what he is given to strike" }
+   },
+   "title_key": "chain_rorik_850.s03.title",
+   "title": "Light pennies",
+   "intention_key": "chain_rorik_850.s03.intention",
+   "intention": "The count's steward counts ninety-six pennies onto your hatch for what the hall has had of you. They are new, they carry the emperor's name, and they ring wrong on the board.",
+   "lines": [
+    { "who": "steward", "key": "chain_rorik_850.s03.steward_count" },
+    { "who": "moneyer", "key": "chain_rorik_850.s03.moneyer_die" },
+    { "who": "steward", "key": "chain_rorik_850.s03.steward_sworn", "when": "flag.ch_rorik_850_sworn" },
+    { "who": "steward", "key": "chain_rorik_850.s03.steward_unsworn", "when": "not flag.ch_rorik_850_sworn" },
+    { "who": "moneyer", "key": "chain_rorik_850.s03.moneyer_scale" }
+   ],
+   "options": [
+    { "key": "tale", "label_key": "chain_rorik_850.s03.opt_tale", "label": "Take them by tale and say nothing",
+      "check": "true", "default": true,
+      "effects": [ "silver +72", "npc steward feeling +5 took_tale", "toll eased 60", "flag ch_rorik_850_3" ],
+      "note": "outcome: chain_rorik_850.s03.out_tale (ninety-six by count, seventy-two by any scale north of the Eider; the steward remembers who did not make him ask twice)" },
+    { "key": "weigh", "label_key": "chain_rorik_850.s03.opt_weigh", "label": "Ask the moneyer for his scale and be paid by weight",
+      "check": "true",
+      "effects": [ { "chance": 0.55, "by": "crew.trade_best",
+                     "success": [ "silver +96", "npc moneyer feeling +5 weighed", "npc steward feeling -2 weighed" ],
+                     "failure": [ "silver +72", "npc steward feeling -6 weighed" ] },
+                   "flag ch_rorik_850_3" ],
+      "note": "outcome: chain_rorik_850.s03.out_weigh_success (the steward shrugs and makes up the weight in cut silver from the north) / out_weigh_failure (he says the emperor's name is on them, and asks whether you doubt the emperor)" },
+    { "key": "furs", "label_key": "chain_rorik_850.s03.opt_furs", "label": "Leave the pennies and take the debt in furs from the fleet's store",
+      "check": "true",
+      "effects": [ "goods marten +1", "npc steward feeling +2 took_furs", "price_shock dorestad marten x0.8 for 90", "flag ch_rorik_850_3" ],
+      "note": "outcome: chain_rorik_850.s03.out_furs (a timber of marten, worth 120 d by the table; a true price word: the fleet's furs are cheap on the bank this season)" }
+   ],
+   "memory": {
+    "tale": "took the light pennies by tale",
+    "weigh": "asked to be paid by weight",
+    "weigh.failure": "doubted the emperor's pennies aloud",
+    "furs": "took furs instead of pennies"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s04_kings_sons",
+   "note": "Step 4, a side road (drawn at Dorestad from spring to autumn 855). King Horik and most of the Danish royal house were killed in 854 (AB 854, AF 854; chronicle_793.json 854-horik-killed). In 855 'Lothar gave the whole of Frisia to his son Lothar, whereupon Rorik and Godfrid headed back to their native Denmark in the hope of gaining royal power'; and later that year 'Rorik and Godfrid, on whom success had not smiled, remained based at Dorestad and held sway over most of Frisia' (Annales Bertiniani 855, our rendering). Godfrid is Harald's son, Rorik's kinsman. That the fleet was victualled by the port's merchants, and that Frisians thought of sending to the young king, is ours. Turn payout: the order for ship's bread at a premium. Sets ch_rorik_850_4; ch_rorik_850_victualled or ch_rorik_850_complaint.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_rorik_850_2 and not flag.ch_rorik_850_4 and year = 855 and month >= 3 and month <= 9",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "danish", "faith": "old_gods", "tongue": "old_frankish", "sex": "m", "age": [42, 52], "fixed": true, "note": "Rorik, cast.rorik" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [32, 42], "fixed": true, "note": "Thiadward (invented)" }
+   },
+   "title_key": "chain_rorik_850.s04.title",
+   "title": "Two kings' sons go north",
+   "intention_key": "chain_rorik_850.s04.intention",
+   "intention": "The long ships are in the water and being stored. Word came in the winter that the king of the Danes is dead with most of his kin, and the count is of that kin.",
+   "lines": [
+    { "who": "count", "key": "chain_rorik_850.s04.count_kingdom" },
+    { "who": "count", "key": "chain_rorik_850.s04.count_bread" },
+    { "who": "merchant", "key": "chain_rorik_850.s04.merchant_river" },
+    { "who": "merchant", "key": "chain_rorik_850.s04.merchant_young_king", "note": "AB 855: Frisia given to Lothar's son Lothar" },
+    { "who": "count", "key": "chain_rorik_850.s04.count_sworn", "when": "flag.ch_rorik_850_sworn" }
+   ],
+   "options": [
+    { "key": "victual", "label_key": "chain_rorik_850.s04.opt_victual", "label": "Take his order: thirty sacks of ship's bread on the bank within thirty days",
+      "check": "true",
+      "effects": [ "commission ships_bread 30 by 30 premium 1.8", "npc count feeling +6 victualled", "flag ch_rorik_850_victualled", "flag ch_rorik_850_4" ],
+      "note": "outcome: chain_rorik_850.s04.out_victual (an order at near twice the price; a fleet does not haggle the week before it sails)" },
+    { "key": "complaint", "label_key": "chain_rorik_850.s04.opt_complaint", "label": "Put your mark with Thiadward's on a word to the young king: who keeps the river while the count is away?",
+      "check": "true",
+      "effects": [ "npc merchant feeling +8 marked", "flag ch_rorik_850_complaint", "flag ch_rorik_850_4" ],
+      "note": "outcome: chain_rorik_850.s04.out_complaint (a clerk writes it; six houses make their marks; nobody tells the count, which is not the same as the count not knowing)" },
+    { "key": "wind", "label_key": "chain_rorik_850.s04.opt_wind", "label": "Wish him a fair wind and keep to your own trade",
+      "check": "true", "default": true,
+      "effects": [ "price_shock dorestad ships_bread x1.5 for 40", "price_shock dorestad ale x1.3 for 40", "flag ch_rorik_850_4" ],
+      "note": "outcome: chain_rorik_850.s04.out_wind (time only; a true price word: bread and ale are dear at Dorestad while the fleet stores)" }
+   ],
+   "memory": {
+    "victual": "took the order for the fleet's bread",
+    "complaint": "put his mark on the Frisians' word to the king",
+    "wind": "wished the fleet a fair wind"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s05_fleet_goes_north",
+   "note": "Step 5, the warning before the danger (drawn at Dorestad in the spring and early summer of 857). 'Rorik the Northman, who ruled in Dorestad, took a fleet to the lands of the Danes with the agreement of his lord King Lothar, and with the consent of Horik, king of the Danes, he and his comrades took possession of the part of the kingdom which lies between the sea and the Eider' (Annales Fuldenses 857, our rendering). The Horik of 857 is the boy Horik II. While he was away 'other Danes stormed the emporium called Dorestad and laid waste the whole island of Batavia and other neighbouring districts' (Annales Bertiniani 857, our rendering). Sets ch_rorik_850_5; then ch_rorik_850_north (his sworn men only), or ch_rorik_850_stayed and the spine's df_buried, or ch_rorik_850_away.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_rorik_850_2 and not flag.ch_rorik_850_5 and year = 857 and month >= 3 and month <= 6",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "danish", "faith": "old_gods", "tongue": "old_frankish", "sex": "m", "age": [44, 54], "fixed": true, "note": "Rorik, cast.rorik" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "sex": "m", "age": [38, 46], "fixed": true, "note": "Eystein, cast.eystein, who is left with the toll and twelve men" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [34, 44], "fixed": true, "note": "Thiadward (invented)" }
+   },
+   "title_key": "chain_rorik_850.s05.title",
+   "title": "The fleet goes to the Eider",
+   "intention_key": "chain_rorik_850.s05.intention",
+   "intention": "The count is taking his ships north again, this time with the king's leave and a promise of land by the Eider. He leaves the toll man, twelve men and one ship that leaks.",
+   "lines": [
+    { "who": "count", "key": "chain_rorik_850.s05.count_leave" },
+    { "who": "tollman", "key": "chain_rorik_850.s05.tollman_twelve" },
+    { "who": "merchant", "key": "chain_rorik_850.s05.merchant_open" },
+    { "who": "count", "key": "chain_rorik_850.s05.count_sworn", "when": "flag.ch_rorik_850_sworn" },
+    { "who": "merchant", "key": "chain_rorik_850.s05.merchant_ground" }
+   ],
+   "options": [
+    { "key": "north", "label_key": "chain_rorik_850.s05.opt_north", "label": "Sail north in the fleet's wake with cloth and wine: his men will need both",
+      "check": "flag.ch_rorik_850_sworn",
+      "effects": [ "npc count feeling +6 followed", "price_shock sliesthorp frisian_cloth x1.3 for 150", "price_shock sliesthorp rhenish_wine x1.3 for 150", "flag ch_rorik_850_north", "flag ch_rorik_850_5" ],
+      "note": "outcome: chain_rorik_850.s05.out_north (he names the place: Sliesthorp, before the feast of Saint John; a true price word: cloth and wine are dear there while his men lie by the Eider)" },
+    { "key": "bury", "label_key": "chain_rorik_850.s05.opt_bury", "label": "Stay with the house, and put its silver in the ground behind the storehouse",
+      "check": "true", "default": true,
+      "effects": [ "npc merchant feeling +5 stayed", "flag df_buried", "flag ch_rorik_850_stayed", "flag ch_rorik_850_5" ],
+      "note": "outcome: chain_rorik_850.s05.out_bury (a pot under the third post from the water; Thiadward's house does the same that night and neither sees the other)" },
+    { "key": "away", "label_key": "chain_rorik_850.s05.opt_away", "label": "Take the boat up the river and trade above Noviomagus until he is home",
+      "check": "true",
+      "effects": [ "flag ch_rorik_850_away", "flag ch_rorik_850_5" ],
+      "note": "outcome: chain_rorik_850.s05.out_away (time only; Eystein says he would do the same if he were not the one left)" }
+   ],
+   "memory": {
+    "north": "followed the fleet north",
+    "bury": "stayed with his house",
+    "away": "took his boat up the river"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s06_between_sea_and_eider",
+   "note": "Step 6, the sworn man's road (drawn at Sliesthorp in 857 or 858 for one who followed the fleet). Rorik holds the land between the sea and the Eider by the boy king's consent (AF 857); the market at the head of the Slie is the nearest to it. Sources: the church at Sliaswic built with Horik's leave about 850 'where merchants from Dorestad and Hamburg come'; shut after 854 by the count Hovi; opened again under Horik II, who let it have a bell (Rimbert, Vita Anskarii c. 24, 31, 32, tr. Robinson 1921; our rendering; the year of the reopening is not given: about 856 (?)). That Rorik's token passed among Danish ships is ours. Turn payout: furs and amber at the fleet's price (240 d by the table for 110 d), and a beginning of the Danish tongue. Sets ch_rorik_850_6; ch_rorik_850_token or ch_rorik_850_heard.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and flag.ch_rorik_850_north and not flag.ch_rorik_850_6 and year >= 857 and year < 859",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [44, 54], "fixed": true, "note": "Rorik, cast.rorik, at the market nearest his new land" },
+    "skipper": { "role": "skipper", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [28, 50], "fixed": false, "note": "a Danish skipper in from the west with news" },
+    "priest": { "role": "priest", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "sex": "m", "age": [30, 55], "fixed": true, "note": "the priest of Anskar's church at the Slie" }
+   },
+   "title_key": "chain_rorik_850.s06.title",
+   "title": "Between the sea and the Eider",
+   "intention_key": "chain_rorik_850.s06.intention",
+   "intention": "The count sits on a sea chest at the head of the Slie, selling what a kingdom's edge gives: furs, amber and promises. He greets you in Frisian so that his own men will not follow it.",
+   "lines": [
+    { "who": "count", "key": "chain_rorik_850.s06.count_greet" },
+    { "who": "count", "key": "chain_rorik_850.s06.count_land" },
+    { "who": "priest", "key": "chain_rorik_850.s06.priest_bell", "note": "Rimbert c. 32: the bell (?)" },
+    { "who": "skipper", "key": "chain_rorik_850.s06.skipper_news", "note": "AB 857: other Danes at Dorestad" },
+    { "who": "count", "key": "chain_rorik_850.s06.count_news" }
+   ],
+   "options": [
+    { "key": "trade", "label_key": "chain_rorik_850.s06.opt_trade", "label": "Buy under his peace: a timber of marten and four sacks of amber for 110 d",
+      "check": "silver >= 110", "cost": "silver 110",
+      "effects": [ "goods marten +1", "goods amber +4", "tongue old_norse = 0.5", "npc count feeling +4 traded", "flag ch_rorik_850_6" ],
+      "note": "outcome: chain_rorik_850.s06.out_trade (worth 240 d by the table; his steward counts in his own tongue and you learn the numbers)" },
+    { "key": "token", "label_key": "chain_rorik_850.s06.opt_token", "label": "Ask him for a token his ships will know",
+      "check": "true",
+      "effects": [ "npc count feeling +5 asked_token", "flag ch_rorik_850_token", "flag ch_rorik_850_6" ],
+      "note": "outcome: chain_rorik_850.s06.out_token (pride only: he cuts a hand's length from a silver arm ring and scratches his mark in it; hang it at the stem)" },
+    { "key": "home", "label_key": "chain_rorik_850.s06.opt_home", "label": "Hear the skipper out, buy nothing, and turn for home on the next wind",
+      "check": "true", "default": true,
+      "effects": [ "npc skipper feeling +3 heard", "news chain_rorik_850.news.other_danes at sliesthorp", "flag ch_rorik_850_heard", "flag ch_rorik_850_6" ],
+      "note": "outcome: chain_rorik_850.s06.out_home (time only; a true rumour: sails that are not the count's went into the Rhine mouths after midsummer)" }
+   ],
+   "memory": {
+    "trade": "bought furs and amber under his peace",
+    "token": "asked for his token",
+    "home": "turned for home when he heard the news"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s07_other_danes",
+   "note": "Step 7, the road of those who stayed or went upriver (drawn at Dorestad or Traiectum from high summer 857). 'Other Danes stormed the emporium called Dorestad and laid waste the whole island of Batavia and other neighbouring districts' (Annales Bertiniani 857, our rendering). Utrecht was wasted in the same year and Bishop Hunger and his clergy left it; King Lothar II gave him the monastery of Berg on the Roer in 858, and tradition has him at Deventer between (Design/content/dossiers/traiectum.md 54, 89: whether he fled in 850 or 857 is disputed (?)). The fight at the dam and the buying off of one storehouse are ours; both were ordinary. Turn payout on every road: the freight, the houses' thanks, or the storehouse kept. Sets ch_rorik_850_7; ch_rorik_850_church_friend, ch_rorik_850_stood or ch_rorik_850_paid.",
+   "stage": "harbour",
+   "when": "moored and (port.id = dorestad or port.id = traiectum) and flag.ch_rorik_850_5 and not flag.ch_rorik_850_north and not flag.ch_rorik_850_7 and year = 857 and month >= 7",
+   "weight": 10.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [45, 62], "fixed": true, "note": "Adalger (invented) at Dorestad; at Traiectum one of the bishop's priests" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [34, 44], "fixed": true, "note": "Thiadward (invented)" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "sex": "m", "age": [38, 46], "fixed": true, "note": "Eystein, cast.eystein, with twelve men and a ship that leaks" }
+   },
+   "title_key": "chain_rorik_850.s07.title",
+   "title": "The other Danes",
+   "intention_key": "chain_rorik_850.s07.intention",
+   "intention": "There are sails below the town that are not the count's. They have been counted three times from the church roof and the number has grown each time.",
+   "lines": [
+    { "who": "tollman", "key": "chain_rorik_850.s07.tollman_not_ours", "when": "port.id = dorestad" },
+    { "who": "priest", "key": "chain_rorik_850.s07.priest_books" },
+    { "who": "merchant", "key": "chain_rorik_850.s07.merchant_dam", "when": "port.id = dorestad" },
+    { "who": "priest", "key": "chain_rorik_850.s07.priest_bishop", "when": "port.id = traiectum" },
+    { "who": "merchant", "key": "chain_rorik_850.s07.merchant_away", "when": "flag.ch_rorik_850_away" },
+    { "who": "tollman", "key": "chain_rorik_850.s07.tollman_buy", "when": "port.id = dorestad" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_rorik_850.s07.opt_carry", "label": "Take the priest, his clerks and the church's books up the river to Daventre",
+      "check": "true", "default": true,
+      "effects": [ "passenger priest to daventre", "silver +120", "learn latin +0.1", "npc priest feeling +15 carried", "flag ch_rorik_850_church_friend", "flag ch_rorik_850_7" ],
+      "note": "outcome: chain_rorik_850.s07.out_carry (the bishop's steward pays the freight at the far end, ten shillings; a clerk reads the psalms aloud all the way and you begin to follow them)" },
+    { "key": "stand", "label_key": "chain_rorik_850.s07.opt_stand", "label": "Stand at the dam head with Eystein's twelve and the Frisian houses",
+      "check": "true",
+      "effects": [ { "chance": 0.4, "by": "crew.fight_best",
+                     "success": [ "silver +180", "npc merchant feeling +15 stood", "npc tollman feeling +12 stood" ],
+                     "failure": [ "health -0.05", "morale -0.03", "silver +60", "npc merchant feeling +10 stood", "npc tollman feeling +10 stood" ] },
+                   "deed fought_raiders", "flag ch_rorik_850_stood", "flag ch_rorik_850_7" ],
+      "note": "outcome: chain_rorik_850.s07.out_stand_success (they try the upper bank, lose a boat's crew in the stakes and go for softer houses; the dam's houses make up a purse) / out_stand_failure (the dam is held until dark and lost in the dark; you get your boat off with a cut hand aboard; the houses still remember who stood)" },
+    { "key": "pay", "label_key": "chain_rorik_850.s07.opt_pay", "label": "Row out to their chief and buy your own storehouse free (60 d)",
+      "check": "silver >= 60", "cost": "silver 60",
+      "effects": [ "deed paid_raiders", "price_shock dorestad rhenish_wine x1.5 for 90", "flag ch_rorik_850_paid", "flag ch_rorik_850_7" ],
+      "note": "outcome: chain_rorik_850.s07.out_pay (he takes five shillings and has a shield hung on your door post; a true price word: there is no wine on the bank until the next ships come down)" }
+   ],
+   "memory": {
+    "carry": "carried the priest and the books to Daventre",
+    "stand": "stood at the dam head",
+    "stand.failure": "stood at the dam head and was beaten off it",
+    "pay": "bought his storehouse free of the raiders"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s08_count_comes_home",
+   "note": "Step 8 (drawn at Dorestad from late 857 to the end of 861). Rorik is back at Dorestad after the Eider (he is 'the Northman who ruled in Dorestad' still, and it is on his advice that the fleet of 863 withdraws: AF 857, AB 863). The Frisians' anger is ours, but it has its year: in 867 'the local people, who are called by a new name Cokingi', drove him out, and King Lothar II called out his host against his return (Annales Bertiniani 867, our rendering). That he remitted toll to those who rebuilt is ours. Turn payout: the count's gift, or the Frisians' trust. Sets ch_rorik_850_8; ch_rorik_850_spoke or ch_rorik_850_complaint.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_rorik_850_2 and not flag.ch_rorik_850_8 and ((year = 857 and month >= 10) or (year >= 858 and year < 862))",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "danish", "faith": "old_gods", "tongue": "old_frankish", "sex": "m", "age": [45, 56], "fixed": true, "note": "Rorik, cast.rorik" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [35, 46], "fixed": true, "note": "Thiadward (invented)" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "sex": "m", "age": [38, 48], "fixed": true, "note": "Eystein, cast.eystein" }
+   },
+   "title_key": "chain_rorik_850.s08.title",
+   "title": "The count comes home",
+   "intention_key": "chain_rorik_850.s08.intention",
+   "intention": "The lower bank is black posts and new planks. The count's ships are back along the upper bank, and the men of the houses stand in the road with their arms folded.",
+   "lines": [
+    { "who": "merchant", "key": "chain_rorik_850.s08.merchant_where" },
+    { "who": "count", "key": "chain_rorik_850.s08.count_answer" },
+    { "who": "tollman", "key": "chain_rorik_850.s08.tollman_stood", "when": "flag.ch_rorik_850_stood" },
+    { "who": "count", "key": "chain_rorik_850.s08.count_north", "when": "flag.ch_rorik_850_north" },
+    { "who": "merchant", "key": "chain_rorik_850.s08.merchant_palace" },
+    { "who": "count", "key": "chain_rorik_850.s08.count_timber" }
+   ],
+   "options": [
+    { "key": "speak", "label_key": "chain_rorik_850.s08.opt_speak", "label": "Speak for him in the road: he came back, and no Frankish count ever did",
+      "check": "true",
+      "effects": [ "silver +120", "npc count feeling +10 spoke", "npc merchant feeling -6 spoke", "flag ch_rorik_850_spoke", "flag ch_rorik_850_8" ],
+      "note": "outcome: chain_rorik_850.s08.out_speak (the houses go home muttering; that evening his steward brings ten shillings in good old pennies, not the new ones)" },
+    { "key": "complaint", "label_key": "chain_rorik_850.s08.opt_complaint", "label": "Carry the houses' complaint to the king's palace at Noviomagus",
+      "check": "true",
+      "effects": [ "deed carried_letters", "silver +90", "npc merchant feeling +10 carried_complaint", "flag ch_rorik_850_complaint", "flag ch_rorik_850_8" ],
+      "note": "outcome: chain_rorik_850.s08.out_complaint (the houses pay the carriage; a clerk of the palace takes the leaf, reads it twice and says the king has no other fleet to send)" },
+    { "key": "rebuild", "label_key": "chain_rorik_850.s08.opt_rebuild", "label": "Say nothing for either, take his ship timber and mend your own dam head",
+      "check": "true", "default": true,
+      "effects": [ "toll eased 120", "npc count feeling +2 rebuilt", "flag ch_rorik_850_8" ],
+      "note": "outcome: chain_rorik_850.s08.out_rebuild (time only; half toll until the next feast of Saint Martin for every house that builds)" }
+   ],
+   "memory": {
+    "speak": "spoke for the count before the houses",
+    "complaint": "carried the houses' complaint to the palace",
+    "rebuild": "mended his dam head and kept quiet"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s09_bishop_without_church",
+   "note": "Step 9, a side road (drawn at Daventre or Traiectum, 858 to 861). Hunger, bishop of Utrecht 854 to 866, is out of his see after the wasting of Utrecht: King Lothar II gave him and his canons the monastery of Berg (Sint Odilienberg) on the Roer in 858, and tradition has them at Deventer between (Design/content/dossiers/traiectum.md; nl.wikipedia 'Hunger (bisschop)' (?)). Rorik is called a convert to the Christian faith in a letter of Archbishop Hincmar of Reims of about 863 (Flodoard, Historia Remensis ecclesiae III.26) (?): when, where and by whom he was baptised is not known. That the exiled bishop sought it through a merchant is ours. Sets ch_rorik_850_9 and the wait; ch_rorik_850_letter or ch_rorik_850_counsel.",
+   "stage": "harbour",
+   "when": "moored and (port.id = daventre or port.id = traiectum) and flag.ch_rorik_850_2 and not flag.ch_rorik_850_9 and year >= 858 and year < 862",
+   "weight": 5.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 60], "fixed": true, "note": "Hunger, bishop of Utrecht 854 to 866 (historical)" },
+    "clerk": { "role": "clerk", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [22, 40], "fixed": false, "note": "one of the bishop's clerks, who writes for him" }
+   },
+   "title_key": "chain_rorik_850.s09.title",
+   "title": "The bishop without a church",
+   "intention_key": "chain_rorik_850.s09.intention",
+   "intention": "The bishop of Utrecht has no Utrecht. He keeps his household in borrowed rooms, and he has asked for any merchant who lies at Dorestad and knows the Dane.",
+   "lines": [
+    { "who": "clerk", "key": "chain_rorik_850.s09.clerk_daventre", "when": "port.id = daventre" },
+    { "who": "clerk", "key": "chain_rorik_850.s09.clerk_traiectum", "when": "port.id = traiectum" },
+    { "who": "bishop", "key": "chain_rorik_850.s09.bishop_ask" },
+    { "who": "bishop", "key": "chain_rorik_850.s09.bishop_sworn", "when": "flag.ch_rorik_850_sworn" },
+    { "who": "bishop", "key": "chain_rorik_850.s09.bishop_friend", "when": "flag.ch_rorik_850_church_friend" },
+    { "who": "bishop", "key": "chain_rorik_850.s09.bishop_cloth" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_rorik_850.s09.opt_carry", "label": "Carry the bishop's letter and the white cloth to the count",
+      "check": "true",
+      "effects": [ "deed carried_letters", "silver +30", "learn latin +0.1", "npc bishop feeling +10 carried", "flag ch_rorik_850_letter", "flag ch_rorik_850_9", "flag ch_rorik_850_wait for 30" ],
+      "note": "outcome: chain_rorik_850.s09.out_carry (thirty pennies for the carriage, and the clerk reads you the letter twice so that you can say it if it is lost)" },
+    { "key": "counsel", "label_key": "chain_rorik_850.s09.opt_counsel", "label": "Carry nothing, but tell the bishop what the Dane wants: his toll untouched, and a king who cannot unseat him",
+      "check": "true", "default": true,
+      "effects": [ "npc bishop feeling +4 counsel", "flag ch_rorik_850_counsel", "flag ch_rorik_850_9", "flag ch_rorik_850_wait for 30" ],
+      "note": "outcome: chain_rorik_850.s09.out_counsel (time only; the bishop says that men have been baptised for less, and has the clerk write it down)" },
+    { "key": "decline", "label_key": "chain_rorik_850.s09.opt_decline", "label": "Say you carry cloth and wine, and that souls are another man's freight",
+      "check": "true",
+      "effects": [ "npc bishop feeling -3 declined", "price_shock here wax x1.3 for 120", "flag ch_rorik_850_9", "flag ch_rorik_850_wait for 30" ],
+      "note": "outcome: chain_rorik_850.s09.out_decline (pride only; a true price word from the clerk on your way out: the household has no wax for its altar and will pay over the price)" }
+   ],
+   "memory": {
+    "carry": "carried the bishop's letter to the Dane",
+    "counsel": "told the bishop what the Dane wanted",
+    "decline": "would carry nothing for the bishop"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s10_white_robe",
+   "note": "Step 10, a side road (drawn at Dorestad a month or more after step 9, 859 to 862). Rorik takes baptism. Source: Hincmar of Reims wrote 'to Rorik the Northman, converted to the faith of Christ' about 863 (Flodoard, Historia Remensis ecclesiae III.26, our rendering) (?); the dossier notes that the baptism rests on these letters alone (Design/content/dossiers/dorestad.md 90). The year here, the place and the priest are ours (?). The white robe worn for a week after baptism, and Northmen who came to be baptised for the gift of it, are in Notker, Gesta Karoli II.19 (tr. Grant 1907: a story of Louis the Pious's court, told in the 880s). A prime-signed or baptised Dane could trade with Christians without offence (Rimbert c. 24) (?). Sets ch_rorik_850_10; ch_rorik_850_font or ch_rorik_850_old_way.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_rorik_850_9 and not flag.ch_rorik_850_wait and not flag.ch_rorik_850_10 and year >= 859 and year < 863",
+   "weight": 6.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "danish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [48, 58], "fixed": true, "note": "Rorik, cast.rorik, on the day of his baptism" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "sex": "m", "age": [42, 50], "fixed": true, "note": "Eystein, cast.eystein, who wears a small cross for the day's business" },
+    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [48, 65], "fixed": true, "note": "Adalger (invented)" }
+   },
+   "title_key": "chain_rorik_850.s10.title",
+   "title": "The white robe",
+   "intention_key": "chain_rorik_850.s10.intention",
+   "intention": "A tub has been set in the largest church on the bank and filled from the river. The count stands beside it in his shirt, and half his men stand outside with their backs to the door.",
+   "lines": [
+    { "who": "priest", "key": "chain_rorik_850.s10.priest_renounce" },
+    { "who": "count", "key": "chain_rorik_850.s10.count_letter", "when": "flag.ch_rorik_850_letter" },
+    { "who": "count", "key": "chain_rorik_850.s10.count_plain", "when": "not flag.ch_rorik_850_letter" },
+    { "who": "tollman", "key": "chain_rorik_850.s10.tollman_cross" },
+    { "who": "tollman", "key": "chain_rorik_850.s10.tollman_robe", "note": "Notker II.19, the Northman and the baptismal robe (our words)" }
+   ],
+   "options": [
+    { "key": "witness", "label_key": "chain_rorik_850.s10.opt_witness", "label": "Stand among the witnesses and give wax for the candles (40 d)",
+      "check": "silver >= 40", "cost": "silver 40",
+      "effects": [ "npc count feeling +12 witnessed", "npc priest feeling +8 witnessed", "toll eased 180", "flag ch_rorik_850_font", "flag ch_rorik_850_10" ],
+      "note": "outcome: chain_rorik_850.s10.out_witness (he comes up out of the water and looks first at who is there; half toll for half a year to those who were)" },
+    { "key": "ask", "label_key": "chain_rorik_850.s10.opt_ask", "label": "Stand at the back with Eystein and ask what a white robe is worth on this river",
+      "check": "true", "default": true,
+      "effects": [ "npc tollman feeling +5 asked_robe", "tongue old_norse = 0.5", "flag ch_rorik_850_10" ],
+      "note": "outcome: chain_rorik_850.s10.out_ask (time only; Eystein answers at length, in two tongues: a bishop's good word with two kings, and the right to be buried dry)" },
+    { "key": "outside", "label_key": "chain_rorik_850.s10.opt_outside", "label": "Stay outside with the men who will not go in, and stand them ale",
+      "check": "true",
+      "effects": [ "morale +0.03", "npc count feeling -2 stayed_out", "npc priest feeling -4 stayed_out", "flag ch_rorik_850_old_way", "flag ch_rorik_850_10" ],
+      "note": "outcome: chain_rorik_850.s10.out_outside (pride only; they say he has not changed lords, only added one, and your own men like you the better for the ale)" }
+   ],
+   "memory": {
+    "witness": "stood witness at the count's baptism",
+    "ask": "asked what a white robe was worth",
+    "outside": "stayed outside the church with the heathen men"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s11_flood_winter",
+   "note": "Step 11, the crisis and its warning (drawn at Dorestad from November 862 to February 863). 'In January the Danes sailed up the Rhine towards Cologne, after sacking the emporium called Dorestad and also a fairly large villa at which the Frisians had taken refuge, and after slaying many Frisian merchants and taking captive large numbers of people' (Annales Bertiniani 863, our rendering); the Annales Xantenses put a great flood of the rivers in that winter (AX 863 (?)). Where the villa lay is not known. That the flood let the ships reach it is ours, and is the reason of the choice. This is where history can be changed: if the houses go by boat instead (flag ch_rorik_850_saved), the merchants are not at the villa. The spine's df_warned is set for the one who warns them. Sets ch_rorik_850_11; ch_rorik_850_saved or ch_rorik_850_saved_few; ch_rorik_850_asked; ch_rorik_850_saw.",
+   "stage": "harbour",
+   "when": "moored and port.id = dorestad and flag.ch_rorik_850_2 and not flag.ch_rorik_850_11 and ((year = 862 and month >= 11) or (year = 863 and month <= 2))",
+   "weight": 12.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [40, 50], "fixed": true, "note": "Thiadward (invented), who speaks for the houses" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "sex": "m", "age": [45, 52], "fixed": true, "note": "Eystein, cast.eystein" },
+    "count": { "role": "count", "people": "danish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 60], "fixed": true, "note": "Rorik, cast.rorik" }
+   },
+   "title_key": "chain_rorik_850.s11.title",
+   "title": "The flood winter",
+   "intention_key": "chain_rorik_850.s11.intention",
+   "intention": "The river is over the lower bank and into the fields behind. A fisherman from the mouths has counted more sails than the count has, and the houses are loading carts for a great estate inland.",
+   "lines": [
+    { "who": "merchant", "key": "chain_rorik_850.s11.merchant_carts" },
+    { "who": "tollman", "key": "chain_rorik_850.s11.tollman_count" },
+    { "who": "tollman", "key": "chain_rorik_850.s11.tollman_water" },
+    { "who": "merchant", "key": "chain_rorik_850.s11.merchant_trust", "when": "flag.ch_rorik_850_stood or flag.ch_rorik_850_complaint" },
+    { "who": "merchant", "key": "chain_rorik_850.s11.merchant_distrust", "when": "flag.ch_rorik_850_sworn and not flag.ch_rorik_850_stood" },
+    { "who": "count", "key": "chain_rorik_850.s11.count_sails" }
+   ],
+   "options": [
+    { "key": "boats", "label_key": "chain_rorik_850.s11.opt_boats", "label": "Tell the houses the flood is a road for ships, and take all who will come by boat up the IJssel to Daventre",
+      "check": "true",
+      "effects": [ { "chance": 0.55, "by": "crew.seamanship_best",
+                     "success": [ "npc merchant feeling +20 brought_out", "flag ch_rorik_850_saved" ],
+                     "failure": [ "health -0.04", "npc merchant feeling +8 brought_out", "flag ch_rorik_850_saved_few" ] },
+                   "flag df_warned", "flag ch_rorik_850_11" ],
+      "note": "outcome: chain_rorik_850.s11.out_boats_success (eleven boats in a line against a brown river, yours ahead with a lantern; Thiadward's whole house and five others are on the IJssel before the sails reach the town) / out_boats_failure (they argue until the light goes; you take off two families and a priest in your own boat, and the carts go inland without you)" },
+    { "key": "count", "label_key": "chain_rorik_850.s11.opt_count", "label": "Go to the count as his man and ask him to put his ships across the river",
+      "check": "flag.ch_rorik_850_sworn",
+      "effects": [ "npc count feeling +4 asked_stand", "flag ch_rorik_850_asked", "flag ch_rorik_850_11" ],
+      "note": "outcome: chain_rorik_850.s11.out_count (he says nine ships do not stop sixty, and that he will talk to them, which is cheaper; he tells you to have your boat above the town by dark)" },
+    { "key": "watch", "label_key": "chain_rorik_850.s11.opt_watch", "label": "Take your own boat into the reeds above the town, and watch",
+      "check": "true", "default": true,
+      "effects": [ "flag ch_rorik_850_saw", "flag ch_rorik_850_11" ],
+      "note": "outcome: chain_rorik_850.s11.out_watch (time only; you see the toll chest carried aboard the count's ship two days before the sails come, the count's ships lying still while the bank burns, and a second fire inland where the carts went)" }
+   ],
+   "memory": {
+    "boats": "took the houses out by boat before the fleet came",
+    "boats.failure": "tried to take the houses out by boat",
+    "count": "asked the count to stand",
+    "watch": "watched from the reeds"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s12_on_roriks_advice",
+   "note": "Step 12, the first finale (drawn at Traiectum, Daventre, Noviomagus or what is left of Dorestad, from March 863 to the end of 866). The fleet 'came to a certain island near the fort of Neuss', King Lothar came up on one bank and the Saxons on the other, and 'on the advice of Rorik they withdrew by the way they had come' (Annales Bertiniani 863, our rendering). ENDING ch_rorik_850_end_saved (history changed; the hard road): the houses brought out by boat are alive, settle together on the IJssel bank and swear fellowship with the house that brought them. Flag changed_dorestad_863_merchants_saved; grand rewards unlock_partner_thiadward and unlock_plot_daventre; 1,500 d and ten bolts of cloth; the spine's df_moved. ENDING ch_rorik_850_end_sworn (what happened: the count keeps his counties and his men): 900 d, unlock_title_roriks_peace, unlock_ship_norse_allround_ship, and the lasting cost ch_rorik_850_cost_church. Whoever takes neither goes on to step 13 or 14. Sets ch_rorik_850_12, and ch_rorik_850_done on an ending.",
+   "stage": "harbour",
+   "when": "moored and (port.id = traiectum or port.id = daventre or port.id = noviomagus or port.id = dorestad) and flag.ch_rorik_850_11 and not flag.ch_rorik_850_12 and not flag.ch_rorik_850_done and year >= 863 and (year > 863 or month >= 3) and year < 867",
+   "weight": 10.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "count": { "role": "count", "people": "danish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 60], "fixed": true, "note": "Rorik, cast.rorik, or his steward speaking for him away from Dorestad" },
+    "merchant": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [40, 50], "fixed": true, "note": "Thiadward (invented) if he was brought out; otherwise a man of another Frisian house" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "sex": "m", "age": [45, 52], "fixed": true, "note": "Eystein, cast.eystein" }
+   },
+   "title_key": "chain_rorik_850.s12.title",
+   "title": "On Rorik's advice",
+   "intention_key": "chain_rorik_850.s12.intention",
+   "intention": "The fleet went up the river as far as the island below Neuss and came down again, on the count's advice, they say. Dorestad is ash to the upper bank. Now everyone reckons what he is owed and by whom.",
+   "lines": [
+    { "who": "tollman", "key": "chain_rorik_850.s12.tollman_advice" },
+    { "who": "merchant", "key": "chain_rorik_850.s12.merchant_saved", "when": "flag.ch_rorik_850_saved" },
+    { "who": "merchant", "key": "chain_rorik_850.s12.merchant_few", "when": "flag.ch_rorik_850_saved_few" },
+    { "who": "merchant", "key": "chain_rorik_850.s12.merchant_dead", "when": "not flag.ch_rorik_850_saved" },
+    { "who": "count", "key": "chain_rorik_850.s12.count_offer", "when": "flag.ch_rorik_850_sworn" },
+    { "who": "count", "key": "chain_rorik_850.s12.count_unsworn", "when": "not flag.ch_rorik_850_sworn" }
+   ],
+   "options": [
+    { "key": "fellowship", "label_key": "chain_rorik_850.s12.opt_fellowship", "label": "Settle the houses you brought out on the IJssel bank, and swear fellowship with them",
+      "check": "flag.ch_rorik_850_saved",
+      "effects": [ "silver +1500", "goods frisian_cloth +10", "npc merchant feeling +25 fellowship", "news chain_rorik_850.news.saved at daventre",
+                   "flag unlock_partner_thiadward", "flag unlock_plot_daventre", "flag changed_dorestad_863_merchants_saved", "flag df_moved",
+                   "flag ch_rorik_850_end_saved", "flag ch_rorik_850_done", "flag ch_rorik_850_12" ],
+      "note": "ENDING saved. outcome: chain_rorik_850.s12.out_fellowship (six houses pay a share each into one chest and give you the first plot above the landing; Thiadward will sail a second boat under your mark)" },
+    { "key": "reward", "label_key": "chain_rorik_850.s12.opt_reward", "label": "Take what the count gives the men who kept their oath",
+      "check": "flag.ch_rorik_850_sworn",
+      "effects": [ "silver +900", "npc count feeling +20 kept_oath", "news chain_rorik_850.news.sworn at traiectum",
+                   "flag unlock_title_roriks_peace", "flag unlock_ship_norse_allround_ship", "flag ch_rorik_850_cost_church",
+                   "flag ch_rorik_850_end_sworn", "flag ch_rorik_850_done", "flag ch_rorik_850_12" ],
+      "note": "ENDING sworn. outcome: chain_rorik_850.s12.out_reward (nine hundred pennies in old coin, a Danish-built ship off his bank, and his mark for your stem: no ship of his kin will lay you aboard; the bishop's clerk writes your name in another list)" },
+    { "key": "neither", "label_key": "chain_rorik_850.s12.opt_neither", "label": "Take nothing yet: there are dead to bury, and it is not yet clear whose silver this is",
+      "check": "true", "default": true,
+      "effects": [ "deed gave_alms", "npc merchant feeling +3 buried", "flag ch_rorik_850_12" ],
+      "note": "outcome: chain_rorik_850.s12.out_neither (time only; you help carry what was found at the estate to the churchyard; the bishop's clerk asks where you lie this spring)" }
+   ],
+   "memory": {
+    "fellowship": "swore fellowship with the houses he brought out",
+    "reward": "took the count's reward",
+    "neither": "took nothing and helped bury the dead"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s13_what_the_bishop_asks",
+   "note": "Step 13, the second finale (drawn at Traiectum or Daventre, 863 to 865, for one who took nothing at step 12). Archbishop Hincmar of Reims wrote to Bishop Hunger 'concerning Rorik the Northman': if it was by his counsel that the Danes had done this, the bishop should lay a fitting penance on him; and he wrote to Rorik himself, a convert, that he should give neither counsel nor aid to pagans against Christians, and should not shelter Baldwin, who had carried off the king's daughter Judith (Flodoard, Historia Remensis ecclesiae III.23 and III.26, our rendering) (?). What Hunger found, and whether Rorik did penance, is not written. Hunger died in 866. ENDING ch_rorik_850_end_witness: the count does penance in the church at the bishop's word, which no lord of the river had done; grand reward unlock_charter_traiectum (freedom from toll on Saint Martin's bank; the church of Utrecht held its own bank and a tenth of the king's tolls by the kings' grants: Design/content/dossiers/traiectum.md (?)), 1,100 d and the title unlock_title_saint_martins_man for the full account, 700 d for the plain one; the lasting cost ch_rorik_850_cost_rorik. Whoever stays silent goes on to step 14. Sets ch_rorik_850_13, and ch_rorik_850_done on an ending.",
+   "stage": "harbour",
+   "when": "moored and (port.id = traiectum or port.id = daventre) and flag.ch_rorik_850_12 and not flag.ch_rorik_850_13 and not flag.ch_rorik_850_done and year >= 863 and year < 866",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 65], "fixed": true, "note": "Hunger, bishop of Utrecht 854 to 866 (historical)" },
+    "clerk": { "role": "clerk", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [25, 45], "fixed": false, "note": "the bishop's clerk, with the archbishop's letter" }
+   },
+   "title_key": "chain_rorik_850.s13.title",
+   "title": "What the bishop asks",
+   "intention_key": "chain_rorik_850.s13.intention",
+   "intention": "The bishop has a letter from the archbishop of Reims open on the table, and a list of every house that lay at Dorestad in the flood winter. Yours is on it.",
+   "lines": [
+    { "who": "clerk", "key": "chain_rorik_850.s13.clerk_letter" },
+    { "who": "bishop", "key": "chain_rorik_850.s13.bishop_ask" },
+    { "who": "bishop", "key": "chain_rorik_850.s13.bishop_sworn", "when": "flag.ch_rorik_850_sworn" },
+    { "who": "bishop", "key": "chain_rorik_850.s13.bishop_friend", "when": "flag.ch_rorik_850_church_friend or flag.ch_rorik_850_letter" },
+    { "who": "bishop", "key": "chain_rorik_850.s13.bishop_penance" }
+   ],
+   "options": [
+    { "key": "all", "label_key": "chain_rorik_850.s13.opt_all", "label": "Tell all of it: what you saw, what he said before the sails came, and swear to it",
+      "check": "flag.ch_rorik_850_saw or flag.ch_rorik_850_asked",
+      "effects": [ "silver +1100", "learn latin +0.2", "npc bishop feeling +25 witness", "news chain_rorik_850.news.penance at traiectum",
+                   "flag unlock_charter_traiectum", "flag unlock_title_saint_martins_man", "flag ch_rorik_850_cost_rorik",
+                   "flag ch_rorik_850_end_witness", "flag ch_rorik_850_done", "flag ch_rorik_850_13" ],
+      "note": "ENDING witness (the full account). outcome: chain_rorik_850.s13.out_all (the bishop sets the penance: the count stands a Lent at the church door and gives back the toll of that winter to the houses of the dead; your share and the bishop's thanks come to eleven hundred pennies, and Saint Martin's bank is free to you)" },
+    { "key": "plain", "label_key": "chain_rorik_850.s13.opt_plain", "label": "Say only what every man knows: he talked the fleet away, and he talked too late for the dead",
+      "check": "true",
+      "effects": [ "silver +700", "npc bishop feeling +12 witness_plain", "news chain_rorik_850.news.penance at traiectum",
+                   "flag unlock_charter_traiectum", "flag ch_rorik_850_cost_rorik",
+                   "flag ch_rorik_850_end_witness", "flag ch_rorik_850_done", "flag ch_rorik_850_13" ],
+      "note": "ENDING witness (the plain account). outcome: chain_rorik_850.s13.out_plain (it is enough for a lesser penance: alms and a fast; the bishop gives you Saint Martin's bank free of toll and seven hundred pennies of the alms' handling)" },
+    { "key": "silent", "label_key": "chain_rorik_850.s13.opt_silent", "label": "Say you saw nothing a man could swear to",
+      "check": "true", "default": true,
+      "effects": [ "npc bishop feeling -5 silent", "flag ch_rorik_850_silent", "flag ch_rorik_850_13" ],
+      "note": "outcome: chain_rorik_850.s13.out_silent (pride only; the clerk draws a line under your house's name, neither through it nor round it)" }
+   ],
+   "memory": {
+    "all": "bore full witness about the flood winter",
+    "plain": "bore plain witness about the flood winter",
+    "silent": "said he saw nothing he could swear to"
+   }
+  },
+  {
+   "id": "harbour.chain_rorik_850.s14_cokingi",
+   "note": "Step 14, the last finale, which ends every road still open (drawn at a Frisian or river port of the Frankish realm, 867 to 870). 'Lothar summoned the host throughout his realm to the defence of the fatherland, as he explained, against the Northmen, for he expected that Rorik, whom the local people, called by a new name Cokingi, had driven out of Frisia, would return bringing some Danes to help him' (Annales Bertiniani 867, our rendering). Who the Cokingi were is not known. Rorik was back: Charles the Bald met him at Nijmegen in 870 and 'bound him to himself by a treaty' (AB 870); he swore to Louis the German in 873 (Annales Xantenses 873). Hiddo is invented (a Frisian short name (?)). ENDING ch_rorik_850_end_cokingi: 800 d and eight bolts of cloth, unlock_pilot_vlie (the marks of the Vlie, which the men of the coast keep to themselves), the lasting cost ch_rorik_850_cost_rorik. ENDING ch_rorik_850_end_sworn by the long road (he kept his oath through the flood winter, the bishop's questions and the rising): 1,300 d, unlock_title_roriks_peace and unlock_ship_norse_allround_ship, the lasting cost ch_rorik_850_cost_frisians. ENDING ch_rorik_850_end_own_man: 600 d and unlock_factor_daventre. Sets ch_rorik_850_done.",
+   "stage": "harbour",
+   "when": "moored and (port.id = traiectum or port.id = daventre or port.id = noviomagus or port.id = medemelacha or port.id = wijnaldum or port.id = doccinga) and flag.ch_rorik_850_2 and not flag.ch_rorik_850_done and year >= 867 and year < 871",
+   "weight": 10.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "lawman": { "role": "lawman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [40, 65], "fixed": true, "note": "Hiddo (invented), who speaks for the men the annal calls Cokingi" },
+    "count": { "role": "count", "people": "danish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [55, 65], "fixed": true, "note": "Rorik, cast.rorik, or word from him" },
+    "tollman": { "role": "tollman", "people": "danish", "faith": "old_gods", "tongue": "old_frisian", "sex": "m", "age": [50, 56], "fixed": true, "note": "Eystein, cast.eystein, with the count's household and nowhere to put it" }
+   },
+   "title_key": "chain_rorik_850.s14.title",
+   "title": "The Cokingi",
+   "intention_key": "chain_rorik_850.s14.intention",
+   "intention": "The men of the coast have risen against the Dane. They carry eel spears and old swords, they have a name nobody has heard before, and both sides want a boat.",
+   "lines": [
+    { "who": "lawman", "key": "chain_rorik_850.s14.lawman_rising", "when": "year < 870" },
+    { "who": "lawman", "key": "chain_rorik_850.s14.lawman_870", "when": "year >= 870", "note": "AB 870: the treaty at Nijmegen" },
+    { "who": "lawman", "key": "chain_rorik_850.s14.lawman_complaint", "when": "flag.ch_rorik_850_complaint" },
+    { "who": "tollman", "key": "chain_rorik_850.s14.tollman_boat" },
+    { "who": "count", "key": "chain_rorik_850.s14.count_sworn", "when": "flag.ch_rorik_850_sworn" },
+    { "who": "count", "key": "chain_rorik_850.s14.count_unsworn", "when": "not flag.ch_rorik_850_sworn" }
+   ],
+   "options": [
+    { "key": "frisians", "label_key": "chain_rorik_850.s14.opt_frisians", "label": "Carry the Cokingi's bread and their word along the coast",
+      "check": "true",
+      "effects": [ "silver +800", "goods frisian_cloth +8", "npc lawman feeling +25 carried", "npc count feeling -30 carried_rising", "news chain_rorik_850.news.cokingi at medemelacha",
+                   "flag unlock_pilot_vlie", "flag ch_rorik_850_cost_rorik",
+                   "flag ch_rorik_850_end_cokingi", "flag ch_rorik_850_done" ],
+      "note": "ENDING cokingi. outcome: chain_rorik_850.s14.out_frisians (three weeks from terp to terp; the Dane is off the coast by harvest; the districts pay you in cloth and in the toll they did not send him, and a pilot of the Vlie shows you his marks, which is not done)" },
+    { "key": "household", "label_key": "chain_rorik_850.s14.opt_household", "label": "Take the count's household and his chest off the bank in your boat, as his man",
+      "check": "flag.ch_rorik_850_sworn",
+      "effects": [ "silver +1300", "npc count feeling +30 carried_household", "npc lawman feeling -20 carried_household", "news chain_rorik_850.news.sworn at traiectum",
+                   "flag unlock_title_roriks_peace", "flag unlock_ship_norse_allround_ship", "flag ch_rorik_850_cost_frisians",
+                   "flag ch_rorik_850_end_sworn", "flag ch_rorik_850_done" ],
+      "note": "ENDING sworn (the long road). outcome: chain_rorik_850.s14.out_household (two women, a boy, Eystein and an iron-bound chest, down the river by night; he pays from the chest when he is back with ships, and he is back; on the coast they do not sell to your house for a generation)" },
+    { "key": "both", "label_key": "chain_rorik_850.s14.opt_both", "label": "Be nobody's man: sell bread to both, and move your goods to Daventre",
+      "check": "true", "default": true,
+      "effects": [ "silver +600", "news chain_rorik_850.news.own_man at daventre",
+                   "flag unlock_factor_daventre", "flag df_moved",
+                   "flag ch_rorik_850_end_own_man", "flag ch_rorik_850_done" ],
+      "note": "ENDING own man. outcome: chain_rorik_850.s14.out_both (a rising eats as much as a fleet; six hundred pennies in a summer, and a cousin of Thiadward's house who will keep your goods on the IJssel, where neither side comes)" }
+   ],
+   "memory": {
+    "frisians": "carried for the men who drove the Dane out",
+    "household": "took the count's household off the bank",
+    "both": "sold bread to both sides"
+   }
+  }
+ ]
+}

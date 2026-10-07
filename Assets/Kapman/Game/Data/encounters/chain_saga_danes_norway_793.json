@@ -1,0 +1,564 @@
+{
+ "about": "CHAIN saga_danes_norway (Design/content/chains/saga_danes_norway.md): THE KINGS' SUMMER, 812 to 815. The saga of the Danes and the Vik: the war for the high seat after King Hemming's death. Thirteen cards. The count of the dead is told on the strand (s01); a beaten man's rune stick lies in Skane (s02); the new kings Harald and Reginfrid feast at Hleidr and name a muster for the north (s03); the chief at Skiringssal asks for a boat nobody would look at twice (s04); his daughter is set ashore on the Karmsund (s05); the Danish host lies in the fjord and the Vik swears (s06); sixteen Danes swear peace with the Franks and the kings' brother Hemming is given back (s07); the sons of Godfred come home from the Svear (s08). Four endings: the king without a kingdom is led over the flats from Ripa (end_exile, what happened); the two kings hold the kingdom because they were warned (end_kings, history changed); Godfred's sons take the high seat (end_sons, what happened); the Vik and its oath (end_vik, with a road that changes history). An afterword in 815, when the emperor's host crosses the Eider (s13). Progress is flags ch_saga_danes_norway_1 to _8; the branch flags _tally, _knows, _stick, _chest, _counsel, _karmsund, _told_raiders, _fed_host, _witness, _warned, _exiles_friend; the roads _road_harald, _road_sons, _road_vik; the end flags, the grand rewards and the two 'changed_' flags are listed in the chain page. Only s01 and one ending are needed; every other step is optional and decides what the endings offer. Cards are drawn on a call at their port in their months and years, so the waits are the real ones of 812 to 815. People: the ale-wife is the port's own (sliesthorp.gunnhild, ripa.tola); Hebbi (ahus.hebbi); Asgaut, Thorulf (hleidr.asgaut, hleidr.thorulf); Asgrim (skiringssal.asgrim); Gunnhild, Hallgrim (ogvaldsnes.gunnhild, ogvaldsnes.hallgrim); Asulf (cast.asulf); Dragomir (cast.dragomir); Horik (cast.horik). Real and only spoken of or seen: Harald, Reginfrid, their brothers Anulo and Hemming, Sigfred, Osfrid of Skane, the sons of Godfred. INVENTED, with attested name parts: Eskil (the kings' man), Styr (the beaten man), Asny (the chief's daughter). The words are in Data/writing/chain_saga_danes_norway.json; each option's note names the writing key of its outcome text. Sources in the notes and the chain page: Annales regni Francorum 811 to 815 and 819 (facts only, in our own words; no modern translation is quoted); Chronicon Moissiacense 813; chronicle_793.json. Written 6 Oct 2026; a draft for the user to overwrite.",
+ "cards": [
+  {
+   "id": "harbour.chain_saga_danes_norway.s01_count_of_the_dead",
+   "note": "Step 1, the start: Sliesthorp or Ripa, from March 812 to May 813, drawn on a call there. King Hemming died in the winter of 811 to 812; Sigfred, nephew of King Godfred, and Anulo, nephew of an older King Harald, fought for the kingdom and both fell; Anulo's side won and made his brothers Harald and Reginfrid kings; 10,940 men are said to have died (Annales regni Francorum 812; chronicle 812-winter-danish-succession-war). Where the battle was fought is not recorded. The ale-wife is the port's own (sliesthorp.gunnhild, ripa.tola). Eskil, the new kings' man, is INVENTED (As-ketil). That a new king must give feasts and so buys wine is the game's reading. Sets ch_saga_danes_norway_1 and may set _tally.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sliesthorp or port.id = ripa) and ((year = 812 and month >= 3) or (year = 813 and month <= 5)) and not flag.ch_saga_danes_norway_1",
+   "weight": 1.5,
+   "once": true,
+   "cooldown_days": 90,
+   "actors": {
+    "alewife": { "role": "alewife", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 60], "fixed": true, "note": "the port's own: sliesthorp.gunnhild or ripa.tola" },
+    "lords_man": { "role": "lords_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [28, 40], "fixed": false, "note": "Eskil, invented: a sworn man of the new kings" }
+   },
+   "title_key": "chain_saga_danes_norway.s01.title",
+   "title": "The count of the dead",
+   "intention_key": "chain_saga_danes_norway.s01.intention",
+   "intention": "The landing is short of men. At the ale-house a young man with a new arm ring is buying for two kings nobody had heard of a year ago, and the ale-wife is counting on her fingers who has not come home.",
+   "lines": [
+    { "who": "alewife", "key": "chain_saga_danes_norway.s01.alewife_count", "when": "year = 812" },
+    { "who": "alewife", "key": "chain_saga_danes_norway.s01.alewife_count_late", "when": "year = 813" },
+    { "who": "alewife", "key": "chain_saga_danes_norway.s01.alewife_sliesthorp", "when": "port.id = sliesthorp" },
+    { "who": "alewife", "key": "chain_saga_danes_norway.s01.alewife_ripa", "when": "port.id = ripa" },
+    { "who": "lords_man", "key": "chain_saga_danes_norway.s01.eskil_kings" },
+    { "who": "lords_man", "key": "chain_saga_danes_norway.s01.eskil_buys", "when": "hold.value > 0" },
+    { "who": "lords_man", "key": "chain_saga_danes_norway.s01.eskil_empty", "when": "hold.value = 0" }
+   ],
+   "options": [
+    { "key": "tally", "label_key": "chain_saga_danes_norway.s01.opt_tally", "label": "Sell to the new kings: part in silver now, the rest on a split stick",
+      "check": "hold.value > 0",
+      "effects": [ "silver +30", "npc lords_man feeling +8 tally", "deed fair_dealing", "flag ch_saga_danes_norway_tally", "flag ch_saga_danes_norway_1" ],
+      "note": "outcome: chain_saga_danes_norway.s01.out_tally (the stick is honoured at Hleidr in s03, or is worth a ship in end_exile)" },
+    { "key": "ask", "label_key": "chain_saga_danes_norway.s01.opt_ask", "label": "Buy the ale-wife a cup and ask where the beaten men went",
+      "check": "true", "default": true,
+      "effects": [ "npc alewife feeling +5 asked", "flag ch_saga_danes_norway_1" ],
+      "note": "outcome: chain_saga_danes_norway.s01.out_ask (costs nothing; a true rumour: over the water to the Svear, and by way of Skane)" },
+    { "key": "wine", "label_key": "chain_saga_danes_norway.s01.opt_wine", "label": "Say kings are no Frisian's business, and ask what wine fetches",
+      "check": "true",
+      "effects": [ "price_shock here rhenish_wine x1.3 for 90", "flag ch_saga_danes_norway_1" ],
+      "note": "outcome: chain_saga_danes_norway.s01.out_wine (a price word: two new kings are giving feasts)" }
+   ],
+   "memory": {
+    "tally": "sold to the new kings on a split stick",
+    "ask": "asked where the beaten men went",
+    "wine": "asked only the price of wine"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.s02_stick_in_skane",
+   "note": "Step 2 (optional): Ahus in Skane, from May 812 to June 813. The men who lost in 812 'could not refuse' the new kings (ARF 812); in 813 the sons of Godfred and 'not a few of the chief men of the Danes' are found to have been in exile among the Svear (ARF 813). Skane lies on the way. Osfrid of Sconaowe is real, one of the twelve who swore on the Eider in 811 (ARF 811); which side he took in 812 is NOT recorded, and the card says only that. Hebbi is ahus.hebbi, who cuts and reads runes. Styr, the beaten man, is INVENTED. That word went by rune stick is the game's reading (sticks of this kind survive from Hedeby, 9th century (?)). Sets ch_saga_danes_norway_2 and may set _knows and _stick.",
+   "stage": "harbour",
+   "when": "moored and port.id = ahus and flag.ch_saga_danes_norway_1 and not flag.ch_saga_danes_norway_2 and ((year = 812 and month >= 5) or (year = 813 and month <= 6))",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 60,
+   "actors": {
+    "farmer": { "role": "farmer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [50, 58], "fixed": true, "note": "Hebbi, ahus.hebbi" },
+    "warrior": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "Styr, invented: he stood with Sigfred and is going over the water" }
+   },
+   "title_key": "chain_saga_danes_norway.s02.title",
+   "title": "A stick in Skane",
+   "intention_key": "chain_saga_danes_norway.s02.intention",
+   "intention": "On the old market ground at the river mouth a man with a bound arm is waiting for a boat east. He has a rune stick he wants carried the other way, to Sliesthorp, and the farmer Hebbi is the only one here who can read it.",
+   "lines": [
+    { "who": "warrior", "key": "chain_saga_danes_norway.s02.styr_side" },
+    { "who": "warrior", "key": "chain_saga_danes_norway.s02.styr_stick" },
+    { "who": "farmer", "key": "chain_saga_danes_norway.s02.hebbi_osfrid" },
+    { "who": "farmer", "key": "chain_saga_danes_norway.s02.hebbi_proverb" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_saga_danes_norway.s02.opt_carry", "label": "Carry the stick to the dealer Asulf at Sliesthorp",
+      "check": "true",
+      "effects": [ "silver +20", "deed carried_letters", "npc warrior feeling +10 carried", "flag ch_saga_danes_norway_stick", "flag ch_saga_danes_norway_knows", "flag ch_saga_danes_norway_2" ],
+      "note": "outcome: chain_saga_danes_norway.s02.out_carry (delivered in s07; it makes the house a friend of Godfred's sons)" },
+    { "key": "read", "label_key": "chain_saga_danes_norway.s02.opt_read", "label": "Have Hebbi read it aloud, and leave it where it lies",
+      "check": "true", "default": true,
+      "effects": [ "learn runes +0.1", "npc farmer feeling +4 read", "flag ch_saga_danes_norway_knows", "flag ch_saga_danes_norway_2" ],
+      "note": "outcome: chain_saga_danes_norway.s02.out_read (costs nothing; the house now knows what Godfred's sons are waiting for)" },
+    { "key": "leave", "label_key": "chain_saga_danes_norway.s02.opt_leave", "label": "Say you carry cloth, not sticks, and ask Hebbi about amber",
+      "check": "true",
+      "effects": [ "price_shock here amber x0.8 for 60", "npc farmer feeling +2 amber", "flag ch_saga_danes_norway_2" ],
+      "note": "outcome: chain_saga_danes_norway.s02.out_leave (a price word: an easterly has washed amber up)" }
+   ],
+   "memory": {
+    "carry": "carried a beaten man's stick",
+    "read": "heard the stick read and left it",
+    "leave": "would not touch the stick"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.s03_hall_feast",
+   "note": "Step 3 (optional): Hleidr, the winter of 812 to 813 (November to April). The new kings keep the hall (the game's choice, with the spine and places/hleidr.json; who held Lejre in any year is NOT recorded) and name the muster: in 813 Harald and Reginfrid went with a host to Westarfolda, 'the furthest part of their kingdom to the north-west', because its princes and people would not obey (ARF 813; chronicle 813-summer-vestfold-813). Asgaut is hleidr.asgaut, Thorulf hleidr.thorulf. The kings are seen across the fire and speak through the steward. The verse is texts_793.json verse:v10_bjarkamal_gold_list, a lay set in this hall. Sets ch_saga_danes_norway_3.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and flag.ch_saga_danes_norway_1 and not flag.ch_saga_danes_norway_3 and ((year = 812 and month >= 11) or (year = 813 and month <= 4))",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 60,
+   "actors": {
+    "steward": { "role": "steward", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [60, 68], "fixed": true, "note": "Asgaut, hleidr.asgaut" },
+    "skald": { "role": "skald", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [48, 54], "fixed": true, "note": "Thorulf, hleidr.thorulf" }
+   },
+   "title_key": "chain_saga_danes_norway.s03.title",
+   "title": "Two on the high seat",
+   "intention_key": "chain_saga_danes_norway.s03.intention",
+   "intention": "The hall at Hleidr is feasting two kings on one high seat. Half the benches are filled with men who fought against them a year ago. The steward wants rope for a fleet, and says where the fleet is going.",
+   "lines": [
+    { "who": "steward", "key": "chain_saga_danes_norway.s03.asgaut_benches" },
+    { "who": "steward", "key": "chain_saga_danes_norway.s03.asgaut_muster" },
+    { "who": "steward", "key": "chain_saga_danes_norway.s03.asgaut_tally", "when": "flag.ch_saga_danes_norway_tally" },
+    { "who": "skald", "key": "chain_saga_danes_norway.s03.thorulf_two" },
+    { "who": "skald", "key": "chain_saga_danes_norway.s03.thorulf_knows", "when": "flag.ch_saga_danes_norway_knows" }
+   ],
+   "options": [
+    { "key": "order", "label_key": "chain_saga_danes_norway.s03.opt_order", "label": "Take the fleet's order for rope",
+      "check": "true",
+      "effects": [ "commission rope 8 by 110 premium 1.6", "npc steward feeling +6 order", "flag ch_saga_danes_norway_3" ],
+      "note": "outcome: chain_saga_danes_norway.s03.out_order (the turn payout: eight coils at well over the market, due before the fleet sails)" },
+    { "key": "stick", "label_key": "chain_saga_danes_norway.s03.opt_stick", "label": "Lay your half of the split stick on the trestle",
+      "check": "flag.ch_saga_danes_norway_tally",
+      "effects": [ "silver +140", "give_text verse:v10_bjarkamal_gold_list", "npc steward feeling +4 paid", "flag ch_saga_danes_norway_tally = 0", "flag ch_saga_danes_norway_3" ],
+      "note": "outcome: chain_saga_danes_norway.s03.out_stick (the turn payout: the tally paid in full in weighed silver, and a lay of this hall)" },
+    { "key": "listen", "label_key": "chain_saga_danes_norway.s03.opt_listen", "label": "Sit low on the bench and listen to the skald",
+      "check": "true", "default": true,
+      "effects": [ "give_riddle r-gest-25", "npc skald feeling +5 listened", "flag ch_saga_danes_norway_3" ],
+      "note": "outcome: chain_saga_danes_norway.s03.out_listen (costs nothing; a riddle, and the day of the muster)" }
+   ],
+   "memory": {
+    "order": "took the fleet's order for rope",
+    "stick": "was paid his tally at the trestle",
+    "listen": "sat low and listened"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.s04_asgrims_question",
+   "note": "Step 4 (optional): Skiringssal, March to May 813, before the host comes. The 'princes' of Westarfolda who would not obey are not named (ARF 813); Asgrim (skiringssal.asgrim, invented) stands for one of them, as in the story skiringssal.two_kings of places/skiringssal.json, which this card carries: he asks for a small boat to take his daughter and one chest round to the Karmsund. Asny, the daughter, is INVENTED (As- and -ny). Fostering among kin is the custom; the tie to the house at Ogvaldsnes is the game's. Sets ch_saga_danes_norway_4 and may set _chest or _counsel.",
+   "stage": "harbour",
+   "when": "moored and port.id = skiringssal and year = 813 and month >= 3 and month <= 5 and flag.ch_saga_danes_norway_1 and not flag.ch_saga_danes_norway_4",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "chief": { "role": "chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [60, 66], "fixed": true, "note": "Asgrim, skiringssal.asgrim" },
+    "child": { "role": "child", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [14, 16], "fixed": false, "note": "Asny, his daughter, invented" }
+   },
+   "title_key": "chain_saga_danes_norway.s04.title",
+   "title": "A boat nobody looks at twice",
+   "intention_key": "chain_saga_danes_norway.s04.intention",
+   "intention": "The chief has walked down from the hall himself. Word has come up the coast that the kings of the Danes are gathering ships. He looks at your boat for some time, as a man looks at a horse he does not mean to praise.",
+   "lines": [
+    { "who": "chief", "key": "chain_saga_danes_norway.s04.asgrim_word" },
+    { "who": "chief", "key": "chain_saga_danes_norway.s04.asgrim_ask" },
+    { "who": "child", "key": "chain_saga_danes_norway.s04.asny_chest" },
+    { "who": "chief", "key": "chain_saga_danes_norway.s04.asgrim_hall", "when": "flag.ch_saga_danes_norway_3" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_saga_danes_norway.s04.opt_carry", "label": "Take the girl and the chest round to the Karmsund",
+      "check": "true",
+      "effects": [ "silver +40", "passenger child to ogvaldsnes", "npc chief feeling +12 carried", "flag ch_saga_danes_norway_chest", "flag ch_saga_danes_norway_4" ],
+      "note": "outcome: chain_saga_danes_norway.s04.out_carry (opens s05 at Ogvaldsnes and the kin road of end_vik)" },
+    { "key": "counsel", "label_key": "chain_saga_danes_norway.s04.opt_counsel", "label": "Tell him what was said in the hall at Hleidr: they want the landing gifts, not his head",
+      "check": "flag.ch_saga_danes_norway_3",
+      "effects": [ "goods whetstones +4", "npc chief feeling +6 counsel", "flag ch_saga_danes_norway_counsel", "flag ch_saga_danes_norway_4" ],
+      "note": "outcome: chain_saga_danes_norway.s04.out_counsel (a true word, paid in hones)" },
+    { "key": "no", "label_key": "chain_saga_danes_norway.s04.opt_no", "label": "Say four men and a load of cloth are no guard for a chief's daughter",
+      "check": "true", "default": true,
+      "effects": [ "price_shock here whetstones x0.75 for 120", "flag ch_saga_danes_norway_4" ],
+      "note": "outcome: chain_saga_danes_norway.s04.out_no (costs only his regard, and not much of that; a price word: nobody is buying hones this summer)" }
+   ],
+   "memory": {
+    "carry": "carried his daughter and his chest",
+    "counsel": "told him what the Danes wanted",
+    "no": "would not carry his daughter"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.s05_karmsund",
+   "note": "Step 5 (only on the chest road): Ogvaldsnes on the Karmsund, April to October 813. Gunnhild keeps the keys (ogvaldsnes.gunnhild); Hallgrim is the hall's skald (ogvaldsnes.hallgrim). The ship's chief fitting out on the strand is not named. In 813 Northmen raided Frisia and carried off men, women and much plunder (Chronicon Moissiacense 813, one codex under 814; chronicle 813-frisia-raid-813); whose ships they were is NOT recorded, and that a merchant's word sent them is the game's invention, offered as a temptation with a cost that lasts (flag ch_saga_danes_norway_told_raiders). Sets ch_saga_danes_norway_5 and may set _karmsund.",
+   "stage": "harbour",
+   "when": "moored and port.id = ogvaldsnes and year = 813 and month >= 4 and month <= 10 and flag.ch_saga_danes_norway_chest and not flag.ch_saga_danes_norway_5",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "farm_wife": { "role": "farm_wife", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [45, 50], "fixed": true, "note": "Gunnhild, ogvaldsnes.gunnhild" },
+    "raider_chief": { "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "a ship's chief of the west coast, unnamed" },
+    "skald": { "role": "skald", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [55, 60], "fixed": true, "note": "Hallgrim, ogvaldsnes.hallgrim" }
+   },
+   "title_key": "chain_saga_danes_norway.s05.title",
+   "title": "The woman with the keys",
+   "intention_key": "chain_saga_danes_norway.s05.intention",
+   "intention": "The girl and the chest go up the path to the hall on the ness. On the strand a ship's chief is fitting out for the summer, and he would like to know where the kings of the Danes have taken their ships.",
+   "lines": [
+    { "who": "farm_wife", "key": "chain_saga_danes_norway.s05.gunnhild_weighs" },
+    { "who": "farm_wife", "key": "chain_saga_danes_norway.s05.gunnhild_girl" },
+    { "who": "raider_chief", "key": "chain_saga_danes_norway.s05.chief_asks" },
+    { "who": "skald", "key": "chain_saga_danes_norway.s05.hallgrim_sound" }
+   ],
+   "options": [
+    { "key": "silent", "label_key": "chain_saga_danes_norway.s05.opt_silent", "label": "Hand over the girl, take what is owed, and know nothing about kings",
+      "check": "true", "default": true,
+      "effects": [ "silver +60", "npc farm_wife feeling +10 delivered", "flag ch_saga_danes_norway_5" ],
+      "note": "outcome: chain_saga_danes_norway.s05.out_silent" },
+    { "key": "tell", "label_key": "chain_saga_danes_norway.s05.opt_tell", "label": "Tell the ship's chief the Danish host is in the Vik, and every coast south of it unwatched",
+      "check": "true",
+      "effects": [ "silver +90", "npc raider_chief feeling +12 told", "npc farm_wife feeling -4 told", "price_shock ripa captives x0.8 for 150", "flag ch_saga_danes_norway_told_raiders", "flag ch_saga_danes_norway_5" ],
+      "note": "outcome: chain_saga_danes_norway.s05.out_tell (a piece cut from an arm ring; the Frisian shore pays for it in the raid of 813, and the flag stays)" },
+    { "key": "sound", "label_key": "chain_saga_danes_norway.s05.opt_sound", "label": "Stay three days for the skald, and learn the sound from him",
+      "check": "true",
+      "effects": [ "silver +60", "npc skald feeling +8 stayed", "npc farm_wife feeling +10 delivered", "flag ch_saga_danes_norway_karmsund", "flag ch_saga_danes_norway_5" ],
+      "note": "outcome: chain_saga_danes_norway.s05.out_sound (costs three days; the marks of the Karmsund, which end_vik can turn into the pilot's knowledge)" }
+   ],
+   "memory": {
+    "silent": "brought the girl and said nothing of kings",
+    "tell": "told where the Danish host lay",
+    "sound": "stayed to learn the sound"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.s06_host_in_the_fjord",
+   "note": "Step 6 (optional): Skiringssal, June to August 813: the summer of the Danish host (ARF 813; places/skiringssal.json era 813). The market is shut and cattle are driven inland (the game's reading of 'a host'); the chiefs swear. How the submission was made is NOT recorded: an oath on a ring at the thing heath is the custom of the north as later written (?). Eskil is the kings' man of s01. The warning is the hinge of the chain: a house that knows what Skane knows (flag _knows) may say that Godfred's sons are coming home. He may not be believed; the kings' brother at Sliesthorp (s07) is the surer ear. Sets ch_saga_danes_norway_6 and may set _fed_host, _witness, _warned.",
+   "stage": "harbour",
+   "when": "moored and port.id = skiringssal and year = 813 and month >= 6 and month <= 8 and flag.ch_saga_danes_norway_1 and not flag.ch_saga_danes_norway_6",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "lords_man": { "role": "lords_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [28, 40], "fixed": false, "note": "Eskil, invented, as in s01" },
+    "chief": { "role": "chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [60, 66], "fixed": true, "note": "Asgrim, skiringssal.asgrim" }
+   },
+   "title_key": "chain_saga_danes_norway.s06.title",
+   "title": "The host in the fjord",
+   "intention_key": "chain_saga_danes_norway.s06.intention",
+   "intention": "The fjord is full of Danish ships drawn up stem by stem. The market is shut and the cattle are gone inland. A host eats, and the kings' man is paying twice the market for anything that can be eaten or can carry.",
+   "lines": [
+    { "who": "lords_man", "key": "chain_saga_danes_norway.s06.eskil_again", "when": "npc.lords_man.met > 0" },
+    { "who": "lords_man", "key": "chain_saga_danes_norway.s06.eskil_pays" },
+    { "who": "chief", "key": "chain_saga_danes_norway.s06.asgrim_thing" },
+    { "who": "chief", "key": "chain_saga_danes_norway.s06.asgrim_chest", "when": "flag.ch_saga_danes_norway_chest" },
+    { "who": "chief", "key": "chain_saga_danes_norway.s06.asgrim_counsel", "when": "flag.ch_saga_danes_norway_counsel" }
+   ],
+   "options": [
+    { "key": "sell", "label_key": "chain_saga_danes_norway.s06.opt_sell", "label": "Sell the host bread, ale and carriage at the kings' price",
+      "check": "true",
+      "effects": [ "silver +180", "npc lords_man feeling +8 fed", "npc chief feeling -8 fed", "flag ch_saga_danes_norway_fed_host", "flag ch_saga_danes_norway_6" ],
+      "note": "outcome: chain_saga_danes_norway.s06.out_sell (the turn payout; the Vik remembers who fed them)" },
+    { "key": "witness", "label_key": "chain_saga_danes_norway.s06.opt_witness", "label": "Go up to the thing heath and stand witness when the chief swears",
+      "check": "true", "default": true,
+      "effects": [ "npc chief feeling +8 witness", "flag ch_saga_danes_norway_witness", "flag ch_saga_danes_norway_6" ],
+      "note": "outcome: chain_saga_danes_norway.s06.out_witness (costs a day; a stranger's witness is worth something at a thing, and the hard road of end_vik needs it)" },
+    { "key": "warn", "label_key": "chain_saga_danes_norway.s06.opt_warn", "label": "Tell the kings' man what is said in Skane: Godfred's sons are coming home",
+      "check": "flag.ch_saga_danes_norway_knows and not flag.ch_saga_danes_norway_warned",
+      "effects": [ { "chance": 0.55, "by": "crew.trade_best",
+                     "success": [ "silver +60", "npc lords_man feeling +15 warned", "flag ch_saga_danes_norway_warned", "flag ch_saga_danes_norway_6" ],
+                     "failure": [ "npc lords_man feeling -5 warned", "flag ch_saga_danes_norway_6" ] } ],
+      "note": "outcome: chain_saga_danes_norway.s06.out_warn_heard or chain_saga_danes_norway.s06.out_warn_unheard (doubtful to likely; unheard, the story goes on by the road of what happened, and Hemming at Sliesthorp may still be told)" }
+   ],
+   "memory": {
+    "sell": "fed the Danish host in the Vik",
+    "witness": "stood witness on the thing heath",
+    "warn": "carried a warning that was heard",
+    "warn.failure": "carried a warning nobody wanted"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.s07_sixteen",
+   "note": "Step 7 (optional): Sliesthorp, June to September 813. The new kings had asked the emperor for peace and for their brother Hemming (ARF 812; chronicle 812-harald-envoys); in 813 Frankish and Saxon lords met sixteen Danish lords beyond the Elbe, peace was sworn and the brother given back, while the kings themselves were away in Westarfolda (ARF 813; chronicle 813-summer-danish-peace-813). The place of the meeting is not named. Hemming is real; that he waited for his brothers at this port is the game's choice; whether he is the Hemming, 'a most Christian leader', killed on Walcheren in 837 is uncertain (?). Asulf is cast.asulf (sliesthorp.asulf), to whom the stick of s02 is addressed. Sets ch_saga_danes_norway_7 and may set _exiles_friend or _warned.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year = 813 and month >= 6 and month <= 9 and flag.ch_saga_danes_norway_1 and not flag.ch_saga_danes_norway_7",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "hostage": { "role": "hostage", "people": "danish", "faith": "christian", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "Hemming, the kings' brother, real (ARF 812, 813); his age and faith are guesses (?)" },
+    "slave_dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [56, 60], "fixed": true, "note": "Asulf, cast.asulf" }
+   },
+   "title_key": "chain_saga_danes_norway.s07.title",
+   "title": "The brother given back",
+   "intention_key": "chain_saga_danes_norway.s07.intention",
+   "intention": "Sixteen lords of the Danes have ridden home from swearing peace with the Franks, and they have brought the kings' brother with them. He has Frankish shoes and nobody to give his news to: both kings are in the north.",
+   "lines": [
+    { "who": "hostage", "key": "chain_saga_danes_norway.s07.hemming_home" },
+    { "who": "hostage", "key": "chain_saga_danes_norway.s07.hemming_asks" },
+    { "who": "slave_dealer", "key": "chain_saga_danes_norway.s07.asulf_sixteen" },
+    { "who": "slave_dealer", "key": "chain_saga_danes_norway.s07.asulf_stick", "when": "flag.ch_saga_danes_norway_stick" }
+   ],
+   "options": [
+    { "key": "deliver", "label_key": "chain_saga_danes_norway.s07.opt_deliver", "label": "Give Asulf the stick from Skane",
+      "check": "flag.ch_saga_danes_norway_stick and not flag.ch_saga_danes_norway_warned",
+      "effects": [ "silver +100", "goods marten +2", "npc slave_dealer feeling +10 stick", "flag ch_saga_danes_norway_exiles_friend", "flag ch_saga_danes_norway_7" ],
+      "note": "outcome: chain_saga_danes_norway.s07.out_deliver (the turn payout; opens the hard road of end_sons)" },
+    { "key": "warn", "label_key": "chain_saga_danes_norway.s07.opt_warn", "label": "Tell Hemming what Skane says, and that his brothers should come home",
+      "check": "flag.ch_saga_danes_norway_knows and not flag.ch_saga_danes_norway_warned",
+      "effects": [ "silver +40", "goods glass_vessels +2", "npc hostage feeling +15 warned", "flag ch_saga_danes_norway_warned", "flag ch_saga_danes_norway_7" ],
+      "note": "outcome: chain_saga_danes_norway.s07.out_warn (sure: a brother is believed; this is where history turns)" },
+    { "key": "trade", "label_key": "chain_saga_danes_norway.s07.opt_trade", "label": "Sell to the lords' following and say nothing to anyone",
+      "check": "true", "default": true,
+      "effects": [ "silver +25", "news chain_saga_danes_norway.news.peace at here", "flag ch_saga_danes_norway_7" ],
+      "note": "outcome: chain_saga_danes_norway.s07.out_trade (costs nothing; a true rumour: the border is open)" }
+   ],
+   "memory": {
+    "deliver": "brought a stick from Skane",
+    "warn": "warned the kings' brother",
+    "trade": "sold to the sixteen and kept quiet"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.s08_leaf_fall",
+   "note": "Step 8, the turning: Sliesthorp, Hleidr or Ripa, from September 813 to March 814. When the kings came home from the north, the sons of Godfred and not a few of the chief men of the Danes, who had been in exile among the Svear, gathered men from every side; people from all the land of the Danes went over to them, and they drove the kings out with little trouble after one battle (ARF 813; chronicle 813-autumn-godfred-sons-return). If the house's warning was heard (flag _warned) the lines tell it otherwise: the kings came home before the leaf fell, with the host whole, and the sons got no easy battle. Eskil speaks for Harald; the envoy is a man of Godfred's sons, unnamed. Three roads, one flag each; the sons' road is shut to a house that warned the kings. The danger of each is said before the choice. Sets ch_saga_danes_norway_8 and one of _road_harald, _road_sons, _road_vik.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sliesthorp or port.id = hleidr or port.id = ripa) and ((year = 813 and month >= 9) or (year = 814 and month <= 3)) and flag.ch_saga_danes_norway_1 and not flag.ch_saga_danes_norway_8",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "lords_man": { "role": "lords_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [28, 40], "fixed": false, "note": "Eskil, invented, as in s01" },
+    "envoy": { "role": "envoy", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": false, "note": "a man of Godfred's sons, back from the Svear, unnamed" }
+   },
+   "title_key": "chain_saga_danes_norway.s08.title",
+   "title": "Leaf fall",
+   "intention_key": "chain_saga_danes_norway.s08.intention",
+   "intention": "The sons of Godfred are home from the Svear with every man who lost last year, and the country has to choose again. Two men are waiting at your boat. They are not waiting together.",
+   "lines": [
+    { "who": "envoy", "key": "chain_saga_danes_norway.s08.envoy_home", "when": "not flag.ch_saga_danes_norway_warned" },
+    { "who": "lords_man", "key": "chain_saga_danes_norway.s08.eskil_out", "when": "not flag.ch_saga_danes_norway_warned" },
+    { "who": "lords_man", "key": "chain_saga_danes_norway.s08.eskil_held", "when": "flag.ch_saga_danes_norway_warned" },
+    { "who": "envoy", "key": "chain_saga_danes_norway.s08.envoy_beaten", "when": "flag.ch_saga_danes_norway_warned" },
+    { "who": "lords_man", "key": "chain_saga_danes_norway.s08.eskil_ask" },
+    { "who": "envoy", "key": "chain_saga_danes_norway.s08.envoy_ask", "when": "not flag.ch_saga_danes_norway_warned" },
+    { "who": "envoy", "key": "chain_saga_danes_norway.s08.envoy_stick", "when": "flag.ch_saga_danes_norway_exiles_friend" }
+   ],
+   "options": [
+    { "key": "harald", "label_key": "chain_saga_danes_norway.s08.opt_harald", "label": "Give Eskil your hand: the house stands by Harald, whatever comes of him",
+      "check": "true",
+      "effects": [ "npc lords_man feeling +12 stood", "npc envoy feeling -10 stood", "flag ch_saga_danes_norway_road_harald", "flag ch_saga_danes_norway_8" ],
+      "note": "outcome: chain_saga_danes_norway.s08.out_harald (leads to end_exile at Ripa, or to end_kings at Hleidr if the warning was heard)" },
+    { "key": "sons", "label_key": "chain_saga_danes_norway.s08.opt_sons", "label": "Sell to the men who have won, and ask to be shown to Godfred's sons",
+      "check": "not flag.ch_saga_danes_norway_warned",
+      "effects": [ "silver +60", "npc envoy feeling +10 sold", "npc lords_man feeling -10 sold", "flag ch_saga_danes_norway_road_sons", "flag ch_saga_danes_norway_8" ],
+      "note": "outcome: chain_saga_danes_norway.s08.out_sons (leads to end_sons at Sliesthorp)" },
+    { "key": "north", "label_key": "chain_saga_danes_norway.s08.opt_north", "label": "Tell both that a Frisian has no king here, and go north in spring",
+      "check": "true", "default": true,
+      "effects": [ "flag ch_saga_danes_norway_road_vik", "flag ch_saga_danes_norway_8" ],
+      "note": "outcome: chain_saga_danes_norway.s08.out_north (costs nothing; leads to end_vik at Skiringssal)" }
+   ],
+   "memory": {
+    "harald": "stood by King Harald",
+    "sons": "went over to Godfred's sons",
+    "north": "would be nobody's man"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.end_exile",
+   "note": "ENDING 1, what really happened to Harald: Ripa, from May 814 through 815, on Harald's road when no warning was heard. In 814 Harald and Reginfrid gathered men and made war on Godfred's sons again; Reginfrid and the eldest of Godfred's sons were killed; Harald, despairing of his cause, came to the emperor and put himself in his hands (ARF 814; chronicle 814-danish-war-814, 814-harald-commends). By what road he came is NOT recorded: the way over the flats from Ripa to the Frisian shore, led by a Frisian boat, is the game's. He is seen at the landing and spoken to through Eskil. Rewards: a king's friendship that the game can read in 819 and 826 (unlock_title_kings_protection, flag ch_saga_danes_norway_harald_owes), a ring the house keeps (unlock_heirloom_haralds_ring), or the second ship he cannot man (unlock_ship_norse_allround_ship). Sets ch_saga_danes_norway_end_exile and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = ripa and ((year = 814 and month >= 5) or year = 815) and flag.ch_saga_danes_norway_road_harald and not flag.ch_saga_danes_norway_warned and not flag.ch_saga_danes_norway_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "king": { "role": "king", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [28, 40], "fixed": false, "note": "Harald, real (ARF 812 to 827); his age is a guess (?)" },
+    "lords_man": { "role": "lords_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [28, 40], "fixed": false, "note": "Eskil, invented" }
+   },
+   "title_key": "chain_saga_danes_norway.end_exile.title",
+   "title": "A king over the flats",
+   "intention_key": "chain_saga_danes_norway.end_exile.intention",
+   "intention": "Two ships lie in the river below Ripa with half their oars unmanned. Reginfrid is dead. His brother means to reach the emperor's shore before Godfred's sons reach him, and no Dane aboard knows the channels behind the islands as a Frisian does.",
+   "lines": [
+    { "who": "lords_man", "key": "chain_saga_danes_norway.end_exile.eskil_battle" },
+    { "who": "lords_man", "key": "chain_saga_danes_norway.end_exile.eskil_flats" },
+    { "who": "king", "key": "chain_saga_danes_norway.end_exile.harald_says" },
+    { "who": "lords_man", "key": "chain_saga_danes_norway.end_exile.eskil_stick", "when": "flag.ch_saga_danes_norway_tally" }
+   ],
+   "options": [
+    { "key": "lead", "label_key": "chain_saga_danes_norway.end_exile.opt_lead", "label": "Lead his ships through the channels to the Frisian shore, for a king's thanks",
+      "check": "true", "default": true,
+      "effects": [ "silver +800", "npc king feeling +25 led", "flag unlock_title_kings_protection", "flag ch_saga_danes_norway_harald_owes", "flag ch_saga_danes_norway_end_exile", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_exile.out_lead (finale: 800 d in ring silver and a king's protection, good where he is believed: among the Franks at once, in Jutland from 819)" },
+    { "key": "token", "label_key": "chain_saga_danes_norway.end_exile.opt_token", "label": "Lead him over and ask nothing now: take his ring as a token for the day he comes home",
+      "check": "flag.ch_saga_danes_norway_tally or flag.ch_saga_danes_norway_witness or flag.ch_saga_danes_norway_fed_host",
+      "effects": [ "silver +400", "goods rhenish_wine +6", "npc king feeling +40 token", "deed fair_dealing", "flag unlock_title_kings_protection", "flag unlock_heirloom_haralds_ring", "flag ch_saga_danes_norway_harald_owes = 2", "flag ch_saga_danes_norway_end_exile", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_exile.out_token (the hard road, for a house that dealt with his men before: two grand rewards, and a debt of honour a king remembers twice over)" },
+    { "key": "hull", "label_key": "chain_saga_danes_norway.end_exile.opt_hull", "label": "Lead him over, and take the second ship he cannot man in place of silver",
+      "check": "true",
+      "effects": [ "silver +150", "npc king feeling +5 hull", "flag unlock_ship_norse_allround_ship", "flag ch_saga_danes_norway_end_exile", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_exile.out_hull (finale: the hull itself, worth several thousand pennies, and no friendship to speak of)" }
+   ],
+   "memory": {
+    "lead": "led the king over the flats",
+    "token": "led the king over and took only his ring",
+    "hull": "took the king's second ship for his passage"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.end_kings",
+   "note": "ENDING 2, HISTORY CHANGED: Hleidr, from May 814 through 815, for a house whose warning was heard and that stood by Harald (or never met the turning). In the annals the kings came home late, to a country already risen, and were driven out after one battle (ARF 813). Here they came home before the leaf fell with the host whole; the fight of 814 is theirs, and Godfred's sons go back over the water. Reginfrid's death and the death of Godfred's eldest son in that fight are kept as recorded (ARF 814). Sets changed_danish_kings_813: no exile of Harald at the emperor's court, no Saxon and Obodrite host over the Eider in 815, no Horik on the high seat; see the chain page for what follows. The kings' guest right is real custom; a merchants' peace by a king's word is as in the oath of 873 between Louis the German and the Danish kings Sigfred and Halfdan (Annales Fuldenses 873) (?). The cost that lasts: Godfred's sons know the name (flag ch_saga_danes_norway_sons_feud). Sets ch_saga_danes_norway_end_kings and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = hleidr and ((year = 814 and month >= 5) or year = 815) and flag.ch_saga_danes_norway_warned and (flag.ch_saga_danes_norway_road_harald or not flag.ch_saga_danes_norway_8) and not flag.ch_saga_danes_norway_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "king": { "role": "king", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [28, 40], "fixed": false, "note": "Harald, real; here he keeps the kingdom, which he did not" },
+    "skald": { "role": "skald", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [50, 56], "fixed": true, "note": "Thorulf, hleidr.thorulf" }
+   },
+   "title_key": "chain_saga_danes_norway.end_kings.title",
+   "title": "One on the high seat",
+   "intention_key": "chain_saga_danes_norway.end_kings.intention",
+   "intention": "There is one king on the high seat at Hleidr and an empty place beside him with a sword laid on it. Godfred's sons are back over the water. The king has sent down the hall for the Frisian who said the right thing in the right summer.",
+   "lines": [
+    { "who": "skald", "key": "chain_saga_danes_norway.end_kings.thorulf_fight" },
+    { "who": "skald", "key": "chain_saga_danes_norway.end_kings.thorulf_verse" },
+    { "who": "king", "key": "chain_saga_danes_norway.end_kings.harald_asks" },
+    { "who": "skald", "key": "chain_saga_danes_norway.end_kings.thorulf_stick", "when": "flag.ch_saga_danes_norway_stick" }
+   ],
+   "options": [
+    { "key": "seat", "label_key": "chain_saga_danes_norway.end_kings.opt_seat", "label": "Ask a seat in the hall for your house, and take the king's gift",
+      "check": "true", "default": true,
+      "effects": [ "silver +900", "npc king feeling +30 seat", "flag unlock_title_kings_guest_hleidr", "flag changed_danish_kings_813", "flag ch_saga_danes_norway_sons_feud", "flag ch_saga_danes_norway_end_kings", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_kings.out_seat (finale: 900 d in ring silver and the guest right of the king's hall)" },
+    { "key": "peace", "label_key": "chain_saga_danes_norway.end_kings.opt_peace", "label": "Ask nothing for yourself: ask the king's peace for every Frisian keel at his markets",
+      "check": "not flag.ch_saga_danes_norway_stick and not flag.ch_saga_danes_norway_told_raiders",
+      "effects": [ "silver +600", "goods marten +6", "npc king feeling +40 peace", "deed fair_dealing", "flag unlock_charter_sliesthorp", "flag unlock_charter_ripa", "flag unlock_title_danish_guest_right", "flag changed_danish_kings_813", "flag ch_saga_danes_norway_sons_feud", "flag ch_saga_danes_norway_end_kings", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_kings.out_peace (the hard and honest road, shut to a house that carried the stick or sold the coast to raiders: two charters and a standing among the Danes)" },
+    { "key": "plot", "label_key": "chain_saga_danes_norway.end_kings.opt_plot", "label": "Ask a plot inside the wall at Sliesthorp, and say the hall is too far from the sea",
+      "check": "true",
+      "effects": [ "silver +700", "npc king feeling +15 plot", "flag unlock_plot_sliesthorp", "flag changed_danish_kings_813", "flag ch_saga_danes_norway_sons_feud", "flag ch_saga_danes_norway_end_kings", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_kings.out_plot (finale: 700 d and a plot at the king's market)" }
+   ],
+   "memory": {
+    "seat": "was given a seat in the king's hall",
+    "peace": "asked the king's peace for all Frisians",
+    "plot": "asked a plot at the king's market"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.end_sons",
+   "note": "ENDING 3, what really happened to the kingdom: Sliesthorp, from May 814 through 815, on the sons' road, or for a house that began the story and never met the turning, if no warning was heard. Godfred's sons hold the kingdom from 813; the eldest is killed in the fight of 814 (ARF 814); in 819 two of them share the rule with Harald and two are driven out (ARF 819), so there were five at least; only Horik is ever named (cast.horik: one of the kings from 813, sole king from about 827, killed 854). He speaks here as a young man; his age is the spine's guess. Dragomir (cast.dragomir), a merchant of Reric set down here by Godfred in 808 (ARF 808), is the trusted man of the factor reward. Rewards: a plot at the kings' market (unlock_plot_sliesthorp), a factor (unlock_factor_sliesthorp) with a standing among the Danes (unlock_title_danish_guest_right) on the hard road, or the freedom of the gate (unlock_charter_sliesthorp). Sets ch_saga_danes_norway_end_sons and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and ((year = 814 and month >= 5) or year = 815) and flag.ch_saga_danes_norway_1 and not flag.ch_saga_danes_norway_warned and (flag.ch_saga_danes_norway_road_sons or not flag.ch_saga_danes_norway_8) and not flag.ch_saga_danes_norway_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "king": { "role": "king", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [18, 20], "fixed": false, "note": "Horik, cast.horik, real: the youngest of Godfred's sons to be named" },
+    "merchant": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "age": [50, 56], "fixed": true, "note": "Dragomir, cast.dragomir, invented: of Reric until 808" }
+   },
+   "title_key": "chain_saga_danes_norway.end_sons.title",
+   "title": "Godfred's sons",
+   "intention_key": "chain_saga_danes_norway.end_sons.intention",
+   "intention": "Godfred's sons hold the kingdom, one fewer than they were in spring. The youngest of them is at the gate in the wall his father built, learning who trades here. He has been four years among the Svear and counts everything twice.",
+   "lines": [
+    { "who": "king", "key": "chain_saga_danes_norway.end_sons.horik_father" },
+    { "who": "king", "key": "chain_saga_danes_norway.end_sons.horik_brother" },
+    { "who": "merchant", "key": "chain_saga_danes_norway.end_sons.dragomir_reric" },
+    { "who": "king", "key": "chain_saga_danes_norway.end_sons.horik_stick", "when": "flag.ch_saga_danes_norway_exiles_friend" },
+    { "who": "king", "key": "chain_saga_danes_norway.end_sons.horik_fed", "when": "flag.ch_saga_danes_norway_fed_host" }
+   ],
+   "options": [
+    { "key": "plot", "label_key": "chain_saga_danes_norway.end_sons.opt_plot", "label": "Ask a plot inside the wall, and sell the new kings what a king-making needs",
+      "check": "true", "default": true,
+      "effects": [ "silver +800", "npc king feeling +15 plot", "flag unlock_plot_sliesthorp", "flag ch_saga_danes_norway_end_sons", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_sons.out_plot (finale: 800 d and a plot at Sliesthorp)" },
+    { "key": "factor", "label_key": "chain_saga_danes_norway.end_sons.opt_factor", "label": "Remind him who carried the stick, and ask for the Wend Dragomir as your man here",
+      "check": "flag.ch_saga_danes_norway_exiles_friend",
+      "effects": [ "silver +700", "goods marten +8", "goods amber +6", "npc king feeling +30 stick", "npc merchant feeling +20 factor", "flag unlock_factor_sliesthorp", "flag unlock_title_danish_guest_right", "flag ch_saga_danes_norway_end_sons", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_sons.out_factor (the hard road: two grand rewards, furs and amber from the kings' store)" },
+    { "key": "gate", "label_key": "chain_saga_danes_norway.end_sons.opt_gate", "label": "Ask only that your boat pass the gate as it did under his father",
+      "check": "true",
+      "effects": [ "silver +600", "npc king feeling +8 gate", "flag unlock_charter_sliesthorp", "flag ch_saga_danes_norway_end_sons", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_sons.out_gate (finale: 600 d of trade at a king-making and the gate free of the king's toll)" }
+   ],
+   "memory": {
+    "plot": "was given a plot by Godfred's sons",
+    "factor": "was known as the man who carried the stick",
+    "gate": "asked only the freedom of the gate"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.end_vik",
+   "note": "ENDING 4: Skiringssal, from April 814 through 815, on the road north. The oaths of 813 were sworn to two kings who by winter had no kingdom (ARF 813), and the Vik has to decide what such an oath is worth: this is the story skiringssal.two_kings of places/skiringssal.json. What Vestfold did is NOT recorded; the Danish kings kept their claim on the Vik in name (Skre; the dossier), which is the plain road here. The hard road, for a house that stood witness on the heath, CHANGES HISTORY: the thing finds that an oath to kings who are gone binds nobody, and Vestfold keeps its own landing gifts from 814 (flag changed_vestfold_free_814). If the kings were warned and hold Denmark (flag _warned), the oath stands and that road is shut. Rewards: the hall's guest right (unlock_title_norse_guest_right), no landing gift (unlock_charter_skiringssal), a fostering tie to the chief's house (unlock_kin_asgrims_house), the marks of the Karmsund (unlock_pilot_karmsund), a plot on the shore (unlock_plot_skiringssal). Sets ch_saga_danes_norway_end_vik and _done.",
+   "stage": "harbour",
+   "when": "moored and port.id = skiringssal and ((year = 814 and month >= 4) or year = 815) and flag.ch_saga_danes_norway_road_vik and not flag.ch_saga_danes_norway_done",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "chief": { "role": "chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [60, 68], "fixed": true, "note": "Asgrim, skiringssal.asgrim" },
+    "lawman": { "role": "lawman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [45, 70], "fixed": true, "note": "the lawman of the thing heath in 814, unnamed (Hallmund of places/skiringssal.json is later)" }
+   },
+   "title_key": "chain_saga_danes_norway.end_vik.title",
+   "title": "Two kings for one answer",
+   "intention_key": "chain_saga_danes_norway.end_vik.intention",
+   "intention": "The market at Skiringssal has had no wine, salt or glass for a year and a half, and the strand is stacked with hones nobody came for. On the heath the chiefs of the Vik are asking what an oath is worth when the men it was sworn to have lost their kingdom.",
+   "lines": [
+    { "who": "chief", "key": "chain_saga_danes_norway.end_vik.asgrim_gone", "when": "not flag.ch_saga_danes_norway_warned" },
+    { "who": "chief", "key": "chain_saga_danes_norway.end_vik.asgrim_held", "when": "flag.ch_saga_danes_norway_warned" },
+    { "who": "lawman", "key": "chain_saga_danes_norway.end_vik.lawman_oath" },
+    { "who": "chief", "key": "chain_saga_danes_norway.end_vik.asgrim_daughter", "when": "flag.ch_saga_danes_norway_chest" },
+    { "who": "chief", "key": "chain_saga_danes_norway.end_vik.asgrim_fed", "when": "flag.ch_saga_danes_norway_fed_host" }
+   ],
+   "options": [
+    { "key": "home", "label_key": "chain_saga_danes_norway.end_vik.opt_home", "label": "Tell him his daughter and his chest are safe on the Karmsund, and offer to fetch them",
+      "check": "flag.ch_saga_danes_norway_chest",
+      "effects": [ "silver +700", "goods whetstones +10", "npc chief feeling +30 home", "flag unlock_title_norse_guest_right", "flag unlock_kin_asgrims_house", "flag unlock_pilot_karmsund", "flag ch_saga_danes_norway_end_vik", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_vik.out_home (finale for the house that carried the chest: the guest right, a fostering tie and the sound; the place file's ending the_chest)" },
+    { "key": "speak", "label_key": "chain_saga_danes_norway.end_vik.opt_speak", "label": "Go up to the heath and say before the thing what you saw sworn, and to whom",
+      "check": "flag.ch_saga_danes_norway_witness and not flag.ch_saga_danes_norway_warned",
+      "effects": [ "silver +900", "goods soapstone +6", "npc chief feeling +25 spoke", "npc lawman feeling +15 spoke", "deed won_case", "flag unlock_title_norse_guest_right", "flag unlock_charter_skiringssal", "flag changed_vestfold_free_814", "flag ch_saga_danes_norway_end_vik", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_vik.out_speak (the hard road, and history changed: a stranger's witness lets the thing find the oath void)" },
+    { "key": "cargo", "label_key": "chain_saga_danes_norway.end_vik.opt_cargo", "label": "Leave the heath to the chiefs, and be the first cargo into a hungry market",
+      "check": "true", "default": true,
+      "effects": [ "silver +650", "price_shock here whetstones x0.6 for 120", "price_shock here rhenish_wine x1.6 for 120", "flag unlock_plot_skiringssal", "flag ch_saga_danes_norway_end_vik", "flag ch_saga_danes_norway_done" ],
+      "note": "outcome: chain_saga_danes_norway.end_vik.out_cargo (costs nothing; finale: shortage prices both ways and a plot on the shore; the place file's ending stayed_away)" }
+   ],
+   "memory": {
+    "home": "kept his daughter and his chest safe",
+    "speak": "bore witness before the thing",
+    "cargo": "brought the first cargo after the host"
+   }
+  },
+  {
+   "id": "harbour.chain_saga_danes_norway.s13_over_the_eider",
+   "note": "Afterword (optional): Sliesthorp, May to September 815, for a house that has ended the chain by any road but the changed one. On the emperor's order all the Saxon counts and the Obodrites under the envoy Baldric crossed the Eider into the district called Sinlendi to restore Harald, and camped on the seventh day at the shore; Godfred's sons lay with a great force and two hundred ships on an island three miles off and would not come to battle; the host laid waste the districts round about, took forty hostages and went home (ARF 815; chronicle 814-winter-elbe-thaw for the two thaws that held it back until May). It does not happen if Harald kept his kingdom (flag ch_saga_danes_norway_end_kings). The ferryman is sliesthorp.ferryman (Hallbjorn). Step payouts only.",
+   "stage": "harbour",
+   "when": "moored and port.id = sliesthorp and year = 815 and month >= 5 and month <= 9 and flag.ch_saga_danes_norway_done and not flag.ch_saga_danes_norway_end_kings and not flag.ch_saga_danes_norway_13",
+   "weight": 30,
+   "once": true,
+   "cooldown_days": 30,
+   "actors": {
+    "ferryman": { "role": "ferryman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [68, 72], "fixed": true, "note": "Hallbjorn, sliesthorp.ferryman" }
+   },
+   "title_key": "chain_saga_danes_norway.s13.title",
+   "title": "Over the Eider",
+   "intention_key": "chain_saga_danes_norway.s13.intention",
+   "intention": "A host of Saxons and Wends has crossed the Eider with Harald among them and is burning its way north. Godfred's sons have taken two hundred ships to an island and are watching from there. The ferryman has had a busy week.",
+   "lines": [
+    { "who": "ferryman", "key": "chain_saga_danes_norway.s13.ferryman_island" },
+    { "who": "ferryman", "key": "chain_saga_danes_norway.s13.ferryman_exile", "when": "flag.ch_saga_danes_norway_end_exile" },
+    { "who": "ferryman", "key": "chain_saga_danes_norway.s13.ferryman_sons", "when": "flag.ch_saga_danes_norway_end_sons" },
+    { "who": "ferryman", "key": "chain_saga_danes_norway.s13.ferryman_hostages" }
+   ],
+   "options": [
+    { "key": "bread", "label_key": "chain_saga_danes_norway.s13.opt_bread", "label": "Carry bread and ale south to the host, where Harald will know your sail",
+      "check": "flag.ch_saga_danes_norway_end_exile",
+      "effects": [ "silver +150", "flag ch_saga_danes_norway_13" ],
+      "note": "outcome: chain_saga_danes_norway.s13.out_bread" },
+    { "key": "ferry", "label_key": "chain_saga_danes_norway.s13.opt_ferry", "label": "Carry the country people and their goods over the Slie, at the ferryman's rate",
+      "check": "true",
+      "effects": [ "silver +40", "deed fair_dealing", "npc ferryman feeling +8 ferried", "flag ch_saga_danes_norway_13" ],
+      "note": "outcome: chain_saga_danes_norway.s13.out_ferry" },
+    { "key": "watch", "label_key": "chain_saga_danes_norway.s13.opt_watch", "label": "Lie behind the wall and watch what kind of war it is",
+      "check": "true", "default": true,
+      "effects": [ "news chain_saga_danes_norway.news.eider at here", "price_shock here cattle_hides x0.7 for 60", "flag ch_saga_danes_norway_13" ],
+      "note": "outcome: chain_saga_danes_norway.s13.out_watch (costs nothing; a true rumour and a price word)" }
+   ],
+   "memory": {
+    "bread": "fed the host that came for Harald",
+    "ferry": "ferried the country people over the Slie",
+    "watch": "lay behind the wall"
+   }
+  }
+ ]
+}

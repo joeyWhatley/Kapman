@@ -1,0 +1,10 @@
+chain_storm_vow_793.json
+
+Cards seen: 6 in the first 250 lines (the sixth is cut off at its first option; the file's own note says fourteen cards).
+
+- sea.chain_storm_vow.s01_storm: asks you to vow to Saint Cuthbert, vow to Thor, or vow nothing and rope the steering oar in a full storm. At stake: goods (the best thing in the hold, promised), a man (a hurt hand if the oar goes wrong), standing with the lookout, the hand and the steersman, crew spirit.
+- crew.chain_storm_vow.s02_what_was_said: asks you to stand by the vow (saint or Thor), bargain it down to a small gift, or say the wind made the words. At stake: standing with the crew and crew spirit, time (a 400-day term starts), and the hard road (closed by bargaining; denying sends the chain to the penance at Doccinga).
+- crew.chain_storm_vow.s03_dipping: asks you to give wax for the saint's candle: two clean cakes, one cake with mutton fat inside, buy wax ashore, or put it off. At stake: goods (1 or 2 wax), silver (110 pennies), time (a week's curing, or he asks again in twenty days), standing with the lookout, the hard road (closed by tallow).
+- harbour.chain_storm_vow.s04_buyer: asks whether a mother with a sick son gets the candle: cut her a hand's length free, sell it, give her pennies, or refuse. At stake: silver (+150 for selling, -12 for alms), time (a sold candle must be dipped again), standing with the mother and the lookout, crew spirit, the hard road (closed by selling).
+- crew.chain_storm_vow.s05_both_ways: asks which of them the vow was meant for: one creditor, pay both saint and Thor, or ask the mate for the Saxon vow words. At stake: standing with the mate and the steersman, a lasting mark (two lords, a priest may hear), both hard roads (closed by paying both), time only for the words (a chest text and some Old Saxon).
+- harbour.chain_storm_vow.s06_sand: asks how the candle goes over the sand to Lindisfarena, the first choice being barefoot at the boatman's heels (card cut off at line 250; the other options were not seen). At stake: the hard road (barefoot is needed for it), time (the ebb); the rest not seen.

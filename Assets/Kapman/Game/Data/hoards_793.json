@@ -1,0 +1,3607 @@
+{
+ "about": "THE HOARDS - real hoards of the period, where they were found, when buried, what they held (silver in grams), the landmarks round them (placed from open data) and the clue as measures (from a landmark toward another, so many paces of 1.48 m on the map) that land on the find. Made by Bake/guide/make_chest_data.py from Plans/environment_research/m3.",
+ "pace_m": 1.48,
+ "hoards": [
+  {
+   "id": "cuerdale",
+   "name": "The Cuerdale hoard",
+   "kind": "Viking silver: coins and bullion",
+   "held": "More than 8,600 pieces: silver coins, ingots, arm-rings and other jewellery, and cut silver, packed in small bags in a lead chest.",
+   "lat": 53.7597,
+   "lon": -2.64812,
+   "buried": 905,
+   "silver_g": 36000,
+   "church_ground": false,
+   "port": "meols",
+   "landmarks": [
+    {
+     "id": "darwen_mouth",
+     "name": "where the Darwen meets the Ribble",
+     "lat": 53.74925,
+     "lon": -2.68542,
+     "then": "yes"
+    },
+    {
+     "id": "samlesbury",
+     "name": "Samlesbury",
+     "lat": 53.76594,
+     "lon": -2.60327,
+     "then": "yes (?): named in Domesday (1086); the point is today's village, the old place may lie a little off"
+    },
+    {
+     "id": "ribchester_fort",
+     "name": "the Roman fort at Ribchester",
+     "lat": 53.8103,
+     "lon": -2.53403,
+     "then": "yes, as ruins"
+    },
+    {
+     "id": "ribble_bend",
+     "name": "the bend of the Ribble by the find",
+     "lat": 53.76019,
+     "lon": -2.64781,
+     "then": "yes (the river may have shifted a little (?))"
+    },
+    {
+     "id": "ribble_mouth",
+     "name": "the Ribble mouth",
+     "lat": 53.71429,
+     "lon": -3.08118,
+     "then": "yes (the sands move (?))"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "darwen_mouth",
+     "toward": "samlesbury",
+     "paces": 1181,
+     "map_m": 1747.9,
+     "pin": "p1",
+     "then": "set a pin (p1)",
+     "pin_at": {
+      "lat": 53.75443,
+      "lon": -2.65998
+     }
+    },
+    {
+     "type": "line_paces",
+     "from": "pin:p1",
+     "toward": "ribchester_fort",
+     "paces": 651,
+     "map_m": 963.5,
+     "then": "dig at the foot of the river bank (the find lay in the south bank)"
+    },
+    {
+     "type": "dig_depth",
+     "words": "in the river bank (depth not published (?))"
+    }
+   ],
+   "sea_leg": {
+    "port": "meols",
+    "to": "ribble_mouth",
+    "direction": "north-north-east",
+    "bearing_deg": 15.3,
+    "route": "north across Liverpool Bay to the Ribble mouth, then east up the tidal Ribble to the Darwen mouth",
+    "sea_km": 34.2,
+    "river_km": 26.1,
+    "km": 60.3,
+    "days": 0.73
+   },
+   "found_story": null
+  },
+  {
+   "id": "vale_of_york",
+   "name": "The Vale of York hoard (the Harrogate hoard)",
+   "kind": "Viking silver in a church cup",
+   "held": "617 silver coins and 65 other pieces: a gilt silver cup (made in the Frankish lands, probably for a church), a gold arm-ring, silver arm-rings, neck-rings, brooch pieces, ingots and cut silver. The coins and silver were packed inside the cup.",
+   "lat": 53.99339,
+   "lon": -1.52791,
+   "buried": 928,
+   "silver_g": 1200,
+   "church_ground": false,
+   "port": "eoforwic",
+   "landmarks": [
+    {
+     "id": "knaresborough_crag",
+     "name": "Knaresborough crag over the Nidd",
+     "lat": 54.0069,
+     "lon": -1.46893,
+     "then": "the rock, yes; the castle, no"
+    },
+    {
+     "id": "almias_cliff",
+     "name": "Almscliff Crag (Almias Cliff)",
+     "lat": 53.96596,
+     "lon": -1.64718,
+     "then": "yes (a natural gritstone crag)"
+    },
+    {
+     "id": "nidd_below_crag",
+     "name": "the Nidd below the crag",
+     "lat": 54.00723,
+     "lon": -1.47058,
+     "then": "yes"
+    },
+    {
+     "id": "aldborough",
+     "name": "Aldborough, the Roman town (Isurium)",
+     "lat": 54.092,
+     "lon": -1.38145,
+     "then": "yes, as ruins (?)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "knaresborough_crag",
+     "toward": "almias_cliff",
+     "paces": 2762,
+     "map_m": 4087.8,
+     "then": "dig in the open field, a forearm deep"
+    },
+    {
+     "type": "dig_depth",
+     "cm": 30
+    }
+   ],
+   "sea_leg": {
+    "port": "eoforwic",
+    "to": "eoforwic",
+    "direction": "none: the port is the landing",
+    "bearing_deg": null,
+    "route": "York is the landing; then overland west to Knaresborough (or up the Ouse and the Nidd by small boat (?))",
+    "sea_km": 0.0,
+    "km": 0.0,
+    "days": 0.0,
+    "then_overland_km": 25.9
+   },
+   "found_story": null
+  },
+  {
+   "id": "silverdale",
+   "name": "The Silverdale hoard",
+   "kind": "Viking silver in a lead box",
+   "held": "201 silver pieces in and under a lead box: 27 coins, 10 arm-rings, 2 finger-rings, 14 ingots, 6 brooch pieces, a fine wire braid and 141 bits of cut arm-rings and ingots.",
+   "lat": 54.17039,
+   "lon": -2.83167,
+   "buried": 900,
+   "silver_g": 1000,
+   "church_ground": false,
+   "port": "meols",
+   "landmarks": [
+    {
+     "id": "warton_crag",
+     "name": "Warton Crag (the hillfort on it)",
+     "lat": 54.14927,
+     "lon": -2.77891,
+     "then": "yes"
+    },
+    {
+     "id": "park_point",
+     "name": "Park Point, Arnside",
+     "lat": 54.18267,
+     "lon": -2.86242,
+     "then": "yes (the shore point; it wears and grows (?))"
+    },
+    {
+     "id": "arnside_knott",
+     "name": "Arnside Knott",
+     "lat": 54.19021,
+     "lon": -2.83519,
+     "then": "yes"
+    },
+    {
+     "id": "jenny_browns_point",
+     "name": "Jenny Brown's Point (the rocky point south of Silverdale; the name is later)",
+     "lat": 54.15508,
+     "lon": -2.82896,
+     "then": "the point, yes; the name, no"
+    },
+    {
+     "id": "kent_estuary",
+     "name": "the Kent estuary (its seaward end)",
+     "lat": 54.17858,
+     "lon": -2.89528,
+     "then": "yes (the channel wanders)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "cross_lines",
+     "line1": {
+      "from": "warton_crag",
+      "toward": "park_point",
+      "part_of_the_way": 0.632
+     },
+     "line2": {
+      "from": "arnside_knott",
+      "toward": "jenny_browns_point",
+      "part_of_the_way": 0.564
+     },
+     "angle_deg": 50,
+     "then": "dig at the crossing, a forearm and a half deep"
+    },
+    {
+     "type": "dig_depth",
+     "cm": 41
+    }
+   ],
+   "sea_leg": {
+    "port": "meols",
+    "to": "jenny_browns_point",
+    "direction": "north-north-east",
+    "bearing_deg": 21.3,
+    "route": "north past the Ribble mouth and Rossall Point, then north-east into Morecambe Bay to the Silverdale shore",
+    "sea_km": 87.5,
+    "km": 87.5,
+    "days": 1.05,
+    "waypoints": [
+     {
+      "lat": 53.93,
+      "lon": -3.09,
+      "note": "off Rossall Point (?)"
+     }
+    ]
+   },
+   "found_story": null
+  },
+  {
+   "id": "huxley",
+   "name": "The Huxley hoard",
+   "kind": "Viking arm-rings wrapped in lead",
+   "held": "About 20 flattened silver arm-rings and one silver ingot, wrapped in a sheet of lead. Many rings are stamped with crosses and other marks.",
+   "lat": 53.147,
+   "lon": -2.733,
+   "buried": 905,
+   "silver_g": 1500,
+   "church_ground": false,
+   "port": "legacaestir",
+   "landmarks": [
+    {
+     "id": "beeston_crag",
+     "name": "Beeston Crag (the old hillfort on it)",
+     "lat": 53.12793,
+     "lon": -2.692,
+     "then": "the crag and old fort, yes; the castle, no"
+    },
+    {
+     "id": "gowy_crossing",
+     "name": "a crossing of the Gowy",
+     "lat": 53.15784,
+     "lon": -2.75633,
+     "then": "the river, yes; this crossing is ours (?)"
+    },
+    {
+     "id": "chester_walls",
+     "name": "Chester's walls (the south-west corner)",
+     "lat": 53.18718,
+     "lon": -2.89603,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "gowy_crossing",
+     "toward": "beeston_crag",
+     "paces": 1314,
+     "map_m": 1944.7,
+     "then": "dig in the field, a forearm deep"
+    },
+    {
+     "type": "dig_depth",
+     "cm": 30
+    }
+   ],
+   "sea_leg": {
+    "port": "legacaestir",
+    "to": "legacaestir",
+    "direction": "none: the port is the landing",
+    "bearing_deg": null,
+    "route": "Chester is the landing; then overland south-east",
+    "sea_km": 0.0,
+    "km": 0.0,
+    "days": 0.0,
+    "then_overland_km": 9.8
+   },
+   "found_story": null
+  },
+  {
+   "id": "bedale",
+   "name": "The Bedale hoard",
+   "kind": "Viking ingots, neck-rings and a sword's gold",
+   "held": "48 pieces: 29 silver ingots (40-146 g each, some nicked to test them), 4 silver neck-rings (one cut in two), a silver arm-ring, a silver brooch, and an iron sword pommel with gold foil, 4 gold hoops and 6 gold rivets from a sword hilt.",
+   "lat": 54.29374,
+   "lon": -1.57726,
+   "buried": 900,
+   "silver_g": 3000,
+   "church_ground": false,
+   "port": "eoforwic",
+   "landmarks": [
+    {
+     "id": "dere_street_crossing",
+     "name": "where the Roman road (Dere Street) crosses Bedale Beck",
+     "lat": 54.30186,
+     "lon": -1.55066,
+     "then": "yes"
+    },
+    {
+     "id": "gospel_hill_barrow",
+     "name": "Gospel Hill, a round barrow",
+     "lat": 54.27099,
+     "lon": -1.6517,
+     "then": "yes (already ancient)"
+    },
+    {
+     "id": "st_gregory_bedale",
+     "name": "Bedale church",
+     "lat": 54.29099,
+     "lon": -1.59353,
+     "then": "a church, yes (?): it keeps Anglo-Scandinavian carved stones; today's building is later"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "dere_street_crossing",
+     "toward": "gospel_hill_barrow",
+     "paces": 1300,
+     "map_m": 1924.0,
+     "then": "dig in the field"
+    },
+    {
+     "type": "dig_depth",
+     "words": "not published"
+    }
+   ],
+   "sea_leg": {
+    "port": "eoforwic",
+    "to": "eoforwic",
+    "direction": "none: the port is the landing",
+    "bearing_deg": null,
+    "route": "York is the landing; then north-west up Dere Street (or up the Ouse and Ure to Boroughbridge by boat (?))",
+    "sea_km": 0.0,
+    "km": 0.0,
+    "days": 0.0,
+    "then_overland_km": 48.5
+   },
+   "found_story": null
+  },
+  {
+   "id": "galloway",
+   "name": "The Galloway hoard",
+   "kind": "Viking treasure in two layers, with a Frankish lidded pot",
+   "held": "More than 100 pieces of gold and silver in two layers: silver ingots and arm-rings (5 with runes), a silver cross, Anglo-Saxon and Irish brooches, a silver lidded pot from the east wrapped in silk, a gold ingot, a gold bird-shaped pin, glass beads and rock crystal.",
+   "lat": 54.97545,
+   "lon": -3.9964,
+   "buried": 900,
+   "silver_g": 3000,
+   "church_ground": true,
+   "port": "hwiterne",
+   "landmarks": [
+    {
+     "id": "balmaghie_church",
+     "name": "Balmaghie church",
+     "lat": 54.97505,
+     "lon": -3.99703,
+     "then": "(?): today's church is 18th c; an older church there is not known for 900"
+    },
+    {
+     "id": "dee_below_church",
+     "name": "the Dee below Balmaghie church",
+     "lat": 54.97556,
+     "lon": -3.99623,
+     "then": "yes"
+    },
+    {
+     "id": "dee_mouth",
+     "name": "the Dee mouth in Kirkcudbright Bay",
+     "lat": 54.7907,
+     "lon": -4.06938,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "balmaghie_church",
+     "toward": "dee_below_church",
+     "paces": 40,
+     "map_m": 59.2,
+     "then": "dig two forearms deep (60 cm): the top layer; the pot lies under it"
+    },
+    {
+     "type": "dig_depth",
+     "cm": 60
+    }
+   ],
+   "sea_leg": {
+    "port": "hwiterne",
+    "to": "dee_mouth",
+    "direction": "east-north-east",
+    "bearing_deg": 69.2,
+    "route": "east across the mouth of Wigtown Bay to Kirkcudbright Bay, then north up the Dee past Tongland (falls there (?)) to Balmaghie",
+    "sea_km": 21.9,
+    "river_km": 21.1,
+    "km": 43.0,
+    "days": 0.52,
+    "waypoints": [
+     {
+      "lat": 54.76,
+      "lon": -4.1,
+      "note": "off the Ross, Kirkcudbright Bay (?)"
+     }
+    ]
+   },
+   "found_story": null
+  },
+  {
+   "id": "watlington",
+   "name": "The Watlington hoard",
+   "kind": "Viking army silver with the 'Two Emperors' coins",
+   "held": "Silver coins (186 by Wikipedia, about 210 by the British list, some broken), 15 ingots, arm-rings and neck-ring pieces, and a scrap of gold.",
+   "lat": 51.64683,
+   "lon": -1.01924,
+   "buried": 879,
+   "silver_g": 1000,
+   "church_ground": false,
+   "port": "lundenwic",
+   "landmarks": [
+    {
+     "id": "pyrton_hill",
+     "name": "Pyrton Hill, on the Chiltern scarp",
+     "lat": 51.64207,
+     "lon": -0.97219,
+     "then": "yes"
+    },
+    {
+     "id": "brightwell_baldwin",
+     "name": "Brightwell (Baldwin)",
+     "lat": 51.65043,
+     "lon": -1.05487,
+     "then": "yes (?): Brightwell is an Old English name, in Domesday; \"Baldwin\" is later"
+    },
+    {
+     "id": "watlington_hill",
+     "name": "Watlington Hill",
+     "lat": 51.63611,
+     "lon": -0.98251,
+     "then": "yes"
+    },
+    {
+     "id": "thames_wallingford",
+     "name": "the Thames at Wallingford",
+     "lat": 51.60007,
+     "lon": -1.12058,
+     "then": "yes (Wallingford a burh from about 880 (?))"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "pyrton_hill",
+     "toward": "brightwell_baldwin",
+     "paces": 2200,
+     "map_m": 3256.0,
+     "then": "downhill from the scarp; dig in the field"
+    },
+    {
+     "type": "dig_depth",
+     "words": "not published"
+    }
+   ],
+   "sea_leg": {
+    "port": "lundenwic",
+    "to": "thames_wallingford",
+    "direction": "west-north-west",
+    "bearing_deg": 282.8,
+    "route": "up the Thames west from London to Wallingford (the river winds more than these legs (?)), then overland east to the Chilterns",
+    "sea_km": 0.0,
+    "river_km": 93.4,
+    "km": 93.4,
+    "days": 1.13,
+    "then_overland_km": 11.1
+   },
+   "found_story": null
+  },
+  {
+   "id": "lenborough",
+   "name": "The Lenborough hoard",
+   "kind": "English pennies in a lead wrapping",
+   "held": "5,252 silver pennies (5,251 whole and one half), wrapped in a sheet of lead, still bright.",
+   "lat": 51.97678,
+   "lon": -0.9828,
+   "buried": 1030,
+   "silver_g": 6300,
+   "church_ground": false,
+   "port": "lundenwic",
+   "landmarks": [
+    {
+     "id": "buckingham_castle_hill",
+     "name": "Buckingham's castle hill (the north fort of 914 stood here (?))",
+     "lat": 51.99813,
+     "lon": -0.98956,
+     "then": "the hill, yes; where Edward's forts stood exactly is not known (?)"
+    },
+    {
+     "id": "lenborough",
+     "name": "Lenborough",
+     "lat": 51.97864,
+     "lon": -0.98339,
+     "then": "yes (?): in Domesday"
+    },
+    {
+     "id": "great_ouse_buckingham",
+     "name": "the Great Ouse below Buckingham",
+     "lat": 52.001,
+     "lon": -0.98335,
+     "then": "yes"
+    },
+    {
+     "id": "norbury_camp",
+     "name": "Norbury camp by Padbury",
+     "lat": 51.96353,
+     "lon": -0.96612,
+     "then": "yes (already ancient)"
+    },
+    {
+     "id": "st_rumbolds_well",
+     "name": "St Rumbold's Well",
+     "lat": 51.9961,
+     "lon": -0.99637,
+     "then": "yes (?): the saint's cult at Buckingham is Anglo-Saxon; the well-house is later"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "buckingham_castle_hill",
+     "toward": "lenborough",
+     "paces": 1613,
+     "map_m": 2387.2,
+     "then": "dig two feet down, into the clay"
+    },
+    {
+     "type": "dig_depth",
+     "cm": 61
+    }
+   ],
+   "sea_leg": {
+    "port": "lundenwic",
+    "to": null,
+    "direction": "north-west",
+    "km": 0,
+    "days": 0,
+    "route": "Inland: no landing near. Overland from Lundenwic about 78 km north-west, or from the Thames.",
+    "then_overland_km": 77.9
+   },
+   "found_story": null
+  },
+  {
+   "id": "dunmore_cave",
+   "name": "The Dunmore Cave hoards",
+   "kind": "Viking silver hidden in a cave",
+   "held": "1999: 43 pieces of silver and bronze in a rock cleft deep in the cave: silver ingots and cone-shaped buttons woven from fine silver wire. 1973: a few Viking-age coins (?).",
+   "lat": 52.73395,
+   "lon": -7.24659,
+   "buried": 970,
+   "silver_g": 300,
+   "church_ground": false,
+   "port": "vedrafjordr",
+   "landmarks": [
+    {
+     "id": "cave_mouth",
+     "name": "the mouth of Dunmore Cave (Dearc Fearna)",
+     "lat": 52.73395,
+     "lon": -7.24659,
+     "then": "yes"
+    },
+    {
+     "id": "kilkenny",
+     "name": "Kilkenny: the round tower at St Canice's",
+     "lat": 52.65648,
+     "lon": -7.25714,
+     "then": "yes (?): the tower is dated between the 9th and 11th c"
+    }
+   ],
+   "measures": [
+    {
+     "type": "cave_count",
+     "at": "cave_mouth",
+     "then": "underground: past so many chambers to the far cleft (the 1999 find lay in a cleft deep in the cave; the chambers are not counted in the open sources (?))"
+    },
+    {
+     "type": "dig_depth",
+     "words": "no digging: a hand into the cleft"
+    }
+   ],
+   "sea_leg": {
+    "port": "vedrafjordr",
+    "to": "kilkenny",
+    "direction": "north",
+    "bearing_deg": 356.9,
+    "route": "down the Suir, up the Barrow to New Ross, up the Nore past Inistioge and Thomastown to Kilkenny (how far boats went is (?)), then overland north to the cave",
+    "sea_km": 0.0,
+    "river_km": 57.6,
+    "km": 57.6,
+    "days": 0.69,
+    "then_overland_km": 8.5
+   },
+   "found_story": null
+  },
+  {
+   "id": "skaill",
+   "name": "The Skaill hoard",
+   "kind": "Viking silver: brooches, neck-rings, arm-rings, coins",
+   "held": "Over 100 pieces of silver: big penannular brooches, neck-rings, arm-rings, ingots, coins and cut silver. The largest Viking treasure found in Scotland.",
+   "lat": 59.05675,
+   "lon": -3.33209,
+   "buried": 955,
+   "silver_g": 8000,
+   "church_ground": true,
+   "port": "byrgisey",
+   "landmarks": [
+    {
+     "id": "geo_of_snusgar",
+     "name": "the Geo of Snusgar (the cleft in the shore below the brae)",
+     "lat": 59.05488,
+     "lon": -3.33504,
+     "then": "yes (?): the shore of the bay has worn back since"
+    },
+    {
+     "id": "knowes_of_esco",
+     "name": "the Knowes of Esco (old mounds)",
+     "lat": 59.06925,
+     "lon": -3.31304,
+     "then": "yes (?): mounds of unknown age"
+    },
+    {
+     "id": "hole_o_row",
+     "name": "the Hole o' Row (the sea arch)",
+     "lat": 59.05067,
+     "lon": -3.35213,
+     "then": "yes (?): sea arches fall and form"
+    },
+    {
+     "id": "bay_of_skaill",
+     "name": "the Bay of Skaill",
+     "lat": 59.0534,
+     "lon": -3.34364,
+     "then": "yes"
+    },
+    {
+     "id": "knowe_of_verron",
+     "name": "the Knowe of Verron (a broch mound)",
+     "lat": 59.05789,
+     "lon": -3.3433,
+     "then": "yes, as a ruin"
+    },
+    {
+     "id": "loch_of_skaill",
+     "name": "the Loch of Skaill",
+     "lat": 59.04375,
+     "lon": -3.32509,
+     "then": "yes"
+    },
+    {
+     "id": "broch_of_borwick",
+     "name": "the Broch of Borwick",
+     "lat": 59.03102,
+     "lon": -3.3534,
+     "then": "yes, as a ruin"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "geo_of_snusgar",
+     "toward": "knowes_of_esco",
+     "paces": 179,
+     "map_m": 264.9,
+     "then": "dig on the rise (shallow)"
+    },
+    {
+     "type": "dig_depth",
+     "words": "shallow: a boy found it digging (?)"
+    }
+   ],
+   "sea_leg": {
+    "port": "byrgisey",
+    "to": "bay_of_skaill",
+    "direction": "south-south-west",
+    "bearing_deg": 195.5,
+    "route": "south down the west coast past Marwick Head into the Bay of Skaill",
+    "sea_km": 9.9,
+    "km": 9.9,
+    "days": 0.12,
+    "waypoints": [
+     {
+      "lat": 59.1,
+      "lon": -3.37,
+      "note": "off Marwick Head (?)"
+     }
+    ]
+   },
+   "found_story": null
+  },
+  {
+   "id": "burray",
+   "name": "The Burray hoard",
+   "kind": "Viking ring-money in a peat moss",
+   "held": "Over 140 pieces of silver, many of them plain arm-rings or bits of them ('ring-money'), and about a dozen coins.",
+   "lat": 58.85322,
+   "lon": -2.94623,
+   "buried": 998,
+   "silver_g": 2000,
+   "church_ground": false,
+   "port": "byrgisey",
+   "landmarks": [
+    {
+     "id": "little_wart",
+     "name": "Little Wart (the hill; the finder lived at Little Wart)",
+     "lat": 58.85118,
+     "lon": -2.93583,
+     "then": "yes"
+    },
+    {
+     "id": "sunless_geo",
+     "name": "Sunless Geo (a cleft in the shore of Hunda)",
+     "lat": 58.85899,
+     "lon": -2.974,
+     "then": "yes (?)"
+    },
+    {
+     "id": "echnaloch_bay",
+     "name": "Echnaloch Bay",
+     "lat": 58.86075,
+     "lon": -2.92516,
+     "then": "yes"
+    },
+    {
+     "id": "water_sound",
+     "name": "Water Sound",
+     "lat": 58.8412,
+     "lon": -2.93736,
+     "then": "yes"
+    },
+    {
+     "id": "the_ruff_mound",
+     "name": "a mound by the moss",
+     "lat": 58.85383,
+     "lon": -2.9485,
+     "then": "(?)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "between",
+     "a": "little_wart",
+     "b": "sunless_geo",
+     "fraction": 0.271,
+     "as_paces": {
+      "paces_from_a": 428,
+      "of_paces": 1579
+     },
+     "then": "in the moss, at a peat spade's depth"
+    },
+    {
+     "type": "in_bog",
+     "ground": "North Town Moss: the dig lies in the peat",
+     "then": "a peat spade's depth (?)"
+    },
+    {
+     "type": "dig_depth",
+     "words": "a peat spade's depth (?)"
+    }
+   ],
+   "sea_leg": {
+    "port": "byrgisey",
+    "to": "echnaloch_bay",
+    "direction": "south-south-east",
+    "bearing_deg": 149.9,
+    "route": "south down the west coast, east through Hoy Sound into Scapa Flow, across it to Burray (from 1046 Kirkjuvágr is nearer: overland to Scapa, then across the Flow)",
+    "sea_km": 48.5,
+    "km": 48.5,
+    "days": 0.58,
+    "waypoints": [
+     {
+      "lat": 59.1,
+      "lon": -3.37,
+      "note": "off Marwick Head (?)"
+     },
+     {
+      "lat": 59.03,
+      "lon": -3.4,
+      "note": "off Yesnaby (?)"
+     },
+     {
+      "lat": 58.94,
+      "lon": -3.35,
+      "note": "Hoy Sound (?)"
+     },
+     {
+      "lat": 58.925,
+      "lon": -3.25,
+      "note": "Clestrain Sound (?)"
+     },
+     {
+      "lat": 58.885,
+      "lon": -3.08,
+      "note": "Scapa Flow (?)"
+     }
+    ]
+   },
+   "found_story": null
+  },
+  {
+   "id": "st_ninians_isle",
+   "name": "The St Ninian's Isle treasure",
+   "kind": "Pictish church and household silver",
+   "held": "28 pieces in a wooden box under a slab marked with a cross: 12 silver penannular brooches, 8 silver bowls (one a hanging bowl), a silver spoon, a silver knife, 2 scabbard chapes, a sword pommel, 3 silver cones, and part of a porpoise's jawbone.",
+   "lat": 59.97141,
+   "lon": -1.34163,
+   "buried": 800,
+   "silver_g": 2000,
+   "church_ground": true,
+   "port": "jarlshof",
+   "landmarks": [
+    {
+     "id": "chapel",
+     "name": "the church on the isle",
+     "lat": 59.97141,
+     "lon": -1.34163,
+     "then": "(?): the stone church is 12th c; an earlier church there in 800 is likely but not proven (early carved stones were found)"
+    },
+    {
+     "id": "tombolo",
+     "name": "the sand bar (tombolo)",
+     "lat": 59.96947,
+     "lon": -1.33598,
+     "then": "yes (?): such bars shift"
+    },
+    {
+     "id": "st_ninians_bay",
+     "name": "St Ninian's Bay",
+     "lat": 59.96626,
+     "lon": -1.33666,
+     "then": "yes"
+    },
+    {
+     "id": "bigton",
+     "name": "Bigton",
+     "lat": 59.97114,
+     "lon": -1.32336,
+     "then": "(?)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "tombolo",
+     "toward": "chapel",
+     "paces": 255,
+     "map_m": 377.4,
+     "then": "inside the church, under the floor slab marked with a cross"
+    },
+    {
+     "type": "under_marker",
+     "at": "chapel",
+     "marker": "the floor slab marked with a cross"
+    },
+    {
+     "type": "dig_depth",
+     "words": "under a floor slab"
+    }
+   ],
+   "sea_leg": {
+    "port": "jarlshof",
+    "to": "st_ninians_bay",
+    "direction": "north",
+    "bearing_deg": 351.9,
+    "route": "north-west round Fitful Head, then north up the west coast to St Ninian's Bay",
+    "sea_km": 15.5,
+    "km": 15.5,
+    "days": 0.19,
+    "waypoints": [
+     {
+      "lat": 59.905,
+      "lon": -1.41,
+      "note": "off Fitful Head (?)"
+     }
+    ]
+   },
+   "found_story": null
+  },
+  {
+   "id": "iona",
+   "name": "The Iona hoard",
+   "kind": "English pennies hidden at the monastery",
+   "held": "Silver pennies of the English kings, with a little other silver and gold (?).",
+   "lat": 56.33501,
+   "lon": -6.39188,
+   "buried": 986,
+   "silver_g": 550,
+   "church_ground": true,
+   "port": "hi",
+   "landmarks": [
+    {
+     "id": "dun_i",
+     "name": "Dùn Ì",
+     "lat": 56.34131,
+     "lon": -6.39668,
+     "then": "yes"
+    },
+    {
+     "id": "columba_shrine",
+     "name": "St Columba's shrine (the little chapel by the church door)",
+     "lat": 56.33499,
+     "lon": -6.39188,
+     "then": "yes (?): early medieval in origin"
+    },
+    {
+     "id": "st_martins_cross",
+     "name": "St Martin's Cross",
+     "lat": 56.33489,
+     "lon": -6.39224,
+     "then": "yes"
+    },
+    {
+     "id": "reilig_odhrain",
+     "name": "Reilig Odhráin (the old burial ground)",
+     "lat": 56.33439,
+     "lon": -6.39288,
+     "then": "the burial ground, yes; its chapel is 12th c"
+    },
+    {
+     "id": "torr_an_aba",
+     "name": "Tòrr an Aba (the abbot's knoll)",
+     "lat": 56.33516,
+     "lon": -6.39255,
+     "then": "yes"
+    },
+    {
+     "id": "martyrs_bay",
+     "name": "Martyrs' Bay (Port nam Mairtir)",
+     "lat": 56.32906,
+     "lon": -6.39269,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "dun_i",
+     "toward": "columba_shrine",
+     "paces": 507,
+     "map_m": 750.4,
+     "then": "dig by the shrine (monastery ground)"
+    },
+    {
+     "type": "dig_depth",
+     "words": "not known (?)"
+    }
+   ],
+   "sea_leg": {
+    "port": "hi",
+    "to": "hi",
+    "direction": "none: the port is the landing",
+    "bearing_deg": null,
+    "route": "Iona is the port; land at Martyrs' Bay",
+    "sea_km": 0.0,
+    "km": 0.0,
+    "days": 0.0
+   },
+   "found_story": null
+  },
+  {
+   "id": "trewhiddle",
+   "name": "The Trewhiddle hoard",
+   "kind": "English church silver and coins, hidden from the Vikings (?)",
+   "held": "114 English silver pennies, a silver chalice, a silver wire scourge, a brooch, and mounts and strap-ends with black niello animals (the 'Trewhiddle style' is named after them).",
+   "lat": 50.3251,
+   "lon": -4.8006,
+   "buried": 868,
+   "silver_g": 600,
+   "church_ground": false,
+   "port": "lanwethinoc",
+   "landmarks": [
+    {
+     "id": "river_mouth",
+     "name": "the stream mouth at Pentewan",
+     "lat": 50.28953,
+     "lon": -4.78026,
+     "then": "yes (the valley has silted since (?))"
+    },
+    {
+     "id": "hensbarrow",
+     "name": "Hensbarrow Beacon (the barrow on the high moor)",
+     "lat": 50.38359,
+     "lon": -4.81913,
+     "then": "yes (already ancient)"
+    },
+    {
+     "id": "st_mewan",
+     "name": "St Mewan",
+     "lat": 50.33133,
+     "lon": -4.81479,
+     "then": "(?): an early saint's place; the church is later"
+    },
+    {
+     "id": "black_head",
+     "name": "Black Head",
+     "lat": 50.29951,
+     "lon": -4.7543,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "river_mouth",
+     "toward": "hensbarrow",
+     "paces": 2500,
+     "map_m": 3700.0,
+     "pin": "p1",
+     "then": "set a pin (p1)",
+     "pin_at": {
+      "lat": 50.32206,
+      "lon": -4.79369
+     }
+    },
+    {
+     "type": "line_paces",
+     "from": "pin:p1",
+     "toward": "st_mewan",
+     "paces": 399,
+     "map_m": 590.5,
+     "then": "dig deep in the stream gravel"
+    },
+    {
+     "type": "dig_depth",
+     "words": "deep, in stream gravel (17 feet (?))"
+    }
+   ],
+   "sea_leg": {
+    "port": "lanwethinoc",
+    "to": "river_mouth",
+    "direction": "south-south-east",
+    "bearing_deg": 166.0,
+    "route": "west down the north coast, round Land's End and the Lizard, then north-east into St Austell Bay (or overland from Padstow to the south coast, about 26 km (?))",
+    "sea_km": 177.9,
+    "km": 177.9,
+    "days": 2.14,
+    "waypoints": [
+     {
+      "lat": 50.56,
+      "lon": -5.05,
+      "note": "off Trevose Head (?)"
+     },
+     {
+      "lat": 50.13,
+      "lon": -5.75,
+      "note": "off Cape Cornwall (?)"
+     },
+     {
+      "lat": 50.05,
+      "lon": -5.75,
+      "note": "off Land's End (?)"
+     },
+     {
+      "lat": 49.93,
+      "lon": -5.2,
+      "note": "off the Lizard (?)"
+     },
+     {
+      "lat": 50.2,
+      "lon": -4.79,
+      "note": "off Dodman Point (?)"
+     }
+    ]
+   },
+   "found_story": null
+  },
+  {
+   "id": "pentney",
+   "name": "The Pentney hoard",
+   "kind": "English silver disc brooches",
+   "held": "6 disc brooches: 5 all of silver and 1 of copper alloy covered with silver, decorated with niello animals and plants. Sizes 6.1 to 10.2 cm across.",
+   "lat": 52.69504,
+   "lon": 0.54497,
+   "buried": 820,
+   "silver_g": 400,
+   "church_ground": true,
+   "port": "bawsey",
+   "landmarks": [
+    {
+     "id": "church",
+     "name": "Pentney church",
+     "lat": 52.69504,
+     "lon": 0.54497,
+     "then": "(?): a church there in 820 is not known"
+    },
+    {
+     "id": "nar_below_pentney",
+     "name": "the Nar below Pentney",
+     "lat": 52.68123,
+     "lon": 0.55532,
+     "then": "yes"
+    },
+    {
+     "id": "bawsey",
+     "name": "Bawsey (the island and its church ruin)",
+     "lat": 52.75812,
+     "lon": 0.46161,
+     "then": "the settlement, yes; the church ruin is later"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "nar_below_pentney",
+     "toward": "church",
+     "paces": 1125,
+     "map_m": 1665.0,
+     "then": "dig in the churchyard (church ground)"
+    },
+    {
+     "type": "dig_depth",
+     "words": "a grave's depth or less (?)"
+    }
+   ],
+   "sea_leg": {
+    "port": "bawsey",
+    "to": "nar_below_pentney",
+    "direction": "south-east",
+    "bearing_deg": 146.2,
+    "route": "down to the Ouse at Lynn, a little up it to the Nar mouth, then east up the Nar (how far boats went (?))",
+    "sea_km": 0.0,
+    "river_km": 19.1,
+    "km": 19.1,
+    "days": 0.23
+   },
+   "found_story": null
+  },
+  {
+   "id": "halton_moor",
+   "name": "The Halton Moor hoard",
+   "kind": "Cnut's pennies in a silver-gilt cup",
+   "held": "A silver-gilt cup holding pennies of Cnut, with a silver neck-ring (torc) (?).",
+   "lat": 54.08014,
+   "lon": -2.74007,
+   "buried": 1025,
+   "silver_g": 1300,
+   "church_ground": false,
+   "port": "meols",
+   "landmarks": [
+    {
+     "id": "halton_cross",
+     "name": "the Halton cross (Sigurd)",
+     "lat": 54.07577,
+     "lon": -2.76695,
+     "then": "maybe (?): 10th or 11th c"
+    },
+    {
+     "id": "wray",
+     "name": "Wray",
+     "lat": 54.10136,
+     "lon": -2.60886,
+     "then": "yes (?): a Norse name"
+    },
+    {
+     "id": "lune_halton",
+     "name": "the Lune below Halton",
+     "lat": 54.07494,
+     "lon": -2.76597,
+     "then": "yes"
+    },
+    {
+     "id": "lancaster_fort",
+     "name": "Lancaster's castle hill (the Roman fort)",
+     "lat": 54.05136,
+     "lon": -2.80568,
+     "then": "yes, as ruins, with a church"
+    },
+    {
+     "id": "lune_mouth",
+     "name": "the Lune mouth",
+     "lat": 53.97824,
+     "lon": -2.94318,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "halton_cross",
+     "toward": "wray",
+     "paces": 1215,
+     "map_m": 1798.2,
+     "then": "dig on the moor's edge"
+    },
+    {
+     "type": "dig_depth",
+     "words": "not known (?)"
+    }
+   ],
+   "sea_leg": {
+    "port": "meols",
+    "to": "lune_mouth",
+    "direction": "north-north-east",
+    "bearing_deg": 19.3,
+    "route": "north past Rossall Point to the Lune mouth, then up the Lune past Lancaster to Halton",
+    "sea_km": 68.5,
+    "river_km": 16.4,
+    "km": 84.9,
+    "days": 1.02,
+    "waypoints": [
+     {
+      "lat": 53.93,
+      "lon": -3.09,
+      "note": "off Rossall Point (?)"
+     }
+    ]
+   },
+   "found_story": null
+  },
+  {
+   "id": "harkirke",
+   "name": "The Harkirke hoard",
+   "kind": "Viking and Islamic coins",
+   "held": "About 300 coins, Viking and Kufic (Islamic).",
+   "lat": 53.51013,
+   "lon": -3.03381,
+   "buried": 910,
+   "silver_g": 500,
+   "church_ground": true,
+   "port": "meols",
+   "landmarks": [
+    {
+     "id": "alt_mouth",
+     "name": "the Alt mouth",
+     "lat": 53.49844,
+     "lon": -3.07908,
+     "then": "yes (the dunes and channel move)"
+    },
+    {
+     "id": "lydiate",
+     "name": "Lydiate",
+     "lat": 53.53044,
+     "lon": -2.95494,
+     "then": "yes (?): in Domesday"
+    },
+    {
+     "id": "little_crosby",
+     "name": "Little Crosby",
+     "lat": 53.50685,
+     "lon": -3.02961,
+     "then": "yes (?): a Norse name, \"the farm of the crosses\""
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "alt_mouth",
+     "toward": "lydiate",
+     "paces": 2179,
+     "map_m": 3224.9,
+     "then": "inland from the shore; dig in the field"
+    },
+    {
+     "type": "dig_depth",
+     "words": "not known"
+    }
+   ],
+   "sea_leg": {
+    "port": "meols",
+    "to": "alt_mouth",
+    "direction": "north-east",
+    "bearing_deg": 34.3,
+    "route": "north-east across the Mersey mouth to the Alt mouth",
+    "sea_km": 11.4,
+    "km": 11.4,
+    "days": 0.14
+   },
+   "found_story": null
+  },
+  {
+   "id": "chester_esplanade",
+   "name": "The Chester Castle Esplanade hoard",
+   "kind": "Coins and cut silver in a pot",
+   "held": "Silver pennies and pieces of cut silver and ingots in a pottery jar (?).",
+   "lat": 53.18572,
+   "lon": -2.89225,
+   "buried": 965,
+   "silver_g": 900,
+   "church_ground": false,
+   "port": "legacaestir",
+   "landmarks": [
+    {
+     "id": "walls_sw_corner",
+     "name": "the walls' corner by the river (south-west)",
+     "lat": 53.18718,
+     "lon": -2.89603,
+     "then": "yes (the burh walls of 907 (?))"
+    },
+    {
+     "id": "bridgegate",
+     "name": "the Bridgegate (the south gate by the Dee bridge)",
+     "lat": 53.18521,
+     "lon": -2.89094,
+     "then": "(?): a south gate, yes; today's gate is 1782"
+    },
+    {
+     "id": "dee_bridge",
+     "name": "the Dee bridge",
+     "lat": 53.18544,
+     "lon": -2.88863,
+     "then": "(?): a bridge or ford here; the stone bridge is 14th c"
+    },
+    {
+     "id": "st_johns",
+     "name": "St John's minster",
+     "lat": 53.18904,
+     "lon": -2.88562,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "walls_sw_corner",
+     "toward": "bridgegate",
+     "paces": 200,
+     "map_m": 296.0,
+     "then": "dig inside the walls"
+    },
+    {
+     "type": "dig_depth",
+     "words": "not known"
+    }
+   ],
+   "sea_leg": {
+    "port": "legacaestir",
+    "to": "legacaestir",
+    "direction": "none: the port is the landing",
+    "bearing_deg": null,
+    "route": "Chester is the port; the spot is inside its walls",
+    "sea_km": 0.0,
+    "km": 0.0,
+    "days": 0.0
+   },
+   "found_story": null
+  },
+  {
+   "id": "hexham",
+   "name": "The Hexham hoard",
+   "kind": "Northumbrian stycas in a bronze bucket",
+   "held": "About 8,000 Northumbrian stycas (small coins of copper alloy) in a bronze bucket.",
+   "lat": 54.97159,
+   "lon": -2.10164,
+   "buried": 850,
+   "silver_g": 0,
+   "church_ground": true,
+   "port": "gyrwe",
+   "landmarks": [
+    {
+     "id": "hexham_minster",
+     "name": "Hexham minster (Wilfrid's church)",
+     "lat": 54.97148,
+     "lon": -2.10299,
+     "then": "yes"
+    },
+    {
+     "id": "tyne_below",
+     "name": "the Tyne below Hexham",
+     "lat": 54.97254,
+     "lon": -2.08996,
+     "then": "yes"
+    },
+    {
+     "id": "corbridge",
+     "name": "Corbridge, the Roman town",
+     "lat": 54.97989,
+     "lon": -2.03552,
+     "then": "yes, as ruins"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "hexham_minster",
+     "toward": "tyne_below",
+     "paces": 58,
+     "map_m": 85.8,
+     "then": "dig (the bucket of stycas)"
+    },
+    {
+     "type": "dig_depth",
+     "words": "not known"
+    }
+   ],
+   "sea_leg": {
+    "port": "gyrwe",
+    "to": "tyne_below",
+    "direction": "west",
+    "bearing_deg": 274.4,
+    "route": "west up the Tyne from Jarrow to Hexham",
+    "sea_km": 0.0,
+    "river_km": 39.1,
+    "km": 39.1,
+    "days": 0.47
+   },
+   "found_story": null
+  },
+  {
+   "id": "ardagh",
+   "name": "The Ardagh hoard",
+   "kind": "Irish church silver under a stone",
+   "held": "A great silver chalice (the Ardagh Chalice, made of 354 parts), a plain copper-alloy cup and 4 brooches. The chalice held the other things, under a stone slab, buried in a hurry.",
+   "lat": 52.49345,
+   "lon": -9.0684,
+   "buried": 900,
+   "silver_g": 1000,
+   "church_ground": false,
+   "port": "hlymrekr",
+   "landmarks": [
+    {
+     "id": "reerasta_fort",
+     "name": "the ringfort at Reerasta (the Ardagh fort)",
+     "lat": 52.49363,
+     "lon": -9.0682,
+     "then": "yes"
+    },
+    {
+     "id": "ballinena_fort",
+     "name": "the ringfort at Ballinena",
+     "lat": 52.47685,
+     "lon": -9.09663,
+     "then": "yes (?): ringforts mostly 600-1000"
+    },
+    {
+     "id": "reerasta_cloch",
+     "name": "the stone Reerasta Cloch (on the fort's bank)",
+     "lat": 52.49385,
+     "lon": -9.06848,
+     "then": "yes"
+    },
+    {
+     "id": "ardagh_church",
+     "name": "Ardagh old church (St Molua)",
+     "lat": 52.49475,
+     "lon": -9.05796,
+     "then": "(?): a pre-Norman church is suggested by the dedication"
+    },
+    {
+     "id": "shannon_landing",
+     "name": "a landing on the Shannon estuary at Foynes (ours (?))",
+     "lat": 52.60467,
+     "lon": -9.1105,
+     "then": "the shore, yes; the landing place is our choice (?)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "ballinena_fort",
+     "toward": "reerasta_fort",
+     "paces": 1774,
+     "map_m": 2625.5,
+     "then": "under the flat stone at the foot of the bank, just under the stone"
+    },
+    {
+     "type": "under_marker",
+     "at": "reerasta_fort",
+     "marker": "a flat stone at the foot of the bank, on the south-west side, by a thorn bush"
+    },
+    {
+     "type": "dig_depth",
+     "words": "just under a stone"
+    }
+   ],
+   "sea_leg": {
+    "port": "hlymrekr",
+    "to": "shannon_landing",
+    "direction": "west",
+    "bearing_deg": 268.9,
+    "route": "west down the Shannon estuary to Foynes (?), then overland south to Ardagh (before 922 there is no Limerick: Cluain moccu Nóis is far up the river)",
+    "sea_km": 33.3,
+    "km": 33.3,
+    "days": 0.4,
+    "waypoints": [
+     {
+      "lat": 52.66,
+      "lon": -8.75,
+      "note": "the Shannon below Limerick (?)"
+     },
+     {
+      "lat": 52.62,
+      "lon": -8.95,
+      "note": "the estuary (?)"
+     }
+    ],
+    "then_overland_km": 12.5
+   },
+   "found_story": null
+  },
+  {
+   "id": "furness",
+   "name": "The Furness hoard",
+   "kind": "Viking coins and ingots",
+   "held": "92 pieces: 79 silver coins (2 of them Arabic dirhams), several silver ingots and a silver arm-ring.",
+   "lat": 54.20184,
+   "lon": -3.15272,
+   "buried": 955,
+   "silver_g": 300,
+   "church_ground": false,
+   "port": "meols",
+   "landmarks": [
+    {
+     "id": "dunnerholme",
+     "name": "Dunnerholme (the rock on the Duddon shore)",
+     "lat": 54.20784,
+     "lon": -3.21044,
+     "then": "yes"
+    },
+    {
+     "id": "copse_hill",
+     "name": "Copse Hill",
+     "lat": 54.2001,
+     "lon": -3.13604,
+     "then": "yes"
+    },
+    {
+     "id": "harlock_hill",
+     "name": "Harlock Hill",
+     "lat": 54.20817,
+     "lon": -3.14475,
+     "then": "yes"
+    },
+    {
+     "id": "high_haume",
+     "name": "High Haume",
+     "lat": 54.17499,
+     "lon": -3.1865,
+     "then": "yes"
+    },
+    {
+     "id": "piel_island",
+     "name": "Piel Island (the mouth of the Walney channel)",
+     "lat": 54.06425,
+     "lon": -3.17482,
+     "then": "the island, yes; its castle is 14th c"
+    },
+    {
+     "id": "roa_island",
+     "name": "Roa Island",
+     "lat": 54.07482,
+     "lon": -3.17544,
+     "then": "yes (a Norse name (?))"
+    },
+    {
+     "id": "eller_barrow",
+     "name": "Eller Barrow",
+     "lat": 54.18745,
+     "lon": -3.12774,
+     "then": "yes (already ancient)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "cross_lines",
+     "line1": {
+      "from": "dunnerholme",
+      "toward": "copse_hill",
+      "part_of_the_way": 0.776
+     },
+     "line2": {
+      "from": "harlock_hill",
+      "toward": "high_haume",
+      "part_of_the_way": 0.191
+     },
+     "angle_deg": 64,
+     "then": "dig at the crossing"
+    },
+    {
+     "type": "dig_depth",
+     "words": "not published"
+    }
+   ],
+   "sea_leg": {
+    "port": "meols",
+    "to": "piel_island",
+    "direction": "north",
+    "bearing_deg": 6.0,
+    "route": "north past Rossall Point and across Morecambe Bay to Piel at the Walney channel mouth, then overland north (the Duddon shore at Dunnerholme is a nearer landing (?))",
+    "sea_km": 73.3,
+    "km": 73.3,
+    "days": 0.88,
+    "waypoints": [
+     {
+      "lat": 53.93,
+      "lon": -3.09,
+      "note": "off Rossall Point (?)"
+     }
+    ],
+    "then_overland_km": 15.1
+   },
+   "found_story": null
+  },
+  {
+   "id": "bryn_maelgwyn",
+   "name": "The Bryn Maelgwyn hoard",
+   "kind": "Cnut's pennies",
+   "held": "204 silver pennies of Cnut.",
+   "lat": 53.30376,
+   "lon": -3.81915,
+   "buried": 1025,
+   "silver_g": 215,
+   "church_ground": false,
+   "port": "meols",
+   "landmarks": [
+    {
+     "id": "deganwy_twin_hill",
+     "name": "Deganwy's twin hill (the old fort)",
+     "lat": 53.29788,
+     "lon": -3.82881,
+     "then": "yes: the hill fort of the Gwynedd kings; the stone castle is 13th c"
+    },
+    {
+     "id": "little_orme",
+     "name": "the Little Orme",
+     "lat": 53.3262,
+     "lon": -3.78222,
+     "then": "yes"
+    },
+    {
+     "id": "great_orme",
+     "name": "the Great Orme",
+     "lat": 53.33252,
+     "lon": -3.85226,
+     "then": "yes"
+    },
+    {
+     "id": "conwy_mouth",
+     "name": "the Conwy mouth",
+     "lat": 53.30121,
+     "lon": -3.85488,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "deganwy_twin_hill",
+     "toward": "little_orme",
+     "paces": 611,
+     "map_m": 904.3,
+     "then": "up Maelgwn's hill; dig"
+    },
+    {
+     "type": "dig_depth",
+     "words": "not known"
+    }
+   ],
+   "sea_leg": {
+    "port": "meols",
+    "to": "conwy_mouth",
+    "direction": "west",
+    "bearing_deg": 262.9,
+    "route": "west along the north Welsh coast, round the Great Orme into the Conwy mouth",
+    "sea_km": 53.6,
+    "km": 53.6,
+    "days": 0.65,
+    "waypoints": [
+     {
+      "lat": 53.37,
+      "lon": -3.33,
+      "note": "off the Point of Ayr (?)"
+     },
+     {
+      "lat": 53.35,
+      "lon": -3.88,
+      "note": "off the Great Orme (?)"
+     }
+    ]
+   },
+   "found_story": null
+  },
+  {
+   "id": "spillings",
+   "name": "The Spillings hoard",
+   "kind": "The greatest Viking silver hoard: dirhams and arm-rings under a floor",
+   "held": "Two caches of silver under the floor of a farm building (67 kg), and a third of bronze scrap (over 20 kg). 14,295 coins (about 14,200 Islamic dirhams, 4 Nordic from Hedeby, 1 Byzantine, 23 Persian) and 486 arm-rings or bits of them.",
+   "lat": 57.72335,
+   "lon": 18.7784,
+   "buried": 871,
+   "silver_g": 67000,
+   "church_ground": false,
+   "port": "paviken",
+   "landmarks": [
+    {
+     "id": "spillings_house",
+     "name": "the farm building (the 'house' over the caches)",
+     "lat": 57.72335,
+     "lon": 18.7784,
+     "then": "yes"
+    },
+    {
+     "id": "othem29",
+     "name": "Othem 29:1, a stone setting",
+     "lat": 57.72715,
+     "lon": 18.79819,
+     "then": "yes (stone settings on Gotland are Bronze Age to Iron Age)"
+    },
+    {
+     "id": "othem12",
+     "name": "Othem 12:1, a burial mound",
+     "lat": 57.71492,
+     "lon": 18.73753,
+     "then": "yes"
+    },
+    {
+     "id": "othem246",
+     "name": "Othem 246, a stone setting by the find",
+     "lat": 57.71717,
+     "lon": 18.78176,
+     "then": "yes (excavated 2005: a grave)"
+    },
+    {
+     "id": "othem76",
+     "name": "Othem 76:1, a hillfort",
+     "lat": 57.72638,
+     "lon": 18.75315,
+     "then": "(?) a fornborg; most are Iron Age"
+    },
+    {
+     "id": "stora_hammars",
+     "name": "the Stora Hammars picture stones",
+     "lat": 57.73333,
+     "lon": 18.83333,
+     "then": "yes (8th c stones)"
+    },
+    {
+     "id": "slite_bay",
+     "name": "the bay at Slite (the landing)",
+     "lat": 57.70667,
+     "lon": 18.80972,
+     "then": "yes, the bay"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "othem29",
+     "toward": "othem12",
+     "paces": 834,
+     "m_map": 1234.3,
+     "m_ground": 1252.4,
+     "bearing_deg": 249.4,
+     "bearing_words": "west-south-west",
+     "turn": {
+      "hand": "right",
+      "paces": 13,
+      "m_map": 19.2,
+      "how": "turn square to the string (a right angle) and pace on"
+     },
+     "lands": {
+      "lat": 57.72335,
+      "lon": 18.7784
+     },
+     "then": "this brings you to the farm building"
+    },
+    {
+     "type": "inside_building",
+     "building": "spillings_house",
+     "from": "the door (ours: the plan of the house is not published in the sources checked)",
+     "caches": [
+      {
+       "what": "silver cache 1 (about 27 kg)",
+       "where": "under the floor boards"
+      },
+      {
+       "what": "silver cache 2 (about 40 kg)",
+       "where": "3 m from cache 1"
+      },
+      {
+       "what": "bronze cache (over 20 kg)",
+       "where": "about 1.5 m from cache 1"
+      }
+     ],
+     "dig_depth": "under the floor boards",
+     "source": "en.wikipedia 'Spillings Hoard' (cache spacing); RAÄ (house width)"
+    }
+   ],
+   "sea_leg": {
+    "port": "paviken",
+    "landing": "slite_bay",
+    "direction": "north up the west coast past Visby, round the north end through Fårösund, then south-east down the coast into the bay at Slite",
+    "route_km": 122.8,
+    "straight_km": 49.4,
+    "days": 1.48,
+    "via": [
+     [
+      57.45,
+      18.09
+     ],
+     [
+      57.62,
+      18.22
+     ],
+     [
+      57.74,
+      18.39
+     ],
+     [
+      57.84315,
+      18.57422
+     ],
+     [
+      57.92,
+      18.8
+     ],
+     [
+      57.925,
+      19.04
+     ],
+     [
+      57.88865,
+      19.0797
+     ],
+     [
+      57.84,
+      19.1
+     ],
+     [
+      57.78045,
+      19.0
+     ],
+     [
+      57.73,
+      18.88
+     ]
+    ],
+    "straight_bearing": "north-east",
+    "via_dem_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.1,
+     0.0
+    ],
+    "overland": {
+     "km": 2.6,
+     "direction": "north-west",
+     "from": "slite_bay"
+    },
+    "also": {
+     "visby": "from 900: the same way from Visby, about 92 km (1.11 days)"
+    }
+   },
+   "found_story": null
+  },
+  {
+   "id": "hoen",
+   "name": "The Hoen hoard",
+   "kind": "The greatest Viking gold hoard",
+   "held": "Mostly gold: 20 coins, 51 pieces of jewellery and 125 beads of glass and semi-precious stone (another count: 207 pieces, with 54 of gold or silver-gilt and 132 beads). With them a Frankish gold trefoil clasp.",
+   "lat": 59.7752,
+   "lon": 9.89398,
+   "buried": 875,
+   "silver_g": 25000,
+   "church_ground": false,
+   "port": "tunsberg",
+   "landmarks": [
+    {
+     "id": "hellefossen",
+     "name": "Hellefossen, the falls at Hokksund",
+     "lat": 59.78647,
+     "lon": 9.89976,
+     "then": "yes (the falls; the power dam is modern)"
+    },
+    {
+     "id": "river_bend",
+     "name": "the Drammenselva at the bend below the falls (west bank)",
+     "lat": 59.7741,
+     "lon": 9.90747,
+     "then": "yes (?) the river; its bank may have moved"
+    },
+    {
+     "id": "ovre_hoen",
+     "name": "Øvre Hoen (Upper Hoen) farm",
+     "lat": 59.77571,
+     "lon": 9.88781,
+     "then": "(?) the farm name is old; a farmstead on this spot in 875 is not known"
+    },
+    {
+     "id": "nedre_hoen",
+     "name": "Nedre Hoen (Lower Hoen) farm",
+     "lat": 59.77644,
+     "lon": 9.89647,
+     "then": "(?) as above; the hoard was found in the bog by this farm"
+    },
+    {
+     "id": "krillasen",
+     "name": "Krillåsen, the ridge west of the farms",
+     "lat": 59.77933,
+     "lon": 9.8868,
+     "then": "yes"
+    },
+    {
+     "id": "drammensfjorden",
+     "name": "the Drammensfjord (the way in from the sea)",
+     "lat": 59.66667,
+     "lon": 10.39167,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "river_bend",
+     "toward": "ovre_hoen",
+     "paces": 512,
+     "m_map": 757.8,
+     "m_ground": 767.2,
+     "bearing_deg": 279.2,
+     "bearing_words": "west by north",
+     "lands": {
+      "lat": 59.7752,
+      "lon": 9.89399
+     },
+     "then": "into the wet ground (the bog by Nedre Hoen)"
+    },
+    {
+     "type": "in_bog",
+     "at": "the bog by Nedre Hoen",
+     "dig_depth": "a ditch's depth: it was found while mending a drainage ditch (1834)",
+     "source": "no.wikipedia 'Hoenskatten'"
+    }
+   ],
+   "sea_leg": {
+    "port": "tunsberg",
+    "landing": "river_bend",
+    "direction": "out of Tønsberg to the Oslofjord, north up the fjord, through the narrows at Svelvik into the Drammensfjord, then up the Drammenselva to Hokksund, below the falls",
+    "route_km": 80.7,
+    "straight_km": 63.2,
+    "days": 0.97,
+    "via": [
+     [
+      59.262,
+      10.44
+     ],
+     [
+      59.28,
+      10.50264
+     ],
+     [
+      59.33,
+      10.53
+     ],
+     [
+      59.41,
+      10.54
+     ],
+     [
+      59.5,
+      10.5
+     ],
+     [
+      59.5691,
+      10.43023
+     ],
+     [
+      59.612,
+      10.411
+     ],
+     [
+      59.66315,
+      10.38048
+     ],
+     [
+      59.7,
+      10.3
+     ],
+     [
+      59.736,
+      10.21589
+     ],
+     [
+      59.74715,
+      10.13089
+     ],
+     [
+      59.75474,
+      10.05357
+     ],
+     [
+      59.7589,
+      9.98
+     ],
+     [
+      59.7688,
+      9.93447
+     ]
+    ],
+    "straight_bearing": "north-north-west",
+    "via_dem_m": [
+     0.0,
+     0.1,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.1,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "note": "(?) our route. no.wikipedia: the Drammenselva stood 5-6 m higher in the Viking Age and Hokksund served as a harbour for the inland valleys; the bank point here is today's. Tønsberg trades from 871."
+   },
+   "found_story": null
+  },
+  {
+   "id": "vester_vedsted",
+   "name": "The Vester Vedsted hoard",
+   "kind": "Viking gold rings by the Wadden Sea",
+   "held": "2 gold neck-rings, 5 gold arm-rings, a piece of gold chain, 2 gold pendants with filigree, 2 gold bars, 2 silver beads, cut silver, and 10 Islamic silver coins. More gold and silver turned up later the same year.",
+   "lat": 55.29442,
+   "lon": 8.67358,
+   "buried": 975,
+   "silver_g": 7530,
+   "church_ground": false,
+   "port": "ripa",
+   "landmarks": [
+    {
+     "id": "vv_barrow",
+     "name": "the round barrow east of Vester Vedsted",
+     "lat": 55.28135,
+     "lon": 8.70962,
+     "then": "yes"
+    },
+    {
+     "id": "ribe",
+     "name": "Ribe (the market on the river)",
+     "lat": 55.33,
+     "lon": 8.763,
+     "then": "yes"
+    },
+    {
+     "id": "mando",
+     "name": "Mandø",
+     "lat": 55.28333,
+     "lon": 8.55,
+     "then": "(?) an island then, but its shore has moved"
+    },
+    {
+     "id": "dankirke",
+     "name": "Dankirke, the old deserted settlement",
+     "lat": 55.28335,
+     "lon": 8.70555,
+     "then": "(?) a deserted place by 975"
+    },
+    {
+     "id": "marsh_edge_n",
+     "name": "the marsh edge west-north-west of the village",
+     "lat": 55.29659,
+     "lon": 8.66758,
+     "then": "yes (?) the geest edge; the marsh was salt marsh then"
+    },
+    {
+     "id": "marsh_edge_s",
+     "name": "the marsh edge west-south-west of the village",
+     "lat": 55.29185,
+     "lon": 8.6671,
+     "then": "yes (?) as above"
+    }
+   ],
+   "measures": [
+    {
+     "type": "cross_lines",
+     "line1": {
+      "from": "vv_barrow",
+      "toward": "marsh_edge_n"
+     },
+     "line2": {
+      "from": "ribe",
+      "toward": "marsh_edge_s"
+     },
+     "angle_deg": 67.3,
+     "lands": {
+      "lat": 55.29442,
+      "lon": 8.67356
+     },
+     "line1_paces_to_crossing": 1806,
+     "line2_paces_to_crossing": 4607,
+     "then": "dig on the south-east slope of the sand bank"
+    },
+    {
+     "type": "dig_depth",
+     "depth": "1-2 alen (about 0.6-1.3 m)",
+     "source": "Fund og Fortidsminder, Slots- og Kulturstyrelsen (public WFS, no access constraints) systemnr 75279"
+    }
+   ],
+   "sea_leg": {
+    "port": "ripa",
+    "landing": "the flats below Vester Vedsted",
+    "direction": "down the Ribe river to its mouth, then south along the tidal flats to the marsh below Vester Vedsted",
+    "route_km": 11.4,
+    "straight_km": 7.5,
+    "days": 0.14,
+    "via": [
+     [
+      55.3341,
+      8.73763
+     ],
+     [
+      55.33685,
+      8.69842
+     ],
+     [
+      55.342,
+      8.664
+     ],
+     [
+      55.325,
+      8.65
+     ],
+     [
+      55.308,
+      8.648
+     ]
+    ],
+    "straight_bearing": "west-south-west",
+    "via_dem_m": [
+     0.2,
+     0.2,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "note": "(?) the river mouth and the flats are today's; in 975 the marsh was open salt marsh. Ribe is 6.9 km away on foot."
+   },
+   "found_story": null
+  },
+  {
+   "id": "faested",
+   "name": "The Fæsted hoard",
+   "kind": "Denmark's greatest Viking gold hoard",
+   "held": "Over 300 pieces: 8 big gold arm-rings (1.5 kg together), a pendant with a red amethyst, Arabic coins, and a Roman coin made into a pendant.",
+   "lat": 55.3483,
+   "lon": 8.9373,
+   "buried": 925,
+   "silver_g": 15000,
+   "church_ground": false,
+   "port": "ripa",
+   "landmarks": [
+    {
+     "id": "faested",
+     "name": "Fæsted (the village)",
+     "lat": 55.3483,
+     "lon": 8.9373,
+     "then": "(?) the village name; a village here in 925 is not known"
+    },
+    {
+     "id": "mound_n",
+     "name": "the round barrow north of Fæsted",
+     "lat": 55.35471,
+     "lon": 8.94065,
+     "then": "yes"
+    },
+    {
+     "id": "mound_s",
+     "name": "the round barrow south of Fæsted",
+     "lat": 55.34055,
+     "lon": 8.94338,
+     "then": "yes"
+    },
+    {
+     "id": "faestedmark",
+     "name": "the two barrows on Fæstedmark",
+     "lat": 55.36364,
+     "lon": 8.9345,
+     "then": "yes"
+    },
+    {
+     "id": "faested_mose",
+     "name": "Fæsted Mose (the bog)",
+     "lat": 55.35278,
+     "lon": 8.86667,
+     "then": "(?) a bog then"
+    }
+   ],
+   "measures": [
+    {
+     "type": "between",
+     "from": "mound_n",
+     "to": "mound_s",
+     "fraction": "1/2",
+     "fraction_value": 0.5,
+     "m_map_from": 780.9,
+     "paces_from": 528,
+     "lands": {
+      "lat": 55.34763,
+      "lon": 8.94202
+     },
+     "then": "the field between the two barrows (ours: the find field is not published)"
+    }
+   ],
+   "sea_leg": {
+    "port": "ripa",
+    "landing": "ripa",
+    "direction": "no sea leg: walk east from Ribe",
+    "route_km": 0.0,
+    "straight_km": 0.0,
+    "days": 0.0,
+    "via": [],
+    "via_dem_m": [],
+    "overland": {
+     "km": 11.5,
+     "direction": "east by north",
+     "from": "ripa"
+    }
+   },
+   "found_story": null
+  },
+  {
+   "id": "terslev",
+   "name": "The Terslev hoard",
+   "kind": "Viking silver: dirhams, cups and rings",
+   "held": "6.6 kg of silver: 1,751 coins (1,708 Arabic dirhams; English, French, German, Italian and Danish coins), neck-rings, arm-rings, chains, dress jewellery, cut silver, four drinking cups from the north, a large bowl perhaps from Persia, and a piece of an altar dish.",
+   "lat": 55.37497,
+   "lon": 11.96513,
+   "buried": 950,
+   "silver_g": 6600,
+   "church_ground": false,
+   "port": "hleidr",
+   "landmarks": [
+    {
+     "id": "mound_ne",
+     "name": "the round barrow north-east of Terslev",
+     "lat": 55.38126,
+     "lon": 11.97403,
+     "then": "yes"
+    },
+    {
+     "id": "longbarrow_sw",
+     "name": "the long barrow south-west of Terslev",
+     "lat": 55.35124,
+     "lon": 11.92465,
+     "then": "yes"
+    },
+    {
+     "id": "ternesoe",
+     "name": "Ternesø (the lake east of the village)",
+     "lat": 55.37572,
+     "lon": 11.97693,
+     "then": "yes (?) a lake then"
+    },
+    {
+     "id": "dolmen_nw",
+     "name": "the dolmen north-west of Terslev",
+     "lat": 55.38378,
+     "lon": 11.9561,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "mound_ne",
+     "toward": "longbarrow_sw",
+     "paces": 597,
+     "m_map": 883.6,
+     "m_ground": 897.3,
+     "bearing_deg": 223.2,
+     "bearing_words": "south-west",
+     "turn": {
+      "hand": "left",
+      "paces": 45,
+      "m_map": 66.6,
+      "how": "turn square to the string (a right angle) and pace on"
+     },
+     "lands": {
+      "lat": 55.37496,
+      "lon": 11.96513
+     },
+     "then": "in the village garden ground"
+    },
+    {
+     "type": "dig_depth",
+     "depth": "a boy's hole (two boys found it digging in a garden, 1911)",
+     "source": "Fund og Fortidsminder, Slots- og Kulturstyrelsen (public WFS, no access constraints) systemnr 110771"
+    }
+   ],
+   "sea_leg": {
+    "port": "hleidr",
+    "landing": "hleidr",
+    "direction": "no water route: overland south from Hleiðr",
+    "route_km": 0.0,
+    "straight_km": 0.0,
+    "days": 0.0,
+    "via": [],
+    "via_dem_m": [],
+    "overland": {
+     "km": 25.6,
+     "direction": "south",
+     "from": "hleidr"
+    },
+    "note": "(?) By sea the nearest landing is the Køge river mouth on Køge Bay, about 17 km east of Terslev (?); from Lejre that is a voyage round north Zealand (about 165 km (?), 2 days)."
+   },
+   "found_story": null
+  },
+  {
+   "id": "duesminde",
+   "name": "The Duesminde hoard",
+   "kind": "Frankish belt silver on Lolland",
+   "held": "50 silver pieces, mostly Frankish belt buckles, strap mounts and hanging ornaments, with part of a key used in church rites. Earlier, 23 silver rings and a gold ring were found in the same area.",
+   "lat": 54.75429,
+   "lon": 11.33312,
+   "buried": 950,
+   "silver_g": 1300,
+   "church_ground": false,
+   "port": "starigard",
+   "landmarks": [
+    {
+     "id": "rodby_fjord",
+     "name": "Rødby Fjord (then an open inlet)",
+     "lat": 54.72279,
+     "lon": 11.29043,
+     "then": "yes"
+    },
+    {
+     "id": "mound_ne",
+     "name": "the round barrow north-east of Duesminde",
+     "lat": 54.76945,
+     "lon": 11.35824,
+     "then": "yes"
+    },
+    {
+     "id": "vejleby",
+     "name": "Vejleby (the village)",
+     "lat": 54.7474,
+     "lon": 11.3307,
+     "then": "(?)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "between",
+     "from": "rodby_fjord",
+     "to": "mound_ne",
+     "fraction": "2/3",
+     "fraction_value": 0.6667,
+     "m_map_from": 4455.2,
+     "paces_from": 3010,
+     "lands": {
+      "lat": 54.7539,
+      "lon": 11.33562
+     },
+     "then": "the pieces lie scattered over about 8 x 12 m: a first dig finds part, a second finds more"
+    }
+   ],
+   "sea_leg": {
+    "port": "starigard",
+    "landing": "rodby_fjord",
+    "direction": "out to the Baltic, north-east across the Fehmarn Belt to Lolland's south shore, into Rødby Fjord",
+    "route_km": 72.5,
+    "straight_km": 54.5,
+    "days": 0.87,
+    "via": [
+     [
+      54.27,
+      11.1
+     ],
+     [
+      54.38,
+      11.33
+     ],
+     [
+      54.52,
+      11.36
+     ],
+     [
+      54.64,
+      11.34
+     ]
+    ],
+    "straight_bearing": "north-east by north",
+    "via_dem_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "overland": {
+     "km": 4.5,
+     "direction": "north-east",
+     "from": "rodby_fjord"
+    },
+    "note": "(?) our route; the way from Starigard (Oldenburg) to open water is not checked. Rødby Fjord was drained in the 1870s; its shore then is not drawn here."
+   },
+   "found_story": null
+  },
+  {
+   "id": "gjerrild",
+   "name": "The Gjerrild hoard",
+   "kind": "Dirhams hidden in a stone-age long barrow",
+   "held": "81 pieces of silver, 66 of them coins or coin pieces (74 coins by the coin table), mostly Arabic dirhams, likely got at the great markets of eastern Russia.",
+   "lat": 56.51542,
+   "lon": 10.85601,
+   "buried": 955,
+   "silver_g": 300,
+   "church_ground": false,
+   "port": "aros",
+   "landmarks": [
+    {
+     "id": "brokhoj",
+     "name": "Brokhøj, the long barrow (two chambers)",
+     "lat": 56.51542,
+     "lon": 10.85601,
+     "then": "yes, already about 4,000 years old"
+    },
+    {
+     "id": "gjerrild_klint",
+     "name": "Gjerrild Klint (the cliff)",
+     "lat": 56.5164,
+     "lon": 10.8623,
+     "then": "yes"
+    },
+    {
+     "id": "mound_e",
+     "name": "the round barrow beside Brokhøj",
+     "lat": 56.5156,
+     "lon": 10.85734,
+     "then": "yes"
+    },
+    {
+     "id": "longbarrow_w",
+     "name": "the long barrow west of Brokhøj",
+     "lat": 56.51344,
+     "lon": 10.84867,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "gjerrild_klint",
+     "toward": "brokhoj",
+     "paces": 267,
+     "m_map": 395.2,
+     "m_ground": 401.2,
+     "bearing_deg": 254.3,
+     "bearing_words": "west by south",
+     "lands": {
+      "lat": 56.51542,
+      "lon": 10.85603
+     },
+     "then": "to the long barrow"
+    },
+    {
+     "type": "in_mound",
+     "mound": "brokhoj",
+     "where": "in the westernmost chamber (chamber I), in the stone trace 'A1'",
+     "source": "Fund og Fortidsminder, Slots- og Kulturstyrelsen (public WFS, no access constraints) systemnr 122797"
+    }
+   ],
+   "sea_leg": {
+    "port": "aros",
+    "landing": "gjerrild_klint",
+    "direction": "out of Aarhus bay, east round Helgenæs, north up the Djursland coast past Grenå and Fornæs, then west to the cliff",
+    "route_km": 90.0,
+    "straight_km": 56.8,
+    "days": 1.08,
+    "via": [
+     [
+      56.15,
+      10.3
+     ],
+     [
+      56.08,
+      10.45
+     ],
+     [
+      56.07,
+      10.6
+     ],
+     [
+      56.13,
+      10.78
+     ],
+     [
+      56.25,
+      10.88
+     ],
+     [
+      56.38,
+      10.97
+     ],
+     [
+      56.45,
+      11.0
+     ],
+     [
+      56.5,
+      10.93
+     ]
+    ],
+    "straight_bearing": "north-east",
+    "via_dem_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "note": "(?) our route."
+   },
+   "found_story": null
+  },
+  {
+   "id": "ibsker",
+   "name": "The Ibsker hoard",
+   "kind": "Arabic coins on Bornholm",
+   "held": "152 Arabic silver coins.",
+   "lat": 55.11294,
+   "lon": 15.12822,
+   "buried": 854,
+   "silver_g": 440,
+   "church_ground": false,
+   "port": "burgendaland",
+   "landmarks": [
+    {
+     "id": "sorte_muld",
+     "name": "Sorte Muld (the chiefs' seat)",
+     "lat": 55.1247,
+     "lon": 15.1166,
+     "then": "yes"
+    },
+    {
+     "id": "shore",
+     "name": "the shore by Årsdale (the landing)",
+     "lat": 55.10616,
+     "lon": 15.14915,
+     "then": "yes (?) the shore line has moved a little"
+    },
+    {
+     "id": "mound_nw",
+     "name": "the round barrow north-west of the find",
+     "lat": 55.11499,
+     "lon": 15.12672,
+     "then": "yes"
+    },
+    {
+     "id": "mound_w",
+     "name": "the round barrow west of the find",
+     "lat": 55.11364,
+     "lon": 15.12363,
+     "then": "yes"
+    },
+    {
+     "id": "longbarrow_ne",
+     "name": "the long barrow north-east of the find",
+     "lat": 55.11558,
+     "lon": 15.1324,
+     "then": "yes"
+    },
+    {
+     "id": "cairn_w",
+     "name": "the burial cairn west of the find",
+     "lat": 55.11756,
+     "lon": 15.11401,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "shore",
+     "toward": "cairn_w",
+     "paces": 1021,
+     "m_map": 1511.1,
+     "m_ground": 1534.5,
+     "bearing_deg": 299.5,
+     "bearing_words": "north-west by west",
+     "lands": {
+      "lat": 55.11295,
+      "lon": 15.12823
+     },
+     "then": "dig in the field of the old farm (a burnt house and a sunken house were found there)"
+    }
+   ],
+   "sea_leg": {
+    "port": "burgendaland",
+    "landing": "shore",
+    "direction": "out from Svaneke and south along the rocky east shore",
+    "route_km": 6.2,
+    "straight_km": 3.6,
+    "days": 0.07,
+    "via": [
+     [
+      55.137,
+      15.15
+     ],
+     [
+      55.125,
+      15.155
+     ]
+    ],
+    "straight_bearing": "south-east",
+    "via_dem_m": [
+     0.0,
+     0.0
+    ],
+    "note": "(?) the game port lies at Sorte Muld; its landing is taken as Svaneke."
+   },
+   "found_story": null
+  },
+  {
+   "id": "strandby",
+   "name": "The Strandby hoard",
+   "kind": "Silver of Harald Bluetooth's time, with a Thor's hammer",
+   "held": "365 pieces, about 200 of them coins, with a silver Thor's hammer.",
+   "lat": 57.4931,
+   "lon": 10.4922,
+   "buried": 1000,
+   "silver_g": 500,
+   "church_ground": false,
+   "port": "lindholm",
+   "landmarks": [
+    {
+     "id": "hirsholmene",
+     "name": "Hirsholmene (the isles off the coast)",
+     "lat": 57.48556,
+     "lon": 10.62444,
+     "then": "yes"
+    },
+    {
+     "id": "shore",
+     "name": "the beach at Strandby, with the isles astern",
+     "lat": 57.49162,
+     "lon": 10.50979,
+     "then": "yes (?) the beach has moved"
+    },
+    {
+     "id": "elling_mose",
+     "name": "Elling Mose (the bog inland)",
+     "lat": 57.49722,
+     "lon": 10.4025,
+     "then": "(?) a bog then"
+    },
+    {
+     "id": "rugholm",
+     "name": "the offering place at the Rugholm stream mouth",
+     "lat": 57.50379,
+     "lon": 10.4887,
+     "then": "yes, in use in the Viking Age"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "shore",
+     "toward": "elling_mose",
+     "paces": 700,
+     "m_map": 1036.0,
+     "m_ground": 1051.4,
+     "bearing_deg": 275.6,
+     "bearing_words": "west",
+     "lands": {
+      "lat": 57.49254,
+      "lon": 10.49234
+     },
+     "then": "dig in the field (ours: the find field is not published)"
+    }
+   ],
+   "sea_leg": {
+    "port": "lindholm",
+    "landing": "shore",
+    "direction": "east down the Limfjord to Hals, then north up the Kattegat coast past Frederikshavn to the beach at Strandby",
+    "route_km": 89.0,
+    "straight_km": 59.1,
+    "days": 1.07,
+    "via": [
+     [
+      57.06495,
+      10.00992
+     ],
+     [
+      57.04,
+      10.12
+     ],
+     [
+      56.99281,
+      10.22165
+     ],
+     [
+      56.99,
+      10.32
+     ],
+     [
+      57.03,
+      10.42
+     ],
+     [
+      57.15,
+      10.48
+     ],
+     [
+      57.28,
+      10.56
+     ],
+     [
+      57.4,
+      10.58
+     ],
+     [
+      57.47,
+      10.56
+     ]
+    ],
+    "straight_bearing": "north-east by north",
+    "via_dem_m": [
+     -0.0,
+     0.0,
+     0.1,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "note": "(?) our route."
+   },
+   "found_story": null
+  },
+  {
+   "id": "tisso_ring",
+   "name": "The Tissø ring",
+   "kind": "A single gold neck-ring by Tyr's lake",
+   "held": "One great gold neck-ring, 30 cm across: 1.83 kg (once about 2 kg). Not a hoard of many pieces, but one of the largest gold finds in Denmark.",
+   "lat": 55.57462,
+   "lon": 11.25525,
+   "buried": 950,
+   "silver_g": 18300,
+   "church_ground": false,
+   "port": "tisso",
+   "landmarks": [
+    {
+     "id": "great_hall",
+     "name": "the great hall at Fugledegård",
+     "lat": 55.57462,
+     "lon": 11.25525,
+     "then": "yes"
+    },
+    {
+     "id": "lake_shore",
+     "name": "the lake shore below the hall",
+     "lat": 55.57462,
+     "lon": 11.25859,
+     "then": "yes (?) the lake was higher before drainage (?)"
+    },
+    {
+     "id": "tisso_lake",
+     "name": "Lake Tissø",
+     "lat": 55.57591,
+     "lon": 11.29205,
+     "then": "yes"
+    },
+    {
+     "id": "halleby_ford",
+     "name": "the old ford on the Halleby river",
+     "lat": 55.56893,
+     "lon": 11.24904,
+     "then": "(?)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "between",
+     "from": "great_hall",
+     "to": "lake_shore",
+     "fraction": "1/2",
+     "fraction_value": 0.5,
+     "m_map_from": 103.7,
+     "paces_from": 70,
+     "lands": {
+      "lat": 55.57462,
+      "lon": 11.25692
+     },
+     "then": "dig at plough depth (ours: the 1977 find spot is not published)"
+    }
+   ],
+   "sea_leg": {
+    "port": "tisso",
+    "landing": "lake_shore",
+    "direction": "across the lake to the shore below the hall",
+    "route_km": 1.6,
+    "straight_km": 1.6,
+    "days": 0.02,
+    "via": [],
+    "straight_bearing": "south-west",
+    "via_dem_m": []
+   },
+   "found_story": null
+  },
+  {
+   "id": "molnby",
+   "name": "The Molnby hoard",
+   "kind": "A small purse of dirhams in an old grave field",
+   "held": "163 silver coins (113 clipped, 50 whole), mostly from around Samarkand, some copies from the Volga. Worth about ten cows or one and a half horses.",
+   "lat": 59.5679,
+   "lon": 18.09418,
+   "buried": 950,
+   "silver_g": 285,
+   "church_ground": false,
+   "port": "birka",
+   "landmarks": [
+    {
+     "id": "cairn_n",
+     "name": "the great cairn north of Molnby (Vallentuna 345:1)",
+     "lat": 59.57638,
+     "lon": 18.09846,
+     "then": "yes"
+    },
+    {
+     "id": "round_setting",
+     "name": "the round stone setting (Vallentuna 344:1)",
+     "lat": 59.56898,
+     "lon": 18.09488,
+     "then": "yes"
+    },
+    {
+     "id": "gravefield_e",
+     "name": "the grave field east of the find (Vallentuna 340:1)",
+     "lat": 59.56796,
+     "lon": 18.09597,
+     "then": "yes"
+    },
+    {
+     "id": "gravefield_s",
+     "name": "the grave field south of the find (Vallentuna 341:1)",
+     "lat": 59.56699,
+     "lon": 18.0933,
+     "then": "yes (gone today)"
+    },
+    {
+     "id": "vallentunasjon",
+     "name": "Vallentunasjön (the lake to the south-west)",
+     "lat": 59.50559,
+     "lon": 18.03725,
+     "then": "yes (?) its shore then is not known"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "cairn_n",
+     "toward": "round_setting",
+     "paces": 651,
+     "m_map": 963.5,
+     "m_ground": 975.8,
+     "bearing_deg": 193.8,
+     "bearing_words": "south by west",
+     "turn": {
+      "hand": "right",
+      "paces": 7,
+      "m_map": 10.4,
+      "how": "turn square to the string (a right angle) and pace on"
+     },
+     "lands": {
+      "lat": 59.5679,
+      "lon": 18.09416
+     },
+     "note": "the spot lies beyond the 'toward' landmark: stretch the string on past it",
+     "then": "among the old graves"
+    },
+    {
+     "type": "in_mound",
+     "at": "among the stone settings of the grave field",
+     "dig_depth": "not published"
+    }
+   ],
+   "sea_leg": {
+    "port": "birka",
+    "landing": "the head of Stora Värtan (?)",
+    "direction": "east through Mälaren to the strait at Stockholm, out and north up the Värtan inlets to their head at Täby",
+    "route_km": 42.6,
+    "straight_km": 32.6,
+    "days": 0.51,
+    "via": [
+     [
+      59.32505,
+      17.70264
+     ],
+     [
+      59.32,
+      17.89383
+     ],
+     [
+      59.325,
+      18.03
+     ],
+     [
+      59.3291,
+      18.07
+     ],
+     [
+      59.3559,
+      18.10882
+     ],
+     [
+      59.38995,
+      18.11177
+     ],
+     [
+      59.41135,
+      18.09442
+     ]
+    ],
+    "straight_bearing": "east-north-east",
+    "via_dem_m": [
+     0.2,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.2,
+     0.0
+    ],
+    "overland": {
+     "km": 15.1,
+     "direction": "north",
+     "from": "the head of Stora Värtan"
+    },
+    "note": "(?) our landing: no checked water way reaches Molnby; the hunt ends with a walk north.",
+    "also": {
+     "sigtuna": "from 980: overland about 22 km east by south from Sigtuna"
+    }
+   },
+   "found_story": null
+  },
+  {
+   "id": "varby",
+   "name": "The Vårby hoard",
+   "kind": "A woman's silver: necklace, pendants, belt mounts",
+   "held": "Silver jewellery: a necklace of 42 decorated beads, 19 belt mounts, 19 pendants (Nordic openwork animals and eastern heart shapes), and 2 real and 4 copied Arabic coins made into pendants.",
+   "lat": 59.26167,
+   "lon": 17.88194,
+   "buried": 850,
+   "silver_g": 300,
+   "church_ground": false,
+   "port": "birka",
+   "landmarks": [
+    {
+     "id": "varby_spring",
+     "name": "Vårby spring (the shore below the rock)",
+     "lat": 59.25639,
+     "lon": 17.88278,
+     "then": "(?) a spring; the Mälaren shore then was a few metres higher"
+    },
+    {
+     "id": "gravefield",
+     "name": "the great grave field on the hill (Huddinge 12:1)",
+     "lat": 59.26267,
+     "lon": 17.88171,
+     "then": "yes"
+    },
+    {
+     "id": "mound_w",
+     "name": "the big mound west of the find (Huddinge 186:1)",
+     "lat": 59.26385,
+     "lon": 17.87574,
+     "then": "yes"
+    },
+    {
+     "id": "hagaviken",
+     "name": "Hagaviken (the bay below Vårby)",
+     "lat": 59.25778,
+     "lon": 17.87139,
+     "then": "yes"
+    },
+    {
+     "id": "varbyfjarden",
+     "name": "Vårbyfjärden (the open water of Mälaren)",
+     "lat": 59.26667,
+     "lon": 17.85,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "varby_spring",
+     "toward": "gravefield",
+     "paces": 393,
+     "m_map": 581.6,
+     "m_ground": 589.3,
+     "bearing_deg": 355.0,
+     "bearing_words": "north",
+     "lands": {
+      "lat": 59.26166,
+      "lon": 17.88188
+     },
+     "then": "up the hill among the birches; dig just short of the graves"
+    }
+   ],
+   "sea_leg": {
+    "port": "birka",
+    "landing": "hagaviken",
+    "direction": "east across Mälaren into Vårbyfjärden, to the bay below Vårby",
+    "route_km": 20.9,
+    "straight_km": 20.6,
+    "days": 0.25,
+    "via": [
+     [
+      59.30865,
+      17.61736
+     ],
+     [
+      59.2936,
+      17.73704
+     ],
+     [
+      59.26595,
+      17.82
+     ],
+     [
+      59.262,
+      17.855
+     ]
+    ],
+    "straight_bearing": "east-south-east",
+    "via_dem_m": [
+     0.2,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "note": "(?) our route. Birka trades to 975."
+   },
+   "found_story": null
+  },
+  {
+   "id": "ralswiek",
+   "name": "The Ralswiek dirham hoard",
+   "kind": "Arabic silver at the Rani's trading place",
+   "held": "2,203 Arabic silver dirhams.",
+   "lat": 54.46949,
+   "lon": 13.45045,
+   "buried": 850,
+   "silver_g": 6390,
+   "church_ground": false,
+   "port": "ralswiek",
+   "landmarks": [
+    {
+     "id": "boat_landing",
+     "name": "the boat landing (where four boats were found)",
+     "lat": 54.46949,
+     "lon": 13.45045,
+     "then": "yes"
+    },
+    {
+     "id": "buchberg",
+     "name": "Buch-Berg (the hill north-west of the bay)",
+     "lat": 54.47917,
+     "lon": 13.43111,
+     "then": "yes"
+    },
+    {
+     "id": "schlossberg",
+     "name": "the Schlossberg (old ramparts on the Schwarze Berge)",
+     "lat": 54.48333,
+     "lon": 13.48556,
+     "then": "yes (?)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "boat_landing",
+     "toward": "buchberg",
+     "paces": 80,
+     "m_map": 118.4,
+     "m_ground": 120.2,
+     "bearing_deg": 310.7,
+     "bearing_words": "north-west",
+     "lands": {
+      "lat": 54.47019,
+      "lon": 13.44904
+     },
+     "then": "to a house of the trading place (ours: the find spot is not published in the sources checked)"
+    },
+    {
+     "type": "inside_building",
+     "building": "a house of the trading place (ours)",
+     "dig_depth": "under the floor (?)"
+    }
+   ],
+   "sea_leg": {
+    "port": "ralswiek",
+    "landing": "boat_landing",
+    "direction": "the hoard lies at the port",
+    "route_km": 0.5,
+    "straight_km": 0.5,
+    "days": 0.01,
+    "via": [],
+    "straight_bearing": "south-east by east",
+    "via_dem_m": []
+   },
+   "found_story": null
+  },
+  {
+   "id": "hiddensee",
+   "name": "The Hiddensee gold",
+   "kind": "Viking gold jewellery, perhaps of Harald Bluetooth's family",
+   "held": "16 gold pendants (cross and hammer shapes in one), a gold brooch and a gold neck-ring: 600 g of gold. The largest Viking gold find in Germany.",
+   "lat": 54.52491,
+   "lon": 13.08207,
+   "buried": 975,
+   "silver_g": 6000,
+   "church_ground": false,
+   "port": "ralswiek",
+   "landmarks": [
+    {
+     "id": "bakenberg",
+     "name": "the Bakenberg, the high hill of the Dornbusch",
+     "lat": 54.59709,
+     "lon": 13.11729,
+     "then": "yes"
+    },
+    {
+     "id": "gellen",
+     "name": "the Gellen (the south spit)",
+     "lat": 54.48495,
+     "lon": 13.06858,
+     "then": "(?) the spit has grown since"
+    },
+    {
+     "id": "beach",
+     "name": "the beach west of Neuendorf (Neuendorfer Strand)",
+     "lat": 54.52491,
+     "lon": 13.08207,
+     "then": "yes (?) the shore line moves"
+    },
+    {
+     "id": "neuendorf",
+     "name": "Neuendorf",
+     "lat": 54.52491,
+     "lon": 13.08842,
+     "then": "no (?) the village is later; a place name for the player's map only"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "bakenberg",
+     "toward": "gellen",
+     "paces": 5555,
+     "m_map": 8221.4,
+     "m_ground": 8348.0,
+     "bearing_deg": 194.2,
+     "bearing_words": "south by west",
+     "turn": {
+      "hand": "right",
+      "paces": 160,
+      "m_map": 236.8,
+      "how": "turn square to the string (a right angle) and pace on"
+     },
+     "lands": {
+      "lat": 54.52491,
+      "lon": 13.08208
+     },
+     "then": "to the water's edge"
+    },
+    {
+     "type": "after_storm",
+     "what": "the gold shows only after a storm flood has torn the beach (it washed out after the floods of 13 Nov 1872 and 18 Feb 1874)",
+     "source": "de.wikipedia 'Hiddenseer Goldschmuck'"
+    }
+   ],
+   "sea_leg": {
+    "port": "arkona",
+    "landing": "beach",
+    "direction": "west along Rügen's north shore, round the north end of Hiddensee (the Dornbusch) and south down its open west shore to the beach at Neuendorf",
+    "route_km": 36.2,
+    "straight_km": 28.7,
+    "days": 0.44,
+    "via": [
+     [
+      54.695,
+      13.4
+     ],
+     [
+      54.685,
+      13.3
+     ],
+     [
+      54.655,
+      13.2
+     ],
+     [
+      54.625,
+      13.12
+     ],
+     [
+      54.6,
+      13.07
+     ],
+     [
+      54.56,
+      13.055
+     ]
+    ],
+    "straight_bearing": "south-west by west",
+    "via_dem_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "note": "(?) our route. Arkona trades from 900.",
+    "also": {
+     "ralswiek": "north out of the Jasmunder Bodden, west through the bodden waters behind Rügen, south down the Schaproder Bodden, out by the Gellen channel and north to Neuendorf: about 45.2 km (0.54 days) (?) not checked for depth or for open passages in 975"
+    }
+   },
+   "found_story": null
+  },
+  {
+   "id": "gnezdovo",
+   "name": "The Gnezdovo hoard of 1867",
+   "kind": "Rus silver at the Dnieper portage",
+   "held": "Silver jewellery of the 10th c. Seven hoards in all are known at Gnezdovo, with more than 1,100 Arabic coins and Byzantine coins, and a Byzantine dish.",
+   "lat": 54.7847,
+   "lon": 31.8795,
+   "buried": 960,
+   "silver_g": 1000,
+   "church_ground": false,
+   "port": "gnezdovo",
+   "landmarks": [
+    {
+     "id": "gnezdovo_fort",
+     "name": "the hill-fort of Gnezdovo (the central settlement, where the Svinets meets the Dnieper)",
+     "lat": 54.7847,
+     "lon": 31.8795,
+     "then": "yes"
+    },
+    {
+     "id": "olshanka_mouth",
+     "name": "the Ol'shanka stream at the Dnieper (?)",
+     "lat": 54.76722,
+     "lon": 31.82167,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "olshanka_mouth",
+     "toward": "gnezdovo_fort",
+     "paces": 2794,
+     "m_map": 4135.1,
+     "m_ground": 4198.9,
+     "bearing_deg": 62.4,
+     "bearing_words": "east-north-east",
+     "lands": {
+      "lat": 54.7847,
+      "lon": 31.87949
+     },
+     "then": "the barrows lie round the fort: the 1867 spot is not known closer"
+    },
+    {
+     "type": "in_mound",
+     "at": "among the barrows by the fort (no open positions found for the barrow groups)",
+     "dig_depth": "not known"
+    }
+   ],
+   "sea_leg": {
+    "port": "gnezdovo",
+    "landing": "gnezdovo_fort",
+    "direction": "the hoard lies at the port",
+    "route_km": 0.0,
+    "straight_km": 0.0,
+    "days": 0.0,
+    "via": [],
+    "via_dem_m": []
+   },
+   "found_story": null
+  },
+  {
+   "id": "westerklief",
+   "name": "The Westerklief hoard (Wieringen)",
+   "kind": "Viking silver in Frisia",
+   "held": "Silver coins, ingots and jewellery: 1.7 kg. Smaller hoards of the same time were later found in the same area.",
+   "lat": 52.8975,
+   "lon": 4.9517,
+   "buried": 860,
+   "silver_g": 1700,
+   "church_ground": false,
+   "port": "medemelacha",
+   "landmarks": [
+    {
+     "id": "oosterklief",
+     "name": "Oosterklief (the east cliff)",
+     "lat": 52.8986,
+     "lon": 4.9592,
+     "then": "(?) the boulder-clay cliff is old; the hamlet is not known then"
+    },
+    {
+     "id": "westerland",
+     "name": "Westerland",
+     "lat": 52.8942,
+     "lon": 4.9308,
+     "then": "(?)"
+    },
+    {
+     "id": "westerklief",
+     "name": "Westerklief (the west cliff)",
+     "lat": 52.8975,
+     "lon": 4.9517,
+     "then": "(?) as for Oosterklief"
+    },
+    {
+     "id": "hippolytushoef",
+     "name": "Hippolytushoef (the rise of Wieringen)",
+     "lat": 52.9089,
+     "lon": 4.9631,
+     "then": "(?)"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "oosterklief",
+     "toward": "westerland",
+     "paces": 346,
+     "m_map": 512.1,
+     "m_ground": 519.5,
+     "bearing_deg": 255.6,
+     "bearing_words": "west by south",
+     "turn": {
+      "hand": "right",
+      "paces": 4,
+      "m_map": 5.9,
+      "how": "turn square to the string (a right angle) and pace on"
+     },
+     "lands": {
+      "lat": 52.89749,
+      "lon": 4.9517
+     },
+     "then": "up on the high ground, in the meadow (ours: the meadow is not published)"
+    }
+   ],
+   "sea_leg": {
+    "port": "medemelacha",
+    "landing": "westerklief",
+    "direction": "north-west across the waters to Wieringen",
+    "route_km": 17.5,
+    "straight_km": 17.5,
+    "days": 0.21,
+    "via": [],
+    "straight_bearing": "north-west by north",
+    "via_dem_m": [],
+    "note": "(?) The coast of 860 was very different (no Zuiderzee yet): only the straight distance is given."
+   },
+   "found_story": null
+  },
+  {
+   "id": "fecamp",
+   "name": "The Fécamp hoard",
+   "kind": "Norman and Frankish deniers in two pots",
+   "held": "Several thousand silver deniers and half-deniers in two earthenware pots: at least 3,107 of Richard I (Rouen), 2,478 of Hugh (Rouen), 2,426 or more of Charles the Bald, and others from Auxerre, Cambrai, Chartres, Laon, Le Mans, Limoges, Paris, Quentovic, Verdun and more.",
+   "lat": 49.75673,
+   "lon": 0.37873,
+   "buried": 982,
+   "silver_g": 10000,
+   "church_ground": false,
+   "port": "rotomagus",
+   "landmarks": [
+    {
+     "id": "harbour",
+     "name": "the Valmont mouth (the harbour)",
+     "lat": 49.76203,
+     "lon": 0.36847,
+     "then": "yes, the river mouth"
+    },
+    {
+     "id": "dukes_hall",
+     "name": "the dukes' palace",
+     "lat": 49.7549,
+     "lon": 0.3798,
+     "then": "(?) the dukes lived at Fécamp in the 10th c; the standing remains are later"
+    },
+    {
+     "id": "abbey",
+     "name": "the church of the Holy Trinity",
+     "lat": 49.75533,
+     "lon": 0.38172,
+     "then": "(?) Richard I's church was built in the 980s, consecrated 990"
+    },
+    {
+     "id": "cap_fagnet",
+     "name": "Cap Fagnet (the north cliff)",
+     "lat": 49.76613,
+     "lon": 0.36586,
+     "then": "yes"
+    }
+   ],
+   "measures": [
+    {
+     "type": "line_paces",
+     "from": "harbour",
+     "toward": "dukes_hall",
+     "paces": 629,
+     "m_map": 930.9,
+     "m_ground": 940.9,
+     "bearing_deg": 134.2,
+     "bearing_words": "south-east",
+     "turn": {
+      "hand": "left",
+      "paces": 62,
+      "m_map": 91.8,
+      "how": "turn square to the string (a right angle) and pace on"
+     },
+     "lands": {
+      "lat": 49.75673,
+      "lon": 0.37873
+     },
+     "then": "two pots: dig twice"
+    }
+   ],
+   "sea_leg": {
+    "port": "rotomagus",
+    "landing": "harbour",
+    "direction": "down the Seine to its mouth, then north-east along the chalk cliffs of Caux past Étretat to the Valmont mouth",
+    "route_km": 146.5,
+    "straight_km": 63.7,
+    "days": 1.77,
+    "via": [
+     [
+      49.42225,
+      1.0224
+     ],
+     [
+      49.3791,
+      1.00622
+     ],
+     [
+      49.35045,
+      0.95
+     ],
+     [
+      49.3627,
+      0.91967
+     ],
+     [
+      49.41495,
+      0.88756
+     ],
+     [
+      49.46674,
+      0.88377
+     ],
+     [
+      49.47865,
+      0.87138
+     ],
+     [
+      49.45135,
+      0.85522
+     ],
+     [
+      49.4191,
+      0.82
+     ],
+     [
+      49.4373,
+      0.80415
+     ],
+     [
+      49.4791,
+      0.8
+     ],
+     [
+      49.52,
+      0.75
+     ],
+     [
+      49.52281,
+      0.71139
+     ],
+     [
+      49.51,
+      0.67277
+     ],
+     [
+      49.47045,
+      0.53069
+     ],
+     [
+      49.4791,
+      0.47138
+     ],
+     [
+      49.44775,
+      0.34447
+     ],
+     [
+      49.43,
+      0.25
+     ],
+     [
+      49.4709,
+      0.12069
+     ],
+     [
+      49.5,
+      0.06
+     ],
+     [
+      49.57,
+      0.09861
+     ],
+     [
+      49.66,
+      0.14
+     ],
+     [
+      49.71,
+      0.19
+     ],
+     [
+      49.74,
+      0.27
+     ]
+    ],
+    "straight_bearing": "north-west by west",
+    "via_dem_m": [
+     0.0,
+     0.0,
+     0.0,
+     0.2,
+     -0.6,
+     0.0,
+     0.0,
+     0.1,
+     -0.5,
+     0.2,
+     0.0,
+     0.0,
+     0.0,
+     0.1,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     -0.1,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "note": "(?) our route; the Seine bends are drawn coarsely.",
+    "also": {
+     "fiscannum": "from 990 the hoard lies at the port"
+    }
+   },
+   "found_story": null
+  }
+ ]
+}

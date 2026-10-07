@@ -1,0 +1,52 @@
+{
+ "about": "HARBOUR CARDS (Design/npc_text_encounters.md 2.2 and 4.2). Night one: the toll man alone. Every *_key is a writing key (Data/writing.json: the user writes the words; until then the panel shows the [write: ...] placeholder); 'title', 'intention' and an option's 'label' are the plain words shown until the key is written. Conditions and effects follow the grammar of 2.4 and 2.7 (the loader refuses anything else when the game starts).",
+ "cards": [
+  {
+   "id": "harbour.tollman.frankish",
+   "note": "The count's toll man at a Frankish port with a toll (Dorestad's teloneum; the tenth is trade_rules.json's zone toll). Sources: npc_text_encounters.md 1.1 (Dorestad, Quentovic, Thionville 805, Herstal 779 to check) and sample 1.",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.realm = franks and port.toll > 0",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "tollman": { "role": "tollman", "people": "port", "faith": "port", "tongue": "port", "age": [30, 60], "fixed": true }
+   },
+   "title_key": "tollman.title",
+   "title": "The toll",
+   "intention_key": "tollman.intention",
+   "intention": "The toll man asks what you carry; the king's toll is taken on what you sell here.",
+   "lines": [
+    { "who": "tollman", "key": "tollman.greet", "when": "port.visits = 0" },
+    { "who": "tollman", "key": "tollman.greet_again", "when": "port.visits > 0" },
+    { "who": "tollman", "key": "tollman.memory_honest", "when": "npc.tollman.last = declare" },
+    { "who": "tollman", "key": "tollman.memory_gift", "when": "npc.tollman.last = gift" },
+    { "who": "tollman", "key": "tollman.memory_charter", "when": "npc.tollman.last = charter" },
+    { "who": "tollman", "key": "tollman.memory_caught", "when": "npc.tollman.last = hide.failure" },
+    { "who": "tollman", "key": "tollman.law_mail", "when": "year < 805" },
+    { "who": "tollman", "key": "tollman.law_swords", "when": "year >= 805" },
+    { "who": "tollman", "key": "tollman.ask_cargo", "when": "hold.value > 0" },
+    { "who": "tollman", "key": "tollman.ask_empty", "when": "hold.value = 0" }
+   ],
+   "options": [
+    { "key": "declare", "label_key": "tollman.declare", "label": "Declare the cargo", "check": "true", "default": true,
+      "effects": [ "toll sales", "npc tollman feeling +2 honest" ] },
+    { "key": "hide", "label_key": "tollman.hide", "label": "Hide the swords under the ballast", "check": "hold.weapons > 0 or hold.captives > 0",
+      "effects": [ { "chance": 0.75, "by": "crew.trade_best",
+                     "success": [ "toll sales", "flag hid_goods_at_port for 60" ],
+                     "failure": [ "law seizure", "deed goods_seized", "npc tollman feeling -25 caught" ] } ] },
+    { "key": "gift", "label_key": "tollman.gift", "label": "Give him something", "check": "silver >= 12 and npc.tollman.feeling >= wary",
+      "cost": "silver 12",
+      "effects": [ "deed bribed_officer", "npc tollman feeling +8 gift", "toll eased 30" ] },
+    { "key": "charter", "label_key": "tollman.charter", "label": "Show the charter", "check": "text.charter_toll_dorestad",
+      "effects": [ "toll none", "npc tollman feeling -3 charter" ] }
+   ],
+   "memory": {
+    "declare": "declared the cargo",
+    "hide.failure": "caught hiding goods",
+    "gift": "gave a gift",
+    "charter": "showed a charter"
+   }
+  }
+ ]
+}

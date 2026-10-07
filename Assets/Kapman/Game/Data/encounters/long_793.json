@@ -1,0 +1,1850 @@
+{
+ "about": "THE LONG YEARS (Design/content/BRIEF.md, BRIEF_2.md; written 4 Oct 2026, a draft for the user to overwrite): the great turns of 793 to 1066 as they reach a merchant, each a fact and a choice. Stage 'long' cards are the word of a thing that happened somewhere else, keyed by year (and month, so the word never comes before the thing: the dates follow chronicle_793.json's 'fire' days); they ask for 'moored' because news comes with ships and because deeds, orders and tolls need a port. Each comes once, at 'rate' a game hour while its 'when' holds. NOTE FOR THE ENGINE: Scheduler.HourlyWeight gives stage long no weight today, so these come only when something draws them (the winter reckoning, or the hourly draw given their rate); the few without a rate are follow-ups that another card schedules, and their 'when' holds only while that card's flag is set. Stage 'harbour' cards (ids harbour.years_*) are the turns that must happen at a quay: the old pennies refused, the famine price, the Dane's envoy, the reeve's men on Saint Brice's day; they are drawn per call by 'weight' like any harbour card. Whole chains tell some of these years at length (CHAINS_LIST.md); these cards keep away from the chain's own port where there is one. Flags: the house's own begin long_; the spine's are set only for the steps it names (bs_peace, gf_paid_share, sv_old_coin, sv_scale, hy_new_measure, hy_fed_poor, hy_sold_dear, sw_ran_blades, sw_marked, ms_carried_priest) and read where a later year answers an earlier one; the chains' reward flags unlock_charter_dorestad and unlock_plot_dorestad are read, and unlock_charter_daventre is set only by carrying an earned Dorestad charter over in 896. Every person in a card is forged from its role and is invented unless the note says otherwise; every dated fact has its source in the note; (?) marks what is not verified; LATER marks a source written long after. Words: Data/writing/long.json (title, intention, lines, option labels, the news items, and art.<card id> for the picture).",
+ "cards": [
+  {
+   "id": "long.offa_quarrel.ports_shut",
+   "note": "The quarrel of about 789-790 and the ban on both sides: Gesta abbatum Fontanellensium c. 12; Alcuin to Colcu, 790 (MGH Epistolae IV no. 7). How long the ban held and how far it reached is not recorded (?): the spine's thread black_stones keeps it real but leaky to 796, with Hamwic half open. The chain black_stones tells it at Lundenwic and Quentovic; this is the word of it elsewhere. The skipper is invented.",
+   "stage": "long",
+   "when": "moored and year < 796 and not flag.bs_peace and port.id != lundenwic and port.id != quentovic",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "skipper": {"role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.offa_quarrel.ports_shut.title",
+   "title": "The shut ports",
+   "intention_key": "long.offa_quarrel.ports_shut.intention",
+   "intention": "For some years no English ship has been let trade on the king's shores in Gaul, and King Offa has shut his own to the king's men. A Frisian skipper back from the Thames says how it stands.",
+   "lines": [
+    {"who": "skipper", "key": "long.offa_quarrel.ports_shut.l1"},
+    {"who": "skipper", "key": "long.offa_quarrel.ports_shut.l2"},
+    {"who": "skipper", "key": "long.offa_quarrel.ports_shut.l3"}
+   ],
+   "options": [
+    {"key": "north", "label_key": "long.offa_quarrel.ports_shut.o.north", "label": "Keep to the Rhine and the north until the kings are friends", "check": "true", "effects": []},
+    {"key": "stones", "label_key": "long.offa_quarrel.ports_shut.o.stones", "label": "Buy two pair of his black stones for 14 d and wait for the peace", "check": "silver >= 14", "cost": "silver 14", "effects": ["goods quernstones +2", "npc skipper feeling +4 bought"]},
+    {"key": "round", "label_key": "long.offa_quarrel.ports_shut.o.round", "label": "Stand him ale and ask the way round (3 d)", "check": "silver >= 3", "cost": "silver 3", "effects": ["news long.news.offa_hamwic at here", "npc skipper feeling +6 ale", "flag long_offa_way_round for 365"]}
+   ]
+  },
+  {
+   "id": "harbour.years_arms.mail_buyer",
+   "note": "Capitulary of Herstal, 779, c. 20 (MGH Capit. I no. 20): no byrnie to be sold out of the realm; the capitulary for the missi of 803 (no. 40 c. 7): no byrnies or arm-rings to merchants. chronicle_793.json 803-arms-to-merchants-803; trade_rules.json laws. A byrnie is reckoned at 12 solidi in Lex Ribuaria (144 d in goods_793.json). The chain sword_smuggle tells the trade at length. Sets the spine's flags sw_ran_blades or sw_marked. The Dane is invented.",
+   "stage": "harbour",
+   "when": "moored and port.realm = franks and year < 805",
+   "weight": 0.12,
+   "cooldown_days": 400,
+   "actors": {
+    "dane": {"role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.years_arms.mail_buyer.title",
+   "title": "A buyer for mail",
+   "intention_key": "long.years_arms.mail_buyer.intention",
+   "intention": "Since the king's order at Herstal no mail coat may be sold out of the realm. A Dane on the next jetty asks, pleasantly, whether a Frisian boat ever carries one.",
+   "lines": [
+    {"who": "dane", "key": "long.years_arms.mail_buyer.l1"},
+    {"who": "dane", "key": "long.years_arms.mail_buyer.l2", "when": "hold.byrnies > 0"},
+    {"who": "", "key": "long.years_arms.mail_buyer.l3"}
+   ],
+   "options": [
+    {"key": "sell", "label_key": "long.years_arms.mail_buyer.o.sell", "label": "Sell him the mail coat after dark for 260 d", "check": "hold.byrnies >= 1", "cost": "goods byrnies 1", "effects": [{"chance": 0.7, "by": "crew.trade_best", "success": ["silver +260", "flag sw_ran_blades", "npc dane feeling +10 sold_mail"], "failure": ["law seizure", "deed goods_seized", "flag sw_marked", "npc dane feeling -5 caught"]}]},
+    {"key": "refuse", "label_key": "long.years_arms.mail_buyer.o.refuse", "label": "Tell him you carry wine and stones", "check": "true", "effects": ["npc dane feeling -1 refused"]},
+    {"key": "report", "label_key": "long.years_arms.mail_buyer.o.report", "label": "Tell the toll man there is a Dane asking after mail", "check": "true", "effects": ["npc dane feeling -30 reported", "toll eased 30"]}
+   ],
+   "memory": {
+    "sell.success": "sold him a mail coat",
+    "sell.failure": "was caught selling him mail",
+    "report": "told the toll man about him"
+   }
+  },
+  {
+   "id": "long.frankfurt.kings_price",
+   "note": "Synod of Frankfurt, June 794, c. 4: MGH Capit. I no. 28; chronicle_793.json 794-06-01-frankfurt-prices. Sets the spine's flag hy_new_measure. The fine for a short measure is the game's (?).",
+   "stage": "long",
+   "when": "moored and port.realm = franks and ((year = 794 and month >= 6) or (year = 795 and month <= 8))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "steward": {"role": "steward", "people": "port", "faith": "port", "tongue": "port", "fixed": false}
+   },
+   "title_key": "long.frankfurt.kings_price.title",
+   "title": "The king's measure",
+   "intention_key": "long.frankfurt.kings_price.intention",
+   "intention": "This year at Frankfurt the king set the price of corn and bread and made one public measure for the whole realm. The count's steward is going round the boats with the new one.",
+   "lines": [
+    {"who": "steward", "key": "long.frankfurt.kings_price.l1"},
+    {"who": "steward", "key": "long.frankfurt.kings_price.l2"}
+   ],
+   "options": [
+    {"key": "mark", "label_key": "long.frankfurt.kings_price.o.mark", "label": "Have your measure checked and marked (2 d for his trouble)", "check": "silver >= 2", "cost": "silver 2", "effects": ["flag hy_new_measure", "npc steward feeling +5 measured"]},
+    {"key": "old", "label_key": "long.frankfurt.kings_price.o.old", "label": "Keep the old measure. It has always been good enough", "check": "true", "effects": [{"chance": 0.5, "by": "crew.trade_best", "success": [], "failure": ["silver -12", "deed lost_case", "npc steward feeling -10 short_measure"]}]},
+    {"key": "ask", "label_key": "long.frankfurt.kings_price.o.ask", "label": "Ask him to say the whole of the king's price", "check": "true", "effects": ["news long.news.frankfurt_price at here", "npc steward feeling +1 asked"]}
+   ]
+  },
+  {
+   "id": "harbour.years_coin.old_pennies",
+   "note": "Synod of Frankfurt c. 5 (MGH Capit. I no. 28): the new deniers to be taken in every place; a free man who refuses them pays 15 solidi. chronicle_793.json 794-06-frankfurt-new-denier. Dorestad struck a light penny of about 1.3 g until 793/94, then the 1.7 g monogram penny (dossiers/dorestad.md): four old for three new. Sets the spine's flag sv_old_coin when he is caught. The losses are scaled to the starting purse.",
+   "stage": "harbour",
+   "when": "moored and port.realm = franks and ((year = 794 and month >= 6) or (year > 794 and year < 797) or year = 797)",
+   "weight": 0.4,
+   "once": true,
+   "actors": {
+    "seller": {"role": "merchant", "people": "port", "faith": "port", "tongue": "port", "fixed": false}
+   },
+   "title_key": "long.years_coin.old_pennies.title",
+   "title": "The old pennies",
+   "intention_key": "long.years_coin.old_pennies.intention",
+   "intention": "The king's new pennies are heavier, with his name-sign on them, and by his order they pass in every place, town and market. A seller turns your old light pennies over in his palm.",
+   "lines": [
+    {"who": "seller", "key": "long.years_coin.old_pennies.l1"},
+    {"who": "seller", "key": "long.years_coin.old_pennies.l2"},
+    {"who": "seller", "key": "long.years_coin.old_pennies.l3", "when": "port.has_mint"}
+   ],
+   "options": [
+    {"key": "weigh", "label_key": "long.years_coin.old_pennies.o.weigh", "label": "Let him weigh them, and take the loss", "check": "silver >= 8", "cost": "silver 8", "effects": ["npc seller feeling +2 weighed"]},
+    {"key": "mint", "label_key": "long.years_coin.old_pennies.o.mint", "label": "Take the old coin to the moneyer for new", "check": "port.has_mint and silver >= 5", "cost": "silver 5", "effects": ["flag long_old_coin_melted"]},
+    {"key": "pass", "label_key": "long.years_coin.old_pennies.o.pass", "label": "Pay from the bottom of the purse and talk about the weather", "check": "true", "effects": [{"chance": 0.45, "by": "crew.trade_best", "success": ["npc seller feeling -2 passed"], "failure": ["silver -15", "flag sv_old_coin", "deed lost_case", "npc seller feeling -15 old_coin"]}]},
+    {"key": "north", "label_key": "long.years_coin.old_pennies.o.north", "label": "Keep the old pennies for the north, where all silver goes on the scales", "check": "true", "effects": ["flag long_old_coin_for_north"]}
+   ],
+   "memory": {
+    "weigh": "let his old pennies be weighed",
+    "pass.failure": "tried to pass old pennies at face"
+   }
+  },
+  {
+   "id": "long.offa_letter.796",
+   "note": "Charlemagne to Offa, 796: MGH Epistolae IV no. 100 (in part in William of Malmesbury, tr. Giles 1847): pilgrims free, traders among them to pay 'the customary tolls in proper places', each realm's merchants protected, the black stones and the length of cloaks. chronicle_793.json 796-spring-offa-letter, 796-07-29-offa-dies. The black stones are usually read as Mayen querns (?). Sets the spine's flag bs_peace (the letter heard).",
+   "stage": "long",
+   "when": "moored and ((year = 796 and month >= 5) or year = 797) and not flag.bs_peace",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "skipper": {"role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.offa_letter.796.title",
+   "title": "The kings are friends",
+   "intention_key": "long.offa_letter.796.intention",
+   "intention": "This year King Charles wrote to King Offa as to a brother. The merchants of each realm are to have the other king's protection, and the shores are open.",
+   "lines": [
+    {"who": "skipper", "key": "long.offa_letter.796.l1"},
+    {"who": "skipper", "key": "long.offa_letter.796.l2"},
+    {"who": "skipper", "key": "long.offa_letter.796.l3", "when": "year = 797 or (year = 796 and month >= 8)"},
+    {"who": "", "key": "long.offa_letter.796.l4", "when": "hold.quernstones > 0"}
+   ],
+   "options": [
+    {"key": "stones", "label_key": "long.offa_letter.796.o.stones", "label": "Take an order here for black stones", "check": "port.people = english", "effects": ["flag bs_peace", "commission quernstones 4 by 120 premium 0.6"]},
+    {"key": "cloaks", "label_key": "long.offa_letter.796.o.cloaks", "label": "Take an order here for English cloaks of the old length", "check": "port.realm = franks", "effects": ["flag bs_peace", "commission wool_cloth 4 by 120 premium 0.5"]},
+    {"key": "hear", "label_key": "long.offa_letter.796.o.hear", "label": "Hear it out and go on as before", "check": "true", "effects": ["flag bs_peace"]}
+   ]
+  },
+  {
+   "id": "long.arms_ban.border_posts",
+   "note": "Capitulary of Thionville, 805, c. 7 (MGH Capit. I no. 44): the named border posts and their overseers; arms and byrnies not to be taken for sale, on pain of losing all one carries, half to the palace and half between the missi and the finder. chronicle_793.json 805-12-thionville-border-posts. Where Schezla lay is unknown (?). The missi rode in pairs, a churchman and a count: the clerk's riddle is Aldhelm's Lorica (riddles_793.json), the Latin behind Exeter riddle 35.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and ((year = 805 and month >= 12) or (year > 805 and year < 808) or year = 808)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "officer": {"role": "kings_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": false}
+   },
+   "title_key": "long.arms_ban.border_posts.title",
+   "title": "The posts on the border",
+   "intention_key": "long.arms_ban.border_posts.intention",
+   "intention": "This winter at Thionville the emperor named the places where merchants may meet the Slavs and the Avars, from Bardowick to Lorch, and set a man of his own over each. Arms and mail are not to be carried there for sale.",
+   "lines": [
+    {"who": "officer", "key": "long.arms_ban.border_posts.l1"},
+    {"who": "officer", "key": "long.arms_ban.border_posts.l2"},
+    {"who": "officer", "key": "long.arms_ban.border_posts.l3", "when": "hold.weapons > 0"}
+   ],
+   "options": [
+    {"key": "posts", "label_key": "long.arms_ban.border_posts.o.posts", "label": "Ask which of the posts a boat can reach", "check": "true", "effects": ["news long.news.border_posts at here", "flag long_knows_posts"]},
+    {"key": "tools", "label_key": "long.arms_ban.border_posts.o.tools", "label": "Buy iron tools instead of blades for the eastern trade (two crates, 40 d)", "check": "silver >= 40", "cost": "silver 40", "effects": ["goods iron_tools +2"]},
+    {"key": "riddle", "label_key": "long.arms_ban.border_posts.o.riddle", "label": "Ask the clerk who rides with him what mail is, that kings fear it so", "check": "true", "effects": ["give_riddle riddle_aldhelm_33_lorica"]},
+    {"key": "west", "label_key": "long.arms_ban.border_posts.o.west", "label": "Say the law is for men who trade east, and you trade west", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "harbour.years_famine.corn_805",
+   "note": "Capitulary of Thionville, 805, c. 4 (MGH Capit. I no. 44): in this year's famine each to help his own, corn not to be sold too dear, no food sold out of the empire. Capitulary of Nijmegen, March 806, c. 17-18 (no. 46): the famine prices and 'turpe lucrum'. chronicle_793.json 805-famine-805, 805-12-thionville-famine, 806-03-nijmegen-prices. A sack is about a modius and a half (goods_793.json), so two sacks at the cap of 6 d are 18 d. Sets the spine's flags hy_fed_poor and hy_sold_dear.",
+   "stage": "harbour",
+   "when": "moored and port.realm = franks and ((year = 805 and month >= 10) or (year > 805 and year < 807) or (year = 807 and month <= 8))",
+   "weight": 0.5,
+   "cooldown_days": 150,
+   "actors": {
+    "priest": {"role": "priest", "people": "port", "faith": "port", "tongue": "port", "fixed": true}
+   },
+   "title_key": "long.years_famine.corn_805.title",
+   "title": "The hungry year",
+   "intention_key": "long.years_famine.corn_805.intention",
+   "intention": "There is famine in many parts of the realm. The emperor has ordered that each man feed his own, that no one sell his corn too dear, and that no food be sold out of the empire. The priest stands at the foot of your gangplank.",
+   "lines": [
+    {"who": "priest", "key": "long.years_famine.corn_805.l1", "when": "year = 805 or (year = 806 and month < 3)"},
+    {"who": "priest", "key": "long.years_famine.corn_805.l2", "when": "(year = 806 and month >= 3) or year = 807"},
+    {"who": "priest", "key": "long.years_famine.corn_805.l3", "when": "hold.wheat > 0"},
+    {"who": "priest", "key": "long.years_famine.corn_805.l4", "when": "hold.wheat = 0"}
+   ],
+   "options": [
+    {"key": "fair", "label_key": "long.years_famine.corn_805.o.fair", "label": "Sell two sacks of wheat at the emperor's price", "check": "hold.wheat >= 2", "cost": "goods wheat 2", "effects": ["silver +18", "flag hy_fed_poor", "deed fair_dealing", "npc priest feeling +12 fed_poor"]},
+    {"key": "dear", "label_key": "long.years_famine.corn_805.o.dear", "label": "Sell two sacks to the man who offers most", "check": "hold.wheat >= 2", "cost": "goods wheat 2", "effects": [{"chance": 0.6, "by": "crew.trade_best", "success": ["silver +44", "flag hy_sold_dear", "npc priest feeling -15 sold_dear"], "failure": ["silver +6", "flag hy_sold_dear", "deed lost_case", "npc priest feeling -25 sold_dear"]}]},
+    {"key": "give", "label_key": "long.years_famine.corn_805.o.give", "label": "Give a sack at the church door", "check": "hold.wheat >= 1", "cost": "goods wheat 1", "effects": ["deed gave_alms", "flag hy_fed_poor", "morale +0.03", "npc priest feeling +18 alms"]},
+    {"key": "promise", "label_key": "long.years_famine.corn_805.o.promise", "label": "Promise him corn: six sacks within forty days", "check": "true", "effects": ["commission wheat 6 by 40 premium 0.5", "npc priest feeling +4 promised"]}
+   ],
+   "memory": {
+    "fair": "sold corn at the emperor's price in the famine",
+    "dear.success": "sold corn dear in the famine",
+    "dear.failure": "was fined for selling corn dear",
+    "give": "gave corn at the church door",
+    "promise": "promised corn"
+   }
+  },
+  {
+   "id": "harbour.years_arms.finders_half",
+   "note": "Capitulary of Thionville, 805, c. 7 (MGH Capit. I no. 44): 'dimidia quidem pars partibus palatii, alia vero medietas inter iamdictos missos et inventorem dividatur'. The capitulary speaks of the Slav and Avar marches; that the finder's share was paid at the sea ports too is the game's reading (?). The rival is invented.",
+   "stage": "harbour",
+   "when": "moored and port.realm = franks and year >= 806 and year < 834",
+   "weight": 0.1,
+   "cooldown_days": 500,
+   "actors": {
+    "rival": {"role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.years_arms.finders_half.title",
+   "title": "The finder's half",
+   "intention_key": "long.years_arms.finders_half.intention",
+   "intention": "Your man saw sword hilts in the wool bales going aboard the next boat, which is bound for the Danes. By the law of Thionville, half of such a cargo is shared between the emperor's men and the one who finds it.",
+   "lines": [
+    {"who": "rival", "key": "long.years_arms.finders_half.l1"},
+    {"who": "rival", "key": "long.years_arms.finders_half.l2", "when": "npc.rival.feeling >= friendly"}
+   ],
+   "options": [
+    {"key": "inform", "label_key": "long.years_arms.finders_half.o.inform", "label": "Go to the count's man and claim the finder's share", "check": "true", "effects": [{"chance": 0.7, "success": ["silver +90", "deed won_case", "npc rival feeling -60 informed"], "failure": ["deed lost_case", "npc rival feeling -40 informed"]}]},
+    {"key": "silent", "label_key": "long.years_arms.finders_half.o.silent", "label": "Say nothing. It is not your hold", "check": "true", "effects": ["npc rival feeling +6 silent"]},
+    {"key": "price", "label_key": "long.years_arms.finders_half.o.price", "label": "Tell him quietly what you saw, and let him thank you", "check": "true", "effects": ["silver +25", "npc rival feeling -12 squeezed"]}
+   ],
+   "memory": {
+    "inform.success": "informed on him to the count's man",
+    "inform.failure": "tried to inform on him",
+    "silent": "saw the blades and said nothing",
+    "price": "took silver for silence"
+   }
+  },
+  {
+   "id": "long.reric.merchants_moved",
+   "note": "Annales regni Francorum 808; chronicle_793.json 808-summer-reric-destroyed, 808-summer-danevirke; the spine's thread godfreds_market (reads its flag gf_reric_friend). The chain reric_808 tells it at Reric itself.",
+   "stage": "long",
+   "when": "moored and ((year = 808 and month >= 9) or year = 809) and port.id != reric and port.id != sliesthorp",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "skipper": {"role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.reric.merchants_moved.title",
+   "title": "Reric is gone",
+   "intention_key": "long.reric.merchants_moved.intention",
+   "intention": "This year Godfred, king of the Danes, destroyed the trading place on the Wendish shore that the Danes call Reric, put its merchants aboard his ships and set them down at Sliesthorp. He has ordered a wall from sea to sea, with one gate in it.",
+   "lines": [
+    {"who": "skipper", "key": "long.reric.merchants_moved.l1"},
+    {"who": "skipper", "key": "long.reric.merchants_moved.l2"},
+    {"who": "", "key": "long.reric.merchants_moved.l3", "when": "flag.gf_reric_friend"}
+   ],
+   "options": [
+    {"key": "word", "label_key": "long.reric.merchants_moved.o.word", "label": "Send word to Sliesthorp by this skipper, to ask after the men you knew (4 d)", "check": "silver >= 4", "cost": "silver 4", "effects": ["npc skipper feeling +5 carried_word", "flag long_reric_word for 400", "news long.news.reric_moved at here"]},
+    {"key": "wax", "label_key": "long.reric.merchants_moved.o.wax", "label": "Buy the last cake of Wendish wax he saved (30 d): there will be less of it this year", "check": "silver >= 30", "cost": "silver 30", "effects": ["goods wax +1", "npc skipper feeling +3 bought"]},
+    {"key": "leave", "label_key": "long.reric.merchants_moved.o.leave", "label": "Mark Reric off your reckoning and say no more", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.eardwulf.exile",
+   "note": "Annales regni Francorum 808 and 809: Eardwulf at Nijmegen, then Rome; brought back by the envoys of pope and emperor; the deacon Aldulf seized by pirates on his way home in 809 and ransomed. chronicle_793.json 808-03-eardwulf-nijmegen, 808-autumn-eardwulf-restored, 809-aldulf-pirates. The spine's black_stones 'ages' hook. The officer is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and (year = 808 and month >= 3)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "officer": {"role": "kings_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": false}
+   },
+   "title_key": "long.eardwulf.exile.title",
+   "title": "A king without a kingdom",
+   "intention_key": "long.eardwulf.exile.intention",
+   "intention": "This year Eardwulf, king of the Northumbrians, driven from his kingdom and his country, came to the emperor at Noviomagus and went on from there to Rome. The emperor and the pope mean to send him home with their envoys.",
+   "lines": [
+    {"who": "officer", "key": "long.eardwulf.exile.l1"},
+    {"who": "officer", "key": "long.eardwulf.exile.l2"}
+   ],
+   "options": [
+    {"key": "carry", "label_key": "long.eardwulf.exile.o.carry", "label": "Hire the boat to the envoys for the crossing", "check": "true", "effects": [{"chance": 0.75, "by": "crew.seamanship_best", "success": ["silver +50", "deed carried_letters", "npc officer feeling +12 carried"], "failure": ["silver +20", "health -0.05", "npc officer feeling +4 carried"]}]},
+    {"key": "bread", "label_key": "long.eardwulf.exile.o.bread", "label": "Sell the escort ship's bread for the passage", "check": "hold.ships_bread >= 2", "cost": "goods ships_bread 2", "effects": ["silver +10", "npc officer feeling +3 sold_bread"]},
+    {"key": "decline", "label_key": "long.eardwulf.exile.o.decline", "label": "Keep clear of kings in exile. They pay in promises", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "harbour.years_godfred.share",
+   "note": "Annales regni Francorum 810: 200 ships, the islands wasted, three battles, 100 pounds of silver paid; Einhard, Vita Karoli c. 14. chronicle_793.json 810-summer-frisia-raid-810; npc_text_encounters.md sample 9. Sets the spine's flag gf_paid_share. The share by the hull is the game's (?). The chain coast_watch_810 tells the year at length.",
+   "stage": "harbour",
+   "when": "moored and port.people = frisian and year = 810 and month >= 6 and month <= 10",
+   "weight": 0.7,
+   "once": true,
+   "actors": {
+    "envoy": {"role": "envoy", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.years_godfred.share.title",
+   "title": "The Frisians' hundred pounds",
+   "intention_key": "long.years_godfred.share.intention",
+   "intention": "Two hundred ships from the north lie among the Frisian islands. The Frisians have fought three times and lost three times, and the Danes have set a tribute of a hundred pounds of silver. A Dane with two men behind him is going from boat to boat.",
+   "lines": [
+    {"who": "envoy", "key": "long.years_godfred.share.l1"},
+    {"who": "envoy", "key": "long.years_godfred.share.l2"}
+   ],
+   "options": [
+    {"key": "pay", "label_key": "long.years_godfred.share.o.pay", "label": "Pay the thirty pennies", "check": "silver >= 30", "cost": "silver 30", "effects": ["deed paid_raiders", "flag gf_paid_share for 150", "npc envoy feeling +5 paid"]},
+    {"key": "wine", "label_key": "long.years_godfred.share.o.wine", "label": "Offer him a cask of wine and let him count it for thirty", "check": "hold.rhenish_wine >= 1", "cost": "goods rhenish_wine 1", "effects": ["deed paid_raiders", "flag gf_paid_share for 150", "npc envoy feeling +10 wine"]},
+    {"key": "refuse", "label_key": "long.years_godfred.share.o.refuse", "label": "Tell him your silver is the count's before it is his king's", "check": "true", "effects": ["flag long_godfred_refused for 150", "npc envoy feeling -20 refused", "morale +0.03"]}
+   ],
+   "memory": {
+    "pay": "paid his share of the tribute",
+    "wine": "paid his share in wine",
+    "refuse": "refused the tribute to his face"
+   }
+  },
+  {
+   "id": "long.godfred.two_hundred_sails",
+   "note": "Annales regni Francorum 810; chronicle_793.json 810-summer-frisia-raid-810, 810-summer-verden-810 (the news reached Charles at Aachen). The runaway is invented.",
+   "stage": "long",
+   "when": "moored and port.people != frisian and year = 810 and month >= 6 and month <= 9",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "runaway": {"role": "survivor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.godfred.two_hundred_sails.title",
+   "title": "Two hundred sails",
+   "intention_key": "long.godfred.two_hundred_sails.intention",
+   "intention": "This year a fleet of two hundred ships came from the Northmen to Frisia and laid waste all the islands off the coast. The Frisians were beaten in three fights and paid a hundred pounds of silver. A man who got away tells it.",
+   "lines": [
+    {"who": "runaway", "key": "long.godfred.two_hundred_sails.l1"},
+    {"who": "runaway", "key": "long.godfred.two_hundred_sails.l2"},
+    {"who": "", "key": "long.godfred.two_hundred_sails.l3"}
+   ],
+   "options": [
+    {"key": "away", "label_key": "long.godfred.two_hundred_sails.o.away", "label": "Keep off the Frisian coast until the fleet goes home", "check": "true", "effects": ["flag long_godfred_kept_away for 120"]},
+    {"key": "hand", "label_key": "long.godfred.two_hundred_sails.o.hand", "label": "Take him on as a hand. He has nothing to go back to", "check": "true", "effects": ["men +1", "morale +0.02", "npc runaway feeling +12 taken_on"]},
+    {"key": "alms", "label_key": "long.godfred.two_hundred_sails.o.alms", "label": "Give him 6 d and a loaf for the road", "check": "silver >= 6", "cost": "silver 6", "effects": ["deed gave_alms", "npc runaway feeling +15 alms"]}
+   ]
+  },
+  {
+   "id": "long.godfred.dead",
+   "note": "Annales regni Francorum 810, 811 (the oath on the Eider by twelve of each people); Einhard, Vita Karoli c. 14 (Godfred boasted he would come to Aachen). chronicle_793.json 810-summer-godfred-murdered, 811-spring-eider-peace. The Dane is invented.",
+   "stage": "long",
+   "when": "moored and ((year = 810 and month >= 8) or (year = 811 and month <= 10))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "dane": {"role": "skipper", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.godfred.dead.title",
+   "title": "Godfred is dead",
+   "intention_key": "long.godfred.dead.intention",
+   "intention": "This year Godfred, king of the Danes, was killed by one of his own following. Hemming, his brother's son, took the kingdom and made peace with the emperor.",
+   "lines": [
+    {"who": "dane", "key": "long.godfred.dead.l1", "when": "year = 810"},
+    {"who": "dane", "key": "long.godfred.dead.l2", "when": "year = 811"},
+    {"who": "", "key": "long.godfred.dead.l3"}
+   ],
+   "options": [
+    {"key": "first", "label_key": "long.godfred.dead.o.first", "label": "Send word ahead to Sliesthorp that wine is coming (3 d to the skipper)", "check": "silver >= 3", "cost": "silver 3", "effects": ["price_shock sliesthorp rhenish_wine x1.3 for 90", "news long.news.eider_peace at here", "npc dane feeling +3 carried_word"]},
+    {"key": "ask", "label_key": "long.godfred.dead.o.ask", "label": "Ask him who holds the toll at the gate now", "check": "true", "effects": ["npc dane feeling +3 asked", "flag long_knows_hemming for 400"]},
+    {"key": "wait", "label_key": "long.godfred.dead.o.wait", "label": "Let a season pass before you trust a new king's peace", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.murrain.dust",
+   "note": "Annales regni Francorum 810 (the cattle plague); Agobard of Lyon, De grandine et tonitruis c. 16: the rumour that Grimoald of Benevento had sent men with a dust to kill the cattle, and that many were seized, bound to boards and thrown into rivers, some 'confessing'. chronicle_793.json 810-cattle-plague-810. The carter is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and ((year = 810 and month >= 8) or (year = 811 and month <= 6))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "carter": {"role": "carter", "people": "romance", "faith": "christian", "tongue": "romance", "fixed": false}
+   },
+   "title_key": "long.murrain.dust.title",
+   "title": "The dust",
+   "intention_key": "long.murrain.dust.intention",
+   "intention": "A plague has killed the cattle in every province of the realm, and the army's oxen with them. It is said in the markets that men sent by the duke of Benevento scatter a dust on the fields and in the springs. A crowd on the bank has hold of a stranger.",
+   "lines": [
+    {"who": "carter", "key": "long.murrain.dust.l1"},
+    {"who": "", "key": "long.murrain.dust.l2"},
+    {"who": "", "key": "long.murrain.dust.l3"}
+   ],
+   "options": [
+    {"key": "speak", "label_key": "long.murrain.dust.o.speak", "label": "Speak for him: taste the flour in front of them", "check": "true", "effects": [{"chance": 0.65, "by": "crew.trade_best", "success": ["deed won_case", "morale +0.04", "npc carter feeling +40 saved"], "failure": ["health -0.05", "deed lost_case", "npc carter feeling +10 tried"]}]},
+    {"key": "out", "label_key": "long.murrain.dust.o.out", "label": "Keep to the boat. A stranger who speaks for a stranger makes two strangers", "check": "true", "effects": ["morale -0.03"]},
+    {"key": "hides", "label_key": "long.murrain.dust.o.hides", "label": "Buy hides while the crowd is busy: three bundles for 24 d", "check": "silver >= 24", "cost": "silver 24", "effects": ["goods cattle_hides +3"]}
+   ]
+  },
+  {
+   "id": "long.charles.dead",
+   "note": "Annales regni Francorum 814; Einhard, Vita Karoli c. 30 (died 28 January, buried the same day); the missi sent out to right wrongs. chronicle_793.json 814-01-28-charlemagne-dies, 814-02-louis-takes-over, 814-missi-814. Reads the chains' reward flag unlock_charter_dorestad. That grants were shown again at an accession is general practice.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and (year = 814 and month >= 2)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "countsman": {"role": "lords_man", "people": "port", "faith": "port", "tongue": "port", "fixed": false}
+   },
+   "title_key": "long.charles.dead.title",
+   "title": "The emperor is dead",
+   "intention_key": "long.charles.dead.intention",
+   "intention": "This year, five nights before the kalends of February, the emperor Charles died at Aachen and was buried the same day. Louis his son came up from Aquitaine and took the whole realm.",
+   "lines": [
+    {"who": "countsman", "key": "long.charles.dead.l1"},
+    {"who": "countsman", "key": "long.charles.dead.l2"},
+    {"who": "", "key": "long.charles.dead.l3", "when": "flag.unlock_charter_dorestad"}
+   ],
+   "options": [
+    {"key": "confirm", "label_key": "long.charles.dead.o.confirm", "label": "Have your freedom sealed again in the new emperor's name (60 d to his clerk)", "check": "flag.unlock_charter_dorestad and silver >= 60", "cost": "silver 60", "effects": ["flag long_charter_confirmed_814", "toll eased 365", "npc countsman feeling +6 confirmed"]},
+    {"key": "gift", "label_key": "long.charles.dead.o.gift", "label": "Give the count's man 12 d to remember your boat kindly", "check": "silver >= 12", "cost": "silver 12", "effects": ["deed bribed_officer", "toll eased 60", "npc countsman feeling +8 gift"]},
+    {"key": "complain", "label_key": "long.charles.dead.o.complain", "label": "Tell the emperor's men of a toll that was taken wrongly", "check": "true", "effects": [{"chance": 0.5, "by": "crew.trade_best", "success": ["silver +20", "deed won_case"], "failure": ["npc countsman feeling -8 complained"]}]},
+    {"key": "pray", "label_key": "long.charles.dead.o.pray", "label": "Say a prayer for the old man and go on", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "harbour.years_hedeby.pennies",
+   "note": "Coins struck at Hedeby from about 825, copying the Dorestad pennies of Charlemagne (Malmer's group KG 3; economy_and_trade.md 1.1). BRIEF rule 2: no coinage in Scandinavia before c. 825. The spine's godfreds_market 'ages' hook. The buyer is invented.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sliesthorp or port.id = ripa) and year >= 825 and year < 860",
+   "weight": 0.3,
+   "once": true,
+   "actors": {
+    "dane": {"role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.years_hedeby.pennies.title",
+   "title": "The Danes' pennies",
+   "intention_key": "long.years_hedeby.pennies.intention",
+   "intention": "The king of the Danes now has pennies struck at Sliesthorp. They are copied from the Dorestad penny, name and all, with a ship or a stag where the letters ran out. A buyer counts some into your hand.",
+   "lines": [
+    {"who": "dane", "key": "long.years_hedeby.pennies.l1"},
+    {"who": "dane", "key": "long.years_hedeby.pennies.l2"}
+   ],
+   "options": [
+    {"key": "count", "label_key": "long.years_hedeby.pennies.o.count", "label": "Take them by count, as he offers", "check": "true", "effects": [{"chance": 0.6, "by": "crew.trade_best", "success": ["silver +6", "npc dane feeling +4 counted"], "failure": ["silver -6", "npc dane feeling +4 counted"]}]},
+    {"key": "weigh", "label_key": "long.years_hedeby.pennies.o.weigh", "label": "Have every one on the scales", "check": "true", "effects": ["npc dane feeling -3 weighed"]},
+    {"key": "cut", "label_key": "long.years_hedeby.pennies.o.cut", "label": "Ask for cut silver instead, as your father took it", "check": "true", "effects": ["npc dane feeling -1 cut_silver"]}
+   ],
+   "memory": {
+    "count": "took the king's pennies by count",
+    "weigh": "weighed every penny"
+   }
+  },
+  {
+   "id": "long.dorestad.sacked_834",
+   "note": "Annales Bertiniani 834 (our rendering); Annales Xantenses 834. chronicle_793.json 834-dorestad-sacked. The digs found no burnt layer: the annals may mean the fort (dossiers/dorestad.md) (?). The chain dorestad_834 tells it at Dorestad; this is the word of it elsewhere. Reads the spine's flag sw_ran_blades (its 'ages' hook: a blade sold north comes back).",
+   "stage": "long",
+   "when": "moored and port.id != dorestad and ((year = 834 and month >= 7) or (year = 835 and month <= 5))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "runaway": {"role": "survivor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.dorestad.sacked_834.title",
+   "title": "Dorestad has burned",
+   "intention_key": "long.dorestad.sacked_834.intention",
+   "intention": "This year a fleet of the Danes came into Frisia and laid waste a part of it. From there they came by Traiectum to the trading place called Dorestad and plundered everything. Some of the people they killed, some they carried off, and part of the place they burned.",
+   "lines": [
+    {"who": "runaway", "key": "long.dorestad.sacked_834.l1"},
+    {"who": "runaway", "key": "long.dorestad.sacked_834.l2"},
+    {"who": "", "key": "long.dorestad.sacked_834.l3", "when": "flag.sw_ran_blades"},
+    {"who": "", "key": "long.dorestad.sacked_834.l4", "when": "flag.unlock_plot_dorestad"}
+   ],
+   "options": [
+    {"key": "ransom", "label_key": "long.dorestad.sacked_834.o.ransom", "label": "Send 40 d home by a sure hand, toward the ransom of those taken", "check": "silver >= 40", "cost": "silver 40", "effects": ["deed gave_alms", "flag long_dorestad_ransom_834", "npc runaway feeling +10 ransom"]},
+    {"key": "cloth", "label_key": "long.dorestad.sacked_834.o.cloth", "label": "Buy what he carried out of the fire: two bolts of Frisian cloth for 50 d", "check": "silver >= 50", "cost": "silver 50", "effects": ["goods frisian_cloth +2", "npc runaway feeling +4 bought"]},
+    {"key": "hear", "label_key": "long.dorestad.sacked_834.o.hear", "label": "Feed him, hear him out, and ask who is alive", "check": "true", "effects": ["npc runaway feeling +5 fed", "news long.news.dorestad_834 at here"]}
+   ]
+  },
+  {
+   "id": "long.dorestad.again_835",
+   "note": "Annales Bertiniani 835: 'the Northmen again laid waste Dorestad'; the emperor's anger and the coast defence. chronicle_793.json 835-dorestad-again. The house's stores and watchman are the game's; the flags are read by the cards of 836 and 846.",
+   "stage": "long",
+   "when": "moored and port.id != dorestad and ((year = 835 and month >= 6) or (year = 836 and month <= 5))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "skipper": {"role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.dorestad.again_835.title",
+   "title": "Dorestad, again",
+   "intention_key": "long.dorestad.again_835.intention",
+   "intention": "This year the Northmen laid waste Dorestad a second time. The emperor was very angry, and ordered the coasts to be guarded.",
+   "lines": [
+    {"who": "skipper", "key": "long.dorestad.again_835.l1"},
+    {"who": "skipper", "key": "long.dorestad.again_835.l2"},
+    {"who": "skipper", "key": "long.dorestad.again_835.l3", "when": "flag.long_dorestad_ransom_834"}
+   ],
+   "options": [
+    {"key": "move", "label_key": "long.dorestad.again_835.o.move", "label": "Have your stores carried up to Traiectum, inside the old walls (30 d)", "check": "silver >= 30", "cost": "silver 30", "effects": ["flag long_stores_moved"]},
+    {"key": "stay", "label_key": "long.dorestad.again_835.o.stay", "label": "Leave things as they are. The emperor has ordered the coast guarded", "check": "true", "effects": ["flag long_stores_on_dam"]},
+    {"key": "watch", "label_key": "long.dorestad.again_835.o.watch", "label": "Pay a man to watch the river mouth for your house (10 d)", "check": "silver >= 10", "cost": "silver 10", "effects": ["flag long_watchman for 4500", "flag long_stores_on_dam"]}
+   ]
+  },
+  {
+   "id": "long.witla.burned_836",
+   "note": "Annales Bertiniani 836; Annales Fuldenses 836 (emporium Witla). chronicle_793.json 836-witla-antwerp-burned; ports_793.json: Witla ends in 836. The size of Witla is unknown: 'forty houses' is the pilot's word (?). The pilot is invented.",
+   "stage": "long",
+   "when": "moored and ((year = 836 and month >= 7) or (year = 837 and month <= 5))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "pilot": {"role": "pilot", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.witla.burned_836.title",
+   "title": "Witla and Andoverpis",
+   "intention_key": "long.witla.burned_836.intention",
+   "intention": "This year the Northmen burned Andoverpis on the Scheldt and the trading place of Witla at the mouth of the Maas, and came to Dorestad a third time.",
+   "lines": [
+    {"who": "pilot", "key": "long.witla.burned_836.l1"},
+    {"who": "pilot", "key": "long.witla.burned_836.l2"},
+    {"who": "", "key": "long.witla.burned_836.l3", "when": "flag.long_stores_moved"},
+    {"who": "", "key": "long.witla.burned_836.l4", "when": "flag.long_stores_on_dam and not flag.long_watchman"}
+   ],
+   "options": [
+    {"key": "hire", "label_key": "long.witla.burned_836.o.hire", "label": "Take the pilot on", "check": "true", "effects": ["hire pilot", "npc pilot feeling +10 hired"]},
+    {"key": "sell", "label_key": "long.witla.burned_836.o.sell", "label": "Sell from your saved stores to the burned-out, at a fair price", "check": "flag.long_stores_moved", "effects": ["silver +36", "deed fair_dealing"]},
+    {"key": "ashes", "label_key": "long.witla.burned_836.o.ashes", "label": "Send to have the ashes of your own store searched", "check": "flag.long_stores_on_dam and not flag.long_watchman", "effects": [{"chance": 0.5, "success": ["silver +20"], "failure": ["morale -0.03"]}]},
+    {"key": "bread", "label_key": "long.witla.burned_836.o.bread", "label": "Give him bread and wish him a harbour", "check": "true", "effects": ["npc pilot feeling +6 bread"]}
+   ]
+  },
+  {
+   "id": "long.walcheren.tribute_837",
+   "note": "Annales Bertiniani 837 (17 June: Walcheren; tribute there and at Dorestad; the inquiry at Nijmegen; the fleet ordered). chronicle_793.json 837-06-17-walcheren-raid. The house's part is the game's (?). The chain thread_02 tells Walcheren at length.",
+   "stage": "long",
+   "when": "moored and port.id != walichrum and ((year = 837 and month >= 7) or (year = 838 and month <= 6))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "countsman": {"role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": false}
+   },
+   "title_key": "long.walcheren.tribute_837.title",
+   "title": "The tribute",
+   "intention_key": "long.walcheren.tribute_837.intention",
+   "intention": "This year the Northmen fell on Walichrum, killed Count Eggihard and Hemming, Halfdan's son, with many others, and took tribute. From Dorestad they took tribute in the same way. The emperor gave up his journey to Rome and came to Noviomagus.",
+   "lines": [
+    {"who": "countsman", "key": "long.walcheren.tribute_837.l1"},
+    {"who": "countsman", "key": "long.walcheren.tribute_837.l2"}
+   ],
+   "options": [
+    {"key": "pay", "label_key": "long.walcheren.tribute_837.o.pay", "label": "Pay your house's part of the tribute, 25 d", "check": "silver >= 25", "cost": "silver 25", "effects": ["deed paid_raiders", "flag long_tribute_837", "npc countsman feeling +3 paid"]},
+    {"key": "fleet", "label_key": "long.walcheren.tribute_837.o.fleet", "label": "Give 25 d toward the emperor's ships instead", "check": "silver >= 25", "cost": "silver 25", "effects": ["flag long_fleet_837", "toll eased 60", "npc countsman feeling +10 fleet"]},
+    {"key": "absent", "label_key": "long.walcheren.tribute_837.o.absent", "label": "Say you were at sea, and your silver with you", "check": "true", "effects": [{"chance": 0.5, "by": "crew.trade_best", "success": [], "failure": ["silver -35", "deed lost_case", "npc countsman feeling -10 dodged"]}]}
+   ]
+  },
+  {
+   "id": "long.frisia.flood_838",
+   "note": "Annales Bertiniani 839, telling of 26 December 838; the count of 2,437 drowned is the annal's own. chronicle_793.json 838-12-26-frisia-flood; economy_and_trade.md 2.5 (the flood row). The priest is invented.",
+   "stage": "long",
+   "when": "moored and port.people = frisian and ((year = 838 and month >= 12) or (year = 839 and month <= 8))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "priest": {"role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.frisia.flood_838.title",
+   "title": "The sea over Frisia",
+   "intention_key": "long.frisia.flood_838.intention",
+   "intention": "On the day after Christmas, the feast of Saint Stephen, a great flood broke over Frisia against the way of the tides and covered almost the whole land. The drowned were counted with care: two thousand four hundred and thirty-seven.",
+   "lines": [
+    {"who": "priest", "key": "long.frisia.flood_838.l1"},
+    {"who": "priest", "key": "long.frisia.flood_838.l2"},
+    {"who": "", "key": "long.frisia.flood_838.l3"}
+   ],
+   "options": [
+    {"key": "corn", "label_key": "long.frisia.flood_838.o.corn", "label": "Take an order for corn", "check": "true", "effects": ["commission wheat 6 by 50 premium 0.6", "npc priest feeling +5 corn"]},
+    {"key": "timber", "label_key": "long.frisia.flood_838.o.timber", "label": "Take an order for oak, to raise the houses again", "check": "true", "effects": ["commission oak_timber 2 by 70 premium 0.5", "npc priest feeling +5 timber"]},
+    {"key": "alms", "label_key": "long.frisia.flood_838.o.alms", "label": "Give 20 d for the burying of the dead", "check": "silver >= 20", "cost": "silver 20", "effects": ["deed gave_alms", "npc priest feeling +15 alms"]}
+   ]
+  },
+  {
+   "id": "long.brothers_war.three_kings",
+   "note": "Annales Bertiniani 841, 842 (Walcheren given to Harald: the annalist calls it a deed to be detested); Nithard iv.2 (the Stellinga); the oaths of Strasbourg, 14 February 842; Verdun, August 843. chronicle_793.json 840-06-20-louis-pious-dies, 841-06-25-fontenoy, 841-walcheren-harald, 842-02-14-strasbourg-oaths, 843-08-verdun. The spine's saxon_end 'ages' hook. The clerk is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and ((year = 841 and month >= 9) or (year > 841 and year < 843) or year = 843)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "clerk": {"role": "clerk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": false}
+   },
+   "title_key": "long.brothers_war.three_kings.title",
+   "title": "Three kings",
+   "intention_key": "long.brothers_war.three_kings.intention",
+   "intention": "The emperor Louis is dead, and his sons have fought each other at Fontenoy with a slaughter such as no man remembers among the Franks. The coasts are left to whoever comes.",
+   "lines": [
+    {"who": "clerk", "key": "long.brothers_war.three_kings.l1"},
+    {"who": "clerk", "key": "long.brothers_war.three_kings.l2"},
+    {"who": "clerk", "key": "long.brothers_war.three_kings.l3", "when": "year >= 842"},
+    {"who": "clerk", "key": "long.brothers_war.three_kings.l4", "when": "year = 843 and month >= 8"}
+   ],
+   "options": [
+    {"key": "letter", "label_key": "long.brothers_war.three_kings.o.letter", "label": "Pay the clerk to write you a letter of protection in Lothar's name (20 d)", "check": "silver >= 20", "cost": "silver 20", "effects": ["toll eased 120", "flag long_lothar_letter for 400", "npc clerk feeling +4 letter"]},
+    {"key": "carry", "label_key": "long.brothers_war.three_kings.o.carry", "label": "Carry the clerk's letters down the river for him", "check": "true", "effects": ["deed carried_letters", "npc clerk feeling +8 letters"]},
+    {"key": "keep", "label_key": "long.brothers_war.three_kings.o.keep", "label": "Trust no king's parchment this year, and keep your silver on you", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.quentovic.dawn_842",
+   "note": "Annales Bertiniani 842 (the dawn attack; only the buildings that paid were spared); Nithard iv.3 (Hamwic plundered the same way). chronicle_793.json 842-quentovic-sacked. The wine merchant is invented.",
+   "stage": "long",
+   "when": "moored and port.id != quentovic and ((year = 842 and month >= 7) or (year = 843 and month <= 4))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "wineman": {"role": "merchant", "people": "romance", "faith": "christian", "tongue": "romance", "fixed": false}
+   },
+   "title_key": "long.quentovic.dawn_842.title",
+   "title": "Quentovic at dawn",
+   "intention_key": "long.quentovic.dawn_842.intention",
+   "intention": "This year a fleet of the Northmen came to the trading place called Quentovic at first light, plundered it, took captives, killed people of both sexes, and left nothing in it but the houses that were bought off with a price.",
+   "lines": [
+    {"who": "wineman", "key": "long.quentovic.dawn_842.l1"},
+    {"who": "wineman", "key": "long.quentovic.dawn_842.l2"}
+   ],
+   "options": [
+    {"key": "buy", "label_key": "long.quentovic.dawn_842.o.buy", "label": "Buy his wine at his price: he needs silver more than casks (two for 80 d)", "check": "silver >= 80", "cost": "silver 80", "effects": ["goods frankish_wine +2", "npc wineman feeling +8 bought"]},
+    {"key": "lend", "label_key": "long.quentovic.dawn_842.o.lend", "label": "Lend him 40 d to buy back his neighbours' roof-timber", "check": "silver >= 40", "cost": "silver 40", "effects": ["flag long_quentovic_loan", "schedule long.quentovic.loan_back in 300", "npc wineman feeling +15 lent"]},
+    {"key": "listen", "label_key": "long.quentovic.dawn_842.o.listen", "label": "Hear him, and say what one says", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.quentovic.loan_back",
+   "note": "The follow-up of long.quentovic.dawn_842, scheduled 300 days after the loan; not drawn. The split tally as the record of a debt is the period's own way; no interest is taken (the Church forbids it): the thanks is a cask.",
+   "stage": "long",
+   "when": "moored and flag.long_quentovic_loan",
+   "once": true,
+   "title_key": "long.quentovic.loan_back.title",
+   "title": "Silver from Quentovic",
+   "intention_key": "long.quentovic.loan_back.intention",
+   "intention": "A boy off a Channel boat has been asking for you by name. He carries a sealed purse from the wine merchant of Quentovic, and half of a split tally stick.",
+   "lines": [
+    {"who": "", "key": "long.quentovic.loan_back.l1"}
+   ],
+   "options": [
+    {"key": "take", "label_key": "long.quentovic.loan_back.o.take", "label": "Match the tally, take the silver, and send for the cask", "check": "true", "effects": ["silver +40", "goods frankish_wine +1", "flag long_quentovic_loan = 0", "flag long_friend_quentovic"]},
+    {"key": "widows", "label_key": "long.quentovic.loan_back.o.widows", "label": "Take the silver and send the cask's worth back for the widows", "check": "true", "effects": ["silver +40", "deed gave_alms", "flag long_quentovic_loan = 0", "flag long_friend_quentovic"]}
+   ]
+  },
+  {
+   "id": "long.paris.loot_845",
+   "note": "Annales Bertiniani 845 (120 ships, Paris at Easter, 7,000 pounds); Translatio S. Germani (the sickness on the way home); Rimbert, Vita Anskarii c. 16 (Hamburg). chronicle_793.json 845-03-28-paris-sacked, 845-hamburg-burned; trade_rules.json law 'sacred'. The chain thread_03 tells the Seine in 845. The raider is invented.",
+   "stage": "long",
+   "when": "moored and port.faith = old_gods and ((year = 845 and month >= 5) or (year = 846 and month <= 6))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "raider": {"role": "raider", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.paris.loot_845.title",
+   "title": "Seven thousand pounds",
+   "intention_key": "long.paris.loot_845.intention",
+   "intention": "This year Ragnar went up the Seine with a hundred and twenty ships and came to Parisius at Easter. King Charles gave him seven thousand pounds of silver to go away. In the same year the Danes burned Hamburg. The men are home, and selling.",
+   "lines": [
+    {"who": "raider", "key": "long.paris.loot_845.l1"},
+    {"who": "raider", "key": "long.paris.loot_845.l2"},
+    {"who": "", "key": "long.paris.loot_845.l3"}
+   ],
+   "options": [
+    {"key": "cup", "label_key": "long.paris.loot_845.o.cup", "label": "Buy the cup, to carry it back to a church (60 d)", "check": "silver >= 60", "cost": "silver 60", "effects": ["goods church_plate +1", "flag long_plate_redeemed", "npc raider feeling +3 bought"]},
+    {"key": "trim", "label_key": "long.paris.loot_845.o.trim", "label": "Buy his ordinary loot instead: a bundle of silk trim for 30 d", "check": "silver >= 30", "cost": "silver 30", "effects": ["goods silk_trim +1", "npc raider feeling +3 bought"]},
+    {"key": "none", "label_key": "long.paris.loot_845.o.none", "label": "Buy nothing that came out of a church", "check": "true", "effects": ["morale +0.02"]}
+   ]
+  },
+  {
+   "id": "harbour.years_plate.cup_home",
+   "note": "The follow-up of long.paris.loot_845 in any Christian port. Buying church things back from the heathen is attested: Ealdorman Ælfred and Werburg bought the Canterbury gospels from the heathen army 'with pure gold' and gave them to Christ Church (the Codex Aureus inscription, later 9th century). The capitulary of Nijmegen, 806, c. 4, forbids churches to sell their treasure to merchants (chronicle_793.json 806-03-nijmegen-church-treasure).",
+   "stage": "harbour",
+   "when": "moored and port.faith = christian and flag.long_plate_redeemed and hold.church_plate > 0",
+   "weight": 0.9,
+   "once": true,
+   "actors": {
+    "priest": {"role": "priest", "people": "port", "faith": "port", "tongue": "port", "fixed": true}
+   },
+   "title_key": "long.years_plate.cup_home.title",
+   "title": "The cup comes home",
+   "intention_key": "long.years_plate.cup_home.intention",
+   "intention": "You carry a chalice bought off a raider's cloak in the north. A priest on the quay has seen its shape through the wrapping.",
+   "lines": [
+    {"who": "priest", "key": "long.years_plate.cup_home.l1"},
+    {"who": "priest", "key": "long.years_plate.cup_home.l2"}
+   ],
+   "options": [
+    {"key": "give", "label_key": "long.years_plate.cup_home.o.give", "label": "Give it to his church, and take his prayers", "check": "hold.church_plate >= 1", "cost": "goods church_plate 1", "effects": ["deed gave_alms", "deed gave_alms", "flag long_plate_redeemed = 0", "toll eased 180", "morale +0.05", "npc priest feeling +30 plate"]},
+    {"key": "price", "label_key": "long.years_plate.cup_home.o.price", "label": "Give it, and ask the sixty pennies it cost you", "check": "hold.church_plate >= 1", "cost": "goods church_plate 1", "effects": ["silver +60", "deed gave_alms", "flag long_plate_redeemed = 0", "npc priest feeling +10 redeemed"]},
+    {"key": "keep", "label_key": "long.years_plate.cup_home.o.keep", "label": "Say it is a cup, and yours", "check": "true", "effects": ["npc priest feeling -15 kept_plate"]}
+   ],
+   "memory": {
+    "give": "gave a ransomed chalice to the church",
+    "price": "brought a chalice home for its price",
+    "keep": "kept a chalice that was an altar's"
+   }
+  },
+  {
+   "id": "long.dorestad.burned_846",
+   "note": "Annales Xantenses 846 (burned in Lothar's sight at Nijmegen); Annales Bertiniani 846-847 (tribute from Frisia; Dorestad and the Betuwe held). chronicle_793.json 846-dorestad-burned. The flags are read by long.river.leaves_dorestad.",
+   "stage": "long",
+   "when": "moored and port.id != dorestad and ((year = 846 and month >= 7) or (year = 847 and month <= 8))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "skipper": {"role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.dorestad.burned_846.title",
+   "title": "The emperor watches",
+   "intention_key": "long.dorestad.burned_846.intention",
+   "intention": "This year the Northmen burned Dorestad with two other villages, in the sight of the emperor Lothar, who lay in the stronghold at Noviomagus and could not punish the deed. They went home with their ships full, and Frisia paid tribute.",
+   "lines": [
+    {"who": "skipper", "key": "long.dorestad.burned_846.l1"},
+    {"who": "skipper", "key": "long.dorestad.burned_846.l2"},
+    {"who": "", "key": "long.dorestad.burned_846.l3", "when": "flag.long_watchman"}
+   ],
+   "options": [
+    {"key": "mend", "label_key": "long.dorestad.burned_846.o.mend", "label": "Send 40 d for timber to mend your jetty", "check": "silver >= 40", "cost": "silver 40", "effects": ["flag long_jetty_mended_846"]},
+    {"key": "daventre", "label_key": "long.dorestad.burned_846.o.daventre", "label": "Take a place on the bank at Daventre on the IJssel, while there is time (60 d)", "check": "silver >= 60", "cost": "silver 60", "effects": ["flag long_place_daventre"]},
+    {"key": "hold", "label_key": "long.dorestad.burned_846.o.hold", "label": "Do nothing yet. It has been built again before", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.rorik.holds_dorestad",
+   "note": "Annales Bertiniani 850; Annales Fuldenses 850 (he had held Dorestad with his brother Harald in Louis's time; fled, came back by the Rhine mouths). chronicle_793.json 850-rorik-dorestad; the spine's cast.rorik and cast.eystein (the Danish toll man, invented). What his men buy is the game's (?). The chain rorik_850 tells it at Dorestad.",
+   "stage": "long",
+   "when": "moored and port.id != dorestad and ((year = 850 and month >= 7) or (year = 851 and month <= 8))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "dane": {"role": "skipper", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.rorik.holds_dorestad.title",
+   "title": "A Dane holds Dorestad",
+   "intention_key": "long.rorik.holds_dorestad.intention",
+   "intention": "This year Rorik the Dane came by the mouths of the Rhine with a fleet and took Dorestad. The emperor Lothar could not drive him out, so he received him as his man and gave him Dorestad and other counties, to pay the king's dues and keep off the other Danes.",
+   "lines": [
+    {"who": "dane", "key": "long.rorik.holds_dorestad.l1"},
+    {"who": "dane", "key": "long.rorik.holds_dorestad.l2"}
+   ],
+   "options": [
+    {"key": "gift", "label_key": "long.rorik.holds_dorestad.o.gift", "label": "Send Rorik's toll man a gift by this skipper, so your name is known (15 d)", "check": "silver >= 15", "cost": "silver 15", "effects": ["flag long_rorik_gift", "npc dane feeling +4 carried_gift"]},
+    {"key": "avoid", "label_key": "long.rorik.holds_dorestad.o.avoid", "label": "Keep your goods out of a heathen's county, and trade by Traiectum", "check": "true", "effects": ["flag long_avoids_rorik"]},
+    {"key": "ask", "label_key": "long.rorik.holds_dorestad.o.ask", "label": "Ask the Dane what Rorik's men buy", "check": "true", "effects": ["news long.news.rorik_wants at here", "npc dane feeling +2 asked"]}
+   ]
+  },
+  {
+   "id": "long.hedeby.church_850",
+   "note": "Rimbert, Vita Anskarii c. 24 (Robinson 1921: the church at Sliaswic; merchants from Dorstadt and Hamburg came freely after it; many baptised there, others prime-signed and baptised at the end of life); the bell allowed later (c. 32). chronicle_793.json 850-hedeby-church (about 850 (?)). The spine's cross_and_grove and godfreds_market hooks. The priest is invented.",
+   "stage": "long",
+   "when": "moored and port.people = danish and year >= 850 and year < 854",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "priest": {"role": "priest", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "fixed": false}
+   },
+   "title_key": "long.hedeby.church_850.title",
+   "title": "A church at Sliesthorp",
+   "intention_key": "long.hedeby.church_850.intention",
+   "intention": "King Horik has let Bishop Anskar build a church at Sliesthorp, the port where merchants come from every side, and has given leave to any in his kingdom to become Christian who will.",
+   "lines": [
+    {"who": "priest", "key": "long.hedeby.church_850.l1"},
+    {"who": "priest", "key": "long.hedeby.church_850.l2"},
+    {"who": "priest", "key": "long.hedeby.church_850.l3"}
+   ],
+   "options": [
+    {"key": "wine", "label_key": "long.hedeby.church_850.o.wine", "label": "Take the priest's order for Mass wine", "check": "true", "effects": ["commission rhenish_wine 2 by 90 premium 0.4", "npc priest feeling +6 order"]},
+    {"key": "alms", "label_key": "long.hedeby.church_850.o.alms", "label": "Give 10 d to the church", "check": "silver >= 10", "cost": "silver 10", "effects": ["deed gave_alms", "npc priest feeling +10 alms"]},
+    {"key": "pass", "label_key": "long.hedeby.church_850.o.pass", "label": "Wish him well, and mind your trade", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.rorik.away_857",
+   "note": "Annales Fuldenses 857 (Rorik to the Eider); Annales Bertiniani 857 (other Danes storm Dorestad and waste the Betuwe); dossiers/traiectum.md and daventre.md (Saint Martin's destroyed 857; Hunger flees; Lothar II gives Sint-Odiliënberg, 858; the bishops later at Deventer). chronicle_793.json has no entry for 857. Sets the spine's flag ms_carried_priest. The monk is invented.",
+   "stage": "long",
+   "when": "moored and port.id != dorestad and port.id != traiectum and ((year = 857 and month >= 6) or (year = 858 and month <= 8))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "brother": {"role": "monk", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.rorik.away_857.title",
+   "title": "While Rorik was away",
+   "intention_key": "long.rorik.away_857.intention",
+   "intention": "This year Rorik took his fleet to the borders of the Danes and seized the land between the sea and the Eider. While he was gone, other Danes stormed Dorestad and laid waste the Betuwe, and Saint Martin's at Traiectum was destroyed. Bishop Hunger has fled with his clergy.",
+   "lines": [
+    {"who": "brother", "key": "long.rorik.away_857.l1"},
+    {"who": "brother", "key": "long.rorik.away_857.l2"}
+   ],
+   "options": [
+    {"key": "carry", "label_key": "long.rorik.away_857.o.carry", "label": "Give the brothers passage up the river", "check": "true", "effects": ["deed carried_letters", "flag ms_carried_priest", "learn latin +0.1", "npc brother feeling +15 carried"]},
+    {"key": "book", "label_key": "long.rorik.away_857.o.book", "label": "Buy a book they can no longer carry (120 d)", "check": "silver >= 120", "cost": "silver 120", "effects": ["goods books +1", "npc brother feeling +2 bought_book"]},
+    {"key": "bread", "label_key": "long.rorik.away_857.o.bread", "label": "Give them 4 d for bread and ale on the road", "check": "silver >= 4", "cost": "silver 4", "effects": ["deed gave_alms", "npc brother feeling +8 bread"]},
+    {"key": "stand", "label_key": "long.rorik.away_857.o.stand", "label": "Stand aside and let them pass", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.dorestad.last_863",
+   "note": "Annales Bertiniani 863 (January: Dorestad and a 'villa non modica' where the Frisian merchants had fled; many killed; the Danes withdrew on Rorik's advice); Annales Xantenses. chronicle_793.json 863-dorestad-last; ports_793.json: Dorestad ends in 863. The runaway is invented.",
+   "stage": "long",
+   "when": "moored and port.id != dorestad and (year = 863 and month >= 3)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "runaway": {"role": "survivor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.dorestad.last_863.title",
+   "title": "The last of Dorestad",
+   "intention_key": "long.dorestad.last_863.intention",
+   "intention": "In the winter of this year, when the rivers were in flood, the Danes came up the Rhine and plundered Dorestad, and a large homestead besides where the Frisian merchants had fled. They killed many of the merchants, took a multitude captive, and went on toward Colonia.",
+   "lines": [
+    {"who": "runaway", "key": "long.dorestad.last_863.l1"},
+    {"who": "runaway", "key": "long.dorestad.last_863.l2"},
+    {"who": "", "key": "long.dorestad.last_863.l3", "when": "flag.long_rorik_gift"},
+    {"who": "", "key": "long.dorestad.last_863.l4"}
+   ],
+   "options": [
+    {"key": "ransom", "label_key": "long.dorestad.last_863.o.ransom", "label": "Send 50 d toward the ransom of the merchants taken", "check": "silver >= 50", "cost": "silver 50", "effects": ["deed gave_alms", "flag long_ransom_863", "npc runaway feeling +12 ransom"]},
+    {"key": "hand", "label_key": "long.dorestad.last_863.o.hand", "label": "Take him on: a merchant's son who can reckon", "check": "true", "effects": ["men +1", "npc runaway feeling +10 taken_on"]},
+    {"key": "leave", "label_key": "long.dorestad.last_863.o.leave", "label": "Let the dead bury the dead, and look for another harbour", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.river.leaves_dorestad",
+   "note": "The Rhine's main stream shifted to the Lek and Waal through the 9th century and the Kromme Rijn silted (economy_and_trade.md 1.6; the storm dam of 863 is Van Luttervelt's conjecture). dossiers/dorestad.md: the harbour given up about 875; 896: the freedom 'in Dorestadio' moved to Deventer and Tiel; 948: 'villa quondam Dorsteti, nunc autem Wik nominata' (the ferryman's 'Wik' is early (?)). dossiers/daventre.md: a 'portus' by 877. Tiel has no row in ports_793.json yet. The chain thread_11 tells the move at length. The ferryman is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and year >= 864 and year < 877",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "ferryman": {"role": "ferryman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.river.leaves_dorestad.title",
+   "title": "The river has gone elsewhere",
+   "intention_key": "long.river.leaves_dorestad.intention",
+   "intention": "The Rhine no longer runs as it did. Year by year the stream goes south by the Lek and the Waal, and the old arm past Dorestad lies shallow and choked with sand. A laden boat cannot come to the dams.",
+   "lines": [
+    {"who": "ferryman", "key": "long.river.leaves_dorestad.l1"},
+    {"who": "ferryman", "key": "long.river.leaves_dorestad.l2"},
+    {"who": "", "key": "long.river.leaves_dorestad.l3", "when": "flag.long_place_daventre"}
+   ],
+   "options": [
+    {"key": "own", "label_key": "long.river.leaves_dorestad.o.own", "label": "Go to the place your house took at Daventre", "check": "flag.long_place_daventre", "effects": ["flag long_home_daventre"]},
+    {"key": "daventre", "label_key": "long.river.leaves_dorestad.o.daventre", "label": "Move the house to Daventre: a place on the IJssel bank, 80 d", "check": "not flag.long_place_daventre and silver >= 80", "cost": "silver 80", "effects": ["flag long_home_daventre"]},
+    {"key": "tiel", "label_key": "long.river.leaves_dorestad.o.tiel", "label": "Go with the others to Tiel on the Waal", "check": "true", "effects": ["flag long_home_tiel"]},
+    {"key": "stay", "label_key": "long.river.leaves_dorestad.o.stay", "label": "Stay by the old dams, and trade in what small boats can carry", "check": "true", "effects": ["flag long_home_wik"]}
+   ]
+  },
+  {
+   "id": "long.pitres.edict_864",
+   "note": "Edictum Pistense, 25 June 864 (MGH Capit. II no. 273): c. 25, arms, mail and horses to the Northmen on pain of death as a traitor; c. 8-16, the new coin from ten mints, the old pennies good only to Martinmas (11 November), those who refuse good coin punished. chronicle_793.json 864-06-25-pitres; trade_rules.json laws. The edict is the western king's; the game's law zone is the whole Frankish realm (?). The spine's swords_north 'ages' hook.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and ((year = 864 and month >= 7) or (year = 865 and month <= 8))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "officer": {"role": "kings_man", "people": "port", "faith": "port", "tongue": "port", "fixed": false}
+   },
+   "title_key": "long.pitres.edict_864.title",
+   "title": "The edict of Pîtres",
+   "intention_key": "long.pitres.edict_864.intention",
+   "intention": "This year at Pîtres on the Seine King Charles ordered that whoever gives or sells a mail coat, arms or a horse to the Northmen, for ransom or any price, shall lose his life as a traitor to his country. He ordered also a new penny, from ten mints and no more.",
+   "lines": [
+    {"who": "officer", "key": "long.pitres.edict_864.l1"},
+    {"who": "officer", "key": "long.pitres.edict_864.l2"},
+    {"who": "officer", "key": "long.pitres.edict_864.l3", "when": "hold.weapons > 0 or hold.horses > 0"}
+   ],
+   "options": [
+    {"key": "sword", "label_key": "long.pitres.edict_864.o.sword", "label": "Sell a sword here, to a Frank, for what it fetches", "check": "hold.swords >= 1", "cost": "goods swords 1", "effects": ["silver +70"]},
+    {"key": "change", "label_key": "long.pitres.edict_864.o.change", "label": "Change your old pennies before Martinmas", "check": "silver >= 4", "cost": "silver 4", "effects": ["flag long_pitres_changed"]},
+    {"key": "nod", "label_key": "long.pitres.edict_864.o.nod", "label": "Hear the law, and say you have heard it", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.great_army.comes_865",
+   "note": "Anglo-Saxon Chronicle (A) 866 for autumn 865 (Giles 1847: they 'took up their winter quarters in East Anglia, and there they were horsed; and the East-Angles made peace with them'). chronicle_793.json 865-autumn-great-army. The chain great_army_865 tells the army at length. The skipper is invented.",
+   "stage": "long",
+   "when": "moored and port.id != gipeswic and port.id != dommoc and ((year = 865 and month >= 11) or year = 866)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "skipper": {"role": "skipper", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}
+   },
+   "title_key": "long.great_army.comes_865.title",
+   "title": "A great army",
+   "intention_key": "long.great_army.comes_865.intention",
+   "intention": "This year a great heathen army came into the land of the English and took winter quarters among the East Angles. There they were given horses, and the East Angles made peace with them.",
+   "lines": [
+    {"who": "skipper", "key": "long.great_army.comes_865.l1"},
+    {"who": "skipper", "key": "long.great_army.comes_865.l2"},
+    {"who": "", "key": "long.great_army.comes_865.l3"}
+   ],
+   "options": [
+    {"key": "sell", "label_key": "long.great_army.comes_865.o.sell", "label": "Send word to Gipeswic that you will bring ale and cloth for the camp", "check": "true", "effects": ["price_shock gipeswic ale x1.5 for 120", "price_shock gipeswic wool_cloth x1.3 for 120", "flag long_army_trader for 400"]},
+    {"key": "call", "label_key": "long.great_army.comes_865.o.call", "label": "Call in what you are owed among the East Angles before the army spends it", "check": "true", "effects": [{"chance": 0.6, "by": "crew.trade_best", "success": ["silver +30"], "failure": []}]},
+    {"key": "away", "label_key": "long.great_army.comes_865.o.away", "label": "Keep out of English waters until it is seen who rules there", "check": "true", "effects": ["flag long_army_kept_away for 400"]}
+   ]
+  },
+  {
+   "id": "long.york.taken_866",
+   "note": "Anglo-Saxon Chronicle (A) 867; Symeon of Durham (1 November 866; 21 March 867). chronicle_793.json 866-11-01-york-taken, 867-03-21-york-battle. The spine's york_blood 'ages' hook (reads yk_feud_known, yk_paid). The trader is invented.",
+   "stage": "long",
+   "when": "moored and port.id != eoforwic and ((year = 866 and month >= 11) or year = 867)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "trader": {"role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}
+   },
+   "title_key": "long.york.taken_866.title",
+   "title": "Eoforwic",
+   "intention_key": "long.york.taken_866.intention",
+   "intention": "This year the army went from the East Angles over the mouth of the Humber to Eoforwic. The Northumbrians had cast out their king Osberht and taken another, Ælla. Late in the year the two made peace and came against the army together, and both kings were killed.",
+   "lines": [
+    {"who": "trader", "key": "long.york.taken_866.l1"},
+    {"who": "trader", "key": "long.york.taken_866.l2", "when": "year = 867 and month >= 4"},
+    {"who": "", "key": "long.york.taken_866.l3"},
+    {"who": "", "key": "long.york.taken_866.l4", "when": "flag.yk_feud_known and not flag.yk_paid"}
+   ],
+   "options": [
+    {"key": "go", "label_key": "long.york.taken_866.o.go", "label": "Send word to Eoforwic that a Frisian boat will come to the new masters", "check": "true", "effects": ["price_shock eoforwic rhenish_wine x1.3 for 150", "flag long_york_danes"]},
+    {"key": "jet", "label_key": "long.york.taken_866.o.jet", "label": "Buy his black jet at his price, for he must eat (two sacks, 30 d)", "check": "silver >= 30", "cost": "silver 30", "effects": ["goods jet +2", "npc trader feeling +12 bought"]},
+    {"key": "leave", "label_key": "long.york.taken_866.o.leave", "label": "Leave Northumbria to the Northumbrians and the Danes", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.cuthbert.on_the_road",
+   "note": "Anglo-Saxon Chronicle 875 (Halfdan on the Tyne); Symeon of Durham, Libellus de exordio ii.6, ii.10-12 (12th century, LATER: the seven bearers, the attempt on Ireland, the gospel book lost overboard and found on the shore). The spine's holy_island 'ages' hook. The monk is invented.",
+   "stage": "long",
+   "when": "moored and port.people = english and year >= 875 and year < 883",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "brother": {"role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}
+   },
+   "title_key": "long.cuthbert.on_the_road.title",
+   "title": "The saint on the road",
+   "intention_key": "long.cuthbert.on_the_road.intention",
+   "intention": "This year the army under Halfdan wintered on the Tyne and wasted the land. Bishop Eardulf and the people of Saint Cuthbert left the holy island with the saint's body in its coffin, and they carry it from place to place with no house to set it down in.",
+   "lines": [
+    {"who": "brother", "key": "long.cuthbert.on_the_road.l1"},
+    {"who": "brother", "key": "long.cuthbert.on_the_road.l2"}
+   ],
+   "options": [
+    {"key": "alms", "label_key": "long.cuthbert.on_the_road.o.alms", "label": "Give 20 d to the saint's people", "check": "silver >= 20", "cost": "silver 20", "effects": ["deed gave_alms", "morale +0.03", "npc brother feeling +15 alms"]},
+    {"key": "carry", "label_key": "long.cuthbert.on_the_road.o.carry", "label": "Carry their baggage by sea to the next river mouth", "check": "true", "effects": ["deed carried_letters", "flag long_cuthbert_carried", "npc brother feeling +12 carried"]},
+    {"key": "pass", "label_key": "long.cuthbert.on_the_road.o.pass", "label": "Uncover your head as the coffin passes, and go on", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.alfred.in_the_marsh",
+   "note": "Anglo-Saxon Chronicle (A) 878 (Giles 1847: 'many of the people they drove beyond sea'); Asser c. 52-53. chronicle_793.json 878-01-chippenham. The lady is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and (year = 878 and month >= 2 and month <= 7)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "lady": {"role": "widow", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}
+   },
+   "title_key": "long.alfred.in_the_marsh.title",
+   "title": "The king in the marsh",
+   "intention_key": "long.alfred.in_the_marsh.intention",
+   "intention": "This year, at midwinter after Twelfth Night, the army stole away to Chippenham and rode over the land of the West Saxons and sat down in it. Many of the people they drove over the sea. King Alfred with a small band went into the woods and the fastnesses of the moors.",
+   "lines": [
+    {"who": "lady", "key": "long.alfred.in_the_marsh.l1"},
+    {"who": "lady", "key": "long.alfred.in_the_marsh.l2"}
+   ],
+   "options": [
+    {"key": "lend", "label_key": "long.alfred.in_the_marsh.o.lend", "label": "Lend her 30 d on the ring, to be redeemed", "check": "silver >= 30", "cost": "silver 30", "effects": ["flag long_widow_ring", "schedule long.alfred.ring_redeemed in 150", "npc lady feeling +20 lent"]},
+    {"key": "alms", "label_key": "long.alfred.in_the_marsh.o.alms", "label": "Give her 10 d and ask nothing", "check": "silver >= 10", "cost": "silver 10", "effects": ["deed gave_alms", "npc lady feeling +15 alms"]},
+    {"key": "news", "label_key": "long.alfred.in_the_marsh.o.news", "label": "Ask her what is left of Wessex", "check": "true", "effects": ["news long.news.wessex_878 at here"]}
+   ]
+  },
+  {
+   "id": "long.alfred.ring_redeemed",
+   "note": "The follow-up of long.alfred.in_the_marsh, scheduled 150 days after the loan; not drawn. Anglo-Saxon Chronicle (A) 878; Asser c. 56 (the baptism at Aller, the chrism-loosing at Wedmore). chronicle_793.json 878-05-edington.",
+   "stage": "long",
+   "when": "moored and flag.long_widow_ring",
+   "once": true,
+   "title_key": "long.alfred.ring_redeemed.title",
+   "title": "The ring redeemed",
+   "intention_key": "long.alfred.ring_redeemed.intention",
+   "intention": "In the seventh week after Easter King Alfred rode to Edington and fought the whole army and put it to flight. Guthrum their king was baptised with thirty of his men, and Alfred stood godfather to him. A West Saxon boy has been asking for your boat.",
+   "lines": [
+    {"who": "", "key": "long.alfred.ring_redeemed.l1"}
+   ],
+   "options": [
+    {"key": "forty", "label_key": "long.alfred.ring_redeemed.o.forty", "label": "Take the forty and give back the ring", "check": "true", "effects": ["silver +40", "flag long_widow_ring = 0", "flag long_friend_wessex"]},
+    {"key": "thirty", "label_key": "long.alfred.ring_redeemed.o.thirty", "label": "Take the thirty you lent, and send the ten back", "check": "true", "effects": ["silver +30", "morale +0.03", "flag long_widow_ring = 0", "flag long_friend_wessex"]}
+   ]
+  },
+  {
+   "id": "harbour.years_guthrum.pledge",
+   "note": "The treaty of Alfred and Guthrum (between 878 and 890), c. 1 (the boundary), c. 2 (eight half-marks of pure gold), c. 5 (no crossing without leave; trade allowed when hostages are given), our rendering. chronicle_793.json 886-london-alfred; economy_and_trade.md 2.5 (the hostage bond is the game's guess). The word Danelaw is not used: it is of the 11th century.",
+   "stage": "harbour",
+   "when": "moored and port.people = english and year >= 880 and year < 900",
+   "weight": 0.15,
+   "cooldown_days": 700,
+   "actors": {
+    "reeve": {"role": "reeve", "people": "port", "faith": "port", "tongue": "port", "fixed": true}
+   },
+   "title_key": "long.years_guthrum.pledge.title",
+   "title": "Alfred's and Guthrum's peace",
+   "intention_key": "long.years_guthrum.pledge.intention",
+   "intention": "King Alfred and King Guthrum have sworn a peace and drawn a line: up the Thames, up the Lea to its source, straight to Bedford, and up the Ouse to Watling Street. No man goes over to the army without leave. Those who must cross to trade give hostages for their good faith.",
+   "lines": [
+    {"who": "reeve", "key": "long.years_guthrum.pledge.l1"},
+    {"who": "reeve", "key": "long.years_guthrum.pledge.l2"}
+   ],
+   "options": [
+    {"key": "silver", "label_key": "long.years_guthrum.pledge.o.silver", "label": "Leave silver in the reeve's chest as your pledge: he keeps 4 d for the keeping", "check": "silver >= 4", "cost": "silver 4", "effects": ["flag long_guthrum_leave for 120", "price_shock gipeswic rhenish_wine x1.25 for 90", "npc reeve feeling +4 pledged"]},
+    {"key": "man", "label_key": "long.years_guthrum.pledge.o.man", "label": "Leave one of your men with him until you come back", "check": "true", "effects": ["morale -0.04", "flag long_guthrum_leave for 120", "price_shock gipeswic rhenish_wine x1.25 for 90", "npc reeve feeling +6 hostage"]},
+    {"key": "stay", "label_key": "long.years_guthrum.pledge.o.stay", "label": "Sell on this side of the line, and keep your men and your silver", "check": "true", "default": true, "effects": ["npc reeve feeling +1 stayed"]}
+   ],
+   "memory": {
+    "silver": "left silver as his pledge",
+    "man": "left a man as hostage",
+    "stay": "kept to the English side"
+   }
+  },
+  {
+   "id": "long.rhine.burned_882",
+   "note": "Annales Fuldenses 881, 882 (Daventre: 'the port which is called Taventeri in the Frisian tongue, where Saint Liobomus rests'); Regino 881-882. chronicle_793.json 881-winter-aachen-cologne, 882-07-asselt-godfrid; dossiers/daventre.md (the wall raised after 882). The wine merchant is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and port.id != colonia and ((year = 881 and month >= 12) or year = 882)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "wineman": {"role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": false}
+   },
+   "title_key": "long.rhine.burned_882.title",
+   "title": "Horses in the emperor's chapel",
+   "intention_key": "long.rhine.burned_882.intention",
+   "intention": "This winter the Northmen sat in a camp at Elsloo on the Maas and burned Liège, Maastricht, Colonia and Bonn. At Aachen they stabled their horses in the chapel of the great Charles. In the summer the emperor came against them with a great host, and then paid them.",
+   "lines": [
+    {"who": "wineman", "key": "long.rhine.burned_882.l1"},
+    {"who": "wineman", "key": "long.rhine.burned_882.l2", "when": "year = 882 and month >= 8"},
+    {"who": "wineman", "key": "long.rhine.burned_882.l3", "when": "year = 882 and month >= 11"},
+    {"who": "", "key": "long.rhine.burned_882.l4"}
+   ],
+   "options": [
+    {"key": "buy", "label_key": "long.rhine.burned_882.o.buy", "label": "Buy his wine: three casks for 120 d", "check": "silver >= 120", "cost": "silver 120", "effects": ["goods rhenish_wine +3", "npc wineman feeling +10 bought"]},
+    {"key": "wall", "label_key": "long.rhine.burned_882.o.wall", "label": "Give 20 d toward walls for the river towns", "check": "silver >= 20", "cost": "silver 20", "effects": ["deed gave_alms", "flag long_gave_for_walls"]},
+    {"key": "salt", "label_key": "long.rhine.burned_882.o.salt", "label": "Count yourself lucky to trade on salt water", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.godfrid.killed_885",
+   "note": "Regino 885 (Godfrid demands Coblenz, Andernach and Sinzig 'for the abundance of wine'; killed at Herispich, where the Rhine and the Waal part; that they met on an island there is the usual reading (?)); Annales Fuldenses 885. chronicle_793.json 885-06-godfrid-killed. The ferryman is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and ((year = 885 and month >= 6) or (year = 886 and month <= 6))",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "ferryman": {"role": "ferryman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.godfrid.killed_885.title",
+   "title": "The Dane's county ends",
+   "intention_key": "long.godfrid.killed_885.intention",
+   "intention": "This year Godfrid the Northman, who held Frisia from the emperor, asked for Coblenz, Andernach and Sinzig besides, for the sake of their wine. He was called to a meeting at Herispich in the Betuwe and killed there by the emperor's men.",
+   "lines": [
+    {"who": "ferryman", "key": "long.godfrid.killed_885.l1"},
+    {"who": "ferryman", "key": "long.godfrid.killed_885.l2"}
+   ],
+   "options": [
+    {"key": "pay", "label_key": "long.godfrid.killed_885.o.pay", "label": "Pay whoever holds the rope: 6 d", "check": "silver >= 6", "cost": "silver 6", "effects": ["toll eased 30"]},
+    {"key": "ask", "label_key": "long.godfrid.killed_885.o.ask", "label": "Ask to see whose man he is", "check": "true", "effects": [{"chance": 0.6, "by": "crew.trade_best", "success": ["toll none"], "failure": ["silver -10", "npc ferryman feeling -5 argued"]}]},
+    {"key": "wait", "label_key": "long.godfrid.killed_885.o.wait", "label": "Lie off until a count is named", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.london.inside_the_walls",
+   "note": "Anglo-Saxon Chronicle (A) 886 (Giles 1847: 'King Alfred repaired London'); Asser c. 83; the grants at Æthelred's hithe, 889 and 898-899 (S 346, S 1628). chronicle_793.json 886-london-alfred. The chain thread_07 tells the move inside the walls: the earnest is a flag for it to read if it will. The skipper is invented.",
+   "stage": "long",
+   "when": "moored and ((year = 886 and month >= 7) or year = 887)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "skipper": {"role": "skipper", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}
+   },
+   "title_key": "long.london.inside_the_walls.title",
+   "title": "Lundenburh",
+   "intention_key": "long.london.inside_the_walls.intention",
+   "intention": "This year King Alfred set Lunden in order again, and all the English who were not under the Danes turned to him. He gave the town into the keeping of Æthelred the ealdorman. The market is moving from the old strand into the Roman walls.",
+   "lines": [
+    {"who": "skipper", "key": "long.london.inside_the_walls.l1"},
+    {"who": "skipper", "key": "long.london.inside_the_walls.l2"}
+   ],
+   "options": [
+    {"key": "earnest", "label_key": "long.london.inside_the_walls.o.earnest", "label": "Send 40 d by a sure hand as earnest for a place at the new hithe", "check": "silver >= 40", "cost": "silver 40", "effects": ["flag long_london_earnest", "npc skipper feeling +5 earnest"]},
+    {"key": "ask", "label_key": "long.london.inside_the_walls.o.ask", "label": "Ask what the toll will be inside the walls", "check": "true", "effects": ["news long.news.lundenburh at here"]},
+    {"key": "later", "label_key": "long.london.inside_the_walls.o.later", "label": "Wait and see whether the walls hold", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.ohthere.told_the_king",
+   "note": "The Old English Orosius, about 890: texts_793.json ohthere and wulfstan (the game's own texts). chronicle_793.json 890-ohthere-wulfstan; the spine's cast.ohthere and cast.wulfstan. The chains walrus_ivory and amber_road follow the two voyages. The clerk is invented.",
+   "stage": "long",
+   "when": "moored and port.people = english and year >= 890 and year < 896",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "clerk": {"role": "clerk", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}
+   },
+   "title_key": "long.ohthere.told_the_king.title",
+   "title": "What Ohthere told the king",
+   "intention_key": "long.ohthere.told_the_king.intention",
+   "intention": "A Northman named Ohthere has told King Alfred how he lives northmost of all the Northmen, how he sailed north round the land until it bent south again, and how many days' sail it is from his home to the Danes' port. A clerk of the king's household has it written down.",
+   "lines": [
+    {"who": "clerk", "key": "long.ohthere.told_the_king.l1"},
+    {"who": "clerk", "key": "long.ohthere.told_the_king.l2"}
+   ],
+   "options": [
+    {"key": "ohthere", "label_key": "long.ohthere.told_the_king.o.ohthere", "label": "Pay for a copy of Ohthere's sailing (10 d)", "check": "not text.ohthere and silver >= 10", "cost": "silver 10", "effects": ["give_text ohthere", "npc clerk feeling +4 copy"]},
+    {"key": "wulfstan", "label_key": "long.ohthere.told_the_king.o.wulfstan", "label": "Pay for a copy of Wulfstan's (10 d)", "check": "not text.wulfstan and silver >= 10", "cost": "silver 10", "effects": ["give_text wulfstan", "npc clerk feeling +4 copy"]},
+    {"key": "listen", "label_key": "long.ohthere.told_the_king.o.listen", "label": "Listen while he reads, and keep what you can in your head", "check": "true", "effects": ["npc clerk feeling +2 listened"]}
+   ]
+  },
+  {
+   "id": "long.alfred.long_ships",
+   "note": "Anglo-Saxon Chronicle (A) 897 for 896 (Giles 1847 and Ingram 1823: 'shapen neither like the Frisian nor the Danish'; the dead named there: Wulfheard, Æbbe and Æthelhere the Frisians; sixty-two killed of Frisians and English, 120 of the Danes). chronicle_793.json 896-alfred-ships. The spine's york_blood 'ages' hook. The shipman is invented.",
+   "stage": "long",
+   "when": "moored and (port.people = frisian or port.people = english) and ((year = 896 and month >= 7) or year = 897)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "shipman": {"role": "sailor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.alfred.long_ships.title",
+   "title": "The king's long ships",
+   "intention_key": "long.alfred.long_ships.intention",
+   "intention": "This year King Alfred had long ships built against the raiders, near twice as long as theirs, some of sixty oars and some of more: swifter, steadier and higher, shaped neither like the Frisian nor like the Danish, but as he thought most useful. There were Frisians among the crews.",
+   "lines": [
+    {"who": "shipman", "key": "long.alfred.long_ships.l1"},
+    {"who": "shipman", "key": "long.alfred.long_ships.l2"},
+    {"who": "shipman", "key": "long.alfred.long_ships.l3"}
+   ],
+   "options": [
+    {"key": "hire", "label_key": "long.alfred.long_ships.o.hire", "label": "Take him on: he has rowed in a king's ship and lived", "check": "true", "effects": ["hire shipman", "npc shipman feeling +10 hired"]},
+    {"key": "ale", "label_key": "long.alfred.long_ships.o.ale", "label": "Buy him ale and hear the fight told properly (2 d)", "check": "silver >= 2", "cost": "silver 2", "effects": ["morale +0.03", "npc shipman feeling +6 ale"]},
+    {"key": "no", "label_key": "long.alfred.long_ships.o.no", "label": "A man who has taken a king's pay will not like a merchant's", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.tiel.dorestads_freedom",
+   "note": "Zwentibold's charter of 24 June 896 for the church of Utrecht (Oorkondenboek van het Sticht Utrecht no. 88; Regesta Imperii I no. 1964, not seen (?)): dossiers/dorestad.md and daventre.md read it as the freedom Utrecht's men had 'in Dorestadio', now at Deventer and Tiel; another report makes it the church's tenth of the toll (?). Reads the chains' reward flag unlock_charter_dorestad and carries it to Daventre. The clerk is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and ((year = 896 and month >= 7) or (year > 896 and year < 899) or year = 899)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "clerk": {"role": "clerk", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.tiel.dorestads_freedom.title",
+   "title": "The freedom that was Dorestad's",
+   "intention_key": "long.tiel.dorestads_freedom.intention",
+   "intention": "This year King Zwentibold confirmed to the church of Traiectum that its men who live at Daventre and at Tiel shall have the same freedom from the king's toll that they had at Dorestad.",
+   "lines": [
+    {"who": "clerk", "key": "long.tiel.dorestads_freedom.l1"},
+    {"who": "clerk", "key": "long.tiel.dorestads_freedom.l2"}
+   ],
+   "options": [
+    {"key": "old", "label_key": "long.tiel.dorestads_freedom.o.old", "label": "Show the old Dorestad freedom, and have it written over to Daventre", "check": "flag.unlock_charter_dorestad", "effects": ["flag unlock_charter_daventre", "npc clerk feeling +5 charter"]},
+    {"key": "commend", "label_key": "long.tiel.dorestads_freedom.o.commend", "label": "Become the bishop's man for the toll's sake: 120 d and a candle every year", "check": "silver >= 120", "cost": "silver 120", "effects": ["flag long_bishops_man", "toll eased 365", "npc clerk feeling +8 commended"]},
+    {"key": "pay", "label_key": "long.tiel.dorestads_freedom.o.pay", "label": "Go on paying the toll like a free man", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.rollo.at_rotomagus",
+   "note": "Dudo of Saint-Quentin ii.28-31 (about 1015, LATER: the baptism, the seven days' gifts to churches, the land measured by rope, the foot-kissing, the plough left out); the charter of Charles the Simple of 14 March 918 ('to the Northmen of the Seine, that is Rollo and his companions'). chronicle_793.json 911-rollo-rouen (the year is Dudo's). The chain rollo_911 tells it at Rouen. The skipper is invented.",
+   "stage": "long",
+   "when": "moored and port.id != rotomagus and ((year = 911 and month >= 10) or (year > 911 and year < 913) or year = 913)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "skipper": {"role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "fixed": false}
+   },
+   "title_key": "long.rollo.at_rotomagus.title",
+   "title": "A Northman at Rotomagus",
+   "intention_key": "long.rollo.at_rotomagus.intention",
+   "intention": "King Charles has given the city of Rotomagus and the land about the mouth of the Seine to Rollo and his Northmen, to hold against other Northmen. Rollo has been baptised.",
+   "lines": [
+    {"who": "skipper", "key": "long.rollo.at_rotomagus.l1"},
+    {"who": "skipper", "key": "long.rollo.at_rotomagus.l2"},
+    {"who": "skipper", "key": "long.rollo.at_rotomagus.l3"}
+   ],
+   "options": [
+    {"key": "wine", "label_key": "long.rollo.at_rotomagus.o.wine", "label": "Send word to Rotomagus that you will bring Rhine wine", "check": "true", "effects": ["price_shock rotomagus rhenish_wine x1.3 for 150", "flag long_rollo_peace"]},
+    {"key": "ask", "label_key": "long.rollo.at_rotomagus.o.ask", "label": "Ask what the Northmen at Rotomagus buy", "check": "true", "effects": ["news long.news.rollo_buys at here"]},
+    {"key": "doubt", "label_key": "long.rollo.at_rotomagus.o.doubt", "label": "A wolf in a white robe. Leave the Seine a few years yet", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "harbour.years_coin.witness",
+   "note": "II Æthelstan (Grately, about 926-930) c. 12 (nothing over 20 pence bought outside a port), c. 13.1 (one coinage; no minting except in a port), c. 14 (the false moneyer's hand struck off and set up on the mint), our rendering; Edgar's reform coinage of about 973. chronicle_793.json 928-grately-laws, 973-edgar-coinage. 'Port' is the Old English word for a market town.",
+   "stage": "harbour",
+   "when": "moored and port.people = english and year >= 928 and year < 991",
+   "weight": 0.15,
+   "cooldown_days": 900,
+   "actors": {
+    "reeve": {"role": "reeve", "people": "port", "faith": "port", "tongue": "port", "fixed": true}
+   },
+   "title_key": "long.years_coin.witness.title",
+   "title": "One coin, and witnesses",
+   "intention_key": "long.years_coin.witness.intention",
+   "intention": "By the king's law there is one coinage over all his dominion, and no man strikes it except in a town. Nothing worth more than twenty pence is to be bought outside a town, but inside, before the reeve or other trusty men.",
+   "lines": [
+    {"who": "reeve", "key": "long.years_coin.witness.l1", "when": "year < 973"},
+    {"who": "reeve", "key": "long.years_coin.witness.l2", "when": "year >= 973"},
+    {"who": "reeve", "key": "long.years_coin.witness.l3"}
+   ],
+   "options": [
+    {"key": "witness", "label_key": "long.years_coin.witness.o.witness", "label": "Buy and sell inside the port, before his witnesses", "check": "true", "default": true, "effects": ["toll sales", "npc reeve feeling +3 lawful"]},
+    {"key": "beach", "label_key": "long.years_coin.witness.o.beach", "label": "Do your larger business on the beach beyond the stakes", "check": "true", "effects": [{"chance": 0.55, "by": "crew.trade_best", "success": ["toll none", "flag long_beach_trader for 200"], "failure": ["silver -30", "deed lost_case", "npc reeve feeling -15 beach"]}]},
+    {"key": "change", "label_key": "long.years_coin.witness.o.change", "label": "Take your foreign silver to the moneyer now", "check": "port.has_mint and silver >= 4", "cost": "silver 4", "effects": ["npc reeve feeling +2 changed"]}
+   ],
+   "memory": {
+    "witness": "traded before the reeve's witnesses",
+    "beach.success": "is said to trade on the beach",
+    "beach.failure": "was caught buying on the beach"
+   }
+  },
+  {
+   "id": "long.hedeby.tribute_934",
+   "note": "Widukind i.40; Thietmar i.17; Adam of Bremen i.57-59 (who adds a Saxon colony and margrave at Schleswig: LATER and doubted (?)); the two Sigtrygg stones at Hedeby name Gnupa, his wife Asfrid and their son. chronicle_793.json 934-gnupa-tribute. The flags are read by the cards of 974 and 983. The Saxon is invented.",
+   "stage": "long",
+   "when": "moored and port.id != sliesthorp and ((year = 934 and month >= 7) or year = 935)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "saxon": {"role": "merchant", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "fixed": false}
+   },
+   "title_key": "long.hedeby.tribute_934.title",
+   "title": "Sliesthorp pays tribute",
+   "intention_key": "long.hedeby.tribute_934.intention",
+   "intention": "This year King Henry went with an army against the Danes, who were harrying the Frisians from the sea. He overcame them, made their king Gnupa pay tribute, and had him take baptism.",
+   "lines": [
+    {"who": "saxon", "key": "long.hedeby.tribute_934.l1"},
+    {"who": "saxon", "key": "long.hedeby.tribute_934.l2"}
+   ],
+   "options": [
+    {"key": "saxon", "label_key": "long.hedeby.tribute_934.o.saxon", "label": "Take the Saxon king's peace: have your name set down with his man at Sliesthorp (30 d)", "check": "silver >= 30", "cost": "silver 30", "effects": ["flag long_hedeby_saxon_peace", "npc saxon feeling +6 saxon_peace"]},
+    {"key": "danish", "label_key": "long.hedeby.tribute_934.o.danish", "label": "Keep your Danish host there, and pay his king's man as before", "check": "true", "effects": ["flag long_hedeby_danish_host"]},
+    {"key": "both", "label_key": "long.hedeby.tribute_934.o.both", "label": "Send a small gift to each side and say little (12 d)", "check": "silver >= 12", "cost": "silver 12", "effects": ["flag long_hedeby_both_sides"]}
+   ]
+  },
+  {
+   "id": "long.danes.hot_iron",
+   "note": "Widukind iii.65 (the feast, Poppo and the iron); the bishops of Schleswig, Ribe and Aarhus at Ingelheim, 7 June 948; the great Jelling stone (Harald 'made the Danes Christian'). chronicle_793.json 965-harald-baptised, 948-danish-bishops. The spine's cross_and_grove 'ages' hook. The priest is invented.",
+   "stage": "long",
+   "when": "moored and port.people = danish and year >= 965 and year < 974",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "priest": {"role": "priest", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "fixed": false}
+   },
+   "title_key": "long.danes.hot_iron.title",
+   "title": "The hot iron",
+   "intention_key": "long.danes.hot_iron.intention",
+   "intention": "King Harald, Gorm's son, has taken baptism and ordered the Danes to be Christian. It is told that at a feast the Danes held Christ to be a god, but others greater; and that a priest named Poppo carried a great weight of glowing iron in his hand and showed it unharmed.",
+   "lines": [
+    {"who": "priest", "key": "long.danes.hot_iron.l1"},
+    {"who": "priest", "key": "long.danes.hot_iron.l2"},
+    {"who": "priest", "key": "long.danes.hot_iron.l3"}
+   ],
+   "options": [
+    {"key": "order", "label_key": "long.danes.hot_iron.o.order", "label": "Take the order for wax and Mass wine", "check": "true", "effects": ["commission wax 3 by 90 premium 0.5", "commission rhenish_wine 2 by 90 premium 0.4", "npc priest feeling +6 order"]},
+    {"key": "bell", "label_key": "long.danes.hot_iron.o.bell", "label": "Give 15 d toward a bell", "check": "silver >= 15", "cost": "silver 15", "effects": ["deed gave_alms", "npc priest feeling +12 bell"]},
+    {"key": "hammer", "label_key": "long.danes.hot_iron.o.hammer", "label": "Notice that your Danish host still wears the hammer under his shirt, and say nothing", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.hedeby.wall_974",
+   "note": "Thietmar iii.6 (Wieglesdor; the stronghold and garrison); Annales Hildesheimenses 974. chronicle_793.json 974-otto-danevirke, 808-summer-danevirke (808 to 974 is 166 years). That Hedeby itself lay in the German march from 974 to 983 is the usual reading (?). The Dane is invented.",
+   "stage": "long",
+   "when": "moored and ((year = 974 and month >= 8) or year = 975)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "dane": {"role": "skipper", "people": "danish", "faith": "christian", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.hedeby.wall_974.title",
+   "title": "The emperor at the wall",
+   "intention_key": "long.hedeby.wall_974.intention",
+   "intention": "This year the emperor Otto, the second of that name, came against the Danes, stormed the wall that guards their border at the gate called Wieglesdor, and built a stronghold in the march and set a garrison in it.",
+   "lines": [
+    {"who": "dane", "key": "long.hedeby.wall_974.l1"},
+    {"who": "dane", "key": "long.hedeby.wall_974.l2"},
+    {"who": "", "key": "long.hedeby.wall_974.l3", "when": "flag.long_hedeby_saxon_peace"},
+    {"who": "", "key": "long.hedeby.wall_974.l4", "when": "flag.long_hedeby_danish_host"}
+   ],
+   "options": [
+    {"key": "furs", "label_key": "long.hedeby.wall_974.o.furs", "label": "Send 60 d for marten from what waits on the quay", "check": "silver >= 60", "cost": "silver 60", "effects": ["goods marten +1", "npc dane feeling +3 bought"]},
+    {"key": "host", "label_key": "long.hedeby.wall_974.o.host", "label": "Send your Danish host a gift in his bad year (20 d)", "check": "silver >= 20", "cost": "silver 20", "effects": ["flag long_hedeby_danish_friend", "npc dane feeling +8 gift"]},
+    {"key": "wait", "label_key": "long.hedeby.wall_974.o.wait", "label": "Keep out of a harbour with an army at its gate", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.birka.lies_empty",
+   "note": "Birka's last coins and finds are of about 970, and Sigtuna's first plots of about 980 (tree-ring dates); the land rises about half a metre a century in Mälaren. chronicle_793.json 975-birka-sigtuna; ports_793.json: Birka ends in 975. Sigtuna has no row in ports_793.json yet. The Svea is invented.",
+   "stage": "long",
+   "when": "moored and (port.people = svea or port.people = gute) and year >= 975 and year < 986",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "svea": {"role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.birka.lies_empty.title",
+   "title": "Birka lies empty",
+   "intention_key": "long.birka.lies_empty.intention",
+   "intention": "The town on the island in the lake of the Svear, where merchants came for two hundred winters, is given up. The king has had a new town marked out on the lake's north arm, in plots as even as the teeth of a comb, and calls it Sigtuna.",
+   "lines": [
+    {"who": "svea", "key": "long.birka.lies_empty.l1"},
+    {"who": "svea", "key": "long.birka.lies_empty.l2"}
+   ],
+   "options": [
+    {"key": "way", "label_key": "long.birka.lies_empty.o.way", "label": "Ask the way to the new town, and who gives out the plots", "check": "true", "effects": ["news long.news.sigtuna at here", "flag long_knows_sigtuna", "npc svea feeling +3 asked"]},
+    {"key": "buy", "label_key": "long.birka.lies_empty.o.buy", "label": "Buy what he brought out of Birka: a bundle of beaver and a string of beads, 45 d", "check": "silver >= 45", "cost": "silver 45", "effects": ["goods beaver +1", "goods glass_beads +1", "npc svea feeling +4 bought"]},
+    {"key": "turn", "label_key": "long.birka.lies_empty.o.turn", "label": "Turn back for the Sound. The lake trade is for those who know it", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.hedeby.danes_983",
+   "note": "Thietmar iii.24 (the Danes take and burn the fort), iii.17-19 (the Slav rising, 29 June 983); Adam of Bremen ii.42-43. chronicle_793.json 983-slav-rising, 974-otto-danevirke. Otto II was beaten by the Saracens at Cape Colonna in July 982. The Saxon is invented.",
+   "stage": "long",
+   "when": "moored and ((year = 983 and month >= 7) or year = 984)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "saxon": {"role": "merchant", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "fixed": false}
+   },
+   "title_key": "long.hedeby.danes_983.title",
+   "title": "The Danes take back the march",
+   "intention_key": "long.hedeby.danes_983.intention",
+   "intention": "This year the Danes fell on the stronghold the emperor had built in their march, took it by craft, and burned it. In the same summer the Slavs beyond the Elbe rose, destroyed the bishops' seats at Havelberg and Brandenburg, and burned Hamburg.",
+   "lines": [
+    {"who": "saxon", "key": "long.hedeby.danes_983.l1"},
+    {"who": "saxon", "key": "long.hedeby.danes_983.l2"},
+    {"who": "", "key": "long.hedeby.danes_983.l3", "when": "flag.long_hedeby_saxon_peace and not flag.long_hedeby_danish_friend"},
+    {"who": "", "key": "long.hedeby.danes_983.l4", "when": "flag.long_hedeby_danish_host or flag.long_hedeby_danish_friend or flag.long_hedeby_both_sides"}
+   ],
+   "options": [
+    {"key": "amends", "label_key": "long.hedeby.danes_983.o.amends", "label": "Send the Danish king's man 40 d and call it harbour dues for the lost years", "check": "flag.long_hedeby_saxon_peace and silver >= 40", "cost": "silver 40", "effects": ["flag long_hedeby_saxon_peace = 0", "flag long_hedeby_danish_friend"]},
+    {"key": "tally", "label_key": "long.hedeby.danes_983.o.tally", "label": "Buy the Saxon's tally: his goods at Sliesthorp are yours if your host can find them (50 d)", "check": "(flag.long_hedeby_danish_host or flag.long_hedeby_danish_friend or flag.long_hedeby_both_sides) and silver >= 50", "cost": "silver 50", "effects": [{"chance": 0.7, "success": ["goods amber +2", "goods wax +1", "npc saxon feeling +10 bought_tally"], "failure": ["goods amber +1", "npc saxon feeling +10 bought_tally"]}]},
+    {"key": "leave", "label_key": "long.hedeby.danes_983.o.leave", "label": "Let Saxons and Danes settle it between them", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.maldon.first_tribute",
+   "note": "Anglo-Saxon Chronicle (C/D/E) 991 (after Giles 1847 and Ingram 1823); The Battle of Maldon (texts_793.json maldon_991: his 'ofermod'). chronicle_793.json 991-08-maldon. BRIEF rule 2: no tribute of this kind before 991; the word Danegeld is later and is not used. The chain maldon_991 tells the tribute years at length. The trader is invented.",
+   "stage": "long",
+   "when": "moored and ((year = 991 and month >= 9) or year = 992)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "trader": {"role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}
+   },
+   "title_key": "long.maldon.first_tribute.title",
+   "title": "Ten thousand pounds",
+   "intention_key": "long.maldon.first_tribute.intention",
+   "intention": "This year Olaf came with ninety-three ships and harried the coast, and so to Maldon. Byrhtnoth the ealdorman fought him there and was killed. In that year it was first counselled to pay tribute to the Danish men, for the terror they made on the sea coast. That was at first ten thousand pounds.",
+   "lines": [
+    {"who": "trader", "key": "long.maldon.first_tribute.l1"},
+    {"who": "trader", "key": "long.maldon.first_tribute.l2"},
+    {"who": "trader", "key": "long.maldon.first_tribute.l3"}
+   ],
+   "options": [
+    {"key": "lend", "label_key": "long.maldon.first_tribute.o.lend", "label": "Lend a thegn 60 d against his harvest", "check": "silver >= 60", "cost": "silver 60", "effects": ["flag long_maldon_loan", "schedule long.maldon.loan_due in 300", "npc trader feeling +5 lent"]},
+    {"key": "song", "label_key": "long.maldon.first_tribute.o.song", "label": "Have the song of the fight written out for you (12 d)", "check": "not text.maldon_991 and silver >= 12", "cost": "silver 12", "effects": ["give_text maldon_991"]},
+    {"key": "follow", "label_key": "long.maldon.first_tribute.o.follow", "label": "Follow the silver: load what a paid fleet buys, and sell it where the ships winter", "check": "true", "effects": ["flag long_follows_tribute", "news long.news.tribute_991 at here"]}
+   ]
+  },
+  {
+   "id": "long.maldon.loan_due",
+   "note": "The follow-up of long.maldon.first_tribute, scheduled 300 days after the loan; not drawn. No interest is taken on the loan (the Church forbids usury): the gain is wool at the shearing price, or a friend. Tribute was paid again in 994 (chronicle_793.json 994-09-08-london-attack).",
+   "stage": "long",
+   "when": "moored and flag.long_maldon_loan",
+   "once": true,
+   "title_key": "long.maldon.loan_due.title",
+   "title": "The thegn's harvest",
+   "intention_key": "long.maldon.loan_due.intention",
+   "intention": "The thegn who had your sixty pennies in the tribute year sends his reeve to you. The harvest was fair, and the king's men are asking for tribute again.",
+   "lines": [
+    {"who": "", "key": "long.maldon.loan_due.l1"}
+   ],
+   "options": [
+    {"key": "coin", "label_key": "long.maldon.loan_due.o.coin", "label": "Take the sixty pennies, counted", "check": "true", "effects": ["silver +60", "flag long_maldon_loan = 0"]},
+    {"key": "wool", "label_key": "long.maldon.loan_due.o.wool", "label": "Take wool: ten sacks at his price", "check": "true", "effects": ["goods raw_wool +10", "flag long_maldon_loan = 0", "flag long_friend_thegn"]},
+    {"key": "word", "label_key": "long.maldon.loan_due.o.word", "label": "Take the sixty, and his word for your boat with the port reeve", "check": "true", "effects": ["silver +60", "toll eased 90", "flag long_maldon_loan = 0", "flag long_friend_thegn"]}
+   ]
+  },
+  {
+   "id": "harbour.years_london.emperors_men",
+   "note": "IV Æthelred 2 (about 1000 (?); Liebermann, Gesetze I), our rendering: the tolls at Billingsgate by the size of ship; the men of Rouen with wine or 'craspice'; Flanders, Ponthieu, Normandy, France; Huy, Liège, Nivelles; the emperor's men and their dues at Christmas and Easter. chronicle_793.json 1000-london-tolls. A man of Tiel or Deventer is the emperor's man.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year >= 1000 and year <= 1066",
+   "weight": 0.3,
+   "cooldown_days": 1200,
+   "actors": {
+    "reeve": {"role": "reeve", "people": "port", "faith": "port", "tongue": "port", "fixed": true}
+   },
+   "title_key": "long.years_london.emperors_men.title",
+   "title": "The hithe at Billingsgate",
+   "intention_key": "long.years_london.emperors_men.intention",
+   "intention": "At Lunden the toll is set by the hull. A small ship pays a halfpenny at Billingsgate, a larger ship with sails a penny, a keel or a hulk fourpence if she lies there. The emperor's men, who come in their own ships, are held worthy of good laws like the townsmen.",
+   "lines": [
+    {"who": "reeve", "key": "long.years_london.emperors_men.l1"},
+    {"who": "reeve", "key": "long.years_london.emperors_men.l2"}
+   ],
+   "options": [
+    {"key": "hull", "label_key": "long.years_london.emperors_men.o.hull", "label": "Pay by the hull, like any ship", "check": "true", "default": true, "effects": ["toll sales", "npc reeve feeling +2 hull"]},
+    {"key": "pepper", "label_key": "long.years_london.emperors_men.o.pepper", "label": "Say you are the emperor's man, and give a pound of pepper toward the Easter due", "check": "hold.pepper >= 1", "cost": "goods pepper 1", "effects": ["toll none", "flag long_emperors_man_london", "npc reeve feeling +6 pepper"]},
+    {"key": "on", "label_key": "long.years_london.emperors_men.o.on", "label": "Unload nothing here, and go up to the next landing", "check": "true", "effects": []}
+   ],
+   "memory": {
+    "hull": "paid toll by the hull",
+    "pepper": "paid the emperor's men's due in pepper"
+   }
+  },
+  {
+   "id": "harbour.years_stbrice.danes_aboard",
+   "note": "Anglo-Saxon Chronicle (C/D/E) 1002 (Giles 1847: the king ordered 'all the Danish men who were in England' to be slain on St Brice's mass-day, 13 November); King Æthelred's charter for St Frideswide's, 1004 (S 909: the burning at Oxford). chronicle_793.json 1002-11-13-st-brice. The house has had a Dane in its crew since Ravn (cast.crew.ravn).",
+   "stage": "harbour",
+   "when": "moored and port.people = english and ((year = 1002 and month >= 11) or (year = 1003 and month <= 3))",
+   "weight": 0.9,
+   "once": true,
+   "actors": {
+    "reeve": {"role": "reeve", "people": "port", "faith": "port", "tongue": "port", "fixed": true}
+   },
+   "title_key": "long.years_stbrice.danes_aboard.title",
+   "title": "Saint Brice's day",
+   "intention_key": "long.years_stbrice.danes_aboard.intention",
+   "intention": "This year the king ordered all the Danish men who were among the English to be slain on Saint Brice's mass-day, because it was told him that they would plot against his life and then have his kingdom. The reeve's men are going along the boats.",
+   "lines": [
+    {"who": "reeve", "key": "long.years_stbrice.danes_aboard.l1"},
+    {"who": "reeve", "key": "long.years_stbrice.danes_aboard.l2"},
+    {"who": "", "key": "long.years_stbrice.danes_aboard.l3"}
+   ],
+   "options": [
+    {"key": "truth", "label_key": "long.years_stbrice.danes_aboard.o.truth", "label": "Say plainly that he is a Dane, your man, and leaving with you on this tide", "check": "true", "effects": ["flag long_stbrice_left", "morale +0.03", "npc reeve feeling -5 truth"]},
+    {"key": "swear", "label_key": "long.years_stbrice.danes_aboard.o.swear", "label": "Swear that every man aboard is a Frisian and a Christian", "check": "true", "effects": [{"chance": 0.65, "by": "crew.trade_best", "success": ["morale +0.05", "npc reeve feeling -2 swore"], "failure": ["men -1", "morale -0.15", "deed lost_case", "npc reeve feeling -20 false_oath"]}]},
+    {"key": "gift", "label_key": "long.years_stbrice.danes_aboard.o.gift", "label": "Put 30 d in the reeve's hand and say the tide is turning", "check": "silver >= 30", "cost": "silver 30", "effects": ["deed bribed_officer", "morale +0.04", "npc reeve feeling +5 gift"]}
+   ],
+   "memory": {
+    "truth": "owned to a Dane aboard and took him away",
+    "swear.success": "swore his crew were all Frisians",
+    "swear.failure": "swore falsely for a Dane",
+    "gift": "paid to be left alone on Saint Brice's day"
+   }
+  },
+  {
+   "id": "long.england.great_hunger",
+   "note": "Anglo-Saxon Chronicle (C/D/E) 1005 (Giles 1847: 'the great famine throughout the English nation; such, that no man ever before recollected one so grim'). The spine's hungry_years 'ages' hook. chronicle_793.json has no entry for 1005.",
+   "stage": "long",
+   "when": "moored and port.people = english and (year = 1005 and month >= 3)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "priest": {"role": "priest", "people": "port", "faith": "port", "tongue": "port", "fixed": true}
+   },
+   "title_key": "long.england.great_hunger.title",
+   "title": "The great hunger",
+   "intention_key": "long.england.great_hunger.intention",
+   "intention": "This year there was the great famine throughout the English, such that no man remembered one so grim. The fleet went back from this land to Denmark, and let but a little time pass before it came again.",
+   "lines": [
+    {"who": "priest", "key": "long.england.great_hunger.l1"},
+    {"who": "priest", "key": "long.england.great_hunger.l2"}
+   ],
+   "options": [
+    {"key": "corn", "label_key": "long.england.great_hunger.o.corn", "label": "Promise corn: eight sacks within forty days", "check": "true", "effects": ["commission wheat 8 by 40 premium 0.7", "npc priest feeling +6 promised"]},
+    {"key": "sell", "label_key": "long.england.great_hunger.o.sell", "label": "Sell two sacks from the hold at what they will give", "check": "hold.wheat >= 2", "cost": "goods wheat 2", "effects": ["silver +36", "npc priest feeling -4 sold_dear"]},
+    {"key": "give", "label_key": "long.england.great_hunger.o.give", "label": "Give a sack at the church door", "check": "hold.wheat >= 1", "cost": "goods wheat 1", "effects": ["deed gave_alms", "morale +0.03", "npc priest feeling +15 alms"]}
+   ]
+  },
+  {
+   "id": "long.silver.none_from_the_east",
+   "note": "The latest dirhams in the northern hoards are of the 1010s; English and German pennies take their place (chronicle_793.json 1000-silver-fades; economy_and_trade.md 1.1). The spine's silver_road 'ages' hook; sets its flag sv_scale. The grandfather's chest is the kind of hoard in hoards_793.json and riddles_793.json (rw_hoard_spillings). The trader is invented.",
+   "stage": "long",
+   "when": "moored and (port.people = svea or port.people = gute or port.people = danish or port.people = norse) and year >= 1005 and year <= 1020",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "trader": {"role": "merchant", "people": "port", "faith": "port", "tongue": "port", "fixed": false}
+   },
+   "title_key": "long.silver.none_from_the_east.title",
+   "title": "No more silver from the east",
+   "intention_key": "long.silver.none_from_the_east.intention",
+   "intention": "For as long as anyone remembers, silver came up the eastern rivers in round thin coins with writing on them that no one here could read. For some years now it has not come. The scales in the north weigh English and Saxon pennies instead.",
+   "lines": [
+    {"who": "trader", "key": "long.silver.none_from_the_east.l1"},
+    {"who": "trader", "key": "long.silver.none_from_the_east.l2"}
+   ],
+   "options": [
+    {"key": "furs", "label_key": "long.silver.none_from_the_east.o.furs", "label": "Buy his furs for western pennies: two timbers of squirrel for 30 d", "check": "silver >= 30", "cost": "silver 30", "effects": ["goods squirrel +2", "npc trader feeling +4 bought"]},
+    {"key": "scale", "label_key": "long.silver.none_from_the_east.o.scale", "label": "Buy a folding scale and a set of his weights (8 d)", "check": "silver >= 8", "cost": "silver 8", "effects": ["flag sv_scale", "npc trader feeling +3 scale"]},
+    {"key": "farm", "label_key": "long.silver.none_from_the_east.o.farm", "label": "Ask where his grandfather's farm lay, and get no answer", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.tiel.burned_1006",
+   "note": "Alpert of Metz, De diversitate temporum i.8-10 (chapter numbers (?); the flight from Tiel 'leaving almost all but their money, for they were merchants'; Saint Walburg's burned; Utrecht's port burned by its own people; the church spared), our rendering. chronicle_793.json 1006-tiel-burned. Tiel has no row in ports_793.json yet: the word reaches the other Rhine ports. The Tiel man is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and ((year = 1006 and month >= 7) or year = 1007)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "tielman": {"role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.tiel.burned_1006.title",
+   "title": "Tiel burned",
+   "intention_key": "long.tiel.burned_1006.intention",
+   "intention": "This year Northmen came up the Waal with a great fleet. The people of Tiel fled, leaving all but their silver, and the port was plundered and burned, Saint Walburg's with it. At Traiectum the townsmen burned their own harbour quarter, so that the enemy should have no use of it.",
+   "lines": [
+    {"who": "tielman", "key": "long.tiel.burned_1006.l1"},
+    {"who": "tielman", "key": "long.tiel.burned_1006.l2"},
+    {"who": "", "key": "long.tiel.burned_1006.l3"}
+   ],
+   "options": [
+    {"key": "timber", "label_key": "long.tiel.burned_1006.o.timber", "label": "Take an order for timber and tar for the rebuilding", "check": "true", "effects": ["commission oak_timber 3 by 80 premium 0.5", "commission tar 2 by 80 premium 0.4", "npc tielman feeling +5 order"]},
+    {"key": "trust", "label_key": "long.tiel.burned_1006.o.trust", "label": "Let him have 50 d until the English ships come", "check": "silver >= 50", "cost": "silver 50", "effects": ["flag long_tiel_credit", "schedule long.tiel.debt_paid in 240", "npc tielman feeling +20 trusted"]},
+    {"key": "shake", "label_key": "long.tiel.burned_1006.o.shake", "label": "Shake your head with the rest", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.tiel.debt_paid",
+   "note": "The follow-up of long.tiel.burned_1006, scheduled 240 days after; not drawn. No interest: the thanks is a cask. The flag long_tiel_friend is read by long.tiel.sworn_merchants.",
+   "stage": "long",
+   "when": "moored and flag.long_tiel_credit",
+   "once": true,
+   "title_key": "long.tiel.debt_paid.title",
+   "title": "A debt from Tiel",
+   "intention_key": "long.tiel.debt_paid.intention",
+   "intention": "The merchant of Tiel who had fifty pennies of you after the fire has sold his English wool.",
+   "lines": [
+    {"who": "", "key": "long.tiel.debt_paid.l1"}
+   ],
+   "options": [
+    {"key": "take", "label_key": "long.tiel.debt_paid.o.take", "label": "Take both, and send thanks", "check": "true", "effects": ["silver +50", "goods rhenish_wine +1", "flag long_tiel_credit = 0", "flag long_tiel_friend"]},
+    {"key": "feast", "label_key": "long.tiel.debt_paid.o.feast", "label": "Take the silver, and send the cask back to be drunk in your house's name at their next feast", "check": "true", "effects": ["silver +50", "flag long_tiel_credit = 0", "flag long_tiel_friend", "flag long_tiel_feasted"]}
+   ]
+  },
+  {
+   "id": "harbour.years_geld.towns_part",
+   "note": "Anglo-Saxon Chronicle (C/D/E) 1006-1007 (36,000 pounds) and 1011-1012 (Archbishop Ælfheah killed at Greenwich on 19 April 1012; 48,000 pounds), after Giles 1847; Thietmar vii.42-43. chronicle_793.json 1007-tribute, 1012-04-19-aelfheah. That foreign merchants were assessed with the port is the game's (?).",
+   "stage": "harbour",
+   "when": "moored and port.people = english and year >= 1007 and year <= 1013",
+   "weight": 0.25,
+   "once": true,
+   "actors": {
+    "reeve": {"role": "reeve", "people": "port", "faith": "port", "tongue": "port", "fixed": true}
+   },
+   "title_key": "long.years_geld.towns_part.title",
+   "title": "The town's part of the tribute",
+   "intention_key": "long.years_geld.towns_part.intention",
+   "intention": "The king and his counsellors have again promised the army tribute and food, if it will leave off its harrying. Every port is set down for its part, and the reeve has the roll.",
+   "lines": [
+    {"who": "reeve", "key": "long.years_geld.towns_part.l1", "when": "year < 1012"},
+    {"who": "reeve", "key": "long.years_geld.towns_part.l2", "when": "year >= 1012"},
+    {"who": "reeve", "key": "long.years_geld.towns_part.l3"}
+   ],
+   "options": [
+    {"key": "pay", "label_key": "long.years_geld.towns_part.o.pay", "label": "Pay your part with the town: 24 d", "check": "silver >= 24", "cost": "silver 24", "effects": ["toll eased 90", "npc reeve feeling +8 paid"]},
+    {"key": "plead", "label_key": "long.years_geld.towns_part.o.plead", "label": "Say you are a stranger, and owe the English king nothing but his toll", "check": "true", "effects": ["npc reeve feeling -12 pleaded"]},
+    {"key": "cloth", "label_key": "long.years_geld.towns_part.o.cloth", "label": "Offer a bolt of cloth toward the army's food instead of coin", "check": "hold.wool_cloth >= 1", "cost": "goods wool_cloth 1", "effects": ["npc reeve feeling +6 cloth"]}
+   ],
+   "memory": {
+    "pay": "paid with the town toward the tribute",
+    "plead": "pleaded he was a stranger and paid nothing",
+    "cloth": "gave cloth toward the tribute"
+   }
+  },
+  {
+   "id": "long.cnut.one_king",
+   "note": "Anglo-Saxon Chronicle (C/D/E) 1016 (Giles 1847: at Assandun 'all the nobility of the English race was there destroyed'; the meeting at Olney by Deerhurst; Edmund died on St Andrew's mass-day, 30 November; the Londoners bought peace and the army wintered there). chronicle_793.json 1016-10-18-assandun; the spine's cast.cnut. The chain cnut_1016 tells his peace at length. The skipper is invented.",
+   "stage": "long",
+   "when": "moored and ((year = 1016 and month >= 12) or year = 1017)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "skipper": {"role": "skipper", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}
+   },
+   "title_key": "long.cnut.one_king.title",
+   "title": "One king",
+   "intention_key": "long.cnut.one_king.intention",
+   "intention": "This year King Æthelred died, and Edmund his son fought the army five times. At Assandun Cnut had the victory, and the flower of the English fell there. The kings met at Olney by Deerhurst and divided the land. On Saint Andrew's day King Edmund died, and Cnut took all the kingdom of the English.",
+   "lines": [
+    {"who": "skipper", "key": "long.cnut.one_king.l1"},
+    {"who": "skipper", "key": "long.cnut.one_king.l2"}
+   ],
+   "options": [
+    {"key": "early", "label_key": "long.cnut.one_king.o.early", "label": "Send a gift to the new king's reeve at Lunden before the others think of it (40 d)", "check": "silver >= 40", "cost": "silver 40", "effects": ["flag long_cnut_early", "npc skipper feeling +3 carried_gift"]},
+    {"key": "both", "label_key": "long.cnut.one_king.o.both", "label": "Load for both shores: wool for the Danes, amber for the English", "check": "true", "effects": ["price_shock ripa wool_cloth x1.25 for 180", "price_shock lundenwic amber x1.2 for 180", "flag long_cnut_both_shores"]},
+    {"key": "wait", "label_key": "long.cnut.one_king.o.wait", "label": "Wait a year. Kings who come by the sword sometimes leave by it", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.cnut.fleet_paid_off",
+   "note": "Anglo-Saxon Chronicle (D/E) 1018 (Giles 1847: 72,000 pounds, and 10,500 from London; forty ships kept; Danes and English agreed at Oxford on Edgar's law). chronicle_793.json 1018-heregeld; economy_and_trade.md 1.1: English pennies in northern hoards. The shipman is invented.",
+   "stage": "long",
+   "when": "moored and port.people = danish and ((year = 1018 and month >= 7) or year = 1019)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "shipman": {"role": "warrior", "people": "danish", "faith": "christian", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.cnut.fleet_paid_off.title",
+   "title": "The fleet comes home rich",
+   "intention_key": "long.cnut.fleet_paid_off.intention",
+   "intention": "This year the tribute was paid over all the English: seventy-two thousand pounds, besides what the townsmen of Lunden paid, which was ten thousand five hundred. Some of the army went back to Denmark, and forty ships stayed with King Cnut.",
+   "lines": [
+    {"who": "shipman", "key": "long.cnut.fleet_paid_off.l1"},
+    {"who": "shipman", "key": "long.cnut.fleet_paid_off.l2"}
+   ],
+   "options": [
+    {"key": "order", "label_key": "long.cnut.fleet_paid_off.o.order", "label": "Take his order, and his neighbours'", "check": "true", "effects": ["commission rhenish_wine 4 by 90 premium 0.5", "commission frisian_cloth 3 by 90 premium 0.5", "npc shipman feeling +6 order"]},
+    {"key": "cask", "label_key": "long.cnut.fleet_paid_off.o.cask", "label": "Sell him a cask now, at a homecoming price", "check": "hold.rhenish_wine >= 1", "cost": "goods rhenish_wine 1", "effects": ["silver +110", "npc shipman feeling +3 sold"]},
+    {"key": "weigh", "label_key": "long.cnut.fleet_paid_off.o.weigh", "label": "Look at his pennies, and tell him what they weigh", "check": "true", "effects": ["npc shipman feeling +2 weighed"]}
+   ]
+  },
+  {
+   "id": "long.vlaardingen.counts_toll",
+   "note": "Alpert of Metz, De diversitate temporum ii.20-21 (the Tiel merchants' complaint: without protection they could not go to Britain for trade nor the Britons come to them; the battle of 29 July 1018), our rendering; Thietmar viii.27-28 (?). chronicle_793.json 1018-07-29-vlaardingen. The Tiel man is invented.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and ((year = 1018 and month >= 8) or year = 1019)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "tielman": {"role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "fixed": false}
+   },
+   "title_key": "long.vlaardingen.counts_toll.title",
+   "title": "The count's toll on the Merwede",
+   "intention_key": "long.vlaardingen.counts_toll.intention",
+   "intention": "Count Dirk has built a stronghold at Vlaardingen in the marshes by the river mouth, and takes a heavy toll of the ships that pass. The merchants of Tiel complained to the emperor. This summer the emperor's host went down by ship to drive him out, and was cut to pieces among the ditches.",
+   "lines": [
+    {"who": "tielman", "key": "long.vlaardingen.counts_toll.l1"},
+    {"who": "tielman", "key": "long.vlaardingen.counts_toll.l2"}
+   ],
+   "options": [
+    {"key": "pay", "label_key": "long.vlaardingen.counts_toll.o.pay", "label": "Reckon the count's toll into your prices, and sail by Vlaardingen", "check": "true", "effects": ["flag long_dirk_toll_paid"]},
+    {"key": "vecht", "label_key": "long.vlaardingen.counts_toll.o.vecht", "label": "Go out by the Vecht and the Almere instead, the old way north, and lose three days", "check": "true", "effects": ["flag long_dirk_avoided"]},
+    {"key": "purse", "label_key": "long.vlaardingen.counts_toll.o.purse", "label": "Put 20 d in the Tiel men's common purse for the next complaint", "check": "silver >= 20", "cost": "silver 20", "effects": ["flag long_tiel_friend", "npc tielman feeling +10 purse"]}
+   ]
+  },
+  {
+   "id": "long.tiel.sworn_merchants",
+   "note": "Alpert of Metz, De diversitate temporum ii.20 (about 1021-1024), our rendering of his Latin ('homines duri et nulla fere disciplina adsuefacti, iudicia non secundum legem sed secundum voluntatem decernentes'): the oath that clears a debt, the drinking from first light, the common fund shared out and feasted on. chronicle_793.json 1020-tiel-merchants. BRIEF rule 2: they are not called a guild. The monk gives Aldhelm's riddle of the wine cask (riddles_793.json) to a man who gives alms. The chain tiel_1020 tells a seat among them. The monk is invented, with Alpert's opinions.",
+   "stage": "long",
+   "when": "moored and port.realm = franks and year >= 1020 and year < 1027",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "monk": {"role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "fixed": false}
+   },
+   "title_key": "long.tiel.sworn_merchants.title",
+   "title": "The merchants of Tiel",
+   "intention_key": "long.tiel.sworn_merchants.intention",
+   "intention": "The merchants of Tiel are hard men, used to no discipline. They judge cases not by the law but by their own will, and say the emperor has granted them this by charter. So a monk of the bishop's household tells it, who does not love them.",
+   "lines": [
+    {"who": "monk", "key": "long.tiel.sworn_merchants.l1"},
+    {"who": "monk", "key": "long.tiel.sworn_merchants.l2"},
+    {"who": "monk", "key": "long.tiel.sworn_merchants.l3"},
+    {"who": "", "key": "long.tiel.sworn_merchants.l4", "when": "flag.long_tiel_friend"}
+   ],
+   "options": [
+    {"key": "bench", "label_key": "long.tiel.sworn_merchants.o.bench", "label": "Take the place they offer your house on the bench", "check": "flag.long_tiel_friend", "effects": ["flag long_tiel_brother", "morale +0.05", "npc monk feeling -8 drank"]},
+    {"key": "purse", "label_key": "long.tiel.sworn_merchants.o.purse", "label": "Pay into the common purse and drink with them for a season (40 d)", "check": "silver >= 40", "cost": "silver 40", "effects": ["flag long_tiel_brother for 400", "morale +0.05", "npc monk feeling -8 drank"]},
+    {"key": "monk", "label_key": "long.tiel.sworn_merchants.o.monk", "label": "Agree with the monk, and give 10 d to Saint Walburg's", "check": "silver >= 10", "cost": "silver 10", "effects": ["deed gave_alms", "give_riddle riddle_aldhelm_78_cupa_vinaria", "npc monk feeling +10 alms"]},
+    {"key": "watch", "label_key": "long.tiel.sworn_merchants.o.watch", "label": "Watch how they settle a quarrel, and remember the oath they use", "check": "true", "effects": ["flag long_knows_tiel_oath"]}
+   ]
+  },
+  {
+   "id": "long.cnut.letter_from_rome",
+   "note": "Cnut's letter of 1027 to the English (in William of Malmesbury, Gesta regum ii.183, and John of Worcester), our rendering; Wipo, Gesta Chuonradi c. 16; Anglo-Saxon Chronicle (D/E) 1031 for the journey. chronicle_793.json 1027-03-26-cnut-rome. The spine's black_stones 'ages' hook (reads bs_peace). There is no deed for carrying pilgrims yet: a flag and their fares stand in.",
+   "stage": "long",
+   "when": "moored and (port.people = english or port.people = danish) and ((year = 1027 and month >= 5) or year = 1028)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "priest": {"role": "priest", "people": "port", "faith": "christian", "tongue": "port", "fixed": false}
+   },
+   "title_key": "long.cnut.letter_from_rome.title",
+   "title": "The king's letter from Rome",
+   "intention_key": "long.cnut.letter_from_rome.intention",
+   "intention": "This year King Cnut went to Rome and was at the hallowing of the emperor Conrad on Easter day. He has sent a letter home to all his people, and it is read in the churches.",
+   "lines": [
+    {"who": "priest", "key": "long.cnut.letter_from_rome.l1"},
+    {"who": "priest", "key": "long.cnut.letter_from_rome.l2"},
+    {"who": "priest", "key": "long.cnut.letter_from_rome.l3"},
+    {"who": "", "key": "long.cnut.letter_from_rome.l4", "when": "flag.bs_peace"}
+   ],
+   "options": [
+    {"key": "pilgrims", "label_key": "long.cnut.letter_from_rome.o.pilgrims", "label": "Offer passage to those who will go to Rome on the strength of it", "check": "true", "effects": ["silver +18", "morale +0.03", "flag long_carried_pilgrims_1027"]},
+    {"key": "copy", "label_key": "long.cnut.letter_from_rome.o.copy", "label": "Have the words about tolls written out, to show on the road (8 d)", "check": "silver >= 8", "cost": "silver 8", "effects": ["toll eased 180", "flag long_cnut_letter", "npc priest feeling +4 copy"]},
+    {"key": "shrug", "label_key": "long.cnut.letter_from_rome.o.shrug", "label": "Say that kings write, and toll men cannot read", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.cnut.the_kings_sons",
+   "note": "Anglo-Saxon Chronicle (C/D/E) 1035 (12 November, Shaftesbury, buried at Winchester), 1036 (E: the shipmen of London chose Harold), after Giles 1847. chronicle_793.json 1035-11-12-cnut-dies. The silver laid by is read by long.fleets.three_fleets in 1066. The Dane is invented.",
+   "stage": "long",
+   "when": "moored and ((year = 1035 and month >= 12) or year = 1036)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "dane": {"role": "skipper", "people": "danish", "faith": "christian", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.cnut.the_kings_sons.title",
+   "title": "The king's sons",
+   "intention_key": "long.cnut.the_kings_sons.intention",
+   "intention": "This year King Cnut died at Shaftesbury, on the second day before the ides of November, and was buried at Winchester. He had been king over the English nearly twenty winters. His realm is parted: Harold has the English, Harthacnut the Danes, and Magnus, Olaf's son, the Northmen.",
+   "lines": [
+    {"who": "dane", "key": "long.cnut.the_kings_sons.l1"},
+    {"who": "dane", "key": "long.cnut.the_kings_sons.l2"}
+   ],
+   "options": [
+    {"key": "call", "label_key": "long.cnut.the_kings_sons.o.call", "label": "Call in what the house is owed across the sea, before the kingdoms quarrel", "check": "true", "effects": [{"chance": 0.7, "by": "crew.trade_best", "success": ["silver +50"], "failure": ["silver +15"]}]},
+    {"key": "spread", "label_key": "long.cnut.the_kings_sons.o.spread", "label": "Leave 60 d of the house's silver in each kingdom's chief port, with men you trust", "check": "silver >= 60", "cost": "silver 60", "effects": ["flag long_silver_laid_by"]},
+    {"key": "on", "label_key": "long.cnut.the_kings_sons.o.on", "label": "Trade on. A merchant has outlived kings before", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.hedeby.burned_1050",
+   "note": "The verses in Snorri, Haralds saga Sigurðarsonar c. 34 (LATER: one by Þorleikr fagri, one by an unnamed man of Harald's who stood on the town wall before dawn; 'burned from end to end was Hedeby'), our rendering. chronicle_793.json 1050-hedeby-burned (1049 or 1050). The spine's godfreds_market 'ages' hook. The chain thread_09 tells the end of Hedeby. The runaway is invented.",
+   "stage": "long",
+   "when": "moored and port.id != sliesthorp and ((year = 1050 and month >= 7) or year = 1051)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "runaway": {"role": "survivor", "people": "danish", "faith": "christian", "tongue": "old_norse", "fixed": false}
+   },
+   "title_key": "long.hedeby.burned_1050.title",
+   "title": "Hedeby burned from end to end",
+   "intention_key": "long.hedeby.burned_1050.intention",
+   "intention": "This year Harald, king of the Northmen, at war with Sweyn of the Danes, came to the port by the Schlei that the Danes call Hedeby and the old annals Sliesthorp, and burned it from end to end.",
+   "lines": [
+    {"who": "runaway", "key": "long.hedeby.burned_1050.l1"},
+    {"who": "runaway", "key": "long.hedeby.burned_1050.l2"},
+    {"who": "", "key": "long.hedeby.burned_1050.l3", "when": "flag.long_hedeby_danish_friend or flag.long_hedeby_danish_host"}
+   ],
+   "options": [
+    {"key": "roof", "label_key": "long.hedeby.burned_1050.o.roof", "label": "Send your host there 40 d to raise a roof on the north shore, at Schleswig", "check": "silver >= 40", "cost": "silver 40", "effects": ["flag long_schleswig_host", "npc runaway feeling +15 helped"]},
+    {"key": "buy", "label_key": "long.hedeby.burned_1050.o.buy", "label": "Buy what he saved: a coil of walrus rope and a bundle of whetstones, 25 d", "check": "silver >= 25", "cost": "silver 25", "effects": ["goods walrus_rope +1", "goods whetstones +1", "npc runaway feeling +4 bought"]},
+    {"key": "mark", "label_key": "long.hedeby.burned_1050.o.mark", "label": "Mark it on the tally: the trade will cross the water", "check": "true", "effects": ["flag long_knows_schleswig"]}
+   ]
+  },
+  {
+   "id": "long.comet.long_haired_star",
+   "note": "Anglo-Saxon Chronicle (C/D) 1066 (Giles 1847: 'the star which is called comet; some men said that it was the star Cometa, which some men call the haired star'; first seen on the eve of Litania major, 24 April). The comet of 837 and Louis the Pious: Astronomer c. 58. chronicle_793.json 1066-04-24-halley, 837-04-halley-comet, 1066-01-05-edward-dies.",
+   "stage": "long",
+   "when": "moored and (year = 1066 and month >= 4 and month <= 8)",
+   "rate": 0.02,
+   "once": true,
+   "title_key": "long.comet.long_haired_star.title",
+   "title": "The long-haired star",
+   "intention_key": "long.comet.long_haired_star.intention",
+   "intention": "This year at Easter-tide a sign was seen in the heavens such as no man had seen before. Some said it was the star called comet, which some call the long-haired star. It showed first on the eve of the Greater Litany, and shone all the week.",
+   "lines": [
+    {"who": "", "key": "long.comet.long_haired_star.l1"},
+    {"who": "", "key": "long.comet.long_haired_star.l2"}
+   ],
+   "options": [
+    {"key": "home", "label_key": "long.comet.long_haired_star.o.home", "label": "Take it for a warning: keep the boat in home waters this summer", "check": "true", "effects": ["flag long_1066_home", "morale +0.03"]},
+    {"key": "trade", "label_key": "long.comet.long_haired_star.o.trade", "label": "Take it for a star. Kings will want ships, and ships want everything", "check": "true", "effects": ["flag long_1066_trading", "morale -0.02"]},
+    {"key": "candle", "label_key": "long.comet.long_haired_star.o.candle", "label": "Vow a candle against the year, and go where the trade is (6 d of wax)", "check": "silver >= 6", "cost": "silver 6", "effects": ["deed gave_alms", "flag long_1066_trading", "morale +0.02"]}
+   ]
+  },
+  {
+   "id": "long.fleets.three_fleets",
+   "note": "Anglo-Saxon Chronicle (C) 1066 (Giles 1847: the fleet at Wight all summer; on the Nativity of St Mary, 8 September, 'the men's provisions were gone'; the ships driven to London and many lost); William of Poitiers ii (Saint-Valery on the Somme). chronicle_793.json 1066 entries. The chain year_1066 tells the year at length. The lord's man is invented.",
+   "stage": "long",
+   "when": "moored and (port.people = english or port.realm = franks) and (year = 1066 and month >= 7 and month <= 9)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "countsman": {"role": "lords_man", "people": "port", "faith": "port", "tongue": "port", "fixed": false}
+   },
+   "title_key": "long.fleets.three_fleets.title",
+   "title": "Three fleets",
+   "intention_key": "long.fleets.three_fleets.intention",
+   "intention": "All this summer King Harold has lain with ships and men by the Isle of Wight, waiting for the duke of the Normans. The duke lies with his ships at the mouth of the Somme, waiting for a south wind. And in the north Harald, king of the Northmen, is gathering three hundred ships.",
+   "lines": [
+    {"who": "countsman", "key": "long.fleets.three_fleets.l1"},
+    {"who": "countsman", "key": "long.fleets.three_fleets.l2", "when": "month >= 9"}
+   ],
+   "options": [
+    {"key": "carry", "label_key": "long.fleets.three_fleets.o.carry", "label": "Carry stores for the fleet that lies nearest, for silver down", "check": "true", "effects": ["flag long_1066_carried", "npc countsman feeling +8 carried", {"chance": 0.7, "by": "crew.seamanship_best", "success": ["silver +60"], "failure": ["silver +20", "health -0.05", "morale -0.05"]}]},
+    {"key": "tar", "label_key": "long.fleets.three_fleets.o.tar", "label": "Sell them a barrel of tar at this year's price", "check": "hold.tar >= 1", "cost": "goods tar 1", "effects": ["silver +45", "npc countsman feeling +3 sold"]},
+    {"key": "laid_by", "label_key": "long.fleets.three_fleets.o.laid_by", "label": "Draw on the silver your house laid by across the sea in King Cnut's last year", "check": "flag.long_silver_laid_by", "effects": ["silver +90", "flag long_silver_laid_by = 0"]},
+    {"key": "creek", "label_key": "long.fleets.three_fleets.o.creek", "label": "Take the boat up a creek and wait for it to be over", "check": "true", "effects": ["flag long_1066_hid"]}
+   ]
+  },
+  {
+   "id": "long.hedeby.the_old_harbour_ends",
+   "note": "Adam of Bremen iii.50-51 (Gottschalk killed at Lenzen on 7 June 1066; Hamburg burned; Schleswig, 'a very rich town', destroyed), our rendering. chronicle_793.json 1066-hedeby-slavs, 808-summer-reric-destroyed (808 to 1066 is 258 years). The spine's godfreds_market 'ages' hook. Schleswig on the north shore has no row in ports_793.json: the port sliesthorp stands for both. The priest is invented.",
+   "stage": "long",
+   "when": "moored and port.id != sliesthorp and (year = 1066 and month >= 7)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "priest": {"role": "priest", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "fixed": false}
+   },
+   "title_key": "long.hedeby.the_old_harbour_ends.title",
+   "title": "The end of the old harbour",
+   "intention_key": "long.hedeby.the_old_harbour_ends.intention",
+   "intention": "This year the Slavs beyond the Elbe killed their Christian prince Gottschalk at the altar and rose. They burned Hamburg, and fell on the rich town of the Danes on the Schlei and destroyed it utterly.",
+   "lines": [
+    {"who": "priest", "key": "long.hedeby.the_old_harbour_ends.l1"},
+    {"who": "priest", "key": "long.hedeby.the_old_harbour_ends.l2"},
+    {"who": "", "key": "long.hedeby.the_old_harbour_ends.l3", "when": "flag.long_schleswig_host"}
+   ],
+   "options": [
+    {"key": "berth", "label_key": "long.hedeby.the_old_harbour_ends.o.berth", "label": "Take the berth at Schleswig that your house earned", "check": "flag.long_schleswig_host", "effects": ["flag long_berth_schleswig", "price_shock sliesthorp rhenish_wine x1.2 for 120"]},
+    {"key": "alms", "label_key": "long.hedeby.the_old_harbour_ends.o.alms", "label": "Give 15 d for the priests who got out of Hamburg", "check": "silver >= 15", "cost": "silver 15", "effects": ["deed gave_alms", "npc priest feeling +10 alms"]},
+    {"key": "scratch", "label_key": "long.hedeby.the_old_harbour_ends.o.scratch", "label": "Scratch the old name from the tally stick", "check": "true", "effects": []}
+   ]
+  },
+  {
+   "id": "long.battles.two_battles",
+   "note": "Anglo-Saxon Chronicle (C, D) 1066, after Giles 1847 (the man on the bridge is in the C text's last, later addition; twenty-four ships in D). chronicle_793.json 1066-09-25-stamford-bridge, 1066-10-14-hastings (25 September to 14 October is nineteen days). The runaway is invented.",
+   "stage": "long",
+   "when": "moored and (year = 1066 and month >= 10)",
+   "rate": 0.02,
+   "once": true,
+   "actors": {
+    "runaway": {"role": "survivor", "people": "english", "faith": "christian", "tongue": "old_english", "fixed": false}
+   },
+   "title_key": "long.battles.two_battles.title",
+   "title": "Two battles",
+   "intention_key": "long.battles.two_battles.intention",
+   "intention": "This year Harald, king of the Northmen, came into the Humber with three hundred ships. King Harold came on him unawares at Stamford Bridge, and the Northman was killed there. Then the duke of the Normans landed in the south. King Harold marched against him and fell, on Saint Calixtus's day, and his two brothers with him.",
+   "lines": [
+    {"who": "runaway", "key": "long.battles.two_battles.l1"},
+    {"who": "runaway", "key": "long.battles.two_battles.l2"},
+    {"who": "", "key": "long.battles.two_battles.l3"}
+   ],
+   "options": [
+    {"key": "aboard", "label_key": "long.battles.two_battles.o.aboard", "label": "Take him aboard: he wants to be anywhere a Norman is not", "check": "true", "effects": ["men +1", "npc runaway feeling +15 taken_on"]},
+    {"key": "tale", "label_key": "long.battles.two_battles.o.tale", "label": "Pay him for the whole tale, to carry to the next port before any other ship (5 d)", "check": "silver >= 5", "cost": "silver 5", "effects": ["news long.news.hastings at here", "flag long_1066_news for 60", "npc runaway feeling +5 paid"]},
+    {"key": "bread", "label_key": "long.battles.two_battles.o.bread", "label": "Give him bread, and say nothing about kings", "check": "true", "effects": ["npc runaway feeling +8 bread"]}
+   ]
+  },
+  {
+   "id": "long.william.midwinter",
+   "note": "Anglo-Saxon Chronicle (D) 1066 (Giles 1847: the submission at Berkhamsted; hallowed at Westminster on midwinter's day). chronicle_793.json 1066-12-25-william-crowned. The game began on 21 June 793, thirteen days after Lindisfarne: 273 years. The last text is Hávamál 77 (Bellows 1923; texts_793.json): cattle die, and kinsmen die; one thing never dies, the fame of a dead man's deeds.",
+   "stage": "long",
+   "when": "moored and ((year = 1066 and month >= 12) or year = 1067)",
+   "rate": 0.02,
+   "once": true,
+   "title_key": "long.william.midwinter.title",
+   "title": "Midwinter",
+   "intention_key": "long.william.midwinter.intention",
+   "intention": "The duke of the Normans has been received at Berkhamsted by the archbishop, the child Edgar, the earls and the best men of Lunden. They gave hostages and swore oaths to him. On midwinter's day he is hallowed king at Westminster.",
+   "lines": [
+    {"who": "", "key": "long.william.midwinter.l1"},
+    {"who": "", "key": "long.william.midwinter.l2"}
+   ],
+   "options": [
+    {"key": "gift", "label_key": "long.william.midwinter.o.gift", "label": "Send the house's gift to the new king's reeve, and your name with it (60 d)", "check": "silver >= 60", "cost": "silver 60", "effects": ["flag long_1066_norman_peace"]},
+    {"key": "north", "label_key": "long.william.midwinter.o.north", "label": "Turn the house's trade north and east, where no Norman is", "check": "true", "effects": ["flag long_1066_turned_north"]},
+    {"key": "chest", "label_key": "long.william.midwinter.o.chest", "label": "Lay the boat up for the winter, and read the chest through from the beginning", "check": "true", "effects": ["flag long_1066_read_chest", "morale +0.05", "give_text havamal_077"]}
+   ]
+  }
+ ]
+}

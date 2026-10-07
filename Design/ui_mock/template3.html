@@ -1,0 +1,771 @@
+<title>Kapman HUD Layouts</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=Pixelify+Sans:wght@400;600&display=swap">
+<style>
+/* Four ways to arrange the same HUD: settings top left, buttons below it, modular panels, a portrait top right,
+   and a live window on the ship bottom right. Ink slips on the chart. */
+:root { color-scheme: dark; --night:#0b0810; --paper:#f1e8d6; --mute:#a79fae; --byz:#702963; --lilac:#dba3cb; --gold:#f0d27a; --ink:rgba(17,11,23,.94); --rule:rgba(199,127,176,.28);
+  --read:"Gentium Book Plus", Georgia, serif; --mark:"Pixelify Sans", "Courier New", monospace; }
+* { box-sizing: border-box; } [hidden] { display: none !important; }
+body { background: var(--night); color: var(--paper); font-family: var(--read); font-size: 17px; line-height: 1.5; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 28px 16px 48px; display: flex; flex-direction: column; gap: 16px; }
+h1 { font-family: var(--mark); font-weight: 600; font-size: clamp(24px, 3.4vw, 34px); margin: 0; color: var(--gold); }
+.lede { color: var(--mute); max-width: 68ch; margin: 0; }
+.tools { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
+.tools span { font: 13px var(--mark); color: var(--mute); }
+.seg { display: flex; flex-wrap: wrap; }
+.seg button { font: 14px var(--mark); background: #150f1c; color: var(--mute); border: 1px solid #4a1c4a; padding: 5px 11px; cursor: pointer; margin-left: -1px; }
+.seg button.on { background: var(--byz); color: var(--gold); }
+.note { border-left: 3px solid var(--byz); padding-left: 12px; color: var(--mute); max-width: 76ch; }
+.note b { color: var(--gold); font-family: var(--mark); font-weight: 600; }
+
+.scroller { overflow-x: auto; border: 2px solid #2e1233; }
+.screen { position: relative; aspect-ratio: 16 / 9; min-width: 960px; container-type: inline-size; overflow: hidden; background: #1b2340; user-select: none; }
+.screen { --s: 1; }
+.screen > * { font-size: calc(1cqw * var(--s)); }
+.screen img.map { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+:where(.screen button) { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+.slip { position: absolute; background: var(--ink); border: .14em solid var(--byz); box-shadow: .24em .24em 0 rgba(0,0,0,.55); color: var(--paper); }
+.num { font-family: var(--mark); color: var(--gold); }
+.lab { font-family: var(--mark); color: var(--lilac); font-size: .85em; }
+.her { position: absolute; left: 61.5%; top: 56%; width: 1.6em; height: .8em; background: var(--gold); border: .1em solid #150f1c; clip-path: polygon(0 20%, 70% 0, 100% 50%, 70% 100%, 0 80%); transform: rotate(-60deg); }
+
+/* top left: the settings panel */
+.sys { left: 1%; top: 1.8%; padding: .4em .7em; display: flex; align-items: center; gap: .9em; white-space: nowrap; }
+.sys b { font-family: var(--mark); font-weight: 600; }
+.sys .gear { border: .08em solid var(--rule); padding: 0 .4em; font-family: var(--mark); color: var(--lilac); }
+.sys .clock i { font-style: normal; font-family: var(--mark); font-size: .8em; padding: 0 .3em; border: .07em solid var(--rule); color: var(--mute); margin-left: .15em; }
+.sys .clock i.on { background: var(--lilac); color: #150f1c; }
+
+/* the function buttons */
+.btns { position: absolute; display: flex; gap: .35em; }
+.btns button { background: var(--ink); border: .14em solid var(--byz); box-shadow: .2em .2em 0 rgba(0,0,0,.55); display: flex; align-items: center; gap: .4em; padding: .3em .6em; font-family: var(--mark); font-size: .9em; color: var(--paper); position: relative; }
+.btns button svg { width: 1.3em; height: 1.3em; fill: none; stroke: currentColor; stroke-width: 1.7; flex: none; }
+.btns button.on { background: var(--byz); color: var(--gold); }
+.btns button u { text-decoration: none; position: absolute; right: -.4em; top: -.5em; background: var(--gold); color: #150f1c; font-size: .7em; padding: 0 .3em; }
+
+/* modular panels */
+.panels { position: absolute; display: flex; gap: .5em; align-items: flex-start; }
+.pan { position: relative; width: 17em; padding: .45em .7em .6em; }
+.pan h3 { margin: 0 0 .2em; font-family: var(--mark); font-weight: 600; font-size: 1.05em; color: var(--lilac); display: flex; justify-content: space-between; }
+.pan h3 button { color: var(--mute); }
+.pan .row { display: flex; justify-content: space-between; gap: .8em; border-top: .07em solid var(--rule); padding: .18em 0; font-size: .92em; }
+.pan p { margin: .2em 0 0; font-size: .88em; font-style: italic; color: var(--mute); }
+
+/* top right: the portrait */
+.who { right: 1%; top: 1.8%; display: flex; gap: .6em; padding: .45em; align-items: stretch; }
+.who .face { width: 5.2em; height: 6em; background: linear-gradient(#3a2440, #1d1426); border: .1em solid var(--rule); position: relative; overflow: hidden; flex: none; }
+.who .face::before { content: ""; position: absolute; left: 50%; top: 22%; width: 2.2em; height: 2.4em; background: #c9a07a; transform: translateX(-50%); border-radius: 45% 45% 40% 40%; box-shadow: 0 -.5em 0 .1em #4a3424; }
+.who .face::after { content: ""; position: absolute; left: 50%; bottom: -.4em; width: 4.6em; height: 2.6em; background: var(--byz); transform: translateX(-50%); border-radius: 50% 50% 0 0; }
+.who .txt { width: 11em; display: flex; flex-direction: column; gap: .15em; }
+.who .txt b { font-family: var(--mark); font-weight: 600; color: var(--gold); }
+.who .txt span { font-size: .86em; color: var(--mute); }
+.who .crew { display: flex; gap: .25em; margin-top: auto; }
+.who .crew i { width: 1.5em; height: 1.5em; background: #3a2440; border: .08em solid var(--rule); font: normal .75em var(--mark); display: grid; place-items: center; color: var(--lilac); }
+.who .say { font-style: italic; font-size: .9em; color: var(--paper); }
+
+/* bottom right: the ship window */
+.ship { right: 1%; bottom: 2.2%; padding: .3em; }
+.ship .view { position: relative; overflow: hidden; width: 22em; height: 12.4em; }
+.ship .sky, .ship .sea, .ship .land, .ship .wx { position: absolute; left: 0; right: 0; }
+.ship .sky { top: 0; height: 62%; }
+.ship .sun { position: absolute; width: 1.6em; height: 1.6em; border-radius: 50%; }
+.ship .land { bottom: 38%; height: 16%; }
+.ship .sea { bottom: 0; height: 38%; }
+.ship .sea::before, .ship .sea::after { content: ""; position: absolute; left: -10%; right: -10%; height: .5em; top: 18%; background: repeating-linear-gradient(90deg, rgba(255,255,255,.22) 0 1.2em, transparent 1.2em 3em); animation: drift 7s linear infinite; }
+.ship .sea::after { top: 55%; opacity: .6; animation-duration: 4.5s; }
+.ship svg.boat { position: absolute; left: 30%; bottom: 20%; width: 9em; height: 6.6em; animation: bob 3.6s ease-in-out infinite; }
+.ship .wx { top: 0; bottom: 0; pointer-events: none; }
+.ship .cap { display: flex; justify-content: space-between; gap: 1em; padding: .25em .3em .05em; font-size: .86em; white-space: nowrap; }
+@keyframes bob { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-.35em) rotate(1.5deg); } }
+@keyframes drift { to { transform: translateX(3em); } }
+@keyframes rain { to { background-position: -4em 8em; } }
+@media (prefers-reduced-motion: reduce) { .ship svg.boat, .ship .sea::before, .ship .sea::after, .ship .wx { animation: none !important; } }
+
+/* frame styles: the same slips drawn four ways */
+.screen canvas.map { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+.f-thin .slip, .f-thin .btns button { border-width: .07em; box-shadow: none; }
+.f-heavy .slip, .f-heavy .btns button { border-width: .32em; box-shadow: .34em .34em 0 rgba(0,0,0,.6); }
+.f-double .slip, .f-double .btns button { border: .34em double var(--byz); box-shadow: none; outline: .07em solid var(--lilac); outline-offset: -.5em; }
+.f-notch .slip, .f-notch .btns button { border-width: .14em; box-shadow: none; clip-path: polygon(.55em 0, calc(100% - .55em) 0, 100% .55em, 100% calc(100% - .55em), calc(100% - .55em) 100%, .55em 100%, 0 calc(100% - .55em), 0 .55em); border-style: solid; }
+.f-notch .slip { border-left-width: .5em; }
+
+/* the four arrangements */
+.v-a .btns { left: 1%; top: 7.6%; flex-direction: column; } .v-a .panels { left: 11.5%; top: 7.6%; }
+.v-b .btns { left: 1%; top: 7.6%; flex-direction: row; flex-wrap: wrap; max-width: 46em; } .v-b .panels { left: 1%; top: 13.6%; }
+.v-b .btns.many ~ .panels { top: 18%; }
+.v-c .btns { left: 1%; top: 7.6%; flex-direction: column; } .v-c .btns button span { display: none; } .v-c .btns button { padding: .35em; } .v-c .panels { left: 5%; top: 7.6%; flex-direction: column; }
+.v-c .ship .view { width: 27em; height: 15.2em; }
+.v-d .btns { left: 50%; bottom: 2.2%; transform: translateX(-50%); } .v-d .panels { left: 50%; bottom: 9%; transform: translateX(-50%); align-items: flex-end; }
+.v-d .sys { padding: .25em .6em; } .v-d .who .txt { display: none; } .v-d .who .face { width: 3.6em; height: 4.2em; } .v-d .ship .view { width: 17em; height: 9.6em; }
+/* E: the full frame. The HUD is a frame round the chart: a bar across the top, a column each side */
+.v-e::before, .v-e::after { content: ""; position: absolute; top: 0; bottom: 0; background: var(--ink); border: 0 solid var(--byz); z-index: 1; }
+.v-e .log { display: block; }
+.v-e::before { left: 0; width: 27%; border-right-width: .2em; }
+.v-e::after { right: 0; width: 27%; border-left-width: .2em; }
+.v-e .slip, .v-e .btns, .v-e .panels { z-index: 2; }
+.v-e .sys { left: 0; right: 0; top: 0; border-width: 0 0 .2em 0; box-shadow: none; padding: .6em 1em; justify-content: space-between; font-size: calc(1.15cqw * var(--s)); }
+.v-e .btns { left: 1%; top: 9%; width: 25%; flex-direction: row; flex-wrap: wrap; }
+.v-e .btns button { flex: 1 1 45%; padding: .55em .7em; font-size: 1em; }
+.v-e .panels { left: 1%; top: 38%; width: 25%; flex-direction: column; }
+.v-e .btns.many ~ .panels { top: 50%; }
+.v-e .pan { width: 100%; }
+.v-e .who { right: 1%; top: 9%; width: 25%; flex-direction: column; box-shadow: none; }
+.v-e .who .face { width: 100%; height: 13em; }
+.v-e .who .face::before { width: 5em; height: 5.6em; top: 16%; }
+.v-e .who .face::after { width: 11em; height: 5.5em; }
+.v-e .who .txt { width: auto; font-size: 1.1em; }
+.v-e .ship { right: 1%; bottom: 2%; width: 25%; box-shadow: none; }
+.v-e .ship .view { width: 100%; height: auto; aspect-ratio: 16 / 10; }
+.v-e .her { left: 50%; top: 55%; }
+/* F: two decks. Top bar and a deep bottom deck holding buttons, panels, portrait and ship side by side */
+.v-f::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 40%; background: var(--ink); border-top: .2em solid var(--byz); z-index: 1; }
+.v-f .slip, .v-f .btns, .v-f .panels { z-index: 2; }
+.v-f .sys { left: 0; right: 0; top: 0; border-width: 0 0 .2em 0; box-shadow: none; padding: .6em 1em; justify-content: space-between; font-size: calc(1.15cqw * var(--s)); }
+.v-f .btns { left: 1%; bottom: 3%; top: auto; height: 34%; width: 14%; flex-direction: column; flex-wrap: wrap; }
+.v-f .btns button { padding: .45em .6em; }
+.v-f .panels { left: 16%; bottom: 3%; }
+.v-f .who { right: 28%; bottom: 3%; top: auto; flex-direction: column; box-shadow: none; }
+.v-f .who .face { width: 12em; height: 9em; }
+.v-f .who .txt { width: 12em; }
+.v-f .ship { right: 1%; bottom: 3%; box-shadow: none; }
+.v-f .ship .view { width: 25em; height: 14em; }
+.v-f .her { top: 38%; }
+/* the message log of the old-school frame, and the bevelled frame style */
+.log { display: none; position: absolute; left: 27%; right: 27%; bottom: 0; height: 15%; z-index: 2; background: var(--ink); border: .2em solid var(--byz); border-bottom: 0; padding: .4em .8em; font-size: calc(.95cqw * var(--s)); overflow: hidden; }
+.log div { color: var(--mute); } .log div:last-child { color: var(--paper); } .log b { font-family: var(--mark); color: var(--lilac); font-weight: 600; }
+.screen.f-bevel::before, .screen.f-bevel::after, .f-bevel .slip, .f-bevel .btns button, .f-bevel .log {
+  background: linear-gradient(#3b2a3f, #2a1c2e); border: .28em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; box-shadow: inset 0 0 0 .1em #4f3853, 0 0 0 .1em #0b0810; }
+.f-bevel .btns button.on { border-color: #1a0f1d #8c6a8e #8c6a8e #1a0f1d; background: #24162a; }
+.f-bevel .who .face, .f-bevel .ship .view { border: .22em solid; border-color: #1a0f1d #8c6a8e #8c6a8e #1a0f1d; }
+.f-bevel .pan .row { border-top-color: #1a0f1d; box-shadow: 0 .07em 0 #5a4160 inset; }
+.f-bevel.v-e::before { border-width: .28em; } .f-bevel.v-e::after { border-width: .28em; }
+/* the thick frame, less rigid: four more cuts of it (each is the bevel plus a shape) */
+.t-round .slip, .t-round .btns button, .t-round .log, .t-round.screen::before, .t-round.screen::after { border-radius: 1.1em; }
+.t-round .who .face, .t-round .ship .view { border-radius: .8em; } .t-round .btns button { border-radius: 2em; }
+.t-round .sys { border-radius: 0 0 1.1em 1.1em; } .t-round .log { border-radius: 1.1em 1.1em 0 0; }
+.t-carved .slip, .t-carved .btns button, .t-carved .log { clip-path: polygon(.9em 0, calc(100% - .9em) 0, 100% .9em, 100% calc(100% - .9em), calc(100% - .9em) 100%, .9em 100%, 0 calc(100% - .9em), 0 .9em); }
+.t-carved .btns button { clip-path: polygon(.6em 0, 100% 0, 100% calc(100% - .6em), calc(100% - .6em) 100%, 0 100%, 0 .6em); }
+.t-carved .who .face { clip-path: polygon(12% 0, 88% 0, 100% 12%, 100% 100%, 0 100%, 0 12%); }
+.t-arch .who .face { border-radius: 50% 50% .3em .3em / 38% 38% .3em .3em; }
+.t-arch .ship .view { border-radius: 9em 9em .3em .3em / 4.5em 4.5em .3em .3em; }
+.t-arch .slip, .t-arch .log { border-radius: 1.6em 1.6em .4em .4em; } .t-arch .btns button { border-radius: 1.2em 1.2em .3em .3em; }
+.t-arch .sys { border-radius: 0 0 1.6em 1.6em; }
+.t-stud .slip, .t-stud .log { border-radius: .7em; background-image: radial-gradient(circle at .55em .55em, #d9b36a 0 .2em, #6b4a1e .2em .3em, transparent .32em), radial-gradient(circle at calc(100% - .55em) .55em, #d9b36a 0 .2em, #6b4a1e .2em .3em, transparent .32em), radial-gradient(circle at .55em calc(100% - .55em), #d9b36a 0 .2em, #6b4a1e .2em .3em, transparent .32em), radial-gradient(circle at calc(100% - .55em) calc(100% - .55em), #d9b36a 0 .2em, #6b4a1e .2em .3em, transparent .32em), linear-gradient(#3b2a3f, #2a1c2e); }
+.t-stud .btns button { border-radius: .5em; } .t-stud .who .face, .t-stud .ship .view { border-radius: .5em; outline: .1em solid #d9b36a; outline-offset: -.45em; }
+.t-soft .slip, .t-soft .btns button, .t-soft .log, .t-soft.screen::before, .t-soft.screen::after { border-radius: 1.6em .5em 1.6em .5em; border-width: .34em; border-color: #9a78a0 #2a1830 #2a1830 #9a78a0; }
+.t-soft .who .face, .t-soft .ship .view { border-radius: 1.2em .4em 1.2em .4em; }
+/* the full frame with no empty columns: the chart runs under and between the panels */
+.screen.open::before, .screen.open::after { display: none !important; }
+.open.v-e .log { left: 28%; right: 28%; bottom: 1.5%; border-bottom: .28em solid; height: auto; }
+.open.v-e .who, .open.v-e .ship { box-shadow: .3em .3em 0 rgba(0,0,0,.5); }
+.open.v-e .her { left: 61.5%; top: 56%; }
+/* G: the command frame. The frame runs the game; the chart is a picture you read and measure on */
+.v-g .sys { left: 0; right: 0; top: 0; border-width: 0 0 .2em 0; box-shadow: none; padding: .55em 1em; justify-content: space-between; font-size: calc(1.1cqw * var(--s)); z-index: 2; }
+.v-g .btns, .v-g .panels { display: none; }
+.v-g .who { right: 1%; top: 9%; width: 24%; flex-direction: column; z-index: 2; }
+.v-g .who .face { width: 100%; height: 10em; } .v-g .who .face::before { width: 4.2em; height: 4.6em; top: 16%; } .v-g .who .face::after { width: 9em; height: 4.6em; }
+.v-g .who .txt { width: auto; }
+.v-g .ship { right: 1%; bottom: 2%; width: 24%; z-index: 2; } .v-g .ship .view { width: 100%; height: auto; aspect-ratio: 16 / 10; }
+.v-g .log { display: block; left: 31%; right: 26.5%; bottom: 1.5%; height: auto; border-bottom: .28em solid; }
+.focus { display: none; position: absolute; left: 1%; top: 9%; bottom: 2%; width: 29%; z-index: 2; flex-direction: column; }
+.v-g .focus { display: flex; }
+.focus .tabs { display: flex; gap: .25em; padding: .4em .4em 0; flex-wrap: wrap; }
+.focus .tabs button { flex: 1; text-align: center; padding: .35em .3em; font-family: var(--mark); font-size: .9em; border: .14em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: .7em .7em 0 0; background: #2a1c2e; color: var(--mute); position: relative; }
+.focus .tabs button.on { background: var(--byz); color: var(--gold); }
+.focus .tabs u { text-decoration: none; position: absolute; right: .1em; top: -.5em; background: var(--gold); color: #150f1c; font-size: .7em; padding: 0 .3em; border-radius: .6em; }
+.focus .body { flex: 1; overflow: auto; padding: .6em .8em; display: flex; flex-direction: column; gap: .45em; }
+.focus h3 { margin: 0; font-family: var(--mark); font-weight: 600; color: var(--gold); font-size: 1.1em; }
+.focus p { margin: 0; font-size: .92em; color: var(--mute); }
+.focus .ln { display: flex; align-items: center; gap: .5em; padding: .28em .5em; background: rgba(0,0,0,.22); border-radius: .6em; font-size: .95em; width: 100%; }
+.focus .ln.sel { outline: .12em solid var(--gold); }
+.focus .ln span:first-child { flex: 1; } .focus .ln small { color: var(--mute); font-size: .85em; }
+.focus .k { font-family: var(--mark); font-size: .85em; padding: .15em .55em; border: .14em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: 1em; background: #3b2a3f; color: var(--paper); }
+.focus .k.go { background: var(--byz); color: var(--gold); padding: .4em .9em; font-size: 1em; text-align: center; }
+.focus .seg2 { display: flex; gap: .3em; flex-wrap: wrap; }
+.rule { display: none; position: absolute; z-index: 2; left: 31%; top: 9%; padding: .3em .7em; font-size: calc(.95cqw * var(--s)); }
+.v-g .rule { display: block; }
+.screen svg.meas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.hit { display: none; } .v-g .hit { display: block; position: absolute; left: 30%; right: 25%; top: 8%; bottom: 0; z-index: 1; cursor: crosshair; }
+/* the turning line: a line comes up in the speaker's tongue and turns into English word by word */
+.turn { display: none; position: absolute; z-index: 5; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 46%; padding: 0; font-size: calc(1.15cqw * var(--s)); box-shadow: 0 0 0 100vmax rgba(8,4,12,.45), .3em .3em 0 rgba(0,0,0,.6) !important; }
+.turn .top { display: grid; grid-template-columns: 5.4em 1fr; gap: .2em .9em; padding: .8em 1em .6em; }
+.turn .fc { grid-row: span 2; width: 5.4em; height: 6.2em; background: linear-gradient(#3a2440, #1d1426); border: .14em solid; border-color: #1a0f1d #8c6a8e #8c6a8e #1a0f1d; border-radius: .7em; position: relative; overflow: hidden; }
+.turn .fc::before { content: ""; position: absolute; left: 50%; top: 20%; width: 2.3em; height: 2.5em; background: #c9a07a; transform: translateX(-50%); border-radius: 45% 45% 40% 40%; box-shadow: 0 -.5em 0 .1em #4a3424; }
+.turn .fc::after { content: ""; position: absolute; left: 50%; bottom: -.4em; width: 4.8em; height: 2.7em; background: var(--byz); transform: translateX(-50%); border-radius: 50% 50% 0 0; }
+.turn .opts { display: flex; flex-direction: column; border-top: .1em solid var(--rule); }
+.turn .opts button { display: flex; justify-content: space-between; gap: 1em; padding: .42em 1em; border-top: .07em solid rgba(0,0,0,.25); text-align: left; }
+.turn .opts button:hover { background: rgba(240,210,122,.1); }
+.turn .opts small { color: var(--gold); font-family: var(--mark); font-size: .8em; white-space: nowrap; margin: 0; display: inline; }
+.turn .opts em { font-style: normal; font-family: var(--mark); color: var(--lilac); font-size: .85em; margin-right: .4em; }
+.turn .x { position: absolute; right: .6em; top: .3em; font-family: var(--mark); color: var(--mute); font-size: 1.2em; }
+.turn.on { display: block; }
+.turn h4 { margin: 0 0 .3em; font-family: var(--mark); font-weight: 600; color: var(--gold); font-size: .95em; }
+.turn small { display: block; margin-top: .4em; color: var(--mute); font-size: .78em; }
+.turn .w { display: inline-block; position: relative; margin-right: .3em; transition: color .5s; }
+.turn .w i { font-style: italic; color: var(--lilac); transition: opacity .6s, filter .6s; }
+.turn .w b { font-weight: 400; position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap; transition: opacity .6s; }
+.turn .w.done i { opacity: 0; filter: blur(.15em); } .turn .w.done b { opacity: 1; position: static; } .turn .w.done i { position: absolute; left: 0; top: 0; }
+.turn .w.kept i { color: var(--gold); }
+@media (prefers-reduced-motion: reduce) { .turn .w i, .turn .w b { transition: none; } }
+/* the left side as modules: one to three slots, each can hold any panel */
+.focus { gap: .5em; }
+.mod { position: relative !important; flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+.mh { display: flex; align-items: center; gap: .25em; padding: .3em .5em; border-bottom: .1em solid var(--rule); }
+.mh button { font-family: var(--mark); color: var(--mute); padding: 0 .4em; font-size: .95em; }
+.mh button:hover { color: var(--gold); }
+.mh .nm { flex: 1; color: var(--gold); font-weight: 600; font-size: 1.05em; }
+.pk { display: grid; grid-template-columns: 1fr 1fr; gap: .3em; padding: .6em; overflow: auto; align-content: start; flex: 1; }
+.pk button { font-family: var(--mark); font-size: .88em; padding: .3em .5em; border: .14em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: .8em; background: #3b2a3f; color: var(--paper); }
+.pk button.on { background: var(--byz); color: var(--gold); }
+.pk button.used { opacity: .4; }
+.focus .add { font-family: var(--mark); font-size: .85em; color: var(--paper); background: rgba(17,11,23,.8); border: .1em dashed var(--lilac); border-radius: .8em; padding: .25em; text-align: center; }
+.pips { display: inline-grid; grid-auto-flow: column; gap: .16em; }
+.pips i { width: .62em; height: .62em; background: var(--gold); border-radius: 50%; } .pips i.o { background: none; border: .08em solid var(--mute); }
+.tg { font-family: var(--mark); font-size: .78em; color: var(--lilac); border: .08em solid var(--rule); border-radius: .8em; padding: 0 .45em; white-space: nowrap; }
+/* a tiling window manager for the left side (as i3 or sway): workspaces, rows, columns or tabs, one window in focus;
+   and floating windows over the middle for talk and events, as many as come */
+.tiles { flex: 1; min-height: 0; display: flex; gap: .5em; }
+.tiles.rows, .tiles.tabs { flex-direction: column; } .tiles.cols { flex-direction: row; }
+.tiles.cols .mod { min-width: 0; }
+.focus.wide { width: 46%; }
+.mod.foc { outline: .16em solid var(--gold); outline-offset: -.16em; }
+.tabs2 { display: flex; gap: .2em; flex-wrap: wrap; }
+.tabs2 button { flex: 1; font-family: var(--mark); font-size: .85em; padding: .25em .4em; text-align: center; border: .14em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: .7em .7em 0 0; background: #2a1c2e; color: var(--mute); }
+.tabs2 button.on { background: var(--byz); color: var(--gold); }
+.wmbar { display: flex; gap: .25em; align-items: center; flex-wrap: wrap; background: rgba(17,11,23,.9); border: .1em solid var(--rule); border-radius: .8em; padding: .25em .4em; }
+.wmbar button { font-family: var(--mark); font-size: .8em; padding: .12em .5em; border-radius: .7em; color: var(--mute); border: .08em solid transparent; }
+.wmbar button.on { background: var(--byz); color: var(--gold); }
+.wmbar button:hover { border-color: var(--lilac); }
+.wmbar i { flex: 1; }
+.turn { box-shadow: .3em .3em 0 rgba(0,0,0,.6), 0 0 0 .1em #0b0810 !important; width: 42%; }
+/* the eight function buttons: things you DO, apart from the windows below them, which are things you READ and set */
+.fx { display: grid; grid-template-columns: repeat(4, 1fr); gap: .3em; }
+.fx button { display: flex; flex-direction: column; align-items: center; gap: .1em; padding: .35em .2em .25em; font-family: var(--mark); font-size: .82em; color: var(--paper);
+  background: linear-gradient(#3b2a3f, #2a1c2e); border: .2em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: .9em; }
+.fx button svg { width: 1.5em; height: 1.5em; fill: none; stroke: var(--gold); stroke-width: 1.7; }
+.fx button:active, .fx button.on { border-color: #1a0f1d #8c6a8e #8c6a8e #1a0f1d; background: #24162a; color: var(--gold); }
+.fx button:disabled { opacity: .45; }
+/* the wiki: a window like any other, and a dotted gold word anywhere opens its page */
+.wl { display: inline; font: inherit; color: var(--gold); background: none; border: 0; border-bottom: .09em dotted var(--gold); padding: 0; cursor: pointer; }
+.wl:hover { background: rgba(240,210,122,.16); }
+.wl.no { color: var(--mute); border-bottom-color: var(--mute); cursor: default; }
+.wk { display: flex; flex-direction: column; gap: .5em; flex: 1; min-height: 0; }
+.wk input { font-family: var(--read); font-size: 1em; color: var(--paper); background: rgba(0,0,0,.3); border: .12em solid; border-color: #1a0f1d #8c6a8e #8c6a8e #1a0f1d; border-radius: .7em; padding: .3em .6em; width: 100%; box-sizing: border-box; }
+.wcats { display: flex; flex-wrap: wrap; gap: .25em; }
+.wres { display: flex; flex-direction: column; gap: .3em; }
+.wk .ln { justify-content: space-between; text-align: left; }
+.wk .ln.lock { opacity: .5; font-style: italic; }
+.wkpage { font-family: var(--read); line-height: 1.5; }
+.wkpage .cat { font-family: var(--mark); color: var(--lilac); font-size: .8em; }
+.wkpage h3 { margin: .1em 0 .3em; color: var(--gold); font-size: 1.25em; font-family: var(--mark); font-weight: 600; }
+.wkpage h5 { margin: .7em 0 .2em; font-family: var(--mark); color: var(--lilac); font-size: .85em; font-weight: 400; border-top: .08em solid var(--rule); padding-top: .5em; }
+.wkpage p { margin: 0 0 .4em; color: var(--paper); }
+.wkpage .how { color: var(--mute); font-style: italic; font-size: .92em; }
+.wkpage .src { display: block; color: var(--mute); font-size: .82em; }
+.wkfoot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: .5em; font-size: .85em; color: var(--mute); border-top: .08em solid var(--rule); padding-top: .4em; }
+.wkc { padding: .8em 1em .6em; }
+/* words of interest: a colour of their own anywhere on the screen; hover for a brief overview, click to bring up the wiki */
+:root { --link: #8fd8e6; }
+.wl { color: var(--link); border-bottom-color: var(--link); }
+.wl:hover { background: rgba(143,216,230,.18); }
+.tip { position: absolute; z-index: 60; display: none; max-width: 22em; padding: .5em .75em; pointer-events: none; font-size: calc(1.05cqw * var(--s)); font-family: var(--read); line-height: 1.4;
+  color: var(--paper); background: #1d1426; border: .16em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: .8em; box-shadow: .22em .22em 0 rgba(0,0,0,.6); }
+.tip b { font-family: var(--mark); color: var(--link); font-size: 1.05em; } .tip .cat { font-family: var(--mark); color: var(--lilac); font-size: .78em; margin-left: .5em; }
+.tip i { display: block; color: var(--mute); font-size: .9em; } .tip .go { font-family: var(--mark); color: var(--mute); font-size: .76em; margin-top: .35em; }
+.turn.on.wikiwin { display: flex; flex-direction: column; width: 38%; height: 74%; }
+.wikiwin .mh { padding-right: 2.4em; } .wikiwin .mh .nm { font-family: var(--mark); }
+.wikiwin .wkbody { flex: 1; min-height: 0; }
+.wikiwin .seg2, .wikiwin .wcats { display: flex; gap: .3em; flex-wrap: wrap; }
+.wikiwin .k { font-family: var(--mark); font-size: .85em; padding: .15em .55em; border: .14em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: 1em; background: #3b2a3f; color: var(--paper); }
+.wikiwin .ln { display: flex; align-items: center; gap: .5em; padding: .28em .5em; background: rgba(0,0,0,.22); border-radius: .6em; font-size: .95em; width: 100%; }
+/* 7 Oct, later: panels show a few lines and open into full windows; all chart things on the right; the boat and the chart change places */
+.mod .mh button[data-size] { font-size: .78em; border: .08em solid var(--rule); border-radius: .5em; padding: 0 .4em; color: var(--lilac); }
+.focus .body.brief { cursor: pointer; gap: .12em; padding: .4em .8em .5em; overflow: hidden; }
+.tiles.rows { overflow: auto; justify-content: flex-start; }
+.focus .body.brief:hover { background: rgba(240,210,122,.06); }
+.brief .b1 { color: var(--paper); } .brief .b1 b { color: var(--gold); font-weight: 600; }
+.brief .bl { color: var(--mute); font-size: .9em; }
+.turn.on.fullwin { display: flex; flex-direction: column; width: 40%; height: 72%; }
+.fullwin .mh { padding-right: 2.4em; } .fullwin .mh .nm { font-family: var(--mark); }
+.fullwin .fbody { flex: 1; min-height: 0; overflow: auto; padding: .7em .9em; display: flex; flex-direction: column; gap: .45em; }
+.fullwin h3 { margin: 0; font-family: var(--mark); font-weight: 600; color: var(--gold); font-size: 1.1em; }
+.fullwin p { margin: 0; font-size: .92em; color: var(--mute); }
+.fullwin .ln { display: flex; align-items: center; gap: .5em; padding: .28em .5em; background: rgba(0,0,0,.22); border-radius: .6em; font-size: .95em; width: 100%; text-align: left; }
+.fullwin .ln.sel { outline: .12em solid var(--gold); } .fullwin .ln span:first-child { flex: 1; } .fullwin .ln small { color: var(--mute); font-size: .85em; }
+.fullwin .k { font-family: var(--mark); font-size: .85em; padding: .15em .55em; border: .14em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: 1em; background: #3b2a3f; color: var(--paper); }
+.fullwin .k.go { background: var(--byz); color: var(--gold); padding: .4em .9em; font-size: 1em; text-align: center; }
+.fullwin .seg2 { display: flex; gap: .3em; flex-wrap: wrap; }
+.mtools { display: none; position: absolute; right: 1%; top: 43.5%; width: 24%; z-index: 2; padding: .45em .55em; flex-direction: column; gap: .35em; font-size: calc(1cqw * var(--s)); box-sizing: border-box; }
+.v-g .mtools { display: flex; }
+.mtools .lab { font-family: var(--mark); color: var(--lilac); font-size: .85em; }
+.mtools .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .25em; }
+.mtools .grid button { font-family: var(--mark); font-size: .8em; padding: .28em .1em; border: .14em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: .7em; background: #3b2a3f; color: var(--paper); text-align: center; }
+.mtools .grid button.on { background: var(--byz); color: var(--gold); border-color: #1a0f1d #8c6a8e #8c6a8e #1a0f1d; }
+.mtools .mline { font-family: var(--read); font-size: .95em; color: var(--paper); min-height: 1.3em; }
+.v-g .rule { display: none; }
+.ship .swap { display: none; position: absolute; left: .7em; top: .7em; z-index: 3; font-family: var(--mark); font-size: 1em; line-height: 1; padding: .22em .45em; border: .14em solid; border-color: #8c6a8e #1a0f1d #1a0f1d #8c6a8e; border-radius: .6em; background: rgba(29,20,38,.92); color: var(--gold); }
+.v-g .ship .swap { display: block; }
+.screen .ship.bigship { display: none; position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; z-index: 0; border: 0; box-shadow: none; font-size: calc(4.4cqw * var(--s)); }
+.screen.swapped .ship.bigship { display: block; }
+.screen .ship.bigship .view { width: 100% !important; height: 100% !important; aspect-ratio: auto !important; border: 0 !important; border-radius: 0 !important; outline: 0 !important; }
+.swapped .her, .swapped .meas, .swapped .hit { display: none !important; }
+.ship .minimap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.ship .minher { position: absolute; left: 61.5%; top: 56%; width: .7em; height: .7em; margin: -.35em; background: var(--gold); border: .12em solid #150f1c; border-radius: 50%; }
+.ship .oars { animation: row 1.9s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 0; }
+@keyframes row { 0%, 100% { transform: translateX(-3px) rotate(-5deg); } 50% { transform: translateX(3px) rotate(6deg); } }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <h1>HUD layouts</h1>
+    <p class="lede">Four ways to arrange what you described: settings top left, function buttons under it, panels that open as modules, the portrait top right, and a live window on your ship bottom right. Click the buttons on the screen, and change the place and weather to see the ship window follow.</p>
+  </header>
+  <div class="tools">
+    <span>Layout</span><div class="seg" id="lay"></div>
+    <span>Buttons</span><div class="seg" id="cnt"></div>
+    <span>Empty space</span><div class="seg" id="fill"></div>
+    <span>Size</span><div class="seg" id="siz"></div>
+    <span>Frames</span><div class="seg" id="frm"></div>
+  </div>
+  <div class="tools">
+    <span>Speech</span><div class="seg" id="spk"><button type="button" data-spk="dane">A Dane, a tongue you know</button><button type="button" data-spk="half">The same, half known</button><button type="button" data-spk="monk">A monk, in Latin</button><button type="button" data-spk="event">An event</button><button type="button" data-spk="all">Three at once</button></div>
+  </div>
+  <div class="tools">
+    <span>Colours</span><div class="seg" id="col"></div>
+  </div>
+  <div class="tools">
+    <span>She is</span><div class="seg" id="loc"></div>
+    <span>Weather</span><div class="seg" id="wx"></div>
+    <span>Hour</span><div class="seg" id="hr"></div>
+  </div>
+  <div class="scroller"><div class="screen v-a" id="screen">
+    <img class="map" id="mapimg" alt="The chart" src="__MAP__">
+    <canvas class="map" id="mapcan" hidden></canvas>
+    <div class="her"></div>
+    <div class="ship bigship"><div class="view" id="bigview"></div></div>
+    <div class="slip sys" id="sys"></div>
+    <div class="btns" id="btns"></div>
+    <div class="panels" id="panels"></div>
+    <div class="slip who" id="who"></div>
+    <div class="log" id="log"></div>
+    <svg class="meas" id="meas" viewBox="0 0 100 100" preserveAspectRatio="none"></svg><div class="hit" id="hit"></div>
+    <div class="slip focus" id="focus"></div>
+    <div class="slip rule" id="rule"></div>
+    <div class="slip mtools" id="mtools"></div>
+    <div id="floats"></div>
+    <div class="slip ship"><button type="button" class="swap" id="swap" title="Change places with the chart">&#8644;</button><div class="view" id="view"></div><div class="cap" id="cap"></div></div>
+  </div></div>
+  <div class="note" id="note"></div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const st = { foc: "voyage", dest: 4, how: 0, meas: [], siz: 1, lay: "g", cnt: 5, loc: "river", wx: "fair", hr: "day", open: ["ledger"] };
+st.fill = "open";
+const LAY = { a: ["A  Stack", "<b>Stack.</b> Buttons run down the left edge with their names. A panel opens beside them and a second one beside that. Easiest to learn; costs the most map on the left."],
+  b: ["B  Row", "<b>Row.</b> Buttons sit in a row under the settings panel and wrap when there are many. Panels hang below them, up to three side by side. Keeps the left edge of the map clear lower down."],
+  c: ["C  Rail", "<b>Rail.</b> Icons only, with a small count where something is new. Panels stack in one column beside the rail. The ship window is larger. Smallest footprint with everything still one click away."],
+  g: ["G  Command frame", "<b>Command frame.</b> You run the game from the frame, and the chart is a picture you read. <b>Left:</b> eight function buttons that each do one thing, and under them your panels. A panel shows a few lines of what matters now; press S, M or L on it to change its size, and press the panel itself to open its full window, where the real controls are. Workspaces (keys 1 to 5) keep different sets of panels; add, take away or change any of them. <b>Right:</b> the portrait, everything about the chart (the measure in days, nearer, farther, names, winds, sails, pins), and the view of your ship. The button on the corner of that view changes its place with the chart: she fills the screen and the chart goes small. Words in blue are links: hover for a brief overview, click for the wiki. Talk and events come as floating windows; left unanswered with the clock running, an ordinary one waits a week and then answers itself; a pressing one holds her where she is and answers itself sooner."],
+  e: ["E  Full frame", "<b>Full frame.</b> The HUD is a frame round the chart and takes about half the screen: a bar across the top, a left column for buttons and panels, a right column with a large portrait over a large ship window. The chart is the window in the middle."],
+  f: ["F  Two decks", "<b>Two decks.</b> A bar across the top and a deep deck across the bottom holding buttons, panels, portrait and ship window side by side. The chart keeps the full width above it."],
+  d: ["D  Low bar", "<b>Low bar.</b> Buttons run along the bottom middle and panels rise from them. The top of the screen holds only a thin settings line and a small portrait, and the ship window is small. The most map."] };
+const BTN = [["ledger", "Ledger", '<path d="M5 3h12l2 3v15H5z"/><path d="M8 8h8M8 12h8M8 16h5"/>', 0], ["crew", "Crew", '<circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6M14 20c0-3 1-5 4-5s4 2 4 5"/>', 1],
+  ["hold", "Hold", '<path d="M3 9h18l-3 10H6z"/><path d="M8 9V5h8v4"/>', 0], ["chest", "Chest", '<path d="M3 10c0-4 3-6 9-6s9 2 9 6v10H3z"/><path d="M3 12h18M11 12v3h2v-3"/>', 2],
+  ["chron", "Chronicle", '<path d="M4 4h10l6 6v10H4z"/><path d="M14 4v6h6M8 14h8M8 17h6"/>', 1], ["house", "House", '<path d="M3 11l9-7 9 7v9H3z"/><path d="M9 20v-6h6v6"/>', 0],
+  ["quests", "Tasks", '<path d="M6 3h12v18l-6-4-6 4z"/>', 3], ["world", "World", '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c4 4 4 14 0 18M12 3c-4 4-4 14 0 18"/>', 0]];
+const PAN = { ledger: [["Rhenish wine", "pays well west"], ["Mayen querns", "steady"], ["Salt", "wait for Martinmas"]], crew: [["Aldgrim", "steady"], ["Folkmar", "wants a share"], ["Ubbi", "quiet"], ["Liafwin", "content"]],
+  hold: [["Wine, 6 casks", "360 kg"], ["Querns, 2", "50 kg"], ["Room left", "250 kg"]], chest: [["Beowulf, first fitt", "read"], ["A riddle on a stick", "2 tries"], ["Note: the Rhine bar", ""]],
+  chron: [["8 June", "Lindisfarne sacked"], ["May", "famine in Northumbria"]], house: [["Boats", "1"], ["Owed to the count", "1,920 d"], ["Heir", "none yet"]],
+  quests: [["The abbot's wine", "by Lammas"], ["A letter for York", "no haste"], ["The count's day", "Michaelmas"]], world: [["Franks", "at peace"], ["Danes", "raiding north"], ["Mercia", "ports shut"]] };
+const WORD = { ledger: "What you know of prices, and how old the word is.", crew: "Four men, each with a want.", hold: "What she carries.", chest: "Texts, riddles and your notes.", chron: "This year so far.", house: "What the house owns and owes.", quests: "What you have taken on.", world: "Who is at war and where to stay away." };
+const LOC = { river: ["On the river", "The Kromme Rijn below Dorestat"], coast: ["Off the coast", "Off the dunes of Walichrum"], sea: ["Open sea", "Mid North Sea, no land in sight"], port: ["In port", "At the dam heads, Dorestat"] };
+const SKY = { day: ["#7fb0d6", "#cfe3ea", "#f6e7a8"], dusk: ["#3a2a55", "#d98a5a", "#ffd08a"], night: ["#0b0f24", "#1b2340", "#e8eef0"] };
+
+// ---- the five colour schemes of the map (the same sum as the game's MapPalette), and the HUD's colours to match
+const COL = [["Normal", null], ["Byzantium + green", ["#702963", "#297036"]], ["+ green, teal", ["#702963", "#3F7029", "#297059"]],
+  ["+ wine, violet", ["#702963", "#70293F", "#5A2970"]], ["+ olive, petrol", ["#702963", "#637029", "#296370"]]];
+const FRM = [["bevel", "Thick square"], ["round", "Thick rounded"], ["carved", "Thick carved"], ["arch", "Thick arched"], ["stud", "Thick studded"], ["soft", "Thick leaf"], ["line", "Line"], ["thin", "Hairline"], ["heavy", "Heavy"], ["double", "Double"], ["notch", "Notched"]];
+st.col = 0; st.frm = "round";
+const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255);
+function hls(r, g, b) { const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2; if (mx === mn) return [0, l, 0];
+  const d = mx - mn, s = l <= .5 ? d / (mx + mn) : d / (2 - mx - mn), rc = (mx - r) / d, gc = (mx - g) / d, bc = (mx - b) / d;
+  let h = r === mx ? bc - gc : g === mx ? 2 + rc - bc : 4 + gc - rc; h = ((h / 6) % 1 + 1) % 1; return [h, l, s]; }
+function rgb(h, l, s) { if (!s) return [l, l, l]; const m2 = l <= .5 ? l * (1 + s) : l + s - l * s, m1 = 2 * l - m2;
+  const v = x => { x = ((x % 1) + 1) % 1; return x < 1 / 6 ? m1 + (m2 - m1) * x * 6 : x < .5 ? m2 : x < 2 / 3 ? m1 + (m2 - m1) * (2 / 3 - x) * 6 : m1; };
+  return [v(h + 1 / 3), v(h), v(h - 1 / 3)]; }
+function mapColour(r, g, b, keys) { const [h, l, s] = hls(r, g, b);
+  const k = b > r && b >= g * .95 && s > .08 ? 0 : g >= r && g > b && h < .42 && l < .45 ? 1 : 2;
+  const key = keys.length > 2 || k < 2 ? keys[Math.min(k, keys.length - 1)] : keys[1];
+  let [kh, , ks] = hls(...hex(key)), ll = l; if (keys.length === 2 && k === 2) { ks *= .55; ll = Math.min(1, l * 1.05); }
+  return rgb(kh, .08 + ll * .9, Math.min(1, ks * (.75 + .5 * s))); }
+let colDrawn = -1;
+function recolour() {
+  const keys = COL[st.col][1], img = $("mapimg"), can = $("mapcan"), root = $("screen").style;
+  // the HUD takes its edge from the first key colour and its accent from the last, so it sits with the map
+  const edge = keys ? keys[0] : "#702963", acc = keys ? keys[keys.length - 1] : "#702963";
+  const [ah, , as] = hls(...hex(acc)), light = rgb(ah, .76, Math.min(1, as * 1.1)).map(v => Math.round(v * 255));
+  root.setProperty("--byz", edge); root.setProperty("--lilac", `rgb(${light})`);
+  root.setProperty("--rule", `rgba(${light},.3)`);
+  if (colDrawn === st.col) return; colDrawn = st.col;
+  img.hidden = !!keys; can.hidden = !keys; if (!keys) return;
+  const go = () => { can.width = img.naturalWidth; can.height = img.naturalHeight; const cx = can.getContext("2d"); cx.drawImage(img, 0, 0);
+    const d = cx.getImageData(0, 0, can.width, can.height), p = d.data, seen = new Map();
+    for (let i = 0; i < p.length; i += 4) { const key = (p[i] << 16) | (p[i + 1] << 8) | p[i + 2]; let c = seen.get(key);
+      if (!c) { c = mapColour(p[i] / 255, p[i + 1] / 255, p[i + 2] / 255, keys).map(v => Math.round(v * 255)); seen.set(key, c); }
+      p[i] = c[0]; p[i + 1] = c[1]; p[i + 2] = c[2]; }
+    cx.putImageData(d, 0, 0); };
+  if (img.complete && img.naturalWidth) go(); else img.onload = go;
+}
+function seg(id, items, key) {
+  $(id).innerHTML = items.map(([v, n]) => `<button type="button" data-v="${v}" class="${String(st[key]) === String(v) ? "on" : ""}">${n}</button>`).join("");
+  $(id).onclick = e => { const b = e.target.closest("button"); if (!b) return; st[key] = isNaN(+b.dataset.v) ? b.dataset.v : +b.dataset.v; draw(); };
+}
+function ship() {
+  const [top, low, sun] = SKY[st.hr], gale = st.wx === "gale", fog = st.wx === "fog";
+  const sea = st.hr === "night" ? "#141c3a" : st.loc === "river" ? "#4f7f86" : gale ? "#2a3a52" : "#2f5a86";
+  // the view shows no land: only the boat, the water, the sky, and the jetty when she is moored; mist closes the distance
+  const land = (st.loc === "port" ? `<div class="land" style="background:#5a3f2b;z-index:1;left:0;right:50%;bottom:27%;height:13%;clip-path:polygon(0 0,100% 0,100% 40%,95% 40%,95% 100%,89% 100%,89% 40%,62% 40%,62% 100%,56% 100%,56% 40%,24% 40%,24% 100%,18% 100%,18% 40%,0 40%)"></div>` : "") +
+    `<div class="wx" style="background:linear-gradient(transparent 38%,rgba(196,202,214,.7) 58%,rgba(196,202,214,.25) 70%,transparent 82%)"></div>`;
+  const wx = fog ? `<div class="wx" style="background:linear-gradient(rgba(220,225,230,.55),rgba(220,225,230,.8) 60%,rgba(220,225,230,.35))"></div>` :
+    gale ? `<div class="wx" style="background:repeating-linear-gradient(105deg,rgba(255,255,255,.28) 0 .06em,transparent .06em .9em);animation:rain .5s linear infinite"></div>` : "";
+  const sail = st.loc === "port" || st.oars ? `<path d="M52 12h4v52h-4z" fill="#6e4b31"/><path d="M34 16h40v5H34z" fill="#e3cb9a"/>` : `<path d="M52 8h4v56h-4z" fill="#6e4b31"/><path d="M26 12h56l-6 40H32z" fill="#e3cb9a" stroke="#2a1a2e" stroke-width="1.5"/><path d="M40 12l-3 40M54 12v40M68 12l3 40" stroke="#702963" stroke-width="3"/>`;
+  const vhtml = `<div class="sky" style="background:linear-gradient(${gale ? "#3b4250" : top},${gale ? "#7a8590" : low})"><div class="sun" style="background:${sun};left:${st.hr === "dusk" ? 12 : 70}%;top:${st.hr === "dusk" ? 62 : 14}%;opacity:${gale || fog ? .25 : 1}"></div></div>${land}` +
+    `<div class="sea" style="background:linear-gradient(${sea},#10131f)"></div>` +
+    `<svg class="boat" viewBox="0 0 108 80" style="animation-duration:${gale ? 1.6 : st.loc === "river" || st.loc === "port" ? 5.5 : 3.6}s">${sail}${st.oars ? '<g class="oars"><path d="M30 64L14 79M48 66L32 80M66 66L50 80M84 64L68 79" stroke="#d9b98a" stroke-width="2.4" stroke-linecap="round"/></g>' : ""}<path d="M4 58Q14 76 34 76H78Q98 76 106 56L98 60Q92 68 78 68H32Q16 68 12 58Z" fill="#6e4b31" stroke="#2a1a2e" stroke-width="2"/><path d="M6 58L2 44M104 56l3-14" stroke="#2a1a2e" stroke-width="2.5"/></svg>${wx}`;
+  $("cap").innerHTML = `<span><span class="lab">${LOC[st.loc][0]}</span> ${LOC[st.loc][1]}</span><span class="num">${gale ? "NW 16 m/s" : fog ? "calm" : "W 5 m/s"}</span>`;
+  if (st.swap && st.lay === "g") { $("bigview").innerHTML = vhtml; $("view").innerHTML = `<img class="minimap" src="${$("mapimg").src}" alt=""><i class="minher"></i>`;
+    $("cap").innerHTML = `<span><span class="lab">The chart</span> Dorestat to ${DEST[st.dest][0]}</span><span class="num">${DEST[st.dest][1]}</span>`; }
+  else { $("view").innerHTML = vhtml; $("bigview").innerHTML = ""; }
+}
+const DEST = [["Traiectum", "half a day", "down the river"], ["Witla", "1 day", "the river mouth"], ["Walichrum", "1 to 2 days", "by the coast"], ["Gipeswic", "2 to 3 days", "open crossing"], ["Lundenwic", "2 to 4 days", "by the coast, then the Thames"], ["Quentovic", "2 to 4 days", "by the coast"], ["Sliesthorp", "5 to 7 days", "never sailed"]];
+const HOW = ["By the coast, lie up at dusk", "Straight across, sail by night", "Wait for a fair wind first"];
+const pips = n => `<span class="pips">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? "" : "o"}"></i>`).join("")}</span>`;
+const ln = (x, y, z) => `<div class="ln"><span>${x}${y ? `<br><small>${y}</small>` : ""}</span>${z || ""}</div>`;
+const num = t => `<b class="num">${t}</b>`, tg = t => `<span class="tg">${t}</span>`, kb = t => `<button type="button" class="k">${t}</button>`;
+// every panel the left side can hold: [name, what it shows]
+const MOD = {
+  voyage: ["Voyage", () => `<h3>Where to</h3>` + DEST.slice(0, 5).map((d, i) => `<button type="button" class="ln ${st.dest === i ? "sel" : ""}" data-dest="${i}"><span>${d[0]} <small>${d[2]}</small></span>${num(d[1])}</button>`).join("") +
+    `<h3>How</h3><div class="seg2">${HOW.map((h, i) => `<button type="button" class="k" data-how="${i}" style="${st.how === i ? "background:var(--byz);color:var(--gold)" : ""}">${h}</button>`).join("")}</div><button type="button" class="k go">Cast off for ${DEST[st.dest][0]}</button>`],
+  trade: ["Trade", () => `<h3>The market at Dorestat</h3>` + [["Rhenish wine", "49 d", "A Frisian shipmaster said Lundenwic pays well. Last week."], ["Wheat", "8 d", "You saw the granaries low this morning."], ["Mayen querns", "6 d", "You saw them fetch 14 d at Gipeswic. In May."]].map(g => ln(g[0], `<i>${g[2]}</i>`, num(g[1]) + kb("Buy") + kb("Sell"))).join("") + `<div class="seg2">${kb("Haggle")}${kb("On the tally")}${kb("Store")}</div>`],
+  hold: ["Hold", () => `<h3>410 of 660 kg</h3>` + ln("Rhenish wine, 4 casks", "low, amidships", num("240 kg")) + ln("Mayen querns, 2", "low, aft", num("50 kg")) + ln("Bread and ale", "dry, forward", num("120 kg")) + `<p>One more cask loads her deep: half a knot slower, and the Walichrum bar only on the flood.</p>`],
+  people: ["People here", () => `<h3>Dorestat</h3>` + [["The toll-keeper", "at the toll house, knows you"], ["Liudger, the priest", "at the church, has a letter from York"], ["A shipmaster in from Lundenwic", "at the alehouse, knows prices"]].map(q => ln(q[0], q[1], kb("Talk") + kb("Gift"))).join("") + `<p>Three talks a call.</p>`],
+  crew: ["Crew", () => [["Aldgrim", "steersman, of Wijnaldum", 3], ["Folkmar", "mate, wants a share", 2], ["Ubbi", "a Dane, keeps to Thor", 2], ["Liafwin", "knows the old songs", 3]].map(m => ln(m[0], m[1], pips(m[2]))).join("") + `<div class="seg2">${kb("Rations: full")}${kb("Watches")}${kb("Pay")}</div>`],
+  tasks: ["Tasks", () => [["The wine for the abbot", "ten casks at Lundenwic by Lammas", "41 days"], ["The day of the count", "1,920 d at Michaelmas", "151 days"], ["A letter for York", "from the priest", "no haste"]].map(t => ln(t[0], t[1], num(t[2]) + kb("Show"))).join("")],
+  event: ["Event", () => `<h3>A sail to the north-west</h3><p style="color:var(--paper)">Low, long, no cargo showing. She has not altered for you yet.</p>` + [["Hold your course and watch her", "likely fine"], ["[Nerve] Stand on and show no fear", "doubtful"], ["Stand in for the shoals", "sure, half a day"]].map((o, i) => `<button type="button" class="ln"><span>${i + 1}. ${o[0]}</span><small>${o[1]}</small></button>`).join("")],
+  self: ["Yourself", () => `<h3>A Frisian of Dorestat, 31</h3><p>Christian of Rome. A steersman's child. Steady.</p>` + [["Tongue", "talking a thing through", 2], ["Name", "how you look, who vouches", 1], ["Nerve", "holding firm", 2], ["Lore", "what you can quote", 1], ["Troth", "keeping your own faith", 3]].map(x => ln(x[0], x[1], pips(x[2]))).join("")],
+  bonds: ["Bonds", () => [["Folkmar, your mate", "nine summers on one thwart", "bound"], ["Aldswith of the storehouse", "you kept her secret", "trusted"], ["Liudger, the priest", "", "known"], ["The toll-keeper", "took your cask kindly", "known"], ["Radbod of Witla", "undercut you twice", "rival"]].map(x => ln(x[0], x[1], tg(x[2]))).join("")],
+  word: ["The word", () => `<h3>Wine, where it pays</h3>` + [["Lundenwic", "a Frisian shipmaster said so, last week", "pays well"], ["Gipeswic", "you saw 80 d in May", "paid well"], ["Quentovic", "old talk", "cheap"]].map(x => ln(x[0], `<i>${x[1]}</i>`, tg(x[2]))).join("") + `<p>You know of 4 markets. The freshest word is 4 days old.</p>`],
+  faith: ["Faith and days", () => ln("Troth", "you keep the days", pips(3)) + ln("Tomorrow: St John's eve", "fires at dusk; no market on the day", "") + ln("Friday", "a fast: no meat aboard", "") + ln("A vow owed", "a candle your own height, at St Martin's", kb("Show")) + `<p>Ubbi keeps to Thor. He will not eat with the priest.</p>`],
+  chron: ["Chronicle", () => `<h3>793</h3>` + ln("8 June", "Heathen men sack Lindisfarne. <i>13 days old</i>", "") + ln("May", "Great hunger in Northumbria. <i>32 days old</i>", "") + ln("Spring", "Fiery shapes seen in the sky over Northumbria", "") + `<p>News is as old as the ship that brought it.</p>`],
+  chest: ["Chest", () => ln("Beowulf, the first fitt", "Liafwin has it by heart", kb("Read")) + ln("A psalter leaf", "Psalm 106: they that go down to the sea", kb("Read")) + ln("A riddle on a stick", "two tries left", kb("Try")) + ln("Your note", "the Rhine bar: cross on the flood", "")],
+  house: ["House", () => `<h3>Owed 1,920. In hand 86.</h3><p style="color:var(--paper)">At this pace: short by 360 at Michaelmas.</p>` + ln("Boats", "the Gislinge boat", num("1")) + ln("Plots and stores", "none yet", "") + ln("Heir", "none yet", "") + ln("Name", "known at three ports", pips(1))],
+  field: ["The field", () => `<h3>Bound for Lundenwic</h3>` + ln("Two Frisians, with wine", "left yesterday at dawn", tg("a day ahead")) + ln("A Dane, in ballast", "left this morning, northward", tg("not your race")) + ln("Radbod of Witla", "loading wine at the dam heads now", tg("behind you")) + `<p>The keeper told you. The reckoning at Lundenwic will name who was first.</p>`],
+  sky: ["Wind and tide", () => ln("Wind", "west, steady: fair for the river, foul for the crossing", num("5 m/s")) + ln("Tide at the Rhine bar", "ebb till the ninth hour", "") + ln("Last night", "a ring round the moon: wind within two days, Aldgrim says", "") + ln("Daylight", "seventeen hours", "")],
+  tongues: ["Tongues", () => ln("Frisian", "your own", pips(5)) + ln("English", "near kin to yours", pips(3)) + ln("Danish", "a few words", pips(1)) + ln("Latin", "the Mass, by ear", pips(1)) + `<p>Words you have learned: <i>heill</i>, <i>félagi</i>, <i>kaupmaðr</i>.</p>`],
+  ship: ["Ship", () => `<h3>The Gislinge boat</h3>` + ln("Hull", "sound; tarred in March", "") + ln("Sail", "patched twice", tg("worn")) + ln("Fitted", "a sounding lead and line", "") + ln("At the yard here", "tarred seams, 40 d, two days", kb("Fit"))],
+};
+// THE WIKI: what you know and how you came to know it. Any dotted gold word, in any window or pop-up, opens its page.
+// t title, c kind, k how you know it (null: not yet known), g in the game, h what is known to history, s its source
+const WIKI = {
+  days: { t: "Days", c: "How to play", k: "", g: "Days are what everything costs. The clock has a pause and five speeds. At 1 a minute of the game passes each second, for when you are aboard and watching her; at 3 a day passes in about a minute; at 4 in about fifteen seconds; at 5 in about four. It drops back by itself when a card, a sail or a port needs you. Windows never stop it. A card that needs an answer holds it, and you can set it running again at once. Left unanswered with the clock running, an ordinary card waits a week and then answers itself; a pressing one holds her where she is and answers itself sooner. Bread is eaten by the day, wages are owed by the day, and [[debt|the debt]] falls due on a day. [[measure|The measure]] tells you a way in days before you spend them." },
+  debt: { t: "The debt", c: "How to play", k: "", g: "You owe the count 1,920 [[penny|d]] at [[michaelmas|Michaelmas]]. The House window reckons, at your present pace, whether you will make it." },
+  word: { t: "The word", c: "How to play", k: "", g: "You know a price only where you have seen it or been told it. Every figure names who told you and when. Word grows stale: the older it is, the less it should be trusted." },
+  stats: { t: "The five stats", c: "How to play", k: "", g: "Tongue (talking a thing through), Name (how you look and who vouches for you), Nerve (holding firm), Lore (what you can quote) and Troth (keeping your own faith, whichever it is). Each runs from 1 to 5. A choice in a talk that a stat opens is marked, like [Nerve], with its odds as a word. Stats grow by use and never by points." },
+  windows: { t: "Buttons and windows", c: "How to play", k: "", g: "The eight buttons under the settings bar do things: cast off, wait, oars, look out, sound, hail, rest, offer. The panels under them each show a few lines: press one to open its full window, and press S, M or L on it to change its size. Everything about the chart is on the right: the measure, nearer and farther, names, winds, sails, pins. The button on the corner of the view of your ship changes its place with the chart. Keys 1 to 5 change workspace; N adds a panel and X takes away the one in focus." },
+  measure: { t: "The measure", c: "How to play", k: "", g: "Press Measure and click two places on the chart. It draws the way by water and says the days for your boat as a low and a high figure, by the wind." },
+  wiki: { t: "This book", c: "How to play", k: "", g: "It holds what you know, and how you came to know it. The rules are all here from the first day. Ports, goods and people come in when you see them or hear of them. What is known to history is given apart, with its source, so you can tell the game from the record. A word in the link colour, anywhere on the screen, has a page: hover over it for a brief overview, click it to open the page here." },
+  dorestat: { t: "Dorestat", c: "Ports", k: "Your home port.", g: "Where the Rhine forks into the Lek and the Kromme Rijn. The king takes [[toll|toll]] here. [[wine|Rhenish wine]] and [[querns|Mayen querns]] come down the river to its beach, and [[frisians|Frisian]] shipmasters carry them on to England and the north.", h: "The great market of the Frankish north, strung along the river bank for some three kilometres, with a mint whose pennies the Danes later copied. Danes sacked it in 834 and in each of the three years after. By the 860s the trade and the river had both left it.", s: "Annals of St Bertin, years 834 to 837; the excavations at Wijk bij Duurstede." },
+  lundenwic: { t: "Lundenwic", c: "Ports", k: "A Frisian shipmaster told you of it, last week. You have not seen it.", g: "On the Thames, upstream of the old Roman walls. By the word you have, it pays well for [[wine|wine]].", h: "Bede, writing about 731, calls London a market for many peoples coming by land and sea. In 793 it is a Mercian town under King Offa.", s: "Bede, Ecclesiastical History, book 2, chapter 3." },
+  gipeswic: { t: "Gipeswic", c: "Ports", k: "You were there in May.", g: "On the Orwell in East Anglia. You saw [[querns|querns]] fetch 14 [[penny|d]] there.", h: "A trading town since the seventh century. Its potters made the grey Ipswich ware, sold across eastern England from about 720.", s: "The Ipswich excavations." },
+  quentovic: { t: "Quentovic", c: "Ports", k: "Old talk on the beach at Dorestat. You have not seen it.", g: "On the river Canche, across the narrow sea from Kent. The king takes [[toll|toll]] there as at [[dorestat|Dorestat]].", h: "The chief Frankish port for England. A royal charter names its toll beside that of Dorestat.", s: "Charter of Charles for Saint-Germain-des-Prés, 779." },
+  ripa: { t: "Ripa", hint: "A market among the Danes", c: "Ports", k: null, g: "A summer market on the west coast of the [[danes|Danes]], on a river behind the sands.", h: "Laid out in plots soon after 700: the oldest town of the north.", s: "The Ribe excavations." },
+  birka: { t: "Birka", hint: "A market far up the eastern sea", c: "Ports", k: null, g: "On an island in the lake of the Svear, weeks beyond the Danes.", h: "A trading town from about 750 until about 970.", s: "Rimbert, Life of Anskar; the Björkö excavations." },
+  wine: { t: "Rhenish wine", c: "Trade", k: "Your own cargo.", g: "Four casks in your hold, bought at [[dorestat|Dorestat]] for 49 [[penny|d]] a cask. Heavy: sixty kilograms each.", h: "Pressed on the middle Rhine and the Moselle and shipped downriver in casks. The north grows none, so it sells wherever there is a hall or a church.", s: "Cask staves of southern fir found in wells at Dorestad and Hedeby." },
+  querns: { t: "Mayen querns", c: "Trade", k: "Your own cargo.", g: "Two in your hold. Cheap to buy, heavy to carry, wanted in every house that grinds its own meal.", h: "Grey lava from the quarries near Mayen in the Eifel, shipped down the Rhine as rough blanks and finished at the market. They are found at Dorestad, Hedeby and Ribe, and across eastern England.", s: "Quarry finds; unfinished stones at Dorestad." },
+  penny: { t: "The penny", c: "Trade", k: "Every shipmaster knows it.", g: "Written d. All prices, tolls and [[debt|the debt]] are reckoned in pennies.", h: "A small silver coin, the only coin in common use. Twelve make a shilling and 240 a pound, but those two are only ways of counting. About 793 King Charles made his penny heavier, from about 1.3 grams to about 1.7.", s: "Synod of Frankfurt, 794, chapter 5: the new pennies are to be taken everywhere." },
+  toll: { t: "The toll", c: "Trade", k: "You pay it.", g: "Taken at [[dorestat|Dorestat]] when you land goods. The toll-keeper counts your casks himself.", h: "Frankish kings took a toll on goods at their ports, most often named as a tenth. Abbeys begged to be let off it, and their charters are how the tolls are known.", s: "Royal toll charters of the eighth and ninth centuries." },
+  frisians: { t: "The Frisians", c: "Peoples", k: "Your own people.", g: "The people of the coast from the Scheldt to the Weser, and the carriers of the northern seas. Your first tongue is theirs.", h: "Under Frankish rule since 734 in the west and about 785 in the east, and Christian only lately: Boniface was killed at Dokkum in 754.", s: "Frankish annals; the Life of Boniface." },
+  danes: { t: "The Danes", c: "Peoples", k: "You have a Dane in your crew.", g: "North of the Eider. Ubbi, in your crew, is one, and keeps to Thor.", h: "In 793 a people under their own kings, heathen, with a market at [[ripa|Ribe]] since soon after 700.", s: "Royal Frankish Annals; the Ribe excavations." },
+  michaelmas: { t: "Michaelmas", c: "Faith and days", k: "", g: "29 September. [[debt|The debt]] falls due on it.", h: "The feast of St Michael the Archangel.", s: "The Roman calendar." },
+  lammas: { t: "Lammas", c: "Faith and days", k: "", g: "1 August. The wine for the abbot is due at [[lundenwic|Lundenwic]] by this day.", h: "Old English hlafmæsse, loaf-mass: the first bread of the new harvest is blessed.", s: "The Anglo-Saxon Chronicle dates by it." },
+  stjohn: { t: "St John's eve", c: "Faith and days", k: "", g: "23 June. Fires at dusk. No market on the day after.", h: "The eve of the birth of John the Baptist, 24 June, at midsummer.", s: "The Roman calendar." },
+  boat: { t: "The Gislinge boat", c: "Ship and sea", k: "Your own boat.", g: "Seven and a half metres, four men, 660 kilograms of cargo. One square sail and four oars.", h: "Patterned on a working boat found at Gislinge in Denmark and built about 1130. No small trading boat of 793 survives whole, so hers is the nearest pattern, used with that caution.", s: "The Gislinge boat, Viking Ship Museum, Roskilde." },
+  bar: { t: "The bar", c: "Ship and sea", k: "", g: "A shoal across a river mouth. Laden, you cross it only on the flood. The Wind and tide window says when." },
+  lead: { t: "The sounding lead", c: "Ship and sea", k: "", g: "Press Sound. A weight on a line tells the depth, and what sticks to it tells the bottom: sand, shell or mud.", h: "Old English has words for the sounding line and the sounding pole.", s: "Old English glossaries: sundline, sundgyrd." },
+  felagi: { t: "félagi", c: "Words", k: "Ubbi used it of Folkmar.", g: "Old Norse: a partner. One who has laid his goods together with yours.", h: "From fé, goods, and lag, a laying together. It is cut on rune stones of the tenth and eleventh centuries, of men who traded and fought side by side.", s: "Rune stones of Denmark and Sweden." },
+  heill: { t: "heill", c: "Words", k: "The first word any Dane says to you.", g: "Old Norse: hale, whole. A greeting.", h: "Heilir, hail to you, opens speeches in the old poems.", s: "The Poetic Edda." },
+  kaupmadr: { t: "kaupmaðr", c: "Words", k: "Ubbi calls you one.", g: "Old Norse: a merchant, a man who buys. The English say cēapmann. The game is named for the word.", h: "From the Latin caupo, a trader, borrowed early into the Germanic tongues.", s: "Dictionaries of Old Norse and Old English." },
+  lindisfarne: { t: "Lindisfarne", c: "Events", k: "A ship in from Eoforwic brought it, 13 days after.", g: "On 8 June heathen men fell on the monastery on the holy island and plundered it. Northumbrian ports are wary of strange sails now.", h: "Alcuin wrote from the court of Charles that no such terror had been seen in Britain before.", s: "Anglo-Saxon Chronicle, year 793; Alcuin, letter to King Æthelred." },
+};
+const WCATS = ["All", "How to play", "Ports", "Trade", "Peoples", "Faith and days", "Ship and sea", "Words", "Events"];
+st.wp = null; st.wh = []; st.wc = "All"; st.wq = ""; st.wall = false;
+const wknown = id => st.wall || WIKI[id].k !== null;
+const wt = t => t.replace(/\[\[([a-z_]+)\|([^\]]+)\]\]/g, (m, id, x) => wknown(id) ? `<button type="button" class="wl" data-wk="${id}">${x}</button>` : `<span class="wl no" data-wk="${id}">${x}</span>`);
+function wikiPage(id) {
+  const p = WIKI[id];
+  return `<div class="wkpage"><small class="cat">${p.c}</small><h3>${p.t}</h3>${p.k ? `<p class="how">${p.k}</p>` : ""}<p>${wt(p.g)}</p>${p.h ? `<h5>What is known</h5><p>${wt(p.h)}</p><small class="src">${p.s}</small>` : ""}</div>`;
+}
+function wikiList() {
+  const q = st.wq.trim().toLowerCase();
+  const ids = Object.keys(WIKI).filter(id => (st.wc === "All" || WIKI[id].c === st.wc) && (!q || wknown(id)) && (!q || (WIKI[id].t + " " + WIKI[id].g + " " + (WIKI[id].h || "")).toLowerCase().includes(q)));
+  return ids.map(id => wknown(id) ? `<button type="button" class="ln" data-wk="${id}"><span>${WIKI[id].t}</span><small>${WIKI[id].c}</small></button>`
+    : `<div class="ln lock"><span>${WIKI[id].hint}</span><small>not yet known</small></div>`).join("") || `<p>Nothing by that name. You may not have heard of it yet.</p>`;
+}
+MOD.wiki = ["Wiki", () => {
+  const n = Object.keys(WIKI).filter(id => WIKI[id].k !== null).length;
+  return `<div class="wk">` + (st.wp ? `<div class="seg2"><button type="button" class="k" data-wkback>&#9666; Back</button><button type="button" class="k" data-wkhome>All pages</button></div>` + wikiPage(st.wp)
+    : `<input class="wq" type="text" placeholder="Search" value="${st.wq}"><div class="wcats">${WCATS.map(c => `<button type="button" class="k" data-wkcat="${c}" style="${st.wc === c ? "background:var(--byz);color:var(--gold)" : ""}">${c}</button>`).join("")}</div><div class="wres">${wikiList()}</div>`) +
+    `<div class="wkfoot"><span>You know ${n} pages. The rest is still to find.</span><button type="button" class="k" data-wkall>${st.wall ? "Only what I know" : "Show all (mockup)"}</button></div></div>`;
+}];
+// a click on a word of interest brings up the wiki on its page: in the Wiki window if one is tiled here, else as a floating window
+function wikiGo(id) {
+  hideTip();
+  if (st.wp && st.wp !== id) st.wh.push(st.wp);
+  st.wp = id;
+  wikiWin();
+  wikiRefresh();
+}
+function wikiRefresh() { draw(); const w = document.querySelector(".wikiwin .wkbody"); if (w) w.innerHTML = MOD.wiki[1](); }
+function wikiAct(d) {
+  if (d.wk !== undefined) wikiGo(d.wk);
+  else if (d.wkback !== undefined) { st.wp = st.wh.pop() || null; wikiRefresh(); }
+  else if (d.wkhome !== undefined) { st.wp = null; st.wh = []; wikiRefresh(); }
+  else if (d.wkcat !== undefined) { st.wc = d.wkcat; wikiRefresh(); }
+  else if (d.wkall !== undefined) { st.wall = !st.wall; wikiRefresh(); }
+  else if (d.wkdock !== undefined) { const w = WS[st.ws], f = document.querySelector(".wikiwin"); if (f) f.remove(); if (w.slots.includes("wiki")) st.fw = w.slots.indexOf("wiki"); else if (w.slots.length < 6) { w.slots.push("wiki"); st.fw = w.slots.length - 1; } else st.ws = 4; draw(); }
+  else return false;
+  return true;
+}
+// the brief overview under the cursor
+const brief = p => { const t = p.g.replace(/\[\[[a-z_]+\|([^\]]+)\]\]/g, "$1").match(/[^.]+\.(\s|$)/g) || [p.g]; let o = ""; for (const x of t) { o += x; if (o.length > 70) break; } return o.trim(); };
+const tip = document.createElement("div"); tip.className = "tip"; $("floats").parentElement.appendChild(tip);
+function hideTip() { tip.style.display = "none"; }
+function showTip(a) {
+  const id = a.dataset.wk, p = WIKI[id]; if (!p) return;
+  tip.innerHTML = wknown(id) ? `<b>${p.t}</b><span class="cat">${p.c}</span><div>${brief(p)}</div>${p.k ? `<i>${p.k}</i>` : ""}<div class="go">Click to open the wiki</div>`
+    : `<b>${p.hint || "Not yet known"}</b><div>You have heard too little of this to say more.</div>`;
+  tip.style.display = "block";
+  const host = tip.parentElement.getBoundingClientRect(), r = a.getBoundingClientRect();
+  let x = r.left - host.left, y = r.bottom - host.top + 6;
+  if (x + tip.offsetWidth > host.width - 8) x = host.width - tip.offsetWidth - 8;
+  if (y + tip.offsetHeight > host.height - 8) y = r.top - host.top - tip.offsetHeight - 6;
+  tip.style.left = Math.max(4, x) + "px"; tip.style.top = y + "px";
+}
+document.addEventListener("mouseover", e => { const l = e.target.closest && e.target.closest(".wl[data-wk]"); if (l) showTip(l); });
+document.addEventListener("mouseout", e => { const l = e.target.closest && e.target.closest(".wl[data-wk]"); if (l) hideTip(); });
+// words the wiki has a page for: the first of each in a window or a pop-up becomes a link
+const TERMS = { "Rhenish wine": "wine", "Mayen querns": "querns", "querns": "querns", "Dorestat": "dorestat", "Lundenwic": "lundenwic", "Gipeswic": "gipeswic", "Quentovic": "quentovic",
+  "Michaelmas": "michaelmas", "Lammas": "lammas", "St John's eve": "stjohn", "Lindisfarne": "lindisfarne", "Frisians": "frisians", "Frisian": "frisians", "Danes": "danes", "Dane": "danes",
+  "toll-keeper": "toll", "Rhine bar": "bar", "Walichrum bar": "bar", "Gislinge boat": "boat", "sounding lead": "lead", "the lead": "lead", "félagi": "felagi", "heill": "heill", "kaupmaðr": "kaupmadr",
+  "Troth": "stats", "Tongue": "stats", "Nerve": "stats", "Lore": "stats", "wine": "wine", "Wine": "wine" };
+const TERM_RE = new RegExp("(?<![A-Za-zÀ-ɏ])(" + Object.keys(TERMS).sort((a, b) => b.length - a.length).join("|") + ")(?![A-Za-zÀ-ɏ])", "g");
+function linkBox(box) {
+  if (!box || box.querySelector(".wk")) return;
+  const seen = new Set(), tw = document.createTreeWalker(box, NodeFilter.SHOW_TEXT), nodes = [];
+  while (tw.nextNode()) nodes.push(tw.currentNode);
+  nodes.forEach(n => {
+    if (!n.parentElement || n.parentElement.closest("button, .w, h4, input")) return;
+    const parts = n.nodeValue.split(TERM_RE); if (parts.length < 2) return;
+    const frag = document.createDocumentFragment();
+    parts.forEach((x, i) => {
+      if (i % 2 && !seen.has(TERMS[x])) { seen.add(TERMS[x]); const l = document.createElement("button"); l.type = "button"; l.className = "wl"; l.dataset.wk = TERMS[x]; l.textContent = x; frag.appendChild(l); }
+      else frag.appendChild(document.createTextNode(x));
+    });
+    n.replaceWith(frag);
+  });
+}
+function linkify(root) { root.querySelectorAll(".mod .body, .turn .top").forEach(linkBox); }
+function linkExtra() { ["who", "log", "cap"].forEach(i => linkBox($(i))); }
+// workspaces, as in a tiling window manager: each keeps its own windows and its own way of laying them out
+const WS = [
+  { n: "Sea", lay: "rows", slots: ["voyage", "sky", "field", "crew", "hold"] },
+  { n: "Port", lay: "rows", slots: ["trade", "people", "tasks", "house"] },
+  { n: "Self", lay: "rows", slots: ["self", "bonds", "faith", "tongues"] },
+  { n: "House", lay: "rows", slots: ["house", "ship", "chest", "word"] },
+  { n: "Wiki", lay: "rows", slots: ["wiki", "chron"] },
+];
+st.ws = 0; st.fw = 0; st.pick = -1;
+Object.defineProperty(st, "slots", { get() { return WS[st.ws].slots; }, set(v) { WS[st.ws].slots = v; } });
+// WHAT EACH PANEL SHOWS WHEN IT IS SMALL: a few lines, the first the one that matters. Press the panel for its full window.
+st.sz = { voyage: 3, field: 1, hold: 1, wiki: 1 }; st.mt = { names: true, winds: false, sails: true, pins: false }; st.mtxt = ""; st.swap = false; st.oars = false;
+const BRIEF = {
+  voyage: () => [`Bound for <b>${DEST[st.dest][0]}</b>: ${DEST[st.dest][1]}`, st.oars ? "Under oars: four men pulling" : HOW[st.how], "Next: the Rhine bar, on the flood", "Radbod of Witla is loading for the same market"],
+  trade: () => ["The market at Dorestat: <b>3 goods</b> you know", "Rhenish wine 49 d, wheat 8 d, querns 6 d", "The best word: wine pays at Lundenwic, a week old"],
+  hold: () => ["<b>410</b> of 660 kg", "4 casks of Rhenish wine, 2 querns, bread and ale", "One more cask loads her deep"],
+  people: () => ["<b>3 people</b> to talk to at Dorestat", "The priest has a letter from York", "Three talks a call"],
+  crew: () => ["<b>4 men</b>, in good heart", "Folkmar wants a share. Ubbi keeps to Thor.", "Rations full; pay is due in 6 days", "Aldgrim is the one who knows the bar"],
+  tasks: () => ["<b>3 tasks</b>", "The wine for the abbot: 41 days left", "The debt: 100 days left"],
+  event: () => ["Nothing waits for an answer", "The last: the toll-keeper counted six casks"],
+  self: () => ["A Frisian of Dorestat, 31", "Tongue 2 &middot; Name 1 &middot; Nerve 2 &middot; Lore 1 &middot; Troth 3", "Christian of Rome. A steersman's child."],
+  bonds: () => ["<b>5 people</b> know you", "Folkmar, your mate: bound", "Radbod of Witla: a rival"],
+  word: () => ["You know of <b>4 markets</b>", "The freshest word is 4 days old", "Wine pays at Lundenwic, by a Frisian shipmaster"],
+  faith: () => ["Tomorrow: <b>St John's eve</b>", "Friday is a fast: no meat aboard", "One vow owed, at St Martin's"],
+  chron: () => ["793", "8 June: heathen men sack Lindisfarne (13 days old)", "A great hunger in Northumbria"],
+  chest: () => ["<b>3 texts</b> and a riddle", "The riddle on a stick: two tries left"],
+  house: () => ["Owed <b>1,920 d</b>; in hand 86 d", "At this pace: short by 360 at Michaelmas", "One boat. No heir yet."],
+  field: () => ["<b>3 sails</b> bound where you are bound", "Two Frisians are a day ahead", "Radbod of Witla is behind you"],
+  sky: () => ["Wind west, 5 m/s: fair for the river", "Ebb at the Rhine bar till the ninth hour", "A ring round the moon last night"],
+  tongues: () => ["Frisian yours; English half known", "Three words learned of the Danes"],
+  ship: () => ["The Gislinge boat: hull sound", "Sail worn; tarred in March", "The yard here offers tarred seams, 40 d"],
+  wiki: () => [`You know <b>${Object.keys(WIKI).filter(i => WIKI[i].k !== null).length} pages</b>`, "A blue word anywhere: hover to see, click to read"],
+};
+function openFull(id) {
+  if (id === "wiki") { wikiWin(); return wikiRefresh(); }
+  if (!document.querySelector(`.fullwin[data-full="${id}"]`)) pop(`<button type="button" class="x" data-shut="1">&times;</button><div class="mh"><span class="nm">${MOD[id][0]}</span></div><div class="fbody"></div>`, el => { el.classList.add("fullwin"); el.dataset.full = id; });
+  draw();
+}
+function wikiWin() { if (!document.querySelector(".wikiwin")) pop(`<button type="button" class="x" data-shut="1">&times;</button><div class="mh"><span class="nm">Wiki</span></div><div class="body wkbody"></div>`, el => el.classList.add("wikiwin")); }
+// everything about the chart lives on the right: the measure, zoom, what is drawn on it
+function mapTools() {
+  const on = k => st.mt[k] ? "on" : "";
+  $("mtools").innerHTML = `<span class="lab">The chart</span><div class="grid">` +
+    `<button type="button" data-mt="measure" class="${st.fx === "measure" ? "on" : ""}" title="The way between two places, in days">Measure</button><button type="button" data-mt="in">Nearer</button><button type="button" data-mt="out">Farther</button><button type="button" data-mt="her" title="Centre the chart on your boat">Find her</button>` +
+    `<button type="button" data-mt="names" class="${on("names")}">Names</button><button type="button" data-mt="winds" class="${on("winds")}">Winds</button><button type="button" data-mt="sails" class="${on("sails")}" title="The other sails you know of">Sails</button><button type="button" data-mt="pins" class="${on("pins")}" title="Your own marks">Pins</button></div>` +
+    `<div class="mline">${st.swap ? "The chart is small now. Change places to measure on it." : st.mtxt}</div>`;
+}
+// the eight function buttons: each DOES one thing. They are not the switch for the windows.
+const FX = [
+  ["cast", "Cast off", '<path d="M3 15h18l-3 5H6z"/><path d="M12 3v12M12 4l6 9H12"/>'],
+  ["wait", "Wait", '<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 3"/>'],
+  ["oars", "Oars", '<path d="M5 19L17 7"/><path d="M15 5l4 4-3 1-2-2z"/><path d="M4 20l1-4 3 3z"/>'],
+  ["look", "Look out", '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'],
+  ["sound", "Sound", '<path d="M12 2v13"/><path d="M9 15h6l-1 6h-4z"/>'],
+  ["hail", "Hail", '<path d="M4 9v6h4l6 4V5L8 9z"/><path d="M17 9c1.5 1.5 1.5 4.5 0 6"/>'],
+  ["rest", "Rest", '<path d="M3 18h18M5 18v-6h9a4 4 0 014 4v2"/><circle cx="8" cy="9" r="2"/>'],
+  ["offer", "Offer", '<path d="M12 21V8M7 12h10"/><path d="M12 3c2 2 2 3 0 5-2-2-2-3 0-5z"/>'],
+];
+const opts = a => `<div class="opts">${a.map(([o, odds], i) => `<button type="button" data-shut="1"><span>${i + 1}. ${o}</span><small>${odds}</small></button>`).join("")}</div>`;
+const box = (who, text, small, a) => pop(`<button type="button" class="x" data-shut="1">&times;</button><div class="top"><div class="fc"></div><h4>${who}</h4><div><p style="margin:0;line-height:1.6">${text}</p><small>${small}</small></div></div>` + opts(a));
+function doFx(id) {
+  st.fx = id === "measure" ? (st.fx === "measure" ? null : "measure") : st.fx;
+  if (id === "cast") st.act = st.loc === "port" ? "You cast off. The clock runs." : "She lies to. The clock still runs; she only drifts.";
+  else if (id === "measure") { st.meas = []; st.act = st.fx ? "The measure is in your hand: click two places on the chart." : "You put the measure down."; }
+  else if (id === "oars") { st.oars = !st.oars; st.act = st.oars ? "Out oars. The sail comes down and four men pull." : "Oars in. The sail goes up."; }
+  else if (id === "sound") st.act = "Aldgrim heaves the lead: six fathoms, sand and broken shell. The bar is near.";
+  else if (id === "rest") st.act = "All hands rest till the next watch. Heart rises a little; four hours pass.";
+  else if (id === "wait") box("Wait", "For what? The clock runs while you wait, and bread is eaten.", "A function button: it does a thing. The windows below only show and set.", [["Till first light", "9 hours"], ["Till the flood at the bar", "5 hours"], ["Till the wind is fair", "1 to 3 days"]]);
+  else if (id === "look") box("The lookout", "Two sails to the west, hull down, on your own course: the Frisians who left yesterday. A ring round the sun.", "What can be seen from the masthead now.", [["Hold on after them", ""], ["Mark them on the chart", ""]]);
+  else if (id === "hail") box("Hail", "Whom?", "Hailing a sail in sight, the shore, or your own crew to a word.", [["The fishing boat to leeward", "likely answers"], ["The harbour, for a pilot", "4 d"], ["All hands, for a word", ""]]);
+  else if (id === "offer") box("An offering", "To whom, and what?", "By your faith. A vow made is a vow owed: it goes on the Faith and days window.", [["A candle at St Martin's when you are home", "a vow"], ["Alms at the next church", "4 d"], ["Not now", ""]]);
+  draw();
+}
+function focus() {
+  const keys = Object.keys(MOD), w = WS[st.ws];
+  st.fw = Math.max(0, Math.min(st.fw, w.slots.length - 1));
+  const win = (id, i) => { const z = st.sz[id] || 2, lines = BRIEF[id]();
+    return `<div class="slip mod sz${z} ${i === st.fw ? "foc" : ""}" data-win="${i}" style="flex:0 0 auto"><div class="mh"><button type="button" data-prev="${i}" title="The panel before">&#9666;</button><button type="button" class="nm" data-pick="${i}" title="Choose a panel">${MOD[id][0]} &#9662;</button><button type="button" data-next="${i}" title="The next panel">&#9656;</button><button type="button" data-size="${id}" title="Smaller or larger">${"SML"[z - 1]}</button><button type="button" data-open="${id}" title="Open the full window">&#10530;</button>${w.slots.length > 1 ? `<button type="button" data-rm="${i}" title="Take this panel away (X)">&times;</button>` : ""}</div>` +
+      (st.pick === i ? `<div class="pk">${keys.map(k => `<button type="button" data-set="${i}:${k}" class="${k === id ? "on" : w.slots.includes(k) ? "used" : ""}">${MOD[k][0]}</button>`).join("")}</div>`
+        : `<div class="body brief" data-open="${id}" title="Open the full window">${lines.slice(0, z === 1 ? 1 : z === 2 ? 3 : 9).map((l, k) => `<div class="${k ? "bl" : "b1"}">${l}</div>`).join("")}</div>`) + `</div>`; };
+  const tiles = w.lay === "tabs" ? `<div class="tabs2">${w.slots.map((id, i) => `<button type="button" data-fw="${i}" class="${i === st.fw ? "on" : ""}">${MOD[id][0]}</button>`).join("")}</div>` + win(w.slots[st.fw], st.fw) : w.slots.map(win).join("");
+  $("focus").className = "focus" + (w.lay === "cols" ? " wide" : "");
+  $("focus").innerHTML = `<div class="fx">${FX.map(([id, n, ic], i) => `<button type="button" data-fx="${id}" class="${st.fx === id || (id === "oars" && st.oars) ? "on" : ""}" title="${n}"><svg viewBox="0 0 24 24">${ic}</svg>${id === "cast" && st.loc !== "port" ? "Lie to" : n}</button>`).join("")}</div><div class="tiles ${w.lay}">${tiles}</div><div class="wmbar">` + WS.map((x, i) => `<button type="button" data-ws="${i}" class="${i === st.ws ? "on" : ""}" title="Workspace ${i + 1}">${i + 1} ${x.n}</button>`).join("") + `<i></i>` +
+    [["rows", "Rows", "R"], ["cols", "Columns", "C"], ["tabs", "Tabs", "T"]].map(([k, n, key]) => `<button type="button" data-lay="${k}" class="${w.lay === k ? "on" : ""}" title="${n} (${key})">${n}</button>`).join("") +
+    (w.slots.length < 6 ? `<button type="button" data-add="1" title="A new window (N)">+</button>` : "") + `</div>`;
+  const m = st.meas; let svg = "", txt = "Measure: click two places on the chart";
+  if (m.length) svg += m.map(q => `<circle cx="${q[0]}" cy="${q[1]}" r=".5" fill="#f0d27a"/>`).join("");
+  if (m.length === 2) { const km = Math.hypot((m[0][0] - m[1][0]) * 11.52, (m[0][1] - m[1][1]) * 6.48), lo = Math.max(.5, Math.round(km / 110 * 2) / 2), hi = Math.round(km / 55 * 2) / 2;
+    svg += `<line x1="${m[0][0]}" y1="${m[0][1]}" x2="${m[1][0]}" y2="${m[1][1]}" stroke="#f0d27a" stroke-dasharray="1 .7" vector-effect="non-scaling-stroke" style="stroke-width:2px"/>`;
+    txt = `About <b class="num">${lo} to ${hi} days</b> for your boat, by the wind. <small style="color:var(--mute)">${Math.round(km)} km</small>`; }
+  $("meas").innerHTML = st.lay === "g" ? svg : ""; $("rule").innerHTML = txt; st.mtxt = txt; mapTools();
+  document.querySelectorAll(".fullwin").forEach(f => { const b = f.querySelector(".fbody"); b.innerHTML = MOD[f.dataset.full][1](); linkBox(b); });
+  linkify($("focus"));
+}
+function wm(act, arg) {
+  const keys = Object.keys(MOD), w = WS[st.ws];
+  const step = (i, dir) => { let k = keys.indexOf(w.slots[i]); do { k = (k + dir + keys.length) % keys.length; } while (w.slots.includes(keys[k])); w.slots[i] = keys[k]; };
+  if (act === "ws") { st.ws = arg; st.fw = 0; st.pick = -1; }
+  else if (act === "lay") w.lay = arg;
+  else if (act === "add" && w.slots.length < 6) { w.slots.push(keys.find(k => !w.slots.includes(k))); st.fw = w.slots.length - 1; }
+  else if (act === "rm" && w.slots.length > 1) { w.slots.splice(arg, 1); st.pick = -1; }
+  else if (act === "prev") step(arg, -1); else if (act === "next") step(arg, 1);
+  else if (act === "fw") st.fw = (arg + w.slots.length) % w.slots.length;
+  draw();
+}
+$("focus").addEventListener("click", e => {
+  if (e.target.closest("input")) return;
+  const win = e.target.closest("[data-win]"); if (win) st.fw = +win.dataset.win;
+  const b = e.target.closest("button"); if (!b) { const o = e.target.closest("[data-open]"); if (o) return openFull(o.dataset.open); draw(); return; } const d = b.dataset;
+  if (d.fx) return doFx(d.fx);
+  if (d.open) return openFull(d.open);
+  if (d.size) { st.sz[d.size] = ((st.sz[d.size] || 2) % 3) + 1; return draw(); }
+  if (wikiAct(d)) return;
+  if (d.ws) return wm("ws", +d.ws); if (d.lay) return wm("lay", d.lay); if (d.add) return wm("add"); if (d.rm) return wm("rm", +d.rm);
+  if (d.prev) return wm("prev", +d.prev); if (d.next) return wm("next", +d.next); if (d.fw) return wm("fw", +d.fw);
+  if (d.pick) st.pick = st.pick === +d.pick ? -1 : +d.pick;
+  else if (d.set) { const [i, k] = d.set.split(":"), w = WS[st.ws], at = w.slots.indexOf(k); if (at >= 0) w.slots[at] = w.slots[+i]; w.slots[+i] = k; st.pick = -1; }
+  else if (d.dest) st.dest = +d.dest; else if (d.how) st.how = +d.how;
+  draw();
+});
+document.addEventListener("keydown", e => {
+  if (st.lay !== "g" || e.ctrlKey || e.metaKey || e.altKey || e.target.tagName === "INPUT") return; const k = e.key.toLowerCase();
+  if ("12345".includes(k) && k.length === 1) wm("ws", +k - 1); else if (k === "f1") wm("ws", 4); else if (k === "r") wm("lay", "rows"); else if (k === "c") wm("lay", "cols"); else if (k === "t") wm("lay", "tabs");
+  else if (k === "n") wm("add"); else if (k === "x") wm("rm", st.fw); else if (k === "arrowdown" || k === "arrowright") wm("fw", st.fw + 1); else if (k === "arrowup" || k === "arrowleft") wm("fw", st.fw - 1);
+  else if (k === "escape") { const f = $("floats").lastElementChild; if (f) f.remove(); } else return;
+  e.preventDefault();
+});
+$("hit").addEventListener("click", e => { const r = $("screen").getBoundingClientRect(); if (st.meas.length >= 2) st.meas = []; st.meas.push([(e.clientX - r.left) / r.width * 100, (e.clientY - r.top) / r.height * 100]); draw(); });
+// ---- the turning line: pairs of [their word, the English]; a tongue half known leaves the hard words unturned
+const SPEECH = {
+  dane: { who: "Ubbi of Ripa", tongue: "the Danish tongue", src: "H\u00e1vam\u00e1l 77, in Bellows's English of 1923", speed: 80, keep: [], re: [["Tongue", "Answer him in his own words", "likely"], ["Lore", "Cap his verse with the next", "doubtful"], ["", "Nod, and pour for him", "sure"]],
+    w: [["Deyr", "Cattle"], ["f\u00e9,", "die,"], ["deyja", "and kinsmen"], ["fr\u00e6ndr,", "die,"], ["deyr", "and so one dies"], ["sj\u00e1lfr", "one's self;"], ["it sama;", ""], ["ek veit", "one thing"], ["einn", "now"], ["at aldri", "that never"], ["deyr:", "dies,"], ["d\u00f3mr", "the fame"], ["um dau\u00f0an", "of a dead man's"], ["hvern.", "deeds."]] },
+  monk: { who: "The priest at Dorestat", tongue: "Latin", src: "Psalm 106 (107), 23, of them that go down to the sea in ships", speed: 100, keep: [], re: [["Baptised to baptised", "Ask his blessing on the crossing", "sure"], ["Lore", "Answer with the next verse", "doubtful"], ["", "Give alms and go", "4 d"]],
+    w: [["Qui", "They that"], ["descendunt", "go down"], ["mare", "to the sea"], ["in navibus,", "in ships,"], ["facientes", "that do"], ["operationem", "business"], ["in aquis", "in great"], ["multis.", "waters."]] }
+};
+SPEECH.half = Object.assign({}, SPEECH.dane, { tongue: "the Danish tongue, half known", speed: 170, keep: [2, 3, 11] });
+let popN = 0, popZ = 5;
+function pop(html, after) {
+  const el = document.createElement("div"), n = popN++ % 5;
+  el.className = "slip turn on"; el.style.left = (50 + n * 2.4) + "%"; el.style.top = (45 + n * 3.2) + "%"; el.style.zIndex = ++popZ;
+  el.innerHTML = html; $("floats").appendChild(el); linkify(el);
+  el.addEventListener("mousedown", () => { el.style.zIndex = ++popZ; $("floats").appendChild(el); });
+  el.addEventListener("click", e => { if (e.target.closest("[data-shut]")) el.remove(); });
+  if (after) after(el);
+}
+function speak(k) {
+  if (k === "all") { speak("dane"); setTimeout(() => speak("event"), 350); setTimeout(() => speak("monk"), 700); return; }
+  if (k === "event") return pop(`<button type="button" class="x" data-shut="1">&times;</button><div class="top"><div class="fc"></div><h4>The lookout</h4><div><p style="margin:0;line-height:1.6">A sail to the north-west. Low, long, no cargo showing. She has not altered for you yet.</p><small><b style="color:var(--gold)">Pressing.</b> The clock is held. Let it run if you will, but she lies here until you answer, and after two days the crew chooses for you: hold your course.</small></div></div>` +
+    `<div class="opts">${[["", "Hold your course and watch her", "likely fine"], ["Nerve", "Stand on and show no fear", "doubtful"], ["", "Stand in for the shoals", "sure, half a day"]].map(([t, o, odds], i) => `<button type="button" data-shut="1"><span>${i + 1}. ${t ? `<em>[${t}]</em>` : ""}${o}</span><small>${odds}</small></button>`).join("")}</div>`);
+  const sp = SPEECH[k];
+  pop(`<button type="button" class="x" data-shut="1">&times;</button><div class="top"><div class="fc"></div><h4>${sp.who}</h4><div><p style="margin:0;line-height:1.7">${sp.w.map(([x, y], i) => `<span class="w" data-i="${i}"><i>${x}</i><b>${y}</b></span>`).join("")}</p><small>${sp.tongue}. ${sp.src}.${sp.keep.length ? " The words in gold you do not know yet." : ""}</small></div></div>` +
+    `<div class="opts">${sp.re.map(([t, o, odds], i) => `<button type="button" data-shut="1"><span>${i + 1}. ${t ? `<em>[${t}]</em>` : ""}${o}</span><small>${odds}</small></button>`).join("")}</div>`,
+    el => sp.w.forEach((_, i) => setTimeout(() => { const w = el.querySelector(`[data-i="${i}"]`); if (!w) return; w.classList.add(sp.keep.includes(i) ? "kept" : "done"); }, 200 + i * sp.speed)));
+}
+$("spk").addEventListener("click", e => { const b = e.target.closest("button"); if (b) speak(b.dataset.spk); });
+document.addEventListener("input", e => { if (e.target.classList && e.target.classList.contains("wq")) { st.wq = e.target.value; const r = e.target.closest(".wk").querySelector(".wres"); if (r) r.innerHTML = wikiList(); } });
+$("floats").addEventListener("click", e => { const b = e.target.closest("button"); if (!b || !b.closest(".turn") || b.dataset.shut) return; const d = b.dataset;
+  if (wikiAct(d)) return; if (d.dest) { st.dest = +d.dest; draw(); } else if (d.how) { st.how = +d.how; draw(); } });
+$("swap").addEventListener("click", () => { st.swap = !st.swap; st.act = st.swap ? "The view of her fills the screen; the chart is small, bottom right." : "The chart fills the screen again."; draw(); });
+$("mtools").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const k = b.dataset.mt;
+  if (k === "measure") return doFx("measure"); if (k in st.mt) st.mt[k] = !st.mt[k]; else st.act = k === "her" ? "The chart centres on her." : k === "in" ? "The chart draws nearer." : "The chart draws back."; draw(); });
+document.addEventListener("click", e => { const l = e.target.closest && e.target.closest("#who .wl[data-wk], #log .wl[data-wk], #cap .wl[data-wk]"); if (l && l.tagName === "BUTTON") wikiGo(l.dataset.wk); });
+function draw() {
+  seg("lay", Object.entries(LAY).map(([k, v]) => [k, v[0]]), "lay"); seg("cnt", [[3, "3"], [5, "5"], [8, "8"]], "cnt"); seg("fill", [["open", "Map shows through"], ["solid", "Solid columns"]], "fill"); seg("siz", [[1, "Small"], [1.3, "Medium"], [1.6, "Large"]], "siz"); $("screen").style.setProperty("--s", st.siz);
+  seg("loc", Object.entries(LOC).map(([k, v]) => [k, v[0]]), "loc"); seg("wx", [["fair", "Fair"], ["fog", "Fog"], ["gale", "Gale"]], "wx"); seg("hr", [["day", "Day"], ["dusk", "Dusk"], ["night", "Night"]], "hr");
+  seg("col", COL.map((c, i) => [i, c[0]]), "col"); seg("frm", FRM, "frm");
+  const thick = ["round", "carved", "arch", "stud", "soft"].includes(st.frm);
+  $("screen").className = "screen v-" + st.lay + (thick ? " f-bevel t-" + st.frm : " f-" + st.frm) + (st.fill === "open" ? " open" : "") + (st.swap && st.lay === "g" ? " swapped" : "");
+  recolour();
+  const held = st.open.length > 0;
+  $("sys").innerHTML = `<button type="button" class="gear" title="Settings, save, load, quit">&#9776;</button><b>21 June 793</b><span class="lab">third hour</span><span><span class="num">86 d</span></span><span><span class="num">9</span> days of bread</span>` +
+    `<span class="clock"><i class="${held ? "on" : ""}">II</i>${[1, 2, 3, 4, 5].map(n => `<i class="${!held && n === 2 ? "on" : ""}">${n}</i>`).join("")}</span>`;
+  const btns = BTN.slice(0, st.cnt);
+  st.open = st.open.filter(o => btns.some(b => b[0] === o));
+  $("btns").className = "btns" + (st.cnt > 5 ? " many" : "");
+  $("btns").innerHTML = btns.map(([id, n, ic, c]) => `<button type="button" data-b="${id}" class="${st.open.includes(id) ? "on" : ""}" title="${n}"><svg viewBox="0 0 24 24">${ic}</svg><span>${n}</span>${c ? `<u>${c}</u>` : ""}</button>`).join("");
+  const max = st.lay === "b" || st.lay === "d" || st.lay === "f" ? 3 : 2;
+  $("panels").innerHTML = st.open.slice(-max).map(id => `<div class="slip pan" style="position:relative"><h3>${BTN.find(b => b[0] === id)[1]}<button type="button" data-x="${id}">&times;</button></h3>` +
+    PAN[id].map(([a, b]) => `<div class="row"><span>${a}</span><span class="num">${b}</span></div>`).join("") + `<p>${WORD[id]}</p></div>`).join("");
+  $("who").innerHTML = st.loc === "port" ?
+    `<div class="face"></div><div class="txt"><b>The toll-keeper</b><span>Dorestat · knows you</span><span class="say">Six casks. The tenth is on what you sell.</span></div>` :
+    `<div class="face"></div><div class="txt"><b>You</b><span>Merchant of Dorestat · 31</span><span>Sound · owed 1,920 d</span><div class="crew"><i>A</i><i>F</i><i>U</i><i>L</i></div></div>`;
+  ship(); focus();
+  $("log").innerHTML = `<div><b>Prime</b> The toll-keeper counted six casks.</div><div><b>Terce</b> A shipmaster in from Lundenwic says wine pays well there.</div><div><b>Now</b> ${st.act || "The wind is fair for the river. Cast off when you will."}</div>`;
+  linkExtra();
+  $("note").innerHTML = LAY[st.lay][1] + " In port the portrait becomes whoever you are speaking to. The ship window is the real 3D scene in the game; here it is a drawn stand-in that follows the place, weather and hour.";
+}
+$("btns").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const id = b.dataset.b; st.open = st.open.includes(id) ? st.open.filter(o => o !== id) : st.open.concat(id); draw(); });
+$("panels").addEventListener("click", e => { const b = e.target.closest("[data-x]"); if (b) { st.open = st.open.filter(o => o !== b.dataset.x); draw(); } });
+(location.hash.slice(1) || "").split("+").forEach(h => { if (LAY[h]) st.lay = h; if (LOC[h]) st.loc = h; if (h === "gale" || h === "fog") st.wx = h; if (h === "dusk" || h === "night") st.hr = h; if (h === "8") { st.cnt = 8; st.open = ["ledger", "crew"]; }
+  if (/^col[0-4]$/.test(h)) st.col = +h[3]; if (h === "solid") st.fill = "solid"; if (MOD[h]) st.slots = [h, st.slots[1] === h ? "self" : st.slots[1]]; if (h === "three") st.slots = ["voyage", "field", "self"]; if (h === "pick") st.pick = 1; if (h === "m") st.meas = [[61.5, 56], [36, 62]]; if (SPEECH[h] || h === "all") setTimeout(() => speak(h), 50); if (/^ws[1-5]$/.test(h)) st.ws = +h[2] - 1; if (h === "swap") st.swap = true; if (h === "oars") st.oars = true; if (h.startsWith("full-")) setTimeout(() => openFull(h.slice(5)), 90); if (h.startsWith("wk-")) { st.ws = 4; st.wp = h.slice(3); } if (h.startsWith("wkpop-")) setTimeout(() => wikiGo(h.slice(6)), 80); if (h.startsWith("tip-")) setTimeout(() => { const l = document.querySelector('.wl[data-wk="' + h.slice(4) + '"]'); if (l) showTip(l); }, 200); if (h === "big") st.siz = 1.6; if (h === "mid") st.siz = 1.3; if (FRM.some(f => f[0] === h)) st.frm = h; });
+draw();
+</script>

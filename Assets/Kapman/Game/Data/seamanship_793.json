@@ -1,0 +1,43 @@
+{
+  "about": "How the world's ships keep clear of each other (Plans/ai_fleets.md, 'Added: seamanship'): each keeps to her own side of a lane, the give-way ship slows or stands out early when two would come too close, ships wait in port for a fair wind before an open-sea crossing, and a landing takes only so many visiting ships at once - the rest anchor off or moor along the bank and wait their turn. The written rules of the road are 19th century; what is here is period custom where it is known, marked (?) where it is a reasonable guess.",
+  "units": "game m = metres in the game (1 game m = 32 real m across); real km; game hours (1 real second = 1 game minute)",
+  "keep_side_game_m": {
+    "about": "How far to starboard of a lane's line a ship keeps, by the kind of water (so ships meeting head-on pass port to port (?)).",
+    "sea": 20, "coastal": 12, "sound": 8, "river": 5, "pending": 5, "flats": 8, "portage": 0, "approach": 3
+  },
+  "pass_game_m": {
+    "about": "The least room between two ships' sides when they pass, by the kind of water; their half-beams are added.",
+    "sea": 24, "coastal": 14, "sound": 9, "river": 6, "pending": 6, "flats": 9, "portage": 2, "approach": 3
+  },
+  "taper_real_km": 2.0,
+  "give_way": {
+    "about": "Who keeps clear, the first rule that applies deciding. Period custom (?).",
+    "order": ["rowing_gives_way_to_sail", "overtaking_keeps_clear", "smaller_gives_way", "other_on_starboard_gives_way"],
+    "smaller_by_length_m": 3.0,
+    "slow_steps": [0.75, 0.5, 0.25, 0.0],
+    "stand_out_game_m": 40,
+    "stand_out_about": "the most she stands out to one side (game m); she takes what gives the passing room abeam, held while passing, then eases back",
+    "stand_out_fades_per_hour": 0.5,
+    "passes": 3
+  },
+  "fair_wind": {
+    "about": "Before an open-sea crossing a master waited for a wind he could use (?): not more than this close to the wind, nor a gale.",
+    "sea_crossing_real_km": 40,
+    "foul_margin_deg": 20,
+    "check_every_game_h": 6,
+    "max_wait_days": 4
+  },
+  "berths": {
+    "about": "Visiting traders a landing takes at once: its sea-going and river craft at the July peak (traffic_793.json harbours) times share, at least min. Home craft have their own places and aren't counted.",
+    "share_of_peak": 1.0,
+    "min": 2,
+    "hold_back_real_km": 1.5,
+    "spacing_lengths": 2.0,
+    "moor_side_share": 1.4,
+    "max_anchor_days": 4,
+    "about_max_anchor_days": "days at anchor off a full landing before she goes in anyway, moored alongside another (ships lay two and three abreast in a crowded harbour)",
+    "max_start_wait_days": 1,
+    "about_max_start_wait_days": "days a departure waits for another ship close by her berth to get clear before she picks her way out past her"
+  },
+  "hash_cell_real_km": 20
+}

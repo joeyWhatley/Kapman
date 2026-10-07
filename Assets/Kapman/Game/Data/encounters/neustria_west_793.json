@@ -1,0 +1,5278 @@
+{
+ "about": "NEUSTRIA WEST: the port cards of Quentovic, Rotomagus, Parisius, Namnetis, Herio and Burdigala (Design/content/BRIEF.md, BRIEF_2.md), written 6 Oct 2026 by the weaver of the region from the six places files (Data/places/<port>.json), the dossiers and the spine. Every card names its port in 'when' (port.id) and is on its site's 'do' list in the places file. The people are the places files' people: each card's note says who, by id. Flags of this file begin nw_; the spine's thread flags (bs_, lf_, yk_, sv_, hy_, bk_, sx_, df_) are set only for the step the spine names. Small stories run between ports by flags: the abbot's psalter (Parisius, Rotomagus), the schoolmaster's books (Rotomagus, Quentovic), the exile's letter (Herio, Quentovic), the cooper's debt (Rotomagus, Parisius), the oil for three lamps (Burdigala, Herio), the poet's book (Burdigala, Namnetis), the nine and the chest (Burdigala, Namnetis), the clerk and the Bible (Herio, Namnetis). The words are in Data/writing/neustria_west.json: each option's note names the key of its outcome text, and art.<card id> says what the card's picture shows. A draft for the user to overwrite. (?) marks what could not be checked.",
+ "cards": [
+  {
+   "id": "harbour.quentovic.sealed_wool",
+   "note": "People: quentovic.leofstan (the skipper), quentovic.wulfgifu (the host). The spine's hook for black_stones at Quentovic: an English ship under arrest, her wool rotting. Whether the ban of about 790 ever bit is disputed (Gesta abbatum Fontanellensium c. 12 against Alcuin, letter 7): the game lets it bite on one ship. Stops when the chain frees the ship (ch_black_stones_ship_freed) or the peace is heard (bs_peace). Wool sound is 8 d the sack (goods_793.json).",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 797 and not flag.bs_peace and not flag.ch_black_stones_ship_freed",
+   "weight": 0.35,
+   "cooldown_days": 45,
+   "actors": {
+    "skipper": {
+     "role": "skipper",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      33,
+      40
+     ],
+     "fixed": true,
+     "note": "quentovic.leofstan"
+    },
+    "host": {
+     "role": "host",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "f",
+     "age": [
+      36,
+      45
+     ],
+     "fixed": true,
+     "note": "quentovic.wulfgifu"
+    }
+   },
+   "title_key": "neustria_west.quentovic.sealed_wool.title",
+   "title": "The sealed ship",
+   "intention_key": "neustria_west.quentovic.sealed_wool.intention",
+   "intention": "An English ship lies roped to a post on the bank with the toll's seal on her hatch, by the king's order against English merchants. Her wool is spoiling under the hatch and her master counts the days aloud.",
+   "lines": [
+    {
+     "who": "skipper",
+     "key": "neustria_west.quentovic.sealed_wool.days",
+     "when": "npc.skipper.met = 0"
+    },
+    {
+     "who": "skipper",
+     "key": "neustria_west.quentovic.sealed_wool.again",
+     "when": "npc.skipper.met > 0"
+    },
+    {
+     "who": "skipper",
+     "key": "neustria_west.quentovic.sealed_wool.mem_aired",
+     "when": "npc.skipper.last = aired"
+    },
+    {
+     "who": "skipper",
+     "key": "neustria_west.quentovic.sealed_wool.mem_bought",
+     "when": "npc.skipper.last = bought"
+    },
+    {
+     "who": "host",
+     "key": "neustria_west.quentovic.sealed_wool.cousin"
+    }
+   ],
+   "options": [
+    {
+     "key": "aired",
+     "label_key": "neustria_west.quentovic.sealed_wool.opt_aired",
+     "label": "Lend him your crew for a day to turn and air the wool",
+     "check": "true",
+     "effects": [
+      "morale -0.02",
+      "npc skipper feeling +12 aired",
+      "npc host feeling +4 aired",
+      "flag nw_leofstan_aired"
+     ],
+     "note": "outcome: neustria_west.quentovic.sealed_wool.out_aired"
+    },
+    {
+     "key": "bought",
+     "label_key": "neustria_west.quentovic.sealed_wool.opt_bought",
+     "label": "Buy six sacks at a rotting price",
+     "check": "silver >= 18",
+     "cost": "silver 18",
+     "effects": [
+      "goods raw_wool +6",
+      "npc skipper feeling -2 bought"
+     ],
+     "note": "outcome: neustria_west.quentovic.sealed_wool.out_bought"
+    },
+    {
+     "key": "talked",
+     "label_key": "neustria_west.quentovic.sealed_wool.opt_talked",
+     "label": "Hear him out and tell him what wool fetches at Dorestad",
+     "check": "true",
+     "effects": [
+      "npc skipper feeling +2 talked"
+     ],
+     "note": "outcome: neustria_west.quentovic.sealed_wool.out_talked"
+    }
+   ],
+   "memory": {
+    "aired": "aired his wool",
+    "bought": "bought his wool cheap",
+    "talked": "told him the price of wool"
+   }
+  },
+  {
+   "id": "harbour.quentovic.oath_helper",
+   "note": "People: quentovic.hildric (the clerk); the Frisian is a forged shipmaster. An oath: a free man charged without proof clears himself by his own oath and those of oath-helpers of his standing (Frankish practice in the capitularies and the Lex Salica; the number of helpers here is the game's (?)). The helpers swear to the man, not to the fact. The chance is whether the player judged him right.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 827 and port.visits > 0",
+   "weight": 0.15,
+   "cooldown_days": 400,
+   "actors": {
+    "clerk": {
+     "role": "clerk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true,
+     "note": "quentovic.hildric"
+    },
+    "frisian": {
+     "role": "owner",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.quentovic.oath_helper.title",
+   "title": "Two to swear with him",
+   "intention_key": "neustria_west.quentovic.oath_helper.intention",
+   "intention": "At the toll house a Frisian shipmaster is charged with declaring thirty bolts of cloth and landing forty. He may clear himself by oath if two men of his own trade swear that his oath is good, and he has found one.",
+   "lines": [
+    {
+     "who": "frisian",
+     "key": "neustria_west.quentovic.oath_helper.ask"
+    },
+    {
+     "who": "clerk",
+     "key": "neustria_west.quentovic.oath_helper.law"
+    },
+    {
+     "who": "clerk",
+     "key": "neustria_west.quentovic.oath_helper.mem_swore",
+     "when": "npc.clerk.last = swore.failure"
+    },
+    {
+     "who": "clerk",
+     "key": "neustria_west.quentovic.oath_helper.mem_counted",
+     "when": "npc.clerk.last = counted"
+    }
+   ],
+   "options": [
+    {
+     "key": "swore",
+     "label_key": "neustria_west.quentovic.oath_helper.opt_swore",
+     "label": "Swear with him",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "crew.trade_best",
+       "success": [
+        "silver +20",
+        "npc frisian feeling +15 swore",
+        "npc clerk feeling -4 swore"
+       ],
+       "failure": [
+        "law fine",
+        "deed lost_case",
+        "npc clerk feeling -15 swore"
+       ]
+      }
+     ],
+     "note": "outcome: neustria_west.quentovic.oath_helper.out_swore_success, neustria_west.quentovic.oath_helper.out_swore_failure"
+    },
+    {
+     "key": "counted",
+     "label_key": "neustria_west.quentovic.oath_helper.opt_counted",
+     "label": "Ask the clerk to count the bolts again before anyone swears",
+     "check": "true",
+     "effects": [
+      "npc clerk feeling +5 counted",
+      "npc frisian feeling -8 counted"
+     ],
+     "note": "outcome: neustria_west.quentovic.oath_helper.out_counted"
+    },
+    {
+     "key": "refused",
+     "label_key": "neustria_west.quentovic.oath_helper.opt_refused",
+     "label": "Say you do not know him well enough",
+     "check": "true",
+     "effects": [
+      "npc frisian feeling -3 refused"
+     ],
+     "note": "outcome: neustria_west.quentovic.oath_helper.out_refused"
+    }
+   ],
+   "memory": {
+    "swore": "swore beside a Frisian at the toll",
+    "swore.failure": "stood beside a short tally",
+    "counted": "asked for a count before an oath",
+    "refused": "would not swear for a stranger"
+   }
+  },
+  {
+   "id": "harbour.quentovic.gerwin_pot",
+   "note": "People: quentovic.gerwin (the moneyer); rotomagus.moneyer is his sister's son (flag nw_gerold_word, set at Rotomagus). The spine's hook for silver_road at Quentovic: the Channel mint, where English pennies go into the pot and come out Frankish. The heavy penny and the order that it be taken everywhere: Synod of Frankfurt 794 c. 5 (chronicle_793.json 794-06-frankfurt-new-denier). The loss on foreign coin is the game's (trade_rules.json foreign_loss 0.1): four in forty, two when sorted.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 794 and year < 816 and silver >= 40",
+   "weight": 0.25,
+   "cooldown_days": 120,
+   "actors": {
+    "moneyer": {
+     "role": "moneyer",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      40,
+      60
+     ],
+     "fixed": true,
+     "note": "quentovic.gerwin"
+    }
+   },
+   "title_key": "neustria_west.quentovic.gerwin_pot.title",
+   "title": "The moneyer's pot",
+   "intention_key": "neustria_west.quentovic.gerwin_pot.intention",
+   "intention": "Only the king's new heavy penny passes now. The moneyer takes old and foreign silver into his pot and gives back new pennies, less his cut, and he cuts less for silver that comes to him sorted.",
+   "lines": [
+    {
+     "who": "moneyer",
+     "key": "neustria_west.quentovic.gerwin_pot.bench",
+     "when": "npc.moneyer.met = 0"
+    },
+    {
+     "who": "moneyer",
+     "key": "neustria_west.quentovic.gerwin_pot.mem_sorted",
+     "when": "npc.moneyer.last = sorted"
+    },
+    {
+     "who": "moneyer",
+     "key": "neustria_west.quentovic.gerwin_pot.mem_tested",
+     "when": "npc.moneyer.last = tested"
+    },
+    {
+     "who": "moneyer",
+     "key": "neustria_west.quentovic.gerwin_pot.nephew",
+     "when": "flag.nw_gerold_word"
+    },
+    {
+     "who": "moneyer",
+     "key": "neustria_west.quentovic.gerwin_pot.dorestad"
+    }
+   ],
+   "options": [
+    {
+     "key": "sorted",
+     "label_key": "neustria_west.quentovic.gerwin_pot.opt_sorted",
+     "label": "Spend the evening sorting it first: good from doubtful, English from old",
+     "check": "true",
+     "effects": [
+      "silver -2",
+      "npc moneyer feeling +8 sorted",
+      "flag nw_quentovic_sorted"
+     ],
+     "note": "outcome: neustria_west.quentovic.gerwin_pot.out_sorted"
+    },
+    {
+     "key": "changed",
+     "label_key": "neustria_west.quentovic.gerwin_pot.opt_changed",
+     "label": "Tip the purse out as it is",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "silver -4",
+      "npc moneyer feeling +1 changed"
+     ],
+     "note": "outcome: neustria_west.quentovic.gerwin_pot.out_changed"
+    },
+    {
+     "key": "tested",
+     "label_key": "neustria_west.quentovic.gerwin_pot.opt_tested",
+     "label": "Slip one light penny in, to see whether he is as good as he says",
+     "check": "true",
+     "effects": [
+      "silver -4",
+      "npc moneyer feeling -3 tested"
+     ],
+     "note": "outcome: neustria_west.quentovic.gerwin_pot.out_tested"
+    },
+    {
+     "key": "asked",
+     "label_key": "neustria_west.quentovic.gerwin_pot.opt_asked",
+     "label": "Keep your silver and ask what the king has ordered about the coin",
+     "check": "true",
+     "effects": [
+      "npc moneyer feeling +1 asked"
+     ],
+     "note": "outcome: neustria_west.quentovic.gerwin_pot.out_asked"
+    }
+   ],
+   "memory": {
+    "sorted": "brought his silver sorted",
+    "changed": "changed his silver",
+    "tested": "tried him with a light penny",
+    "asked": "asked about the king's coin"
+   }
+  },
+  {
+   "id": "harbour.quentovic.sails_off_the_bar",
+   "note": "A rumour that is not true. Invented, in the manner of the years after 793: every coast heard of Lindisfarne as fast as a ship and no faster, and every low hull was a raider for a season. Both outcomes of sailing show the truth (herring boats from Boulogne). The first recorded attack on Quentovic is 842 (Annales Bertiniani; Nithard): the card stops before it. The price word at Dofras is true: one wine keel in a week is short supply.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 842 and month >= 5 and month <= 9",
+   "weight": 0.15,
+   "cooldown_days": 300,
+   "actors": {
+    "seller": {
+     "role": "merchant",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      30,
+      55
+     ],
+     "fixed": false
+    },
+    "pilot": {
+     "role": "pilot",
+     "people": "port",
+     "faith": "port",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "neustria_west.quentovic.sails_off_the_bar.title",
+   "title": "Sails off the bar",
+   "intention_key": "neustria_west.quentovic.sails_off_the_bar.intention",
+   "intention": "On the long street a wine seller is telling everyone that heathen ships lie off the river mouth. The pilots have stopped taking boats over the bar, and three masters have decided to wait.",
+   "lines": [
+    {
+     "who": "seller",
+     "key": "neustria_west.quentovic.sails_off_the_bar.six"
+    },
+    {
+     "who": "seller",
+     "key": "neustria_west.quentovic.sails_off_the_bar.island",
+     "when": "year < 800"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.quentovic.sails_off_the_bar.not_first"
+    }
+   ],
+   "options": [
+    {
+     "key": "sailed",
+     "label_key": "neustria_west.quentovic.sails_off_the_bar.opt_sailed",
+     "label": "Sail on the ebb anyway",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.8,
+       "by": "crew.seamanship_best",
+       "success": [
+        "price_shock dofras frankish_wine x1.25 for 20",
+        "morale +0.03"
+       ],
+       "failure": [
+        "morale -0.04",
+        "price_shock dofras frankish_wine x1.25 for 20"
+       ]
+      }
+     ],
+     "note": "outcome: neustria_west.quentovic.sails_off_the_bar.out_sailed_success, neustria_west.quentovic.sails_off_the_bar.out_sailed_failure"
+    },
+    {
+     "key": "asked",
+     "label_key": "neustria_west.quentovic.sails_off_the_bar.opt_asked",
+     "label": "Find out who saw them",
+     "check": "true",
+     "effects": [
+      "npc seller feeling -5 asked"
+     ],
+     "note": "outcome: neustria_west.quentovic.sails_off_the_bar.out_asked"
+    },
+    {
+     "key": "waited",
+     "label_key": "neustria_west.quentovic.sails_off_the_bar.opt_waited",
+     "label": "Wait three days with the rest",
+     "check": "true",
+     "effects": [
+      "morale -0.02"
+     ],
+     "note": "outcome: neustria_west.quentovic.sails_off_the_bar.out_waited"
+    }
+   ]
+  },
+  {
+   "id": "harbour.quentovic.salt_leaf",
+   "note": "People: quentovic.meginbert (Saint-Germain's monk); herio.natalis keeps the next leaf. A riddle given: the spine's hook for riddle_road at Quentovic (a monk on his abbey's business with Aldhelm's salt; riddles_793.json riddle_aldhelm_19_salis, 12 d, the first of the set salt_to_pepper). The clues are our own rendering of Aldhelm, Enigma 19. Sets nw_salt_answered, which the Herio card does not need (it reads the riddle's own state).",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 819",
+   "weight": 0.3,
+   "cooldown_days": 90,
+   "actors": {
+    "monk": {
+     "role": "monk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      33,
+      60
+     ],
+     "fixed": true,
+     "note": "quentovic.meginbert"
+    }
+   },
+   "title_key": "neustria_west.quentovic.salt_leaf.title",
+   "title": "Once I was water",
+   "intention_key": "neustria_west.quentovic.salt_leaf.intention",
+   "intention": "Saint-Germain's monk on the abbeys' row sells wine by the cask and riddles by the leaf. One leaf is Bishop Aldhelm's, in Latin, and he says it is the first of four.",
+   "lines": [
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.salt_leaf.price",
+     "when": "not text.aldhelm_19_salis"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.salt_leaf.well",
+     "when": "riddle.riddle_aldhelm_19_salis = open"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.salt_leaf.salt",
+     "when": "riddle.riddle_aldhelm_19_salis = solved"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.salt_leaf.mem_traded",
+     "when": "npc.monk.last = traded"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.salt_leaf.home"
+    }
+   ],
+   "options": [
+    {
+     "key": "bought",
+     "label_key": "neustria_west.quentovic.salt_leaf.opt_bought",
+     "label": "Buy the leaf",
+     "check": "silver >= 12 and not text.aldhelm_19_salis",
+     "cost": "silver 12",
+     "effects": [
+      "give_text aldhelm_19_salis",
+      "give_riddle riddle_aldhelm_19_salis",
+      "npc monk feeling +3 bought"
+     ],
+     "note": "outcome: neustria_west.quentovic.salt_leaf.out_bought"
+    },
+    {
+     "key": "answered",
+     "label_key": "neustria_west.quentovic.salt_leaf.opt_answered",
+     "label": "Give him the answer",
+     "check": "riddle.riddle_aldhelm_19_salis = solved and not flag.nw_salt_answered",
+     "effects": [
+      "deed won_riddle",
+      "silver +6",
+      "npc monk feeling +10 answered",
+      "flag nw_salt_answered"
+     ],
+     "note": "outcome: neustria_west.quentovic.salt_leaf.out_answered"
+    },
+    {
+     "key": "traded",
+     "label_key": "neustria_west.quentovic.salt_leaf.opt_traded",
+     "label": "Set him a riddle of your own",
+     "check": "chest.riddles_solved >= 1",
+     "effects": [
+      "npc monk feeling +6 traded"
+     ],
+     "note": "outcome: neustria_west.quentovic.salt_leaf.out_traded"
+    },
+    {
+     "key": "later",
+     "label_key": "neustria_west.quentovic.salt_leaf.opt_later",
+     "label": "Not today",
+     "check": "true",
+     "effects": [],
+     "note": "outcome: neustria_west.quentovic.salt_leaf.out_later"
+    }
+   ],
+   "memory": {
+    "bought": "bought the salt leaf",
+    "answered": "answered the salt riddle",
+    "traded": "set him a riddle he could not answer"
+   }
+  },
+  {
+   "id": "harbour.quentovic.abbeys_fish",
+   "note": "People: quentovic.meginbert; herio.natalis and herio.cellarer (Vitalis) are named. A commission: bay salt for Saint-Germain's fish, brought here from Herio or Namnetis (the tie in both files: Meginbert buys the island's salt). Saint-Germain's freedom from the toll at Quentovic: Charles's charter of 27 March 779. Salt is 3 d the sack (goods_793.json); the premium is the abbey's hurry.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 819 and month >= 4 and month <= 9",
+   "weight": 0.25,
+   "cooldown_days": 200,
+   "actors": {
+    "monk": {
+     "role": "monk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      33,
+      60
+     ],
+     "fixed": true,
+     "note": "quentovic.meginbert"
+    }
+   },
+   "title_key": "neustria_west.quentovic.abbeys_fish.title",
+   "title": "Salt for the abbey's fish",
+   "intention_key": "neustria_west.quentovic.abbeys_fish.intention",
+   "intention": "Saint-Germain's man needs bay salt for the abbey's fish before the autumn, and his usual carrier has not come back from the south.",
+   "lines": [
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.abbeys_fish.ten"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.abbeys_fish.who"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.abbeys_fish.mem_took",
+     "when": "npc.monk.last = took"
+    }
+   ],
+   "options": [
+    {
+     "key": "took",
+     "label_key": "neustria_west.quentovic.abbeys_fish.opt_took",
+     "label": "Take the order: ten sacks before Michaelmas",
+     "check": "true",
+     "effects": [
+      "commission sea_salt 10 by 150 premium 0.5",
+      "npc monk feeling +4 took"
+     ],
+     "note": "outcome: neustria_west.quentovic.abbeys_fish.out_took"
+    },
+    {
+     "key": "haggled",
+     "label_key": "neustria_west.quentovic.abbeys_fish.opt_haggled",
+     "label": "Take it, and ask for a cask of the abbey's wine on account",
+     "check": "npc.monk.feeling >= easy",
+     "effects": [
+      "commission sea_salt 10 by 150 premium 0.3",
+      "goods frankish_wine +1",
+      "npc monk feeling -1 haggled"
+     ],
+     "note": "outcome: neustria_west.quentovic.abbeys_fish.out_haggled"
+    },
+    {
+     "key": "declined",
+     "label_key": "neustria_west.quentovic.abbeys_fish.opt_declined",
+     "label": "Tell him what salt fetched at Dorestad, and leave it",
+     "check": "true",
+     "effects": [
+      "npc monk feeling +1 declined"
+     ],
+     "note": "outcome: neustria_west.quentovic.abbeys_fish.out_declined"
+    }
+   ],
+   "memory": {
+    "took": "took the order for salt",
+    "haggled": "took the salt order and a cask on account",
+    "declined": "would not carry salt"
+   }
+  },
+  {
+   "id": "harbour.quentovic.lent_at_the_cell",
+   "note": "People: quentovic.osmund (the guest-master); the cleric waiting to cross is forged. A fast day. The cell of Saint Josse was given to Alcuin 'to give alms to pilgrims' and cared for 'those from over the sea and other poor' (Lupus of Ferrieres, letters 11 and 71, as in the dossier). The porter's 'Thanks be to God' is the Rule of St Benedict c. 66. The famine: chronicle_793.json 793-spring-false-grain (the hungry years, to 794). The ship riddle is Symphosius 13 (riddles_793.json riddle_symphosius_13_navis; reward rw_tip_quentovic), given by 'a cleric waiting to cross', as the spine's hook asks.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and fast and year < 813",
+   "weight": 0.5,
+   "cooldown_days": 30,
+   "actors": {
+    "guest_master": {
+     "role": "guest_master",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      45,
+      65
+     ],
+     "fixed": true,
+     "note": "quentovic.osmund"
+    },
+    "cleric": {
+     "role": "clerk",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      22,
+      35
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.quentovic.lent_at_the_cell.title",
+   "title": "A fast day at the cell",
+   "intention_key": "neustria_west.quentovic.lent_at_the_cell.intention",
+   "intention": "It is a fast day. The cell of Saint Josse feeds whoever is waiting on the wind, on fish, pulses and bread, and the guest hall is full.",
+   "lines": [
+    {
+     "who": "guest_master",
+     "key": "neustria_west.quentovic.lent_at_the_cell.bench"
+    },
+    {
+     "who": "guest_master",
+     "key": "neustria_west.quentovic.lent_at_the_cell.hungry",
+     "when": "year < 795"
+    },
+    {
+     "who": "guest_master",
+     "key": "neustria_west.quentovic.lent_at_the_cell.mem_fish",
+     "when": "npc.guest_master.last = fish"
+    },
+    {
+     "who": "cleric",
+     "key": "neustria_west.quentovic.lent_at_the_cell.riddle"
+    }
+   ],
+   "options": [
+    {
+     "key": "fish",
+     "label_key": "neustria_west.quentovic.lent_at_the_cell.opt_fish",
+     "label": "Give a barrel of herring to the kitchen",
+     "check": "hold.herring > 0",
+     "effects": [
+      "goods herring -1",
+      "deed gave_alms",
+      "npc guest_master feeling +10 fish",
+      "morale +0.02"
+     ],
+     "note": "outcome: neustria_west.quentovic.lent_at_the_cell.out_fish"
+    },
+    {
+     "key": "pennies",
+     "label_key": "neustria_west.quentovic.lent_at_the_cell.opt_pennies",
+     "label": "Leave six pennies for pulses",
+     "check": "silver >= 6",
+     "cost": "silver 6",
+     "effects": [
+      "deed gave_alms",
+      "npc guest_master feeling +5 pennies"
+     ],
+     "note": "outcome: neustria_west.quentovic.lent_at_the_cell.out_pennies"
+    },
+    {
+     "key": "sat",
+     "label_key": "neustria_west.quentovic.lent_at_the_cell.opt_sat",
+     "label": "Sit down to the fast with them and take the cleric's riddle",
+     "check": "true",
+     "effects": [
+      "give_riddle riddle_symphosius_13_navis",
+      "morale +0.01",
+      "npc guest_master feeling +2 sat"
+     ],
+     "note": "outcome: neustria_west.quentovic.lent_at_the_cell.out_sat"
+    }
+   ],
+   "memory": {
+    "fish": "gave herring on a fast day",
+    "pennies": "gave alms at the cell",
+    "sat": "kept the fast in the guest hall"
+   }
+  },
+  {
+   "id": "harbour.quentovic.sigewine_waits",
+   "note": "People: cast.sigewine (the monk), quentovic.osmund (the guest-master); cast.alcuin, cast.higbald named. A passenger to carry, and a text given. The spine's hook for holy_island at Quentovic: Sigewine waits at Alcuin's hospice with Alcuin's answer and a small bag of the king's alms for ransom (?), looking for a ship north. Sets lf_knows_boys (the spine: 'set at Lindisfarena or by cast.sigewine'). Alcuin's promise to speak to King Charles for the boys is in his letter to Higbald (MGH Epistolae IV no. 20); the alms bag is the spine's (?). The text is alcuin_793 (Alcuin to King Aethelred), retold and not quoted.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 805 and not flag.nw_sigewine_carried",
+   "weight": 0.3,
+   "cooldown_days": 200,
+   "actors": {
+    "monk": {
+     "role": "monk",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      34,
+      50
+     ],
+     "fixed": true,
+     "note": "cast.sigewine"
+    },
+    "guest_master": {
+     "role": "guest_master",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      45,
+      65
+     ],
+     "fixed": true,
+     "note": "quentovic.osmund"
+    }
+   },
+   "title_key": "neustria_west.quentovic.sigewine_waits.title",
+   "title": "The bag and the answer",
+   "intention_key": "neustria_west.quentovic.sigewine_waits.intention",
+   "intention": "At the cell a tall English monk has been turning ships down for a month. He carries a letter from Alcuin for the bishop of the holy island and a small bag of alms to buy back the boys the heathen carried off. He needs a ship going north, and he is afraid of ships.",
+   "lines": [
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.sigewine_waits.roll"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.sigewine_waits.letter"
+    },
+    {
+     "who": "guest_master",
+     "key": "neustria_west.quentovic.sigewine_waits.four_ships"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.quentovic.sigewine_waits.mem_read",
+     "when": "npc.monk.last = read"
+    }
+   ],
+   "options": [
+    {
+     "key": "carried",
+     "label_key": "neustria_west.quentovic.sigewine_waits.opt_carried",
+     "label": "Take him to Dorestad, where the Frisian ships go north",
+     "check": "true",
+     "effects": [
+      "passenger monk to dorestad",
+      "silver +18",
+      "flag lf_knows_boys",
+      "flag nw_sigewine_carried",
+      "deed carried_letters",
+      "npc monk feeling +10 carried",
+      "npc guest_master feeling +5 carried"
+     ],
+     "note": "outcome: neustria_west.quentovic.sigewine_waits.out_carried"
+    },
+    {
+     "key": "read",
+     "label_key": "neustria_west.quentovic.sigewine_waits.opt_read",
+     "label": "Ask to hear what his master wrote about the raid",
+     "check": "true",
+     "effects": [
+      "give_text alcuin_793",
+      "learn latin +0.02",
+      "npc monk feeling +6 read"
+     ],
+     "note": "outcome: neustria_west.quentovic.sigewine_waits.out_read"
+    },
+    {
+     "key": "told",
+     "label_key": "neustria_west.quentovic.sigewine_waits.opt_told",
+     "label": "Tell him which Frisian masters go north, and when",
+     "check": "true",
+     "effects": [
+      "npc monk feeling +3 told"
+     ],
+     "note": "outcome: neustria_west.quentovic.sigewine_waits.out_told"
+    }
+   ],
+   "memory": {
+    "carried": "carried him to Dorestad with the bag",
+    "read": "asked to hear Alcuin's letter",
+    "told": "named him ships for the north"
+   }
+  },
+  {
+   "id": "harbour.quentovic.old_deacon",
+   "note": "People: Putul (real: Alcuin's deacon, sent home from York with Liudger and the Frisian merchants, Altfrid, Vita Liudgeri I.12; that he is a priest in Gaul by the 790s is the spine's (?)); cast.liudger, cast.ecgwulf, cast.thiadburg named or meant. A rumour that is true. The spine's easter egg for york_blood at Quentovic. Sets yk_feud_known. The killing at York about 773: Altfrid I.11-12. That no blood-price was paid is the game's (the spine).",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 805 and not flag.yk_feud_known",
+   "weight": 0.2,
+   "once": true,
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      55,
+      70
+     ],
+     "fixed": false,
+     "note": "Putul, once Alcuin's deacon"
+    }
+   },
+   "title_key": "neustria_west.quentovic.old_deacon.title",
+   "title": "The old deacon",
+   "intention_key": "neustria_west.quentovic.old_deacon.intention",
+   "intention": "An old English priest who says Mass at the cell some Sundays was at York twenty years ago, when a Frisian merchant killed a nobleman's son and every Frisian in the city took ship for home. He was on that ship.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "neustria_west.quentovic.old_deacon.ship"
+    },
+    {
+     "who": "priest",
+     "key": "neustria_west.quentovic.old_deacon.brawl"
+    },
+    {
+     "who": "priest",
+     "key": "neustria_west.quentovic.old_deacon.chest"
+    }
+   ],
+   "options": [
+    {
+     "key": "asked",
+     "label_key": "neustria_west.quentovic.old_deacon.opt_asked",
+     "label": "Ask who struck the blow, and whose son he killed",
+     "check": "true",
+     "effects": [
+      "flag yk_feud_known",
+      "npc priest feeling +4 asked"
+     ],
+     "note": "outcome: neustria_west.quentovic.old_deacon.out_asked"
+    },
+    {
+     "key": "liudger",
+     "label_key": "neustria_west.quentovic.old_deacon.opt_liudger",
+     "label": "Ask after Liudger and his books",
+     "check": "true",
+     "effects": [
+      "flag yk_feud_known",
+      "npc priest feeling +6 liudger"
+     ],
+     "note": "outcome: neustria_west.quentovic.old_deacon.out_liudger"
+    },
+    {
+     "key": "left",
+     "label_key": "neustria_west.quentovic.old_deacon.opt_left",
+     "label": "Leave the old man to his office",
+     "check": "true",
+     "effects": [],
+     "note": "outcome: neustria_west.quentovic.old_deacon.out_left"
+    }
+   ]
+  },
+  {
+   "id": "harbour.quentovic.pilgrims_grave",
+   "note": "People: quentovic.wulfgifu (the host); the priest of Saint Peter's is forged. A funeral. English pilgrims for Rome landed at Quentovic (Bede on Theodore, 668; Boniface; the letter of 796 on true pilgrims, chronicle 796-spring-offa-letter): the card runs from the peace of 796. The host who answers for a guest kept three nights is the Kentish law of Hlothhere and Eadric c. 15 (wording to check (?)).",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 796 and year < 842 and month >= 5 and month <= 10",
+   "weight": 0.15,
+   "cooldown_days": 365,
+   "actors": {
+    "host": {
+     "role": "host",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "f",
+     "age": [
+      36,
+      60
+     ],
+     "fixed": true,
+     "note": "quentovic.wulfgifu, later her daughter"
+    },
+    "priest": {
+     "role": "priest",
+     "people": "port",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "neustria_west.quentovic.pilgrims_grave.title",
+   "title": "Six to carry",
+   "intention_key": "neustria_west.quentovic.pilgrims_grave.intention",
+   "intention": "An English pilgrim bound for Rome has died in the ale-house, waiting for his party. He is to be buried at Saint Peter's this evening, and there are not enough men in the street who knew him to carry the bier.",
+   "lines": [
+    {
+     "who": "host",
+     "key": "neustria_west.quentovic.pilgrims_grave.three_nights"
+    },
+    {
+     "who": "priest",
+     "key": "neustria_west.quentovic.pilgrims_grave.six"
+    }
+   ],
+   "options": [
+    {
+     "key": "carried",
+     "label_key": "neustria_west.quentovic.pilgrims_grave.opt_carried",
+     "label": "Carry him with your crew",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "npc host feeling +10 carried",
+      "npc priest feeling +5 carried"
+     ],
+     "note": "outcome: neustria_west.quentovic.pilgrims_grave.out_carried"
+    },
+    {
+     "key": "wax",
+     "label_key": "neustria_west.quentovic.pilgrims_grave.opt_wax",
+     "label": "Pay for the wax and a Mass",
+     "check": "silver >= 6",
+     "cost": "silver 6",
+     "effects": [
+      "deed gave_alms",
+      "npc priest feeling +6 wax",
+      "npc host feeling +4 wax"
+     ],
+     "note": "outcome: neustria_west.quentovic.pilgrims_grave.out_wax"
+    },
+    {
+     "key": "bundle",
+     "label_key": "neustria_west.quentovic.pilgrims_grave.opt_bundle",
+     "label": "Offer to see his bundle and the news across to his wife at Dofras",
+     "check": "true",
+     "effects": [
+      "deed carried_letters",
+      "npc host feeling +8 bundle"
+     ],
+     "note": "outcome: neustria_west.quentovic.pilgrims_grave.out_bundle"
+    }
+   ],
+   "memory": {
+    "carried": "carried a dead pilgrim to his grave",
+    "wax": "paid for a stranger's Mass",
+    "bundle": "took a dead man's bundle home"
+   }
+  },
+  {
+   "id": "harbour.quentovic.wulfgifus_fire",
+   "note": "People: quentovic.wulfgifu (the host), quentovic.leofstan named; the hand is forged. A hire. English merchants and shipmen lived at the wic (the dossier); her house runs to 842 under her daughter. The price word (wine short on the Kentish side) is true while it lasts.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year < 823",
+   "weight": 0.3,
+   "cooldown_days": 120,
+   "actors": {
+    "host": {
+     "role": "host",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "f",
+     "age": [
+      36,
+      60
+     ],
+     "fixed": true,
+     "note": "quentovic.wulfgifu"
+    },
+    "hand": {
+     "role": "sailor",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      18,
+      30
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.quentovic.wulfgifus_fire.title",
+   "title": "Wulfgifu's fire",
+   "intention_key": "neustria_west.quentovic.wulfgifus_fire.intention",
+   "intention": "Wulfgifu keeps the house where the men from over the sea lodge, and answers to the toll for every guest. By her fire sits a Kentish hand who was put ashore here and wants a berth on anything that sails.",
+   "lines": [
+    {
+     "who": "host",
+     "key": "neustria_west.quentovic.wulfgifus_fire.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "host",
+     "key": "neustria_west.quentovic.wulfgifus_fire.bench",
+     "when": "npc.host.feeling >= friendly"
+    },
+    {
+     "who": "host",
+     "key": "neustria_west.quentovic.wulfgifus_fire.mem_hired",
+     "when": "npc.host.last = hired"
+    },
+    {
+     "who": "host",
+     "key": "neustria_west.quentovic.wulfgifus_fire.no_keels",
+     "when": "year < 797 and not flag.bs_peace"
+    },
+    {
+     "who": "hand",
+     "key": "neustria_west.quentovic.wulfgifus_fire.wage"
+    }
+   ],
+   "options": [
+    {
+     "key": "hired",
+     "label_key": "neustria_west.quentovic.wulfgifus_fire.opt_hired",
+     "label": "Take the hand on",
+     "check": "crew < crew_full",
+     "effects": [
+      "hire hand",
+      "npc host feeling +4 hired"
+     ],
+     "note": "outcome: neustria_west.quentovic.wulfgifus_fire.out_hired"
+    },
+    {
+     "key": "round",
+     "label_key": "neustria_west.quentovic.wulfgifus_fire.opt_round",
+     "label": "Stand the bench a round and listen",
+     "check": "silver >= 3",
+     "cost": "silver 3",
+     "effects": [
+      "npc host feeling +5 round",
+      "price_shock dofras frankish_wine x1.15 for 30",
+      "morale +0.02"
+     ],
+     "note": "outcome: neustria_west.quentovic.wulfgifus_fire.out_round"
+    },
+    {
+     "key": "sat",
+     "label_key": "neustria_west.quentovic.wulfgifus_fire.opt_sat",
+     "label": "Sit by the fire and say little",
+     "check": "true",
+     "effects": [
+      "npc host feeling +2 sat",
+      "morale +0.01"
+     ],
+     "note": "outcome: neustria_west.quentovic.wulfgifus_fire.out_sat"
+    }
+   ],
+   "memory": {
+    "hired": "hired an English hand from her bench",
+    "round": "stood her bench a round",
+    "sat": "sat quietly by her fire"
+   }
+  },
+  {
+   "id": "harbour.quentovic.borrowed_books",
+   "note": "People: quentovic.osmund; rotomagus.schoolmaster (Harduin) sent the asking (flag nw_borrowed_books, set at Rotomagus). The tie is in both files: Osmund borrows books from Saint-Wandrille's school and is slow to send them back. A book is 360 d (goods_793.json) and can spoil at sea (crew.cargo.book). The book with the whale is not named: a Physiologus or a saint's voyage would both have one (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and flag.nw_borrowed_books and not flag.nw_books_aboard and year < 812",
+   "weight": 40,
+   "cooldown_days": 60,
+   "actors": {
+    "guest_master": {
+     "role": "guest_master",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      45,
+      65
+     ],
+     "fixed": true,
+     "note": "quentovic.osmund"
+    }
+   },
+   "title_key": "neustria_west.quentovic.borrowed_books.title",
+   "title": "The schoolmaster's books",
+   "intention_key": "neustria_west.quentovic.borrowed_books.intention",
+   "intention": "Osmund has two of Saint-Wandrille's books on his shelf, lent by the schoolmaster there and long overdue. The schoolmaster has asked for them by your boat.",
+   "lines": [
+    {
+     "who": "guest_master",
+     "key": "neustria_west.quentovic.borrowed_books.sent"
+    },
+    {
+     "who": "guest_master",
+     "key": "neustria_west.quentovic.borrowed_books.whale"
+    }
+   ],
+   "options": [
+    {
+     "key": "one",
+     "label_key": "neustria_west.quentovic.borrowed_books.opt_one",
+     "label": "Take the one and leave him his whale",
+     "check": "true",
+     "effects": [
+      "goods books +1",
+      "flag nw_books_aboard",
+      "npc guest_master feeling +6 one"
+     ],
+     "note": "outcome: neustria_west.quentovic.borrowed_books.out_one"
+    },
+    {
+     "key": "both",
+     "label_key": "neustria_west.quentovic.borrowed_books.opt_both",
+     "label": "Take both: a loan is a loan",
+     "check": "true",
+     "effects": [
+      "goods books +2",
+      "flag nw_books_aboard",
+      "flag nw_books_all",
+      "npc guest_master feeling -6 both"
+     ],
+     "note": "outcome: neustria_west.quentovic.borrowed_books.out_both"
+    },
+    {
+     "key": "later",
+     "label_key": "neustria_west.quentovic.borrowed_books.opt_later",
+     "label": "Give him until you next call",
+     "check": "true",
+     "effects": [
+      "npc guest_master feeling +3 later"
+     ],
+     "note": "outcome: neustria_west.quentovic.borrowed_books.out_later"
+    }
+   ],
+   "memory": {
+    "one": "took one borrowed book back",
+    "both": "took both books, whale and all",
+    "later": "gave him time with the books"
+   }
+  },
+  {
+   "id": "harbour.quentovic.corbies_man",
+   "note": "People: quentovic.corbie_agent (Theudold, invented), herio.adalard (the exile), quentovic.hildric (the clerk). The second step of the Herio story herio.emperors_cousin: Adalard of Corbie, exiled on Herio 814-821 (Cartron 2010; Poupardin 1905), sends a letter to Corbie by Quentovic and has a small book brought back (the game's; his 'statutes' for Corbie are of 822). Comes only after the Herio card sets nw_adalard_letter. A book is 360 d: it may be sold, and then the Herio card says so.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 814 and year < 822 and flag.nw_adalard_letter and not flag.nw_adalard_book and not flag.nw_adalard_done",
+   "weight": 40,
+   "once": true,
+   "actors": {
+    "factor": {
+     "role": "factor",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      35,
+      55
+     ],
+     "fixed": true,
+     "note": "quentovic.corbie_agent"
+    }
+   },
+   "title_key": "neustria_west.quentovic.corbies_man.title",
+   "title": "Corbie's man",
+   "intention_key": "neustria_west.quentovic.corbies_man.intention",
+   "intention": "Corbie's man on the abbeys' row takes the exile's letter without surprise. In eight days he is back from the Somme with a book the length of a hand, sewn in oiled linen.",
+   "lines": [
+    {
+     "who": "factor",
+     "key": "neustria_west.quentovic.corbies_man.knot"
+    },
+    {
+     "who": "factor",
+     "key": "neustria_west.quentovic.corbies_man.book"
+    }
+   ],
+   "options": [
+    {
+     "key": "took",
+     "label_key": "neustria_west.quentovic.corbies_man.opt_took",
+     "label": "Take the book south",
+     "check": "true",
+     "effects": [
+      "goods books +1",
+      "silver +12",
+      "flag nw_adalard_book",
+      "npc factor feeling +8 took"
+     ],
+     "note": "outcome: neustria_west.quentovic.corbies_man.out_took"
+    },
+    {
+     "key": "clerk",
+     "label_key": "neustria_west.quentovic.corbies_man.opt_clerk",
+     "label": "Take it, and let the toll clerk look at it first",
+     "check": "true",
+     "effects": [
+      "goods books +1",
+      "silver +30",
+      "flag nw_adalard_book",
+      "flag nw_adalard_informed",
+      "npc factor feeling -10 clerk"
+     ],
+     "note": "outcome: neustria_west.quentovic.corbies_man.out_clerk"
+    },
+    {
+     "key": "refused",
+     "label_key": "neustria_west.quentovic.corbies_man.opt_refused",
+     "label": "Tell him the letter was all you agreed to",
+     "check": "true",
+     "effects": [
+      "flag nw_adalard_done",
+      "npc factor feeling -3 refused"
+     ],
+     "note": "outcome: neustria_west.quentovic.corbies_man.out_refused"
+    }
+   ],
+   "memory": {
+    "took": "carried the abbot's book south",
+    "clerk": "showed the abbot's book to the toll",
+    "refused": "would not carry the book"
+   }
+  },
+  {
+   "id": "harbour.quentovic.prefects_question",
+   "note": "People: quentovic.grippo (real: prefect of the emporium, Miracula sancti Wandregisili c. 15, about 858; his years beyond that are a guess (?)); rotomagus.einold sends him word. The edict of Pitres, 864, c. 25: death for selling mail, arms or horses to Northmen (MGH Capit. II no. 273). Before 864 the line about the edict does not show. His storm and his vow paid on Christmas Eve: the Miracula.",
+   "stage": "harbour",
+   "when": "moored and port.id = quentovic and year >= 858 and year < 871",
+   "weight": 0.3,
+   "cooldown_days": 200,
+   "actors": {
+    "harbour_master": {
+     "role": "harbour_master",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      45,
+      62
+     ],
+     "fixed": true,
+     "note": "quentovic.grippo"
+    }
+   },
+   "title_key": "neustria_west.quentovic.prefects_question.title",
+   "title": "The prefect's question",
+   "intention_key": "neustria_west.quentovic.prefects_question.intention",
+   "intention": "Grippo, the king's prefect of the port, asks every master the same thing: whether there is a blade, a mail coat or a horse aboard that might find its way to a Northman.",
+   "lines": [
+    {
+     "who": "harbour_master",
+     "key": "neustria_west.quentovic.prefects_question.storm"
+    },
+    {
+     "who": "harbour_master",
+     "key": "neustria_west.quentovic.prefects_question.edict",
+     "when": "year >= 864"
+    },
+    {
+     "who": "harbour_master",
+     "key": "neustria_west.quentovic.prefects_question.low",
+     "when": "hold.weapons > 0"
+    },
+    {
+     "who": "harbour_master",
+     "key": "neustria_west.quentovic.prefects_question.mem_opened",
+     "when": "npc.harbour_master.last = opened"
+    }
+   ],
+   "options": [
+    {
+     "key": "opened",
+     "label_key": "neustria_west.quentovic.prefects_question.opt_opened",
+     "label": "Open the hold and let his men look",
+     "check": "hold.weapons = 0",
+     "effects": [
+      "toll eased 60",
+      "npc harbour_master feeling +8 opened"
+     ],
+     "note": "outcome: neustria_west.quentovic.prefects_question.out_opened"
+    },
+    {
+     "key": "news",
+     "label_key": "neustria_west.quentovic.prefects_question.opt_news",
+     "label": "Tell him what sails you have seen, and where",
+     "check": "true",
+     "effects": [
+      "silver +8",
+      "npc harbour_master feeling +5 news",
+      "news neustria_west.news.sails_canche at here"
+     ],
+     "note": "outcome: neustria_west.quentovic.prefects_question.out_news"
+    },
+    {
+     "key": "swore",
+     "label_key": "neustria_west.quentovic.prefects_question.opt_swore",
+     "label": "Swear there is nothing, and keep the hatch shut",
+     "check": "hold.weapons > 0",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "crew.trade_best",
+       "success": [
+        "npc harbour_master feeling -2 swore"
+       ],
+       "failure": [
+        "law seizure",
+        "deed goods_seized",
+        "npc harbour_master feeling -25 swore"
+       ]
+      }
+     ],
+     "note": "outcome: neustria_west.quentovic.prefects_question.out_swore_success, neustria_west.quentovic.prefects_question.out_swore_failure"
+    }
+   ],
+   "memory": {
+    "opened": "opened his hold unasked",
+    "news": "brought word of sails",
+    "swore": "swore his hold was clean",
+    "swore.failure": "caught with arms under the hides"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.weser_man",
+   "note": "People: the Saxon is forged (the story rotomagus.weser_man); the wright of the slip is the port's; cast.crew.brunger is named in the outcome. A passenger to carry. The spine's hook for saxon_end at Rotomagus, 804-815: Saxon families set down on abbey land, a man asking for the Weser. The deportation of 804: Annales regni Francorum 804; that any were settled by Rouen is the spine's (?). Sets sx_carried_fugitive (the king's men may learn of it) or nw_weser_wright.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 804 and year < 815 and not flag.sx_carried_fugitive and not flag.nw_weser_wright",
+   "weight": 0.3,
+   "cooldown_days": 200,
+   "actors": {
+    "saxon": {
+     "role": "farmer",
+     "people": "saxon",
+     "faith": "christian",
+     "tongue": "old_saxon",
+     "sex": "m",
+     "age": [
+      30,
+      45
+     ],
+     "fixed": false
+    },
+    "wright": {
+     "role": "shipwright",
+     "people": "port",
+     "faith": "port",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "neustria_west.rotomagus.weser_man.title",
+   "title": "The man who asks for the Weser",
+   "intention_key": "neustria_west.rotomagus.weser_man.intention",
+   "intention": "At dusk a man comes down to the strand from the row of huts on the abbey's land. He is one of the king's Saxons, moved here with his people and a priest set over them. He asks whether any ship goes to the Weser.",
+   "lines": [
+    {
+     "who": "saxon",
+     "key": "neustria_west.rotomagus.weser_man.weser"
+    },
+    {
+     "who": "saxon",
+     "key": "neustria_west.rotomagus.weser_man.field"
+    },
+    {
+     "who": "wright",
+     "key": "neustria_west.rotomagus.weser_man.hands"
+    }
+   ],
+   "options": [
+    {
+     "key": "carried",
+     "label_key": "neustria_west.rotomagus.weser_man.opt_carried",
+     "label": "Take the four aboard at night, for the IJssel and the road east",
+     "check": "true",
+     "effects": [
+      "passenger saxon to daventre",
+      "flag sx_carried_fugitive",
+      "npc saxon feeling +20 carried",
+      "morale +0.02"
+     ],
+     "note": "outcome: neustria_west.rotomagus.weser_man.out_carried"
+    },
+    {
+     "key": "spoke",
+     "label_key": "neustria_west.rotomagus.weser_man.opt_spoke",
+     "label": "Speak for him at the slip, where the wright needs hands",
+     "check": "true",
+     "effects": [
+      "flag nw_weser_wright",
+      "npc wright feeling +8 spoke",
+      "npc saxon feeling +5 spoke"
+     ],
+     "note": "outcome: neustria_west.rotomagus.weser_man.out_spoke"
+    },
+    {
+     "key": "sent",
+     "label_key": "neustria_west.rotomagus.weser_man.opt_sent",
+     "label": "Tell him truly that no ship here goes so far",
+     "check": "true",
+     "effects": [
+      "npc saxon feeling +1 sent"
+     ],
+     "note": "outcome: neustria_west.rotomagus.weser_man.out_sent"
+    }
+   ]
+  },
+  {
+   "id": "harbour.rotomagus.angilwins_chalk",
+   "note": "People: rotomagus.tollman (Angilwin; the same man as the arrival card harbour.tollman.frankish, whose memory these lines read), cast.gervold named. The spine's hook for black_stones at Rotomagus (before 797 he tells what the quarrel is, as far as a tollman is told; sets bs_ban_heard, 'told of the ban by someone who enforces it'). Gervold 'dearest friend' of Offa and the letters in the abbey's chest: Gesta abbatum Fontanellensium c. 12. The line about the Saxons answers this file's weser_man.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year < 813 and port.visits > 0",
+   "weight": 0.25,
+   "cooldown_days": 150,
+   "actors": {
+    "tollman": {
+     "role": "tollman",
+     "people": "port",
+     "faith": "port",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true,
+     "note": "rotomagus.tollman"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.angilwins_chalk.title",
+   "title": "Angilwin's chalk",
+   "intention_key": "neustria_west.rotomagus.angilwins_chalk.intention",
+   "intention": "The toll man at the river gate chalks every cask himself and cannot be hurried. Three boats are waiting on him, and the flood is making.",
+   "lines": [
+    {
+     "who": "tollman",
+     "key": "neustria_west.rotomagus.angilwins_chalk.tide"
+    },
+    {
+     "who": "tollman",
+     "key": "neustria_west.rotomagus.angilwins_chalk.quarrel",
+     "when": "year < 797 and not flag.bs_peace"
+    },
+    {
+     "who": "tollman",
+     "key": "neustria_west.rotomagus.angilwins_chalk.mem_declare",
+     "when": "npc.tollman.last = declare"
+    },
+    {
+     "who": "tollman",
+     "key": "neustria_west.rotomagus.angilwins_chalk.mem_caught",
+     "when": "npc.tollman.last = hide.failure"
+    },
+    {
+     "who": "tollman",
+     "key": "neustria_west.rotomagus.angilwins_chalk.saxons",
+     "when": "flag.sx_carried_fugitive and year >= 804"
+    }
+   ],
+   "options": [
+    {
+     "key": "waited",
+     "label_key": "neustria_west.rotomagus.angilwins_chalk.opt_waited",
+     "label": "Wait your turn",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "npc tollman feeling +3 waited"
+     ],
+     "note": "outcome: neustria_west.rotomagus.angilwins_chalk.out_waited"
+    },
+    {
+     "key": "asked",
+     "label_key": "neustria_west.rotomagus.angilwins_chalk.opt_asked",
+     "label": "Ask him why the ports are shut to the English",
+     "check": "year < 797 and not flag.bs_ban_heard",
+     "effects": [
+      "flag bs_ban_heard",
+      "npc tollman feeling +2 asked"
+     ],
+     "note": "outcome: neustria_west.rotomagus.angilwins_chalk.out_asked"
+    },
+    {
+     "key": "helped",
+     "label_key": "neustria_west.rotomagus.angilwins_chalk.opt_helped",
+     "label": "Hold his tally sticks and call the casks for him",
+     "check": "true",
+     "effects": [
+      "npc tollman feeling +8 helped",
+      "toll eased 30"
+     ],
+     "note": "outcome: neustria_west.rotomagus.angilwins_chalk.out_helped"
+    }
+   ],
+   "memory": {
+    "waited": "waited his turn at the gate",
+    "asked": "asked about the ban",
+    "helped": "called the casks for him"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.coopers_mallet",
+   "note": "People: rotomagus.ursio (the cooper), parisius.waldric (who owes him; the tie is in both files), rotomagus.adalsind named. A deal and a favour: his word carried to the cellarer at the fair (flag nw_ursio_debt; the Parisius card harbour.parisius.skins_by_the_bundle sets nw_ursio_paid). Wine is 50 d the cask (goods_793.json); his cask is a buyer's leaving.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year < 816",
+   "weight": 0.25,
+   "cooldown_days": 150,
+   "actors": {
+    "cooper": {
+     "role": "craftsman",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      28,
+      55
+     ],
+     "fixed": true,
+     "note": "rotomagus.ursio"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.coopers_mallet.title",
+   "title": "The cooper's mallet",
+   "intention_key": "neustria_west.rotomagus.coopers_mallet.intention",
+   "intention": "The cooper in the market place knocks on a cask without being asked, listens, and tells the owner what is wrong with it. He is owed money upriver and has a cask to sell.",
+   "lines": [
+    {
+     "who": "cooper",
+     "key": "neustria_west.rotomagus.coopers_mallet.dull"
+    },
+    {
+     "who": "cooper",
+     "key": "neustria_west.rotomagus.coopers_mallet.fair",
+     "when": "month >= 9 and month <= 11"
+    },
+    {
+     "who": "cooper",
+     "key": "neustria_west.rotomagus.coopers_mallet.owed",
+     "when": "not flag.nw_ursio_paid"
+    },
+    {
+     "who": "cooper",
+     "key": "neustria_west.rotomagus.coopers_mallet.paid",
+     "when": "flag.nw_ursio_paid and not flag.nw_ursio_cask"
+    }
+   ],
+   "options": [
+    {
+     "key": "bought",
+     "label_key": "neustria_west.rotomagus.coopers_mallet.opt_bought",
+     "label": "Buy the sound cask a buyer left with him",
+     "check": "silver >= 38",
+     "cost": "silver 38",
+     "effects": [
+      "goods frankish_wine +1",
+      "npc cooper feeling +3 bought"
+     ],
+     "note": "outcome: neustria_west.rotomagus.coopers_mallet.out_bought"
+    },
+    {
+     "key": "word",
+     "label_key": "neustria_west.rotomagus.coopers_mallet.opt_word",
+     "label": "Promise to say his name to the cellarer at the fair",
+     "check": "not flag.nw_ursio_debt",
+     "effects": [
+      "flag nw_ursio_debt",
+      "npc cooper feeling +5 word"
+     ],
+     "note": "outcome: neustria_west.rotomagus.coopers_mallet.out_word"
+    },
+    {
+     "key": "gift",
+     "label_key": "neustria_west.rotomagus.coopers_mallet.opt_gift",
+     "label": "Take the cask he kept for you",
+     "check": "flag.nw_ursio_paid and not flag.nw_ursio_cask",
+     "effects": [
+      "goods frankish_wine +1",
+      "flag nw_ursio_cask",
+      "npc cooper feeling +6 gift"
+     ],
+     "note": "outcome: neustria_west.rotomagus.coopers_mallet.out_gift"
+    },
+    {
+     "key": "asked",
+     "label_key": "neustria_west.rotomagus.coopers_mallet.opt_asked",
+     "label": "Ask which cellar's wine is sound this year",
+     "check": "true",
+     "effects": [
+      "npc cooper feeling +1 asked",
+      "price_shock parisius frankish_wine x0.9 for 60"
+     ],
+     "note": "outcome: neustria_west.rotomagus.coopers_mallet.out_asked"
+    }
+   ],
+   "memory": {
+    "bought": "bought a cask he vouched for",
+    "word": "took his word to the cellarer",
+    "gift": "had a cask from him in thanks",
+    "asked": "asked him about the cellars"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.chain_riddle",
+   "note": "People: rotomagus.hildhard (canon and chief singer). A riddle and a text given: Symphosius 5, the chain (riddles_793.json gives it to 'a cleric of the archbishop' here; texts_793.json symphosius_05_catena), in our own rendering. The story rotomagus.school_books: he teaches what a book is worth (sets bk_knows_worth).",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year < 812",
+   "weight": 0.25,
+   "cooldown_days": 120,
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      50,
+      70
+     ],
+     "fixed": true,
+     "note": "rotomagus.hildhard"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.chain_riddle.title",
+   "title": "Good day, in a riddle",
+   "intention_key": "neustria_west.rotomagus.chain_riddle.intention",
+   "intention": "A canon of the cathedral, its chief singer, greets strangers with a riddle in place of good day. He writes it on a wax tablet for anyone who cannot answer, and for anyone who can.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "neustria_west.rotomagus.chain_riddle.riddle",
+     "when": "not text.symphosius_05_catena"
+    },
+    {
+     "who": "priest",
+     "key": "neustria_west.rotomagus.chain_riddle.tablet",
+     "when": "riddle.riddle_symphosius_05_catena = open"
+    },
+    {
+     "who": "priest",
+     "key": "neustria_west.rotomagus.chain_riddle.chain",
+     "when": "riddle.riddle_symphosius_05_catena = solved"
+    },
+    {
+     "who": "priest",
+     "key": "neustria_west.rotomagus.chain_riddle.school"
+    }
+   ],
+   "options": [
+    {
+     "key": "tablet",
+     "label_key": "neustria_west.rotomagus.chain_riddle.opt_tablet",
+     "label": "Take the tablet",
+     "check": "not text.symphosius_05_catena",
+     "effects": [
+      "give_text symphosius_05_catena",
+      "give_riddle riddle_symphosius_05_catena",
+      "npc priest feeling +3 tablet"
+     ],
+     "note": "outcome: neustria_west.rotomagus.chain_riddle.out_tablet"
+    },
+    {
+     "key": "answered",
+     "label_key": "neustria_west.rotomagus.chain_riddle.opt_answered",
+     "label": "Answer him",
+     "check": "riddle.riddle_symphosius_05_catena = solved and not flag.nw_catena_answered",
+     "effects": [
+      "deed won_riddle",
+      "learn latin +0.03",
+      "npc priest feeling +10 answered",
+      "flag nw_catena_answered"
+     ],
+     "note": "outcome: neustria_west.rotomagus.chain_riddle.out_answered"
+    },
+    {
+     "key": "worth",
+     "label_key": "neustria_west.rotomagus.chain_riddle.opt_worth",
+     "label": "Ask him what a book is worth",
+     "check": "true",
+     "effects": [
+      "flag bk_knows_worth",
+      "npc priest feeling +4 worth"
+     ],
+     "note": "outcome: neustria_west.rotomagus.chain_riddle.out_worth"
+    }
+   ],
+   "memory": {
+    "tablet": "took his riddle on a tablet",
+    "answered": "answered the chain riddle",
+    "worth": "asked what a book is worth"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.owed_psalter",
+   "note": "People: rotomagus.hildhard, parisius.fardulf (who asks: flag nw_psalter_asked, set at Parisius), rotomagus.schoolmaster named. The tie is in both files: Hildhard owes Saint-Denis a psalter borrowed nine years ago and knows exactly where it is. A book is 360 d; the Parisius card harbour.parisius.abbots_psalter ends it.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and flag.nw_psalter_asked and not flag.nw_psalter_aboard and not flag.nw_psalter_home and year < 812",
+   "weight": 40,
+   "cooldown_days": 90,
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      50,
+      70
+     ],
+     "fixed": true,
+     "note": "rotomagus.hildhard"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.owed_psalter.title",
+   "title": "Nine years of psalms",
+   "intention_key": "neustria_west.rotomagus.owed_psalter.intention",
+   "intention": "The abbot of Saint-Denis has asked, by your boat as by every boat, for the psalter the cathedral's chief singer borrowed nine years ago.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "neustria_west.rotomagus.owed_psalter.nine"
+    },
+    {
+     "who": "priest",
+     "key": "neustria_west.rotomagus.owed_psalter.boys"
+    }
+   ],
+   "options": [
+    {
+     "key": "took",
+     "label_key": "neustria_west.rotomagus.owed_psalter.opt_took",
+     "label": "Ask for it plainly, in the abbot's name",
+     "check": "true",
+     "effects": [
+      "goods books +1",
+      "flag nw_psalter_aboard",
+      "npc priest feeling -8 took"
+     ],
+     "note": "outcome: neustria_west.rotomagus.owed_psalter.out_took"
+    },
+    {
+     "key": "copy",
+     "label_key": "neustria_west.rotomagus.owed_psalter.opt_copy",
+     "label": "Pay for skins, so the boys can copy what they need first",
+     "check": "silver >= 30",
+     "cost": "silver 30",
+     "effects": [
+      "goods books +1",
+      "flag nw_psalter_aboard",
+      "deed gave_alms",
+      "npc priest feeling +12 copy"
+     ],
+     "note": "outcome: neustria_west.rotomagus.owed_psalter.out_copy"
+    },
+    {
+     "key": "left",
+     "label_key": "neustria_west.rotomagus.owed_psalter.opt_left",
+     "label": "Leave it with him and tell the abbot it is in use",
+     "check": "true",
+     "effects": [
+      "flag nw_psalter_home",
+      "npc priest feeling +5 left"
+     ],
+     "note": "outcome: neustria_west.rotomagus.owed_psalter.out_left"
+    }
+   ],
+   "memory": {
+    "took": "took the psalter from his choir",
+    "copy": "paid for a copy before taking the psalter",
+    "left": "left him the psalter"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.table_at_the_gate",
+   "note": "People: the brother at the gate of Saint Peter's and the man in the row are forged. The spine's hook for hungry_years, 'also at Rotomagus': the abbeys feed the poor, and men tell of the false grain (chronicle_793.json 793-spring-false-grain; Annales Mosellani 793 (?)). The king's price for rye, three pennies the measure, is of Frankfurt, June 794 (the label says 'the monk's price' so that it holds for 793 too). The law of 805-806 against carrying food out of the realm: the capitulary of Thionville. Sets hy_fed_poor.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and (year < 795 or (year >= 805 and year < 808))",
+   "weight": 0.35,
+   "cooldown_days": 90,
+   "actors": {
+    "monk": {
+     "role": "monk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": true
+    },
+    "beggar": {
+     "role": "beggar",
+     "people": "port",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      25,
+      60
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.rotomagus.table_at_the_gate.title",
+   "title": "The table at the gate",
+   "intention_key": "neustria_west.rotomagus.table_at_the_gate.intention",
+   "intention": "It is a hungry year. Outside the wall the brothers of Saint Peter's ladle pottage at a table by their gate, and the row before it reaches the old graves.",
+   "lines": [
+    {
+     "who": "monk",
+     "key": "neustria_west.rotomagus.table_at_the_gate.rye"
+    },
+    {
+     "who": "beggar",
+     "key": "neustria_west.rotomagus.table_at_the_gate.false_grain",
+     "when": "year < 795"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.rotomagus.table_at_the_gate.law",
+     "when": "year >= 805"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.rotomagus.table_at_the_gate.mem_gave",
+     "when": "npc.monk.last = gave"
+    }
+   ],
+   "options": [
+    {
+     "key": "gave",
+     "label_key": "neustria_west.rotomagus.table_at_the_gate.opt_gave",
+     "label": "Give two sacks of rye to the table",
+     "check": "hold.rye >= 2",
+     "effects": [
+      "goods rye -2",
+      "deed gave_alms",
+      "flag hy_fed_poor",
+      "npc monk feeling +12 gave"
+     ],
+     "note": "outcome: neustria_west.rotomagus.table_at_the_gate.out_gave"
+    },
+    {
+     "key": "sold",
+     "label_key": "neustria_west.rotomagus.table_at_the_gate.opt_sold",
+     "label": "Sell him two sacks at the monk's price",
+     "check": "hold.rye >= 2",
+     "effects": [
+      "goods rye -2",
+      "silver +6",
+      "flag hy_fed_poor",
+      "npc monk feeling +6 sold"
+     ],
+     "note": "outcome: neustria_west.rotomagus.table_at_the_gate.out_sold"
+    },
+    {
+     "key": "pennies",
+     "label_key": "neustria_west.rotomagus.table_at_the_gate.opt_pennies",
+     "label": "Leave five pennies for the pot",
+     "check": "silver >= 5",
+     "cost": "silver 5",
+     "effects": [
+      "deed gave_alms",
+      "npc monk feeling +4 pennies"
+     ],
+     "note": "outcome: neustria_west.rotomagus.table_at_the_gate.out_pennies"
+    },
+    {
+     "key": "listened",
+     "label_key": "neustria_west.rotomagus.table_at_the_gate.opt_listened",
+     "label": "Stand by the row a while and listen",
+     "check": "true",
+     "effects": [
+      "morale -0.01"
+     ],
+     "note": "outcome: neustria_west.rotomagus.table_at_the_gate.out_listened"
+    }
+   ],
+   "memory": {
+    "gave": "gave rye at the gate",
+    "sold": "sold rye at the monk's price",
+    "pennies": "left pennies for the pot"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.tally_stick",
+   "note": "People: rotomagus.adalsind (the ale-wife), hamwic.leofstan and quentovic.leofstan named apart (two men of one name: the tie in the Quentovic file). A rumour that is true: wine is dear over the sea until Christmas (the port's seasons; the price word at Hamwic is real while it lasts). The king's complaint of the short cloaks: Notker, Gesta Karoli I.34 (Grant 1907), retold, and Charles's letter to Offa of 796.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year < 823",
+   "weight": 0.3,
+   "cooldown_days": 100,
+   "actors": {
+    "alewife": {
+     "role": "alewife",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "f",
+     "age": [
+      35,
+      65
+     ],
+     "fixed": true,
+     "note": "rotomagus.adalsind"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.tally_stick.title",
+   "title": "A stick on Adalsind's wall",
+   "intention_key": "neustria_west.rotomagus.tally_stick.intention",
+   "intention": "Adalsind keeps the ale-house inside the river gate and a notched stick for every shipman who ever drank there. She knows who is in harbour and what wine fetched at the fair before the toll man does.",
+   "lines": [
+    {
+     "who": "alewife",
+     "key": "neustria_west.rotomagus.tally_stick.first",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "alewife",
+     "key": "neustria_west.rotomagus.tally_stick.mem_paid",
+     "when": "npc.alewife.last = paid"
+    },
+    {
+     "who": "alewife",
+     "key": "neustria_west.rotomagus.tally_stick.mem_ran",
+     "when": "npc.alewife.last = ran"
+    },
+    {
+     "who": "alewife",
+     "key": "neustria_west.rotomagus.tally_stick.fair",
+     "when": "month >= 10 and month <= 12"
+    },
+    {
+     "who": "alewife",
+     "key": "neustria_west.rotomagus.tally_stick.cloak",
+     "when": "year >= 796"
+    }
+   ],
+   "options": [
+    {
+     "key": "paid",
+     "label_key": "neustria_west.rotomagus.tally_stick.opt_paid",
+     "label": "Pay what is notched",
+     "check": "silver >= 3",
+     "cost": "silver 3",
+     "effects": [
+      "npc alewife feeling +5 paid",
+      "morale +0.02"
+     ],
+     "note": "outcome: neustria_west.rotomagus.tally_stick.out_paid"
+    },
+    {
+     "key": "asked",
+     "label_key": "neustria_west.rotomagus.tally_stick.opt_asked",
+     "label": "Ask what wine is fetching over the sea",
+     "check": "true",
+     "effects": [
+      "npc alewife feeling +1 asked",
+      "price_shock hamwic frankish_wine x1.2 for 45"
+     ],
+     "note": "outcome: neustria_west.rotomagus.tally_stick.out_asked"
+    },
+    {
+     "key": "ran",
+     "label_key": "neustria_west.rotomagus.tally_stick.opt_ran",
+     "label": "Drink on the stick and settle next time",
+     "check": "true",
+     "effects": [
+      "npc alewife feeling -3 ran",
+      "morale +0.02"
+     ],
+     "note": "outcome: neustria_west.rotomagus.tally_stick.out_ran"
+    }
+   ],
+   "memory": {
+    "paid": "paid his notches",
+    "asked": "asked the price of wine over the sea",
+    "ran": "left notches on his stick"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.moneyers_tray",
+   "note": "People: rotomagus.moneyer (Gerold), quentovic.gerwin (his mother's brother; flag nw_gerold_word is read by the Quentovic card harbour.quentovic.gerwin_pot). The spine's hook for silver_road, 'also at Rotomagus', and its flag sv_first_dirham ('he has held a dirham and been told what it is'). A dirham on the Seine in the 790s is early: the stream into the Baltic is from about 800, and the game brings one stray coin south in a Dane's purse (?). No moneyer of Rouen is named in these years.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 794 and year < 825",
+   "weight": 0.2,
+   "cooldown_days": 300,
+   "actors": {
+    "moneyer": {
+     "role": "moneyer",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      24,
+      56
+     ],
+     "fixed": true,
+     "note": "rotomagus.moneyer"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.moneyers_tray.title",
+   "title": "The moneyer's tray",
+   "intention_key": "neustria_west.rotomagus.moneyers_tray.intention",
+   "intention": "The young moneyer at Rotomagus keeps a private tray of every strange coin he was meant to melt. One of them is thin broad silver with writing like bird tracks and no king's face.",
+   "lines": [
+    {
+     "who": "moneyer",
+     "key": "neustria_west.rotomagus.moneyers_tray.dane"
+    },
+    {
+     "who": "moneyer",
+     "key": "neustria_west.rotomagus.moneyers_tray.seen",
+     "when": "flag.sv_first_dirham"
+    },
+    {
+     "who": "moneyer",
+     "key": "neustria_west.rotomagus.moneyers_tray.die",
+     "when": "not flag.nw_gerold_word"
+    }
+   ],
+   "options": [
+    {
+     "key": "named",
+     "label_key": "neustria_west.rotomagus.moneyers_tray.opt_named",
+     "label": "Tell him what it is",
+     "check": "flag.sv_first_dirham and not flag.nw_gerold_named",
+     "effects": [
+      "silver +6",
+      "npc moneyer feeling +10 named",
+      "flag nw_gerold_named"
+     ],
+     "note": "outcome: neustria_west.rotomagus.moneyers_tray.out_named"
+    },
+    {
+     "key": "looked",
+     "label_key": "neustria_west.rotomagus.moneyers_tray.opt_looked",
+     "label": "Hold it, and ask what the Dane said",
+     "check": "true",
+     "effects": [
+      "flag sv_first_dirham",
+      "npc moneyer feeling +3 looked"
+     ],
+     "note": "outcome: neustria_west.rotomagus.moneyers_tray.out_looked"
+    },
+    {
+     "key": "word",
+     "label_key": "neustria_west.rotomagus.moneyers_tray.opt_word",
+     "label": "Promise to carry his word to the Canche",
+     "check": "not flag.nw_gerold_word",
+     "effects": [
+      "flag nw_gerold_word",
+      "npc moneyer feeling +5 word"
+     ],
+     "note": "outcome: neustria_west.rotomagus.moneyers_tray.out_word"
+    }
+   ],
+   "memory": {
+    "named": "told him what the strange coin was",
+    "looked": "held the strange coin",
+    "word": "took his word to his uncle"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.school_skins",
+   "note": "People: rotomagus.schoolmaster (Harduin; real, died 811: Gesta abbatum Fontanellensium c. 12, checked at fr.wikipedia.org/wiki/Gervold), quentovic.osmund (who has his books), parisius.waldric named. A commission. The spine's hook for book_road at Rotomagus (Saint-Wandrille's new school and the books Gervold gave it; Saint-Denis buys parchment by the bundle at the October fair). Parchment is 60 d the bundle of a hundred leaves (goods_793.json). Sets nw_borrowed_books for the Quentovic card.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year < 812",
+   "weight": 0.3,
+   "cooldown_days": 150,
+   "actors": {
+    "schoolmaster": {
+     "role": "schoolmaster",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      55,
+      75
+     ],
+     "fixed": true,
+     "note": "rotomagus.schoolmaster"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.school_skins.title",
+   "title": "Skins for the school",
+   "intention_key": "neustria_west.rotomagus.school_skins.intention",
+   "intention": "A tide below the city, at Saint-Wandrille's landing, the master of the abbot's new school wants calfskin for his boys and his books, and has two books out on loan that have not come home.",
+   "lines": [
+    {
+     "who": "schoolmaster",
+     "key": "neustria_west.rotomagus.school_skins.clean"
+    },
+    {
+     "who": "schoolmaster",
+     "key": "neustria_west.rotomagus.school_skins.osmund",
+     "when": "not flag.nw_borrowed_books"
+    },
+    {
+     "who": "schoolmaster",
+     "key": "neustria_west.rotomagus.school_skins.light",
+     "when": "hold.parchment > 0"
+    },
+    {
+     "who": "schoolmaster",
+     "key": "neustria_west.rotomagus.school_skins.mem_sold",
+     "when": "npc.schoolmaster.last = sold"
+    }
+   ],
+   "options": [
+    {
+     "key": "order",
+     "label_key": "neustria_west.rotomagus.school_skins.opt_order",
+     "label": "Take his order: four bundles from the fair",
+     "check": "true",
+     "effects": [
+      "commission parchment 4 by 240 premium 0.3",
+      "npc schoolmaster feeling +4 order"
+     ],
+     "note": "outcome: neustria_west.rotomagus.school_skins.out_order"
+    },
+    {
+     "key": "sold",
+     "label_key": "neustria_west.rotomagus.school_skins.opt_sold",
+     "label": "Sell him the parchment you carry",
+     "check": "hold.parchment > 0",
+     "effects": [
+      "goods parchment -1",
+      "silver +70",
+      "npc schoolmaster feeling +8 sold"
+     ],
+     "note": "outcome: neustria_west.rotomagus.school_skins.out_sold"
+    },
+    {
+     "key": "books",
+     "label_key": "neustria_west.rotomagus.school_skins.opt_books",
+     "label": "Promise to ask Osmund for the books",
+     "check": "not flag.nw_borrowed_books",
+     "effects": [
+      "flag nw_borrowed_books",
+      "npc schoolmaster feeling +5 books"
+     ],
+     "note": "outcome: neustria_west.rotomagus.school_skins.out_books"
+    },
+    {
+     "key": "sums",
+     "label_key": "neustria_west.rotomagus.school_skins.opt_sums",
+     "label": "Let him check your reckoning",
+     "check": "true",
+     "effects": [
+      "silver +3",
+      "npc schoolmaster feeling +2 sums"
+     ],
+     "note": "outcome: neustria_west.rotomagus.school_skins.out_sums"
+    }
+   ],
+   "memory": {
+    "order": "took the school's order for parchment",
+    "sold": "sold the school clean parchment",
+    "books": "promised to fetch his books",
+    "sums": "had his reckoning checked"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.books_home",
+   "note": "People: rotomagus.schoolmaster, quentovic.osmund. Ends the small story of the borrowed books (flags nw_borrowed_books, nw_books_aboard, nw_books_all). Sets the spine's bk_carried ('carried a book safely for a church') or bk_lost ('a book in his care was lost').",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and flag.nw_books_aboard and not flag.nw_books_home and year < 812",
+   "weight": 40,
+   "cooldown_days": 30,
+   "actors": {
+    "schoolmaster": {
+     "role": "schoolmaster",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      55,
+      75
+     ],
+     "fixed": true,
+     "note": "rotomagus.schoolmaster"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.books_home.title",
+   "title": "Books come home",
+   "intention_key": "neustria_west.rotomagus.books_home.intention",
+   "intention": "The schoolmaster of Saint-Wandrille has seen your boat from the jetty and is already walking down, with his hands washed.",
+   "lines": [
+    {
+     "who": "schoolmaster",
+     "key": "neustria_west.rotomagus.books_home.reason"
+    },
+    {
+     "who": "schoolmaster",
+     "key": "neustria_west.rotomagus.books_home.both",
+     "when": "flag.nw_books_all"
+    }
+   ],
+   "options": [
+    {
+     "key": "home",
+     "label_key": "neustria_west.rotomagus.books_home.opt_home",
+     "label": "Hand over a book",
+     "check": "hold.books > 0 and (not flag.nw_books_all or hold.books < 2)",
+     "effects": [
+      "goods books -1",
+      "silver +24",
+      "flag nw_books_home",
+      "flag bk_carried",
+      "deed carried_letters",
+      "npc schoolmaster feeling +12 home"
+     ],
+     "note": "outcome: neustria_west.rotomagus.books_home.out_home"
+    },
+    {
+     "key": "both",
+     "label_key": "neustria_west.rotomagus.books_home.opt_both",
+     "label": "Hand over both books",
+     "check": "hold.books >= 2 and flag.nw_books_all",
+     "effects": [
+      "goods books -2",
+      "silver +40",
+      "flag nw_books_home",
+      "flag bk_carried",
+      "deed carried_letters",
+      "npc schoolmaster feeling +15 both"
+     ],
+     "note": "outcome: neustria_west.rotomagus.books_home.out_both"
+    },
+    {
+     "key": "lost",
+     "label_key": "neustria_west.rotomagus.books_home.opt_lost",
+     "label": "Tell him the books are gone",
+     "check": "true",
+     "effects": [
+      "flag nw_books_home",
+      "flag bk_lost",
+      "deed broke_commission",
+      "npc schoolmaster feeling -25 lost"
+     ],
+     "note": "outcome: neustria_west.rotomagus.books_home.out_lost"
+    }
+   ],
+   "memory": {
+    "home": "brought a borrowed book home dry",
+    "both": "brought both books home dry",
+    "lost": "lost the school's books"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.clerks_list",
+   "note": "People: rotomagus.einold (invented clerk), namnetis.gunhard (his letter: flag nw_einold_letter, read by the Namnetis card), quentovic.grippo and cast.asulf named in the files. The spine's hook for dorestad_falls at Rotomagus: sacked 14 May 841 (Annales Bertiniani 841; the chronicle of Fontenelle); Oissel 858 (Annales Bertiniani). Ransoming captives is the deed bought_captives (reputation_793.json: ransom and redemption).",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 841 and year < 880",
+   "weight": 0.3,
+   "cooldown_days": 200,
+   "actors": {
+    "clerk": {
+     "role": "clerk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      25,
+      63
+     ],
+     "fixed": true,
+     "note": "rotomagus.einold"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.clerks_list.title",
+   "title": "The clerk's list",
+   "intention_key": "neustria_west.rotomagus.clerks_list.intention",
+   "intention": "A clerk of the cathedral keeps a list of everyone carried off from the city since the fire, and what was last heard of each. He asks one thing of every shipman who goes north: to carry a name and ask after it.",
+   "lines": [
+    {
+     "who": "clerk",
+     "key": "neustria_west.rotomagus.clerks_list.strip"
+    },
+    {
+     "who": "clerk",
+     "key": "neustria_west.rotomagus.clerks_list.feast",
+     "when": "year < 843"
+    },
+    {
+     "who": "clerk",
+     "key": "neustria_west.rotomagus.clerks_list.oissel",
+     "when": "year >= 858 and year < 862"
+    },
+    {
+     "who": "clerk",
+     "key": "neustria_west.rotomagus.clerks_list.mem_word",
+     "when": "npc.clerk.last = word"
+    }
+   ],
+   "options": [
+    {
+     "key": "strip",
+     "label_key": "neustria_west.rotomagus.clerks_list.opt_strip",
+     "label": "Take a strip north",
+     "check": "true",
+     "effects": [
+      "flag nw_einold_name",
+      "deed carried_letters",
+      "npc clerk feeling +8 strip"
+     ],
+     "note": "outcome: neustria_west.rotomagus.clerks_list.out_strip"
+    },
+    {
+     "key": "chest",
+     "label_key": "neustria_west.rotomagus.clerks_list.opt_chest",
+     "label": "Put twenty pennies in the ransom chest",
+     "check": "silver >= 20",
+     "cost": "silver 20",
+     "effects": [
+      "deed bought_captives",
+      "npc clerk feeling +6 chest"
+     ],
+     "note": "outcome: neustria_west.rotomagus.clerks_list.out_chest"
+    },
+    {
+     "key": "letter",
+     "label_key": "neustria_west.rotomagus.clerks_list.opt_letter",
+     "label": "Take his letter for the bishop at Nantes",
+     "check": "year < 843 and not flag.nw_einold_letter",
+     "effects": [
+      "flag nw_einold_letter",
+      "deed carried_letters",
+      "npc clerk feeling +8 letter"
+     ],
+     "note": "outcome: neustria_west.rotomagus.clerks_list.out_letter"
+    },
+    {
+     "key": "word",
+     "label_key": "neustria_west.rotomagus.clerks_list.opt_word",
+     "label": "Tell him what fleets you have seen, and where",
+     "check": "true",
+     "effects": [
+      "npc clerk feeling +5 word"
+     ],
+     "note": "outcome: neustria_west.rotomagus.clerks_list.out_word"
+    }
+   ],
+   "memory": {
+    "strip": "carried a name north",
+    "chest": "gave to the ransom chest",
+    "letter": "carried his letter to Nantes",
+    "word": "brought true word of the fleets"
+   }
+  },
+  {
+   "id": "harbour.rotomagus.mud_market",
+   "note": "People: the quartermaster is forged (a Dane of the Seine fleets); rotomagus.einold stands by with the ransom chest. The spine's hook for dorestad_falls at Rotomagus: 'a lifetime as the raiders' harbour, where loot and captives are sold'. The edict of Pitres, 864, c. 25 forbids mail, arms and horses on pain of death, and does not name wine. Church plate is 240 d the piece (goods_793.json); the Dane sells it at a quarter. Sets nw_bought_loot.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 856 and year < 911",
+   "weight": 0.3,
+   "cooldown_days": 150,
+   "actors": {
+    "raider": {
+     "role": "raider",
+     "people": "danish",
+     "faith": "old_gods",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      28,
+      50
+     ],
+     "fixed": false
+    },
+    "clerk": {
+     "role": "clerk",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      25,
+      63
+     ],
+     "fixed": true,
+     "note": "rotomagus.einold, or the clerk after him"
+    }
+   },
+   "title_key": "neustria_west.rotomagus.mud_market.title",
+   "title": "The market on the mud",
+   "intention_key": "neustria_west.rotomagus.mud_market.intention",
+   "intention": "A fleet's quartermaster is selling on the mud under the wall what was taken upriver: plate, cloth and people. He takes silver by weight and wine by the cask.",
+   "lines": [
+    {
+     "who": "raider",
+     "key": "neustria_west.rotomagus.mud_market.scale"
+    },
+    {
+     "who": "raider",
+     "key": "neustria_west.rotomagus.mud_market.horses",
+     "when": "year >= 864"
+    },
+    {
+     "who": "clerk",
+     "key": "neustria_west.rotomagus.mud_market.deacon"
+    }
+   ],
+   "options": [
+    {
+     "key": "ransom",
+     "label_key": "neustria_west.rotomagus.mud_market.opt_ransom",
+     "label": "Make up the clerk's silver and buy the deacon back",
+     "check": "silver >= 20",
+     "cost": "silver 20",
+     "effects": [
+      "deed bought_captives",
+      "npc clerk feeling +15 ransom",
+      "flag nw_ransomed_deacon"
+     ],
+     "note": "outcome: neustria_west.rotomagus.mud_market.out_ransom"
+    },
+    {
+     "key": "plate",
+     "label_key": "neustria_west.rotomagus.mud_market.opt_plate",
+     "label": "Buy the cup with the cross hammered flat",
+     "check": "silver >= 60",
+     "cost": "silver 60",
+     "effects": [
+      "goods church_plate +1",
+      "npc clerk feeling -10 plate",
+      "flag nw_bought_loot"
+     ],
+     "note": "outcome: neustria_west.rotomagus.mud_market.out_plate"
+    },
+    {
+     "key": "wine",
+     "label_key": "neustria_west.rotomagus.mud_market.opt_wine",
+     "label": "Sell him a cask for silver by weight",
+     "check": "hold.frankish_wine > 0",
+     "effects": [
+      "goods frankish_wine -1",
+      "silver +75",
+      "npc raider feeling +5 wine",
+      "npc clerk feeling -4 wine"
+     ],
+     "note": "outcome: neustria_west.rotomagus.mud_market.out_wine"
+    },
+    {
+     "key": "walked",
+     "label_key": "neustria_west.rotomagus.mud_market.opt_walked",
+     "label": "Walk on along the wall",
+     "check": "true",
+     "effects": [],
+     "note": "outcome: neustria_west.rotomagus.mud_market.out_walked"
+    }
+   ]
+  },
+  {
+   "id": "harbour.rotomagus.rings_on_the_oak",
+   "note": "People: rotomagus.rollo (cast.rollo), a Frankish clerk who speaks for him. A lawsuit. The spine's hook for dorestad_falls at Rotomagus from 911: 'one lord, one toll, thieves hanged'. The rings on the oak and the hanging of thieves and of those who knew: Dudo of Saint-Quentin ii and William of Jumieges ii (LATER), retold as what people say. Telling him truly who is on the river is the story rotomagus.einolds_list, ending rollos_peace (sets df_warned; the toll eased).",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year >= 911 and year < 931",
+   "weight": 0.25,
+   "cooldown_days": 300,
+   "actors": {
+    "count": {
+     "role": "count",
+     "people": "norse",
+     "faith": "christian",
+     "tongue": "old_norse",
+     "sex": "m",
+     "age": [
+      55,
+      75
+     ],
+     "fixed": true,
+     "note": "rotomagus.rollo"
+    },
+    "clerk": {
+     "role": "clerk",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      25,
+      50
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "neustria_west.rotomagus.rings_on_the_oak.title",
+   "title": "A cask from a guest's boat",
+   "intention_key": "neustria_west.rotomagus.rings_on_the_oak.intention",
+   "intention": "In the night a cask was lifted out of your boat under the wall. This is Rollo's city now, with one lord and one law, and a theft from a guest can be laid before him in his hall.",
+   "lines": [
+    {
+     "who": "clerk",
+     "key": "neustria_west.rotomagus.rings_on_the_oak.hangs"
+    },
+    {
+     "who": "clerk",
+     "key": "neustria_west.rotomagus.rings_on_the_oak.oak"
+    },
+    {
+     "who": "count",
+     "key": "neustria_west.rotomagus.rings_on_the_oak.behind"
+    },
+    {
+     "who": "count",
+     "key": "neustria_west.rotomagus.rings_on_the_oak.mem_truth",
+     "when": "npc.count.last = truth"
+    }
+   ],
+   "options": [
+    {
+     "key": "suit",
+     "label_key": "neustria_west.rotomagus.rings_on_the_oak.opt_suit",
+     "label": "Lay the theft before him",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "by": "crew.eyes_best",
+       "success": [
+        "goods frankish_wine +1",
+        "deed won_case",
+        "npc count feeling +4 suit"
+       ],
+       "failure": [
+        "npc count feeling -4 suit"
+       ]
+      }
+     ],
+     "note": "outcome: neustria_west.rotomagus.rings_on_the_oak.out_suit_success, neustria_west.rotomagus.rings_on_the_oak.out_suit_failure"
+    },
+    {
+     "key": "truth",
+     "label_key": "neustria_west.rotomagus.rings_on_the_oak.opt_truth",
+     "label": "Answer his question first: tell him truly who is on the river behind you",
+     "check": "true",
+     "effects": [
+      "flag df_warned",
+      "toll eased 120",
+      "npc count feeling +12 truth"
+     ],
+     "note": "outcome: neustria_west.rotomagus.rings_on_the_oak.out_truth"
+    },
+    {
+     "key": "let",
+     "label_key": "neustria_west.rotomagus.rings_on_the_oak.opt_let",
+     "label": "Let the cask go and say nothing",
+     "check": "true",
+     "effects": [
+      "morale -0.02"
+     ],
+     "note": "outcome: neustria_west.rotomagus.rings_on_the_oak.out_let"
+    }
+   ],
+   "memory": {
+    "suit": "brought a theft before him",
+    "truth": "told him truly who was on the river"
+   }
+  },
+  {
+   "id": "harbour.parisius.counts_yard",
+   "note": "People: parisius.stephen (the count), parisius.dominicus (the abbey's toll man), parisius.fardulf named. A lawsuit: the story parisius.four_pennies. The count's agents asked four pennies a head of merchants at the fair until Pippin's judgment of 8 July 753 (Tardif no. 55); the charter of about 775 confirmed the abbey's tolls (Tardif no. 77). That the count's man still tries it in the 790s is the game's. Witness borne gives the freedom of the fair for three fairs (story/unlocks_793.json unlock_charter_parisius, as the places file's unlock parisius.freedom_of_the_fair has it).",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and year < 812 and month >= 10 and month <= 11 and not flag.nw_parisius_witness",
+   "weight": 0.3,
+   "cooldown_days": 300,
+   "actors": {
+    "count": {
+     "role": "count",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      43,
+      62
+     ],
+     "fixed": true,
+     "note": "parisius.stephen"
+    },
+    "tollman": {
+     "role": "tollman",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      38,
+      66
+     ],
+     "fixed": true,
+     "note": "parisius.dominicus"
+    }
+   },
+   "title_key": "neustria_west.parisius.counts_yard.title",
+   "title": "Four pennies a head",
+   "intention_key": "neustria_west.parisius.counts_yard.intention",
+   "intention": "The count's court sits in his yard on the island. The abbey of Saint Denis complains that the count's man again asked four pennies a head from strangers at the fair, which King Pippin forbade forty years ago. You were at the landing, and the law-finders want a stranger's word.",
+   "lines": [
+    {
+     "who": "tollman",
+     "key": "neustria_west.parisius.counts_yard.counted"
+    },
+    {
+     "who": "count",
+     "key": "neustria_west.parisius.counts_yard.office"
+    },
+    {
+     "who": "count",
+     "key": "neustria_west.parisius.counts_yard.mem_nothing",
+     "when": "npc.count.last = nothing"
+    }
+   ],
+   "options": [
+    {
+     "key": "witness",
+     "label_key": "neustria_west.parisius.counts_yard.opt_witness",
+     "label": "Say what was asked of you at the landing",
+     "check": "true",
+     "effects": [
+      "deed won_case",
+      "flag nw_parisius_witness",
+      "flag unlock_charter_parisius for 1095",
+      "npc tollman feeling +12 witness",
+      "npc count feeling -15 witness"
+     ],
+     "note": "outcome: neustria_west.parisius.counts_yard.out_witness"
+    },
+    {
+     "key": "nothing",
+     "label_key": "neustria_west.parisius.counts_yard.opt_nothing",
+     "label": "Say you were busy with your casks and heard nothing",
+     "check": "true",
+     "effects": [
+      "npc count feeling +8 nothing",
+      "npc tollman feeling -6 nothing"
+     ],
+     "note": "outcome: neustria_west.parisius.counts_yard.out_nothing"
+    },
+    {
+     "key": "read",
+     "label_key": "neustria_west.parisius.counts_yard.opt_read",
+     "label": "Ask to hear King Pippin's judgment read before you answer",
+     "check": "true",
+     "effects": [
+      "learn latin +0.02",
+      "npc tollman feeling +3 read"
+     ],
+     "note": "outcome: neustria_west.parisius.counts_yard.out_read"
+    }
+   ],
+   "memory": {
+    "witness": "bore witness against the count's penny",
+    "nothing": "heard nothing at the landing",
+    "read": "asked for the judgment to be read"
+   }
+  },
+  {
+   "id": "harbour.parisius.new_measure",
+   "note": "People: parisius.dominicus. The spine's hook for hungry_years and its flag hy_new_measure: the Synod of Frankfurt, June 794, c. 4 (the highest prices for oats, barley, rye and wheat, by the new public measure; chronicle_793.json 794-06-01-frankfurt-prices). The prices in his mouth are the capitulary's.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and ((year = 794 and month >= 7) or year = 795 or year = 796) and not flag.hy_new_measure",
+   "weight": 0.4,
+   "cooldown_days": 120,
+   "actors": {
+    "tollman": {
+     "role": "tollman",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      38,
+      66
+     ],
+     "fixed": true,
+     "note": "parisius.dominicus"
+    }
+   },
+   "title_key": "neustria_west.parisius.new_measure.title",
+   "title": "The king's measure",
+   "intention_key": "neustria_west.parisius.new_measure.intention",
+   "intention": "The king's ruling is cried at the saint's landing: the most that may be asked for a measure of oats, barley, rye and wheat, and one new measure for the whole realm. The abbey's toll man has the new measure and is setting every merchant's beside it.",
+   "lines": [
+    {
+     "who": "tollman",
+     "key": "neustria_west.parisius.new_measure.prices"
+    },
+    {
+     "who": "tollman",
+     "key": "neustria_west.parisius.new_measure.forty"
+    }
+   ],
+   "options": [
+    {
+     "key": "checked",
+     "label_key": "neustria_west.parisius.new_measure.opt_checked",
+     "label": "Have your measure checked and marked",
+     "check": "true",
+     "effects": [
+      "flag hy_new_measure",
+      "npc tollman feeling +6 checked"
+     ],
+     "note": "outcome: neustria_west.parisius.new_measure.out_checked"
+    },
+    {
+     "key": "bought",
+     "label_key": "neustria_west.parisius.new_measure.opt_bought",
+     "label": "Buy a new measure from the abbey's cooper",
+     "check": "silver >= 4",
+     "cost": "silver 4",
+     "effects": [
+      "flag hy_new_measure",
+      "npc tollman feeling +8 bought"
+     ],
+     "note": "outcome: neustria_west.parisius.new_measure.out_bought"
+    },
+    {
+     "key": "argued",
+     "label_key": "neustria_west.parisius.new_measure.opt_argued",
+     "label": "Say a Frisian measure has served three generations",
+     "check": "true",
+     "effects": [
+      "npc tollman feeling -4 argued"
+     ],
+     "note": "outcome: neustria_west.parisius.new_measure.out_argued"
+    }
+   ],
+   "memory": {
+    "checked": "had his measure marked",
+    "bought": "bought the king's measure",
+    "argued": "argued for his old measure"
+   }
+  },
+  {
+   "id": "harbour.parisius.bread_at_the_gate",
+   "note": "People: parisius.waldric (cellarer of Saint-Denis), parisius.fardulf and parisius.stephen named. The spine's hook for hungry_years at Parisius (before 795): the abbeys feed hundreds at their gates. Sets hy_fed_poor or hy_sold_dear, as the story parisius.bread_at_the_gate has it. Wheat is 6 d the sack (goods_793.json); the king's price from June 794 is four pennies the measure; in a famine market it fetches three times its worth.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and year < 795 and not flag.hy_sold_dear",
+   "weight": 0.4,
+   "cooldown_days": 90,
+   "actors": {
+    "cellarer": {
+     "role": "cellarer",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      40,
+      67
+     ],
+     "fixed": true,
+     "note": "parisius.waldric"
+    }
+   },
+   "title_key": "neustria_west.parisius.bread_at_the_gate.title",
+   "title": "Bread at the gate",
+   "intention_key": "neustria_west.parisius.bread_at_the_gate.intention",
+   "intention": "The abbey of Saint Denis is feeding hundreds at its gate and its barn is nearly empty. The cellarer will buy any grain at the abbey's price, which is low. In the island market the same sack fetches three times as much, and the count's men are watching who asks it.",
+   "lines": [
+    {
+     "who": "cellarer",
+     "key": "neustria_west.parisius.bread_at_the_gate.three_hundred"
+    },
+    {
+     "who": "cellarer",
+     "key": "neustria_west.parisius.bread_at_the_gate.mem_gate",
+     "when": "npc.cellarer.last = gate"
+    }
+   ],
+   "options": [
+    {
+     "key": "gate",
+     "label_key": "neustria_west.parisius.bread_at_the_gate.opt_gate",
+     "label": "Sell two sacks of wheat to the gate at the abbey's price",
+     "check": "hold.wheat >= 2",
+     "effects": [
+      "goods wheat -2",
+      "silver +8",
+      "flag hy_fed_poor",
+      "deed gave_alms",
+      "npc cellarer feeling +10 gate"
+     ],
+     "note": "outcome: neustria_west.parisius.bread_at_the_gate.out_gate"
+    },
+    {
+     "key": "market",
+     "label_key": "neustria_west.parisius.bread_at_the_gate.opt_market",
+     "label": "Sell the wheat in the island market for what it will fetch",
+     "check": "hold.wheat >= 2",
+     "effects": [
+      "goods wheat -2",
+      "silver +36",
+      "flag hy_sold_dear",
+      "npc cellarer feeling -10 market"
+     ],
+     "note": "outcome: neustria_west.parisius.bread_at_the_gate.out_market"
+    },
+    {
+     "key": "baked",
+     "label_key": "neustria_west.parisius.bread_at_the_gate.opt_baked",
+     "label": "Lend your crew to the ovens for a day",
+     "check": "true",
+     "effects": [
+      "morale +0.01",
+      "npc cellarer feeling +5 baked"
+     ],
+     "note": "outcome: neustria_west.parisius.bread_at_the_gate.out_baked"
+    }
+   ],
+   "memory": {
+    "gate": "sold wheat to the gate at the abbey's price",
+    "market": "sold wheat dear in a hungry year",
+    "baked": "lent his crew to the ovens"
+   }
+  },
+  {
+   "id": "harbour.parisius.skins_by_the_bundle",
+   "note": "People: parisius.waldric; rotomagus.ursio (flag nw_ursio_debt, set at Rotomagus), rotomagus.schoolmaster named. The spine's hook for book_road: Saint-Denis buys parchment by the bundle at the October fair. A deal. Sets bk_parchment (he has sold parchment to a scriptorium, which gives the standing order) and bk_knows_worth. Parchment is 60 d the bundle of a hundred leaves; what the abbey passes over goes for fifty. The fair opens on Saint Denis's day, 9 October.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and month >= 10 and month <= 11 and year < 816",
+   "weight": 0.4,
+   "cooldown_days": 200,
+   "actors": {
+    "cellarer": {
+     "role": "cellarer",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      40,
+      67
+     ],
+     "fixed": true,
+     "note": "parisius.waldric"
+    }
+   },
+   "title_key": "neustria_west.parisius.skins_by_the_bundle.title",
+   "title": "Skins by the bundle",
+   "intention_key": "neustria_west.parisius.skins_by_the_bundle.intention",
+   "intention": "At the fair of Saint Denis parchment is sold by the bundle of a hundred leaves. The abbey's cellarer goes from booth to booth, holds each leaf to the light and takes the best. What he passes over is good enough for a school.",
+   "lines": [
+    {
+     "who": "cellarer",
+     "key": "neustria_west.parisius.skins_by_the_bundle.sixty"
+    },
+    {
+     "who": "cellarer",
+     "key": "neustria_west.parisius.skins_by_the_bundle.sun"
+    },
+    {
+     "who": "cellarer",
+     "key": "neustria_west.parisius.skins_by_the_bundle.school"
+    }
+   ],
+   "options": [
+    {
+     "key": "bought",
+     "label_key": "neustria_west.parisius.skins_by_the_bundle.opt_bought",
+     "label": "Buy two bundles of what he passed over",
+     "check": "silver >= 100",
+     "cost": "silver 100",
+     "effects": [
+      "goods parchment +2",
+      "npc cellarer feeling +1 bought"
+     ],
+     "note": "outcome: neustria_west.parisius.skins_by_the_bundle.out_bought"
+    },
+    {
+     "key": "sold",
+     "label_key": "neustria_west.parisius.skins_by_the_bundle.opt_sold",
+     "label": "Sell him the parchment you carry",
+     "check": "hold.parchment > 0",
+     "effects": [
+      "goods parchment -1",
+      "silver +72",
+      "flag bk_parchment",
+      "npc cellarer feeling +6 sold"
+     ],
+     "note": "outcome: neustria_west.parisius.skins_by_the_bundle.out_sold"
+    },
+    {
+     "key": "learned",
+     "label_key": "neustria_west.parisius.skins_by_the_bundle.opt_learned",
+     "label": "Walk the booths with him and learn to judge a leaf",
+     "check": "true",
+     "effects": [
+      "flag bk_knows_worth",
+      "npc cellarer feeling +3 learned"
+     ],
+     "note": "outcome: neustria_west.parisius.skins_by_the_bundle.out_learned"
+    },
+    {
+     "key": "ursio",
+     "label_key": "neustria_west.parisius.skins_by_the_bundle.opt_ursio",
+     "label": "Tell him, where the abbot can hear, that Ursio of Rotomagus is still unpaid",
+     "check": "flag.nw_ursio_debt and not flag.nw_ursio_paid",
+     "effects": [
+      "flag nw_ursio_paid",
+      "npc cellarer feeling -5 ursio"
+     ],
+     "note": "outcome: neustria_west.parisius.skins_by_the_bundle.out_ursio"
+    }
+   ],
+   "memory": {
+    "bought": "bought parchment at the fair",
+    "sold": "sold the abbey dry parchment",
+    "learned": "learned to judge a leaf",
+    "ursio": "dunned him for the cooper before the abbot"
+   }
+  },
+  {
+   "id": "harbour.parisius.martinmas_rent",
+   "note": "People: parisius.ermentrud (the widow by the Little Bridge), parisius.cellarer (Frotbald of Saint-Germain; cast here as 'germain', a monk, so as not to be taken for Saint-Denis's cellarer). A feast day: Martinmas, 11 November, when the sailing season ends and rents fall due (the spine's calendar). Tenants who owe wine to Saint-Germain are the matter of Abbot Irminon's book of estates (about 823-828); that her rent falls at Martinmas is the places file's.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and feast and month = 11 and year < 823",
+   "weight": 0.6,
+   "cooldown_days": 300,
+   "actors": {
+    "host": {
+     "role": "host",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "f",
+     "age": [
+      48,
+      77
+     ],
+     "fixed": true,
+     "note": "parisius.ermentrud"
+    },
+    "germain": {
+     "role": "monk",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      43,
+      74
+     ],
+     "fixed": true,
+     "note": "parisius.cellarer (Frotbald)"
+    }
+   },
+   "title_key": "neustria_west.parisius.martinmas_rent.title",
+   "title": "Martinmas rent",
+   "intention_key": "neustria_west.parisius.martinmas_rent.intention",
+   "intention": "It is Martinmas. The tenants of Saint Germain's bring their wine rent to the abbey in the meadows, and the widow who lodges the Frisians has casks to cart and a carter who began the feast yesterday.",
+   "lines": [
+    {
+     "who": "host",
+     "key": "neustria_west.parisius.martinmas_rent.backs"
+    },
+    {
+     "who": "germain",
+     "key": "neustria_west.parisius.martinmas_rent.best"
+    },
+    {
+     "who": "host",
+     "key": "neustria_west.parisius.martinmas_rent.mem_carted",
+     "when": "npc.host.last = carted"
+    }
+   ],
+   "options": [
+    {
+     "key": "carted",
+     "label_key": "neustria_west.parisius.martinmas_rent.opt_carted",
+     "label": "Roll her casks to the abbey with your crew",
+     "check": "true",
+     "effects": [
+      "npc host feeling +10 carted",
+      "npc germain feeling +4 carted",
+      "morale +0.02"
+     ],
+     "note": "outcome: neustria_west.parisius.martinmas_rent.out_carted"
+    },
+    {
+     "key": "feast",
+     "label_key": "neustria_west.parisius.martinmas_rent.opt_feast",
+     "label": "Keep the feast at her table",
+     "check": "silver >= 4",
+     "cost": "silver 4",
+     "effects": [
+      "morale +0.05",
+      "npc host feeling +3 feast"
+     ],
+     "note": "outcome: neustria_west.parisius.martinmas_rent.out_feast"
+    },
+    {
+     "key": "bought",
+     "label_key": "neustria_west.parisius.martinmas_rent.opt_bought",
+     "label": "Ask the cellarer, quietly, for a cask of the rent wine",
+     "check": "silver >= 36 and npc.germain.feeling >= easy",
+     "cost": "silver 36",
+     "effects": [
+      "goods frankish_wine +1",
+      "npc germain feeling +2 bought"
+     ],
+     "note": "outcome: neustria_west.parisius.martinmas_rent.out_bought"
+    }
+   ],
+   "memory": {
+    "carted": "rolled her rent wine to the abbey",
+    "feast": "kept Martinmas at her table",
+    "bought": "bought rent wine quietly"
+   }
+  },
+  {
+   "id": "harbour.parisius.twentieth_october",
+   "note": "People: parisius.ermentrud, cast.thiadbod (the Dorestad skipper: the tie is hers, 'lodged with her twenty Octobers and paid for nineteen; she holds one of his cloaks'). A favour. The short Frisian cloak is Notker I.34, retold. The price word (Frisian cloth short at the fair) is true while it lasts. Sets nw_thiadbod_cloak or nw_thiadbod_owes for whoever writes Thiadbod at Dorestad.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and year < 823 and month >= 9 and month <= 11",
+   "weight": 0.25,
+   "cooldown_days": 365,
+   "actors": {
+    "host": {
+     "role": "host",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "f",
+     "age": [
+      48,
+      77
+     ],
+     "fixed": true,
+     "note": "parisius.ermentrud"
+    }
+   },
+   "title_key": "neustria_west.parisius.twentieth_october.title",
+   "title": "The twentieth October",
+   "intention_key": "neustria_west.parisius.twentieth_october.intention",
+   "intention": "The widow by the Little Bridge has lodged a Dorestad skipper twenty Octobers and been paid for nineteen. She holds one of his cloaks against the twentieth, and wants word carried to him.",
+   "lines": [
+    {
+     "who": "host",
+     "key": "neustria_west.parisius.twentieth_october.thiadbod"
+    },
+    {
+     "who": "host",
+     "key": "neustria_west.parisius.twentieth_october.principle"
+    },
+    {
+     "who": "host",
+     "key": "neustria_west.parisius.twentieth_october.told",
+     "when": "flag.nw_thiadbod_cloak"
+    }
+   ],
+   "options": [
+    {
+     "key": "word",
+     "label_key": "neustria_west.parisius.twentieth_october.opt_word",
+     "label": "Promise to tell him at Dorestad",
+     "check": "not flag.nw_thiadbod_cloak",
+     "effects": [
+      "flag nw_thiadbod_cloak",
+      "npc host feeling +5 word"
+     ],
+     "note": "outcome: neustria_west.parisius.twentieth_october.out_word"
+    },
+    {
+     "key": "paid",
+     "label_key": "neustria_west.parisius.twentieth_october.opt_paid",
+     "label": "Pay his twentieth October yourself",
+     "check": "silver >= 10 and not flag.nw_thiadbod_owes",
+     "cost": "silver 10",
+     "effects": [
+      "flag nw_thiadbod_owes",
+      "npc host feeling +8 paid"
+     ],
+     "note": "outcome: neustria_west.parisius.twentieth_october.out_paid"
+    },
+    {
+     "key": "eel",
+     "label_key": "neustria_west.parisius.twentieth_october.opt_eel",
+     "label": "Sit down to the eel and hear what the Frisians said at her table",
+     "check": "true",
+     "effects": [
+      "npc host feeling +2 eel",
+      "price_shock parisius frisian_cloth x1.15 for 40"
+     ],
+     "note": "outcome: neustria_west.parisius.twentieth_october.out_eel"
+    }
+   ],
+   "memory": {
+    "word": "took her word to Thiadbod",
+    "paid": "paid Thiadbod's reckoning",
+    "eel": "ate her eel and listened"
+   }
+  },
+  {
+   "id": "harbour.parisius.river_hand",
+   "note": "People: the river man is forged; parisius.ermentrud 'knows where to hire a man who knows the river's bends'. A hire. The loops of the Seine below the city: the dossier (several days by water to Rotomagus). The card stops before the fleets of 845.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and year < 845",
+   "weight": 0.2,
+   "cooldown_days": 200,
+   "actors": {
+    "boatman": {
+     "role": "sailor",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      20,
+      40
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.parisius.river_hand.title",
+   "title": "A man who knows the loops",
+   "intention_key": "neustria_west.parisius.river_hand.intention",
+   "intention": "On the strand under the island wall a river man with his own pole and no boat is looking for a berth. He says he knows every loop of the Seine down to the tide.",
+   "lines": [
+    {
+     "who": "boatman",
+     "key": "neustria_west.parisius.river_hand.loops"
+    },
+    {
+     "who": "boatman",
+     "key": "neustria_west.parisius.river_hand.sea"
+    }
+   ],
+   "options": [
+    {
+     "key": "hired",
+     "label_key": "neustria_west.parisius.river_hand.opt_hired",
+     "label": "Take him on",
+     "check": "crew < crew_full",
+     "effects": [
+      "hire boatman"
+     ],
+     "note": "outcome: neustria_west.parisius.river_hand.out_hired"
+    },
+    {
+     "key": "loops",
+     "label_key": "neustria_west.parisius.river_hand.opt_loops",
+     "label": "Pay him to take you down to the tide and no further",
+     "check": "silver >= 6",
+     "cost": "silver 6",
+     "effects": [
+      "flag nw_seine_piloted for 40",
+      "morale +0.01"
+     ],
+     "note": "outcome: neustria_west.parisius.river_hand.out_loops"
+    },
+    {
+     "key": "asked",
+     "label_key": "neustria_west.parisius.river_hand.opt_asked",
+     "label": "Ask him the loops and what each costs",
+     "check": "true",
+     "effects": [],
+     "note": "outcome: neustria_west.parisius.river_hand.out_asked"
+    }
+   ]
+  },
+  {
+   "id": "harbour.parisius.abbots_psalter",
+   "note": "People: parisius.fardulf (real: a Lombard, abbot of Saint-Denis 793-806, given the abbey for uncovering the plot of Pippin the Hunchback, Annales regni Francorum 792), rotomagus.hildhard (who has the psalter: the tie is in both files). A text wanted. The Rotomagus card harbour.rotomagus.owed_psalter is the middle of it. Sets bk_carried when the book comes home, bk_lost when it does not. His verses on the house he built for the king beside the abbey survive (MGH Poetae I), recalled from memory (?); the look of the psalter is invented.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and year < 807 and not flag.nw_psalter_home",
+   "weight": 0.3,
+   "cooldown_days": 120,
+   "actors": {
+    "abbot": {
+     "role": "abbot",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      53,
+      66
+     ],
+     "fixed": true,
+     "note": "parisius.fardulf"
+    }
+   },
+   "title_key": "neustria_west.parisius.abbots_psalter.title",
+   "title": "The abbot's psalter",
+   "intention_key": "neustria_west.parisius.abbots_psalter.intention",
+   "intention": "Abbot Fardulf of Saint Denis receives merchants who carry for the abbey. He asks every boat bound down the river the same thing: a psalter of the abbey's has been at Rotomagus for nine years, with the cathedral's chief singer.",
+   "lines": [
+    {
+     "who": "abbot",
+     "key": "neustria_west.parisius.abbots_psalter.ask",
+     "when": "not flag.nw_psalter_asked"
+    },
+    {
+     "who": "abbot",
+     "key": "neustria_west.parisius.abbots_psalter.king"
+    },
+    {
+     "who": "abbot",
+     "key": "neustria_west.parisius.abbots_psalter.have_it",
+     "when": "flag.nw_psalter_aboard"
+    }
+   ],
+   "options": [
+    {
+     "key": "ask",
+     "label_key": "neustria_west.parisius.abbots_psalter.opt_ask",
+     "label": "Promise to ask at Rotomagus",
+     "check": "not flag.nw_psalter_asked",
+     "effects": [
+      "flag nw_psalter_asked",
+      "npc abbot feeling +4 ask"
+     ],
+     "note": "outcome: neustria_west.parisius.abbots_psalter.out_ask"
+    },
+    {
+     "key": "home",
+     "label_key": "neustria_west.parisius.abbots_psalter.opt_home",
+     "label": "Put the psalter into his hands",
+     "check": "flag.nw_psalter_aboard and hold.books > 0",
+     "effects": [
+      "goods books -1",
+      "silver +40",
+      "flag nw_psalter_home",
+      "flag bk_carried",
+      "deed kept_commission",
+      "npc abbot feeling +15 home"
+     ],
+     "note": "outcome: neustria_west.parisius.abbots_psalter.out_home"
+    },
+    {
+     "key": "lost",
+     "label_key": "neustria_west.parisius.abbots_psalter.opt_lost",
+     "label": "Tell him the psalter was in your boat and is gone",
+     "check": "flag.nw_psalter_aboard and hold.books = 0",
+     "effects": [
+      "flag nw_psalter_home",
+      "flag bk_lost",
+      "deed broke_commission",
+      "npc abbot feeling -25 lost"
+     ],
+     "note": "outcome: neustria_west.parisius.abbots_psalter.out_lost"
+    },
+    {
+     "key": "verses",
+     "label_key": "neustria_west.parisius.abbots_psalter.opt_verses",
+     "label": "Hear the verses he has made for the king",
+     "check": "true",
+     "effects": [
+      "npc abbot feeling +3 verses"
+     ],
+     "note": "outcome: neustria_west.parisius.abbots_psalter.out_verses"
+    }
+   ],
+   "memory": {
+    "ask": "promised to ask for the psalter",
+    "home": "brought the psalter home",
+    "lost": "lost the abbey's psalter",
+    "verses": "heard his verses out"
+   }
+  },
+  {
+   "id": "harbour.parisius.boatmens_stone",
+   "note": "The places file's easter egg at parisius.st_stephen. The carved pillar of the boatmen of the Parisii, set up to Jupiter under the emperor Tiberius, was found under the choir of Notre-Dame in 1711; its stones were built into the late Roman wall, so that men digging by the bishop's church could strike them at any time (the game's licence). The inscription says the boatmen set it up at their common cost. Nobody in 793 can know what it is.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius",
+   "weight": 0.1,
+   "once": true,
+   "actors": {
+    "digger": {
+     "role": "porter",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      20,
+      50
+     ],
+     "fixed": false
+    },
+    "priest": {
+     "role": "priest",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.parisius.boatmens_stone.title",
+   "title": "Boatmen in the stone",
+   "intention_key": "neustria_west.parisius.boatmens_stone.intention",
+   "intention": "Men digging a footing by the bishop's church have struck carved stones deep under it: a row of men with shields, as in a boat, and a god with a stag's horns. A clerk is telling them to fill the hole.",
+   "lines": [
+    {
+     "who": "digger",
+     "key": "neustria_west.parisius.boatmens_stone.oars"
+    },
+    {
+     "who": "priest",
+     "key": "neustria_west.parisius.boatmens_stone.idols"
+    }
+   ],
+   "options": [
+    {
+     "key": "looked",
+     "label_key": "neustria_west.parisius.boatmens_stone.opt_looked",
+     "label": "Give the diggers a penny to leave it open till dusk",
+     "check": "silver >= 1",
+     "cost": "silver 1",
+     "effects": [
+      "morale +0.03"
+     ],
+     "note": "outcome: neustria_west.parisius.boatmens_stone.out_looked"
+    },
+    {
+     "key": "filled",
+     "label_key": "neustria_west.parisius.boatmens_stone.opt_filled",
+     "label": "Help them fill it in",
+     "check": "true",
+     "effects": [
+      "npc priest feeling +5 filled"
+     ],
+     "note": "outcome: neustria_west.parisius.boatmens_stone.out_filled"
+    },
+    {
+     "key": "prayed",
+     "label_key": "neustria_west.parisius.boatmens_stone.opt_prayed",
+     "label": "Say a prayer for all boatmen, theirs and yours",
+     "check": "true",
+     "effects": [
+      "morale +0.02"
+     ],
+     "note": "outcome: neustria_west.parisius.boatmens_stone.out_prayed"
+    }
+   ]
+  },
+  {
+   "id": "harbour.parisius.dyers_roots",
+   "note": "People: the grower is forged. A deal. The port's goods: 'the wine, the honey and the dyers' roots' (the places file's summary). Madder is 12 d the sack and honey 24 d the crock (goods_793.json); he sells under, because his cart is borrowed.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and month >= 8 and month <= 11",
+   "weight": 0.2,
+   "cooldown_days": 200,
+   "actors": {
+    "grower": {
+     "role": "farmer",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.parisius.dyers_roots.title",
+   "title": "The dyers' roots",
+   "intention_key": "neustria_west.parisius.dyers_roots.intention",
+   "intention": "A grower from up the river has madder roots dried and bagged, and the dyers he sells to have gone to the fair without him. He will sell cheap to a boat.",
+   "lines": [
+    {
+     "who": "grower",
+     "key": "neustria_west.parisius.dyers_roots.red"
+    },
+    {
+     "who": "grower",
+     "key": "neustria_west.parisius.dyers_roots.honey"
+    }
+   ],
+   "options": [
+    {
+     "key": "madder",
+     "label_key": "neustria_west.parisius.dyers_roots.opt_madder",
+     "label": "Buy three sacks of madder",
+     "check": "silver >= 24",
+     "cost": "silver 24",
+     "effects": [
+      "goods madder +3"
+     ],
+     "note": "outcome: neustria_west.parisius.dyers_roots.out_madder"
+    },
+    {
+     "key": "honey",
+     "label_key": "neustria_west.parisius.dyers_roots.opt_honey",
+     "label": "Buy a crock of honey",
+     "check": "silver >= 20",
+     "cost": "silver 20",
+     "effects": [
+      "goods honey +1"
+     ],
+     "note": "outcome: neustria_west.parisius.dyers_roots.out_honey"
+    },
+    {
+     "key": "pointed",
+     "label_key": "neustria_west.parisius.dyers_roots.opt_pointed",
+     "label": "Tell him where the dyers' booths stand at the fair",
+     "check": "true",
+     "effects": [],
+     "note": "outcome: neustria_west.parisius.dyers_roots.out_pointed"
+    }
+   ]
+  },
+  {
+   "id": "harbour.parisius.under_the_tower",
+   "note": "People: parisius.abbo (real: Abbo of Saint-Germain, who saw the siege and wrote the Bella Parisiacae urbis), parisius.robert and his brother Count Odo named. The spine's hook for dorestad_falls at Parisius: the siege of 885-886. The flood that broke the Little Bridge on 6 February 886 and the twelve who held its tower: Abbo, Bella I. The names he recites are Abbo's own forms (Bella I; the Parisius dossier, section 3). The card runs from February 886, when the tower has burned. Sets the places file's flag parisius_stood. The boat lies above the bridges: the fleet holds the river below.",
+   "stage": "harbour",
+   "when": "moored and port.id = parisius and year = 886 and month >= 2 and month <= 10",
+   "weight": 0.8,
+   "cooldown_days": 60,
+   "actors": {
+    "monk": {
+     "role": "monk",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      28,
+      40
+     ],
+     "fixed": true,
+     "note": "parisius.abbo"
+    }
+   },
+   "title_key": "neustria_west.parisius.under_the_tower.title",
+   "title": "Under the tower",
+   "intention_key": "neustria_west.parisius.under_the_tower.intention",
+   "intention": "The Northmen's great fleet lies below the bridges and the city is shut. A young monk on the wall wants to know who you are and where you stood. The count's men want two things: grain brought in from above, and word carried out.",
+   "lines": [
+    {
+     "who": "monk",
+     "key": "neustria_west.parisius.under_the_tower.name"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.parisius.under_the_tower.twelve"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.parisius.under_the_tower.mem_grain",
+     "when": "npc.monk.last = grain"
+    }
+   ],
+   "options": [
+    {
+     "key": "grain",
+     "label_key": "neustria_west.parisius.under_the_tower.opt_grain",
+     "label": "Sell the count your wheat",
+     "check": "hold.wheat >= 2",
+     "effects": [
+      "goods wheat -2",
+      "silver +40",
+      "flag parisius_stood",
+      "npc monk feeling +10 grain"
+     ],
+     "note": "outcome: neustria_west.parisius.under_the_tower.out_grain"
+    },
+    {
+     "key": "word",
+     "label_key": "neustria_west.parisius.under_the_tower.opt_word",
+     "label": "Carry the count's word out by the upper river",
+     "check": "true",
+     "effects": [
+      "deed carried_letters",
+      "flag parisius_stood",
+      "npc monk feeling +6 word"
+     ],
+     "note": "outcome: neustria_west.parisius.under_the_tower.out_word"
+    },
+    {
+     "key": "names",
+     "label_key": "neustria_west.parisius.under_the_tower.opt_names",
+     "label": "Hear the twelve names",
+     "check": "true",
+     "effects": [
+      "npc monk feeling +8 names",
+      "morale -0.01"
+     ],
+     "note": "outcome: neustria_west.parisius.under_the_tower.out_names"
+    }
+   ],
+   "memory": {
+    "grain": "brought wheat into the besieged city",
+    "word": "carried word out of the siege",
+    "names": "heard the names of the twelve"
+   }
+  },
+  {
+   "id": "harbour.namnetis.saint_johns_eve",
+   "note": "People: namnetis.nanthard (the toll man); the pilgrim is forged; namnetis.gunhard named from 835. A feast day: Saint John the Baptist, 24 June, with its vigil the night before (the port's seasons; pilgrims 'from far cities' on the feast: Chronicon Namnetense c. 5-6). Traders passing as pilgrims is King Charles's complaint to Offa in 796. The card stops before the feast of 843.",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and feast and month = 6 and year < 843",
+   "weight": 0.8,
+   "cooldown_days": 300,
+   "actors": {
+    "tollman": {
+     "role": "tollman",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      30,
+      68
+     ],
+     "fixed": true,
+     "note": "namnetis.nanthard, and the toll man after him"
+    },
+    "pilgrim": {
+     "role": "pilgrim",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      18,
+      40
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.namnetis.saint_johns_eve.title",
+   "title": "Saint John's eve",
+   "intention_key": "neustria_west.namnetis.saint_johns_eve.intention",
+   "intention": "It is Saint John's feast. Pilgrims have come in from far cities, the night before is a vigil at his church by the cathedral, and every gate of the city stands open.",
+   "lines": [
+    {
+     "who": "tollman",
+     "key": "neustria_west.namnetis.saint_johns_eve.own_use"
+    },
+    {
+     "who": "pilgrim",
+     "key": "neustria_west.namnetis.saint_johns_eve.sit"
+    },
+    {
+     "who": "tollman",
+     "key": "neustria_west.namnetis.saint_johns_eve.gates",
+     "when": "year >= 835"
+    }
+   ],
+   "options": [
+    {
+     "key": "vigil",
+     "label_key": "neustria_west.namnetis.saint_johns_eve.opt_vigil",
+     "label": "Keep the vigil at the saint's church with your crew",
+     "check": "true",
+     "effects": [
+      "morale +0.04",
+      "npc tollman feeling +2 vigil"
+     ],
+     "note": "outcome: neustria_west.namnetis.saint_johns_eve.out_vigil"
+    },
+    {
+     "key": "sold",
+     "label_key": "neustria_west.namnetis.saint_johns_eve.opt_sold",
+     "label": "Sell to the pilgrims from the boat",
+     "check": "hold.value > 0",
+     "effects": [
+      "silver +14",
+      "toll sales",
+      "npc tollman feeling -2 sold"
+     ],
+     "note": "outcome: neustria_west.namnetis.saint_johns_eve.out_sold"
+    },
+    {
+     "key": "lodged",
+     "label_key": "neustria_west.namnetis.saint_johns_eve.opt_lodged",
+     "label": "Let pilgrims sleep aboard for a penny each",
+     "check": "true",
+     "effects": [
+      "silver +6",
+      "npc pilgrim feeling +5 lodged"
+     ],
+     "note": "outcome: neustria_west.namnetis.saint_johns_eve.out_lodged"
+    }
+   ],
+   "memory": {
+    "vigil": "kept Saint John's vigil",
+    "sold": "sold to pilgrims on the feast",
+    "lodged": "gave pilgrims a night aboard"
+   }
+  },
+  {
+   "id": "harbour.namnetis.skins_for_tours",
+   "note": "People: namnetis.eadhelm (invented English monk of Saint Martin's at Tours), cast.alcuin, cast.sigewine and burdigala.placidina named (flag nw_poets_copy, set at Burdigala; nw_sigewine_carried, set at Quentovic). A commission. The spine's hook for book_road at Namnetis (796-843): the way up the Loire to Tours, skins going up and books coming down. Calfskin is carried as cattle_hides (15 d the bundle; goods_793.json). The copy of the Bordeaux poet is the story burdigala.poets_book, ending copy_to_tours (sets bk_carried). Sets bk_knows_worth.",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and year >= 796 and year < 827",
+   "weight": 0.35,
+   "cooldown_days": 150,
+   "actors": {
+    "monk": {
+     "role": "monk",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      30,
+      61
+     ],
+     "fixed": true,
+     "note": "namnetis.eadhelm"
+    }
+   },
+   "title_key": "neustria_west.namnetis.skins_for_tours.title",
+   "title": "Skins for Tours",
+   "intention_key": "neustria_west.namnetis.skins_for_tours.intention",
+   "intention": "On the island of Indre below the city an English monk of Saint Martin's at Tours buys calfskins for the abbey's scribes and looks for boats to carry finished books north. He is exact about books and hopeless about boats.",
+   "lines": [
+    {
+     "who": "monk",
+     "key": "neustria_west.namnetis.skins_for_tours.north",
+     "when": "npc.monk.met = 0"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.namnetis.skins_for_tours.worth"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.namnetis.skins_for_tours.poet",
+     "when": "year < 805 and not flag.nw_poets_home"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.namnetis.skins_for_tours.sigewine",
+     "when": "flag.nw_sigewine_carried"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.namnetis.skins_for_tours.mem_hides",
+     "when": "npc.monk.last = hides"
+    }
+   ],
+   "options": [
+    {
+     "key": "order",
+     "label_key": "neustria_west.namnetis.skins_for_tours.opt_order",
+     "label": "Take his order for calfskin: eight bundles of hides",
+     "check": "true",
+     "effects": [
+      "commission cattle_hides 8 by 180 premium 0.4",
+      "npc monk feeling +4 order"
+     ],
+     "note": "outcome: neustria_west.namnetis.skins_for_tours.out_order"
+    },
+    {
+     "key": "hides",
+     "label_key": "neustria_west.namnetis.skins_for_tours.opt_hides",
+     "label": "Sell him the hides you carry",
+     "check": "hold.cattle_hides > 0",
+     "effects": [
+      "goods cattle_hides -1",
+      "silver +20",
+      "npc monk feeling +8 hides"
+     ],
+     "note": "outcome: neustria_west.namnetis.skins_for_tours.out_hides"
+    },
+    {
+     "key": "poet",
+     "label_key": "neustria_west.namnetis.skins_for_tours.opt_poet",
+     "label": "Hand him the copy of the Bordeaux poet",
+     "check": "flag.nw_poets_copy and not flag.nw_poets_home and hold.books > 0",
+     "effects": [
+      "goods books -1",
+      "silver +140",
+      "flag nw_poets_home",
+      "flag bk_carried",
+      "deed carried_letters",
+      "npc monk feeling +15 poet"
+     ],
+     "note": "outcome: neustria_west.namnetis.skins_for_tours.out_poet"
+    },
+    {
+     "key": "worth",
+     "label_key": "neustria_west.namnetis.skins_for_tours.opt_worth",
+     "label": "Ask him what a book is worth, and to whom",
+     "check": "true",
+     "effects": [
+      "flag bk_knows_worth",
+      "learn latin +0.01",
+      "npc monk feeling +3 worth"
+     ],
+     "note": "outcome: neustria_west.namnetis.skins_for_tours.out_worth"
+    }
+   ],
+   "memory": {
+    "order": "took his order for calfskin",
+    "hides": "sold him hides for the scribes",
+    "poet": "brought the poet's book for Tours",
+    "worth": "asked what a book is worth"
+   }
+  },
+  {
+   "id": "harbour.namnetis.name_in_the_cart",
+   "note": "People: namnetis.pilot (Paternus the ferryman), namnetis.wido (the count). The story namnetis.names_on_the_spears: in 799 Count Wido rode through all Brittany and brought the king the weapons of the chiefs who yielded, each with its owner's name (Annales regni Francorum 799). The ferryman's kin and the salt masters of Batz are the game's. Sets nw_namnetis_straight or nw_namnetis_counts_ear.",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and year >= 799 and year < 802 and not flag.nw_namnetis_straight and not flag.nw_namnetis_counts_ear",
+   "weight": 0.5,
+   "cooldown_days": 120,
+   "actors": {
+    "pilot": {
+     "role": "pilot",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      45,
+      63
+     ],
+     "fixed": true,
+     "note": "namnetis.pilot"
+    }
+   },
+   "title_key": "neustria_west.namnetis.name_in_the_cart.title",
+   "title": "A name in the cart",
+   "intention_key": "neustria_west.namnetis.name_in_the_cart.intention",
+   "intention": "Count Wido has ridden through all Brittany and come home with a cart of the chiefs' weapons, each cut with its owner's name, to lay before the king. The list was read aloud in the count's yard. The ferryman at the Reze crossing asks whether a certain name was in it.",
+   "lines": [
+    {
+     "who": "pilot",
+     "key": "neustria_west.namnetis.name_in_the_cart.yard"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.namnetis.name_in_the_cart.lord"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.namnetis.name_in_the_cart.either"
+    }
+   ],
+   "options": [
+    {
+     "key": "straight",
+     "label_key": "neustria_west.namnetis.name_in_the_cart.opt_straight",
+     "label": "Tell him the list as you heard it",
+     "check": "true",
+     "effects": [
+      "flag nw_namnetis_straight",
+      "npc pilot feeling +15 straight"
+     ],
+     "note": "outcome: neustria_west.namnetis.name_in_the_cart.out_straight"
+    },
+    {
+     "key": "count",
+     "label_key": "neustria_west.namnetis.name_in_the_cart.opt_count",
+     "label": "Tell the count that the ferryman is asking",
+     "check": "true",
+     "effects": [
+      "flag nw_namnetis_counts_ear",
+      "silver +30",
+      "toll eased 180",
+      "npc pilot feeling -20 count"
+     ],
+     "note": "outcome: neustria_west.namnetis.name_in_the_cart.out_count"
+    },
+    {
+     "key": "silent",
+     "label_key": "neustria_west.namnetis.name_in_the_cart.opt_silent",
+     "label": "Say you were watching your casks, not listening",
+     "check": "true",
+     "effects": [
+      "npc pilot feeling -2 silent"
+     ],
+     "note": "outcome: neustria_west.namnetis.name_in_the_cart.out_silent"
+    }
+   ],
+   "memory": {
+    "straight": "told him the list truly",
+    "count": "told the count he was asking",
+    "silent": "would not say what was read"
+   }
+  },
+  {
+   "id": "harbour.namnetis.chalk_beam",
+   "note": "People: namnetis.electa (the ale-wife), namnetis.nanthard, namnetis.eadhelm (he owes her for his carters: the tie in the file). A rumour that is true: who is about to sell salt cheap (the price at Namnetis falls for some weeks). Salt comes up from the bay from the Assumption to Saint Luke's day (the port's seasons).",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and year < 824",
+   "weight": 0.3,
+   "cooldown_days": 100,
+   "actors": {
+    "alewife": {
+     "role": "alewife",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "f",
+     "age": [
+      38,
+      68
+     ],
+     "fixed": true,
+     "note": "namnetis.electa"
+    },
+    "monk": {
+     "role": "monk",
+     "people": "english",
+     "faith": "christian",
+     "tongue": "old_english",
+     "sex": "m",
+     "age": [
+      30,
+      61
+     ],
+     "fixed": true,
+     "note": "namnetis.eadhelm"
+    }
+   },
+   "title_key": "neustria_west.namnetis.chalk_beam.title",
+   "title": "The beam of chalk strokes",
+   "intention_key": "neustria_west.namnetis.chalk_beam.intention",
+   "intention": "The ale-house by the carters' gate keeps every salt man's reckoning in chalk strokes on a beam. Its keeper knows who owes whom in the port, and who is about to sell cheap because of it.",
+   "lines": [
+    {
+     "who": "alewife",
+     "key": "neustria_west.namnetis.chalk_beam.mark",
+     "when": "port.visits = 0"
+    },
+    {
+     "who": "alewife",
+     "key": "neustria_west.namnetis.chalk_beam.tollman"
+    },
+    {
+     "who": "alewife",
+     "key": "neustria_west.namnetis.chalk_beam.salt",
+     "when": "month >= 8 and month <= 10"
+    },
+    {
+     "who": "alewife",
+     "key": "neustria_west.namnetis.chalk_beam.mem_paid_monk",
+     "when": "npc.alewife.last = paid_monk"
+    }
+   ],
+   "options": [
+    {
+     "key": "salt",
+     "label_key": "neustria_west.namnetis.chalk_beam.opt_salt",
+     "label": "Ask which salt masters are selling cheap",
+     "check": "month >= 8 and month <= 10",
+     "effects": [
+      "price_shock namnetis sea_salt x0.75 for 20",
+      "npc alewife feeling +2 salt"
+     ],
+     "note": "outcome: neustria_west.namnetis.chalk_beam.out_salt"
+    },
+    {
+     "key": "paid_monk",
+     "label_key": "neustria_west.namnetis.chalk_beam.opt_paid_monk",
+     "label": "Pay off the English monk's carters from her beam",
+     "check": "year >= 796 and silver >= 5 and not flag.nw_eadhelm_debt_paid",
+     "cost": "silver 5",
+     "effects": [
+      "flag nw_eadhelm_debt_paid",
+      "npc alewife feeling +8 paid_monk",
+      "npc monk feeling +8 paid_monk"
+     ],
+     "note": "outcome: neustria_west.namnetis.chalk_beam.out_paid_monk"
+    },
+    {
+     "key": "drank",
+     "label_key": "neustria_west.namnetis.chalk_beam.opt_drank",
+     "label": "Drink on the beam and settle when you sail",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "npc alewife feeling -1 drank"
+     ],
+     "note": "outcome: neustria_west.namnetis.chalk_beam.out_drank"
+    }
+   ],
+   "memory": {
+    "salt": "asked who was selling salt cheap",
+    "paid_monk": "paid the monk's carters' reckoning",
+    "drank": "drank on the beam"
+   }
+  },
+  {
+   "id": "harbour.namnetis.stopped_doorway",
+   "note": "People: namnetis.gunhard (real: bishop 835-843, killed at his altar on Saint John's day 843, Chronicon Namnetense c. 5-6), rotomagus.einold (his letter: flag nw_einold_letter). The story namnetis.saint_johns_day: the Northmen broke in 'by the old doorway' that had long been blocked (Chronicon Namnetense c. 6). Sets the spine's df_warned (he brought warning before it came) and nw_namnetis_doorway. A hundred pennies is a part of the work namnetis.work.doorway, not the whole of it.",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and (year = 841 or year = 842 or (year = 843 and month <= 6)) and not flag.nw_namnetis_doorway",
+   "weight": 0.5,
+   "cooldown_days": 120,
+   "actors": {
+    "bishop": {
+     "role": "bishop",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      48,
+      60
+     ],
+     "fixed": true,
+     "note": "namnetis.gunhard"
+    }
+   },
+   "title_key": "neustria_west.namnetis.stopped_doorway.title",
+   "title": "The stopped doorway",
+   "intention_key": "neustria_west.namnetis.stopped_doorway.intention",
+   "intention": "Bishop Gunhard takes you to see an old doorway in the city wall, stopped long ago with loose rubble. He asks what you saw on the Rhine: how long there is between the first sail and the fire.",
+   "lines": [
+    {
+     "who": "bishop",
+     "key": "neustria_west.namnetis.stopped_doorway.how_long"
+    },
+    {
+     "who": "bishop",
+     "key": "neustria_west.namnetis.stopped_doorway.two_witnesses",
+     "when": "flag.nw_einold_letter"
+    },
+    {
+     "who": "bishop",
+     "key": "neustria_west.namnetis.stopped_doorway.masons"
+    }
+   ],
+   "options": [
+    {
+     "key": "told",
+     "label_key": "neustria_west.namnetis.stopped_doorway.opt_told",
+     "label": "Tell him plainly: less than a morning",
+     "check": "true",
+     "effects": [
+      "flag df_warned",
+      "npc bishop feeling +8 told"
+     ],
+     "note": "outcome: neustria_west.namnetis.stopped_doorway.out_told"
+    },
+    {
+     "key": "masons",
+     "label_key": "neustria_west.namnetis.stopped_doorway.opt_masons",
+     "label": "Give a hundred pennies toward masons for the doorway",
+     "check": "silver >= 100",
+     "cost": "silver 100",
+     "effects": [
+      "flag nw_namnetis_doorway",
+      "flag df_warned",
+      "deed gave_alms",
+      "npc bishop feeling +20 masons"
+     ],
+     "note": "outcome: neustria_west.namnetis.stopped_doorway.out_masons"
+    },
+    {
+     "key": "comfort",
+     "label_key": "neustria_west.namnetis.stopped_doorway.opt_comfort",
+     "label": "Say the Loire is wider than the Rhine and the count has men",
+     "check": "true",
+     "effects": [
+      "npc bishop feeling -2 comfort"
+     ],
+     "note": "outcome: neustria_west.namnetis.stopped_doorway.out_comfort"
+    }
+   ],
+   "memory": {
+    "told": "told him how fast a fleet comes",
+    "masons": "paid toward walling the old doorway",
+    "comfort": "comforted him"
+   }
+  },
+  {
+   "id": "harbour.namnetis.natans_sons",
+   "note": "People: the sons of burdigala.natan (invented; Jews are named at Bordeaux once, in 848, Annales Bertiniani, and the annal's charge against them is never told as fact: the Burdigala file). Scheduled by harbour.burdigala.nine_and_a_chest; the story burdigala.three_tellings, ending carried_them_out, and the unlock burdigala.natans_word. Sets nw_natans_word (a factor's welcome at Namnetis: see 'needs', there is no unlock_factor_namnetis).",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and flag.nw_natan_carried and not flag.nw_natans_word",
+   "weight": 0,
+   "once": true,
+   "actors": {
+    "merchant": {
+     "role": "merchant",
+     "people": "romance",
+     "faith": "jewish",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      20,
+      30
+     ],
+     "fixed": false,
+     "note": "the eldest son of burdigala.natan"
+    }
+   },
+   "title_key": "neustria_west.namnetis.natans_sons.title",
+   "title": "Natan's sons",
+   "intention_key": "neustria_west.namnetis.natans_sons.intention",
+   "intention": "Nine people of Bordeaux and a chest of scrolls came ashore here from your boat. The city they left has burned. The sons of the man who paid you with a promise have come down to the port to keep it.",
+   "lines": [
+    {
+     "who": "merchant",
+     "key": "neustria_west.namnetis.natans_sons.debt"
+    },
+    {
+     "who": "merchant",
+     "key": "neustria_west.namnetis.natans_sons.river"
+    }
+   ],
+   "options": [
+    {
+     "key": "took",
+     "label_key": "neustria_west.namnetis.natans_sons.opt_took",
+     "label": "Take the silver",
+     "check": "true",
+     "effects": [
+      "silver +300",
+      "flag nw_natans_word",
+      "npc merchant feeling +10 took"
+     ],
+     "note": "outcome: neustria_west.namnetis.natans_sons.out_took"
+    },
+    {
+     "key": "half",
+     "label_key": "neustria_west.namnetis.natans_sons.opt_half",
+     "label": "Take half, and leave half with them to trade for your house",
+     "check": "true",
+     "effects": [
+      "silver +150",
+      "flag nw_natans_word",
+      "flag nw_natans_stake",
+      "npc merchant feeling +20 half"
+     ],
+     "note": "outcome: neustria_west.namnetis.natans_sons.out_half"
+    }
+   ],
+   "memory": {
+    "took": "was paid their father's debt",
+    "half": "left half the debt with them as a stake"
+   }
+  },
+  {
+   "id": "harbour.namnetis.book_on_the_altar",
+   "note": "People: the canons of Nantes; herio.martinus named. Scheduled by harbour.herio.clerk_in_the_hut. After the storming of Nantes on 24 June 843 the fleet shared its plunder on Herio and fought over it; some captives escaped, one with the cathedral's Bible (the Namnetis file: 'one with the cathedral's great Bible hung on his neck', Chronicon Namnetense c. 7). The cathedral was cleansed by Bishop Susan of Vannes on its dedication day, 30 September (c. 7). The story herio.whoever_holds, ending book_home: 300 pennies from the canons, paid over two years (half is paid here).",
+   "stage": "harbour",
+   "when": "moored and port.id = namnetis and flag.herio_bible_home and not flag.nw_bible_thanked",
+   "weight": 0,
+   "once": true,
+   "actors": {
+    "priest": {
+     "role": "priest",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      30,
+      60
+     ],
+     "fixed": false,
+     "note": "a canon of the cathedral"
+    }
+   },
+   "title_key": "neustria_west.namnetis.book_on_the_altar.title",
+   "title": "The book on the altar",
+   "intention_key": "neustria_west.namnetis.book_on_the_altar.intention",
+   "intention": "The cathedral of Nantes has been washed of blood and Mass is said in it again. The great Bible that went downriver on a captive's neck lies on the altar, salt-stained along one edge. The canons have sent for the master of the boat that brought it.",
+   "lines": [
+    {
+     "who": "priest",
+     "key": "neustria_west.namnetis.book_on_the_altar.no_bishop"
+    },
+    {
+     "who": "priest",
+     "key": "neustria_west.namnetis.book_on_the_altar.margin"
+    }
+   ],
+   "options": [
+    {
+     "key": "took",
+     "label_key": "neustria_west.namnetis.book_on_the_altar.opt_took",
+     "label": "Take what the canons can pay",
+     "check": "true",
+     "effects": [
+      "silver +150",
+      "flag nw_bible_thanked",
+      "deed carried_letters",
+      "npc priest feeling +10 took"
+     ],
+     "note": "outcome: neustria_west.namnetis.book_on_the_altar.out_took"
+    },
+    {
+     "key": "forgave",
+     "label_key": "neustria_west.namnetis.book_on_the_altar.opt_forgave",
+     "label": "Tell them to put it toward buying their people back",
+     "check": "true",
+     "effects": [
+      "flag nw_bible_thanked",
+      "deed bought_captives",
+      "npc priest feeling +25 forgave"
+     ],
+     "note": "outcome: neustria_west.namnetis.book_on_the_altar.out_forgave"
+    }
+   ],
+   "memory": {
+    "took": "was paid for bringing the Bible home",
+    "forgave": "gave the Bible's reward to the ransom"
+   }
+  },
+  {
+   "id": "harbour.herio.three_lamps",
+   "note": "People: herio.cellarer (Vitalis), herio.maura (the rakers on the sand), burdigala.oil_seller (Felix: flag nw_herio_lamps is read at Burdigala). The story herio.three_lamps and the spine's thread hungry_years (sets hy_fed_poor when corn is sold to the house at its price). The three lamps at the founder's tomb and the oil ship from Bordeaux: Vita Filiberti (dossiers/herio.md). Salt is 3 d the sack, rye 4, oil 40 the jar: his rate in salt is one no mainland market gives.",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and year < 796",
+   "weight": 0.5,
+   "cooldown_days": 90,
+   "actors": {
+    "cellarer": {
+     "role": "cellarer",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      43,
+      65
+     ],
+     "fixed": true,
+     "note": "herio.cellarer"
+    }
+   },
+   "title_key": "neustria_west.herio.three_lamps.title",
+   "title": "Oil for three lamps",
+   "intention_key": "neustria_west.herio.three_lamps.intention",
+   "intention": "The island has salt and little else this hungry year. The corn sacks in the cellarer's store hang slack, the oil ship from Bordeaux has not come, and three lamps have burned at the founder's head since he died.",
+   "lines": [
+    {
+     "who": "cellarer",
+     "key": "neustria_west.herio.three_lamps.jars"
+    },
+    {
+     "who": "cellarer",
+     "key": "neustria_west.herio.three_lamps.rate"
+    },
+    {
+     "who": "cellarer",
+     "key": "neustria_west.herio.three_lamps.mem_oil",
+     "when": "npc.cellarer.last = oil"
+    },
+    {
+     "who": "cellarer",
+     "key": "neustria_west.herio.three_lamps.mem_sand",
+     "when": "npc.cellarer.last = sand"
+    }
+   ],
+   "options": [
+    {
+     "key": "rye",
+     "label_key": "neustria_west.herio.three_lamps.opt_rye",
+     "label": "Sell him two sacks of rye for salt",
+     "check": "hold.rye >= 2",
+     "effects": [
+      "goods rye -2",
+      "goods sea_salt +8",
+      "flag hy_fed_poor",
+      "npc cellarer feeling +8 rye"
+     ],
+     "note": "outcome: neustria_west.herio.three_lamps.out_rye"
+    },
+    {
+     "key": "oil",
+     "label_key": "neustria_west.herio.three_lamps.opt_oil",
+     "label": "Sell him a jar of oil for salt",
+     "check": "hold.olive_oil > 0",
+     "effects": [
+      "goods olive_oil -1",
+      "goods sea_salt +12",
+      "flag nw_herio_lamps",
+      "npc cellarer feeling +15 oil"
+     ],
+     "note": "outcome: neustria_west.herio.three_lamps.out_oil"
+    },
+    {
+     "key": "sand",
+     "label_key": "neustria_west.herio.three_lamps.opt_sand",
+     "label": "Sell the rye to the rakers on the sand, who offer more",
+     "check": "hold.rye >= 2",
+     "effects": [
+      "goods rye -2",
+      "goods sea_salt +11",
+      "flag nw_herio_sand",
+      "npc cellarer feeling -8 sand"
+     ],
+     "note": "outcome: neustria_west.herio.three_lamps.out_sand"
+    },
+    {
+     "key": "promise",
+     "label_key": "neustria_west.herio.three_lamps.opt_promise",
+     "label": "Promise him oil from Bordeaux",
+     "check": "true",
+     "effects": [
+      "commission olive_oil 2 by 150 premium 0.5",
+      "npc cellarer feeling +3 promise"
+     ],
+     "note": "outcome: neustria_west.herio.three_lamps.out_promise"
+    }
+   ],
+   "memory": {
+    "rye": "sold corn to the house in a hungry year",
+    "oil": "brought oil for the lamps",
+    "sand": "sold corn on the sand over his head",
+    "promise": "promised oil from Bordeaux"
+   }
+  },
+  {
+   "id": "harbour.herio.salt_brother",
+   "note": "People: herio.natalis (the salt brother), quentovic.meginbert (who sent the leaf), herio.adalard, mogontia.folcbald (who keeps the next). A riddle and a text given: Aldhelm's wine cask (riddles_793.json riddle_aldhelm_78_cupa_vinaria, given by 'a monk of the salt pans' at Herio, 793-835; texts_793.json aldhelm_78_cupa_vinaria), the second leaf of the set salt_to_pepper. The clues are our own rendering. After 835 the leaf is at Namnetis (the places files).",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and year < 836",
+   "weight": 0.4,
+   "cooldown_days": 90,
+   "actors": {
+    "monk": {
+     "role": "monk",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      27,
+      69
+     ],
+     "fixed": true,
+     "note": "herio.natalis"
+    }
+   },
+   "title_key": "neustria_west.herio.salt_brother.title",
+   "title": "The salt brother",
+   "intention_key": "neustria_west.herio.salt_brother.intention",
+   "intention": "The brother who keeps the salt will not hand over a sack without setting a riddle first. He has a leaf sent from Quentovic, the second of four, and gives it only to someone who has answered the first.",
+   "lines": [
+    {
+     "who": "monk",
+     "key": "neustria_west.herio.salt_brother.ask",
+     "when": "not text.aldhelm_78_cupa_vinaria"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.herio.salt_brother.leaf",
+     "when": "riddle.riddle_aldhelm_78_cupa_vinaria = open"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.herio.salt_brother.cask",
+     "when": "riddle.riddle_aldhelm_78_cupa_vinaria = solved"
+    },
+    {
+     "who": "monk",
+     "key": "neustria_west.herio.salt_brother.exile",
+     "when": "year >= 814 and year < 822"
+    }
+   ],
+   "options": [
+    {
+     "key": "answered",
+     "label_key": "neustria_west.herio.salt_brother.opt_answered",
+     "label": "Answer the salt riddle",
+     "check": "riddle.riddle_aldhelm_19_salis = solved and not text.aldhelm_78_cupa_vinaria",
+     "effects": [
+      "give_text aldhelm_78_cupa_vinaria",
+      "give_riddle riddle_aldhelm_78_cupa_vinaria",
+      "deed won_riddle",
+      "goods sea_salt +1",
+      "npc monk feeling +10 answered"
+     ],
+     "note": "outcome: neustria_west.herio.salt_brother.out_answered"
+    },
+    {
+     "key": "cask",
+     "label_key": "neustria_west.herio.salt_brother.opt_cask",
+     "label": "Answer the cask riddle",
+     "check": "riddle.riddle_aldhelm_78_cupa_vinaria = solved and not flag.nw_cask_answered",
+     "effects": [
+      "deed won_riddle",
+      "silver +8",
+      "flag nw_cask_answered",
+      "npc monk feeling +10 cask"
+     ],
+     "note": "outcome: neustria_west.herio.salt_brother.out_cask"
+    },
+    {
+     "key": "guessed",
+     "label_key": "neustria_west.herio.salt_brother.opt_guessed",
+     "label": "Guess, wrongly, and buy salt at the common price",
+     "check": "true",
+     "effects": [
+      "npc monk feeling +1 guessed"
+     ],
+     "note": "outcome: neustria_west.herio.salt_brother.out_guessed"
+    }
+   ],
+   "memory": {
+    "answered": "answered the salt riddle on the pans",
+    "cask": "answered the cask riddle",
+    "guessed": "could not answer"
+   }
+  },
+  {
+   "id": "harbour.herio.exiles_letter",
+   "note": "People: herio.adalard (real: Adalard of Corbie, Charlemagne's cousin, exiled to the island 814-821; cast here as 'abbot', which he is, of Corbie), the watcher at the door (the game's), namnetis.wido (the count who pays for knowing), quentovic.corbie_agent. The story herio.emperors_cousin, first step. Sets nw_adalard_letter (the Quentovic card harbour.quentovic.corbies_man follows), nw_adalard_informed or nw_adalard_done.",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and year >= 814 and year < 821 and not flag.nw_adalard_letter and not flag.nw_adalard_done",
+   "weight": 0.5,
+   "cooldown_days": 120,
+   "actors": {
+    "abbot": {
+     "role": "abbot",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      63,
+      70
+     ],
+     "fixed": true,
+     "note": "herio.adalard"
+    },
+    "watcher": {
+     "role": "kings_man",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      30,
+      50
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "neustria_west.herio.exiles_letter.title",
+   "title": "The emperor's cousin",
+   "intention_key": "neustria_west.herio.exiles_letter.intention",
+   "intention": "The old emperor's cousin, Abbot Adalard of Corbie, lives in the island's guest house as the new emperor's exile, with a king's man by the door. On the second evening, while the watcher eats, he asks whether your boat calls at Quentovic.",
+   "lines": [
+    {
+     "who": "abbot",
+     "key": "neustria_west.herio.exiles_letter.toll"
+    },
+    {
+     "who": "abbot",
+     "key": "neustria_west.herio.exiles_letter.dry"
+    },
+    {
+     "who": "watcher",
+     "key": "neustria_west.herio.exiles_letter.lord"
+    }
+   ],
+   "options": [
+    {
+     "key": "took",
+     "label_key": "neustria_west.herio.exiles_letter.opt_took",
+     "label": "Take the letter for Quentovic",
+     "check": "true",
+     "effects": [
+      "flag nw_adalard_letter",
+      "npc abbot feeling +10 took"
+     ],
+     "note": "outcome: neustria_west.herio.exiles_letter.out_took"
+    },
+    {
+     "key": "informed",
+     "label_key": "neustria_west.herio.exiles_letter.opt_informed",
+     "label": "Take it, and tell the watcher",
+     "check": "true",
+     "effects": [
+      "flag nw_adalard_letter",
+      "flag nw_adalard_informed",
+      "silver +40",
+      "npc watcher feeling +10 informed"
+     ],
+     "note": "outcome: neustria_west.herio.exiles_letter.out_informed"
+    },
+    {
+     "key": "declined",
+     "label_key": "neustria_west.herio.exiles_letter.opt_declined",
+     "label": "Tell him plainly you will not carry it",
+     "check": "true",
+     "effects": [
+      "flag nw_adalard_done",
+      "npc abbot feeling +1 declined"
+     ],
+     "note": "outcome: neustria_west.herio.exiles_letter.out_declined"
+    }
+   ],
+   "memory": {
+    "took": "took the exile's letter",
+    "informed": "showed the exile's letter to the watcher",
+    "declined": "would not carry the letter"
+   }
+  },
+  {
+   "id": "harbour.herio.book_for_the_exile",
+   "note": "People: herio.adalard, quentovic.corbie_agent, cast.anskar named. The story herio.emperors_cousin, last step: he weighs the book in his hand before he opens it, and reads the first page standing. Sets the spine's bk_carried and bk_knows_worth, or bk_lost. The unlock herio.adalards_word follows from nw_adalard_done with bk_carried.",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and flag.nw_adalard_book and not flag.nw_adalard_done and year < 822",
+   "weight": 40,
+   "once": true,
+   "actors": {
+    "abbot": {
+     "role": "abbot",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      63,
+      71
+     ],
+     "fixed": true,
+     "note": "herio.adalard"
+    }
+   },
+   "title_key": "neustria_west.herio.book_for_the_exile.title",
+   "title": "A book the length of a hand",
+   "intention_key": "neustria_west.herio.book_for_the_exile.intention",
+   "intention": "The exile has seen your sail from the guest-house window. He is at the west gate before you are, and the watcher is a little way behind him.",
+   "lines": [
+    {
+     "who": "abbot",
+     "key": "neustria_west.herio.book_for_the_exile.hold"
+    },
+    {
+     "who": "abbot",
+     "key": "neustria_west.herio.book_for_the_exile.stitching",
+     "when": "flag.nw_adalard_informed"
+    }
+   ],
+   "options": [
+    {
+     "key": "gave",
+     "label_key": "neustria_west.herio.book_for_the_exile.opt_gave",
+     "label": "Give him the book",
+     "check": "hold.books > 0",
+     "effects": [
+      "goods books -1",
+      "goods sea_salt +10",
+      "flag nw_adalard_done",
+      "flag bk_carried",
+      "flag bk_knows_worth",
+      "deed carried_letters",
+      "npc abbot feeling +20 gave"
+     ],
+     "note": "outcome: neustria_west.herio.book_for_the_exile.out_gave"
+    },
+    {
+     "key": "asked",
+     "label_key": "neustria_west.herio.book_for_the_exile.opt_asked",
+     "label": "Give him the book, and ask what is in it",
+     "check": "hold.books > 0",
+     "effects": [
+      "goods books -1",
+      "flag nw_adalard_done",
+      "flag bk_carried",
+      "flag bk_knows_worth",
+      "deed carried_letters",
+      "learn latin +0.03",
+      "npc abbot feeling +22 asked"
+     ],
+     "note": "outcome: neustria_west.herio.book_for_the_exile.out_asked"
+    },
+    {
+     "key": "lost",
+     "label_key": "neustria_west.herio.book_for_the_exile.opt_lost",
+     "label": "Tell him it is gone",
+     "check": "hold.books = 0",
+     "effects": [
+      "flag nw_adalard_done",
+      "flag bk_lost",
+      "npc abbot feeling -20 lost"
+     ],
+     "note": "outcome: neustria_west.herio.book_for_the_exile.out_lost"
+    }
+   ],
+   "memory": {
+    "gave": "brought the exile his book",
+    "asked": "brought the book and asked what it said",
+    "lost": "lost the exile's book"
+   }
+  },
+  {
+   "id": "harbour.herio.women_on_the_sand",
+   "note": "People: herio.maura (the widow who leads the rakers; she 'knows who has a son who wants to go to sea'); the lad is forged. A hire and a deal. The islanders with a lord of their own, not the monks' people: Ermentarius, Miracula I.1. Iron tools are 30 d the crate and salt 3 d the sack (goods_793.json).",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and year < 827",
+   "weight": 0.3,
+   "cooldown_days": 120,
+   "actors": {
+    "widow": {
+     "role": "widow",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "f",
+     "age": [
+      35,
+      68
+     ],
+     "fixed": true,
+     "note": "herio.maura"
+    },
+    "lad": {
+     "role": "sailor",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      15,
+      19
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.herio.women_on_the_sand.title",
+   "title": "On the sand",
+   "intention_key": "neustria_west.herio.women_on_the_sand.intention",
+   "intention": "On the sand by the salt heaps the islanders trade for what the monks do not buy: needles, knives, cloth, a pot. The widow who leads the rakers has a neighbour's son beside her who wants to go to sea.",
+   "lines": [
+    {
+     "who": "widow",
+     "key": "neustria_west.herio.women_on_the_sand.iron"
+    },
+    {
+     "who": "widow",
+     "key": "neustria_west.herio.women_on_the_sand.heaps"
+    },
+    {
+     "who": "lad",
+     "key": "neustria_west.herio.women_on_the_sand.ebbs"
+    },
+    {
+     "who": "widow",
+     "key": "neustria_west.herio.women_on_the_sand.mem_tools",
+     "when": "npc.widow.last = tools"
+    }
+   ],
+   "options": [
+    {
+     "key": "tools",
+     "label_key": "neustria_west.herio.women_on_the_sand.opt_tools",
+     "label": "Trade a crate of iron tools for salt",
+     "check": "hold.iron_tools > 0",
+     "effects": [
+      "goods iron_tools -1",
+      "goods sea_salt +14",
+      "npc widow feeling +8 tools"
+     ],
+     "note": "outcome: neustria_west.herio.women_on_the_sand.out_tools"
+    },
+    {
+     "key": "hired",
+     "label_key": "neustria_west.herio.women_on_the_sand.opt_hired",
+     "label": "Take the lad on",
+     "check": "crew < crew_full",
+     "effects": [
+      "hire lad",
+      "npc widow feeling +5 hired"
+     ],
+     "note": "outcome: neustria_west.herio.women_on_the_sand.out_hired"
+    },
+    {
+     "key": "looked",
+     "label_key": "neustria_west.herio.women_on_the_sand.opt_looked",
+     "label": "Let her show you which heap is which",
+     "check": "true",
+     "effects": [
+      "npc widow feeling +2 looked"
+     ],
+     "note": "outcome: neustria_west.herio.women_on_the_sand.out_looked"
+    }
+   ],
+   "memory": {
+    "tools": "sold the islanders good knives",
+    "hired": "took an island lad to sea",
+    "looked": "learned the heaps from her"
+   }
+  },
+  {
+   "id": "harbour.herio.clerk_in_the_hut",
+   "note": "People: herio.martinus (the islander who stayed), a clerk of Nantes (namnetis.gunhard's church). The story herio.whoever_holds: after Saint John's day 843 the fleet shares the loot of Nantes on Herio and fights over it (Chronicon Namnetense c. 7); a captive escapes at low water with the cathedral's Bible on his neck (the Namnetis file). Sets the Herio file's flag herio_bible_home and the spine's bk_carried, and schedules harbour.namnetis.book_on_the_altar; or nw_herio_loot. Church plate is 240 d the piece; they sell it by weight at a sixth. Salt doubles on the Seine and the Canche while the Loire is shut.",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and year = 843 and month >= 6 and month <= 9 and not flag.herio_bible_home and not flag.nw_herio_loot",
+   "weight": 40,
+   "once": true,
+   "actors": {
+    "salter": {
+     "role": "salter",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      28,
+      34
+     ],
+     "fixed": true,
+     "note": "herio.martinus"
+    },
+    "clerk": {
+     "role": "clerk",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      20,
+      45
+     ],
+     "fixed": false
+    }
+   },
+   "title_key": "neustria_west.herio.clerk_in_the_hut.title",
+   "title": "The clerk in the salt hut",
+   "intention_key": "neustria_west.herio.clerk_in_the_hut.intention",
+   "intention": "The fleet that stormed Nantes on Saint John's day lies in the shell bay, sharing its plunder on the sand and fighting over it. In the salt hut, under the rakes, the islander is hiding a clerk of the cathedral with its great Bible strapped to his body.",
+   "lines": [
+    {
+     "who": "salter",
+     "key": "neustria_west.herio.clerk_in_the_hut.lagoon"
+    },
+    {
+     "who": "clerk",
+     "key": "neustria_west.herio.clerk_in_the_hut.neck"
+    },
+    {
+     "who": "salter",
+     "key": "neustria_west.herio.clerk_in_the_hut.ebb"
+    }
+   ],
+   "options": [
+    {
+     "key": "took",
+     "label_key": "neustria_west.herio.clerk_in_the_hut.opt_took",
+     "label": "Take the clerk and the book off on the night ebb",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.75,
+       "by": "crew.seamanship_best",
+       "success": [
+        "passenger clerk to namnetis",
+        "flag herio_bible_home",
+        "flag bk_carried",
+        "schedule harbour.namnetis.book_on_the_altar in 30 at namnetis",
+        "npc salter feeling +20 took"
+       ],
+       "failure": [
+        "passenger clerk to namnetis",
+        "flag herio_bible_home",
+        "flag bk_carried",
+        "schedule harbour.namnetis.book_on_the_altar in 30 at namnetis",
+        "health -0.05",
+        "npc salter feeling +20 took"
+       ]
+      }
+     ],
+     "note": "outcome: neustria_west.herio.clerk_in_the_hut.out_took_success, neustria_west.herio.clerk_in_the_hut.out_took_failure"
+    },
+    {
+     "key": "loot",
+     "label_key": "neustria_west.herio.clerk_in_the_hut.opt_loot",
+     "label": "Buy altar plate in the bay, by weight",
+     "check": "silver >= 80",
+     "cost": "silver 80",
+     "effects": [
+      "goods church_plate +2",
+      "flag nw_herio_loot",
+      "npc salter feeling -15 loot"
+     ],
+     "note": "outcome: neustria_west.herio.clerk_in_the_hut.out_loot"
+    },
+    {
+     "key": "salt",
+     "label_key": "neustria_west.herio.clerk_in_the_hut.opt_salt",
+     "label": "Load salt on the lagoon side and ask nothing",
+     "check": "true",
+     "effects": [
+      "price_shock rotomagus sea_salt x2.0 for 120",
+      "price_shock quentovic sea_salt x2.0 for 120",
+      "npc salter feeling +2 salt"
+     ],
+     "note": "outcome: neustria_west.herio.clerk_in_the_hut.out_salt"
+    }
+   ],
+   "memory": {
+    "took": "took the clerk and the Bible off the island",
+    "loot": "bought the spoil of Nantes",
+    "salt": "loaded salt and asked nothing"
+   }
+  },
+  {
+   "id": "harbour.herio.windbound",
+   "note": "People: herio.ursus (the bay pilot), burdigala.amantius (his friend at the Garonne mouth, never met: the tie in both files; flag nw_herio_piloted is read at Burdigala). Ships lie windbound at Conca and are fed for charity (the port's eras; the work herio.work.windbound_dole). The channel to the monastery dries twice a day; a flat summer sea is a road for anyone (the king's council of 836, Ermentarius, Miracula I.1).",
+   "stage": "harbour",
+   "when": "moored and port.id = herio and year < 822",
+   "weight": 0.25,
+   "cooldown_days": 120,
+   "actors": {
+    "pilot": {
+     "role": "pilot",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      41,
+      70
+     ],
+     "fixed": true,
+     "note": "herio.ursus"
+    }
+   },
+   "title_key": "neustria_west.herio.windbound.title",
+   "title": "Windbound at Conca",
+   "intention_key": "neustria_west.herio.windbound.intention",
+   "intention": "Ships lie in the shell bay waiting for a wind, fed by the monks for charity. The island's pilot sits on an upturned boat watching the water, and says the channel to the monastery dries twice a day.",
+   "lines": [
+    {
+     "who": "pilot",
+     "key": "neustria_west.herio.windbound.bar"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.herio.windbound.calm",
+     "when": "year >= 799"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.herio.windbound.garonne",
+     "when": "not flag.nw_herio_piloted"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.herio.windbound.mem_hired",
+     "when": "npc.pilot.last = hired"
+    }
+   ],
+   "options": [
+    {
+     "key": "hired",
+     "label_key": "neustria_west.herio.windbound.opt_hired",
+     "label": "Hire him over the bar on the next flood",
+     "check": "silver >= 4",
+     "cost": "silver 4",
+     "effects": [
+      "flag nw_herio_piloted",
+      "npc pilot feeling +5 hired"
+     ],
+     "note": "outcome: neustria_west.herio.windbound.out_hired"
+    },
+    {
+     "key": "waited",
+     "label_key": "neustria_west.herio.windbound.opt_waited",
+     "label": "Wait for the wind with the others and share the monks' bread",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "npc pilot feeling +2 waited"
+     ],
+     "note": "outcome: neustria_west.herio.windbound.out_waited"
+    },
+    {
+     "key": "marks",
+     "label_key": "neustria_west.herio.windbound.opt_marks",
+     "label": "Ask him to name the marks, and say them back",
+     "check": "true",
+     "effects": [
+      "npc pilot feeling +4 marks"
+     ],
+     "note": "outcome: neustria_west.herio.windbound.out_marks"
+    }
+   ],
+   "memory": {
+    "hired": "hired him over the bar",
+    "waited": "waited for the wind at Conca",
+    "marks": "learned the marks from him"
+   }
+  },
+  {
+   "id": "harbour.burdigala.pilots_fee",
+   "note": "People: burdigala.amantius (the pilot), burdigala.seguin (who owes him three seasons), herio.ursus (flag nw_herio_piloted: the bread and the insult). A hundred kilometres of tidal river and banks between the city and the sea: 'he comes with a pilot or not at all' (the places file). The wave that runs up the river ahead of the flood at the big tides of the low river is known from later centuries (?).",
+   "stage": "harbour",
+   "when": "moored and port.id = burdigala and year < 825",
+   "weight": 0.3,
+   "cooldown_days": 120,
+   "actors": {
+    "pilot": {
+     "role": "pilot",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      45,
+      76
+     ],
+     "fixed": true,
+     "note": "burdigala.amantius"
+    }
+   },
+   "title_key": "neustria_west.burdigala.pilots_fee.title",
+   "title": "The pilot's fee",
+   "intention_key": "neustria_west.burdigala.pilots_fee.intention",
+   "intention": "The old pilot who brought you through the banks of the river mouth is waiting at the gate. He has piloted the count's boats for three seasons on a promise, and would like his fee from you in silver, before you sell.",
+   "lines": [
+    {
+     "who": "pilot",
+     "key": "neustria_west.burdigala.pilots_fee.yesterday"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.burdigala.pilots_fee.wave",
+     "when": "month >= 8 and month <= 9"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.burdigala.pilots_fee.mem_paid",
+     "when": "npc.pilot.last = paid"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.burdigala.pilots_fee.mem_promised",
+     "when": "npc.pilot.last = promised"
+    },
+    {
+     "who": "pilot",
+     "key": "neustria_west.burdigala.pilots_fee.ursus",
+     "when": "flag.nw_herio_piloted"
+    }
+   ],
+   "options": [
+    {
+     "key": "paid",
+     "label_key": "neustria_west.burdigala.pilots_fee.opt_paid",
+     "label": "Pay him at the gate",
+     "check": "silver >= 6",
+     "cost": "silver 6",
+     "effects": [
+      "npc pilot feeling +8 paid"
+     ],
+     "note": "outcome: neustria_west.burdigala.pilots_fee.out_paid"
+    },
+    {
+     "key": "marks",
+     "label_key": "neustria_west.burdigala.pilots_fee.opt_marks",
+     "label": "Pay him, and two pennies over for his grandson to teach you the marks",
+     "check": "silver >= 8",
+     "cost": "silver 8",
+     "effects": [
+      "flag nw_garonne_marks",
+      "npc pilot feeling +12 marks"
+     ],
+     "note": "outcome: neustria_west.burdigala.pilots_fee.out_marks"
+    },
+    {
+     "key": "promised",
+     "label_key": "neustria_west.burdigala.pilots_fee.opt_promised",
+     "label": "Promise to pay when the cargo is sold",
+     "check": "true",
+     "effects": [
+      "npc pilot feeling -6 promised"
+     ],
+     "note": "outcome: neustria_west.burdigala.pilots_fee.out_promised"
+    }
+   ],
+   "memory": {
+    "paid": "paid the pilot at the gate",
+    "marks": "paid for the marks of the river",
+    "promised": "promised the pilot his fee"
+   }
+  },
+  {
+   "id": "harbour.burdigala.poets_book",
+   "note": "People: burdigala.placidina (the widow of the house by the Broken Tower), namnetis.eadhelm and cast.alcuin (who want a copy: the ties in both files). A text wanted. The story burdigala.poets_book: the book is Ausonius's, and her lines are our own rendering of his verses on Bordeaux in the Ordo urbium nobilium (walls four-square, towers that pierce the clouds, the ocean's tide bringing a sea of fleets up the river). Sets nw_poets_copy; the Namnetis card harbour.namnetis.skins_for_tours takes the copy for Tours. A book is 360 d: the copy costs its skins.",
+   "stage": "harbour",
+   "when": "moored and port.id = burdigala and year < 829",
+   "weight": 0.3,
+   "cooldown_days": 150,
+   "actors": {
+    "widow": {
+     "role": "widow",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "f",
+     "age": [
+      48,
+      83
+     ],
+     "fixed": true,
+     "note": "burdigala.placidina"
+    }
+   },
+   "title_key": "neustria_west.burdigala.poets_book.title",
+   "title": "The poet of the city",
+   "intention_key": "neustria_west.burdigala.poets_book.intention",
+   "intention": "The widow who keeps the house by the Broken Tower has one old book: the verses a man of this city made when Rome still ruled, about Bordeaux and every other famous city. On a slow evening she reads from it to the room.",
+   "lines": [
+    {
+     "who": "widow",
+     "key": "neustria_west.burdigala.poets_book.senators"
+    },
+    {
+     "who": "widow",
+     "key": "neustria_west.burdigala.poets_book.walls"
+    },
+    {
+     "who": "widow",
+     "key": "neustria_west.burdigala.poets_book.letter",
+     "when": "year >= 796 and not flag.nw_poets_copy"
+    },
+    {
+     "who": "widow",
+     "key": "neustria_west.burdigala.poets_book.mem_copy",
+     "when": "flag.nw_poets_home"
+    }
+   ],
+   "options": [
+    {
+     "key": "listened",
+     "label_key": "neustria_west.burdigala.poets_book.opt_listened",
+     "label": "Listen to the end",
+     "check": "true",
+     "effects": [
+      "morale +0.03",
+      "npc widow feeling +3 listened"
+     ],
+     "note": "outcome: neustria_west.burdigala.poets_book.out_listened"
+    },
+    {
+     "key": "copy",
+     "label_key": "neustria_west.burdigala.poets_book.opt_copy",
+     "label": "Pay for the copy and carry it to the Loire",
+     "check": "year >= 796 and silver >= 40 and not flag.nw_poets_copy",
+     "cost": "silver 40",
+     "effects": [
+      "goods books +1",
+      "flag nw_poets_copy",
+      "npc widow feeling +10 copy"
+     ],
+     "note": "outcome: neustria_west.burdigala.poets_book.out_copy"
+    },
+    {
+     "key": "news",
+     "label_key": "neustria_west.burdigala.poets_book.opt_news",
+     "label": "Tell her the news of the Loire and the Franks",
+     "check": "true",
+     "effects": [
+      "npc widow feeling +5 news"
+     ],
+     "note": "outcome: neustria_west.burdigala.poets_book.out_news"
+    }
+   ],
+   "memory": {
+    "listened": "heard the poet read to the end",
+    "copy": "paid for a copy of the poet's book",
+    "news": "brought her news of the Loire"
+   }
+  },
+  {
+   "id": "harbour.burdigala.oil_for_the_island",
+   "note": "People: burdigala.oil_seller (Felix, invented), herio.cellarer (Vitalis, who owes him: the tie in both files; flag nw_herio_lamps is set on the island). The story herio.three_lamps: the oil comes up from the south by river and cart and is dear this year. Oil is 40 d the jar (goods_793.json). The island pays in salt (harbour.herio.three_lamps) and in the commission it posts.",
+   "stage": "harbour",
+   "when": "moored and port.id = burdigala and year < 800",
+   "weight": 0.3,
+   "cooldown_days": 150,
+   "actors": {
+    "merchant": {
+     "role": "merchant",
+     "people": "romance",
+     "faith": "christian",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      43,
+      64
+     ],
+     "fixed": true,
+     "note": "burdigala.oil_seller"
+    }
+   },
+   "title_key": "neustria_west.burdigala.oil_for_the_island.title",
+   "title": "Oil for the island",
+   "intention_key": "neustria_west.burdigala.oil_for_the_island.intention",
+   "intention": "Oil comes up from the south by river and cart and is dear this year. The seller knows the island of the three lamps: its monks owe him for last year's jars, and no oil ship has gone north.",
+   "lines": [
+    {
+     "who": "merchant",
+     "key": "neustria_west.burdigala.oil_for_the_island.forty"
+    },
+    {
+     "who": "merchant",
+     "key": "neustria_west.burdigala.oil_for_the_island.island",
+     "when": "not flag.nw_herio_lamps"
+    },
+    {
+     "who": "merchant",
+     "key": "neustria_west.burdigala.oil_for_the_island.lamp",
+     "when": "flag.nw_herio_lamps"
+    }
+   ],
+   "options": [
+    {
+     "key": "bought",
+     "label_key": "neustria_west.burdigala.oil_for_the_island.opt_bought",
+     "label": "Buy two jars outright",
+     "check": "silver >= 76",
+     "cost": "silver 76",
+     "effects": [
+      "goods olive_oil +2",
+      "npc merchant feeling +3 bought"
+     ],
+     "note": "outcome: neustria_west.burdigala.oil_for_the_island.out_bought"
+    },
+    {
+     "key": "surety",
+     "label_key": "neustria_west.burdigala.oil_for_the_island.opt_surety",
+     "label": "Stand surety for the monks, and carry four jars on their account",
+     "check": "silver >= 60 and not flag.nw_herio_oil_surety",
+     "cost": "silver 60",
+     "effects": [
+      "goods olive_oil +4",
+      "flag nw_herio_oil_surety",
+      "npc merchant feeling +10 surety"
+     ],
+     "note": "outcome: neustria_west.burdigala.oil_for_the_island.out_surety"
+    },
+    {
+     "key": "asked",
+     "label_key": "neustria_west.burdigala.oil_for_the_island.opt_asked",
+     "label": "Ask what he would give for bay salt",
+     "check": "true",
+     "effects": [
+      "npc merchant feeling +1 asked",
+      "price_shock burdigala sea_salt x1.2 for 40"
+     ],
+     "note": "outcome: neustria_west.burdigala.oil_for_the_island.out_asked"
+    }
+   ],
+   "memory": {
+    "bought": "bought oil of him",
+    "surety": "stood surety for the island's oil",
+    "asked": "asked what salt fetches"
+   }
+  },
+  {
+   "id": "harbour.burdigala.counts_leave",
+   "note": "People: burdigala.seguin (real: the count set over Bordeaux in 778, the Astronomer c. 3; probably the Seguin put out in 816; that he holds the city in 793 is not recorded (?)), namnetis.wido (his rival: the tie in both files; the cart of 799). The places file's unlock burdigala.counts_leave: leave to trade across the river with the Gascons, for a gift and an audience, lost if arms go across (the capitulary of Herstal, 779, forbids mail out of the realm). Sets nw_burdigala_leave.",
+   "stage": "harbour",
+   "when": "moored and port.id = burdigala and year < 817",
+   "weight": 0.2,
+   "cooldown_days": 300,
+   "actors": {
+    "count": {
+     "role": "count",
+     "people": "frankish",
+     "faith": "christian",
+     "tongue": "old_frankish",
+     "sex": "m",
+     "age": [
+      43,
+      66
+     ],
+     "fixed": true,
+     "note": "burdigala.seguin"
+    }
+   },
+   "title_key": "neustria_west.burdigala.counts_leave.title",
+   "title": "The count's leave",
+   "intention_key": "neustria_west.burdigala.counts_leave.intention",
+   "intention": "Count Seguin holds the city for King Louis and the river against the Gascons on the far bank. Nobody trades across the water without his leave, and he gives it for a gift, for news of the king, or not at all.",
+   "lines": [
+    {
+     "who": "count",
+     "key": "neustria_west.burdigala.counts_leave.cost"
+    },
+    {
+     "who": "count",
+     "key": "neustria_west.burdigala.counts_leave.gascons"
+    },
+    {
+     "who": "count",
+     "key": "neustria_west.burdigala.counts_leave.cart",
+     "when": "year >= 799"
+    },
+    {
+     "who": "count",
+     "key": "neustria_west.burdigala.counts_leave.mem_news",
+     "when": "npc.count.last = news"
+    }
+   ],
+   "options": [
+    {
+     "key": "gift",
+     "label_key": "neustria_west.burdigala.counts_leave.opt_gift",
+     "label": "Give him a gift for his leave",
+     "check": "silver >= 30 and not flag.nw_burdigala_leave",
+     "cost": "silver 30",
+     "effects": [
+      "flag nw_burdigala_leave",
+      "toll eased 200",
+      "npc count feeling +8 gift"
+     ],
+     "note": "outcome: neustria_west.burdigala.counts_leave.out_gift"
+    },
+    {
+     "key": "news",
+     "label_key": "neustria_west.burdigala.counts_leave.opt_news",
+     "label": "Tell him where the king is, and what the Franks say in the north",
+     "check": "true",
+     "effects": [
+      "npc count feeling +6 news"
+     ],
+     "note": "outcome: neustria_west.burdigala.counts_leave.out_news"
+    },
+    {
+     "key": "horse",
+     "label_key": "neustria_west.burdigala.counts_leave.opt_horse",
+     "label": "Ask what a horse fetches south of the Loire",
+     "check": "true",
+     "effects": [
+      "npc count feeling +2 horse",
+      "price_shock burdigala horses x1.2 for 60"
+     ],
+     "note": "outcome: neustria_west.burdigala.counts_leave.out_horse"
+    }
+   ],
+   "memory": {
+    "gift": "gave a gift for leave to trade across the river",
+    "news": "brought news of the king",
+    "horse": "asked the price of a horse"
+   }
+  },
+  {
+   "id": "harbour.burdigala.nine_and_a_chest",
+   "note": "People: burdigala.natan (invented wine and salt dealer). A passenger to carry. The story burdigala.three_tellings: the Danes lie round the wall through 847 and the city is taken by night early in 848 (Annales Bertiniani 847, 848; the Chronicle of Fontenelle). The annal's line that Jews betrayed the city is one distant bishop's and is never told as fact (the Burdigala file's caution): the card shows only a household that has read enough to know who will be blamed. Schedules harbour.namnetis.natans_sons. Wine at a third of its 45 d.",
+   "stage": "harbour",
+   "when": "moored and port.id = burdigala and (year = 847 or (year = 848 and month <= 3)) and not flag.nw_natan_carried",
+   "weight": 0.8,
+   "cooldown_days": 60,
+   "actors": {
+    "merchant": {
+     "role": "merchant",
+     "people": "romance",
+     "faith": "jewish",
+     "tongue": "romance",
+     "sex": "m",
+     "age": [
+      45,
+      50
+     ],
+     "fixed": true,
+     "note": "burdigala.natan"
+    }
+   },
+   "title_key": "neustria_west.burdigala.nine_and_a_chest.title",
+   "title": "Nine people and a chest",
+   "intention_key": "neustria_west.burdigala.nine_and_a_chest.intention",
+   "intention": "The Danes have lain round the wall for months. At the water gate a wine and salt dealer of the city asks passage to the Loire for nine people and a chest of scrolls. He will pay in wine, in silver, or in a debt his sons will honour. Others at the gate watch whom you take.",
+   "lines": [
+    {
+     "who": "merchant",
+     "key": "neustria_west.burdigala.nine_and_a_chest.nine"
+    },
+    {
+     "who": "merchant",
+     "key": "neustria_west.burdigala.nine_and_a_chest.pay"
+    }
+   ],
+   "options": [
+    {
+     "key": "carried",
+     "label_key": "neustria_west.burdigala.nine_and_a_chest.opt_carried",
+     "label": "Take the nine and the chest out on the night ebb",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.7,
+       "by": "crew.seamanship_best",
+       "success": [
+        "passenger merchant to namnetis",
+        "flag nw_natan_carried",
+        "schedule harbour.namnetis.natans_sons in 200 at namnetis",
+        "npc merchant feeling +25 carried"
+       ],
+       "failure": [
+        "passenger merchant to namnetis",
+        "flag nw_natan_carried",
+        "schedule harbour.namnetis.natans_sons in 200 at namnetis",
+        "health -0.05",
+        "npc merchant feeling +25 carried"
+       ]
+      }
+     ],
+     "note": "outcome: neustria_west.burdigala.nine_and_a_chest.out_carried_success, neustria_west.burdigala.nine_and_a_chest.out_carried_failure"
+    },
+    {
+     "key": "wine",
+     "label_key": "neustria_west.burdigala.nine_and_a_chest.opt_wine",
+     "label": "Buy his wine at a third and run it out alone",
+     "check": "silver >= 45",
+     "cost": "silver 45",
+     "effects": [
+      "goods aquitaine_wine +3",
+      "npc merchant feeling -5 wine"
+     ],
+     "note": "outcome: neustria_west.burdigala.nine_and_a_chest.out_wine"
+    },
+    {
+     "key": "refused",
+     "label_key": "neustria_west.burdigala.nine_and_a_chest.opt_refused",
+     "label": "Tell him your boat is too small for nine",
+     "check": "true",
+     "effects": [
+      "npc merchant feeling -2 refused"
+     ],
+     "note": "outcome: neustria_west.burdigala.nine_and_a_chest.out_refused"
+    }
+   ],
+   "memory": {
+    "carried": "carried his household out of the siege",
+    "wine": "bought his wine in the siege",
+    "refused": "would not carry his household"
+   }
+  }
+ ]
+}

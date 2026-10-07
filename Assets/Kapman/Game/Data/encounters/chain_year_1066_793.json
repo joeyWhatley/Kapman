@@ -1,0 +1,572 @@
+{
+ "about": "CHAIN year_1066: three fleets in one year, and where the house stands at Christmas (the spine's thread price_of_england, its last year; the end of the game). Fourteen cards: ten steps and four endings (the king's ships kept at sea: history changed; the duke crowned at Westminster: what happened, on his side; a king of the Norwegians keeping Yule at York: history changed; the house that served no king: what happened, seen from the quay). Words: Data/writing/chain_year_1066.json. Page: Design/content/chains/year_1066.md. Written 6 Oct 2026; a draft for the user to overwrite. Every card is drawn by its own 'when' (the year is fixed by the calendar, so nothing waits on a schedule alone); the schedules only bring a follow-up forward. Flags: ch_year_1066_<n> for the steps met; the road flags _road_english, _road_norman, _road_norse; _tostig, _knows_humber, _harold_word, _counted, _hired, _crossed, _supplied, _fleet_fed, _harald_warned, _carried_home, _fugitives, _bought_cheap, _bought_dead; the endings ch_year_1066_end_english, _end_norman, _end_norse, _end_house (and _end_english_hard, _end_norse_hard, _end_house_hard); the lasting costs _cost_kings_service, _cost_english_grudge, _cost_dead_mans_ground, _cost_two_kings. History changed: changed_1066_fleet_kept, changed_1066_william_turned_back, changed_1066_stamford_bridge, changed_1066_york_norse.",
+ "cards": [
+  {
+   "id": "harbour.chain_year_1066.s01_star",
+   "note": "Step 1, the start (any port, April to June 1066; drawn, weight 8). The long-haired star and the three claims. Sources: Anglo-Saxon Chronicle C and D 1066 (the sign in the heavens such as no man had seen, called by some the star cometa, first seen on the eve of the Greater Litany, 24 April, and shining all the week: our rendering); chronicle_793.json 1066-04-24-halley and 1066-01-05-edward-dies; Tostig with Count Baldwin in Flanders over the winter (ASC D 1065); every hull in Normandy wanted (realms/francia.md, 1060s; William of Poitiers, Gesta Guillelmi II.1-2). The 'men of the Emperor' in London: IV Aethelred 2.8 (about 1000). The clerk and the skipper are invented and unnamed. Sets ch_year_1066_1; _heard if the stories were bought.",
+   "stage": "harbour",
+   "when": "moored and year = 1066 and month >= 4 and month <= 6 and not flag.ch_year_1066_1",
+   "weight": 8.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "port", "faith": "christian", "tongue": "port", "sex": "m", "age": [25, 50], "fixed": false, "note": "a clerk of the nearest church; invented, unnamed" },
+    "skipper": { "role": "skipper", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [35, 60], "fixed": false, "note": "a skipper of the men of the Emperor, in from London; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s01.title",
+   "title": "The long-haired star",
+   "intention_key": "chain_year_1066.s01.intention",
+   "intention": "Nobody on the landing is working. There is a star with hair in the evening sky, and a skipper in from London who says he can tell you what it is for.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.s01.narr_star", "when": "month <= 5" },
+    { "who": "", "key": "chain_year_1066.s01.narr_star_gone", "when": "month = 6" },
+    { "who": "clerk", "key": "chain_year_1066.s01.clerk_sign" },
+    { "who": "skipper", "key": "chain_year_1066.s01.skipper_harold" },
+    { "who": "skipper", "key": "chain_year_1066.s01.skipper_duke" },
+    { "who": "skipper", "key": "chain_year_1066.s01.skipper_north" },
+    { "who": "skipper", "key": "chain_year_1066.s01.skipper_tostig" }
+   ],
+   "options": [
+    { "key": "ask", "label_key": "chain_year_1066.s01.opt_ask", "label": "Buy the skipper his ale and get all three stories straight, with the names", "check": "true", "default": true,
+      "cost": "silver 2",
+      "effects": [ "npc skipper feeling +4 ale", "news chain_year_1066.news.three_claims at here", "price_shock rotomagus rope x1.5 for 120", "price_shock rotomagus sailcloth x1.5 for 120", "price_shock rotomagus pitch x1.4 for 120", "flag ch_year_1066_heard", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s01.out_ask (two pennies; a true rumour and a price word: rope, sailcloth and pitch are dear at Rouen all summer)" },
+    { "key": "alms", "label_key": "chain_year_1066.s01.opt_alms", "label": "Give at the church door, as everyone else is doing this week", "check": "silver >= 6",
+      "cost": "silver 6",
+      "effects": [ "deed gave_alms", "morale +0.05", "npc clerk feeling +5 alms", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s01.out_alms" },
+    { "key": "trade", "label_key": "chain_year_1066.s01.opt_trade", "label": "Stars are the clerk's business. See to the mooring and the cargo", "check": "true",
+      "effects": [ "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s01.out_trade (costs nothing)" }
+   ],
+   "memory": { "ask": "bought the ale and asked for names", "alms": "gave at the door in the week of the star", "trade": "went on with his work under the star" }
+  },
+  {
+   "id": "harbour.chain_year_1066.s02_tostig",
+   "note": "Step 2 (the Wantsum and Dover, May 1066; drawn, weight 7; a side step that opens the Humber). Earl Tostig presses shipmen. Sources: ASC C 1066: Tostig came from over sea into Wight with as large a fleet as he could get, was given money and food there, did harm along the coast as far as Sandwich, and took of the boatmen (butsecarlas) with him, some willingly and some unwillingly; King Harold in London, when he was told, gathered a greater ship-force and land-force than any king in this land had gathered before; Tostig went north with sixty ships to Lindsey, Earls Edwin and Morcar drove him out, the boatmen forsook him, and he went to Scotland with twelve small ships (our rendering). Copsi joining him from Orkney with seventeen ships is Gaimar (?). Sandwich is not in ports_793.json: the card comes at Sarre, Fordwic or Dover and speaks of the haven (see the page's needs). The earl's man and the reeve are invented. Sets ch_year_1066_2; _tostig and _knows_humber if she goes north; _harold_word if the word goes to London.",
+   "stage": "harbour",
+   "when": "moored and (port.id = sarre or port.id = fordwic or port.id = dofras) and year = 1066 and month = 5 and not flag.ch_year_1066_2",
+   "weight": 7.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "earls_man": { "role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 45], "fixed": false, "note": "a housecarl of Earl Tostig Godwinson; invented, unnamed" },
+    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "the port's reeve, with nobody to send against sixty ships; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s02.title",
+   "title": "Some willingly, some unwillingly",
+   "intention_key": "chain_year_1066.s02.intention",
+   "intention": "The king's brother has come home from Flanders with a fleet and without the king's leave. His men are going from ship to ship along the haven, and they are not asking for the toll.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.s02.narr_haven" },
+    { "who": "", "key": "chain_year_1066.s02.narr_warned", "when": "flag.ch_year_1066_heard" },
+    { "who": "earls_man", "key": "chain_year_1066.s02.man_offer" },
+    { "who": "earls_man", "key": "chain_year_1066.s02.man_north" },
+    { "who": "reeve", "key": "chain_year_1066.s02.reeve_quiet" },
+    { "who": "reeve", "key": "chain_year_1066.s02.reeve_london" }
+   ],
+   "options": [
+    { "key": "willing", "label_key": "chain_year_1066.s02.opt_willing", "label": "Go north with the earl for his pay: sixty ships to the Humber", "check": "true",
+      "effects": [ "silver +60", "morale -0.05", "npc earls_man feeling +6 willing", "npc reeve feeling -6 went", "flag ch_year_1066_tostig", "flag ch_year_1066_knows_humber", "flag ch_year_1066_2", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s02.out_willing (three weeks; the earls drive him out of Lindsey, the shipmen leave him, and so do you, with his silver and the Humber sands in your head)" },
+    { "key": "slip", "label_key": "chain_year_1066.s02.opt_slip", "label": "Slip the mooring on the night ebb and be gone before they reach your berth", "check": "true",
+      "effects": [ { "chance": 0.6, "by": "crew.seamanship_best",
+                     "success": [ "npc reeve feeling +3 slipped" ],
+                     "failure": [ "silver -30", "morale -0.08", "flag ch_year_1066_tostig", "flag ch_year_1066_knows_humber" ] },
+                   "flag ch_year_1066_2", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s02.out_slip_success / out_slip_failure (likely; caught, she goes north unpaid, thirty pennies lighter, and still learns the Humber)" },
+    { "key": "pay", "label_key": "chain_year_1066.s02.opt_pay", "label": "Give his man silver to find your ship too small to be worth pressing", "check": "silver >= 40",
+      "cost": "silver 40",
+      "effects": [ "deed bribed_officer", "npc earls_man feeling +3 paid", "flag ch_year_1066_2", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s02.out_pay" },
+    { "key": "word", "label_key": "chain_year_1066.s02.opt_word", "label": "Lie quiet with the reeve till the earl sails, then take the count of his ships to the king's men in London", "check": "true", "default": true,
+      "effects": [ "npc reeve feeling +8 word", "deed carried_letters", "flag ch_year_1066_harold_word", "flag ch_year_1066_2", "flag ch_year_1066_1", "schedule harbour.chain_year_1066.s03_wight in 5 at lundenwic" ],
+      "note": "outcome: chain_year_1066.s02.out_word (costs four days hidden up a creek; the king hears it from you among others)" }
+   ],
+   "memory": { "willing": "sailed north with Earl Tostig for pay", "slip": "slipped out on the ebb", "slip.failure": "was pressed and taken north", "pay": "paid to be overlooked", "word": "carried the count to London" }
+  },
+  {
+   "id": "harbour.chain_year_1066.s03_wight",
+   "note": "Step 3, the English road (London, May to August 1066; drawn, weight 7). Bread for the king's ships. Sources: ASC C 1066: Harold went to Wight and lay there all the summer and the harvest, and a land-force was kept everywhere by the sea (our rendering); the king's fleet 'waits off Wight until the food is gone' (realms/england_south.md, 1060s). The men of the Emperor who come in their ships held worthy of good laws like the Londoners, and the men of Rouen with their wine: IV Aethelred 2.5-2.8 (about 1000); a wharf of the Rouen men at Dowgate in King Edward's day (?). The king's steward and the Rouen wine man are invented. Sets ch_year_1066_3; _road_english when the order is taken or the count is sold; _harold_word with the count.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year = 1066 and month >= 5 and month <= 8 and not flag.ch_year_1066_3",
+   "weight": 7.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "a steward of King Harold charged with the fleet's bread; invented, unnamed" },
+    "wine_man": { "role": "merchant", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 55], "fixed": false, "note": "a wine merchant of Rouen at his wharf; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s03.title",
+   "title": "Bread for the ships",
+   "intention_key": "chain_year_1066.s03.intention",
+   "intention": "The king lies off Wight with more ships and men than any king here has gathered, and every one of them eats. His steward is on the hythe buying corn from anybody who has it.",
+   "lines": [
+    { "who": "steward", "key": "chain_year_1066.s03.steward_fleet" },
+    { "who": "steward", "key": "chain_year_1066.s03.steward_word", "when": "flag.ch_year_1066_harold_word" },
+    { "who": "steward", "key": "chain_year_1066.s03.steward_order" },
+    { "who": "steward", "key": "chain_year_1066.s03.steward_law" },
+    { "who": "wine_man", "key": "chain_year_1066.s03.wine_man_watch" },
+    { "who": "", "key": "chain_year_1066.s03.narr_counted", "when": "flag.ch_year_1066_counted" }
+   ],
+   "options": [
+    { "key": "order", "label_key": "chain_year_1066.s03.opt_order", "label": "Take the king's order: thirty loads of wheat landed here, at his price and a good one", "check": "true", "default": true,
+      "effects": [ "commission wheat 30 by 60 premium 0.4", "npc steward feeling +6 order", "flag ch_year_1066_road_english", "flag ch_year_1066_3", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s03.out_order (an order at four tenths over the market)" },
+    { "key": "count", "label_key": "chain_year_1066.s03.opt_count", "label": "Sell him what you counted on the Seine: the duke's keels, by yard and by week", "check": "flag.ch_year_1066_counted",
+      "effects": [ "silver +120", "npc steward feeling +12 count", "npc wine_man feeling -6 count", "flag ch_year_1066_harold_word", "flag ch_year_1066_road_english", "flag ch_year_1066_3", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s03.out_count (120 d, and the king's ear)" },
+    { "key": "decline", "label_key": "chain_year_1066.s03.opt_decline", "label": "A king's order is paid when the king wins. Decline, civilly", "check": "true",
+      "effects": [ "flag ch_year_1066_3", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s03.out_decline (costs nothing)" }
+   ],
+   "memory": { "order": "took the king's corn order", "count": "sold the count of the duke's ships", "decline": "would not sell to the king on trust" }
+  },
+  {
+   "id": "harbour.chain_year_1066.s04_rouen",
+   "note": "Step 4, the Norman road (Rouen, March to August 1066; drawn, weight 7). Every hull is wanted. Sources: William of Poitiers, Gesta Guillelmi II.1-2 (the duke orders ships built and fitted; a great host fed at his cost for a month at the mouth of the Dives while the wind is against him, and plunder forbidden); the Bayeux Tapestry (trees felled, planks shaped, ships dragged to the water); the Ship List of William (the magnates' quotas, William fitzOsbern's sixty among them; a 12th-century copy (?)); realms/francia.md, 1060s. The steward's clerk and the wright are invented; fitzOsbern, the duke's steward, is historical and is only named. Sets ch_year_1066_4; _road_norman; _hired; _counted.",
+   "stage": "harbour",
+   "when": "moored and port.id = rotomagus and year = 1066 and month >= 3 and month <= 8 and not flag.ch_year_1066_4",
+   "weight": 7.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [25, 50], "fixed": true, "note": "a clerk of William fitzOsbern, the duke's steward; invented, unnamed" },
+    "wright": { "role": "shipwright", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 60], "fixed": false, "note": "a shipwright of the Seine yards; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s04.title",
+   "title": "Every hull that floats",
+   "intention_key": "chain_year_1066.s04.intention",
+   "intention": "Both banks below the bridge are shipyards this year. A clerk with wax tablets comes down your gangplank before the mooring is made fast, and looks at the ship before he looks at you.",
+   "lines": [
+    { "who": "clerk", "key": "chain_year_1066.s04.clerk_hulls" },
+    { "who": "clerk", "key": "chain_year_1066.s04.clerk_stores" },
+    { "who": "wright", "key": "chain_year_1066.s04.wright_green" },
+    { "who": "clerk", "key": "chain_year_1066.s04.clerk_warn" },
+    { "who": "", "key": "chain_year_1066.s04.narr_english", "when": "flag.ch_year_1066_road_english" }
+   ],
+   "options": [
+    { "key": "stores", "label_key": "chain_year_1066.s04.opt_stores", "label": "Take his order for rope: twenty coils, landed here, at six tenths over the market", "check": "true", "default": true,
+      "effects": [ "commission rope 20 by 60 premium 0.6", "npc clerk feeling +5 stores", "flag ch_year_1066_road_norman", "flag ch_year_1066_4", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s04.out_stores" },
+    { "key": "hire", "label_key": "chain_year_1066.s04.opt_hire", "label": "Put the ship at the duke's hire for the crossing: silver now, the rest on the far shore", "check": "true",
+      "effects": [ "silver +200", "npc clerk feeling +10 hired", "flag ch_year_1066_hired", "flag ch_year_1066_road_norman", "flag ch_year_1066_4", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s04.out_hire (200 d down; she is to be at the fleet's haven in September, and he has said plainly that a hired ship does not leave before the wind does)" },
+    { "key": "count", "label_key": "chain_year_1066.s04.opt_count", "label": "Sell him nothing. Walk the yards, drink with the wrights and count keels", "check": "true",
+      "effects": [ { "chance": 0.65, "by": "crew.eyes_best",
+                     "success": [ "flag ch_year_1066_counted", "npc wright feeling +4 drank" ],
+                     "failure": [ "silver -20", "npc clerk feeling -8 counting" ] },
+                   "flag ch_year_1066_4", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s04.out_count_success / out_count_failure (likely; seen at it, a sergeant walks you back to the ship and charges twenty pennies for the walk)" }
+   ],
+   "memory": { "stores": "took the rope order", "hire": "hired his ship to the duke", "count": "drank with the wrights", "count.failure": "was caught counting keels" }
+  },
+  {
+   "id": "harbour.chain_year_1066.s05_solund",
+   "note": "Step 5, the Norse road (Ogvaldsnes on the Karmsund, May to August 1066; drawn, weight 7). The levy goes north to the gathering. Sources: ASC C, D and E 1066 (Harald king of Norway came with three hundred ships; D and E give the number); Snorri, Haralds saga Sigurdarsonar 79-80 (a half levy of the whole land, the ships gathered in the Solund isles, the king's son Magnus left as king and Olaf taken west: saga, written about 1230 (?)); the king's penny of about one third silver from the 1050s (the coins themselves; realms/norway.md, 1050s; the tale of Halldor Snorrason throwing down his pay, Morkinskinna (?)); 'every farm on the sound sent a man' (realms/norway.md, scene 10). The king's man and the farm wife are invented. Sets ch_year_1066_5; _road_norse when she sails as pilot.",
+   "stage": "harbour",
+   "when": "moored and port.id = ogvaldsnes and year = 1066 and month >= 5 and month <= 8 and not flag.ch_year_1066_5",
+   "weight": 7.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "kings_man": { "role": "kings_man", "people": "norse", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": false, "note": "a man of King Harald Sigurdsson calling out the levy on the sound; invented, unnamed" },
+    "farm_wife": { "role": "farm_wife", "people": "norse", "faith": "christian", "tongue": "old_norse", "sex": "f", "age": [30, 55], "fixed": true, "note": "a farmer's wife of the Karmsund whose husband and eldest son are both called out; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s05.title",
+   "title": "Half the levy of the land",
+   "intention_key": "chain_year_1066.s05.intention",
+   "intention": "Ships have been going north up the sound for nine days, to a gathering in the Solund isles. The king's man on the landing wants two things of a foreign skipper: food, and what he knows of the English rivers.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.s05.narr_sound" },
+    { "who": "kings_man", "key": "chain_year_1066.s05.man_levy" },
+    { "who": "kings_man", "key": "chain_year_1066.s05.man_pilot" },
+    { "who": "kings_man", "key": "chain_year_1066.s05.man_humber", "when": "flag.ch_year_1066_knows_humber" },
+    { "who": "farm_wife", "key": "chain_year_1066.s05.wife_pennies" },
+    { "who": "farm_wife", "key": "chain_year_1066.s05.wife_farm" }
+   ],
+   "options": [
+    { "key": "pilot", "label_key": "chain_year_1066.s05.opt_pilot", "label": "Sail with them as a pilot for the Humber and the Ouse, for silver by weight", "check": "flag.ch_year_1066_knows_humber or flag.unlock_pilot_humber or tongue.old_english >= 0.5",
+      "effects": [ "silver +150", "npc kings_man feeling +8 pilot", "flag ch_year_1066_road_norse", "flag ch_year_1066_5", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s05.out_pilot (150 d weighed; she is at York when the ships are, in September)" },
+    { "key": "sell", "label_key": "chain_year_1066.s05.opt_sell", "label": "Sell him ship's bread and stockfish, and argue for weighed silver, not counted pennies", "check": "true", "default": true,
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "silver +70", "npc kings_man feeling +3 weighed" ],
+                     "failure": [ "silver +25", "npc kings_man feeling -2 pennies" ] },
+                   "flag ch_year_1066_5", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s05.out_sell_success / out_sell_failure (likely; the farm wife has warned what the king's pennies are made of)" },
+    { "key": "decline", "label_key": "chain_year_1066.s05.opt_decline", "label": "Wish him a fair wind, and keep your keel out of it", "check": "true",
+      "effects": [ "npc farm_wife feeling +3 stayed", "price_shock ogvaldsnes wadmal x0.8 for 150", "flag ch_year_1066_5", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s05.out_decline (costs nothing; a price word: with the men gone the farms sell cloth cheap for bread all year)" }
+   ],
+   "memory": { "pilot": "took the king's silver to pilot the Humber", "sell": "sold stores to the levy", "decline": "kept out of the king's war" }
+  },
+  {
+   "id": "harbour.chain_year_1066.s06_larder",
+   "note": "Step 6, the turn of the English road and the first place history can change (London, August and September 1066; drawn, weight 9). The fleet's food is gone. Sources: ASC C 1066: when it was the Nativity of Saint Mary (8 September) the men's food was gone and no man could keep them there any longer; the men were let go home, the king rode up, and the ships were sent to London, and many were lost before they came there (our rendering). The duke sailed on the night of 27 September (William of Poitiers II.6-7): nineteen days. Corn from the Rhine in the ships of the Emperor's men: Alpert of Metz, De diversitate temporum II.20 (the merchants of Tiel and their trade with Britain, about 1020). The steward is the steward of step 3; the elder of the Emperor's men is invented. Sets ch_year_1066_6; with the stake won, _fleet_fed and changed_1066_fleet_kept.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and year = 1066 and (month = 8 or month = 9) and not flag.ch_year_1066_6 and not flag.ch_year_1066_crossed",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "the king's steward of step 3; invented, unnamed" },
+    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [50, 70], "fixed": true, "note": "the oldest of the Emperor's men who winter in London, a merchant of Tiel; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s06.title",
+   "title": "The food is gone",
+   "intention_key": "chain_year_1066.s06.intention",
+   "intention": "The steward has no corn to buy and no silver left to buy it with. The ships have lain off Wight since May. On Our Lady's birthday the men will be let go home, unless somebody feeds them on trust.",
+   "lines": [
+    { "who": "steward", "key": "chain_year_1066.s06.steward_gone" },
+    { "who": "steward", "key": "chain_year_1066.s06.steward_ask" },
+    { "who": "steward", "key": "chain_year_1066.s06.steward_order", "when": "flag.ch_year_1066_road_english" },
+    { "who": "elder", "key": "chain_year_1066.s06.elder_rhine" },
+    { "who": "elder", "key": "chain_year_1066.s06.elder_warn" },
+    { "who": "", "key": "chain_year_1066.s06.narr_counted", "when": "flag.ch_year_1066_counted" }
+   ],
+   "options": [
+    { "key": "open_barns", "label_key": "chain_year_1066.s06.opt_open_barns", "label": "Stake 600 d, and tell him to the keel what the duke has and when it can sail: let the king open the minster barns on that", "check": "silver >= 600 and flag.ch_year_1066_counted and flag.ch_year_1066_harold_word",
+      "cost": "silver 600",
+      "effects": [ "deed kept_commission", "npc steward feeling +25 fed", "npc elder feeling +8 staked", "flag ch_year_1066_fleet_fed", "flag changed_1066_fleet_kept", "flag ch_year_1066_road_english", "flag ch_year_1066_6", "flag ch_year_1066_1", "news chain_year_1066.news.fleet_kept at here", "schedule harbour.chain_year_1066.end_english in 30 at lundenwic" ],
+      "note": "outcome: chain_year_1066.s06.out_open_barns (sure, for the man who counted at Rouen and has the king's ear: the hard road)" },
+    { "key": "stake", "label_key": "chain_year_1066.s06.opt_stake", "label": "Stake 600 d of the house's silver on Rhine corn, and every keel of the Emperor's men that will follow you", "check": "silver >= 600 and (flag.ch_year_1066_road_english or flag.ch_year_1066_harold_word or standing >= 30)",
+      "cost": "silver 600",
+      "effects": [ { "chance": 0.6, "by": "crew.trade_best",
+                     "success": [ "deed kept_commission", "npc steward feeling +20 fed", "flag ch_year_1066_fleet_fed", "flag changed_1066_fleet_kept", "news chain_year_1066.news.fleet_kept at here", "schedule harbour.chain_year_1066.end_english in 30 at lundenwic" ],
+                     "failure": [ "silver +380", "npc steward feeling +8 late" ] },
+                   "npc elder feeling +8 staked", "flag ch_year_1066_road_english", "flag ch_year_1066_6", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s06.out_stake_success / out_stake_failure (likely; too late, the ships are already coming up the river, and the corn is sold to the city at a loss of 220 d)" },
+    { "key": "share", "label_key": "chain_year_1066.s06.opt_share", "label": "Put in 150 d with the others, for the ships that are coming home, and promise nothing", "check": "silver >= 150",
+      "cost": "silver 150",
+      "effects": [ "silver +190", "npc steward feeling +5 share", "flag ch_year_1066_6", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s06.out_share (150 d back with 40 over at Michaelmas; the fleet goes home, as it did)" },
+    { "key": "no", "label_key": "chain_year_1066.s06.opt_no", "label": "No. Men who cannot be fed go home, and that is not a merchant's to mend", "check": "true", "default": true,
+      "effects": [ "flag ch_year_1066_6", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s06.out_no (costs nothing; the fleet goes home, as it did)" }
+   ],
+   "memory": { "open_barns": "fed the king's ships and named the duke's", "stake": "staked his house on the king's ships", "stake.failure": "staked his house and came too late", "share": "put in a share", "no": "would not feed the fleet on trust" }
+  },
+  {
+   "id": "harbour.chain_year_1066.s07_saint_valery",
+   "note": "Step 7, the turn of the Norman road (Quentovic or Rouen, September 1066; drawn, weight 9; the scene is the mouth of the Somme, which has no port in ports_793.json: see the page's needs). The fleet waits for a south wind. Sources: William of Poitiers II.6-7 (the fleet moved from the Dives to Saint-Valery with losses, the drowned buried in secret, the rations raised, the body of Saint Valery carried out of the church, the wind turning and the duke's ship carrying a lantern at the mast: our rendering); the Carmen de Hastingae Proelio (the duke watching the weathercock on the church (?)); 12 to 27 September at Saint-Valery (realms/francia.md); the duke pays for what he eats (WP II.2); landing at Pevensey on Michaelmas eve, 28 September (ASC D 1066; chronicle_793.json 1066-09-28-pevensey). The sergeant, the Flemish skipper and the monk are invented. Sets ch_year_1066_7; _crossed and _road_norman if she crosses; _counted and _harold_word if she gets away with the count.",
+   "stage": "harbour",
+   "when": "moored and (port.id = quentovic or port.id = rotomagus) and year = 1066 and month = 9 and not flag.ch_year_1066_7",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "sergeant": { "role": "lords_man", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [25, 50], "fixed": false, "note": "a sergeant of the duke's household keeping the transports together; invented, unnamed" },
+    "skipper": { "role": "skipper", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 60], "fixed": false, "note": "a Flemish skipper hired with his ship; invented, unnamed" },
+    "monk": { "role": "monk", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 70], "fixed": false, "note": "a monk of Saint-Valery; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s07.title",
+   "title": "Waiting for a south wind",
+   "intention_key": "chain_year_1066.s07.intention",
+   "intention": "The duke's fleet lies in the mouth of the Somme under the abbey of Saint Valery, and the wind has blown from the north for two weeks. A sergeant sends you round to join it, loaded or empty.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.s07.narr_canche", "when": "port.id = quentovic" },
+    { "who": "", "key": "chain_year_1066.s07.narr_seine", "when": "port.id = rotomagus" },
+    { "who": "sergeant", "key": "chain_year_1066.s07.sergeant_hired", "when": "flag.ch_year_1066_hired" },
+    { "who": "sergeant", "key": "chain_year_1066.s07.sergeant_press", "when": "not flag.ch_year_1066_hired" },
+    { "who": "skipper", "key": "chain_year_1066.s07.skipper_drowned" },
+    { "who": "monk", "key": "chain_year_1066.s07.monk_saint" },
+    { "who": "", "key": "chain_year_1066.s07.narr_kept", "when": "flag.changed_1066_fleet_kept" }
+   ],
+   "options": [
+    { "key": "cross", "label_key": "chain_year_1066.s07.opt_cross", "label": "Take the horses aboard and cross with the fleet when the wind comes round", "check": "not flag.changed_1066_fleet_kept",
+      "effects": [ "silver +250", "npc sergeant feeling +10 crossed", "flag ch_year_1066_crossed", "flag ch_year_1066_road_norman", "flag ch_year_1066_7", "flag ch_year_1066_1", "schedule harbour.chain_year_1066.s09_dover in 25 at dofras" ],
+      "note": "outcome: chain_year_1066.s07.out_cross (250 d; a night crossing behind a lantern, and Pevensey shingle on Michaelmas eve)" },
+    { "key": "slip", "label_key": "chain_year_1066.s07.opt_slip", "label": "Slip out on the night ebb with the count of his ships, and run for the English shore", "check": "true",
+      "effects": [ { "chance": 0.5, "by": "crew.seamanship_best",
+                     "success": [ "silver +80", "flag ch_year_1066_counted", "flag ch_year_1066_harold_word", "npc sergeant feeling -20 ran" ],
+                     "failure": [ "silver -60", "morale -0.08", "npc sergeant feeling -12 caught", "flag ch_year_1066_crossed" ] },
+                   "flag ch_year_1066_7", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s07.out_slip_success / out_slip_failure (doubtful; the skipper says the duke's guard ships row the bar all night. Caught, she is fined 60 d and carries horses over unpaid)" },
+    { "key": "sell", "label_key": "chain_year_1066.s07.opt_sell", "label": "Sell the camp what it will eat, at the duke's fair price, and be gone before the wind changes", "check": "true", "default": true,
+      "effects": [ "silver +60", "npc monk feeling +3 fair", "news chain_year_1066.news.saint_valery at here", "flag ch_year_1066_7", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s07.out_sell (60 d; costs nothing but the tide)" }
+   ],
+   "memory": { "cross": "carried horses over for the duke", "slip": "ran from the fleet with the count", "slip.failure": "was caught running and made to carry", "sell": "sold to the camp and left" }
+  },
+  {
+   "id": "harbour.chain_year_1066.s08_riccall",
+   "note": "Step 8, the turn of the Norse road and the second place history can change (York, September 1066; drawn, weight 9). The night before Stamford Bridge. Sources: ASC C 1066: the earls Edwin and Morcar fought the Norwegians on the vigil of Saint Matthew (20 September) and were beaten; Harald and Tostig went into York and were given hostages and food, and it was agreed the townsmen should go south with them; King Harold came on the Sunday to Tadcaster, and on the Monday went through York and came on them unawares beyond the bridge (our rendering); chronicle_793.json 1066-09-25-stamford-bridge. The ships lay at Riccall on the Ouse (ASC; John of Worcester 1066). That the Norwegians left their mail with the ships because the day was hot, and a third of the host with them, is Snorri, Haralds saga 87 (saga (?)). The carter, the Norwegian steersman and the thegn are invented. Sets ch_year_1066_8; _harald_warned and changed_1066_stamford_bridge if the warning is believed; _harold_word if the thegn is told.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and year = 1066 and month = 9 and not flag.ch_year_1066_8",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "carter": { "role": "carter", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 60], "fixed": false, "note": "a carter in from Tadcaster by the back lanes; invented, unnamed" },
+    "steersman": { "role": "steersman", "people": "norse", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [25, 50], "fixed": false, "note": "a steersman of the Norwegian fleet buying ale on the staith; invented, unnamed" },
+    "thegn": { "role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 50], "fixed": false, "note": "a thegn of King Harold come into York ahead of the army in a carter's hood; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s08.title",
+   "title": "The Sunday before the bridge",
+   "intention_key": "chain_year_1066.s08.intention",
+   "intention": "York has given hostages to the king of the Norwegians and has not been burned. His ships lie ten miles down the Ouse. On the staith a carter is telling anyone who will listen what he saw on the Tadcaster road.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.s08.narr_fulford" },
+    { "who": "", "key": "chain_year_1066.s08.narr_pilot", "when": "flag.ch_year_1066_road_norse" },
+    { "who": "carter", "key": "chain_year_1066.s08.carter_road" },
+    { "who": "steersman", "key": "chain_year_1066.s08.steersman_hot" },
+    { "who": "steersman", "key": "chain_year_1066.s08.steersman_south" },
+    { "who": "thegn", "key": "chain_year_1066.s08.thegn_ask" }
+   ],
+   "options": [
+    { "key": "warn", "label_key": "chain_year_1066.s08.opt_warn", "label": "Go down the river to the ships tonight and tell the king's men what the carter saw", "check": "flag.ch_year_1066_road_norse or tongue.old_norse >= 0.5",
+      "effects": [ { "chance": 0.55, "by": "crew.trade_best",
+                     "success": [ "npc steersman feeling +15 warned", "flag ch_year_1066_harald_warned", "flag changed_1066_stamford_bridge", "schedule harbour.chain_year_1066.end_norse in 80 at eoforwic" ],
+                     "failure": [ "morale -0.05", "npc steersman feeling -3 croaker", "schedule harbour.chain_year_1066.s10_twentyfour in 10 at eoforwic" ] },
+                   "flag ch_year_1066_8", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s08.out_warn_success / out_warn_failure (likely for a man with a good tongue aboard; the steersman has said why nobody will believe it)" },
+    { "key": "thegn", "label_key": "chain_year_1066.s08.opt_thegn", "label": "Tell the thegn where the ships lie, and that the Northmen go to the bridge tomorrow without their mail", "check": "true",
+      "effects": [ "silver +60", "npc thegn feeling +12 told", "flag ch_year_1066_harold_word", "flag ch_year_1066_8", "flag ch_year_1066_1", "schedule harbour.chain_year_1066.s10_twentyfour in 10 at eoforwic" ],
+      "note": "outcome: chain_year_1066.s08.out_thegn (60 d from his own purse; the day goes as it went)" },
+    { "key": "hatch", "label_key": "chain_year_1066.s08.opt_hatch", "label": "Say nothing to anyone. Shift the berth upriver and keep the hatch shut", "check": "true", "default": true,
+      "effects": [ "flag ch_year_1066_8", "flag ch_year_1066_1", "schedule harbour.chain_year_1066.s10_twentyfour in 10 at eoforwic" ],
+      "note": "outcome: chain_year_1066.s08.out_hatch (costs nothing)" }
+   ],
+   "memory": { "warn": "brought the carter's word to the ships", "warn.failure": "brought a tale nobody believed", "thegn": "told the king's thegn where the ships lay", "hatch": "kept his hatch shut" }
+  },
+  {
+   "id": "harbour.chain_year_1066.s09_dover",
+   "note": "Step 9 (Dover or Sarre, October and November 1066; drawn, weight 9; not where the king's ships turned the duke back). After the battle. Sources: ASC D 1066 (King Harold killed, and Earl Leofwine his brother and Earl Gyrth his brother, and many good men; 14 October: our rendering; chronicle_793.json 1066-10-14-hastings); William of Poitiers II.26-28 (the men of Romney punished for killing the crew of ships that went astray; Dover surrendered and was fired by the duke's squires, greedy for plunder, and the duke paid for the damage; he stayed eight days, and many of his men fell sick of a flux from fresh meat and the water); 'Dover burned after it surrendered' (realms/england_south.md, scene 10). English who crossed to Flanders: Harold's mother Gytha went to Saint-Omer in 1068 (ASC D 1067 for 1068); the widow here is invented, as are the sergeant and her children. Sets ch_year_1066_9; _supplied and _road_norman; _fugitives; _bought_cheap.",
+   "stage": "harbour",
+   "when": "moored and (port.id = dofras or port.id = sarre) and year = 1066 and month >= 10 and month <= 11 and not flag.ch_year_1066_9 and not flag.changed_1066_fleet_kept",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "widow": { "role": "widow", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "f", "age": [25, 45], "fixed": false, "note": "the widow of a Kentish thegn killed with the king, with two children; invented, unnamed" },
+    "sergeant": { "role": "lords_man", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [25, 50], "fixed": false, "note": "a sergeant of the duke's household with a sick list; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s09.title",
+   "title": "After the battle",
+   "intention_key": "chain_year_1066.s09.intention",
+   "intention": "The king is dead on a hill above Hastings, and two of his brothers with him. The duke's army has come along the coast taking the harbours one by one, and half of it is now too sick to stand.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.s09.narr_dover", "when": "port.id = dofras" },
+    { "who": "", "key": "chain_year_1066.s09.narr_sarre", "when": "port.id = sarre" },
+    { "who": "sergeant", "key": "chain_year_1066.s09.sergeant_sick" },
+    { "who": "sergeant", "key": "chain_year_1066.s09.sergeant_crossed", "when": "flag.ch_year_1066_crossed" },
+    { "who": "widow", "key": "chain_year_1066.s09.widow_ask" },
+    { "who": "", "key": "chain_year_1066.s09.narr_word", "when": "flag.ch_year_1066_harold_word" }
+   ],
+   "options": [
+    { "key": "supply", "label_key": "chain_year_1066.s09.opt_supply", "label": "Carry the duke's sick over to Normandy, and take his order for flour on the way back", "check": "true",
+      "effects": [ "silver +120", "commission flour 20 by 40 premium 0.6", "npc sergeant feeling +10 carried", "flag ch_year_1066_supplied", "flag ch_year_1066_road_norman", "flag ch_year_1066_9", "flag ch_year_1066_1", "schedule harbour.chain_year_1066.end_norman in 45 at lundenwic" ],
+      "note": "outcome: chain_year_1066.s09.out_supply (120 d and an order at six tenths over)" },
+    { "key": "fugitives", "label_key": "chain_year_1066.s09.opt_fugitives", "label": "Take the widow and her children over to Flanders, and ask no fare", "check": "true", "default": true,
+      "effects": [ "passenger widow to ganda", "goods brooches +1", "npc widow feeling +15 carried", "flag ch_year_1066_fugitives", "flag ch_year_1066_9", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s09.out_fugitives (costs the passage; she leaves a brooch on the thwart all the same)" },
+    { "key": "buy", "label_key": "chain_year_1066.s09.opt_buy", "label": "Buy what the fire and the foragers left: eight bolts of wool cloth for 60 d", "check": "silver >= 60",
+      "cost": "silver 60",
+      "effects": [ "goods wool_cloth +8", "npc widow feeling -8 bought", "flag ch_year_1066_bought_cheap", "flag ch_year_1066_9", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s09.out_buy (cloth at a third of its price, and people who saw who bought it)" },
+    { "key": "go", "label_key": "chain_year_1066.s09.opt_go", "label": "Fill the water casks and go. There is no market here this month", "check": "true",
+      "effects": [ "flag ch_year_1066_9", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s09.out_go (costs nothing)" }
+   ],
+   "memory": { "supply": "carried the duke's sick and his flour", "fugitives": "took a widow over the water for nothing", "buy": "bought cheap in a burned town", "go": "watered and left" }
+  },
+  {
+   "id": "harbour.chain_year_1066.s10_twentyfour",
+   "note": "Step 10 (York, October and November 1066; drawn, weight 9; not where the Norwegians were warned). Twenty-four ships of three hundred. Sources: ASC D 1066: the king gave quarter to Olaf, the son of the Norwegians' king, and to their bishop and the earl of Orkney and all who were left on the ships; they came up to the king and swore oaths that they would always keep peace and friendship with this land, and he let them go home with twenty-four ships (our rendering); the three hundred of the coming, ASC D and E; 'three hundred out, twenty-four home' (realms/norway.md, scene 10). King Harold told of the duke's landing while still in the north: ASC and John of Worcester 1066 (where he heard it is not said (?)). Mail and swords are forbidden goods at some tolls: a line warns of it. The survivor and the king's man are invented. Sets ch_year_1066_10; _carried_home; _bought_dead; _news_south.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and year = 1066 and month >= 10 and month <= 11 and not flag.ch_year_1066_10 and not flag.ch_year_1066_harald_warned",
+   "weight": 9.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "survivor": { "role": "survivor", "people": "norse", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [18, 45], "fixed": false, "note": "a man of the Karmsund with a spear wound in the thigh; invented, unnamed" },
+    "kings_man": { "role": "kings_man", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 55], "fixed": false, "note": "a king's reeve left at York to count ships and see them gone; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.s10.title",
+   "title": "Twenty-four ships",
+   "intention_key": "chain_year_1066.s10.intention",
+   "intention": "The king of the Norwegians is dead at the bridge, and Earl Tostig with him. What is left of three hundred crews is at the ships, sworn to peace and waiting to be told how many hulls it may take home.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.s10.narr_bridge" },
+    { "who": "", "key": "chain_year_1066.s10.narr_pilot", "when": "flag.ch_year_1066_road_norse" },
+    { "who": "survivor", "key": "chain_year_1066.s10.survivor_count" },
+    { "who": "survivor", "key": "chain_year_1066.s10.survivor_ask" },
+    { "who": "kings_man", "key": "chain_year_1066.s10.kings_man_south" },
+    { "who": "kings_man", "key": "chain_year_1066.s10.kings_man_gear" }
+   ],
+   "options": [
+    { "key": "carry", "label_key": "chain_year_1066.s10.opt_carry", "label": "Take as many of the hurt as the ship will hold home to the Karmsund, for nothing", "check": "true", "default": true,
+      "effects": [ "passenger survivor to ogvaldsnes", "npc survivor feeling +20 carried", "npc kings_man feeling +3 gone", "flag ch_year_1066_carried_home", "flag ch_year_1066_10", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s10.out_carry (costs a late crossing of the North Sea; the honest road of the house's ending)" },
+    { "key": "gear", "label_key": "chain_year_1066.s10.opt_gear", "label": "Buy the dead men's mail and swords from the men who stripped them: 120 d the lot", "check": "silver >= 120",
+      "cost": "silver 120",
+      "effects": [ "goods byrnies +2", "goods swords +4", "npc survivor feeling -10 stripped", "flag ch_year_1066_bought_dead", "flag ch_year_1066_10", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s10.out_gear (two mail shirts and four swords for a fifth of their worth; the king's man has said what a toll man makes of mail in a merchant's hold)" },
+    { "key": "south", "label_key": "chain_year_1066.s10.opt_south", "label": "Leave it. Run south with the news while it is still worth a cup of wine", "check": "true",
+      "effects": [ "news chain_year_1066.news.stamford at lundenwic", "silver +30", "flag ch_year_1066_news_south", "flag ch_year_1066_10", "flag ch_year_1066_1" ],
+      "note": "outcome: chain_year_1066.s10.out_south (30 d from a Humber skipper for the first full telling; costs nothing)" }
+   ],
+   "memory": { "carry": "carried the hurt home for nothing", "gear": "bought dead men's mail", "south": "ran south with the news" }
+  },
+  {
+   "id": "harbour.chain_year_1066.end_english",
+   "note": "ENDING: the ships that were kept at sea (London, Dover or Sarre, from October 1066; drawn, weight 20; for the house that fed the fleet). HISTORY CHANGED: flags ch_year_1066_end_english, changed_1066_william_turned_back (with changed_1066_fleet_kept from step 6). Grand rewards: unlock_title_thegn, or unlock_plot_lundenwic, or on the hard road both with unlock_charter_lundenwic. A cost that lasts: ch_year_1066_cost_kings_service (a thegn owes the king's host a ship). What is true under it: the fleet did go home on 8 September and the duke crossed unopposed on the night of 27 September (ASC C; William of Poitiers II.7); Norman ships that went astray did land at Romney and their crews were killed by the men of the place (WP II.27), which is here the fate of more of them. 'If a merchant throve, so that he crossed the wide sea three times at his own cost, he was thenceforth worthy of a thegn's right': the tract Gethynctho 6, Archbishop Wulfstan, about 1002 to 1023 (our rendering, after Thorpe, Ancient Laws, 1840 (?)). A hythe in London by the king's gift: the Queenhithe grants of 889 and 898 (S 346, S 1628). The steward is the steward of steps 3 and 6 when she lies at London.",
+   "stage": "harbour",
+   "when": "moored and (port.id = lundenwic or port.id = dofras or port.id = sarre) and flag.changed_1066_fleet_kept and not flag.ch_year_1066_end_english and not flag.ch_year_1066_end_norman and not flag.ch_year_1066_end_norse and not flag.ch_year_1066_end_house and ((year = 1066 and month >= 10) or year > 1066)",
+   "weight": 20.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "steward": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "the king's steward; invented, unnamed" },
+    "shipman": { "role": "sailor", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [20, 50], "fixed": false, "note": "a shipman of the king's fleet, home from the Channel; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.end_english.title",
+   "title": "The ships that stayed",
+   "intention_key": "chain_year_1066.end_english.intention",
+   "intention": "The king's ships were still at sea at Michaelmas, on your corn. The duke's fleet came over in the dark on a south wind and found them in the way.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.end_english.narr_night" },
+    { "who": "shipman", "key": "chain_year_1066.end_english.shipman_lantern" },
+    { "who": "shipman", "key": "chain_year_1066.end_english.shipman_romney" },
+    { "who": "", "key": "chain_year_1066.end_english.narr_north", "when": "not flag.changed_1066_stamford_bridge" },
+    { "who": "", "key": "chain_year_1066.end_english.narr_north_changed", "when": "flag.changed_1066_stamford_bridge" },
+    { "who": "steward", "key": "chain_year_1066.end_english.steward_owes" },
+    { "who": "steward", "key": "chain_year_1066.end_english.steward_law" }
+   ],
+   "options": [
+    { "key": "thegn", "label_key": "chain_year_1066.end_english.opt_thegn", "label": "Ask what the old law gives a merchant who has crossed the wide sea three times at his own cost: a thegn's right", "check": "true", "default": true,
+      "effects": [ "silver +1800", "npc steward feeling +10 thegn", "flag unlock_title_thegn", "flag ch_year_1066_cost_kings_service", "flag changed_1066_william_turned_back", "flag ch_year_1066_end_english", "news chain_year_1066.news.turned_back at here" ],
+      "note": "outcome: chain_year_1066.end_english.out_thegn (1,800 d: the stake three times over; a thegn's right, and a thegn's duty with it)" },
+    { "key": "hythe", "label_key": "chain_year_1066.end_english.opt_hythe", "label": "Ask for ground instead: a hythe of the house's own on the Thames", "check": "true",
+      "effects": [ "silver +2000", "npc steward feeling +6 hythe", "flag unlock_plot_lundenwic", "flag changed_1066_william_turned_back", "flag ch_year_1066_end_english", "news chain_year_1066.news.turned_back at here" ],
+      "note": "outcome: chain_year_1066.end_english.out_hythe (2,000 d and a hythe; no man's lord and no man's thegn)" },
+    { "key": "both", "label_key": "chain_year_1066.end_english.opt_both", "label": "You brought the count of the duke's keels as well as the corn. Ask for the thegn's right and the king's writ on the toll together", "check": "flag.ch_year_1066_counted and flag.ch_year_1066_harold_word",
+      "effects": [ "silver +2600", "npc steward feeling +15 both", "flag unlock_title_thegn", "flag unlock_charter_lundenwic", "flag ch_year_1066_cost_kings_service", "flag ch_year_1066_end_english_hard", "flag changed_1066_william_turned_back", "flag ch_year_1066_end_english", "news chain_year_1066.news.turned_back at here" ],
+      "note": "outcome: chain_year_1066.end_english.out_both (the hard road: 2,600 d, a thegn's right and freedom from the toll at London)" }
+   ],
+   "memory": { "thegn": "asked for a thegn's right", "hythe": "asked for a hythe", "both": "asked for the right and the writ" }
+  },
+  {
+   "id": "harbour.chain_year_1066.end_norman",
+   "note": "ENDING: Christmas at Westminster (London, from December 1066; drawn, weight 20; for the house that carried the duke's horses or his sick and his flour). WHAT HAPPENED, on the winner's side: flag ch_year_1066_end_norman. Grand rewards: unlock_charter_lundenwic, or unlock_plot_lundenwic, or unlock_ship_north_sea_merchant_ship (a transport of the fleet). Costs that last: ch_year_1066_cost_english_grudge; ch_year_1066_cost_dead_mans_ground with the hythe. Sources: ASC D 1066 (Archbishop Ealdred hallowed him king at Westminster on midwinter's day, and he swore before the crown was set on his head to rule this people as well as the best of the kings before him, if they would be true to him; nevertheless he laid a heavy tax on the people: our rendering; chronicle_793.json 1066-12-25-william-crowned); William of Poitiers II.30 (the shout of the English and the French, each asked in their own tongue; the guard outside, taking it for treachery, set fire to the houses near the church); the writ of William to London, about 1067 (the burghers French and English to be worthy of all the laws they were worthy of in King Edward's day, and every child to be his father's heir: our rendering); 'at Christmas a new king and the same toll' (realms/england_south.md, scene 10). The line about a second king at York is read only where history was changed at step 8. The Norman clerk and the portreeve are invented.",
+   "stage": "harbour",
+   "when": "moored and port.id = lundenwic and (flag.ch_year_1066_crossed or flag.ch_year_1066_supplied) and not flag.changed_1066_fleet_kept and not flag.ch_year_1066_end_english and not flag.ch_year_1066_end_norman and not flag.ch_year_1066_end_norse and not flag.ch_year_1066_end_house and ((year = 1066 and month = 12) or year > 1066)",
+   "weight": 20.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "clerk": { "role": "clerk", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [25, 50], "fixed": false, "note": "a clerk of the new king's household with the list of ships hired; invented, unnamed" },
+    "portreeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "a reeve of the port of London; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.end_norman.title",
+   "title": "Midwinter at Westminster",
+   "intention_key": "chain_year_1066.end_norman.intention",
+   "intention": "On midwinter's day the archbishop of York hallows the duke king in King Edward's new church. From the river you hear a great shout inside it, twice, in two tongues. Then there is smoke.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.end_norman.narr_shout" },
+    { "who": "", "key": "chain_year_1066.end_norman.narr_york", "when": "flag.changed_1066_stamford_bridge" },
+    { "who": "clerk", "key": "chain_year_1066.end_norman.clerk_list" },
+    { "who": "clerk", "key": "chain_year_1066.end_norman.clerk_offer" },
+    { "who": "portreeve", "key": "chain_year_1066.end_norman.portreeve_toll" },
+    { "who": "portreeve", "key": "chain_year_1066.end_norman.portreeve_carried" },
+    { "who": "", "key": "chain_year_1066.end_norman.narr_cheap", "when": "flag.ch_year_1066_bought_cheap" }
+   ],
+   "options": [
+    { "key": "writ", "label_key": "chain_year_1066.end_norman.opt_writ", "label": "Ask for the king's word that your house keeps the law it had in King Edward's day, and goes free of the toll", "check": "true", "default": true,
+      "effects": [ "silver +1200", "npc clerk feeling +8 writ", "npc portreeve feeling -6 writ", "flag unlock_charter_lundenwic", "flag ch_year_1066_cost_english_grudge", "flag ch_year_1066_end_norman", "news chain_year_1066.news.crowned at here" ],
+      "note": "outcome: chain_year_1066.end_norman.out_writ (1,200 d and a writ)" },
+    { "key": "hythe", "label_key": "chain_year_1066.end_norman.opt_hythe", "label": "Ask for a hythe whose owner did not come home from Hastings", "check": "true",
+      "effects": [ "silver +900", "npc clerk feeling +4 hythe", "npc portreeve feeling -20 hythe", "flag unlock_plot_lundenwic", "flag ch_year_1066_cost_english_grudge", "flag ch_year_1066_cost_dead_mans_ground", "flag ch_year_1066_end_norman", "news chain_year_1066.news.crowned at here" ],
+      "note": "outcome: chain_year_1066.end_norman.out_hythe (900 d and a dead man's ground; his widow lives across the lane)" },
+    { "key": "hull", "label_key": "chain_year_1066.end_norman.opt_hull", "label": "Ask for nothing a clerk can write. Take the freight you are owed, and one of the transports he no longer needs", "check": "true",
+      "effects": [ "silver +700", "npc portreeve feeling +2 hull", "flag unlock_ship_north_sea_merchant_ship", "flag ch_year_1066_end_norman", "news chain_year_1066.news.crowned at here" ],
+      "note": "outcome: chain_year_1066.end_norman.out_hull (700 d and a second ship; nothing owed to the new king, and less held against you on the hythe)" }
+   ],
+   "memory": { "writ": "took the new king's writ", "hythe": "took a dead man's hythe", "hull": "took his freight and a hull, and no favour" }
+  },
+  {
+   "id": "harbour.chain_year_1066.end_norse",
+   "note": "ENDING: Yule at York (York, from November 1066; drawn, weight 20; for the house whose warning was believed at the ships). HISTORY CHANGED: flags ch_year_1066_end_norse, changed_1066_york_norse (with changed_1066_stamford_bridge from step 8). Grand rewards: unlock_title_kings_guest, or unlock_plot_eoforwic, or on the hard road both with unlock_pilot_humber and unlock_heirloom_arm_ring. A cost that lasts: ch_year_1066_cost_two_kings (the king in the south holds the house for his enemy's guest). What is true under it: Harald was killed on 25 September and no Norwegian king held York (ASC C, D; chronicle_793.json 1066-09-25-stamford-bridge). York had Norse kings until 954 and a Norse tongue in its streets long after (ASC D 954; the street names). A king's guest: the gestir of a Norwegian king's following (the Hirdskra is of the 1270s; the word is older (?)). Payment in rings and weighed silver, not in the king's thin pennies (realms/norway.md, 1050s). In the changed year King Harold is thrown back from the bridge, goes south on the news from Pevensey, and falls at Hastings as he did; so at midwinter there are two kings in England. The king's man, the skald and the minster priest are invented; Harald, Tostig and Archbishop Ealdred are only named.",
+   "stage": "harbour",
+   "when": "moored and port.id = eoforwic and flag.ch_year_1066_harald_warned and not flag.ch_year_1066_end_english and not flag.ch_year_1066_end_norman and not flag.ch_year_1066_end_norse and not flag.ch_year_1066_end_house and ((year = 1066 and month >= 11) or year > 1066)",
+   "weight": 20.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "kings_man": { "role": "kings_man", "people": "norse", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": false, "note": "a man of King Harald's following who keeps the king's chest; invented, unnamed" },
+    "skald": { "role": "skald", "people": "norse", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [30, 60], "fixed": false, "note": "one of the king's poets; invented, unnamed" },
+    "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 65], "fixed": true, "note": "a priest of Saint Peter's minster; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.end_norse.title",
+   "title": "Yule at York",
+   "intention_key": "chain_year_1066.end_norse.intention",
+   "intention": "The king of the Norwegians keeps the feast in York, with Earl Tostig on his left hand. His men went to the bridge in their mail, all of them, because a foreign skipper came down the river on a Sunday night.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.end_norse.narr_bridge" },
+    { "who": "", "key": "chain_year_1066.end_norse.narr_south" },
+    { "who": "skald", "key": "chain_year_1066.end_norse.skald_verse" },
+    { "who": "kings_man", "key": "chain_year_1066.end_norse.man_pay" },
+    { "who": "kings_man", "key": "chain_year_1066.end_norse.man_offer" },
+    { "who": "priest", "key": "chain_year_1066.end_norse.priest_two" }
+   ],
+   "options": [
+    { "key": "guest", "label_key": "chain_year_1066.end_norse.opt_guest", "label": "Take a seat among the king's guests, and his peace on your ships in every harbour he holds", "check": "true", "default": true,
+      "effects": [ "silver +1500", "npc kings_man feeling +10 guest", "flag unlock_title_kings_guest", "flag ch_year_1066_cost_two_kings", "flag changed_1066_york_norse", "flag ch_year_1066_end_norse", "news chain_year_1066.news.york_norse at here" ],
+      "note": "outcome: chain_year_1066.end_norse.out_guest (1,500 d by weight and a king's guest-right)" },
+    { "key": "ground", "label_key": "chain_year_1066.end_norse.opt_ground", "label": "Ask for ground on the staith by the Ouse bridge, and no seat at anybody's table", "check": "true",
+      "effects": [ "silver +1300", "npc priest feeling +5 ground", "flag unlock_plot_eoforwic", "flag ch_year_1066_cost_two_kings", "flag changed_1066_york_norse", "flag ch_year_1066_end_norse", "news chain_year_1066.news.york_norse at here" ],
+      "note": "outcome: chain_year_1066.end_norse.out_ground (1,300 d and a plot on the staith)" },
+    { "key": "pilot", "label_key": "chain_year_1066.end_norse.opt_pilot", "label": "You brought his ships up the river as well as the word. Ask for the seat, the ground and the ring from his arm", "check": "flag.ch_year_1066_road_norse",
+      "effects": [ "silver +2400", "npc kings_man feeling +15 pilot", "flag unlock_title_kings_guest", "flag unlock_plot_eoforwic", "flag unlock_pilot_humber", "flag unlock_heirloom_arm_ring", "flag ch_year_1066_cost_two_kings", "flag ch_year_1066_end_norse_hard", "flag changed_1066_york_norse", "flag ch_year_1066_end_norse", "news chain_year_1066.news.york_norse at here" ],
+      "note": "outcome: chain_year_1066.end_norse.out_pilot (the hard road: 2,400 d, guest-right, ground, the Humber and a king's arm ring)" }
+   ],
+   "memory": { "guest": "took the king's guest-right", "ground": "asked for ground and no seat", "pilot": "asked for the seat, the ground and the ring" }
+  },
+  {
+   "id": "harbour.chain_year_1066.end_house",
+   "note": "ENDING: the house's own year (any port, from December 1066; drawn, weight 20; for every house that did not feed the fleet, warn the Norwegians, or stand in London with the duke's freight owing). WHAT HAPPENED, seen from the quay: flag ch_year_1066_end_house. Grand rewards: unlock_heirloom_year_roll (the year written down), or unlock_title_tiel_brother (a seat among the sworn merchants), or on the honest road unlock_title_olafs_guest with unlock_pilot_karmsund (for the house that carried the hurt home), or unlock_kin_foster_son (for the house that carried the widow). Sources: William crowned on midwinter's day (ASC D 1066); twenty-four ships home (ASC D); Olaf Haraldsson, called the Quiet, king from 1067 to 1093, in whose days there was peace and the market town at Bergen was set up (Snorri, Olafs saga kyrra 1-2: saga (?)); the sworn merchants of Tiel, who settle their suits by their own judgment and drink together at fixed feasts (Alpert of Metz, De diversitate temporum II.20, about 1020); annals kept year by year with a line to a year are the period's own form (the Chronicle itself); a merchant's own written reckoning is our invention (?). The house began on 21 June 793 with one boat and a debt of 480 d (trade_rules.json start). The priest, the Karmsund widow and the elder are invented.",
+   "stage": "harbour",
+   "when": "moored and ((year = 1066 and month = 12) or year > 1066) and not flag.changed_1066_fleet_kept and not flag.ch_year_1066_harald_warned and (port.id != lundenwic or not (flag.ch_year_1066_crossed or flag.ch_year_1066_supplied)) and not flag.ch_year_1066_end_english and not flag.ch_year_1066_end_norman and not flag.ch_year_1066_end_norse and not flag.ch_year_1066_end_house",
+   "weight": 20.0,
+   "once": true,
+   "cooldown_days": 365,
+   "actors": {
+    "priest": { "role": "priest", "people": "port", "faith": "christian", "tongue": "port", "sex": "m", "age": [30, 65], "fixed": true, "note": "the priest of the nearest church, who can write; invented, unnamed" },
+    "widow": { "role": "widow", "people": "port", "faith": "christian", "tongue": "port", "sex": "f", "age": [25, 60], "fixed": false, "note": "a woman of the port whose man sailed this year; on the Karmsund, one of many; invented, unnamed" },
+    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [50, 70], "fixed": false, "note": "an elder of the sworn merchants of Tiel; invented, unnamed" }
+   },
+   "title_key": "chain_year_1066.end_house.title",
+   "title": "The year written down",
+   "intention_key": "chain_year_1066.end_house.intention",
+   "intention": "Midwinter. Three fleets put to sea this year and two kings are dead. The ship is laid up, the men are paid, and what is left is the reckoning.",
+   "lines": [
+    { "who": "", "key": "chain_year_1066.end_house.narr_london", "when": "port.id = lundenwic" },
+    { "who": "", "key": "chain_year_1066.end_house.narr_karmsund", "when": "port.id = ogvaldsnes" },
+    { "who": "", "key": "chain_year_1066.end_house.narr_elsewhere", "when": "port.id != lundenwic and port.id != ogvaldsnes" },
+    { "who": "widow", "key": "chain_year_1066.end_house.widow_sell", "when": "port.id = ogvaldsnes" },
+    { "who": "", "key": "chain_year_1066.end_house.narr_carried", "when": "flag.ch_year_1066_carried_home" },
+    { "who": "", "key": "chain_year_1066.end_house.narr_fugitives", "when": "flag.ch_year_1066_fugitives" },
+    { "who": "", "key": "chain_year_1066.end_house.narr_dead_gear", "when": "flag.ch_year_1066_bought_dead" },
+    { "who": "elder", "key": "chain_year_1066.end_house.elder_seat" },
+    { "who": "priest", "key": "chain_year_1066.end_house.priest_year" },
+    { "who": "", "key": "chain_year_1066.end_house.narr_boat" }
+   ],
+   "options": [
+    { "key": "roll", "label_key": "chain_year_1066.end_house.opt_roll", "label": "Have the priest write the year down for the house, plainly, with the prices", "check": "true", "default": true,
+      "effects": [ "silver +700", "learn latin +0.05", "npc priest feeling +8 roll", "flag unlock_heirloom_year_roll", "flag ch_year_1066_end_house", "news chain_year_1066.news.crowned at here" ],
+      "note": "outcome: chain_year_1066.end_house.out_roll (700 d at the year's reckoning, and a thing for the heirs to read)" },
+    { "key": "sworn", "label_key": "chain_year_1066.end_house.opt_sworn", "label": "Take the seat the elder offers among the sworn merchants, and drink the year out with them", "check": "true",
+      "effects": [ "silver +800", "npc elder feeling +12 sworn", "flag unlock_title_tiel_brother", "flag ch_year_1066_end_house", "news chain_year_1066.news.crowned at here" ],
+      "note": "outcome: chain_year_1066.end_house.out_sworn (800 d and a seat among the sworn merchants)" },
+    { "key": "olaf", "label_key": "chain_year_1066.end_house.opt_olaf", "label": "Send word to Olaf, Harald's son: the house that carried his father's men home asks his peace for its ships", "check": "flag.ch_year_1066_carried_home",
+      "effects": [ "silver +900", "npc widow feeling +10 olaf", "flag unlock_title_olafs_guest", "flag unlock_pilot_karmsund", "flag ch_year_1066_end_house_hard", "flag ch_year_1066_end_house", "news chain_year_1066.news.crowned at here" ],
+      "note": "outcome: chain_year_1066.end_house.out_olaf (the honest road: 900 d, the young king's peace and the sound's own pilots)" },
+    { "key": "foster", "label_key": "chain_year_1066.end_house.opt_foster", "label": "The Kentish widow's boy has asked to learn the sea. Take him into the house", "check": "flag.ch_year_1066_fugitives",
+      "effects": [ "silver +700", "flag unlock_kin_foster_son", "flag ch_year_1066_end_house", "news chain_year_1066.news.crowned at here" ],
+      "note": "outcome: chain_year_1066.end_house.out_foster (700 d and a foster son with English kin on both sides of the water)" }
+   ],
+   "memory": { "roll": "had the year written down", "sworn": "took a seat among the sworn merchants", "olaf": "asked the young king's peace", "foster": "took an English boy into the house" }
+  }
+ ]
+}

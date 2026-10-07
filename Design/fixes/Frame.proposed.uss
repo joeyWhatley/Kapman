@@ -1,0 +1,1081 @@
+/* THE COMMAND FRAME (the user, 7 Oct 2026; Design/ui_mock/template3.html, layout G, frame "Thick rounded", "Map shows
+   through"). The game is run from the frame and the chart is a picture you read: a bar across the top, a tiling window
+   area on the left, the portrait top right, the ship window bottom right, the message log under the chart, and talk and
+   cards as floating windows over the middle. Where no window is, the chart shows.
+
+   THE LOOK: thick rounded dark plum panels with a raised edge (a light edge up and left, a dark one down and right), as
+   MapView.uss has them; gold for what is the player's to spend or to count; Gentium for reading. Two colours follow the
+   world's palette (Game/Map/MapPalette.cs, by the player's people; FrameColours.cs holds the same sum, and a test keeps
+   the two in step): --frame-edge is the palette's sea (what is switched on, the button a window is for) and
+   --frame-accent the hue of its shallows made light (labels, tags, rules). */
+
+.frame-root {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -unity-font: url("Fonts/GentiumBookPlus-Regular.ttf");
+    font-size: var(--t-body);
+    color: rgb(236, 235, 230);
+    --frame-edge: rgb(112, 41, 99);
+    --frame-accent: rgb(213, 174, 206);
+    --frame-rule: rgba(213, 174, 206, 0.3);
+    --frame-gold: rgb(240, 210, 122);
+    --frame-paper: rgb(236, 235, 230);
+    --frame-mute: rgba(236, 235, 230, 0.62);
+    --t-quiet: 18px;
+    --t-body: 22px;
+    --t-name: 26px;
+    --t-title: 30px;
+}
+
+.frame-root.pal-frisian { --frame-edge: rgb(112, 41, 99); --frame-accent: rgb(213, 174, 206); --frame-rule: rgba(213, 174, 206, 0.3); }
+.frame-root.pal-frankish { --frame-edge: rgb(90, 41, 112); --frame-accent: rgb(200, 174, 213); --frame-rule: rgba(200, 174, 213, 0.3); }
+.frame-root.pal-english { --frame-edge: rgb(112, 41, 99); --frame-accent: rgb(206, 178, 209); --frame-rule: rgba(206, 178, 209, 0.3); }
+.frame-root.pal-danish { --frame-edge: rgb(41, 99, 112); --frame-accent: rgb(176, 208, 211); --frame-rule: rgba(176, 208, 211, 0.3); }
+.frame-root.pal-norse { --frame-edge: rgb(52, 64, 124); --frame-accent: rgb(169, 181, 218); --frame-rule: rgba(169, 181, 218, 0.3); }
+.frame-root.pal-svea { --frame-edge: rgb(74, 61, 92); --frame-accent: rgb(192, 184, 204); --frame-rule: rgba(192, 184, 204, 0.3); }
+.frame-root.pal-wendish { --frame-edge: rgb(112, 41, 99); --frame-accent: rgb(214, 173, 205); --frame-rule: rgba(214, 173, 205, 0.3); }
+.frame-root.pal-irish { --frame-edge: rgb(47, 93, 122); --frame-accent: rgb(174, 208, 213); --frame-rule: rgba(174, 208, 213, 0.3); }
+.frame-root.pal-painted { --frame-edge: rgb(112, 41, 99); --frame-accent: rgb(225, 163, 214); --frame-rule: rgba(225, 163, 214, 0.3); }
+
+/* a slip: any panel of the frame. Thick, rounded, raised. Solid, not glass: the project blends in linear light, where
+   a dark panel that is four parts in a hundred see-through lets the bright chart show as a ghost a fifth as strong,
+   and one floating window showed through another */
+.frame-root .frame-slip {
+    background-color: rgb(38, 26, 44);
+    border-width: 4px;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+    border-radius: 14px;
+}
+
+/* every button of the frame starts plain: the theme's grey box is taken off, and each kind is dressed below */
+.frame-root Button {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(236, 235, 230);
+    -unity-text-align: middle-left;
+    -unity-font: url("Fonts/GentiumBookPlus-Regular.ttf");
+    font-size: var(--t-body);
+    white-space: normal;
+}
+
+.frame-root Label {
+    margin: 0;
+    padding: 0;
+    white-space: normal;
+}
+
+/* ---------------------------------------------------------------- the top bar */
+
+.frame-root .frame-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    min-height: 54px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.frame-root .frame-top-group {
+    flex-direction: row;
+    align-items: center;
+}
+
+.frame-root .frame-top-date {
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-name);
+    color: rgb(240, 239, 234);
+    margin-left: 16px;
+}
+
+.frame-root .frame-top-part {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    margin-left: 12px;
+}
+
+.frame-root .frame-top-figure {
+    flex-direction: row;
+    align-items: center;
+    margin: 0 14px;
+}
+
+.frame-root .frame-top-figure .frame-num {
+    font-size: var(--t-body);
+    margin-left: 0;
+    margin-right: 6px;
+}
+
+.frame-root .frame-top-word {
+    font-size: var(--t-body);
+    color: rgb(236, 235, 230);
+}
+
+.frame-root .frame-top-word.warn {
+    color: rgb(226, 132, 110);
+}
+
+.frame-root .frame-top-state {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    margin-left: 12px;
+    min-width: 108px;
+}
+
+/* ---------------------------------------------------------------- the eight function buttons, over the windows: each
+   DOES one thing (the user's ruling of 7 Oct: "The panels must be separate function from the 8 buttons above them") */
+
+.frame-root .frame-rack {
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    margin-bottom: 4px;
+}
+
+.frame-root .frame-verb {
+    width: 23.6%;
+    margin: 0 0.7% 6px 0.7%;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 2px 3px 2px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+    border-radius: 12px;
+    background-color: rgba(52, 36, 57, 0.97);
+}
+
+.frame-root .frame-verb:hover {
+    background-color: rgb(82, 59, 87);
+}
+
+.frame-root .frame-verb:active {
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    background-color: rgb(36, 22, 42);
+}
+
+.frame-root .frame-verb.on {
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    background-color: var(--frame-edge);
+}
+
+.frame-root .frame-verb.off,
+.frame-root .frame-verb.off:hover,
+.frame-root .frame-verb.off:active {
+    background-color: rgb(40, 28, 46);
+    border-top-color: rgb(92, 70, 96);
+    border-left-color: rgb(92, 70, 96);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+}
+
+.frame-root .frame-verb.off .frame-icon {
+    color: rgba(240, 210, 122, 0.3);
+}
+
+.frame-root .frame-verb.off .frame-verb-name {
+    color: rgba(236, 235, 230, 0.35);
+}
+
+.frame-root .frame-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--frame-gold);
+}
+
+.frame-root .frame-verb-name {
+    font-size: var(--t-quiet);
+    color: var(--frame-paper);
+    -unity-text-align: middle-center;
+    margin-top: 1px;
+}
+
+.frame-root .frame-verb.on .frame-verb-name {
+    color: var(--frame-gold);
+}
+
+/* ---------------------------------------------------------------- the left side: windows that tile */
+
+.frame-root .frame-left {
+    position: absolute;
+    left: 1%;
+    top: 68px;
+    bottom: 1.6%;
+    width: 29%;
+    flex-direction: column;
+}
+
+.frame-root .frame-left.wide {
+    width: 46%;
+}
+
+.frame-root .frame-tiles {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-height: 0;
+    flex-direction: column;
+}
+
+.frame-root .frame-tiles.cols {
+    flex-direction: row;
+}
+
+.frame-root .frame-win {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-height: 0;
+    min-width: 0;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.frame-root .frame-tiles.cols .frame-win {
+    margin-right: 8px;
+}
+
+.frame-root .frame-tiles.cols .frame-win.last {
+    margin-right: 0;
+}
+
+/* the window in focus: its whole edge in gold */
+.frame-root .frame-win.focus {
+    border-top-color: rgb(240, 210, 122);
+    border-left-color: rgb(240, 210, 122);
+    border-right-color: rgb(184, 150, 70);
+    border-bottom-color: rgb(184, 150, 70);
+}
+
+.frame-root .frame-win-head {
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 3px 8px 3px 6px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--frame-rule);
+}
+
+.frame-root .frame-win-title {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-direction: row;
+    align-items: center;
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-gold);
+    padding: 2px 6px;
+    border-radius: 8px;
+}
+
+.frame-root .frame-win-title:hover {
+    background-color: rgba(240, 210, 122, 0.12);
+}
+
+.frame-root .frame-win-name {
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-gold);
+    margin-right: 6px;
+}
+
+.frame-root .frame-head-button {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-head-button:hover {
+    color: var(--frame-gold);
+    background-color: rgba(240, 210, 122, 0.12);
+}
+
+.frame-root .frame-glyph {
+    width: 12px;
+    height: 12px;
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-win-title .frame-glyph {
+    color: var(--frame-gold);
+    width: 10px;
+    height: 10px;
+}
+
+.frame-root .frame-head-button:hover .frame-glyph {
+    color: var(--frame-gold);
+}
+
+.frame-root .frame-win-scroll {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-height: 0;
+}
+
+.frame-root .frame-body {
+    padding: 10px 12px 8px 12px;
+}
+
+/* the tabs of a workspace laid out as tabs */
+.frame-root .frame-tabs {
+    flex-direction: row;
+    flex-shrink: 0;
+    padding: 0 6px;
+}
+
+.frame-root .frame-tab {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    -unity-text-align: middle-center;
+    font-size: var(--t-quiet);
+    padding: 4px 6px;
+    margin: 0 2px;
+    border-width: 3px;
+    border-bottom-width: 0;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: rgba(42, 28, 46, 0.96);
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-tab.on {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+}
+
+/* the bar under the windows: the workspaces and the layouts */
+.frame-root .frame-wmbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: center;
+    background-color: rgb(24, 16, 30);
+    border-width: 2px;
+    border-color: var(--frame-rule);
+    border-radius: 12px;
+    padding: 4px 6px;
+}
+
+.frame-root .frame-wm {
+    font-size: var(--t-quiet);
+    padding: 2px 9px;
+    margin: 1px 2px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0);
+    color: var(--frame-mute);
+    -unity-text-align: middle-center;
+}
+
+.frame-root .frame-wm:hover {
+    border-color: var(--frame-accent);
+}
+
+.frame-root .frame-wm.on {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+}
+
+.frame-root .frame-wm-space {
+    flex-grow: 1;
+}
+
+.frame-root .frame-wm-key {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin: 0 4px 0 8px;
+}
+
+/* choosing a panel for a window */
+.frame-root .frame-picker {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px 8px;
+}
+
+.frame-root .frame-pick {
+    width: 46%;
+    margin: 3px 2%;
+    font-size: var(--t-body);
+    padding: 4px 10px;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+    border-radius: 12px;
+    background-color: rgb(59, 42, 63);
+}
+
+.frame-root .frame-pick:hover {
+    background-color: rgb(78, 56, 83);
+}
+
+.frame-root .frame-pick.on {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+}
+
+.frame-root .frame-pick.used {
+    opacity: 0.5;
+}
+
+/* ---------------------------------------------------------------- what a panel is built from (FrameUi) */
+
+.frame-root .frame-h {
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-gold);
+    margin-bottom: 6px;
+}
+
+.frame-root .frame-p {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin: 2px 0 7px 0;
+}
+
+.frame-root .frame-text {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    margin: 0 0 7px 0;
+}
+
+.frame-root .frame-ln {
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.frame-root .frame-ln-button {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.frame-root .frame-ln-button:hover {
+    background-color: rgba(240, 210, 122, 0.1);
+}
+
+.frame-root .frame-ln.sel {
+    border-color: var(--frame-gold);
+}
+
+.frame-root .frame-ln-left {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-width: 42%;
+}
+
+.frame-root .frame-ln-name {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+}
+
+.frame-root .frame-ln-small {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-num {
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-gold);
+    margin-left: 8px;
+    flex-shrink: 1;
+    -unity-text-align: middle-right;
+}
+
+.frame-root .frame-tag {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    border-width: 1px;
+    border-color: var(--frame-rule);
+    border-radius: 10px;
+    padding: 0 8px 1px 8px;
+    margin-left: 6px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-k {
+    font-size: var(--t-quiet);
+    padding: 2px 10px 3px 10px;
+    margin-left: 6px;
+    flex-shrink: 0;
+    border-width: 3px;
+    border-top-color: rgb(140, 106, 142);
+    border-left-color: rgb(140, 106, 142);
+    border-right-color: rgb(26, 15, 29);
+    border-bottom-color: rgb(26, 15, 29);
+    border-radius: 12px;
+    background-color: rgb(59, 42, 63);
+    color: var(--frame-paper);
+    -unity-text-align: middle-center;
+}
+
+.frame-root .frame-k:hover {
+    background-color: rgb(82, 59, 87);
+}
+
+.frame-root .frame-k:active {
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+}
+
+.frame-root .frame-k:disabled {
+    opacity: 0.45;
+}
+
+.frame-root .frame-k.on {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+}
+
+.frame-root .frame-k.go {
+    background-color: var(--frame-edge);
+    color: var(--frame-gold);
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-body);
+    padding: 7px 16px 8px 16px;
+    margin: 8px 0 4px 0;
+}
+
+.frame-root .frame-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 2px 0 6px 0;
+}
+
+.frame-root .frame-row .frame-k {
+    margin-left: 0;
+    margin-right: 6px;
+    margin-bottom: 4px;
+}
+
+.frame-root .frame-pips {
+    flex-direction: row;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-pip {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-left: 3px;
+    background-color: var(--frame-gold);
+    border-width: 1px;
+    border-color: var(--frame-gold);
+}
+
+.frame-root .frame-pip.off {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: var(--frame-mute);
+}
+
+.frame-root .frame-sep {
+    height: 1px;
+    background-color: var(--frame-rule);
+    margin: 6px 0 8px 0;
+}
+
+/* the word on a good (WordLine), in the frame's light */
+.frame-root .word-line {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 1px 0 0 0;
+}
+
+.frame-root .word-mark {
+    width: 12px;
+    height: 12px;
+    margin: 2px 5px 0 0;
+    flex-shrink: 0;
+    color: var(--frame-accent);
+}
+
+.frame-root .word-mark.law {
+    color: rgb(226, 132, 110);
+}
+
+.frame-root .word-mark.none {
+    color: rgba(236, 235, 230, 0.35);
+}
+
+.frame-root .word-tilt {
+    width: 8px;
+    height: 12px;
+    margin: 2px 5px 0 0;
+    flex-shrink: 0;
+    color: var(--frame-gold);
+}
+
+.frame-root .word-tilt.down {
+    color: rgba(236, 235, 230, 0.5);
+}
+
+.frame-root .word-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    font-size: var(--t-quiet);
+    -unity-font-style: italic;
+    color: var(--frame-mute);
+}
+
+/* ---------------------------------------------------------------- the portrait, top right */
+
+.frame-root .frame-who {
+    position: absolute;
+    right: 1%;
+    top: 68px;
+    width: 24%;
+    flex-direction: row;
+    padding: 8px;
+}
+
+.frame-root .frame-face {
+    width: 120px;
+    height: 150px;
+    flex-shrink: 0;
+    border-width: 3px;
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgb(40, 26, 48);
+}
+
+.frame-root .frame-who-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    margin-left: 12px;
+    justify-content: center;
+}
+
+.frame-root .frame-who-name {
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-name);
+    color: var(--frame-gold);
+    margin-bottom: 3px;
+}
+
+.frame-root .frame-who-line {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin-bottom: 2px;
+}
+
+.frame-root .frame-who-say {
+    font-size: var(--t-body);
+    -unity-font-style: italic;
+    color: var(--frame-paper);
+    margin-top: 4px;
+}
+
+/* ---------------------------------------------------------------- the ship window, bottom right */
+
+.frame-root .frame-ship {
+    position: absolute;
+    right: 1%;
+    bottom: 1.6%;
+    width: 24%;
+    padding: 6px;
+}
+
+.frame-root .frame-ship-view {
+    width: 100%;
+    height: 262px;
+    border-width: 3px;
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgb(27, 35, 64);
+}
+
+.frame-root .frame-ship-cap {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 6px 1px 6px;
+}
+
+.frame-root .frame-ship-where {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    flex-shrink: 1;
+}
+
+.frame-root .frame-ship-wind {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------- the message log, under the chart */
+
+.frame-root .frame-log {
+    position: absolute;
+    left: 31%;
+    right: 26.2%;
+    bottom: 1.6%;
+    height: 146px;
+    padding: 5px 6px 5px 14px;
+}
+
+.frame-root.wide .frame-log {
+    left: 48%;
+}
+
+.frame-root .frame-log-line {
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 2px;
+}
+
+.frame-root .frame-log-stamp {
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    min-width: 150px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-log-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    font-size: var(--t-body);
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-log-line.last .frame-log-text {
+    color: var(--frame-paper);
+}
+
+/* ---------------------------------------------------------------- the measure, over the chart's top left */
+
+.frame-root .frame-rule {
+    position: absolute;
+    left: 31%;
+    top: 68px;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 12px 4px 6px;
+    max-width: 42%;
+}
+
+.frame-root.wide .frame-rule {
+    left: 48%;
+    max-width: 25%;
+}
+
+.frame-root .frame-rule-text {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    margin-left: 8px;
+    flex-shrink: 1;
+}
+
+.frame-root .frame-rule-text .frame-num {
+    margin-left: 0;
+}
+
+.frame-root .frame-rule .frame-k {
+    margin-left: 0;
+}
+
+/* ---------------------------------------------------------------- floating windows: cards and talk, over the middle */
+
+.frame-root .frame-floats {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.frame-root .frame-float {
+    position: absolute;
+    width: 42%;
+    max-height: 78%;
+    translate: -50% -50%;
+}
+
+.frame-root .frame-float.front {
+    border-top-color: rgb(240, 210, 122);
+    border-left-color: rgb(240, 210, 122);
+    border-right-color: rgb(184, 150, 70);
+    border-bottom-color: rgb(184, 150, 70);
+}
+
+.frame-root .frame-float-top {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 14px 16px 10px 16px;
+    flex-shrink: 1;
+    min-height: 0;
+}
+
+.frame-root .frame-float-face {
+    width: 88px;
+    height: 110px;
+    flex-shrink: 0;
+    margin-right: 16px;
+    border-width: 3px;
+    border-top-color: rgb(26, 15, 29);
+    border-left-color: rgb(26, 15, 29);
+    border-right-color: rgb(140, 106, 142);
+    border-bottom-color: rgb(140, 106, 142);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgb(40, 26, 48);
+}
+
+.frame-root .frame-float-words {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-height: 0;
+}
+
+.frame-root .frame-float-title {
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-title);
+    color: var(--frame-gold);
+    margin-right: 30px;
+}
+
+.frame-root .frame-float-who {
+    font-size: var(--t-quiet);
+    color: var(--frame-accent);
+    margin-top: 1px;
+}
+
+.frame-root .frame-float-scroll {
+    flex-shrink: 1;
+    min-height: 0;
+    margin-top: 8px;
+}
+
+.frame-root .frame-float-line {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    margin-bottom: 8px;
+}
+
+.frame-root .frame-float-line.unwritten {
+    color: var(--frame-mute);
+    -unity-font-style: italic;
+    font-size: var(--t-quiet);
+}
+
+.frame-root .frame-float-small {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin-top: 2px;
+}
+
+.frame-root .frame-float-result {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+    margin-top: 6px;
+    padding: 8px 12px;
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+}
+
+.frame-root .frame-float-options {
+    flex-shrink: 0;
+    border-top-width: 1px;
+    border-top-color: var(--frame-rule);
+    padding: 4px 0 6px 0;
+}
+
+.frame-root .frame-option {
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 16px;
+    font-size: var(--t-body);
+}
+
+.frame-root .frame-option:hover {
+    background-color: rgba(240, 210, 122, 0.12);
+}
+
+.frame-root .frame-option:disabled {
+    opacity: 0.5;
+}
+
+.frame-root .frame-option-number {
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-body);
+    color: var(--frame-accent);
+    min-width: 36px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-option-words {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+}
+
+.frame-root .frame-option-label {
+    font-size: var(--t-body);
+    color: var(--frame-paper);
+}
+
+.frame-root .frame-option-rule {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+}
+
+.frame-root .frame-option-odds {
+    -unity-font: url("Fonts/GentiumBookPlus-Bold.ttf");
+    font-size: var(--t-quiet);
+    color: var(--frame-gold);
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-option-key {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-float-shut {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.frame-root .frame-float-shut:hover {
+    background-color: rgba(240, 210, 122, 0.12);
+}
+
+.frame-root .frame-float-hint {
+    font-size: var(--t-quiet);
+    color: var(--frame-mute);
+    padding: 0 16px 8px 16px;
+}
+
+/* ---------------------------------------------------------------- the scroll bars, slim and plum */
+
+.frame-root .unity-scroller--vertical {
+    width: 10px;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.frame-root .unity-scroller--vertical > .unity-scroller__low-button,
+.frame-root .unity-scroller--vertical > .unity-scroller__high-button {
+    display: none;
+}
+
+.frame-root .unity-scroller--vertical > .unity-scroller__slider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 10px;
+}
+
+.frame-root .unity-scroller--vertical .unity-base-slider__tracker {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-width: 0;
+    border-radius: 5px;
+}
+
+.frame-root .unity-scroller--vertical .unity-base-slider__dragger {
+    background-color: rgb(140, 106, 142);
+    border-width: 0;
+    border-radius: 5px;
+    width: 8px;
+    left: 1px;
+}
+
+.frame-root .unity-scroller--horizontal {
+    display: none;
+}
+
+
+/* ---------------------------------------------------------------- who are you: the three choices of a new game */
+
+.frame-root .frame-float.frame-float-self {
+    width: 54%;
+    max-height: 90%;
+}
+
+.frame-root .frame-self-group {
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--frame-rule);
+}
+
+.frame-root .frame-self-group .frame-h {
+    margin-bottom: 4px;
+}
+
+.frame-root .frame-self-line {
+    font-size: var(--t-body);
+    white-space: normal;
+    margin-bottom: 2px;
+}
