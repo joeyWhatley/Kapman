@@ -236,6 +236,7 @@ namespace Kapman.Tests
                 yield return play.Shot("open_12_marks", 0f);
                 yield return ChartPlay.Until(() => play.Frame.FloatOpen("ravn.first"), 6f);
                 Assert.IsTrue(play.Frame.FloatOpen("ravn.first"), "Ravn did not speak after the marks");
+                Assert.IsTrue(Showtime.OpeningByGraph, "the opening ran from code: no graph of the scene listened for it (the Showtime object's Script Machine, \"Opening - the lender, the boat, the first morning\")");
                 yield return ChartPlay.Settle(0.8f);
                 Assert.IsNotNull(play.Frame.FrontReveal, "Ravn's lines stand whole: they should be said a letter at a time");
                 Assert.IsFalse(play.Frame.FrontReveal.Done, "Ravn has said everything within a second");

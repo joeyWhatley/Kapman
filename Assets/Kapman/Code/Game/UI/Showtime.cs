@@ -321,7 +321,7 @@ namespace Kapman.Game
             {
                 e.StopPropagation();
                 if (armed && busy == 0)
-                    StartCoroutine(Interrupt(e.position));
+                    FirstClick(e.position);
                 else
                     clicked = true;
             });
@@ -507,7 +507,7 @@ namespace Kapman.Game
             }
             else if (busy == 0 && !armed && !Self.Chosen && ChartWorld.Current != null && !ChartWorld.SaveLoaded
                      && FrameRoot.Current != null && KapmanGame.Current != null && !menu.Open)
-                StartCoroutine(Prologue(null));                          // (a new game begun from the pause menu: no title, the same talk)
+                BeginOpening(null);                                      // (a new game begun from the pause menu: no title, the same talk)
             else if (busy == 0 && before && StartPlayed && Self.Chosen)
                 before = false;                                          // (a game loaded from the title, the title skipped)
 
@@ -520,7 +520,7 @@ namespace Kapman.Game
 
             // the first key of the game does what the first click does
             if (armed && busy == 0 && kb != null && kb.anyKey.wasPressedThisFrame)
-                StartCoroutine(Interrupt(new Vector2(W * 0.5f, H * 0.45f)));
+                FirstClick(new Vector2(W * 0.5f, H * 0.45f));
 
             // she has come in somewhere: the place's card, over the game
             string here = FrameGame.PortHere != null ? FrameGame.PortHere.id : "";
@@ -882,11 +882,58 @@ namespace Kapman.Game
             }
             if (Current.busy > 0)
                 return;
-            Current.StartCoroutine(Current.Prologue(closeTitle));
+            Current.BeginOpening(closeTitle);
         }
 
-        IEnumerator Prologue(Action closeTitle)
+        // ------------------------------------------------------------------ THE OPENING IS A FLOW
+        // (KAPMAN, step 3; the user, 7 Oct 2026: "everywhere you can make it visual scripting".) What follows the title
+        // was one long sequence here. It is cut into its parts, each a thing that happens: the box comes up; who are
+        // you; the game begins as answered; the lender speaks; the showroom; the first morning; the first click; the
+        // marks; Ravn speaks. A GRAPH runs them in that order: "Opening - the lender, the boat, the first morning", on
+        // this object (its nodes are in Code/Graphs/OpeningNodes.cs). Open the graph to read the opening left to
+        // right, to put a wait or a sound between two parts, or to leave one out. In a scene with no such graph the
+        // same parts are run in the same order from here (OpeningInCode).
+        // Three things reach across the parts: the box takes the game in hand (the clock held, the keys the show's) and
+        // the first morning gives it back; the first click is waited for and the marks answer it.
+
+        /// <summary>Set by the graphs' side (Kapman.Graphs): starts the opening's graph and returns true; false where no
+        /// graph of the scene listens for it.</summary>
+        public static Func<bool> OpeningFlow;
+        /// <summary>The opening that last began was run by its graph (false: by the same parts from code).</summary>
+        public static bool OpeningByGraph { get; private set; }
+
+        Action closeTitleNow;
+        bool firstClicked;
+        Vector2 firstClickAt;
+
+        void BeginOpening(Action closeTitle)
         {
+            closeTitleNow = closeTitle;
+            firstClicked = false;
+            OpeningByGraph = OpeningFlow != null && OpeningFlow();
+            if (!OpeningByGraph)
+                StartCoroutine(OpeningInCode());
+        }
+
+        IEnumerator OpeningInCode()
+        {
+            yield return OpeningBox();
+            yield return OpeningQuestions();
+            OpeningBegin();
+            yield return OpeningLender();
+            yield return OpeningShowroom();
+            yield return OpeningFirstMorning();
+            yield return OpeningFirstClick();
+            yield return OpeningMarks();
+            RavnSpeaks();
+        }
+
+        /// <summary>The purple, and the box: up from the bottom to the middle, then it opens. The game is taken in hand
+        /// here (the clock held, the keys the show's) until the first morning.</summary>
+        public IEnumerator OpeningBox()
+        {
+            Action closeTitle = closeTitleNow;
+            closeTitleNow = null;
             busy++;
             before = true;
             Stage = "slide";
@@ -945,7 +992,12 @@ namespace Kapman.Game
             Show(row);
             Show(tail);
             yield return Wait(0.3f);
+        }
 
+        /// <summary>Somebody asks: the face, the land, the name, the faith, the past. What is answered is kept
+        /// (PickedFace, PickedPeople, PickedName, PickedFaith, PickedPast) for the game to begin with.</summary>
+        public IEnumerator OpeningQuestions()
+        {
             // somebody asks
             Stage = "asking";
             var book = SelfBook.Current;
@@ -995,7 +1047,12 @@ namespace Kapman.Game
             if (options.Count > 1)
                 yield return Ask(AskPast, options, i => pick = i);
             PickedPast = book.pasts.Count > 0 ? book.pasts[Mathf.Clamp(pick, 0, book.pasts.Count - 1)].id : "";
+        }
 
+        /// <summary>The game begins behind the purple, with what was answered: who the merchant is, the lender's flag, the
+        /// first jobs (one man aboard, a worn sail).</summary>
+        public void OpeningBegin()
+        {
             // the game begins behind the purple, with what was answered
             if (ContentFlags.Ready)
                 ContentFlags.Set(Trade.LenderFlag);
@@ -1015,7 +1072,12 @@ namespace Kapman.Game
             FirstJobs.Begin(world != null ? world.homePort : "", PickedPeople, game != null ? game.worldSeed : 0);
             if (PickedName.Length > 0)
                 FrameLog.Add($"You are {PickedName}. One man is aboard, Ravn. The sail is worn, and she wants a crew.");
+        }
 
+        /// <summary>It is shown who asked: the lender steps out of the dark under the balloon's tail and says his lines.</summary>
+        public IEnumerator OpeningLender()
+        {
+            var world = ChartWorld.Current;
             // and it is shown who asked
             Stage = "lender";
             face.Who = "lender";
@@ -1025,7 +1087,12 @@ namespace Kapman.Game
             var home = GameData.Port(world != null ? world.homePort : null);
             foreach (string line in LenderLines)
                 yield return Say(Fill(line, home), true);
+        }
 
+        /// <summary>Through black to the showroom: the boat turning in a pink void, her plate, what is owed for her; a
+        /// click goes on, through black again.</summary>
+        public IEnumerator OpeningShowroom()
+        {
             // the showroom
             yield return Fade(Black, 0f, 1f, 0.5f);
             Hide(box);
@@ -1059,7 +1126,12 @@ namespace Kapman.Game
                 Hide(shipFull);
                 hook.Showroom = false;
             }
+        }
 
+        /// <summary>The first morning: the game is given back (the clock runs, the windows answer), the card of the place
+        /// and the day comes over the black, and the next click is armed.</summary>
+        public IEnumerator OpeningFirstMorning()
+        {
             // the first morning
             Stage = "first morning";
             GameSpeed.Release(Hold_);
@@ -1072,9 +1144,29 @@ namespace Kapman.Game
 
             // free, it seems: the next click is answered by somebody else
             Stage = "free";
+            firstClicked = false;
             armed = true;
             Show(veil, 0f);
             busy--;
+        }
+
+        /// <summary>The first click or key of the first morning is taken (at once: nothing else answers it).</summary>
+        void FirstClick(Vector2 at)
+        {
+            if (firstClicked)
+                return;
+            armed = false;
+            busy++;
+            Stage = "marks";
+            firstClickAt = at;
+            firstClicked = true;
+        }
+
+        /// <summary>Waits for the first click or key of the first morning.</summary>
+        public IEnumerator OpeningFirstClick()
+        {
+            while (!firstClicked)
+                yield return null;
         }
 
         string Fill(string line, PortDef home)
@@ -1282,10 +1374,18 @@ namespace Kapman.Game
 
         // ------------------------------------------------------------------ the first click: !!!, and Ravn
 
-        IEnumerator Interrupt(Vector2 at)
+        /// <summary>The marks: "!!!" pop up where the first click fell, shake and blink out.</summary>
+        public IEnumerator OpeningMarks()
         {
-            armed = false;
-            busy++;
+            Vector2 at = firstClickAt;
+            if (!firstClicked)
+            {
+                // (the marks with no click before them, as a graph may have it: the middle of the world, and the game held as a click holds it)
+                at = new Vector2(W * 0.5f, H * 0.45f);
+                armed = false;
+                busy++;
+            }
+            firstClicked = false;
             Stage = "marks";
             marks.Clear();
             Show(marks);
@@ -1347,13 +1447,12 @@ namespace Kapman.Game
             Hide(marks);
             Hide(veil);
             Stage = "";
-            RavnSpeaks();
             busy--;
         }
 
         /// <summary>Ravn's first talk: who he is, how the game is worked, what must be done before she sails, and one
         /// good buy. In the frame's own floating window, said a letter at a time like any talk.</summary>
-        void RavnSpeaks()
+        public void RavnSpeaks()
         {
             var frame = FrameRoot.Current;
             if (frame == null || frame.Root == null)
