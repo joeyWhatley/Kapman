@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../MainMenu.uss" />
+    <!-- "AND YOUR NAME?": the box to type in, and the three buttons. The code takes a copy of "name-form" and puts its
+         two parts (the field, the buttons) into the balloon. The element "preview" is only for UI Builder. -->
+    <ui:VisualElement name="preview" class="show-box" style="position: relative; width: 700px; height: 160px;">
+        <ui:VisualElement name="name-form">
+            <ui:TextField name="field" max-length="24" class="show-field" />
+            <ui:VisualElement name="buttons" class="show-buttons">
+                <ui:Button name="man" text="A man&apos;s name" class="show-choice show-choice-side" />
+                <ui:Button name="woman" text="A woman&apos;s name" class="show-choice show-choice-side" />
+                <ui:Button name="take" text="That is my name" class="show-choice show-choice-side" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

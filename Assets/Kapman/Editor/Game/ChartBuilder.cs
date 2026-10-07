@@ -39,6 +39,7 @@ namespace Kapman.EditorTools
                 Build();
                 KapmanPhysical.Step1();
                 KapmanPhysical.Step2Frame();
+                KapmanPhysical.Step2Menu();
             }
         }
 

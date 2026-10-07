@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="MainMenu.uss" />
+    <!-- THE MENU: the title's and the pause menu's box. The code (Code/Game/UI/MainMenu.cs) finds each part by its
+         NAME, fills in the words and puts the choices into "list" (one choice is laid out in Parts/MenuOption.uxml).
+         Move or restyle the parts as you like, but keep their names. The opening's own screens are another file,
+         Showtime.uxml: its two layers are put under and over this menu while the show runs. -->
+    <ui:VisualElement name="menu" class="menu-root">
+        <ui:VisualElement name="box" class="menu-box">
+            <ui:Label name="title" text="KAPMAN" class="menu-title" />
+            <ui:Label name="sub" text="1 May 793" class="menu-sub" />
+            <ui:VisualElement name="list" class="menu-list" />
+            <ui:Label name="note" class="menu-note" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

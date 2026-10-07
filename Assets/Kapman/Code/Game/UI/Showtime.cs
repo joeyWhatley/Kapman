@@ -230,10 +230,22 @@ namespace Kapman.Game
             under?.RemoveFromHierarchy();
             over?.RemoveFromHierarchy();
 
-            under = Plain("show-layer");
-            backdrop = new Image { pickingMode = PickingMode.Ignore, scaleMode = ScaleMode.StretchToFill };
-            backdrop.AddToClassList("show-fill");
-            nameRow = Plain("show-name");
+            // THE SHOW IS LAID OUT IN A FILE (KAPMAN, step 2): Game/UI/Showtime.uxml, named in Resources/FrameParts. A copy
+            // of its two layers is taken here, one put under the menu and one over it; each part is found by its name
+            // and shown, hidden and filled as the show goes. Open the file in UI Builder to move or restyle a part.
+            var parts = FrameParts.Current;
+            VisualElement made = parts != null && parts.showtime != null ? parts.showtime.Instantiate() : new VisualElement { name = "Showtime.uxml (not set in Resources/FrameParts)" };
+            under = FrameParts.In<VisualElement>(made, "show-under");
+            over = FrameParts.In<VisualElement>(made, "show-over");
+            under.RemoveFromHierarchy();
+            over.RemoveFromHierarchy();
+            under.pickingMode = PickingMode.Ignore;
+            over.pickingMode = PickingMode.Ignore;
+
+            backdrop = FrameParts.In<Image>(under, "backdrop");
+            backdrop.scaleMode = ScaleMode.StretchToFill;
+            nameRow = FrameParts.In<VisualElement>(under, "name-row");
+            nameRow.Clear();
             letters.Clear();
             letterAway.Clear();
             letterShape.Clear();
@@ -262,33 +274,23 @@ namespace Kapman.Game
                 letterAway.Add(0f);
                 nameRow.Add(l);
             }
-            seaPicture = new Image { pickingMode = PickingMode.Ignore, scaleMode = ScaleMode.ScaleAndCrop };
-            seaPicture.AddToClassList("show-fill");
-            titleVeil = new VisualElement { name = "title-click" };
-            titleVeil.AddToClassList("show-fill");
+            seaPicture = FrameParts.In<Image>(under, "sea-picture");
+            seaPicture.scaleMode = ScaleMode.ScaleAndCrop;
+            titleVeil = FrameParts.In<VisualElement>(under, "title-click");
             titleVeil.RegisterCallback<PointerDownEvent>(e =>
             {
                 e.StopPropagation();
                 titleClicked = true;
             });
-            loader = Plain("show-loader");
-            loaderShip = new Image { pickingMode = PickingMode.Ignore, scaleMode = ScaleMode.ScaleAndCrop };
-            loaderShip.AddToClassList("show-loader-ship");
-            loaderWord = Text("show-loader-word", "Loading");
-            loader.Add(loaderShip);
-            loader.Add(loaderWord);
-            under.Add(backdrop);
-            under.Add(seaPicture);
-            under.Add(nameRow);
-            under.Add(loader);
-            under.Add(titleVeil);
+            loader = FrameParts.In<VisualElement>(under, "loader");
+            loaderShip = FrameParts.In<Image>(under, "loader-ship");
+            loaderShip.scaleMode = ScaleMode.ScaleAndCrop;
+            loaderWord = FrameParts.In<Label>(under, "loader-word");
 
-            over = Plain("show-layer");
-            shipFull = new Image { pickingMode = PickingMode.Ignore, scaleMode = ScaleMode.ScaleAndCrop };
-            shipFull.AddToClassList("show-fill");
-            plate = Plain("show-plate");
-            box = new VisualElement { name = "opening-box" };
-            box.AddToClassList("show-box");
+            shipFull = FrameParts.In<Image>(over, "ship-full");
+            shipFull.scaleMode = ScaleMode.ScaleAndCrop;
+            plate = FrameParts.In<VisualElement>(over, "plate");
+            box = FrameParts.In<VisualElement>(over, "opening-box");
             box.RegisterCallback<PointerDownEvent>(e =>
             {
                 // (a click on the words goes on; a click on a button, or in the name's box, is that thing's own)
@@ -297,35 +299,24 @@ namespace Kapman.Game
                         return;
                 clicked = true;
             });
-            row = Plain("show-box-row");
-            face = new FrameFace("show-face");
-            col = Plain("show-box-col");
-            who = Text("show-who", "");
+            row = FrameParts.In<VisualElement>(over, "box-row");
+            col = FrameParts.In<VisualElement>(over, "box-col");
+            words = FrameParts.In<Label>(over, "words");
+            list = FrameParts.In<VisualElement>(over, "list");
+            small = FrameParts.In<Label>(over, "quiet");
+            go = FrameParts.In<Label>(over, "go");
             // (a speech balloon: the one who speaks stands outside it, under its tail, and is not seen until he says
             // who he is: the user, 7 Oct 2026, "it needs to come across like a text bubble")
-            tail = new BalloonTail();
-            tail.AddToClassList("show-tail");
-            speaker = Plain("show-speaker");
-            speaker.Add(face);
-            speaker.Add(who);
-            words = Text("show-words", "");
-            list = new VisualElement();
-            list.AddToClassList("show-list");
-            small = Text("show-quiet", "");
-            go = Text("show-go", "Enter");
-            col.Add(words);
-            col.Add(list);
-            col.Add(small);
-            col.Add(go);
-            row.Add(col);
-            box.Add(row);
-            card = Plain("show-card");
-            cardBig = Text("show-card-big", "");
-            cardSmall = Text("show-card-small", "");
-            card.Add(cardBig);
-            card.Add(cardSmall);
-            veil = new VisualElement { name = "first-click" };
-            veil.AddToClassList("show-fill");
+            tail = FrameParts.In<BalloonTail>(over, "tail");
+            speaker = FrameParts.In<VisualElement>(over, "speaker");
+            face = FrameParts.In<FrameFace>(over, "face");
+            who = FrameParts.In<Label>(over, "who");
+            // (the black of a cut: above the box and the showroom, under a place's card)
+            black = FrameParts.In<VisualElement>(over, "black");
+            card = FrameParts.In<VisualElement>(over, "card");
+            cardBig = FrameParts.In<Label>(over, "card-big");
+            cardSmall = FrameParts.In<Label>(over, "card-small");
+            veil = FrameParts.In<VisualElement>(over, "first-click");
             veil.RegisterCallback<PointerDownEvent>(e =>
             {
                 e.StopPropagation();
@@ -334,18 +325,7 @@ namespace Kapman.Game
                 else
                     clicked = true;
             });
-            marks = Plain("show-fill");
-            over.Add(shipFull);
-            over.Add(plate);
-            over.Add(box);
-            over.Add(tail);
-            over.Add(speaker);
-            // (the black of a cut: above the box and the showroom, under a place's card)
-            black = Plain("show-black");
-            over.Add(black);
-            over.Add(card);
-            over.Add(veil);
-            over.Add(marks);
+            marks = FrameParts.In<VisualElement>(over, "marks");
             docRoot.Insert(0, under);
             docRoot.Add(over);
 
@@ -362,42 +342,6 @@ namespace Kapman.Game
         }
 
         VisualElement black;
-
-        /// <summary>The tail of the speech balloon: a point hanging from its lower edge, in the balloon's own colour with
-        /// its own dark line down both sides (and none across the top, where it joins).</summary>
-        sealed class BalloonTail : VisualElement
-        {
-            public Color fill = new Color32(203, 213, 189, 255), edge = new Color32(46, 18, 51, 255);   // (the balloon's ground: MainMenu.uss .show-box)
-
-            public BalloonTail()
-            {
-                pickingMode = PickingMode.Ignore;
-                generateVisualContent += Paint;
-            }
-
-            void Paint(MeshGenerationContext ctx)
-            {
-                var r = contentRect;
-                if (r.width < 2f || r.height < 2f)
-                    return;
-                var p = ctx.painter2D;
-                Vector2 a = new Vector2(0f, 0f), b = new Vector2(r.width, 0f), tip = new Vector2(r.width * 0.12f, r.height);
-                p.fillColor = fill;
-                p.BeginPath();
-                p.MoveTo(a);
-                p.LineTo(b);
-                p.LineTo(tip);
-                p.ClosePath();
-                p.Fill();
-                p.strokeColor = edge;
-                p.lineWidth = 3f;
-                p.BeginPath();
-                p.MoveTo(a);
-                p.LineTo(tip);
-                p.LineTo(b);
-                p.Stroke();
-            }
-        }
 
         static VisualElement Plain(string cls)
         {
@@ -1194,8 +1138,10 @@ namespace Kapman.Game
             for (int i = 0; i < answers.Count; i++)
             {
                 int index = i;
-                var b = new Button(() => chosen = index) { text = (i + 1) + ". " + answers[i].name };
-                b.AddToClassList("show-choice");
+                // (an answer is laid out in Game/UI/Parts/ShowChoice.uxml)
+                var b = FrameParts.Make<Button>(FrameParts.Current != null ? FrameParts.Current.showChoice : null, "choice");
+                b.text = (i + 1) + ". " + answers[i].name;
+                b.clicked += () => chosen = index;
                 string means = answers[i].small ?? "";
                 b.RegisterCallback<PointerEnterEvent>(_ => small.text = means);
                 list.Add(b);
@@ -1249,11 +1195,13 @@ namespace Kapman.Game
             for (int i = 0; i < faces.Count; i++)
             {
                 int index = i;
-                var b = new Button(() => chosen = index);
-                b.AddToClassList("show-face-pick");
-                var picture = new Image { image = FrameArt.Load(faces[i]), scaleMode = ScaleMode.ScaleAndCrop, pickingMode = PickingMode.Ignore };
-                picture.AddToClassList("show-face-picture");
-                b.Add(picture);
+                // (a face is laid out in Game/UI/Parts/ShowFace.uxml)
+                var b = FrameParts.Make<Button>(FrameParts.Current != null ? FrameParts.Current.showFace : null, "face-pick");
+                b.clicked += () => chosen = index;
+                var picture = FrameParts.In<Image>(b, "picture");
+                picture.image = FrameArt.Load(faces[i]);
+                picture.scaleMode = ScaleMode.ScaleAndCrop;
+                picture.pickingMode = PickingMode.Ignore;
                 grid.Add(b);
             }
             list.Add(grid);
@@ -1277,23 +1225,18 @@ namespace Kapman.Game
         {
             yield return Say(AskName, false);
             bool done = false;
-            var field = new TextField { maxLength = 24 };
-            field.AddToClassList("show-field");
+            // (the box and its three buttons are laid out in Game/UI/Parts/ShowName.uxml)
+            var form = FrameParts.Make<VisualElement>(FrameParts.Current != null ? FrameParts.Current.showName : null, "name-form");
+            var field = FrameParts.In<TextField>(form, "field");
+            field.maxLength = 24;
             NameField = field;
-            list.Add(field);
-            var buttons = Plain("show-buttons");
+            var buttons = FrameParts.In<VisualElement>(form, "buttons");
             buttons.pickingMode = PickingMode.Position;
-            Button Make(string label, Action act)
-            {
-                var b = new Button(act) { text = label };
-                b.AddToClassList("show-choice");
-                b.AddToClassList("show-choice-side");
-                return b;
-            }
-            var take = Make("That is my name", () => done = field.value.Trim().Length > 0);
-            buttons.Add(Make("A man's name", () => field.value = PeriodNames.Pick(people, false, dice.NextDouble(), field.value)));
-            buttons.Add(Make("A woman's name", () => field.value = PeriodNames.Pick(people, true, dice.NextDouble(), field.value)));
-            buttons.Add(take);
+            var take = FrameParts.In<Button>(buttons, "take");
+            take.clicked += () => done = field.value.Trim().Length > 0;
+            FrameParts.In<Button>(buttons, "man").clicked += () => field.value = PeriodNames.Pick(people, false, dice.NextDouble(), field.value);
+            FrameParts.In<Button>(buttons, "woman").clicked += () => field.value = PeriodNames.Pick(people, true, dice.NextDouble(), field.value);
+            list.Add(field);
             list.Add(buttons);
             small.text = "Type a name, or have one given: names of your people, of these years.";
             Show(small);
@@ -1503,6 +1446,43 @@ namespace Kapman.Game
                 return "";
             string name = best.good.name.ToLowerInvariant();
             return $"One thing I do know. They ask about {bestBuy:0} d here for {name}, and at {bestPort.name} they pay about {bestSell:0}. Buy what she will hold and you can pay for, in the Trade window, and we take it there.";
+        }
+    }
+
+    /// <summary>The tail of the speech balloon: a point hanging from its lower edge, in the balloon's own colour with
+    /// its own dark line down both sides (and none across the top, where it joins). In a UI file: BalloonTail.</summary>
+    [UxmlElement]
+    public sealed partial class BalloonTail : VisualElement
+    {
+        public Color fill = new Color32(203, 213, 189, 255), edge = new Color32(46, 18, 51, 255);   // (the balloon's ground: MainMenu.uss .show-box)
+
+        public BalloonTail()
+        {
+            pickingMode = PickingMode.Ignore;
+            generateVisualContent += Paint;
+        }
+
+        void Paint(MeshGenerationContext ctx)
+        {
+            var r = contentRect;
+            if (r.width < 2f || r.height < 2f)
+                return;
+            var p = ctx.painter2D;
+            Vector2 a = new Vector2(0f, 0f), b = new Vector2(r.width, 0f), tip = new Vector2(r.width * 0.12f, r.height);
+            p.fillColor = fill;
+            p.BeginPath();
+            p.MoveTo(a);
+            p.LineTo(b);
+            p.LineTo(tip);
+            p.ClosePath();
+            p.Fill();
+            p.strokeColor = edge;
+            p.lineWidth = 3f;
+            p.BeginPath();
+            p.MoveTo(a);
+            p.LineTo(tip);
+            p.LineTo(b);
+            p.Stroke();
         }
     }
 }

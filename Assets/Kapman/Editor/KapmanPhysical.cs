@@ -78,6 +78,29 @@ namespace Kapman.EditorTools
             Debug.Log("Kapman, made physical, step 2: the Frame's UI Document has " + FrameLayout + " as its Source Asset.");
         }
 
+        public const string MenuLayout = "Assets/Kapman/Game/UI/MainMenu.uxml";
+        public const string ShowLayout = "Assets/Kapman/Game/UI/Showtime.uxml";
+
+        /// <summary>The menu's UI Document is given its layout file as its Source Asset (Game/UI/MainMenu.uxml).</summary>
+        [MenuItem("Kapman/Make physical/2c. The menu's layout file")]
+        public static void Step2Menu()
+        {
+            var scene = EditorSceneManager.OpenScene(GameScene, OpenSceneMode.Single);
+            var layout = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(MenuLayout);
+            if (layout == null)
+                throw new System.InvalidOperationException(MenuLayout + " is missing or did not import.");
+            var menu = Object.FindAnyObjectByType<MainMenu>(FindObjectsInactive.Include);
+            if (menu == null)
+                throw new System.InvalidOperationException(GameScene + " has no MainMenu.");
+            var doc = menu.GetComponent<UnityEngine.UIElements.UIDocument>();
+            doc.visualTreeAsset = layout;
+            EditorUtility.SetDirty(doc);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Step2Parts();
+            Debug.Log("Kapman, made physical, step 2c: the Main menu's UI Document has " + MenuLayout + " as its Source Asset.");
+        }
+
         public const string PartsFolder = "Assets/Kapman/Game/UI/Parts/";
         public const string PartsAsset = "Assets/Kapman/Game/Resources/FrameParts.asset";
 
@@ -98,9 +121,16 @@ namespace Kapman.EditorTools
             parts.line = Layout("Line");
             parts.lineButton = Layout("LineButton");
             parts.logLine = Layout("LogLine");
+            parts.menuOption = Layout("MenuOption");
+            parts.showtime = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(ShowLayout);
+            if (parts.showtime == null)
+                throw new System.InvalidOperationException(ShowLayout + " is missing or did not import.");
+            parts.showChoice = Layout("ShowChoice");
+            parts.showFace = Layout("ShowFace");
+            parts.showName = Layout("ShowName");
             EditorUtility.SetDirty(parts);
             AssetDatabase.SaveAssets();
-            Debug.Log("Kapman, made physical, step 2b: " + PartsAsset + " names the six files of " + PartsFolder + ".");
+            Debug.Log("Kapman, made physical, step 2b: " + PartsAsset + " names the files of " + PartsFolder + " and " + ShowLayout + ".");
         }
 
         static UnityEngine.UIElements.VisualTreeAsset Layout(string file)

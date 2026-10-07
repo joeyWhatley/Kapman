@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../MainMenu.uss" />
+    <!-- ONE FACE to choose from at the very start. The code takes a copy of the button named "face-pick" and gives the
+         picture in it its face. The element "preview" is only here so it looks right in UI Builder. -->
+    <ui:VisualElement name="preview" class="show-box" style="position: relative; width: 200px; height: 220px;">
+        <ui:Button name="face-pick" class="show-face-pick">
+            <ui:Image name="picture" class="show-face-picture" picking-mode="Ignore" />
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>

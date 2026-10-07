@@ -9,6 +9,8 @@ namespace Kapman.Game.Frame
     /// is said, one choice, a line of a window, a line of the log: each is laid out in a file of Game/UI/Parts, and the
     /// code takes a copy of it and fills in the words (<see cref="Make{T}"/>, <see cref="In{T}"/>). This asset names the
     /// files. It lies in a Resources folder so that it is found without a scene (the tests fill windows with none).
+    /// The menu's choice and the opening's screens and parts are named here too. The rule: a whole screen is the Source
+    /// Asset of its UI Document (Frame.uxml, MainMenu.uxml); a part the code takes copies of is named here.
     /// </summary>
     [CreateAssetMenu(menuName = "Kapman/Frame parts", fileName = "FrameParts")]
     public sealed class FrameParts : ScriptableObject
@@ -27,6 +29,18 @@ namespace Kapman.Game.Frame
         public VisualTreeAsset lineButton;
         [Tooltip("A line of the log (Game/UI/Parts/LogLine.uxml, the element \"log-line\").")]
         public VisualTreeAsset logLine;
+
+        [Header("The menu and the opening")]
+        [Tooltip("One choice of the menu (Game/UI/Parts/MenuOption.uxml, the element \"option\").")]
+        public VisualTreeAsset menuOption;
+        [Tooltip("The opening's screens, two layers (Game/UI/Showtime.uxml: \"show-under\" and \"show-over\").")]
+        public VisualTreeAsset showtime;
+        [Tooltip("One answer of the opening (Game/UI/Parts/ShowChoice.uxml, the element \"choice\").")]
+        public VisualTreeAsset showChoice;
+        [Tooltip("One face to choose from (Game/UI/Parts/ShowFace.uxml, the element \"face-pick\").")]
+        public VisualTreeAsset showFace;
+        [Tooltip("The name's box and its buttons (Game/UI/Parts/ShowName.uxml, the element \"name-form\").")]
+        public VisualTreeAsset showName;
 
         static FrameParts current;
         static bool looked;
@@ -69,8 +83,8 @@ namespace Kapman.Game.Frame
             var e = within.Q<T>(partName);
             if (e != null)
                 return e;
-            Debug.LogError("Kapman frame: the part \"" + within.name + "\" has no " + typeof(T).Name + " named \"" + partName +
-                           "\" in its layout file (Game/UI/Parts). A plain one is made: put it back in UI Builder, under that name.");
+            Debug.LogError("Kapman screen: \"" + within.name + "\" has no " + typeof(T).Name + " named \"" + partName +
+                           "\" in its UI file. A plain one is made: put it back in UI Builder, under that name.");
             e = new T { name = partName };
             within.Add(e);
             return e;

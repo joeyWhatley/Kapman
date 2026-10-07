@@ -53,7 +53,6 @@ namespace Kapman.Game
         void OnEnable()
         {
             var docRoot = GetComponent<UIDocument>().rootVisualElement;
-            root?.RemoveFromHierarchy();
             if (style != null && !docRoot.styleSheets.Contains(style))
                 docRoot.styleSheets.Add(style);
             // this document nests in the game's (its object is a child of '--- GAME ---'): fill the screen, and let the
@@ -64,25 +63,24 @@ namespace Kapman.Game
             docRoot.style.right = 0;
             docRoot.style.bottom = 0;
             docRoot.pickingMode = PickingMode.Ignore;
-            root = new VisualElement();
-            root.AddToClassList("menu-root");
+            // THE MENU IS LAID OUT IN A FILE (KAPMAN, step 2): Game/UI/MainMenu.uxml, the UI Document's own Source Asset.
+            // Open it in UI Builder to move or restyle the box. This finds its parts by their names.
+            root = docRoot.Q<VisualElement>("menu");
+            if (root == null)
+            {
+                Debug.LogError("Kapman menu: the UI Document of '" + name + "' has no Source Asset with an element named \"menu\" (it should be Assets/Kapman/Game/UI/MainMenu.uxml). A plain one is made.");
+                root = new VisualElement { name = "menu" };
+                root.AddToClassList("menu-root");
+                docRoot.Add(root);
+            }
             floorClass = null;
-            box = new VisualElement();
-            box.AddToClassList("menu-box");
-            title = new Label();
-            title.AddToClassList("menu-title");
-            sub = new Label();
-            sub.AddToClassList("menu-sub");
-            list = new VisualElement();
-            list.AddToClassList("menu-list");
-            note = new Label();
-            note.AddToClassList("menu-note");
-            box.Add(title);
-            box.Add(sub);
-            box.Add(list);
-            box.Add(note);
-            root.Add(box);
-            docRoot.Add(root);
+            box = Frame.FrameParts.In<VisualElement>(root, "box");
+            title = Frame.FrameParts.In<Label>(root, "title");
+            sub = Frame.FrameParts.In<Label>(root, "sub");
+            list = Frame.FrameParts.In<VisualElement>(root, "list");
+            note = Frame.FrameParts.In<Label>(root, "note");
+            list.Clear();
+            buttons.Clear();
             root.style.display = DisplayStyle.None;
         }
 
@@ -341,8 +339,11 @@ namespace Kapman.Game
         void Add(string label, Action act)
         {
             int n = buttons.Count;
-            var b = new Button(() => act()) { text = $"{n + 1}. {label}" };
-            b.AddToClassList("menu-option");
+            // (a choice is laid out in Game/UI/Parts/MenuOption.uxml)
+            var parts = Frame.FrameParts.Current;
+            var b = Frame.FrameParts.Make<Button>(parts != null ? parts.menuOption : null, "option");
+            b.text = $"{n + 1}. {label}";
+            b.clicked += () => act();
             list.Add(b);
             buttons.Add((b, act));
         }

@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../MainMenu.uss" />
+    <!-- ONE ANSWER to a question of the opening ("1. Frēsland"). The code takes a copy of the button named "choice" and
+         gives it its words. The element "preview" is only here so it looks right in UI Builder. -->
+    <ui:VisualElement name="preview" class="show-box" style="position: relative; width: 700px; height: 90px;">
+        <ui:Button name="choice" text="1. An answer" class="show-choice" />
+    </ui:VisualElement>
+</ui:UXML>

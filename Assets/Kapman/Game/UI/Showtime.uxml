@@ -1,0 +1,52 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:k="Kapman.Game.Frame" xmlns:g="Kapman.Game" editor-extension-mode="False">
+    <Style src="MainMenu.uss" />
+    <!-- THE OPENING'S SCREENS (Code/Game/UI/Showtime.cs): the loader, the title, the lender's questions, the showroom,
+         the first morning. Two layers: "show-under" is put under the menu and "show-over" over it. The code finds each
+         part by its NAME and shows, hides and fills it as the show goes: here they all lie one on another, so pick a
+         part in the Hierarchy to see and move it. Keep the names.
+         Put in by the code: the letters of the name (into "name-row"), the choices, the faces and the name's box (into
+         "list": Parts/ShowChoice.uxml, ShowFace.uxml, ShowName.uxml), the plate's lines, the marks. -->
+    <ui:VisualElement name="show-under" class="show-layer" picking-mode="Ignore">
+        <ui:Image name="backdrop" class="show-fill" picking-mode="Ignore" />
+        <ui:Image name="sea-picture" class="show-fill" picking-mode="Ignore" />
+        <ui:VisualElement name="name-row" class="show-name" picking-mode="Ignore" />
+        <ui:VisualElement name="loader" class="show-loader" picking-mode="Ignore">
+            <ui:Image name="loader-ship" class="show-loader-ship" picking-mode="Ignore" />
+            <ui:Label name="loader-word" text="Loading" class="show-loader-word" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <!-- (a click anywhere on the title) -->
+        <ui:VisualElement name="title-click" class="show-fill" />
+    </ui:VisualElement>
+    <ui:VisualElement name="show-over" class="show-layer" picking-mode="Ignore">
+        <ui:Image name="ship-full" class="show-fill" picking-mode="Ignore" />
+        <!-- the plate of the showroom: what the boat is, and what is owed for her -->
+        <ui:VisualElement name="plate" class="show-plate" picking-mode="Ignore" />
+        <!-- the speech balloon: the words, the answers, the small print, and the key that goes on -->
+        <ui:VisualElement name="opening-box" class="show-box">
+            <ui:VisualElement name="box-row" class="show-box-row" picking-mode="Ignore">
+                <ui:VisualElement name="box-col" class="show-box-col" picking-mode="Ignore">
+                    <ui:Label name="words" class="show-words" picking-mode="Ignore" />
+                    <ui:VisualElement name="list" class="show-list" />
+                    <ui:Label name="quiet" class="show-quiet" picking-mode="Ignore" />
+                    <ui:Label name="go" text="Enter" class="show-go" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <!-- the balloon's tail, and under it the one who speaks -->
+        <g:BalloonTail name="tail" class="show-tail" />
+        <ui:VisualElement name="speaker" class="show-speaker" picking-mode="Ignore">
+            <k:FrameFace name="face" class="show-face" />
+            <ui:Label name="who" class="show-who" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <!-- the black of a cut -->
+        <ui:VisualElement name="black" class="show-black" picking-mode="Ignore" />
+        <!-- the card of a place and a day ("Dorestat", "1 May 793") -->
+        <ui:VisualElement name="card" class="show-card" picking-mode="Ignore">
+            <ui:Label name="card-big" class="show-card-big" picking-mode="Ignore" />
+            <ui:Label name="card-small" class="show-card-small" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <!-- (the first click of the first morning) and the marks over the things to look at -->
+        <ui:VisualElement name="first-click" class="show-fill" />
+        <ui:VisualElement name="marks" class="show-fill" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>

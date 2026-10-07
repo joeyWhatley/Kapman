@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../MainMenu.uss" />
+    <!-- ONE CHOICE OF THE MENU ("1. Continue"). The code takes a copy of the button named "option" and gives it its
+         words. The element "preview" is only here so it looks right in UI Builder: the game does not use it. -->
+    <ui:VisualElement name="preview" class="menu-root" style="position: relative; width: 480px; height: 80px;">
+        <ui:Button name="option" text="1. A choice" class="menu-option" />
+    </ui:VisualElement>
+</ui:UXML>
