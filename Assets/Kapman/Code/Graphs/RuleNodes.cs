@@ -66,6 +66,183 @@ namespace Kapman.Graphs
         }
     }
 
+    /// <summary>What the crew is owed for a day. Given: the men aboard and a man's pay for a day. The answer: deniers.</summary>
+    [UnitTitle("Rule: the crew's pay for a day")]
+    [UnitShortTitle("Rule: the crew's pay for a day")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class PayRule : RuleUnit
+    {
+        public override string Rule => "pay";
+
+        [DoNotSerialize, PortLabel("Men aboard")] public ValueOutput men { get; private set; }
+        [DoNotSerialize, PortLabel("A man's pay a day (d)")] public ValueOutput payAMan { get; private set; }
+
+        protected override void Given()
+        {
+            men = ValueOutput<double>(nameof(men));
+            payAMan = ValueOutput<double>(nameof(payAMan));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(men, given[0]);
+            flow.SetValue(payAMan, given[1]);
+        }
+    }
+
+    /// <summary>The crew's health after a day (0 to 1). Given: their health, whether they went hungry, went thirsty or
+    /// were fed and watered, and what each takes or gives. The answer: their health now.</summary>
+    [UnitTitle("Rule: the crew's health after a day")]
+    [UnitShortTitle("Rule: the crew's health after a day")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class HealthRule : RuleUnit
+    {
+        public override string Rule => "health";
+
+        [DoNotSerialize, PortLabel("Health (0 to 1)")] public ValueOutput health { get; private set; }
+        [DoNotSerialize, PortLabel("Went hungry")] public ValueOutput hungry { get; private set; }
+        [DoNotSerialize, PortLabel("Went thirsty")] public ValueOutput thirsty { get; private set; }
+        [DoNotSerialize, PortLabel("Fed and watered")] public ValueOutput well { get; private set; }
+        [DoNotSerialize, PortLabel("A hungry day takes")] public ValueOutput hungerLoss { get; private set; }
+        [DoNotSerialize, PortLabel("A thirsty day takes")] public ValueOutput thirstLoss { get; private set; }
+        [DoNotSerialize, PortLabel("A good day gives")] public ValueOutput gain { get; private set; }
+
+        protected override void Given()
+        {
+            health = ValueOutput<double>(nameof(health));
+            hungry = ValueOutput<bool>(nameof(hungry));
+            thirsty = ValueOutput<bool>(nameof(thirsty));
+            well = ValueOutput<bool>(nameof(well));
+            hungerLoss = ValueOutput<double>(nameof(hungerLoss));
+            thirstLoss = ValueOutput<double>(nameof(thirstLoss));
+            gain = ValueOutput<double>(nameof(gain));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(health, given[0]);
+            flow.SetValue(hungry, given[1] != 0.0);
+            flow.SetValue(thirsty, given[2] != 0.0);
+            flow.SetValue(well, given[3] != 0.0);
+            flow.SetValue(hungerLoss, given[4]);
+            flow.SetValue(thirstLoss, given[5]);
+            flow.SetValue(gain, given[6]);
+        }
+    }
+
+    /// <summary>The crew's heart after a day (0 to 1). Given: their heart, what the sea took today, whether they went
+    /// hungry or thirsty, whether they are owed more than a week's pay, whether the day was spent in port, and what
+    /// each takes or gives. The answer: their heart now.</summary>
+    [UnitTitle("Rule: the crew's heart after a day")]
+    [UnitShortTitle("Rule: the crew's heart after a day")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class HeartRule : RuleUnit
+    {
+        public override string Rule => "heart";
+
+        [DoNotSerialize, PortLabel("Heart (0 to 1)")] public ValueOutput heart { get; private set; }
+        [DoNotSerialize, PortLabel("Lost to the sea today")] public ValueOutput lostToTheSea { get; private set; }
+        [DoNotSerialize, PortLabel("Went hungry")] public ValueOutput hungry { get; private set; }
+        [DoNotSerialize, PortLabel("Went thirsty")] public ValueOutput thirsty { get; private set; }
+        [DoNotSerialize, PortLabel("Owed over a week's pay")] public ValueOutput unpaid { get; private set; }
+        [DoNotSerialize, PortLabel("The day was in port")] public ValueOutput inPort { get; private set; }
+        [DoNotSerialize, PortLabel("A hungry day takes")] public ValueOutput hungryLoss { get; private set; }
+        [DoNotSerialize, PortLabel("A thirsty day takes")] public ValueOutput thirstyLoss { get; private set; }
+        [DoNotSerialize, PortLabel("An unpaid day takes")] public ValueOutput unpaidLoss { get; private set; }
+        [DoNotSerialize, PortLabel("A day in port gives")] public ValueOutput portGain { get; private set; }
+
+        protected override void Given()
+        {
+            heart = ValueOutput<double>(nameof(heart));
+            lostToTheSea = ValueOutput<double>(nameof(lostToTheSea));
+            hungry = ValueOutput<bool>(nameof(hungry));
+            thirsty = ValueOutput<bool>(nameof(thirsty));
+            unpaid = ValueOutput<bool>(nameof(unpaid));
+            inPort = ValueOutput<bool>(nameof(inPort));
+            hungryLoss = ValueOutput<double>(nameof(hungryLoss));
+            thirstyLoss = ValueOutput<double>(nameof(thirstyLoss));
+            unpaidLoss = ValueOutput<double>(nameof(unpaidLoss));
+            portGain = ValueOutput<double>(nameof(portGain));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(heart, given[0]);
+            flow.SetValue(lostToTheSea, given[1]);
+            flow.SetValue(hungry, given[2] != 0.0);
+            flow.SetValue(thirsty, given[3] != 0.0);
+            flow.SetValue(unpaid, given[4] != 0.0);
+            flow.SetValue(inPort, given[5] != 0.0);
+            flow.SetValue(hungryLoss, given[6]);
+            flow.SetValue(thirstyLoss, given[7]);
+            flow.SetValue(unpaidLoss, given[8]);
+            flow.SetValue(portGain, given[9]);
+        }
+    }
+
+    /// <summary>Takes an amount off a number, if a thing is so (with nothing joined to "If", always).</summary>
+    [UnitTitle("If so, take off")]
+    [UnitShortTitle("If so, take off")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class TakeOffIf : Unit
+    {
+        [DoNotSerialize, PortLabel("From")] public ValueInput from { get; private set; }
+        [DoNotSerialize, PortLabel("Take off")] public ValueInput amount { get; private set; }
+        [DoNotSerialize, PortLabel("If")] public ValueInput when { get; private set; }
+        [DoNotSerialize, PortLabel("Left")] public ValueOutput left { get; private set; }
+
+        protected override void Definition()
+        {
+            from = ValueInput<double>(nameof(from), 0.0);
+            amount = ValueInput<double>(nameof(amount), 0.0);
+            when = ValueInput<bool>(nameof(when), true);
+            left = ValueOutput(nameof(left), flow => flow.GetValue<bool>(when) ? flow.GetValue<double>(from) - flow.GetValue<double>(amount) : flow.GetValue<double>(from));
+            Requirement(from, left);
+            Requirement(amount, left);
+            Requirement(when, left);
+        }
+    }
+
+    /// <summary>Adds an amount to a number, if a thing is so (with nothing joined to "If", always).</summary>
+    [UnitTitle("If so, add")]
+    [UnitShortTitle("If so, add")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class AddIf : Unit
+    {
+        [DoNotSerialize, PortLabel("To")] public ValueInput to { get; private set; }
+        [DoNotSerialize, PortLabel("Add")] public ValueInput amount { get; private set; }
+        [DoNotSerialize, PortLabel("If")] public ValueInput when { get; private set; }
+        [DoNotSerialize, PortLabel("Sum")] public ValueOutput sum { get; private set; }
+
+        protected override void Definition()
+        {
+            to = ValueInput<double>(nameof(to), 0.0);
+            amount = ValueInput<double>(nameof(amount), 0.0);
+            when = ValueInput<bool>(nameof(when), true);
+            sum = ValueOutput(nameof(sum), flow => flow.GetValue<bool>(when) ? flow.GetValue<double>(to) + flow.GetValue<double>(amount) : flow.GetValue<double>(to));
+            Requirement(to, sum);
+            Requirement(amount, sum);
+            Requirement(when, sum);
+        }
+    }
+
+    /// <summary>A share kept between none and all: under 0 it is 0, over 1 it is 1.</summary>
+    [UnitTitle("Keep between 0 and 1")]
+    [UnitShortTitle("Keep between 0 and 1")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class Between01 : Unit
+    {
+        [DoNotSerialize, PortLabelHidden] public ValueInput number { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput kept { get; private set; }
+
+        protected override void Definition()
+        {
+            number = ValueInput<double>(nameof(number), 0.0);
+            kept = ValueOutput(nameof(kept), flow => Math.Max(0.0, Math.Min(1.0, flow.GetValue<double>(number))));
+            Requirement(number, kept);
+        }
+    }
+
     /// <summary>The end of a rule's graph: the number it comes to goes back to the game.</summary>
     [UnitTitle("Rule: the answer")]
     [UnitShortTitle("Rule: the answer")]

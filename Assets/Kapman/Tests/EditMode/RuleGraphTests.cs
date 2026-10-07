@@ -50,6 +50,34 @@ namespace Kapman.Tests
         }
 
         [Test]
+        public void TheGraphsOfTheCrewsDaySayWhatTheCodeSays()
+        {
+            foreach (string rule in new[] { "pay", "health", "heart" })
+                Assert.IsTrue(RuleGraphs.Has(rule), "no graph of the book holds the rule \"" + rule + "\"");
+            var dice = new Random(1066);
+            bool Coin(int oneIn) => dice.Next(oneIn) == 0;
+            for (int i = 0; i < 4000; i++)
+            {
+                int asked = GameRules.ByGraph;
+                int men = dice.Next(1, 40);
+                double pay = Math.Round(dice.NextDouble() * 2.0, 3);
+                Assert.AreEqual(GameRules.DayPayByCode(men, pay), GameRules.DayPay(men, pay), 0.0, $"pay: {men} men at {pay}");
+
+                double health = dice.NextDouble() * 1.2 - 0.1, hungerLoss = dice.NextDouble() * 0.2, thirstLoss = dice.NextDouble() * 0.3, gain = dice.NextDouble() * 0.1;
+                bool fed = !Coin(3), watered = !Coin(4);
+                Assert.AreEqual(GameRules.HealthByCode(health, fed, watered, hungerLoss, thirstLoss, gain), GameRules.Health(health, fed, watered, hungerLoss, thirstLoss, gain), 0.0,
+                    $"health {health}, fed {fed}, watered {watered}");
+
+                double heart = dice.NextDouble() * 1.2 - 0.1, sea = Coin(2) ? 0.0 : dice.NextDouble() * 0.2;
+                bool unpaid = Coin(3), inPort = Coin(2);
+                double a = dice.NextDouble() * 0.1, b = dice.NextDouble() * 0.1, c = dice.NextDouble() * 0.1, d = dice.NextDouble() * 0.1;
+                Assert.AreEqual(GameRules.HeartByCode(heart, sea, fed, watered, unpaid, inPort, a, b, c, d), GameRules.Heart(heart, sea, fed, watered, unpaid, inPort, a, b, c, d), 0.0,
+                    $"heart {heart}, sea {sea}, fed {fed}, watered {watered}, unpaid {unpaid}, in port {inPort}");
+                Assert.AreEqual(asked + 3, GameRules.ByGraph, "a rule of the crew's day was not reckoned by its graph");
+            }
+        }
+
+        [Test]
         public void WithNoGraphTheCodeStands()
         {
             GameRules.Graph = null;

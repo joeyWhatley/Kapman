@@ -60,6 +60,57 @@ namespace Kapman.Game
         public static double Toll(double soldFor, double share, double factor, bool free) =>
             Ask("toll", TollByCode(soldFor, share, factor, free), soldFor, share, factor, free ? 1.0 : 0.0);
 
+        static double Between01(double x) => Math.Max(0.0, Math.Min(1.0, x));
+
+        /// <summary>What the crew is owed for a day, as the code reckons it: so much a man.</summary>
+        public static double DayPayByCode(int men, double payAMan) => men * payAMan;
+
+        /// <summary>THE CREW'S PAY FOR A DAY (the graph "Rule - the crew's pay for a day"): deniers added to what is owed
+        /// them, for `men` aboard at `payAMan` a day (voyage_rules.json: pay).</summary>
+        public static double DayPay(int men, double payAMan) => Ask("pay", DayPayByCode(men, payAMan), men, payAMan);
+
+        /// <summary>The crew's health after a day, as the code reckons it.</summary>
+        public static double HealthByCode(double health, bool fed, bool watered, double hungerLoss, double thirstLoss, double gain)
+        {
+            if (!fed)
+                health -= hungerLoss;
+            if (!watered)
+                health -= thirstLoss;
+            if (fed && watered)
+                health += gain;
+            return Between01(health);
+        }
+
+        /// <summary>THE CREW'S HEALTH AFTER A DAY (the graph "Rule - the crew's health after a day"): 0 to 1. A day
+        /// without food or without drink takes from it; a day with both gives some back (voyage_rules.json).</summary>
+        public static double Health(double health, bool fed, bool watered, double hungerLoss, double thirstLoss, double gain) =>
+            Ask("health", HealthByCode(health, fed, watered, hungerLoss, thirstLoss, gain),
+                health, fed ? 0.0 : 1.0, watered ? 0.0 : 1.0, fed && watered ? 1.0 : 0.0, hungerLoss, thirstLoss, gain);
+
+        /// <summary>The crew's heart after a day, as the code reckons it.</summary>
+        public static double HeartByCode(double heart, double lostToTheSea, bool fed, bool watered, bool unpaid, bool inPort,
+                                         double hungryLoss, double thirstyLoss, double unpaidLoss, double portGain)
+        {
+            heart -= lostToTheSea;
+            if (!fed)
+                heart -= hungryLoss;
+            if (!watered)
+                heart -= thirstyLoss;
+            if (unpaid)
+                heart -= unpaidLoss;
+            if (inPort)
+                heart += portGain;
+            return Between01(heart);
+        }
+
+        /// <summary>THE CREW'S HEART AFTER A DAY (the graph "Rule - the crew's heart after a day"): 0 to 1. A rough sea
+        /// takes from it (`lostToTheSea`, less as they get their sea legs), and hunger, thirst and pay owed for more than
+        /// a week; a day in port gives some back (voyage_rules.json).</summary>
+        public static double Heart(double heart, double lostToTheSea, bool fed, bool watered, bool unpaid, bool inPort,
+                                   double hungryLoss, double thirstyLoss, double unpaidLoss, double portGain) =>
+            Ask("heart", HeartByCode(heart, lostToTheSea, fed, watered, unpaid, inPort, hungryLoss, thirstyLoss, unpaidLoss, portGain),
+                heart, lostToTheSea, fed ? 0.0 : 1.0, watered ? 0.0 : 1.0, unpaid ? 1.0 : 0.0, inPort ? 1.0 : 0.0, hungryLoss, thirstyLoss, unpaidLoss, portGain);
+
         [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Reset()
         {

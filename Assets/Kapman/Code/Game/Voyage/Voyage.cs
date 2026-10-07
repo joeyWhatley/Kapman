@@ -238,16 +238,17 @@ namespace Kapman.Game
             bool watered = thirst <= 1e-6 || Take(r.drinkGoods, thirst, ref openDrinkL, r.litresPerKg, out _);
             if (WaterL <= 0.0 && fromWater > 0.0)
                 Notice?.Invoke("The water casks are empty.");
-            // pay
-            PayOwed += Men * r.pay;
+            // pay (THE CREW'S PAY, HEALTH AND HEART ARE RULES THE GRAPHS HOLD: GameRules, Game/Graphs/Rules)
+            PayOwed += GameRules.DayPay(Men, r.pay);
             // the sea
+            double lostToTheSea = 0.0;
             if (atSea)
             {
                 DaysAtSea++;
                 if (waveM > r.seasickWaveM)
                 {
                     Seasick = Math.Max(0.0, 1.0 - DaysAtSea / Math.Max(1.0, r.seaLegsDays));
-                    Morale -= r.seasickPerDay * Seasick * Math.Min(2.0, waveM / r.seasickWaveM);
+                    lostToTheSea = r.seasickPerDay * Seasick * Math.Min(2.0, waveM / r.seasickWaveM);
                     if (Seasick > 0.3)
                         Notice?.Invoke("The sea is rough; some of the men are seasick.");
                 }
@@ -256,25 +257,12 @@ namespace Kapman.Game
             }
             // health and heart
             if (!fed)
-            {
-                Health -= r.hungerPerDay;
-                Morale -= r.hungryPerDay;
                 Notice?.Invoke("There is no food aboard. The men go hungry.");
-            }
             if (!watered)
-            {
-                Health -= r.thirstPerDay;
-                Morale -= r.thirstyPerDay;
                 Notice?.Invoke("There is nothing to drink aboard.");
-            }
-            if (fed && watered)
-                Health += r.recoverPerDay;
-            if (PayOwed > Men * r.pay * 7.0)
-                Morale -= r.unpaidPerDay;
-            if (!atSea)
-                Morale += r.recoverInPort;
-            Health = Math.Max(0.0, Math.Min(1.0, Health));
-            Morale = Math.Max(0.0, Math.Min(1.0, Morale));
+            bool unpaid = PayOwed > Men * r.pay * 7.0;
+            Health = GameRules.Health(Health, fed, watered, r.hungerPerDay, r.thirstPerDay, r.recoverPerDay);
+            Morale = GameRules.Heart(Morale, lostToTheSea, fed, watered, unpaid, !atSea, r.hungryPerDay, r.thirstyPerDay, r.unpaidPerDay, r.recoverInPort);
         }
 
         /// <summary>In port: the casks filled, the men paid what the purse can, and any owed too long go ashore.</summary>

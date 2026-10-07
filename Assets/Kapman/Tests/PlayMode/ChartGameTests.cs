@@ -903,6 +903,7 @@ namespace Kapman.Tests
                 yield return play.Shot("26_sold_at_traiectum");
                 // (the toll of the merchant's sales is reckoned by its graph, "Rule - the toll on a sale", not by the code's sum)
                 Assert.Greater(GameRules.ByGraph, 0, "the merchant has sold and the toll's graph was never asked (Resources/GameRules; Kapman.Graphs.RuleGraphs)");
+                Assert.AreEqual(0, GameRules.ByCode, "a rule the graphs hold was reckoned by the code's sum in play: its graph is missing or failed (see the Console)");
                 Debug.Log($"Chart test: sold one {soldName} at Traiectum: '{sold.text}'; silver {silver:0} -> {FrameGame.Silver:0}");
 
                 // ---- A HAPPENING IN PORT (the events table): it comes as a floating window of its own, over the port's menu,
