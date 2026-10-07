@@ -259,7 +259,42 @@ namespace Kapman.Tests
                 yield return play.Press(Key.Enter);
                 yield return ChartPlay.Frames(3);
                 Assert.Greater(play.Frame.FrontReveal.Index, linesBefore, "Enter did not go on to Ravn's next paragraph");
-                yield return EnterUntil(play, () => play.Frame.FrontReveal == null || play.Frame.FrontReveal.Done, 30);
+                // WHAT HE SPEAKS OF IS POINTED AT (the user, 8 Oct 2026: "can you highlight what he's talking about"): as each
+                // paragraph is said, the frame's pointer stands round the part of the screen it is about
+                var pointedAt = new System.Collections.Generic.List<string>();
+                bool rowShot = false;
+                for (int press = 0; press < 40 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; press++)
+                {
+                    float until = Time.realtimeSinceStartup + 3f;
+                    while (Time.realtimeSinceStartup < until && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Waiting && !play.Frame.FrontReveal.Done)
+                    {
+                        string now = play.Frame.PointedAt;
+                        if (now.Length > 0 && !pointedAt.Contains(now))
+                            pointedAt.Add(now);
+                        if (!rowShot && now.StartsWith("verb-cast-off verb-voyage"))
+                        {
+                            rowShot = true;
+                            Assert.AreEqual(DisplayStyle.Flex, play.Frame.Pointer.resolvedStyle.display, "he speaks of the top row and the pointer is not shown");
+                            var row = play.Frame.Root.Q<VisualElement>("verb-cast-off").worldBound;
+                            var hold = play.Frame.Root.Q<VisualElement>("verb-hold").worldBound;
+                            var frameRound = play.Frame.Pointer.worldBound;
+                            Assert.IsTrue(frameRound.xMin <= row.xMin && frameRound.xMax >= hold.xMax && frameRound.yMin <= row.yMin && frameRound.yMax >= row.yMax,
+                                "the pointer is not round the top row of buttons: " + frameRound + " against " + row + " to " + hold);
+                            yield return play.Shot("open_13c_ravn_points_at_the_top_row", 0f);
+                        }
+                        yield return null;
+                    }
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(3);
+                    string then = play.Frame.PointedAt;
+                    if (then.Length > 0 && !pointedAt.Contains(then))
+                        pointedAt.Add(then);
+                }
+                notes.AppendLine("Ravn pointed at: " + string.Join(" | ", pointedAt));
+                CollectionAssert.Contains(pointedAt, "ship", "he spoke of the boat and her window was not pointed at");
+                CollectionAssert.Contains(pointedAt, "verb-alehouse", "he spoke of the alehouse and its button was not pointed at");
+                Assert.IsTrue(pointedAt.Exists(at => at.StartsWith("speed-pause")), "he spoke of the clock and it was not pointed at: " + string.Join(" | ", pointedAt));
+                Assert.IsTrue(rowShot, "the top row of buttons was never pointed at while he spoke of it: " + string.Join(" | ", pointedAt));
                 yield return ChartPlay.Settle(0.4f);
                 yield return play.Shot("open_14_ravn_said");
                 string ravn = ChartPlay.Read(play.FrontFloat());
@@ -269,6 +304,8 @@ namespace Kapman.Tests
                 yield return play.Press(Key.Enter);                       // (Go on)
                 yield return ChartPlay.Until(() => !play.Frame.FloatOpen("ravn.first"), 4f);
                 Assert.IsFalse(play.Frame.FloatOpen("ravn.first"));
+                yield return ChartPlay.Frames(2);
+                Assert.AreEqual("", play.Frame.PointedAt, "Ravn has done and the pointer still stands");
                 Assert.IsFalse(Showtime.Busy);
 
                 // ---- 12. the first jobs: no casting off until the hands are hired and the sail is mended

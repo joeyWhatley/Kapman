@@ -2587,3 +2587,24 @@
 .frame-root .frame-ship-wind {
     margin-left: 0;
 }
+
+/* ---- WHAT THE ONE WHO SPEAKS IS TALKING ABOUT (the user, 8 Oct 2026: "when Ravn is explaining what to do and how to
+   play can you highlight what he is talking about"): a frame round it, a dark line outside and a gold one inside, with
+   a breath of gold over the thing itself. FrameRoot moves it, sizes it and blinks it in steps (it is hidden until then). */
+.frame-root .frame-pointer {
+    position: absolute;
+    display: none;
+    border-width: 3px;
+    border-color: rgb(46, 18, 51);
+    background-color: rgba(240, 210, 122, 0.16);
+}
+
+.frame-root .frame-pointer-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-width: 4px;
+    border-color: rgb(240, 210, 122);
+}

@@ -99,11 +99,20 @@ does (the effects are half way there: they are a small language already); the de
 
 | Step | State | Notes |
 |---|---|---|
-| 0 | DONE, 8 Oct 2026 (commit c732d16) | G:\KAPMAN made by G:\kapman_unity\compile_check\kapman_uses.py and kapman_make.py from Kapman2 at f45f934: 818 asset files (150 MB) of Kapman2's 4,515 (15.7 GB). EditMode 425 of 427, PlayMode 25 of 25. |
-| 1a | built 8 Oct, tests running when this was written | The five parts that made themselves when the scene loaded (Showtime, Game music, Play notes, Port view, Ship view) are objects of the Game scene under "--- SYSTEMS ---", put there by Kapman > Make physical > 1 (Assets/Kapman/Editor/KapmanPhysical.cs). Each still makes itself in a scene that has none. |
-| 1b | to do | Boot, Title and Game as three scenes; the ship stage's own objects (camera, light, sea, volume) as a prefab in the scene in place of being built by ShipStage at start. |
-| 2 | to do | The screens as UI Builder files. First cut by a tool that writes the UXML from the screen as the code builds it today; then the code is changed to fill a file in place of building. |
-| 3 | to do | Flows as graphs, then the rules as graphs (the user's ruling), each rule with a test against the code it replaces. |
+| 0 | DONE, 8 Oct 2026 (c732d16) | G:\KAPMAN made by G:\kapman_unity\compile_check\kapman_uses.py and kapman_make.py from Kapman2 at f45f934: 818 asset files (150 MB) of 4,515 (15.7 GB). |
+| 1a | DONE (79dfb43) | The five parts that made themselves when the scene loaded (Showtime, Game music, Play notes, Port view, Ship view) are objects of the Game scene under "--- SYSTEMS ---" (Kapman > Make physical > 1). |
+| 1b | to do | Boot, Title and Game as three scenes; the ship stage (camera, light, sea, volume) as a prefab in the scene, not built by ShipStage at the start; the 50 ports as objects. |
+| 2a | DONE (40f6411) | Game/UI/Frame.uxml: the whole frame, the Source Asset of the Frame's UI Document. FrameRoot finds its parts by name. Buttons of the rack can be moved, taken out or added in UI Builder. |
+| 2b | DONE (95c038a) | Game/UI/Parts: Window, Float (what is said, pop-ups), Option, Line, LineButton, LogLine. Named in Resources/FrameParts. |
+| 2c | DONE (51e907b) | Game/UI/MainMenu.uxml (the menu) and Showtime.uxml (the opening's layers), with Parts/MenuOption, ShowChoice, ShowFace, ShowName. |
+| 2d | to do | The chart (MapView: its layers, a port's name plate, the hover card, the legend), the market and the old text panel, the notes of F2, the port's picture, the places. Then each side window's own layout (22 panels: today each fills a body with lines; a file per window would let its sections be moved). |
+| 3 | begun | Flows as graphs, then the rules as graphs, each rule with a test against the code it replaces. |
 | 4 to 6 | to do | Prefabs and animation; settings as assets; clearing out (the old level builders in Assets/Kapman/Editor, the tests of the old 3D levels). |
+
+The rule for the screen: a whole screen is the Source Asset of its UI Document; a part the code takes copies of is a
+file of Game/UI/Parts, named in Resources/FrameParts. A part is found by its NAME: it may be moved and restyled freely
+in UI Builder, but a renamed or deleted part is reported in the Console and replaced by a plain stand-in.
+Beware: UI Builder drops the comments of a style sheet when it saves one. Moving a part in the canvas writes to the
+UXML, which is safe; changing a selector of Frame.uss in UI Builder would strip the notes in that file.
 
 Kapman2 (G:\kapman_unity\Kapman2) is the archive from f45f934 on: nothing more is built there.

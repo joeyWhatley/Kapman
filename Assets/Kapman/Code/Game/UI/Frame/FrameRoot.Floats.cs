@@ -31,6 +31,46 @@ namespace Kapman.Game.Frame
         public string face;
         /// <summary>The words, in order; an unwritten one (a placeholder for the writers) is shown small and pale.</summary>
         public readonly List<(string text, bool written)> lines = new List<(string, bool)>();
+
+        /// <summary>
+        /// WHAT A LINE POINTS AT AS IT IS SAID (the user, 8 Oct 2026: "when Ravn is explaining what to do and how to
+        /// play can you highlight what he's talking about"). For a line (by its words): from which letter on, which
+        /// parts of the frame have the frame's pointer round them. Filled by <see cref="Say"/>.
+        /// </summary>
+        public readonly Dictionary<string, List<(int at, string parts)>> points = new Dictionary<string, List<(int, string)>>();
+
+        /// <summary>
+        /// Adds a written line that points at parts of the frame as it is said. In the text, [[>names]] means "from
+        /// here on, this is about those parts": the names are the parts' names in the frame's layout file (Frame.uxml:
+        /// verb-voyage, figure-silver, ship, log, speed-pause...), several with spaces between them (one frame is drawn
+        /// round them all), or text:Words for the button whose words begin so (text:Mend it). [[>]] points at nothing.
+        /// The marks are taken out of what is shown.
+        ///   spec.Say("She wants three more men. [[>verb-alehouse]]They sit in the alehouse.");
+        /// </summary>
+        public void Say(string text)
+        {
+            var clean = new System.Text.StringBuilder();
+            var cues = new List<(int at, string parts)>();
+            int i = 0;
+            text = text ?? "";
+            while (i < text.Length)
+            {
+                int open = text.IndexOf("[[>", i, StringComparison.Ordinal);
+                int close = open >= 0 ? text.IndexOf("]]", open + 3, StringComparison.Ordinal) : -1;
+                if (close < 0)
+                {
+                    clean.Append(text, i, text.Length - i);
+                    break;
+                }
+                clean.Append(text, i, open - i);
+                cues.Add((clean.Length, text.Substring(open + 3, close - open - 3).Trim()));
+                i = close + 2;
+            }
+            string line = clean.ToString();
+            lines.Add((line, true));
+            if (cues.Count > 0)
+                points[line] = cues;
+        }
         /// <summary>Small print under the words; and what came of the choice, once made.</summary>
         public string small = "", result = "";
         public readonly List<FloatOption> options = new List<FloatOption>();
@@ -90,6 +130,102 @@ namespace Kapman.Game.Frame
         }
 
 
+
+        // ------------------------------------------------------------------ what the one who speaks is talking about
+        VisualElement pointer;
+
+        /// <summary>The parts of the frame the pointer is round now, as the line names them ("" for none).</summary>
+        public string PointedAt { get; private set; } = "";
+        /// <summary>The pointer's own element (for a test, a tool).</summary>
+        public VisualElement Pointer => pointer;
+
+        /// <summary>What the line being said in a window points at now: the last mark its words have come to (all of them
+        /// when the line stands whole and waits); null when the line has none, or the window is not said aloud.</summary>
+        static string PointedBy(Float f)
+        {
+            var r = f.reveal;
+            if (r == null || r.Count == 0 || f.spec.points.Count == 0)
+                return null;
+            int line = r.Done ? r.Count - 1 : r.Index;
+            if (!f.spec.points.TryGetValue(r.Key(line), out var cues))
+                return null;
+            int shown = r.Done || r.Waiting ? int.MaxValue : r.Shown;
+            string parts = null;
+            foreach (var (at, names) in cues)
+                if (at <= shown)
+                    parts = names;
+            return parts;
+        }
+
+        /// <summary>A part of the frame by a mark's name: its name in the layout file, or text:Words for the button whose
+        /// words begin so. Null if there is none such, or it is not on the screen.</summary>
+        VisualElement PointedPart(string partName)
+        {
+            VisualElement e = null;
+            if (partName.StartsWith("text:", StringComparison.Ordinal))
+            {
+                string words = partName.Substring(5);
+                root.Query<Button>().ForEach(b =>
+                {
+                    if (e == null && b.text != null && b.text.StartsWith(words, StringComparison.Ordinal) && b.resolvedStyle.display != DisplayStyle.None && b.worldBound.width > 1f)
+                        e = b;
+                });
+            }
+            else
+                e = root.Q<VisualElement>(partName);
+            if (e == null || e.panel == null || e.resolvedStyle.display == DisplayStyle.None)
+                return null;
+            var box = e.worldBound;
+            return float.IsNaN(box.width) || box.width < 1f || box.height < 1f ? null : e;
+        }
+
+        /// <summary>Each frame: the pointer goes round what the front-most pointing line is about, or is put away.</summary>
+        void PointerUpdate()
+        {
+            if (pointer == null)
+                return;
+            string parts = null;
+            for (int i = floats.Count - 1; i >= 0 && parts == null; i--)
+                parts = PointedBy(floats[i]);
+            bool any = false;
+            float x0 = 0f, y0 = 0f, x1 = 0f, y1 = 0f;
+            if (!string.IsNullOrEmpty(parts))
+                foreach (string partName in parts.Split(' '))
+                {
+                    var e = partName.Length > 0 ? PointedPart(partName) : null;
+                    if (e == null)
+                        continue;
+                    var b = e.worldBound;
+                    x0 = any ? Mathf.Min(x0, b.xMin) : b.xMin;
+                    y0 = any ? Mathf.Min(y0, b.yMin) : b.yMin;
+                    x1 = any ? Mathf.Max(x1, b.xMax) : b.xMax;
+                    y1 = any ? Mathf.Max(y1, b.yMax) : b.yMax;
+                    any = true;
+                }
+            if (!any)
+            {
+                if (PointedAt.Length > 0)
+                {
+                    pointer.style.display = DisplayStyle.None;
+                    PointedAt = "";
+                }
+                return;
+            }
+            // a little outside the thing itself, in the frame's own pixels
+            const float pad = 6f;
+            var corner = root.WorldToLocal(new Vector2(x0, y0));
+            var far = root.WorldToLocal(new Vector2(x1, y1));
+            pointer.style.left = Mathf.Round(corner.x - pad);
+            pointer.style.top = Mathf.Round(corner.y - pad);
+            pointer.style.width = Mathf.Round(far.x - corner.x + pad * 2f);
+            pointer.style.height = Mathf.Round(far.y - corner.y + pad * 2f);
+            pointer.style.display = DisplayStyle.Flex;
+            pointer.BringToFront();
+            // it blinks in steps, not smoothly (as the marks of the first morning do)
+            float k = Mathf.Floor(Mathf.PingPong(Time.unscaledTime * 2.6f, 1f) * 2.999f) / 2f;
+            pointer.style.opacity = 0.55f + 0.45f * k;
+            PointedAt = parts;
+        }
 
         /// <summary>The front window's talking text, if it is still being said (for a test, a tool).</summary>
         public TextReveal FrontReveal => floats.Count > 0 ? floats[floats.Count - 1].reveal : null;
@@ -467,6 +603,10 @@ namespace Kapman.Game.Frame
             floats.Clear();
             floatSlots = 0;
             floatLayer = Part<VisualElement>("floats");                    // (the layout file, Frame.uxml: "floats")
+            pointer = Part<VisualElement>("pointer");
+            pointer.pickingMode = PickingMode.Ignore;
+            pointer.style.display = DisplayStyle.None;
+            PointedAt = "";
             cardShown = null;
             talkVersion = -1;
         }
@@ -536,6 +676,7 @@ namespace Kapman.Game.Frame
                     Said(f);
                     Paging(f);
                 }
+            PointerUpdate();
             float now = Time.realtimeSinceStartup;
             foreach (var f in floats)
                 if (f.hintUntil > 0f && now > f.hintUntil)
