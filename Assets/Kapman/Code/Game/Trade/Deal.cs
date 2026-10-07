@@ -112,7 +112,11 @@ namespace Kapman.Game
             total = Math.Round(total, 2);
             // (the merchant's own sales are toll-free where a riddle won that: Chest.TollFreeAt)
             bool free = who == "player" && Chest.TollFreeAt(m.port, KapmanGame.Current != null ? KapmanGame.Current.Year : 793);
-            double toll = free ? 0.0 : Math.Round(total * m.zone.toll * (who == "player" ? EncounterRunner.TollFactor(m.port.id, day) : 1.0), 2);
+            // (THE TOLL IS A RULE THE GRAPHS HOLD for the merchant, "Rule - the toll on a sale": GameRules. Every other ship
+            // goes by the same sum in code.)
+            double toll = who == "player"
+                ? GameRules.Toll(total, m.zone.toll, EncounterRunner.TollFactor(m.port.id, day), free)
+                : GameRules.TollByCode(total, m.zone.toll, 1.0, free);
             r.cost = hold.Remove(good, n);
             purse.Receive(total - toll, m.zone, rules, out _);
             r.ok = true;
