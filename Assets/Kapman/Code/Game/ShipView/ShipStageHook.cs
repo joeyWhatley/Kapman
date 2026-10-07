@@ -107,7 +107,8 @@ namespace Kapman.Game.ShipView
         /// <summary>Swapped, the small chart is drawn at this many times the chart's own metres to a pixel.</summary>
         public float miniChartScale = 2.5f;
 
-        ShipStageKit kit;
+        [Tooltip("The models and materials the 3D view is built of (Resources/ShipStageKit). Empty: looked for by its name.")]
+        [SerializeField] ShipStageKit kit;
         ShipStage stage;
         FrameRoot framed;
         VisualElement shipView, mapRoot;
@@ -180,9 +181,40 @@ namespace Kapman.Game.ShipView
                 warned = true;
                 return;
             }
-            var go = new GameObject("Ship view (3D)");
-            Current = go.AddComponent<ShipStageHook>();
-            Current.kit = kit;
+            pending = kit;
+            new GameObject("Ship view (3D)").AddComponent<ShipStageHook>();
+            pending = null;
+        }
+
+        static ShipStageKit pending;
+
+        // AN OBJECT OF THE SCENE (KAPMAN, step 1; the user, 7 Oct 2026: "make it like people usually make it, not just all
+        // in script, build it physically"). It stands in the Game scene under SYSTEMS, to be seen and set in the
+        // Inspector. Where a scene has none (a test's own scene) it still makes itself, as it always did.
+        void Awake()
+        {
+            if (Current != null && Current != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            // (where the view cannot be or is switched off, the object goes, as if it had never been made: TurnOn makes one)
+            if (Off || ChartWorld.Current == null || SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            if (kit == null)
+                kit = pending != null ? pending : ShipStageKit.Load();
+            if (kit == null)
+            {
+                if (!warned)
+                    Debug.Log("Kapman ship view: no Resources/" + ShipStageKit.ResourceName + " (Kapman > Ship view > Make the kit): the ship window keeps its drawn stand-in.");
+                warned = true;
+                Destroy(gameObject);
+                return;
+            }
+            Current = this;
         }
 
         /// <summary>Puts the view up now, in a chart scene that is already open (a setting, a test that measures).</summary>

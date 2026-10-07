@@ -48,6 +48,7 @@ namespace Kapman.Game
     /// Trade.LenderByname). Off in a batch run, where the tests play the game and read the screen, unless a test asks
     /// for it (<see cref="ForceOn"/>): there the old creation window asks the three choices, and none of this is seen.
     /// </summary>
+    [DefaultExecutionOrder(-90)]                                      // (after the main menu, -99: it stands in the scene with it now)
     public sealed class Showtime : MonoBehaviour
     {
         public static Showtime Current { get; private set; }
@@ -176,13 +177,26 @@ namespace Kapman.Game
 
         static void Loaded(Scene scene, LoadSceneMode mode) => TryStart();
 
+        // AN OBJECT OF THE SCENE (KAPMAN, step 1; the user, 7 Oct 2026: "make it like people usually make it, not just all
+        // in script, build it physically"). It stands in the Game scene under SYSTEMS, to be seen and set in the
+        // Inspector. Where a scene has none (a test's own scene) it still makes itself, as it always did.
+        void Awake()
+        {
+            if (Current != null && Current != this)
+            {
+                Destroy(gameObject);                                      // (never two)
+                return;
+            }
+            Current = this;
+            // (with the show on, the three choices are asked by the lender, never by the creation window)
+            FrameRoot.AskedElsewhere = On;
+        }
+
         static void TryStart()
         {
             if (Current != null || MainMenu.Current == null)
                 return;
-            // (with the show on, the three choices are asked by the lender, never by the creation window)
-            FrameRoot.AskedElsewhere = On;
-            Current = new GameObject("Showtime").AddComponent<Showtime>();
+            new GameObject("Showtime").AddComponent<Showtime>();          // (its Awake takes the place)
         }
 
         void OnDestroy()

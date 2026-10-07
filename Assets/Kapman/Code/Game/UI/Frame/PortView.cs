@@ -57,11 +57,24 @@ namespace Kapman.Game.Frame
 
         static void Loaded(Scene scene, LoadSceneMode mode) => TryStart();
 
+        // AN OBJECT OF THE SCENE (KAPMAN, step 1; the user, 7 Oct 2026: "make it like people usually make it, not just all
+        // in script, build it physically"). It stands in the Game scene under SYSTEMS, to be seen and set in the
+        // Inspector. Where a scene has none (a test's own scene) it still makes itself, as it always did.
+        void Awake()
+        {
+            if (Current != null && Current != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Current = this;
+        }
+
         static void TryStart()
         {
             if (Current != null || FrameRoot.Current == null)
                 return;
-            Current = new GameObject("Port view").AddComponent<PortView>();
+            new GameObject("Port view").AddComponent<PortView>();
         }
 
         void OnDestroy()

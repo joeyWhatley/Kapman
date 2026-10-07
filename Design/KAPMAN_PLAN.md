@@ -94,3 +94,16 @@ Unity project. I'm happy with the vision we've made so let's move forward."
 Step 3 grows: after the flows, the rules. In this order, each with its test against the code it replaces:
 the toll and a deal's sums; hand money and pay; bread, health and heart; standing at a port; what a card's choice
 does (the effects are half way there: they are a small language already); the debt and its day; the first jobs.
+
+## Where it stands
+
+| Step | State | Notes |
+|---|---|---|
+| 0 | DONE, 8 Oct 2026 (commit c732d16) | G:\KAPMAN made by G:\kapman_unity\compile_check\kapman_uses.py and kapman_make.py from Kapman2 at f45f934: 818 asset files (150 MB) of Kapman2's 4,515 (15.7 GB). EditMode 425 of 427, PlayMode 25 of 25. |
+| 1a | built 8 Oct, tests running when this was written | The five parts that made themselves when the scene loaded (Showtime, Game music, Play notes, Port view, Ship view) are objects of the Game scene under "--- SYSTEMS ---", put there by Kapman > Make physical > 1 (Assets/Kapman/Editor/KapmanPhysical.cs). Each still makes itself in a scene that has none. |
+| 1b | to do | Boot, Title and Game as three scenes; the ship stage's own objects (camera, light, sea, volume) as a prefab in the scene in place of being built by ShipStage at start. |
+| 2 | to do | The screens as UI Builder files. First cut by a tool that writes the UXML from the screen as the code builds it today; then the code is changed to fill a file in place of building. |
+| 3 | to do | Flows as graphs, then the rules as graphs (the user's ruling), each rule with a test against the code it replaces. |
+| 4 to 6 | to do | Prefabs and animation; settings as assets; clearing out (the old level builders in Assets/Kapman/Editor, the tests of the old 3D levels). |
+
+Kapman2 (G:\kapman_unity\Kapman2) is the archive from f45f934 on: nothing more is built there.

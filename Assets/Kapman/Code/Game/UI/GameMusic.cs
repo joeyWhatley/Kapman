@@ -70,17 +70,31 @@ namespace Kapman.Game
         static void Reset() => Current = null;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        // AN OBJECT OF THE SCENE (KAPMAN, step 1; the user, 7 Oct 2026: "make it like people usually make it, not just all
+        // in script, build it physically"). It stands in the Game scene under SYSTEMS, to be seen and set in the
+        // Inspector. Where a scene has none (a test's own scene) it still makes itself, as it always did.
         static void First()
         {
             if (Current != null || Application.isBatchMode || !Directory.Exists(Folder))
                 return;
-            var go = new GameObject("Game music");
-            DontDestroyOnLoad(go);                                        // (a new game loads the scene again: the music goes on)
-            Current = go.AddComponent<GameMusic>();
+            new GameObject("Game music").AddComponent<GameMusic>();
         }
 
         void Awake()
         {
+            if (Current != null && Current != this)
+            {
+                Destroy(gameObject);                                      // (the scene came again for a new game: the one that plays stays)
+                return;
+            }
+            if (Application.isBatchMode || !Directory.Exists(Folder))
+            {
+                enabled = false;                                          // (no music beside the game, or a run without a screen: silent)
+                return;
+            }
+            Current = this;
+            transform.SetParent(null);
+            DontDestroyOnLoad(gameObject);                                // (a new game loads the scene again: the music goes on)
             title = Source();
             ost = Source();
             string dir = Path.Combine(Folder, "ost");
