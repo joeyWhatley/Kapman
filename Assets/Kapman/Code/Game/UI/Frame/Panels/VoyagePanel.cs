@@ -163,6 +163,7 @@ namespace Kapman.Game.Frame
             h = FrameUi.Mix(h, picked);
             h = FrameUi.Mix(h, KnownPorts().Count);
             h = FrameUi.Mix(h, FrameGame.PortHere != null);
+            h = FrameUi.Mix(h, FirstJobs.Version);
             h = FrameUi.Mix(h, Course.IsSet ? (int)(Course.KmLeft(ChartWorld.ShipWorld()) / 5.0) : -1);
             return h;
         }
@@ -214,7 +215,9 @@ namespace Kapman.Game.Frame
                     small = $"your course: {left:0} km to go";
                     days = FrameUi.Num(FramePassage.DaysWords(left));
                 }
-                var line = FrameUi.LnButton(def.name, small, () => Pick(picked == id ? null : id), days);
+                // (Ravn's word of the first morning: the port he named is marked until she first casts off)
+                var word = FirstJobs.Listed && FirstJobs.TipPort == id ? FrameUi.Tag("Ravn's word") : null;
+                var line = FrameUi.LnButton(def.name, small, () => Pick(picked == id ? null : id), word, days);
                 line.EnableInClassList("sel", id == picked);
                 body.Add(line);
                 if (id == picked)

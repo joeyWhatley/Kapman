@@ -48,6 +48,7 @@ namespace Kapman.Game.Frame
             h = FrameUi.Mix(FrameUi.Mix(h, (int)FrameGame.Silver), said);
             h = FrameUi.Mix(h, Known.Version);
             h = FrameUi.Mix(h, Self.Chosen);
+            h = FrameUi.Mix(h, FirstJobs.Version);
             var m = MarketHere(here);
             if (m != null && game != null)
             {
@@ -121,7 +122,9 @@ namespace Kapman.Game.Frame
                 string unit = string.IsNullOrEmpty(good.unit) ? "" : $" By the {good.unit.Split(' ')[0]}.";
                 var buy = g.OnOffer ? FrameUi.Btn("Buy", () => DealOne(good.id, true), "Buy one") : null;
                 var sell = held > 0 ? FrameUi.Btn("Sell", () => DealOne(good.id, false), "Sell one") : null;
-                var line = FrameUi.Ln(good.name, asks + pays + unit, held > 0 ? FrameUi.Num(held.ToString()) : null, buy, sell);
+                // (Ravn's word of the first morning: the good he named is marked until she first casts off)
+                var word = FirstJobs.Listed && FirstJobs.TipGood == good.id ? FrameUi.Tag("Ravn's word") : null;
+                var line = FrameUi.Ln(good.name, asks + pays + unit, word, held > 0 ? FrameUi.Num(held.ToString()) : null, buy, sell);
                 if (held > 0)
                     line.tooltip = $"{held} aboard. " + FrameGame.CostWords(Trade.Hold, good, held);
                 body.Add(line);

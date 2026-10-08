@@ -21,28 +21,62 @@ namespace Kapman.Game.Frame
         public override string Title => "Journey";
         public override int Order => 47;
 
-        const int MostNews = 12, MostLines = 80;
-        bool days;
+        const int MostNews = 12, MostLines = 80, MostLandings = 30;
+        /// <summary>Which of its three leaves is open: what is learned, the days as they went, the landings.</summary>
+        int leaf;
 
         protected override int Stamp()
         {
             int h = FrameUi.Mix(FrameUi.Mix(17, Known.Version), FrameLog.Version);
             h = FrameUi.Mix(h, Trade.Started ? Trade.Ledger.Count : 0);
-            return FrameUi.Mix(FrameUi.Mix(h, Self.Version), days);
+            h = FrameUi.Mix(h, Landings.Version);
+            return FrameUi.Mix(FrameUi.Mix(h, Self.Version), leaf);
         }
 
         protected override void Fill(VisualElement body)
         {
             var game = KapmanGame.Current;
-            var learned = FrameUi.Btn("Learned", () => { days = false; Redraw(); });
-            var byDay = FrameUi.Btn("The days", () => { days = true; Redraw(); });
-            learned.EnableInClassList("on", !days);
-            byDay.EnableInClassList("on", days);
-            body.Add(FrameUi.Row(learned, byDay));
-            if (days)
+            var learned = FrameUi.Btn("Learned", () => { leaf = 0; Redraw(); });
+            var byDay = FrameUi.Btn("The days", () => { leaf = 1; Redraw(); });
+            var landings = FrameUi.Btn("Landings", () => { leaf = 2; Redraw(); });
+            learned.EnableInClassList("on", leaf == 0);
+            byDay.EnableInClassList("on", leaf == 1);
+            landings.EnableInClassList("on", leaf == 2);
+            body.Add(FrameUi.Row(learned, byDay, landings));
+            if (leaf == 1)
                 Days(body);
+            else if (leaf == 2)
+                Landed(body);
             else
                 Learned(body, game != null ? game.Day : 0.0);
+        }
+
+        /// <summary>The landings, the last first: each passage with what the purse held when she came and when she left
+        /// (the slips the log said as they happened: Landings, FrameGame.LandingWords).</summary>
+        static void Landed(VisualElement body)
+        {
+            var all = Landings.All;
+            body.Add(FrameUi.H("Where she has landed"));
+            if (all.Count == 0)
+            {
+                body.Add(FrameUi.P("Nowhere yet. Each landing is written here: the passage, the purse, and what the cargo would fetch."));
+                return;
+            }
+            int shown = 0;
+            for (int i = all.Count - 1; i >= 0 && shown < MostLandings; i--, shown++)
+            {
+                var l = all[i];
+                string to = GameData.Port(l.to)?.name ?? l.to, from = GameData.Port(l.from)?.name ?? l.from;
+                string name = l.from.Length == 0 ? to : l.from == l.to ? $"Out from {to} and back" : $"{from} to {to}";
+                string small = (l.date.Length > 0 ? l.date + ", " : "") + (l.from.Length > 0 ? FrameUi.Days(l.Took) + ". " : "") +
+                               (l.away >= 0.0 ? $"Came with {l.silver:0} d, left with {l.away:0} d." : FrameGame.LandingPurse(l));
+                // (a stay that is over shows what it came to in the purse)
+                double came = l.away - l.silver;
+                var sum = l.away >= 0.0 ? FrameUi.Num((came >= 0.0 ? "+" : "-") + $"{System.Math.Abs(came):0} d") : FrameUi.Tag("here now");
+                body.Add(FrameUi.Ln(name, small, sum));
+            }
+            if (all.Count > shown)
+                body.Add(FrameUi.P($"And {all.Count - shown} before that."));
         }
 
         static void Learned(VisualElement body, double today)

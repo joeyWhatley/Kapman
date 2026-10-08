@@ -739,3 +739,40 @@ and far fewer when usage is short).
    repeated parts, the menu and the opening's screens are UI Builder files; four rules of the merchant's are graphs
    (the toll, the crew's pay, health and heart), each held to the code's sum by a test; the opening is a flow in a
    graph on the Showtime object.
+81. **THE FIRST TEN MINUTES** (the user, 8 Oct, by the picker, out of the critic's list of that day,
+   Design/critique/critic_playthrough_2026-10-08.md: "First ten minutes"). Five things, items 82 to 86. The rest of
+   the critic's list is not ruled on.
+82. **BEFORE SHE SAILS: A LIST THAT TICKS OFF** (the critic's B1: "after Ravn stops, nothing on screen holds what he
+   said"). From the first morning until she first casts off, a list stands under the buttons: the sail (the user's
+   own words, and the cost as its button), the crew ("Crew: 1 of 4", a button to the alehouse), a cargo (Ravn's word
+   on what to buy and where to take it, a button to Trade), a course (a button to Voyage), cast off (what she still
+   wants, then the button itself). A row done is ticked and shrinks to one line. It is laid out in Frame.uxml
+   ("jobs"); the rules are FirstJobs (Listed, Tip, Wanting); the code is FrameRoot.Jobs.cs. Ravn's last words point
+   at it row by row. The good and the port he named are tagged "Ravn's word" in the Trade and Voyage windows.
+   The sail's line is no longer in the Port window, and "Before she sails" is no longer in Errands: said once.
+   Every text sends the player to the alehouse for men (none says "People here" or "Look under Port" any more).
+   DECIDED BY ME, to be overruled: that a cargo is a row though it never stops her; that the crew and the course
+   rows have no small print; that the list goes when she casts off, not when she lands.
+83. **WHY SHE MAY NOT CAST OFF IS WRITTEN UNDER THE BUTTONS** (the critic's B1: "Cast off is grey and no reason stands
+   by it"). In a port, whenever Cast off is grey and the list is not there to say it, the reason is a line under the
+   buttons ("rack-why" in Frame.uxml): the same words the button gives when the pointer rests on it.
+84. **A LANDING IS MARKED** (the critic's B4: "the first voyage ends and nothing marks it"). When she makes fast after
+   a passage the log says one framed line: "Dorestat to Traiectum, half a day. The purse holds 12 d. What she carries
+   cost 50 d and would fetch about 122 d here. Owed 1920 d, with 150 days left." At the first landing of a game begun
+   through the opening Ravn adds a line. The landings are kept (Landings; saved with the game) and listed in the
+   Journey window under "Landings", each closed when she casts off again with what the stay came to in the purse
+   ("Came with 12 d, left with 152 d").
+   DECIDED BY ME, to be overruled: the critic asked for "Left with 86. Have 152." at the landing, but at the landing
+   nothing is sold yet and the purse is at its lowest, so the slip says what the cargo cost and what it would fetch
+   here, and the sum of the stay is told when it is over; her own bread and ale are not counted as cargo; Ravn
+   speaks at the first landing only.
+85. **THE WINE IS YOURS TO SELL, AND OWED FOR** (the critic's B3: "whose is the wine, and whose is the silver?"). The
+   four casks came with the boat and are on the lender's stick with her, so they are the player's to sell and the
+   silver is the player's to spend. Ravn says it once on the first morning. The sentence "what it fetched is his
+   stake and not your gain" is gone from every sale; the hold says "Came with the boat. Yours to sell, and owed for
+   already."; the log says "that came with the boat". What they fetch is still not told as gain.
+86. **ONE RAVN** (the critic's D1: "there are two Ravns"; the user, 8 Oct, by the picker: "Warm, talks too much").
+   The Ravn of the opening is the real one. His sheet (nature, voice, looks) and his lines on the quay at Dorestad
+   (places/dorestad.json) are written again in that voice; his riddle is a thing he half remembers; "Go to your
+   count" is gone. Placeholders for the user's pen. NOT DONE: his lines in the story chains and at other ports
+   (about a hundred, in some fifty files under Game/Data) are still the dry Ravn's.

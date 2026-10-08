@@ -340,7 +340,7 @@ namespace Kapman.Tests
             Assert.AreEqual(2, hold.Lots.Count, "a cask bought beside the count's four is not five casks at the cost of one");
             Assert.AreEqual(5, hold.Count("rhenish_wine"));
             Assert.AreEqual(4, hold.Owed("rhenish_wine"));
-            StringAssert.Contains("4 of them are the count's own", FrameGame.CostWords(hold, wine, 5));
+            StringAssert.Contains("4 of them came with the boat", FrameGame.CostWords(hold, wine, 5));
 
             // a saved game keeps whose they are; a save from before lots had an owner reads as the merchant's own
             var saved = Json.Parse(Json.Write(hold.Capture())) as List<object>;   // (as a saved game holds it: written and read)
@@ -369,7 +369,8 @@ namespace Kapman.Tests
             hold.Add(wine, 1, 0.0, 3.3);
             Assert.AreEqual(2, hold.Lots.Count);
             Assert.AreEqual(0, hold.Owed("rhenish_wine"));
-            Assert.AreEqual("The count's own: nothing was paid for them.", FrameGame.CostWords(Counts(wine, 4), wine, 4));
+            // (the critic's B3, 8 Oct 2026: the casks are the player's to sell and are owed for with the boat; nothing says "his")
+            Assert.AreEqual("Came with the boat. Yours to sell, and owed for already.", FrameGame.CostWords(Counts(wine, 4), wine, 4));
             Assert.AreEqual("Your own from the start.", FrameGame.CostWords(Own(wine, 2, 0.0), wine, 2));
             Assert.AreEqual("Cost you 60 d.", FrameGame.CostWords(Own(wine, 2, 60.0), wine, 2));
         }
@@ -392,14 +393,17 @@ namespace Kapman.Tests
         public void WhatTheCountsCasksFetchIsNotToldAsGain()
         {
             var zone = rules.ZoneOf("rhine_delta");
-            // four of the count's sold for 240 d less the tenth: no "more than they cost"
+            // four of the casks that came with the boat sold for 240 d less the tenth: no "more than they cost", and (since
+            // 8 Oct 2026, the critic's B3) no word that the silver is another man's: it is the player's to spend
             string four = Trade.SaleReckoned(zone, new DealResult { ok = true, count = 4, deniers = 240.0, toll = 24.0, cost = 0.0 }, 4, 4);
-            Assert.AreEqual(" They were the count's own, so what they fetched is his stake and not your gain.", four);
+            Assert.AreEqual("", four);
             string one = Trade.SaleReckoned(zone, new DealResult { ok = true, count = 1, deniers = 60.0, toll = 6.0, cost = 0.0 }, 1, 1);
-            Assert.AreEqual(" It was the count's own, so what it fetched is his stake and not your gain.", one);
-            // two of the count's and one bought at 30 d, sold for 180 d less 18: the gain is on the one that was bought
+            Assert.AreEqual("", one);
+            // two of those and one bought at 30 d, sold for 180 d less 18: the gain is on the one that was bought
             string mixed = Trade.SaleReckoned(zone, new DealResult { ok = true, count = 3, deniers = 180.0, toll = 18.0, cost = 30.0 }, 2, 2);
-            Assert.AreEqual(" The one you bought fetched 24 d more than it cost. 2 of them were the count's own, so what those fetched is his stake and not your gain.", mixed);
+            Assert.AreEqual(" The one you bought fetched 24 d more than it cost.", mixed);
+            foreach (string said in new[] { four, one, mixed })
+                StringAssert.DoesNotContain("stake", said);
             // bought goods only: as before
             Assert.AreEqual(" That is 24 d more than they cost.", Trade.SaleReckoned(zone, new DealResult { ok = true, count = 2, deniers = 160.0, toll = 16.0, cost = 120.0 }, 0, 0));
             Assert.AreEqual(" That is 12 d less than they cost.", Trade.SaleReckoned(zone, new DealResult { ok = true, count = 2, deniers = 120.0, toll = 12.0, cost = 120.0 }, 0, 0));
@@ -424,9 +428,10 @@ namespace Kapman.Tests
             var sold = Trade.Sell(market, "rhenish_wine", 1, 0.29, 5, 793);
             Assert.IsTrue(sold.ok, sold.text);
             Assert.Greater(Trade.Purse.Silver(rules), before);
-            StringAssert.Contains("the count's own", sold.text);
+            StringAssert.DoesNotContain("stake", sold.text);
+            StringAssert.DoesNotContain("own", sold.text);
             StringAssert.DoesNotContain("more than", sold.text);
-            Assert.AreEqual("She has aboard 3 casks of Rhenish wine that are the count's own.", FrameGame.AboardWords());
+            Assert.AreEqual("She has aboard 3 casks of Rhenish wine that came with the boat.", FrameGame.AboardWords());
         }
     }
 }

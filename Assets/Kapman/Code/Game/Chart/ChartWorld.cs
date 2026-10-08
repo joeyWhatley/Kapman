@@ -61,6 +61,8 @@ namespace Kapman.Game
             // the ship: lying at home
             var game = KapmanGame.Current;
             var home = GameData.Port(homePort);
+            if (!SaveLoaded)
+                Landings.Clear();                                         // (a new game: where the last one lay is forgotten)
             if (game != null && game.ship != null && home != null && !SaveLoaded)
             {
                 var (x, z) = WorldFrame.ToWorld(home.lat, home.lon);
@@ -68,8 +70,9 @@ namespace Kapman.Game
             }
             // a new game starts with something aboard: bread and ale for the four men, and a first cargo to carry
             // (she used to start empty with no food at all). A saved game keeps what it had.
-            // The four casks are the count's own (ruling 14 of 7 Oct 2026: marked as his), put aboard with the boat he
-            // lent the silver for: what they fetch is his stake in the merchant's hands and is never told as gain.
+            // The four casks came with the boat (ruling 14 of 7 Oct 2026: marked), put aboard by the man who lent the
+            // silver for her. They are the merchant's to sell and are owed for with the boat ("They are on the stick
+            // too"), so what they fetch is never told as gain (8 Oct 2026: nor any more as "his stake").
             if (!SaveLoaded && Trade.Hold != null && Voyage.FoodDays < 0.5)
                 // (no quernstones since 7 Oct 2026: with them she lay 864 of 900 kg full and could not take one cask more)
                 foreach (var (id, n) in new[] { ("rhenish_wine", 4), ("ships_bread", 1), ("ale", 1) })

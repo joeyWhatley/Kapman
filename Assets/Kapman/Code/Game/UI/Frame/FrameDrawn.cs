@@ -5,12 +5,12 @@ using UnityEngine.UIElements;
 
 namespace Kapman.Game.Frame
 {
-    /// <summary>A small drawn mark for a button (an arrow, a cross, a plus): drawn, not typed, so it needs no font. It takes
+    /// <summary>A small drawn mark for a button (an arrow, a cross, a plus, a tick): drawn, not typed, so it needs no font. It takes
     /// the text colour of its place, so the stylesheet sets it.</summary>
     [UxmlElement]
     public sealed partial class FrameGlyph : VisualElement
     {
-        public enum Kind { Left, Right, Down, Cross, Plus }
+        public enum Kind { Left, Right, Down, Cross, Plus, Tick }
 
         Kind kind;
 
@@ -70,6 +70,16 @@ namespace Kapman.Game.Frame
                 case Kind.Plus:
                     Line(p, At(0.5f, 0.1f), At(0.5f, 0.9f));
                     Line(p, At(0.1f, 0.5f), At(0.9f, 0.5f));
+                    break;
+                case Kind.Tick:
+                    p.lineCap = LineCap.Butt;
+                    p.lineJoin = LineJoin.Miter;
+                    p.lineWidth = Mathf.Max(2f, s * 0.2f);
+                    p.BeginPath();
+                    p.MoveTo(At(0.12f, 0.52f));
+                    p.LineTo(At(0.4f, 0.8f));
+                    p.LineTo(At(0.9f, 0.18f));
+                    p.Stroke();
                     break;
             }
         }

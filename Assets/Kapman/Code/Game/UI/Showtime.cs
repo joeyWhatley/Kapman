@@ -1535,14 +1535,21 @@ namespace Kapman.Game
             spec.Say($"There you are! {char.ToUpperInvariant(you[0]) + you.Substring(1)}, is it? Ravn. I come with the boat. He did not say? No. He would not.");
             spec.Say("He does not say much, that one. He counts. [[>ship]]I have been over her for you, keel to masthead. She floats! That is the good news. That is most of the good news.");
             if (FirstJobs.Active && FirstJobs.SailWorn)
-                spec.Say($"[[>mend-sail]]The sail is rotten along the foot. The first real wind would have it off her. Have it mended before we put out: the Port window, {FirstJobs.MendCost:0} d and six hours. I would sew it myself, but you have not seen my sewing. Keep it so.");
+                spec.Say($"[[>job-sail]]The sail is rotten along the foot. The first real wind would have it off her. Have it mended before we put out: [[>mend-sail]]{FirstJobs.MendCost:0} d and six hours, there under the buttons. I would sew it myself, but you have not seen my sewing. Keep it so.");
             if (FirstJobs.Active && FirstJobs.HandsShort > 0)
-                spec.Say($"And two of us cannot row six oars. I can hardly row one. She wants {(FirstJobs.HandsShort == 3 ? "three" : FirstJobs.HandsShort.ToString())} more shipmen. [[>verb-alehouse]]They sit in the alehouse: the Alehouse button. [[>figure-silver]]The hiring silver is {FirstJobs.HandMoney:0} d a man.");
+                spec.Say($"And two of us cannot row six oars. I can hardly row one. She wants {(FirstJobs.HandsShort == 3 ? "three" : FirstJobs.HandsShort.ToString())} more shipmen. [[>verb-alehouse]]They sit in the alehouse. [[>figure-silver]]The hiring silver is {FirstJobs.HandMoney:0} d a man.");
+            // THE WINE IS SAID ONCE (the critic's play of 8 Oct 2026, B3: "whose is the wine, and whose is the silver?"): it is the
+            // player's to sell and is owed for with the boat. Until then the log said of every cask sold that what it fetched
+            // was "his stake and not your gain", which read as if the silver were not the player's to spend.
+            if (Trade.Started && Trade.Hold.Owed(ChartWorld.CountsGood) > 0)
+                spec.Say("[[>verb-hold]]The wine in her is yours to sell, mind. He says mine. He says that of everything. You owe him for it all the same, so sell it dear.");
             spec.Say("[[>rack]]The buttons up there are yours. [[>verb-cast-off verb-voyage verb-crew verb-hold]]The top row is the ship: Cast off, Voyage, Crew, Hold. [[>verb-trade verb-alehouse verb-holy verb-rest-port]]The middle row is where we are: Trade, the alehouse, the minster, Rest. [[>verb-wares verb-journey verb-errands verb-book]]The bottom row is what you know: Wares, Journey, Errands, the Book. [[>speed-pause speed-1 speed-2 speed-3 speed-4 speed-5]]The clock is at the very top: Space stops it, and the numbers hurry it.");
-            string tip = FirstTip();
+            string tip = FirstTip(out string tipGood, out string tipPort);
+            FirstJobs.Tip(tipGood, tipPort);                              // (his word stands on the list, in the market and by the port)
             if (tip.Length > 0)
                 spec.Say("[[>verb-trade]]" + tip);
-            spec.Say("So. [[>mend-sail]]Mend the sail, [[>verb-alehouse]]find the men, [[>verb-trade]]buy well. [[>verb-voyage]]Then Voyage, pick a port, [[>verb-cast-off]]and Cast off. [[>verb-errands]]If you forget, it is all under Errands. I forget things. That is how I know where it is kept.");
+            // (what he has said stands on the screen when he stops: the list under the buttons, FrameRoot.Jobs.cs)
+            spec.Say("So. [[>job-sail]]Mend the sail, [[>job-crew]]find the men, [[>job-cargo]]buy well. [[>job-course]]Then a course, [[>job-cast-off]]and cast off. [[>jobs]]It is all written there, under the buttons. I forget things. That is how I know where it is kept.");
             spec.options.Add(new FloatOption { label = "Go on", isDefault = true, pick = () => RavnDone(frame) });
             spec.shut = () => RavnDone(frame);
             ravnUp = true;
@@ -1561,8 +1568,12 @@ namespace Kapman.Game
         /// fits what room and silver she has, and the port within reach that pays most over its price here, the nearer
         /// the better. "" when there is nothing worth saying.
         /// </summary>
-        public static string FirstTip()
+        public static string FirstTip() => FirstTip(out _, out _);
+
+        /// <summary>The same, with the good and the port it names ("" where there is nothing worth saying).</summary>
+        public static string FirstTip(out string tipGood, out string tipPort)
         {
+            tipGood = tipPort = "";
             var game = KapmanGame.Current;
             var home = FrameGame.PortHere;
             if (game == null || home == null || !Trade.Started)
@@ -1612,8 +1623,10 @@ namespace Kapman.Game
             }
             if (best == null)
                 return "";
+            tipGood = best.good.id;
+            tipPort = bestPort.id;
             string name = best.good.name.ToLowerInvariant();
-            return $"One thing I do know. They ask about {bestBuy:0} d here for {name}, and at {bestPort.name} they pay about {bestSell:0}. Buy what she will hold and you can pay for, in the Trade window, and we take it there.";
+            return $"One thing I do know. They ask about {bestBuy:0} d here for {name}, and at {bestPort.name} they pay about {bestSell:0}. Buy what she will hold and you can pay for, and we take it there.";
         }
     }
 

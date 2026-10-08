@@ -123,6 +123,65 @@
                     <k:FrameIcon kind="Book" />
                     <ui:Label text="Book" class="frame-verb-name" picking-mode="Ignore" />
                 </ui:Button>
+                <!-- WHY SHE MAY NOT CAST OFF, in a port, whenever that button is grey (and the list below is not there
+                     to say it). The code fills it in and takes it away. -->
+                <ui:Label name="rack-why" text="No course is set." class="frame-rack-why" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <!-- BEFORE SHE SAILS: the first jobs as a list that ticks off, from the first morning until she first casts
+                 off. The code shows and hides it, fills in each row's words (its labels ending -name and -note), and gives a
+                 row the class "done" when its job is done. A row's button is the one of the class frame-job-do. -->
+            <ui:VisualElement name="jobs" class="frame-slip frame-jobs">
+                <ui:Label name="jobs-title" text="Before she sails" class="frame-jobs-title" />
+                <ui:VisualElement name="job-sail" class="frame-job">
+                    <ui:VisualElement class="frame-job-box">
+                        <k:FrameGlyph kind="Tick" class="frame-job-tick" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="frame-job-words">
+                        <ui:Label name="job-sail-name" text="Sails tattered...." class="frame-job-name" />
+                        <ui:Label name="job-sail-note" text="Needs to be repaired." class="frame-job-note" />
+                    </ui:VisualElement>
+                    <ui:Button name="mend-sail" text="12 d" class="frame-k frame-job-do" />
+                </ui:VisualElement>
+                <ui:VisualElement name="job-crew" class="frame-job">
+                    <ui:VisualElement class="frame-job-box">
+                        <k:FrameGlyph kind="Tick" class="frame-job-tick" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="frame-job-words">
+                        <ui:Label name="job-crew-name" text="Crew: 1 of 4" class="frame-job-name" />
+                        <ui:Label name="job-crew-note" class="frame-job-note" />
+                    </ui:VisualElement>
+                    <ui:Button name="job-crew-do" text="Alehouse" class="frame-k frame-job-do" />
+                </ui:VisualElement>
+                <ui:VisualElement name="job-cargo" class="frame-job">
+                    <ui:VisualElement class="frame-job-box">
+                        <k:FrameGlyph kind="Tick" class="frame-job-tick" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="frame-job-words">
+                        <ui:Label name="job-cargo-name" text="A cargo" class="frame-job-name" />
+                        <ui:Label name="job-cargo-note" text="Ravn&apos;s word: a good, for a port." class="frame-job-note" />
+                    </ui:VisualElement>
+                    <ui:Button name="job-cargo-do" text="Trade" class="frame-k frame-job-do" />
+                </ui:VisualElement>
+                <ui:VisualElement name="job-course" class="frame-job">
+                    <ui:VisualElement class="frame-job-box">
+                        <k:FrameGlyph kind="Tick" class="frame-job-tick" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="frame-job-words">
+                        <ui:Label name="job-course-name" text="No course set" class="frame-job-name" />
+                        <ui:Label name="job-course-note" class="frame-job-note" />
+                    </ui:VisualElement>
+                    <ui:Button name="job-course-do" text="Voyage" class="frame-k frame-job-do" />
+                </ui:VisualElement>
+                <ui:VisualElement name="job-cast-off" class="frame-job">
+                    <ui:VisualElement class="frame-job-box">
+                        <k:FrameGlyph kind="Tick" class="frame-job-tick" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="frame-job-words">
+                        <ui:Label name="job-cast-off-name" text="Cast off" class="frame-job-name" />
+                        <ui:Label name="job-cast-off-note" text="First the sail mended, three more men and a course." class="frame-job-note" />
+                    </ui:VisualElement>
+                    <ui:Button name="job-cast-off-do" text="Cast off" class="frame-k frame-job-do" />
+                </ui:VisualElement>
             </ui:VisualElement>
             <!-- (the window the buttons choose is put in here by the code) -->
             <ui:VisualElement name="tiles" class="frame-tiles" picking-mode="Ignore" />

@@ -7,7 +7,8 @@ namespace Kapman.Game.Frame
     /// words of the port's people: talk to people, the place's errands, the orders posted), as lines of this window
     /// instead of a numbered menu in the middle of the screen. What a line leads to (the waterfront's talk, an errand's
     /// outcome) opens as a floating window. Two of the menu's own choices are not here, because the frame has them
-    /// elsewhere: the market is the Trade window, and casting off is the function button's.
+    /// elsewhere: the market is the Trade window, and casting off is the function button's. (The worn sail of the first
+    /// morning was a line here until 8 Oct 2026: it is the first row of the list under the buttons now, FrameRoot.Jobs.cs.)
     /// </summary>
     public sealed class PortPanel : FramePanel
     {
@@ -37,28 +38,6 @@ namespace Kapman.Game.Frame
             }
             body.Add(FrameUi.H(here.Title));
             body.Add(FrameUi.P(Reputation.Line(here)));
-            if (FirstJobs.Here && FirstJobs.SailWorn)
-            {
-                // the first jobs: the worn sail, mended here for a little silver and some hours
-                if (FirstJobs.Mending)
-                    body.Add(FrameUi.Ln("The sail", "Ashore, being mended. Let the clock run: it is six hours' work."));
-                else
-                {
-                    // (the user's own words, 8 Oct 2026: "Sails tattered.... / Needs to be repaired." Then the cost next to it:
-                    // the cost is the button)
-                    var mend = FrameUi.Btn($"{FirstJobs.MendCost:0} d", () =>
-                    {
-                        var game = KapmanGame.Current;
-                        FirstJobs.Mend(game != null ? game.Day : 0.0, out string fact);
-                        if (!string.IsNullOrEmpty(fact))
-                            FrameLog.Add(fact);
-                    });
-                    mend.SetEnabled(FrameGame.Silver >= FirstJobs.MendCost);
-                    mend.name = "mend-sail";                              // (Ravn points at it by this name)
-                    mend.tooltip = $"Have the sails repaired: {FirstJobs.MendCost:0} d, and six hours' work.";
-                    body.Add(FrameUi.Ln("Sails tattered....", "Needs to be repaired.", mend));
-                }
-            }
             if (!FrameGame.PortMenuOpen)
             {
                 body.Add(FrameUi.P("Finish what is in front of you first."));

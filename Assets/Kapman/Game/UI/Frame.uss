@@ -2648,3 +2648,142 @@
     width: 24px;
     height: 24px;
 }
+
+/* ---- BEFORE SHE SAILS, AND WHY SHE MAY NOT (the critic's play of 8 Oct 2026, B1 and B4, taken up by the user: "after
+   Ravn stops, nothing on screen holds what he said"; "Cast off is grey and no reason stands by it"; "the first voyage
+   ends and nothing marks it"). The list of the first jobs stands under the buttons until she first casts off: a row
+   has a box that is ticked when its job is done, its name, a note under it, and the button that does it. After that
+   the reason a grey Cast off cannot be pressed is written under the buttons, in a port. A landing's slip is one line
+   of the log in a frame of its own. */
+.frame-root .frame-rack-why {
+    width: 100%;
+    font-size: var(--t-quiet);
+    color: rgb(112, 41, 99);
+    white-space: normal;
+    padding: 0 6px 5px 6px;
+    margin: 0;
+}
+
+.frame-root .frame-jobs {
+    flex-shrink: 0;
+    flex-direction: column;
+    margin-bottom: 8px;
+    padding: 0 0 2px 0;
+}
+
+.frame-root .frame-jobs-title {
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    color: rgb(255, 255, 255);
+    background-color: rgb(112, 41, 99);
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    padding: 2px 10px 3px 10px;
+    margin: 0 0 4px 0;
+}
+
+.frame-root .frame-job {
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+    margin: 0 6px 3px 6px;
+    padding: 2px 6px 2px 6px;
+    background-color: rgb(203, 213, 189);
+    border-width: 1px;
+    border-color: rgb(141, 127, 149);
+}
+
+.frame-root .frame-job.done {
+    background-color: rgba(203, 213, 189, 0);
+    border-color: rgba(141, 127, 149, 0);
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 2px;
+}
+
+.frame-root .frame-job.ready {
+    border-color: rgb(112, 41, 99);
+    background-color: rgb(250, 236, 190);
+}
+
+.frame-root .frame-job-box {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-right: 8px;
+    border-width: 2px;
+    border-color: rgb(112, 41, 99);
+    background-color: rgb(224, 233, 212);
+    align-items: center;
+    justify-content: center;
+}
+
+.frame-root .frame-job-tick {
+    width: 12px;
+    height: 12px;
+    display: none;
+    color: rgb(41, 112, 54);
+}
+
+.frame-root .frame-job.done .frame-job-tick {
+    display: flex;
+}
+
+.frame-root .frame-job-words {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+}
+
+.frame-root .frame-job-name {
+    font-size: var(--t-body);
+    color: rgb(112, 41, 99);
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.frame-root .frame-job-note {
+    font-size: var(--t-quiet);
+    color: rgba(112, 41, 99, 0.92);
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.frame-root .frame-job.done .frame-job-name {
+    color: rgba(112, 41, 99, 0.7);
+}
+
+.frame-root .frame-job-do {
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.frame-root .frame-job.ready .frame-job-do {
+    background-image: none;
+    background-color: rgb(112, 41, 99);
+    color: rgb(255, 255, 255);
+}
+
+.frame-root .frame-job.ready .frame-job-do:hover {
+    background-color: rgb(140, 62, 126);
+}
+
+/* a landing's slip in the log */
+.frame-root .frame-log-line.slip {
+    background-color: rgb(250, 236, 190);
+    border-width: 1px;
+    border-color: rgb(112, 41, 99);
+    padding: 2px 6px 2px 0;
+    margin: 2px 4px 3px 0;
+}
+
+.frame-root .frame-log-line.slip .frame-log-stamp {
+    padding-left: 6px;
+}
+
+.frame-root .frame-log-line.slip .frame-log-text {
+    color: rgb(112, 41, 99);
+}

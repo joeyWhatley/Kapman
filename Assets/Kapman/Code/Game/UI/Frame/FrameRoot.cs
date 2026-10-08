@@ -170,6 +170,8 @@ namespace Kapman.Game.Frame
         partial void MeasureDisable();
         partial void MeasureUpdate();
         partial void RackUpdate();
+        partial void JobsBuild();
+        partial void JobsUpdate();
         partial void MapToolsBuild();
         partial void MapToolsUpdate();
         /// <summary>The happenings of the events table, each a floating window (FrameRoot.Events.cs).</summary>
@@ -254,6 +256,7 @@ namespace Kapman.Game.Frame
             // ---- the left side: the buttons, the window, and the bar under it
             left = Part<VisualElement>("left");
             BuildRack(left);                                              // (the function buttons, over the windows: FrameRoot.Rack.cs)
+            JobsBuild();                                                  // (the list Before she sails, and the reason: FrameRoot.Jobs.cs)
             tiles = Part<VisualElement>("tiles");
             wmbar = Part<VisualElement>("wmbar");
 
@@ -402,6 +405,7 @@ namespace Kapman.Game.Frame
                 logScroll.scrollOffset = new Vector2(0f, Mathf.Max(0f, logScroll.verticalScroller.highValue));
             }
             RackUpdate();
+            JobsUpdate();
             MapToolsUpdate();
             MeasureUpdate();
             SelfUpdate();
@@ -927,6 +931,7 @@ namespace Kapman.Game.Frame
                 var l = FrameLog.Lines[i];
                 var row = FrameParts.Make<VisualElement>(logParts != null ? logParts.logLine : null, "log-line");
                 row.EnableInClassList("last", i == FrameLog.Lines.Count - 1);
+                row.EnableInClassList("slip", l.kind == "slip");          // (a landing's slip: framed)
                 string when = (int)System.Math.Floor(l.day) == today ? l.part : l.date;
                 FrameParts.In<Label>(row, "stamp").text = when.Length > 0 ? char.ToUpperInvariant(when[0]) + when.Substring(1) : "";
                 FrameParts.In<Label>(row, "text").text = l.text;

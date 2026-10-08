@@ -12,8 +12,9 @@ namespace Kapman.Game
         /// <summary>Deniers paid for the whole lot (still aboard).</summary>
         public double cost;
         public double day;
-        /// <summary>Whose the goods are when they are not the merchant's own: "count" for the count's casks put aboard
-        /// at the start (his stake in the voyage: what they fetch is not gain). "": the merchant's own.</summary>
+        /// <summary>Where the goods came from when they were not bought or the merchant's own: "count" for the casks the
+        /// lender put aboard at the start. They are the merchant's to sell and are owed for with the boat, so what they
+        /// fetch is not told as gain. "": the merchant's own.</summary>
         public string whose = "";
     }
 

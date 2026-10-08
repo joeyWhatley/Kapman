@@ -319,7 +319,7 @@ namespace Kapman.Tests
                 StringAssert.Contains("Kalends of May, 793", bar, "the top bar does not say the day as the time reckoned it");
                 Assert.AreEqual(4, Trade.Hold.Count("rhenish_wine"));
                 Assert.AreEqual(4, Trade.Hold.Owed("rhenish_wine"), "the four casks should be marked as the count's");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("She has aboard 4 casks of Rhenish wine that are the count's own and 1 sack of")),
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("She has aboard 4 casks of Rhenish wine that came with the boat and 1 sack of")),
                               "the log does not say what is aboard and whose: " + string.Join(" / ", FrameLog.Lines.Select(l => l.text)));
                 Assert.IsTrue(FrameLog.Lines.Any(l => l.text == "You owe the count 1920 d by Michaelmas, 29 September 793."), "the log does not say what is owed and by when");
                 Debug.Log($"Chart test: the pre-run took {KapmanGame.PreRunMs} ms; Dorestat asks " +
@@ -396,7 +396,7 @@ namespace Kapman.Tests
                         StringAssert.Contains("have the silver in hand by Saturday, 28 September", reads, "the House window does not warn that the debt's day is a Sunday");
                     }
                     else if (panel.Id == "hold")
-                        StringAssert.Contains("The count's own: nothing was paid for them.", reads, "the Hold window does not say the casks are the count's");
+                        StringAssert.Contains("Came with the boat. Yours to sell, and owed for already.", reads, "the Hold window does not say where the casks came from");
                 }
                 // as it was: Voyage above, Hold below (a panel picked that another window shows changes places with it)
                 yield return play.Click(Windows(play)[1].Q<Button>(className: "frame-win-title"));
@@ -569,8 +569,8 @@ namespace Kapman.Tests
                 yield return play.ClickWhen(() => LineButton(play, "Trade", wine, "Sell"), "Sell, beside the wine");
                 Assert.AreEqual(heldBefore - 1, Trade.Hold.Count("rhenish_wine"), "one cask should have gone ashore: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
                 Assert.Greater(FrameGame.Silver, silverBefore, "selling brought no silver");
-                StringAssert.Contains("It was the count's own, so what it fetched is his stake and not your gain.", FrameLog.Lines[FrameLog.Lines.Count - 1].text,
-                                      "the sale of the count's cask does not say whose it was");
+                // (the critic's B3, 8 Oct 2026: the cask is the player's to sell, so the sale says nothing of "his stake")
+                StringAssert.DoesNotContain("stake", FrameLog.Lines[FrameLog.Lines.Count - 1].text, "the sale of a cask that came with the boat still reads as another man's money");
                 StringAssert.DoesNotContain("more than", FrameLog.Lines[FrameLog.Lines.Count - 1].text, "the count's cask was told as gain");
                 yield return play.Shot("16_sold_at_dorestat");
                 yield return play.SmallShot("16_sold_at_dorestat");
@@ -1655,6 +1655,21 @@ namespace Kapman.Tests
                           $"level {GameSpeed.Level}, before {GameSpeed.Before}, dropped for '{GameSpeed.DroppedFor}'; {clock.Text}");
                 Assert.AreEqual("traiectum", FrameGame.PortHere?.id, "she did not come in to Traiectum at speed 5");
                 Assert.IsTrue(near, "the clock did not drop back as she neared Traiectum");
+                // THE LANDING'S SLIP (the critic's B4, 8 Oct 2026: "the first voyage ends and nothing marks it"): one framed
+                // line of the log, kept among the landings
+                yield return ChartPlay.Until(() => Landings.All.Count > 0, 4f);
+                Assert.AreEqual(1, Landings.All.Count, "the landing at Traiectum was not kept (or one was kept from a game before)");
+                Assert.AreEqual("dorestad", Landings.All[0].from);
+                Assert.AreEqual("traiectum", Landings.All[0].to);
+                Assert.Greater(Landings.All[0].fetch, 1.0, "the casks aboard would fetch nothing at Traiectum");
+                var slip = FrameLog.Lines.LastOrDefault(l => l.kind == "slip");
+                Assert.IsNotNull(slip.text, "the log has no slip of the landing: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 4)).Select(l => l.text)));
+                StringAssert.StartsWith("Dorestat to Traiectum, ", slip.text);
+                StringAssert.Contains("The purse holds ", slip.text);
+                StringAssert.Contains("would fetch about ", slip.text);
+                StringAssert.Contains("Owed 1920 d, with ", slip.text);
+                said.Add("the landing: " + slip.text);
+                Debug.Log("Chart test (clock): the landing's slip: " + slip.text);
                 for (int i = 0; i < 30 && GameSpeed.Level != 0; i++)
                     yield return null;                                     // (the port's graph lays her to after the clock's turn of the frame)
                 Assert.AreEqual(0, GameSpeed.Level, "made fast the clock should have dropped to speed 1");

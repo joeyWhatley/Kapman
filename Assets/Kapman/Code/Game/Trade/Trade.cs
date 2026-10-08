@@ -54,7 +54,6 @@ namespace Kapman.Game
         }
 
         /// <summary>"the count's own", "the W\u014dkerer's own": whose the goods put aboard with the boat are.</summary>
-        public static string CreditorsOwn => CreditorSaid + "'s own";
         public static string Creditor { get; private set; }
         public static double DebtDue { get; private set; }
         /// <summary>What the due day is called ("Michaelmas"), or "" when it is only a count of days.</summary>
@@ -205,8 +204,11 @@ namespace Kapman.Game
         /// <summary>
         /// What a sale came to against what the goods cost, as the words after "took N deniers." (with a space before
         /// them, or ""). Gain is reckoned only on the units that were bought: `free` of those sold had cost nothing, and
-        /// `owed` of them were the count's own, put aboard at the start. What the count's casks fetch is his stake in the
-        /// merchant's hands, not gain (money.md 10: the first reckoning must not read "made 215 d").
+        /// `owed` of them came with the boat, put aboard by the lender at the start. Of those nothing is said: they are
+        /// the merchant's to sell and are owed for with the boat (the lender: "They are on the stick too"), so what they
+        /// fetch is neither told as gain (money.md 10: the first reckoning must not read "made 215 d") nor as another
+        /// man's money. (Until 8 Oct 2026 a sentence here called it "his stake and not your gain", which read as if
+        /// the silver were not the player's to spend: the critic's B3, and it came back for every cask.)
         /// </summary>
         public static string SaleReckoned(ZoneDef zone, DealResult d, int free, int owed)
         {
@@ -225,11 +227,6 @@ namespace Kapman.Game
                 else
                     said = "That is " + said;
             }
-            if (owed > 0)
-                said += (said.Length > 0 ? " " : "") +
-                        (owed < d.count ? $"{owed} of them {(owed == 1 ? "was" : "were")} {CreditorsOwn}, so what {(owed == 1 ? "that" : "those")} fetched is his stake and not your gain."
-                         : owed == 1 ? $"It was {CreditorsOwn}, so what it fetched is his stake and not your gain."
-                         : $"They were {CreditorsOwn}, so what they fetched is his stake and not your gain.");
             return said.Length > 0 ? " " + said : "";
         }
 

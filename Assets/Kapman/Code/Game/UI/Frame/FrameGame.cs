@@ -169,23 +169,23 @@ namespace Kapman.Game.Frame
                                     : $"Silver {all:0} d.";
         }
 
-        /// <summary>Whose a good aboard is and what it cost, for the small line under it: "The count's own: nothing was
-        /// paid for them.", "Cost you 43 d.", "Your own from the start."</summary>
+        /// <summary>Where a good aboard came from and what it cost, for the small line under it: "Came with the boat.
+        /// Yours to sell, and owed for already.", "Cost you 43 d.", "Your own from the start." (The lender's casks are
+        /// the player's to sell and are part of the debt: the critic's B3 of 8 Oct 2026.)</summary>
         public static string CostWords(Hold hold, GoodDef good, int count)
         {
             if (hold == null || good == null)
                 return "";
             int owed = hold.Owed(good.id);
             double cost = hold.CostEach(good.id) * count;
-            string its = count == 1 ? "it" : "them";
             if (owed >= count)
-                return char.ToUpperInvariant(Trade.CreditorsOwn[0]) + Trade.CreditorsOwn.Substring(1) + $": nothing was paid for {its}.";
+                return "Came with the boat. Yours to sell, and owed for already.";
             string said = cost > 0.5 ? $"Cost you {cost:0} d." : "Your own from the start.";
-            return owed > 0 ? said + $" {owed} of them {(owed == 1 ? "is" : "are")} {Trade.CreditorsOwn}." : said;
+            return owed > 0 ? said + $" {owed} of them came with the boat." : said;
         }
 
         /// <summary>What a new game puts aboard, as one sentence for the log (ruling 39: no colon, no brackets): "She has
-        /// aboard 4 casks of Rhenish wine that are the count's own, 1 pair of Mayen quernstones and 1 sack of ship's
+        /// aboard 4 casks of Rhenish wine that came with the boat, 1 pair of Mayen quernstones and 1 sack of ship's
         /// bread." "" with an empty hold.</summary>
         public static string AboardWords()
         {
@@ -195,13 +195,83 @@ namespace Kapman.Game.Frame
             foreach (var (good, count) in Trade.Hold.Contents)
             {
                 int owed = Trade.Hold.Owed(good.id);
-                parts.Add(Units(good, count) + (owed >= count ? ((count == 1 ? " that is " : " that are ") + Trade.CreditorsOwn)
-                                                : owed > 0 ? $", {owed} of them {Trade.CreditorsOwn}" : ""));
+                parts.Add(Units(good, count) + (owed >= count ? " that came with the boat" : owed > 0 ? $", {owed} of them with the boat from the start" : ""));
             }
             if (parts.Count == 0)
                 return "";
             string list = parts.Count == 1 ? parts[0] : string.Join(", ", parts.GetRange(0, parts.Count - 1)) + " and " + parts[parts.Count - 1];
             return "She has aboard " + list + ".";
+        }
+
+        // ---- a landing's slip (Landings; the critic's B4 of 8 Oct 2026: "the first voyage ends and nothing marks it")
+
+        /// <summary>The figures of the moment she lands: the purse, what the cargo cost her and what it would fetch at
+        /// this port's market with the toll taken (her own bread and ale are not cargo), and the debt.</summary>
+        public static Landings.Figures LandingFigures(PortDef here, KapmanGame game)
+        {
+            var f = new Landings.Figures { silver = Silver, debt = Trade.Started ? Trade.Debt : 0.0 };
+            if (game == null || !Trade.Started)
+                return f;
+            f.daysLeft = Trade.DebtDaysLeft(game.Day);
+            var clock = LevelClock.Current;
+            f.date = clock != null ? $"{clock.Date.day} {clock.Date.MonthName}" : "";
+            var market = here != null ? Markets.Of(here, game.Year, game.Day) : null;
+            bool open = market != null && !market.Disrupted(game.Day);
+            double toll = open ? market.zone.toll * EncounterRunner.TollFactor(here.id, game.Day) : 0.0;
+            foreach (var lot in Trade.Hold.Lots)
+            {
+                if (lot.good == null || Stores(lot.good.id))
+                    continue;
+                if (lot.whose.Length == 0)
+                    f.cost += lot.cost;
+                var wanted = open ? market.Get(lot.good.id) : null;
+                if (wanted != null)
+                    f.fetch += Deal.PaysFor(market, wanted, game.Month, "player") * lot.count * (1.0 - toll);
+            }
+            return f;
+        }
+
+        /// <summary>A good the crew eats or drinks: stores, not cargo.</summary>
+        static bool Stores(string good) =>
+            Array.IndexOf(Voyage.Rules.foodGoods, good) >= 0 || Array.IndexOf(Voyage.Rules.drinkGoods, good) >= 0;
+
+        /// <summary>A landing as the log says it: the passage, the purse and the cargo, and what is owed. "Dorestat to
+        /// Traiectum, half a day. The purse holds 12 d. What she carries cost 50 d and would fetch about 122 d here.
+        /// Owed 1920 d, with 150 days left."</summary>
+        public static string LandingWords(Landings.Landing l)
+        {
+            if (l == null)
+                return "";
+            string to = GameData.Port(l.to)?.name ?? l.to, from = GameData.Port(l.from)?.name ?? l.from;
+            string took = FrameUi.Days(l.Took);
+            string said = l.from.Length == 0 ? $"Made fast at {to}." : l.from == l.to ? $"Out from {to} and back, {took}." : $"{from} to {to}, {took}.";
+            said += " " + LandingPurse(l);
+            if (l.debt > 0.01)
+                said += l.daysLeft > 0.0 ? $" Owed {l.debt:0} d, with {l.daysLeft:0} {(l.daysLeft == 1.0 ? "day" : "days")} left." : $" Owed {l.debt:0} d, and the day has come.";
+            return said;
+        }
+
+        /// <summary>The purse and the cargo of a landing, as a sentence or two.</summary>
+        public static string LandingPurse(Landings.Landing l)
+        {
+            if (l.cost < 0.5 && l.fetch < 0.5)
+                return $"The purse holds {l.silver:0} d and there is nothing aboard to sell.";
+            if (l.cost >= 0.5)
+                return $"The purse holds {l.silver:0} d. What she carries cost {l.cost:0} d and would fetch about {l.fetch:0} d here.";
+            return $"The purse holds {l.silver:0} d. What she carries would fetch about {l.fetch:0} d here.";
+        }
+
+        /// <summary>What Ravn says at the first landing of a game begun through the opening, by how the cargo stands
+        /// ("" otherwise). Placeholders for the user's own words, in the voice of the opening's Ravn.</summary>
+        public static string RavnAtLanding(Landings.Landing l, int landings)
+        {
+            if (l == null || landings != 1 || FirstJobs.Port.Length == 0 || l.from == l.to)
+                return "";
+            string line = l.cost >= 0.5 && l.fetch > l.cost * 1.1
+                              ? "Look at that! It is worth more here than it was there. That is the whole of the trade, you know. I forget who told me. Sell before you eat."
+                        : l.fetch >= 0.5 ? "We are here! And dry. Mostly dry. Sell what will sell, and do not look at me if it will not."
+                                         : "We are here! With nothing to sell, mind. Still. Here.";
+            return "\"" + line + "\" says Ravn.";
         }
 
         /// <summary>"4 casks of Rhenish wine": so many of a good by its unit, as Trade.Units has it, with the good's own
@@ -239,6 +309,8 @@ namespace Kapman.Game.Frame
             /// <summary>Game days since the start (with the hours) when it was said.</summary>
             public double day;
             public string date, part;
+            /// <summary>"" a plain line; "slip" a landing's slip, which the log frames.</summary>
+            public string kind;
         }
 
         public const int Keep = 200;
@@ -248,7 +320,10 @@ namespace Kapman.Game.Frame
 
         /// <summary>A line into the log, stamped with the game's day and the part of it. The same words twice running in
         /// the same hour are said once.</summary>
-        public static void Add(string text)
+        public static void Add(string text) => Add(text, "");
+
+        /// <summary>The same, of a kind the log shows in its own way ("slip": a landing, framed).</summary>
+        public static void Add(string text, string kind)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return;
@@ -259,7 +334,7 @@ namespace Kapman.Game.Frame
                 return;
             Lines.Add(new Line
             {
-                text = text.Trim(), day = day,
+                text = text.Trim(), day = day, kind = kind ?? "",
                 date = clock != null ? $"{clock.Date.day} {clock.Date.MonthName}" : "",
                 part = clock != null ? FrameUi.PartOfDay(clock.HourOfDay) : "",
             });
@@ -273,7 +348,7 @@ namespace Kapman.Game.Frame
         {
             var saved = new List<object>(Lines.Count);
             foreach (var l in Lines)
-                saved.Add(new Dictionary<string, object> { ["text"] = l.text, ["day"] = l.day, ["date"] = l.date ?? "", ["part"] = l.part ?? "" });
+                saved.Add(new Dictionary<string, object> { ["text"] = l.text, ["day"] = l.day, ["date"] = l.date ?? "", ["part"] = l.part ?? "", ["kind"] = l.kind ?? "" });
             return saved;
         }
 
@@ -287,7 +362,7 @@ namespace Kapman.Game.Frame
                 {
                     string text = Json.Str(o, "text");
                     if (text.Length > 0)
-                        Lines.Add(new Line { text = text, day = Json.Num(o, "day"), date = Json.Str(o, "date"), part = Json.Str(o, "part") });
+                        Lines.Add(new Line { text = text, day = Json.Num(o, "day"), date = Json.Str(o, "date"), part = Json.Str(o, "part"), kind = Json.Str(o, "kind") });
                 }
             if (Lines.Count > Keep)
                 Lines.RemoveRange(0, Lines.Count - Keep);

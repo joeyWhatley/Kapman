@@ -323,8 +323,28 @@ namespace Kapman.Tests
                 // (one window on the side: in port it is the Port window; the People here window is had by its name)
                 Assert.IsTrue(FrameWindows.OneWindow, "the side has more than one window for a new player");
                 Assert.AreEqual(1, play.Frame.Windows.Space.slots.Count, "the side has more than one window");
+                // THE LIST UNDER THE BUTTONS (the critic's B1, 8 Oct 2026: "after Ravn stops, nothing on screen holds what he
+                // said"): five rows, none done, the sail's with its cost as the button, and Cast off saying what is wanting
+                yield return ChartPlay.Until(() => play.Frame.JobsShown, 3f);
+                Assert.IsTrue(play.Frame.JobsShown, "the list Before she sails is not on the screen after Ravn");
+                var list = play.Frame.Root.Q<VisualElement>("jobs");
+                string jobs = ChartPlay.Read(list);
+                notes.AppendLine("The list: " + jobs);
+                StringAssert.Contains("Before she sails", jobs);
+                StringAssert.Contains("Sails tattered....", jobs);
+                StringAssert.Contains("Needs to be repaired.", jobs);
+                StringAssert.Contains("Crew: 1 of 4", jobs);
+                StringAssert.Contains("No course set", jobs);
+                StringAssert.Contains("First the sail mended, three more men and a course.", jobs);
+                Assert.AreEqual(0, list.Query<VisualElement>(className: "frame-job").Where(r => r.ClassListContains("done")).ToList().Count, "a job is ticked before anything is done");
+                var mendButton = play.Frame.Root.Q<Button>("mend-sail");
+                Assert.IsTrue(ChartPlay.Shown(mendButton), "the sail's row has no button");
+                Assert.AreEqual($"{FirstJobs.MendCost:0} d", mendButton.text, "the cost is not the button of the sail's row");
+                if (FirstJobs.TipGood.Length > 0)
+                    StringAssert.Contains("Ravn's word: ", jobs, "Ravn named a good and the list does not hold it");
                 string screen = ChartPlay.Read(play.Frame.Root);
-                StringAssert.Contains("Sails tattered", screen, "the Port window does not offer to mend the sail");
+                StringAssert.Contains("Sails tattered", screen, "the screen does not offer to mend the sail");
+                StringAssert.DoesNotContain("Look under", why, "the reason still sends the player to a window by its name");
                 play.Frame.Windows.Show("people");
                 yield return ChartPlay.Settle(0.6f);
                 screen = ChartPlay.Read(play.Frame.Root);
@@ -338,8 +358,16 @@ namespace Kapman.Tests
                 Assert.AreEqual(FirstJobs.CrewWanted, Voyage.Men);
                 Assert.AreEqual(silver - 3 * FirstJobs.HandMoney, FrameGame.Silver, 0.6, "hand money was not paid");
                 Assert.IsTrue(FirstJobs.Active, "the jobs are over with the sail still worn");
-                Assert.IsTrue(FirstJobs.Mend(KapmanGame.Current.Day, out string mend), mend);
-                Assert.IsTrue(FirstJobs.Mending);
+                // (the sail is given to be mended by its row's own button)
+                yield return play.Click(mendButton, "the cost, in the sail's row of the list");
+                Assert.IsTrue(FirstJobs.Mending, "the button of the sail's row did not send the sail to be mended");
+                yield return ChartPlay.Settle(0.5f);
+                jobs = ChartPlay.Read(list);
+                StringAssert.Contains("Crew: 4 of 4", jobs);
+                StringAssert.Contains("Sails ashore", jobs);
+                Assert.IsTrue(list.Q<VisualElement>("job-crew").ClassListContains("done"), "the crew is aboard and its row is not ticked");
+                Assert.IsFalse(list.Q<VisualElement>("job-sail").ClassListContains("done"), "the sail is ashore and its row is ticked");
+                yield return play.Shot("open_15b_jobs_half_done");
                 play.Frame.Look(FrameIcon.Kind.CastOff, out _, out why, out can, out _);
                 Assert.IsFalse(can);
                 StringAssert.Contains("being mended", why);
@@ -351,7 +379,26 @@ namespace Kapman.Tests
                 play.Frame.Look(FrameIcon.Kind.CastOff, out _, out why, out can, out _);
                 Assert.IsFalse(why.StartsWith("Not yet."), "the jobs are done and she is still held: " + why);
                 yield return ChartPlay.Settle(0.5f);
+                // the list holds on until she sails: the sail and the crew ticked, the course still to set
+                Assert.IsTrue(FirstJobs.Listed, "the list is done with before she has cast off");
+                Assert.IsTrue(play.Frame.JobsShown);
+                jobs = ChartPlay.Read(list);
+                StringAssert.Contains("Sails mended", jobs);
+                StringAssert.Contains("First a course.", jobs);
+                Assert.IsTrue(list.Q<VisualElement>("job-sail").ClassListContains("done"));
                 yield return play.Shot("open_16_jobs_done");
+                // a course set: its row is ticked and the last row is the button that casts off
+                string bound = FirstJobs.TipPort.Length > 0 ? FirstJobs.TipPort : "traiectum";
+                Assert.IsTrue(Course.SetTo(bound, ChartWorld.ShipWorld(), Port.LyingId()), "no course from home to " + bound);
+                yield return ChartPlay.Settle(0.6f);
+                jobs = ChartPlay.Read(list);
+                StringAssert.Contains("Course: ", jobs);
+                StringAssert.Contains("She is ready.", jobs);
+                Assert.IsTrue(list.Q<VisualElement>("job-course").ClassListContains("done"));
+                Assert.IsTrue(list.Q<VisualElement>("job-cast-off").ClassListContains("ready"));
+                yield return play.Shot("open_16b_ready_to_cast_off");
+                Course.Clear();
+                yield return ChartPlay.Settle(0.4f);
 
                 // ---- 13. the port's picture: the chart can be had back, and the hour changes its light
                 var view = PortView.Current;

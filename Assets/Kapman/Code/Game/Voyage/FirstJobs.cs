@@ -14,7 +14,11 @@ namespace Kapman.Game
     ///   - THE SAIL: mended at the port for a little silver and some hours of the clock.
     /// Cast off is refused, in words, until both are done. Then the jobs are over and nothing here is asked again.
     /// The men hired are a count, as the crew is everywhere in the game today: their names are said and not kept.
-    /// Pure rules with the game's purse and crew: the frame shows them (People here, Port, Tasks) and asks.
+    /// THE LIST (the critic's play of 8 Oct 2026, B1, taken up by the user: "after Ravn stops, nothing on screen holds
+    /// what he said"): from the first morning until she casts off the first time the jobs stand on the screen as a
+    /// list that ticks off: the sail, the crew, a cargo (Ravn's word on what to buy and where to take it), a course,
+    /// cast off. <see cref="Listed"/> is that time; the frame draws the list under the buttons (FrameRoot.Jobs.cs).
+    /// Pure rules with the game's purse and crew: the frame shows them and asks.
     /// </summary>
     public static class FirstJobs
     {
@@ -56,6 +60,57 @@ namespace Kapman.Game
 
         public static int HandsShort => Active ? Math.Max(0, CrewWanted - Voyage.Men) : 0;
 
+        /// <summary>The list "Before she sails" stands on the screen: from the first morning until she first casts off.</summary>
+        public static bool Listed { get; private set; }
+        /// <summary>Ravn's word on the first cargo: the good to buy at home and the port that pays for it ("" none).</summary>
+        public static string TipGood { get; private set; } = "";
+        public static string TipPort { get; private set; } = "";
+        /// <summary>Something has been bought for the hold (what came with the boat is not bought).</summary>
+        public static bool Bought
+        {
+            get
+            {
+                if (!Trade.Started)
+                    return false;
+                foreach (var lot in Trade.Hold.Lots)
+                    if (lot.whose.Length == 0 && lot.cost > 0.0)
+                        return true;
+                return false;
+            }
+        }
+
+        /// <summary>Ravn has said what to buy and where to take it: the list, the market and the Voyage window show it.</summary>
+        public static void Tip(string good, string port)
+        {
+            TipGood = good ?? "";
+            TipPort = port ?? "";
+            Version++;
+        }
+
+        /// <summary>She has cast off: the list is done with (Landings sees it).</summary>
+        public static void Sailed()
+        {
+            if (!Listed)
+                return;
+            Listed = false;
+            Version++;
+        }
+
+        /// <summary>What she still wants before she can put out, as the parts of one sentence: "the sail", "three more
+        /// men", and "a course" where none is set. Empty: she is ready.</summary>
+        public static List<string> Wanting(bool courseSet)
+        {
+            var wants = new List<string>();
+            if (Active && SailWorn)
+                wants.Add(Mending ? "the sail back from the mending" : "the sail mended");
+            int n = HandsShort;
+            if (n > 0)
+                wants.Add((n == 1 ? "one" : n == 2 ? "two" : n == 3 ? "three" : n.ToString()) + (n == 1 ? " more man" : " more men"));
+            if (!courseSet)
+                wants.Add("a course");
+            return wants;
+        }
+
         // ------------------------------------------------------------------ setting them
 
         /// <summary>The jobs are set: one man aboard, the sail worn, and hands of her people waiting on the home quay.
@@ -63,6 +118,8 @@ namespace Kapman.Game
         public static void Begin(string port, string people, int seed)
         {
             Active = true;
+            Listed = true;
+            TipGood = TipPort = "";
             Port = port ?? "";
             SailWorn = true;
             MendDoneAt = -1.0;
@@ -81,6 +138,7 @@ namespace Kapman.Game
                 hands.Add(new Hand { name = name, line = Lines[(line + i) % Lines.Length] });
             }
             Voyage.SetMen(1);
+            Landings.Clear();                                             // (a new game: no landing is kept from the one before)
             Version++;
         }
 
@@ -183,11 +241,11 @@ namespace Kapman.Game
             if (n > 0 && SailWorn)
                 why = $"Not yet. She wants {Count(n)} more to row her, and the sail must be mended first." + (Mending ? " It is being mended now." : "");
             else if (n > 0)
-                why = $"Not yet. She wants {Count(n)} more to row her. Look under People here.";
+                why = $"Not yet. She wants {Count(n)} more to row her. They sit in the alehouse.";
             else if (Mending)
                 why = "Not yet. The sail is ashore, being mended.";
             else if (SailWorn)
-                why = "Not yet. The sail is rotten along the foot and must be mended first. Look under Port.";
+                why = "Not yet. The sail is rotten along the foot and must be mended first.";
             else
                 return false;
             return true;
@@ -205,6 +263,7 @@ namespace Kapman.Game
             return new Dictionary<string, object>
             {
                 ["active"] = Active, ["port"] = Port, ["sail_worn"] = SailWorn, ["mend_done_at"] = MendDoneAt, ["hands"] = list,
+                ["listed"] = Listed, ["tip_good"] = TipGood, ["tip_port"] = TipPort,
             };
         }
 
@@ -217,6 +276,10 @@ namespace Kapman.Game
             Port = Json.Str(d, "port");
             SailWorn = Json.Bool(d, "sail_worn", false);
             MendDoneAt = Json.Num(d, "mend_done_at", -1.0);
+            // (a save from before the list: it stands while the jobs do)
+            Listed = Json.Bool(d, "listed", Active);
+            TipGood = Json.Str(d, "tip_good");
+            TipPort = Json.Str(d, "tip_port");
             foreach (var o in Json.Arr(d, "hands") ?? new List<object>())
                 hands.Add(new Hand { name = Json.Str(o, "name"), line = Json.Str(o, "line"), hired = Json.Bool(o, "hired", false) });
             Version++;
@@ -225,6 +288,8 @@ namespace Kapman.Game
         static void Clear()
         {
             Active = false;
+            Listed = false;
+            TipGood = TipPort = "";
             Port = "";
             SailWorn = false;
             MendDoneAt = -1.0;

@@ -46,17 +46,6 @@ namespace Kapman.Game.Frame
             if (said.Length > 0)
                 body.Add(FrameUi.Text(said));
 
-            // ---- the first jobs: what must be done before she casts off the first time
-            if (FirstJobs.Active)
-            {
-                body.Add(FrameUi.H("Before she sails"));
-                int n = FirstJobs.HandsShort;
-                body.Add(FrameUi.Ln("A crew", n > 0 ? "Hire shipmen on the quay: the People here window." : "She has her crew.",
-                                    FrameUi.Num($"{Voyage.Men} of {FirstJobs.CrewWanted}")));
-                body.Add(FrameUi.Ln("The sail", FirstJobs.Mending ? "Ashore, being mended. Let the clock run." : FirstJobs.SailWorn ? "Have it mended: the Port window." : "Mended.",
-                                    FrameUi.Tag(FirstJobs.Mending ? "being mended" : FirstJobs.SailWorn ? "worn" : "sound")));
-            }
-
             // ---- the debt and its day
             body.Add(FrameUi.H("Owed"));
             if (Trade.Debt > 0.01)
