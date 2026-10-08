@@ -76,9 +76,15 @@ namespace Kapman.Game
         public const string GameName = "Kāpman";
         /// <summary>Who Ravn is, under his name while he speaks (a placeholder for the user's own words; he has no
         /// figures yet: the crew are a count until they are people).</summary>
-        public const string RavnIs = "Norse \u00b7 Talks a great deal and means well";
+        // (only what he is: the critic, 8 Oct 2026, of "Talks a great deal and means well" under his name: it "tells the player what to
+        // think before he speaks")
+        public const string RavnIs = "A Northman";
         public const string AskFirst = "...";
-        public const string AskPeople = "From where do you hail?";
+        // THE LENDER, WRITTEN AGAIN (the user, 8 Oct 2026: "I think wursing needs a re-script"; by the picker: "Cold, and eating", the
+        // user's first brief for him, "a cold aloof uninterested man, just cares about getting what he's owed"). He does not look up
+        // from his food, makes no joke, and calls a wreck a good boat. His questions are plain (the script critic: "From where do you
+        // hail?" and "And by what do you swear?" were the user's own of 7 Oct, and are changed on that report, which the user took up).
+        public const string AskPeople = "Where are you from?";
         /// <summary>
         /// The answers to that are homelands, not peoples, each as its own people wrote or said it (the user, 7 Oct 2026:
         /// "make the answers Homeland titles, not Frisian, make it Frisia, BUT in the same spelling originally used by
@@ -92,26 +98,30 @@ namespace Kapman.Game
             ["frisian"] = "Fr\u0113sland", ["frankish"] = "Francia", ["english"] = "Engla land", ["danish"] = "Danm\u01EBrk",
             ["norse"] = "Nor\u00F0vegr", ["svea"] = "Sv\u00ED\u00FEj\u00F3\u00F0", ["irish"] = "\u00C9riu",
         };
-        public const string AskName = "And your name?";
+        public const string AskName = "Your name?";
         /// <summary>What he says while the player picks a face (a placeholder of mine, in his voice).</summary>
         public const string AskFace = "Step into the light.";
-        public const string AskFaith = "And by what do you swear?";
-        public const string AskPast = "And what were you, before this?";
+        public const string AskFaith = "What do you swear by?";
+        public const string AskPast = "And before this? What were you?";
         // WURSING'S VOICE (the user, 7 Oct 2026, late: "with Wursing, can you add mannerisms, and text quirks, don't make
         // him sound so AI please, more personality in the read"). He counts while he talks and does not look up: he
         // breaks off to finish a dozen, says a thing once and then to the stick, never uses two words where a number
         // will do, and is put out only when he loses the count. Still placeholders for the user's own words.
+        // (his byname is said once and said what it means, in his own mouth: the user, twice, "I don't know what that other word means";
+        // by the picker, "Keep it, said once". The last word of the second line is the meaning: keep the two together.)
         public static readonly string[] LenderLines =
         {
-            "{name}. Mm. One notch. ...There. You are on the stick.",
-            "Do not speak, I am counting. Ten. Eleven. A dozen. So. {lender}, that is me. On the quay they say {byname}. Quietly. I hear it anyway.",
-            "The boat. End of the bank. The one that leans. Six oars, a mast, a sail of sorts. She floats. I have watched her do it.",
-            "For her, {pounds} pounds of silver. {pence} pennies. Counted, mind, not weighed. A scale can be leaned on. A tally cannot.",
-            "{day}. I count it then. Not the day after. The day after I bring two men and a rope, and I do not stay to hear why.",
-            "Four casks of wine went into her this morning. Mine. They are on the stick too. Everything is on the stick.",
-            "...Are you still here. Go and look at her. Thirteen... no. Twelve. Now I have lost the count.",
+            "{name}. One notch. There. Sit if you like. I am eating.",
+            "I am {lender}. On the quay they call me {byname}. The usurer. I do not lend. I sell boats.",
+            "Yours is at the end of the bank. Six oars, a mast, a sail. A good boat. She has years in her.",
+            "For her, {pounds} pounds of silver. {pence} pennies. I count them. I do not weigh them.",
+            "You bring it at {day}. The day after, I bring two men and a rope, and I do not stay to hear why.",
+            "There are four casks of wine in her. Mine. They are on the stick with the boat.",
+            "That is all of it. Shut the door behind you.",
         };
-        public static readonly string[] PlateLines = { "Your boat.", "Six oars, a mast, and a sail of sorts.", "She floats. He has watched her do it." };
+        // (the plate under the boat says what is seen. The lender's joke that she floats was told here a second time and by Ravn a
+        // third: the critic. It is Ravn's alone now.)
+        public static readonly string[] PlateLines = { "Your boat.", "Six oars, a mast, and a sail of sorts." };
         public const string RavnWho = "He came with the boat. Nobody told you.";
 
         /// <summary>What is on now, for whoever watches: "", "loading", "name", "title", "slide", "asking", "lender",
@@ -1081,7 +1091,7 @@ namespace Kapman.Game
             // and it is shown who asked
             Stage = "lender";
             face.Who = "lender";
-            who.text = Trade.LenderName + ", called " + Trade.LenderByname;
+            who.text = Trade.LenderName;                                    // (his byname is his own to say, in his second line)
             Show(speaker, 0f);
             StartCoroutine(Fade(a => speaker.style.opacity = a, 0f, 1f, 0.9f));   // (he steps out of the dark under the tail)
             var home = GameData.Port(world != null ? world.homePort : null);
@@ -1532,24 +1542,28 @@ namespace Kapman.Game
             // WHAT HE SPEAKS OF IS POINTED AT (the user, 8 Oct 2026: "when Ravn is explaining what to do and how to play can
             // you highlight what he's talking about"): [[>names]] in a line puts the frame's pointer round those parts
             // of the screen from those words on (FloatSpec.Say; the names are the parts' names in Game/UI/Frame.uxml).
-            spec.Say($"There you are! {char.ToUpperInvariant(you[0]) + you.Substring(1)}, is it? Ravn. I come with the boat. He did not say? No. He would not.");
-            spec.Say("He does not say much, that one. He counts. [[>ship]]I have been over her for you, keel to masthead. She floats! That is the good news. That is most of the good news.");
+            // RAVN'S FIRST MORNING, CUT DOWN (the script critic's report of 8 Oct 2026, taken up by the user). He is himself, then the
+            // sail, the men, the wine and his one word on what to buy; the paragraph that read out the buttons and the clock is gone
+            // ("Space stops it", from a Northman of 793), and so is the saying over of the five jobs, which the list on the screen
+            // holds. Prices are said in words (Spoken). AT EASE HE SHORTENS HIS WORDS, the only one in the game who does (the report:
+            // "a lighter rural Ravn who alone shortens words ... and says every word whole when he is in earnest").
+            spec.Say($"There you are! {char.ToUpperInvariant(you[0]) + you.Substring(1)}, is it? Ravn. I come with the boat. He didn't say? No. He wouldn't.");
+            spec.Say("He was eating, I'll wager. He's always eating. [[>ship]]I've been over her for you, keel to masthead. She floats! That's the good news. That's most of the good news.");
             if (FirstJobs.Active && FirstJobs.SailWorn)
-                spec.Say($"[[>job-sail]]The sail is rotten along the foot. The first real wind would have it off her. Have it mended before we put out: [[>mend-sail]]{FirstJobs.MendCost:0} d and six hours, there under the buttons. I would sew it myself, but you have not seen my sewing. Keep it so.");
+                spec.Say($"[[>job-sail]]The sail's rotten along the foot. The first real wind would have it off her. Have it mended before we put out. [[>mend-sail]]{Spoken.Capital(Spoken.Pennies(FirstJobs.MendCost))} and {(FirstJobs.MendHours == 6.0 ? "half a day" : Spoken.Number(FirstJobs.MendHours) + " hours")}. I'd sew it myself, but you've not seen my sewing. Keep it so.");
             if (FirstJobs.Active && FirstJobs.HandsShort > 0)
-                spec.Say($"And two of us cannot row six oars. I can hardly row one. She wants {(FirstJobs.HandsShort == 3 ? "three" : FirstJobs.HandsShort.ToString())} more shipmen. [[>verb-alehouse]]They sit in the alehouse. [[>figure-silver]]The hiring silver is {FirstJobs.HandMoney:0} d a man.");
+                spec.Say($"And two of us can't row six oars. I can hardly row one. She wants {Spoken.Number(FirstJobs.HandsShort)} more shipmen. [[>verb-alehouse]]They sit in the alehouse. [[>figure-silver]]The hiring silver is {Spoken.Pennies(FirstJobs.HandMoney)} a man.");
             // THE WINE IS SAID ONCE (the critic's play of 8 Oct 2026, B3: "whose is the wine, and whose is the silver?"): it is the
             // player's to sell and is owed for with the boat. Until then the log said of every cask sold that what it fetched
             // was "his stake and not your gain", which read as if the silver were not the player's to spend.
             if (Trade.Started && Trade.Hold.Owed(ChartWorld.CountsGood) > 0)
                 spec.Say("[[>verb-hold]]The wine in her is yours to sell, mind. He says mine. He says that of everything. You owe him for it all the same, so sell it dear.");
-            spec.Say("[[>rack]]The buttons up there are yours. [[>verb-cast-off verb-voyage verb-crew verb-hold]]The top row is the ship: Cast off, Voyage, Crew, Hold. [[>verb-trade verb-alehouse verb-holy verb-rest-port]]The middle row is where we are: Trade, the alehouse, the minster, Rest. [[>verb-wares verb-journey verb-errands verb-book]]The bottom row is what you know: Wares, Journey, Errands, the Book. [[>speed-pause speed-1 speed-2 speed-3 speed-4 speed-5]]The clock is at the very top: Space stops it, and the numbers hurry it.");
             string tip = FirstTip(out string tipGood, out string tipPort);
             FirstJobs.Tip(tipGood, tipPort);                              // (his word stands on the list, in the market and by the port)
             if (tip.Length > 0)
                 spec.Say("[[>verb-trade]]" + tip);
-            // (what he has said stands on the screen when he stops: the list under the buttons, FrameRoot.Jobs.cs)
-            spec.Say("So. [[>job-sail]]Mend the sail, [[>job-crew]]find the men, [[>job-cargo]]buy well. [[>job-course]]Then a course, [[>job-cast-off]]and cast off. [[>jobs]]It is all written there, under the buttons. I forget things. That is how I know where it is kept.");
+            // (what he has said stands on the screen when he stops: the list, FrameRoot.Jobs.cs. He points at it and does not say it over)
+            spec.Say("[[>jobs]]It's all there, look. I forget things. That's how I know where it's kept.");
             spec.options.Add(new FloatOption { label = "Go on", isDefault = true, pick = () => RavnDone(frame) });
             spec.shut = () => RavnDone(frame);
             ravnUp = true;
@@ -1627,7 +1641,7 @@ namespace Kapman.Game
             tipGood = best.good.id;
             tipPort = bestPort.id;
             string name = best.good.name.ToLowerInvariant();
-            return $"One thing I do know. They ask about {bestBuy:0} d here for {name}, and at {bestPort.name} they pay about {bestSell:0}. Buy what she will hold and you can pay for, and we take it there.";
+            return $"One thing I do know. They ask about {Spoken.Pennies(bestBuy)} here for {name}, and at {bestPort.name} they pay about {Spoken.Number(bestSell)}. Buy what she'll hold and you can pay for, and we take it there.";
         }
     }
 

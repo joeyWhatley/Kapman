@@ -262,15 +262,17 @@ namespace Kapman.Game.Frame
         }
 
         /// <summary>What Ravn says at the first landing of a game begun through the opening, by how the cargo stands
-        /// ("" otherwise). Placeholders for the user's own words, in the voice of the opening's Ravn.</summary>
+        /// ("" otherwise). Placeholders for the user's own words, in the voice of the opening's Ravn: glad, so he shortens his
+        /// words. (Cut down on the script critic's report of 8 Oct 2026: he no longer explains the trade, and "Mostly dry" was the
+        /// opening's joke over again.)</summary>
         public static string RavnAtLanding(Landings.Landing l, int landings)
         {
             if (l == null || landings != 1 || FirstJobs.Port.Length == 0 || l.from == l.to)
                 return "";
             string line = l.cost >= 0.5 && l.fetch > l.cost * 1.1
-                              ? "Look at that! It is worth more here than it was there. That is the whole of the trade, you know. I forget who told me. Sell before you eat."
-                        : l.fetch >= 0.5 ? "We are here! And dry. Mostly dry. Sell what will sell, and do not look at me if it will not."
-                                         : "We are here! With nothing to sell, mind. Still. Here.";
+                              ? "Look at that! It's worth more here than it was there. Sell before you eat."
+                        : l.fetch >= 0.5 ? "We're here! Sell what will sell, and don't look at me if it won't."
+                                         : "We're here! With nothing to sell, mind. Still. We're here.";
             return "\"" + line + "\" says Ravn.";
         }
 

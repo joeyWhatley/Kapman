@@ -268,7 +268,7 @@ namespace Kapman.Tests
                 // WHAT HE SPEAKS OF IS POINTED AT (the user, 8 Oct 2026: "can you highlight what he's talking about"): as each
                 // paragraph is said, the frame's pointer stands round the part of the screen it is about
                 var pointedAt = new System.Collections.Generic.List<string>();
-                bool rowShot = false;
+                bool listShot = false;
                 for (int press = 0; press < 40 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; press++)
                 {
                     float until = Time.realtimeSinceStartup + 3f;
@@ -277,19 +277,22 @@ namespace Kapman.Tests
                         string now = play.Frame.PointedAt;
                         if (now.Length > 0 && !pointedAt.Contains(now))
                             pointedAt.Add(now);
-                        if (!rowShot && now.StartsWith("verb-cast-off verb-voyage"))
+                        // (he no longer reads out the buttons: the script critic's report of 8 Oct. What he points at last is the list)
+                        if (!listShot && now == "jobs")
                         {
-                            rowShot = true;
-                            Assert.AreEqual(DisplayStyle.Flex, play.Frame.Pointer.resolvedStyle.display, "he speaks of the top row and the pointer is not shown");
-                            var row = play.Frame.Root.Q<VisualElement>("verb-cast-off").worldBound;
-                            var hold = play.Frame.Root.Q<VisualElement>("verb-hold").worldBound;
+                            listShot = true;
+                            Assert.AreEqual(DisplayStyle.Flex, play.Frame.Pointer.resolvedStyle.display, "he speaks of the list and the pointer is not shown");
+                            var listBox = play.Frame.Root.Q<VisualElement>("jobs").worldBound;
                             var frameRound = play.Frame.Pointer.worldBound;
-                            Assert.IsTrue(frameRound.xMin <= row.xMin && frameRound.xMax >= hold.xMax && frameRound.yMin <= row.yMin && frameRound.yMax >= row.yMax,
-                                "the pointer is not round the top row of buttons: " + frameRound + " against " + row + " to " + hold);
-                            yield return play.Shot("open_13c_ravn_points_at_the_top_row", 0f);
+                            Assert.IsTrue(frameRound.xMin <= listBox.xMin && frameRound.xMax >= listBox.xMax && frameRound.yMin <= listBox.yMin && frameRound.yMax >= listBox.yMax,
+                                "the pointer is not round the list: " + frameRound + " against " + listBox);
+                            yield return play.Shot("open_13c_ravn_points_at_the_list", 0f);
                         }
                         yield return null;
                     }
+                    // (his last paragraph is short now and may be said out while this waits: Enter then would take "Go on")
+                    if (play.Frame.FrontReveal == null || play.Frame.FrontReveal.Done)
+                        break;
                     yield return play.Press(Key.Enter);
                     yield return ChartPlay.Frames(3);
                     string then = play.Frame.PointedAt;
@@ -299,14 +302,15 @@ namespace Kapman.Tests
                 notes.AppendLine("Ravn pointed at: " + string.Join(" | ", pointedAt));
                 CollectionAssert.Contains(pointedAt, "ship", "he spoke of the boat and her window was not pointed at");
                 CollectionAssert.Contains(pointedAt, "verb-alehouse", "he spoke of the alehouse and its button was not pointed at");
-                Assert.IsTrue(pointedAt.Exists(at => at.StartsWith("speed-pause")), "he spoke of the clock and it was not pointed at: " + string.Join(" | ", pointedAt));
-                Assert.IsTrue(rowShot, "the top row of buttons was never pointed at while he spoke of it: " + string.Join(" | ", pointedAt));
+                Assert.IsFalse(pointedAt.Exists(at => at.StartsWith("speed-pause") || at.StartsWith("rack")), "he still reads out the buttons or the clock: " + string.Join(" | ", pointedAt));
+                Assert.IsTrue(listShot, "the list was never pointed at while he spoke of it: " + string.Join(" | ", pointedAt));
                 yield return ChartPlay.Settle(0.4f);
                 yield return play.Shot("open_14_ravn_said");
                 string ravn = ChartPlay.Read(play.FrontFloat());
                 notes.AppendLine("Ravn says: " + ravn);
-                StringAssert.Contains("sail", ravn);
-                StringAssert.Contains("men", ravn);
+                // (he ends on himself, and does not say the five jobs over: the list holds them)
+                StringAssert.Contains("That's how I know where it's kept.", ravn);
+                StringAssert.DoesNotContain("Mend the sail, find the men", ravn);
                 yield return play.Press(Key.Enter);                       // (Go on)
                 yield return ChartPlay.Until(() => !play.Frame.FloatOpen("ravn.first"), 4f);
                 Assert.IsFalse(play.Frame.FloatOpen("ravn.first"));

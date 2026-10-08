@@ -193,7 +193,7 @@
        { "to": "ganda.hildgis", "tie": "friend", "note": "the wright on the Scheldt bank to whom, in 810 and 811, the emperor's order for ships is passed down through the counts (?)" }
       ],
       "lines": {
-       "greet": "Shipman. You have my boat under you and my silver in her. Michaelmas. Hartwin has the stick.",
+       "greet": "Shipman. You trade on my bank, so you keep my peace on it. The fines are mine and the toll is the king's. Hartwin will tell you the rest.",
        "greet_again": "Still afloat, shipman? Good. A drowned man pays nobody.",
        "greet_friend": "Shipman! Sit down. No, at this end. Tell me what the English are paying for wine; my steward only tells me what I owe.",
        "rumour": [
@@ -201,7 +201,6 @@
         "The king wants every measure in my district made the same. I have fought Saxons. I would rather fight Saxons.",
         "The bishop says the fine for a brawl on his bank is his. The bank may be his. The brawl was mine."
        ],
-       "debt": "I do not want your reasons. I want eight pounds, or something I can show the king that is better than eight pounds.",
        "saying": "A Frisian will swear the river is dry while he stands in it. I believe the tally.",
        "farewell": "Go and sell something, shipman."
       },
@@ -233,17 +232,16 @@
        { "to": "parisius.waldric", "tie": "friend", "note": "the cellarer of Saint Denis's, whose wine stands on the count's table: they reckon by letter and have never met (invented)" }
       ],
       "lines": {
-       "greet": "Your stick. Twenty score and four score pennies: four hundred and eighty. Here is your half. Do not lose it; I shall not lose mine.",
-       "greet_again": "Since you were last here: nothing paid, nothing added. The stick is as it was.",
-       "greet_friend": "Come in out of the wind. I have counted your stick twice this week for the pleasure of it. It is going down.",
+       "greet": "I am the count's steward. Toll, dues and fines on this bank are cut on my sticks. There is none with your name on it yet.",
+       "greet_again": "Nothing is cut against your name since you were last here.",
+       "greet_friend": "Come in out of the wind. I have a wall of sticks behind me and your name is on none of them. Sit down.",
        "rumour": [
         "From the harvest on, every sack is measured by the king's new measure. Bring yours. If it is small I break it, and you thank me.",
         "The king's price: wheat four pennies the measure, rye three, barley two, oats one. I did not make it. I only count it.",
         "My lord rides with the host after Pentecost. Until he is back, what you say to me you have said to him."
        ],
-       "debt": "Coin, or goods he will take, or a service. Three roads. I have cut a notch for each before; I will show you where.",
        "saying": "A man's word and his half of the stick should fit. When they do not, I keep the stick.",
-       "farewell": "Michaelmas. I shall be here. I am always here."
+       "farewell": "Bring your measures at harvest. I shall be here."
       },
       "source": "invented: the spine's cast.hartwin. The prices are the Synod of Frankfurt's, 794 (chronicle_793.json). The split tally is the game's device (for the 790s (?))" },
     { "id": "dorestad.thiadbod", "name": "Thiadbod", "historical": false, "role": "skipper", "people": "frisian", "faith": "christian",
@@ -315,9 +313,9 @@
        "rumour": [
         "The king's order shuts the English ports to Franks. I am a Frisian. I find the reeve at Lundenwic understands the difference, for a consideration.",
         "Grain will be dearer by Candlemas. I say so as a friend. I would not sell yet, if I had any.",
-        "Your count is a fair man and a busy one. A debt is a weight to such a man. Somebody might take it off his hands."
+        "The Wōkerer is an old man and he does not like to wait. A debt is a weight to such a man. Somebody might take it off his hands."
        ],
-       "debt": "Four hundred and eighty is nothing between neighbours. Let me carry it. You would hardly know I was there.",
+       "debt": "Eight pounds is a great weight for a small boat. Let me carry it. You would hardly know I was there.",
        "saying": "Give the toll man a cheese, the steward a hearing and the count a hawk. Nobody was ever searched by a friend.",
        "farewell": "Fair wind, neighbour. Tell me what you see out there. I am always glad of news."
       },
@@ -359,7 +357,7 @@
        { "to": "helgo.holmfrid", "tie": "friend", "note": "a farm widow among the Svear who asks every southern skipper for cloth from this storehouse by name; they have never met" }
       ],
       "lines": {
-       "greet": "So you are the one with the count's boat. What does she carry? No, in weight. Everybody tells me what things cost.",
+       "greet": "So you are the one with the Wōkerer's boat. What does she carry? No, in weight. Everybody tells me what things cost.",
        "greet_again": "Your corner is dry and your seals are whole. I looked this morning. I look every morning.",
        "greet_friend": "Come in, mind the cat. I kept the high shelf for you; the river was in the low one at Candlemas.",
        "rumour": [
@@ -774,25 +772,25 @@
        { "id": "paid_alone", "how": "You paid it all yourself and left her son out.", "text": "York opens, and the profit of it is yours alone. Thiadburg thanks you and counts her keys. Her son remembers who was first through the door.", "reward": "Eoforwic open to the house (yk_paid) and a season there without a Frisian rival; her feeling cools; her son a rival to your heir" },
        { "id": "left_open", "how": "You took Thiadbod's advice, or his silver, and let it lie.", "text": "York stays shut. Thiadbod goes on trading there as an Englishman. Aldger never asks you again. When Thiadburg dies, her brother has the storehouse within the year.", "reward": "80 d from Thiadbod and week-old news from York each spring; Thiadburg will not lend again; the storehouse passes to your rival" }
       ],
-      "reward": "Eoforwic, the richest market of the north, opened or lost; and the widow's surety against the count's day." },
-    { "id": "dorestad.michaelmas", "title": "The count's stick", "thread": "counts_day",
-      "summary": "The boat was bought on the count's silver: 1,920 pennies, due at Michaelmas, cut on a split stick that hangs in the hall at De Geer. It can be met with coin, with goods he will take, with a service, with the widow's surety, or it can pass into Thiadbod's hands.",
+      "reward": "Eoforwic, the richest market of the north, opened or lost; and the widow's surety against the Wōkerer's day." },
+    { "id": "dorestad.michaelmas", "title": "The Wōkerer's stick", "thread": "counts_day",
+      "summary": "The boat was bought of Wursing, whom the quay calls the Wōkerer, on a tally: 1,920 pennies, due at Michaelmas, cut on a split stick that he keeps by his table. It can be met with coin, with goods he will take, with a service, with the widow's surety, or it can pass into Thiadbod's hands.",
       "picture": "A thin grey steward holds up one half of a split notched stick against the other half, in the door of a hall hung with hundreds of them.",
       "beats": [
-       { "at": "dorestad.hall", "when": "year < 796", "text": "Hartwin gives you your half of the tally and shows you his: twenty-four score. The count calls you shipman and names the day.", "card": "harbour.chain_house_debt.s01_tally" },
-       { "at": "dorestad.thiadbods_dam", "when": "year < 796", "text": "Thiadbod offers, as a neighbour, to take the debt off the count's hands. (If he does: db_bought.)", "card": "harbour.chain_house_debt.s02_rival" },
-       { "at": "dorestad.widows_store", "when": "year < 813", "text": "Thiadburg lends on goods left under her seal, and will stand before the steward for a skipper she trusts. (Sets db_surety.)", "card": "harbour.widows_store.dorestad" },
-       { "at": "dorestad.hall", "when": "month >= 9 and year < 813", "text": "The reckoning at Michaelmas: the king's new pennies, goods the count will take, or an errand in place of part of the silver. (A service sets db_service; a delay, once, db_extension.)", "card": "harbour.chain_house_debt.s03_michaelmas" },
-       { "at": "lundenwic", "when": "flag.db_service and year < 813", "text": "The count's errand: English hounds and a cloak of the old length. Other regions hold other errands for him.", "card": "" },
-       { "at": "dorestad.toll", "when": "year >= 850 and year < 864", "text": "A later generation's day: the debt is owed to the Dane who holds the toll, and Eystein keeps the stick. He counts the same as Hartwin did, and waits less.", "card": "harbour.chain_rorik_850.s01_dane_at_the_dam" },
-       { "at": "noviomagus.palace", "when": "feast and year < 813 and debt > 0 and not flag.db_extension", "text": "On a feast at the king's house the count sits among his equals. A gift carried in before them cannot be refused, and a delay asked for there is hard to deny. (Sets db_extension.)", "card": "harbour.counts_feast.noviomagus" },
-       { "at": "traiectum.hall", "when": "year < 807 and debt > 0", "text": "The bishop, who disputes every fine with the count, will stand between the steward and a house that has carried for Saint Martin's. (Sets db_surety.)", "card": "harbour.bishops_hall.traiectum" }
+       { "at": "dorestad.hall", "when": "year < 796", "text": "Wursing cuts your notch and gives you your half of the tally: ninety-six score. He names the day without looking up from his plate.", "card": "harbour.chain_house_debt.s01_tally" },
+       { "at": "dorestad.thiadbods_dam", "when": "year < 796", "text": "Thiadbod offers, as a neighbour, to take the debt off the Wōkerer's hands. (If he does: db_bought.)", "card": "harbour.chain_house_debt.s02_rival" },
+       { "at": "dorestad.widows_store", "when": "year < 813", "text": "Thiadburg lends on goods left under her seal, and will stand before the Wōkerer for a skipper she trusts. (Sets db_surety.)", "card": "harbour.widows_store.dorestad" },
+       { "at": "dorestad.hall", "when": "month >= 9 and year < 813", "text": "The reckoning at Michaelmas: the king's new pennies, goods he will take, or an errand in place of part of the silver. (A service sets db_service; a delay, once, db_extension.)", "card": "harbour.chain_house_debt.s03_michaelmas" },
+       { "at": "lundenwic", "when": "flag.db_service and year < 813", "text": "An errand for him: English hounds and a cloak of the old length, which he means to give where he wants a favour. Other regions hold other errands for him.", "card": "" },
+       { "at": "dorestad.toll", "when": "year >= 850 and year < 864", "text": "A later generation's day: the debt is owed to the Dane who holds the toll, and Eystein keeps the stick. He counts the same as Wursing did, and waits less.", "card": "harbour.chain_rorik_850.s01_dane_at_the_dam" },
+       { "at": "noviomagus.palace", "when": "feast and year < 813 and debt > 0 and not flag.db_extension", "text": "On a feast day Wursing sits among the other shipowners. A gift carried in before them cannot be refused, and a delay asked for there is hard to deny. (Sets db_extension.)", "card": "harbour.counts_feast.noviomagus" },
+       { "at": "traiectum.hall", "when": "year < 807 and debt > 0", "text": "The bishop, who preaches against usury, will stand between the Wōkerer and a house that has carried for Saint Martin's. (Sets db_surety.)", "card": "harbour.bishops_hall.traiectum" }
       ],
       "links": ["cast.folcbert", "cast.hartwin", "cast.thiadbod", "cast.thiadburg", "traiectum.hamacar", "cast.eystein"],
       "endings": [
-       { "id": "clean_on_the_day", "how": "You paid in full in the new pennies on Michaelmas.", "text": "Hartwin fits the two halves together, breaks them over his knee and gives you the pieces. The count remembers the name of one Frisian.", "reward": "The boat is yours; the count's and the steward's feeling up; credit with the count for a bigger ship (the chain harbour.chain_house_new_ship)" },
-       { "id": "served", "how": "You met part of it with an errand or with goods the count wanted.", "text": "The stick is cut down, not broken. You are the count's shipman now, which is a debt of another kind and a door of another kind.", "reward": "The debt eased; an errand's pay; a place below the salt at the count's feast; the toll eased for a season" },
-       { "id": "sold_to_thiadbod", "how": "You let the debt pass to Thiadbod.", "text": "The count has his silver and has forgotten you. Thiadbod has your stick on his own wall, and is very friendly.", "reward": "A year's delay and no interest named; Thiadbod chooses one cargo a year for you until it is paid (the chain's 'sold' road)" }
+       { "id": "clean_on_the_day", "how": "You paid in full in the new pennies on Michaelmas.", "text": "Wursing fits the two halves together, breaks them over his knee and gives you the pieces. Then he goes back to his plate.", "reward": "The boat is yours; the count's and the steward's feeling up; credit with the count for a bigger ship (the chain harbour.chain_house_new_ship)" },
+       { "id": "served", "how": "You met part of it with an errand or with goods he wanted.", "text": "The stick is cut down, not broken. You are the Wōkerer's carrier now, which is a debt of another kind and a door of another kind.", "reward": "The debt eased; an errand's pay; a place below the salt at the count's feast; the toll eased for a season" },
+       { "id": "sold_to_thiadbod", "how": "You let the debt pass to Thiadbod.", "text": "The Wōkerer has his silver and has forgotten you. Thiadbod has your stick on his own wall, and is very friendly.", "reward": "A year's delay and no interest named; Thiadbod chooses one cargo a year for you until it is paid (the chain's 'sold' road)" }
       ],
       "reward": "The house's freedom, or its first master: every later generation's day is measured against this one." },
     { "id": "dorestad.heavy_penny", "title": "The heavy penny", "thread": "silver_road",
@@ -956,7 +954,7 @@
    ],
    "works": [
     { "id": "dorestad.work.store_corner", "name": "A corner of the widow's storehouse", "what": "A dry corner under Thiadburg's roof, your goods under her seal with a tally stick tied on. She lends on what lies there.", "cost_d": 6, "days": 0, "from": 793, "to": 863,
-      "needs": "Thiadburg, or her heir, must know you.", "gives": "Goods kept ashore at Dorestad: buy when a thing is cheap and sell when it is dear. She will lend up to half their worth against the count's day.", "picture": "Sealed sacks and three casks in a dim corner of a timber storehouse, a tally stick tied to each, a cat asleep on a bale.", "source": "story/works_793.json store_corner (6 d a month); the large warehouses on the dams, c. 750-830 (Van Es and Verwers)" },
+      "needs": "Thiadburg, or her heir, must know you.", "gives": "Goods kept ashore at Dorestad: buy when a thing is cheap and sell when it is dear. She will lend up to half their worth against the Wōkerer's day.", "picture": "Sealed sacks and three casks in a dim corner of a timber storehouse, a tally stick tied to each, a cat asleep on a bale.", "source": "story/works_793.json store_corner (6 d a month); the large warehouses on the dams, c. 750-830 (Van Es and Verwers)" },
     { "id": "dorestad.work.plot", "name": "A plot on the bank", "what": "One of the long narrow plots that run from the bank road down to the river, eighteen paces wide, with the right to build a dam out from it as far as the water goes.", "cost_d": 400, "days": 14, "from": 793, "to": 863,
       "needs": "The port must know your house; bought from the count's steward, or from a widow who is leaving.", "gives": "Ground of your own (unlock_plot_dorestad): a stock here, a winter berth, a roof for the crew, and the place a storehouse, a well and a dam can stand. Twelve pennies a year to the lord at Martinmas.", "picture": "A narrow strip of trodden ground between two wattle fences running down to brown water, four corner posts freshly driven and a steward pacing it out.", "source": "Hoogstraat: parcels 18 m wide with paired dams (Research/dorestad_c800_notes.md); story/unlocks_793.json unlock_plot_dorestad" },
     { "id": "dorestad.work.dam", "name": "Your own dam, built out to the water", "what": "An earth-and-wattle dam on rows of oak posts from your plot to the stream, with a plank way on top. The river draws away east a little every year, so it must be lengthened about every twelve years or it ends in mud.", "cost_d": 600, "days": 90, "from": 793, "to": 863,
