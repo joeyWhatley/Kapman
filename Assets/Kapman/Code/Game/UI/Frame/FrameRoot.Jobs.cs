@@ -11,11 +11,16 @@ namespace Kapman.Game.Frame
     /// <summary>
     /// BEFORE SHE SAILS, and why she may not (the critic's play of 8 Oct 2026, B1 and B4, taken up by the user the same
     /// day). Three things of the frame that hold a new player's thread:
-    ///   - THE LIST under the buttons, from the first morning until she first casts off: the sail, the crew, a cargo, a
-    ///     course, cast off. Each row says how it stands and has the button that does it or goes where it is done; a row
-    ///     done is ticked. It is laid out in Game/UI/Frame.uxml ("jobs": the rows job-sail, job-crew, job-cargo,
-    ///     job-course, job-cast-off, each with its labels ending -name and -note and a button of the class frame-job-do), and the
+    ///   - THE LIST, from the first morning until she first casts off: the sail, the crew, a cargo, a course, cast off.
+    ///     Each row says how it stands and has the button that does it or goes where it is done; a row done is ticked.
+    ///     It is laid out in Game/UI/Frame.uxml ("jobs": the rows job-sail, job-crew, job-cargo, job-course,
+    ///     job-cast-off, each with its labels ending -name and -note and a button of the class frame-job-do), and the
     ///     rules are FirstJobs.
+    ///     IT IS A TAB OF THE ONE SIDE WINDOW (the user, 8 Oct 2026, of the list as a panel of its own under the
+    ///     buttons: "maybe make it one panel with a tab system"; by the picker: "List is a tab"). The window's head is a
+    ///     bar of two tabs then: "To do", which shows the list in the window, and the window's own name and arrows.
+    ///     The list is shown first; a button that brings a window up turns to that window's tab, and a click on
+    ///     "To do" comes back. With several windows on the side (not a player's layout) it stands over them instead.
     ///   - THE REASON under the buttons ("rack-why") whenever Cast off is grey in a port and the list is not there to
     ///     say it: the same words the button gives when the pointer rests on it.
     ///   - THE LANDING SLIP: when she makes fast after a passage, one framed line in the log (Landings; the words are
@@ -34,9 +39,75 @@ namespace Kapman.Game.Frame
         Label rackWhy;
         Job jobSail, jobCrew, jobCargo, jobCourse, jobCastOff;
         float nextJobs;
+        // the tabs: the list stands (so there are two tabs); the tab "To do" is the one shown; the list stood at the last
+        // look; the count of panels asked for by name at the last look
+        bool todoThere, todoOn, todoListed;
+        int todoShows = -1;
 
-        /// <summary>The list "Before she sails" is on the screen now.</summary>
-        public bool JobsShown => jobs != null && jobs.resolvedStyle.display != DisplayStyle.None;
+        /// <summary>The list "Before she sails" is on the screen now (its tab is the one shown).</summary>
+        public bool JobsShown => jobs != null && jobs.panel != null && jobs.resolvedStyle.display != DisplayStyle.None;
+        /// <summary>The side window shows the tab "To do" (the list), not its own panel.</summary>
+        public bool TodoOn => todoThere && todoOn;
+
+        /// <summary>Turns the side window to the tab "To do" (the list of the first jobs) or back to its own panel.
+        /// Nothing happens while the list does not stand.</summary>
+        public void TodoShow(bool on)
+        {
+            if (Windows != null)
+                todoShows = Windows.Shows;                               // (what was asked for before this does not turn it back)
+            if (todoOn == on)
+                return;
+            todoOn = on;
+            if (on)
+                pick = -1;
+            JobsPlaced();
+        }
+
+        /// <summary>A side window has been made: its tab "To do" is wired (Parts/Window.uxml, "todo").</summary>
+        partial void JobsHead(VisualElement win)
+        {
+            var tab = win.Q<Button>("todo");
+            if (tab != null)
+                tab.clicked += () => TodoShow(true);
+        }
+
+        /// <summary>The list is put where it belongs now: in the one side window as its tab (over the window's scroll,
+        /// which is hidden while the tab is the one shown), or, with several windows on the side, over them as a strip.
+        /// Called when the windows have been built again, and at every look.</summary>
+        partial void JobsPlaced()
+        {
+            if (jobs == null || left == null || tiles == null)
+                return;
+            var one = FrameWindows.OneWindow && windowEls.Count == 1 ? windowEls[0] : null;
+            foreach (var win in windowEls)
+            {
+                bool tabs = todoThere && win == one;
+                win.EnableInClassList("has-todo", tabs);
+                win.EnableInClassList("todo-on", tabs && todoOn);
+                win.EnableInClassList("window-on", tabs && !todoOn);
+                var scroll = win.Q<ScrollView>("scroll");
+                if (scroll != null)
+                    scroll.style.display = tabs && todoOn ? DisplayStyle.None : DisplayStyle.Flex;
+            }
+            if (!todoThere)
+            {
+                jobs.style.display = DisplayStyle.None;
+                return;
+            }
+            if (one != null)
+            {
+                var scroll = one.Q<ScrollView>("scroll");
+                if (jobs.parent != one)
+                    one.Insert(scroll != null ? one.IndexOf(scroll) : one.childCount, jobs);
+                jobs.style.display = todoOn ? DisplayStyle.Flex : DisplayStyle.None;
+            }
+            else
+            {
+                if (jobs.parent != left)
+                    left.Insert(left.IndexOf(tiles), jobs);
+                jobs.style.display = DisplayStyle.Flex;
+            }
+        }
 
         partial void JobsBuild()
         {
@@ -56,6 +127,8 @@ namespace Kapman.Game.Frame
             jobs.style.display = DisplayStyle.None;
             Line(rackWhy, "");
             nextJobs = 0f;
+            todoThere = todoOn = todoListed = false;
+            todoShows = -1;
         }
 
         Job JobOf(string rowName, Action does)
@@ -102,18 +175,36 @@ namespace Kapman.Game.Frame
             var here = FrameGame.PortHere;
             // (the landing is looked for every frame, so its slip is of the moment she made fast at any speed of the clock)
             LandingLook(game, here);
+            // THE TABS: a panel asked for by its name (a button of the rack, a link) turns the window to that panel's tab,
+            // at once
+            if (Windows != null && Windows.Shows != todoShows)
+            {
+                bool turn = todoShows >= 0 && todoOn;
+                todoShows = Windows.Shows;
+                if (turn)
+                {
+                    todoOn = false;
+                    JobsPlaced();
+                }
+            }
             if (Time.realtimeSinceStartup < nextJobs)
                 return;
             nextJobs = Time.realtimeSinceStartup + 0.2f;
             // (the list stands while she lies at the port of the jobs, Ravn talking or not)
             string lying = here != null ? here.id : Port.LyingId();
             bool listed = game != null && FirstJobs.Listed && lying != null && lying == FirstJobs.Port;
-            jobs.style.display = listed ? DisplayStyle.Flex : DisplayStyle.None;
+            // (the list is the tab shown first)
+            if (listed && !todoListed)
+                todoOn = true;
+            todoListed = listed;
+            todoThere = listed;
+            JobsPlaced();
             if (listed)
                 JobsFill(game);
-            // the reason under the buttons: only where the list does not already say it
+            // the reason under the buttons: only where the list does not already say it, and only a reason that lasts
+            // (in the middle of an errand or a talk the button is grey for a moment, and that needs no line)
             string whyNot = "";
-            if (!listed && here != null && game != null && !Showtime.Busy)
+            if (!listed && here != null && game != null && !Showtime.Busy && FrameGame.PortMenuOpen)
             {
                 Look(FrameIcon.Kind.CastOff, out _, out string why, out bool can, out _);
                 if (!can)

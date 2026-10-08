@@ -173,8 +173,12 @@ namespace Kapman.Game.Frame
             }
             else
                 e = root.Q<VisualElement>(partName);
-            if (e == null || e.panel == null || e.resolvedStyle.display == DisplayStyle.None)
+            if (e == null || e.panel == null)
                 return null;
+            // (not a thing that is put away, nor one inside a thing put away: the tab of the window that is not shown)
+            for (var up = e; up != null && up != root; up = up.parent)
+                if (up.resolvedStyle.display == DisplayStyle.None)
+                    return null;
             var box = e.worldBound;
             return float.IsNaN(box.width) || box.width < 1f || box.height < 1f ? null : e;
         }

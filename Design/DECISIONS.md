@@ -776,3 +776,16 @@ and far fewer when usage is short).
    (places/dorestad.json) are written again in that voice; his riddle is a thing he half remembers; "Go to your
    count" is gone. Placeholders for the user's pen. NOT DONE: his lines in the story chains and at other ports
    (about a hundred, in some fifty files under Game/Data) are still the dry Ravn's.
+87. **ONE PANEL WITH TABS** (the user, 8 Oct, of the list as a panel of its own between the buttons and the window:
+   "Maybe make it one panel with a tab system"; by the picker: "List is a tab"). This overrules "under the buttons"
+   in item 82. The side is one panel. While the list stands, that panel's head is a bar of two tabs: "To do", which
+   shows the list in the window, and the window's own name with its arrows. The list is the tab shown first, and the
+   one shown while Ravn points at it; a button that brings a window up turns to that window's tab; a click on
+   "To do" comes back. When she first casts off the tab goes and the head is as it always was. The tab is in
+   Parts/Window.uxml ("todo", and "window-tab" round the name and arrows); the list is still laid out in Frame.uxml
+   ("jobs") and the code moves it into the window (FrameRoot.Jobs.cs). With several windows on the side, which is
+   not a player's layout, it stands over them as a strip.
+   Also: the reason under the buttons (item 83) is shown only while the port's menu waits, not for the moment an
+   errand or a talk greys the button.
+   DECIDED BY ME, to be overruled: the name "To do"; that there are two tabs only, the other windows still being
+   chosen by the buttons; that the two-tab head is there on the first morning only.

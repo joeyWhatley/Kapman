@@ -323,8 +323,9 @@ namespace Kapman.Tests
                 // (one window on the side: in port it is the Port window; the People here window is had by its name)
                 Assert.IsTrue(FrameWindows.OneWindow, "the side has more than one window for a new player");
                 Assert.AreEqual(1, play.Frame.Windows.Space.slots.Count, "the side has more than one window");
-                // THE LIST UNDER THE BUTTONS (the critic's B1, 8 Oct 2026: "after Ravn stops, nothing on screen holds what he
-                // said"): five rows, none done, the sail's with its cost as the button, and Cast off saying what is wanting
+                // THE LIST (the critic's B1, 8 Oct 2026: "after Ravn stops, nothing on screen holds what he said"): five rows,
+                // none done, the sail's with its cost as the button, and Cast off saying what is wanting. IT IS A TAB OF
+                // THE ONE SIDE WINDOW (the user, 8 Oct: "maybe make it one panel with a tab system"), and the tab shown.
                 yield return ChartPlay.Until(() => play.Frame.JobsShown, 3f);
                 Assert.IsTrue(play.Frame.JobsShown, "the list Before she sails is not on the screen after Ravn");
                 var list = play.Frame.Root.Q<VisualElement>("jobs");
@@ -345,13 +346,33 @@ namespace Kapman.Tests
                 string screen = ChartPlay.Read(play.Frame.Root);
                 StringAssert.Contains("Sails tattered", screen, "the screen does not offer to mend the sail");
                 StringAssert.DoesNotContain("Look under", why, "the reason still sends the player to a window by its name");
+                // one panel, two tabs: "To do" is the one shown, and the list is inside the window
+                Assert.IsTrue(play.Frame.TodoOn, "the tab To do is not the one shown after Ravn");
+                var sideWindow = play.Frame.Root.Q<VisualElement>(className: "frame-win");
+                Assert.IsTrue(sideWindow.ClassListContains("has-todo") && sideWindow.ClassListContains("todo-on"), "the side window has no tabs");
+                Assert.IsTrue(sideWindow.Contains(list), "the list is not inside the one side window");
+                var todoTab = sideWindow.Q<Button>("todo");
+                Assert.IsTrue(ChartPlay.Shown(todoTab), "the tab To do is not on the screen");
+                StringAssert.DoesNotContain("Choose what to do", screen, "the Port window's own words show under the list: two panels at once");
+                yield return play.Shot("open_15_jobs");
+                // a window asked for by a button turns to that window's tab; the tab To do comes back to the list
                 play.Frame.Windows.Show("people");
                 yield return ChartPlay.Settle(0.6f);
+                Assert.IsFalse(play.Frame.TodoOn, "a window was asked for and the list still covers it");
+                Assert.IsFalse(play.Frame.JobsShown);
                 screen = ChartPlay.Read(play.Frame.Root);
                 StringAssert.Contains("Shipmen looking for a boat", screen, "the People here window does not offer the shipmen");
+                StringAssert.DoesNotContain("Sails tattered", screen, "the list shows with the window: two panels at once");
                 play.Frame.Windows.Show("port");
                 yield return ChartPlay.Settle(0.4f);
-                yield return play.Shot("open_15_jobs");
+                sideWindow = play.Frame.Root.Q<VisualElement>(className: "frame-win");
+                Assert.IsTrue(sideWindow.ClassListContains("has-todo") && sideWindow.ClassListContains("window-on"), "the window's own tab is not marked as the one shown");
+                yield return play.Shot("open_15a_port_tab");
+                todoTab = sideWindow.Q<Button>("todo");
+                yield return play.Click(todoTab, "the tab To do");
+                yield return ChartPlay.Settle(0.3f);
+                Assert.IsTrue(play.Frame.TodoOn && play.Frame.JobsShown, "the tab To do did not bring the list back");
+                mendButton = play.Frame.Root.Q<Button>("mend-sail");
                 double silver = FrameGame.Silver;
                 for (int i = 0; i < FirstJobs.Hands.Count && FirstJobs.HandsShort > 0; i++)
                     Assert.IsTrue(FirstJobs.Hire(i, out string fact), "a hand could not be hired: " + fact);

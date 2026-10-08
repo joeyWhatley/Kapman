@@ -129,7 +129,9 @@
             </ui:VisualElement>
             <!-- BEFORE SHE SAILS: the first jobs as a list that ticks off, from the first morning until she first casts
                  off. The code shows and hides it, fills in each row's words (its labels ending -name and -note), and gives a
-                 row the class "done" when its job is done. A row's button is the one of the class frame-job-do. -->
+                 row the class "done" when its job is done. A row's button is the one of the class frame-job-do.
+                 IT IS LAID OUT HERE BUT SHOWN IN THE SIDE WINDOW, as that window's tab "To do" (Parts/Window.uxml): the
+                 code moves it there. Only with several windows on the side does it stand here, over them. -->
             <ui:VisualElement name="jobs" class="frame-slip frame-jobs">
                 <ui:Label name="jobs-title" text="Before she sails" class="frame-jobs-title" />
                 <ui:VisualElement name="job-sail" class="frame-job">

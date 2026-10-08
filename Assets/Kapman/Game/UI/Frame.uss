@@ -2787,3 +2787,87 @@
 .frame-root .frame-log-line.slip .frame-log-text {
     color: rgb(112, 41, 99);
 }
+
+/* ---- ONE PANEL WITH TABS (the user, 8 Oct 2026, of the list as a panel of its own under the buttons: "maybe make it
+   one panel with a tab system"). While the list Before she sails stands, the head of the one side window is a bar of
+   two tabs: "To do" (the list) and the window's own name with its arrows. The tab that is shown is the body's own
+   green and runs into the body; the other is deeper. With no list the head is as it always was. */
+.frame-root .frame-win-tab-group {
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.frame-root .frame-win-tab {
+    display: none;
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    font-size: var(--t-body);
+    color: rgb(112, 41, 99);
+    margin: 0 4px 0 0;
+    padding: 3px 14px 3px 14px;
+    border-radius: 0;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-win.has-todo .frame-win-head {
+    padding: 4px 6px 0 4px;
+    align-items: flex-end;
+}
+
+.frame-root .frame-win.has-todo .frame-win-tab,
+.frame-root .frame-win.has-todo .frame-win-tab-group {
+    display: flex;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 0;
+    border-top-color: rgb(112, 41, 99);
+    border-left-color: rgb(112, 41, 99);
+    border-right-color: rgb(112, 41, 99);
+    background-color: rgb(134, 166, 131);
+}
+
+.frame-root .frame-win.has-todo .frame-win-tab:hover,
+.frame-root .frame-win.has-todo .frame-win-tab-group:hover {
+    background-color: rgb(250, 236, 190);
+}
+
+/* the tab that is shown */
+.frame-root .frame-win.todo-on .frame-win-tab,
+.frame-root .frame-win.window-on .frame-win-tab-group {
+    background-color: rgb(168, 191, 159);
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    margin-bottom: -2px;
+    padding-bottom: 5px;
+}
+
+.frame-root .frame-win.todo-on .frame-win-tab:hover,
+.frame-root .frame-win.window-on .frame-win-tab-group:hover {
+    background-color: rgb(168, 191, 159);
+}
+
+.frame-root .frame-win.window-on .frame-win-tab-group {
+    padding-bottom: 2px;
+}
+
+/* the list as a tab's body: no panel of its own, the title a plain heading */
+.frame-root .frame-win .frame-jobs {
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin: 0;
+    padding: 8px 2px 4px 2px;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: none;
+}
+
+.frame-root .frame-win .frame-jobs-title {
+    color: rgb(112, 41, 99);
+    background-color: rgba(0, 0, 0, 0);
+    background-image: none;
+    padding: 0 8px 4px 8px;
+    margin: 0 0 4px 0;
+}

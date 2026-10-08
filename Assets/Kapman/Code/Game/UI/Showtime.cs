@@ -1553,6 +1553,7 @@ namespace Kapman.Game
             spec.options.Add(new FloatOption { label = "Go on", isDefault = true, pick = () => RavnDone(frame) });
             spec.shut = () => RavnDone(frame);
             ravnUp = true;
+            frame.TodoShow(true);                                         // (he points at the list: its tab is the one shown)
             frame.OpenFloat(spec);
             FrameLog.Add("Ravn has a good deal to say.");
         }

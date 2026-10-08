@@ -172,6 +172,8 @@ namespace Kapman.Game.Frame
         partial void RackUpdate();
         partial void JobsBuild();
         partial void JobsUpdate();
+        partial void JobsPlaced();
+        partial void JobsHead(VisualElement win);
         partial void MapToolsBuild();
         partial void MapToolsUpdate();
         /// <summary>The happenings of the events table, each a floating window (FrameRoot.Events.cs).</summary>
@@ -619,6 +621,7 @@ namespace Kapman.Game.Frame
                 add.Add(new FrameGlyph(FrameGlyph.Kind.Plus));
                 wmbar.Add(add);
             }
+            JobsPlaced();                                                 // (the list of the first jobs goes into the new window at once)
         }
 
         VisualElement Window(FrameWorkspace w, int index, bool last)
@@ -635,10 +638,21 @@ namespace Kapman.Game.Frame
             // a click anywhere in a window gives it the focus (the buttons under the click still get it)
             win.RegisterCallback<PointerDownEvent>(_ => Windows.Focus(index), TrickleDown.TrickleDown);
 
-            FrameParts.In<Button>(win, "before").clicked += () => { pick = -1; Windows.Step(index, -1); };
-            FrameParts.In<Button>(win, "title").clicked += () => pick = pick == index ? -1 : index;
+            // (while the tab of the first jobs' list is the one shown, the window's own name and arrows are the other
+            // tab: a click on them turns to the window, and only the next click on the name opens the list of panels)
+            FrameParts.In<Button>(win, "before").clicked += () => { pick = -1; TodoShow(false); Windows.Step(index, -1); };
+            FrameParts.In<Button>(win, "title").clicked += () =>
+            {
+                if (TodoOn)
+                {
+                    TodoShow(false);
+                    return;
+                }
+                pick = pick == index ? -1 : index;
+            };
             FrameParts.In<Label>(win, "name").text = panel != null ? panel.Title : id;
-            FrameParts.In<Button>(win, "next").clicked += () => { pick = -1; Windows.Step(index, 1); };
+            FrameParts.In<Button>(win, "next").clicked += () => { pick = -1; TodoShow(false); Windows.Step(index, 1); };
+            JobsHead(win);                                                // (the tab "To do": FrameRoot.Jobs.cs)
             // (the cross is kept for the key and for a look that shows it; the look of 7 Oct 2026 puts it away: "not so
             // many X's". With one window there is nothing to close.)
             var shut = FrameParts.In<Button>(win, "shut");

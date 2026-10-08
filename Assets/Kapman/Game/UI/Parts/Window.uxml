@@ -6,19 +6,25 @@
          UI Builder (the frame's look hangs on the class frame-root): the game does not use it. -->
     <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 440px; height: 520px;">
         <!-- A SIDE WINDOW: its head (the panel before, its name, the next panel, its cross) and the scroll its panel is
-             put in. The cross is only there when the side holds more than one window. -->
+             put in. The cross is only there when the side holds more than one window.
+             THE HEAD IS A BAR OF TABS while the list "Before she sails" stands (the first morning): the tab "todo" shows
+             that list in the window, and the window's own name and arrows ("window-tab") are the tab beside it. The
+             code shows the tab "todo" only then, and puts the list (the element "jobs" of Frame.uxml) over the scroll. -->
         <ui:VisualElement name="window" class="frame-slip frame-win">
             <ui:VisualElement name="head" class="frame-win-head">
-                <ui:Button name="before" tooltip="The panel before" class="frame-head-button">
-                    <k:FrameGlyph kind="Left" />
-                </ui:Button>
-                <ui:Button name="title" tooltip="Choose a panel for this window" class="frame-win-title">
-                    <ui:Label name="name" text="Window" class="frame-win-name" picking-mode="Ignore" />
-                    <k:FrameGlyph kind="Down" />
-                </ui:Button>
-                <ui:Button name="next" tooltip="The next panel" class="frame-head-button">
-                    <k:FrameGlyph kind="Right" />
-                </ui:Button>
+                <ui:Button name="todo" text="To do" tooltip="What is to be done before she sails" class="frame-win-tab" />
+                <ui:VisualElement name="window-tab" class="frame-win-tab-group">
+                    <ui:Button name="before" tooltip="The panel before" class="frame-head-button">
+                        <k:FrameGlyph kind="Left" />
+                    </ui:Button>
+                    <ui:Button name="title" tooltip="Choose a panel for this window" class="frame-win-title">
+                        <ui:Label name="name" text="Window" class="frame-win-name" picking-mode="Ignore" />
+                        <k:FrameGlyph kind="Down" />
+                    </ui:Button>
+                    <ui:Button name="next" tooltip="The next panel" class="frame-head-button">
+                        <k:FrameGlyph kind="Right" />
+                    </ui:Button>
+                </ui:VisualElement>
                 <ui:Button name="shut" tooltip="Close this window  [X]" class="frame-head-button frame-head-shut">
                     <k:FrameGlyph kind="Cross" />
                 </ui:Button>

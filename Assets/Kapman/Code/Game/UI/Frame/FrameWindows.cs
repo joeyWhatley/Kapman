@@ -38,6 +38,9 @@ namespace Kapman.Game.Frame
         public int Current { get; private set; }
         /// <summary>Counts up on every change.</summary>
         public int Version { get; private set; }
+        /// <summary>Counts up each time a panel is asked for by its name (<see cref="Show"/>): the frame turns from the
+        /// tab of the first jobs' list to the window then.</summary>
+        public int Shows { get; private set; }
         /// <summary>The panels there are, in order (the registry's ids): what a new window, a step or a pick may show.</summary>
         public Func<IReadOnlyList<string>> panels = () => new string[0];
 
@@ -265,6 +268,7 @@ namespace Kapman.Game.Frame
         {
             if (!Has(panels(), id))
                 return;
+            Shows++;
             if (OneWindow)
             {
                 // (one window: it turns to the panel asked for, where she is)
