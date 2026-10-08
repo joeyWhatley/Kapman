@@ -47,6 +47,10 @@ namespace Kapman.Encounters
             ["chest.latin_count"] = (VarType.Number, null), ["chest.riddles_solved"] = (VarType.Number, null),
             ["chest.rune_count"] = (VarType.Number, null), ["reform.coin"] = (VarType.Number, null),
             ["generation"] = (VarType.Number, null),
+            // the boat (7 Oct 2026, Game/Voyage/Boat.cs): a gale where she is (1), the hours to one (99: none in sight),
+            // her hull (1 sound .. 0), the water in her (litres), the men's weariness (0..1), the sail (whole, weak, split)
+            ["gale"] = (VarType.Number, null), ["gale_in"] = (VarType.Number, null), ["boat.hull"] = (VarType.Number, null),
+            ["boat.water"] = (VarType.Number, null), ["boat.weary"] = (VarType.Number, null), ["boat.sail"] = (VarType.Text, null),
             // the self (7 Oct 2026, Game/Self/Self.cs): the five stats in pips, 1 to 5, and the three picks
             ["me.tongue"] = (VarType.Number, null), ["me.name"] = (VarType.Number, null), ["me.nerve"] = (VarType.Number, null),
             ["me.lore"] = (VarType.Number, null), ["me.troth"] = (VarType.Number, null),

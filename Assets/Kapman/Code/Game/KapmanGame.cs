@@ -67,6 +67,8 @@ namespace Kapman.Game
         public TextAsset voyages;
         [Tooltip("Data/hoards_793.json: real hoards, their landmarks and their clues as measures, for hoard hunts.")]
         public TextAsset hoards;
+        [Tooltip("Data/boat_rules.json: the boat's wear, leaks, bailing, weariness and her odds in a gale (none: the code's own numbers).")]
+        public TextAsset boatRules;
         [Tooltip("The world's seed: the same seed plays the same world.")]
         public int worldSeed = 793;
         [Tooltip("The sea lanes (Bake/lanes): the routes on water the world's ships sail by. Missing: straight lines.")]
@@ -128,6 +130,7 @@ namespace Kapman.Game
             public void Hour(long hour)
             {
                 HourPassed?.Invoke(hour);
+                BoatWatch.Hour(hour);                                      // (after the world's ships have had their hour: the same weather)
                 var g = Current;
                 if (g == null) return;
                 g.NoteStanding();
@@ -136,6 +139,7 @@ namespace Kapman.Game
             public void Day(int day)
             {
                 DayPassed?.Invoke(day);
+                BoatWatch.Day(day);
                 GameEvents.Daily(day);
                 Commissions.Daily(day);
                 Reputation.Daily();                                      // (deeds' news arriving in far regions)
@@ -203,6 +207,7 @@ namespace Kapman.Game
             // the crew and their stores; the water casks take their room in the hold
             var voyage = VoyageRules.Load(voyageRules);
             Voyage.Begin(voyage);
+            Boat.Begin(BoatRules.Load(boatRules));                        // (her hull, her sail, the water in her, the men's shares)
             float cargo = ship != null && ship.shipClass != null ? ship.shipClass.cargoKg : 900f;
             float room = Mathf.Max(100f, cargo - (float)(voyage.WaterCapacityL * voyage.kgPerLitre));
             if (clock != null)
@@ -226,6 +231,7 @@ namespace Kapman.Game
             shipClasses = shipClasses != null ? shipClasses : GameFiles.Find("ship_classes_793");
             traffic = traffic != null ? traffic : GameFiles.Find("traffic_793");
             voyageRules = voyageRules != null ? voyageRules : GameFiles.Find("voyage_rules");
+            boatRules = boatRules != null ? boatRules : GameFiles.Find("boat_rules");
             seamanship = seamanship != null ? seamanship : GameFiles.Find("seamanship_793");
             raiders = raiders != null ? raiders : GameFiles.Find("raiders_793");
             patrols = patrols != null ? patrols : GameFiles.Find("patrols_793");

@@ -364,7 +364,7 @@
    "id": "sea.swell.long",
    "note": "THE WARNING before sea.gale.breaks (which needs flag sea_gale_warned). The sign is the weather document's: a long swell from a quarter the wind is not blowing from, the cloud lowering, gulls going inland (Design/weather_and_sea_state.md 3; playability_and_fun.md 2.4). It comes while the weather's storm is building (storm between 0.1 and 0.5) and the gale has not yet broken. No direction is named because the cards cannot read the wind's quarter. Jarrow: the Anglo-Saxon Chronicle for 794, the heathen ships broken by storm at Donemuthe (chronicle_793.json 794-summer-donemuthe-raid). Reefing: reef points on these sails are reconstructed, not found (ship_physics.md 1.5).",
    "stage": "sea",
-   "when": "under_way and level_kind = ocean and storm > 0.1 and storm < 0.5 and not flag.sea_gale_warned",
+   "when": "under_way and level_kind = ocean and gale_in <= 12 and gale = 0 and not flag.sea_gale_warned",
    "rate": 0.5,
    "cooldown_days": 2,
    "actors": {
@@ -431,7 +431,8 @@
      "effects": [
       "flag sea_gale_warned for 2",
       "flag sea_reefed for 2",
-      "morale -0.02"
+      "morale -0.02",
+      "boat shelter"
      ]
     },
     {
@@ -460,7 +461,7 @@
    "id": "sea.gale.breaks",
    "note": "The gale, after its warning (sea.swell.long sets sea_gale_warned). It wounds and does not kill: the sea itself, in the ship's physics, is what can take the boat (playability_and_fun.md 2.4: a Gislinge boat lives through force 7-8 reefed and running for a lee). Lying head to sea under oars, and running under a scrap of sail: ship_physics.md 1.5 and 2.10. The goods lost are whatever is lowest and spoils wet: salt and grain, if aboard.",
    "stage": "sea",
-   "when": "under_way and level_kind = ocean and storm >= 0.5 and wind >= 13 and flag.sea_gale_warned",
+   "when": "under_way and level_kind = ocean and gale_in <= 1",
    "rate": 0.8,
    "cooldown_days": 2,
    "actors": {
@@ -515,7 +516,8 @@
      "check": "true",
      "effects": [
       "morale -0.03",
-      "flag sea_after_gale for 2"
+      "flag sea_after_gale for 2",
+      "boat order lie_to"
      ]
     },
     {
@@ -525,7 +527,8 @@
      "check": "flag.sea_reefed",
      "effects": [
       "morale +0.03",
-      "flag sea_after_gale for 2"
+      "flag sea_after_gale for 2",
+      "boat order reefed"
      ]
     },
     {
@@ -534,6 +537,7 @@
      "label": "Carry full sail and run for it (doubtful)",
      "check": "true",
      "effects": [
+      "boat order carry",
       {
        "chance": 0.4,
        "by": "crew.seamanship_best",
@@ -3945,7 +3949,7 @@
         "morale +0.01"
        ],
        "failure": [
-        "flag sea_leak for 12"
+        "boat hull -0.2"
        ]
       }
      ]
@@ -3966,7 +3970,7 @@
      "label": "Set a man to bail and carry on to port (sure)",
      "check": "true",
      "effects": [
-      "flag sea_leak for 12"
+      "boat hull -0.2"
      ]
     }
    ]
@@ -3975,7 +3979,7 @@
    "id": "sea.leak.gains",
    "note": "The leak, after its warning: it wounds (health, spoiled goods), it does not sink her. 'An open boat with 20-30 cm of water sloshing in her is close to capsizing even on flat water. This is the physical reason bailing is a life-or-death order and not a chore'; four men bailing hold about 100 litres a minute (ship_physics.md 1.6, 2.8). Beaching to mend: shallow draught and beach landings (ship_physics.md 1.5).",
    "stage": "sea",
-   "when": "under_way and flag.sea_leak",
+   "when": "under_way and boat.water >= 400",
    "rate": 0.05,
    "cooldown_days": 3,
    "actors": {
@@ -4024,7 +4028,8 @@
      "check": "true",
      "effects": [
       "flag sea_leak = 0",
-      "morale -0.02"
+      "morale -0.02",
+      "boat lie_to 8"
      ]
     },
     {
@@ -4033,6 +4038,7 @@
      "label": "Heel her at sea and patch it from over the side (likely)",
      "check": "true",
      "effects": [
+      "boat lie_to 3",
       {
        "chance": 0.6,
        "by": "crew.seamanship_best",
@@ -4055,6 +4061,7 @@
      "label": "All hands bail by turns, and run for port (doubtful)",
      "check": "true",
      "effects": [
+      "boat weary +0.15",
       {
        "chance": 0.5,
        "by": "crew.seamanship_best",
@@ -4125,7 +4132,8 @@
      "label": "Lower the yard and stitch it now (sure)",
      "check": "true",
      "effects": [
-      "morale -0.01"
+      "morale -0.01",
+      "boat lie_to 2"
      ]
     },
     {
@@ -4154,7 +4162,7 @@
    "id": "sea.sail.splits",
    "note": "The sail, after its warning: a wound (a night's work, or a man hurt by the falling yard), never the boat. Too much sail in a gust and the rig failing: ship_physics.md 2.10. The spar comes from sea.spar.drift.",
    "stage": "sea",
-   "when": "under_way and flag.sea_sail_weak and wind >= 9",
+   "when": "under_way and boat.sail = split",
    "rate": 0.12,
    "cooldown_days": 3,
    "actors": {
@@ -4203,7 +4211,8 @@
      "check": "true",
      "effects": [
       "morale -0.02",
-      "flag sea_sail_weak = 0"
+      "boat lie_to 6",
+      "boat sail whole"
      ]
     },
     {
@@ -4212,7 +4221,7 @@
      "label": "Set the sound half on the spar you picked up (sure)",
      "check": "flag.sea_spar_aboard",
      "effects": [
-      "flag sea_sail_weak = 0",
+      "boat sail weak",
       "flag sea_spar_aboard = 0",
       "morale +0.02"
      ]
@@ -4231,8 +4240,7 @@
        ],
        "failure": [
         "health -0.07",
-        "morale -0.04",
-        "flag sea_sail_weak = 0"
+        "morale -0.04"
        ]
       }
      ]
@@ -4293,7 +4301,8 @@
      "check": "true",
      "effects": [
       "morale -0.01",
-      "flag sea_lashed for 3"
+      "flag sea_lashed for 3",
+      "boat lie_to 1"
      ]
     },
     {

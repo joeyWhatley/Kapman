@@ -106,12 +106,12 @@ namespace Kapman.Tests
         }
 
         /// <summary>Takes the screen for a test (the chart's own panel drawn into a picture). `fresh`: the pictures of the
-        /// run before are thrown away first.</summary>
-        public static ChartPlay Begin(bool fresh)
+        /// run before are thrown away first. `folder`: where in Captures its pictures go (the long play-through has its own).</summary>
+        public static ChartPlay Begin(bool fresh, string folder = "chart")
         {
             var map = MapView.Current;
             Assert.IsNotNull(map, "no MapView: the chart is not up");
-            string dir = Path.Combine(Application.dataPath, "..", "Captures", "chart");
+            string dir = Path.Combine(Application.dataPath, "..", "Captures", folder);
             Directory.CreateDirectory(dir);
             if (fresh)
                 foreach (string old in Directory.GetFiles(dir, "*.png"))

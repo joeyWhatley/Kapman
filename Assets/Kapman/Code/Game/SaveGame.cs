@@ -71,13 +71,17 @@ namespace Kapman.Game
             return null;
         }
 
-        /// <summary>Why the game can't be SAVED just now (null: it can): all of <see cref="Busy"/>, and a new game on the
+        /// <summary>Why the game can't be SAVED just now (null: it can): all of <see cref="Busy"/>, a lost boat, and a new game on the
         /// chart that has not chosen who it is yet (there is no game to save; loaded, it would ask again half begun).</summary>
         public static string CannotSave()
         {
             string why = Busy();
             if (why != null)
                 return why;
+            // (a lost boat is not saved: nothing may be written over the saves from before. It is LOADED from: the last
+            // page's way back, so this is not in Busy, which a load asks too)
+            if (Boat.IsLost)
+                return "She is lost: load a saved game.";
             if (ChartWorld.Current != null && !Self.Chosen)
                 return "Not yet: the game has not begun.";
             return null;
@@ -114,6 +118,7 @@ namespace Kapman.Game
                 },
                 ["course"] = Course.Capture(),
                 ["voyage"] = Voyage.Capture(),
+                ["boat"] = Boat.Capture(),                                    // 7 Oct: her hull, water, sail, order, weariness, shares
                 ["trade"] = Trade.Capture(),
                 ["markets"] = Markets.Capture(),
                 ["shocks"] = Shocks.Capture(),
@@ -190,6 +195,8 @@ namespace Kapman.Game
             Lessons.Restore(Json.Arr(data, "lessons"));
             Trade.Restore(Json.Obj(data, "trade"));
             Voyage.Restore(Json.Obj(data, "voyage"));
+            Boat.Restore(Json.Obj(data, "boat"));                             // (a save without it: a sound boat on a wage)
+            BoatWatch.Loaded();
             game.World.Restore(Json.Obj(data, "world"));
             Exploration.Restore(Json.Obj(data, "seen"));
             Sim.Deeds.Restore(Json.Arr(data, "deeds"));

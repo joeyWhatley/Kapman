@@ -763,6 +763,8 @@ namespace Kapman.Game.Frame
             };
             // a card waits only for the title, the pause menu and the chest: it may open over the port's own business
             // (and for a happening of the events table that is up and wants its answer: one thing at a time)
+            BoatWatch.GameOver -= LostFloat;
+            BoatWatch.GameOver += LostFloat;
             EncounterRunner.Blocked = () =>
                 (MainMenu.Current != null && (MainMenu.Current.Open || MainMenu.Current.OnTitle)) ||
                 Showtime.HoldsCards ||                                   // (the opening, and until Ravn has had his say)
@@ -773,6 +775,7 @@ namespace Kapman.Game.Frame
         partial void FloatsDisable()
         {
             EncounterRunner.Blocked = null;
+            BoatWatch.GameOver -= LostFloat;
             if (hooked != null)
             {
                 hooked.Chose -= CardChose;
@@ -802,6 +805,8 @@ namespace Kapman.Game.Frame
             }
             CardFloat();
             OrderAsk.Tick(this);                                         // (an order a card offered is asked when the card has closed)
+            if (!Boat.IsLost && FloatOpen(LostId))
+                CloseFloat(LostId);                                      // (a saved game was loaded: she swims again)
             TalkFloat();
             AlertFloats();
             PeopleLeftBehind();
@@ -987,6 +992,60 @@ namespace Kapman.Game.Frame
                 now = new WhoIs { name = s.speaker, line1 = s.speakerLine, line2 = "", line3 = "", say = say, face = s.face ?? s.speaker };
                 return;
             }
+        }
+
+        // ------------------------------------------------------------------ the last page
+
+        public const string LostId = "lost";
+
+        /// <summary>
+        /// THE LAST PAGE (the user, 2 Oct 2026: a wreck is the end of the game; Design/fixes/risk_is_real.md 6.4). She is
+        /// lost: one window says how, with the last lines of the log (they tell the signs, the order and the wounds in
+        /// their order), and two ways on: the last saved game, or the title. The clock stands and nothing is saved over
+        /// the games from before. PLACEHOLDER WORDS, the user's to write.
+        /// </summary>
+        public static FloatSpec LostSpec(string how, IList<string> log, bool anySave, Action load, Action title)
+        {
+            var spec = new FloatSpec { id = LostId, title = "She is lost", mustAnswer = true, holdsClock = true };
+            spec.lines.Add((string.IsNullOrEmpty(how) ? "She is lost." : how, true));
+            if (log != null && log.Count > 0)
+            {
+                spec.lines.Add(("How it went, to the last:", true));
+                foreach (string line in log)
+                    if (!string.IsNullOrEmpty(line) && line != how)
+                        spec.lines.Add((line, true));
+            }
+            spec.options.Add(new FloatOption
+            {
+                label = "Load the last saved game", enabled = anySave, rule = anySave ? "" : "No game was saved.", isDefault = anySave, pick = load,
+            });
+            spec.options.Add(new FloatOption { label = "To the title", pick = title });
+            return spec;
+        }
+
+        void LostFloat(string how)
+        {
+            var last = new List<string>();
+            for (int i = Math.Max(0, FrameLog.Lines.Count - 8); i < FrameLog.Lines.Count; i++)
+                last.Add(FrameLog.Lines[i].text);
+            OpenFloat(LostSpec(how, last, SaveGame.Slots().Count > 0, LoadLast, ToTitle));
+        }
+
+        /// <summary>The newest saved game is loaded (the last page's first way on). The page shuts when she swims again.</summary>
+        void LoadLast()
+        {
+            var saves = SaveGame.Slots();
+            if (saves.Count == 0)
+                return;
+            string fact = SaveGame.Load(saves[0].slot);
+            FrameLog.Add(fact);
+        }
+
+        void ToTitle()
+        {
+            CloseFloat(LostId);
+            if (MainMenu.Current != null)
+                MainMenu.Current.ShowTitle();
         }
 
         // ------------------------------------------------------------------ the card in play

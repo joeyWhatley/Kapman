@@ -740,7 +740,7 @@ namespace Kapman.Game.Sim
                 var (lat, lon) = WorldFrame.ToLatLon(s.pos.x, s.pos.z);
                 var w = weather.Sample(snapshot, lat, lon, epochHours + Hours, true);
                 speed = Travel.Speed(s.cls, course, w.windFrom, w.windSpeed, out bool gale);
-                if (gale && s.rng.Chance(rules.galeLossPerHour * s.cls.galeFragility))
+                if (gale && s.rng.Chance(GaleDice.Chance(rules.galeLossPerHour, s.cls.galeFragility)))   // (the same dice as the merchant's: GaleDice)
                 {
                     s.state = ShipState.Lost;
                     stats.Lost(this, s);

@@ -3,8 +3,9 @@ using UnityEngine.UIElements;
 namespace Kapman.Game.Frame
 {
     /// <summary>
-    /// CREW - the men aboard as the game knows them today: how many, their health and their heart as words, what they
-    /// are owed, how long they have been at sea. They are not yet people with names: the panel says so.
+    /// CREW - the men aboard as the game knows them today: how many, their health and their heart as words, how weary
+    /// they are and who is at the bailing (Voyage/Boat.cs), what they are paid by and what they are owed, how long they
+    /// have been at sea, and the stores.
     /// </summary>
     public sealed class CrewPanel : FramePanel
     {
@@ -19,6 +20,9 @@ namespace Kapman.Game.Frame
             h = FrameUi.Mix(h, (int)(Voyage.Health * 20));
             h = FrameUi.Mix(h, (int)(Voyage.Morale * 20));
             h = FrameUi.Mix(h, (int)Voyage.PayOwed);
+            h = FrameUi.Mix(h, Boat.WearyWord);
+            h = FrameUi.Mix(h, Boat.Bailers + (Boat.AllHands ? 10 : 0) + (Boat.OnShares ? 100 : 0) + (Boat.Bundles ? 1000 : 0));
+            h = FrameUi.Mix(h, (int)(Voyage.FoodDays * 2.0) * 100 + (int)(Voyage.DrinkDays * 2.0));
             return FrameUi.Mix(h, Voyage.DaysAtSea);
         }
 
@@ -32,6 +36,18 @@ namespace Kapman.Game.Frame
             body.Add(FrameUi.H(Voyage.Men == 1 ? "One man" : Voyage.Men + " men"));
             body.Add(FrameUi.Ln("Health", null, FrameUi.Tag(FrameGame.HealthWord(Voyage.Health))));
             body.Add(FrameUi.Ln("Heart", null, FrameUi.Tag(FrameGame.HeartWord(Voyage.Morale))));
+            // (the alpha's row 4: weary men row slower, and the sea finds a weary boat sooner)
+            body.Add(FrameUi.Ln("Weariness", "Oars, bailing and nights under way tire them; a mooring rests them. Weary men row slower, and the sea finds a weary boat sooner.",
+                                FrameUi.Tag(Boat.WearyWord)));
+            if (Boat.Bailers > 0)
+                body.Add(FrameUi.Ln("At the bailing", "Men bailing are not at the oars.",
+                                    FrameUi.Tag(Boat.AllHands ? "all hands" : Boat.Bailers == 1 ? "one man" : "two men")));
+            body.Add(FrameUi.Ln("Paid by", Boat.OnShares ? "Half the wage each day, and a tenth of the season's gain at Martinmas."
+                                                         : "A wage each day aboard, paid out in port.",
+                                FrameUi.Tag(Boat.OnShares ? "shares" : "the wage")));
+            if (Boat.Bundles)
+                body.Add(FrameUi.Ln("Their own bundles", "Each man carries goods of his own: it comes out of the hold's room.",
+                                    FrameUi.Num($"{Boat.R.bundleKgPerMan * Voyage.Men:0} kg")));
             body.Add(FrameUi.Ln("Pay owed", null, FrameUi.Num($"{Voyage.PayOwed:0} d")));
             body.Add(FrameUi.Ln("At sea", null, FrameUi.Num(Voyage.DaysAtSea <= 0 ? "still in port" : Voyage.DaysAtSea == 1 ? "1 day" : Voyage.DaysAtSea + " days")));
             body.Add(FrameUi.Ln("Bread and other food", null, FrameUi.Num(Voyage.FoodDays < 0.25 ? "none" : FrameUi.Days(Voyage.FoodDays))));

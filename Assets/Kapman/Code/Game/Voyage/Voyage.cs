@@ -148,6 +148,9 @@ namespace Kapman.Game
 
         /// <summary>Men taken on (an event, a port).</summary>
         public static void Hire(int n) => Men += Math.Max(0, n);
+
+        /// <summary>Pay owed changed by so many deniers (the men's share of the season at Martinmas).</summary>
+        public static void Owe(double deniers) => PayOwed = Math.Max(0.0, PayOwed + deniers);
         /// <summary>The men aboard set outright (the first jobs begin with one man, Ravn). Never fewer than one.</summary>
         public static void SetMen(int n) => Men = Math.Max(1, n);
 
@@ -250,7 +253,7 @@ namespace Kapman.Game
             if (WaterL <= 0.0 && fromWater > 0.0)
                 Notice?.Invoke("The water casks are empty.");
             // pay (THE CREW'S PAY, HEALTH AND HEART ARE RULES THE GRAPHS HOLD: GameRules, Game/Graphs/Rules)
-            PayOwed += GameRules.DayPay(Men, r.pay);
+            PayOwed += GameRules.DayPay(Men, r.pay) * Boat.WageFactor;      // (on shares: part of the wage, and a tenth of the gain at Martinmas)
             // the sea
             double lostToTheSea = 0.0;
             if (atSea)

@@ -36613,17 +36613,17 @@
    "id": "sea.swell.long",
    "open": true,
    "urgency": "pressing",
-   "holds_ship": true,
-   "patience_hours": 6,
+   "holds_ship": false,
+   "patience_hours": 2,
    "default": {
-    "index": 2,
-    "key": "hold",
-    "label": "Hold on under full sail while the wind serves (doubtful)"
+    "index": 0,
+    "key": "reef",
+    "label": "Shorten sail now and stow for weather (sure)"
    },
-   "default_why": "Freeze, and she holds on under full sail into the weather.",
+   "default_why": "8 Oct: with real dice the crew do the safe thing when nobody answers. They shorten sail and stow; she is not held meanwhile, for the warning is time to use.",
    "fallbacks": [
     1,
-    0
+    2
    ],
    "speaker": "doccinga.aldger",
    "speaker_name": "Aldger",
@@ -36643,14 +36643,14 @@
    "holds_ship": true,
    "patience_hours": 1,
    "default": {
-    "index": 2,
-    "key": "full",
-    "label": "Carry full sail and run for it (doubtful)"
+    "index": 0,
+    "key": "lie",
+    "label": "Strike the sail and hold her head to it under oars (sure)"
    },
-   "default_why": "Freeze, and the gale finds her with the sail up.",
+   "default_why": "8 Oct: with real dice the crew do the safe thing when nobody answers. The sail is struck and she lies to, as every other ship does.",
    "fallbacks": [
-    0,
-    1
+    1,
+    2
    ],
    "speaker": "doccinga.aldger",
    "speaker_name": "Aldger",
@@ -37640,14 +37640,14 @@
    "holds_ship": true,
    "patience_hours": 3,
    "default": {
-    "index": 2,
-    "key": "run",
-    "label": "All hands bail by turns, and run for port (doubtful)"
+    "index": 0,
+    "key": "beach",
+    "label": "Beach her on the first sand and get at it from outside (sure)"
    },
-   "default_why": "No order to beach her or heel her: all hands bail.",
+   "default_why": "8 Oct: with real dice the crew do the safe thing when nobody answers. She is beached and the lap got at from outside.",
    "fallbacks": [
     1,
-    0
+    2
    ],
    "speaker": "doccinga.aldger",
    "speaker_name": "Aldger",
@@ -37694,14 +37694,14 @@
    "holds_ship": true,
    "patience_hours": 1,
    "default": {
-    "index": 2,
-    "key": "run",
-    "label": "Run on under what is left of it (doubtful)"
+    "index": 0,
+    "key": "sew",
+    "label": "Get it down, hold her head to the sea, and sew (sure)"
    },
-   "default_why": "Freeze, and she runs on under what is left.",
+   "default_why": "8 Oct: with real dice the crew do the safe thing when nobody answers. The sail comes down and is sewn.",
    "fallbacks": [
-    0,
-    1
+    1,
+    2
    ],
    "speaker": "gyrwe.beornwine",
    "speaker_name": "Beornwine",

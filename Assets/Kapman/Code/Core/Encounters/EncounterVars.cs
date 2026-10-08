@@ -18,6 +18,9 @@ namespace Kapman.Encounters
         public Func<string, double> numSource;
         /// <summary>The live game's answer for a text not in the table (null: "").</summary>
         public Func<string, string> textSource;
+        /// <summary>The live game's answer for a flag it keeps itself (the boat's hurts, the men's shares); null from it,
+        /// or no source: the deck's own memory answers.</summary>
+        public Func<string, double?> flagSource;
 
         public EncounterState state;
         public NpcRegistry npcs;
@@ -34,7 +37,11 @@ namespace Kapman.Encounters
             if (string.IsNullOrEmpty(name))
                 return 0.0;
             if (name.StartsWith("flag.", StringComparison.Ordinal))
-                return state != null ? state.Flag(name.Substring(5), day) : 0.0;
+            {
+                string flag = name.Substring(5);
+                double? live = flagSource != null ? flagSource(flag) : null;
+                return live ?? (state != null ? state.Flag(flag, day) : 0.0);
+            }
             if (name == "port.visits")
                 return state != null ? state.VisitsBefore(port) : 0.0;
             if (name == "port.best_feeling")

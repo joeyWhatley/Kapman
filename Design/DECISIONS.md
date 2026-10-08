@@ -1140,4 +1140,55 @@ and far fewer when usage is short).
    above all); the tiled layouts of columns and tabs, which only the tests can reach. Of page_and_strings.md:
    parts 3 to 6 (line length, a text-size setting, the chest, captives), modern measures (km, kg, knots, m/s),
    and the talk's keys offered as questions.
+114. **THE BOAT CAN BE HURT AND LOST LIKE ANY OTHER, BUILT** (the road's step 3, the alpha's row 4; the plan and
+   its drafts are Design/fixes/risk_is_real.md, written 7 Oct, compiled and its 22 tests run outside Unity, and
+   now run in it: all pass).
+   - ONE BOAT (Voyage/Boat.cs). She has a hull (sound, working, a strake started, opening, going), water in her,
+     a sail (whole, a seam gone, split) set all of it, shortened or down, an order for a gale (lie to, run
+     shortened, carry sail), men who grow weary, and whether they sail on shares. Saved with the game.
+   - EACH GAME HOUR (BoatWatch) the weather where she is and for twelve hours ahead is read from the world's own
+     model: the hull works in a gale, water comes in by the laps and over the gunwale and the men bail it, the men
+     tire or rest, a weak sail may split.
+   - THE SAME DICE as every other ship (GaleDice), times the state she is in: 1 for a sound boat lying to with a
+     full crew; more for running (2.5), carrying sail (8), a started strake (2), an opened hull (5), water to
+     half her depth (2), weary men, a short crew; less lashed down, and a tenth on a river.
+   - WARNED FIRST. Three signs: the swell twelve hours off, the sky six, white water within the hour. Each is
+     told in the log and drops the clock (two new reasons with their switches); the second and third bring the
+     swell's card and the gale's card. No dice are thrown in a gale she had no sign of, nor in hours the clock
+     was jumped over.
+   - WOUNDED BEFORE SHE IS LOST. The first sea that strikes starts a strake; the next takes the sail; the third,
+     the boat. She is also lost if her strakes open altogether or she fills.
+   - LOST IS THE END (the user, 2 Oct): the last page says how, with the last of the log; the clock stands; no
+     save is taken; "Load the last saved game" brings her back, or "To the title".
+   - THE CARDS ARE THE BOAT. Nine of the deck's flags (the leak, the weak sail, the reef, the lashing, the spar,
+     after a gale, shares, bundles, tar) are read from her and written to her; the deck keeps no second copy. A
+     new verb "boat ..." and the names gale, gale_in, boat.hull, boat.water, boat.weary, boat.sail. 18 lines of
+     eight sea and crew cards were changed as the plan lists (7.2): the gale card's three choices ARE the order.
+   - HER SPEED is the world's ships' own rule through her sail, her water and her men. The hard pull at the oars
+     (item 110) goes through her water and her men too. The men tire little under sail, a little more at their
+     own stroke in a calm, and much at the hard pull or holding her head to a gale; a mooring rests them.
+   - SHARES: half the wage each day and a tenth of the season's gain at Martinmas (the plan's 12.2, as drafted).
+   - THE SHIP WINDOW shows her as she is, takes the orders at sea (the sail, the order for a gale, run for the
+     nearest port), and made fast gives a yard's work on her seams (8 to 28 d) and her sail (3 or 12 d). THE CREW
+     WINDOW shows weariness, who bails, and what they are paid by.
+   FOUND AND MENDED WHILE TESTING IT IN THE GAME:
+   - the draft refused a lost boat both the save AND the load, so "Load the last saved game" could never have
+     worked. A lost boat is not saved, and is loaded from (a test holds both);
+   - the Ship window was built again every game hour (the water in her moves each hour), which at the fast
+     speeds loses the click. It is built only when its lines change; what they say changes in place;
+   - a calm day at the men's own stroke wore them out (a third weary by evening). Their own stroke now tires
+     them little; the hard pull and holding her head to a gale tire them much;
+   - while the opening's sail is still to mend, the Ship window says "tattered" (it said "whole").
+   DECIDED BY ME, the user's to overrule (the plan's part 12):
+   - what four pressing cards take when nobody answers is now the SAFE thing (shorten and stow; lie to; beach
+     her; sew the sail), since a gale now costs more than time. The swell's card no longer holds her where she
+     is and waits two hours, not six: the warning is time to use;
+   - how she would fare in a gale is said as a WORD ("she would ride it" ... "she would not live long in it"),
+     never as "1 in 350": the cards show odds as words, by the user's own rule;
+   - the other ships still die on the first hit and do not wear (not changed);
+   - the table's chance for the whole fleet is left as it was.
+   NOT DONE: the brief faces; the 3D view does not show a shortened or split sail; the written ends of the gale
+   card still tell the whole gale at once ("it has blown itself out") though the gale now plays hour by hour:
+   the user's to rewrite; "crew.pay.martinmas" still pays its fixed sums beside the real tenth; she cannot take
+   the ground on the chart, so no grounding hurts her yet. THE NUMBERS ARE FIRST GUESSES (boat_rules.json).
 

@@ -32,6 +32,7 @@ namespace Kapman.Game
                 return;
             vars.numSource = name => Num(name, GameData.Port(portNow != null ? portNow() : null));
             vars.textSource = name => Text(name, GameData.Port(portNow != null ? portNow() : null));
+            vars.flagSource = name => Boat.FlagView(name, Today);          // (the boat's flags are the boat: Voyage/Boat.cs)
         }
 
         static double Today => KapmanGame.Current != null ? KapmanGame.Current.Day : 0.0;
@@ -79,6 +80,16 @@ namespace Kapman.Game
                     return Voyage.Morale;
                 case "days_at_sea":
                     return Voyage.DaysAtSea;
+                case "gale":
+                    return Boat.InGale ? 1.0 : 0.0;
+                case "gale_in":
+                    return double.IsInfinity(Boat.GaleIn) || double.IsNaN(Boat.GaleIn) ? 99.0 : Boat.GaleIn;
+                case "boat.hull":
+                    return Boat.Hull;
+                case "boat.water":
+                    return Boat.Water;
+                case "boat.weary":
+                    return Boat.Weary;
                 case "year":
                     return game != null ? game.Year : 793;
                 case "month":
@@ -156,6 +167,8 @@ namespace Kapman.Game
                     return port != null ? port.kind ?? "" : "";
                 case "port.realm":
                     return port != null ? port.realm ?? "" : "";
+                case "boat.sail":
+                    return Boat.Cloth == SailCloth.Whole ? "whole" : Boat.Cloth == SailCloth.Weak ? "weak" : "split";
                 case "me.people":
                     return Self.People;
                 case "me.faith":

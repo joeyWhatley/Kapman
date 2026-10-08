@@ -1336,8 +1336,14 @@ namespace Kapman.Tests
                 yield return AnswerAll(play, said);
                 yield return play.Shot("41c_the_squall_answered_itself");
                 before = Where(game);
+                double squallOver = clock.GameHours;
                 yield return Frames(60);
-                Assert.Greater(WorldXZ.Distance(Where(game), before), 200.0, "she did not sail on after the squall's card answered itself");
+                Assert.Greater(WorldXZ.Distance(Where(game), before), 200.0, "she did not sail on after the squall's card answered itself: " +
+                    $"anchored {game.ship.anchored}, sheltering {ChartBody.Current.Sheltering}, {ChartBody.Current.Knots:0.00} knots, wind {ChartBody.Current.Wind:0.0} m/s; " +
+                    $"the boat: lying to {Boat.LyingTo}, lost {Boat.IsLost}, weary {Boat.Weary:0.00}, oars {Boat.OarFactor:0.00}, water {Boat.WaterFactor:0.00}, sail {Boat.EffectiveSet} {Boat.Cloth}; " +
+                    $"course {Course.IsSet}, held {EncounterRunner.ShipHeld}, aground {Aground.Stage}, tide wait {TideWait.On}, paused {GameSpeed.Paused}, " +
+                    $"the clock ran {clock.GameHours - squallOver:0.00} h, windows up: {string.Join(", ", frame.FloatIds)}; the log: " +
+                    string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 4)).Select(l => l.text)));
 
                 // ---- 1c. THE OARS (the alpha's row 3; the road's step 2). The order stands beside her course in the
                 // Voyage window. Out, the sail is down and she makes her speed under oars whatever the wind, and the
@@ -1359,11 +1365,15 @@ namespace Kapman.Tests
                     yield return null;
                     if (play.FrontFloat() != null)
                         yield return Answer(play, said);                   // (a card that came meanwhile would hold the clock)
-                    // (dead into the wind she loses most: between that and her full speed under oars, once she has her way)
-                    lowKnots = herClass.oarsKn * (1.0 - 0.5 * Mathf.Min(1f, hull.Wind / 17f)) - 0.15;
+                    // (dead into the wind she loses most: between that and her full speed under oars, once she has her way;
+                    // and both through what her men and the water in her leave of it: the road's step 3)
+                    double leaves = Boat.OarFactor * Boat.WaterFactor;
+                    lowKnots = herClass.oarsKn * (1.0 - 0.5 * Mathf.Min(1f, hull.Wind / 17f)) * leaves - 0.15;
+                    highKnots = herClass.oarsKn * leaves + 0.05;
                     rowsAsSheShould = clock.GameHours - rowedFrom > 3.0 / 60.0 && hull.Knots >= lowKnots && hull.Knots <= highKnots;
                 }
-                Assert.IsTrue(rowsAsSheShould, $"under oars she should make between {lowKnots:0.0} and {highKnots:0.0} knots: she makes {hull.Knots:0.0} (wind {hull.Wind:0.0} m/s from {hull.WindFrom:0})");
+                Assert.IsTrue(rowsAsSheShould, $"under oars she should make between {lowKnots:0.0} and {highKnots:0.0} knots: she makes {hull.Knots:0.0} (wind {hull.Wind:0.0} m/s from {hull.WindFrom:0}); " +
+                              $"the boat: oars {Boat.OarFactor:0.00}, water {Boat.WaterFactor:0.00}, weary {Boat.Weary:0.00}, bailers {Boat.Bailers}, water {Boat.Water:0} l, hull {Boat.Hull:0.00}, men {Voyage.Men}");
                 Assert.Less(Oars.Left(herClass), herClass.rowingHours, "rowing takes nothing out of the men");
                 yield return Frames(20);
                 string voyageNow = ChartPlay.Read(Window(play, "Voyage"));
@@ -1624,6 +1634,83 @@ namespace Kapman.Tests
                 yield return AnswerAll(play, said);
                 yield return Frames(60);
                 Assert.Greater(WorldXZ.Distance(Where(game), before), 200.0, "at the end of it all she does not sail on");
+
+                // ---- 6. THE BOAT CAN BE HURT AND LOST (the alpha's row 4; the road's step 3; Design/fixes/risk_is_real.md).
+                // The Ship window shows her as she is and takes her orders. A sign of weather is told in the log. Filled,
+                // she is lost: the last page comes, the clock stands and no save is taken; the last saved game brings
+                // her back. (The weather and the wound are handed to her by the test: the sea does it hour by hour.)
+                Assert.IsFalse(Boat.IsLost, "she is lost on a quiet passage");
+                Assert.GreaterOrEqual(Boat.Hull, 0.9, "her hull is hurt on a quiet passage: " + Boat.HullWord);
+                frame.Show("ship");
+                yield return ChartPlay.Until(() => Window(play, "Ship") != null && play.Button("Shorten", Window(play, "Ship")) != null, 8f);
+                Assert.IsNotNull(play.Button("Shorten", Window(play, "Ship")), "the Ship window has no order for the sail: " + ChartPlay.Short(ChartPlay.Read(Window(play, "Ship"))));
+                string shipNow = ChartPlay.Read(Window(play, "Ship"));
+                StringAssert.Contains("As she is", shipNow);
+                StringAssert.Contains("A night of gale, as she is", shipNow);
+                Assert.IsTrue(new[] { "she would ride it", "she would be pressed", "she would be in danger", "she would not live long in it" }.Any(shipNow.Contains),
+                              "the Ship window does not say how she would fare in a gale: " + ChartPlay.Short(shipNow));
+                Debug.Log("Chart test (sea): the Ship window: " + ChartPlay.Short(shipNow));
+                yield return play.Shot("51_the_ship_as_she_is");
+                // (the window is not built again while nothing in it changes: hours of the game pass in these frames, the
+                // water in her moves, and a click on a window built again under the pointer would be lost)
+                var shortenSail = play.Button("Shorten", Window(play, "Ship"));
+                yield return Frames(30);
+                Assert.IsNotNull(shortenSail.panel, "the Ship window was built again while the clock ran: a click on it would be lost");
+                yield return play.ClickWhen(() => play.Button("Shorten", Window(play, "Ship")), "Shorten, in the Ship window");
+                yield return Frames(10);
+                Assert.AreEqual(SailSet.Reefed, Boat.EffectiveSet, "the sail was not shortened");
+                yield return play.ClickWhen(() => play.Button("Carry sail", Window(play, "Ship")), "Carry sail, in the Ship window");
+                yield return Frames(10);
+                Assert.AreEqual(GaleOrder.CarrySail, Boat.Order, "the order for a gale was not taken");
+                yield return play.ClickWhen(() => play.Button("Lie to", Window(play, "Ship")), "Lie to, in the Ship window");
+                yield return play.ClickWhen(() => play.Button("All of it", Window(play, "Ship")), "All of it, in the Ship window");
+                yield return Frames(10);
+                Assert.AreEqual(GaleOrder.LieTo, Boat.Order);
+                Assert.AreEqual(SailSet.Full, Boat.EffectiveSet);
+                Assert.IsTrue(play.Button("Lie to", Window(play, "Ship")).ClassListContains("on"), "the order that stands is not shown pressed in");
+                Assert.IsFalse(play.Button("Carry sail", Window(play, "Ship")).ClassListContains("on"));
+                yield return play.Shot("51b_her_orders");
+                // a sign of weather: the men read the swell, and the log says so
+                int signLog = FrameLog.Lines.Count;
+                long boatHour = (long)System.Math.Floor(game.Hours);
+                var hourAtSea = new BoatHour
+                {
+                    hour = boatHour, wind = 6.0, offWind = 150.0, underWay = true, galeIn = 10.0, men = Voyage.Men, hands = 4,
+                    length = 7.7, beam = 1.5, fragility = 0.6, lossPerHour = 0.0004, seed = 793,
+                };
+                Boat.Hour(hourAtSea);
+                Assert.AreEqual(1, Boat.Sign, "a gale ten hours off is the first sign");
+                yield return Frames(5);
+                Assert.IsTrue(FrameLog.Lines.Skip(signLog).Any(l => l.text.StartsWith("A long swell")),
+                              "the first sign of weather is not told in the log: " + string.Join(" / ", FrameLog.Lines.Skip(signLog).Select(l => l.text)));
+                yield return AnswerAll(play, said);
+                // a save first: the last saved game is what a loss leaves her
+                StringAssert.StartsWith("Saved", SaveGame.Save("quick"), "she could not be saved at sea with nothing holding her");
+                Boat.HullBy(-1.0);                                        // (her strakes open: the sea does it wound by wound)
+                hourAtSea.hour = boatHour + 1;
+                hourAtSea.galeIn = double.PositiveInfinity;
+                Boat.Hour(hourAtSea);
+                Assert.IsTrue(Boat.IsLost, "with her strakes open, she swims");
+                yield return ChartPlay.Until(() => frame.FloatOpen(FrameRoot.LostId), 8f);
+                Assert.IsTrue(frame.FloatOpen(FrameRoot.LostId), "she is lost and the last page did not come");
+                yield return Frames(10);
+                Assert.AreEqual("She is lost", Title(play.FrontFloat()));
+                string lastPage = ChartPlay.Read(play.FrontFloat());
+                StringAssert.Contains("Her strakes opened and she went down under them.", lastPage, "the last page does not say how she was lost");
+                Assert.IsTrue(GameSpeed.Paused, "she is lost and the clock runs on");
+                StringAssert.StartsWith("She is lost", SaveGame.Save("quick"), "a lost boat was saved over the game from before");
+                yield return play.Shot("52_she_is_lost");
+                var lostWays = play.Choices(play.FrontFloat());
+                Assert.AreEqual(2, lostWays.Count, "the last page has two ways on: the last saved game, or the title");
+                Assert.IsTrue(lostWays[0].can, "a game was saved and the last page will not load it");
+                yield return play.Click(lostWays[0].button, "Load the last saved game");
+                yield return ChartPlay.Until(() => !Boat.IsLost && !frame.FloatOpen(FrameRoot.LostId), 20f);
+                Assert.IsFalse(Boat.IsLost, "the last saved game did not bring her back");
+                Assert.IsFalse(frame.FloatOpen(FrameRoot.LostId), "she swims again and the last page still stands");
+                Assert.IsFalse(GameSpeed.HeldFor("lost"), "she swims again and the clock is still held for her loss");
+                yield return Frames(20);
+                yield return AnswerAll(play, said);
+                yield return play.Shot("53_and_back_from_the_last_save");
                 Debug.Log($"Chart test (sea): done at {clock.Text}; answered: {string.Join("; ", said)}");
                 NoFaults(play);
             }

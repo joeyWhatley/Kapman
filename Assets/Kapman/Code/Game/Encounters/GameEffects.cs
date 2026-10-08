@@ -293,6 +293,50 @@ namespace Kapman.Game
 
         public string Learn(string what, double amount) => null;          // (reading lessons from a card: to come)
 
+        // ------------------------------------------------------------------ the boat (Voyage/Boat.cs)
+
+        /// <summary>A card set a flag: the boat takes the ones that are hers (the leak, the sail, the reef, the lashing,
+        /// the spar, the shares, the bundles, the tar), and the deck keeps no second copy.</summary>
+        public bool Flagged(string name, double value, double days) => Boat.FlagSet(name, value, days, Today, BoatWatch.Worth());
+
+        /// <summary>A card's order to the boat; what it did as a plain fact (placeholder wording).</summary>
+        public string BoatOrder(string what, string word, double n)
+        {
+            switch (what)
+            {
+                case "hull":
+                    Boat.HullBy(n);
+                    return n < 0.0 ? "The hull is hurt: " + Boat.HullWord + "." : "The hull is the better for it: " + Boat.HullWord + ".";
+                case "water":
+                    Boat.WaterBy(n);
+                    return n > 0.0 ? "Water comes aboard." : null;
+                case "weary":
+                    Boat.WearyBy(n);
+                    return n > 0.0 ? "The men are the wearier for it." : "The men are rested.";
+                case "lie_to":
+                    Boat.LieTo(n);
+                    return n > 0.0 ? $"She lies to for {n.ToString("0.#", CultureInfo.InvariantCulture)} hours." : null;
+                case "sail":
+                    Boat.SetCloth(word == "split" ? SailCloth.Split : word == "weak" ? SailCloth.Weak : SailCloth.Whole);
+                    return "The sail: " + Boat.ClothWord + ".";
+                case "set":
+                    Boat.SetSail(word == "down" ? SailSet.Down : word == "reefed" ? SailSet.Reefed : SailSet.Full);
+                    return "The sail is set: " + Boat.SetWord + ".";
+                case "order":
+                    Boat.SetOrder(word == "carry" ? GaleOrder.CarrySail : word == "reefed" ? GaleOrder.RunReefed : GaleOrder.LieTo);
+                    return "The order for the gale: " + Boat.OrderWord + ".";
+                case "shares":
+                    Boat.Shares(word == "on", BoatWatch.Worth());
+                    return word == "on" ? "The men sail on shares from today." : "The men are back on the wage.";
+                case "tar":
+                    Boat.Tar(Today);
+                    return "She is tarred and tight.";
+                case "shelter":
+                    return BoatWatch.RunForShelter();
+            }
+            return null;
+        }
+
         // ------------------------------------------------------------------ marks on the stats
 
         /// <summary>

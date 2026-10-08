@@ -254,21 +254,25 @@
   },
   "sea.swell.long": {
    "urgency": "pressing",
-   "patience_hours": 6,
-   "holds_ship": true,
-   "default": "hold",
-   "why": "Freeze, and she holds on under full sail into the weather."
+   "patience_hours": 2,
+   "holds_ship": false,
+   "default": "reef",
+   "fallbacks": [
+    "lee",
+    "hold"
+   ],
+   "why": "8 Oct: with real dice the crew do the safe thing when nobody answers. They shorten sail and stow; she is not held meanwhile, for the warning is time to use."
   },
   "sea.gale.breaks": {
    "urgency": "pressing",
    "patience_hours": 1,
    "holds_ship": true,
-   "default": "full",
+   "default": "lie",
    "fallbacks": [
-    "lie",
-    "run"
+    "run",
+    "full"
    ],
-   "why": "Freeze, and the gale finds her with the sail up."
+   "why": "8 Oct: with real dice the crew do the safe thing when nobody answers. The sail is struck and she lies to, as every other ship does."
   },
   "sea.squall.line": {
    "urgency": "pressing",
@@ -359,12 +363,12 @@
    "urgency": "pressing",
    "patience_hours": 3,
    "holds_ship": true,
-   "default": "run",
+   "default": "beach",
    "fallbacks": [
     "heel",
-    "beach"
+    "run"
    ],
-   "why": "No order to beach her or heel her: all hands bail."
+   "why": "8 Oct: with real dice the crew do the safe thing when nobody answers. She is beached and the lap got at from outside."
   },
   "sea.sail.seam": {
    "default": "leave",
@@ -374,8 +378,12 @@
    "urgency": "pressing",
    "patience_hours": 1,
    "holds_ship": true,
-   "default": "run",
-   "why": "Freeze, and she runs on under what is left."
+   "default": "sew",
+   "fallbacks": [
+    "spar",
+    "run"
+   ],
+   "why": "8 Oct: with real dice the crew do the safe thing when nobody answers. The sail comes down and is sewn."
   },
   "sea.cargo.shifts": {
    "urgency": "pressing",

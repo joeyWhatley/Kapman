@@ -2016,7 +2016,7 @@
     { "key": "go", "label_key": "crew.council.wind.go", "label": "Go now", "check": "true",
       "effects": [ "npc lookout feeling +2 heard", "npc steersman feeling -3 overruled" ] },
     { "key": "wait", "label_key": "crew.council.wind.wait", "label": "Wait a tide", "check": "true",
-      "effects": [ "npc steersman feeling +3 heard", "npc lookout feeling -1 overruled", "morale -0.01" ] },
+      "effects": [ "npc steersman feeling +3 heard", "npc lookout feeling -1 overruled", "morale -0.01", "boat lie_to 6" ] },
     { "key": "aside", "label_key": "crew.council.wind.aside", "label": "Take the steersman aside and ask what he sees coming", "check": "npc.steersman.feeling >= friendly",
       "effects": [ "npc steersman feeling +2 asked" ] }
    ],

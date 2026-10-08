@@ -49,6 +49,11 @@ namespace Kapman.Encounters
         string Learn(string what, double amount);
         /// <summary>A tongue learned aboard, to a level (0.5: understood in part).</summary>
         string Tongue(string name, double level);
+        /// <summary>A card set a flag. True when the live game keeps that thing itself (the boat's hurts, the men's
+        /// shares: Kapman.Game.Boat) and has taken it: the deck then keeps no flag of its own for it.</summary>
+        bool Flagged(string name, double value, double days) => false;
+        /// <summary>An order to the boat from a card ("boat sail split", "boat lie_to 6"): what, a word or a number.</summary>
+        string BoatOrder(string what, string word, double n) => null;
         /// <summary>A mark put on one of the five stats: its size (+1, -1, rarely 2), its name, and its end: so many
         /// days, or until a flag is set ("" for none).</summary>
         string Mark(string stat, double size, string id, double days, string untilFlag);

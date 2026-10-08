@@ -29,7 +29,10 @@ namespace Kapman.Game
 
         public IReadOnlyList<Lot> Lots => lots;
         public float Used => lots.Sum(l => l.count * l.good.Space);
-        public float Free => Math.Max(0f, capacity - Used);
+        /// <summary>Room taken by what is not cargo (kg): the water in her, the men's own bundles (Voyage/Boat.cs sets
+        /// it each hour; not saved, it is the boat's).</summary>
+        public float taken;
+        public float Free => Math.Max(0f, capacity - taken - Used);
         public float Weight => lots.Sum(l => l.count * l.good.kg);
 
         public int Count(string good) => lots.Where(l => l.good.id == good).Sum(l => l.count);

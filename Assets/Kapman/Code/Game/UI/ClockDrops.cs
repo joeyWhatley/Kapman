@@ -33,6 +33,10 @@ namespace Kapman.Game
         OrderNear,
         /// <summary>An order she has taken has a day left, with some of it still to bring.</summary>
         OrderDay,
+        /// <summary>The men read a gale in the swell, half a day off or less.</summary>
+        WeatherFar,
+        /// <summary>The sky says it will blow hard before the watch is out; or it is on her within the hour.</summary>
+        WeatherNear,
     }
 
     /// <summary>The switches for the clock's own drops (kept on this machine, not in the saved game).</summary>
@@ -93,6 +97,7 @@ namespace Kapman.Game
                 case ClockReason.BreadLow:
                 case ClockReason.DebtNear:
                 case ClockReason.OrderNear:
+                case ClockReason.WeatherFar:
                     return 1;
                 default:
                     return 0;
@@ -117,6 +122,8 @@ namespace Kapman.Game
                 case ClockReason.Talk: return "talking";
                 case ClockReason.OrderNear: return "an order, in a week";
                 case ClockReason.OrderDay: return "an order's last day";
+                case ClockReason.WeatherFar: return "weather coming";
+                case ClockReason.WeatherNear: return "a gale near";
                 default: return "";
             }
         }
@@ -139,6 +146,8 @@ namespace Kapman.Game
                 case ClockReason.Talk: return "Talking with someone, or reading in the chest: slow to speed 1";
                 case ClockReason.OrderNear: return "A week before the day of an order you have taken: slow to speed 2";
                 case ClockReason.OrderDay: return "The last day of an order you have taken: slow to speed 1";
+                case ClockReason.WeatherFar: return "A swell that says weather is coming: slow to speed 2";
+                case ClockReason.WeatherNear: return "A gale within the watch, or within the hour: slow to speed 1";
                 default: return why.ToString();
             }
         }

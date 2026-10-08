@@ -162,15 +162,18 @@ namespace Kapman.Game
                     float course = Mathf.Repeat(want, 360f);
                     // (THE OARS OUT by the player's order: the sail is down and the men row hard, whatever the wind.
                     // Else as she has always gone: the sail, or the easy stroke where it gives less: Travel.Speed)
+                    // (8 Oct: and her speed is the world's ships' own rule through the boat she truly is: her sail, the
+                    // water in her, her men, and her order for a gale. Voyage/Boat.cs. Lost, or lying to by a card, she
+                    // makes no way under oars either.)
                     double made = cls == null ? fallbackKnots * 0.5144
-                                : Oars.Out ? Oars.Speed(cls, course, WindFrom, Wind, out lying)
-                                           : Travel.Speed(cls, course, WindFrom, Wind, out lying);
+                                : Oars.Out && !Boat.IsLost && !Boat.LyingTo ? Oars.Speed(cls, course, WindFrom, Wind, out lying) * Boat.OarFactor * Boat.WaterFactor
+                                                                            : Boat.Speed(cls, course, WindFrom, Wind, out lying);
                     Sheltering = lying;
                     rowing = Oars.Out && cls != null && !lying;
                     // the last stretch in: she comes in slowly (the ports' graphs take her as arrived under 1.5)
                     target = (float)made * (Mathf.Abs(delta) > 70f ? 0.35f : 1f) * (through ? 1f : Mathf.Clamp01(dist / Mathf.Max(1f, slowWithin) + 0.2f));
                     if (lying)
-                        motion.Say("A gale: she lies to.");
+                        motion.Say(Boat.IsLost ? "She is lost." : Wind > GaleDice.GaleWind ? "A gale: she lies to." : "She lies to.");
                 }
             }
             else

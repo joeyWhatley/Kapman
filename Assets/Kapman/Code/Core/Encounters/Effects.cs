@@ -152,7 +152,10 @@ namespace Kapman.Encounters
                           : toll == TollMode.Eased ? $"Half the toll on your sales here for {Days(days)}."
                           : "The toll is taken on what you sell here.");
                     break;
+                case "boat": ctx.Say(g?.BoatOrder(a, b, n)); break;
                 case "flag":
+                    if (b != "add" && g != null && g.Flagged(a, n, days))
+                        break;                                             // (the boat's own: kept in the simulation, not in the deck)
                     if (b == "add")
                         ctx.state?.AddFlag(a, n, ctx.day);                   // "flag <name> +n": a count; a lapsing flag keeps its day
                     else
@@ -217,7 +220,16 @@ namespace Kapman.Encounters
         {
             "silver", "goods", "health", "morale", "men", "toll", "deed", "npc", "flag", "schedule", "news", "price_shock",
             "commission", "give_text", "give_riddle", "open_fetch", "hire", "pay_off", "passenger", "encounter", "law", "learn",
-            "tongue", "mark", "unmark", "stat",
+            "tongue", "mark", "unmark", "stat", "boat",
+        };
+
+        /// <summary>The boat's orders: those that take a number, and those that take one of these words (none: no word).</summary>
+        static readonly string[] BoatNumbers = { "hull", "water", "weary", "lie_to" };
+        static readonly Dictionary<string, string[]> BoatWords = new Dictionary<string, string[]>
+        {
+            ["sail"] = new[] { "whole", "weak", "split" }, ["set"] = new[] { "full", "reefed", "down" },
+            ["order"] = new[] { "lie_to", "reefed", "carry" }, ["shares"] = new[] { "on", "off" },
+            ["tar"] = new string[0], ["shelter"] = new string[0],
         };
 
         /// <summary>The five stats a mark may lie on (the game's Self.StatIds; kept here too so that a card with a stat
@@ -512,6 +524,23 @@ namespace Kapman.Encounters
                         return e;
                     }
                     why = "'learn' is 'learn latin|runes +f'";
+                    return null;
+                case "boat":
+                    // boat hull|water|weary|lie_to <n>  |  boat sail|set|order|shares <word>  |  boat tar  |  boat shelter
+                    if (argc == 2 && Array.IndexOf(BoatNumbers, t[1]) >= 0 && Number(t[2], out e.n))
+                    {
+                        e.a = t[1];
+                        return e;
+                    }
+                    if (argc >= 1 && BoatWords.TryGetValue(t[1], out var words)
+                        && (words.Length == 0 ? argc == 1 : argc == 2 && Array.IndexOf(words, t[2]) >= 0))
+                    {
+                        e.a = t[1];
+                        e.b = argc == 2 ? t[2] : "";
+                        return e;
+                    }
+                    why = "'boat' is 'boat hull|water|weary|lie_to <n>', 'boat sail whole|weak|split', 'boat set full|reefed|down', " +
+                          "'boat order lie_to|reefed|carry', 'boat shares on|off', 'boat tar' or 'boat shelter'";
                     return null;
                 case "tongue":
                     if (argc == 3 && t[2] == "=" && Number(t[3], out e.n) && e.n >= 0.0 && e.n <= 1.0)

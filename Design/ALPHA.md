@@ -136,4 +136,7 @@ the crew as people (Ravn's own poor stats) waits for the crew system; the hold's
   where she lies, by one of the port's own people.
 - Row 17 (the first hour): BUILT as far as it is mine (DECISIONS 113): a first order with a day, and a clean
   screen held by the tests. A screen of 720 lines is still tight.
+- Row 4 (the boat can be hurt and lost): BUILT (DECISIONS 114). Hull, water, sail, the order for a gale, weary
+  men; warned by three signs; the same dice as the other ships; wounded before she is lost; the last page and the
+  way back to a save.
 
