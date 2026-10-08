@@ -60,14 +60,14 @@ namespace Kapman.Game.Frame
             body.Add(FrameUi.Ln("Wind", lies ?? "No course is set to judge it by.", FrameUi.Num($"{air.windSpeed:0} m/s")));
             var body2 = ChartBody.Current;
             if (body2 != null && KapmanGame.Current != null && KapmanGame.Current.ship != null && !KapmanGame.Current.ship.anchored)
-                body.Add(FrameUi.Ln("She makes", body2.Sheltering ? "Lying to in the gale." : null, FrameUi.Num($"{body2.Knots:0.0} knots")));
+                body.Add(FrameUi.Ln("She makes", body2.Sheltering ? (body2.Wind > Kapman.Game.Sim.GaleDice.GaleWind ? "Lying to in the gale." : "Lying to.") : null,
+                                    FrameUi.Num($"{body2.Knots:0.0} knots")));
             body.Add(FrameUi.Ln("Sky", null, FrameUi.Tag(air.storm > 0.5f ? "a storm" : air.fog > 0.6f ? "fog" : air.fog > 0.3f ? "mist" : air.rain > 2f ? "rain" : air.rain > 0.3f ? "showers" : "clear enough")));
             if (clock != null)
                 body.Add(FrameUi.Ln("The day", LevelClock.Night > 0.5f ? "Dark: a coasting craft lies up." : null, FrameUi.Tag(FrameUi.PartOfDay(clock.HourOfDay))));
+            // (where no tide is known nothing is said of it: the page does not say what the game lacks)
             if (VoyageTide.Known)
                 body.Add(FrameUi.Ln("Tide", null, FrameUi.Tag(VoyageTide.Rising ? "making" : "ebbing")));
-            else
-                body.Add(FrameUi.P("No tide is reckoned on the chart yet."));
         }
 
         static string Cap(string s) => string.IsNullOrEmpty(s) ? "" : char.ToUpperInvariant(s[0]) + s.Substring(1);

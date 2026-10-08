@@ -24,7 +24,7 @@ namespace Kapman.Game
         public double strakeHull = 0.55, patchHull = 0.75, strikeHull = 0.3, tarLastsDays = 300.0;
         // water: litres an hour in, and what the men lift out
         public double soundLeak = 2.0, openLeak = 6000.0, workFromWind = 8.0;
-        public double freshSeas = 60.0, seasLieTo = 300.0, seasReefed = 1200.0, seasCarry = 4000.0, freshWind = 13.0;
+        public double freshSeas = 60.0, seasLieTo = 300.0, seasReefed = 1200.0, seasCarry = 4000.0, freshWind = 13.0, scoopAnHour = 10.0;
         public double manBails = 1500.0, burstBails = 2400.0, oneManFrom = 100.0, twoMenFrom = 400.0, allHandsFrom = 1200.0;
         public double swampPerM2 = 180.0, spoilFrom = 400.0;
         // weariness, a share an hour
@@ -216,6 +216,8 @@ namespace Kapman.Game
 
         /// <summary>What a yard asks to make her hull sound, and her sail whole (deniers; 0: nothing to do).</summary>
         public static double HullMendCost => Hull >= 0.999 ? 0.0 : Math.Round(R.hullMendBase + R.hullMendFull * (1.0 - Hull));
+        /// <summary>Her seams want a yard: she is no longer "sound" (a day's wear is not work for one).</summary>
+        public static bool WantsSeams => Hull < 0.9;
         public static double SailMendCost => Cloth == SailCloth.Whole ? 0.0 : Cloth == SailCloth.Weak ? R.sailSewn : R.sailNew;
 
         // ------------------------------------------------------------------ shares
@@ -421,6 +423,10 @@ namespace Kapman.Game
                     AllHands = true;
                 }
                 double lifted = AllHands ? men * R.burstBails * tired : Bailers * one;
+                // (a tight boat's weep is scooped out as it comes, by whoever sits nearest: no man is set to it, and she
+                // is dry. The play-through of 9 Oct 2026: left to stand, it took a hundred kg of her room every two days)
+                if (Bailers == 0 && !gale)
+                    lifted = Math.Min(after, R.scoopAnHour);
                 Water = Math.Max(0.0, Math.Min(Swamp, after - lifted));
                 if (before < R.spoilFrom && Water >= R.spoilFrom)
                     Tell(facts, "The water is over the floor timbers: the lowest of the cargo stands in it.");

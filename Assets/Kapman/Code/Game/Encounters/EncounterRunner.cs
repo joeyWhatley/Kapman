@@ -121,6 +121,24 @@ namespace Kapman.Game
             }
             if (key.StartsWith("port:", StringComparison.Ordinal))
                 return GameData.Port(key.Substring(5))?.name;
+            // ("units:frisian_cloth:4": "4 bolts of Frisian cloth")
+            if (key.StartsWith("units:", StringComparison.Ordinal))
+            {
+                var parts = key.Split(':');
+                var good = parts.Length == 3 ? GameData.Good(parts[1]) : null;
+                return good != null && int.TryParse(parts[2], out int n) && n > 0 ? Trade.UnitsNamed(good, n) : null;
+            }
+            // (why a choice is shut, where a card asks a thing of the boat by its flag)
+            if (key.StartsWith("why:", StringComparison.Ordinal))
+                switch (key.Substring(4))
+                {
+                    case "flag.sea_reefed": return "Only with the sail shortened.";
+                    case "flag.sea_lashed": return "Only with the cargo lashed down.";
+                    case "flag.sea_spar_aboard": return "Only with a spare spar aboard.";
+                    case "flag.crew_on_shares": return "Only when the men sail on shares.";
+                    case "flag.crew_own_bundles": return "Only when the men carry bundles of their own.";
+                    default: return null;
+                }
             if (key.StartsWith("role:", StringComparison.Ordinal))
                 return Book != null ? Book.roles.Role(key.Substring(5))?.title : null;
             if (key.StartsWith("level:", StringComparison.Ordinal))
@@ -242,9 +260,36 @@ namespace Kapman.Game
                 return;
             d.SetTime(game.Day, game.Year, game.Month, (long)Math.Floor(game.Hours));
             ChartLook(d, game, ship, gameSeconds);
+            LenderDay(d, game);
             // (the open card's waiting time is counted here, in the clock's own step: a card left unanswered takes its
             // own option in the same game minute at every speed. Nothing steps while the clock is held.)
             d.Wait(gameSeconds / 3600.0);
+        }
+
+        /// <summary>The lender's cards of the day: at home, and (a week on) wherever she lies.</summary>
+        public const string LenderDayHome = "harbour.wokerers_day.home", LenderDayAway = "harbour.wokerers_day.away";
+        int lenderAsked = int.MinValue;
+        long lenderLooked = long.MinValue;
+
+        /// <summary>
+        /// THE LENDER'S DAY COMES TO HER WHERE SHE LIES. His card is one that meets her as she moors; lying at home from
+        /// before Michaelmas she never moors on the day, and nobody came (the play-through of 9 Oct 2026: the day passed
+        /// with 1920 d owed and nothing was said). Made fast with the day come and the boat still owed for, his card is
+        /// asked for from first light, once a day, and looked for once an hour until it can come.
+        /// </summary>
+        void LenderDay(EncounterDirector d, KapmanGame game)
+        {
+            long hourNow = (long)Math.Floor(game.Hours);
+            int today = (int)Math.Floor(game.Day);
+            if (hourNow == lenderLooked || today == lenderAsked)
+                return;
+            lenderLooked = hourNow;
+            if (!d.InCall || d.Current != null || !Trade.Started || Trade.Debt <= 0.01 || Trade.DebtDaysLeft(game.Day) > 0.0)
+                return;
+            if (((game.Hours % 24.0) + 24.0) % 24.0 < 6.0)
+                return;
+            if (d.Offer(LenderDayHome) || d.Offer(LenderDayAway))
+                lenderAsked = today;
         }
 
         /// <summary>She has moored: the game saves itself (held if something is in the way). She has cast off: a save

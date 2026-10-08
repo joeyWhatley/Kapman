@@ -797,10 +797,11 @@ namespace Kapman.Game.Frame
                 silver.parent.tooltip = "Your silver, in deniers' worth: all your coin and cut silver together." +
                                         (here != null && FrameGame.Silver - buys > 0.5 ? $" At {here.name} it buys {buys:0} d's worth: coin of other lands and cut silver go at a loss." : "");
                 string owed = FrameGame.DebtLine();
-                debt.text = owed.Length > 0 ? owed : "nothing owed";
+                debt.text = DebtWords(owed);
                 debt.EnableInClassList("warn", game != null && Trade.Debt > 0.01 && Trade.DebtDaysLeft(game.Day) < 14.0);
                 string sunday = FrameGame.DebtDayWarning();
-                debt.parent.tooltip = "What you owe, and the day it falls due (" + FrameGame.DebtDay(true) + ")." + (sunday.Length > 0 ? " " + sunday : "");
+                debt.parent.tooltip = "What you owe, and the day it falls due (" + FrameGame.DebtDay(true) + ")." + (sunday.Length > 0 ? " " + sunday : "")
+                                      + (Trade.Working ? $" She works for {FrameGame.CreditorName()} until the stick is clean." : "");
             }
             if (Voyage.Started)
             {
@@ -906,9 +907,49 @@ namespace Kapman.Game.Frame
             var body = ChartBody.Current;
             string bound = Course.IsSet ? GameData.Port(Course.Destination)?.name : null;
             shipWhere.text = here != null ? "At " + here.name
-                           : body != null && body.Sheltering ? "Lying to in the gale"
+                           : body != null && body.Sheltering && body.Wind > Kapman.Game.Sim.GaleDice.GaleWind ? "Lying to in the gale"
                            : look.lying ? (river ? "Lying to on the river" : "Lying to")
                            : (river ? "On the river" : "At sea") + (bound != null ? ", bound for " + bound : "");
+        }
+
+        /// <summary>
+        /// The debt's words as long as the bar has room for: whole ("Owed 1920 d by Michaelmas: 146 days left"), or
+        /// without the day's name, which the tip and Errands say. (The play-through of 9 Oct 2026: on days whose date
+        /// is long, and in port where the bar carries a button more, the words were cut off at the bar's right end.)
+        /// The room is reckoned from the bar's two ends, so it does not turn on which words stand in the middle now.
+        /// </summary>
+        string DebtWords(string whole)
+        {
+            if (whole.Length == 0)
+                return "nothing owed";
+            string brief = FrameGame.DebtLineShort();
+            var figure = debt.parent;
+            var mid = figure != null ? figure.parent : null;
+            var bar = mid != null ? mid.parent : null;
+            if (bar == null || float.IsNaN(bar.contentRect.width) || bar.contentRect.width <= 0f)
+                return whole;
+            float room = bar.contentRect.width - mid.resolvedStyle.marginLeft - mid.resolvedStyle.marginRight
+                         - mid.resolvedStyle.paddingLeft - mid.resolvedStyle.paddingRight;
+            foreach (var end in bar.Children())
+                if (end != mid)
+                    room -= end.layout.width + end.resolvedStyle.marginLeft + end.resolvedStyle.marginRight;
+            float taken = figure.resolvedStyle.marginLeft + figure.resolvedStyle.marginRight + figure.resolvedStyle.paddingLeft
+                          + figure.resolvedStyle.paddingRight + figure.resolvedStyle.borderLeftWidth + figure.resolvedStyle.borderRightWidth;
+            foreach (var other in mid.Children())
+                if (other != figure)
+                    taken += other.layout.width + other.resolvedStyle.marginLeft + other.resolvedStyle.marginRight;
+            // (whole; else without the day's name; else the sum alone: with a long date, the small hours and a port's
+            // button more, "Owed 1920 d: 25 days left" was still cut, and "she works for the lender" far more)
+            string least = $"Owed {Trade.Debt:0} d";
+            foreach (string words in new[] { whole, brief })
+            {
+                if (words.Length == 0)
+                    continue;
+                float wide = debt.MeasureTextSize(words, 0f, VisualElement.MeasureMode.Undefined, 0f, VisualElement.MeasureMode.Undefined).x;
+                if (float.IsNaN(wide) || taken + wide + 6f <= room)
+                    return words;
+            }
+            return least;
         }
 
         // ------------------------------------------------------------------ the log

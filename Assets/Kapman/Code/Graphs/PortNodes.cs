@@ -25,13 +25,25 @@ namespace Kapman.Graphs
             inPort = ValueOutput<bool>(nameof(inPort), flow =>
             {
                 var p = Nearest(flow);
-                return p != null && p.Placed && p.DistanceTo(ShipPosition()) < p.arrivalRadius;
+                return p != null && p.Placed && p.DistanceTo(ShipPosition()) < p.arrivalRadius && !Passing(p);
             });
         }
 
         static Vector3 ShipPosition() => KapmanGame.Current != null ? KapmanGame.Current.ShipPosition : Vector3.zero;
 
         static Port Nearest(Flow flow) => Port.Nearest(ShipPosition());
+
+        /// <summary>
+        /// She is under way on a course charted for ANOTHER port, and this one only lies beside her way: she passes it.
+        /// (The play-through of 9 Oct 2026: bound up the Wantsum for Fordwic she was made fast at Sarre seven times in
+        /// eight, with "Bound for Fordwic: 9 km to go" in the Voyage window. On the chart she is always slow enough to
+        /// count as arrived, so any port whose reach her course crossed took her.) To call at a port, chart the course to it.
+        /// </summary>
+        static bool Passing(Port p)
+        {
+            var game = KapmanGame.Current;
+            return game != null && game.ship != null && !game.ship.anchored && Course.IsSet && Course.Destination != p.id;
+        }
     }
 
     /// <summary>A port's name for showing ("Dorestat (Wijk bij Duurstede)"), and its id.</summary>

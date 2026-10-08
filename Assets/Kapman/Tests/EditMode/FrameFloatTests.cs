@@ -66,7 +66,9 @@ namespace Kapman.Tests
             Assert.IsTrue(s.Chosen, "the choice ran the card");
             var after = FrameRoot.CardSpec(d, s);
             Assert.IsFalse(after.mustAnswer, "answered: it may be shut");
-            Assert.IsFalse(after.holdsClock, "and it holds the clock no longer");
+            // (9 Oct 2026: what came of it is still the card. Until then the clock ran again from the choice, and at the
+            // fastest clock a day passed while its end was read)
+            Assert.IsTrue(after.holdsClock, "what came of it still holds the clock, until it is gone on from");
             Assert.IsNotEmpty(after.result, "what came of it");
             Assert.AreEqual(1, after.options.Count);
             Assert.IsTrue(after.options[0].isDefault, "Enter goes on");

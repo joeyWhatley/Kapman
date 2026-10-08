@@ -25,6 +25,8 @@ namespace Kapman.Encounters
                 s = "are " + s.Substring(3);
             else if (s.StartsWith("has ", StringComparison.Ordinal))
                 s = "have " + s.Substring(4);
+            // ("kept his word on the men's pay" is written of the merchant: "You kept your word ...")
+            s = System.Text.RegularExpressions.Regex.Replace(s, @"\b(kept|broke|gave|went back on|kept to) his (word|oath|promise)\b", "$1 your $2");
             return "You " + s + ".";
         }
 

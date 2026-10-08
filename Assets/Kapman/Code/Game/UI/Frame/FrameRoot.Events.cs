@@ -85,7 +85,8 @@ namespace Kapman.Game.Frame
             }
             eventUp = null;
             string fact = GameEvents.Choose(index);
-            var spec = new FloatSpec { id = EventId, title = e.title ?? "" };
+            // (what came of it holds the clock until it is gone on from, as a card's end does: 9 Oct 2026)
+            var spec = new FloatSpec { id = EventId, title = e.title ?? "", holdsClock = true };
             if (!string.IsNullOrEmpty(chose))
                 spec.lines.Add((chose, true));
             spec.result = string.IsNullOrEmpty(fact) ? "Nothing more comes of it." : fact;

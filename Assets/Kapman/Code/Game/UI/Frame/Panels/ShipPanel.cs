@@ -19,7 +19,7 @@ namespace Kapman.Game.Frame
         public override string Title => "Ship";
         public override int Order => 90;
 
-        Label carries, carriesSmall, hull, water, waterSmall, cloth, set, order, gale, weather, hullCost, sailCost;
+        Label carries, carriesSmall, hull, water, cloth, set, order, gale, weather, hullCost, sailCost;
         VisualElement weatherLine;
         Button mendHull, mendSail;
         readonly Button[] sails = new Button[3], orders = new Button[3];
@@ -36,7 +36,7 @@ namespace Kapman.Game.Frame
             h = FrameUi.Mix(h, FrameGame.PortHere != null ? FrameGame.PortHere.id : "");
             h = FrameUi.Mix(h, (FirstJobs.Active && FirstJobs.SailWorn ? 1 : 0) + (FirstJobs.Mending ? 2 : 0));
             // (made fast: which of a yard's works are offered)
-            return FrameUi.Mix(h, (Boat.HullMendCost > 0.0 ? 1 : 0) + (Boat.SailMendCost > 0.0 ? 2 : 0) + (Boat.Cloth == SailCloth.Split ? 4 : 0));
+            return FrameUi.Mix(h, (Boat.WantsSeams ? 1 : 0) + (Boat.SailMendCost > 0.0 ? 2 : 0) + (Boat.Cloth == SailCloth.Split ? 4 : 0));
         }
 
         /// <summary>The sea's chance of striking her in an hour of gale, as she is now.</summary>
@@ -52,7 +52,7 @@ namespace Kapman.Game.Frame
 
         protected override void Fill(VisualElement body)
         {
-            carries = carriesSmall = hull = water = waterSmall = cloth = set = order = gale = weather = hullCost = sailCost = null;
+            carries = carriesSmall = hull = water = cloth = set = order = gale = weather = hullCost = sailCost = null;
             weatherLine = null;
             mendHull = mendSail = null;
             for (int i = 0; i < 3; i++)
@@ -96,11 +96,10 @@ namespace Kapman.Game.Frame
             // THE BOAT AS SHE IS TODAY (the alpha's row 4: she can be hurt and lost like any other)
             body.Add(FrameUi.H("As she is"));
             hull = FrameUi.Tag("");
-            body.Add(FrameUi.Ln("Hull", "How tight she is. A started strake leaks. A patch holds it; a yard, or a haul-out with tar, mends it.", hull));
-            water = FrameUi.Tag("");
-            var wet = FrameUi.Ln("Water in her", " ", water);
-            waterSmall = wet.Q<Label>(className: "frame-ln-small");
-            body.Add(wet);
+            body.Add(FrameUi.Ln("Hull", "A started strake leaks. A patch holds it; a yard mends it.", hull));
+            // (a sentence: "over the floor timbers" is longer than a tag's place)
+            water = FrameUi.Text("");
+            body.Add(water);
             // (the opening's first job: until the worn sail is mended she has none to set, and the list "Before she
             // sails" is where that is seen to)
             cloth = FrameUi.Tag("");
@@ -108,18 +107,21 @@ namespace Kapman.Game.Frame
                 body.Add(FrameUi.Ln("Sail", "Rotten along the foot. She cannot put out until it is mended: it stands in the list of things to do.", cloth));
             else
             {
+                // (the cloth and how it is set on a line each: two tags in one line ran out of it)
+                body.Add(FrameUi.Ln("Sail", null, cloth));
                 set = FrameUi.Tag("");
-                body.Add(FrameUi.Ln("Sail", "The cloth, and how it is set. Shortened, she makes seven tenths of her speed.", cloth, set));
+                body.Add(FrameUi.Ln("Set", null, set));
             }
             order = FrameUi.Tag("");
             body.Add(FrameUi.Ln("In a gale", "What the men do when it blows a gale.", order));
             // (a word, never a number: the cards show odds as words, by the user's own rule)
-            gale = FrameUi.Tag("");
-            body.Add(FrameUi.Ln("A night of gale, as she is", "Twelve hours of it.", gale));
-            // (said across the whole window: beside a tag it stood in a column three words wide)
+            // (sentences across the whole window: as tags, "she would not live long in it" and "a gale within 11 hours"
+            // were longer than the line they stood in)
+            gale = FrameUi.Text("");
+            body.Add(gale);
             body.Add(FrameUi.P("The first sea that strikes her starts a strake. The next takes the sail. The third takes the boat."));
-            weather = FrameUi.Tag("");
-            weatherLine = FrameUi.Ln("Weather", "The men read the swell and the sky.", weather);
+            weather = FrameUi.Text("");
+            weatherLine = weather;
             body.Add(weatherLine);
 
             // the orders (each row of buttons under its own line: the window is narrow)
@@ -144,7 +146,7 @@ namespace Kapman.Game.Frame
             }
             else if (Trade.Started)
             {
-                if (Boat.HullMendCost > 0.0)
+                if (Boat.WantsSeams)
                 {
                     hullCost = FrameUi.Num("");
                     body.Add(FrameUi.Ln("Her seams", "Hauled up, caulked and tarred: sound again.", hullCost));
@@ -158,7 +160,7 @@ namespace Kapman.Game.Frame
                     mendSail = FrameUi.Btn("Have her sail done", () => { Mend(port, false); Redraw(); });
                     body.Add(FrameUi.Row(mendSail));
                 }
-                if (Boat.HullMendCost <= 0.0 && Boat.SailMendCost <= 0.0)
+                if (!Boat.WantsSeams && Boat.SailMendCost <= 0.0)
                     body.Add(FrameUi.P("She wants nothing from a yard today."));
             }
             Live();
@@ -178,10 +180,8 @@ namespace Kapman.Game.Frame
                                                                : "Room for cargo, the water casks taken off.";
             }
             hull.text = Boat.HullWord;
-            water.text = Boat.WaterWord;
-            if (waterSmall != null)
-                waterSmall.text = Boat.AllHands ? "All hands are bailing." : Boat.Bailers == 2 ? "Two men are bailing."
-                                : Boat.Bailers == 1 ? "One man is bailing." : "It weighs on her, slows her, and spoils what stands in it.";
+            water.text = "Water in her: " + Boat.WaterWord + "." + (Boat.AllHands ? " All hands are bailing." : Boat.Bailers == 2 ? " Two men are bailing."
+                         : Boat.Bailers == 1 ? " One man is bailing." : Boat.Water >= Boat.R.oneManFrom ? " It weighs on her, slows her, and spoils what stands in it." : "");
             if (set != null)
             {
                 cloth.text = Boat.ClothWord;
@@ -190,11 +190,12 @@ namespace Kapman.Game.Frame
             else
                 cloth.text = FirstJobs.Mending ? "ashore, being mended" : "tattered";
             order.text = Boat.OrderWord;
-            gale.text = Boat.GaleWord(ChanceNow());
+            gale.text = "A night of gale, as she is: " + Boat.GaleWord(ChanceNow()) + ".";
             bool sign = Boat.InGale || Boat.Sign > 0;
             weatherLine.style.display = sign ? DisplayStyle.Flex : DisplayStyle.None;
             if (sign)
-                weather.text = Boat.InGale ? "a gale, now" : Boat.GaleIn <= 1.0 ? "a gale within the hour" : $"a gale within {Boat.GaleIn:0} hours";
+                weather.text = Boat.InGale ? "It blows a gale now." : Boat.GaleIn <= 1.0 ? "The men read the sky: a gale within the hour."
+                             : $"The men read the swell and the sky: a gale within {Boat.GaleIn:0} hours.";
             // (a button of an order shows pressed in while that order stands)
             for (int i = 0; i < 3; i++)
             {

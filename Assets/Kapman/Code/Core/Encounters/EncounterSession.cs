@@ -205,7 +205,7 @@ namespace Kapman.Encounters
                 shown.labelWritten = written != null;
                 ShownOption.SplitTag(written ?? (o.label.Length > 0 ? o.label : world.book.Shown(o.labelKey)), out shown.tag, out shown.label);
                 if (!shown.enabled)
-                    shown.rule = o.check.Describe(world.book.words);
+                    shown.rule = o.check.Why(vars, world.book.words);
                 var chance = o.Chance;
                 if (chance != null)
                 {

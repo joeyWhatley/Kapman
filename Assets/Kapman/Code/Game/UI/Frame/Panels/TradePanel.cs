@@ -133,7 +133,10 @@ namespace Kapman.Game.Frame
                 row.aboard = held ? FrameUi.Num("") : null;
                 // (Ravn's word of the first morning: the good he named is marked until she first casts off)
                 var tip = FirstJobs.Listed && FirstJobs.TipGood == g.good.id ? FrameUi.Tag("Ravn's word") : null;
-                var line = FrameUi.Ln(g.good.name, " ", tip, row.aboard, row.buy[0], row.sell[0]);
+                // (on a row of its own over the good: beside the buttons it pushed Sell out of the line)
+                if (tip != null)
+                    body.Add(FrameUi.Row(tip));
+                var line = FrameUi.Ln(g.good.name, " ", row.aboard, row.buy[0], row.sell[0]);
                 row.quote = line.Q<Label>(className: "frame-ln-small");
                 body.Add(line);
                 // (a row for selling and a row for buying, two buttons each at most)

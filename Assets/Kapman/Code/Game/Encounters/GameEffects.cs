@@ -100,7 +100,12 @@ namespace Kapman.Game
             if (share == 0.0)
                 return null;
             Voyage.Affect(0.0, share);
-            return share > 0.0 ? "The crew are in better heart." : "The crew have lost heart.";
+            // (by how much: the play-through of 9 Oct 2026 read "The crew have lost heart." for a hundredth part.
+            // PLACEHOLDER WORDS, the user's to write.)
+            double size = Math.Abs(share);
+            if (share > 0.0)
+                return size < 0.02 ? "The crew are a little easier." : "The crew are in better heart.";
+            return size < 0.02 ? "The crew grumble." : size < 0.06 ? "The crew have lost some heart." : "The crew have lost heart.";
         }
 
         public string Men(int count)

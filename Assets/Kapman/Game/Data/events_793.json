@@ -12,14 +12,6 @@
       ]
     },
     {
-      "id": "casks_spoil", "where": "sea", "chance": 0.05, "conditions": { "months": [6, 7, 8], "min_days_at_sea": 3 },
-      "title": "The water turns", "intention": "A cask of water has gone foul in the heat.",
-      "options": [
-        { "key": "pour", "label": "Pour it over the side", "effects": { "water": -60, "text": "60 litres of water lost." } },
-        { "key": "drink", "label": "Drink it anyway", "effects": { "chance": 0.5, "success": { "text": "No harm comes of it." }, "failure": { "health": -0.15, "text": "The men are sick with it." } } }
-      ]
-    },
-    {
       "id": "becalmed", "where": "sea", "chance": 0.25, "conditions": { "calm": true },
       "title": "Becalmed", "intention": "No wind. The sail hangs slack.",
       "options": [
@@ -36,27 +28,11 @@
       ]
     },
     {
-      "id": "leak", "where": "sea", "chance": 0.08, "conditions": { "wind_above": 11 },
-      "title": "She's taking water", "intention": "A strake has sprung in the heavy sea.",
-      "options": [
-        { "key": "bail", "label": "Bail and caulk with wool and tar", "effects": { "chance": 0.75, "success": { "morale": -0.03, "text": "The leak is stopped." }, "failure": { "spoil_food": 0.3, "text": "Water gets into the stores: {n} kg of food spoiled." } } },
-        { "key": "lighten", "label": "Lighten her: throw cargo over", "effects": { "spoil_food": 0.1, "text": "You throw some stores over to ride higher." } }
-      ]
-    },
-    {
       "id": "catch", "where": "sea", "chance": 0.06, "conditions": { "months": [3, 4, 5, 6, 7, 8, 9, 10] },
       "title": "Fish", "intention": "A shoal under the boat; the men have lines.",
       "options": [
         { "key": "fish", "label": "Put out the lines", "effects": { "goods": { "dried_fish": 2 }, "morale": 0.05, "text": "A good catch: food for days." } },
         { "key": "sail_on", "label": "Sail on", "effects": { "text": "You sail on." } }
-      ]
-    },
-    {
-      "id": "gale", "where": "sea", "chance": 0.35, "conditions": { "wind_above": 17 },
-      "title": "A gale", "intention": "The wind rises to a gale.",
-      "options": [
-        { "key": "run", "label": "Run before it", "effects": { "chance": 0.8, "success": { "morale": -0.05, "text": "You run before it and come through." }, "failure": { "spoil_food": 0.2, "health": -0.1, "text": "She ships seas: {n} kg of food spoiled, the men soaked through." } } },
-        { "key": "heave_to", "label": "Heave to and ride it out", "effects": { "health": -0.05, "morale": -0.05, "text": "A long night hove to." } }
       ]
     },
     {

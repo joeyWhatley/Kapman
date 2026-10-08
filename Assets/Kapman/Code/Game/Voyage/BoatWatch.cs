@@ -47,6 +47,30 @@ namespace Kapman.Game
             return double.PositiveInfinity;
         }
 
+        /// <summary>
+        /// Hours to the first hour of gale WHERE SHE WILL BE: the weather is asked for each hour ahead at the point of her
+        /// charted course she reaches by then at the way she is making (her own place when she has no course or makes
+        /// none). The play-through of 9 Oct 2026: asked only where she lay, the first sign of a gale she was sailing
+        /// into came "within the hour".
+        /// </summary>
+        public static double GaleAhead(WorldSim world, WorldXZ at, double metresAnHour, double look)
+        {
+            if (world == null || world.weather == null)
+                return double.PositiveInfinity;
+            bool along = Course.IsSet && metresAnHour > 1.0;
+            for (int k = 1; k <= (int)look; k++)
+            {
+                var p = along ? Course.Aim(at, metresAnHour * k, out _) : at;
+                var (lat, lon) = WorldFrame.ToLatLon(p.x, p.z);
+                if (world.weather.Sample(lat, lon, world.WeatherHours + k, true).windSpeed > GaleDice.GaleWind)
+                    return k;
+            }
+            return double.PositiveInfinity;
+        }
+
+        /// <summary>The cards of her wounds, offered when they befall her: the split sail, and the water over the floor timbers.</summary>
+        public const string SailCard = "sea.sail.splits", LeakCard = "sea.leak.gains";
+
         /// <summary>The house's worth now, deniers: silver and the cargo at the table's values, less the debt.</summary>
         public static double Worth()
         {
@@ -80,11 +104,23 @@ namespace Kapman.Game
                 hour = hour, wind = w.windSpeed, offWind = off,
                 underWay = !moored && !game.ship.anchored && Course.IsSet, moored = moored, river = ChartWorld.OnRiver(),
                 night = hourOfDay < 5.0 || hourOfDay >= 21.0, hardOars = Oars.Out,
-                galeIn = moored ? double.PositiveInfinity : GaleIn(world, at, Boat.R.lookAhead),
+                galeIn = moored ? double.PositiveInfinity : GaleAhead(world, at, body.Knots * 1852.0, Boat.R.lookAhead),
                 men = Voyage.Men, hands = Mathf.Max(1, Mathf.RoundToInt(cls.crew)),
                 length = cls.length, beam = cls.beam, fragility = cls.galeFragility, lossPerHour = world.rules.galeLossPerHour,
                 seed = world.seed,
             });
+            // WHAT HAS BEFALLEN HER IS TOLD AND ASKED AT ONCE, as the gale's signs are (the play-through of 9 Oct 2026: her
+            // sail split on 1 August and its card, left to the deck's own chance, had not come by the 13th: she crawled
+            // into Quentovic on half a sail with nothing to be done about it). The card comes first in line when it can
+            // (its own "when" and its days of rest hold), and again after those days while the wound stands.
+            var cards = EncounterRunner.Director;
+            if (cards != null && !moored)
+            {
+                if (Boat.Cloth == SailCloth.Split)
+                    cards.Offer(SailCard);
+                if (Boat.Water >= Boat.R.spoilFrom)
+                    cards.Offer(LeakCard);
+            }
             // the water in her and the men's bundles take their room in the hold
             if (Trade.Started)
                 Trade.Hold.taken = (float)Boat.TakenKg;

@@ -14,7 +14,8 @@ namespace Kapman.Game.Frame
         public override string Title => "Errands";
         public override int Order => 40;
 
-        string said = "";
+        string said = "", saidAt = "";
+        double saidDay = double.MinValue;
 
         protected override void OnLoaded() => said = "";              // (what was last said here was of the game before)
 
@@ -49,6 +50,10 @@ namespace Kapman.Game.Frame
                 return;
             }
             var here = FrameGame.PortHere;
+            // (what a button here last said is of that port and that day: the play-through of 9 Oct 2026 still read the
+            // hand-over of 2 May at the head of the window on 13 August)
+            if (said.Length > 0 && (saidAt != (here != null ? here.id : "") || System.Math.Floor(game.Day) > saidDay))
+                said = "";
             if (said.Length > 0)
                 body.Add(FrameUi.Text(said));
 
@@ -170,6 +175,8 @@ namespace Kapman.Game.Frame
         void Say(string text)
         {
             said = text ?? "";
+            saidAt = FrameGame.PortHere != null ? FrameGame.PortHere.id : "";
+            saidDay = KapmanGame.Current != null ? System.Math.Floor(KapmanGame.Current.Day) : double.MinValue;
             FrameLog.Add(said);
             Redraw();
         }

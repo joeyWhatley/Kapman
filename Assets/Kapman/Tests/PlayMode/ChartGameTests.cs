@@ -1006,7 +1006,7 @@ namespace Kapman.Tests
                 yield return Frames(5);
                 Assert.IsNull(GameEvents.Current, "the choice did not end the happening");
                 Assert.IsTrue(frame.EventOpen, "what came of the happening was not told");
-                Assert.IsFalse(PanelClock.Holding, "what came of it should not hold the clock");
+                Assert.IsTrue(PanelClock.Holding, "what came of it holds the clock until it is gone on from, as a card's end does");
                 yield return play.Shot("28_happening_answered");
                 yield return play.ClickButton("Go on", play.FrontFloat());
                 yield return Frames(5);

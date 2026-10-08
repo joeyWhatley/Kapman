@@ -23,6 +23,7 @@ namespace Kapman.Game.Frame
             h = FrameUi.Mix(h, Boat.WearyWord);
             h = FrameUi.Mix(h, Boat.Bailers + (Boat.AllHands ? 10 : 0) + (Boat.OnShares ? 100 : 0) + (Boat.Bundles ? 1000 : 0));
             h = FrameUi.Mix(h, (int)(Voyage.FoodDays * 2.0) * 100 + (int)(Voyage.DrinkDays * 2.0));
+            h = FrameUi.Mix(h, FrameGame.PortHere != null ? FrameGame.PortHere.id : "");
             return FrameUi.Mix(h, Voyage.DaysAtSea);
         }
 
@@ -49,7 +50,9 @@ namespace Kapman.Game.Frame
                 body.Add(FrameUi.Ln("Their own bundles", "Each man carries goods of his own: it comes out of the hold's room.",
                                     FrameUi.Num($"{Boat.R.bundleKgPerMan * Voyage.Men:0} kg")));
             body.Add(FrameUi.Ln("Pay owed", null, FrameUi.Num($"{Voyage.PayOwed:0} d")));
-            body.Add(FrameUi.Ln("At sea", null, FrameUi.Num(Voyage.DaysAtSea <= 0 ? "still in port" : Voyage.DaysAtSea == 1 ? "1 day" : Voyage.DaysAtSea + " days")));
+            // (made fast she is in port, whatever is left of the men's sea legs: the count runs down ashore)
+            body.Add(FrameUi.Ln("At sea", null, FrameUi.Num(FrameGame.PortHere != null || Voyage.DaysAtSea <= 0 ? "still in port"
+                                                            : Voyage.DaysAtSea == 1 ? "1 day" : Voyage.DaysAtSea + " days")));
             body.Add(FrameUi.Ln("Bread and other food", null, FrameUi.Num(Voyage.FoodDays < 0.25 ? "none" : FrameUi.Days(Voyage.FoodDays))));
             body.Add(FrameUi.Ln("Ale and water", null, FrameUi.Num(Voyage.DrinkDays < 0.25 ? "none" : FrameUi.Days(Voyage.DrinkDays))));
         }

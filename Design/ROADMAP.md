@@ -8,19 +8,19 @@ Made by `Bake/plan/roadmap.py` from counts taken in the project that night. To b
 
 | | Percent |
 |---|---|
-| **Now** | **47.3** |
+| **Now** | **47.8** |
 | The alpha | 49 |
 | The beta | 93 |
 | Released | 100 |
 
 - **100 is the first release**, as you ruled on 7 October: one life, 793 to about 805, on twelve ports (Dorestat, Traiectum, Walichrum, Witla, Medemelacha, Doccinga, Daventre, Quentovic, Lundenwic, Sarre, Fordwic and Ripa), with the whole world dim on the chart. The later ages are not in it.
-- 59 steps are left: 3 to the alpha, 49 more to the beta, 7 to the release.
-- Of the 53 points still to do, 19 are mine to build, 21 are yours alone and 13 need both of us.
-- My part is about 100 to 124 sittings. Yours is about 433 to 452 hours, and the hours of your own home waters on top. **The release date is set by your drawing and your reading, not by the building.**
+- 58 steps are left: 2 to the alpha, 49 more to the beta, 7 to the release.
+- Of the 52 points still to do, 19 are mine to build, 21 are yours alone and 13 need both of us.
+- My part is about 98 to 122 sittings. Yours is about 433 to 452 hours, and the hours of your own home waters on top. **The release date is set by your drawing and your reading, not by the building.**
 
 ## Done since the count of 8 October 2026
 
-The count stood at 42.3. 8 of the 67 steps are done since, worth 5.0 points.
+The count stood at 42.3. 9 of the 67 steps are done since, worth 5.5 points.
 
 | No. | Step | When | What came of it | Points |
 |---|---|---|---|---|
@@ -32,6 +32,7 @@ The count stood at 42.3. 8 of the 67 steps are done since, worth 5.0 points.
 | 6 | Orders that work | 8 Oct, night | A card offers an order and the game asks: take it or refuse it. Taken, it stands in Errands with its day, is handed over there in parts, each part paid by the unit at the price fixed when it was given, less the toll. It pays the market plus at most a half, and at most 60 d over the market. A week before its day and on the last day the log says so and the clock drops. Past its day it is broken, or short. | +0.60 |
 | 7 | Events move the stats | 8 Oct, night | A stat is a base and the marks on it. Cards put them on with a verb, 18 kinds of known deed by a table, hunger and sickness by themselves. All marks together move a stat by no more than two. Yourself shows each with its cause and its end. | +0.24 |
 | 8 | A stake inside the first hour, and a clean screen | 8 Oct, night | When Ravn has had his say an order is asked: two casks of the wine for Traiectum inside ten days. No screen says what the game lacks, names a file or a key, or puts a number in brackets: 43 such texts are mended, and the play tests now read every word on every screen they picture and fail on one. At full size nothing runs out of its box and no word is broken. The top bar's figures stand apart. A screen of 720 lines is still too tight: listed, not mended. | +0.60 |
+| 9 | The play-through, a picture at each step | 9 Oct, small hours | The test's hands played from the title to Michaelmas through the real buttons, three times, a season in a quarter of an hour: about 500 pictures a walk. I looked at every picture of the first walk and wrote down what was wrong (Design/checks/playthrough_1.md): eighteen faults mended at once, eight still open, thirteen points for you. Three walks, three ends: the debt paid on 13 August; 1136 d short; 340 d short and working for the lender. | +0.50 |
 
 ## Where the game is, part by part
 
@@ -113,7 +114,7 @@ Your order of 7 October: scenes, screens and flows that can be opened and seen.
 |---|---|---|---|---|
 | Scenes, screens as files, graphs, prefabs | 4.0 | 45% | The project of its own; the systems as scene objects; the frame and menus as UI files; four rules and the opening as graphs. | Three scenes, 22 windows as files, more graphs, prefabs, settings as assets, clearing out. |
 
-### Getting it out: 2.1 of 17 points (13%)
+### Getting it out: 2.6 of 17 points (16%)
 
 A build, the tests by other people, the law, the shop.
 
@@ -122,7 +123,7 @@ A build, the tests by other people, the law, the shop.
 | A build that runs on another machine | 2.0 | 10% | It runs in the editor and in the tests. | No build script. Never tried on a second PC. |
 | Speed and steadiness | 2.0 | 10% | The same seed ends the same slowly and at speed 5. | Nothing measured: frame rate, memory, a long night's run. |
 | Balance | 3.0 | 30% | The debt has bitten since the money fix of 7 October. | No soak since. 766 card rewards wait for their cap. |
-| Play-tests and what they bring | 5.0 | 5% | The F2 notes tool. One critic's walk through pictures: 4 of 10. | You, then strangers. |
+| Play-tests and what they bring | 5.0 | 15% | The F2 notes tool. One critic's walk through pictures: 4 of 10. | You, then strangers. |
 | Licences and credits | 1.5 | 40% | Three audits written on 7 October. | Two map sources, an asset pack and a font have no licence on record. |
 | Steam | 2.0 | 0% | The steps are written down. | Nothing is started. |
 | The demo | 1.5 | 0% |  | Not cut. |
@@ -167,15 +168,14 @@ A build, the tests by other people, the law, the shop.
 
 A sitting is one piece of work built, tested by the full suites, looked at in pictures from the game and committed. Tonight had five. The groups inside a phase can run side by side: your pictures and the Steam paperwork can begin today.
 
-### To the alpha: 47.3 to 48.6
+### To the alpha: 47.8 to 48.6
 
 Your own list of 7 October: the eighteen basics built and joined, in one build played from a new game to the first reckoning, with nothing in it that says “not yet”, and you have looked at the play-through.
 
-3 steps, 1.2 points. Mine: 2 to 3 sittings. Yours: 3 to 5 hours.
+2 steps, 0.7 points. Mine: 1 to 2 sittings. Yours: 3 to 5 hours.
 
 | No. | Step | Who | Size | Adds | Then at |
 |---|---|---|---|---|---|
-| 9 | **The play-through, a picture at each step.** Row 18. The game played by the test's hands through the real buttons, from a new game to the Michaelmas reckoning. I look at every picture and write down what is wrong. | Mine | one sitting | +0.50 | 47.8 |
 | 10 | **You play it.** From a new game to the reckoning, with F2 for your notes. The alpha is reached when you have looked and said so. | Yours | 3 to 5 hours | +0.50 | 48.3 |
 | 11 | **Mend what your notes say.** Your notes, worked through line by line. | Mine | 1 to 2 sittings | +0.24 | 48.6 |
 
@@ -288,7 +288,7 @@ The first release is out on Steam: one life, 793 to about 805, on twelve ports, 
 
 ## What sets the pace
 
-- **My part:** about 100 to 124 sittings. This week ran at three to five a day while you were here. That is weeks.
+- **My part:** about 98 to 122 sittings. This week ran at three to five a day while you were here. That is weeks.
 - **Your part:** about 433 to 452 hours, and your home waters on top. At ten hours a week that is most of a year. At twenty it is five to six months.
 - **Steam's own waits:** 30 days after the fee, two weeks of “Coming soon”, two reviews. Six weeks at the least, even for a finished game.
 - The note on Steam of 7 October said spring to summer 2027 for the first release. This count agrees with it.

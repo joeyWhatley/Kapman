@@ -50,7 +50,9 @@ namespace Kapman.Game.Frame
             body.Add(FrameUi.Ln("Boats", ship != null && ship.shipClass != null ? "The " + ship.shipClass.shipName : null, FrameUi.Num("1")));
             var home = GameData.Port(ChartWorld.Current != null ? ChartWorld.Current.homePort : null);
             if (home != null)
-                body.Add(FrameUi.Ln("Home: " + home.name, Reputation.Line(home)));
+                // ("here" only where she lies there)
+                body.Add(FrameUi.Ln("Home: " + home.name, FrameGame.PortHere != null && FrameGame.PortHere.id == home.id
+                                                              ? Reputation.Line(home) : Reputation.Line(home).Replace("Your standing here", "Your standing there")));
             var name = SelfBook.Current.Stat("name");
             body.Add(FrameUi.Ln(name != null ? name.name : "Name", name != null ? name.what : null,
                                 name != null && name.Level(Self.StatNow("name")).Length > 0 ? FrameUi.Tag(name.Level(Self.StatNow("name"))) : null,

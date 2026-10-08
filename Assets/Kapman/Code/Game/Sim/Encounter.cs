@@ -38,6 +38,14 @@ namespace Kapman.Game.Sim
                 return false;
             if (TextPanel.Current != null && TextPanel.Current.Open)
                 return false;
+            // (one thing at a time: a card on the screen, or what came of it still to be read, and no sail is offered
+            // over it. The play-through of 9 Oct 2026: a coaster's "Hold your course" opened on top of a card's end.)
+            if (EncounterRunner.Director != null && EncounterRunner.Director.Current != null)
+                return false;
+            // (nor over any window that floats: a happening's end, an order asked. The second walk of 9 Oct: a
+            // merchantman's hail opened over "Fish" before its end was gone on from.)
+            if (Kapman.Game.Frame.FrameRoot.Current != null && Kapman.Game.Frame.FrameRoot.Current.FloatCount > 0)
+                return false;
             if (!ignoreMap && MapView.AwayFromSea)
                 return false;
             if (Patrols.Stage != PatrolStage.None)

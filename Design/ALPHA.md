@@ -139,4 +139,6 @@ the crew as people (Ravn's own poor stats) waits for the crew system; the hold's
 - Row 4 (the boat can be hurt and lost): BUILT (DECISIONS 114). Hull, water, sail, the order for a gale, weary
   men; warned by three signs; the same dice as the other ships; wounded before she is lost; the last page and the
   way back to a save.
+- Row 18 (the play-through, a picture at each step): DONE by the test's hands (DECISIONS 115; the record is
+  Design/checks/playthrough_1.md). What is left of the row is yours: play it, with F2 for your notes.
 

@@ -60,7 +60,7 @@ namespace Kapman.Game.Frame
                 body.Add(FrameUi.P(heard == 1 ? "One more heard, not yet learned." : heard + " more heard, not yet learned."));
             if (learned.Count == 0 && heard == 0)
                 body.Add(FrameUi.P("No words of other tongues met yet."));
-            body.Add(FrameUi.P($"A word heard {Self.StaysAfter} times stays English from the start."));
+            body.Add(FrameUi.P($"Hear a word of another tongue {Self.StaysAfter} times and you have it for good."));
         }
     }
 }

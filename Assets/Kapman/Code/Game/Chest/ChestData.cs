@@ -147,6 +147,29 @@ namespace Kapman.Game
     public sealed class InscriptionDef
     {
         public string id, site, port, date, runes, transliteration, normalized, translation, gloss, credit;
+        /// <summary>The first year it can have stood, from <see cref="date"/> (0: not known). It is not there to be read before.</summary>
+        public int carved;
+
+        /// <summary>"c. 940-958": 940; "brooch c. 700; runes added c. 900-950": 900; "10th century": 900; else 0.</summary>
+        public static int CarvedFrom(string date)
+        {
+            string s = date ?? "";
+            int added = s.IndexOf("added", System.StringComparison.OrdinalIgnoreCase);
+            if (added >= 0)
+                s = s.Substring(added);
+            var year = System.Text.RegularExpressions.Regex.Match(s, @"(\d{3,4})");
+            if (year.Success)
+                return int.Parse(year.Groups[1].Value);
+            var century = System.Text.RegularExpressions.Regex.Match(s, @"(\d{1,2})(st|nd|rd|th) century");
+            return century.Success ? (int.Parse(century.Groups[1].Value) - 1) * 100 : 0;
+        }
+
+        /// <summary>The stone's name as the page says it: "Gorm's stone", without the scholars' "(Jelling 1)".</summary>
+        public static string Plain(string site)
+        {
+            int cut = (site ?? "").IndexOf(" (", System.StringComparison.Ordinal);
+            return cut > 0 ? site.Substring(0, cut) : site ?? "";
+        }
     }
 
     /// <summary>
@@ -294,11 +317,12 @@ namespace Kapman.Game
                         runes = Json.Str(o, "runes"), transliteration = Json.Str(o, "transliteration"), normalized = Json.Str(o, "normalized"),
                         translation = Json.Str(o, "translation", null), gloss = Json.Str(o, "gloss", null), credit = Json.Str(o, "credit"),
                     };
+                    ins.carved = InscriptionDef.CarvedFrom(ins.date);
                     Inscriptions.Add(ins);
                     // each stone can be copied into the chest, to read yourself
                     Texts["stone:" + ins.id] = new TextDef
                     {
-                        id = "stone:" + ins.id, title = ins.site, people = "norse", form = "stone", language = "Old Norse", script = "runic",
+                        id = "stone:" + ins.id, title = InscriptionDef.Plain(ins.site), people = "norse", form = "stone", language = "Old Norse", script = "runic",
                         original = ins.runes, translation = ins.translation ?? ins.gloss, credit = ins.credit, where = ins.date, normalized = ins.normalized,
                         translator = ins.translation != null ? "" : null,
                     };

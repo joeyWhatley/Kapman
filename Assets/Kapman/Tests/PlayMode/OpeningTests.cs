@@ -562,6 +562,9 @@ namespace Kapman.Tests
                 yield return play.Shot("open_22_card_with_an_end");
                 yield return play.Click(stones[at].button, "the choice '" + stones[at].words + "'");
                 yield return ChartPlay.Settle(0.5f);
+                // (what came of it is still the card: the clock stays held until it is gone on from)
+                Assert.IsTrue(director.Current != null && director.Current.Chosen, "the choice was not taken");
+                Assert.IsTrue(PanelClock.Holding, "what came of a card should hold the clock until Go on");
                 // (the end is said a letter at a time: a press finishes the paragraph, and it waits)
                 for (int i = 0; i < 3 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Waiting && !play.Frame.FrontReveal.Done; i++)
                 {
@@ -629,8 +632,8 @@ namespace Kapman.Tests
 
                 // ---- 16. THE DEBT HAS AN END (8 Oct 2026, night; DECISIONS 33 and 104). The lender's man asks for
                 // something on the stick, and a part paid comes off it; on the day the lender asks for all of it, and
-                // unpaid she works for him. (Both cards are put in line by hand here: his man comes from the tenth day
-                // of a game, and the day is Michaelmas.)
+                // unpaid she works for him. (His man's card is put in line by hand here: he comes from the tenth day
+                // of a game. The day is made today by the back door, and its card then comes by itself.)
                 Trade.Purse.Add("denier", 300.0);
                 director.state.Enqueue("harbour.wokerers_man.home", true);
                 yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
@@ -671,9 +674,11 @@ namespace Kapman.Tests
                 Assert.IsFalse(Trade.Working);
                 typeof(Trade).GetProperty(nameof(Trade.DebtDue)).GetSetMethod(true).Invoke(null, new object[] { System.Math.Floor(KapmanGame.Current.Day) });
                 Assert.AreEqual(0.0, Trade.DebtDaysLeft(KapmanGame.Current.Day), "the day was not made today");
-                director.state.Enqueue("harbour.wokerers_day.home", true);
-                yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
-                Assert.IsTrue(play.Frame.FloatOpen("card"), "the card of the day did not open");
+                // (THE DAY COMES TO HER WHERE SHE LIES: nobody puts his card in line here. Until 9 Oct 2026 it came only as
+                // she moored, and a boat that lay at home over Michaelmas was never asked: the play-through's fourth walk.)
+                yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 20f);
+                Assert.IsTrue(play.Frame.FloatOpen("card"), "she lies at home on the day with the boat unpaid, and the lender's card did not come");
+                Assert.AreEqual(EncounterRunner.LenderDayHome, director.Current.card.id, "another card came in the lender's place");
                 yield return ChartPlay.Settle(0.8f);
                 var theDay = director.Current;
                 StringAssert.StartsWith(Trade.LenderName + ", ", play.Frame.SpeakerShown, "the lender is not under his own name on the day");

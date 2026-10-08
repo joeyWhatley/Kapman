@@ -224,7 +224,7 @@ namespace Kapman.Tests
             var missed = Self.MarksOn("name").FirstOrDefault(m => m.id == "deed.missed_the_day");
             Assert.IsNotNull(missed);
             Assert.AreEqual("until the stick is clean", Self.Lasts(missed, 0.0));
-            StringAssert.StartsWith("−1 you let the day pass with the boat unpaid (until the stick is clean)", SelfPanel.MarkLine(missed, 0.0));
+            StringAssert.StartsWith("−1 you let the day pass with the boat unpaid, until the stick is clean", SelfPanel.MarkLine(missed, 0.0));
             state.SetFlag("wk_clean", 1.0, 0.0, 0.0);
             Assert.IsFalse(Self.HasMark("deed.missed_the_day"), "the stick is clean and the missed day still lies on the name");
             // a heathen does not lose troth by a Christian's rule

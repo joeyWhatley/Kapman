@@ -246,8 +246,10 @@ namespace Kapman.Game.Frame
                     days = FrameUi.Num(FramePassage.DaysWords(left));
                 }
                 // (Ravn's word of the first morning: the port he named is marked until she first casts off)
-                var word = FirstJobs.Listed && FirstJobs.TipPort == id ? FrameUi.Tag("Ravn's word") : null;
-                var line = FrameUi.LnButton(def.name, small, () => Pick(picked == id ? null : id), word, days);
+                // (in the small print: as a tag beside the days it squeezed them into a column)
+                if (FirstJobs.Listed && FirstJobs.TipPort == id)
+                    small += ". Ravn's word";
+                var line = FrameUi.LnButton(def.name, small, () => Pick(picked == id ? null : id), days);
                 line.EnableInClassList("sel", id == picked);
                 body.Add(line);
                 if (id == picked)

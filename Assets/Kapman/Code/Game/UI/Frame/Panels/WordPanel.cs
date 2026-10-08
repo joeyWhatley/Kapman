@@ -57,7 +57,10 @@ namespace Kapman.Game.Frame
                     continue;
                 shown++;
                 double age = game.Day - n.day;
-                string how = HowWords(n) + (string.IsNullOrEmpty(n.source) || n.how == How.Seen ? "" : ": " + n.source);
+                // ("Talk on the waterfront at Dorestat", not "Talk: talk on the waterfront at Dorestat")
+                bool same = !string.IsNullOrEmpty(n.source) && n.source.StartsWith("talk ", System.StringComparison.Ordinal) && HowWords(n) == "Talk";
+                string how = same ? "T" + n.source.Substring(1)
+                           : HowWords(n) + (string.IsNullOrEmpty(n.source) || n.how == How.Seen ? "" : ": " + n.source);
                 body.Add(FrameUi.Ln(port.name + (n.port == here ? ", here" : ""), how + ".", FrameUi.Tag(Age(age))));
                 if (n.port == here)
                     continue;                                             // (the Trade window has this market in full)

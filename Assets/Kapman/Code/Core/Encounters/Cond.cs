@@ -186,6 +186,14 @@ namespace Kapman.Encounters
             public override string Describe(WordTable words) => value ? "" : "Never.";
         }
 
+        /// <summary>
+        /// WHY IT DOES NOT HOLD NOW, for the page: of a condition with several parts, only the parts that fail (the
+        /// play-through of 9 Oct 2026: a choice shut for want of 48 d said "Not now. You need 48 d of silver.", and one
+        /// shut by two things the page has no words for said "Not now. Not now."). Told so only when the game has given
+        /// its names (<see cref="NameOf"/>); the plain description otherwise.
+        /// </summary>
+        public virtual string Why(IVars vars, WordTable words) => Describe(words);
+
         sealed class Not : Cond
         {
             readonly Cond inner;
@@ -251,6 +259,26 @@ namespace Kapman.Encounters
                 }
                 return all ? string.Join("; ", said) + "." : "Either: " + string.Join("; or: ", said) + ".";
             }
+
+            public override string Why(IVars vars, WordTable words)
+            {
+                if (!all || NameOf == null || vars == null)
+                    return Describe(words);
+                var said = new List<string>();
+                foreach (var p in parts)
+                {
+                    if (p.Eval(vars))
+                        continue;
+                    string s = p.Why(vars, words).TrimEnd('.');
+                    if (s.Length > 0 && !said.Contains(s))
+                        said.Add(s);
+                }
+                if (said.Count == 0)
+                    return Describe(words);
+                if (said.Count > 1)
+                    said.RemoveAll(x => x == "Not now");
+                return string.Join(". ", said) + ".";
+            }
         }
 
         sealed class Bare : Cond
@@ -277,7 +305,9 @@ namespace Kapman.Encounters
                     }
                     if (name.StartsWith("hold.", StringComparison.Ordinal))
                         return $"Only if you carry {NameOf(name) ?? Human(name.Substring(5))}.";
-                    return "Not now.";
+                    // (a thing of the boat that a card asks by its flag, where the game has a sentence for it:
+                    // "Only with the sail shortened.")
+                    return (name.StartsWith("flag.", StringComparison.Ordinal) ? NameOf("why:" + name) : null) ?? "Not now.";
                 }
                 if (name.StartsWith("text.", StringComparison.Ordinal))
                     return $"Only with the writing \"{Human(name.Substring(5))}\" in your chest.";
@@ -378,6 +408,13 @@ namespace Kapman.Encounters
                     return NameOf != null ? $"Only if you carry {NameOf(name) ?? Human(name.Substring(5))}." : $"Only with {Human(name.Substring(5))} aboard.";
                 if (name.StartsWith("hold.", StringComparison.Ordinal) && (op == Op.Eq || op == Op.Le) && value == 0.0 && word == null)
                     return NameOf != null ? $"Only if you carry no {NameOf(name) ?? Human(name.Substring(5))}." : $"Only with no {Human(name.Substring(5))} aboard.";
+                // ("hold.frisian_cloth >= 4": "Only if you carry 4 bolts of Frisian cloth.")
+                if (name.StartsWith("hold.", StringComparison.Ordinal) && atLeast && word == null && NameOf != null)
+                {
+                    string units = NameOf("units:" + name.Substring(5) + ":" + Math.Ceiling(op == Op.Gt ? value + 1.0 : value).ToString("0", CultureInfo.InvariantCulture));
+                    if (units != null)
+                        return $"Only if you carry {units}.";
+                }
                 if (name == "year" && op == Op.Lt)
                     return $"Only before {shown}.";
                 if (name == "year" && op == Op.Ge)

@@ -1191,4 +1191,43 @@ and far fewer when usage is short).
    card still tell the whole gale at once ("it has blown itself out") though the gale now plays hour by hour:
    the user's to rewrite; "crew.pay.martinmas" still pays its fixed sums beside the real tenth; she cannot take
    the ground on the chart, so no grounding hurts her yet. THE NUMBERS ARE FIRST GUESSES (boat_rules.json).
+115. **THE PLAY-THROUGH, A PICTURE AT EACH STEP, DONE** (the road's step 9, the alpha's row 18; 9 Oct, small hours).
+   - THE WALK. Tests/PlayMode/PlayThroughTests.cs plays the game through the real buttons from the title to the
+     Michaelmas reckoning: the opening, the first jobs by their own buttons (the sail's row, the alehouse), and a
+     season of trade by a plain trader (it sells what it brought, buys what the next port pays most for, keeps
+     bread aboard, rests the men, has a yard mend her, answers every card, is home for the day). It is long (a
+     season in about a quarter of an hour) and is not in the suites: run it by its name. KAPMAN_PT_DAYS shortens
+     it. Pictures, a journal of every step and the page's faults go to Captures/playthrough.
+   - THE FIRST WALK: 151 days, 62 calls at 16 ports, 166 cards, 549 pictures; the debt paid on 13 August, the
+     clean stick on 24 September. I looked at every picture. The record is Design/checks/playthrough_1.md, with
+     the first walk's journal and faults beside it.
+   - THE SECOND WALK, with the mends in: 55 calls, 171 cards, raiders alongside on 18 June; on Michaelmas 784 d
+     in the purse against 1920 d owed. The page's rule found 31 faults on the first walk's pictures, 6 on the
+     second's. Its journal and faults are kept too.
+   - THE THIRD WALK, with the lender's day mended: 43 calls, 165 cards; on Michaelmas at first light his card
+     came to her at home, with 1580 d against 1920 d, and she works for him. Three walks, three ends: the debt
+     can be paid and can be missed.
+   - MENDED AT ONCE, because they would have spoiled the user's own play (the record's list 1, eighteen
+     points): the lender never came for a boat that lay at home on the day (his card met her only as she
+     moored: the day now comes to her where she lies, from first light); she was made fast at a port she only
+     passed; a split sail had no way to be mended at sea; a
+     gale's first sign came within the hour; old happenings doubled the boat and its cards; a sighting opened
+     over a card; the debt's words were cut in the bar; Errands kept old words; a yard was offered on a sound
+     hull; a tight boat was wet; stones of the 900s were given in 793; "Not now." with no reason; "lost heart"
+     for a hundredth; the Book's people never opened; and small words. Held by PlayThroughMendsTests (5).
+   DECIDED BY ME, the user's to overrule:
+   - A CARD HOLDS THE CLOCK UNTIL IT IS GONE ON FROM (what came of it too; a happening's end the same). Until
+     now the clock ran again from the choice, and at the fastest clock a day passed while the end was read. The
+     player may still set the clock running under it. My reading of item 5 ("it stops the clock but you can
+     override it").
+   - A PORT BESIDE HER WAY IS PASSED: under way on a course for another port she is not made fast there. To
+     call, chart the course to it.
+   - THREE OLD HAPPENINGS ARE OUT of events_793.json (She's taking water, A gale, The water turns): the boat
+     and the cards tell those now. The other nine still come; whether they stay is asked in the record.
+   - A sound hull's weep is scooped out as it comes (10 litres an hour, boat_rules.json "scoopAnHour").
+   NOT MENDED, listed in the record (list 2): a fifth man on crew cards ("Uffo, the sailor": one_cast.md parts
+   4 and 6 want a ruling on who may fall sick or leave); the small ship view black or white at the fastest
+   clock; news, markets and tongues learned in play do not reach Journey and Tongues; brackets in the
+   calendar's texts. FOR THE USER (list 3, thirteen points): the season is winnable with 47 days to spare; the
+   debt is paid by a button far from the lender; the men are paid twice; and ten more.
 

@@ -172,7 +172,7 @@ namespace Kapman.Game.Frame
                     shown++;
                     spec.options.Add(new FloatOption
                     {
-                        label = $"Hire {man.name} ({FirstJobs.HandMoney:0} d)", enabled = FrameGame.Silver >= FirstJobs.HandMoney,
+                        label = $"Hire {man.name}, {FirstJobs.HandMoney:0} d", enabled = FrameGame.Silver >= FirstJobs.HandMoney,
                         rule = "You have not the hiring silver.",
                         pick = () =>
                         {

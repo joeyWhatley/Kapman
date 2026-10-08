@@ -47,7 +47,7 @@ namespace Kapman.Game.Frame
             if (!Voyage.Started)
                 return;
             body.Add(FrameUi.H("Stores"));
-            body.Add(FrameUi.Ln("Bread and other food", $"{Voyage.FoodKg:0} kg for {Voyage.Men} men", FrameUi.Num(Days(Voyage.FoodDays))));
+            body.Add(FrameUi.Ln("Bread and other food", $"{Voyage.FoodKg:0} kg for {(Voyage.Men == 1 ? "one man" : Voyage.Men + " men")}", FrameUi.Num(Days(Voyage.FoodDays))));
             body.Add(FrameUi.Ln("Ale and water", $"{Voyage.DrinkL:0} litres", FrameUi.Num(Days(Voyage.DrinkDays))));
         }
 

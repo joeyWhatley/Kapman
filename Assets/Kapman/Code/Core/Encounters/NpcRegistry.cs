@@ -289,12 +289,16 @@ namespace Kapman.Encounters
             string sex = !string.IsNullOrEmpty(spec.sex) ? spec.sex : def.sex;
             int ageMin = spec.ageMin > 0 ? spec.ageMin : def.ageMin, ageMax = spec.ageMax > 0 ? spec.ageMax : def.ageMax;
             int age = (ageMin + Math.Max(ageMin, ageMax)) / 2;
+            // (a person of a place carries the place in the id, "dorestad.wokerers_man": he is of Dorestat though the
+            // first card to bring him opened at Reric, where the play-through of 9 Oct 2026 made him "the factor of Reric")
+            int dot = spec.cast.IndexOf('.');
+            string own = dot > 0 ? spec.cast.Substring(0, dot) : "";
             var npc = new Npc
             {
                 id = spec.cast,
                 name = spec.name,
                 role = spec.role,
-                homePort = port.id,
+                homePort = own.Length > 0 && own != "cast" && own != "named" ? own : port.id,
                 people = ofPeople,
                 faith = spec.faith == "port" || string.IsNullOrEmpty(spec.faith) ? port.faith : spec.faith,
                 tongue = spec.tongue == "port" || string.IsNullOrEmpty(spec.tongue) ? roles.TongueOf(ofPeople) : spec.tongue,

@@ -1086,6 +1086,15 @@ namespace Kapman.Game.Frame
             cardChosen = s.Chosen;
             if (fresh)
             {
+                // (a person of the places' files met on a card is met, as when he is spoken with on the quay: his page
+                // of the Book opens. The play-through of 9 Oct 2026 ended a season with none of 502 open.)
+                var playing = KapmanGame.Current;
+                foreach (var who in s.People)
+                    if (who != null && PlaceBook.Current.Person(who.id) != null)
+                        Self.MarkMet(who.id, playing != null ? playing.Day : 0.0);
+            }
+            if (fresh)
+            {
                 // (a new card holds the clock anew, though the last one, in this same window, had been let wait)
                 var was = floats.Find(f => f.spec.id == CardId);
                 if (was != null)
@@ -1123,7 +1132,11 @@ namespace Kapman.Game.Frame
         /// choice, what came of it and the way on.</summary>
         public static FloatSpec CardSpec(EncounterDirector d, EncounterSession s)
         {
-            var spec = new FloatSpec { id = CardId, title = s.Title, holdsClock = !s.Chosen, mustAnswer = !s.Chosen };
+            // (THE CARD HOLDS THE CLOCK UNTIL IT IS GONE ON FROM: what came of it too. Until 9 Oct 2026 the clock ran
+            // again from the choice, and at the fastest clock a day passed in the four seconds its end takes to read:
+            // the play-through's evening song opened at 22:00 and was done at 01:45. The player may still set the
+            // clock running under it, as under any card. My reading of the ruling of 7 Oct; the user's to overrule.)
+            var spec = new FloatSpec { id = CardId, title = s.Title, holdsClock = true, mustAnswer = !s.Chosen };
             Npc first = null;
             var others = new List<string>();
             foreach (var who in s.People)

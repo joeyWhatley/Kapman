@@ -107,6 +107,19 @@ namespace Kapman.Game.Frame
             return clock == null ? $"day {Trade.DebtDue:0}" : PeriodDate.Day(Calendar.At(clock.year, clock.startDay, Math.Floor(Trade.DebtDue) * 24.0));
         }
 
+        /// <summary>The debt's line without the day's name, for where there is no room for it: "Owed 1920 d: 146 days
+        /// left", "Owed 1920 d: due today", "Owed 1920 d: 3 days overdue"; "" where the whole line has no shorter form.</summary>
+        public static string DebtLineShort()
+        {
+            var game = KapmanGame.Current;
+            if (!Trade.Started || Trade.Debt <= 0.01 || game == null || Trade.Working)
+                return "";
+            double left = Trade.DebtDaysLeft(game.Day);
+            return left > 0.0 ? $"Owed {Trade.Debt:0} d: {left:0} {(left == 1.0 ? "day" : "days")} left"
+                 : left == 0.0 ? $"Owed {Trade.Debt:0} d: due today"
+                 : $"Owed {Trade.Debt:0} d: {-left:0} {(left == -1.0 ? "day" : "days")} overdue";
+        }
+
         /// <summary>The same from its parts (a sum, the day in words, whole days left: 0 on the day, under 0 after it).</summary>
         public static string DebtLine(double debt, string day, double left)
         {

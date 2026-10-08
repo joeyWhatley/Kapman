@@ -8,12 +8,12 @@ namespace Kapman.Game.Frame
     /// </summary>
     public sealed class SelfPanel : FramePanel
     {
-        /// <summary>A mark as its line under the stat: "+1 you fought raiders off (for 12 days)".</summary>
+        /// <summary>A mark as its line under the stat: "+1 you fought raiders off, for 12 days".</summary>
         public static string MarkLine(Self.StatMark m, double today)
         {
             string size = (m.size > 0 ? "+" : "\u2212") + System.Math.Abs(m.size);
             string why = m.why.Length > 0 ? " " + m.why : "";
-            return $"{size}{why} ({Self.Lasts(m, today)})";
+            return $"{size}{why}, {Self.Lasts(m, today)}";
         }
 
         public override string Id => "self";

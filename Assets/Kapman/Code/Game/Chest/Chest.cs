@@ -522,7 +522,7 @@ namespace Kapman.Game
             }
             // the rune stones here: copied into the chest, to read yourself
             foreach (var ins in ChestData.Inscriptions)
-                if (ins.port == port.id && !Has("stone:" + ins.id))
+                if (ins.port == port.id && (ins.carved == 0 || ins.carved <= Year) && !Has("stone:" + ins.id))   // (a stone of 965 is not there in 793)
                     Give("text", "stone:" + ins.id, "the stone itself", port.id);
             foreach (var r in ChestData.Riddles.Values)
             {
