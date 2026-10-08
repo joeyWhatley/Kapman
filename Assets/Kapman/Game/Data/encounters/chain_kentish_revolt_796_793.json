@@ -103,7 +103,7 @@
    ],
    "options": [
     { "key": "arms", "label_key": "chain_kentish_revolt_796.s03.opt_arms", "label": "Take the order: six bundles of spearheads, landed here", "check": "true",
-      "effects": [ "commission spearheads 6 by 150 premium 0.8", "price_shock fordwic shields x1.5 for 150", "npc steward feeling +8 arms", "flag ch_kentish_revolt_796_kent", "flag ch_kentish_revolt_796_3" ],
+      "effects": [ "commission spearheads 6 by 150 premium 0.5", "price_shock fordwic shields x1.5 for 150", "npc steward feeling +8 arms", "flag ch_kentish_revolt_796_kent", "flag ch_kentish_revolt_796_3" ],
       "note": "outcome: chain_kentish_revolt_796.s03.out_arms (the turn on Kent's road: about 430 d for iron that costs 240; the moneyer's warning comes first)" },
     { "key": "corn", "label_key": "chain_kentish_revolt_796.s03.opt_corn", "label": "Take an order for corn instead: men eat under any king", "check": "true",
       "effects": [ "commission wheat 12 by 120 premium 0.5", "npc steward feeling +4 corn", "flag ch_kentish_revolt_796_corn", "flag ch_kentish_revolt_796_3" ],
@@ -433,7 +433,7 @@
       "effects": [ "silver +600", "learn latin +0.1", "npc clerk feeling +8 protection", "flag unlock_title_archbishops_man", "flag ch_kentish_revolt_796_end_mercia", "flag ch_kentish_revolt_796_done" ],
       "note": "outcome: chain_kentish_revolt_796.end_mercia.out_church (finale: 600 d and the archbishop's protection)" },
     { "key": "ground", "label_key": "chain_kentish_revolt_796.end_mercia.opt_ground", "label": "Take a burnt toft by the Sarre landing for the asking, and the reeve's order for seed corn", "check": "true", "default": true,
-      "effects": [ "silver +250", "commission wheat 20 by 120 premium 1.0", "price_shock sarre wheat x2.0 for 180", "price_shock fordwic wheat x2.0 for 180", "flag unlock_plot_sarre", "flag ch_kentish_revolt_796_end_mercia", "flag ch_kentish_revolt_796_done" ],
+      "effects": [ "silver +250", "commission wheat 20 by 120 premium 0.5", "price_shock sarre wheat x2.0 for 180", "price_shock fordwic wheat x2.0 for 180", "flag unlock_plot_sarre", "flag ch_kentish_revolt_796_end_mercia", "flag ch_kentish_revolt_796_done" ],
       "note": "outcome: chain_kentish_revolt_796.end_mercia.out_ground (open to anyone: 250 d of earnest, corn at double for half a year, twenty sacks ordered at double, and ground at Sarre: worth 600 d and more)" }
    ],
    "memory": { "writing": "was given the king's writing at Sarre", "tried": "was rewarded for carrying the offer", "church": "took the archbishop's protection", "ground": "took a burnt toft and an order for corn" }
@@ -504,7 +504,7 @@
       "effects": [ "npc reeve feeling +3 hull", "flag unlock_ship_north_sea_merchant_ship", "flag ch_kentish_revolt_796_two_faced", "flag ch_kentish_revolt_796_end_both", "flag ch_kentish_revolt_796_done" ],
       "note": "outcome: chain_kentish_revolt_796.end_both.out_hull (finale: a sea-going ship worth several thousand for 300 d)" },
     { "key": "plain", "label_key": "chain_kentish_revolt_796.end_both.opt_plain", "label": "Say a merchant sells to whoever stands on the beach, and wait", "check": "true", "default": true,
-      "effects": [ "silver +600", "commission wheat 20 by 90 premium 0.8", "flag unlock_pilot_wantsum", "flag ch_kentish_revolt_796_watched", "flag ch_kentish_revolt_796_end_both", "flag ch_kentish_revolt_796_done" ],
+      "effects": [ "silver +600", "commission wheat 20 by 90 premium 0.5", "flag unlock_pilot_wantsum", "flag ch_kentish_revolt_796_watched", "flag ch_kentish_revolt_796_end_both", "flag ch_kentish_revolt_796_done" ],
       "note": "outcome: chain_kentish_revolt_796.end_both.out_plain (costs pride only: 600 d of earnest for the burnt wic's corn, and the reeve's leave to keep using the water you learned)" }
    ],
    "memory": { "names": "gave him names from Kent", "hull": "bought the seized Kentish ship", "plain": "said a merchant sells to whoever stands on the beach" }

@@ -100,7 +100,7 @@
    ],
    "options": [
     { "key": "pepper", "label_key": "chain_tiel_1020.s03.opt_pepper", "label": "Take the order: ten pounds of pepper for the reeve's due", "check": "true",
-      "effects": [ "commission pepper 10 by 150 premium 0.6", "npc factor feeling +8 pepper", "flag ch_tiel_1020_london", "flag ch_tiel_1020_3" ],
+      "effects": [ "commission pepper 10 by 150 premium 0.5", "npc factor feeling +8 pepper", "flag ch_tiel_1020_london", "flag ch_tiel_1020_3" ],
       "note": "outcome: chain_tiel_1020.s03.out_pepper (turn: ten pounds at six tenths over the price, about 290 d of gain)" },
     { "key": "lend", "label_key": "chain_tiel_1020.s03.opt_lend", "label": "Lend him 100 d against eight bolts of English cloth", "check": "silver >= 100", "cost": "silver 100",
       "effects": [ "goods wool_cloth +8", "npc factor feeling +10 lent", "flag ch_tiel_1020_london", "flag ch_tiel_1020_3" ],
@@ -428,7 +428,7 @@
       "effects": [ "silver +840", "npc elder feeling +8 cup", "flag ch_tiel_1020_paid_in", "flag unlock_title_tiel_sworn_brother", "flag ch_tiel_1020_end_seat", "flag ch_tiel_1020_done" ],
       "note": "outcome: chain_tiel_1020.end_seat.out_late (finale: 600 d clear and the seat)" },
     { "key": "guest", "label_key": "chain_tiel_1020.end_seat.opt_guest", "label": "Stay a guest of the bench: carry for them, swear for nobody", "check": "true", "default": true,
-      "effects": [ "goods rhenish_wine +6", "commission raw_wool 40 by 200 premium 1.0", "npc elder feeling +4 guest", "flag unlock_pilot_waal", "flag ch_tiel_1020_end_guest", "flag ch_tiel_1020_done" ],
+      "effects": [ "goods rhenish_wine +6", "commission raw_wool 40 by 200 premium 0.5", "npc elder feeling +4 guest", "flag unlock_pilot_waal", "flag ch_tiel_1020_end_guest", "flag ch_tiel_1020_done" ],
       "note": "outcome: chain_tiel_1020.end_seat.out_guest (the fifth ending, open to anyone: six casks, forty sacks of wool to carry at double, and the Waal's sands shown: worth about 700 d)" }
    ],
    "memory": { "key": "was given a key of the chest", "cup": "was sworn in at Tiel", "late": "was sworn in at Tiel", "guest": "stayed a guest of the bench" }

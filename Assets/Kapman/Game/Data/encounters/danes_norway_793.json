@@ -4334,7 +4334,7 @@
      "label": "Take his order for Rhine querns",
      "check": "not flag.dn_hleidr_querns",
      "effects": [
-      "commission quernstones 4 by 300 premium 0.6",
+      "commission quernstones 4 by 300 premium 0.5",
       "flag dn_hleidr_querns for 300",
       "npc steward feeling +3 querns"
      ]
@@ -4859,7 +4859,7 @@
      "label": "Take his order for quicksilver",
      "check": "not flag.dn_soti_figure and not flag.dn_soti_order",
      "effects": [
-      "commission quicksilver 1 by 400 premium 1.0",
+      "commission quicksilver 1 by 400 premium 0.5",
       "flag dn_soti_order for 400",
       "npc goldsmith feeling +4 order"
      ]
@@ -5389,7 +5389,7 @@
       "deed won_riddle",
       "flag dn_ahus_hearth",
       "flag dn_thjodvi_ribbon",
-      "commission madder 2 by 300 premium 0.6",
+      "commission madder 2 by 300 premium 0.5",
       "npc weaver feeling +15 answer",
       "morale +0.02"
      ]
@@ -6103,7 +6103,7 @@
      "label": "Promise salt for next autumn",
      "check": "not flag.dn_ahus_salt",
      "effects": [
-      "commission sea_salt 8 by 360 premium 0.6",
+      "commission sea_salt 8 by 360 premium 0.5",
       "flag dn_ahus_salt for 360",
       "npc fisherman feeling +3 order"
      ]
@@ -6850,7 +6850,7 @@
      "label": "Take his standing order for bare blades",
      "check": "not flag.dn_vemund_order",
      "effects": [
-      "commission sword_blades 4 by 400 premium 1.5",
+      "commission sword_blades 4 by 400 premium 0.5",
       "flag dn_vemund_order for 400",
       "flag sw_buyer_known",
       "npc smith feeling +5 order"
@@ -8199,7 +8199,7 @@
      "label": "Promise her glass by next harvest",
      "check": "not flag.dn_glass_promised and hold.glass_vessels = 0",
      "effects": [
-      "commission glass_vessels 1 by 400 premium 1.0",
+      "commission glass_vessels 1 by 400 premium 0.5",
       "flag dn_glass_promised",
       "npc wife feeling +5 promise"
      ]
@@ -8530,7 +8530,7 @@
      "label": "Take his order for straight oak",
      "check": "not flag.dn_odd_oak",
      "effects": [
-      "commission oak_timber 4 by 400 premium 0.6",
+      "commission oak_timber 4 by 400 premium 0.5",
       "flag dn_odd_oak for 400",
       "npc shipwright feeling +4 order"
      ]

@@ -583,6 +583,35 @@ namespace Kapman.Tests
                 Debug.Log($"Chart test: sold two casks and bought one back at Dorestat; silver {silverBefore:0} -> {silverMid:0} -> {FrameGame.Silver:0}; " +
                           $"the log's last line '{FrameLog.Lines[FrameLog.Lines.Count - 1].text}'");
 
+                // ---- AN ORDER IS OFFERED, ASKED AND TAKEN (the alpha's row 9; the road's step 6; Design/fixes/orders.md).
+                // Somebody offers her an order by name (a card would; here the test does). The game asks with the terms:
+                // what, for where, by what day, at how much a cask, the toll. Taken, it stands in Errands with its day.
+                yield return AnswerAll(play, said);
+                var orderPort = GameData.Port("traiectum");
+                var ordered = Commissions.Offer(orderPort, GameData.Good("rhenish_wine"), 2, 30.0, 0.3, game.Year, game.Month, game.Day);
+                Assert.IsNotNull(ordered, "no order could be offered");
+                Assert.IsTrue(ordered.offered && !ordered.mine, "an order offered is taken before it is asked");
+                yield return ChartPlay.Until(() => frame.FloatOpen(OrderAsk.IdOf(ordered)), 8f);
+                Assert.IsTrue(frame.FloatOpen(OrderAsk.IdOf(ordered)), "an order was offered and the game did not ask: take it or refuse it");
+                yield return Frames(10);
+                Assert.AreEqual("An order at " + orderPort.name, Title(play.FrontFloat()));
+                string orderAsk = ChartPlay.Read(play.FrontFloat());
+                StringAssert.Contains("2 casks of Rhenish wine for " + orderPort.name + " by ", orderAsk, "the ask does not say what is wanted, where and by what day");
+                StringAssert.Contains(" each (", orderAsk, "the ask does not say the price a cask and the whole");
+                StringAssert.Contains("less the toll there", orderAsk, "the ask does not say that the toll comes off");
+                StringAssert.Contains("the offer stands 7 days", orderAsk, "the ask does not say how long the offer stands");
+                var orderAnswers = play.Choices(play.FrontFloat());
+                Assert.AreEqual(2, orderAnswers.Count, "the ask has two answers: take it, or refuse it");
+                Assert.IsTrue(orderAnswers[0].can, "she cannot take an order of two casks: " + orderAsk);
+                yield return play.Shot("17b_an_order_is_offered");
+                yield return play.Click(orderAnswers[0].button, "Take the order");
+                yield return Frames(10);
+                Assert.IsTrue(ordered.mine, "the order was not taken");
+                Assert.IsFalse(frame.FloatOpen(OrderAsk.IdOf(ordered)), "the ask did not shut when it was answered");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("You took the order: 2 casks of Rhenish wine for " + orderPort.name)),
+                              "the log does not say that the order was taken: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Debug.Log("Chart test: an order offered and taken: " + ChartPlay.Short(orderAsk));
+
                 // ---- THE VOYAGE WINDOW: the ports she knows with their days; one picked draws its course; the course is set there
                 yield return play.ClickButton("1 Sea", frame.Root);
                 var voyage = FramePanels.Get("voyage") as VoyagePanel;
@@ -880,6 +909,40 @@ namespace Kapman.Tests
                 yield return AnswerAll(play, said);                        // (a visit's card, if one was drawn)
                 Assert.AreEqual(0, frame.FloatCount, "floating windows left up: " + string.Join(", ", frame.FloatIds));
                 Assert.AreEqual(TextPanel.PortMenuKey, text.Key, "the port's menu did not come back after the talk");
+
+                // ---- THE ORDER IS BROUGHT (the road's step 6). The landing said what is aboard for it. In Errands it is
+                // handed over: paid by the cask at the price fixed when it was given, less the toll as on any sale, and
+                // kept, so they think the better of her here.
+                Assert.IsTrue(ordered.mine && Commissions.All.Contains(ordered), "the order taken at Dorestat is gone before it was brought");
+                int wineAboard = Trade.Hold.Count("rhenish_wine");
+                Assert.GreaterOrEqual(wineAboard, 2, "she has not two casks aboard for the order");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("Aboard for your order here: 2 casks of Rhenish wine")),
+                              "the landing does not say what is aboard for her order here; the log: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 8)).Select(l => l.text)));
+                yield return play.Click(Verb(play, "Errands"), "the Errands button");
+                yield return ChartPlay.Until(() => play.Button("Hand over 2", Window(play, "Errands")) != null, 8f);
+                Assert.IsNotNull(play.Button("Hand over 2", Window(play, "Errands")), "Errands has no button to hand the order over: " + ChartPlay.Short(ChartPlay.Read(Window(play, "Errands"))));
+                string errands = ChartPlay.Read(Window(play, "Errands"));
+                StringAssert.Contains("Orders taken", errands);
+                StringAssert.Contains($"Brought: 0 of 2. Aboard: {wineAboard}.", errands, "Errands does not say what is brought and what is aboard");
+                StringAssert.Contains("This is the place", errands);
+                yield return play.Shot("25b_an_order_to_hand_over");
+                double orderSilver = FrameGame.Silver, orderStanding = Reputation.At(orderPort);
+                double orderToll = TradeRules.Current.ZoneOf(orderPort.region).toll * EncounterRunner.TollFactor(orderPort.id, game.Day);
+                yield return play.ClickWhen(() => play.Button("Hand over 2", Window(play, "Errands")), "Hand over 2, in Errands");
+                yield return Frames(10);
+                Assert.AreEqual(wineAboard - 2, Trade.Hold.Count("rhenish_wine"), "two casks should have gone ashore for the order");
+                Assert.IsFalse(Commissions.All.Contains(ordered), "all of it was brought and the order still stands");
+                Assert.AreEqual(2 * ordered.each * (1.0 - orderToll), FrameGame.Silver - orderSilver, 1.5, "the order should pay two casks at its price, less the toll of the place");
+                Assert.Greater(Reputation.At(orderPort), orderStanding, "the order was kept and nobody here thinks the better of her");
+                string orderSaid = FrameLog.Lines.Last(l => l.text.StartsWith("Delivered")).text;
+                StringAssert.StartsWith("Delivered 2 casks of Rhenish wine as ordered, for ", orderSaid);
+                yield return Frames(10);
+                StringAssert.DoesNotContain("Hand over", ChartPlay.Read(Window(play, "Errands")), "the order is kept and Errands still offers to hand it over");
+                yield return play.Shot("25c_the_order_is_kept");
+                Debug.Log($"Chart test: the order brought at Traiectum: '{orderSaid}'; silver {orderSilver:0} -> {FrameGame.Silver:0}; toll share {orderToll:0.00}");
+                // (back to the port's own windows, where the test goes on)
+                yield return play.ClickButton("2 Port", frame.Root);
+                yield return Frames(10);
 
                 // ---- TRADE at Traiectum: one of what she carries is sold, by its Sell button
                 yield return ChartPlay.Until(() => Window(play, "Trade")?.Query<Button>().ToList().Any(b => b.text == "Sell") == true, 5f);

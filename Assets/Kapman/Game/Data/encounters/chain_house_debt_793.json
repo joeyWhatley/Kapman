@@ -478,14 +478,14 @@
    ],
    "options": [
     { "key": "dam_head", "label_key": "chain_house_debt.s11.dam_head", "label": "Take the ground on the king's bank", "check": "true",
-      "effects": [ "flag ch_house_debt_end_friend", "flag unlock_plot_dorestad", "goods silk +1", "commission rhenish_wine 12 by 240 premium 0.8",
+      "effects": [ "flag ch_house_debt_end_friend", "flag unlock_plot_dorestad", "goods silk +1", "commission rhenish_wine 12 by 240 premium 0.5",
                    "toll eased 365", "npc count feeling +10 friend", "npc steward feeling +6 friend" ] },
     { "key": "seat", "label_key": "chain_house_debt.s11.seat_take", "label": "Ask instead for a seat among the seven who find judgment", "check": "flag.ch_house_debt_fed_his_people or flag.ch_house_debt_served_host or flag.ch_house_debt_tale_taken",
-      "effects": [ "flag ch_house_debt_end_friend", "flag unlock_title_doomsman_dorestad", "goods silk +1", "commission rhenish_wine 12 by 240 premium 0.8",
+      "effects": [ "flag ch_house_debt_end_friend", "flag unlock_title_doomsman_dorestad", "goods silk +1", "commission rhenish_wine 12 by 240 premium 0.5",
                    "toll eased 365", "npc count feeling +10 friend", "npc steward feeling +6 friend" ] },
     { "key": "charter", "label_key": "chain_house_debt.s11.charter", "label": "Ask him to carry your asking to the king: the freedom of the toll", "check": "flag.ch_house_debt_hawk and flag.ch_house_debt_paid_on_the_day",
       "effects": [ "flag ch_house_debt_end_friend", "flag ch_house_debt_end_friend_hard", "flag unlock_plot_dorestad", "flag unlock_charter_dorestad",
-                   "flag changed_dorestad_toll_charter", "goods silk +2", "commission rhenish_wine 16 by 365 premium 1.0", "toll none",
+                   "flag changed_dorestad_toll_charter", "goods silk +2", "commission rhenish_wine 16 by 365 premium 0.5", "toll none",
                    "npc count feeling +15 friend", "npc steward feeling +6 friend" ] }
    ],
    "memory": {
@@ -523,11 +523,11 @@
    "options": [
     { "key": "letter", "label_key": "chain_house_debt.s12.letter", "label": "Take the king's man's letter and carry for the palace", "check": "flag.ch_house_debt_judged",
       "effects": [ "flag ch_house_debt_end_enemy", "flag ch_house_debt_count_enemy", "flag unlock_title_kings_protection", "silver +240",
-                   "commission frisian_cloth 10 by 200 premium 0.6", "commission rhenish_wine 8 by 200 premium 0.6",
+                   "commission frisian_cloth 10 by 200 premium 0.5", "commission rhenish_wine 8 by 200 premium 0.5",
                    "npc envoy feeling +10 heard", "npc steward feeling -4 enemy" ] },
     { "key": "restitution", "label_key": "chain_house_debt.s12.restitution", "label": "Take the letter, and ask back twofold what was taken from you", "check": "flag.ch_house_debt_judged and (flag.ch_house_debt_tale_taken or flag.ch_house_debt_pressed)",
       "effects": [ "flag ch_house_debt_end_enemy", "flag ch_house_debt_count_enemy", "flag unlock_title_kings_protection", "silver +466",
-                   "commission frisian_cloth 10 by 200 premium 0.6", "commission rhenish_wine 8 by 200 premium 0.6",
+                   "commission frisian_cloth 10 by 200 premium 0.5", "commission rhenish_wine 8 by 200 premium 0.5",
                    "npc envoy feeling +10 heard", "npc count feeling -10 amends", "npc steward feeling -4 enemy" ] },
     { "key": "utrecht", "label_key": "chain_house_debt.s12.utrecht", "label": "Go down to Utrecht, and trade from behind the bishop's wall", "check": "flag.ch_house_debt_unheard",
       "effects": [ "flag ch_house_debt_end_enemy", "flag ch_house_debt_count_enemy", "flag unlock_factor_traiectum", "silver +300",
@@ -563,12 +563,12 @@
    "options": [
     { "key": "wax_wine", "label_key": "chain_house_debt.s13.wax_wine", "label": "Ask what Saint Martin wants carried first", "check": "true",
       "effects": [ "flag ch_house_debt_end_st_martin", "flag ch_house_debt_st_martins_man", "flag db_surety", "flag ch_house_debt_cleared",
-                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag unlock_charter_dorestad", "commission wax 8 by 240 premium 0.6",
-                   "commission rhenish_wine 8 by 240 premium 0.6", "npc bishop feeling +15 his_man" ] },
+                   "flag ch_house_debt_owed = 0", "law debt_cleared", "flag unlock_charter_dorestad", "commission wax 8 by 240 premium 0.5",
+                   "commission rhenish_wine 8 by 240 premium 0.5", "npc bishop feeling +15 his_man" ] },
     { "key": "school", "label_key": "chain_house_debt.s13.school", "label": "Ask that a clerk teach your house its letters", "check": "true",
       "effects": [ "flag ch_house_debt_end_st_martin", "flag ch_house_debt_st_martins_man", "flag db_surety", "flag ch_house_debt_cleared",
                    "flag ch_house_debt_owed = 0", "law debt_cleared", "flag unlock_charter_dorestad", "learn latin +0.5", "give_text aldhelm_23_trutina",
-                   "commission wax 8 by 240 premium 0.6", "npc bishop feeling +15 his_man" ] }
+                   "commission wax 8 by 240 premium 0.5", "npc bishop feeling +15 his_man" ] }
    ],
    "memory": {
     "wax_wine": "is Saint Martin's man and carries for the church",

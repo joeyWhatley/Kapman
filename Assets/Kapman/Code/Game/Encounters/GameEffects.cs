@@ -22,8 +22,6 @@ namespace Kapman.Game
         /// <summary>The cards' writing, for a news item's words.</summary>
         public EncounterBook book;
 
-        int ordersMade;
-
         PortDef Here => GameData.Port(portNow != null ? portNow() : null);
 
         static double Today => KapmanGame.Current != null ? KapmanGame.Current.Day : 0.0;
@@ -159,21 +157,17 @@ namespace Kapman.Game
             return null;
         }
 
+        /// <summary>A card offers the merchant an order by name (Design/fixes/orders.md): priced by the one rule for all
+        /// orders (the market there plus at most a half, at most 60 d over the market in all), kept for the merchant, and
+        /// asked when the card has closed: take it or refuse it. Taken, it stands in Errands with its day.</summary>
         public string Commission(string port, string good, int count, double days, double premium)
         {
             var p = GameData.Port(port) ?? Here;
             var g = GameData.Good(good);
             if (p == null || g == null || count <= 0 || days <= 0.0)
                 return null;
-            var m = Markets.Of(p, Year, Today);
-            var mg = m != null ? m.Get(good) : null;
-            double each = (mg != null ? m.Pays(mg, Month) : g.value) * (1.0 + premium);
-            Commissions.All.Add(new Kapman.Game.Commission
-            {
-                id = "enc" + (++ordersMade) + "." + p.id + "." + Today.ToString("0.###", CultureInfo.InvariantCulture),
-                port = p.id, good = g.id, units = count, pay = Math.Round(each * count), posted = Today, deadline = Today + days,
-            });
-            return $"You have an order at {p.name} for {Trade.Units(g, count)}, wanted within {days.ToString("0", CultureInfo.InvariantCulture)} days.";
+            var c = Commissions.Offer(p, g, count, days, premium, Year, Month, Today);
+            return c == null ? null : $"An order is offered: {Commissions.Describe(c)}. Take it or refuse it.";
         }
 
         // ------------------------------------------------------------------ the chest

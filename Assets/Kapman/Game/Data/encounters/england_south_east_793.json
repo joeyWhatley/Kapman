@@ -179,7 +179,7 @@
    ],
    "options": [
     { "key": "order", "label_key": "england_south_east.lundenwic.black_stones_wanted.do_order", "label": "Take his order: eight pairs of black stones, of the old thickness", "check": "true",
-      "effects": ["commission quernstones 8 by 240 premium 1.6", "flag ese_bakers_order for 240", "npc baker feeling +4 order"] },
+      "effects": ["commission quernstones 8 by 240 premium 0.5", "flag ese_bakers_order for 240", "npc baker feeling +4 order"] },
     { "key": "sell", "label_key": "england_south_east.lundenwic.black_stones_wanted.do_sell", "label": "Sell him four pairs at his door (80 d)", "check": "hold.quernstones >= 4", "cost": "goods quernstones 4",
       "effects": ["silver +80", "npc baker feeling +8 sold"] },
     { "key": "pass", "label_key": "england_south_east.lundenwic.black_stones_wanted.do_pass", "label": "Say you carry wine this voyage, and go on up the road", "check": "true", "default": true,
@@ -289,7 +289,7 @@
    ],
    "options": [
     { "key": "order", "label_key": "england_south_east.lundenwic.comb_pit.do_order", "label": "Take his order for antler: six bundles, at a comb-maker's price", "check": "true",
-      "effects": ["commission antler 6 by 300 premium 1.5", "npc comber feeling +4 order"] },
+      "effects": ["commission antler 6 by 300 premium 0.5", "npc comber feeling +4 order"] },
     { "key": "sell", "label_key": "england_south_east.lundenwic.comb_pit.do_sell", "label": "Sell him the antler you carry (2 bundles, 20 d)", "check": "hold.antler >= 2", "cost": "goods antler 2",
       "effects": ["silver +20", "npc comber feeling +8 sell"] },
     { "key": "combs", "label_key": "england_south_east.lundenwic.comb_pit.do_combs", "label": "Buy three dozen combs at the bench (27 d)", "check": "silver >= 27", "cost": "silver 27",
@@ -1734,7 +1734,7 @@
    ],
    "options": [
     { "key": "order", "label_key": "england_south_east.sarre.wine_for_the_minster.do_order", "label": "Take the minster's order: four casks of wine before Easter", "check": "true",
-      "effects": ["commission rhenish_wine 4 by 240 premium 1.5", "npc nun feeling +5 order"] },
+      "effects": ["commission rhenish_wine 4 by 240 premium 0.5", "npc nun feeling +5 order"] },
     { "key": "wine", "label_key": "england_south_east.sarre.wine_for_the_minster.do_wine", "label": "Sell her a cask now, landed under the minster's cross (95 d)", "check": "hold.rhenish_wine >= 1", "cost": "goods rhenish_wine 1",
       "effects": ["silver +95", "npc nun feeling +8 wine"] },
     { "key": "wax", "label_key": "england_south_east.sarre.wine_for_the_minster.do_wax", "label": "Sell her two cakes of wax for the saint's day (90 d)", "check": "hold.wax >= 2", "cost": "goods wax 2",
@@ -1917,7 +1917,7 @@
    ],
    "options": [
     { "key": "promise", "label_key": "england_south_east.fordwic.herd_of_calves.do_promise", "label": "Take his order: six bundles of clean calfskin before winter", "check": "true",
-      "effects": ["commission cattle_hides 6 by 200 premium 1.4", "npc scribe feeling +4 promise"] },
+      "effects": ["commission cattle_hides 6 by 200 premium 0.5", "npc scribe feeling +4 promise"] },
     { "key": "deliver", "label_key": "england_south_east.fordwic.herd_of_calves.do_deliver", "label": "Lay six bundles of skins on his bench, and be taught what a book is worth", "check": "hold.cattle_hides >= 6", "cost": "goods cattle_hides 6",
       "effects": ["silver +120", "flag bk_knows_worth", "flag bk_parchment", "learn latin +0.05", "npc scribe feeling +15 deliver"] },
     { "key": "leave", "label_key": "england_south_east.fordwic.herd_of_calves.do_leave", "label": "Tell him calves are no cargo for a small boat", "check": "true", "default": true,
@@ -3112,7 +3112,7 @@
    ],
    "options": [
     { "key": "order", "label_key": "england_south_east.lundenwic.kings_new_church.do_order", "label": "Take the order: six pigs of lead for the roof", "check": "true",
-      "effects": ["commission lead 6 by 240 premium 1.5", "npc cellarer feeling +4 order"] },
+      "effects": ["commission lead 6 by 240 premium 0.5", "npc cellarer feeling +4 order"] },
     { "key": "lead", "label_key": "england_south_east.lundenwic.kings_new_church.do_lead", "label": "Sell the lead you carry at the abbey's landing (2 pigs, 40 d)", "check": "hold.lead >= 2", "cost": "goods lead 2",
       "effects": ["silver +40", "npc cellarer feeling +6 lead"] },
     { "key": "mass", "label_key": "england_south_east.lundenwic.kings_new_church.do_mass", "label": "Hear Mass in the old small church, and give a penny toward the new", "check": "silver >= 1", "cost": "silver 1",

@@ -801,6 +801,7 @@ namespace Kapman.Game.Frame
                 }
             }
             CardFloat();
+            OrderAsk.Tick(this);                                         // (an order a card offered is asked when the card has closed)
             TalkFloat();
             AlertFloats();
             PeopleLeftBehind();

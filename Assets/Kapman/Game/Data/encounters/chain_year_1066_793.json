@@ -147,7 +147,7 @@
    ],
    "options": [
     { "key": "stores", "label_key": "chain_year_1066.s04.opt_stores", "label": "Take his order for rope: twenty coils, landed here, at six tenths over the market", "check": "true", "default": true,
-      "effects": [ "commission rope 20 by 60 premium 0.6", "npc clerk feeling +5 stores", "flag ch_year_1066_road_norman", "flag ch_year_1066_4", "flag ch_year_1066_1" ],
+      "effects": [ "commission rope 20 by 60 premium 0.5", "npc clerk feeling +5 stores", "flag ch_year_1066_road_norman", "flag ch_year_1066_4", "flag ch_year_1066_1" ],
       "note": "outcome: chain_year_1066.s04.out_stores" },
     { "key": "hire", "label_key": "chain_year_1066.s04.opt_hire", "label": "Put the ship at the duke's hire for the crossing: silver now, the rest on the far shore", "check": "true",
       "effects": [ "silver +200", "npc clerk feeling +10 hired", "flag ch_year_1066_hired", "flag ch_year_1066_road_norman", "flag ch_year_1066_4", "flag ch_year_1066_1" ],
@@ -356,7 +356,7 @@
    ],
    "options": [
     { "key": "supply", "label_key": "chain_year_1066.s09.opt_supply", "label": "Carry the duke's sick over to Normandy, and take his order for flour on the way back", "check": "true",
-      "effects": [ "silver +120", "commission flour 20 by 40 premium 0.6", "npc sergeant feeling +10 carried", "flag ch_year_1066_supplied", "flag ch_year_1066_road_norman", "flag ch_year_1066_9", "flag ch_year_1066_1", "schedule harbour.chain_year_1066.end_norman in 45 at lundenwic" ],
+      "effects": [ "silver +120", "commission flour 20 by 40 premium 0.5", "npc sergeant feeling +10 carried", "flag ch_year_1066_supplied", "flag ch_year_1066_road_norman", "flag ch_year_1066_9", "flag ch_year_1066_1", "schedule harbour.chain_year_1066.end_norman in 45 at lundenwic" ],
       "note": "outcome: chain_year_1066.s09.out_supply (120 d and an order at six tenths over)" },
     { "key": "fugitives", "label_key": "chain_year_1066.s09.opt_fugitives", "label": "Take the widow and her children over to Flanders, and ask no fare", "check": "true", "default": true,
       "effects": [ "passenger widow to ganda", "goods brooches +1", "npc widow feeling +15 carried", "flag ch_year_1066_fugitives", "flag ch_year_1066_9", "flag ch_year_1066_1" ],

@@ -591,12 +591,12 @@
    "options": [
     { "key": "foster", "label_key": "chain_sword_smuggle.s13.opt_foster", "label": "Take the boy aboard as your fosterling, and carry the saint's wine",
       "check": "true", "default": true,
-      "effects": [ "silver +650", "commission rhenish_wine 6 by 200 premium 0.6", "deed gave_alms", "npc priest feeling +15 gave_blade", "npc widow feeling +20 fostered", "morale +0.05", "toll eased 365",
+      "effects": [ "silver +650", "commission rhenish_wine 6 by 200 premium 0.5", "deed gave_alms", "npc priest feeling +15 gave_blade", "npc widow feeling +20 fostered", "morale +0.05", "toll eased 365",
                    "flag unlock_title_st_martins_man", "flag unlock_kin_fosterling_eilger", "flag ch_sword_smuggle_end_laid_down" ],
       "note": "outcome: chain_sword_smuggle.s13.out_foster (finale: 650 d of freight paid before the voyage, a wine commission at a premium, a year of eased toll, and two grand rewards)" },
     { "key": "keep", "label_key": "chain_sword_smuggle.s13.opt_keep", "label": "Leave the boy with his mother, pay his keep to the church, and carry the saint's wine",
       "check": "silver >= 120", "cost": "silver 120",
-      "effects": [ "silver +900", "commission rhenish_wine 6 by 200 premium 0.6", "deed gave_alms", "npc priest feeling +18 gave_blade", "npc widow feeling +12 kept", "toll eased 365",
+      "effects": [ "silver +900", "commission rhenish_wine 6 by 200 premium 0.5", "deed gave_alms", "npc priest feeling +18 gave_blade", "npc widow feeling +12 kept", "toll eased 365",
                    "flag unlock_title_st_martins_man", "flag ch_sword_smuggle_end_laid_down" ],
       "note": "outcome: chain_sword_smuggle.s13.out_keep (finale: 900 d of freight, less 120 d for the boy's keep, the same commission and eased toll, and one grand reward)" }
    ],

@@ -151,7 +151,7 @@
                    "news chain_walrus_ivory.news.tooth at lundenwic" ],
       "note": "outcome: chain_walrus_ivory.s04.out_peace (counts at step 9: the reeve wrote it down)" },
     { "key": "own", "label_key": "chain_walrus_ivory.s04.opt_own", "label": "Ask to be the man who brings the teeth", "check": "true",
-      "effects": [ "flag ch_walrus_ivory_4", "flag ch_walrus_ivory_4_own", "flag ch_walrus_ivory_wait for 150", "commission walrus_ivory 4 by 400 premium 1.4",
+      "effects": [ "flag ch_walrus_ivory_4", "flag ch_walrus_ivory_4_own", "flag ch_walrus_ivory_wait for 150", "commission walrus_ivory 4 by 400 premium 0.5",
                    "news chain_walrus_ivory.news.tooth at lundenwic" ],
       "note": "outcome: chain_walrus_ivory.s04.out_own (an order for four pairs at a premium; remembered at step 11)" },
     { "key": "prices", "label_key": "chain_walrus_ivory.s04.opt_prices", "label": "Ask only what the king's goldsmith would pay", "check": "true",
@@ -492,7 +492,7 @@
    ],
    "options": [
     { "key": "yearly", "label_key": "chain_walrus_ivory.s12.opt_yearly", "label": "Agree to bring ten pairs a year", "check": "true", "default": true,
-      "effects": [ "silver +1000", "flag ch_walrus_ivory_end_franks", "flag unlock_factor_colonia", "commission walrus_ivory 10 by 400 premium 1.5",
+      "effects": [ "silver +1000", "flag ch_walrus_ivory_end_franks", "flag unlock_factor_colonia", "commission walrus_ivory 10 by 400 premium 0.5",
                    "flag changed_ivory_road_rhine", "flag changed_ohthere_unwritten", "flag ch_walrus_ivory_done", "flag ch_walrus_ivory_book_wait for 700",
                    "npc carver feeling +15 yearly", "news chain_walrus_ivory.news.rhine at colonia" ],
       "note": "outcome: chain_walrus_ivory.s12.out_yearly" },
@@ -536,7 +536,7 @@
    ],
    "options": [
     { "key": "kings_man", "label_key": "chain_walrus_ivory.s13.opt_kings_man", "label": "Carry the king's teeth south each year", "check": "true",
-      "effects": [ "silver +900", "flag ch_walrus_ivory_end_king", "flag unlock_title_haralds_guest", "commission walrus_ivory 8 by 400 premium 1.4",
+      "effects": [ "silver +900", "flag ch_walrus_ivory_end_king", "flag unlock_title_haralds_guest", "commission walrus_ivory 8 by 400 premium 0.5",
                    "flag changed_finn_tribute_kings", "flag changed_ohthere_unwritten", "flag ch_walrus_ivory_ohthere_wronged", "flag ch_walrus_ivory_done",
                    "flag ch_walrus_ivory_book_wait for 700", "npc steward feeling +15 kings_man", "news chain_walrus_ivory.news.king at ogvaldsnes" ],
       "note": "outcome: chain_walrus_ivory.s13.out_kings_man" },

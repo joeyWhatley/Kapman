@@ -29,6 +29,10 @@ namespace Kapman.Game
         DebtDay,
         /// <summary>The player opens a talk with someone, or the chest: reading takes the time it takes.</summary>
         Talk,
+        /// <summary>An order she has taken has a week left, with some of it still to bring.</summary>
+        OrderNear,
+        /// <summary>An order she has taken has a day left, with some of it still to bring.</summary>
+        OrderDay,
     }
 
     /// <summary>The switches for the clock's own drops (kept on this machine, not in the saved game).</summary>
@@ -88,6 +92,7 @@ namespace Kapman.Game
                 case ClockReason.NearPort:
                 case ClockReason.BreadLow:
                 case ClockReason.DebtNear:
+                case ClockReason.OrderNear:
                     return 1;
                 default:
                     return 0;
@@ -110,6 +115,8 @@ namespace Kapman.Game
                 case ClockReason.DebtNear: return "the debt, in a week";
                 case ClockReason.DebtDay: return "the debt's day";
                 case ClockReason.Talk: return "talking";
+                case ClockReason.OrderNear: return "an order, in a week";
+                case ClockReason.OrderDay: return "an order's last day";
                 default: return "";
             }
         }
@@ -130,6 +137,8 @@ namespace Kapman.Game
                 case ClockReason.DebtNear: return "A week before the debt's day: slow to speed 2";
                 case ClockReason.DebtDay: return "The debt's day: slow to speed 1";
                 case ClockReason.Talk: return "Talking with someone, or reading in the chest: slow to speed 1";
+                case ClockReason.OrderNear: return "A week before the day of an order you have taken: slow to speed 2";
+                case ClockReason.OrderDay: return "The last day of an order you have taken: slow to speed 1";
                 default: return why.ToString();
             }
         }

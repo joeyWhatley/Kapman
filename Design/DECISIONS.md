@@ -1057,4 +1057,29 @@ and far fewer when usage is short).
    - The view of the ship shows her under oars while the order stands.
    What it is for: a foul wind or a calm, a day or a tide to make, a sail that is closing (the raiders close on
    where she really is). THE NUMBERS ARE FIRST GUESSES (voyage_rules.json "oars").
+111. **ORDERS THAT WORK, BUILT** (the road's step 6, the alpha's row 9; the plan and its drafts are
+   Design/fixes/orders.md, written 7 Oct and never run until now: all its tests pass).
+   - OFFERED, THEN TAKEN OR REFUSED. A card does not take an order for the player any more. It offers one; when
+     the card has closed the game asks, with the terms: what, for where, by what day, at how much a unit and in
+     all, the toll, how many loads it is for her boat. Refusing costs nothing. Shut unanswered, the offer waits in
+     Errands seven days and then goes to another. A port's own posted order is as before.
+   - TAKEN, it stands in Errands with its day, what is brought and what is aboard.
+   - IN PARTS. Where it is wanted she hands over what she has aboard, in Errands; each part is paid as it lands.
+     On arrival the log says what is aboard for an order there; nothing is handed over for her.
+   - THE PAY is so much a unit, fixed the day the order is given: what that market pays a seller that day, never
+     more than it usually pays, plus the premium asked cut to a half, and the part over the market never more
+     than 60 d for the whole order (my reading of ruling 14). 126 of the cards' 220 orders asked more than a
+     half: their premiums are written down to 0.5 (Bake/economy/cap_order_premiums.py).
+   - TOLLED like any sale, by the graphs' own rule. While she works for the lender his share comes off it too.
+   - WARNED: seven days before its day and on the last day the log says what is still to bring, and the clock
+     drops back by itself (two new reasons in the settings, like the debt's).
+   - ITS DAY PASSED: nothing brought, it is broken (-5 there); part brought, it is short (-2, a new deed), and
+     what was landed stays paid. No late delivery, no handing back.
+   CHANGED FROM THE DRAFT, by me: the ask comes when the card has closed (so what came of the card is read first),
+   one ask at a time; it is plain words, not somebody speaking; goods keep their capitals ("Rhenish wine"); in the
+   narrow window the buttons stand under an order's line.
+   THE DRAFT'S OWN CHOICES STAND, the user's to overrule (orders.md part 9): the 60 d cap; the lower of today's
+   price and the usual; every card's order is asked once; no late delivery; handing over is the player's act; a
+   short order costs 2 where a broken one costs 5. Four of the twelve ports (Sarre, Fordwic, Medemelacha,
+   Doccinga) still post no orders of their own: their kind has no row in commissions_793.json.
 

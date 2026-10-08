@@ -223,10 +223,10 @@
    ],
    "options": [
     { "key": "horse", "label_key": "chain_amber_road.s06.opt_horse", "label": "Say you will be back with a horse", "check": "true",
-      "effects": [ "flag ch_amber_road_horse_errand", "commission horses 1 by 80 premium 1.0", "npc steward feeling +2 horse", "flag ch_amber_road_6", "schedule harbour.chain_amber_road.s09_race in 70 at truso" ],
+      "effects": [ "flag ch_amber_road_horse_errand", "commission horses 1 by 80 premium 0.5", "npc steward feeling +2 horse", "flag ch_amber_road_6", "schedule harbour.chain_amber_road.s09_race in 70 at truso" ],
       "note": "outcome: chain_amber_road.s06.out_horse (an order stands at Truso for one horse at double: he may sell on it, or keep the horse and ride)" },
     { "key": "ale", "label_key": "chain_amber_road.s06.opt_ale", "label": "Say you will be back with ale and a woman who can brew it", "check": "flag.ch_amber_road_ale_tasted",
-      "effects": [ "flag ch_amber_road_brew_errand", "commission malt 6 by 80 premium 1.0", "npc heir feeling +5 ale", "flag ch_amber_road_6", "schedule harbour.chain_amber_road.s09_race in 70 at truso" ],
+      "effects": [ "flag ch_amber_road_brew_errand", "commission malt 6 by 80 premium 0.5", "npc heir feeling +5 ale", "flag ch_amber_road_6", "schedule harbour.chain_amber_road.s09_race in 70 at truso" ],
       "note": "outcome: chain_amber_road.s06.out_ale (an order for six sacks of malt at double)" },
     { "key": "stay", "label_key": "chain_amber_road.s06.opt_stay", "label": "Say only that you will be there", "check": "true", "default": true,
       "effects": [ "commission frisian_cloth 4 by 80 premium 0.3", "npc steward feeling +1 plain", "flag ch_amber_road_6", "schedule harbour.chain_amber_road.s09_race in 70 at truso" ],
@@ -423,7 +423,7 @@
    ],
    "options": [
     { "key": "brewhouse", "label_key": "chain_amber_road.end_ale.opt_brewhouse", "label": "Leave her here with her share and a brewhouse, and take the malt trade", "check": "true", "default": true,
-      "effects": [ "goods amber +12", "silver +300", "commission malt 20 by 240 premium 1.0", "price_shock truso malt x2 for 365", "flag unlock_work_truso_brewhouse", "flag unlock_factor_truso", "npc brewster feeling +15 brewhouse", "flag changed_ests_brew_ale", "flag ch_amber_road_end_ale", "flag ch_amber_road_done" ],
+      "effects": [ "goods amber +12", "silver +300", "commission malt 20 by 240 premium 0.5", "price_shock truso malt x2 for 365", "flag unlock_work_truso_brewhouse", "flag unlock_factor_truso", "npc brewster feeling +15 brewhouse", "flag changed_ests_brew_ale", "flag ch_amber_road_end_ale", "flag ch_amber_road_done" ],
       "note": "outcome: chain_amber_road.end_ale.out_brewhouse (12 sacks, 300 d, an order for twenty sacks of malt at double, a brewhouse inside the palisade and a woman who keeps his goods)" },
     { "key": "amber", "label_key": "chain_amber_road.end_ale.opt_amber", "label": "Take the king's thanks in amber now, and his peace on your boat", "check": "true",
       "effects": [ "goods amber +30", "silver +200", "price_shock truso malt x2 for 365", "flag unlock_charter_truso", "npc heir feeling +8 thanks", "flag changed_ests_brew_ale", "flag ch_amber_road_end_ale", "flag ch_amber_road_done" ],

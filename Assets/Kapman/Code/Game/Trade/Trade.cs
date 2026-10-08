@@ -218,7 +218,7 @@ namespace Kapman.Game
 
         /// <summary>The stick's share of a sale while she works for the lender (see <see cref="WorkFlag"/>): taken from
         /// the purse and off the debt, and said in a sentence after the sale's own (with a space before it, or "").</summary>
-        static string WorkShare(ZoneDef zone, double took)
+        public static string WorkShare(ZoneDef zone, double took)
         {
             if (!Working || took <= 0.0)
                 return "";

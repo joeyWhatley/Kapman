@@ -250,7 +250,7 @@
    ],
    "options": [
     { "key": "order", "label_key": "chain_maldon_991.s07.opt_order", "label": "Take Asgot's order: eight casks of Rhenish wine before the next winter, at his price", "check": "true",
-      "effects": [ "commission rhenish_wine 8 by 240 premium 0.8", "npc asgot feeling +10 order", "flag ch_maldon_991_asgot", "flag ch_maldon_991_7" ],
+      "effects": [ "commission rhenish_wine 8 by 240 premium 0.5", "npc asgot feeling +10 order", "flag ch_maldon_991_asgot", "flag ch_maldon_991_7" ],
       "note": "outcome: chain_maldon_991.s07.out_order (turn: eight casks at nearly double, about 380 d over the market)" },
     { "key": "sell", "label_key": "chain_maldon_991.s07.opt_sell", "label": "Sell into the silver: let the men home from England bid against each other", "check": "hold.value > 0",
       "effects": [ "silver +160", "price_shock sliesthorp frankish_wine x1.6 for 120", "flag en_followed_silver", "flag ch_maldon_991_fleet", "flag ch_maldon_991_asgot", "flag ch_maldon_991_7" ],
@@ -288,7 +288,7 @@
    ],
    "options": [
     { "key": "shares", "label_key": "chain_maldon_991.s08.opt_shares", "label": "Go shares in his storehouse (120 d), and take his first order", "check": "silver >= 120", "cost": "silver 120",
-      "effects": [ "commission frankish_wine 10 by 200 premium 0.6", "npc toke feeling +15 shares", "npc wife feeling +8 shares", "flag ch_maldon_991_partner", "flag ch_maldon_991_toki", "flag ch_maldon_991_8" ],
+      "effects": [ "commission frankish_wine 10 by 200 premium 0.5", "npc toke feeling +15 shares", "npc wife feeling +8 shares", "flag ch_maldon_991_partner", "flag ch_maldon_991_toki", "flag ch_maldon_991_8" ],
       "note": "outcome: chain_maldon_991.s08.out_shares (turn: ten casks at +60%, about 480 d over the market at London's price, and a share in the house)" },
     { "key": "surety", "label_key": "chain_maldon_991.s08.opt_surety", "label": "Stand surety for him before the reeve: your name beside a Dane's on the stick", "check": "true",
       "effects": [ "npc toke feeling +12 surety", "npc wife feeling +10 surety", "npc reeve feeling -2 surety", "toll eased 90", "flag ch_maldon_991_surety", "flag ch_maldon_991_toki", "flag ch_maldon_991_8" ],
@@ -493,7 +493,7 @@
       "effects": [ "silver +700", "npc wife feeling +20 house", "flag unlock_factor_lundenwic", "flag ch_maldon_991_end_london", "flag ch_maldon_991_done" ],
       "note": "outcome: chain_maldon_991.end_london.out_house (700 d of the house's stock turned to coin, and a factor at London)" },
     { "key": "river", "label_key": "chain_maldon_991.end_london.opt_river", "label": "Ask nothing of the king. Carry what the Danish keels used to carry, and learn the river from the lightermen", "check": "true", "default": true,
-      "effects": [ "silver +600", "commission frankish_wine 12 by 200 premium 0.6", "npc reeve feeling +5 river", "flag unlock_pilot_thames", "flag ch_maldon_991_end_london", "flag ch_maldon_991_done" ],
+      "effects": [ "silver +600", "commission frankish_wine 12 by 200 premium 0.5", "npc reeve feeling +5 river", "flag unlock_pilot_thames", "flag ch_maldon_991_end_london", "flag ch_maldon_991_done" ],
       "note": "outcome: chain_maldon_991.end_london.out_river (open to anyone: 600 d of freight money paid ahead, twelve casks on order at +60%, and the Thames to the bridge)" }
    ],
    "memory": { "writ": "asked the king's writ at Billingsgate", "toft": "took a dead Dane's toft", "house": "kept the share in Toke's house with Leofflaed", "river": "asked nothing and took the Danes' freight" }

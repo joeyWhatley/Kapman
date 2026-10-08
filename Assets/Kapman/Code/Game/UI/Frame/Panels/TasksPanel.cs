@@ -3,9 +3,10 @@ using UnityEngine.UIElements;
 namespace Kapman.Game.Frame
 {
     /// <summary>
-    /// TASKS - what you have taken on: the debt and its day (and paying toward it at a market), the orders you have taken
-    /// with their days left (delivered here when you carry them), the orders posted where she lies, and the passengers
-    /// (the game carries none yet, and says so).
+    /// ERRANDS - what you have taken on: the debt and its day (and paying toward it at a market); the orders offered to
+    /// you and not yet answered (take or refuse); the orders you have taken, each with its day, how much of it is
+    /// brought and how much is aboard (handed over here, in parts if need be, when she lies where it is wanted); the
+    /// orders posted where she lies; and the passengers (the game carries none yet, and says so).
     /// </summary>
     public sealed class TasksPanel : FramePanel
     {
@@ -29,9 +30,13 @@ namespace Kapman.Game.Frame
                 h = FrameUi.Mix(h, game != null ? (int)Trade.DebtDaysLeft(game.Day) : 0);
                 h = FrameUi.Mix(h, Trade.Working ? 1 : 0);
                 h = FrameUi.Mix(h, FrameGame.HoldStamp());
+                h = FrameUi.Mix(h, (int)Trade.Hold.capacity);
             }
             foreach (var c in Commissions.All)
+            {
                 h = FrameUi.Mix(FrameUi.Mix(FrameUi.Mix(h, c.id), c.mine), game != null ? (int)(c.deadline - game.Day) : 0);
+                h = FrameUi.Mix(FrameUi.Mix(h, c.done), c.offered);
+            }
             return h;
         }
 
@@ -84,28 +89,54 @@ namespace Kapman.Game.Frame
             else
                 body.Add(FrameUi.P("You owe nothing."));
 
-            // ---- orders taken
+            // ---- orders offered to you by name, not yet answered (Design/fixes/orders.md)
+            var offers = Commissions.OfferedToYou;
+            if (offers.Count > 0)
+            {
+                body.Add(FrameUi.H("Orders offered to you"));
+                foreach (var c in offers)
+                {
+                    var order = c;
+                    double stands = c.posted + Commissions.OfferDays - game.Day;
+                    string why = Commissions.WhyNot(c);
+                    string small = (why.Length > 0 ? why : Commissions.LoadsLine(c)) + $" The offer stands {System.Math.Max(0.0, System.Math.Ceiling(stands)):0} days more.";
+                    var take = FrameUi.Btn("Take", () => Say(Commissions.Take(order)), why.Length > 0 ? why : null);
+                    take.SetEnabled(why.Length == 0);
+                    // (the buttons stand under the line, not beside it: the window is narrow)
+                    body.Add(FrameUi.Ln(Cap(Commissions.Describe(c)), small.Trim()));
+                    body.Add(FrameUi.Row(take, FrameUi.Btn("Refuse", () => Say(Commissions.Refuse(order)))));
+                }
+            }
+
+            // ---- orders taken: each with its day, what is brought, what is aboard; handed over here, part by part
             body.Add(FrameUi.H("Orders taken"));
             var mine = Commissions.Mine;
             if (mine.Count == 0)
-                body.Add(FrameUi.P("None. Orders are posted in the ports: see below when she lies in one."));
-            bool canDeliver = false;
+                body.Add(FrameUi.P("None. A port posts its orders where she lies; some people offer you one themselves."));
             foreach (var c in mine)
             {
+                var order = c;
                 double left = c.deadline - game.Day;
                 int aboard = Trade.Hold.Count(c.good);
-                bool ready = here != null && c.port == here.id && aboard >= c.units;
-                canDeliver |= ready;
-                string small = (left >= 0.0 ? $"{left:0} days left. " : $"{-left:0} days late. ") + $"Aboard: {aboard} of {c.units}." + (ready ? " This is the place." : "");
-                body.Add(FrameUi.Ln(Cap(Commissions.Describe(c)), small));
-            }
-            if (canDeliver)
-                body.Add(FrameUi.Go("Deliver what is ordered here", () =>
+                int now = System.Math.Min(aboard, c.Left);
+                bool isHere = here != null && c.port == here.id;
+                string small = (left >= 0.0 ? $"{System.Math.Ceiling(left):0} days left. " : "Its day has passed. ") + $"Brought: {c.done} of {c.units}. Aboard: {aboard}.";
+                string loads = Commissions.LoadsLine(c);
+                if (loads.Length > 0)
+                    small += " " + loads;
+                if (isHere && now > 0)
                 {
-                    Say(Commissions.Deliver(here));
-                }));
+                    var market = Markets.Of(here, game.Year, game.Day);
+                    double toll = Chest.TollFreeAt(here, game.Year) ? 0.0 : market.zone.toll * EncounterRunner.TollFactor(here.id, game.Day);
+                    small += toll > 0.0 ? $" This is the place: the toll here is {toll * 100.0:0} in the hundred." : " This is the place: no toll here.";
+                    body.Add(FrameUi.Ln(Cap(Commissions.Describe(c)), small));
+                    body.Add(FrameUi.Row(FrameUi.Go(now >= c.Left ? $"Hand over {now}" : $"Hand over {now} now", () => Say(Commissions.Deliver(order, here)))));
+                }
+                else
+                    body.Add(FrameUi.Ln(Cap(Commissions.Describe(c)), small + (isHere ? " This is the place, but none of it is aboard." : "")));
+            }
 
-            // ---- orders posted here
+            // ---- orders posted here, open to every merchant
             if (here != null)
             {
                 var posted = Commissions.At(here);
@@ -115,9 +146,15 @@ namespace Kapman.Game.Frame
                 foreach (var c in posted)
                 {
                     var order = c;
-                    body.Add(FrameUi.Ln(Cap(Commissions.Describe(c)), $"{c.deadline - game.Day:0} days to bring it.",
-                                        FrameUi.Btn("Take", () => Say(Commissions.Take(order)))));
+                    string why = Commissions.WhyNot(c);
+                    string small = $"{System.Math.Ceiling(c.deadline - game.Day):0} days to bring it. " + (why.Length > 0 ? why : Commissions.LoadsLine(c));
+                    var take = FrameUi.Btn("Take", () => Say(Commissions.Take(order)), why.Length > 0 ? why : null);
+                    take.SetEnabled(why.Length == 0);
+                    body.Add(FrameUi.Ln(Cap(Commissions.Describe(c)), small.Trim()));
+                    body.Add(FrameUi.Row(take));
                 }
+                if (posted.Count > 0)
+                    body.Add(FrameUi.P("Left untaken, another merchant may fill it."));
             }
 
             // ---- passengers

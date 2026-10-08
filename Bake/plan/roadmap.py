@@ -323,6 +323,7 @@ DONE = {
     "Events move the stats": ("8 Oct, night", "A stat is a base and the marks on it. Cards put them on with a verb, 18 kinds of known deed by a table, hunger and sickness by themselves. All marks together move a stat by no more than two. Yourself shows each with its cause and its end."),
     "Cards that wait": ("8 Oct, night", "A card left unanswered with the clock running waits a week, then takes one of its own options and the log says which. A pressing card (44 of them) waits hours, and 36 of those hold her where she is meanwhile. Left to wait, the card says under itself how long and what then. A harbour card goes its own way when she casts off."),
     "Oars": ("8 Oct, night", "The order Out oars stands beside her course in the Voyage window. The sail comes down and the men row hard: her full speed under oars whatever the wind, for the six hours that are in them. It eats bread and strength, and the strength comes back with rest. Left alone she goes as before."),
+    "Orders that work": ("8 Oct, night", "A card offers an order and the game asks: take it or refuse it. Taken, it stands in Errands with its day, is handed over there in parts, each part paid by the unit at the price fixed when it was given, less the toll. It pays the market plus at most a half, and at most 60 d over the market. A week before its day and on the last day the log says so and the clock drops. Past its day it is broken, or short."),
 }
 # What a part says once a step that finishes it is done: step title -> part -> (what stands, what is missing)
 PART_AFTER = {

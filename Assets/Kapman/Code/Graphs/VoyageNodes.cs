@@ -68,9 +68,12 @@ namespace Kapman.Graphs
             if (p != null && game != null)
             {
                 Voyage.InPort(Markets.Of(p.Def, game.Year, game.Day));
-                string delivered = Commissions.Deliver(p.Def);             // (orders for here, from the hold)
-                if (delivered.Length > 0)
-                    Voyage.Say(delivered);
+                // (Design/fixes/orders.md: an order is handed over by the player, in Errands, part by part: a card may
+                // have eased the toll for some days, or the casks may be meant for another order. On arrival she is
+                // only told what is aboard for it.)
+                string waiting = Commissions.Waiting(p.Def);
+                if (waiting.Length > 0)
+                    Voyage.Say(waiting);
             }
             return exit;
         }

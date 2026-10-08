@@ -99,7 +99,7 @@
    ],
    "options": [
     { "key": "wine", "label_key": "chain_cnut_1016.s03.opt_wine", "label": "Take the bishop's order: six casks of Rhine wine before next summer", "check": "true",
-      "effects": [ "commission rhenish_wine 6 by 240 premium 1.5", "npc clerk feeling +5 order", "flag ch_cnut_1016_wine_order", "flag ch_cnut_1016_3" ],
+      "effects": [ "commission rhenish_wine 6 by 240 premium 0.5", "npc clerk feeling +5 order", "flag ch_cnut_1016_wine_order", "flag ch_cnut_1016_3" ],
       "note": "outcome: chain_cnut_1016.s03.out_wine (the turn: six casks at half as much again, about 180 d over the market; it sends her to the Rhine)" },
     { "key": "change", "label_key": "chain_cnut_1016.s03.opt_change", "label": "Change your silver for the king's pennies at his table", "check": "silver >= 60",
       "effects": [ "toll eased 90", "npc moneyer feeling +4 changed", "flag ch_cnut_1016_3" ],

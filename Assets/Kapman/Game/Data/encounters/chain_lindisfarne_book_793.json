@@ -67,7 +67,7 @@
       "effects": [ "goods wax +1", "npc bishop feeling +14 mount", "flag ch_lindisfarne_book_marks", "flag lf_knows_boys", "flag ch_lindisfarne_book_2", "schedule harbour.chain_lindisfarne_book.s03_calves in 3 at eoforwic" ],
       "note": "outcome: chain_lindisfarne_book.s02.out_mount (he knows it; a cake of wax is all he has to give today)" },
     { "key": "order", "label_key": "chain_lindisfarne_book.s02.opt_order", "label": "Ask what the altar is short of, and take his order for wine", "check": "true",
-      "effects": [ "commission rhenish_wine 4 by 240 premium 1.6", "npc bishop feeling +8 order", "flag ch_lindisfarne_book_marks", "flag lf_knows_boys", "flag ch_lindisfarne_book_2", "schedule harbour.chain_lindisfarne_book.s03_calves in 3 at eoforwic" ],
+      "effects": [ "commission rhenish_wine 4 by 240 premium 0.5", "npc bishop feeling +8 order", "flag ch_lindisfarne_book_marks", "flag lf_knows_boys", "flag ch_lindisfarne_book_2", "schedule harbour.chain_lindisfarne_book.s03_calves in 3 at eoforwic" ],
       "note": "outcome: chain_lindisfarne_book.s02.out_order (the turn: four casks at a premium, paid by the house's estates)" }
    ],
    "memory": { "look": "promised to look in the north", "mount": "brought back a mount of the book", "order": "took the altar's order for wine" }
@@ -100,7 +100,7 @@
       "effects": [ "learn latin +0.1", "give_riddle riddle_exeter_26_book", "npc scribe feeling +6 learned", "flag bk_knows_worth", "flag ch_lindisfarne_book_3" ],
       "note": "outcome: chain_lindisfarne_book.s03.out_learn (costs three days; the worth of a book, some Latin and a riddle)" },
     { "key": "order", "label_key": "chain_lindisfarne_book.s03.opt_order", "label": "Take the writing room's order for colours", "check": "true",
-      "effects": [ "commission pigments 2 by 300 premium 1.7", "give_text alcuin_793", "npc scribe feeling +4 order", "flag bk_parchment", "flag ch_lindisfarne_book_3" ],
+      "effects": [ "commission pigments 2 by 300 premium 0.5", "give_text alcuin_793", "npc scribe feeling +4 order", "flag bk_parchment", "flag ch_lindisfarne_book_3" ],
       "note": "outcome: chain_lindisfarne_book.s03.out_order (the turn: two loads of pigments at a premium, and a copy of Alcuin's letter)" },
     { "key": "letter", "label_key": "chain_lindisfarne_book.s03.opt_letter", "label": "Ask only for a copy of Alcuin's letter, to show whose errand you are on", "check": "true",
       "effects": [ "give_text alcuin_793", "npc scribe feeling +2 letter", "flag ch_lindisfarne_book_3" ],
@@ -361,7 +361,7 @@
    ],
    "options": [
     { "key": "peace", "label_key": "chain_lindisfarne_book.end_home.opt_peace", "label": "Take what he offers the giver: your name in the book of life, a cloth from the saint's coffin, and the carrying of the house's wine", "check": "flag.ch_lindisfarne_book_gift",
-      "effects": [ "silver +600", "commission rhenish_wine 6 by 300 premium 1.8", "npc bishop feeling +20 peace", "flag unlock_title_cuthberts_man", "flag unlock_relic_cuthbert_cloth", "flag ch_lindisfarne_book_end_home", "flag changed_lindisfarne_book_home", "news chain_lindisfarne_book.news.home at here" ],
+      "effects": [ "silver +600", "commission rhenish_wine 6 by 300 premium 0.5", "npc bishop feeling +20 peace", "flag unlock_title_cuthberts_man", "flag unlock_relic_cuthbert_cloth", "flag ch_lindisfarne_book_end_home", "flag changed_lindisfarne_book_home", "news chain_lindisfarne_book.news.home at here" ],
       "note": "outcome: chain_lindisfarne_book.end_home.out_peace (the hard road's finale: 600 d that the thegn and York's collection press on you, two grand rewards and a commission)" },
     { "key": "silver", "label_key": "chain_lindisfarne_book.end_home.opt_silver", "label": "Take the ransom: York's collection, the thegn's silver and the house's wax", "check": "true", "default": true,
       "effects": [ "silver +900", "goods wax +10", "npc bishop feeling +10 ransom", "flag unlock_title_cuthberts_man", "flag ch_lindisfarne_book_end_home", "flag changed_lindisfarne_book_home", "news chain_lindisfarne_book.news.home at here" ],

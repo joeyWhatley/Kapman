@@ -131,7 +131,7 @@
     {"who": "", "key": "long.offa_letter.796.l4", "when": "hold.quernstones > 0"}
    ],
    "options": [
-    {"key": "stones", "label_key": "long.offa_letter.796.o.stones", "label": "Take an order here for black stones", "check": "port.people = english", "effects": ["flag bs_peace", "commission quernstones 4 by 120 premium 0.6"]},
+    {"key": "stones", "label_key": "long.offa_letter.796.o.stones", "label": "Take an order here for black stones", "check": "port.people = english", "effects": ["flag bs_peace", "commission quernstones 4 by 120 premium 0.5"]},
     {"key": "cloaks", "label_key": "long.offa_letter.796.o.cloaks", "label": "Take an order here for English cloaks of the old length", "check": "port.realm = franks", "effects": ["flag bs_peace", "commission wool_cloth 4 by 120 premium 0.5"]},
     {"key": "hear", "label_key": "long.offa_letter.796.o.hear", "label": "Hear it out and go on as before", "check": "true", "effects": ["flag bs_peace"]}
    ]
@@ -555,7 +555,7 @@
     {"who": "", "key": "long.frisia.flood_838.l3"}
    ],
    "options": [
-    {"key": "corn", "label_key": "long.frisia.flood_838.o.corn", "label": "Take an order for corn", "check": "true", "effects": ["commission wheat 6 by 50 premium 0.6", "npc priest feeling +5 corn"]},
+    {"key": "corn", "label_key": "long.frisia.flood_838.o.corn", "label": "Take an order for corn", "check": "true", "effects": ["commission wheat 6 by 50 premium 0.5", "npc priest feeling +5 corn"]},
     {"key": "timber", "label_key": "long.frisia.flood_838.o.timber", "label": "Take an order for oak, to raise the houses again", "check": "true", "effects": ["commission oak_timber 2 by 70 premium 0.5", "npc priest feeling +5 timber"]},
     {"key": "alms", "label_key": "long.frisia.flood_838.o.alms", "label": "Give 20 d for the burying of the dead", "check": "silver >= 20", "cost": "silver 20", "effects": ["deed gave_alms", "npc priest feeling +15 alms"]}
    ]
@@ -1453,7 +1453,7 @@
     {"who": "priest", "key": "long.england.great_hunger.l2"}
    ],
    "options": [
-    {"key": "corn", "label_key": "long.england.great_hunger.o.corn", "label": "Promise corn: eight sacks within forty days", "check": "true", "effects": ["commission wheat 8 by 40 premium 0.7", "npc priest feeling +6 promised"]},
+    {"key": "corn", "label_key": "long.england.great_hunger.o.corn", "label": "Promise corn: eight sacks within forty days", "check": "true", "effects": ["commission wheat 8 by 40 premium 0.5", "npc priest feeling +6 promised"]},
     {"key": "sell", "label_key": "long.england.great_hunger.o.sell", "label": "Sell two sacks from the hold at what they will give", "check": "hold.wheat >= 2", "cost": "goods wheat 2", "effects": ["silver +36", "npc priest feeling -4 sold_dear"]},
     {"key": "give", "label_key": "long.england.great_hunger.o.give", "label": "Give a sack at the church door", "check": "hold.wheat >= 1", "cost": "goods wheat 1", "effects": ["deed gave_alms", "morale +0.03", "npc priest feeling +15 alms"]}
    ]

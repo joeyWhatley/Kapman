@@ -589,7 +589,7 @@
     { "key": "carry", "label_key": "chain_house_new_ship.s13.opt_carry", "label": "Pay the wright and take the estate's carrying", "check": "silver >= 120",
       "cost": "silver 120",
       "effects": [ "flag unlock_ship_logboat_expanded", "flag unlock_pilot_rhine", "flag ch_house_new_ship_end_river", "flag ch_house_new_ship_done",
-                   "goods rhenish_wine +3", "commission frisian_cloth 16 by 150 premium 0.6",
+                   "goods rhenish_wine +3", "commission frisian_cloth 16 by 150 premium 0.5",
                    "npc steward feeling +10 carrying", "npc shipwright feeling +5 launched", "news chain_house_new_ship.news.river at colonia" ],
       "note": "ENDING river, with the estate's carrying: the ship, the knowledge of the river, three casks on account and an order at a premium. outcome: chain_house_new_ship.s13.out_carry" },
     { "key": "plain", "label_key": "chain_house_new_ship.s13.opt_plain", "label": "Pay the wright and owe the estate nothing", "check": "silver >= 120",
