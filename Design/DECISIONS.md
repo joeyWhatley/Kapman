@@ -698,3 +698,44 @@ and far fewer when usage is short).
    the rules themselves ("Rules as graphs too"), not only the flows; it lives at G:\KAPMAN (G:\kapman_unity\KAPMAN
    is the first build's own folder under another case) and starts from Kapman2 as it stands when tonight's fixes
    are committed; Kapman2 is then the archive. Design/KAPMAN_PLAN.md holds the plan as ruled.
+73. **THE CHART HAS PAPER** (the user, 8 Oct: "Can you give the map more texture on the colours so they're not so hard").
+   One clear tile of specks, soft patches in an ordered dither and fibres lies over all the colours of the chart and
+   goes with the land (Game/UI/Map/paper.png, made by Bake/art/make_map_textures.py); and a picture of the chart shown
+   smaller than it is is drawn smoothed, not every fourth pixel alone.
+74. **RAVN POINTS AT WHAT HE SPEAKS OF** (the user, 8 Oct: "When Ravn is explaining what to do and how to play can you
+   highlight what he's talking about"; and of its colour: "that green tinge colour we had earlier"). A line of a talk
+   carries marks, [[>names]], naming parts of the frame (their names in Frame.uxml); as the words come the frame's
+   pointer stands round those parts, in the 297036 green. Any talk can use it (FloatSpec.Say).
+75. **THE MARKS OF THE FIRST MORNING** (the user, 8 Oct: "make them the same colour and style as the title screen";
+   "they start out like that and need to travel back down to Ravn's portrait"). The "!!!" are a picture painted as the
+   name's letters are (title/title.mark.png, a slot of the art list); after they have shaken they fly down to where
+   Ravn's face is about to stand, and then he speaks.
+76. **THE SAIL, IN THE USER'S WORDS**: "Sails tattered.... / Needs to be repaired." and the cost next to it (the cost
+   is the button).
+77. **THE COURSE IN SPACED STROKES** (the user, 8 Oct: "make the map trail for the ship icon to be spaced lines like
+   -  -  -").
+78. **THE TOP BAR** (the user, 8 Oct: "replace the word silver with a period accurate PNG of a coin, use period
+   accurate date keeping. Replace the bread with a pic of a barrel from the assets we have and next to it 'supplies'
+   or another word that works better and it just says the days left").
+   - The coin: a silver denier of Charlemagne struck at Dorestad before the new coinage of 793/4, the side that
+     names the town (Bibliotheque nationale de France, public domain).
+   - The date: a day is named by its feast, else reckoned by the Kalends, Nones and Ides, the Roman way every clerk
+     used (PeriodDate): 1 May 793 is "Kalends of May, 793", 2 May "vi Nones of May". The plain date is in the tip.
+     The debt's day is said by its name alone ("by Michaelmas"). The log and the windows still say "2 May 793".
+   - The barrel: the Vikings pack's own, drawn by the editor; the word is "stores"; then the days.
+   DECIDED BY ME, to be overruled: the word "stores"; lower-case Roman numbers for the count ("vi Nones"); the year
+   in plain figures; that only the bar changes for now.
+79. **THE BUTTONS' SIGNS ARE REAL THINGS** (the user, 8 Oct: "replace the button icons with wiki searched stuff you
+   find yourself not made yourself"). Sixteen pictures from Wikimedia Commons, each one colour of ink, 32 pixels,
+   tinted by the style sheet: a ship under sail (Cast off), the vane of Soderala (Voyage), a Torslunda fighting man
+   (Crew), the Mastermyr chest (Hold), a balance (Trade), a Tating jug (Alehouse), St Cuthbert's cross (Minster), a
+   fire steel (Rest), the Sutton Hoo helmet (Look out), a lead and line (Sound), an ivory horn (Hail), a Frisian pot
+   (Wares), a wax tablet (Journey), tally sticks (Errands), the St Cuthbert Gospel (Book), dividers (Measure).
+   Sources, authors and licences: Design/art_standins.md. They are stand-ins: the user's own drawing of the same
+   name in Art/final/hud wins. Not all are of 793 (the vane and the horn are of about 1000 to 1100, the tablet a
+   replica, the lead from a book of 1890); better ones can be put in by changing one line of
+   Bake/art/standin_icon_choices.json.
+80. **KAPMAN: WHERE IT STANDS** is the table at the foot of Design/KAPMAN_PLAN.md. Done on 8 Oct: the frame, its
+   repeated parts, the menu and the opening's screens are UI Builder files; four rules of the merchant's are graphs
+   (the toll, the crew's pay, health and heart), each held to the code's sum by a test; the opening is a flow in a
+   graph on the Showtime object.

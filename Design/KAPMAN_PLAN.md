@@ -106,7 +106,9 @@ does (the effects are half way there: they are a small language already); the de
 | 2b | DONE (95c038a) | Game/UI/Parts: Window, Float (what is said, pop-ups), Option, Line, LineButton, LogLine. Named in Resources/FrameParts. |
 | 2c | DONE (51e907b) | Game/UI/MainMenu.uxml (the menu) and Showtime.uxml (the opening's layers), with Parts/MenuOption, ShowChoice, ShowFace, ShowName. |
 | 2d | to do | The chart (MapView: its layers, a port's name plate, the hover card, the legend), the market and the old text panel, the notes of F2, the port's picture, the places. Then each side window's own layout (22 panels: today each fills a body with lines; a file per window would let its sections be moved). |
-| 3 | begun | Flows as graphs, then the rules as graphs, each rule with a test against the code it replaces. |
+| 3a, 3b | DONE (bb0acf5, 09a0514) | Rules held by graphs: Game/Graphs/Rules (the toll on a sale; the crew's pay, health and heart), named in Resources/GameRules, asked through GameRules, run by Kapman.Graphs.RuleGraphs where the asset lies. Each keeps its sum in code for the world's other ships and as the fallback; RuleGraphTests holds graph and code together. To add a rule: a start node (RuleNodes.cs), a graph (Editor/Game/RuleGraphsMade.cs), the asking (GameRules.cs), a test. |
+| 3c | DONE (96b3e8e) | The opening is a flow in a graph on the Showtime object ("Opening - the lender, the boat, the first morning"; nodes in OpeningNodes.cs). |
+| 3d | to do | More rules (hand money and the sail's cost; standing at a port; what a card's choice does; the debt and its day), and more flows (the slow start and the title; coming in and leaving are graphs already; the alehouse and the other places; the music's cues). |
 | 4 to 6 | to do | Prefabs and animation; settings as assets; clearing out (the old level builders in Assets/Kapman/Editor, the tests of the old 3D levels). |
 
 The rule for the screen: a whole screen is the Source Asset of its UI Document; a part the code takes copies of is a

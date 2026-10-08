@@ -314,7 +314,9 @@ namespace Kapman.Tests
                 Assert.AreEqual(151.0, Trade.DebtDaysLeft(game.Day), 0.01, "from 1 May to Michaelmas is 151 days");
                 yield return Settle();
                 string bar = ChartPlay.Read(frame.Root.Q<VisualElement>(className: "frame-top"));
-                StringAssert.Contains("Owed 1920 d by Michaelmas, 29 September: 151 days left", bar, "the top bar does not say the debt's day and the days left");
+                StringAssert.Contains("Owed 1920 d by Michaelmas: 151 days left", bar, "the top bar does not say the debt's day and the days left");
+                // (the day as it was kept in 793: 1 May is the Kalends of May)
+                StringAssert.Contains("Kalends of May, 793", bar, "the top bar does not say the day as the time reckoned it");
                 Assert.AreEqual(4, Trade.Hold.Count("rhenish_wine"));
                 Assert.AreEqual(4, Trade.Hold.Owed("rhenish_wine"), "the four casks should be marked as the count's");
                 Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("She has aboard 4 casks of Rhenish wine that are the count's own and 1 sack of")),

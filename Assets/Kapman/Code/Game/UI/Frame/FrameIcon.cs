@@ -14,6 +14,7 @@ namespace Kapman.Game.Frame
         public enum Kind { CastOff, Wait, Measure, LookOut, Sound, Hail, Rest, Offer, Voyage, Crew, Hold, Trade, Alehouse, Wares, Journey, Errands, Book }
 
         Kind kind;
+        Texture2D picture;
 
         /// <summary>Which sign it is (a button of the frame does what its sign says).</summary>
         [UxmlAttribute("kind")]
@@ -23,8 +24,36 @@ namespace Kapman.Game.Frame
             set
             {
                 kind = value;
-                MarkDirtyRepaint();
+                Dress();
             }
+        }
+
+        /// <summary>
+        /// A SIGN MAY BE A PICTURE (the user, 8 Oct 2026: "replace the button icons with wiki searched stuff you find
+        /// yourself, not made yourself"): the art folder's hud/hud.fn.NAME.png, the user's own drawing in Art/final or a
+        /// real thing of the time standing in for it in Art/standin (a ship, a helmet, a jug of about 800: each listed
+        /// with its source in Design/art_standins.md). The picture is one colour of ink (white, with holes): the style
+        /// sheet tints it as it colours the drawn sign, so it greys and lights with its button (.frame-icon.pictured).
+        /// With no picture the sign is drawn here as before.
+        /// </summary>
+        public static string Slot(Kind kind) => "hud/hud.fn." + Name(kind) + ".png";
+
+        static string Name(Kind kind)
+        {
+            switch (kind)
+            {
+                case Kind.CastOff: return "cast_off";
+                case Kind.LookOut: return "look_out";
+                default: return kind.ToString().ToLowerInvariant();
+            }
+        }
+
+        void Dress()
+        {
+            picture = FrameArt.Load(Slot(kind));
+            EnableInClassList("pictured", picture != null);
+            style.backgroundImage = picture != null ? new StyleBackground(picture) : new StyleBackground(StyleKeyword.Null);
+            MarkDirtyRepaint();
         }
 
         public FrameIcon() : this(Kind.CastOff)
@@ -37,10 +66,13 @@ namespace Kapman.Game.Frame
             pickingMode = PickingMode.Ignore;
             AddToClassList("frame-icon");
             generateVisualContent += Paint;
+            Dress();
         }
 
         void Paint(MeshGenerationContext ctx)
         {
+            if (picture != null)
+                return;                                                   // (the picture is the sign)
             var r = contentRect;
             float s = Mathf.Min(r.width, r.height);
             if (s < 4f)

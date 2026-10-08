@@ -2611,3 +2611,40 @@
     border-width: 3px;
     border-color: rgb(189, 214, 178);
 }
+
+
+/* ---- THE COIN, THE BARREL, AND THE SIGNS THAT ARE PICTURES (the user, 8 Oct 2026: "replace the word silver with a
+   period accurate PNG of a coin", "replace the bread with a pic of a barrel ... and next to it 'supplies' or another
+   word", "replace the button icons with wiki searched stuff"). The pictures are in the art folder (hud/hud.coin.png,
+   hud.stores.png, hud.fn.NAME.png): the user's own in Art/final, or real things standing in (Design/art_standins.md). */
+.frame-root .frame-top-picture {
+    width: 36px;
+    height: 36px;
+    margin-right: 6px;
+    flex-shrink: 0;
+}
+
+.frame-root .frame-top-figure #stores-word {
+    margin-right: 8px;
+}
+
+/* a sign that is a picture: one colour of ink, tinted as the drawn signs are coloured */
+.frame-root .frame-icon.pictured {
+    width: 32px;
+    height: 32px;
+    -unity-background-image-tint-color: rgb(112, 41, 99);
+}
+
+.frame-root .frame-verb.on .frame-icon.pictured,
+.frame-root .frame-verb:active .frame-icon.pictured {
+    -unity-background-image-tint-color: rgb(240, 210, 122);
+}
+
+.frame-root .frame-verb.off .frame-icon.pictured {
+    -unity-background-image-tint-color: rgba(112, 41, 99, 0.3);
+}
+
+.frame-root .frame-tool .frame-icon.pictured {
+    width: 24px;
+    height: 24px;
+}

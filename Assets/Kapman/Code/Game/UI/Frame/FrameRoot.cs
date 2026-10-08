@@ -232,6 +232,18 @@ namespace Kapman.Game.Frame
             silver = Part<Label>("silver");
             bread = Part<Label>("bread");
             debt = Part<Label>("debt");
+            // the coin and the barrel: pictures of the art folder (with no coin's picture, the word "silver" stands)
+            var coin = Part<Image>("coin");
+            var coinPicture = FrameArt.Load("hud/hud.coin.png");
+            coin.image = coinPicture;
+            coin.scaleMode = ScaleMode.ScaleToFit;
+            coin.style.display = coinPicture != null ? DisplayStyle.Flex : DisplayStyle.None;
+            Part<Label>("silver-word").style.display = coinPicture != null ? DisplayStyle.None : DisplayStyle.Flex;
+            var stores = Part<Image>("stores");
+            var storesPicture = FrameArt.Load("hud/hud.stores.png");
+            stores.image = storesPicture;
+            stores.scaleMode = ScaleMode.ScaleToFit;
+            stores.style.display = storesPicture != null ? DisplayStyle.Flex : DisplayStyle.None;
             viewButtons = Part<VisualElement>("views");
             speedButtons.Clear();
             Speed(Part<Button>("speed-pause"), -1, null);
@@ -751,7 +763,9 @@ namespace Kapman.Game.Frame
             var clock = LevelClock.Current;
             if (clock != null)
             {
-                date.text = FrameGame.DateWords(clock.Date);
+                // (the day as it was kept in 793: its feast, or reckoned by the Kalends, Nones and Ides: PeriodDate)
+                date.text = PeriodDate.Words(clock.Date);
+                date.tooltip = PeriodDate.Tip(clock.Date);
                 // (at speed 5 a part of the day lasts under a second: the date alone is told)
                 part.text = !GameSpeed.Paused && GameSpeed.Running >= 4 ? "" : FrameUi.PartOfDay(clock.HourOfDay);
             }
@@ -767,12 +781,13 @@ namespace Kapman.Game.Frame
                 debt.text = owed.Length > 0 ? owed : "nothing owed";
                 debt.EnableInClassList("warn", game != null && Trade.Debt > 0.01 && Trade.DebtDaysLeft(game.Day) < 14.0);
                 string sunday = FrameGame.DebtDayWarning();
-                debt.parent.tooltip = "What you owe, and the day it falls due." + (sunday.Length > 0 ? " " + sunday : "");
+                debt.parent.tooltip = "What you owe, and the day it falls due (" + FrameGame.DebtDay(true) + ")." + (sunday.Length > 0 ? " " + sunday : "");
             }
             if (Voyage.Started)
             {
                 double days = Voyage.FoodDays;
-                bread.text = days < 0.25 ? "no bread aboard" : $"bread for {FrameUi.Days(days).Replace("half a day", "half a day more")}";
+                // (the user, 8 Oct 2026: a barrel, the word, "and it just says the days left")
+                bread.text = days < 0.25 ? "none left" : FrameUi.Days(days);
                 bread.EnableInClassList("warn", days < 2.0);
             }
             foreach (var b in speedButtons)

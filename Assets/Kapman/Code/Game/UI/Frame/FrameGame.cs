@@ -75,8 +75,9 @@ namespace Kapman.Game.Frame
             heart >= 0.75 ? "in good heart" : heart >= 0.5 ? "steady" : heart >= 0.3 ? "low" : "close to leaving";
 
         /// <summary>The top bar's words for the debt: the day it falls due and the days left (ruling 14 of 7 Oct 2026:
-        /// "the debt due on a day"). "Owed 1920 d by Michaelmas, 29 September: 151 days left", "... : due today",
-        /// "Owed 1920 d since Michaelmas, 29 September: 3 days overdue"; "" with no debt.</summary>
+        /// "the debt due on a day"). "Owed 1920 d by Michaelmas: 151 days left", "... : due today",
+        /// "Owed 1920 d since Michaelmas: 3 days overdue"; "" with no debt. (The day is named as the time named it, 8 Oct
+        /// 2026: its feast, or reckoned: DebtDayOfTheTime.)</summary>
         public static string DebtLine()
         {
             if (!Trade.Started || Trade.Debt <= 0.01)
@@ -84,7 +85,17 @@ namespace Kapman.Game.Frame
             var game = KapmanGame.Current;
             if (game == null)
                 return $"Owed {Trade.Debt:0} d";
-            return DebtLine(Trade.Debt, DebtDay(false), Trade.DebtDaysLeft(game.Day));
+            return DebtLine(Trade.Debt, DebtDayOfTheTime(), Trade.DebtDaysLeft(game.Day));
+        }
+
+        /// <summary>The day the debt falls due as the time named it: its own name where it has one ("Michaelmas"), else
+        /// reckoned by the Kalends, Nones and Ides (PeriodDate). The bar says this; the plain date is in its tip.</summary>
+        public static string DebtDayOfTheTime()
+        {
+            if (Trade.DebtDueName.Length > 0)
+                return Trade.DebtDueName;
+            var clock = LevelClock.Current;
+            return clock == null ? $"day {Trade.DebtDue:0}" : PeriodDate.Day(Calendar.At(clock.year, clock.startDay, Math.Floor(Trade.DebtDue) * 24.0));
         }
 
         /// <summary>The same from its parts (a sum, the day in words, whole days left: 0 on the day, under 0 after it).</summary>

@@ -25,11 +25,17 @@
                 <ui:Label name="part" class="frame-top-part" />
             </ui:VisualElement>
             <ui:VisualElement name="top-mid" class="frame-top-group frame-top-mid">
+                <!-- silver: the picture of a coin (the art folder's hud/hud.coin.png) and the sum. The word "silver"
+                     stands only where there is no picture. -->
                 <ui:VisualElement name="figure-silver" tooltip="Your silver, in deniers&apos; worth: all your coin and cut silver together." class="frame-top-figure">
+                    <ui:Image name="coin" class="frame-top-picture" />
                     <ui:Label name="silver" class="frame-num" />
-                    <ui:Label text="silver" class="frame-top-word" />
+                    <ui:Label name="silver-word" text="silver" class="frame-top-word" />
                 </ui:VisualElement>
-                <ui:VisualElement name="figure-bread" tooltip="How long the bread and the other food aboard will feed the crew." class="frame-top-figure">
+                <!-- the stores: the picture of a barrel (hud/hud.stores.png), the word, and the days they will last -->
+                <ui:VisualElement name="figure-bread" tooltip="How long the stores aboard (bread and other food) will feed the crew." class="frame-top-figure">
+                    <ui:Image name="stores" class="frame-top-picture" />
+                    <ui:Label name="stores-word" text="stores" class="frame-top-word" />
                     <ui:Label name="bread" class="frame-top-word" />
                 </ui:VisualElement>
                 <ui:VisualElement name="figure-debt" tooltip="What you owe, and when it falls due." class="frame-top-figure">
