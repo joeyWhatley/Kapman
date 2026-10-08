@@ -513,6 +513,27 @@
    "source": "Design/fate_faith_and_self.md sections 2 and 3"
   }
  ],
+ "about_deed_marks": "EVENTS MOVE THE STATS (8 Oct 2026; Design/fixes/stats_events.md). A deed that is known (reputation_793.json 'deeds') puts a mark on one of the five stats: a size (+1 or -1), a cause the player reads (PLACEHOLDER WORDS, the user's to write), and an end: 'days', or 'until_flag' (a flag set somewhere) with 'until' as its words. 'faith': only for a player of that faith. All marks together move a stat by no more than 2. THE SIZES AND DAYS ARE FIRST GUESSES, to be tuned in play.",
+ "deed_marks": [
+  {"deed": "won_riddle", "stat": "lore", "size": 1, "days": 30, "id": "deed.won_riddle", "why": "you answered a riddle before witnesses"},
+  {"deed": "won_great_riddle", "stat": "lore", "size": 1, "days": 90, "id": "deed.won_great_riddle", "why": "you answered one of the great riddles"},
+  {"deed": "won_great_riddle", "stat": "name", "size": 1, "days": 90, "id": "deed.won_great_riddle.told", "why": "it is told that you answered one of the great riddles"},
+  {"deed": "gave_alms", "stat": "troth", "size": 1, "days": 40, "id": "deed.gave_alms", "why": "you gave alms"},
+  {"deed": "bribed_officer", "stat": "troth", "size": -1, "days": 40, "id": "deed.bribed_officer", "why": "you paid an officer to look away"},
+  {"deed": "fled_kings_men", "stat": "nerve", "size": -1, "days": 30, "id": "deed.fled_kings_men", "why": "you ran from the king's men"},
+  {"deed": "goods_seized", "stat": "name", "size": -1, "days": 60, "id": "deed.goods_seized", "why": "your goods were seized before the whole quay"},
+  {"deed": "taken_for_judgement", "stat": "name", "size": -1, "days": 90, "id": "deed.taken_for_judgement", "why": "you were taken for judgement"},
+  {"deed": "paid_raiders", "stat": "nerve", "size": -1, "days": 30, "id": "deed.paid_raiders", "why": "you paid raiders to let her go"},
+  {"deed": "fought_raiders", "stat": "nerve", "size": 1, "days": 30, "id": "deed.fought_raiders", "why": "you fought raiders off"},
+  {"deed": "won_case", "stat": "name", "size": 1, "days": 90, "id": "deed.won_case", "why": "a court found for you"},
+  {"deed": "lost_case", "stat": "name", "size": -1, "days": 90, "id": "deed.lost_case", "why": "a court found against you"},
+  {"deed": "kept_commission", "stat": "troth", "size": 1, "days": 40, "id": "deed.kept_commission", "why": "you brought what was ordered, by the day"},
+  {"deed": "broke_commission", "stat": "troth", "size": -1, "days": 60, "id": "deed.broke_commission", "why": "you took an order and did not bring it"},
+  {"deed": "sold_captives", "stat": "troth", "size": -1, "days": 365, "id": "deed.sold_captives", "why": "you sold captives", "faith": "christian"},
+  {"deed": "dug_church_ground", "stat": "troth", "size": -1, "days": 365, "id": "deed.dug_church_ground", "why": "you dug in hallowed ground", "faith": "christian"},
+  {"deed": "paid_the_stick", "stat": "name", "size": 1, "days": 365, "id": "deed.paid_the_stick", "why": "you paid for the boat to the last penny"},
+  {"deed": "missed_the_day", "stat": "name", "size": -1, "until_flag": "wk_clean", "id": "deed.missed_the_day", "why": "you let the day pass with the boat unpaid", "until": "until the stick is clean"}
+ ],
  "sources": [
   "Design/fate_faith_and_self.md (sections 1, 2, 6a); Design/GAME_MAKER.md (stages 1 to 3); Design/DECISIONS.md (7 October)",
   "Design/content/spine.json (cast, gods_and_faith); Data/places/<port>.json for the people's ids",

@@ -105,7 +105,7 @@ namespace Kapman.Encounters
     {
         public string verb = "";
         /// <summary>The verb's words (a good, a port, a role, a flag, a card ...), in the grammar's order.</summary>
-        public string a = "", b = "";
+        public string a = "", b = "", c = "";
         /// <summary>The verb's numbers (an amount, a factor, a value).</summary>
         public double n, m;
         /// <summary>Days (a lapse, a delay); 0: none given.</summary>
@@ -141,6 +141,11 @@ namespace Kapman.Encounters
                 case "law": ctx.Say(g?.Law(a, days, ctx.port)); break;
                 case "learn": ctx.Say(g?.Learn(a, n)); break;
                 case "tongue": ctx.Say(g?.Tongue(a, n)); break;
+                // (8 Oct 2026: events move the stats. A mark on a stat for some days or until a flag is set; a mark
+                // taken off; the base moved for good)
+                case "mark": ctx.Say(g?.Mark(a, n, b, days, c)); break;
+                case "unmark": ctx.Say(g?.Unmark(a)); break;
+                case "stat": ctx.Say(g?.StatBase(a, n)); break;
                 case "toll":
                     ctx.state?.SetToll(ctx.port, toll, ctx.day, days);
                     ctx.Say(toll == TollMode.None ? "No toll on your sales here this call."
@@ -212,8 +217,20 @@ namespace Kapman.Encounters
         {
             "silver", "goods", "health", "morale", "men", "toll", "deed", "npc", "flag", "schedule", "news", "price_shock",
             "commission", "give_text", "give_riddle", "open_fetch", "hire", "pay_off", "passenger", "encounter", "law", "learn",
-            "tongue",
+            "tongue", "mark", "unmark", "stat",
         };
+
+        /// <summary>The five stats a mark may lie on (the game's Self.StatIds; kept here too so that a card with a stat
+        /// that is none of them is refused when the cards are read).</summary>
+        public static readonly string[] Stats = { "tongue", "name", "nerve", "lore", "troth" };
+
+        static bool IsStat(string s) => Array.IndexOf(Stats, s) >= 0;
+
+        static bool Signed(string s, out double v, int most)
+        {
+            v = 0.0;
+            return !string.IsNullOrEmpty(s) && (s[0] == '+' || s[0] == '-') && Number(s, out v) && v != 0.0 && Math.Abs(v) <= most && v == Math.Round(v);
+        }
 
         static readonly string[] SeaOrders = { "close_and_hail", "heave_to", "run" };
 
@@ -503,6 +520,38 @@ namespace Kapman.Encounters
                         return e;
                     }
                     why = "'tongue' is 'tongue <name> = f' (0 to 1)";
+                    return null;
+                case "mark":
+                    // mark <stat> <+n|-n> <id> for <days>   |   mark <stat> <+n|-n> <id> until <flag>
+                    if (argc == 5 && IsStat(t[1]) && Signed(t[2], out e.n, 2))
+                    {
+                        e.a = t[1];
+                        e.b = t[3];
+                        if (t[4] == "for" && Number(t[5], out e.days) && e.days > 0)
+                            return e;
+                        if (t[4] == "until")
+                        {
+                            e.c = t[5];
+                            return e;
+                        }
+                    }
+                    why = "'mark' is 'mark <stat> <+1|-1|+2|-2> <id> for <days>' or '... until <flag>' (a stat is tongue, name, nerve, lore or troth)";
+                    return null;
+                case "unmark":
+                    if (argc == 1)
+                    {
+                        e.a = t[1];
+                        return e;
+                    }
+                    why = "'unmark' is 'unmark <id>'";
+                    return null;
+                case "stat":
+                    if (argc == 2 && IsStat(t[1]) && Signed(t[2], out e.n, 1))
+                    {
+                        e.a = t[1];
+                        return e;
+                    }
+                    why = "'stat' is 'stat <stat> +1' or '-1': the base, moved for good (a stat is tongue, name, nerve, lore or troth)";
                     return null;
                 default:
                     why = $"unknown verb '{t[0]}' (known: {string.Join(", ", Verbs)})";

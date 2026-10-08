@@ -49,5 +49,12 @@ namespace Kapman.Encounters
         string Learn(string what, double amount);
         /// <summary>A tongue learned aboard, to a level (0.5: understood in part).</summary>
         string Tongue(string name, double level);
+        /// <summary>A mark put on one of the five stats: its size (+1, -1, rarely 2), its name, and its end: so many
+        /// days, or until a flag is set ("" for none).</summary>
+        string Mark(string stat, double size, string id, double days, string untilFlag);
+        /// <summary>A mark taken off.</summary>
+        string Unmark(string id);
+        /// <summary>The base of a stat moved by one, for good.</summary>
+        string StatBase(string stat, double by);
     }
 }

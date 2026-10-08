@@ -320,10 +320,12 @@ STEPS = [
 # A step done: its title, when, and a line on what came of it. Its points move into "now".
 DONE = {
     "Bring the five regions' words into the game": ("8 Oct, night", "5,259 texts are in the game, after the same passes the rest had. 14 cards of one later chain (the Rhineland, 879 to 886) still have no lines: their words were never written."),
+    "Events move the stats": ("8 Oct, night", "A stat is a base and the marks on it. Cards put them on with a verb, 18 kinds of known deed by a table, hunger and sickness by themselves. All marks together move a stat by no more than two. Yourself shows each with its cause and its end."),
 }
 # What a part says once a step that finishes it is done: step title -> part -> (what stands, what is missing)
 PART_AFTER = {
     "Bring the five regions' words into the game": {"W1": ("All 523 cards of the release have their words in the game.", "")},
+    "Events move the stats": {"S6": ("Feelings, standing, deeds that travel as news, tongues that turn into English, five stats that events move.", "One memory for a person in port and on a card.")},
 }
 # A finding mended by a step: the finding's first words -> the step's title
 MENDED = {

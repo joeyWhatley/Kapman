@@ -681,6 +681,19 @@ namespace Kapman.Tests
                 notes.AppendLine("After the day: " + FrameGame.DebtLine());
                 yield return play.Shot("open_30_the_bar_after_the_day");
 
+                // ---- 17. EVENTS MOVE THE STATS (the alpha's row 10; the road's step 7). The missed day is a deed that is
+                // known: it lies on her Name until the stick is clean, and Yourself says so under the stat.
+                Assert.IsTrue(Self.HasMark("deed.missed_the_day"), "the missed day left no mark on her");
+                play.Frame.Show("self");
+                yield return ChartPlay.Settle(0.6f);
+                var selfWindow = play.Frame.Root.Q<VisualElement>(className: "frame-win");
+                Assert.IsNotNull(selfWindow, "the side window is gone");
+                string yourself = ChartPlay.Read(selfWindow);
+                StringAssert.Contains("you let the day pass with the boat unpaid", yourself, "Yourself does not say what lies on her Name");
+                StringAssert.Contains("until the stick is clean", yourself, "Yourself does not say how long the mark lasts");
+                notes.AppendLine("Yourself, after the day: " + ChartPlay.Short(yourself));
+                yield return play.Shot("open_31_yourself_with_a_mark");
+
                 Debug.Log("The opening:\n" + notes);
                 File.WriteAllText(Path.Combine(Application.dataPath, "..", "Captures", "chart", "open.txt"), notes.ToString());
             }

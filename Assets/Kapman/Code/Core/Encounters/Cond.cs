@@ -50,6 +50,9 @@ namespace Kapman.Encounters
             // the self (7 Oct 2026, Game/Self/Self.cs): the five stats in pips, 1 to 5, and the three picks
             ["me.tongue"] = (VarType.Number, null), ["me.name"] = (VarType.Number, null), ["me.nerve"] = (VarType.Number, null),
             ["me.lore"] = (VarType.Number, null), ["me.troth"] = (VarType.Number, null),
+            // (8 Oct 2026: "me.<stat>" is the stat as it is now, marks and all; ".base" is what lies under them)
+            ["me.tongue.base"] = (VarType.Number, null), ["me.name.base"] = (VarType.Number, null), ["me.nerve.base"] = (VarType.Number, null),
+            ["me.lore.base"] = (VarType.Number, null), ["me.troth.base"] = (VarType.Number, null),
             ["me.people"] = (VarType.Text, null), ["me.faith"] = (VarType.Text, null), ["me.past"] = (VarType.Text, null),
         };
 
@@ -69,6 +72,7 @@ namespace Kapman.Encounters
             ("text.", "", VarType.Number, null),
             ("riddle.", "", VarType.Text, null),
             ("flag.", "", VarType.Number, null),
+            ("mark.", "", VarType.Number, null),                         // (is this mark on the player now: 1 or 0)
         };
 
         /// <summary>Is this a name a condition may use, and of what type (and kind of word)?</summary>

@@ -2922,3 +2922,22 @@
     color: rgb(84, 28, 76);
     padding: 0 0 0 2px;
 }
+
+/* ---- A MARK ON A STAT (8 Oct 2026: events move the stats). Under a stat in Yourself: what lies on it, its cause and
+   how long it has yet. Small, set in from the stat's own line; up in the green of the pointer, down in the frame's
+   warning red. */
+.frame-root .frame-p.frame-mark {
+    font-size: var(--t-quiet);
+    margin: 0 0 4px 14px;
+    padding: 0 0 0 8px;
+    border-left-width: 4px;
+    border-left-color: rgb(141, 127, 149);
+}
+
+.frame-root .frame-p.frame-mark.up {
+    border-left-color: rgb(41, 112, 54);
+}
+
+.frame-root .frame-p.frame-mark.down {
+    border-left-color: rgb(158, 52, 46);
+}

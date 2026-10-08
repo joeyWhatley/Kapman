@@ -263,6 +263,7 @@ namespace Kapman.Game
             bool unpaid = PayOwed > Men * r.pay * 7.0;
             Health = GameRules.Health(Health, fed, watered, r.hungerPerDay, r.thirstPerDay, r.recoverPerDay);
             Morale = GameRules.Heart(Morale, lostToTheSea, fed, watered, unpaid, !atSea, r.hungryPerDay, r.thirstyPerDay, r.unpaidPerDay, r.recoverInPort);
+            Self.Body(!fed, Health < 0.5);                               // (hunger and sickness lie on the merchant's own stats while they last)
         }
 
         /// <summary>In port: the casks filled, the men paid what the purse can, and any owed too long go ashore.</summary>

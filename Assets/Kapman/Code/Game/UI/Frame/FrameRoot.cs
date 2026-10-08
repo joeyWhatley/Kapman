@@ -848,7 +848,7 @@ namespace Kapman.Game.Frame
             string stats = "";
             if (Self.Chosen)
                 foreach (string id in Self.StatIds)
-                    stats += (stats.Length > 0 ? "  " : "") + (SelfBook.Current.Stat(id)?.name ?? id) + " " + Self.Stat(id);
+                    stats += (stats.Length > 0 ? "  " : "") + (SelfBook.Current.Stat(id)?.name ?? id) + " " + Self.StatNow(id);
             var now = new WhoIs
             {
                 name = Self.Chosen && Self.Called.Length > 0 ? Self.Called : "You",

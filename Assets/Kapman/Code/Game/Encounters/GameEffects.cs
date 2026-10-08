@@ -299,6 +299,39 @@ namespace Kapman.Game
 
         public string Learn(string what, double amount) => null;          // (reading lessons from a card: to come)
 
+        // ------------------------------------------------------------------ marks on the stats
+
+        /// <summary>
+        /// EVENTS MOVE THE STATS (the user, 7 Oct 2026; Design/fixes/stats_events.md). A card's choice puts a mark on a
+        /// stat ("mark nerve +1 stood_at_the_bar for 30", "mark troth -1 broke_the_fast until shriven"). Its cause, as
+        /// the player reads it, is the writing under "mark.<id>" (and "mark.<id>.until" for an end that is no count of
+        /// days); where nobody has written one, the mark's own name made plain.
+        /// </summary>
+        public string Mark(string stat, double size, string id, double days, string untilFlag)
+        {
+            string why = book != null ? book.Written("mark." + id) : null;
+            string until = book != null ? book.Written("mark." + id + ".until") : null;
+            var m = Self.Mark(stat, (int)Math.Round(size), id, days, untilFlag, why ?? Self.PlainCause(id), Today, until ?? "");
+            return Self.Said(m, Today);
+        }
+
+        public string Unmark(string id)
+        {
+            Self.Unmark(id);
+            return null;
+        }
+
+        /// <summary>The base of a stat moved by one, for good (rare: a winter with the monks, an oath broken before
+        /// witnesses).</summary>
+        public string StatBase(string stat, double by)
+        {
+            if (!Self.IsStat(stat) || by == 0.0)
+                return null;
+            int before = Self.Stat(stat);
+            Self.SetStat(stat, Self.StatRaw(stat) + (by > 0.0 ? 1.0 : -1.0));
+            return Self.Stat(stat) == before ? null : $"Your {Self.StatName(stat)} is {(by > 0.0 ? "up" : "down")} by one, for good.";
+        }
+
         /// <summary>A tongue learned to a level (7 Oct 2026: the self holds the player's tongues). It never takes a
         /// tongue away: a level at or under what is held changes nothing and says nothing.</summary>
         public string Tongue(string name, double level)

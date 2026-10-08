@@ -33,6 +33,15 @@ namespace Kapman.Game
         public readonly Dictionary<string, int> tilt = new Dictionary<string, int>(StringComparer.Ordinal);
     }
 
+    /// <summary>The mark a known deed puts on a stat (story/self_793.json "deed_marks"): fought raiders off, Nerve up
+    /// by one for thirty days. `faith`: only for a player of that faith ("christian" covers its kinds); "": anybody.</summary>
+    public sealed class DeedMark
+    {
+        public string deed = "", stat = "", id = "", why = "", untilFlag = "", untilSaid = "", faith = "";
+        public int size;
+        public double days;
+    }
+
     /// <summary>One of the five stats: its name, what it is, and the word for each of its five levels.</summary>
     public sealed class StatDef
     {
@@ -55,6 +64,15 @@ namespace Kapman.Game
         public readonly List<FaithDef> faiths = new List<FaithDef>();
         public readonly List<PastDef> pasts = new List<PastDef>();
         public readonly List<StatDef> stats = new List<StatDef>();
+        public readonly List<DeedMark> deedMarks = new List<DeedMark>();
+
+        /// <summary>The marks a deed of this kind puts on the player.</summary>
+        public IEnumerable<DeedMark> DeedMarks(string deed)
+        {
+            foreach (var d in deedMarks)
+                if (d.deed == deed)
+                    yield return d;
+        }
         /// <summary>What every stat starts at, and Troth (the data's "start").</summary>
         public int startStat = 1, startTroth = 3;
         /// <summary>The tables came from the writers' file (false: the small table in the code).</summary>
@@ -186,6 +204,19 @@ namespace Kapman.Game
                 };
                 if (s.id.Length > 0)
                     read.stats.Add(s);
+            }
+            foreach (var x in ContentJson.Rows(root, "deed_marks"))
+            {
+                var d = new DeedMark
+                {
+                    deed = ContentJson.Text(x, "deed"), stat = ContentJson.Text(x, "stat"), id = ContentJson.Text(x, "id"), why = ContentJson.Text(x, "why"),
+                    untilFlag = ContentJson.Text(x, "until_flag"), untilSaid = ContentJson.Text(x, "until"), faith = ContentJson.Text(x, "faith"),
+                    size = ContentJson.Int(x, "size"), days = Json.Num(x, "days", 0.0),
+                };
+                if (d.deed.Length > 0 && d.id.Length > 0 && Self.IsStat(d.stat) && d.size != 0 && (d.days > 0.0 || d.untilFlag.Length > 0))
+                    read.deedMarks.Add(d);
+                else
+                    ContentFiles.Warn("deed_mark:" + d.id, $"{File}: the deed mark '{d.id}' is not whole (a deed, an id, one of the five stats, a size, and days or until_flag): left out");
             }
             // a file that lacks a whole family is a half-written one: the small table stands in, and it is said
             bool whole = read.peoples.Count > 0 && read.faiths.Count > 0 && read.pasts.Count > 0;

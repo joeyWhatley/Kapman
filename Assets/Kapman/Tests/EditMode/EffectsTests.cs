@@ -54,6 +54,10 @@ namespace Kapman.Tests
         }
         public string Learn(string what, double amount) => Log(Inv($"learn {what} {amount:+0.##;-0.##}"));
         public string Tongue(string name, double level) => Log(Inv($"tongue {name} = {level}"));
+        public string Mark(string stat, double size, string id, double days, string untilFlag) =>
+            Log(Inv($"mark {stat} {size:+0;-0} {id} {(string.IsNullOrEmpty(untilFlag) ? "for " + days.ToString(System.Globalization.CultureInfo.InvariantCulture) : "until " + untilFlag)}"));
+        public string Unmark(string id) => Log(Inv($"unmark {id}"));
+        public string StatBase(string stat, double by) => Log(Inv($"stat {stat} {by:+0;-0}"));
     }
 
     /// <summary>The effects of a choice (npc_text_encounters.md 2.7): each verb does exactly what it says, through the fake

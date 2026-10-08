@@ -30,8 +30,8 @@ namespace Kapman.Game.Frame
             var troth = book.Stat("troth");
             body.Add(FrameUi.H(faith != null ? faith.name : Self.Faith));
             body.Add(FrameUi.Ln(troth != null ? troth.name : "Troth", troth != null ? troth.what : null,
-                                troth != null && troth.Level(Self.Stat("troth")).Length > 0 ? FrameUi.Tag(troth.Level(Self.Stat("troth"))) : null,
-                                FrameUi.Pips(Self.Stat("troth"))));
+                                troth != null && troth.Level(Self.StatNow("troth")).Length > 0 ? FrameUi.Tag(troth.Level(Self.StatNow("troth"))) : null,
+                                FrameUi.Pips(Self.StatNow("troth"))));
             if (faith != null && faith.swears.Length > 0)
                 body.Add(FrameUi.P("You swear: " + faith.swears));
             var cal = FaithCalendar.Current;

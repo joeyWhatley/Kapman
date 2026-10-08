@@ -87,6 +87,7 @@ namespace Kapman.Game.Sim
         {
             Record(deed, at?.name);
             Reputation.Deed(kind, at, deed);
+            Self.MarkFromDeed(kind);                                     // (a deed that is known lies on a stat for a while)
         }
 
         /// <summary>The place nearest the merchant's ship (where a deed at sea is known first).</summary>

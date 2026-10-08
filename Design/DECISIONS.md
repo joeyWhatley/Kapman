@@ -996,4 +996,22 @@ and far fewer when usage is short).
    end (it was 1,990). STILL WITHOUT WORDS: the 14 cards of the saga of the Rhineland and Flanders (879 to 886),
    whose words were never written. Not touched: "the Dane" in these regions' cards is each time another Dane, not
    Ravn.
+108. **EVENTS MOVE THE STATS, BUILT** (the road's step 7, the alpha's row 10; the user's ruling is item 18 of 7 Oct;
+   the rule is Design/fixes/stats_events.md). A stat is a base (1 to 5, grown by use as before) and the MARKS that
+   lie on it. A mark has a size (one, rarely two, up or down), a cause the player can read and an end (a count of
+   days, or a flag set somewhere: "until the stick is clean"). The same mark twice starts its time again. All marks
+   together move a stat by no more than two; a stat never reads under 1 or over 5. What a choice asks for and what a
+   chance leans on is the stat as it is now ("me.nerve"); the base is "me.nerve.base"; "mark.<id>" asks whether a
+   mark lies on the player.
+   - Cards: three new verbs: "mark <stat> <+1|-1|+2|-2> <id> for <days>", "mark ... until <flag>", "unmark <id>",
+     and "stat <stat> <+1|-1>" for the base, for good (rare). The cause's words are the writing under "mark.<id>".
+   - Deeds: a deed that is known puts its mark by a table (story/self_793.json "deed_marks", 18 rows): fought
+     raiders off, Nerve up for a month; goods seized, Name down for two months; the missed day, Name down until the
+     stick is clean. Selling captives and digging hallowed ground cost a Christian's Troth for a year, and a
+     heathen's not at all. THE SIZES AND DAYS ARE MY FIRST GUESSES, AND THE CAUSES' WORDS PLACEHOLDERS.
+   - The body: no bread aboard lies on Nerve, sickness aboard on Tongue, each until it is mended.
+   - Shown: in Yourself the pips are the stat as it is now, and under a stat stands each mark with its cause and how
+     long it has yet. The portrait's line and the Faith and House windows show the stat as it is now.
+   NOT DONE of the write-up: marks from dress and gifts, from company aboard, from drink, from a season in a
+   strange tongue's land; a greyed choice that says what would raise the stat; the lint in check_content.py.
 

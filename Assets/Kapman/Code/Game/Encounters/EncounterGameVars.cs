@@ -121,8 +121,19 @@ namespace Kapman.Game
             if (name.StartsWith("crew.", StringComparison.Ordinal) && name.EndsWith("_best", StringComparison.Ordinal))
                 return MiddleStat;
             // the self (7 Oct 2026): a stat in pips, 1 to 5, and how well a tongue is followed, 0 to 1
+            if (name.StartsWith("mark.", StringComparison.Ordinal))
+                return Self.HasMark(name.Substring(5)) ? 1.0 : 0.0;
             if (name.StartsWith("me.", StringComparison.Ordinal))
-                return Self.IsStat(name.Substring(3)) ? Self.Stat(name.Substring(3)) : 0.0;
+            {
+                // (the stat as it is now, marks and all: what a choice asks for; ".base" is what lies under the marks)
+                string stat = name.Substring(3);
+                if (stat.EndsWith(".base", StringComparison.Ordinal))
+                {
+                    stat = stat.Substring(0, stat.Length - 5);
+                    return Self.IsStat(stat) ? Self.Stat(stat) : 0.0;
+                }
+                return Self.IsStat(stat) ? Self.StatNow(stat) : 0.0;
+            }
             if (name.StartsWith("tongue.", StringComparison.Ordinal))
                 return Self.TongueLevel(name.Substring(7));
             return 0.0;

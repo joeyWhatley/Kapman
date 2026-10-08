@@ -128,6 +128,7 @@ namespace Kapman.Game
             tongues.Clear();
             seen.Clear();
             met.Clear();
+            marks.Clear();
             foreach (string id in StatIds)
                 stats[id] = id == "troth" ? 3.0 : 1.0;
             tongues["old_frisian"] = 1.0;
@@ -280,6 +281,167 @@ namespace Kapman.Game
             Version++;
         }
 
+        // ------------------------------------------------------------------ marks: what events put on a stat
+
+        /// <summary>
+        /// A MARK ON A STAT (the user, 7 Oct 2026: "Stats can be effected by in game events with caps and dynamic
+        /// decisions and what not like all the other games that have implemented such mechanics"; the rule is
+        /// Design/fixes/stats_events.md). A named thing an event puts on a stat: its size (one, rarely two, up or
+        /// down), a cause the player can read, and an end: a day, or a flag set somewhere ("until the stick is
+        /// clean"). Never "for good": that is a change of the base. The same mark put on twice starts its time again.
+        /// </summary>
+        public sealed class StatMark
+        {
+            public string id = "", stat = "", why = "", untilFlag = "", untilSaid = "";
+            public int size;
+            /// <summary>The game day it ends on; below 0: it has no day (it ends by its flag).</summary>
+            public double until = -1.0;
+
+            /// <summary>Whole days it still has from `today`; -1 for a mark that ends by its flag.</summary>
+            public int DaysLeft(double today) => until < 0.0 ? -1 : Math.Max(0, (int)Math.Ceiling(until - today));
+        }
+
+        /// <summary>All the marks on a stat together move it by no more than this, either way: the third good thing does
+        /// nothing until one ends.</summary>
+        public const int MarkCap = 2;
+
+        static readonly List<StatMark> marks = new List<StatMark>();
+
+        /// <summary>The game day, as the marks count it (0 where no game runs).</summary>
+        public static double Now => KapmanGame.Current != null ? KapmanGame.Current.Day : 0.0;
+
+        /// <summary>Puts a mark on a stat. `days` above 0: it ends then; else it ends when `untilFlag` is set; a mark
+        /// given neither has thirty days, for a mark must end. Null if the stat or the size is none.</summary>
+        public static StatMark Mark(string stat, int size, string id, double days, string untilFlag, string why, double today, string untilSaid = "")
+        {
+            if (!IsStat(stat) || size == 0 || string.IsNullOrEmpty(id))
+                return null;
+            marks.RemoveAll(m => m.id == id);
+            var mark = new StatMark
+            {
+                id = id, stat = stat, size = Math.Max(-MarkCap, Math.Min(MarkCap, size)), why = why ?? "",
+                until = days > 0.0 ? today + days : -1.0, untilFlag = untilFlag ?? "", untilSaid = untilSaid ?? "",
+            };
+            if (mark.until < 0.0 && mark.untilFlag.Length == 0)
+                mark.until = today + 30.0;
+            marks.Add(mark);
+            Version++;
+            return mark;
+        }
+
+        /// <summary>Takes a mark off. False if it was not on.</summary>
+        public static bool Unmark(string id)
+        {
+            if (marks.RemoveAll(m => m.id == id) == 0)
+                return false;
+            Version++;
+            return true;
+        }
+
+        static bool Over(StatMark m, double today) =>
+            (m.until >= 0.0 && today >= m.until) || (m.untilFlag.Length > 0 && ContentFlags.Ready && ContentFlags.Has(m.untilFlag));
+
+        /// <summary>The marks that lie on a stat now (null: on any), the ended ones dropped.</summary>
+        public static List<StatMark> MarksOn(string stat, double today)
+        {
+            if (marks.RemoveAll(m => Over(m, today)) > 0)
+                Version++;
+            return marks.FindAll(m => stat == null || m.stat == stat);
+        }
+
+        public static List<StatMark> MarksOn(string stat) => MarksOn(stat, Now);
+
+        public static bool HasMark(string id) => MarksOn(null, Now).Exists(m => m.id == id);
+
+        /// <summary>What the marks on a stat come to, within the cap.</summary>
+        public static int MarkSum(string stat, double today)
+        {
+            int sum = 0;
+            foreach (var m in MarksOn(stat, today))
+                sum += m.size;
+            return Math.Max(-MarkCap, Math.Min(MarkCap, sum));
+        }
+
+        /// <summary>The marks on a stat would move it further than the cap lets them.</summary>
+        public static bool Capped(string stat, double today)
+        {
+            int sum = 0;
+            foreach (var m in MarksOn(stat, today))
+                sum += m.size;
+            return Math.Abs(sum) > MarkCap;
+        }
+
+        /// <summary>A stat as it is now: the base and what lies on it, never under 1 nor over 5. It is what a choice
+        /// asks for and what a chance leans on; only growth by use moves the base.</summary>
+        public static int StatNow(string id, double today) => Math.Max(MinStat, Math.Min(MaxStat, Stat(id) + MarkSum(id, today)));
+
+        public static int StatNow(string id) => StatNow(id, Now);
+
+        /// <summary>A stat's name as the book has it ("Nerve").</summary>
+        public static string StatName(string id)
+        {
+            string name = SelfBook.Current.Stat(id)?.name;
+            return !string.IsNullOrEmpty(name) ? name : string.IsNullOrEmpty(id) ? "" : char.ToUpperInvariant(id[0]) + id.Substring(1);
+        }
+
+        /// <summary>How long a mark has yet, in words: "for 12 days", "until the stick is clean", "for a time".</summary>
+        public static string Lasts(StatMark m, double today)
+        {
+            if (m == null)
+                return "";
+            if (m.untilSaid.Length > 0)
+                return m.untilSaid;
+            int left = m.DaysLeft(today);
+            return left < 0 ? "for a time" : left == 1 ? "for a day" : $"for {left} days";
+        }
+
+        /// <summary>A mark as a sentence for the log and the card: "Your Nerve is up by one for 30 days: you fought
+        /// raiders off."</summary>
+        public static string Said(StatMark m, double today)
+        {
+            if (m == null)
+                return null;
+            string by = Math.Abs(m.size) == 1 ? "one" : "two";
+            string said = $"Your {StatName(m.stat)} is {(m.size > 0 ? "up" : "down")} by {by} {Lasts(m, today)}";
+            return m.why.Length > 0 ? said + ": " + m.why + "." : said + ".";
+        }
+
+        /// <summary>A mark's name made plain where nobody has written its cause ("hid_under_the_sail" is "hid under the
+        /// sail").</summary>
+        public static string PlainCause(string id)
+        {
+            string s = id ?? "";
+            int dot = s.LastIndexOf('.');
+            if (dot >= 0)
+                s = s.Substring(dot + 1);
+            return s.Replace('_', ' ');
+        }
+
+        /// <summary>A deed that is known (reputation_793.json "deeds") puts the marks the self's book gives it
+        /// (story/self_793.json "deed_marks"): fought raiders off, Nerve up by one for a month.</summary>
+        public static void MarkFromDeed(string kind)
+        {
+            double today = Now;
+            foreach (var d in SelfBook.Current.DeedMarks(kind))
+                if (d.faith.Length == 0 || Faith.StartsWith(d.faith, StringComparison.Ordinal))
+                    Mark(d.stat, d.size, d.id, d.days, d.untilFlag, d.why, today, d.untilSaid);
+        }
+
+        /// <summary>The body's own marks, looked at each day of the voyage: no bread aboard, the sickness aboard. Each
+        /// lies on a stat while it is so and is gone the day it is mended.</summary>
+        public static void Body(bool hungry, bool sick)
+        {
+            double today = Now;
+            if (hungry)
+                Mark("nerve", -1, "body.hungry", 2.0, "", "there is no bread aboard", today, "until the men are fed");
+            else
+                Unmark("body.hungry");
+            if (sick)
+                Mark("tongue", -1, "body.sick", 2.0, "", "there is sickness aboard", today, "until the crew is well");
+            else
+                Unmark("body.sick");
+        }
+
         // ------------------------------------------------------------------ the saved game
 
         public static Dictionary<string, object> Capture()
@@ -296,10 +458,16 @@ namespace Kapman.Game
             var m = new Dictionary<string, object>();
             foreach (var kv in met)
                 m[kv.Key] = new Dictionary<string, object> { ["times"] = (double)kv.Value.times, ["first"] = kv.Value.first, ["last"] = kv.Value.last };
+            var on = new List<object>();
+            foreach (var k in marks)
+                on.Add(new Dictionary<string, object>
+                {
+                    ["id"] = k.id, ["stat"] = k.stat, ["size"] = (double)k.size, ["until"] = k.until, ["flag"] = k.untilFlag, ["why"] = k.why, ["said"] = k.untilSaid,
+                });
             return new Dictionary<string, object>
             {
                 ["people"] = People, ["faith"] = Faith, ["past"] = Past, ["chosen"] = Chosen, ["called"] = Called, ["face"] = Face,
-                ["stats"] = s, ["tongues"] = t, ["seen"] = w, ["met"] = m,
+                ["stats"] = s, ["tongues"] = t, ["seen"] = w, ["met"] = m, ["marks"] = on,
             };
         }
 
@@ -335,6 +503,13 @@ namespace Kapman.Game
                     foreach (var kv in m)
                         if (kv.Value is Dictionary<string, object> r)
                             met[kv.Key] = new MetRecord { times = (int)Json.Num(r, "times"), first = Json.Num(r, "first"), last = Json.Num(r, "last") };
+                foreach (var x in Json.Arr(d, "marks") ?? new List<object>())
+                    if (x is Dictionary<string, object> k && IsStat(Json.Str(k, "stat")) && Json.Str(k, "id").Length > 0)
+                        marks.Add(new StatMark
+                        {
+                            id = Json.Str(k, "id"), stat = Json.Str(k, "stat"), size = (int)Json.Num(k, "size"), until = Json.Num(k, "until", -1.0),
+                            untilFlag = Json.Str(k, "flag", ""), why = Json.Str(k, "why", ""), untilSaid = Json.Str(k, "said", ""),
+                        });
             }
             MapPalette.SetPeople(People);
             Version++;

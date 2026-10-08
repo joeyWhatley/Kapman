@@ -8,11 +8,21 @@ namespace Kapman.Game.Frame
     /// </summary>
     public sealed class SelfPanel : FramePanel
     {
+        /// <summary>A mark as its line under the stat: "+1 you fought raiders off (for 12 days)".</summary>
+        public static string MarkLine(Self.StatMark m, double today)
+        {
+            string size = (m.size > 0 ? "+" : "\u2212") + System.Math.Abs(m.size);
+            string why = m.why.Length > 0 ? " " + m.why : "";
+            return $"{size}{why} ({Self.Lasts(m, today)})";
+        }
+
         public override string Id => "self";
         public override string Title => "Yourself";
         public override int Order => 80;
 
-        protected override int Stamp() => FrameUi.Mix(FrameUi.Mix(17, Self.Version), ChartWorld.Current != null ? ChartWorld.Current.homePort : "");
+        // (the day is in the stamp: a mark's days run down, and one that ends changes the pips)
+        protected override int Stamp() =>
+            FrameUi.Mix(FrameUi.Mix(FrameUi.Mix(17, Self.Version), ChartWorld.Current != null ? ChartWorld.Current.homePort : ""), (int)System.Math.Floor(Self.Now));
 
         protected override void Fill(VisualElement body)
         {
@@ -35,15 +45,31 @@ namespace Kapman.Game.Frame
                 if (line.Length > 0)
                     body.Add(FrameUi.Text(line));
             }
+            // EVENTS MOVE THE STATS (the user, 7 Oct 2026): the pips are the stat as it is now. Under a stat stands each
+            // mark that lies on it: its size, its cause, how long it has yet.
+            double today = Self.Now;
+            bool anyMark = false;
             foreach (string id in Self.StatIds)
             {
                 var stat = book.Stat(id);
-                int pips = Self.Stat(id);
+                int pips = Self.StatNow(id, today);
                 string name = stat != null ? stat.name : id;
                 string level = stat != null ? stat.Level(pips) : "";
                 body.Add(FrameUi.Ln(name, stat != null ? stat.what : null, level.Length > 0 ? FrameUi.Tag(level) : null, FrameUi.Pips(pips)));
+                foreach (var m in Self.MarksOn(id, today))
+                {
+                    anyMark = true;
+                    var line = FrameUi.P(MarkLine(m, today));
+                    line.AddToClassList("frame-mark");
+                    line.AddToClassList(m.size > 0 ? "up" : "down");
+                    body.Add(line);
+                }
+                if (Self.Capped(id, today))
+                    body.Add(FrameUi.P("More than two up or down such things cannot move it. The rest waits until one ends."));
             }
-            body.Add(FrameUi.P("A stat rises by use, never by spending: each check you win by it adds a little, more against someone who resisted."));
+            body.Add(FrameUi.P(anyMark
+                ? "A stat rises for good by use: each check you win by it adds a little. What you do and what befalls you lies on it for a while."
+                : "A stat rises by use, never by spending: each check you win by it adds a little, more against someone who resisted. What you do and what befalls you can lie on it for a while."));
             var was = Self.Chosen ? book.Past(Self.Past) : null;
             if (was == null)
                 return;
