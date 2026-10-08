@@ -19,7 +19,29 @@ namespace Kapman.Game.Frame
         /// <summary>The Art folder beside Assets.</summary>
         public static string Root => Path.Combine(Application.dataPath, "..", "Art");
 
-        /// <summary>The player's own portrait: "portrait/self.frisian.man.png".</summary>
+        static string[] pool;
+
+        /// <summary>
+        /// THE PLAYER'S PORTRAIT WHILE NO FACE HAS BEEN CHOSEN (a game that did not begin through the opening; a save from
+        /// before the choice). The user, 8 Oct 2026, of a picture from such a game: "Why can I see the old ai generated
+        /// portrait". So it is a face of the pool the opening offers (Showtime.FacePool: the user's own in
+        /// Art/final/portrait_pool, the stand-ins in Art/standin/portrait_pool), the same one each time for a people.
+        /// Only on a machine with no pool at all does the drawn portrait of the people stand.
+        /// </summary>
+        public static string SelfUnchosen(string people)
+        {
+            people = string.IsNullOrEmpty(people) ? "frisian" : people;
+            if (pool == null)
+                pool = Showtime.FacePool().ToArray();
+            if (pool.Length == 0)
+                return Self(people, false);
+            int h = 17;
+            foreach (char c in people)
+                h = unchecked(h * 31 + c);
+            return pool[(h & 0x7fffffff) % pool.Length];
+        }
+
+        /// <summary>The drawn portrait of a people, the art list's own slot for the player: "portrait/self.frisian.man.png".</summary>
         public static string Self(string people, bool woman) => $"portrait/self.{(string.IsNullOrEmpty(people) ? "frisian" : people)}.{(woman ? "woman" : "man")}.png";
 
         /// <summary>A person of a places file: "portrait/person.dorestad.tollman.png" for the id "dorestad.tollman".</summary>
@@ -71,6 +93,7 @@ namespace Kapman.Game.Frame
                 if (tex != null)
                     Object.Destroy(tex);
             cache.Clear();
+            pool = null;
         }
     }
 }

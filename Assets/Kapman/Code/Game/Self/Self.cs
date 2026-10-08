@@ -81,8 +81,10 @@ namespace Kapman.Game
         }
 
         /// <summary>The player's own face: the art slot of the picture chosen at the very start ("portrait_pool/p04.png");
-        /// "" for none chosen: the drawn portrait of the people stands (the user, 7 Oct 2026, late: "replace the AI
-        /// image of the player and make it a choice at the very start out of all the choices").</summary>
+        /// "" for none chosen: a face of the same pool stands (FrameArt.SelfUnchosen), not the old drawn portrait (the
+        /// user, 7 Oct 2026, late: "replace the AI image of the player and make it a choice at the very start out of all
+        /// the choices"; 8 Oct, seeing the drawn one in a game that had skipped the choice: "Why can I see the old ai
+        /// generated portrait").</summary>
         public static string Face { get; private set; } = "";
 
         public static void SetFace(string slot)

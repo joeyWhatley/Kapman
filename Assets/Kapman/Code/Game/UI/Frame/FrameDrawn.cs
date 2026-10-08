@@ -159,8 +159,9 @@ namespace Kapman.Game.Frame
             {
                 string v = value ?? "";
                 var people = MapPalette.Current;
-                // (the player's own: the face chosen at the start if there is one, else the drawn portrait of the people)
-                string want = v == "you" ? (Self.Face.Length > 0 ? Self.Face : FrameArt.Self(people != null ? people.people : "frisian", false)) : FrameArt.Named(v);
+                // (the player's own: the face chosen at the start if there is one, else a face of the same pool, and
+                // never the old drawn portrait while there is a pool: FrameArt.SelfUnchosen)
+                string want = v == "you" ? (Self.Face.Length > 0 ? Self.Face : FrameArt.SelfUnchosen(people != null ? people.people : "frisian")) : FrameArt.Named(v);
                 if (who == v && (v != "you" || want == slot))
                     return;
                 who = v;
