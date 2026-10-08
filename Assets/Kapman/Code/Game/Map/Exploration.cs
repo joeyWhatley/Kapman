@@ -6,9 +6,9 @@ namespace Kapman.Game
 {
     /// <summary>
     /// WHAT THE MERCHANT HAS SEEN - the map's fog of war. The world is a grid of CELL-metre squares, each from 0
-    /// (never seen) to 1 (seen); the fog over the map is the opposite. It lifts round the ship as she sails (out to
-    /// about SIGHT real metres: the coast and hills she'd see from the water), and the merchant knows his home waters
-    /// from the start. Saved with the game (SaveGame).
+    /// (never seen) to 1 (seen); the fog over the map is the opposite, and it hides what it covers (9 Oct 2026). It
+    /// lifts round the ship as she sails (out to about SIGHT real metres: the coast and hills she'd see from the
+    /// water), and the merchant knows his home waters from the start. Saved with the game (SaveGame).
     ///
     /// WHAT IS IN SIGHT NOW (the user, 7 Oct 2026, night: "nor is the fog of war interactive, it's just static": in his
     /// home waters everything was known from the start, so nothing ever lifted). Three states now, as in any game of
@@ -21,7 +21,16 @@ namespace Kapman.Game
         public const double CellSize = 8000.0;                    // real metres per fog square
         public const double Sight = 30000.0;                      // real metres seen round the ship
         public const double Home = 160000.0;                      // real metres known round home at the start
-        const float FogAlpha = 0.55f;                              // the fog over the unknown: the land shows through it, faded (the user, 2026-10-03: at 0.94 "a thick film ... I can't see anything")
+        /// <summary>
+        /// THE UNKNOWN IS HIDDEN (the user, 9 Oct 2026: "Why are we doing such a subtle fog? Shouldn't it be you can't see
+        /// anything you haven't been?"). The fog over what she has never seen is whole: nothing of the chart shows
+        /// through it. (It was 0.94 in the first build and was thinned to 0.55 on 3 October, when the user, zoomed all the
+        /// way out, saw "a thick film ... I can't see anything except a tiny little circle". The map then zoomed out to
+        /// 13,000 km across, where the known waters are a dot; it stops at the painted chart now.)
+        /// </summary>
+        public const float FogAlpha = 1f;
+        /// <summary>The fog's own colour: the frame's dark purple, not black.</summary>
+        public static readonly Color32 Dark = new Color32(30, 16, 38, 255);
 
         static float[] seen;
         static int cols, rows;
@@ -50,12 +59,17 @@ namespace Kapman.Game
             rows = Math.Max(1, (int)Math.Ceiling((n - s) / CellSize));
             seen = new float[cols * rows];
             if (texture != null)
-                UnityEngine.Object.Destroy(texture);
+            {
+                if (Application.isPlaying)
+                    UnityEngine.Object.Destroy(texture);
+                else
+                    UnityEngine.Object.DestroyImmediate(texture);
+            }
             texture = new Texture2D(cols, rows, TextureFormat.RGBA32, false)
                 { wrapMode = TextureWrapMode.Clamp, filterMode = FilterMode.Bilinear, name = "Map fog" };
             var px = new Color32[cols * rows];
             for (int i = 0; i < px.Length; i++)
-                px[i] = new Color32(14, 9, 20, (byte)(255 * FogAlpha));
+                px[i] = new Color32(Dark.r, Dark.g, Dark.b, (byte)(255 * FogAlpha));
             texture.SetPixels32(px);
             texture.Apply(false);
             anyDirty = false;
@@ -166,7 +180,7 @@ namespace Kapman.Game
                     if (sightOn && known > 0f)
                         veil += RememberedAlpha * known * (1f - InSight(west + (dirty.xMin + c + 0.5) * CellSize, north - (dirty.yMin + r + 0.5) * CellSize));
                     // the texture's rows run bottom-up (south first)
-                    px[(dirty.height - 1 - r) * dirty.width + c] = new Color32(14, 9, 20, (byte)(255 * Mathf.Clamp01(veil)));
+                    px[(dirty.height - 1 - r) * dirty.width + c] = new Color32(Dark.r, Dark.g, Dark.b, (byte)(255 * Mathf.Clamp01(veil)));
                 }
             texture.SetPixels32(dirty.xMin, rows - dirty.yMin - dirty.height, dirty.width, dirty.height, px);
             texture.Apply(false);
@@ -194,13 +208,16 @@ namespace Kapman.Game
             Apply();
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void Reset()
+        /// <summary>No fog at all: everything counts as known (before a game has a chart; a test that made a fog of its own).</summary>
+        public static void Clear()
         {
             seen = null;
             texture = null;
             anyDirty = false;
             sightOn = false;
         }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void Reset() => Clear();
     }
 }

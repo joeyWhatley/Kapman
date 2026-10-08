@@ -364,6 +364,8 @@ namespace Kapman.Game
             fog = new Image { scaleMode = ScaleMode.StretchToFill, pickingMode = PickingMode.Ignore };
             fog.AddToClassList("map-fog");
             overlays = Layer("map-overlays");
+            // (the paper stays under the fog. Tried over it on 9 Oct 2026, when the fog was made to hide what it covers:
+            // on the dark its soft patches stood out as a lattice of smudges, one tile apart. The unknown is one plain dark.)
             layer.Add(under);
             layer.Add(over);
             layer.Add(paper);
@@ -847,8 +849,6 @@ namespace Kapman.Game
                 if (!Course.IsSet || Course.Points.Count < 2 || map.mpp <= 0.0)
                     return;
                 var p = ctx.painter2D;
-                p.strokeColor = new Color(0.08f, 0.08f, 0.1f, 0.9f);
-                p.lineWidth = 3f;
                 p.lineJoin = LineJoin.Round;
                 p.lineCap = LineCap.Butt;
                 // THE WAY AHEAD IN SPACED STROKES (the user, 8 Oct 2026: "make the map trail for the ship icon to be spaced
@@ -861,7 +861,7 @@ namespace Kapman.Game
                 const float stroke = 9f, space = 11f, period = stroke + space, edge = 24f;
                 float wide = contentRect.width, high = contentRect.height;
                 double along = 0.0;                                       // pixels from the berth, along the line
-                p.BeginPath();
+                strokes.Clear();
                 for (int i = line.Count - 1; i > 0; i--)
                 {
                     Vector2 from = line[i], to = line[i - 1];
@@ -880,23 +880,36 @@ namespace Kapman.Game
                         {
                             double a0 = System.Math.Max(s0, k * (double)period), a1 = System.Math.Min(s1, k * (double)period + stroke);
                             if (a1 - a0 > 0.25)
-                            {
-                                p.MoveTo(from + dir * (float)(a0 - along));
-                                p.LineTo(from + dir * (float)(a1 - along));
-                            }
+                                strokes.Add((from + dir * (float)(a0 - along), from + dir * (float)(a1 - along)));
                         }
                     }
                     along += len;
                 }
-                p.Stroke();
-                // the berth: a ring
+                // THE STROKES READ ON THE DARK OF THE UNKNOWN AS ON THE CHART (9 Oct 2026: the fog hides what it covers,
+                // and a course runs through it to a port only heard of): each dark stroke has a pale edge under it.
                 var end = Px(Course.Points[Course.Points.Count - 1]);
-                p.BeginPath();
-                p.Arc(end, 6f, 0f, 360f);
-                p.Stroke();
+                for (int pass = 0; pass < 2; pass++)
+                {
+                    p.strokeColor = pass == 0 ? new Color(0.86f, 0.89f, 0.8f, 0.85f) : new Color(0.08f, 0.08f, 0.1f, 0.9f);
+                    p.lineWidth = pass == 0 ? 5.5f : 3f;
+                    p.BeginPath();
+                    foreach (var (a, b) in strokes)
+                    {
+                        // (the pale edge a little longer than its stroke, so it shows at the ends too)
+                        Vector2 d = pass == 0 && (b - a).sqrMagnitude > 0.01f ? (b - a).normalized * 1.25f : Vector2.zero;
+                        p.MoveTo(a - d);
+                        p.LineTo(b + d);
+                    }
+                    p.Stroke();
+                    // the berth: a ring
+                    p.BeginPath();
+                    p.Arc(end, 6f, 0f, 360f);
+                    p.Stroke();
+                }
             }
 
             readonly List<Vector2> line = new List<Vector2>();
+            readonly List<(Vector2 from, Vector2 to)> strokes = new List<(Vector2, Vector2)>();
 
             /// <summary>Narrows the stretch t0..t1 of a line (start + dir * t, along one axis) to where it lies between two
             /// bounds. False when none of it does.</summary>

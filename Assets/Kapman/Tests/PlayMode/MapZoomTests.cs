@@ -5,6 +5,7 @@ using System.Linq;
 using Kapman.Game;
 using Kapman.Game.Frame;
 using Kapman.Game.Sim;
+using Kapman.World;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,6 +24,8 @@ namespace Kapman.Tests
     ///     over a few frames instead of jumping a notch;
     ///   - not followed, the place under the pointer stays under it;
     ///   - the view never leaves the painted chart, by the wheel or by the hand;
+    ///   - the fog hides what she has not seen (the same day: "Why are we doing such a subtle fog? Shouldn't it be you
+    ///     can't see anything you haven't been?"): far from home, land and sea are one dark; her home waters are not;
     ///   - no port's name lies over another, and the port she lies at keeps its name;
     ///   - scrolled on in past the closest, the ship's own view is asked for once.
     /// Pictures in Captures/chart (zoom_*.png).
@@ -271,6 +274,42 @@ namespace Kapman.Tests
                 }
                 Inside("At its widest");
                 yield return play.Shot("zoom_3_the_widest");
+                // THE UNKNOWN IS HIDDEN (the user, 9 Oct 2026: "Shouldn't it be you can't see anything you haven't been?").
+                // Far from home the sea and the land are the same dark, the fog's own, with nothing of the chart showing
+                // through; the water she knows, off her own coast, is not.
+                {
+                    var px = play.ScreenPixels(out int width, out int height);
+                    Color32 Middle(double lat, double lon, string what)
+                    {
+                        var (wx, wz) = WorldFrame.ToWorld(lat, lon);
+                        Vector2 at = Px(new WorldXZ(wx, wz));
+                        Assert.IsTrue(hole.Contains(at), $"{what} is not on the chart at its widest: {at}");
+                        var r = new List<byte>();
+                        var g = new List<byte>();
+                        var b = new List<byte>();
+                        for (int y = (int)at.y - 4; y <= (int)at.y + 4; y++)
+                            for (int x = (int)at.x - 4; x <= (int)at.x + 4; x++)
+                            {
+                                var c = px[Mathf.Clamp(y, 0, height - 1) * width + Mathf.Clamp(x, 0, width - 1)];
+                                r.Add(c.r);
+                                g.Add(c.g);
+                                b.Add(c.b);
+                            }
+                        r.Sort();
+                        g.Sort();
+                        b.Sort();
+                        return new Color32(r[r.Count / 2], g[g.Count / 2], b[b.Count / 2], 255);   // (the middle one: a speck or a mark's edge does not count)
+                    }
+                    int Far(Color32 a, Color32 b) => Mathf.Max(Mathf.Abs(a.r - b.r), Mathf.Max(Mathf.Abs(a.g - b.g), Mathf.Abs(a.b - b.b)));
+                    var dark = Exploration.Dark;
+                    var sea = Middle(57.0, 3.5, "the middle of the North Sea");
+                    var land = Middle(54.3, -2.2, "the hills of northern England");
+                    var home = Middle(53.0, 4.0, "the sea off her own coast");
+                    Debug.Log($"Map zoom: the unknown sea is drawn {sea}, the unknown land {land}, the fog's own colour is {dark}; the sea she knows {home}");
+                    Assert.LessOrEqual(Far(sea, dark), 12, $"the sea she has never seen shows through the fog: drawn {sea}, the fog is {dark}");
+                    Assert.LessOrEqual(Far(land, dark), 12, $"the land she has never seen shows through the fog: drawn {land}, the fog is {dark}");
+                    Assert.Greater(Far(home, dark), 40, $"the sea she knows, off her own coast, is as dark as the unknown: drawn {home}");
+                }
                 // (no name over another; the port she lies at has its name)
                 var slips = new List<(string name, Rect at)>();
                 play.Screen.Query<VisualElement>(className: "map-port").ForEach(m =>

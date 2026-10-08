@@ -1265,4 +1265,26 @@ and far fewer when usage is short).
    SEEN AND NOT MENDED: at the closest zoom her mark stands some 500 m from the painted river at Dorestat (the
    port's place against the picture); the ship's own view from above is all but black on a moonless night.
    Tests: MapZoomTests (PlayMode; in the suite from now on), which holds all four mends on the real chart.
+117. **THE FOG HIDES WHAT SHE HAS NOT SEEN** (the user, 9 Oct, of item 116's pictures: "Why are we doing such a
+   subtle fog? Shouldn't it be you can't see anything you haven't been?"). A RULING.
+   - WHY IT WAS SUBTLE. The first build's fog was 94 in the hundred dark. On 3 October the user, zoomed all the
+     way out, saw "a thick film ... I can't see anything except a tiny little circle", and I thinned it to 55,
+     so that the land showed through. That was the wrong lesson: the trouble was that the map zoomed out to
+     13,000 km across, where the known waters are a dot. The zoom stops at the painted chart now (item 116).
+   - NOW (Code/Game/Map/Exploration.cs, FogAlpha 1): nothing of the chart shows through the fog over what she
+     has never seen. It is one plain dark, the frame's dark purple (30, 16, 38), with a soft edge two squares
+     wide. What she HAS seen stays on the chart for good, under the thin veil of what is remembered (24 in the
+     hundred) when it is out of her sight, and clear in the round she sees now (30 km).
+   - STILL SHOWN IN THE DARK, by my choice, the user's to overrule: the dots and names of ports she has only
+     HEARD of (faded, as before: 35 of them on the first morning, from the waterfront's talk), since she may
+     set a course for them; and her charted course, whose strokes have a pale edge now so that they read on the
+     dark.
+   - NOT CHANGED: home waters known from the start (160 km round home), her sight (30 km), the squares (8 km).
+     At the chart's widest the known waters of a new game are a small round in the dark: that is what the
+     ruling asks for.
+   - TRIED AND NOT KEPT: the chart's paper grain laid over the dark. Its soft patches stood out as a lattice of
+     smudges, a tile apart.
+   Tests: ExplorationTests (EditMode: whole fog over the unseen, the veil over the remembered, clear in sight,
+   and it stays lifted behind her); MapZoomTests reads the screen: far from home the land and the sea are the
+   same dark, the fog's own, and the sea off her own coast is not.
 
