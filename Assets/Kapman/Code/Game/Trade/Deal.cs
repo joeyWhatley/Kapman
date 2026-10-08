@@ -127,6 +127,80 @@ namespace Kapman.Game
             return r;
         }
 
+        /// <summary>What buying up to `count` units would come to now, with nothing changing hands: how many there are
+        /// on offer, room for and silver to pay, and their price in all (each unit dearer than the last, exactly as
+        /// <see cref="Buy"/> reckons it). Ask for int.MaxValue to learn all that fits.</summary>
+        public static DealResult QuoteBuy(Market m, Purse purse, Hold hold, string goodId, int count, int month, double day, string who)
+        {
+            var r = new DealResult { why = "" };
+            var g = m?.Get(goodId);
+            if (g == null || count <= 0)
+                return Fail(ref r, "not_dealt");
+            if (m.Disrupted(day))
+                return Fail(ref r, m.RuinedOn(day) ? "ruined" : "disrupted");
+            int room = hold.RoomFor(g.good);
+            double worth = purse.Worth(m.zone, TradeRules.Current);
+            double total = 0.0;
+            int n = 0;
+            float stock = g.stock;
+            while (n < count && n < room && stock - n >= 1f)
+            {
+                g.stock = stock - n;
+                double each = AsksFor(m, g, month, who);
+                if (total + each > worth + 1e-6)
+                    break;
+                total += each;
+                n++;
+            }
+            g.stock = stock;                                         // nothing has changed hands
+            if (n == 0)
+                return Fail(ref r, stock < 1f ? "none_left" : room <= 0 ? "no_room" : "no_silver");
+            r.ok = true;
+            r.count = n;
+            r.deniers = Math.Round(total, 2);
+            if (n < count)
+                r.why = stock - n < 1f ? "none_left" : n >= room ? "no_room" : "no_silver";
+            return r;
+        }
+
+        /// <summary>What selling up to `count` units from the hold would come to now, with nothing changing hands: how
+        /// many, what the market pays for them in all (each unit cheaper than the last, exactly as <see cref="Sell"/>
+        /// reckons it), the toll, and what they had cost.</summary>
+        public static DealResult QuoteSell(Market m, Hold hold, string goodId, int count, int month, double day, string who)
+        {
+            var r = new DealResult { why = "" };
+            var good = GameData.Good(goodId);
+            if (good == null || count <= 0)
+                return Fail(ref r, "nothing");
+            var g = m?.Get(goodId);
+            if (g == null)
+                return Fail(ref r, "not_dealt");
+            if (m.Disrupted(day))
+                return Fail(ref r, m.RuinedOn(day) ? "ruined" : "disrupted");
+            int n = Math.Min(count, hold.Count(goodId));
+            if (n <= 0)
+                return Fail(ref r, "none_aboard");
+            float stock = g.stock, glut = g.glut;
+            double total = 0.0;
+            for (int i = 0; i < n; i++)
+            {
+                total += PaysFor(m, g, month, who);
+                m.GotOne(g);
+            }
+            g.stock = stock;                                         // nothing has changed hands
+            g.glut = glut;
+            total = Math.Round(total, 2);
+            bool free = who == "player" && Chest.TollFreeAt(m.port, KapmanGame.Current != null ? KapmanGame.Current.Year : 793);
+            r.ok = true;
+            r.count = n;
+            r.deniers = total;
+            r.toll = free ? 0.0 : Math.Round(total * m.zone.toll * (who == "player" ? EncounterRunner.TollFactor(m.port.id, day) : 1.0), 2);
+            r.cost = hold.CostOf(good, n);
+            if (n < count)
+                r.why = "none_aboard";
+            return r;
+        }
+
         static DealResult Fail(ref DealResult r, string why)
         {
             r.ok = false;

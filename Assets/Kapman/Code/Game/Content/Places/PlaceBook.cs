@@ -122,6 +122,34 @@ namespace Kapman.Game
         }
 
         /// <summary>The people of a port who are there that year, in the file's order.</summary>
+        /// <summary>The trades that hear what the markets pay: the toll, the exchange, the ale bench, the guest house,
+        /// the ships and the ferry. Whoever "on the waterfront" told a price is one of these, where a port's page has one.
+        /// (Not a merchant: he does not give his prices away.)</summary>
+        public static readonly HashSet<string> Tellers = new HashSet<string>(StringComparer.Ordinal)
+        {
+            "tollman", "reeve", "harbour_master", "moneyer", "alewife", "host", "skipper", "pilot", "ferryman", "steward", "cellarer", "guest_master", "carter",
+        };
+
+        /// <summary>A role's title as the cards say it ("the toll man"): the encounter runner sets it from the roles'
+        /// table. Without it, "the" and the role's own word.</summary>
+        public static Func<string, string> RoleTitle;
+
+        /// <summary>"Aldgrim the toll man": a person by name and trade.</summary>
+        public static string Titled(PersonDef p)
+        {
+            if (p == null)
+                return "";
+            string title = RoleTitle != null ? RoleTitle(p.role) : null;
+            if (string.IsNullOrEmpty(title))
+                title = p.Role.Length > 0 ? "the " + p.Role : "";
+            // (the period's own word, as PersonDef.Role has it: a shipmaster, not a skipper)
+            title = title.Replace("skipper", "shipmaster");
+            return title.Length > 0 ? p.name + " " + title : p.name;
+        }
+
+        /// <summary>The people of a port that year whose trade hears what the markets pay, in the file's order.</summary>
+        public List<PersonDef> TellersAt(string port, int year) => People(port, year).FindAll(p => Tellers.Contains(p.role));
+
         public List<PersonDef> People(string port, int year)
         {
             var list = new List<PersonDef>();

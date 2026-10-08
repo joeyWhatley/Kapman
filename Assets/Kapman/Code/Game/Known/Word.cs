@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Kapman.Game.Sim;
 
 namespace Kapman.Game
@@ -73,6 +74,54 @@ namespace Kapman.Game
         public PortDef here;
         /// <summary>The world's ships (null: none are looked at).</summary>
         public IReadOnlyList<SimShip> ships;
+        // the price the word on one good is said against, worked out once for a line or for a row of the ledger
+        internal WordHere against;
+        internal string againstGood;
+    }
+
+    /// <summary>How exactly a price is known, from least to most: not at all; as a word against where she lies (talk, a
+    /// rumour, word grown old); as a rough figure ("about 36 d": told by one who saw it himself, or her own sight of it
+    /// more than a week old); to the penny (seen with her own eyes within the week).</summary>
+    public enum PriceGrade { None, Word, About, Exact }
+
+    /// <summary>The price the word is said against: what she saw where she lies now, or (at sea, or where she has not
+    /// looked at the market) the last price of the good she saw with her own eyes.</summary>
+    public struct WordHere
+    {
+        /// <summary>The port it was seen at (null: she has seen no price of the good in the days a note counts).</summary>
+        public PortDef port;
+        /// <summary>She lies there now ("than here"); false: it is where she last saw one ("than at Dorestat").</summary>
+        public bool lying;
+        /// <summary>What they paid and asked there for one unit as she saw them (deniers), and whether any was on offer.</summary>
+        public float pays, asks;
+        public bool onOffer;
+        /// <summary>The game day she saw them.</summary>
+        public double day;
+        public bool Known => port != null;
+    }
+
+    /// <summary>One cell of the ledger: what the merchant knows of a good's price at a port, how exactly, how old, and
+    /// how it stands against where she lies.</summary>
+    public struct PriceCell
+    {
+        public PriceGrade grade;
+        /// <summary>The rule of the word it comes by: 2 a price seen, 3 a price told, 4 talk, a rumour, or grown old (0: nothing).</summary>
+        public int rule;
+        /// <summary>What they pay and ask there for one unit, as noted (deniers; asks is NaN where none was on offer).</summary>
+        public float pays, asks;
+        public bool onOffer;
+        /// <summary>The game day it was true, and its age as a wording key ("age.last_week").</summary>
+        public double day;
+        public string ageKey;
+        /// <summary>True when there is a price to set it against, and this port is not that price's own.</summary>
+        public bool compared;
+        /// <summary>What they pay there against what they pay here, and what they ask against what they ask here: +2 far
+        /// more, +1 more, 0 much the same, -1 less, -2 far less (0 too when nothing is compared, or none is on offer).</summary>
+        public int paysLean, asksLean;
+        /// <summary>The note it rests on (who told it: Known.Person(note)); null when nothing is known.</summary>
+        public PriceNote note;
+        /// <summary>The good it is about (its id).</summary>
+        public string goodId;
     }
 
     public static partial class Known
@@ -116,12 +165,16 @@ namespace Kapman.Game
         /// than 14 days; (4) talk and rumour, and whatever else is noted and not yet 90 days old; (5) the season: what
         /// comes to market and what is wanted there this month, and the good's own cheap and dear months; (6) ships that
         /// left for there ahead of her with the good aboard; (7) the law on the good there; (8) nothing known. The days
-        /// are in knowing_793.json ("word"). Only a price seen shows a number; a told one is "well", "poorly" or "the
-        /// usual". The same every time for the same knowledge and day: nothing is drawn, and no market is asked.
+        /// are in knowing_793.json ("word"). A price is said AGAINST THE PRICE WHERE SHE LIES (<see cref="Here"/>): a
+        /// price she saw within the week with its figure and the difference ("2 d more than here"); one told by a man
+        /// who saw it, or her own older sight, as a rough figure ("about 36 d"); talk and rumour as a word ("more than
+        /// here"). Only with nothing to set it against is it "well", "poorly" or "the usual" by the good's table value.
+        /// The same every time for the same knowledge and day: nothing is drawn, and no market is asked.
         /// </summary>
         public static GoodWord Word(GoodDef good, PortDef port, WordAsk ask)
         {
             Now(ref ask);
+            ask = AskFor(good, ask);
             if (good == null || port == null)
                 return Make(8, "none.anywhere", WordMark.None, 0, good, port, ask, double.NaN);
             if (TryKnown(good, port, ask, out var w))
@@ -143,6 +196,7 @@ namespace Kapman.Game
         public static GoodWord WordOn(GoodDef good, WordAsk ask)
         {
             Now(ref ask);
+            ask = AskFor(good, ask);
             if (good == null)
                 return Make(8, "none.anywhere", WordMark.None, 0, null, null, ask, double.NaN);
             var best = default(GoodWord);
@@ -245,6 +299,236 @@ namespace Kapman.Game
             return tilt > 0 ? "pays.well" : tilt < 0 ? "pays.poorly" : "pays.fair";
         }
 
+        // ------------------------------------------------------------------------------------------ against where she lies
+
+        /// <summary>The ask with the price it is said against worked out for this good: once for a line, or once for a
+        /// row of the ledger (ask every cell of the row with what this returns).</summary>
+        public static WordAsk AskFor(GoodDef good, WordAsk ask)
+        {
+            if (good != null && ask.againstGood != good.id)
+            {
+                ask.against = Here(good, ask);
+                ask.againstGood = good.id;
+            }
+            return ask;
+        }
+
+        /// <summary>
+        /// The price the word on a good is said against (the strategy critic, 7 October: "say it against where she
+        /// lies"): what she saw at the port she lies at, once she has seen its market (the frame notes it when she
+        /// moors: FrameDeal.See); else the last price of the good she saw with her own eyes anywhere, while it is young
+        /// enough to count (knowing_793.json "word": known_days). From the price notes alone: no market is asked.
+        /// </summary>
+        public static WordHere Here(GoodDef good, WordAsk ask)
+        {
+            var here = default(WordHere);
+            if (good == null || !Trade.Started)
+                return here;
+            if (ask.here != null && OwnSight(ask.here.id, good.id, ask.today, out double at, out var seen))
+                return new WordHere { port = ask.here, lying = true, pays = seen.pays, asks = seen.asks, onOffer = seen.onOffer, day = at };
+            var ports = GameData.Ports;
+            for (int i = 0; i < ports.Count; i++)
+            {
+                if (!OwnSight(ports[i].id, good.id, ask.today, out at, out seen) || (here.port != null && at <= here.day))
+                    continue;
+                here = new WordHere { port = ports[i], lying = false, pays = seen.pays, asks = seen.asks, onOffer = seen.onOffer, day = at };
+            }
+            return here;
+        }
+
+        /// <summary>The newest price of a good the merchant saw with her own eyes at a port, while it still counts.</summary>
+        static bool OwnSight(string port, string good, double today, out double day, out SeenPrice price)
+        {
+            day = double.NaN;
+            price = default;
+            var notes = Trade.Ledger.History(port);
+            for (int i = notes.Count - 1; i >= 0; i--)
+            {
+                var n = notes[i];
+                double age = today - n.day;
+                if (age < 0.0)
+                    continue;
+                if (age >= Rules.wordKnownDays)
+                    return false;                                        // (the notes before it are older still)
+                if ((n.how == How.Seen || n.how == How.Own) && n.prices.TryGetValue(good, out price))
+                {
+                    day = n.day;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// The share by which the price at the place of sale must stand over the price at the place of buying before
+        /// carrying the good from the one to the other pays: the market's own gap between what it asks and what it pays
+        /// (trade_rules.json "spread"), and the toll where it is sold. With a spread of 0.2 that is 0.36 into a port that
+        /// takes a tenth and 0.22 into one that takes no toll. This is where "far more than here" begins, so the word
+        /// means: buying it here to sell it there would pay, if the word still holds.
+        /// </summary>
+        public static float FarOver(PortDef sellAt)
+        {
+            var rules = TradeRules.Current;
+            if (rules == null)
+                return 0.25f;
+            float half = Math.Max(0f, Math.Min(0.9f, rules.spread * 0.5f));
+            float toll = sellAt != null ? rules.ZoneOf(sellAt.region)?.toll ?? 0f : 0f;
+            return (1f + half) / (1f - half) / Math.Max(0.5f, 1f - toll) - 1f;
+        }
+
+        /// <summary>How a price there stands against a price here: +2 far more (by `farUp` or more: carrying it there
+        /// pays), +1 more, 0 much the same (within knowing_793.json "word" same_within), -1 less, -2 far less (so much
+        /// less that carrying it from there to here pays: `farDown`).</summary>
+        public static int Lean(float there, float here, float farUp, float farDown)
+        {
+            if (float.IsNaN(there) || float.IsNaN(here) || here <= 0f || there <= 0f)
+                return 0;
+            float r = there / here, same = Math.Max(0f, Rules.sameWithin);
+            if (r >= 1f + Math.Max(farUp, same)) return 2;
+            if (r >= 1f + same) return 1;
+            if (r <= 1f / (1f + Math.Max(farDown, same))) return -2;
+            if (r <= 1f / (1f + same)) return -1;
+            return 0;
+        }
+
+        static string LeanKey(int lean) => lean >= 2 ? "far_more" : lean == 1 ? "more" : lean == 0 ? "same" : lean == -1 ? "less" : "far_less";
+
+        /// <summary>The reckoning a price is said in: that of the port the word is said against (so two prices can be set
+        /// side by side), and with nothing to set it against the port's own.</summary>
+        public static ZoneDef Reckoning(PortDef port, WordAsk ask) => TradeRules.Current?.ZoneOf((ask.against.port ?? port)?.region);
+
+        static string Shown(double deniers, ZoneDef zone) =>
+            zone != null ? zone.Show(deniers) : deniers.ToString("0", CultureInfo.InvariantCulture) + " d";
+
+        /// <summary>A price as a rough figure ("36 d", said as "about 36 d"): to the whole unit under twenty, to the
+        /// nearest two under fifty, to the nearest five under two hundred, then to the nearest ten, so it cannot be taken
+        /// for a price seen.</summary>
+        public static string Rough(double deniers, ZoneDef zone)
+        {
+            double v = deniers / (zone != null ? Math.Max(0.0001, zone.unitDeniers) : 1.0);
+            double step = v < 20.0 ? 1.0 : v < 50.0 ? 2.0 : v < 200.0 ? 5.0 : 10.0;
+            double r = Math.Max(step, Math.Round(v / step, MidpointRounding.AwayFromZero) * step);
+            return r.ToString("0", CultureInfo.InvariantCulture) + " " + (zone != null ? zone.unit : "d");
+        }
+
+        /// <summary>"here", or "at Dorestat" where the word is said against the last price she saw and not where she lies.</summary>
+        static string HereWords(PortDef port, WordAsk ask) =>
+            ask.against.lying ? Wording.WordText(port, "here.lying")
+                              : Wording.Fill(Wording.WordText(port, "here.last"), ("place", ask.against.port != null ? ask.against.port.name : ""));
+
+        /// <summary>A price as words against where she lies: "more than here", "far less than at Dorestat".</summary>
+        static string AgainstWords(PortDef port, WordAsk ask, int lean) =>
+            Wording.Fill(Wording.WordText(port, "against." + LeanKey(lean)), ("here", HereWords(port, ask)));
+
+        /// <summary>The sentence that sets a figure against where she lies ("That is 2 d more than here."): the difference
+        /// as a figure when both prices were seen (`exact`), else as a word.</summary>
+        static string AgainstLine(PortDef port, WordAsk ask, PriceCell cell, bool exact)
+        {
+            string words = AgainstWords(port, ask, cell.paysLean);
+            if (exact)
+            {
+                var zone = Reckoning(port, ask);
+                double unit = zone != null ? Math.Max(0.0001, zone.unitDeniers) : 1.0;
+                double by = cell.pays - ask.against.pays;
+                if (Math.Abs(by) / unit >= 0.05)
+                    words = Wording.Fill(Wording.WordText(port, by > 0.0 ? "against.by.more" : "against.by.less"),
+                                         ("diff", Shown(Math.Abs(by), zone)), ("here", HereWords(port, ask)));
+                else
+                    words = AgainstWords(port, ask, 0);
+            }
+            return Wording.Fill(Wording.WordText(port, "against.line"), ("against", words));
+        }
+
+        /// <summary>
+        /// ONE CELL OF THE LEDGER: what the merchant knows of a good's price at a port, by the same notes and the same
+        /// order as the word on the item (rules 2 to 4), so the cell and the line never disagree. Ask a whole row with
+        /// one <see cref="AskFor"/>.
+        /// </summary>
+        public static PriceCell Cell(GoodDef good, PortDef port, WordAsk ask)
+        {
+            Now(ref ask);
+            if (good == null || port == null)
+                return new PriceCell { ageKey = "", pays = float.NaN, asks = float.NaN, day = double.NaN };
+            return CellOf(good, port, AskFor(good, ask));
+        }
+
+        static PriceCell CellOf(GoodDef good, PortDef port, WordAsk ask)
+        {
+            var cell = new PriceCell { ageKey = "", pays = float.NaN, asks = float.NaN, day = double.NaN, goodId = good.id };
+            if (!Trade.Started)
+                return cell;
+            var notes = Trade.Ledger.History(port.id);
+            PriceNote seen = null, told = null, other = null;
+            for (int i = notes.Count - 1, looked = 0; i >= 0 && looked < 12; i--)
+            {
+                var n = notes[i];
+                if (!n.prices.ContainsKey(good.id))
+                    continue;
+                looked++;
+                double age = ask.today - n.day;
+                if (age < 0.0)
+                    continue;
+                if (age >= Rules.wordKnownDays)
+                    break;                                               // (the notes before it are older still)
+                bool mine = n.how == How.Seen || n.how == How.Own;
+                if (mine && age < Rules.wordSeenDays)
+                    seen = seen ?? n;
+                else if (!mine && n.how != How.Rumour && n.how != How.Lore && n.hops <= 1 && age < Rules.wordToldDays)
+                    told = told ?? n;
+                else
+                    other = other ?? n;
+            }
+            var note = seen ?? told ?? other;
+            if (note == null)
+                return cell;
+            var price = note.prices[good.id];
+            bool own = note.how == How.Seen || note.how == How.Own;
+            bool firstHand = note == told && note.hops == 0 && (note.how == How.Told || note.how == How.Written);
+            cell.note = note;
+            cell.rule = note == seen ? 2 : note == told ? 3 : 4;
+            cell.grade = note == seen ? PriceGrade.Exact : own || (firstHand && Rules.toldFigure) ? PriceGrade.About : PriceGrade.Word;
+            cell.pays = price.pays;
+            cell.onOffer = price.onOffer;
+            cell.asks = price.onOffer ? price.asks : float.NaN;
+            cell.day = note.day;
+            cell.ageKey = AgeKey(note.day, ask.today);
+            if (cell.ageKey.StartsWith("age.since_", StringComparison.Ordinal))
+                cell.ageKey = "age.old_talk";
+            var here = ask.against;
+            cell.compared = here.Known && here.port != port;
+            if (cell.compared)
+            {
+                float up = FarOver(port), down = FarOver(here.port);
+                cell.paysLean = Lean(price.pays, here.pays, up, down);
+                cell.asksLean = price.onOffer && here.onOffer ? Lean(price.asks, here.asks, up, down) : 0;
+            }
+            return cell;
+        }
+
+        /// <summary>
+        /// A cell as it is written in the ledger: the figure she saw ("36 d"), a rough figure ("about 36 d"), a word
+        /// against where she lies ("far more", "cheaper"), "none" where none was on offer (`asks`), "" where nothing is
+        /// known. In the reckoning of the port the row is said against. `ask` is the row's (<see cref="AskFor"/>).
+        /// </summary>
+        public static string CellText(PriceCell cell, PortDef port, WordAsk ask, bool asks)
+        {
+            if (cell.grade == PriceGrade.None)
+                return "";
+            if (asks && !cell.onOffer)
+                return Wording.WordText(port, "cell.none");
+            var zone = Reckoning(port, ask);
+            float v = asks ? cell.asks : cell.pays;
+            if (cell.grade == PriceGrade.Exact)
+                return Shown(v, zone);
+            if (cell.grade == PriceGrade.About)
+                return Wording.Fill(Wording.WordText(port, "cell.about"), ("price", Rough(v, zone)));
+            if (!cell.compared)
+                return asks ? Wording.WordText(port, "cell.offer") : Wording.WordText(port, PaysKey(cell.pays, GameData.Good(cell.goodId), out _));
+            if (asks && !ask.against.onOffer)
+                return Wording.WordText(port, "cell.offer");
+            return Wording.WordText(port, (asks ? "cell.asks." : "cell.") + LeanKey(asks ? cell.asksLean : cell.paysLean));
+        }
+
         /// <summary>A good's name as it reads in the middle of a line: without what is in brackets, and with a small first
         /// letter unless its first word is a place's or a people's ("Rhenish wine", "salt herring").</summary>
         public static string GoodName(GoodDef g)
@@ -275,10 +559,31 @@ namespace Kapman.Game
                 return of == null ? Wording.WordText(null, "person.skipper.plain")
                                   : Wording.Fill(Wording.WordText(of, "person.skipper"), ("people", Wording.WordText(of, "people." + Wording.CultureOf(of))), ("place", of.name));
             if (teller == "quay")
-                return of == null ? Wording.WordText(null, "person.someone")
-                                  : Wording.Fill(Wording.WordText(of, "person.quay", Hash01(n.port + "/" + n.tellerOf, n.day, 0, 17)), ("place", of.name));
+            {
+                if (of == null)
+                    return Wording.WordText(null, "person.someone");
+                // (8 Oct 2026, the alpha's row 5: "a price told rightly and by whom". One of that port's own people, by
+                // name, where its page has somebody whose trade hears what markets pay; else one of the table's four)
+                var named = QuayTeller(n);
+                if (named != null)
+                    return Wording.Fill(Wording.WordText(of, "person.named"), ("name", PlaceBook.Titled(named)), ("place", of.name));
+                return Wording.Fill(Wording.WordText(of, "person.quay", Hash01(n.port + "/" + n.tellerOf, n.day, 0, 17)), ("place", of.name));
+            }
             string who = Wording.WordText(of, "person." + teller);
             return who.Length > 0 ? who : Wording.WordText(of, "person.someone");
+        }
+
+        /// <summary>Who on that waterfront told a price: one of the port's own people whose trade hears what the markets
+        /// pay (PlaceBook.Tellers), the same one every time for the same note; null where its page has none, or the
+        /// note is not talk of a waterfront.</summary>
+        public static PersonDef QuayTeller(PriceNote n)
+        {
+            if (n == null || n.teller != "quay" || string.IsNullOrEmpty(n.tellerOf))
+                return null;
+            var at = PlaceBook.Current.TellersAt(n.tellerOf, KapmanGame.Current != null ? KapmanGame.Current.Year : 793);
+            if (at.Count == 0)
+                return null;
+            return at[Math.Min(at.Count - 1, (int)(Hash01(n.port + "/" + n.tellerOf, n.day, 0, 17) * at.Count))];
         }
 
         static string Sentence(string text)
@@ -390,50 +695,45 @@ namespace Kapman.Game
             return false;
         }
 
-        /// <summary>Rules 2, 3 and 4 from the price notes: a price seen lately (said with its number), a price told lately
-        /// by someone at first or second hand (said as a word, by a person), and whatever else is noted and not yet too
-        /// old: talk through more mouths or grown old ("they say"), a rumour, the merchant's own older sight of it.</summary>
+        /// <summary>Rules 2, 3 and 4 from the price notes, each said against where she lies (<see cref="Here"/>): a price
+        /// seen lately (its figure, and the difference as a figure); a price told lately by someone at first or second
+        /// hand (a man who saw it himself: "about" and a rough figure; one mouth further: a word); and whatever else is
+        /// noted and not yet too old: talk through more mouths or grown old ("they say"), a rumour, the merchant's own
+        /// older sight of it (a rough figure: she did see it). The tilt is the comparison's: up when they pay more there
+        /// than here. Only with no price to set it against at all is it the good's table value that speaks.</summary>
         static bool LedgerWord(GoodDef good, PortDef port, WordAsk ask, out GoodWord w)
         {
             w = default;
-            if (!Trade.Started)
-                return false;
-            var notes = Trade.Ledger.History(port.id);
-            PriceNote seen = null, told = null, other = null;
-            for (int i = notes.Count - 1, looked = 0; i >= 0 && looked < 12; i--)
-            {
-                var n = notes[i];
-                if (!n.prices.ContainsKey(good.id))
-                    continue;
-                looked++;
-                double age = ask.today - n.day;
-                if (age < 0.0)
-                    continue;
-                if (age >= Rules.wordKnownDays)
-                    break;                                               // (the notes before it are older still)
-                bool own = n.how == How.Seen || n.how == How.Own;
-                if (own && age < Rules.wordSeenDays)
-                    seen = seen ?? n;
-                else if (!own && n.how != How.Rumour && n.how != How.Lore && n.hops <= 1 && age < Rules.wordToldDays)
-                    told = told ?? n;
-                else
-                    other = other ?? n;
-            }
-            var note = seen ?? told ?? other;
+            var cell = CellOf(good, port, ask);
+            var note = cell.note;
             if (note == null)
                 return false;
-            var price = note.prices[good.id];
-            string pays = Wording.WordText(port, PaysKey(price.pays, good, out int tilt));
-            if (note == seen)
+            var zone = Reckoning(port, ask);
+            int tilt;
+            string pays, against = "";
+            if (cell.compared)
             {
-                var zone = TradeRules.Current?.ZoneOf(port.region);
-                string shown = zone != null ? zone.Show(price.pays) : price.pays.ToString("0", System.Globalization.CultureInfo.InvariantCulture) + " d";
-                w = Make(2, "seen", WordMark.Seen, tilt, good, port, ask, note.day, ("price", shown), ("pays", pays));
+                tilt = Math.Sign(cell.paysLean);
+                pays = AgainstWords(port, ask, cell.paysLean);
+                against = AgainstLine(port, ask, cell, cell.grade == PriceGrade.Exact);
             }
-            else if (note == told)
+            else
+            {
+                // nothing to set it against: the word every merchant would use of the good (and no lean at all where the
+                // port asked about is itself the one place she has seen it)
+                pays = Wording.WordText(port, PaysKey(cell.pays, good, out tilt));
+                if (ask.against.Known)
+                    tilt = 0;
+            }
+            if (cell.rule == 2)
+                w = Make(2, "seen", WordMark.Seen, tilt, good, port, ask, note.day, ("price", Shown(cell.pays, zone)), ("pays", pays), ("against", against));
+            else if (cell.rule == 3 && cell.grade == PriceGrade.About)
+                w = Make(3, "told.about", WordMark.Heard, tilt, good, port, ask, note.day,
+                         ("person", Person(note)), ("price", Rough(cell.pays, zone)), ("pays", pays), ("against", against));
+            else if (cell.rule == 3)
                 w = Make(3, "told", WordMark.Heard, tilt, good, port, ask, note.day, ("person", Person(note)), ("pays", pays));
             else if (note.how == How.Seen || note.how == How.Own)
-                w = Make(4, "saw", WordMark.Seen, tilt, good, port, ask, note.day, ("pays", pays));
+                w = Make(4, "saw", WordMark.Seen, tilt, good, port, ask, note.day, ("price", Rough(cell.pays, zone)), ("pays", pays), ("against", against));
             else if (note.how == How.Rumour)
                 w = Make(4, "rumour", WordMark.Heard, tilt, good, port, ask, note.day, ("pays", pays));
             else

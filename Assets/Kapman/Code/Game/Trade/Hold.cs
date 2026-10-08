@@ -118,6 +118,24 @@ namespace Kapman.Game
             return cost;
         }
 
+        /// <summary>What the oldest `n` units of a good cost (deniers), as <see cref="Remove"/> would reckon it, with
+        /// nothing taken out.</summary>
+        public double CostOf(GoodDef g, int n)
+        {
+            double cost = 0.0;
+            foreach (var l in lots)
+            {
+                if (n <= 0)
+                    break;
+                if (l.good != g || l.count <= 0)
+                    continue;
+                int take = Math.Min(n, l.count);
+                cost += l.cost * take / l.count;
+                n -= take;
+            }
+            return cost;
+        }
+
         /// <summary>The goods aboard (each once) and how many of each.</summary>
         public IEnumerable<(GoodDef good, int count)> Contents =>
             lots.GroupBy(l => l.good).Select(g => (g.Key, g.Sum(l => l.count)));

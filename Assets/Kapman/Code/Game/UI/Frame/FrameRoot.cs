@@ -389,6 +389,7 @@ namespace Kapman.Game.Frame
             if (now >= nextFill)
             {
                 nextFill = now + 0.25f;
+                FrameDeal.See();                                        // (moored: she sees the market, whatever windows are up)
                 for (int i = 0; i < shown.Count; i++)
                     shown[i].Tick();
                 FillTop();

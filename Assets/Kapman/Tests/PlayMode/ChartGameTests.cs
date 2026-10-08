@@ -580,6 +580,19 @@ namespace Kapman.Tests
                 Assert.AreEqual(heldBefore - 1, Trade.Hold.Count("rhenish_wine"), "one cask should have come back aboard: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
                 Assert.Less(FrameGame.Silver, silverMid, "buying cost no silver");
                 yield return play.Shot("16_bought_at_dorestat");
+                // ---- BY THE LOT (the alpha's row 5; the road's step 4): under the wine's line stand the lots she could sell,
+                // each with its count and its sum on it. (Nothing is dealt here: the walk goes on with the hold as it is.)
+                int casks = Trade.Hold.Count("rhenish_wine");
+                var lotQuote = FrameDeal.Quote(FrameDeal.MarketHere(), "rhenish_wine", false, LotSize.All);
+                // ("all 3 for 83 d" beside "Sell 2 for 58 d"; alone it carries its verb)
+                string allText = $"all {casks} for {FrameDeal.MarketHere().zone.Show(lotQuote.deniers)}";
+                var lots = Window(play, "Trade").Query<Button>().ToList().Where(b => ChartPlay.Shown(b)).Select(b => b.text).ToList();
+                if (casks > 1)
+                    Assert.IsTrue(lots.Contains(allText) || lots.Contains("Sell " + allText), "no button sells all the wine in one deal (" + allText + "): " + string.Join(" | ", lots));
+                Debug.Log("Chart test: the Trade window at Dorestat reads: " + ChartPlay.Read(Window(play, "Trade")).Replace("\n", " / "));
+                Assert.AreEqual(1, play.Line(wine, Window(play, "Trade")).Query<Button>().ToList().Count(b => b.text == "Sell"), "one button, and only one, sells a single cask");
+                Assert.IsNotNull(Known.Here(GameData.Good("rhenish_wine"), Known.AskNow()).port, "she lies at a market and the word has nothing to be said against");
+                Debug.Log("Chart test: the lots at Dorestat: " + string.Join(" | ", lots.Where(t => t.Contains(" for "))));
                 Debug.Log($"Chart test: sold two casks and bought one back at Dorestat; silver {silverBefore:0} -> {silverMid:0} -> {FrameGame.Silver:0}; " +
                           $"the log's last line '{FrameLog.Lines[FrameLog.Lines.Count - 1].text}'");
 
@@ -1001,6 +1014,37 @@ namespace Kapman.Tests
                 Assert.AreEqual(1, TextPanel.Waiters, "the port's menu should still wait for its one choice");
                 Assert.Greater(FrameLog.Lines.Count, 8, "the log has not been written in");
                 yield return play.Shot("29_traiectum_at_the_end");
+
+                // ---- A LOT IS DEALT (the alpha's row 5; the road's step 4): one button with its count and its sum on it,
+                // one deal, one settlement, said once in the log.
+                var lotButtons = Window(play, "Trade")?.Query<Button>().ToList().Where(b => ChartPlay.Shown(b)).ToList() ?? new List<Button>();
+                var lotButton = lotButtons.FirstOrDefault(b => b.name == "buy-all" || b.name == "sell-all");
+                Assert.IsNotNull(lotButton, "the Trade window at Traiectum has no lot to deal: " + string.Join(" | ", lotButtons.Select(b => b.text)));
+                string lotWords = lotButton.text;                          // ("all 6 for 31 d", or "Buy all 6 for 31 d" where it stands alone)
+                bool lotBuys = lotButton.name == "buy-all";
+                var lotParts = lotWords.Split(' ').ToList();
+                int lotCount = int.Parse(lotParts[lotParts.IndexOf("all") + 1]);
+                Assert.Greater(lotCount, 1, "a lot of one is no lot: " + lotWords);
+                // (its good: the lots stand in the row under the good's own line)
+                var lotsRow = lotButton.parent;
+                int lotAt = lotsRow.parent.IndexOf(lotsRow) - 1;
+                while (lotAt > 0 && !lotsRow.parent[lotAt].ClassListContains("frame-ln"))
+                    lotAt--;                                               // (the row of selling lots stands between)
+                var lotLine = lotsRow.parent[lotAt];
+                string lotGoodName = lotLine.Q<Label>(className: "frame-ln-name")?.text ?? "";
+                var lotGood = GameData.Goods.FirstOrDefault(g => g.name == lotGoodName);
+                Assert.IsNotNull(lotGood, "the lot '" + lotWords + "' stands under no good's line (found '" + lotGoodName + "')");
+                int lotHad = Trade.Hold.Count(lotGood.id), lotLog = FrameLog.Lines.Count;
+                double lotSilver = FrameGame.Silver;
+                yield return play.Click(lotButton, "the lot '" + lotWords + "' under " + lotGoodName);
+                yield return Frames(10);
+                Assert.AreEqual(lotHad + (lotBuys ? lotCount : -lotCount), Trade.Hold.Count(lotGood.id),
+                                "the lot '" + lotWords + "' did not deal its count; the log: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Assert.AreEqual(1, FrameLog.Lines.Skip(lotLog).Count(l => l.text.StartsWith(lotBuys ? "Bought" : "Sold")), "a lot should be one deal, said once");
+                Assert.IsTrue(lotBuys ? FrameGame.Silver < lotSilver : FrameGame.Silver > lotSilver, "the lot moved no silver");
+                yield return Frames(10);
+                yield return play.Shot("30_a_lot_dealt_at_traiectum");
+                Debug.Log($"Chart test: a lot dealt at Traiectum: '{lotWords}' under {lotGoodName}; '{FrameLog.Lines[FrameLog.Lines.Count - 1].text}'; silver {lotSilver:0} -> {FrameGame.Silver:0}");
                 NoFaults(play);
             }
             finally

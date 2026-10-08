@@ -153,9 +153,7 @@ namespace Kapman.Tests
             Assert.AreEqual(price, w.Slot("price"), "in the port's own reckoning");
             Assert.IsTrue(HasDigit(price));
             Assert.AreEqual($"You saw Rhenish wine pay {price} at Lundenwic, two days back.", w.Text);
-            Known.PaysKey(pays, Wine, out int tilt);
-            Assert.AreEqual(tilt, w.tilt);
-            Assert.AreEqual(1, w.tilt, "London wants wine: it pays well there");
+            Assert.AreEqual(0, w.tilt, "the one place she has seen wine priced: there is nothing to set it against");
         }
 
         [Test]
@@ -167,8 +165,9 @@ namespace Kapman.Tests
             Assert.AreEqual(4, later.rule, "seen a week ago and more: no longer a number, but still the merchant's own sight");
             Assert.AreEqual("saw", later.key);
             Assert.AreEqual(WordMark.Seen, later.mark);
-            Assert.IsFalse(HasDigit(later.Text), later.Text);
-            StringAssert.StartsWith("You saw Lundenwic paying ", later.Text);
+            string about = Known.Rough(Trade.Ledger.Latest("lundenwic").prices["rhenish_wine"].pays, TradeRules.Current.ZoneOf(London.region));
+            Assert.AreEqual(about, later.Slot("price"), "she did see it: a rough figure, no longer the price to the penny");
+            Assert.AreEqual($"You saw Lundenwic paying about {about} for Rhenish wine, last week. It may have changed.", later.Text);
         }
 
         [Test]
@@ -177,14 +176,16 @@ namespace Kapman.Tests
             Tell(London, Today - 5.0, How.Told, 0, "skipper", "dorestad");
             var w = Known.Word(Wine, London, Ask());
             Assert.AreEqual(3, w.rule);
-            Assert.AreEqual("told", w.key);
+            Assert.AreEqual("told.about", w.key, "he saw it himself: about, and a rough figure");
             Assert.AreEqual(WordMark.Heard, w.mark);
             Assert.AreEqual("age.few_days", w.ageKey);
             // (with no wording table loaded every port's people read as Frankish; the table makes Dorestad's Frisian)
             Assert.AreEqual("a Frankish skipper", w.Slot("person"), "a person of his people, not the note's label");
             Assert.AreEqual("well", w.Slot("pays"));
             Assert.AreEqual(1, w.tilt);
-            Assert.AreEqual("A Frankish skipper said Lundenwic was paying well for Rhenish wine. A few days back.", w.Text);
+            string about = Known.Rough(Trade.Ledger.Latest("lundenwic").prices["rhenish_wine"].pays, TradeRules.Current.ZoneOf(London.region));
+            Assert.AreEqual(about, w.Slot("price"), "in the port's own reckoning while she has seen no price to set it against");
+            Assert.AreEqual($"A Frankish skipper said Lundenwic was paying about {about} for Rhenish wine, a few days back.", w.Text);
             StringAssert.DoesNotContain("label", w.Text);
             Wording.Load(Asset("wording_793.json"));
             Assert.AreEqual("frisian", Wording.CultureOf(Dorestad));
@@ -199,8 +200,28 @@ namespace Kapman.Tests
             var w = Known.Word(Wine, London, Ask());
             Assert.AreEqual(3, w.rule, "one mouth between: still someone said it");
             Assert.AreEqual("age.fortnight", w.ageKey);
-            var quay = new[] { "the toll man at Dorestat", "a boatman at Dorestat", "a porter at Dorestat", "an ale-wife at Dorestat" };
-            CollectionAssert.Contains(quay, w.Slot("person"), "someone on the waterfront it was heard at");
+            // (8 Oct 2026: one of Dorestat's own people, by name, whose trade hears what markets pay)
+            var tellers = PlaceBook.Current.TellersAt("dorestad", 793);
+            Assert.GreaterOrEqual(tellers.Count, 4, "Dorestat's page has nobody who hears what the markets pay");
+            CollectionAssert.Contains(tellers.Select(p => PlaceBook.Titled(p) + " at Dorestat").ToList(), w.Slot("person"), "someone on the waterfront it was heard at, by name");
+            Assert.IsNotNull(Known.QuayTeller(Trade.Ledger.Latest("lundenwic")));
+            CollectionAssert.DoesNotContain(tellers.Select(p => p.role).ToList(), "merchant", "a merchant gives his prices away");
+            Assert.IsNull(tellers.FirstOrDefault(p => p.id == "dorestad.wursing"), "the lender tells her what markets pay");
+            // (said as the cards say a trade, where the roles' table is at hand)
+            var keep = PlaceBook.RoleTitle;
+            PlaceBook.RoleTitle = id => id == "tollman" ? "the toll man" : null;
+            try
+            {
+                Assert.AreEqual("Aldgrim the toll man", PlaceBook.Titled(PlaceBook.Current.Person("dorestad.tollman")));
+                Assert.AreEqual("Aldswith the alewife", PlaceBook.Titled(PlaceBook.Current.Person("dorestad.aldswith")));
+            }
+            finally
+            {
+                PlaceBook.RoleTitle = keep;
+            }
+            // (a port whose page names nobody of such a trade: one of the table's four, as before)
+            Assert.IsNull(Known.QuayTeller(new PriceNote { port = "lundenwic", teller = "quay", tellerOf = "no_such_port", day = 1.0 }));
+            Assert.IsNull(Known.QuayTeller(new PriceNote { port = "lundenwic", teller = "skipper", tellerOf = "dorestad", day = 1.0 }));
             Assert.AreEqual(w.Slot("person"), Known.Word(GameData.Good("wheat"), London, Ask()).Slot("person"), "the same one for the same note");
             Assert.AreEqual(w.Text, Known.Word(Wine, London, Ask()).Text, "and the same line every time");
             var later = Known.Word(Wine, London, Ask(Today + 1.0));
@@ -401,7 +422,9 @@ namespace Kapman.Tests
             for (double day = 0.5; day < 420.0; day += 1.0)
             {
                 var w = Known.Word(Whetstones, London, Ask(day));
-                Assert.IsFalse(HasDigit(w.Text), $"day {day}: {w.Text}");
+                // (a man who saw it gives a rough figure now, "about 12 p": that is the price, not a count of days)
+                string line = System.Text.RegularExpressions.Regex.Replace(w.Text, "about [0-9.,]+ [^ ,.]+", "about so much");
+                Assert.IsFalse(HasDigit(line), $"day {day}: {w.Text}");
                 seen.Add(w.ageKey);
             }
             CollectionAssert.IsSupersetOf(seen.ToList(), new[]
@@ -414,9 +437,9 @@ namespace Kapman.Tests
         // ------------------------------------------------------------------ a told price never shows a number
 
         [Test]
-        public void AToldPriceNeverRendersANumber()
+        public void OnlyATellingAtFirstHandSaysAFigureAndItSaysAbout()
         {
-            Tell(London, Today - 1.0, How.Told, 0, "skipper", "dorestad");          // rule 3: he said
+            Tell(London, Today - 1.0, How.Told, 0, "skipper", "dorestad");          // rule 3: he saw it and said so: about
             Tell(Quentovic, Today - 9.0, How.Talk, 1, "quay", "dorestad");          // rule 3: someone on the quay said
             Tell(Dorestad, Today - 5.0, How.Talk, 3, "quay", "quentovic");          // rule 4: they say
             Tell(GameData.Port("birka"), Today - 20.0, How.Rumour, 4);              // rule 4: a rumour
@@ -434,16 +457,34 @@ namespace Kapman.Tests
                     var w = Known.Word(good, port, Ask());
                     Assert.IsTrue(w.rule == 3 || w.rule == 4, $"{good.id} at {id}: rule {w.rule}");
                     Assert.AreEqual(WordMark.Heard, w.mark);
+                    CollectionAssert.Contains(new[] { "well", "the usual", "poorly" }, w.Slot("pays"), "with no price of her own to set it against, the word every merchant would use");
+                    lines++;
+                    if (id == "lundenwic")
+                    {
+                        Assert.AreEqual("told.about", w.key);
+                        Assert.IsTrue(HasDigit(w.Slot("price")), $"{good.id}: a rough figure");
+                        StringAssert.Contains("paying about " + w.Slot("price"), w.Text, "never the figure without 'about'");
+                        continue;
+                    }
                     Assert.AreEqual("", w.Slot("price"), "no price is handed to the words");
-                    CollectionAssert.Contains(new[] { "well", "the usual", "poorly" }, w.Slot("pays"));
                     Assert.IsFalse(HasDigit(w.Text), $"{good.id} at {id}: {w.Text}");
                     foreach (var (name, value) in w.slots)
                         Assert.IsFalse(HasDigit(value), $"{good.id} at {id}: the slot {name} is '{value}'");
-                    lines++;
                 }
             }
             Assert.Greater(lines, 400, "every good of five markets");
-            // the three words, by what the market pays against the good's table value
+            // the switch (knowing_793.json word.told_figure): off, a first-hand telling is a word like all talk
+            Known.Rules.toldFigure = false;
+            foreach (var good in GameData.Goods)
+            {
+                if (!Trade.Ledger.Latest("lundenwic").prices.ContainsKey(good.id))
+                    continue;
+                var w = Known.Word(good, London, Ask());
+                Assert.AreEqual("told", w.key);
+                Assert.IsFalse(HasDigit(w.Text), w.Text);
+            }
+            Known.Rules.toldFigure = true;
+            // the three words of a merchant with nothing to compare, by what the market pays against the good's table value
             Assert.AreEqual("pays.well", Known.PaysKey(Wine.value * 1.2f, Wine, out int up));
             Assert.AreEqual("pays.fair", Known.PaysKey(Wine.value, Wine, out int level));
             Assert.AreEqual("pays.poorly", Known.PaysKey(Wine.value * 0.8f, Wine, out int down));
@@ -459,14 +500,21 @@ namespace Kapman.Tests
                 Assert.IsTrue(Wording.HasWord(key), $"wording_793.json has no word.{key}");
                 Assert.IsNotEmpty(Wording.WordText(null, key), key);
             }
-            // whatever the user writes there: only the line for a price seen may ask for the number
-            foreach (var key in Wording.WordKeys.Where(k => k != "seen"))
+            // whatever the user writes there: only the lines of a price she saw (seen, saw) and of a telling at first
+            // hand (told.about, and its cell in the ledger) may ask for the number, and a telling must say "about"
+            var figures = new[] { "seen", "saw", "told.about", "cell.about" };
+            foreach (var key in Wording.WordKeys.Where(k => !figures.Contains(k)))
             {
                 string line = Wording.WordText(null, key);
-                StringAssert.DoesNotContain("{price}", line, $"word.{key}: only word.seen may show a number");
+                StringAssert.DoesNotContain("{price}", line, $"word.{key}: only a price seen or told at first hand may show a number");
                 Assert.IsFalse(HasDigit(line), $"word.{key}: '{line}' has a number in it");
             }
-            StringAssert.Contains("{price}", Wording.WordText(null, "seen"));
+            foreach (var key in figures)
+                StringAssert.Contains("{price}", Wording.WordText(null, key), $"word.{key}");
+            foreach (var key in new[] { "saw", "told.about", "cell.about" })
+                StringAssert.Contains("about {price}", Wording.WordText(null, key), $"word.{key}: a figure that is not fresh from her own eyes says 'about'");
+            foreach (var key in new[] { "seen", "saw", "told.about" })
+                StringAssert.Contains("{Against}", Wording.WordText(null, key), $"word.{key}: the place for what it comes to against where she lies");
             // a people's own words win over the table's, and a key nothing has falls back to its parent
             var ripa = GameData.Port("ripa");
             StringAssert.DoesNotContain("toll man", Wording.WordText(ripa, "person.quay", 0f), "no toll is taken where silver goes by weight");

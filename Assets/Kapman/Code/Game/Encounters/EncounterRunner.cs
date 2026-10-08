@@ -302,6 +302,8 @@ namespace Kapman.Game
             if (d.rules.Count == 0)
                 Debug.LogWarning("Kapman encounters: no card rules (Game/Data/card_rules_793.json): every card waits a week and takes its own usual answer.");
             ClockDrops.PressingCard = () => Director != null && Director.Pressing;
+            // (a person's trade is said as the cards say it, wherever a person is named: "Aldgrim the toll man")
+            PlaceBook.RoleTitle = id => Book != null ? Book.roles.Role(id)?.title : null;
             d.CallBegun += port => Debug.Log($"Kapman encounters: moored at {port}; a call begins.");
             d.CallEnded += port => Debug.Log($"Kapman encounters: cast off from {port}.");
             Director = d;

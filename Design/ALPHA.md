@@ -132,4 +132,6 @@ the crew as people (Ravn's own poor stats) waits for the crew system; the hold's
   window: the hard pull, for the hours that are in the men, at the cost of bread and strength.
 - Row 9 (orders): BUILT (DECISIONS 111). Offered and taken or refused, brought in parts, paid by the unit like a
   sale, warned of and closed on their day.
+- Row 5 (trading): BUILT (DECISIONS 112). Deals by the lot with one settlement; the word on a good said against
+  where she lies, by one of the port's own people.
 

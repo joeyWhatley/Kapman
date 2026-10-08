@@ -1082,4 +1082,32 @@ and far fewer when usage is short).
    price and the usual; every card's order is asked once; no late delivery; handing over is the player's act; a
    short order costs 2 where a broken one costs 5. Four of the twelve ports (Sarre, Fordwic, Medemelacha,
    Doccinga) still post no orders of their own: their kind has no row in commissions_793.json.
+112. **DEALS BY THE LOT, AND THE WORD SAID AGAINST WHERE SHE LIES, BUILT** (the road's step 4, the alpha's row 5;
+   the plan and its drafts are Design/fixes/word_and_lots.md, written 7 Oct and never run until now).
+   - THE LOT. A good's line keeps its "Buy" and "Sell" (one unit). Under the line, a row for selling and a row for
+     buying: half of what can go and all that can go, each button with its count and its sum on it ("Sell 2 for
+     73 d", "all 4 for 130 d"). "All" is all aboard, or all that the stock, the room and the silver let her buy.
+     Each button is one deal and one settlement.
+   - THE PURSE no longer rounds to the whole coin: what is under one coin is weighed out in cut silver, in change
+     and in takings. (It is the same purse for every ship of the world, so a seeded run plays a little
+     differently than before.)
+   - THE WORD on a good is said against the price she has in front of her: where she lies, or at sea where she
+     last saw that good priced. Five words: far more, more, much the same, less, far less. "Far more" begins where
+     carrying the good there would pay, the market's gap and the toll counted. How exactly it is said goes by how
+     she knows it: her own eyes within the week, the figure and the difference; a man who saw it, or her own
+     older sight, "about" and a rough figure; talk through more mouths, a word only. A figure is in the reckoning
+     of where she lies.
+   - BY WHOM. Whoever on a waterfront told a price is one of that port's own people, by name and trade ("Hartwin
+     the steward at Dorestat said ..."): the toll man, the reeve, the moneyer, the ale-wife, the host, a
+     shipmaster, a pilot, the ferryman, a steward, the cellarer. The same one for the same telling. Not a
+     merchant, and so not the lender. Where a port's page names nobody of such a trade the old words stand.
+   - Under a good that is only wanted here (none aboard, none on offer) no word is said: it was the same
+     sentence a dozen times over.
+   ONE RULE CHANGED, THE USER'S TO OVERRULE: a man who saw a market himself now gives a rough figure ("about
+   60 d"). Before, a number was only for what she saw herself. One switch puts that back: "told_figure" in
+   knowing_793.json.
+   NOT TAKEN FROM THE PLAN: the ledger (goods down, ports across, a wide window of its own: the Wares window does
+   that work today and the side window is narrow); the top bar's silver as what it buys here (the trade window
+   says both figures in words); asking a named person for prices, and holding a teller's word against the market
+   when she moors (Design/fixes/one_cast.md, parts 4 and 6).
 

@@ -79,6 +79,13 @@ namespace Kapman.Game
         /// <summary>A told price is said as a word: "well" at this many times the good's table value or more, "poorly" at
         /// this many times or less, else "the usual".</summary>
         public float paysWell = 1.15f, paysPoorly = 0.85f;
+        /// <summary>The word is said against the price where she lies: a price within this share of it is "much the
+        /// same". (Where "far more" begins is not a number here: it is worked out from the market's gap and the toll,
+        /// Known.FarOver.)</summary>
+        public float sameWithin = 0.05f;
+        /// <summary>A price told by one who saw it himself is said as a rough figure ("about 36 d"). False: as a word,
+        /// like all talk (the rule of 4 October: a number only for what she saw herself).</summary>
+        public bool toldFigure = true;
 
         public static KnowingRules Load(TextAsset json)
         {
@@ -119,6 +126,8 @@ namespace Kapman.Game
             r.wordAheadDays = Json.Num(word, "ahead_days", r.wordAheadDays);
             r.paysWell = (float)Json.Num(word, "pays_well", r.paysWell);
             r.paysPoorly = (float)Json.Num(word, "pays_poorly", r.paysPoorly);
+            r.sameWithin = (float)Json.Num(word, "same_within", r.sameWithin);
+            r.toldFigure = Json.Bool(word, "told_figure", r.toldFigure);
             return r;
         }
     }

@@ -81,13 +81,26 @@ namespace Kapman.Game
             return worth;
         }
 
-        static bool Divisible(string coin) => coin == "hacksilver";
+        const string Cut = "hacksilver";
+
+        static bool Divisible(string coin) => coin == Cut;
+
+        /// <summary>Cut silver for a sum under one coin, weighed out (by weight: no zone's loss), to the tenth of a gram
+        /// and never over the sum. 0 where the rules have no cut silver.</summary>
+        static double CutFor(double deniers, TradeRules rules)
+        {
+            double perGram = rules.Coin(Cut)?.Deniers ?? 0.0;
+            return perGram <= 0.0 || deniers <= 0.0 ? 0.0 : Math.Floor(deniers / perGram * 10.0 + 1e-6) / 10.0;
+        }
 
         /// <summary>The coins of the last payment or takings ("12 deniers and 3 pennies"), and the change given ("" if none).</summary>
         public string LastCoins { get; private set; } = "";
         public string LastBack { get; private set; } = "";
 
-        /// <summary>Pays deniers' worth here. False (and nothing paid) if the purse can't. `how` says what changed hands.</summary>
+        /// <summary>Pays deniers' worth here. False (and nothing paid) if the purse can't. `how` says what changed hands.
+        /// Whole coins are not rounded against the payer any more (the strategy critic, 7 October): a coin is broken for
+        /// a sum under its worth only when the cut silver aboard cannot make that sum up, and then the change under one
+        /// coin comes back weighed out in cut silver.</summary>
         public bool Pay(double deniers, ZoneDef zone, TradeRules rules, out string how)
         {
             how = "";
@@ -102,6 +115,7 @@ namespace Kapman.Game
             var order = All.Select(kv => kv.Key).OrderBy(c => c == zone?.coin ? 0 : Divisible(c) ? 2 : 1)
                            .ThenByDescending(c => Rate(c, zone, rules) / Math.Max(1e-6, rules.Coin(c)?.Deniers ?? 1.0)).ToList();
             double left = deniers;
+            double cutWorth = Count(Cut) * Rate(Cut, zone, rules);       // what the cut silver aboard makes up here
             var paid = new List<string>();
             foreach (var coin in order)
             {
@@ -111,7 +125,15 @@ namespace Kapman.Game
                 if (rate <= 0.0)
                     continue;
                 double have = Count(coin);
-                double take = Divisible(coin) ? Math.Min(have, Math.Round(left / rate + 0.049, 1)) : Math.Min(have, Math.Ceiling(left / rate - 1e-9));
+                double take;
+                if (Divisible(coin))
+                    take = Math.Min(have, Math.Round(left / rate + 0.049, 1));
+                else
+                {
+                    // whole coins up to the sum; one more is broken only when the cut silver cannot make up the rest
+                    double whole = Math.Floor(left / rate + 1e-9);
+                    take = Math.Min(have, cutWorth + 1e-9 >= left - whole * rate ? whole : Math.Ceiling(left / rate - 1e-9));
+                }
                 if (take <= 0.0)
                     continue;
                 held[coin] = have - take;
@@ -123,15 +145,27 @@ namespace Kapman.Game
             LastBack = "";
             if (left < -0.01)
             {
-                // change, in the local coin (cut silver where silver goes by weight)
+                // change: whole coins of the local coin, and what is under one coin weighed out in cut silver
                 string local = zone?.coin ?? "denier";
-                double back = -left / Math.Max(1e-6, Rate(local, zone, rules));
-                back = Divisible(local) ? Math.Round(back, 1) : Math.Floor(back + 1e-6);
-                if (back > 0.0)
+                double rate = Math.Max(1e-6, Rate(local, zone, rules)), over = -left;
+                var back = new List<string>();
+                double coins = Divisible(local) ? Math.Round(over / rate, 1) : Math.Floor(over / rate + 1e-6);
+                if (coins > 0.0)
                 {
-                    Add(local, back);
-                    how += ", " + Amount(local, back, rules) + " back";
-                    LastBack = Amount(local, back, rules);
+                    Add(local, coins);
+                    back.Add(Amount(local, coins, rules));
+                    over -= coins * rate;
+                }
+                double cut = Divisible(local) ? 0.0 : CutFor(over, rules);
+                if (cut > 0.0)
+                {
+                    Add(Cut, cut);
+                    back.Add(Amount(Cut, cut, rules));
+                }
+                if (back.Count > 0)
+                {
+                    LastBack = Join(back);
+                    how += ", " + LastBack + " back";
                 }
             }
             return true;
@@ -150,15 +184,37 @@ namespace Kapman.Game
             return deniers;
         }
 
-        /// <summary>Takes deniers' worth paid here, in the local coin (cut silver where silver goes by weight).</summary>
+        /// <summary>Takes deniers' worth paid here: whole coins of the local coin, and what is under one coin weighed out
+        /// in cut silver (all in cut silver where silver goes by weight). Nothing is rounded up, and no more than a tenth
+        /// of a gram is lost.</summary>
         public void Receive(double deniers, ZoneDef zone, TradeRules rules, out string how)
         {
             string local = zone?.coin ?? "denier";
-            double n = deniers / Math.Max(1e-6, Rate(local, zone, rules));
-            n = Divisible(local) ? Math.Round(n, 1) : Math.Round(n);
-            Add(local, n);
-            how = "took " + Amount(local, n, rules);
-            LastCoins = Amount(local, n, rules);
+            double rate = Math.Max(1e-6, Rate(local, zone, rules));
+            var got = new List<string>();
+            if (Divisible(local))
+            {
+                double n = Math.Round(deniers / rate, 1);
+                Add(local, n);
+                got.Add(Amount(local, n, rules));
+            }
+            else
+            {
+                double n = Math.Max(0.0, Math.Floor(deniers / rate + 1e-9));
+                double cut = CutFor(deniers - n * rate, rules);
+                if (n > 0.0)
+                {
+                    Add(local, n);
+                    got.Add(Amount(local, n, rules));
+                }
+                if (cut > 0.0)
+                {
+                    Add(Cut, cut);
+                    got.Add(Amount(Cut, cut, rules));
+                }
+            }
+            how = "took " + Join(got);
+            LastCoins = Join(got);
             LastBack = "";
         }
 
