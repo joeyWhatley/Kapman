@@ -248,7 +248,7 @@
       "check": "true", "default": true,
       "effects": [ "npc chief feeling +8 witness", "flag ch_saga_danes_norway_witness", "flag ch_saga_danes_norway_6" ],
       "note": "outcome: chain_saga_danes_norway.s06.out_witness (costs a day; a stranger's witness is worth something at a thing, and the hard road of end_vik needs it)" },
-    { "key": "warn", "label_key": "chain_saga_danes_norway.s06.opt_warn", "label": "Tell the kings' man what is said in Skane: Godfred's sons are coming home",
+    { "key": "warn", "label_key": "chain_saga_danes_norway.s06.opt_warn", "out_success": "chain_saga_danes_norway.s06.out_warn_heard", "out_failure": "chain_saga_danes_norway.s06.out_warn_unheard", "label": "Tell the kings' man what is said in Skane: Godfred's sons are coming home",
       "check": "flag.ch_saga_danes_norway_knows and not flag.ch_saga_danes_norway_warned",
       "effects": [ { "chance": 0.55, "by": "crew.trade_best",
                      "success": [ "silver +60", "npc lords_man feeling +15 warned", "flag ch_saga_danes_norway_warned", "flag ch_saga_danes_norway_6" ],

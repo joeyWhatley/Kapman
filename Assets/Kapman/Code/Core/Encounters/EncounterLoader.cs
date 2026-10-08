@@ -100,6 +100,7 @@ namespace Kapman.Encounters
         static readonly HashSet<string> OptionFields = new HashSet<string>
         {
             "key", "label_key", "label", "check", "cost", "effects", "then", "default", "note",
+            "out", "out_success", "out_failure",
         };
         static readonly HashSet<string> LineFields = new HashSet<string> { "who", "key", "tongue", "turns", "when", "note" };
         static readonly HashSet<string> ActorFields = new HashSet<string> { "role", "people", "faith", "tongue", "age", "fixed", "sex", "note", "cast", "name" };
@@ -374,6 +375,9 @@ namespace Kapman.Encounters
                     then = Json.Str(op, "then"),
                     isDefault = Json.Bool(op, "default"),
                     index = c.options.Count,
+                    outKey = Json.Str(op, "out"),
+                    outSuccess = Json.Str(op, "out_success"),
+                    outFailure = Json.Str(op, "out_failure"),
                 };
                 string ow = $"{where} option {(opt.key.Length > 0 ? opt.key : "#" + (opt.index + 1))}";
                 foreach (var k in op.Keys)
@@ -386,6 +390,9 @@ namespace Kapman.Encounters
                 if (opt.labelKey.Length == 0)
                     errors.Add($"{ow}: an option needs a label_key.");
                 Key(book, opt.labelKey);
+                foreach (string named in new[] { opt.outKey, opt.outSuccess, opt.outFailure })
+                    if (named.Length > 0)
+                        Key(book, named);
                 opt.check = Condition(Json.Str(op, "check"), book, errors, ow + " check");
                 op.TryGetValue("cost", out var cost);
                 opt.cost = Effects.ParseCost(cost, errors, ow + " cost");

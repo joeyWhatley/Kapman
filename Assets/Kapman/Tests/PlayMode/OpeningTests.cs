@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Kapman.Encounters;
 using Kapman.Game;
 using Kapman.Game.Frame;
 using Kapman.Game.ShipView;
@@ -512,6 +513,47 @@ namespace Kapman.Tests
                 notes.AppendLine("On the mint's card spoke: " + string.Join(" | ", spoke));
                 Assert.GreaterOrEqual(spoke.Count, 2, "the name under the title did not change with the speaker: " + string.Join(" | ", spoke));
                 yield return AnswerCard(play, notes);
+
+                // ---- 15. WHAT CAME OF A CHOICE, AS IT IS WRITTEN (8 Oct 2026, night). The script's paragraphs of what
+                // came of a choice were never shown: a card answered said "You did X." and the effects' facts.
+                Assert.IsTrue(director.Offer("harbour.chain_black_stones.s01_unsold_stones"), "the card of the unsold stones cannot come up at Dorestat on the first morning");
+                yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
+                Assert.IsTrue(play.Frame.FloatOpen("card"), "the card of the unsold stones did not open");
+                yield return ChartPlay.Settle(0.6f);
+                for (int i = 0; i < 30 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(4);
+                }
+                yield return ChartPlay.Settle(0.3f);
+                var session = director.Current;
+                Assert.IsNotNull(session, "the cards' director has no card up");
+                int at = session.options.FindIndex(o => o.enabled && o.def.Chance == null && Outcomes.Text(session.world.book, o.def, "").Length > 0);
+                Assert.GreaterOrEqual(at, 0, "the card of the unsold stones has no choice with a written end that can be made");
+                string end = Outcomes.Text(session.world.book, session.options[at].def, "");
+                var stones = play.Choices(play.FrontFloat());
+                Assert.AreEqual(session.options.Count, stones.Count, "the window does not show the card's choices one for one");
+                yield return play.Shot("open_22_card_with_an_end");
+                yield return play.Click(stones[at].button, "the choice '" + stones[at].words + "'");
+                yield return ChartPlay.Settle(0.5f);
+                // (the end is said a letter at a time: a press finishes the paragraph, and it waits)
+                for (int i = 0; i < 3 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Waiting && !play.Frame.FrontReveal.Done; i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
+                string shown = ChartPlay.Read(play.FrontFloat());
+                StringAssert.Contains(end.Substring(0, System.Math.Min(40, end.Length)), shown, "the choice's written end is not on the screen");
+                notes.AppendLine("The written end: " + ChartPlay.Short(end));
+                yield return play.Shot("open_23_the_written_end");
+                for (int i = 0; i < 30 && play.Frame.FloatOpen("card"); i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                    if (i == 0 && play.Frame.FloatOpen("card"))
+                        yield return play.Shot("open_24_and_its_facts", 0.2f);
+                }
+                Assert.IsFalse(play.Frame.FloatOpen("card"), "the card could not be gone on from after its end was told");
 
                 Debug.Log("The opening:\n" + notes);
                 File.WriteAllText(Path.Combine(Application.dataPath, "..", "Captures", "chart", "open.txt"), notes.ToString());

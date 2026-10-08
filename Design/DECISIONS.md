@@ -900,3 +900,15 @@ and far fewer when usage is short).
    choice, told back after it is made, is plain too. (Frame.uss: .frame-float-line.spoken, .teller, .frame-float-small;
    the classes are given in FrameRoot.Floats.cs.) DECIDED BY ME, to be overruled: the block and the bar as the mark
    of speech, and that the description stays under what is said.
+101. **WHAT CAME OF A CHOICE, AS IT IS WRITTEN** (8 Oct, night; the user: "Do what you think needs to be done";
+   the alpha's row 7: "each choice has a written end"). FOUND: the script holds a paragraph of what came of it for
+   1,990 of the cards' 4,456 choices, and for 233 chances one for each way they can fall (2,429 texts in all), and
+   NO code had ever shown them: a card answered said "You did X." and the effects' own facts. Now a card answered
+   tells the choice back small, then its written end in the teller's voice, then the facts in the let-in box; the
+   log keeps to the short telling. The ends are found by the key of the choice's label, as the writers named them
+   (Code/Core/Encounters/Outcomes.cs: "x.opt_k" -> "x.out_k", "x.o.k" -> "x.out.k", "x" -> "x.done", and for a
+   chance "_success"/"_failure", "_ok"/"_fail"/"_bad", ".success"/".failure"); a choice may name its end outright
+   ("out", "out_success", "out_failure": six do). STILL WITHOUT A WRITTEN END: 2,466 choices, among them all of
+   Dorestat's own harbour cards and the toll man. They say what you did and the facts, as before: writing them is
+   content, and the user's.
+

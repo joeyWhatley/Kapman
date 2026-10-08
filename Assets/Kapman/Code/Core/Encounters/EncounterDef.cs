@@ -42,6 +42,9 @@ namespace Kapman.Encounters
     public sealed class OptionDef
     {
         public string key = "", labelKey = "", label = "", then = "";
+        /// <summary>The writing keys of what came of it, where the card's data names them outright ("out", and after a
+        /// chance "out_success" and "out_failure"); "" where they follow from the label's key (Outcomes).</summary>
+        public string outKey = "", outSuccess = "", outFailure = "";
         public Cond check = Cond.True;
         public List<Effect> cost = new List<Effect>();
         public List<Effect> effects = new List<Effect>();

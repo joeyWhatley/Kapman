@@ -50,6 +50,11 @@ namespace Kapman.Game.Frame
         /// <summary>Lines that are not said by the one who speaks (the player's own choice, told back): shown as plain
         /// words, not as speech.</summary>
         public readonly HashSet<string> plain = new HashSet<string>();
+        /// <summary>The player's own choice, told back above what came of it: small, and not one of the lines that
+        /// are said one at a time ("" for none).</summary>
+        public string chose = "";
+        /// <summary>Lines that tell what came of a choice (its written end): the teller's, in the full ink.</summary>
+        public readonly HashSet<string> ending = new HashSet<string>();
         /// <summary>The words, in order; an unwritten one (a placeholder for the writers) is shown small and pale.</summary>
         public readonly List<(string text, bool written)> lines = new List<(string, bool)>();
 
@@ -428,7 +433,7 @@ namespace Kapman.Game.Frame
             var reveal = new TextReveal();
             foreach (var child in scroll.contentContainer.Children())
             {
-                if (child is TurningLine || child.ClassListContains("frame-float-small"))
+                if (child is TurningLine || child.ClassListContains("frame-float-small") || child.ClassListContains("frame-float-chose"))
                     continue;
                 if (child is TextElement || child is SprinkledText)
                     reveal.Add(child);
@@ -558,8 +563,16 @@ namespace Kapman.Game.Frame
             {
                 if (string.IsNullOrEmpty(text))
                     continue;
+                if (spec.chose.Length > 0 && text == spec.chose)
+                {
+                    var toldBack = Text("frame-float-chose");
+                    toldBack.text = text;
+                    scroll.Add(toldBack);
+                    continue;
+                }
                 bool teller = spec.voices.TryGetValue(text, out var saidBy) && saidBy.Teller;
                 bool spoken = written && somebody && !teller && !spec.plain.Contains(text);
+                bool ending = spec.ending.Contains(text);
                 if (sprinkle && written)
                 {
                     // (a line with words of the speaker's tongue in it: each set apart, its meaning on hover)
@@ -569,6 +582,7 @@ namespace Kapman.Game.Frame
                         var sprinkled = new SprinkledText(runs, "frame-float-sprinkle");
                         sprinkled.EnableInClassList("spoken", spoken);
                         sprinkled.EnableInClassList("teller", teller);
+                        sprinkled.EnableInClassList("ending", ending);
                         scroll.Add(sprinkled);
                         continue;
                     }
@@ -578,6 +592,7 @@ namespace Kapman.Game.Frame
                 line.EnableInClassList("unwritten", !written);
                 line.EnableInClassList("spoken", spoken);
                 line.EnableInClassList("teller", teller);
+                line.EnableInClassList("ending", ending);
                 scroll.Add(line);
             }
             if (!string.IsNullOrEmpty(spec.result))
@@ -1073,10 +1088,21 @@ namespace Kapman.Game.Frame
                         chose = o.Tagged;
                 if (chose.Length > 0)
                 {
-                    spec.lines.Add((chose, true));
-                    spec.plain.Add(chose);                               // (the player's own choice, told back: not speech)
+                    spec.chose = "\u203a " + chose;                      // (the player's own choice, told back: small, not speech)
+                    spec.lines.Add((spec.chose, true));
+                    spec.plain.Add(spec.chose);
                 }
-                spec.result = s.result.Text;
+                // WHAT CAME OF IT, AS IT IS WRITTEN (8 Oct 2026: the script's two thousand ends of choices were never
+                // shown). The paragraph first; then the effects' facts in the box. Where no end is written, the box
+                // says what you did and the facts, as before.
+                string end = s.result.written ?? "";
+                if (end.Length > 0)
+                {
+                    spec.lines.Add((end, true));
+                    spec.plain.Add(end);
+                    spec.ending.Add(end);
+                }
+                spec.result = end.Length > 0 ? s.result.Facts : s.result.Text;
                 spec.options.Add(new FloatOption { label = "Go on", isDefault = true, pick = () => d.Continue() });
                 spec.shut = () => d.Continue();
             }

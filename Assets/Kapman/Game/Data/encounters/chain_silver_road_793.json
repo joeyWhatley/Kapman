@@ -348,11 +348,11 @@
     { "who": "gute", "key": "chain_silver_road.s08.gute_offer" }
    ],
    "options": [
-    { "key": "friend", "label_key": "chain_silver_road.s08.opt_friend", "label": "Take his pilotage on the strength of the oar you lent him",
+    { "key": "friend", "label_key": "chain_silver_road.s08.opt_friend", "out": "chain_silver_road.s08.out_own", "label": "Take his pilotage on the strength of the oar you lent him",
       "check": "flag.ch_silver_road_gute_friend",
       "effects": [ "npc gute feeling +8 agreed", "flag ch_silver_road_own_road", "flag ch_silver_road_8" ],
       "note": "outcome: chain_silver_road.s08.out_own" },
-    { "key": "fee", "label_key": "chain_silver_road.s08.opt_fee", "label": "Pay him his fee, once, and go east next summer without the Svea",
+    { "key": "fee", "label_key": "chain_silver_road.s08.opt_fee", "out": "chain_silver_road.s08.out_own", "label": "Pay him his fee, once, and go east next summer without the Svea",
       "check": "silver >= 80", "cost": "silver 80",
       "effects": [ "npc gute feeling +4 paid", "flag ch_silver_road_own_road", "flag ch_silver_road_8" ],
       "note": "outcome: chain_silver_road.s08.out_own" },

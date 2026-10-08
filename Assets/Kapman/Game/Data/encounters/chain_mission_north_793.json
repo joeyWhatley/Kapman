@@ -434,7 +434,7 @@
     { "who": "caster", "key": "chain_mission_north.s12.hint" }
    ],
    "options": [
-    { "key": "watch", "label_key": "chain_mission_north.s12.opt_watch", "label": "Stand among the merchants and watch it fall", "check": "true", "default": true,
+    { "key": "watch", "label_key": "chain_mission_north.s12.opt_watch", "out_success": "chain_mission_north.s12.out_for", "out_failure": "chain_mission_north.s12.out_against", "label": "Stand among the merchants and watch it fall", "check": "true", "default": true,
       "effects": [ { "chance": 0.6,
                      "success": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_for", "flag ch_mission_north_12_wait for 2" ],
                      "failure": [ "flag ch_mission_north_12", "flag ch_mission_north_lot_against", "flag ch_mission_north_12_wait for 2" ] } ],

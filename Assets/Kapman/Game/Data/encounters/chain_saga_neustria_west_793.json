@@ -178,12 +178,12 @@
     { "who": "abbot", "key": "chain_saga_neustria_west.s05m.hilbod_watch" }
    ],
    "options": [
-    { "key": "trial", "label_key": "chain_saga_neustria_west.s05m.opt_trial", "label": "Set the marks and bring the horsemen over on the half tide", "check": "true",
+    { "key": "trial", "label_key": "chain_saga_neustria_west.s05m.opt_trial", "out_success": "chain_saga_neustria_west.s05m.out_ok", "out_failure": "chain_saga_neustria_west.s05m.out_fail", "label": "Set the marks and bring the horsemen over on the half tide", "check": "true",
       "effects": [ { "chance": 0.55, "by": "crew.seamanship_best",
                      "success": [ "flag ch_saga_neustria_west_marks", "flag ch_saga_neustria_west_5", "npc count feeling +10 crossed", "npc salter feeling +6 marks", "silver +150" ],
                      "failure": [ "silver -60", "npc count feeling -4 horse", "flag ch_saga_neustria_west_road_saint", "flag ch_saga_neustria_west_5" ] } ],
       "note": "outcome: chain_saga_neustria_west.s05m.out_ok, .out_fail (a horse lost; the story goes on by the saint's road)" },
-    { "key": "sound", "label_key": "chain_saga_neustria_west.s05m.opt_sound", "label": "Pay Martinus and four rakers to sound every yard first, then try it", "check": "silver >= 80", "cost": "silver 80",
+    { "key": "sound", "label_key": "chain_saga_neustria_west.s05m.opt_sound", "out_success": "chain_saga_neustria_west.s05m.out_ok", "out_failure": "chain_saga_neustria_west.s05m.out_fail", "label": "Pay Martinus and four rakers to sound every yard first, then try it", "check": "silver >= 80", "cost": "silver 80",
       "effects": [ { "chance": 0.85, "by": "crew.seamanship_best",
                      "success": [ "flag ch_saga_neustria_west_marks", "flag ch_saga_neustria_west_5", "npc count feeling +10 crossed", "npc salter feeling +10 paid", "silver +150" ],
                      "failure": [ "silver -60", "npc count feeling -4 horse", "npc salter feeling +4 paid", "flag ch_saga_neustria_west_road_saint", "flag ch_saga_neustria_west_5" ] } ],

@@ -80,7 +80,12 @@ namespace Kapman.Encounters
         /// <summary>What the merchant did, as a sentence ("You sat low and listened."): the card's own line of what the
         /// people remember of the choice, else the answer given. "" for a choice that was not taken.</summary>
         public string told = "";
+        /// <summary>What came of it as the writers told it (the choice's written end: Outcomes), or "" where none is
+        /// written. The card shows it; the log keeps to the short telling.</summary>
+        public string written = "";
         public string Text => told.Length > 0 ? (told + " " + string.Join(" ", facts)).Trim() : string.Join(" ", facts);
+        /// <summary>What the effects did, in their own sentences ("" for none).</summary>
+        public string Facts => string.Join(" ", facts);
     }
 
     /// <summary>
@@ -243,8 +248,9 @@ namespace Kapman.Encounters
             r.branch = ctx.branch;
             r.then = shown.def.then;
             r.told = !string.IsNullOrEmpty(note) ? LogProse.YouDid(note) : LogProse.Answered(shown.label);
+            r.written = Outcomes.Text(world.book, shown.def, ctx.branch);
             r.facts.AddRange(ctx.facts);
-            if (r.facts.Count == 0)
+            if (r.facts.Count == 0 && r.written.Length == 0)
                 r.facts.Add("Nothing more came of it.");
             result = r;
             return r;
