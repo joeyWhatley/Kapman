@@ -24,21 +24,17 @@ namespace Kapman.Game.Frame
         /// <summary>
         /// THE PLAYER'S PORTRAIT WHILE NO FACE HAS BEEN CHOSEN (a game that did not begin through the opening; a save from
         /// before the choice). The user, 8 Oct 2026, of a picture from such a game: "Why can I see the old ai generated
-        /// portrait". So it is a face of the pool the opening offers (Showtime.FacePool: the user's own in
-        /// Art/final/portrait_pool, the stand-ins in Art/standin/portrait_pool), the same one each time for a people.
-        /// Only on a machine with no pool at all does the drawn portrait of the people stand.
+        /// portrait"; and of the face I then took from the pool by the people's name: "Use one of the portraits I gave
+        /// the one you were using earlier was fine". So it is the FIRST face of the pool the opening offers
+        /// (Showtime.FacePool: the user's own in Art/final/portrait_pool, the pictures the user gave in
+        /// Art/standin/portrait_pool), which is the one the pictures of the opening had shown. Only on a machine with no
+        /// pool at all does the drawn portrait of the people stand.
         /// </summary>
         public static string SelfUnchosen(string people)
         {
-            people = string.IsNullOrEmpty(people) ? "frisian" : people;
             if (pool == null)
                 pool = Showtime.FacePool().ToArray();
-            if (pool.Length == 0)
-                return Self(people, false);
-            int h = 17;
-            foreach (char c in people)
-                h = unchecked(h * 31 + c);
-            return pool[(h & 0x7fffffff) % pool.Length];
+            return pool.Length > 0 ? pool[0] : Self(people, false);
         }
 
         /// <summary>The drawn portrait of a people, the art list's own slot for the player: "portrait/self.frisian.man.png".</summary>
