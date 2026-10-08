@@ -21,7 +21,7 @@ namespace Kapman.Game.Frame
         public override string Title => "Journey";
         public override int Order => 47;
 
-        const int MostNews = 12, MostLines = 80, MostLandings = 30;
+        const int MostNews = 12, MostLines = 80, MostLandings = 30, MostFinds = 40;
         /// <summary>Which of its three leaves is open: what is learned, the days as they went, the landings.</summary>
         int leaf;
 
@@ -30,6 +30,7 @@ namespace Kapman.Game.Frame
             int h = FrameUi.Mix(FrameUi.Mix(17, Known.Version), FrameLog.Version);
             h = FrameUi.Mix(h, Trade.Started ? Trade.Ledger.Count : 0);
             h = FrameUi.Mix(h, Landings.Version);
+            h = FrameUi.Mix(h, Discoveries.Version);
             return FrameUi.Mix(FrameUi.Mix(h, Self.Version), leaf);
         }
 
@@ -103,6 +104,27 @@ namespace Kapman.Game.Frame
             var heard = GameData.Ports.Where(p => Known.IsHeardOf(p)).Select(p => p.name).ToList();
             if (heard.Count > 0)
                 body.Add(FrameUi.Ln(heard.Count == 1 ? "One place heard of" : $"{heard.Count} places heard of", string.Join(", ", heard.Take(12)) + (heard.Count > 12 ? $" and {heard.Count - 12} more" : "") + "."));
+            // the waters and landmarks found (Discoveries: the newest first; what she knew on the first morning last)
+            var game = KapmanGame.Current;
+            int toFind = Discoveries.Total(game != null ? game.Year : 793);
+            var found = Discoveries.FoundIds;
+            if (toFind > 0)
+            {
+                body.Add(FrameUi.H(found.Count == 0 ? "Waters and landmarks" : $"Waters and landmarks: {found.Count} of {toFind}"));
+                if (found.Count == 0)
+                    body.Add(FrameUi.P("None yet. They are found by sailing: a water when she is on it, a landmark when it comes in sight."));
+                int listed = 0;
+                for (int i = found.Count - 1; i >= 0 && listed < MostFinds; i--)
+                {
+                    var d = Discoveries.Book.Get(found[i]);
+                    if (d == null)
+                        continue;
+                    listed++;
+                    body.Add(FrameUi.Ln(d.name, d.note.Length > 0 ? d.note : null, FrameUi.Tag(d.kindName)));
+                }
+                if (found.Count > listed)
+                    body.Add(FrameUi.P($"And {found.Count - listed} more."));
+            }
             // the news
             var news = Known.News();
             if (news.Count > 0)
@@ -113,7 +135,7 @@ namespace Kapman.Game.Frame
                 if (news.Count > MostNews)
                     body.Add(FrameUi.P($"And {news.Count - MostNews} older."));
             }
-            if (notes.Count == 0 && met.Count == 0 && heard.Count == 0 && news.Count == 0)
+            if (notes.Count == 0 && met.Count == 0 && heard.Count == 0 && news.Count == 0 && toFind == 0)
                 body.Add(FrameUi.P("Nothing yet. What you see, hear and are told comes in here."));
         }
 

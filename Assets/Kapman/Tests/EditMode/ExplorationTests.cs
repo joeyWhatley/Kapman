@@ -13,6 +13,8 @@ namespace Kapman.Tests
     public class ExplorationTests
     {
         const double Cell = Exploration.CellSize;
+        /// <summary>Home waters of the test's own, 160 km round (the game's first morning is far narrower: DiscoveriesTests).</summary>
+        const double HomeWaters = 160000.0;
 
         [TearDown]
         public void Done() => Exploration.Clear();
@@ -41,7 +43,7 @@ namespace Kapman.Tests
             Assert.AreEqual(0f, Exploration.Seen(400000.0, 400000.0));
 
             // home waters are known from the start; she lies in the middle of them and sees round her
-            Exploration.Reveal(400000.0, 400000.0, Exploration.Home);
+            Exploration.Reveal(400000.0, 400000.0, HomeWaters);
             Exploration.See(400000.0, 400000.0, Exploration.Sight);
             Exploration.Apply();
             Assert.AreEqual(0, Fog(400000.0, 400000.0).a, "where she lies is not clear");
@@ -66,6 +68,14 @@ namespace Kapman.Tests
             // the edge of what she sees is a ramp of two squares, not a step
             byte edge = Fog(650000.0, 400000.0 + Exploration.Sight).a;
             Assert.IsTrue(edge > 20 && edge < 235, "the edge of her sight is a hard step: " + edge);
+
+            // ALL IS FOG AGAIN (a new game whose people start somewhere else: what was lifted is not theirs)
+            Exploration.Forget();
+            Assert.AreEqual(0f, Exploration.Seen(400000.0, 400000.0));
+            Assert.AreEqual(0f, Exploration.Seen(650000.0, 400000.0));
+            Assert.AreEqual(0f, Exploration.InSight(650000.0, 400000.0));
+            Assert.AreEqual(255, Fog(400000.0, 400000.0).a, "forgotten, the fog did not close over home again");
+            Assert.AreEqual(255, Fog(650000.0, 400000.0).a, "forgotten, the fog did not close over where she was");
         }
     }
 }

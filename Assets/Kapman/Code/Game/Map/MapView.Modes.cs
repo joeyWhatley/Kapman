@@ -9,8 +9,9 @@ namespace Kapman.Game
 
     /// <summary>
     /// THE CHART'S OTHER READINGS (the user, 7 Oct 2026, late: "add alt map modes like borders, religion, culture maps").
-    /// Land is the chart as it is drawn. In Realms, Faith and Peoples each port's name stands on the colour of whose it
-    /// is (its realm from the ports' file; its faith and its people as the encounters' book has them for the port), and
+    /// Land is the chart as it is drawn. In Realms, Faith and Peoples each port's dot is the colour of whose it is, and
+    /// so is its name when the pointer brings it up (its realm from the ports' file; its faith and its people as the
+    /// encounters' book has them for the port), and
     /// a key at the chart's corner names the colours that are in sight. It is a reading of the ports, not of the land:
     /// the land has no borders drawn on it yet (there is no file of them), and where one comes these colours are its.
     /// </summary>
@@ -72,20 +73,23 @@ namespace Kapman.Game
             return s.Length == 0 ? "" : char.ToUpperInvariant(s[0]) + s.Substring(1);
         }
 
-        /// <summary>A port's name on the colour of whose it is (each frame, for the ports in sight).</summary>
-        void ModePaint(PortDef def, Label name)
+        /// <summary>A port's dot, and its name when the pointer brings it up, in the colour of whose it is (each frame, for
+        /// the ports in sight). The dot since 9 Oct 2026: the names are hidden until the pointer is on them.</summary>
+        void ModePaint(PortDef def, Label name, VisualElement dot)
         {
             string whose = Mode == MapMode.Land ? "" : ModeOf(def);
             if (whose.Length == 0)
             {
                 name.style.backgroundColor = StyleKeyword.Null;
                 name.style.color = StyleKeyword.Null;
+                dot.style.backgroundColor = StyleKeyword.Null;
                 return;
             }
             if (!modeIndex.TryGetValue(whose, out int i))
                 modeIndex[whose] = i = modeIndex.Count;
             name.style.backgroundColor = (Color)ModeColours[i % ModeColours.Length];
             name.style.color = Color.white;
+            dot.style.backgroundColor = (Color)ModeColours[i % ModeColours.Length];
             if (!modeShown.Contains(whose))
                 modeShown.Add(whose);
         }

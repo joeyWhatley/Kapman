@@ -263,5 +263,166 @@ namespace Kapman.Tests
                 GameSpeed.SetLevel(0);
             }
         }
+
+        /// <summary>
+        /// THE FIRST MORNING AND WHAT SHE FINDS (9 Oct 2026, later; the user: "just simply can't see the name of
+        /// somewhere, narrow the starting fog area, just Dorestead and the closest port, then add waters to discover and
+        /// land marks", "hide the name ... unless you're hovering over the dot", "it needs to be more zoomed in"). A
+        /// look, with pictures: the chart as a new game opens it; a name under the pointer; she sails for Ripa, and each
+        /// water or landmark she finds on the way with what the log says of it; Journey's list of them; her track
+        /// through the dark from farther out. Pictures 20_*.png to 24_*.png in Captures/maplook, and finds.txt. Not part
+        /// of the suites: run it by its name, to see. What it shows is held by MapZoomTests and DiscoveriesTests.
+        /// </summary>
+        [UnityTest, Timeout(1800000)]
+        public IEnumerator TheFirstMorningAndWhatSheFinds()
+        {
+            FrameRoot.FreshLayout = true;
+            FrameWindows.OneWindow = true;
+            ClockDrops.Quiet = true;
+            ClockSettings.AsNew = true;
+            string saves = Path.Combine(Application.temporaryCachePath, "kapman_maplook_saves");
+            Directory.CreateDirectory(saves);
+            foreach (string old in Directory.GetFiles(saves))
+                File.Delete(old);
+            SaveGame.FolderOverride = saves;
+            var load = SceneManager.LoadSceneAsync("L_Chart", LoadSceneMode.Single);
+            while (!load.isDone)
+                yield return null;
+            yield return ChartPlay.Frames(5);
+            MainMenu.Current.NewGame();
+            SaveGame.FolderOverride = saves;
+            FrameRoot.FreshLayout = true;
+            FrameWindows.OneWindow = true;
+            ClockDrops.Quiet = true;
+            float from = Time.realtimeSinceStartup;
+            while ((FrameRoot.Current == null || !FrameRoot.Current.AskingSelf) && Time.realtimeSinceStartup - from < 30f)
+                yield return null;
+            var play = ChartPlay.Begin(false, "maplook");
+            var said = new StringBuilder();
+            string dir = Path.Combine(Application.dataPath, "..", "Captures", "maplook");
+            try
+            {
+                yield return ChartPlay.Frames(120);
+                yield return play.Click(play.Choices(play.FrontFloat())[0].button, "Begin");
+                from = Time.realtimeSinceStartup;
+                while (FrameGame.PortHere == null && Time.realtimeSinceStartup - from < 15f)
+                    yield return null;
+                yield return ChartPlay.Frames(30);
+                var game = KapmanGame.Current;
+                var map = MapView.Current;
+                var view = PortView.Current;
+                if (view != null && view.Shown)
+                {
+                    yield return play.Click(view.Flip, "Chart");
+                    yield return ChartPlay.Frames(6);
+                }
+                var middle = new Vector2(1180f, 430f);
+                var offChart = new Vector2(700f, 780f);                     // (a corner of the chart with no mark in it, and no hover card)
+                void Note(string line)
+                {
+                    said.AppendLine(line);
+                    Debug.Log("Map look: " + line);
+                }
+                yield return ChartPlay.Settle(1.5f);
+                var heard = GameData.Ports.Where(p => Known.IsHeardOf(p)).Select(p => p.name).ToList();
+                Note($"the first morning: {Mpp:0.#} m a pixel; the chart is opened round {KapmanGame.StartKnows.home} and {KapmanGame.StartKnows.near}; " +
+                     $"{Discoveries.Count} of {Discoveries.Total(game.Year)} waters and landmarks known ({string.Join(", ", Discoveries.FoundIds)}); " +
+                     $"{heard.Count} ports heard of ({string.Join(", ", heard)})");
+                yield return play.Shot("20_the_first_morning", 0.5f);
+                var homeMark = play.Screen.Q<VisualElement>("map-port-dorestad");
+                Assert.IsNotNull(homeMark, "Dorestat has no dot");
+                play.MoveTo(homeMark.worldBound.center);
+                yield return ChartPlay.Frames(8);
+                yield return play.Shot("21_a_name_under_the_pointer", 0.2f);
+                play.MoveTo(offChart);
+
+                // ---- she sails for Ripa: down the Lek to the sea, and north along the islands
+                Assert.IsTrue(Course.SetTo("ripa", ChartWorld.ShipWorld(), Port.LyingId()), "no course to Ripa");
+                yield return ChartPlay.Frames(5);
+                yield return play.Click(Verb(play, "Cast off"), "Cast off");
+                yield return ChartPlay.Frames(10);
+                yield return play.Click(Small(play, "5"), "speed 5");
+                int had = Discoveries.Count, shots = 0;
+                double day0 = game.Day;
+                float wall = Time.realtimeSinceStartup;
+                while (game.Day - day0 < 4.5 && Time.realtimeSinceStartup - wall < 420f && Port.LyingId() != "ripa")
+                {
+                    if (play.FrontFloat() != null)
+                    {
+                        yield return AnswerAll(play);
+                        if (GameSpeed.Level < 4 && play.FrontFloat() == null)
+                            yield return play.Click(Small(play, "5"), "speed 5");
+                    }
+                    if (Discoveries.Count > had)
+                    {
+                        string id = Discoveries.FoundIds[had];
+                        had++;
+                        var thing = Discoveries.Book.Get(id);
+                        var line = FrameLog.Lines.LastOrDefault(l => l.text.StartsWith("New to you: " + thing.name));
+                        Note($"day {game.Day - day0:0.00}: found {id} ({thing.kindName}); the log: '{(line.text ?? "NOTHING")}'");
+                        if (shots < 4)
+                        {
+                            shots++;
+                            yield return play.Click(Small(play, "Pause"), "Pause");
+                            yield return ChartPlay.Settle(0.6f);
+                            var mark = play.Screen.Q<VisualElement>("map-find-" + id);
+                            if (mark != null && ChartPlay.Shown(mark))
+                            {
+                                play.MoveTo(mark.worldBound.center);
+                                yield return ChartPlay.Frames(8);
+                            }
+                            yield return play.Shot($"22_found_{shots}_{id}", 0.3f);
+                            play.MoveTo(offChart);
+                            if (play.FrontFloat() != null)
+                                yield return AnswerAll(play);
+                            yield return play.Click(Small(play, "5"), "speed 5");
+                        }
+                    }
+                    yield return null;
+                }
+                Note($"after {game.Day - day0:0.0} days: {Discoveries.Count} of {Discoveries.Total(game.Year)} found: {string.Join(", ", Discoveries.FoundIds)}");
+                yield return play.Click(Small(play, "Pause"), "Pause");
+                yield return AnswerAll(play);
+
+                // ---- Journey: what she has learned, the waters and landmarks among it
+                yield return play.Click(Verb(play, "Journey"), "Journey");
+                play.MoveTo(new Vector2(700f, 780f));                       // (off the button: its hover card would lie over the window)
+                yield return ChartPlay.Settle(0.8f);
+                yield return play.Shot("23_journey", 0.3f);
+
+                // ---- from farther out: her track through the dark, and the marks along it
+                for (int i = 0; i < 6; i++)
+                {
+                    play.WheelAt(middle, 3f);
+                    yield return ChartPlay.Settle(0.3f);
+                }
+                yield return ChartPlay.Settle(2.0f);
+                Note($"her track, from farther out: {Mpp:0.#} m a pixel");
+                yield return play.Shot("24_her_track", 0.5f);
+                // the pointer on one of the marks along it
+                VisualElement along = null;
+                foreach (string id in Discoveries.FoundIds)
+                {
+                    var m = play.Screen.Q<VisualElement>("map-find-" + id);
+                    if (m != null && ChartPlay.Shown(m) && Discoveries.DayFound(id) >= 0.0 && play.Reachable(m))
+                        along = m;
+                }
+                if (along != null)
+                {
+                    play.MoveTo(along.worldBound.center);
+                    yield return ChartPlay.Frames(8);
+                    yield return play.Shot("25_a_mark_along_her_track", 0.2f);
+                }
+            }
+            finally
+            {
+                Directory.CreateDirectory(dir);
+                File.WriteAllText(Path.Combine(dir, "finds.txt"), said.ToString());
+                play.End();
+                FrameRoot.FreshLayout = false;
+                ClockSettings.AsNew = false;
+                GameSpeed.SetLevel(0);
+            }
+        }
     }
 }

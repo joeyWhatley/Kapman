@@ -1288,3 +1288,59 @@ and far fewer when usage is short).
    and it stays lifted behind her); MapZoomTests reads the screen: far from home the land and the sea are the
    same dark, the fog's own, and the sea off her own coast is not.
 
+118. **THE CHART: A PLACE IS ITS DOT, A NARROW START, WATERS AND LANDMARKS TO FIND, AND CLOSER** (the user,
+   9 Oct, four asks in a row after item 117's pictures). RULINGS, with what I chose inside each.
+   - NAMES ("Make it so you just simply can't see the name of somewhere"; "hide the name of somewhere unless
+     you're hovering over the dot and let it linger for a few seconds when the mouse is removed say 7 seconds
+     then it fades away again to just a dot"). On the chart a place is its dot. Its name stands beside the dot
+     only while the pointer is on it, stays 7 seconds after the pointer has left (MapView.nameLingerSeconds)
+     and fades over 0.8 s, by the clock on the wall. MINE: this is for every place, the ports she knows as
+     well as those only heard of (I read "somewhere" as anywhere; if only the unseen were meant, the ports she
+     knows get their names back); the name stands right of its dot, left of it at the chart's right edge; a
+     name still lingering goes at once when the name under the pointer would lie over it; the names lie in a
+     layer of their own over every mark and never take the pointer; under a name stands a second slip where
+     there is something to say: what the good picked in the market fetches there, or "heard of, not seen"
+     (placeholder words). The thinning of names of item 116 is gone with the names.
+   - THE START ("narrow the starting fog area, just Dorestead and the closest port"). On the first morning she
+     knows her home port as far as she sees from it (30 km) and the port nearest it by water, 20 km round
+     (Dorestat: Traiectum; a Dane of Ripa: Emuthon). Some 3,300 square km, where it was 80,000.
+     KapmanGame.KnowStart; a new game whose people start elsewhere puts back what was lifted round the first
+     home. NOT CHANGED: the ports heard of on the waterfront (35 on the first morning) are hollow dots in the
+     dark, since a course can be set for them; she sees 30 km.
+   - WATERS AND LANDMARKS ("add waters to discover and land marks ect points of interest").
+     Game/Data/discoveries_793.json: 82 of them (23 waters, 18 rivers and river mouths, 16 islands, 10
+     headlands, 5 shoals, 5 landmarks, 4 holy places, a shore) from the Gironde to the Neva, each with a place,
+     a reach (9 to 28 km) and one or two sentences. A thing is FOUND when she comes within its reach, once: the
+     log says "New to you: <name>. <its sentences>", a small mark stands on the chart from then on (a pale bar
+     for a water, a diamond for land the sea shows her, a square for a thing built; its name and kind under the
+     pointer as a port's), and Journey lists them ("Waters and landmarks: 9 of 82"). What lies in the waters she
+     knows on the first morning is known without a word (the Rhine, the Lek, the Vecht, the Waal). Saved with
+     the game; a save of before today is not told a heap of old news. MINE, ALL OF IT: which 82, their names (a
+     name of the time where one is written, the source beside it in the file; a plain one where none is), every
+     sentence (PLACEHOLDERS, the user's to write), the reaches, and that nothing but the log, the mark and the
+     list comes of a find (no silver, no standing). Bake/world/check_discoveries.py checks each against the sea
+     lanes; DiscoveriesTests walks her real courses (Dorestat to Ripa: the old mouth of the Rhine, the Kinnem
+     shore, Wiron, Texla, the Fli, the deeps off Ripa). Seven more (the great lake, six on the Rhine above the
+     delta) wait in the file for the day their rivers can be sailed.
+   - CLOSER ("it needs to be more zoomed in otherwise the map is overwhelming and cluttered"). The chart opens
+     at 120 m to a pixel (it was 400): one pixel of the painted chart to one of the screen; 174 by 93 km show,
+     and the round she sees takes two thirds of the chart's height. MINE: the figure. The wheel still goes out
+     to the whole painted chart. SEEN, NOT MENDED: at this scale the edge of what is known is blocky (the fog
+     is kept in squares of 8 km); a finer fog wants a smaller save.
+   - THE NEWS OF ICELAND, GREENLAND AND VINLAND (the user asked: "have we got the Iceland settlement event? And
+     Greenland / Vinland?"). They are in the chronicle (874 the settlement, 930 the Althing, 985 Erik the Red's
+     Greenland, 1000 Iceland made Christian, about 1000 Leif's Vinland; and as dates from the ground, never
+     told as news, the Eldgja fire of 939 and the camp at L'Anse aux Meadows of 1021). But an entry is told at
+     the ports of its regions, and Iceland and Greenland have none: only the settlement (also filed under
+     western Norway) could ever be heard. MENDED: chronicle_793.json "news_lands_at" names where the news of a
+     land with no port comes ashore (Iceland and Greenland: Ogvaldsnes), and it spreads from there with the
+     ships. Only news: no market feels it. NOT PLACES: the chart ends at about 20 degrees west; the east of
+     Iceland is on its edge, Greenland and Vinland are far off it. OPEN, FOR A RULING: 229 of the chronicle's
+     582 entries are still told at no port (Byzantium 58, Italy 48, no region 38, Spain 27, the Caliphate 27,
+     Saxony 25, the Meuse 17, Wales 13, Provence 7, Wendland 6, Khazaria 3, the Volga 2, Cornwall 1): where
+     does each land's news come ashore?
+   Tests: DiscoveriesTests (7), ChronicleNewsTests (3), ExplorationTests (the fog forgotten); MapZoomTests
+   reads the screen (the first morning's dark 58 km east of home; a name up under the pointer, whole for its
+   time, fading, gone; a port heard of and a water named the same way; the name left of its dot at the edge;
+   no name up at the widest). A fault found on the way and mended: the chart's picture was destroyed the wrong
+   way outside play (MapArt). EditMode 557 (555 pass, 2 skipped), PlayMode 26 of 26.

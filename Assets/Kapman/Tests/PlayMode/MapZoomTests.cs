@@ -26,7 +26,14 @@ namespace Kapman.Tests
     ///   - the view never leaves the painted chart, by the wheel or by the hand;
     ///   - the fog hides what she has not seen (the same day: "Why are we doing such a subtle fog? Shouldn't it be you
     ///     can't see anything you haven't been?"): far from home, land and sea are one dark; her home waters are not;
-    ///   - no port's name lies over another, and the port she lies at keeps its name;
+    ///   - the first morning's chart is home and the port nearest it, and the rest is the fog's dark (later that day:
+    ///     "narrow the starting fog area, just Dorestead and the closest port"), and it opens closer ("it needs to be
+    ///     more zoomed in otherwise the map is overwhelming and cluttered");
+    ///   - a place is its dot. Its name comes up beside it only while the pointer is on the dot, stays a few seconds
+    ///     after the pointer has left, and fades ("hide the name of somewhere unless you're hovering over the dot and
+    ///     let it linger for a few seconds when the mouse is removed say 7 seconds then it fades away again to just a
+    ///     dot"); near the chart's edge it stands on the other side of its dot; a water she knows is a mark with its
+    ///     name under the pointer in the same way;
     ///   - scrolled on in past the closest, the ship's own view is asked for once.
     /// Pictures in Captures/chart (zoom_*.png).
     /// </summary>
@@ -55,6 +62,41 @@ namespace Kapman.Tests
             middle = n > 0 ? new Vector2(sx / (float)n + 0.5f, sy / (float)n + 0.5f) : default;
             size = n > 0 ? new Vector2(x1 - x0 + 1, y1 - y0 + 1) : default;
             return n > 0;
+        }
+
+        /// <summary>The colour in the middle of a small square of the screen (the middle one of 81: a speck or a mark's
+        /// edge does not count).</summary>
+        static Color32 MiddleOf(Color32[] px, int width, int height, Vector2 at)
+        {
+            var r = new List<byte>();
+            var g = new List<byte>();
+            var b = new List<byte>();
+            for (int y = (int)at.y - 4; y <= (int)at.y + 4; y++)
+                for (int x = (int)at.x - 4; x <= (int)at.x + 4; x++)
+                {
+                    var c = px[Mathf.Clamp(y, 0, height - 1) * width + Mathf.Clamp(x, 0, width - 1)];
+                    r.Add(c.r);
+                    g.Add(c.g);
+                    b.Add(c.b);
+                }
+            r.Sort();
+            g.Sort();
+            b.Sort();
+            return new Color32(r[r.Count / 2], g[g.Count / 2], b[b.Count / 2], 255);
+        }
+
+        static int Apart(Color32 a, Color32 b) => Mathf.Max(Mathf.Abs(a.r - b.r), Mathf.Max(Mathf.Abs(a.g - b.g), Mathf.Abs(a.b - b.b)));
+
+        /// <summary>How many names stand on the chart now.</summary>
+        static int NamesUp(ChartPlay play)
+        {
+            int up = 0;
+            play.Screen.Query<VisualElement>(className: "map-name").ForEach(n =>
+            {
+                if (ChartPlay.Shown(n))
+                    up++;
+            });
+            return up;
         }
 
         /// <summary>The fog's picture drawn again from what is known (as a saved game does it: through its text).</summary>
@@ -129,6 +171,130 @@ namespace Kapman.Tests
                 Vector2 Px(WorldXZ w) => map.ChartOverlays.LocalToWorld(map.ChartPx(w));
                 Assert.Less((Px(her) - middle).magnitude, 6f, "followed, she is not in the middle of what the frame leaves free: " + Px(her) + " against " + middle);
 
+                // ---- 0. THE FIRST MORNING (the user, 9 Oct 2026, later). THE CHART OPENS CLOSER ("it needs to be more
+                // zoomed in otherwise the map is overwhelming and cluttered": 120 m to a pixel, it was 400), ON A NARROW
+                // START ("just Dorestead and the closest port"): home and Traiectum are known, and beyond what she sees
+                // from her own quay the chart is the fog's dark.
+                Assert.AreEqual(120.0, map.chartScale, 0.01, "the chart's own scale");
+                Assert.AreEqual(("dorestad", "traiectum"), KapmanGame.StartKnows, "the first morning's chart is not opened round home and the port nearest it");
+                float Seen(string port)
+                {
+                    var p = GameData.Port(port);
+                    var (wx, wz) = WorldFrame.ToWorld(p.lat, p.lon);
+                    return Exploration.Seen(wx, wz);
+                }
+                Assert.AreEqual(1f, Seen("dorestad"), 1e-6f, "home is not known on the first morning");
+                Assert.Greater(Seen("traiectum"), 0.9f, "the port nearest home is not known on the first morning");
+                foreach (string far in new[] { "witla", "walichrum", "medemelacha", "daventre", "colonia" })
+                    Assert.AreEqual(0f, Seen(far), 1e-6f, GameData.Port(far).name + " is known on the first morning");
+                {
+                    var px = play.ScreenPixels(out int width, out int height);
+                    var dark = Exploration.Dark;
+                    Vector2 byHome = Px(new WorldXZ(her.x + 9000.0, her.z + 9000.0)), east = Px(new WorldXZ(her.x + 58000.0, her.z - 4000.0));
+                    Assert.IsTrue(hole.Contains(byHome) && hole.Contains(east), $"the test's two places are not on the chart: {byHome}, {east}");
+                    var landByHome = MiddleOf(px, width, height, byHome);
+                    var landEast = MiddleOf(px, width, height, east);
+                    Debug.Log($"Map zoom: on the first morning the land 13 km from her quay is drawn {landByHome}, the land 58 km east of it {landEast}; the fog is {dark}");
+                    Assert.Greater(Apart(landByHome, dark), 40, $"the land in sight of her own quay is as dark as the unknown: drawn {landByHome}");
+                    Assert.LessOrEqual(Apart(landEast, dark), 12, $"58 km east of home the chart shows on the first morning: drawn {landEast}, the fog is {dark}");
+                }
+
+                // A PLACE IS ITS DOT: no name is up until the pointer rests on a dot
+                Assert.AreEqual(7f, map.nameLingerSeconds, 1e-4f, "a name should stay seven seconds after the pointer has left its dot");
+                Assert.AreEqual(0, NamesUp(play), "a name stands on the chart with no pointer on its dot");
+                var homeMark = play.Screen.Q<VisualElement>("map-port-dorestad");
+                var homeName = play.Screen.Q<VisualElement>("map-port-name-dorestad");
+                Assert.IsNotNull(homeMark, "Dorestat has no dot on the chart");
+                Assert.IsNotNull(homeName, "Dorestat's dot has no name to bring up");
+                Assert.IsTrue(play.Reachable(homeMark), "the pointer cannot rest on Dorestat's dot");
+                Assert.Less((homeMark.worldBound.center - Px(her)).magnitude, 30f, "Dorestat's dot is not where she lies");
+                yield return play.Shot("zoom_0_the_first_morning");
+                // (the test does not wait seven seconds: the same rule with a shorter stay)
+                map.nameLingerSeconds = 1.5f;
+                var openChart = middle + new Vector2(260f, 190f);
+                play.MoveTo(homeMark.worldBound.center);
+                yield return ChartPlay.Frames(5);
+                Assert.IsTrue(ChartPlay.Shown(homeName), "the pointer on Dorestat's dot did not bring its name up");
+                Assert.AreEqual(1f, map.NameShown("dorestad"), 0.01f, "under the pointer the name is not whole");
+                Assert.AreEqual(GameData.Port("dorestad").name, homeName.Q<Label>(className: "map-port-name").text);
+                Assert.Greater(homeName.worldBound.xMin, homeMark.worldBound.center.x, "the name does not stand right of its dot");
+                Assert.Less(homeName.worldBound.xMin - homeMark.worldBound.center.x, 24f, "the name stands far from its dot");
+                Assert.AreEqual(1, NamesUp(play), "more than the one name under the pointer is up");
+                yield return play.Shot("zoom_0_a_name_under_the_pointer");
+                // the pointer leaves: the name stays its time, then fades, and the place is its dot again
+                play.MoveTo(openChart);
+                float leftAt = Time.realtimeSinceStartup;
+                yield return ChartPlay.Frames(3);
+                Assert.AreEqual(1f, map.NameShown("dorestad"), 0.01f, "the name went the moment the pointer left its dot");
+                while (Time.realtimeSinceStartup - leftAt < map.nameLingerSeconds - 0.5f)
+                    yield return null;
+                Assert.AreEqual(1f, map.NameShown("dorestad"), 0.01f, "the name did not stay its time after the pointer had left");
+                bool fading = false;
+                while (Time.realtimeSinceStartup - leftAt < map.nameLingerSeconds + map.nameFadeSeconds + 0.7f)
+                {
+                    float shown = map.NameShown("dorestad");
+                    fading |= shown > 0.03f && shown < 0.97f;
+                    yield return null;
+                }
+                Assert.IsTrue(fading, "the name was cut off: it should fade");
+                Assert.AreEqual(0f, map.NameShown("dorestad"), "the name is still up after its time and its fade");
+                Assert.IsFalse(ChartPlay.Shown(homeName), "after its time the place is not just its dot again");
+                Assert.AreEqual(0, NamesUp(play));
+                // a port only heard of is a hollow dot in the dark, and its name says so
+                VisualElement heardMark = null;
+                string heardId = null;
+                foreach (var def in GameData.Ports)
+                {
+                    var m = play.Screen.Q<VisualElement>("map-port-" + def.id);
+                    if (heardMark == null && m != null && m.ClassListContains("heard") && ChartPlay.Shown(m) && hole.Contains(m.worldBound.center)
+                        && Seen(def.id) == 0f && play.Reachable(m))
+                    {
+                        heardMark = m;
+                        heardId = def.id;
+                    }
+                }
+                Assert.IsNotNull(heardMark, "no port she has only heard of has a dot on the first morning's chart");
+                {
+                    var px = play.ScreenPixels(out int width, out int height);
+                    var beside = MiddleOf(px, width, height, heardMark.worldBound.center + new Vector2(0f, 26f));
+                    Assert.LessOrEqual(Apart(beside, Exploration.Dark), 12, $"round the dot of {heardId}, only heard of, the chart shows: drawn {beside}");
+                }
+                play.MoveTo(heardMark.worldBound.center);
+                yield return ChartPlay.Frames(5);
+                var heardName = play.Screen.Q<VisualElement>("map-port-name-" + heardId);
+                Assert.IsTrue(heardName != null && ChartPlay.Shown(heardName), "the pointer on the dot of a port only heard of did not bring its name up");
+                Assert.AreEqual(GameData.Port(heardId).name, heardName.Q<Label>(className: "map-port-name").text);
+                Assert.AreEqual(MapView.HeardOfWords, heardName.Q<Label>(className: "map-port-note").text, "a port only heard of does not say so under its name");
+                // a water she knows from the start is a mark on the chart, named under the pointer as a port is
+                var rhine = play.Screen.Q<VisualElement>("map-find-rhenus");
+                Assert.IsNotNull(rhine, "the Rhine at her own quay has no mark on the chart");
+                Assert.IsTrue(Discoveries.IsFound("rhenus") && Discoveries.DayFound("rhenus") < 0.0, "her own river should be known to her from the start");
+                Assert.IsTrue(play.Reachable(rhine), "the pointer cannot rest on the Rhine's mark");
+                play.MoveTo(rhine.worldBound.center);
+                yield return ChartPlay.Frames(5);
+                var rhineName = play.Screen.Q<VisualElement>("map-find-name-rhenus");
+                Assert.IsTrue(rhineName != null && ChartPlay.Shown(rhineName), "the pointer on the Rhine's mark did not bring its name up");
+                Assert.AreEqual(Discoveries.Book.Get("rhenus").name, rhineName.Q<Label>(className: "map-port-name").text);
+                Assert.AreEqual("river", rhineName.Q<Label>(className: "map-port-note").text, "a water does not say what it is under its name");
+                Assert.AreEqual(1f, map.NameShown(heardId), 0.01f, "the name the pointer left a moment ago should still be up");
+                yield return play.Shot("zoom_0_a_water_and_a_port_heard_of");
+                // near the chart's edge the name stands on the other side of its dot, where it can be read
+                play.MoveTo(openChart);
+                yield return play.Drag(new Vector2(hole.xMin + 150f, hole.yMax - 120f), new Vector2(hole.xMin + 150f + (hole.xMax - 34f - homeMark.worldBound.center.x), hole.yMax - 120f));
+                yield return ChartPlay.Frames(3);
+                Assert.Greater(homeMark.worldBound.center.x, hole.xMax - 60f, "the drag did not bring Dorestat's dot to the chart's right edge");
+                play.MoveTo(homeMark.worldBound.center);
+                yield return ChartPlay.Frames(6);
+                Assert.AreEqual(1f, map.NameShown("dorestad"), 0.01f, "at the chart's edge the name did not come up");
+                Assert.Less(homeName.worldBound.xMax, homeMark.worldBound.center.x, "at the chart's right edge the name does not stand left of its dot");
+                Assert.Greater(homeName.worldBound.xMin, hole.xMin, "the name runs off the chart");
+                yield return play.Shot("zoom_0_a_name_at_the_edge");
+                play.MoveTo(new Vector2(middle.x, 20f));                    // (off the chart: on the frame's top bar)
+                yield return play.Press(Key.F);
+                yield return ChartPlay.Settle(2.6f);                        // (she is in the middle again, and the names have gone)
+                Assert.IsTrue(map.Following, "[F] did not bring the chart back to her");
+                Assert.AreEqual(0, NamesUp(play), "names are still up with the pointer off the chart and their time over");
+
                 // ---- 1. THE FOG LIES ON THE WORLD AT EVERY SCALE. Two squares of its own picture are painted red and green
                 // (south-east of her, and out over the sea to the north-west: where no port's dot or name lies over
                 // them), and looked for on the screen itself.
@@ -152,12 +318,12 @@ namespace Kapman.Tests
                 var green = new WorldXZ(ext.west + (c1 + 0.5) * Exploration.CellSize, ext.north - (r1 + 0.5) * Exploration.CellSize);
                 var notes = new List<string>();
                 int scales = 0;
-                foreach (int notches in new[] { 0, 2, 2, -7, -3 })
+                bool marked = false;
+                // (out from the chart's own scale, where the squares are off the chart, to six times as far, and half
+                // way back)
+                foreach (int notches in new[] { 2, 2, 2, 2, -5 })
                 {
-                    if (notches != 0)
-                        yield return Wheel(play, middle, notches, 1.2f);
-                    else
-                        yield return ChartPlay.Settle(0.5f);
+                    yield return Wheel(play, middle, notches, 1.2f);
                     yield return null;
                     var px = play.ScreenPixels(out int width, out int height);
                     float square = (float)(Exploration.CellSize * 3.0 / map.Scale);
@@ -181,8 +347,11 @@ namespace Kapman.Tests
                         Assert.Less(size.x, square * 1.15f, $"at {map.Scale:0} m a pixel {name} of the fog is {size.x:0} px wide and should be about {square:0}: the fog is not at the chart's scale");
                         scales++;
                     }
-                    if (notches == 2 && scales <= 4)
+                    if (!marked && scales >= 2)
+                    {
+                        marked = true;
                         yield return play.Shot("zoom_1_the_fog_marked", 0.1f);
+                    }
                 }
                 Assert.GreaterOrEqual(scales, 7, "the fog's squares were looked for at too few scales: " + string.Join(" | ", notes));
                 Debug.Log("Map zoom: the fog on the world: " + string.Join(" | ", notes));
@@ -276,66 +445,36 @@ namespace Kapman.Tests
                 yield return play.Shot("zoom_3_the_widest");
                 // THE UNKNOWN IS HIDDEN (the user, 9 Oct 2026: "Shouldn't it be you can't see anything you haven't been?").
                 // Far from home the sea and the land are the same dark, the fog's own, with nothing of the chart showing
-                // through; the water she knows, off her own coast, is not.
+                // through.
                 {
                     var px = play.ScreenPixels(out int width, out int height);
-                    Color32 Middle(double lat, double lon, string what)
+                    Vector2 At(double lat, double lon, string what)
                     {
                         var (wx, wz) = WorldFrame.ToWorld(lat, lon);
                         Vector2 at = Px(new WorldXZ(wx, wz));
                         Assert.IsTrue(hole.Contains(at), $"{what} is not on the chart at its widest: {at}");
-                        var r = new List<byte>();
-                        var g = new List<byte>();
-                        var b = new List<byte>();
-                        for (int y = (int)at.y - 4; y <= (int)at.y + 4; y++)
-                            for (int x = (int)at.x - 4; x <= (int)at.x + 4; x++)
-                            {
-                                var c = px[Mathf.Clamp(y, 0, height - 1) * width + Mathf.Clamp(x, 0, width - 1)];
-                                r.Add(c.r);
-                                g.Add(c.g);
-                                b.Add(c.b);
-                            }
-                        r.Sort();
-                        g.Sort();
-                        b.Sort();
-                        return new Color32(r[r.Count / 2], g[g.Count / 2], b[b.Count / 2], 255);   // (the middle one: a speck or a mark's edge does not count)
+                        return at;
                     }
-                    int Far(Color32 a, Color32 b) => Mathf.Max(Mathf.Abs(a.r - b.r), Mathf.Max(Mathf.Abs(a.g - b.g), Mathf.Abs(a.b - b.b)));
                     var dark = Exploration.Dark;
-                    var sea = Middle(57.0, 3.5, "the middle of the North Sea");
-                    var land = Middle(54.3, -2.2, "the hills of northern England");
-                    var home = Middle(53.0, 4.0, "the sea off her own coast");
-                    Debug.Log($"Map zoom: the unknown sea is drawn {sea}, the unknown land {land}, the fog's own colour is {dark}; the sea she knows {home}");
-                    Assert.LessOrEqual(Far(sea, dark), 12, $"the sea she has never seen shows through the fog: drawn {sea}, the fog is {dark}");
-                    Assert.LessOrEqual(Far(land, dark), 12, $"the land she has never seen shows through the fog: drawn {land}, the fog is {dark}");
-                    Assert.Greater(Far(home, dark), 40, $"the sea she knows, off her own coast, is as dark as the unknown: drawn {home}");
+                    var sea = MiddleOf(px, width, height, At(57.0, 3.5, "the middle of the North Sea"));
+                    var land = MiddleOf(px, width, height, At(54.3, -2.2, "the hills of northern England"));
+                    var coast = MiddleOf(px, width, height, At(53.0, 4.0, "the sea off the Frisian coast"));
+                    Debug.Log($"Map zoom: the unknown sea is drawn {sea}, the unknown land {land}, the sea off Frisia {coast}; the fog's own colour is {dark}");
+                    Assert.LessOrEqual(Apart(sea, dark), 12, $"the sea she has never seen shows through the fog: drawn {sea}, the fog is {dark}");
+                    Assert.LessOrEqual(Apart(land, dark), 12, $"the land she has never seen shows through the fog: drawn {land}, the fog is {dark}");
+                    Assert.LessOrEqual(Apart(coast, dark), 12, $"the sea off Frisia, 150 km from home, shows on the first morning: drawn {coast}, the fog is {dark}");
                 }
-                // (no name over another; the port she lies at has its name)
-                var slips = new List<(string name, Rect at)>();
+                // far out too a place is only its dot: the ports she has heard of are dots in the dark, and no name is up
+                play.MoveTo(new Vector2(middle.x, 20f));
+                yield return ChartPlay.Settle(map.nameLingerSeconds + map.nameFadeSeconds + 0.4f);
+                Assert.AreEqual(0, NamesUp(play), "at its widest names stand on the chart with no pointer on a dot");
+                int dots = 0;
                 play.Screen.Query<VisualElement>(className: "map-port").ForEach(m =>
                 {
-                    var label = m.Q<Label>(className: "map-port-name");
-                    if (ChartPlay.Shown(m) && label != null && ChartPlay.Shown(label))
-                        slips.Add((label.text, label.worldBound));
+                    if (ChartPlay.Shown(m) && hole.Contains(m.worldBound.center))
+                        dots++;
                 });
-                Assert.Greater(slips.Count, 5, "at its widest the chart names next to nothing");
-                for (int i = 0; i < slips.Count; i++)
-                    for (int k = i + 1; k < slips.Count; k++)
-                        Assert.IsFalse(slips[i].at.Overlaps(slips[k].at), $"the names of {slips[i].name} and {slips[k].name} lie over one another");
-                string here = FrameGame.PortHere.name;
-                Assert.IsTrue(slips.Any(s => s.name == here), $"at its widest the chart does not name {here}, where she lies: {string.Join(", ", slips.Select(s => s.name))}");
-                // a port without its name says it when the pointer rests on its dot
-                int unnamed = 0;
-                play.Screen.Query<VisualElement>(className: "map-port").ForEach(m =>
-                {
-                    var label = m.Q<Label>(className: "map-port-name");
-                    if (ChartPlay.Shown(m) && label != null && !ChartPlay.Shown(label))
-                    {
-                        unnamed++;
-                        Assert.AreEqual(label.text, m.tooltip, "a port left without its name does not say it under the pointer");
-                    }
-                });
-                Assert.Greater(unnamed, 3, "at its widest every port still has its name: the heap was not thinned");
+                Assert.Greater(dots, 5, "at its widest the chart shows next to no port");
                 foreach (var to in new[] { new Vector2(700f, 0f), new Vector2(-700f, 0f), new Vector2(0f, 500f), new Vector2(0f, -500f) })
                 {
                     for (int i = 0; i < 3; i++)
@@ -369,7 +508,10 @@ namespace Kapman.Tests
             finally
             {
                 if (MapView.Current != null)
+                {
                     MapView.Current.ZoomedPast -= onPast;
+                    MapView.Current.nameLingerSeconds = 7f;
+                }
                 var hook = Kapman.Game.ShipView.ShipStageHook.Current;
                 if (hook != null)
                     hook.Swapped = false;

@@ -412,6 +412,9 @@ namespace Kapman.Tests
                 Screen.SendEvent(evt);
         }
 
+        /// <summary>The pointer moved to a place on the screen and left there (what lies under it sees it rest).</summary>
+        public void MoveTo(Vector2 at) => Pointer(at, EventType.MouseMove);
+
         /// <summary>The pointer pressed and let go at a place on the screen.</summary>
         public void ClickAt(Vector2 at)
         {
@@ -613,7 +616,7 @@ namespace Kapman.Tests
                     inLog |= e.name == "log" || e.ClassListContains("frame-log");
                     inMenu |= e.ClassListContains("menu-root");
                     inNotes |= e.name != null && e.name.StartsWith("note-", StringComparison.Ordinal);
-                    sized |= e.ClassListContains("frame-root") || e.ClassListContains("menu-root") || e.ClassListContains("map-port") ||
+                    sized |= e.ClassListContains("frame-root") || e.ClassListContains("menu-root") || e.ClassListContains("map-name") ||
                              e.ClassListContains("hover-card");
                 }
                 if (sized)

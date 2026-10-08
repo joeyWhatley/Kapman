@@ -8,7 +8,8 @@ namespace Kapman.Game
     /// WHAT THE MERCHANT HAS SEEN - the map's fog of war. The world is a grid of CELL-metre squares, each from 0
     /// (never seen) to 1 (seen); the fog over the map is the opposite, and it hides what it covers (9 Oct 2026). It
     /// lifts round the ship as she sails (out to about SIGHT real metres: the coast and hills she'd see from the
-    /// water), and the merchant knows his home waters from the start. Saved with the game (SaveGame).
+    /// water). On the first morning the merchant knows his home port and the port nearest it, and no more
+    /// (KapmanGame.KnowStart). Saved with the game (SaveGame).
     ///
     /// WHAT IS IN SIGHT NOW (the user, 7 Oct 2026, night: "nor is the fog of war interactive, it's just static": in his
     /// home waters everything was known from the start, so nothing ever lifted). Three states now, as in any game of
@@ -20,7 +21,10 @@ namespace Kapman.Game
     {
         public const double CellSize = 8000.0;                    // real metres per fog square
         public const double Sight = 30000.0;                      // real metres seen round the ship
-        public const double Home = 160000.0;                      // real metres known round home at the start
+        /// <summary>Real metres known round the port nearest her home on the first morning (round home itself she sees
+        /// as far as <see cref="Sight"/>). The user, 9 Oct 2026: "narrow the starting fog area, just Dorestead and the
+        /// closest port". It was 160 km round home.</summary>
+        public const double NearSight = 20000.0;
         /// <summary>
         /// THE UNKNOWN IS HIDDEN (the user, 9 Oct 2026: "Why are we doing such a subtle fog? Shouldn't it be you can't see
         /// anything you haven't been?"). The fog over what she has never seen is whole: nothing of the chart shows
@@ -203,6 +207,19 @@ namespace Kapman.Game
             if ((int)Json.Num(d, "cols") != cols || (int)Json.Num(d, "rows") != rows || cells.Length != seen.Length)
                 return;                                              // (another map: keep what's here)
             Array.Copy(cells, seen, seen.Length);
+            dirty = new RectInt(0, 0, cols, rows);
+            anyDirty = true;
+            Apply();
+        }
+
+        /// <summary>All is fog again, over the same land (a new game's people start somewhere else: what was lifted round
+        /// the first home is not theirs).</summary>
+        public static void Forget()
+        {
+            if (seen == null)
+                return;
+            Array.Clear(seen, 0, seen.Length);
+            sightOn = false;
             dirty = new RectInt(0, 0, cols, rows);
             anyDirty = true;
             Apply();

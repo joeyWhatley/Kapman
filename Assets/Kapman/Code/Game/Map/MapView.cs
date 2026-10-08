@@ -49,8 +49,10 @@ namespace Kapman.Game
         [Tooltip("On in the chart scene: the map is the game's screen. It is open from the start, follows the ship, takes no camera " +
                  "and holds no focus (the cards and the port's menu come up over it); a town's market docks beside it and gives way to the sea again.")]
         public bool chartMode;
-        [Tooltip("Real metres per pixel the chart shows the sea at in chart mode.")]
-        public float chartScale = 400f;
+        [Tooltip("Real metres per pixel the chart shows the sea at in chart mode. 120 since 9 Oct 2026 (the user: \"it needs to be more zoomed in " +
+                 "otherwise the map is overwhelming and cluttered\"; it was 400): one pixel of the painted chart to one of the screen, and the round she " +
+                 "sees, 60 km across, takes two thirds of the chart's height.")]
+        public float chartScale = 120f;
 
         public static MapView Current { get; private set; }
         /// <summary>True from opening till the camera is back behind the ship.</summary>
@@ -204,7 +206,26 @@ namespace Kapman.Game
         Button backButton;
         readonly Dictionary<MapTile, Image> images = new Dictionary<MapTile, Image>();
         readonly HashSet<MapTile> used = new HashSet<MapTile>();
-        readonly Dictionary<string, (VisualElement mark, Label name, Label note)> ports = new Dictionary<string, (VisualElement, Label, Label)>();
+        /// <summary>A mark on the chart: a dot where a place lies (a port; a water or landmark found), and its name, which
+        /// stands in the layer of names and shows only under the pointer.</summary>
+        sealed class ChartMark
+        {
+            public VisualElement mark, dot, words;
+            public Label name, note;
+            public bool over, shown;
+            public float leftAt = float.NegativeInfinity;             // when the pointer last left its dot (the clock on the wall)
+        }
+
+        readonly Dictionary<string, ChartMark> ports = new Dictionary<string, ChartMark>();
+        readonly Dictionary<string, ChartMark> finds = new Dictionary<string, ChartMark>();
+        readonly List<ChartMark> namesUp = new List<ChartMark>();
+        VisualElement findLayer, nameLayer;
+        int findsSeen = -1;
+
+        [Header("Names on the chart (9 Oct 2026)")]
+        [Tooltip("A place's name shows while the pointer is on its dot. Seconds it stays after the pointer has left, and seconds it then takes to fade.")]
+        public float nameLingerSeconds = 7f;
+        public float nameFadeSeconds = 0.8f;
         bool dragging;
         float centreFrac = 0.5f;                                     // where across the map its centre point is drawn
         Vector2 dragFrom;
@@ -371,6 +392,17 @@ namespace Kapman.Game
             layer.Add(paper);
             layer.Add(fog);
             layer.Add(overlays);
+            // THE NAMES lie over every mark and are never in the pointer's way (9 Oct 2026: a place is its dot; its
+            // name comes up beside it while the pointer is on the dot)
+            nameLayer = Layer("map-names");
+            layer.Add(nameLayer);
+            // (the marks of the old root went with it)
+            ports.Clear();
+            finds.Clear();
+            findsSeen = -1;
+            // the waters and landmarks found lie under the course, her own mark and the ports
+            findLayer = Layer("map-finds");
+            overlays.Add(findLayer);
             courseLine = new CourseLine(this) { pickingMode = PickingMode.Ignore };
             courseLine.style.position = Position.Absolute;
             courseLine.style.left = courseLine.style.top = courseLine.style.right = courseLine.style.bottom = 0;
@@ -489,6 +521,7 @@ namespace Kapman.Game
 
         void OnDisable()
         {
+            WatchPointer(null);
             UiFocus.Release(this);
             table?.Dispose();
             table = null;
@@ -1143,7 +1176,12 @@ namespace Kapman.Game
             drawWest = viewWest;
             drawNorth = viewNorth;
             courseLine.MarkDirtyRepaint();
+            pointedMark = PointedMark();
+            markNow = Time.realtimeSinceStartup;
+            markFree = Free();
+            Finds(viewWest, viewNorth, W, H);
             Ports(viewWest, viewNorth, W, H);
+            OneNameAtAPlace();
             SimShipMarks(viewWest, viewNorth, W, H);
             NotePins(viewWest, viewNorth, W, H);
             HuntLandmarks(viewWest, viewNorth, W, H);
@@ -1320,15 +1358,183 @@ namespace Kapman.Game
             Place(img, (cw - viewWest) / mpp, (viewNorth - cn) / mpp, (ce - cw) / mpp, (cn - cs) / mpp);
         }
 
+        // ------------------------------------------------------------------ the marks: a dot, and a name under the pointer
+
+        /// <summary>From a mark's corner to the middle of its dot: the mark is a box of 20 px for the pointer to rest on, the
+        /// dot of 10 px in its middle (MapView.uss, .map-mark).</summary>
+        const float MarkHalf = 10f;
+        /// <summary>From the middle of a dot to its name's near edge, and how far the name's top stands above it.</summary>
+        const float NameAside = 10f, NameAbove = 11f;
+
+        Vector2 pointerAt;
+        bool pointerOn;
+        IPanel watched;
+        VisualElement pointedMark;
+        float markNow;
+        Rect markFree;
+
+        void PanelMoved(PointerMoveEvent e)
+        {
+            pointerAt = e.position;
+            pointerOn = true;
+        }
+
+        void PanelLeft(PointerLeaveEvent e)
+        {
+            // (a leave is told to every element the pointer has left, down from the screen's root: only the root's own
+            // means that the pointer is off the game. Taken for any of them, the name never came up: the leave of
+            // the thing the pointer came from followed the move on to the dot.)
+            if (watched != null && e.target == watched.visualTree)
+                pointerOn = false;
+        }
+
+        /// <summary>The pointer is listened for on the whole screen (as the hover cards do), so that it is known where it
+        /// rests while the chart moves under it, and that it has gone when it is off the game.</summary>
+        void WatchPointer(IPanel panel)
+        {
+            if (ReferenceEquals(panel, watched))
+                return;
+            if (watched != null)
+            {
+                watched.visualTree.UnregisterCallback<PointerMoveEvent>(PanelMoved, TrickleDown.TrickleDown);
+                watched.visualTree.UnregisterCallback<PointerLeaveEvent>(PanelLeft, TrickleDown.TrickleDown);
+            }
+            watched = panel;
+            pointerOn = false;
+            if (watched != null)
+            {
+                watched.visualTree.RegisterCallback<PointerMoveEvent>(PanelMoved, TrickleDown.TrickleDown);
+                watched.visualTree.RegisterCallback<PointerLeaveEvent>(PanelLeft, TrickleDown.TrickleDown);
+            }
+        }
+
+        /// <summary>The mark the pointer rests on now (null: none; a window of the frame lies over it there; the chart is
+        /// being dragged; the pointer is off the game).</summary>
+        VisualElement PointedMark()
+        {
+            var panel = root != null ? root.panel : null;
+            WatchPointer(panel);
+            if (panel == null || !pointerOn || dragging)
+                return null;
+            for (var e = panel.Pick(pointerAt); e != null; e = e.hierarchy.parent)
+                if (e.ClassListContains("map-mark"))
+                    return e;
+            return null;
+        }
+
+        /// <summary>A new mark: its box and dot among the marks, its name (hidden) in the layer of names.</summary>
+        ChartMark NewMark(string id, string kind, string name, VisualElement into, EventCallback<ClickEvent> click)
+        {
+            var m = new ChartMark { mark = new VisualElement { pickingMode = PickingMode.Position, name = kind + "-" + id } };
+            m.mark.AddToClassList("map-mark");
+            m.mark.AddToClassList(kind);
+            m.mark.RegisterCallback(click);
+            m.dot = new VisualElement { pickingMode = PickingMode.Ignore };
+            m.dot.AddToClassList(kind + "-dot");
+            m.mark.Add(m.dot);
+            m.words = new VisualElement { pickingMode = PickingMode.Ignore, name = kind + "-name-" + id };
+            m.words.AddToClassList("map-name");
+            m.name = new Label(name) { pickingMode = PickingMode.Ignore };
+            m.name.AddToClassList("map-port-name");
+            m.note = new Label { pickingMode = PickingMode.Ignore };
+            m.note.AddToClassList("map-port-note");
+            m.note.style.display = DisplayStyle.None;
+            m.words.Add(m.name);
+            m.words.Add(m.note);
+            m.words.style.display = DisplayStyle.None;
+            into.Add(m.mark);
+            nameLayer.Add(m.words);
+            return m;
+        }
+
+        static void SetNote(ChartMark m, string note)
+        {
+            if (m.note.text == note)
+                return;
+            m.note.text = note;
+            m.note.style.display = note.Length > 0 ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        /// <summary>The mark is off the chart or gone: so is its name.</summary>
+        static void NameAway(ChartMark m)
+        {
+            m.over = false;
+            m.leftAt = float.NegativeInfinity;
+            if (m.shown)
+            {
+                m.shown = false;
+                m.words.style.display = DisplayStyle.None;
+            }
+        }
+
+        /// <summary>
+        /// A PLACE'S NAME SHOWS ONLY UNDER THE POINTER (the user, 9 Oct 2026: "hide the name of somewhere unless you're
+        /// hovering over the dot and let it linger for a few seconds when the mouse is removed say 7 seconds then it
+        /// fades away again to just a dot"). On the chart a place is its dot. With the pointer on the dot its name
+        /// stands beside it; when the pointer leaves, the name stays <see cref="nameLingerSeconds"/> and then fades
+        /// over <see cref="nameFadeSeconds"/>, by the clock on the wall (so it goes while the game is paused too). The
+        /// name stands right of the dot, or left of it where the chart's edge would cut it. True while it shows.
+        /// </summary>
+        bool NameUnderPointer(ChartMark m, float px, float py)
+        {
+            bool over = pointedMark == m.mark;
+            if (over && !m.over)
+                m.words.BringToFront();                                   // (over the names that linger near it)
+            if (!over && m.over)
+                m.leftAt = markNow;
+            m.over = over;
+            float gone = markNow - m.leftAt - nameLingerSeconds;
+            float alpha = over || gone <= 0f ? 1f : Mathf.Clamp01(1f - gone / Mathf.Max(0.01f, nameFadeSeconds));
+            bool shown = alpha > 0.004f;
+            if (shown != m.shown)
+            {
+                m.shown = shown;
+                m.words.style.display = shown ? DisplayStyle.Flex : DisplayStyle.None;
+            }
+            if (!shown)
+                return false;
+            float w = m.words.resolvedStyle.width;
+            bool laid = !float.IsNaN(w) && w > 1f;
+            bool left = laid && px + NameAside + w > markFree.xMax - 2f && px - NameAside - w > markFree.xMin;
+            m.words.style.left = left ? px - NameAside - w : px + NameAside;
+            m.words.style.top = py - NameAbove;
+            m.words.style.opacity = laid ? alpha : 0f;                    // (not before it is measured: it may have to stand on the other side)
+            namesUp.Add(m);
+            return true;
+        }
+
+        /// <summary>The name under the pointer is read alone: a name still lingering where it stands goes at once.</summary>
+        void OneNameAtAPlace()
+        {
+            ChartMark top = null;
+            foreach (var m in namesUp)
+                if (m.over)
+                    top = m;
+            if (top != null)
+            {
+                var mine = top.words.worldBound;
+                if (!float.IsNaN(mine.width) && mine.width > 1f)
+                    foreach (var m in namesUp)
+                        if (m != top && m.words.worldBound.Overlaps(mine))
+                            m.leftAt = float.NegativeInfinity;
+            }
+            namesUp.Clear();
+        }
+
+        /// <summary>A test's eyes: is this place's name up now (a port's id, or a water's or landmark's), and how strongly
+        /// (0: it is only its dot).</summary>
+        public float NameShown(string id)
+        {
+            var m = ports.TryGetValue(id, out var p) ? p : finds.TryGetValue(id, out var f) ? f : null;
+            return m == null || !m.shown ? 0f : m.words.resolvedStyle.opacity;
+        }
+
         void Ports(double viewWest, double viewNorth, float W, float H)
         {
             var game = KapmanGame.Current;
             int year = game != null ? game.Year : 793;
             string picked = MarketPanel.Current != null ? MarketPanel.Current.Picked : null;
             var good = GameData.Good(picked);
-            named.Clear();
-            string lyingAt = Port.LyingId(), boundFor = Course.IsSet ? Course.Destination : null;
-            string homeAt = ChartWorld.Current != null ? ChartWorld.Current.homePort : null;
             foreach (var def in GameData.Ports)
             {
                 if (!def.Exists(year))
@@ -1336,21 +1542,14 @@ namespace Kapman.Game
                 var (x, z) = WorldFrame.ToWorld(def.lat, def.lon);
                 double px = (x - viewWest) / mpp, py = (viewNorth - z) / mpp;
                 bool known = Exploration.Seen(x, z) > 0.35f;
-                bool heardOf = !known && Known.IsHeardOf(def);              // (heard of, never seen: faded through the fog)
+                bool heardOf = !known && Known.IsHeardOf(def);              // (heard of, never seen: a hollow dot in the dark)
                 bool show = (known || heardOf) && px > -200 && px < W + 200 && py > -60 && py < H + 60;
-                if (show)
-                    // (whose name is written first where two would lie over one another: where she lies or is bound,
-                    // home, the ports she has seen, the ports only heard of; then as the table has them)
-                    named.Add((def.id, (float)px, (float)py,
-                               def.id == lyingAt || def.id == boundFor || def.id == cardPort ? 0 : def.id == homeAt ? 1 : known ? 2 : 3, named.Count));
                 if (!ports.TryGetValue(def.id, out var p))
                 {
                     if (!show)
                         continue;
-                    var mark = new VisualElement { pickingMode = PickingMode.Position };   // click: the port's card
-                    mark.AddToClassList("map-port");
                     string portId = def.id;
-                    mark.RegisterCallback<ClickEvent>(e =>
+                    p = NewMark(def.id, "map-port", def.name, overlays, e =>   // click: the port's card
                     {
                         if (Framed)
                             PortClicked?.Invoke(portId);                   // (the frame's Voyage window takes it, or its measure)
@@ -1358,30 +1557,25 @@ namespace Kapman.Game
                             OpenPortCard(portId);
                         e.StopPropagation();
                     });
-                    var dot = new VisualElement { pickingMode = PickingMode.Ignore };
-                    dot.AddToClassList("map-port-dot");
-                    var name = new Label(def.name) { pickingMode = PickingMode.Ignore };
-                    name.AddToClassList("map-port-name");
-                    var noteLabel = new Label { pickingMode = PickingMode.Ignore };
-                    noteLabel.AddToClassList("map-port-note");
-                    mark.Add(dot);
-                    var words = new VisualElement { pickingMode = PickingMode.Ignore };
-                    words.Add(name);
-                    words.Add(noteLabel);
-                    mark.Add(words);
-                    overlays.Add(mark);
-                    p = (mark, name, noteLabel);
                     ports[def.id] = p;
                 }
                 p.mark.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
                 if (!show)
+                {
+                    NameAway(p);
                     continue;
-                p.mark.style.left = (float)px - 5f;
-                p.mark.style.top = (float)py - 5f;
-                p.mark.EnableInClassList("here", town != null && town.id == def.id);
+                }
+                p.mark.style.left = (float)px - MarkHalf;
+                p.mark.style.top = (float)py - MarkHalf;
+                bool here = town != null && town.id == def.id;
+                p.mark.EnableInClassList("here", here);
+                p.words.EnableInClassList("here", here);
                 p.mark.EnableInClassList("heard", heardOf);
-                ModePaint(def, p.name);                                   // (the chart's other readings: MapView.Modes.cs)
-                // the good picked in the market: where it's made and wanted, and what it fetched where seen
+                ModePaint(def, p.name, p.dot);                            // (the chart's other readings: MapView.Modes.cs)
+                if (!NameUnderPointer(p, (float)px, (float)py))
+                    continue;
+                // under the name: the good picked in the market (where it is made and wanted, and what it fetched where
+                // seen); or that the place is only heard of. PLACEHOLDER WORDS, the user's to write.
                 string note = "";
                 if (good != null)
                 {
@@ -1397,74 +1591,77 @@ namespace Kapman.Game
                                 break;
                             }
                 }
-                p.note.text = note;
-                p.note.style.display = note.Length > 0 ? DisplayStyle.Flex : DisplayStyle.None;
+                if (note.Length == 0 && heardOf)
+                    note = HeardOfWords;
+                SetNote(p, note);
             }
-            NameWhatFits();
             ModeKeyUpdate();
         }
 
-        readonly List<(string id, float x, float y, int rank, int order)> named = new List<(string, float, float, int, int)>();
-        readonly List<Rect> slips = new List<Rect>();
-        readonly Dictionary<string, Vector2> slipSize = new Dictionary<string, Vector2>();
+        /// <summary>Under the name of a port she has heard of and never seen. PLACEHOLDER WORDS.</summary>
+        public const string HeardOfWords = "heard of, not seen";
 
         /// <summary>
-        /// THE PORTS' NAMES, NONE OVER ANOTHER (9 Oct 2026: far out they lay in a heap nobody could read). Every port
-        /// that shows keeps its dot. Its name is written if its slip is clear of the slips already written and of the
-        /// other ports' dots: first where she lies and where she is bound, then home (these three whatever dots are
-        /// near), then the ports she has seen, then those only heard of. A port left without its name says it when the
-        /// pointer rests on its dot.
+        /// THE WATERS AND LANDMARKS SHE HAS FOUND (Discoveries; the user, 9 Oct 2026): each a small mark where it lies,
+        /// its shape by its kind (a water or a river a pale bar, an island, a headland or a shoal a diamond, a thing
+        /// built a square), its name and its kind under the pointer as a port's name is. A click says in the log again
+        /// what it is. What is not found has no mark: there is nothing to see of it.
         /// </summary>
-        void NameWhatFits()
+        void Finds(double viewWest, double viewNorth, float W, float H)
         {
-            // (the same order every frame, so no two names take turns: by their rank, then as the table has the ports)
-            named.Sort((a, b) => a.rank != b.rank ? a.rank.CompareTo(b.rank) : a.order.CompareTo(b.order));
-            slips.Clear();
-            foreach (var n in named)
-                slips.Add(new Rect(n.x - 6f, n.y - 6f, 12f, 12f));          // (every dot's own place is taken)
-            int dots = slips.Count;
-            for (int i = 0; i < named.Count; i++)
+            if (findLayer == null)
+                return;
+            if (findsSeen != Discoveries.Version)
             {
-                var n = named[i];
-                var p = ports[n.id];
-                var words = p.name.parent;
-                // the slip's size, as it was last laid out (while it is hidden it is not measured: guessed by its letters)
-                float w = p.name.resolvedStyle.width, h = p.name.resolvedStyle.height;
-                if (words.resolvedStyle.display != DisplayStyle.None && !float.IsNaN(w) && w > 6f && !float.IsNaN(h) && h > 6f)
-                    slipSize[n.id] = new Vector2(w, h);
-                else if (slipSize.TryGetValue(n.id, out var kept))
+                // (a new game, or a saved one loaded: the marks of what is no longer found go)
+                findsSeen = Discoveries.Version;
+                List<string> gone = null;
+                foreach (var kv in finds)
+                    if (!Discoveries.IsFound(kv.Key) || Discoveries.Book.Get(kv.Key) == null)
+                    {
+                        kv.Value.mark.RemoveFromHierarchy();
+                        kv.Value.words.RemoveFromHierarchy();
+                        (gone ??= new List<string>()).Add(kv.Key);
+                    }
+                if (gone != null)
+                    foreach (string id in gone)
+                        finds.Remove(id);
+            }
+            var book = Discoveries.Book;
+            var found = Discoveries.FoundIds;
+            for (int i = 0; i < found.Count; i++)
+            {
+                var d = book.Get(found[i]);
+                if (d == null)
+                    continue;
+                double px = (d.x - viewWest) / mpp, py = (viewNorth - d.z) / mpp;
+                bool show = px > -200 && px < W + 200 && py > -60 && py < H + 60;
+                if (!finds.TryGetValue(d.id, out var m))
                 {
-                    w = kept.x;
-                    h = kept.y;
+                    if (!show)
+                        continue;
+                    var thing = d;
+                    m = NewMark(d.id, "map-find", d.name, findLayer, e =>
+                    {
+                        if (tool == Tool.None)
+                            Voyage.Say($"{thing.name}. {thing.note}".Trim());
+                        e.StopPropagation();
+                    });
+                    m.mark.AddToClassList("find-" + d.kind);
+                    SetNote(m, d.kindName);
+                    finds[d.id] = m;
                 }
-                else
+                m.mark.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
+                if (!show)
                 {
-                    w = 16f + 9.5f * p.name.text.Length;
-                    h = 24f;
+                    NameAway(m);
+                    continue;
                 }
-                // (the slip stands right of the dot and a little above it: MapView.uss .map-port-name)
-                var slip = new Rect(n.x + 9f, n.y - 12f, w + 2f, h + 1f);
-                bool clear = true;
-                // (where she lies, where she is bound and home are named whatever dots lie under their slips: far out
-                // the Rhine's mouths are a dozen dots in a thumb's breadth, and hers is the one name wanted there)
-                for (int k = n.rank <= 1 ? dots : 0; k < slips.Count && clear; k++)
-                    clear = (k < dots && k == i) || !slips[k].Overlaps(slip);
-                words.style.display = clear ? DisplayStyle.Flex : DisplayStyle.None;
-                p.mark.tooltip = clear ? null : p.name.text;
-                if (clear)
-                    slips.Add(slip);
-                // (a name written whatever dots are near lies over them, not under: its mark is drawn last)
-                if (n.rank <= 1 && clear)
-                {
-                    if (fronted.Add(n.id))
-                        p.mark.BringToFront();
-                }
-                else
-                    fronted.Remove(n.id);
+                m.mark.style.left = (float)px - MarkHalf;
+                m.mark.style.top = (float)py - MarkHalf;
+                NameUnderPointer(m, (float)px, (float)py);
             }
         }
-
-        readonly HashSet<string> fronted = new HashSet<string>();
 
         /// <summary>
         /// The world's other ships (the simulation): those within sight of yours (or all, with [G]), each a small hull turned
@@ -1681,7 +1878,7 @@ namespace Kapman.Game
             if (e.button != 0 && !(tool != Tool.None && e.button == 1))
                 return;                                                    // (with a tool in hand, the right button moves the map)
             var on = e.target as VisualElement;
-            bool onMark = on != null && (on.ClassListContains("map-port") || on.ClassListContains("map-sim-ship") || on.ClassListContains("map-note-pin"));
+            bool onMark = on != null && (on.ClassListContains("map-mark") || on.ClassListContains("map-sim-ship") || on.ClassListContains("map-note-pin"));
             if (onMark && e.button == 0 && tool == Tool.None)
             {
                 // 7 Oct 2026: a press on a mark with a click of its own (a port, a ship, a pin) is the mark's: the chart

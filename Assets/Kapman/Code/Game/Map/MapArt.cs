@@ -446,12 +446,22 @@ namespace Kapman.Game
             {
                 foreach (var t in shared.tiles.Values)
                     if (t.tex != null)
-                        UnityEngine.Object.Destroy(t.tex);
+                        Drop(t.tex);
                 if (shared.Overview != null)
-                    UnityEngine.Object.Destroy(shared.Overview);
+                    Drop(shared.Overview);
             }
             shared = null;
             looked = false;
+        }
+
+        /// <summary>A picture given up, in play or out of it (9 Oct 2026: a test that looked at the chart outside play left
+        /// its overview to be destroyed by the next new game, which outside play is an error).</summary>
+        static void Drop(Texture2D tex)
+        {
+            if (Application.isPlaying)
+                UnityEngine.Object.Destroy(tex);
+            else
+                UnityEngine.Object.DestroyImmediate(tex);
         }
     }
 }

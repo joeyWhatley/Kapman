@@ -58,10 +58,66 @@
     background-size: 768px 768px;
 }
 
-.map-port {
+/* A MARK ON THE CHART (the user, 9 Oct 2026: a place is just its dot). The mark is a box of 20 px that the pointer can
+   rest on (a dot of 10 px alone is hard to hit), with the dot in its middle. Its name is not in it: the name stands in
+   the layer of names (.map-name), and only while the pointer is on the dot and a few seconds after
+   (MapView.NameUnderPointer). MapView.MarkHalf is half this box. */
+.map-mark {
     position: absolute;
-    flex-direction: row;
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.map-names, .map-finds {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+.map-name {
+    position: absolute;
+    flex-direction: column;
     align-items: flex-start;
+}
+.map-name .map-port-name {
+    margin-left: 0;
+    margin-top: 0;
+}
+.map-name .map-port-note {
+    margin-left: 0;
+    margin-top: 1px;
+    color: rgb(46, 18, 51);
+}
+.map-name.here .map-port-name {
+    font-size: var(--t-body);
+}
+
+/* a water or landmark found: its shape by its kind. A thing built (a light, a wall, a church): a square. */
+.map-find-dot {
+    width: 10px;
+    height: 10px;
+    background-color: rgb(203, 213, 189);
+    border-width: 2px;
+    border-color: rgb(46, 18, 51);
+}
+/* land that the sea shows her (an island, a headland, a shore, a shoal): a diamond */
+.map-find.find-island .map-find-dot,
+.map-find.find-headland .map-find-dot,
+.map-find.find-shore .map-find-dot,
+.map-find.find-bank .map-find-dot {
+    rotate: 45deg;
+    width: 9px;
+    height: 9px;
+}
+/* a water or a river: a pale bar, lying flat */
+.map-find.find-water .map-find-dot,
+.map-find.find-river .map-find-dot {
+    width: 12px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: rgb(236, 208, 230);
 }
 
 .map-port-dot {
@@ -97,13 +153,10 @@
     font-size: var(--t-body);
 }
 
-/* a port only heard of: faded, its dot hollow */
-.map-port.heard {
-    opacity: 0.55;
-}
-
+/* heard of and never seen: a hollow dot, quieter than the ports she knows (its name, under the pointer, is whole) */
 .map-port.heard .map-port-dot {
     background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(236, 235, 230, 0.6);
 }
 
 .map-port-note {

@@ -117,10 +117,9 @@ namespace Kapman.Game
             game.ship.Teleport(FloatingOrigin.ToUnity(new WorldPos(x, 0.0, z)), 270f);
             game.ship.anchored = true;
             riverX = double.NaN;
-            // (her own home waters are known to her, as Dorestat's are to a Frisian: without this a Dane began at Ripa
-            // with the chart open round Dorestat and fog over her own coast)
-            if (Exploration.Ready)
-                Exploration.Reveal(x, z, Exploration.Home);
+            // (her own home is what she knows, and the port nearest it: not Dorestat's, which a Frisian's game would
+            // have lifted the fog round before the people were chosen)
+            KapmanGame.KnowStart(home);
             Known.HearOf(home);
             var cards = EncounterRunner.Director;
             if (cards != null)

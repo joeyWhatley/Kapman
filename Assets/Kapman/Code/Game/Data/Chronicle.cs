@@ -70,6 +70,7 @@ namespace Kapman.Game
         static int next;                                             // the first entry not yet happened
         static readonly Dictionary<string, string> kinds = new Dictionary<string, string>();
         static readonly Dictionary<string, ChronicleEntry> byId = new Dictionary<string, ChronicleEntry>();
+        static readonly Dictionary<string, string[]> newsLandsAt = new Dictionary<string, string[]>(StringComparer.Ordinal);   // region -> ports
 
         public static IReadOnlyList<ChronicleEntry> Entries => entries;
         /// <summary>An entry by its id (null when the table has none such).</summary>
@@ -87,10 +88,14 @@ namespace Kapman.Game
             entries.Clear();
             kinds.Clear();
             byId.Clear();
+            newsLandsAt.Clear();
             next = 0;
             if (json == null)
                 return;
             var root = Json.Parse(json.text);
+            foreach (var kv in Json.Obj(root, "news_lands_at") ?? new Dictionary<string, object>())
+                if (kv.Value is List<object> landsAt)
+                    newsLandsAt[kv.Key] = Strings(landsAt);
             foreach (var kv in Json.Obj(root, "kinds") ?? new Dictionary<string, object>())
                 kinds[kv.Key] = kv.Value as string ?? "";
             foreach (var o in Json.Arr(root, "entries") ?? new List<object>())
@@ -178,6 +183,30 @@ namespace Kapman.Game
                 if (e.Key > k0 && e.Key <= k)
                     list.Add(e);
             return list;
+        }
+
+        /// <summary>
+        /// WHERE THE NEWS OF A LAND WITH NO PORT COMES ASHORE (9 Oct 2026; the user: "have we got the Iceland settlement
+        /// event? And Greenland / Vinland?"). An entry is told at the ports it names, or at every port of its regions
+        /// (Shocks.PortsOf). Iceland and Greenland have no port in the game, so the Althing, Erik the Red's Greenland and
+        /// Leif's Vinland were told nowhere: they were in the table and nobody could ever hear of them. The table's
+        /// "news_lands_at" names, for such a region, the ports its ships go to; the news is told there and spreads with
+        /// the ships as any news does. Not the kind "evidence": that is a date from the ground, not something anyone said.
+        /// </summary>
+        public static List<PortDef> NewsLandsAt(ChronicleEntry e, int year)
+        {
+            var at = new List<PortDef>();
+            if (e == null || e.kind == "evidence")
+                return at;
+            foreach (string region in e.regions)
+                if (newsLandsAt.TryGetValue(region, out var ids))
+                    foreach (string id in ids)
+                    {
+                        var p = GameData.Port(id);
+                        if (p != null && p.Exists(year) && !at.Contains(p))
+                            at.Add(p);
+                    }
+            return at;
         }
 
         /// <summary>Tells an entry again (the graphs make it bite): for the recent past at the start.</summary>

@@ -671,14 +671,14 @@ namespace Kapman.Tests
                 for (int tries = 0; tries < 8; tries++)
                 {
                     one = other = null;
-                    play.Screen.Query<VisualElement>(className: "map-port").ForEach(m =>
-                    {
-                        string named = m.Q<Label>()?.text ?? "";
-                        if (named == nameA && play.Reachable(m))
-                            one = m;
-                        if (named == nameB && play.Reachable(m))
-                            other = m;
-                    });
+                    // (a place on the chart is its dot since 9 Oct 2026, its name shown only under the pointer: the marks
+                    // are found by the ports they are of)
+                    var markA = play.Screen.Q<VisualElement>("map-port-dorestad");
+                    var markB = play.Screen.Q<VisualElement>("map-port-witla");
+                    if (markA != null && play.Reachable(markA))
+                        one = markA;
+                    if (markB != null && play.Reachable(markB))
+                        other = markB;
                     if (one != null && other != null)
                         break;
                     play.WheelAt(new Vector2(1100f, 520f), 3f);
@@ -705,7 +705,7 @@ namespace Kapman.Tests
                         bool free = false;
                         foreach (var off in new[] { new Vector2(0f, 24f), new Vector2(0f, -24f), new Vector2(-26f, 0f), new Vector2(-26f, 26f), new Vector2(0f, 40f) })
                         {
-                            at = mark.worldBound.position + new Vector2(5f, 5f) + off;
+                            at = mark.worldBound.center + off;
                             var hit = play.Panel.Pick(at);
                             free = hit != null && !hit.ClassListContains("map-port") && hit.GetFirstAncestorOfType<Button>() == null;
                             for (var e = hit; e != null && free; e = e.hierarchy.parent)

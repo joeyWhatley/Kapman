@@ -264,7 +264,83 @@ namespace Kapman.Game
 
         float nextReveal;
 
-        /// <summary>The fog of war: made once the world's bounds are known (the world bake), home known, then lifted round the ship.</summary>
+        /// <summary>
+        /// WHAT SHE KNOWS OF THE CHART ON THE FIRST MORNING (the user, 9 Oct 2026: "narrow the starting fog area, just
+        /// Dorestead and the closest port"): her home port, as far as she sees from it, and the port nearest it by
+        /// water. Everything else is fog. (It was 160 km round home: the whole Rhine delta, the Almere and the Frisian
+        /// coast.) The waters and landmarks that lie inside what she knows are known to her too, and nothing is said of
+        /// them (Discoveries). Called again when a new game's people start at another port: what was lifted round the
+        /// first one is put back.
+        /// </summary>
+        public static void KnowStart(PortDef home)
+        {
+            if (home == null || !Exploration.Ready)
+                return;
+            var game = Current;
+            int year = game != null ? game.Year : 793;
+            Exploration.Forget();
+            Discoveries.Forget();
+            var (hx, hz) = Kapman.World.WorldFrame.ToWorld(home.lat, home.lon);
+            Exploration.Reveal(hx, hz, Exploration.Sight);
+            var near = NearestPort(home, year);
+            if (near != null)
+            {
+                var (nx, nz) = Kapman.World.WorldFrame.ToWorld(near.lat, near.lon);
+                Exploration.Reveal(nx, nz, Exploration.NearSight);
+            }
+            Exploration.Apply();
+            Discoveries.KnowAtStart(year, new Kapman.Game.Sim.WorldXZ(hx, hz));
+            StartKnows = (home.id, near != null ? near.id : "");
+            Debug.Log($"Kapman: on the first morning she knows {home.name}" + (near != null ? $" and {near.name}, the port nearest it" : "") +
+                      $", and {Discoveries.Count} of the {Discoveries.Total(year)} waters and landmarks.");
+        }
+
+        /// <summary>The two ports the first morning's chart was opened round (KnowStart): home, and the nearest to it.</summary>
+        public static (string home, string near) StartKnows { get; private set; } = ("", "");
+
+        /// <summary>The port nearest another by water (of the six nearest as the crow flies; where no way can be
+        /// reckoned, the nearest as the crow flies). Null if there is no other.</summary>
+        public static PortDef NearestPort(PortDef home, int year)
+        {
+            if (home == null)
+                return null;
+            var (hx, hz) = Kapman.World.WorldFrame.ToWorld(home.lat, home.lon);
+            var from = new Kapman.Game.Sim.WorldXZ(hx, hz);
+            var near = new List<(double m, PortDef port)>();
+            foreach (var def in GameData.Ports)
+            {
+                if (def.id == home.id || !def.Exists(year))
+                    continue;
+                var (x, z) = Kapman.World.WorldFrame.ToWorld(def.lat, def.lon);
+                near.Add((Kapman.Game.Sim.WorldXZ.Distance(from, new Kapman.Game.Sim.WorldXZ(x, z)), def));
+            }
+            near.Sort((a, b) => a.m != b.m ? a.m.CompareTo(b.m) : string.CompareOrdinal(a.port.id, b.port.id));
+            PortDef best = null;
+            double bestKm = double.MaxValue;
+            var line = new List<Kapman.Game.Sim.WorldXZ>();
+            for (int i = 0; i < near.Count && i < 6; i++)
+            {
+                bool way;
+                double km;
+                try
+                {
+                    way = Course.Plan(near[i].port.id, from, home.id, line, out km);
+                }
+                catch (Exception)
+                {
+                    way = false;                                           // (no lanes to reckon by: as the crow flies, below)
+                    km = 0.0;
+                }
+                if (way && km < bestKm)
+                {
+                    best = near[i].port;
+                    bestKm = km;
+                }
+            }
+            return best ?? (near.Count > 0 ? near[0].port : null);
+        }
+
+        /// <summary>The fog of war: made once the world's bounds are known (the world bake), the first morning's part of it lifted (KnowStart), then lifted round the ship.</summary>
         void Explore()
         {
             if (!Exploration.Ready)
@@ -276,13 +352,8 @@ namespace Kapman.Game
                     return;
                 var b = land.Bounds;
                 Exploration.Begin(b.west, b.north, b.east, b.south);
-                // the merchant's home waters: Dorestad and the Frisian coast are known from the start
-                var home = GameData.Port("dorestad");
-                if (home != null)
-                {
-                    var (x, z) = Kapman.World.WorldFrame.ToWorld(home.lat, home.lon);
-                    Exploration.Reveal(x, z, Exploration.Home);
-                }
+                var chart = ChartWorld.Current;
+                KnowStart(GameData.Port(chart != null && !string.IsNullOrEmpty(chart.homePort) ? chart.homePort : "dorestad") ?? GameData.Port("dorestad"));
             }
             if (ship != null && Time.unscaledTime >= nextReveal)
             {
@@ -465,7 +536,10 @@ namespace Kapman.Game
                 double ago = (today.year * 365.0 + today.year / 4 + today.dayOfYear) - (e.year * 365.0 + e.year / 4 + doy);
                 happened = now - Math.Max(0.0, ago);
             }
-            World.PostAt(e.kind, e.title.TrimEnd('.') + ".", at.ConvertAll(p => p.index), happened, e.id);
+            // (a land with no port in the game, as Iceland and Greenland: its news comes ashore where its ships go, or
+            // nobody would ever hear of it. Only the news: the markets there feel nothing of it, below.)
+            var told = at.Count > 0 ? at : Chronicle.NewsLandsAt(e, Year);
+            World.PostAt(e.kind, e.title.TrimEnd('.') + ".", told.ConvertAll(p => p.index), happened, e.id);
             // the markets feel it: stock lost, prices up, a raided market shut (shocks_793.json)
             Shocks.Apply(e, at.ConvertAll(p => World.MarketAt(p.index)), happened, now);
             if (e.kind != "raid" && e.kind != "burning")
@@ -735,6 +809,9 @@ namespace Kapman.Game
                 // (each game minute: what is in sight goes with her; it was looked for every half hour)
                 var w = Kapman.World.FloatingOrigin.ToWorld(ship.transform.position);
                 Exploration.See(w.x, w.z, Exploration.Sight);
+                // (and the waters and landmarks she has come to are found: the log says each, once)
+                foreach (var found in Discoveries.Step(new Kapman.Game.Sim.WorldXZ(w.x, w.z), Day, Year))
+                    Voyage.Say(Discoveries.Line(found));
             }
             ClockDrops.Step(minute);
             StepSeconds = 0.0;
