@@ -11,8 +11,8 @@
    "wants": "good_name",
    "cooldown_days": 300,
    "actors": {
-    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": true, "note": "Radbern, invented" },
-    "daughter": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg, invented" }
+    "partner": { "cast": "named.chain_wine_fleet.radbern", "name": "Radbern", "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": true, "note": "Radbern, invented" },
+    "daughter": { "cast": "named.chain_wine_fleet.aldburg", "name": "Aldburg", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg, invented" }
    },
    "title_key": "chain_wine_fleet.s01.title",
    "title": "A second keel",
@@ -55,7 +55,7 @@
    "cooldown_days": 30,
    "actors": {
     "tollman": { "role": "tollman", "people": "port", "faith": "port", "tongue": "port", "age": [30, 60], "fixed": true, "note": "a man of Abbot Gervold's (to 806)" },
-    "english": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic, invented" },
+    "english": { "cast": "named.chain_wine_fleet.leofstan", "name": "Leofstan", "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic, invented" },
     "pilot": { "role": "pilot", "people": "port", "faith": "port", "tongue": "port", "age": [35, 60], "fixed": true, "note": "a river man of the Seine, unnamed" }
    },
    "title_key": "chain_wine_fleet.s02.title",
@@ -104,7 +104,7 @@
    "actors": {
     "countsman": { "role": "lords_man", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [25, 45], "fixed": false, "note": "a man of Count Stephen of Paris, invented" },
     "tollman": { "role": "tollman", "people": "port", "faith": "port", "tongue": "port", "age": [30, 60], "fixed": true, "note": "the abbey's toll man for the weeks of the fair" },
-    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern" }
+    "partner": { "cast": "named.chain_wine_fleet.radbern", "name": "Radbern", "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern" }
    },
    "title_key": "chain_wine_fleet.s03.title",
    "title": "Saint Denis's Mass",
@@ -153,8 +153,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "cellarer": { "role": "cellarer", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Brother Waldric, invented" },
-    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern" }
+    "cellarer": { "cast": "parisius.waldric", "name": "Waldric", "role": "cellarer", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Brother Waldric, invented", "cast_from": 793, "cast_to": 815 },
+    "partner": { "cast": "named.chain_wine_fleet.radbern", "name": "Radbern", "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern" }
    },
    "title_key": "chain_wine_fleet.s04.title",
    "title": "The cellarer's wine",
@@ -201,8 +201,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern" },
-    "english": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic" },
+    "partner": { "cast": "named.chain_wine_fleet.radbern", "name": "Radbern", "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern" },
+    "english": { "cast": "named.chain_wine_fleet.leofstan", "name": "Leofstan", "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic" },
     "monk": { "role": "guest_master", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [35, 60], "fixed": true, "note": "the brother who keeps the hospice at the gate, unnamed" }
    },
    "title_key": "chain_wine_fleet.s05.title",
@@ -248,7 +248,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "cooper": { "role": "craftsman", "people": "romance", "faith": "christian", "tongue": "romance", "age": [28, 50], "fixed": false, "note": "Ursio the cooper, invented" }
+    "cooper": { "cast": "rotomagus.ursio", "name": "Ursio", "role": "craftsman", "people": "romance", "faith": "christian", "tongue": "romance", "age": [28, 50], "fixed": false, "note": "Ursio the cooper, invented", "cast_from": 793, "cast_to": 818 }
    },
    "title_key": "chain_wine_fleet.s06.title",
    "title": "The cooper under the wall",
@@ -429,8 +429,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "daughter": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg" },
-    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": true, "note": "Radbern; his lines only if he lives" }
+    "daughter": { "cast": "named.chain_wine_fleet.aldburg", "name": "Aldburg", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg" },
+    "partner": { "cast": "named.chain_wine_fleet.radbern", "name": "Radbern", "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": true, "note": "Radbern; his lines only if he lives" }
    },
    "title_key": "chain_wine_fleet.s10.title",
    "title": "The two halves of the tally",
@@ -476,9 +476,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "cellarer": { "role": "cellarer", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Brother Waldric" },
-    "english": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic" },
-    "daughter": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg, come up with her father's ship" }
+    "cellarer": { "cast": "parisius.waldric", "name": "Waldric", "role": "cellarer", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Brother Waldric", "cast_from": 793, "cast_to": 815 },
+    "english": { "cast": "named.chain_wine_fleet.leofstan", "name": "Leofstan", "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic" },
+    "daughter": { "cast": "named.chain_wine_fleet.aldburg", "name": "Aldburg", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg, come up with her father's ship" }
    },
    "title_key": "chain_wine_fleet.s11.title",
    "title": "The next October",
@@ -521,9 +521,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "daughter": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg" },
-    "partner": { "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern; his lines only if he lives" },
-    "abbot": { "role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [45, 65], "fixed": true, "note": "Fardulf, historical, abbot 793 to 806; a Lombard" }
+    "daughter": { "cast": "named.chain_wine_fleet.aldburg", "name": "Aldburg", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "f", "age": [24, 32], "fixed": false, "note": "Aldburg" },
+    "partner": { "cast": "named.chain_wine_fleet.radbern", "name": "Radbern", "role": "owner", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [50, 62], "fixed": false, "note": "Radbern; his lines only if he lives" },
+    "abbot": { "cast": "parisius.fardulf", "name": "Fardulf", "role": "abbot", "people": "romance", "faith": "christian", "tongue": "old_frankish", "age": [45, 65], "fixed": true, "note": "Fardulf, historical, abbot 793 to 806; a Lombard", "cast_from": 793, "cast_to": 806 }
    },
    "title_key": "chain_wine_fleet.end_fellowship.title",
    "title": "Hands on the strand",
@@ -569,7 +569,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 60], "fixed": true, "note": "cast.wighelm" },
+    "reeve": { "cast": "lundenwic.wighelm", "name": "Wighelm", "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 60], "fixed": true, "note": "cast.wighelm", "cast_from": 793, "cast_to": 810 },
     "clerk": { "role": "clerk", "people": "english", "faith": "christian", "tongue": "old_english", "age": [20, 40], "fixed": false, "note": "a clerk of Saint Paul's who reads the abbot's letter aloud, unnamed" }
    },
    "title_key": "chain_wine_fleet.end_abbey.title",
@@ -614,7 +614,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "english": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic" },
+    "english": { "cast": "named.chain_wine_fleet.leofstan", "name": "Leofstan", "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Leofstan of Hamwic" },
     "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 50], "fixed": false, "note": "the man who steers Radbern's ship for Aldburg, unnamed" }
    },
    "title_key": "chain_wine_fleet.end_own.title",

@@ -48,9 +48,17 @@ namespace Kapman.Game.Frame
         /// "" where there is no such picture (the plain shape stands).</summary>
         public static string OfSpeaker(string id, string role)
         {
-            string own = !string.IsNullOrEmpty(id) && id.StartsWith("cast.", System.StringComparison.Ordinal) ? Person(id) : "";
-            if (own.Length > 0 && Load(own) != null)
-                return own;
+            // (a named person: their own portrait; one of the places who is of the story's cast had theirs issued
+            // under the cast's id)
+            if (Kapman.Encounters.NpcRegistry.IsCast(id))
+            {
+                string own = Person(id);
+                if (Load(own) != null)
+                    return own;
+                string same = PlaceBook.Current.Person(id)?.same ?? "";
+                if (same.Length > 0 && Load(Person(same)) != null)
+                    return Person(same);
+            }
             string trade = string.IsNullOrEmpty(role) ? "" : $"portrait/role.{role}.png";
             return trade.Length > 0 && Load(trade) != null ? trade : "";
         }

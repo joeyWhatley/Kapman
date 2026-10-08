@@ -11,8 +11,8 @@
    "cooldown_days": 365,
    "months": [5, 6, 7, 8, 9],
    "actors": {
-    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 50], "fixed": true, "note": "cast.holmfast" },
-    "moneyer": { "role": "moneyer", "people": "frankish", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true, "note": "cast.sigimar" }
+    "svea": { "cast": "birka.holmfast", "name": "Holmfast", "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 50], "fixed": true, "note": "cast.holmfast", "cast_from": 793, "cast_to": 822 },
+    "moneyer": { "cast": "dorestad.sigimar", "name": "Sigimar", "role": "moneyer", "people": "frankish", "faith": "christian", "tongue": "port", "age": [40, 60], "fixed": true, "note": "cast.sigimar", "cast_from": 793, "cast_to": 815 }
    },
    "title_key": "chain_silver_road.s01.title",
    "title": "A coin with no face",
@@ -59,7 +59,7 @@
    "cooldown_days": 365,
    "months": [5, 6, 7, 8],
    "actors": {
-    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 55], "fixed": true, "note": "cast.holmfast" },
+    "svea": { "cast": "birka.holmfast", "name": "Holmfast", "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 55], "fixed": true, "note": "cast.holmfast", "cast_from": 793, "cast_to": 822 },
     "smith": { "role": "goldsmith", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [25, 60], "fixed": true, "note": "a caster of weights and scale pans; invented" }
    },
    "title_key": "chain_silver_road.s02.title",
@@ -107,7 +107,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 55], "fixed": true, "note": "cast.holmfast" }
+    "svea": { "cast": "birka.holmfast", "name": "Holmfast", "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 55], "fixed": true, "note": "cast.holmfast", "cast_from": 793, "cast_to": 822 }
    },
    "title_key": "chain_silver_road.s03.title",
    "title": "What the east wants",
@@ -151,7 +151,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "gute": { "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": false, "note": "Botmund of Paviken (invented)" }
+    "gute": { "cast": "named.chain_silver_road.botmund", "name": "Botmund", "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [30, 50], "fixed": false, "note": "Botmund of Paviken (invented)" }
    },
    "title_key": "chain_silver_road.s04.title",
    "title": "Low in the water",
@@ -195,7 +195,7 @@
    "cooldown_days": 365,
    "months": [5, 6, 7],
    "actors": {
-    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 56], "fixed": true, "note": "cast.holmfast" }
+    "svea": { "cast": "birka.holmfast", "name": "Holmfast", "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 56], "fixed": true, "note": "cast.holmfast", "cast_from": 793, "cast_to": 822 }
    },
    "title_key": "chain_silver_road.s05.title",
    "title": "In company",
@@ -238,8 +238,8 @@
    "cooldown_days": 365,
    "months": [6, 7, 8, 9],
    "actors": {
-    "dealer": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 60], "fixed": true, "note": "Vigmund, the man in the biggest house (invented)" },
-    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 56], "fixed": false, "note": "cast.holmfast, here for the summer" }
+    "dealer": { "cast": "aldeigjuborg.fur_buyer", "name": "Vigmund", "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 60], "fixed": true, "note": "Vigmund, the man in the biggest house (invented)", "cast_from": 793, "cast_to": 815 },
+    "svea": { "cast": "birka.holmfast", "name": "Holmfast", "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [36, 56], "fixed": false, "note": "cast.holmfast, here for the summer", "cast_from": 793, "cast_to": 822 }
    },
    "title_key": "chain_silver_road.s06.title",
    "title": "The landing at Aldeigja",
@@ -290,8 +290,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "dealer": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 60], "fixed": true, "note": "Vigmund (invented)" },
-    "boy": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [12, 15], "fixed": true, "note": "Folkbern of Wijnaldum (invented)" }
+    "dealer": { "cast": "aldeigjuborg.fur_buyer", "name": "Vigmund", "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 60], "fixed": true, "note": "Vigmund (invented)", "cast_from": 793, "cast_to": 815 },
+    "boy": { "cast": "aldeigjuborg.folkbern", "name": "Folkbern", "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [12, 15], "fixed": true, "note": "Folkbern of Wijnaldum (invented)", "cast_from": 799, "cast_to": 839 }
    },
    "title_key": "chain_silver_road.s07.title",
    "title": "What the silver buys",
@@ -335,7 +335,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "gute": { "role": "shipwright", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [30, 55], "fixed": true, "note": "Botmund of Paviken (invented)" }
+    "gute": { "cast": "named.chain_silver_road.botmund", "name": "Botmund", "role": "shipwright", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [30, 55], "fixed": true, "note": "Botmund of Paviken (invented)" }
    },
    "title_key": "chain_silver_road.s08.title",
    "title": "Under the floor",
@@ -376,7 +376,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "moneyer": { "role": "moneyer", "people": "frankish", "faith": "christian", "tongue": "port", "age": [40, 65], "fixed": true, "note": "cast.sigimar (or his heir at the mint)" },
+    "moneyer": { "cast": "dorestad.sigimar", "name": "Sigimar", "role": "moneyer", "people": "frankish", "faith": "christian", "tongue": "port", "age": [40, 65], "fixed": true, "note": "cast.sigimar (or his heir at the mint)", "cast_from": 793, "cast_to": 815 },
     "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "port", "age": [30, 60], "fixed": true, "note": "a priest of the upper town who has talked with pilgrims back from Rome; invented" }
    },
    "title_key": "chain_silver_road.s09.title",
@@ -463,7 +463,7 @@
    "cooldown_days": 365,
    "months": [5, 6, 7, 8],
    "actors": {
-    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [38, 60], "fixed": true, "note": "cast.holmfast" }
+    "svea": { "cast": "birka.holmfast", "name": "Holmfast", "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [38, 60], "fixed": true, "note": "cast.holmfast", "cast_from": 793, "cast_to": 822 }
    },
    "title_key": "chain_silver_road.s11.title",
    "title": "One purse",
@@ -512,8 +512,8 @@
    "cooldown_days": 365,
    "months": [6, 7, 8, 9],
    "actors": {
-    "dealer": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 62], "fixed": true, "note": "Vigmund (invented)" },
-    "boy": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [13, 16], "fixed": true, "note": "Folkbern (invented), still in the pen, keeping the tally" }
+    "dealer": { "cast": "aldeigjuborg.fur_buyer", "name": "Vigmund", "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 62], "fixed": true, "note": "Vigmund (invented)", "cast_from": 793, "cast_to": 815 },
+    "boy": { "cast": "aldeigjuborg.folkbern", "name": "Folkbern", "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [13, 16], "fixed": true, "note": "Folkbern (invented), still in the pen, keeping the tally", "cast_from": 799, "cast_to": 839 }
    },
    "title_key": "chain_silver_road.s12.title",
    "title": "Six, sound and young",
@@ -558,7 +558,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "boy": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [12, 16], "fixed": false, "note": "Folkbern (invented)" },
+    "boy": { "cast": "named.chain_silver_road.folkbern", "name": "Folkbern", "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [12, 16], "fixed": false, "note": "Folkbern (invented)" },
     "kin": { "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 55], "fixed": false, "note": "his mother's brother, a terp farmer of Westergo who sells cloth at Dorestad (invented)" }
    },
    "title_key": "chain_silver_road.s13.title",
@@ -608,8 +608,8 @@
    "cooldown_days": 365,
    "months": [6, 7, 8, 9],
    "actors": {
-    "dealer": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 62], "fixed": true, "note": "Vigmund (invented)" },
-    "gute": { "role": "pilot", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [30, 56], "fixed": false, "note": "Botmund of Paviken (invented), who brought you in" }
+    "dealer": { "cast": "aldeigjuborg.fur_buyer", "name": "Vigmund", "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [40, 62], "fixed": true, "note": "Vigmund (invented)", "cast_from": 793, "cast_to": 815 },
+    "gute": { "cast": "named.chain_silver_road.botmund", "name": "Botmund", "role": "pilot", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [30, 56], "fixed": false, "note": "Botmund of Paviken (invented), who brought you in" }
    },
    "title_key": "chain_silver_road.s14.title",
    "title": "Ground on the Volkhov",

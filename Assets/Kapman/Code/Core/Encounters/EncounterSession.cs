@@ -155,7 +155,7 @@ namespace Kapman.Encounters
             {
                 Npc kept = cast != null && cast.TryGetValue(spec.key, out string id) ? world.npcs.Get(id) : null;
                 // (one of the standing cast is the same person on every card; anybody else is whoever holds that trade here)
-                s.actors[spec.key] = kept ?? (spec.cast.Length > 0 ? world.npcs.Cast(spec, world.port, world.year, world.day)
+                s.actors[spec.key] = kept ?? (spec.CastIn(world.year) ? world.npcs.Cast(spec, world.port, world.year, world.day)
                                               : spec.fixedRole ? world.npcs.Holder(spec, world.port, world.year, world.day)
                                                                : world.npcs.Forge(spec, world.port, world.year));
             }

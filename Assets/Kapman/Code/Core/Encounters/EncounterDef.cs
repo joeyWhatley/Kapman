@@ -20,6 +20,12 @@ namespace Kapman.Encounters
         /// person, the same on every card whatever the port (NpcRegistry.Cast): the crew's Ravn is Ravn everywhere,
         /// with his own feelings and memory. "" for an actor who is whoever holds that trade at the port.</summary>
         public string cast = "", name = "";
+        /// <summary>The years this actor is that named person (the years the places' files give them at the port); 0:
+        /// no bound. Outside them the card is met with whoever holds the trade then.</summary>
+        public int castFrom, castTo;
+
+        /// <summary>Is this actor a named person in that year?</summary>
+        public bool CastIn(int year) => cast.Length > 0 && (castFrom <= 0 || year >= castFrom) && (castTo <= 0 || year <= castTo);
     }
 
     /// <summary>One line of speech: who says it (an actor's key), the writing key of the words, its tongue (empty: the

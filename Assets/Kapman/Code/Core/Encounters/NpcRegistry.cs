@@ -254,6 +254,14 @@ namespace Kapman.Encounters
         public Npc Holder(RoleSpec spec, PortFacts port, int year, double day)
         {
             string key = port.id + "/" + spec.role;
+            // (the port's own holder of that office, where the places' files name one for the year)
+            var named = known != null && port.id.Length > 0 ? known(port.id, spec.role, year) : null;
+            if (named != null && !string.IsNullOrEmpty(named.id) && !string.IsNullOrEmpty(named.name))
+            {
+                var own = OfThePlace(named, spec, port, year);
+                holders[key] = own.id;
+                return Seen(own, port.id, day);
+            }
             Npc was = holders.TryGetValue(key, out var id) ? Get(id) : null;
             if (was != null && was.AliveIn(year))
                 return Seen(was, port.id, day);
@@ -267,14 +275,16 @@ namespace Kapman.Encounters
         }
 
         /// <summary>
-        /// ONE OF THE STANDING CAST (the crew's Ravn, Aldger, Brunger, Beornwine): one person with the id and the name
-        /// the card's actor gives, the same on every card and at every port, so what he feels and remembers is his
-        /// and not a stranger's at each quay. Made when first met; never trimmed away.
+        /// ONE OF THE NAMED PEOPLE (the crew's Ravn, Aldger, Brunger, Beornwine; from 8 Oct 2026, night, also the people
+        /// of the places' files and those the story cards name): one person with the id and the name the card's actor
+        /// gives, the same on every card and at every port, so what he feels and remembers is his and not a
+        /// stranger's at each quay. Made when first met; never trimmed away.
         /// </summary>
         public Npc Cast(RoleSpec spec, PortFacts port, int year, double day)
         {
-            if (npcs.TryGetValue(spec.cast, out var known))
-                return Seen(known, port.id, day);
+            if (npcs.TryGetValue(spec.cast, out var met))
+                return Seen(met, port.id, day);
+            string ofPeople = spec.people == "port" || string.IsNullOrEmpty(spec.people) ? (port.peoples.Count > 0 ? port.peoples[0] : "") : spec.people;
             var def = roles.Role(spec.role) ?? new RoleTable.RoleDef { id = spec.role, title = spec.role };
             string sex = !string.IsNullOrEmpty(spec.sex) ? spec.sex : def.sex;
             int ageMin = spec.ageMin > 0 ? spec.ageMin : def.ageMin, ageMax = spec.ageMax > 0 ? spec.ageMax : def.ageMax;
@@ -285,19 +295,73 @@ namespace Kapman.Encounters
                 name = spec.name,
                 role = spec.role,
                 homePort = port.id,
-                people = spec.people,
+                people = ofPeople,
                 faith = spec.faith == "port" || string.IsNullOrEmpty(spec.faith) ? port.faith : spec.faith,
-                tongue = spec.tongue == "port" || string.IsNullOrEmpty(spec.tongue) ? roles.TongueOf(spec.people) : spec.tongue,
+                tongue = spec.tongue == "port" || string.IsNullOrEmpty(spec.tongue) ? roles.TongueOf(ofPeople) : spec.tongue,
                 sex = sex == "f" ? "f" : "m",
                 bornYear = year - age,
             };
-            npc.diesYear = npc.bornYear + 75;                             // (the game does not yet tell of his death: he is aboard while his cards are)
+            // (the game does not yet tell of his death: he is there while his cards are, or to the last year the places give him)
+            npc.diesYear = spec.castTo > 0 ? Math.Max(spec.castTo, year) : npc.bornYear + 75;
             npcs[npc.id] = npc;
             return Seen(npc, port.id, day);
         }
 
-        /// <summary>Is this the id of one of the standing cast (never trimmed away)?</summary>
-        public static bool IsCast(string id) => id != null && id.StartsWith("cast.", StringComparison.Ordinal);
+        /// <summary>Somebody the places' files name as the holder of an office at a port (Game/Data/places: the toll man
+        /// of Dorestat is Aldgrim), as the game tells it to the cards.</summary>
+        public sealed class Known
+        {
+            public string id = "", name = "", people = "", faith = "", sex = "";
+            public int born, to;
+        }
+
+        /// <summary>
+        /// THE PORT'S OWN HOLDER OF AN OFFICE (port id, role, year), or null where the places name nobody: the game's
+        /// to give (EncounterRunner, from the places' book). A card that wants "the toll man here" then meets the man
+        /// the port's own page names, and not a stranger made up for the card.
+        /// </summary>
+        public Func<string, string, int, Known> known;
+
+        Npc OfThePlace(Known k, RoleSpec spec, PortFacts port, int year)
+        {
+            if (npcs.TryGetValue(k.id, out var met))
+                return met;
+            var def = roles.Role(spec.role) ?? new RoleTable.RoleDef { id = spec.role, title = spec.role };
+            string ofPeople = !string.IsNullOrEmpty(k.people) ? k.people : port.peoples.Count > 0 ? port.peoples[0] : "";
+            string sex = !string.IsNullOrEmpty(k.sex) ? k.sex : !string.IsNullOrEmpty(spec.sex) ? spec.sex : def.sex;
+            int ageMin = spec.ageMin > 0 ? spec.ageMin : def.ageMin, ageMax = spec.ageMax > 0 ? spec.ageMax : def.ageMax;
+            var npc = new Npc
+            {
+                id = k.id,
+                name = k.name,
+                role = spec.role,
+                homePort = port.id,
+                people = ofPeople,
+                faith = !string.IsNullOrEmpty(k.faith) ? k.faith : port.faith,
+                tongue = roles.TongueOf(ofPeople),
+                sex = sex == "f" ? "f" : "m",
+                bornYear = k.born > 0 ? k.born : year - (ageMin + Math.Max(ageMin, ageMax)) / 2,
+            };
+            npc.diesYear = k.to > 0 ? Math.Max(k.to, year) : npc.bornYear + 75;
+            npcs[npc.id] = npc;
+            return npc;
+        }
+
+        /// <summary>Is this the id of a named person (never trimmed away)? Anybody made up for a card has an id that
+        /// ends in a number ("dorestad.tollman.0"); the crew ("cast.crew.ravn"), the people of the places' files
+        /// ("dorestad.sigimar") and those the story cards name ("named.chain_black_stones.folkmar") do not.</summary>
+        public static bool IsCast(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return false;
+            int dot = id.LastIndexOf('.');
+            if (dot < 0 || dot == id.Length - 1)
+                return true;
+            for (int i = dot + 1; i < id.Length; i++)
+                if (id[i] < '0' || id[i] > '9')
+                    return true;
+            return false;
+        }
 
         Npc Seen(Npc n, string port, double day)
         {

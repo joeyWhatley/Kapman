@@ -411,6 +411,8 @@ namespace Kapman.Tests
                 Assert.IsTrue(play.Frame.TodoOn && play.Frame.JobsShown, "the tab To do did not bring the list back");
                 mendButton = play.Frame.Root.Q<Button>("mend-sail");
                 double silver = FrameGame.Silver;
+                // (the men on the quay are the crew the cards know: 8 Oct 2026, night)
+                CollectionAssert.AreEqual(new[] { "Aldger", "Brunger", "Beornwine" }, FirstJobs.Hands.Select(h => h.name).ToArray(), "the men on the quay are not the crew of the cards");
                 for (int i = 0; i < FirstJobs.Hands.Count && FirstJobs.HandsShort > 0; i++)
                     Assert.IsTrue(FirstJobs.Hire(i, out string fact), "a hand could not be hired: " + fact);
                 Assert.AreEqual(FirstJobs.CrewWanted, Voyage.Men);

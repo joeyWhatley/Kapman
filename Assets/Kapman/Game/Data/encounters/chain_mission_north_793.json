@@ -10,8 +10,8 @@
    "cooldown_days": 15,
    "months": [4, 5, 6, 7],
    "actors": {
-    "anskar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [27, 28], "fixed": true, "note": "cast.anskar (real; named in the words)" },
-    "witmar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 45], "fixed": true, "note": "Witmar of Corvey (real, Rimbert c. 10; named in the words)" }
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [27, 28], "fixed": true, "note": "cast.anskar (real; named in the words)", "cast_from": 826, "cast_to": 865 },
+    "witmar": { "cast": "named.chain_mission_north.witmar", "name": "Witmar", "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [30, 45], "fixed": true, "note": "Witmar of Corvey (real, Rimbert c. 10; named in the words)" }
    },
    "title_key": "chain_mission_north.s01.title",
    "title": "Two monks and forty books",
@@ -46,7 +46,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "anskar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [27, 29], "fixed": true, "note": "cast.anskar" }
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [27, 29], "fixed": true, "note": "cast.anskar", "cast_from": 826, "cast_to": 865 }
    },
    "title_key": "chain_mission_north.s02.title",
    "title": "Sails out of the haze",
@@ -83,9 +83,9 @@
    "weight": 30,
    "cooldown_days": 0,
    "actors": {
-    "herigar": { "role": "harbour_master", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 40], "fixed": true, "note": "cast.herigar (real; named in the words; not yet baptised)" },
-    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 60], "fixed": true, "note": "King Bjorn of the Svear (real, Rimbert c. 11; named in the words; his words invented)" },
-    "anskar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [27, 29], "fixed": true, "note": "cast.anskar" }
+    "herigar": { "cast": "birka.herigar", "name": "Herigar", "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [30, 40], "fixed": true, "note": "cast.herigar (real; named in the words; not yet baptised)", "cast_from": 829, "cast_to": 851 },
+    "king": { "cast": "named.chain_mission_north.bjorn", "name": "Bjorn", "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 60], "fixed": true, "note": "King Bjorn of the Svear (real, Rimbert c. 11; named in the words; his words invented)" },
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [27, 29], "fixed": true, "note": "cast.anskar", "cast_from": 826, "cast_to": 865 }
    },
    "title_key": "chain_mission_north.s03.title",
    "title": "The king asks his friends",
@@ -157,9 +157,9 @@
    "weight": 8,
    "cooldown_days": 0,
    "actors": {
-    "herigar": { "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [30, 42], "fixed": true, "note": "cast.herigar (baptised about 830)" },
-    "anskar": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [28, 30], "fixed": true, "note": "cast.anskar" },
-    "scribe": { "role": "captive", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [47, 50], "fixed": true, "note": "cast.tidwine (invented)" }
+    "herigar": { "cast": "birka.herigar", "name": "Herigar", "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [30, 42], "fixed": true, "note": "cast.herigar (baptised about 830)", "cast_from": 829, "cast_to": 851 },
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [28, 30], "fixed": true, "note": "cast.anskar", "cast_from": 826, "cast_to": 865 },
+    "scribe": { "cast": "lindisfarena.tidwine", "name": "Tidwine", "role": "captive", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [47, 50], "fixed": true, "note": "cast.tidwine (invented)", "cast_from": 793, "cast_to": 830 }
    },
    "title_key": "chain_mission_north.s05.title",
    "title": "A church on Herigar's land",
@@ -198,8 +198,8 @@
    "weight": 6,
    "cooldown_days": 30,
    "actors": {
-    "herigar": { "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [48, 60], "fixed": true, "note": "cast.herigar" },
-    "widow": { "role": "widow", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "f", "age": [68, 78], "fixed": true, "note": "cast.frideburg (real; named in the words)" }
+    "herigar": { "cast": "birka.herigar", "name": "Herigar", "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [48, 60], "fixed": true, "note": "cast.herigar", "cast_from": 829, "cast_to": 851 },
+    "widow": { "cast": "birka.frideburg", "name": "Frideburg", "role": "widow", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "f", "age": [68, 78], "fixed": true, "note": "cast.frideburg (real; named in the words)", "cast_from": 830, "cast_to": 852 }
    },
    "title_key": "chain_mission_north.s06.title",
    "title": "No priest at Birka",
@@ -268,7 +268,7 @@
    "weight": 15,
    "cooldown_days": 0,
    "actors": {
-    "herigar": { "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [49, 60], "fixed": true, "note": "cast.herigar" },
+    "herigar": { "cast": "birka.herigar", "name": "Herigar", "role": "harbour_master", "people": "svea", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [49, 60], "fixed": true, "note": "cast.herigar", "cast_from": 829, "cast_to": 851 },
     "envoy": { "role": "envoy", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [25, 50], "fixed": false, "note": "a man of the exile Anound's (Anound real, Rimbert c. 19; the envoy invented)" }
    },
    "title_key": "chain_mission_north.s08.title",
@@ -305,8 +305,8 @@
    "weight": 8,
    "cooldown_days": 20,
    "actors": {
-    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [48, 50], "fixed": true, "note": "cast.anskar" },
-    "hermit": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 60], "fixed": true, "note": "Ardgar the hermit (real, Rimbert c. 19; named in the words)" }
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [48, 50], "fixed": true, "note": "cast.anskar", "cast_from": 826, "cast_to": 865 },
+    "hermit": { "cast": "named.chain_mission_north.ardgar", "name": "Ardgar", "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 60], "fixed": true, "note": "Ardgar the hermit (real, Rimbert c. 19; named in the words)" }
    },
    "title_key": "chain_mission_north.s09.title",
    "title": "A hermit for Birka",
@@ -342,8 +342,8 @@
    "cooldown_days": 15,
    "months": [4, 5, 6, 7, 8],
    "actors": {
-    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 52], "fixed": true, "note": "cast.anskar" },
-    "erimbert": { "role": "priest", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [25, 40], "fixed": true, "note": "Erimbert, Gautbert's nephew (real, Rimbert c. 25; named in the words)" }
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 52], "fixed": true, "note": "cast.anskar", "cast_from": 826, "cast_to": 865 },
+    "erimbert": { "cast": "named.chain_mission_north.erimbert", "name": "Erimbert", "role": "priest", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [25, 40], "fixed": true, "note": "Erimbert, Gautbert's nephew (real, Rimbert c. 25; named in the words)" }
    },
    "title_key": "chain_mission_north.s10.title",
    "title": "The archbishop wants a ship",
@@ -382,8 +382,8 @@
    "weight": 40,
    "cooldown_days": 0,
    "actors": {
-    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf of the Svear (real, Rimbert c. 26-28, 30; named in the words)" },
-    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar" },
+    "king": { "cast": "named.chain_mission_north.olaf", "name": "Olaf", "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf of the Svear (real, Rimbert c. 26-28, 30; named in the words)" },
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar", "cast_from": 826, "cast_to": 865 },
     "chief": { "role": "chief", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [40, 65], "fixed": true, "note": "invented: a chief of the old party" }
    },
    "title_key": "chain_mission_north.s11.title",
@@ -419,9 +419,9 @@
    "weight": 50,
    "cooldown_days": 0,
    "actors": {
-    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf" },
+    "king": { "cast": "named.chain_mission_north.olaf", "name": "Olaf", "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf" },
     "caster": { "role": "lawman", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [50, 75], "fixed": true, "note": "invented: the man who throws the lots" },
-    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar" }
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar", "cast_from": 826, "cast_to": 865 }
    },
    "title_key": "chain_mission_north.s12.title",
    "title": "The lot in the open field",
@@ -471,9 +471,9 @@
    "weight": 50,
    "cooldown_days": 0,
    "actors": {
-    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf" },
+    "king": { "cast": "named.chain_mission_north.olaf", "name": "Olaf", "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf" },
     "elder": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [65, 80], "fixed": true, "note": "the old man of Rimbert c. 27 (real, unnamed; his words our rendering)" },
-    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar" }
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar", "cast_from": 826, "cast_to": 865 }
    },
    "title_key": "chain_mission_north.s13.title",
    "title": "The old man at the thing",
@@ -514,9 +514,9 @@
    "weight": 50,
    "cooldown_days": 0,
    "actors": {
-    "king": { "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf" },
+    "king": { "cast": "named.chain_mission_north.olaf", "name": "Olaf", "role": "king", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 55], "fixed": true, "note": "King Olaf" },
     "elder": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [65, 80], "fixed": true, "note": "the old man of Rimbert c. 27" },
-    "anskar": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar" }
+    "anskar": { "cast": "sliesthorp.anskar", "name": "Anskar", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 53], "fixed": true, "note": "cast.anskar", "cast_from": 826, "cast_to": 865 }
    },
    "title_key": "chain_mission_north.s14.title",
    "title": "The gods say no",

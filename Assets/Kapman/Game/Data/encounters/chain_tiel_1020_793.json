@@ -10,8 +10,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold, a merchant of Tiel; invented" },
-    "stranger": { "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": false, "note": "Saewine, a wool seller of London; invented" }
+    "fist": { "cast": "named.chain_tiel_1020.wigbold", "name": "Wigbold", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold, a merchant of Tiel; invented" },
+    "stranger": { "cast": "named.chain_tiel_1020.saewine", "name": "Saewine", "role": "merchant", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": false, "note": "Saewine, a wool seller of London; invented" }
    },
    "title_key": "chain_tiel_1020.s01.title",
    "title": "The closed fist",
@@ -46,8 +46,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand of Tiel (noviomagus.tiel_merchant), who keeps the common chest" },
-    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold; invented" },
+    "elder": { "cast": "noviomagus.tiel_merchant", "name": "Sibrand", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand of Tiel (noviomagus.tiel_merchant), who keeps the common chest", "cast_from": 1007, "cast_to": 1030 },
+    "fist": { "cast": "named.chain_tiel_1020.wigbold", "name": "Wigbold", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold; invented" },
     "alewife": { "role": "alewife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 55], "fixed": true, "note": "the woman who brews for the bench at Tiel; invented, unnamed" }
    },
    "title_key": "chain_tiel_1020.s02.title",
@@ -85,7 +85,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "factor": { "role": "factor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 55], "fixed": true, "note": "Everwin, who keeps the Tiel men's goods at London; invented" }
+    "factor": { "cast": "named.chain_tiel_1020.everwin", "name": "Everwin", "role": "factor", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 55], "fixed": true, "note": "Everwin, who keeps the Tiel men's goods at London; invented" }
    },
    "title_key": "chain_tiel_1020.s03.title",
    "title": "The emperor's men",
@@ -120,7 +120,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "steward": { "role": "steward", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 55], "fixed": true, "note": "Meinward, Count Dirk's steward at the toll; invented" }
+    "steward": { "cast": "named.chain_tiel_1020.meinward", "name": "Meinward", "role": "steward", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 55], "fixed": true, "note": "Meinward, Count Dirk's steward at the toll; invented" }
    },
    "title_key": "chain_tiel_1020.s04.title",
    "title": "The count's man at the mouth",
@@ -154,7 +154,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "monk": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Alpert, called of Metz, a monk writing a book of the events of his own time; historical" }
+    "monk": { "cast": "named.chain_tiel_1020.alpert", "name": "Alpert", "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Alpert, called of Metz, a monk writing a book of the events of his own time; historical" }
    },
    "title_key": "chain_tiel_1020.s05.title",
    "title": "A monk with a wax tablet",
@@ -188,9 +188,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)" },
-    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold; invented" },
-    "stranger": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Wezelo, a wine seller of Cologne; invented" }
+    "elder": { "cast": "noviomagus.tiel_merchant", "name": "Sibrand", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)", "cast_from": 1007, "cast_to": 1030 },
+    "fist": { "cast": "named.chain_tiel_1020.wigbold", "name": "Wigbold", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold; invented" },
+    "stranger": { "cast": "named.chain_tiel_1020.wezelo", "name": "Wezelo", "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Wezelo, a wine seller of Cologne; invented" }
    },
    "title_key": "chain_tiel_1020.s06.title",
    "title": "Seven hands",
@@ -229,7 +229,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "stranger": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Wezelo of Cologne; invented" }
+    "stranger": { "cast": "named.chain_tiel_1020.wezelo", "name": "Wezelo", "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "Wezelo of Cologne; invented" }
    },
    "title_key": "chain_tiel_1020.s07.title",
    "title": "What Cologne remembers",
@@ -267,8 +267,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant), who keeps the chest" },
-    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold; invented" }
+    "elder": { "cast": "noviomagus.tiel_merchant", "name": "Sibrand", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant), who keeps the chest", "cast_from": 1007, "cast_to": 1030 },
+    "fist": { "cast": "named.chain_tiel_1020.wigbold", "name": "Wigbold", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 45], "fixed": true, "note": "Wigbold; invented" }
    },
    "title_key": "chain_tiel_1020.s08.title",
    "title": "The common chest",
@@ -312,7 +312,7 @@
    "cooldown_days": 365,
    "actors": {
     "clerk": { "role": "clerk", "people": "saxon", "faith": "christian", "tongue": "old_saxon", "age": [30, 50], "fixed": true, "note": "a chaplain of the emperor's chapel who draws charters; invented, unnamed" },
-    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)" }
+    "elder": { "cast": "noviomagus.tiel_merchant", "name": "Sibrand", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 65], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)", "cast_from": 1007, "cast_to": 1030 }
    },
    "title_key": "chain_tiel_1020.s09.title",
    "title": "What is to be written",
@@ -359,7 +359,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [45, 60], "fixed": true, "note": "Adalbold II, bishop of Utrecht 1010 to 1026; historical" },
+    "bishop": { "cast": "named.chain_tiel_1020.adalbold", "name": "Adalbold", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [45, 60], "fixed": true, "note": "Adalbold II, bishop of Utrecht 1010 to 1026; historical" },
     "clerk": { "role": "clerk", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [25, 45], "fixed": false, "note": "the bishop's clerk; invented, unnamed" }
    },
    "title_key": "chain_tiel_1020.s10.title",
@@ -402,8 +402,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 70], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)" },
-    "fist": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 50], "fixed": true, "note": "Wigbold; invented" }
+    "elder": { "cast": "noviomagus.tiel_merchant", "name": "Sibrand", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 70], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)", "cast_from": 1007, "cast_to": 1030 },
+    "fist": { "cast": "named.chain_tiel_1020.wigbold", "name": "Wigbold", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 50], "fixed": true, "note": "Wigbold; invented" }
    },
    "title_key": "chain_tiel_1020.end_seat.title",
    "title": "The cup goes round",
@@ -442,7 +442,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "elder": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 70], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)" },
+    "elder": { "cast": "noviomagus.tiel_merchant", "name": "Sibrand", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [45, 70], "fixed": true, "note": "Sibrand (noviomagus.tiel_merchant)", "cast_from": 1007, "cast_to": 1030 },
     "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 60], "fixed": true, "note": "the priest of Saint Walburg's at Tiel, who reads the Latin out; invented, unnamed" }
    },
    "title_key": "chain_tiel_1020.end_charter.title",
@@ -478,8 +478,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [45, 65], "fixed": true, "note": "Adalbold II to 1026, Bernold from 1027; historical" },
-    "monk": { "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 65], "fixed": true, "note": "Alpert, while he lives (to 1024 or a little after); historical" }
+    "bishop": { "cast": "named.chain_tiel_1020.adalbold", "name": "Adalbold", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [45, 65], "fixed": true, "note": "Adalbold II to 1026, Bernold from 1027; historical" },
+    "monk": { "cast": "named.chain_tiel_1020.alpert", "name": "Alpert", "role": "monk", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 65], "fixed": true, "note": "Alpert, while he lives (to 1024 or a little after); historical" }
    },
    "title_key": "chain_tiel_1020.end_bishop.title",
    "title": "A page without your name",
@@ -513,8 +513,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "count": { "role": "count", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 50], "fixed": true, "note": "Dirk III, count in West Frisia 993 to 1039; historical" },
-    "steward": { "role": "steward", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 60], "fixed": true, "note": "Meinward; invented" }
+    "count": { "cast": "noviomagus.dirk", "name": "Dirk", "role": "count", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 50], "fixed": true, "note": "Dirk III, count in West Frisia 993 to 1039; historical", "cast_from": 985, "cast_to": 988 },
+    "steward": { "cast": "named.chain_tiel_1020.meinward", "name": "Meinward", "role": "steward", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [35, 60], "fixed": true, "note": "Meinward; invented" }
    },
    "title_key": "chain_tiel_1020.end_count.title",
    "title": "The fort in the marsh",

@@ -272,6 +272,12 @@ namespace Kapman.Game
             effects.portNow = () => d.state.callPort;
             d.portInfo = PortInfo;
             d.standingAt = id => Reputation.At(GameData.Port(id));
+            // (the port's own toll man, moneyer, count, bishop: the one its page names, not a stranger made for the card)
+            d.npcs.known = (port, role, year) =>
+            {
+                var p = PlaceBook.Current.Holder(port, role, year);
+                return p == null ? null : new NpcRegistry.Known { id = p.id, name = p.name, people = p.people, faith = p.faith, born = p.born, to = p.died > 0 ? p.died : p.to };
+            };
             EncounterGameVars.Attach(d.vars, () => d.state.callPort);
             d.CallBegun += port => Debug.Log($"Kapman encounters: moored at {port}; a call begins.");
             d.CallEnded += port => Debug.Log($"Kapman encounters: cast off from {port}.");

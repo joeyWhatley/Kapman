@@ -10,9 +10,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [50, 65], "fixed": true, "note": "Eardulf, bishop of Lindisfarne 854 to 899; real" },
-    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 60], "fixed": true, "note": "Eadred, abbot of Carlisle, called Lulisc; real" },
-    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [22, 35], "fixed": true, "note": "Hunred, one of the seven bearers; real, the name from Symeon" }
+    "bishop": { "cast": "lindisfarena.eardulf", "name": "Eardulf", "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [50, 65], "fixed": true, "note": "Eardulf, bishop of Lindisfarne 854 to 899; real", "cast_from": 854, "cast_to": 875 },
+    "abbot": { "cast": "named.chain_saga_northumbria_irish_sea.eadred", "name": "Eadred", "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 60], "fixed": true, "note": "Eadred, abbot of Carlisle, called Lulisc; real" },
+    "bearer": { "cast": "named.chain_saga_northumbria_irish_sea.hunred", "name": "Hunred", "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [22, 35], "fixed": true, "note": "Hunred, one of the seven bearers; real, the name from Symeon" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s01.title",
    "title": "The island empties",
@@ -48,7 +48,7 @@
    "cooldown_days": 365,
    "actors": {
     "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 55], "fixed": true, "note": "the reeve of the rock for the king beyond the Tyne; invented, unnamed" },
-    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 40], "fixed": true, "note": "Stitheard, one of the seven bearers; real name" }
+    "bearer": { "cast": "named.chain_saga_northumbria_irish_sea.stitheard", "name": "Stitheard", "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 40], "fixed": true, "note": "Stitheard, one of the seven bearers; real name" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s02.title",
    "title": "The rock shuts",
@@ -83,8 +83,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "ketil": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [25, 38], "fixed": true, "note": "Ketil, a shipman of Halfdan's following; invented" },
-    "boy": { "role": "child", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [11, 13], "fixed": true, "note": "Guthred son of Harthacnut, king at York 883 to 895; real. His age is a guess (?)" },
+    "ketil": { "cast": "named.chain_saga_northumbria_irish_sea.ketil", "name": "Ketil", "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [25, 38], "fixed": true, "note": "Ketil, a shipman of Halfdan's following; invented" },
+    "boy": { "cast": "named.chain_saga_northumbria_irish_sea.guthred", "name": "Guthred", "role": "child", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [11, 13], "fixed": true, "note": "Guthred son of Harthacnut, king at York 883 to 895; real. His age is a guess (?)" },
     "widowsman": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [40, 60], "fixed": false, "note": "the steward of a widow at Whittingham; invented, unnamed" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s03.title",
@@ -124,7 +124,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "ketil": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [27, 42], "fixed": true, "note": "Ketil; invented" },
+    "ketil": { "cast": "named.chain_saga_northumbria_irish_sea.ketil", "name": "Ketil", "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [27, 42], "fixed": true, "note": "Ketil; invented" },
     "shipmaster": { "role": "skipper", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [30, 50], "fixed": true, "note": "a shipmaster of Barid's at the ship-fort; invented, unnamed" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s04.title",
@@ -160,7 +160,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "abbot": { "role": "abbot", "people": "gaelic", "faith": "christian", "tongue": "irish", "sex": "m", "age": [50, 70], "fixed": true, "note": "Feradach, abbot of Hi, died 880; real" },
+    "abbot": { "cast": "hi.feradach", "name": "Feradach", "role": "abbot", "people": "gaelic", "faith": "christian", "tongue": "irish", "sex": "m", "age": [50, 70], "fixed": true, "note": "Feradach, abbot of Hi, died 880; real", "cast_from": 865, "cast_to": 880 },
     "brother": { "role": "monk", "people": "gaelic", "faith": "christian", "tongue": "irish", "sex": "m", "age": [20, 40], "fixed": false, "note": "a keeper of the shrine; invented, unnamed" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s05.title",
@@ -196,7 +196,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [28, 45], "fixed": true, "note": "Franco, one of the seven bearers; real name" }
+    "bearer": { "cast": "named.chain_saga_northumbria_irish_sea.franco", "name": "Franco", "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [28, 45], "fixed": true, "note": "Franco, one of the seven bearers; real name" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s06.title",
    "title": "The waste city",
@@ -232,8 +232,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [55, 70], "fixed": true, "note": "Eardulf; real" },
-    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [45, 65], "fixed": true, "note": "Eadred; real" },
+    "bishop": { "cast": "named.chain_saga_northumbria_irish_sea.eardulf", "name": "Eardulf", "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [55, 70], "fixed": true, "note": "Eardulf; real" },
+    "abbot": { "cast": "named.chain_saga_northumbria_irish_sea.eadred", "name": "Eadred", "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [45, 65], "fixed": true, "note": "Eadred; real" },
     "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [28, 55], "fixed": true }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s07.title",
@@ -278,7 +278,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 40], "fixed": true, "note": "Hunred, one of the seven bearers; real" }
+    "bearer": { "cast": "named.chain_saga_northumbria_irish_sea.hunred", "name": "Hunred", "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [25, 40], "fixed": true, "note": "Hunred, one of the seven bearers; real" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s08.title",
    "title": "The low tide",
@@ -314,7 +314,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "boy": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [14, 19], "fixed": true, "note": "Guthred son of Harthacnut; real" },
+    "boy": { "cast": "named.chain_saga_northumbria_irish_sea.guthred", "name": "Guthred", "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [14, 19], "fixed": true, "note": "Guthred son of Harthacnut; real" },
     "steersman": { "role": "steersman", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "sex": "m", "age": [28, 55], "fixed": true }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s09.title",
@@ -349,9 +349,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [48, 68], "fixed": true, "note": "Eadred; real" },
+    "abbot": { "cast": "named.chain_saga_northumbria_irish_sea.eadred", "name": "Eadred", "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [48, 68], "fixed": true, "note": "Eadred; real" },
     "hold": { "role": "chief", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 55], "fixed": true, "note": "a hold of the army at York; invented, unnamed" },
-    "ketil": { "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [32, 46], "fixed": true, "note": "Ketil; invented" }
+    "ketil": { "cast": "named.chain_saga_northumbria_irish_sea.ketil", "name": "Ketil", "role": "warrior", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [32, 46], "fixed": true, "note": "Ketil; invented" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s10.title",
    "title": "The abbot's dream",
@@ -391,8 +391,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [48, 70], "fixed": true, "note": "Eadred; real" },
-    "boy": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [18, 22], "fixed": true, "note": "Guthred son of Harthacnut; real" }
+    "abbot": { "cast": "named.chain_saga_northumbria_irish_sea.eadred", "name": "Eadred", "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [48, 70], "fixed": true, "note": "Eadred; real" },
+    "boy": { "cast": "named.chain_saga_northumbria_irish_sea.guthred", "name": "Guthred", "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [18, 22], "fixed": true, "note": "Guthred son of Harthacnut; real" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.s11.title",
    "title": "The price of a king",
@@ -427,9 +427,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [58, 75], "fixed": true, "note": "Eardulf; real" },
-    "king": { "role": "king", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [18, 28], "fixed": true, "note": "Guthred son of Harthacnut, king 883 to 895; real" },
-    "abbot": { "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [50, 70], "fixed": true, "note": "Eadred; real" }
+    "bishop": { "cast": "lindisfarena.eardulf", "name": "Eardulf", "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [58, 75], "fixed": true, "note": "Eardulf; real", "cast_from": 854, "cast_to": 875 },
+    "king": { "cast": "named.chain_saga_northumbria_irish_sea.guthred", "name": "Guthred", "role": "king", "people": "danish", "faith": "christian", "tongue": "old_norse", "sex": "m", "age": [18, 28], "fixed": true, "note": "Guthred son of Harthacnut, king 883 to 895; real" },
+    "abbot": { "cast": "named.chain_saga_northumbria_irish_sea.eadred", "name": "Eadred", "role": "abbot", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [50, 70], "fixed": true, "note": "Eadred; real" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.end_oswigesdune.title",
    "title": "The gold ring",
@@ -469,8 +469,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "abbot": { "role": "abbot", "people": "gaelic", "faith": "christian", "tongue": "irish", "sex": "m", "age": [45, 65], "fixed": true, "note": "Flann son of Mael Duin, abbot of Hi 880 to 891; real" },
-    "bearer": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [28, 45], "fixed": true, "note": "Hunred, the bearer; real" }
+    "abbot": { "cast": "named.chain_saga_northumbria_irish_sea.flann", "name": "Flann", "role": "abbot", "people": "gaelic", "faith": "christian", "tongue": "irish", "sex": "m", "age": [45, 65], "fixed": true, "note": "Flann son of Mael Duin, abbot of Hi 880 to 891; real" },
+    "bearer": { "cast": "named.chain_saga_northumbria_irish_sea.hunred", "name": "Hunred", "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [28, 45], "fixed": true, "note": "Hunred, the bearer; real" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.end_ireland.title",
    "title": "Two saints in one house",
@@ -508,7 +508,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "boy": { "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [19, 24], "fixed": true, "note": "Guthred son of Harthacnut; real" },
+    "boy": { "cast": "named.chain_saga_northumbria_irish_sea.guthred", "name": "Guthred", "role": "crewman", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [19, 24], "fixed": true, "note": "Guthred son of Harthacnut; real" },
     "kinsman": { "role": "envoy", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [40, 60], "fixed": false, "note": "a man of his father's kin from York; invented, unnamed" }
    },
    "title_key": "chain_saga_northumbria_irish_sea.end_ships_boy.title",

@@ -10,7 +10,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "dealer": { "role": "merchant", "people": "port", "faith": "port", "tongue": "port", "sex": "m", "age": [30, 55], "fixed": true, "note": "Ketil, a dealer in oddments who follows the summer markets; invented" }
+    "dealer": { "cast": "named.chain_lindisfarne_book.ketil", "name": "Ketil", "role": "merchant", "people": "port", "faith": "port", "tongue": "port", "sex": "m", "age": [30, 55], "fixed": true, "note": "Ketil, a dealer in oddments who follows the summer markets; invented" }
    },
    "title_key": "chain_lindisfarne_book.s01.title",
    "title": "A strip of gilt",
@@ -44,7 +44,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [60, 72], "fixed": true, "note": "cast.higbald, historical" }
+    "bishop": { "cast": "lindisfarena.higbald", "name": "Higbald", "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [60, 72], "fixed": true, "note": "cast.higbald, historical", "cast_from": 793, "cast_to": 803 }
    },
    "title_key": "chain_lindisfarne_book.s02.title",
    "title": "What is gone",
@@ -81,7 +81,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "scribe": { "role": "scribe", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "Eadwulf, a scribe of the minster school; invented" }
+    "scribe": { "cast": "named.chain_lindisfarne_book.eadwulf", "name": "Eadwulf", "role": "scribe", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "Eadwulf, a scribe of the minster school; invented" }
    },
    "title_key": "chain_lindisfarne_book.s03.title",
    "title": "A herd of calves",
@@ -151,8 +151,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "chief": { "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [33, 55], "fixed": true, "note": "cast.thorleif" },
-    "wife": { "role": "farm_wife", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "f", "age": [28, 50], "fixed": true, "note": "Gunnhild, Thorleif's wife; invented" }
+    "chief": { "cast": "ogvaldsnes.thorleif", "name": "Thorleif", "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [33, 55], "fixed": true, "note": "cast.thorleif", "cast_from": 793, "cast_to": 810 },
+    "wife": { "cast": "ogvaldsnes.gunnhild", "name": "Gunnhild", "role": "farm_wife", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "f", "age": [28, 50], "fixed": true, "note": "Gunnhild, Thorleif's wife; invented", "cast_from": 793, "cast_to": 828 }
    },
    "title_key": "chain_lindisfarne_book.s05.title",
    "title": "A box of skins",
@@ -232,7 +232,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "chief": { "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [33, 55], "fixed": true, "note": "cast.thorleif" },
+    "chief": { "cast": "ogvaldsnes.thorleif", "name": "Thorleif", "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [33, 55], "fixed": true, "note": "cast.thorleif", "cast_from": 793, "cast_to": 810 },
     "lookout": { "cast": "cast.crew.beornwine", "name": "Beornwine", "role": "lookout", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [18, 18], "fixed": true, "note": "cast.crew.beornwine" }
    },
    "title_key": "chain_lindisfarne_book.s07.title",
@@ -270,8 +270,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [38, 62], "fixed": true, "note": "cast.asulf" },
-    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 60], "fixed": true, "note": "cast.holmfast" }
+    "dealer": { "cast": "sliesthorp.asulf", "name": "Asulf", "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [38, 62], "fixed": true, "note": "cast.asulf", "cast_from": 793, "cast_to": 815 },
+    "svea": { "cast": "birka.holmfast", "name": "Holmfast", "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [35, 60], "fixed": true, "note": "cast.holmfast", "cast_from": 793, "cast_to": 822 }
    },
    "title_key": "chain_lindisfarne_book.s08.title",
    "title": "Asulf's lot",
@@ -306,7 +306,7 @@
    "weight": 8.0,
    "cooldown_days": 20,
    "actors": {
-    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [45, 72], "fixed": true, "note": "cast.higbald to May 803; Ecgberht 803-821; later the bishop of the year, unnamed" }
+    "bishop": { "cast": "lindisfarena.higbald", "name": "Higbald", "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [45, 72], "fixed": true, "note": "cast.higbald to May 803; Ecgberht 803-821; later the bishop of the year, unnamed", "cast_from": 793, "cast_to": 803 }
    },
    "title_key": "chain_lindisfarne_book.s09.title",
    "title": "Low water",
@@ -343,7 +343,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [45, 72], "fixed": true, "note": "cast.higbald to May 803; Ecgberht 803-821; later the bishop of the year, unnamed" },
+    "bishop": { "cast": "lindisfarena.higbald", "name": "Higbald", "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [45, 72], "fixed": true, "note": "cast.higbald to May 803; Ecgberht 803-821; later the bishop of the year, unnamed", "cast_from": 793, "cast_to": 803 },
     "thegn": { "role": "lords_man", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [30, 55], "fixed": false, "note": "a thegn of the king's rock at Bebbanburg; invented, unnamed" }
    },
    "title_key": "chain_lindisfarne_book.end_home.title",
@@ -380,8 +380,8 @@
    "weight": 3.0,
    "cooldown_days": 90,
    "actors": {
-    "archbishop": { "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [38, 65], "fixed": true, "note": "cast.eanbald (Eanbald I to August 796, Eanbald II after), historical" },
-    "scribe": { "role": "scribe", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "Eadwulf, a scribe of the minster school; invented" }
+    "archbishop": { "cast": "eoforwic.eanbald", "name": "Eanbald", "role": "bishop", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [38, 65], "fixed": true, "note": "cast.eanbald (Eanbald I to August 796, Eanbald II after), historical", "cast_from": 796, "cast_to": 808 },
+    "scribe": { "cast": "named.chain_lindisfarne_book.eadwulf", "name": "Eadwulf", "role": "scribe", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [35, 60], "fixed": true, "note": "Eadwulf, a scribe of the minster school; invented" }
    },
    "title_key": "chain_lindisfarne_book.end_york.title",
    "title": "A house with walls",
@@ -419,7 +419,7 @@
    "weight": 3.0,
    "cooldown_days": 120,
    "actors": {
-    "monk": { "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [34, 50], "fixed": true, "note": "cast.sigewine" }
+    "monk": { "cast": "eoforwic.sigewine", "name": "Sigewine", "role": "monk", "people": "english", "faith": "christian", "tongue": "old_english", "sex": "m", "age": [34, 50], "fixed": true, "note": "cast.sigewine", "cast_from": 793, "cast_to": 810 }
    },
    "title_key": "chain_lindisfarne_book.end_alms.title",
    "title": "The king's alms",
@@ -455,8 +455,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "chief": { "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [34, 60], "fixed": true, "note": "cast.thorleif" },
-    "wife": { "role": "farm_wife", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "f", "age": [29, 55], "fixed": true, "note": "Gunnhild, Thorleif's wife; invented" }
+    "chief": { "cast": "ogvaldsnes.thorleif", "name": "Thorleif", "role": "raider_chief", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "m", "age": [34, 60], "fixed": true, "note": "cast.thorleif", "cast_from": 793, "cast_to": 810 },
+    "wife": { "cast": "ogvaldsnes.gunnhild", "name": "Gunnhild", "role": "farm_wife", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "sex": "f", "age": [29, 55], "fixed": true, "note": "Gunnhild, Thorleif's wife; invented", "cast_from": 793, "cast_to": 828 }
    },
    "title_key": "chain_lindisfarne_book.end_left.title",
    "title": "A true word",

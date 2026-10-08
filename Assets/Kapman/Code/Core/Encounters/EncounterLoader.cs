@@ -103,7 +103,7 @@ namespace Kapman.Encounters
             "out", "out_success", "out_failure",
         };
         static readonly HashSet<string> LineFields = new HashSet<string> { "who", "key", "tongue", "turns", "when", "note" };
-        static readonly HashSet<string> ActorFields = new HashSet<string> { "role", "people", "faith", "tongue", "age", "fixed", "sex", "note", "cast", "name" };
+        static readonly HashSet<string> ActorFields = new HashSet<string> { "role", "people", "faith", "tongue", "age", "fixed", "sex", "note", "cast", "name", "cast_from", "cast_to" };
 
         public static EncounterBook Load(EncounterSources src)
         {
@@ -318,9 +318,14 @@ namespace Kapman.Encounters
                     fixedRole = Json.Bool(a, "fixed", true),
                     cast = Json.Str(a, "cast"),
                     name = Json.Str(a, "name"),
+                    castFrom = (int)Json.Num(a, "cast_from"),
+                    castTo = (int)Json.Num(a, "cast_to"),
                 };
-                if (spec.cast.Length > 0 && (spec.name.Length == 0 || spec.people == "port" || spec.people.Length == 0))
-                    errors.Add($"{where} actor {kv.Key}: one of the standing cast (\"cast\") needs a \"name\" and a \"people\" of its own.");
+                // (a named person needs the name; their people may be the port's own, as for anybody of the place)
+                if (spec.cast.Length > 0 && spec.name.Length == 0)
+                    errors.Add($"{where} actor {kv.Key}: a named person (\"cast\") needs a \"name\".");
+                if (spec.cast.Length == 0 && (spec.name.Length > 0 || spec.castFrom != 0 || spec.castTo != 0))
+                    errors.Add($"{where} actor {kv.Key}: \"name\", \"cast_from\" and \"cast_to\" belong to a named person (\"cast\").");
                 var age = Json.Arr(a, "age");
                 if (age != null)
                 {

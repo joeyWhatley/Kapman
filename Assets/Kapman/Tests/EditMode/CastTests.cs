@@ -41,13 +41,15 @@ namespace Kapman.Tests
             // the Dane who asks for an oar is a stranger
             var hire = book.Card("crew.hire.dane");
             Assert.AreEqual("", hire.actors.First(a => a.key == "dane").cast, "the Dane to be hired was made Ravn");
-            // nobody of the cast is without a name or a people of their own
+            // nobody named is without a name, and the four of the crew have a people of their own (anybody else named
+            // may be of the port's people, as the places are)
             foreach (var c in book.cards)
                 foreach (var a in c.actors)
                     if (a.cast.Length > 0)
                     {
                         Assert.IsNotEmpty(a.name, c.id + " " + a.key);
-                        Assert.AreNotEqual("port", a.people, c.id + " " + a.key);
+                        if (a.cast.StartsWith("cast.crew.", System.StringComparison.Ordinal))
+                            Assert.AreNotEqual("port", a.people, c.id + " " + a.key);
                     }
         }
 

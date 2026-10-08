@@ -10,7 +10,7 @@ namespace Kapman.Game
     /// set sail"; asked whether these are real rules or only told: "Real, simple"). A game begun through the opening
     /// starts with one man aboard, Ravn, and a worn sail. Before she can cast off:
     ///   - HANDS: men are hired on the quay of the home port until she has her crew (hand money down, a few pennies a
-    ///     man). The hands on offer are a short list of names of her people, the same each time for the same game.
+    ///     man). The hands on offer are the three of the crew the cards know: Aldger, Brunger and Beornwine.
     ///   - THE SAIL: mended at the port for a little silver and some hours of the clock.
     /// Cast off is refused, in words, until both are done. Then the jobs are over and nothing here is asked again.
     /// The men hired are a count, as the crew is everywhere in the game today: their names are said and not kept.
@@ -33,15 +33,17 @@ namespace Kapman.Game
             public bool hired;
         }
 
-        /// <summary>What a hand on the quay is, in a line. Placeholders for the user's own words.</summary>
-        static readonly string[] Lines =
+        /// <summary>
+        /// THE MEN ON THE QUAY ARE THE CREW OF THE CARDS (8 Oct 2026, night). Until then five names were made up for
+        /// the quay, three of them were hired, and from the first card on the crew were Aldger, Brunger and
+        /// Beornwine, whom nobody had hired. Now those three are the men who look for a boat on the first morning:
+        /// who each is, in a line (from the sheets of the story cast). Placeholders for the words of the writer.
+        /// </summary>
+        static readonly (string name, string line)[] Crew =
         {
-            "A fisher's son. A strong back, and no sea under him yet.",
-            "An old river man. Knows every bank between here and the sea.",
-            "Down from the uplands. Eats for two and rows for two.",
-            "Rowed for a bigger boat and was put ashore. Does not say why.",
-            "Young, quick, and sick in any swell. Says it passes.",
-            "Has a knife, a cloak and no other trade.",
+            ("Aldger", "A steersman out of Doccinga. Says the worst first, and then what can be done about it."),
+            ("Brunger", "A Saxon off the Weser, heavy in the shoulder. Few words, and those slow."),
+            ("Beornwine", "An English boy of eighteen with ink on his fingers. Sharp eyes. Talks when he is afraid."),
         };
 
         /// <summary>The jobs are set and not yet all done.</summary>
@@ -113,8 +115,8 @@ namespace Kapman.Game
 
         // ------------------------------------------------------------------ setting them
 
-        /// <summary>The jobs are set: one man aboard, the sail worn, and hands of her people waiting on the home quay.
-        /// `seed` makes the same hands for the same game.</summary>
+        /// <summary>The jobs are set: one man aboard, the sail worn, and the three of the crew waiting on the home quay.
+        /// (`people` and `seed` chose made-up names until 8 Oct 2026; the men are the same in every game now.)</summary>
         public static void Begin(string port, string people, int seed)
         {
             Active = true;
@@ -124,19 +126,8 @@ namespace Kapman.Game
             SailWorn = true;
             MendDoneAt = -1.0;
             hands.Clear();
-            var rng = new Random(seed * 7919 + 13);
-            var used = new HashSet<string>(StringComparer.Ordinal) { "Ravn", "Hrafn", Self.Called };
-            int line = rng.Next(Lines.Length);
-            for (int i = 0; i < CrewWanted + 1; i++)
-            {
-                string name = "";
-                for (int tries = 0; tries < 12 && (name.Length == 0 || used.Contains(name)); tries++)
-                    name = PeriodNames.Pick(people, false, rng.NextDouble());
-                if (name.Length == 0)
-                    name = "A shipman";
-                used.Add(name);
-                hands.Add(new Hand { name = name, line = Lines[(line + i) % Lines.Length] });
-            }
+            foreach (var (name, line) in Crew)
+                hands.Add(new Hand { name = name, line = line });
             Voyage.SetMen(1);
             Landings.Clear();                                             // (a new game: no landing is kept from the one before)
             Version++;

@@ -36,6 +36,9 @@ namespace Kapman.Game
         public string id = "", port = "", name = "", role = "", people = "", faith = "", trait = "", looks = "", voice = "";
         public bool historical;
         public int born, died, from, to;
+        /// <summary>The id of the story's cast this person is ("cast.thiadbod"), from the tie that says "the same
+        /// person"; "" for most. Their portrait was issued under that id.</summary>
+        public string same = "";
         public readonly Dictionary<string, string[]> lines = new Dictionary<string, string[]>(StringComparer.Ordinal);
         /// <summary>The line keys in the file's order.</summary>
         public readonly List<string> keys = new List<string>();
@@ -86,6 +89,24 @@ namespace Kapman.Game
         public IReadOnlyList<PlaceDef> Places => places;
         public PlaceDef Place(string port) => port != null && byPort.TryGetValue(port, out var p) ? p : null;
         public PersonDef Person(string id) => id != null && persons.TryGetValue(id, out var p) ? p : null;
+
+        /// <summary>The offices of which a port has one holder at a time: a card that wants "the toll man here" means
+        /// the port's own. (A priest, a skipper, a merchant are many: a card's is its own.)</summary>
+        public static readonly HashSet<string> Offices = new HashSet<string>(StringComparer.Ordinal)
+        {
+            "tollman", "moneyer", "count", "bishop", "abbot", "abbess", "reeve", "harbour_master", "king",
+        };
+
+        /// <summary>The port's own holder of an office in a year (the first of the file who is there then), or null.</summary>
+        public PersonDef Holder(string port, string role, int year)
+        {
+            if (string.IsNullOrEmpty(port) || role == null || !Offices.Contains(role))
+                return null;
+            foreach (var p in People(port, year))
+                if (p.role == role && p.name.Length > 0)
+                    return p;
+            return null;
+        }
         public SiteDef Site(string id) => id != null && siteById.TryGetValue(id, out var s) ? s : null;
 
         /// <summary>The sites of a port that stand that year, in the file's order.</summary>
@@ -192,6 +213,12 @@ namespace Kapman.Game
                 };
                 if (person.id.Length == 0)
                     continue;
+                foreach (var tie in ContentJson.Rows(p, "ties"))
+                {
+                    string to = ContentJson.Text(tie, "to"), why = ContentJson.Text(tie, "note");
+                    if (person.same.Length == 0 && to.StartsWith("cast.", StringComparison.Ordinal) && why.StartsWith("the same", StringComparison.OrdinalIgnoreCase))
+                        person.same = to;
+                }
                 foreach (var kv in ContentJson.Pairs(p, "lines"))
                 {
                     string[] said = ContentJson.Strings(p["lines"], kv.Key);

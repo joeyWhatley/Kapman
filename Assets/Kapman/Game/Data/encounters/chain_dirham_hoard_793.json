@@ -11,7 +11,7 @@
    "cooldown_days": 365,
    "months": [5, 6, 7, 8, 9, 10],
    "actors": {
-    "gute": { "role": "merchant", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [48, 60], "fixed": false, "note": "Hegbjorn of Aikgard (invented)" },
+    "gute": { "cast": "named.chain_dirham_hoard.hegbjorn", "name": "Hegbjorn", "role": "merchant", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [48, 60], "fixed": false, "note": "Hegbjorn of Aikgard (invented)" },
     "host": { "role": "host", "people": "port", "faith": "port", "tongue": "port", "age": [35, 60], "fixed": true, "note": "the man in whose house he lies; invented" }
    },
    "title_key": "chain_dirham_hoard.s01.title",
@@ -193,8 +193,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil of Aikgard, the dead man's younger brother (invented)" },
-    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn, the dead man's only child, a widow with a small son, living on her mother's kin's farm (invented)" }
+    "brother": { "cast": "paviken.vivil", "name": "Vivil", "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil of Aikgard, the dead man's younger brother (invented)", "cast_from": 805, "cast_to": 949 },
+    "daughter": { "cast": "paviken.ailikn", "name": "Ailikn", "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn, the dead man's only child, a widow with a small son, living on her mother's kin's farm (invented)", "cast_from": 805, "cast_to": 949 }
    },
    "title_key": "chain_dirham_hoard.s05.title",
    "title": "Aikgard",
@@ -241,8 +241,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil (invented)" },
-    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn (invented)" }
+    "brother": { "cast": "paviken.vivil", "name": "Vivil", "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil (invented)", "cast_from": 805, "cast_to": 949 },
+    "daughter": { "cast": "paviken.ailikn", "name": "Ailikn", "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn (invented)", "cast_from": 805, "cast_to": 949 }
    },
    "title_key": "chain_dirham_hoard.s06.title",
    "title": "Under the floor",
@@ -292,7 +292,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "rower": { "role": "sailor", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "Torkel, six summers at the dead man's oar (invented)" }
+    "rower": { "cast": "named.chain_dirham_hoard.torkel", "name": "Torkel", "role": "sailor", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "Torkel, six summers at the dead man's oar (invented)" }
    },
    "title_key": "chain_dirham_hoard.s07.title",
    "title": "Six oars",
@@ -341,9 +341,9 @@
    "months": [6, 7, 8],
    "actors": {
     "lawman": { "role": "lawman", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [50, 70], "fixed": true, "note": "the man who speaks the law at the thing; invented, and the office on Gotland this early is a guess (?)" },
-    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil (invented)" },
-    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn (invented)" },
-    "rower": { "role": "sailor", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "Torkel (invented); speaks only if his wages were paid at step 7" }
+    "brother": { "cast": "paviken.vivil", "name": "Vivil", "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil (invented)", "cast_from": 805, "cast_to": 949 },
+    "daughter": { "cast": "paviken.ailikn", "name": "Ailikn", "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn (invented)", "cast_from": 805, "cast_to": 949 },
+    "rower": { "cast": "named.chain_dirham_hoard.torkel", "name": "Torkel", "role": "sailor", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [25, 40], "fixed": false, "note": "Torkel (invented); speaks only if his wages were paid at step 7" }
    },
    "title_key": "chain_dirham_hoard.s08.title",
    "title": "The only witness",
@@ -391,9 +391,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil (invented)" },
-    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn (invented)" },
-    "cousin": { "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [20, 26], "fixed": true, "note": "Ottar, Vivil's son, who has rowed east two summers at another man's oar (invented); the role is the nearest the table has" }
+    "brother": { "cast": "paviken.vivil", "name": "Vivil", "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 60], "fixed": true, "note": "Vivil (invented)", "cast_from": 805, "cast_to": 949 },
+    "daughter": { "cast": "paviken.ailikn", "name": "Ailikn", "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 32], "fixed": true, "note": "Ailikn (invented)", "cast_from": 805, "cast_to": 949 },
+    "cousin": { "cast": "paviken.ottar", "name": "Ottar", "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [20, 26], "fixed": true, "note": "Ottar, Vivil's son, who has rowed east two summers at another man's oar (invented); the role is the nearest the table has", "cast_from": 805, "cast_to": 949 }
    },
    "title_key": "chain_dirham_hoard.s09.title",
    "title": "Fifteen of forty",
@@ -444,8 +444,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented)" },
-    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 62], "fixed": true, "note": "Vivil (invented); he comes to the fence at first light" }
+    "daughter": { "cast": "paviken.ailikn", "name": "Ailikn", "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented)", "cast_from": 805, "cast_to": 949 },
+    "brother": { "cast": "paviken.vivil", "name": "Vivil", "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 62], "fixed": true, "note": "Vivil (invented); he comes to the fence at first light", "cast_from": 805, "cast_to": 949 }
    },
    "title_key": "chain_dirham_hoard.s10.title",
    "title": "Her father's daughter",
@@ -484,8 +484,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 62], "fixed": true, "note": "Vivil (invented)" },
-    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented); she is not there, and hears of it" }
+    "brother": { "cast": "paviken.vivil", "name": "Vivil", "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 62], "fixed": true, "note": "Vivil (invented)", "cast_from": 805, "cast_to": 949 },
+    "daughter": { "cast": "paviken.ailikn", "name": "Ailikn", "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented); she is not there, and hears of it", "cast_from": 805, "cast_to": 949 }
    },
    "title_key": "chain_dirham_hoard.s11.title",
    "title": "The farm's silver",
@@ -527,7 +527,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented); she comes out to the fence with her son" },
+    "daughter": { "cast": "paviken.ailikn", "name": "Ailikn", "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented); she comes out to the fence with her son", "cast_from": 805, "cast_to": 949 },
     "hand": { "cast": "cast.crew.ravn", "name": "Ravn", "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [43, 43], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" }
    },
    "title_key": "chain_dirham_hoard.s12.title",
@@ -575,8 +575,8 @@
    "cooldown_days": 365,
    "actors": {
     "hand": { "cast": "cast.crew.ravn", "name": "Ravn", "role": "crewman", "people": "norse", "faith": "old_gods", "tongue": "old_norse", "age": [43, 43], "fixed": false, "note": "cast.crew.ravn, or a Norse hand of the forge" },
-    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 62], "fixed": true, "note": "Vivil (invented); not present: he is here for what he will remember" },
-    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented); not present" }
+    "brother": { "cast": "paviken.vivil", "name": "Vivil", "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [45, 62], "fixed": true, "note": "Vivil (invented); not present: he is here for what he will remember", "cast_from": 805, "cast_to": 949 },
+    "daughter": { "cast": "paviken.ailikn", "name": "Ailikn", "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [24, 34], "fixed": true, "note": "Ailikn (invented); not present", "cast_from": 805, "cast_to": 949 }
    },
    "title_key": "chain_dirham_hoard.s13.title",
    "title": "An arm deep",
@@ -625,9 +625,9 @@
    "cooldown_days": 365,
    "months": [8, 9, 10],
    "actors": {
-    "cousin": { "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [21, 28], "fixed": true, "note": "Ottar, Vivil's son (invented)" },
-    "daughter": { "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [25, 35], "fixed": true, "note": "Ailikn (invented)" },
-    "brother": { "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [46, 63], "fixed": true, "note": "Vivil (invented)" }
+    "cousin": { "cast": "paviken.ottar", "name": "Ottar", "role": "skipper", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [21, 28], "fixed": true, "note": "Ottar, Vivil's son (invented)", "cast_from": 805, "cast_to": 949 },
+    "daughter": { "cast": "paviken.ailikn", "name": "Ailikn", "role": "widow", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [25, 35], "fixed": true, "note": "Ailikn (invented)", "cast_from": 805, "cast_to": 949 },
+    "brother": { "cast": "paviken.vivil", "name": "Vivil", "role": "farmer", "people": "gute", "faith": "old_gods", "tongue": "old_norse", "age": [46, 63], "fixed": true, "note": "Vivil (invented)", "cast_from": 805, "cast_to": 949 }
    },
    "title_key": "chain_dirham_hoard.s14.title",
    "title": "Silver that floats",

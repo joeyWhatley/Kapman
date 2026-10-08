@@ -10,8 +10,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod, abbot of Herio from 824/825 (herio.hilbod); real" },
-    "monk": { "role": "monk", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [60, 70], "fixed": true, "note": "Natalis, the salt brother (herio.natalis); invented" }
+    "abbot": { "cast": "herio.hilbod", "name": "Hilbod", "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod, abbot of Herio from 824/825 (herio.hilbod); real", "cast_from": 825, "cast_to": 836 },
+    "monk": { "cast": "herio.natalis", "name": "Natalis", "role": "monk", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [60, 70], "fixed": true, "note": "Natalis, the salt brother (herio.natalis); invented", "cast_from": 793, "cast_to": 835 }
    },
    "title_key": "chain_saga_neustria_west.s01.title",
    "title": "The abbot's wall",
@@ -48,7 +48,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "merchant": { "role": "merchant", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [35, 50], "fixed": true, "note": "Leontius, son of Felix the oil seller (burdigala.oil_seller); invented" }
+    "merchant": { "cast": "burdigala.oil_seller", "name": "Felix", "role": "merchant", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [35, 50], "fixed": true, "note": "Leontius, son of Felix the oil seller (burdigala.oil_seller); invented", "cast_from": 793, "cast_to": 814 }
    },
    "title_key": "chain_saga_neustria_west.s02.title",
    "title": "Nine jars owed",
@@ -82,9 +82,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 50], "fixed": true, "note": "Rainald, count of Herbauge by 835 (namnetis.rainald); real" },
-    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
-    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 26], "fixed": true, "note": "Martinus, Maura's grandson (herio.martinus); invented" }
+    "count": { "cast": "namnetis.rainald", "name": "Rainald", "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 50], "fixed": true, "note": "Rainald, count of Herbauge by 835 (namnetis.rainald); real", "cast_from": 835, "cast_to": 843 },
+    "abbot": { "cast": "herio.hilbod", "name": "Hilbod", "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real", "cast_from": 825, "cast_to": 836 },
+    "salter": { "cast": "herio.martinus", "name": "Martinus", "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 26], "fixed": true, "note": "Martinus, Maura's grandson (herio.martinus); invented", "cast_from": 836, "cast_to": 875 }
    },
    "title_key": "chain_saga_neustria_west.s03.title",
    "title": "The saint's feast",
@@ -124,9 +124,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 55], "fixed": true, "note": "Gunhard, bishop of Nantes 835 to 843 (namnetis.gunhard); real" },
-    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
-    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 50], "fixed": true, "note": "Rainald of Herbauge (namnetis.rainald); real" }
+    "bishop": { "cast": "namnetis.gunhard", "name": "Gunhard", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 55], "fixed": true, "note": "Gunhard, bishop of Nantes 835 to 843 (namnetis.gunhard); real", "cast_from": 835, "cast_to": 843 },
+    "abbot": { "cast": "herio.hilbod", "name": "Hilbod", "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real", "cast_from": 825, "cast_to": 836 },
+    "count": { "cast": "namnetis.rainald", "name": "Rainald", "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 50], "fixed": true, "note": "Rainald of Herbauge (namnetis.rainald); real", "cast_from": 835, "cast_to": 843 }
    },
    "title_key": "chain_saga_neustria_west.s04.title",
    "title": "The ebbs",
@@ -163,9 +163,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 26], "fixed": true, "note": "Martinus (herio.martinus); invented" },
-    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 50], "fixed": true, "note": "Rainald of Herbauge (namnetis.rainald); real" },
-    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" }
+    "salter": { "cast": "herio.martinus", "name": "Martinus", "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 26], "fixed": true, "note": "Martinus (herio.martinus); invented", "cast_from": 836, "cast_to": 875 },
+    "count": { "cast": "namnetis.rainald", "name": "Rainald", "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 50], "fixed": true, "note": "Rainald of Herbauge (namnetis.rainald); real", "cast_from": 835, "cast_to": 843 },
+    "abbot": { "cast": "herio.hilbod", "name": "Hilbod", "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real", "cast_from": 825, "cast_to": 836 }
    },
    "title_key": "chain_saga_neustria_west.s05m.title",
    "title": "A road over the water",
@@ -203,8 +203,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 26], "fixed": true, "note": "Martinus (herio.martinus); invented" },
-    "monk": { "role": "monk", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [66, 72], "fixed": true, "note": "Natalis, the salt brother (herio.natalis); invented" }
+    "salter": { "cast": "herio.martinus", "name": "Martinus", "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 26], "fixed": true, "note": "Martinus (herio.martinus); invented", "cast_from": 836, "cast_to": 875 },
+    "monk": { "cast": "herio.natalis", "name": "Natalis", "role": "monk", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [66, 72], "fixed": true, "note": "Natalis, the salt brother (herio.natalis); invented", "cast_from": 793, "cast_to": 835 }
    },
    "title_key": "chain_saga_neustria_west.s05r.title",
    "title": "What the island is left with",
@@ -241,8 +241,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "skipper": { "role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 45], "fixed": true, "note": "Riwal, a Breton master of the salt run; invented. A Breton: the tables have no such people yet" },
-    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod), not on the card: named for the option that goes to his man" }
+    "skipper": { "cast": "named.chain_saga_neustria_west.riwal", "name": "Riwal", "role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 45], "fixed": true, "note": "Riwal, a Breton master of the salt run; invented. A Breton: the tables have no such people yet" },
+    "abbot": { "cast": "herio.hilbod", "name": "Hilbod", "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod), not on the card: named for the option that goes to his man", "cast_from": 825, "cast_to": 836 }
    },
    "title_key": "chain_saga_neustria_west.s06.title",
    "title": "Lead in a shed",
@@ -276,9 +276,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
-    "scribe": { "role": "scribe", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [24, 30], "fixed": true, "note": "Ermentarius, monk and eyewitness, author of the Miracles (herio.ermentarius); real" },
-    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 28], "fixed": true, "note": "Martinus (herio.martinus); invented" }
+    "abbot": { "cast": "herio.hilbod", "name": "Hilbod", "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real", "cast_from": 825, "cast_to": 836 },
+    "scribe": { "cast": "herio.ermentarius", "name": "Ermentarius", "role": "scribe", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [24, 30], "fixed": true, "note": "Ermentarius, monk and eyewitness, author of the Miracles (herio.ermentarius); real", "cast_from": 830, "cast_to": 836 },
+    "salter": { "cast": "herio.martinus", "name": "Martinus", "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 28], "fixed": true, "note": "Martinus (herio.martinus); invented", "cast_from": 836, "cast_to": 875 }
    },
    "title_key": "chain_saga_neustria_west.s07.title",
    "title": "The seventh day of June",
@@ -318,7 +318,7 @@
    "cooldown_days": 365,
    "actors": {
     "lookout": { "role": "lookout", "people": "ship", "faith": "ship", "tongue": "ship", "sex": "m", "age": [18, 40], "fixed": false, "note": "the player's own bow man" },
-    "skipper": { "role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 45], "fixed": true, "note": "Riwal the Breton, in company; invented" }
+    "skipper": { "cast": "named.chain_saga_neustria_west.riwal", "name": "Riwal", "role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 45], "fixed": true, "note": "Riwal the Breton, in company; invented" }
    },
    "title_key": "chain_saga_neustria_west.s08.title",
    "title": "No wind off Batz",
@@ -353,9 +353,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "bishop": { "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 55], "fixed": true, "note": "Gunhard (namnetis.gunhard); real" },
-    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
-    "scribe": { "role": "scribe", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [24, 30], "fixed": true, "note": "Ermentarius (herio.ermentarius); real" }
+    "bishop": { "cast": "namnetis.gunhard", "name": "Gunhard", "role": "bishop", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [45, 55], "fixed": true, "note": "Gunhard (namnetis.gunhard); real", "cast_from": 835, "cast_to": 843 },
+    "abbot": { "cast": "herio.hilbod", "name": "Hilbod", "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 55], "fixed": true, "note": "Hilbod (herio.hilbod); real", "cast_from": 825, "cast_to": 836 },
+    "scribe": { "cast": "herio.ermentarius", "name": "Ermentarius", "role": "scribe", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [24, 30], "fixed": true, "note": "Ermentarius (herio.ermentarius); real", "cast_from": 830, "cast_to": 836 }
    },
    "title_key": "chain_saga_neustria_west.e1.title",
    "title": "A guest of Saint Philibert",
@@ -396,7 +396,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 30], "fixed": true, "note": "Martinus (herio.martinus); invented" }
+    "salter": { "cast": "herio.martinus", "name": "Martinus", "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 30], "fixed": true, "note": "Martinus (herio.martinus); invented", "cast_from": 836, "cast_to": 875 }
    },
    "title_key": "chain_saga_neustria_west.e2.title",
    "title": "One lamp",
@@ -432,10 +432,10 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "abbot": { "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 60], "fixed": true, "note": "Hilbod (herio.hilbod); real" },
-    "count": { "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 55], "fixed": true, "note": "Rainald of Herbauge (namnetis.rainald); real" },
-    "salter": { "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 30], "fixed": true, "note": "Martinus (herio.martinus); invented" },
-    "scribe": { "role": "scribe", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [24, 32], "fixed": true, "note": "Ermentarius (herio.ermentarius); real" }
+    "abbot": { "cast": "herio.hilbod", "name": "Hilbod", "role": "abbot", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [45, 60], "fixed": true, "note": "Hilbod (herio.hilbod); real", "cast_from": 825, "cast_to": 836 },
+    "count": { "cast": "namnetis.rainald", "name": "Rainald", "role": "count", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [35, 55], "fixed": true, "note": "Rainald of Herbauge (namnetis.rainald); real", "cast_from": 835, "cast_to": 843 },
+    "salter": { "cast": "herio.martinus", "name": "Martinus", "role": "salter", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [22, 30], "fixed": true, "note": "Martinus (herio.martinus); invented", "cast_from": 836, "cast_to": 875 },
+    "scribe": { "cast": "herio.ermentarius", "name": "Ermentarius", "role": "scribe", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [24, 32], "fixed": true, "note": "Ermentarius (herio.ermentarius); real", "cast_from": 830, "cast_to": 836 }
    },
    "title_key": "chain_saga_neustria_west.e3.title",
    "title": "Three lamps",
@@ -471,7 +471,7 @@
    "cooldown_days": 365,
    "actors": {
     "cellarer": { "role": "cellarer", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [40, 60], "fixed": true, "note": "the cellarer of Jumieges, buying at the Rouen quay; invented, unnamed" },
-    "skipper": { "role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 45], "fixed": true, "note": "Riwal the Breton; invented" }
+    "skipper": { "cast": "named.chain_saga_neustria_west.riwal", "name": "Riwal", "role": "skipper", "people": "romance", "faith": "christian", "tongue": "romance", "sex": "m", "age": [30, 45], "fixed": true, "note": "Riwal the Breton; invented" }
    },
    "title_key": "chain_saga_neustria_west.e4.title",
    "title": "Whose roof it was",
@@ -506,7 +506,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "abbot": { "role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 60], "fixed": true, "note": "Hilduin, abbot of Saint-Denis (parisius.hilduin); real" }
+    "abbot": { "cast": "parisius.hilduin", "name": "Hilduin", "role": "abbot", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "sex": "m", "age": [50, 60], "fixed": true, "note": "Hilduin, abbot of Saint-Denis (parisius.hilduin); real", "cast_from": 814, "cast_to": 841 }
    },
    "title_key": "chain_saga_neustria_west.s13.title",
    "title": "The first book",

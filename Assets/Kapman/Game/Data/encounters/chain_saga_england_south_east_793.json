@@ -11,7 +11,7 @@
    "cooldown_days": 365,
    "actors": {
     "tollman": { "role": "tollman", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 60], "fixed": true, "note": "the port's toll man" },
-    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "sarre.ealhhere, Ealdorman Ealhhere of Kent; historical" }
+    "chief": { "cast": "sarre.ealhhere", "name": "Ealhhere", "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "sarre.ealhhere, Ealdorman Ealhhere of Kent; historical", "cast_from": 839, "cast_to": 853 }
    },
    "title_key": "chain_saga_england_south_east.s01.title",
    "title": "Whom do you mean to sell to",
@@ -47,7 +47,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "buyer": { "role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [28, 45], "fixed": true, "note": "Ketil, who buys for the camp on the island; invented" }
+    "buyer": { "cast": "named.chain_saga_england_south_east.ketil", "name": "Ketil", "role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [28, 45], "fixed": true, "note": "Ketil, who buys for the camp on the island; invented" }
    },
    "title_key": "chain_saga_england_south_east.s02.title",
    "title": "The creek and the tide",
@@ -83,7 +83,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "nun": { "role": "nun", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 50], "fixed": true, "note": "Beornwynn, the minster's cellaress, who keeps its ship-house at Sarre; invented" }
+    "nun": { "cast": "named.chain_saga_england_south_east.beornwynn", "name": "Beornwynn", "role": "nun", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 50], "fixed": true, "note": "Beornwynn, the minster's cellaress, who keeps its ship-house at Sarre; invented" }
    },
    "title_key": "chain_saga_england_south_east.s03.title",
    "title": "The sisters on the island",
@@ -119,7 +119,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "host": { "role": "host", "people": "english", "faith": "christian", "tongue": "old_english", "age": [44, 48], "fixed": true, "note": "lundenwic.ceolmund, who keeps the Frisians' yard by the west road" },
+    "host": { "cast": "lundenwic.ceolmund", "name": "Ceolmund", "role": "host", "people": "english", "faith": "christian", "tongue": "old_english", "age": [44, 48], "fixed": true, "note": "lundenwic.ceolmund, who keeps the Frisians' yard by the west road", "cast_from": 835, "cast_to": 857 },
     "reeve": { "role": "reeve", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 55], "fixed": true, "note": "King Beorhtwulf's wic-reeve; invented, unnamed" }
    },
    "title_key": "chain_saga_england_south_east.s04.title",
@@ -156,7 +156,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "wright": { "role": "shipwright", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 50], "fixed": false, "note": "Wihtgar, shipwright of the boat ground up the Dour at Dofras; invented. Met again in step 6 and in the ending end_lives" },
+    "wright": { "cast": "named.chain_saga_england_south_east.wihtgar", "name": "Wihtgar", "role": "shipwright", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 50], "fixed": false, "note": "Wihtgar, shipwright of the boat ground up the Dour at Dofras; invented. Met again in step 6 and in the ending end_lives" },
     "kingsman": { "role": "kings_man", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 45], "fixed": false, "note": "a thegn of King Aethelstan of Kent; invented, unnamed" }
    },
    "title_key": "chain_saga_england_south_east.s05.title",
@@ -193,9 +193,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "king": { "role": "king", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 35], "fixed": false, "note": "Aethelstan, under-king of Kent, Essex, Surrey and Sussex 839 to 851, eldest son of King Aethelwulf; historical" },
-    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "sarre.ealhhere; historical" },
-    "wright": { "role": "shipwright", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 50], "fixed": false, "note": "Wihtgar of the Dour, as in step 5; invented" }
+    "king": { "cast": "named.chain_saga_england_south_east.aethelstan", "name": "Aethelstan", "role": "king", "people": "english", "faith": "christian", "tongue": "old_english", "age": [25, 35], "fixed": false, "note": "Aethelstan, under-king of Kent, Essex, Surrey and Sussex 839 to 851, eldest son of King Aethelwulf; historical" },
+    "chief": { "cast": "sarre.ealhhere", "name": "Ealhhere", "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "sarre.ealhhere; historical", "cast_from": 839, "cast_to": 853 },
+    "wright": { "cast": "named.chain_saga_england_south_east.wihtgar", "name": "Wihtgar", "role": "shipwright", "people": "english", "faith": "christian", "tongue": "old_english", "age": [35, 50], "fixed": false, "note": "Wihtgar of the Dour, as in step 5; invented" }
    },
    "title_key": "chain_saga_england_south_east.s06.title",
    "title": "They fought in their ships",
@@ -235,7 +235,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "seller": { "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 50], "fixed": false, "note": "Folcbald, a Frisian out of Rorik's Dorestad who buys what the fleet cannot use; invented" },
+    "seller": { "cast": "named.chain_saga_england_south_east.folcbald", "name": "Folcbald", "role": "merchant", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [30, 50], "fixed": false, "note": "Folcbald, a Frisian out of Rorik's Dorestad who buys what the fleet cannot use; invented" },
     "priest": { "role": "priest", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 60], "fixed": true, "note": "at Dommoc a priest of Bishop Aethelwald's church (dommoc.aethelwald, historical, is named in the lines); at Gipeswic the priest of Saint Peter's by the ford" }
    },
    "title_key": "chain_saga_england_south_east.s07.title",
@@ -275,8 +275,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "scribe": { "role": "scribe", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 55], "fixed": true, "note": "Wigbeorht, a clerk of Archbishop Ceolnoth's (historical, named in the lines); invented" },
-    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "sarre.ealhhere; historical" }
+    "scribe": { "cast": "named.chain_saga_england_south_east.wigbeorht", "name": "Wigbeorht", "role": "scribe", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 55], "fixed": true, "note": "Wigbeorht, a clerk of Archbishop Ceolnoth's (historical, named in the lines); invented" },
+    "chief": { "cast": "sarre.ealhhere", "name": "Ealhhere", "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 50], "fixed": true, "note": "sarre.ealhhere; historical", "cast_from": 839, "cast_to": 853 }
    },
    "title_key": "chain_saga_england_south_east.s08.title",
    "title": "Inside the wall",
@@ -316,8 +316,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "huda": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Huda, ealdorman of Surrey, killed on Thanet in 853; historical, known only from the Chronicle" },
-    "host": { "role": "host", "people": "english", "faith": "christian", "tongue": "old_english", "age": [46, 50], "fixed": true, "note": "lundenwic.ceolmund" }
+    "huda": { "cast": "named.chain_saga_england_south_east.huda", "name": "Huda", "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Huda, ealdorman of Surrey, killed on Thanet in 853; historical, known only from the Chronicle" },
+    "host": { "cast": "lundenwic.ceolmund", "name": "Ceolmund", "role": "host", "people": "english", "faith": "christian", "tongue": "old_english", "age": [46, 50], "fixed": true, "note": "lundenwic.ceolmund", "cast_from": 835, "cast_to": 857 }
    },
    "title_key": "chain_saga_england_south_east.s09.title",
    "title": "How wide is that water",
@@ -353,8 +353,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [42, 52], "fixed": true, "note": "sarre.ealhhere; historical" },
-    "huda": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Huda of Surrey; historical" },
+    "chief": { "cast": "sarre.ealhhere", "name": "Ealhhere", "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [42, 52], "fixed": true, "note": "sarre.ealhhere; historical", "cast_from": 839, "cast_to": 853 },
+    "huda": { "cast": "named.chain_saga_england_south_east.huda", "name": "Huda", "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 45], "fixed": false, "note": "Huda of Surrey; historical" },
     "ferryman": { "role": "ferryman", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 60], "fixed": true, "note": "the ferryman of the crossing at Sarre" }
    },
    "title_key": "chain_saga_england_south_east.s10.title",
@@ -397,7 +397,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "steward": { "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 60], "fixed": false, "note": "Osferth, steward of the dead ealdorman's household, who speaks for his sister Ealhburh (historical (?)); invented" },
+    "steward": { "cast": "named.chain_saga_england_south_east.osferth", "name": "Osferth", "role": "steward", "people": "english", "faith": "christian", "tongue": "old_english", "age": [40, 60], "fixed": false, "note": "Osferth, steward of the dead ealdorman's household, who speaks for his sister Ealhburh (historical (?)); invented" },
     "ferryman": { "role": "ferryman", "people": "english", "faith": "christian", "tongue": "old_english", "age": [30, 60], "fixed": true, "note": "the ferryman of the crossing" }
    },
    "title_key": "chain_saga_england_south_east.end_fallen.title",
@@ -434,8 +434,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "chief": { "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [42, 52], "fixed": true, "note": "sarre.ealhhere, alive after 853: history changed" },
-    "wright": { "role": "shipwright", "people": "english", "faith": "christian", "tongue": "old_english", "age": [37, 52], "fixed": false, "note": "Wihtgar of the Dour, as in steps 5 and 6; invented" }
+    "chief": { "cast": "sarre.ealhhere", "name": "Ealhhere", "role": "chief", "people": "english", "faith": "christian", "tongue": "old_english", "age": [42, 52], "fixed": true, "note": "sarre.ealhhere, alive after 853: history changed", "cast_from": 839, "cast_to": 853 },
+    "wright": { "cast": "named.chain_saga_england_south_east.wihtgar", "name": "Wihtgar", "role": "shipwright", "people": "english", "faith": "christian", "tongue": "old_english", "age": [37, 52], "fixed": false, "note": "Wihtgar of the Dour, as in steps 5 and 6; invented" }
    },
    "title_key": "chain_saga_england_south_east.end_lives.title",
    "title": "The fourth ship",
@@ -471,7 +471,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "buyer": { "role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 48], "fixed": true, "note": "Ketil, the camp's buyer, as in step 2; invented" }
+    "buyer": { "cast": "named.chain_saga_england_south_east.ketil", "name": "Ketil", "role": "merchant", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 48], "fixed": true, "note": "Ketil, the camp's buyer, as in step 2; invented" }
    },
    "title_key": "chain_saga_england_south_east.end_creek.title",
    "title": "Cut honestly",
@@ -506,7 +506,7 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "nun": { "role": "nun", "people": "english", "faith": "christian", "tongue": "old_english", "age": [38, 53], "fixed": true, "note": "Beornwynn, as in step 3; invented" },
+    "nun": { "cast": "named.chain_saga_england_south_east.beornwynn", "name": "Beornwynn", "role": "nun", "people": "english", "faith": "christian", "tongue": "old_english", "age": [38, 53], "fixed": true, "note": "Beornwynn, as in step 3; invented" },
     "abbess": { "role": "abbess", "people": "english", "faith": "christian", "tongue": "old_english", "age": [45, 70], "fixed": true, "note": "the abbess of Minster-in-Thanet in 853: not known, not named" }
    },
    "title_key": "chain_saga_england_south_east.end_minster.title",

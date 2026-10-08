@@ -53,8 +53,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 40], "fixed": true, "note": "Frethburg, Liafbern's wife (invented)" },
-    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 46], "fixed": true, "note": "cast.landric" }
+    "wife": { "cast": "named.chain_lost_brother.frethburg", "name": "Frethburg", "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 40], "fixed": true, "note": "Frethburg, Liafbern's wife (invented)" },
+    "priest": { "cast": "emuthon.landric", "name": "Landric", "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 46], "fixed": true, "note": "cast.landric", "cast_from": 800, "cast_to": 830 }
    },
    "title_key": "chain_lost_brother.s02.title",
    "title": "The mound by the creek",
@@ -97,8 +97,8 @@
    "cooldown_days": 365,
    "months": [4, 5, 6, 7, 8, 9, 10, 11],
    "actors": {
-    "dealer": { "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [50, 60], "fixed": true, "note": "cast.asulf" },
-    "wend": { "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "age": [45, 60], "fixed": true, "note": "cast.dragomir, set down here from Reric in 808" }
+    "dealer": { "cast": "sliesthorp.asulf", "name": "Asulf", "role": "slave_dealer", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [50, 60], "fixed": true, "note": "cast.asulf", "cast_from": 793, "cast_to": 815 },
+    "wend": { "cast": "reric.dragomir", "name": "Dragomir", "role": "merchant", "people": "wendish", "faith": "slavic_gods", "tongue": "slavic", "age": [45, 60], "fixed": true, "note": "cast.dragomir, set down here from Reric in 808", "cast_from": 793, "cast_to": 808 }
    },
    "title_key": "chain_lost_brother.s03.title",
    "title": "A man who remembers every sale",
@@ -225,9 +225,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "buyer": { "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [35, 55], "fixed": true, "note": "Gundbert of Verdun (invented)" },
+    "buyer": { "cast": "named.chain_lost_brother.gundbert", "name": "Gundbert", "role": "merchant", "people": "frankish", "faith": "christian", "tongue": "romance", "age": [35, 55], "fixed": true, "note": "Gundbert of Verdun (invented)" },
     "steward": { "role": "steward", "people": "frankish", "faith": "christian", "tongue": "old_frankish", "age": [40, 60], "fixed": true, "note": "the archbishop's steward, before whom sales are made (invented)" },
-    "brother": { "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [32, 40], "fixed": true, "note": "Liafbern (invented)" }
+    "brother": { "cast": "named.chain_lost_brother.liafbern", "name": "Liafbern", "role": "captive", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [32, 40], "fixed": true, "note": "Liafbern (invented)" }
    },
    "title_key": "chain_lost_brother.s06.title",
    "title": "Eleven Wends and a Frisian",
@@ -333,9 +333,9 @@
    "cooldown_days": 365,
    "months": [4, 5, 6, 7, 8, 9, 10],
    "actors": {
-    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [50, 60], "fixed": true, "note": "cast.holmfast" },
-    "owner": { "role": "owner", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [35, 55], "fixed": true, "note": "Ingimar, a shipman with a farm on the island (invented)" },
-    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [10, 12], "fixed": true, "note": "Wibern, Liafbern's son (invented)" }
+    "svea": { "cast": "birka.holmfast", "name": "Holmfast", "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [50, 60], "fixed": true, "note": "cast.holmfast", "cast_from": 793, "cast_to": 822 },
+    "owner": { "cast": "named.chain_lost_brother.ingimar", "name": "Ingimar", "role": "owner", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [35, 55], "fixed": true, "note": "Ingimar, a shipman with a farm on the island (invented)" },
+    "boy": { "cast": "named.chain_lost_brother.wibern", "name": "Wibern", "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [10, 12], "fixed": true, "note": "Wibern, Liafbern's son (invented)" }
    },
    "title_key": "chain_lost_brother.s08.title",
    "title": "The boy with the sheep",
@@ -387,7 +387,7 @@
    "cooldown_days": 365,
    "months": [4, 5, 6, 7, 8, 9, 10],
    "actors": {
-    "svea": { "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [50, 62], "fixed": true, "note": "cast.holmfast" }
+    "svea": { "cast": "birka.holmfast", "name": "Holmfast", "role": "merchant", "people": "svea", "faith": "old_gods", "tongue": "old_norse", "age": [50, 62], "fixed": true, "note": "cast.holmfast", "cast_from": 793, "cast_to": 822 }
    },
    "title_key": "chain_lost_brother.s09.title",
    "title": "Gone with the summer ships",
@@ -435,9 +435,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 42], "fixed": true, "note": "Frethburg (invented)" },
-    "brother": { "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [32, 42], "fixed": true, "note": "Liafbern (invented)" },
-    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [10, 13], "fixed": true, "note": "Wibern (invented)" }
+    "wife": { "cast": "named.chain_lost_brother.frethburg", "name": "Frethburg", "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 42], "fixed": true, "note": "Frethburg (invented)" },
+    "brother": { "cast": "named.chain_lost_brother.liafbern", "name": "Liafbern", "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [32, 42], "fixed": true, "note": "Liafbern (invented)" },
+    "boy": { "cast": "named.chain_lost_brother.wibern", "name": "Wibern", "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [10, 13], "fixed": true, "note": "Wibern (invented)" }
    },
    "title_key": "chain_lost_brother.s10.title",
    "title": "Two at the table",
@@ -485,8 +485,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 42], "fixed": true, "note": "Frethburg (invented)" },
-    "brother": { "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [32, 42], "fixed": true, "note": "Liafbern (invented)" }
+    "wife": { "cast": "named.chain_lost_brother.frethburg", "name": "Frethburg", "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 42], "fixed": true, "note": "Frethburg (invented)" },
+    "brother": { "cast": "named.chain_lost_brother.liafbern", "name": "Liafbern", "role": "farmer", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [32, 42], "fixed": true, "note": "Liafbern (invented)" }
    },
    "title_key": "chain_lost_brother.s11.title",
    "title": "The father's bowl",
@@ -533,9 +533,9 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 42], "fixed": true, "note": "Frethburg (invented)" },
-    "boy": { "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [10, 13], "fixed": true, "note": "Wibern (invented)" },
-    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 50], "fixed": true, "note": "cast.landric" }
+    "wife": { "cast": "named.chain_lost_brother.frethburg", "name": "Frethburg", "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 42], "fixed": true, "note": "Frethburg (invented)" },
+    "boy": { "cast": "named.chain_lost_brother.wibern", "name": "Wibern", "role": "child", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [10, 13], "fixed": true, "note": "Wibern (invented)" },
+    "priest": { "cast": "emuthon.landric", "name": "Landric", "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 50], "fixed": true, "note": "cast.landric", "cast_from": 800, "cast_to": 830 }
    },
    "title_key": "chain_lost_brother.s12.title",
    "title": "His father's knife",
@@ -582,8 +582,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 44], "fixed": true, "note": "Frethburg (invented)" },
-    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 50], "fixed": true, "note": "cast.landric" }
+    "wife": { "cast": "named.chain_lost_brother.frethburg", "name": "Frethburg", "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 44], "fixed": true, "note": "Frethburg (invented)" },
+    "priest": { "cast": "emuthon.landric", "name": "Landric", "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 50], "fixed": true, "note": "cast.landric", "cast_from": 800, "cast_to": 830 }
    },
    "title_key": "chain_lost_brother.s13.title",
    "title": "The empty bench",
@@ -630,8 +630,8 @@
    "once": true,
    "cooldown_days": 365,
    "actors": {
-    "wife": { "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 44], "fixed": true, "note": "Frethburg (invented)" },
-    "priest": { "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 50], "fixed": true, "note": "cast.landric" },
+    "wife": { "cast": "named.chain_lost_brother.frethburg", "name": "Frethburg", "role": "farm_wife", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [28, 44], "fixed": true, "note": "Frethburg (invented)" },
+    "priest": { "cast": "emuthon.landric", "name": "Landric", "role": "priest", "people": "frisian", "faith": "christian", "tongue": "old_frisian", "age": [36, 50], "fixed": true, "note": "cast.landric", "cast_from": 800, "cast_to": 830 },
     "dane": { "role": "kings_man", "people": "danish", "faith": "old_gods", "tongue": "old_norse", "age": [30, 55], "fixed": false, "note": "the Danish king's man who brought the boats (invented)" }
    },
    "title_key": "chain_lost_brother.s14.title",

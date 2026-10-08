@@ -911,4 +911,28 @@ and far fewer when usage is short).
    ("out", "out_success", "out_failure": six do). STILL WITHOUT A WRITTEN END: 2,466 choices, among them all of
    Dorestat's own harbour cards and the toll man. They say what you did and the facts, as before: writing them is
    content, and the user's.
+102. **THE PEOPLE OF THE CARDS HAVE THEIR OWN NAMES** (8 Oct, night; the user: "Do what you think needs to be done";
+   it is item 97's open point, and the alpha's row 7: "the speaker has a name and a face"). The words of a card call
+   its people by name ("Folkmar rolls four pairs down to your boat") while the window made up another for each
+   ("Meinbod, the craftsman"), and the moneyer of Dorestat's own page, Sigimar, was "Madalger" on his card. Now:
+   - An actor whom the designers' note ties to a person IS that person: 751 by the id of one of the places' people
+     in the note, 83 more by a name the note gives where the card's own port has somebody of that name, and 365 by
+     a name the note gives and nothing else ("Folkmar, a quern cutter of the vicus; invented"). With the crew's 370
+     that is 1,569 of the cards' 2,328 actors. The other 759 have no name in any note and are made up as before.
+   - One of the places' people is that person only in the years the places give them ("cast_from", "cast_to"):
+     after Sigimar's last year the mint's card is met with whoever holds the mint then.
+   - A card that wants the holder of an office at a port (the toll man, the moneyer, the count, the bishop, the
+     abbot, the abbess, the reeve, the harbour master, the king) meets the one the port's page names for that year
+     (PlaceBook.Holder): the toll man of Dorestat is Aldgrim on his card as in the port. A priest, a skipper, a
+     merchant are many: a card's is its own.
+   - A named person has their own portrait where there is one (one of the story's cast under the cast's id).
+   NINE notes name somebody ELSE than the speaker ("a man of the count's (cast.folcbert)") and were left alone.
+   WHAT THIS DOES NOT DO: the port's people and the cards' people still keep two memories (talk in the port does
+   not use the cards' feelings); and a named person who is in the words of a card after their years is still named
+   there.
+103. **THE MEN ON THE QUAY ARE THE CREW OF THE CARDS** (the same night; item 97's other open point, as I had
+   advised). On the first morning five made-up names stood on the quay and three were hired, and from the first
+   card on the crew were Aldger, Brunger and Beornwine, whom nobody had hired. Now those three are the men who
+   look for a boat, each with a line of who he is from his sheet (FirstJobs.Crew; placeholders). There is no
+   choosing among them any more: before, the choice changed nothing but a name.
 
