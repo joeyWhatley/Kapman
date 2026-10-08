@@ -43,6 +43,18 @@ namespace Kapman.Game.Frame
         /// <summary>A person of a places file: "portrait/person.dorestad.tollman.png" for the id "dorestad.tollman".</summary>
         public static string Person(string personId) => $"portrait/person.{personId}.png";
 
+        /// <summary>The picture of somebody who speaks on a card: one of the standing cast has a portrait of their own
+        /// ("portrait/person.cast.crew.ravn.png"); anybody else has the portrait of their trade ("portrait/role.tollman.png").
+        /// "" where there is no such picture (the plain shape stands).</summary>
+        public static string OfSpeaker(string id, string role)
+        {
+            string own = !string.IsNullOrEmpty(id) && id.StartsWith("cast.", System.StringComparison.Ordinal) ? Person(id) : "";
+            if (own.Length > 0 && Load(own) != null)
+                return own;
+            string trade = string.IsNullOrEmpty(role) ? "" : $"portrait/role.{role}.png";
+            return trade.Length > 0 && Load(trade) != null ? trade : "";
+        }
+
         /// <summary>The slot of somebody the opening knows by a bare name (the lender; Ravn, your first hand); "" for
         /// anybody else.</summary>
         public static string Named(string who) =>
@@ -68,7 +80,7 @@ namespace Kapman.Game.Frame
                     tex = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp, hideFlags = HideFlags.HideAndDontSave };
                     if (tex.LoadImage(File.ReadAllBytes(path), true))
                         break;
-                    Object.Destroy(tex);
+                    Drop(tex);
                     tex = null;
                 }
                 catch (IOException e)
@@ -81,13 +93,22 @@ namespace Kapman.Game.Frame
             return tex;
         }
 
+        /// <summary>A picture is let go (in the editor outside play, where a test may have read one, at once).</summary>
+        static void Drop(Texture2D tex)
+        {
+            if (Application.isPlaying)
+                Object.Destroy(tex);
+            else
+                Object.DestroyImmediate(tex);
+        }
+
         // Enter Play Mode runs without a domain reload: the pictures are read again each play (the user may have drawn one)
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Reset()
         {
             foreach (var tex in cache.Values)
                 if (tex != null)
-                    Object.Destroy(tex);
+                    Drop(tex);
             cache.Clear();
             pool = null;
         }

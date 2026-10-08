@@ -1,6 +1,6 @@
 # Ravn's lines on the story cards: old and new (8 Oct 2026)
 
-DECISIONS items 86, 89 and 90. Placeholders for the user's pen. Where a checker or the editor changed what the writer wrote, it is said beside the key.
+DECISIONS items 86, 89 and 90. LATER THE SAME DAY many of these lines were written a third time, on the script critic's report (DECISIONS 96: at ease he shortens his words, in earnest he says them whole, and he no longer says "I only say" or tells the player what he is like): the lines as they stand are in Assets/Kapman/Game/Data/writing.json, and this list is the morning's. Placeholders for the user's pen. Where a checker or the editor changed what the writer wrote, it is said beside the key.
 (The first heading below is the list itself.)
 
 # Ravn's lines: old and new

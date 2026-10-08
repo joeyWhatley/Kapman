@@ -102,7 +102,7 @@ namespace Kapman.Encounters
             "key", "label_key", "label", "check", "cost", "effects", "then", "default", "note",
         };
         static readonly HashSet<string> LineFields = new HashSet<string> { "who", "key", "tongue", "turns", "when", "note" };
-        static readonly HashSet<string> ActorFields = new HashSet<string> { "role", "people", "faith", "tongue", "age", "fixed", "sex", "note" };
+        static readonly HashSet<string> ActorFields = new HashSet<string> { "role", "people", "faith", "tongue", "age", "fixed", "sex", "note", "cast", "name" };
 
         public static EncounterBook Load(EncounterSources src)
         {
@@ -315,7 +315,11 @@ namespace Kapman.Encounters
                     tongue = Json.Str(a, "tongue", "port"),
                     sex = Json.Str(a, "sex"),
                     fixedRole = Json.Bool(a, "fixed", true),
+                    cast = Json.Str(a, "cast"),
+                    name = Json.Str(a, "name"),
                 };
+                if (spec.cast.Length > 0 && (spec.name.Length == 0 || spec.people == "port" || spec.people.Length == 0))
+                    errors.Add($"{where} actor {kv.Key}: one of the standing cast (\"cast\") needs a \"name\" and a \"people\" of its own.");
                 var age = Json.Arr(a, "age");
                 if (age != null)
                 {

@@ -64,6 +64,38 @@ namespace Kapman.Tests
             }
         }
 
+        /// <summary>A card on the screen is said through, answered by its first choice that can be chosen, and gone on from
+        /// until it is shut.</summary>
+        static IEnumerator AnswerCard(ChartPlay play, System.Text.StringBuilder notes)
+        {
+            for (int i = 0; i < 30 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; i++)
+            {
+                yield return play.Press(Key.Enter);
+                yield return ChartPlay.Frames(4);
+            }
+            yield return ChartPlay.Settle(0.3f);
+            var front = play.FrontFloat();
+            Button pick = null;
+            string words = "";
+            if (front != null)
+                foreach (var c in play.Choices(front))
+                    if (pick == null && c.can)
+                    {
+                        pick = c.button;
+                        words = c.words;
+                    }
+            Assert.IsNotNull(pick, "the card has no choice that can be made: " + ChartPlay.Short(ChartPlay.Read(front)));
+            notes.AppendLine("card answered: " + words);
+            yield return play.Click(pick, "the choice '" + words + "'");
+            yield return ChartPlay.Settle(0.4f);
+            for (int i = 0; i < 30 && play.Frame.FloatOpen("card"); i++)
+            {
+                yield return play.Press(Key.Enter);
+                yield return ChartPlay.Frames(6);
+            }
+            Assert.IsFalse(play.Frame.FloatOpen("card"), "the card could not be answered and shut");
+        }
+
         [UnityTest]
         public IEnumerator TheGameBeginsWithTheLenderTheShowroomAndRavn()
         {
@@ -446,6 +478,41 @@ namespace Kapman.Tests
                 Assert.Less(view.Light.r, 0.35f, "the night's light did not come over the port");
                 yield return play.Shot("open_19_port_at_night");
                 PortView.SunOverride = null;
+                // ---- 14. WHO IS SPEAKING ON A CARD (8 Oct 2026; the user, by the picker: "Fix the cards first"). Until then a
+                // card showed every line under the face and name of its first speaker, and Ravn spoke under a stranger's name.
+                var director = EncounterRunner.Director;
+                Assert.IsNotNull(director, "the cards have no director");
+                Assert.IsTrue(director.Offer("harbour.first_question.dorestad"), "Ravn's first question cannot come up at Dorestat on the first morning");
+                yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
+                Assert.IsTrue(play.Frame.FloatOpen("card"), "the card of the first question did not open");
+                yield return ChartPlay.Settle(0.8f);
+                StringAssert.StartsWith("Ravn, ", play.Frame.SpeakerShown, "Ravn's own card is not said under his name");
+                notes.AppendLine("On his own card: " + play.Frame.SpeakerShown);
+                yield return play.Shot("open_20_ravn_on_his_card");
+                yield return AnswerCard(play, notes);
+                // a card of two speakers: the name under the title follows the one who says the line
+                Assert.IsTrue(director.Offer("harbour.kings_mint.dorestad"), "the mint's card cannot come up at Dorestat on the first morning");
+                yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
+                Assert.IsTrue(play.Frame.FloatOpen("card"), "the mint's card did not open");
+                yield return ChartPlay.Settle(0.8f);
+                var spoke = new List<string>();
+                for (int press = 0; press < 20; press++)
+                {
+                    string now = play.Frame.SpeakerShown;
+                    if (now.Length > 0 && !spoke.Contains(now))
+                    {
+                        spoke.Add(now);
+                        yield return play.Shot("open_21_card_speaker_" + spoke.Count, 0.2f);
+                    }
+                    if (play.Frame.FrontReveal == null || play.Frame.FrontReveal.Done)
+                        break;
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
+                notes.AppendLine("On the mint's card spoke: " + string.Join(" | ", spoke));
+                Assert.GreaterOrEqual(spoke.Count, 2, "the name under the title did not change with the speaker: " + string.Join(" | ", spoke));
+                yield return AnswerCard(play, notes);
+
                 Debug.Log("The opening:\n" + notes);
                 File.WriteAllText(Path.Combine(Application.dataPath, "..", "Captures", "chart", "open.txt"), notes.ToString());
             }

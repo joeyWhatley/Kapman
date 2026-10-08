@@ -4,7 +4,9 @@
 (about a fifth of the script). Two critics each read a part whole and a chief critic wrote this one report from theirs:
 the opening; the 295 cards of the home region, the harbours, the crew and the open sea; four story chains (the riddle trail, the storm vow, the barrow, the old gods);
 and the 92 people of the ten ports of the Rhine delta, Zeeland and Frisia. It also answers the question of a rural Ravn (Design/content/ravn_rural_trial_2026-10-08.md).
-The two critics' full findings are in script_critic_2026-10-08_findings.md. Nothing in the game was changed.
+The two critics' full findings are in script_critic_2026-10-08_findings.md. Nothing in the game was changed by the critics.
+
+**APPLIED the same evening** (the user: "the script report is good apply suggestions and put it together"): what was done, and what was not and why, is Design/DECISIONS.md items 91 to 99.
 
 **Two limits, both mine and not the critics'.** (1) For the 295 home-water cards the text that follows a choice was missing from what the first critic was given
 (my layout found the outcomes of the story chains but not of these cards), so nothing here judges those outcomes. (2) Many of those cards hold other lines for

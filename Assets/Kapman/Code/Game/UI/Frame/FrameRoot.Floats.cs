@@ -17,6 +17,14 @@ namespace Kapman.Game.Frame
     }
 
     /// <summary>What a floating window shows. Open one with FrameRoot.OpenFloat; open the same id again to change it in place.</summary>
+    /// <summary>Who says a line of a window: the line under the title ("Ravn, crewman \u00b7 easy"), who they are, whose
+    /// face (an id or a name) and its picture. All "" for the teller: nobody's face, nobody's name.</summary>
+    public sealed class FloatVoice
+    {
+        public string who = "", about = "", face = "", faceSlot = "";
+        public bool Teller => who.Length == 0 && face.Length == 0;
+    }
+
     public sealed class FloatSpec
     {
         /// <summary>One window an id: opening it again changes the window that is up.</summary>
@@ -29,6 +37,16 @@ namespace Kapman.Game.Frame
         public string about = "";
         /// <summary>Whose face place it has (a name or an id; null: no face).</summary>
         public string face;
+        /// <summary>The picture for that face where it is known ("portrait/role.tollman.png"); "": found by the name.</summary>
+        public string faceSlot = "";
+
+        /// <summary>
+        /// WHO SAYS EACH LINE (8 Oct 2026: a card with several speakers showed every line under the face and name of
+        /// the first). For a line (by its words): the one who says it. As the lines are said, the face, the name and
+        /// what they are change with the speaker; a line of the teller's has no face. A line with no entry here is
+        /// the window's own speaker's (who, face, about).
+        /// </summary>
+        public readonly Dictionary<string, FloatVoice> voices = new Dictionary<string, FloatVoice>();
         /// <summary>The words, in order; an unwritten one (a placeholder for the writers) is shown small and pale.</summary>
         public readonly List<(string text, bool written)> lines = new List<(string, bool)>();
 
@@ -127,9 +145,64 @@ namespace Kapman.Game.Frame
             /// <summary>Its choices (put away while there is more to be said), and whether there is.</summary>
             public VisualElement optionsBox;
             public bool more;
+            /// <summary>The face, the name and the nature shown for the one who speaks, and the line they were last set for.</summary>
+            public FrameFace faceEl;
+            public Label whoEl, aboutEl;
+            public string voiceOf;
         }
 
 
+
+        // ------------------------------------------------------------------ who says the line being said
+
+        /// <summary>The speaker of the line a window is saying now (the last one when all are said), or null where its
+        /// lines have no speakers of their own or the window is not said aloud.</summary>
+        static FloatVoice VoiceNow(Float f)
+        {
+            var r = f.reveal;
+            if (r == null || r.Count == 0 || f.spec.voices.Count == 0)
+                return null;
+            int line = r.Done ? r.Count - 1 : r.Index;
+            return f.spec.voices.TryGetValue(r.Key(line), out var v) ? v : null;
+        }
+
+        /// <summary>The face, the name and the nature of a window follow the one who says the line being said.</summary>
+        static void Voice(Float f)
+        {
+            if (f.faceEl == null || f.reveal == null || f.reveal.Count == 0)
+                return;
+            int line = f.reveal.Done ? f.reveal.Count - 1 : f.reveal.Index;
+            string key = f.reveal.Key(line);
+            if (key == f.voiceOf)
+                return;
+            f.voiceOf = key;
+            var spec = f.spec;
+            var v = VoiceNow(f) ?? new FloatVoice { who = spec.who ?? "", about = spec.about ?? "", face = spec.face ?? "", faceSlot = spec.faceSlot ?? "" };
+            // (the teller has no face and no name: the places stay, so the words do not jump)
+            f.faceEl.style.visibility = v.Teller ? Visibility.Hidden : Visibility.Visible;
+            if (!v.Teller)
+            {
+                f.faceEl.Who = v.face;
+                if (v.faceSlot.Length > 0)
+                    f.faceEl.Slot = v.faceSlot;
+            }
+            f.whoEl.text = v.who;
+            f.whoEl.style.visibility = v.who.Length > 0 ? Visibility.Visible : Visibility.Hidden;
+            f.aboutEl.text = v.about;
+            f.aboutEl.style.display = v.about.Length > 0 ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        /// <summary>Who the front window shows as speaking now ("" where nobody is shown: for a test, a tool).</summary>
+        public string SpeakerShown
+        {
+            get
+            {
+                if (floats.Count == 0)
+                    return "";
+                var f = floats[floats.Count - 1];
+                return f.whoEl != null && f.whoEl.resolvedStyle.visibility == Visibility.Visible ? f.whoEl.text : "";
+            }
+        }
 
         // ------------------------------------------------------------------ what the one who speaks is talking about
         VisualElement pointer;
@@ -436,21 +509,36 @@ namespace Kapman.Game.Frame
             else
                 shut.RemoveFromHierarchy();
             // who speaks: the face, the name, what they are (each taken out where there is none)
+            // (where the lines have speakers of their own the three parts stay, and change as the lines are said: Voice)
+            bool voiced = spec.voices.Count > 0;
             var face = FrameParts.In<FrameFace>(el, "face");
             if (spec.face != null)
+            {
                 face.Who = spec.face;
-            else
+                if (!string.IsNullOrEmpty(spec.faceSlot))
+                    face.Slot = spec.faceSlot;
+            }
+            else if (!voiced)
                 face.RemoveFromHierarchy();
             var who = FrameParts.In<Label>(el, "who");
             if (!string.IsNullOrEmpty(spec.who))
                 who.text = spec.who;
-            else
+            else if (!voiced)
                 who.RemoveFromHierarchy();
             var about = FrameParts.In<Label>(el, "about");
             if (!string.IsNullOrEmpty(spec.about))
                 about.text = spec.about;
-            else
+            else if (!voiced)
                 about.RemoveFromHierarchy();
+            else
+                about.style.display = DisplayStyle.None;
+            if (voiced)
+            {
+                f.faceEl = face;
+                f.whoEl = who;
+                f.aboutEl = about;
+                f.voiceOf = null;
+            }
             var scroll = FrameParts.In<ScrollView>(el, "scroll");
             if (spec.content != null)
                 scroll.Add(spec.content);
@@ -681,6 +769,8 @@ namespace Kapman.Game.Frame
                     Paging(f);
                 }
             PointerUpdate();
+            foreach (var f in floats)
+                Voice(f);
             float now = Time.realtimeSinceStartup;
             foreach (var f in floats)
                 if (f.hintUntil > 0f && now > f.hintUntil)
@@ -920,6 +1010,7 @@ namespace Kapman.Game.Frame
             {
                 spec.who = s.Speaker(first);
                 spec.face = first.id;
+                spec.faceSlot = FrameArt.OfSpeaker(first.id, first.role);
                 spec.speaker = first.name.Length > 0 ? first.name : spec.who;
                 spec.about = About(first);
                 spec.speakerLine = first.name.Length > 0 && spec.who.StartsWith(first.name + ", ", StringComparison.Ordinal)
@@ -941,6 +1032,9 @@ namespace Kapman.Game.Frame
                     else if (l.turns.Length > 0)
                         ContentFiles.Warn("turns:" + l.turns, $"the card {s.card.id} names the line '{l.turns}' to turn from, and story/tongues_793.json has no such line for {s.world.year}: shown in English only");
                     spec.lines.Add((l.text, l.written));
+                    // (who says it: one of the card's people, or the teller, who has no face)
+                    spec.voices[l.text] = l.who == null ? new FloatVoice()
+                                                        : new FloatVoice { who = s.Speaker(l.who), about = About(l.who), face = l.who.id, faceSlot = FrameArt.OfSpeaker(l.who.id, l.who.role) };
                     if (spec.tongue.Length == 0 && l.tongue.Length > 0)
                         spec.tongue = l.tongue;                           // (the first speaker's tongue: its words in the lines are set apart)
                 }

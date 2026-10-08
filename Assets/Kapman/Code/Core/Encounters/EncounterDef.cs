@@ -16,6 +16,10 @@ namespace Kapman.Encounters
         public string key = "", role = "", people = "port", faith = "port", tongue = "port", sex = "";
         public int ageMin, ageMax;
         public bool fixedRole = true;
+        /// <summary>A member of the standing cast: its id ("cast.crew.ravn") and its name ("Ravn"). Such an actor is ONE
+        /// person, the same on every card whatever the port (NpcRegistry.Cast): the crew's Ravn is Ravn everywhere,
+        /// with his own feelings and memory. "" for an actor who is whoever holds that trade at the port.</summary>
+        public string cast = "", name = "";
     }
 
     /// <summary>One line of speech: who says it (an actor's key), the writing key of the words, its tongue (empty: the

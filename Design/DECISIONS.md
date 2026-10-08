@@ -817,3 +817,78 @@ and far fewer when usage is short).
    asking; now it is ruled. Brought into line: nine picture descriptions that drew him lean and grey-haired (in
    the writing and in Art/art_list.csv), his portrait's note in the art list, the Book's page, and the design
    spine (Design/content/spine.md and spine.json, with his nature and voice of item 86).
+91. **THE SCRIPT CRITIC'S REPORT, APPLIED** (the user, 8 Oct, evening: "the script report is good apply suggestions
+   and put it together"; by the picker, the scope: "Everything it names", done by me and not by agents). The report
+   is Design/critique/script_critic_2026-10-08.md. Items 92 to 98 are what was done. NOT DONE, and why, is item 99.
+92. **WURSING, WRITTEN AGAIN** (the user: "I think wursing needs a re-script"; by the picker, out of three: "Cold,
+   and eating"). The user's first brief of 7 Oct for him: "a cold aloof uninterested man, just cares about getting
+   what he's owed". He does not look up from his food, makes no joke, and calls a wreck a good boat. His questions
+   are plain: "Where are you from?", "Your name?", "What do you swear by?", "And before this? What were you?" (two
+   of the old ones were the user's own words of 7 Oct, changed on the report). The plate under the boat no longer
+   repeats that she floats: that is Ravn's joke alone. All of it placeholders for the user's pen (Showtime.cs).
+93. **HIS BYNAME, SAID ONCE** (the user, twice: "I don't know what that other word means"; by the picker: "Keep it,
+   said once"). "The Wokerer" stays, and he says it once with what it means: "On the quay they call me the Wokerer.
+   The usurer. I do not lend. I sell boats." CHECKED on 8 Oct: Old Frisian woker (gain, interest, usury) is a
+   recorded word, beside Dutch woeker and German Wucher; the ending that makes it a man is the game's own. And his
+   trade (the user: "is his role really illegal in this year?"): lending was lawful; taking any price for a loan
+   was forbidden to laymen too from the assembly at Aachen in 789, as a rule of the Church with the king behind
+   it. So he does not lend: he sells a worn boat on a tally for twice her worth, and the quay calls him the usurer
+   all the same. The Book's page for the word says so.
+94. **WHO IS OWED: WURSING ALONE** (the report's first change; told to the user as taken for settled, by the user's
+   own opening). 1,920 pennies at Michaelmas, on his stick. The count Folcbert and his steward Hartwin no longer
+   claim the boat (their "Speak of the debt" lines are gone, and the steward's 480 pennies with them); the widow,
+   the rival, the alewife, the story of the stick at Dorestad, and the cards and ports that said "the count's day"
+   say the Wokerer's. STILL ASLEEP in a game begun through the opening: the old chain of cards of the count's debt
+   (house_debt), and what a count could grant (an errand in place of silver, a year's delay): those stories are
+   worded for the Wokerer now but their rules were not looked at.
+95. **THE OPENING, CUT** (the report's third change). Ravn's first morning is himself, the sail, the men, the wine,
+   his one word on what to buy, and the list. Gone: the paragraph that read out the buttons and the clock ("Space
+   stops it", from a Northman of 793), the saying over of the five jobs, and "Talks a great deal and means well"
+   under his name (it is "A Northman" now). Prices are said in words ("twelve pennies", Spoken.cs), never "12 d".
+96. **RAVN IS ONE MAN, WITH TWO GEARS** (the report's second change and its answer on the rural Ravn; the user had
+   asked: "Would it be worth portraying him as somewhat rural, with wording like 'ere?", and said not to do it but
+   to show it: Design/content/ravn_rural_trial_2026-10-08.md). No dropped h and no dialect words. At ease he
+   shortens his words (I'll, don't, that's), the only one in the game who does, and runs on. In earnest (a grave, a
+   vow, a storm, the last question) he says every word whole and says little. He loses "I only say", "I say it
+   once" and telling the player what he is like. The old sayings and the riddles are his alone, given word for
+   word. "The Dane" of the crew cards and "the old hand" of the sea cards ARE him (70 lines, written as his; the
+   teller calls him Ravn). The Dane who asks to be hired is a stranger.
+97. **WHO IS SPEAKING ON A CARD** (found while doing item 96, put to the user, who chose by the picker: "Fix the
+   cards first"). Two faults the critic could not see, because the copy it read had each line labelled:
+   - A card's speakers were made up afresh at every port by their trade, so the crew's steersman had another name
+     at each quay and Ravn spoke under a stranger's. Now an actor of a card may be ONE OF THE STANDING CAST
+     ("cast": "cast.crew.ravn", "name": "Ravn"): one person, the same on every card (NpcRegistry.Cast). The four
+     of the crew are bound so on 370 actors: Ravn, Aldger the steersman, Brunger the mate, Beornwine the lookout
+     (who is English at sea too now). Their portraits are their own.
+   - A card showed every line under the face and name of its first speaker. Now each line carries who says it,
+     and the face, the name and the nature in the talk window change as the lines come; the teller has no face
+     (FloatSpec.voices). Anybody not of the cast has the portrait of their trade.
+   OPEN, for the user: the three hands hired on the first morning have other names (FirstJobs makes them up),
+   and then the cards speak of Aldger, Brunger and Beornwine. And the people of the ports are still made up
+   afresh on cards (the moneyer of Dorestad is Sigimar in the port and "Madalger" on his card).
+98. **THE LINES THE REPORT NAMES** (its "Fix these first", "Where a player is lost" and "Slips").
+   - The ten lines to fix first, in the plainer words it gave or near them.
+   - The words in brackets on choices are gone (195: "(sure)" told nothing, and the frame says the odds itself
+     where there is a chance).
+   - 31 first greetings in the ten home ports no longer ask a question the player has no way to answer.
+   - The toll man says what he is looking for before he asks what she carries.
+   - The riddle cards no longer say that the riddle is about what lies in front of the crew.
+   - One name for a place in what is said and told: Dorestat (not Dorestad), Traiectum (not Utrecht), Ganda (not
+     Ghent); "pennies" (not "pence"); "alehouse" (not "ale-house"). Only in the cards' words and the people's
+     lines: the ports' own histories, sources and the Book keep the names their books use.
+   - Slips: six oars, not four; half a day to Traiectum; the "worse" joke told once, not three times; one
+     craftsman's line was another's; "the emperor" before there was one; memorial stones two hundred years early;
+     Ravn sewing a sail he had said he could not sew.
+99. **OF THE REPORT, NOT DONE**
+   - THE HABITS (its heart: the dry last word on every line, one breath for everybody, one mark in many mouths,
+     the teller's smirk, stock hellos and goodbyes, the footnote in a mouth, threes with a joke third). They are in
+     about 400,000 words. The user chose "Everything it names" over "Also rewrite against the habits" (3 to 5
+     million tokens of agents). They are rules for the user's own rewrite.
+   - "Print the riddles and let the player choose the answer": the riddles are read and answered in the Chest, and
+     a card's answer is open only when its riddle is solved there. The critic's copy did not show the Chest. Only
+     the one unclear choice it named was reworded ("Say his pupil is standing behind you").
+   - The great mound on the Deben can still be opened: that is the game's own marked change of history (the flag
+     changed_sutton_hoo_opened, and three endings rest on it), not a slip.
+   - Names used twice in different ports (four Gerbrands) and three Thiad- names at Dorestad: not changed. Kin did
+     share a name's first half, and a renaming touches every story that names them.
+   - The quoted verses keep "o'er" and "call'd": they are other people's translations, word for word.

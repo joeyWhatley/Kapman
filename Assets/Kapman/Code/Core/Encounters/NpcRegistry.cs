@@ -266,6 +266,39 @@ namespace Kapman.Encounters
             return Seen(npc, port.id, day);
         }
 
+        /// <summary>
+        /// ONE OF THE STANDING CAST (the crew's Ravn, Aldger, Brunger, Beornwine): one person with the id and the name
+        /// the card's actor gives, the same on every card and at every port, so what he feels and remembers is his
+        /// and not a stranger's at each quay. Made when first met; never trimmed away.
+        /// </summary>
+        public Npc Cast(RoleSpec spec, PortFacts port, int year, double day)
+        {
+            if (npcs.TryGetValue(spec.cast, out var known))
+                return Seen(known, port.id, day);
+            var def = roles.Role(spec.role) ?? new RoleTable.RoleDef { id = spec.role, title = spec.role };
+            string sex = !string.IsNullOrEmpty(spec.sex) ? spec.sex : def.sex;
+            int ageMin = spec.ageMin > 0 ? spec.ageMin : def.ageMin, ageMax = spec.ageMax > 0 ? spec.ageMax : def.ageMax;
+            int age = (ageMin + Math.Max(ageMin, ageMax)) / 2;
+            var npc = new Npc
+            {
+                id = spec.cast,
+                name = spec.name,
+                role = spec.role,
+                homePort = port.id,
+                people = spec.people,
+                faith = spec.faith == "port" || string.IsNullOrEmpty(spec.faith) ? port.faith : spec.faith,
+                tongue = spec.tongue == "port" || string.IsNullOrEmpty(spec.tongue) ? roles.TongueOf(spec.people) : spec.tongue,
+                sex = sex == "f" ? "f" : "m",
+                bornYear = year - age,
+            };
+            npc.diesYear = npc.bornYear + 75;                             // (the game does not yet tell of his death: he is aboard while his cards are)
+            npcs[npc.id] = npc;
+            return Seen(npc, port.id, day);
+        }
+
+        /// <summary>Is this the id of one of the standing cast (never trimmed away)?</summary>
+        public static bool IsCast(string id) => id != null && id.StartsWith("cast.", StringComparison.Ordinal);
+
         Npc Seen(Npc n, string port, double day)
         {
             n.lastSeenDay = day;
@@ -327,7 +360,7 @@ namespace Kapman.Encounters
             if (npcs.Count <= Cap)
                 return;
             var held = new HashSet<string>(holders.Values);
-            foreach (var n in npcs.Values.Where(n => !held.Contains(n.id)).OrderBy(n => n.lastSeenDay).Take(npcs.Count - Cap).ToList())
+            foreach (var n in npcs.Values.Where(n => !held.Contains(n.id) && !IsCast(n.id)).OrderBy(n => n.lastSeenDay).Take(npcs.Count - Cap).ToList())
             {
                 npcs.Remove(n.id);
                 foreach (var key in rels.Keys.Where(k => k.StartsWith(n.id + "|", StringComparison.Ordinal)).ToList())
