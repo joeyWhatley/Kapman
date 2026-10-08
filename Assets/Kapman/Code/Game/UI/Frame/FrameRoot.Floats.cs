@@ -47,6 +47,9 @@ namespace Kapman.Game.Frame
         /// the window's own speaker's (who, face, about).
         /// </summary>
         public readonly Dictionary<string, FloatVoice> voices = new Dictionary<string, FloatVoice>();
+        /// <summary>Lines that are not said by the one who speaks (the player's own choice, told back): shown as plain
+        /// words, not as speech.</summary>
+        public readonly HashSet<string> plain = new HashSet<string>();
         /// <summary>The words, in order; an unwritten one (a placeholder for the writers) is shown small and pale.</summary>
         public readonly List<(string text, bool written)> lines = new List<(string, bool)>();
 
@@ -546,23 +549,35 @@ namespace Kapman.Game.Frame
                 if (turn != null && turn.pairs.Count > 0)
                     scroll.Add(new TurningLine(turn));
             bool sprinkle = spec.tongue.Length > 0 || spec.marks.Count > 0;
+            // WHAT IS SAID STANDS APART FROM WHAT IS TOLD (the user, 8 Oct 2026: "What they're saying and the description
+            // beneath it needs to be more clearly defined from each other its hard to tell what's actually dialogue"). A
+            // line somebody says has the class "spoken" (a pale block with a bar down its left: Frame.uss); a line of the
+            // teller's has "teller" and is plain and pale, as the description under the lines is.
+            bool somebody = spec.face != null || !string.IsNullOrEmpty(spec.who) || !string.IsNullOrEmpty(spec.speaker);
             foreach (var (text, written) in spec.lines)
             {
                 if (string.IsNullOrEmpty(text))
                     continue;
+                bool teller = spec.voices.TryGetValue(text, out var saidBy) && saidBy.Teller;
+                bool spoken = written && somebody && !teller && !spec.plain.Contains(text);
                 if (sprinkle && written)
                 {
                     // (a line with words of the speaker's tongue in it: each set apart, its meaning on hover)
                     var runs = TongueBook.Current.Mark(text, spec.tongue, spec.marks);
                     if (runs.Exists(r => r.word != null))
                     {
-                        scroll.Add(new SprinkledText(runs, "frame-float-sprinkle"));
+                        var sprinkled = new SprinkledText(runs, "frame-float-sprinkle");
+                        sprinkled.EnableInClassList("spoken", spoken);
+                        sprinkled.EnableInClassList("teller", teller);
+                        scroll.Add(sprinkled);
                         continue;
                     }
                 }
                 var line = Text("frame-float-line");
                 line.text = text;
                 line.EnableInClassList("unwritten", !written);
+                line.EnableInClassList("spoken", spoken);
+                line.EnableInClassList("teller", teller);
                 scroll.Add(line);
             }
             if (!string.IsNullOrEmpty(spec.result))
@@ -1057,7 +1072,10 @@ namespace Kapman.Game.Frame
                     if (o.def.key == s.result.option)
                         chose = o.Tagged;
                 if (chose.Length > 0)
+                {
                     spec.lines.Add((chose, true));
+                    spec.plain.Add(chose);                               // (the player's own choice, told back: not speech)
+                }
                 spec.result = s.result.Text;
                 spec.options.Add(new FloatOption { label = "Go on", isDefault = true, pick = () => d.Continue() });
                 spec.shut = () => d.Continue();

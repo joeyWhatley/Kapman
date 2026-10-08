@@ -2871,3 +2871,38 @@
     padding: 0 8px 4px 8px;
     margin: 0 0 4px 0;
 }
+
+/* ---- WHAT IS SAID, AND WHAT IS TOLD (the user, 8 Oct 2026: "What they're saying and the description beneath it needs
+   to be more clearly defined from each other its hard to tell what's actually dialogue"). Words somebody says stand
+   in a pale block with a bar of Byzantium down its left, in the full ink. What the teller tells (a line of narration
+   on a card, and the description of the scene under the lines) is plain on the window's ground, paler, and the
+   description is set off from what is said by a thin line. */
+.frame-root .frame-float-line.spoken,
+.frame-root .frame-float-sprinkle.spoken {
+    background-color: rgb(228, 236, 218);
+    border-left-width: 6px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(112, 41, 99);
+    border-top-color: rgb(141, 127, 149);
+    border-right-color: rgb(141, 127, 149);
+    border-bottom-color: rgb(141, 127, 149);
+    padding: 6px 10px 7px 10px;
+    margin: 3px 0 8px 0;
+    color: rgb(84, 28, 76);
+}
+
+.frame-root .frame-float-line.teller {
+    color: rgba(112, 41, 99, 0.86);
+    padding: 0 0 0 2px;
+}
+
+.frame-root .frame-float-small {
+    color: rgba(112, 41, 99, 0.86);
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top-width: 1px;
+    border-top-color: rgba(112, 41, 99, 0.4);
+}
+

@@ -892,3 +892,11 @@ and far fewer when usage is short).
    - Names used twice in different ports (four Gerbrands) and three Thiad- names at Dorestad: not changed. Kin did
      share a name's first half, and a renaming touches every story that names them.
    - The quoted verses keep "o'er" and "call'd": they are other people's translations, word for word.
+100. **WHAT IS SAID STANDS APART FROM WHAT IS TOLD** (the user, 8 Oct, evening, of the talk window: "What they're saying
+   and the description beneath it needs to be more clearly defined from each other its hard to tell what's actually
+   dialogue"). In a talk window a line somebody says stands in a pale block with a bar of Byzantium down its left, in
+   the full ink. What the teller tells (a line of narration on a card, and the description of the scene under the
+   lines) is plain on the window's ground and paler, and the description is set off by a thin line. The player's own
+   choice, told back after it is made, is plain too. (Frame.uss: .frame-float-line.spoken, .teller, .frame-float-small;
+   the classes are given in FrameRoot.Floats.cs.) DECIDED BY ME, to be overruled: the block and the bar as the mark
+   of speech, and that the description stays under what is said.
