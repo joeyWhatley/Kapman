@@ -557,6 +557,52 @@ namespace Kapman.Tests
                 }
                 Assert.IsFalse(play.Frame.FloatOpen("card"), "the card could not be gone on from after its end was told");
 
+                // ---- 15b. A CARD OF THE BALTIC WITH ITS OWN WORDS (the road's step 1, 8 Oct 2026, night). The words of five
+                // regions were never brought into the game: such a card showed "[write: key]" where each line should be.
+                // (Put in line by hand: its port is Birka.)
+                director.state.Enqueue("harbour.jetty_berth.birka", true);
+                yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
+                Assert.IsTrue(play.Frame.FloatOpen("card"), "the Baltic's card did not open");
+                yield return ChartPlay.Settle(0.8f);
+                // (his first line, said to its last letter: a press finishes the paragraph, and it waits)
+                if (play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Waiting && !play.Frame.FrontReveal.Done)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
+                string baltic = ChartPlay.Read(play.FrontFloat());
+                StringAssert.DoesNotContain("[write:", baltic, "the Baltic's card still shows a placeholder for its words");
+                StringAssert.Contains("You lie where I say you lie", baltic, "the keeper of Birka does not say his own first line");
+                yield return play.Shot("open_24b_a_card_of_the_baltic");
+                for (int i = 0; i < 30 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(4);
+                }
+                yield return ChartPlay.Settle(0.3f);
+                StringAssert.DoesNotContain("[write:", ChartPlay.Read(play.FrontFloat()), "the Baltic's card shows a placeholder for a later line");
+                var berth = director.Current;
+                int gift = berth.card.Option("gift").index;
+                var berthChoices = play.Choices(play.FrontFloat());
+                int taken = berth.options[gift].enabled ? gift : berth.options.FindIndex(o => o.enabled);
+                string berthEnd = Outcomes.Text(berth.world.book, berth.options[taken].def, "");
+                Assert.IsNotEmpty(berthEnd, "the choice taken on the Baltic's card has no written end");
+                yield return play.Click(berthChoices[taken].button, "the choice '" + berthChoices[taken].words + "'");
+                yield return ChartPlay.Settle(0.5f);
+                for (int i = 0; i < 3 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Waiting && !play.Frame.FrontReveal.Done; i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
+                StringAssert.Contains(berthEnd.Substring(0, System.Math.Min(40, berthEnd.Length)), ChartPlay.Read(play.FrontFloat()), "the end of the Baltic's choice is not on the screen");
+                yield return play.Shot("open_24c_and_its_end");
+                for (int i = 0; i < 30 && play.Frame.FloatOpen("card"); i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
+                Assert.IsFalse(play.Frame.FloatOpen("card"), "the Baltic's card could not be gone on from");
+
                 // ---- 16. THE DEBT HAS AN END (8 Oct 2026, night; DECISIONS 33 and 104). The lender's man asks for
                 // something on the stick, and a part paid comes off it; on the day the lender asks for all of it, and
                 // unpaid she works for him. (Both cards are put in line by hand here: his man comes from the tenth day

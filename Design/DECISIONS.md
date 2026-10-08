@@ -979,4 +979,21 @@ and far fewer when usage is short).
    id is the one their cards give ("dorestad.sigimar", "named.chain_black_stones.folkmar", "dorestad.wokerers_man").
    The art list does not yet issue slots for the people the story cards name or for the lender's man: when it is
    next made (Bake/art/make_art_list.py) they should be added to it with a description each.
+106. **THE ROAD TO RELEASE** (the user, 8 Oct, night: "create an extensive and indepth analysis on where the game is
+   and every single step from here to alpha to beta to full release in percentage"; then: "DO WHAT YOU CAN FOR
+   NOW"). The paper is Design/ROADMAP.md, made by Bake/plan/roadmap.py: 100 is the first release as ruled (one life,
+   793 to about 805, twelve ports); the count of that night was 42, the alpha at 49, the beta at 93, in 67 steps.
+   The weights are my estimates. A step done is put into the model's DONE list and the paper is made again. I work
+   down the alpha's steps in the paper's order, each tested and committed, and leave the ones that want a ruling.
+107. **THE FIVE REGIONS' WORDS ARE IN THE GAME** (the road's step 1). 5,259 written texts (133,588 words: the Baltic,
+   the Danes and Norway, south-east England, Northumbria and the Irish Sea, part of the Rhine and Frisia) lay in
+   their source files and had never been put into writing.json, the one file the game reads: 408 of the 1,400 cards
+   showed "[write: key]" where each line should be, 66 of them in the first release. They are ADDED (never merged
+   over: Bake/content/merge_writing.py writes the sources over writing.json and would undo any mend made only
+   there), after the passes the rest had on the critic's report: Dorestat, Traiectum, pennies, alehouse (92 texts);
+   her six oars; "the king" in three lines that can be said before 800. Their choices' ends are found by their own
+   naming ("x.o_gift" and "x.do_pay" -> "x.out_gift", "x.out_pay"): 2,573 of the 4,484 choices now have a written
+   end (it was 1,990). STILL WITHOUT WORDS: the 14 cards of the saga of the Rhineland and Flanders (879 to 886),
+   whose words were never written. Not touched: "the Dane" in these regions' cards is each time another Dane, not
+   Ravn.
 

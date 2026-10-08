@@ -7,6 +7,8 @@ namespace Kapman.Encounters
     /// came of it. Until now no code showed them: a card answered said only what you did and the effects' own facts.
     /// The words are found by the key of the choice's label, as the writers named them:
     ///   "x.opt_heir"   -> "x.out_heir"          (the chains)
+    ///   "x.o_gift"     -> "x.out_gift"          (the Baltic's cards)
+    ///   "x.do_pay"     -> "x.out_pay"           (Northumbria's and the Irish Sea's)
     ///   "x.o.carry"    -> "x.out.carry"         (the Rhineland's cards)
     ///   "x.y"          -> "x.y.done"            (the crew's and the sea's cards)
     /// and where the choice was a chance, the end of the branch that fell: "..._success" / "..._failure" (also "_ok",
@@ -17,6 +19,8 @@ namespace Kapman.Encounters
     public static class Outcomes
     {
         static readonly string[] Won = { "_success", "_ok" }, Lost = { "_failure", "_fail", "_bad" };
+        /// <summary>How the writers begin the last part of a choice's label key ("opt_heir", "do_pay", "o_gift").</summary>
+        static readonly string[] Choice = { "opt_", "do_", "o_" };
 
         /// <summary>The key the end of a choice is written under by the writers' habit of naming, from the key of its
         /// label; null where the label's key has no such shape.</summary>
@@ -28,8 +32,9 @@ namespace Kapman.Encounters
             if (dot <= 0 || dot == labelKey.Length - 1)
                 return null;
             string head = labelKey.Substring(0, dot), last = labelKey.Substring(dot + 1);
-            if (last.StartsWith("opt_", System.StringComparison.Ordinal) && last.Length > 4)
-                return head + ".out_" + last.Substring(4);
+            foreach (string choice in Choice)
+                if (last.StartsWith(choice, System.StringComparison.Ordinal) && last.Length > choice.Length)
+                    return head + ".out_" + last.Substring(choice.Length);
             if (head.EndsWith(".o", System.StringComparison.Ordinal))
                 return head.Substring(0, head.Length - 2) + ".out." + last;
             return null;

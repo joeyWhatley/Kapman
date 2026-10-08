@@ -8,15 +8,23 @@ Made by `Bake/plan/roadmap.py` from counts taken in the project that night. To b
 
 | | Percent |
 |---|---|
-| **Now** | **42** |
+| **Now** | **42.8** |
 | The alpha | 49 |
 | The beta | 93 |
 | Released | 100 |
 
 - **100 is the first release**, as you ruled on 7 October: one life, 793 to about 805, on twelve ports (Dorestat, Traiectum, Walichrum, Witla, Medemelacha, Doccinga, Daventre, Quentovic, Lundenwic, Sarre, Fordwic and Ripa), with the whole world dim on the chart. The later ages are not in it.
-- 67 steps are left: 11 to the alpha, 49 more to the beta, 7 to the release.
-- Of the 58 points still to do, 24 are mine to build, 21 are yours alone and 13 need both of us.
-- My part is about 115 to 142 sittings. Yours is about 433 to 452 hours, and the hours of your own home waters on top. **The release date is set by your drawing and your reading, not by the building.**
+- 66 steps are left: 10 to the alpha, 49 more to the beta, 7 to the release.
+- Of the 57 points still to do, 24 are mine to build, 21 are yours alone and 13 need both of us.
+- My part is about 114 to 142 sittings. Yours is about 433 to 452 hours, and the hours of your own home waters on top. **The release date is set by your drawing and your reading, not by the building.**
+
+## Done since the count of 8 October 2026
+
+The count stood at 42.3. 1 of the 67 steps are done since, worth 0.5 points.
+
+| No. | Step | When | What came of it | Points |
+|---|---|---|---|---|
+| 1 | Bring the five regions' words into the game | 8 Oct, night | 5,259 texts are in the game, after the same passes the rest had. 14 cards of one later chain (the Rhineland, 879 to 886) still have no lines: their words were never written. | +0.48 |
 
 ## Where the game is, part by part
 
@@ -56,14 +64,14 @@ What the player sees and presses.
 | Menus and settings | 1.5 | 25% | A main menu and saves. | No settings window and no credits page. |
 | The ship window | 2.0 | 80% | Sea, sky and weather from the game, the jetty, the crew, three looks. | Its own sounds; the oars shown when she rows. |
 
-### The words: 6.5 of 14 points (46%)
+### The words: 7.0 of 14 points (50%)
 
 Everything read on the screen.
 
 | Part | Points | Done | What stands | What is missing |
 |---|---|---|---|---|
-| The release's cards, written | 3.5 | 87% | 523 cards can open in the release. | 66 of them show a placeholder where a line should be. The words exist and were never brought in. |
-| What came of each choice | 2.0 | 51% | 819 of the release's 1,597 choices have a written end. | 778 tell only “You did X.” |
+| The release's cards, written | 3.5 | 100% | All 523 cards of the release have their words in the game. |  |
+| What came of each choice | 2.0 | 52% | 819 of the release's 1,597 choices have a written end. | 778 tell only “You did X.” |
 | The people of the twelve ports | 1.0 | 95% | 78 people with their lines. | Each port checked before it is let in. |
 | Your own hand through the words | 6.0 | 3% | The opening is your script. Wursing and Ravn carry your rulings. | About 130,000 words of draft on the release's cards wait for you. |
 | The Book and the readings | 1.5 | 85% | 2,631 pages; 267 old texts in translations that may ship. | A check against the names the game now uses. |
@@ -114,7 +122,7 @@ A build, the tests by other people, the law, the shop.
 
 ## What the counting turned up
 
-1. **5,259 written texts never reached the game.** 133,588 words for the Baltic, the Danes and Norway, south-east England, Northumbria and part of the home rivers sit in five source files. The file the game reads never got them. 408 cards show “[write: …]” where a line should be. It is the first step below and takes part of a sitting.
+1. **5,259 written texts never reached the game.** 133,588 words for the Baltic, the Danes and Norway, south-east England, Northumbria and part of the home rivers sit in five source files. The file the game reads never got them. 408 cards show “[write: …]” where a line should be. It is the first step below and takes part of a sitting. **Mended since (8 Oct, night).**
 2. **Not one final picture exists.** The art list holds 4,815 slots; the game shows 661 stand-ins and drawn placeholders. Your ruling made the list a catalogue: 276 pictures are wanted for the first release, 583 more are optional, 3,956 are for later.
 3. **Half the release's choices have no written end.** Since tonight a card answered tells what came of it. For 778 of the release's 1,597 choices nothing is written, so they still say only what you did.
 4. **Nothing ends a year or a life.** No winter, no ageing, no heir. The first release ends with the heir. 40 winter cards and the heir's chain are written and read by no code.
@@ -152,15 +160,14 @@ A build, the tests by other people, the law, the shop.
 
 A sitting is one piece of work built, tested by the full suites, looked at in pictures from the game and committed. Tonight had five. The groups inside a phase can run side by side: your pictures and the Steam paperwork can begin today.
 
-### To the alpha: 42.3 to 48.6
+### To the alpha: 42.8 to 48.6
 
 Your own list of 7 October: the eighteen basics built and joined, in one build played from a new game to the first reckoning, with nothing in it that says “not yet”, and you have looked at the play-through.
 
-11 steps, 6.2 points. Mine: 18 to 22 sittings. Yours: 3 to 5 hours.
+10 steps, 5.8 points. Mine: 17 to 21 sittings. Yours: 3 to 5 hours.
 
 | No. | Step | Who | Size | Adds | Then at |
 |---|---|---|---|---|---|
-| 1 | **Bring the five regions' words into the game.** 5,259 written texts (133,588 words) sit in five source files and were never put into the one file the game reads. So 408 of the 1,400 cards show “[write: …]” where a line should be, 66 of them in the first release. They need the same passes the rest had: Dorestat, pennies, the bracket words. | Mine | part of a sitting | +0.48 | 42.8 |
 | 2 | **Oars.** Row 3 of your alpha list. An order to go under oars when the wind fails: slower, and it costs the men bread and strength. The ship window already shows the rowers. | Mine | one sitting | +0.18 | 43.0 |
 | 3 | **The boat can be hurt and lost.** Row 4, and the widest gap before the alpha. The plan is written: hull, water in her and the sail; warned first, wounded before she is lost; the same gale dice as the other ships. For the alpha a loss shows “She is lost” and the way back to a save. Your ruling: is that end enough for the alpha? | Mine | 5 to 7 sittings | +2.01 | 45.0 |
 | 4 | **Deals by the lot, and the word told rightly.** Row 5. Buy and sell several at once with one settlement. A price is said against where she lies, by a named person, so many days old. | Mine | 2 to 3 sittings | +0.63 | 45.6 |
@@ -281,7 +288,7 @@ The first release is out on Steam: one life, 793 to about 805, on twelve ports, 
 
 ## What sets the pace
 
-- **My part:** about 115 to 142 sittings. This week ran at three to five a day while you were here. That is weeks.
+- **My part:** about 114 to 142 sittings. This week ran at three to five a day while you were here. That is weeks.
 - **Your part:** about 433 to 452 hours, and your home waters on top. At ten hours a week that is most of a year. At twenty it is five to six months.
 - **Steam's own waits:** 30 days after the fee, two weeks of “Coming soon”, two reviews. Six weeks at the least, even for a finished game.
 - The note on Steam of 7 October said spring to summer 2027 for the first release. This count agrees with it.
@@ -308,5 +315,5 @@ The first release is out on Steam: one life, 793 to about 805, on twelve ports, 
 
 ## How the numbers were made
 
-The whole job of the first release is 100 points. I shared them over seven areas and 43 parts by judgment. Each part has a share done, set from what I counted: 113,382 lines of code in 457 files, 485 tests, 1,400 cards, 13,270 script entries, 4,815 art slots, and the design papers. What is left of each part is shared among the steps that finish it, so the steps add up to exactly what is missing. Read every figure as give or take five.
+The whole job of the first release is 100 points. I shared them over seven areas and 43 parts by judgment. Each part has a share done, set from what I counted: 113,382 lines of code in 457 files, 485 tests, 1,400 cards, 18,529 script entries, 4,815 art slots, and the design papers. What is left of each part is shared among the steps that finish it, so the steps add up to exactly what is missing. Read every figure as give or take five.
 

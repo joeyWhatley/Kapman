@@ -27,6 +27,9 @@ namespace Kapman.Tests
         {
             Assert.AreEqual("chain_riddle_trail.s08.out_heir", Outcomes.Stem("chain_riddle_trail.s08.opt_heir"));
             Assert.AreEqual("rhineland_flanders.colonia.hulls.out.carry", Outcomes.Stem("rhineland_flanders.colonia.hulls.o.carry"));
+            Assert.AreEqual("baltic_east.birka.berth.out_gift", Outcomes.Stem("baltic_east.birka.berth.o_gift"));
+            Assert.AreEqual("northumbria_irish_sea.eoforwic.price_named.out_letter", Outcomes.Stem("northumbria_irish_sea.eoforwic.price_named.do_letter"));
+            Assert.IsNull(Outcomes.Stem("x.do_"), "a label that is only the prefix names no end");
             Assert.IsNull(Outcomes.Stem("tollman.declare"));
             Assert.IsNull(Outcomes.Stem(""));
             var o = new OptionDef { key = "ask", labelKey = "x.s03.opt_ask" };
@@ -60,15 +63,55 @@ namespace Kapman.Tests
                         lost++;
                 }
             UnityEngine.Debug.Log($"The written ends: {plain} of {choices} choices have one; of the chances {won} have one when won, {lost} when lost.");
-            Assert.GreaterOrEqual(plain, 1900, "the plain ends of the script are no longer found by their keys");
-            Assert.GreaterOrEqual(won, 220, "the ends of chances won are no longer found");
-            Assert.GreaterOrEqual(lost, 220, "the ends of chances lost are no longer found");
+            Assert.GreaterOrEqual(plain, 2500, "the plain ends of the script are no longer found by their keys");
+            Assert.GreaterOrEqual(won, 250, "the ends of chances won are no longer found");
+            Assert.GreaterOrEqual(lost, 250, "the ends of chances lost are no longer found");
             // the six the writers named otherwise
             var lots = book.Card("harbour.chain_mission_north.s12_lots").Option("watch");
             Assert.AreEqual(book.Written("chain_mission_north.s12.out_for"), Outcomes.Text(book, lots, "success"));
             Assert.AreEqual(book.Written("chain_mission_north.s12.out_against"), Outcomes.Text(book, lots, "failure"));
             var floor = book.Card("harbour.chain_silver_road.s08_under_floor").Option("fee");
             Assert.AreEqual(book.Written("chain_silver_road.s08.out_own"), Outcomes.Text(book, floor, ""));
+        }
+
+        /// <summary>THE FIVE REGIONS' WORDS (the road's step 1, 8 Oct 2026). 5,259 texts of the Baltic, the Danes and Norway,
+        /// south-east England, Northumbria and part of the Rhine lay in their source files and had never been put into
+        /// writing.json: 408 cards showed "[write: key]" where a line should be.</summary>
+        [Test]
+        public void EveryLineOfEveryCardIsWrittenButOneChainThatNeverWas()
+        {
+            var book = EncounterData.Book();
+            Assert.IsNotNull(book.Written("baltic_east.birka.berth.l_first"), "the Baltic's words are not in the game");
+            Assert.IsNotNull(book.Written("danes_norway.ripa.whose_guest.greet"), "the Danes' words are not in the game");
+            Assert.IsNotNull(book.Written("england_south_east.lundenwic.wine_over_the_side.open"), "south-east England's words are not in the game");
+            Assert.IsNotNull(book.Written("northumbria_irish_sea.eoforwic.frisian_hull.greet"), "Northumbria's words are not in the game");
+            Assert.IsNotNull(book.Written("rhine_frisia.traiectum.gate_bench.open"), "the Rhine's words are not all in the game");
+            var bare = new System.Collections.Generic.List<string>();
+            int lines = 0;
+            foreach (var c in book.cards)
+                foreach (var l in c.lines)
+                {
+                    lines++;
+                    if (book.Written(l.key) == null && !bare.Contains(c.id))
+                        bare.Add(c.id);
+                }
+            UnityEngine.Debug.Log($"Lines: {lines} on {book.cards.Count} cards; {bare.Count} cards have a line with no words.");
+            // (the saga of the Rhineland and Flanders, 879 to 886, was laid out as cards and its words never written)
+            foreach (string id in bare)
+                StringAssert.Contains("chain_saga_rhineland_flanders", id, "a card shows a placeholder where a line should be");
+            Assert.LessOrEqual(bare.Count, 14);
+            // their ends, by their own naming
+            var berth = book.Card("harbour.jetty_berth.birka");
+            Assert.IsNotNull(berth);
+            Assert.AreEqual(book.Written("baltic_east.birka.berth.out_gift"), Outcomes.Text(book, berth.Option("gift"), ""));
+            // one name for a place in what is said
+            foreach (var c in book.cards)
+            {
+                foreach (var l in c.lines)
+                    StringAssert.DoesNotContain("Dorestad", book.Written(l.key) ?? "", l.key);
+                foreach (var o in c.options)
+                    StringAssert.DoesNotContain("Dorestad", book.Written(o.labelKey) ?? "", o.labelKey);
+            }
         }
 
         [Test]

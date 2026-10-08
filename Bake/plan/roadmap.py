@@ -28,7 +28,7 @@ FACTS = {
     "days": 12, "commits": 330,
     "ports": 50, "goods": 140, "ship_classes": 18, "cards": 1400, "chains": 43, "chain_cards": 595, "choices": 4484,
     "people": 478, "sites": 610, "readings": 267, "riddles": 137, "chronicle": 582, "book_pages": 2631,
-    "script_entries": 13270, "script_words": 370596, "unmerged_texts": 5259, "unmerged_words": 133588,
+    "script_entries": 18529, "script_words": 504184, "unmerged_texts": 5259, "unmerged_words": 133588,
     "cards_placeholder": 408, "scope_cards": 523, "scope_cards_placeholder": 66, "scope_choices": 1597, "scope_ends": 819,
     "scope_words": 130234, "scope_people": 78, "later_cards": 877,
     "art_slots": 4815, "art_final": 0, "art_standin": 661, "tier": {1: 123, 2: 49, 3: 104, 4: 583, 5: 3956},
@@ -316,6 +316,20 @@ STEPS = [
      [("R4", 0.05)]),
 ]
 
+# ------------------------------------------------------------------------------------------------ done since the count
+# A step done: its title, when, and a line on what came of it. Its points move into "now".
+DONE = {
+    "Bring the five regions' words into the game": ("8 Oct, night", "5,259 texts are in the game, after the same passes the rest had. 14 cards of one later chain (the Rhineland, 879 to 886) still have no lines: their words were never written."),
+}
+# What a part says once a step that finishes it is done: step title -> part -> (what stands, what is missing)
+PART_AFTER = {
+    "Bring the five regions' words into the game": {"W1": ("All 523 cards of the release have their words in the game.", "")},
+}
+# A finding mended by a step: the finding's first words -> the step's title
+MENDED = {
+    "5,259 written texts never reached the game.": "Bring the five regions' words into the game",
+}
+
 PHASES = {1: ("To the alpha", "Your own list of 7 October: the eighteen basics built and joined, in one build played from a new game to the first reckoning, with nothing in it that says \u201cnot yet\u201d, and you have looked at the play-through."),
           2: ("From the alpha to the beta", "My definition, for you to change: everything the first release holds is in the game and can be played from the first morning to the heir. The twelve ports are closed off, every choice has its end, your words and your pictures are in, there is a settings window, a build runs on another machine, the store page is up and the demo is cut. What is left is other people playing it."),
           3: ("From the beta to the release", "The first release is out on Steam: one life, 793 to about 805, on twelve ports, with the whole world dim on the chart. That is your ruling of 7 October, and it is the 100 on this scale.")}
@@ -392,18 +406,36 @@ for pid, c in claimed.items():
     else:
         assert c == 0.0, (pid, c)
 
-NOW = sum(p["pts"] * p["done"] for p in parts.values())
-steps = []
-run = NOW
+COUNT = sum(p["pts"] * p["done"] for p in parts.values())          # (as it stood on the day of the count)
+for title in DONE:
+    assert any(st[2] == title for st in STEPS), "no such step: " + title
+for p_ in parts.values():
+    p_["since"] = 0.0
+all_steps = []
 for i, (phase, group, title, who, size, sit, hrs, today, text, claims) in enumerate(STEPS, 1):
     pts = sum(parts[pid]["left"] * share for pid, share in claims)
-    run += pts
-    steps.append(dict(n=i, phase=phase, group=group, title=title, who=who, size=size, sit=sit, hrs=hrs, today=today, text=text, pts=pts, run=run,
-                      areas=sorted({parts[pid]["area"] for pid, _ in claims})))
+    done = title in DONE
+    if done:
+        for pid, share in claims:
+            parts[pid]["since"] += parts[pid]["left"] * share
+            if title in PART_AFTER and pid in PART_AFTER[title]:
+                parts[pid]["stands"], parts[pid]["missing"] = PART_AFTER[title][pid]
+    all_steps.append(dict(n=i, phase=phase, group=group, title=title, who=who, size=size, sit=sit, hrs=hrs, today=today, text=text, pts=pts, done=done,
+                          areas=sorted({parts[pid]["area"] for pid, _ in claims})))
+NOW = COUNT + sum(s_["pts"] for s_ in all_steps if s_["done"])
+run = NOW
+for s_ in all_steps:
+    if not s_["done"]:
+        run += s_["pts"]
+    s_["run"] = run
 assert abs(run - 100.0) < 1e-6, run
-ALPHA = max(s["run"] for s in steps if s["phase"] == 1)
-BETA = max(s["run"] for s in steps if s["phase"] == 2)
-area_sum = {aid: (sum(parts[p[0]]["pts"] for p in items), sum(parts[p[0]]["pts"] * parts[p[0]]["done"] for p in items)) for aid, _, _, items in AREAS}
+steps = [s_ for s_ in all_steps if not s_["done"]]
+done_steps = [s_ for s_ in all_steps if s_["done"]]
+ALPHA = max([s_["run"] for s_ in all_steps if s_["phase"] == 1])
+BETA = max([s_["run"] for s_ in all_steps if s_["phase"] == 2])
+for p_ in parts.values():
+    p_["share"] = (p_["pts"] * p_["done"] + p_["since"]) / p_["pts"]
+area_sum = {aid: (sum(parts[p[0]]["pts"] for p in items), sum(parts[p[0]]["pts"] * parts[p[0]]["share"] for p in items)) for aid, _, _, items in AREAS}
 
 
 def phase_sum(ph):
@@ -448,7 +480,7 @@ def markdown():
     o.append("")
     o.append("| | Percent |")
     o.append("|---|---|")
-    o.append("| **Now** | **%s** |" % pct(NOW))
+    o.append("| **Now** | **%s** |" % pct(NOW, 1 if done_steps else 0))
     o.append("| The alpha | %s |" % pct(ALPHA))
     o.append("| The beta | %s |" % pct(BETA))
     o.append("| Released | 100 |")
@@ -458,6 +490,17 @@ def markdown():
     o.append("- Of the %s points still to do, %s are mine to build, %s are yours alone and %s need both of us." % (pct(100 - NOW), pct(MINE), pct(YOURS), pct(OURS)))
     o.append("- My part is about %s. Yours is about %s, and the hours of your own home waters on top. **The release date is set by your drawing and your reading, not by the building.**" % (rng(round(SIT[0]), round(SIT[1]), "sittings"), rng(round(HRS[0]), round(HRS[1]), "hours")))
     o.append("")
+    if done_steps:
+        o.append("## Done since the count of %s" % COUNTED)
+        o.append("")
+        o.append("The count stood at %s. %d of the %d steps are done since, worth %s points." % (pct(COUNT, 1), len(done_steps), len(all_steps), pct(NOW - COUNT, 1)))
+        o.append("")
+        o.append("| No. | Step | When | What came of it | Points |")
+        o.append("|---|---|---|---|---|")
+        for s in done_steps:
+            when, note = DONE[s["title"]]
+            o.append("| %d | %s | %s | %s | +%s |" % (s["n"], s["title"], when, note, pct(s["pts"], 2)))
+        o.append("")
     o.append("## Where the game is, part by part")
     o.append("")
     for aid, aname, ablurb, items in AREAS:
@@ -469,12 +512,13 @@ def markdown():
         o.append("| Part | Points | Done | What stands | What is missing |")
         o.append("|---|---|---|---|---|")
         for pid, name, pts, d, stands, missing in items:
-            o.append("| %s | %s | %s%% | %s | %s |" % (name, pct(pts, 1), pct(100 * d), stands or "", missing or ""))
+            o.append("| %s | %s | %s%% | %s | %s |" % (name, pct(pts, 1), pct(100 * parts[pid]["share"]), parts[pid]["stands"] or "", parts[pid]["missing"] or ""))
         o.append("")
     o.append("## What the counting turned up")
     o.append("")
     for i, (head, body) in enumerate(FOUND, 1):
-        o.append("%d. **%s** %s" % (i, head, body))
+        mended = " **Mended since (%s).**" % DONE[MENDED[head]][0] if MENDED.get(head) in DONE else ""
+        o.append("%d. **%s** %s%s" % (i, head, body, mended))
     o.append("")
     o.append("## Your alpha list, row by row")
     o.append("")
@@ -686,12 +730,14 @@ td.state-open { color: var(--gold); }
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; }
 @media (max-width: 620px) { .two { grid-template-columns: minmax(0, 1fr); } .step { grid-template-columns: 3.6rem minmax(0, 1fr); gap: 2px 10px; } .step .run { font-size: 1.25rem; } }
 .note { background: var(--panel); padding: 12px 14px; border-left: 8px solid var(--rail-alpha); }
+.donestep .run { color: var(--grass); }
+.mended { color: var(--grass); }
 """
 
 JS = """
 (function () {
   var buttons = document.querySelectorAll('.filter button');
-  var rows = document.querySelectorAll('.step');
+  var rows = document.querySelectorAll('.step:not(.donestep)');
   var groups = document.querySelectorAll('.group');
   function show(who) {
     rows.forEach(function (r) { r.hidden = !(who === 'all' || r.getAttribute('data-who') === who); });
@@ -718,13 +764,13 @@ def page():
 
     # ---- the head and the rail
     o.append("<section>")
-    o.append('<div class="eyebrow">K\u0101pman \u00b7 counted on %s</div>' % e(COUNTED))
+    o.append('<div class="eyebrow">K\u0101pman \u00b7 counted on %s%s</div>' % (e(COUNTED), (" \u00b7 %d steps done since" % len(done_steps)) if done_steps else ""))
     o.append("<h1>The road to release</h1>")
-    o.append('<p class="lede">The game is about <strong>%s per cent</strong> of the way to its first release. The alpha is %s points off. Most of what lies between the alpha and the release is yours: the pictures and the reading.</p>' % (pct(NOW), pct(ALPHA - NOW)))
+    o.append('<p class="lede">The game is about <strong>%s per cent</strong> of the way to its first release. The alpha is %s points off. Most of what lies between the alpha and the release is yours: the pictures and the reading.</p>' % (pct(NOW, 1 if done_steps else 0), pct(ALPHA - NOW, 1 if done_steps else 0)))
     o.append('<div class="rail" role="img" aria-label="Progress: now %s, alpha %s, beta %s, released 100">' % (pct(NOW), pct(ALPHA), pct(BETA)))
     o.append('<div class="bar"><span class="done" style="width:%.2f%%"></span><span class="alpha" style="width:%.2f%%"></span><span class="beta" style="width:%.2f%%"></span></div>' % (NOW, ALPHA - NOW, BETA - ALPHA))
     o.append('<div class="marks">')
-    o.append('<div class="mark now"><div class="num">%s</div><div class="what">Now</div></div>' % pct(NOW))
+    o.append('<div class="mark now"><div class="num">%s</div><div class="what">Now</div></div>' % pct(NOW, 1 if done_steps else 0))
     o.append('<div class="mark alpha"><div class="num">%s</div><div class="what">The alpha</div></div>' % pct(ALPHA))
     o.append('<div class="mark beta"><div class="num">%s</div><div class="what">The beta</div></div>' % pct(BETA))
     o.append('<div class="mark out"><div class="num">100</div><div class="what">Released</div></div>')
@@ -740,6 +786,18 @@ def page():
         o.append('<figure><img alt="The game tonight: the Byzantium frame round the chart of the Rhine mouth, a course drawn from Dorestat to Witla, the Voyage and Hold windows, the log and the small view of the boat." width="1200" height="675" src="data:image/jpeg;base64,%s"><figcaption>The game tonight, from the play test: a course set from Dorestat, the hold, the log, the boat at her berth.</figcaption></figure>' % b64)
     o.append("</section>")
 
+    # ---- done since the count
+    if done_steps:
+        o.append("<section>")
+        o.append("<h2>Done since the count</h2>")
+        o.append("<p>The count of %s stood at %s. %d of the %d steps are done since, worth %s points.</p>" % (e(COUNTED), pct(COUNT, 1), len(done_steps), len(all_steps), pct(NOW - COUNT, 1)))
+        o.append('<div class="steps">')
+        for s in done_steps:
+            when, note = DONE[s["title"]]
+            o.append('<div class="step donestep"><div class="left"><span class="run">+%s</span><span class="adds">%s</span></div><div class="body"><h4><span class="no">%d.</span> %s</h4><p>%s</p></div></div>' % (pct(s["pts"], 2), e(when), s["n"], e(s["title"]), e(note)))
+        o.append("</div>")
+        o.append("</section>")
+
     # ---- where it is
     o.append("<section>")
     o.append("<h2>Where the game is</h2>")
@@ -750,6 +808,7 @@ def page():
         o.append('<details class="area"><summary><span class="area-name">%s</span><span class="area-pct">%s%%</span><span class="area-blurb">%s %s of %s points.</span><span class="meter"><i style="width:%.1f%%"></i></span></summary>' % (e(aname), pct(100 * done / tot), e(ablurb), pct(done, 1), pct(tot), 100 * done / tot))
         o.append('<div class="parts">')
         for pid, name, pts, d, stands, missing in items:
+            d, stands, missing = parts[pid]["share"], parts[pid]["stands"], parts[pid]["missing"]
             o.append('<div class="part"><b>%s</b><span class="p-pct">%s%%</span><span class="tiny"><i style="width:%.0f%%"></i></span>' % (e(name), pct(100 * d), 100 * d))
             if stands:
                 o.append('<span class="p-note">%s</span>' % e(stands))
@@ -766,7 +825,8 @@ def page():
     o.append("<h2>What the counting turned up</h2>")
     o.append('<ol class="found">')
     for head, body in FOUND:
-        o.append("<li><p><strong>%s</strong> %s</p></li>" % (e(head), e(body)))
+        mended = ' <strong class="mended">Mended since (%s).</strong>' % e(DONE[MENDED[head]][0]) if MENDED.get(head) in DONE else ""
+        o.append("<li><p><strong>%s</strong> %s%s</p></li>" % (e(head), e(body), mended))
     o.append("</ol>")
     o.append("</section>")
 
@@ -774,6 +834,8 @@ def page():
     o.append("<section>")
     o.append("<h2>Every step from here</h2>")
     o.append("<p>The number on the left is where the game stands once that step is done. A sitting is one piece of work built, tested by the full suites, looked at in pictures from the game and committed. Tonight had five.</p>")
+    if done_steps:
+        o.append('<p class="quiet">The steps keep the numbers they had at the count. Those done are listed above.</p>')
     o.append('<div class="filter" role="group" aria-label="Whose steps to show"><button type="button" id="f-all" data-who="all" aria-pressed="true">All %d</button><button type="button" id="f-me" data-who="me" aria-pressed="false">Mine %d</button><button type="button" id="f-you" data-who="you" aria-pressed="false">Yours %d</button><button type="button" id="f-both" data-who="both" aria-pressed="false">Both %d</button></div>' % (len(steps), sum(1 for s in steps if s["who"] == ME), sum(1 for s in steps if s["who"] == YOU), sum(1 for s in steps if s["who"] == BOTH)))
     for ph in (1, 2, 3):
         name, what = PHASES[ph]
@@ -861,7 +923,7 @@ if __name__ == "__main__":
     pg = page()
     os.makedirs(os.path.dirname(OUT_HTML), exist_ok=True)
     io.open(OUT_HTML, "w", encoding="utf-8", newline="\n").write(pg)
-    print("now %.1f | alpha %.1f | beta %.1f | steps %d (%d, %d, %d)" % (NOW, ALPHA, BETA, len(steps), PS[1]["n"], PS[2]["n"], PS[3]["n"]))
+    print("count %.1f | now %.1f | alpha %.1f | beta %.1f | steps left %d (%d, %d, %d) | done %d" % (COUNT, NOW, ALPHA, BETA, len(steps), PS[1]["n"], PS[2]["n"], PS[3]["n"], len(done_steps)))
     print("mine %.1f points, yours %.1f, both %.1f | sittings %.0f to %.0f | your hours %.0f to %.0f" % (MINE, YOURS, OURS, SIT[0], SIT[1], HRS[0], HRS[1]))
     for aid, aname, _, _ in AREAS:
         print("   %-34s %5.2f of %4.1f" % (aname, area_sum[aid][1], area_sum[aid][0]))
