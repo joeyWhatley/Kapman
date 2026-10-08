@@ -203,6 +203,108 @@ namespace Kapman.Game
         public event Action<EncounterSession> Opened, Closed;
         public event Action<EncounterSession, ChoiceResult> Chose;
 
+        // ------------------------------------------------------------------ a card left unanswered (rulings 10 and 12)
+
+        /// <summary>The cards' rules of 7 Oct 2026 (null: every card ordinary).</summary>
+        public CardRules rules;
+        /// <summary>Running game hours the card on screen has waited unanswered (0 when none is open).</summary>
+        public double WaitedHours { get; private set; }
+        /// <summary>A waiting time carried over a save: the card it belongs to, and its hours.</summary>
+        string savedWaitCard = "";
+        double savedWaitHours;
+        double nextTry;                                                   // (when none can be taken: tried again an hour on)
+        bool choosing;                                                    // (inside Choose: the effects are running)
+        /// <summary>The card on screen took an option by itself and closed: the card, what came of it, and whether it was
+        /// because she cast off from its port (false: its time ran out).</summary>
+        public event Action<EncounterSession, ChoiceResult, bool> TookItself;
+        /// <summary>True while the director itself is choosing (Chose fires too: the log must not write it twice).</summary>
+        public bool TakingItself { get; private set; }
+
+        /// <summary>The rule of the card on screen (null: none is open).</summary>
+        public CardRule RuleNow => Current == null ? null : rules != null ? rules.For(Current.card.id) : new CardRule { id = Current.card.id };
+        /// <summary>Running hours it will still wait (0 when none is open or it is answered).</summary>
+        public double HoursLeft => Current == null || Current.Chosen ? 0.0 : Math.Max(0.0, RuleNow.patienceHours - WaitedHours);
+        /// <summary>A pressing card is open and unanswered.</summary>
+        public bool Pressing => Current != null && !Current.Chosen && RuleNow.pressing;
+        /// <summary>A card that holds the ship is open and unanswered: she makes no way.</summary>
+        public bool HoldsShip => Current != null && !Current.Chosen && RuleNow.holdsShip;
+
+        /// <summary>The options the card on screen would take by itself, in the order to try them: the rule's, by their
+        /// keys; then the card's own usual answer; then the rest, the last first (the way out is written last).</summary>
+        IEnumerable<int> OwnOrder(EncounterSession s)
+        {
+            foreach (string key in RuleNow.take)
+                yield return s.options.FindIndex(o => o.def.key == key);
+            for (int i = 0; i < s.options.Count; i++)
+                if (s.options[i].def.isDefault)
+                    yield return i;
+            for (int i = s.options.Count - 1; i >= 0; i--)
+                yield return i;
+        }
+
+        /// <summary>The option the card on screen takes if it is left unanswered, as things stand now (-1: none can be
+        /// taken, or no card waits).</summary>
+        public int OwnOption
+        {
+            get
+            {
+                var s = Current;
+                if (s == null || s.Chosen)
+                    return -1;
+                foreach (int i in OwnOrder(s))
+                    if (i >= 0 && i < s.options.Count && s.options[i].enabled)
+                        return i;
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// Running game hours have passed with the card open (the runner: the clock's own step, so nothing counts while
+        /// the clock is held). When its time is spent the card takes an option by itself and closes; the log says which.
+        /// If none can be taken on the day it goes on waiting and is tried again each hour. Returns what came of it when
+        /// it took one, else null.
+        /// </summary>
+        public ChoiceResult Wait(double hours)
+        {
+            var s = Current;
+            if (s == null || s.Chosen || !(hours > 0.0))
+                return null;
+            WaitedHours += hours;
+            if (WaitedHours < RuleNow.patienceHours || WaitedHours < nextTry)
+                return null;
+            var r = TakeItself(false);
+            if (r == null)
+                nextTry = WaitedHours + 1.0;
+            return r;
+        }
+
+        ChoiceResult TakeItself(bool castOff)
+        {
+            var s = Current;
+            if (s == null || s.Chosen || TakingItself || choosing)
+                return null;
+            TakingItself = true;
+            try
+            {
+                foreach (int i in OwnOrder(s))
+                {
+                    if (i < 0 || i >= s.options.Count || !s.options[i].enabled)
+                        continue;
+                    var r = Choose(i);
+                    if (r == null || !r.ok)
+                        continue;
+                    TookItself?.Invoke(s, r, castOff);
+                    Continue();                                           // (it closes; the log has said what was taken)
+                    return r;
+                }
+            }
+            finally
+            {
+                TakingItself = false;
+            }
+            return null;
+        }
+
         public EncounterDirector(EncounterBook book, int seed, IGameEffects game, NpcRegistry npcs = null, EncounterState state = null)
         {
             this.book = book ?? throw new ArgumentNullException(nameof(book));
@@ -292,6 +394,16 @@ namespace Kapman.Game
             string was = state.callPort;
             if (string.IsNullOrEmpty(was))
                 return;
+            // (8 Oct 2026: and the harbour card on screen, if it has no answer yet. Whoever stood on the quay does not
+            // follow her out either: it goes the way it would have gone by itself, now, while the port is still the
+            // port; where none of its options can be taken it is put away.)
+            var open = Current;
+            if (open != null && !open.Chosen && open.card.stage == Stage.Harbour && !choosing && !TakingItself && TakeItself(true) == null)
+            {
+                Current = null;
+                WaitedHours = 0.0;
+                Closed?.Invoke(open);
+            }
             state.queue.RemoveAll(id =>
             {
                 var c = book.Card(id);
@@ -350,6 +462,11 @@ namespace Kapman.Game
             Current = EncounterSession.Open(card, world, back ? keptCast : null);
             keptCard = null;
             keptCast = null;
+            // (its waiting time begins; a saved game's open card has the hours it had already waited)
+            WaitedHours = card.id == savedWaitCard ? savedWaitHours : 0.0;
+            savedWaitCard = "";
+            savedWaitHours = 0.0;
+            nextTry = 0.0;
             Opened?.Invoke(Current);
             return Current;
         }
@@ -370,9 +487,18 @@ namespace Kapman.Game
         public ChoiceResult Choose(int index)
         {
             var s = Current;
-            if (s == null || s.Chosen)
+            if (s == null || s.Chosen || choosing)
                 return null;
-            var r = s.Choose(index);
+            ChoiceResult r;
+            choosing = true;
+            try
+            {
+                r = s.Choose(index);
+            }
+            finally
+            {
+                choosing = false;
+            }
             if (r.ok)
             {
                 StatUsed(s, r);
@@ -416,6 +542,7 @@ namespace Kapman.Game
             if (s == null || !s.Chosen)
                 return false;
             Current = null;
+            WaitedHours = 0.0;
             Closed?.Invoke(s);
             return true;
         }
@@ -432,6 +559,7 @@ namespace Kapman.Game
             if (s.card.arrival)
                 return false;
             Current = null;
+            WaitedHours = 0.0;
             Closed?.Invoke(s);
             return true;
         }
@@ -541,6 +669,9 @@ namespace Kapman.Game
             // first in the saved line)
             bool open = Current != null && !Current.Chosen;
             string id = open ? Current.card.id : Current == null ? keptCard : null;
+            // (the hours it has waited with the clock running: it comes back with them, and does not start its week again)
+            d["wait_card"] = open ? Current.card.id : savedWaitCard;
+            d["wait_hours"] = open ? WaitedHours : savedWaitHours;
             if (id == null)
                 return d;
             if (open && st.TryGetValue("queue", out var q) && q is List<object> line)
@@ -577,6 +708,11 @@ namespace Kapman.Game
             keptCard = null;
             keptCast = null;
             keptHour = 0;
+            // (an older save has neither key: its open card starts its wait again)
+            WaitedHours = 0.0;
+            nextTry = 0.0;
+            savedWaitCard = Json.Str(d, "wait_card", "");
+            savedWaitHours = Math.Max(0.0, Json.Num(d, "wait_hours", 0.0));
             var open = Json.Obj(d, "open");
             string id = open != null ? Json.Str(open, "card", null) : null;
             // (only if it is still the first in line: it always is in a save this code wrote)

@@ -104,6 +104,9 @@ namespace Kapman.Game.Frame
         public bool mustAnswer;
         /// <summary>The game's clock waits while it is up.</summary>
         public bool holdsClock;
+        /// <summary>A card left unanswered with the clock running: how long it will wait yet and what it then does by
+        /// itself (null: it does nothing by itself). Read each frame: the hours run down.</summary>
+        public Func<string> waits;
         /// <summary>What shutting it does (the cross, Esc), when it may be shut. Null: it just goes.</summary>
         public Action shut;
         /// <summary>Its own content in place of the lines (a line that turns from a tongue into English, a picture).</summary>
@@ -663,8 +666,12 @@ namespace Kapman.Game.Frame
 
         static void HintShown(Float f)
         {
-            if (f != null && f.hint != null)
-                f.hint.style.display = string.IsNullOrEmpty(f.hint.text) ? DisplayStyle.None : DisplayStyle.Flex;
+            if (f == null || f.hint == null)
+                return;
+            f.hint.style.display = string.IsNullOrEmpty(f.hint.text) ? DisplayStyle.None : DisplayStyle.Flex;
+            // (a card left to wait: its line is a row of its own under the window, so it covers nothing. The line that
+            // says for a moment why a choice cannot be taken lies over the window's foot, as it did)
+            f.hint.parent?.EnableInClassList("waits", f.released && f.spec.waits != null);
         }
 
         static string StandingHint(Float f)
@@ -672,6 +679,10 @@ namespace Kapman.Game.Frame
             // Nothing stands under a window any more (the user, 7 Oct 2026, late, of "Enter, or a click: go on.": "remove
             // it, you don't have to explain everything like this"). What a key does is in the tips and in the book of
             // rules; the line is kept for what has to be said once: why a choice cannot be taken.
+            // And (8 Oct 2026, rulings 10 and 12) for a card the player has let the clock run on: how long it will wait
+            // yet, and what it then does by itself. Nothing while the clock is held: no time passes then.
+            if (f != null && f.released && f.spec.waits != null)
+                return f.spec.waits() ?? "";
             return "";
         }
 
@@ -763,7 +774,10 @@ namespace Kapman.Game.Frame
         {
             EncounterRunner.Blocked = null;
             if (hooked != null)
+            {
                 hooked.Chose -= CardChose;
+                hooked.TookItself -= CardTookItself;
+            }
             hooked = null;
             if (oldCardPanelOff && oldCardPanel != null)
                 oldCardPanel.enabled = true;
@@ -808,6 +822,16 @@ namespace Kapman.Game.Frame
                     f.hintUntil = 0f;
                     f.hint.text = StandingHint(f);
                     HintShown(f);
+                }
+                else if (f.hintUntil <= 0f && f.released && f.spec.waits != null && f.hint != null)
+                {
+                    // (a card left to wait: its hours run down while the clock runs)
+                    string waits = StandingHint(f);
+                    if (f.hint.text != waits)
+                    {
+                        f.hint.text = waits;
+                        HintShown(f);
+                    }
                 }
         }
 
@@ -974,10 +998,16 @@ namespace Kapman.Game.Frame
             if (d != hooked)
             {
                 if (hooked != null)
+                {
                     hooked.Chose -= CardChose;
+                    hooked.TookItself -= CardTookItself;
+                }
                 hooked = d;
                 if (d != null)
+                {
                     d.Chose += CardChose;
+                    d.TookItself += CardTookItself;
+                }
             }
             var s = d != null ? d.Current : null;
             if (s == null)
@@ -994,6 +1024,13 @@ namespace Kapman.Game.Frame
             bool fresh = s != cardShown;
             cardShown = s;
             cardChosen = s.Chosen;
+            if (fresh)
+            {
+                // (a new card holds the clock anew, though the last one, in this same window, had been let wait)
+                var was = floats.Find(f => f.spec.id == CardId);
+                if (was != null)
+                    was.released = false;
+            }
             OpenFloat(CardSpec(d, s));
             if (fresh)
                 ToFront(floats.Find(f => f.spec.id == CardId));
@@ -1079,6 +1116,7 @@ namespace Kapman.Game.Frame
                         pick = () => d.Choose(index),
                     });
                 }
+                spec.waits = () => WaitLine(d, s);
             }
             else
             {
@@ -1111,8 +1149,59 @@ namespace Kapman.Game.Frame
 
         void CardChose(EncounterSession s, ChoiceResult r)
         {
+            var d = EncounterRunner.Director;
+            if (d != null && d.TakingItself)
+                return;                                                  // (the card answered itself: CardTookItself writes it)
             if (s != null && r != null && r.ok)
                 FrameLog.Add(r.Text);                                    // (what you did and what came of it, in sentences: no title and colon)
+        }
+
+        /// <summary>A card left unanswered took an option by itself (rulings 10 and 12 of 7 Oct 2026: "and says so in the
+        /// log"): its time ran out with the clock running, or she cast off from its port.</summary>
+        void CardTookItself(EncounterSession s, ChoiceResult r, bool castOff)
+        {
+            if (s != null && r != null)
+                FrameLog.Add(TookItselfLine(s, r, castOff));
+        }
+
+        /// <summary>The log's line for it. PLACEHOLDER WORDS, the user's to write.</summary>
+        public static string TookItselfLine(EncounterSession s, ChoiceResult r, bool castOff)
+        {
+            string label = "";
+            foreach (var o in s.options)
+                if (o.def.key == r.option)
+                    label = o.label;
+            string how = castOff ? "You cast off and left \u201c" + s.Title + "\u201d unanswered" : "You gave \u201c" + s.Title + "\u201d no answer";
+            // (where the card has no line of its own for the choice, what was told is only the choice's words again)
+            string came = r.told == LogProse.Answered(label) ? r.Facts : r.Text;
+            return (how + ", so it went this way: " + label.TrimEnd('.', ' ') + ". " + came).Trim();
+        }
+
+        /// <summary>
+        /// THE LINE UNDER A CARD LEFT TO WAIT (rulings 10 and 12): "It waits 6 days and 4 hours more. Then: Declare the
+        /// cargo." A card that holds the ship says so first. The option named is the one it would take as things stand
+        /// now. PLACEHOLDER WORDS, the user's to write.
+        /// </summary>
+        public static string WaitLine(EncounterDirector d, EncounterSession s)
+        {
+            if (d == null || s == null || d.Current != s || s.Chosen)
+                return "";
+            int own = d.OwnOption;
+            string held = d.HoldsShip ? "She is held here. " : "";
+            if (own < 0)
+                return held + "It waits for your answer.";
+            string wait = d.HoursLeft > 0.0 ? "It waits " + Span(d.HoursLeft) + " more. Then: " : "It waits no longer: ";
+            return held + wait + s.options[own].label.TrimEnd('.', ' ') + ".";
+        }
+
+        /// <summary>A span of game hours in words, rounded up to the hour: "7 days", "6 days and 5 hours", "1 hour".</summary>
+        public static string Span(double hours)
+        {
+            int h = (int)Math.Ceiling(Math.Max(0.0, hours) - 1e-9);
+            int days = h / 24, rest = h % 24;
+            string a = days > 0 ? days + (days == 1 ? " day" : " days") : "";
+            string b = rest > 0 || days == 0 ? rest + (rest == 1 ? " hour" : " hours") : "";
+            return a.Length > 0 && b.Length > 0 ? a + " and " + b : a + b;
         }
 
         static string Cap(string s) => string.IsNullOrEmpty(s) ? s : char.ToUpperInvariant(s[0]) + s.Substring(1);

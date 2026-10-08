@@ -321,6 +321,7 @@ STEPS = [
 DONE = {
     "Bring the five regions' words into the game": ("8 Oct, night", "5,259 texts are in the game, after the same passes the rest had. 14 cards of one later chain (the Rhineland, 879 to 886) still have no lines: their words were never written."),
     "Events move the stats": ("8 Oct, night", "A stat is a base and the marks on it. Cards put them on with a verb, 18 kinds of known deed by a table, hunger and sickness by themselves. All marks together move a stat by no more than two. Yourself shows each with its cause and its end."),
+    "Cards that wait": ("8 Oct, night", "A card left unanswered with the clock running waits a week, then takes one of its own options and the log says which. A pressing card (44 of them) waits hours, and 36 of those hold her where she is meanwhile. Left to wait, the card says under itself how long and what then. A harbour card goes its own way when she casts off."),
 }
 # What a part says once a step that finishes it is done: step title -> part -> (what stands, what is missing)
 PART_AFTER = {

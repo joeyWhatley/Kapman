@@ -8,28 +8,29 @@ Made by `Bake/plan/roadmap.py` from counts taken in the project that night. To b
 
 | | Percent |
 |---|---|
-| **Now** | **43.1** |
+| **Now** | **43.3** |
 | The alpha | 49 |
 | The beta | 93 |
 | Released | 100 |
 
 - **100 is the first release**, as you ruled on 7 October: one life, 793 to about 805, on twelve ports (Dorestat, Traiectum, Walichrum, Witla, Medemelacha, Doccinga, Daventre, Quentovic, Lundenwic, Sarre, Fordwic and Ripa), with the whole world dim on the chart. The later ages are not in it.
-- 65 steps are left: 9 to the alpha, 49 more to the beta, 7 to the release.
-- Of the 57 points still to do, 24 are mine to build, 21 are yours alone and 13 need both of us.
-- My part is about 114 to 140 sittings. Yours is about 433 to 452 hours, and the hours of your own home waters on top. **The release date is set by your drawing and your reading, not by the building.**
+- 64 steps are left: 8 to the alpha, 49 more to the beta, 7 to the release.
+- Of the 57 points still to do, 23 are mine to build, 21 are yours alone and 13 need both of us.
+- My part is about 112 to 138 sittings. Yours is about 433 to 452 hours, and the hours of your own home waters on top. **The release date is set by your drawing and your reading, not by the building.**
 
 ## Done since the count of 8 October 2026
 
-The count stood at 42.3. 2 of the 67 steps are done since, worth 0.7 points.
+The count stood at 42.3. 3 of the 67 steps are done since, worth 1.0 points.
 
 | No. | Step | When | What came of it | Points |
 |---|---|---|---|---|
 | 1 | Bring the five regions' words into the game | 8 Oct, night | 5,259 texts are in the game, after the same passes the rest had. 14 cards of one later chain (the Rhineland, 879 to 886) still have no lines: their words were never written. | +0.48 |
+| 5 | Cards that wait | 8 Oct, night | A card left unanswered with the clock running waits a week, then takes one of its own options and the log says which. A pressing card (44 of them) waits hours, and 36 of those hold her where she is meanwhile. Left to wait, the card says under itself how long and what then. A harbour card goes its own way when she casts off. | +0.26 |
 | 7 | Events move the stats | 8 Oct, night | A stat is a base and the marks on it. Cards put them on with a verb, 18 kinds of known deed by a table, hunger and sickness by themselves. All marks together move a stat by no more than two. Yourself shows each with its cause and its end. | +0.24 |
 
 ## Where the game is, part by part
 
-### The game's machinery: 21.0 of 35 points (60%)
+### The game's machinery: 21.3 of 35 points (61%)
 
 The rules that run the world and the voyage.
 
@@ -39,7 +40,7 @@ The rules that run the world and the voyage.
 | Sailing on the chart | 3.0 | 88% | A course by water to every port of the release, tides, grounding, night, fog that lifts, five speeds, the measure. | Oars. Distances that jump while she sails. |
 | Trade | 3.5 | 72% | Markets, four coinages, the toll, the word on a good, the wares window. | Deals by the lot. A price told against where she lies. A hold that adds up. |
 | The debt | 1.5 | 88% | Owed to Wursing, due at Michaelmas; his man, the day, the boat's work, a clean stick (built tonight). | Your ruling on the missed day. Hard and easy terms. The count's old chain. |
-| The card engine | 3.5 | 85% | 1,400 cards with chances and memory. Speakers under their own names and faces, written ends shown (both tonight). | Cards that wait a week, pressing cards that hold her, the list of what the release lets in. |
+| The card engine | 3.5 | 92% | 1,400 cards with chances and memory. Speakers under their own names and faces, written ends shown (both tonight). | Cards that wait a week, pressing cards that hold her, the list of what the release lets in. |
 | People and standing | 3.0 | 83% | Feelings, standing, deeds that travel as news, tongues that turn into English, five stats that events move. | One memory for a person in port and on a card. |
 | Meetings at sea | 1.5 | 85% | Traders hailed, the king's men, raiders. | The raid as an hour of its own. |
 | Risk to the boat | 2.5 | 5% | Nothing can happen to her on the chart. The plan is written (149 KB). | All of it: hull, water in her, the sail, the loss and what follows. |
@@ -161,18 +162,17 @@ A build, the tests by other people, the law, the shop.
 
 A sitting is one piece of work built, tested by the full suites, looked at in pictures from the game and committed. Tonight had five. The groups inside a phase can run side by side: your pictures and the Steam paperwork can begin today.
 
-### To the alpha: 43.1 to 48.6
+### To the alpha: 43.3 to 48.6
 
 Your own list of 7 October: the eighteen basics built and joined, in one build played from a new game to the first reckoning, with nothing in it that says “not yet”, and you have looked at the play-through.
 
-9 steps, 5.5 points. Mine: 16 to 20 sittings. Yours: 3 to 5 hours.
+8 steps, 5.2 points. Mine: 14 to 18 sittings. Yours: 3 to 5 hours.
 
 | No. | Step | Who | Size | Adds | Then at |
 |---|---|---|---|---|---|
-| 2 | **Oars.** Row 3 of your alpha list. An order to go under oars when the wind fails: slower, and it costs the men bread and strength. The ship window already shows the rowers. | Mine | one sitting | +0.18 | 43.2 |
-| 3 | **The boat can be hurt and lost.** Row 4, and the widest gap before the alpha. The plan is written: hull, water in her and the sail; warned first, wounded before she is lost; the same gale dice as the other ships. For the alpha a loss shows “She is lost” and the way back to a save. Your ruling: is that end enough for the alpha? | Mine | 5 to 7 sittings | +2.01 | 45.3 |
-| 4 | **Deals by the lot, and the word told rightly.** Row 5. Buy and sell several at once with one settlement. A price is said against where she lies, by a named person, so many days old. | Mine | 2 to 3 sittings | +0.63 | 45.9 |
-| 5 | **Cards that wait.** Row 7, your ruling of 7 October. An ordinary card waits seven game days, then takes one of its own options and says so in the log. A pressing card holds her where she is. | Mine | 2 sittings | +0.26 | 46.1 |
+| 2 | **Oars.** Row 3 of your alpha list. An order to go under oars when the wind fails: slower, and it costs the men bread and strength. The ship window already shows the rowers. | Mine | one sitting | +0.18 | 43.5 |
+| 3 | **The boat can be hurt and lost.** Row 4, and the widest gap before the alpha. The plan is written: hull, water in her and the sail; warned first, wounded before she is lost; the same gale dice as the other ships. For the alpha a loss shows “She is lost” and the way back to a save. Your ruling: is that end enough for the alpha? | Mine | 5 to 7 sittings | +2.01 | 45.5 |
+| 4 | **Deals by the lot, and the word told rightly.** Row 5. Buy and sell several at once with one settlement. A price is said against where she lies, by a named person, so many days old. | Mine | 2 to 3 sittings | +0.63 | 46.1 |
 | 6 | **Orders that work.** Row 9. Taken or refused, brought in parts, paid like a sale, closed on their day. The code is drafted and was compiled outside Unity. | Mine | 2 sittings | +0.60 | 46.7 |
 | 8 | **A stake inside the first hour, and a clean screen.** Row 17. A first order with a day: wine wanted at a named port. The first window stops listing things that are not built. Nothing covers anything. The top bar is no longer one run of words. | Mine | 2 sittings | +0.60 | 47.3 |
 | 9 | **The play-through, a picture at each step.** Row 18. The game played by the test's hands through the real buttons, from a new game to the Michaelmas reckoning. I look at every picture and write down what is wrong. | Mine | one sitting | +0.50 | 47.8 |
@@ -288,7 +288,7 @@ The first release is out on Steam: one life, 793 to about 805, on twelve ports, 
 
 ## What sets the pace
 
-- **My part:** about 114 to 140 sittings. This week ran at three to five a day while you were here. That is weeks.
+- **My part:** about 112 to 138 sittings. This week ran at three to five a day while you were here. That is weeks.
 - **Your part:** about 433 to 452 hours, and your home waters on top. At ten hours a week that is most of a year. At twenty it is five to six months.
 - **Steam's own waits:** 30 days after the fee, two weeks of “Coming soon”, two reviews. Six weeks at the least, even for a finished game.
 - The note on Steam of 7 October said spring to summer 2027 for the first release. This count agrees with it.

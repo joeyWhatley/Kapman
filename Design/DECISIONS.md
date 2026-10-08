@@ -1014,4 +1014,28 @@ and far fewer when usage is short).
      long it has yet. The portrait's line and the Faith and House windows show the stat as it is now.
    NOT DONE of the write-up: marks from dress and gifts, from company aboard, from drink, from a season in a
    strange tongue's land; a greyed choice that says what would raise the stat; the lint in check_content.py.
+109. **CARDS THAT WAIT, BUILT** (the road's step 5, the alpha's row 7; the user's rulings are items 10 and 12 of
+   7 Oct; the plan is Design/fixes/card_clock.md). A card opens and holds the clock, as before. If the player lets
+   the clock run without answering:
+   - an ORDINARY card waits 168 running game hours, then takes one of its own options, closes, and the log says so
+     ("You gave ... no answer, so it went this way: ..."). The time counts only while the clock runs, in the clock's
+     own step, so it is the same game minute at every speed;
+   - a PRESSING card (44 cards: a squall, a man overboard, fog, a leak) waits its own hours, 1 to 72; 36 of them
+     HOLD HER where she is meanwhile: she keeps her course and her order and makes no way. The clock may not run
+     fast while one waits (the clock's own rule, which was waiting for this);
+   - which option a card takes is in Game/Data/card_rules_793.json, by the options' keys, in the order to try
+     them; the first that can be chosen on the day is taken. The file is written by Bake/content/card_rules.py
+     from the rows a person read (all 428 cards that can open in the first release are read; the 8 cards of the
+     debt added today); edit Bake/content/card_rules_overrides.json and run the script, never the file;
+   - left to wait, the card says under itself, in a row of its own, how long it will wait yet and what it then
+     does ("She is held here. It waits 1 hour more. Then: ..."). Nothing is said while the clock is held: no time
+     passes then. PLACEHOLDER WORDS;
+   - the hours a card has waited are saved with the game.
+   DECIDED BY ME, the user's to overrule:
+   - a HARBOUR card still unanswered when she casts off goes its own way at once (whoever stood on the quay does
+     not follow her out). Before, the toll man's card would have sailed with her for a week;
+   - a new card holds the clock anew, though the last one had been let wait;
+   - only the card on screen waits: one in line behind it does not count its time yet;
+   - Esc still shuts an unanswered card that is not an arrival card, with no option taken;
+   - a rest or a wait for wind is running clock: a card can answer itself meanwhile.
 

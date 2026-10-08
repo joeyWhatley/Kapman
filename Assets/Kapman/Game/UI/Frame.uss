@@ -2941,3 +2941,18 @@
 .frame-root .frame-p.frame-mark.down {
     border-left-color: rgb(158, 52, 46);
 }
+
+/* ---- A CARD LEFT TO WAIT (8 Oct 2026: cards that wait, the user's rulings 10 and 12). How long it will wait yet and
+   what it then does by itself stands in a row of its own under the card, the full width, and covers nothing. (The
+   line that says for a moment why a choice cannot be taken lies over the window's foot, as before.) */
+.frame-root .frame-float.docked.waits .frame-float-hint {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    flex-shrink: 0;
+    padding: 4px 12px 5px 12px;
+    white-space: normal;
+    border-top-width: 2px;
+    border-top-color: rgb(98, 124, 98);
+}
+

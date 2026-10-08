@@ -71,6 +71,7 @@ namespace Kapman.Game
         static Kapman.Chain.ChainData chain;
         static bool chainFailed, bookReported;
 
+        double lastHours = double.NaN;                                    // a level: the clock's hours at the last look (the card's wait)
         string levelFor;                                                  // the level whose moorings the watch holds
         bool homeLooked;                                                  // the chart: the call at home on a new game is seen to
         float lastLook;                                                   // the chart: the wall clock at the last look
@@ -83,6 +84,10 @@ namespace Kapman.Game
         /// multiplies its toll by it.</summary>
         public static double TollFactor(string port, double day) => Director != null ? Director.TollFactor(port, day) : 1.0;
 
+        /// <summary>A pressing card that holds the ship is open and unanswered (rulings 10 and 12 of 7 Oct 2026): she
+        /// keeps her course and her order, and makes no way until it is answered or has answered itself.</summary>
+        public static bool ShipHeld => Director != null && Director.HoldsShip;
+
         /// <summary>The encounter layer for a saved game (null before it has started).</summary>
         public static Dictionary<string, object> Capture() => Director != null ? Director.Capture() : null;
 
@@ -93,6 +98,8 @@ namespace Kapman.Game
                 Director.Restore(d);
             else
                 pendingRestore = d;
+            if (Instance != null)
+                Instance.lastHours = double.NaN;                          // (the jump of a load is no waiting time)
         }
 
         /// <summary>A port's realm (ports_793.json) and people (the culture of its words), for the director.</summary>
@@ -139,7 +146,17 @@ namespace Kapman.Game
                 return;
             var game = KapmanGame.Current;
             if (game != null)
+            {
                 d.SetTime(game.Day, game.Year, game.Month, (long)Math.Floor(game.Hours));
+                // A CARD LEFT UNANSWERED WAITS IN RUNNING GAME HOURS (rulings 10 and 12). On the chart they are counted
+                // in the clock's own step (Step, below). In a level they are the clock's hours since the last look:
+                // they stand still while the clock is held, and the jump of a load or a new game is not counted.
+                double hours = game.Hours;
+                double passed = double.IsNaN(lastHours) ? 0.0 : hours - lastHours;
+                lastHours = hours;
+                if (!GameSpeed.Stepped && passed > 0.0 && passed < 24.0 * 30.0 && !GameSpeed.Paused)
+                    d.Wait(passed);
+            }
             bool chart = OnChart;
             d.watch.dwellSeconds = dwellSeconds;
             d.watch.stillSpeed = stillSpeed;
@@ -195,8 +212,9 @@ namespace Kapman.Game
                 return;
             d.SetTime(game.Day, game.Year, game.Month, (long)Math.Floor(game.Hours));
             ChartLook(d, game, ship, gameSeconds);
-            // (fixes/card_clock.md section 3: the open card's waiting time is counted HERE, d.Wait(gameSeconds / 3600.0),
-            // not in Update: then a card takes its own option in the same game minute at every speed)
+            // (the open card's waiting time is counted here, in the clock's own step: a card left unanswered takes its
+            // own option in the same game minute at every speed. Nothing steps while the clock is held.)
+            d.Wait(gameSeconds / 3600.0);
         }
 
         /// <summary>She has moored: the game saves itself (held if something is in the way). She has cast off: a save
@@ -279,6 +297,11 @@ namespace Kapman.Game
                 return p == null ? null : new NpcRegistry.Known { id = p.id, name = p.name, people = p.people, faith = p.faith, born = p.born, to = p.died > 0 ? p.died : p.to };
             };
             EncounterGameVars.Attach(d.vars, () => d.state.callPort);
+            // the cards' rules of 7 Oct 2026: how long each waits unanswered, what it then takes, which hold the ship
+            d.rules = CardRules.Read(Table("card_rules_793"));
+            if (d.rules.Count == 0)
+                Debug.LogWarning("Kapman encounters: no card rules (Game/Data/card_rules_793.json): every card waits a week and takes its own usual answer.");
+            ClockDrops.PressingCard = () => Director != null && Director.Pressing;
             d.CallBegun += port => Debug.Log($"Kapman encounters: moored at {port}; a call begins.");
             d.CallEnded += port => Debug.Log($"Kapman encounters: cast off from {port}.");
             Director = d;

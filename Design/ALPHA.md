@@ -119,3 +119,13 @@ the crew as people (Ravn's own poor stats) waits for the crew system; the hold's
   hold her.
 - Row 10 (people): the men hired on the first morning are the crew the cards know.
 
+## 8 October, late night: the road's steps 1, 7 and 5 (DECISIONS 107 to 109)
+
+- Row 7 (cards): BUILT. Every card of the first release has its words in the game (the five regions' 5,259 texts
+  were merged). A card left unanswered with the clock running waits a week and then takes one of its own options;
+  a pressing card waits hours and holds her where she is; the card says so under itself and the log says what it
+  took. Still open in this row: 778 choices of the release have no written end.
+- Row 10 (people): BUILT. Events move the stats: a stat is a base and the marks that lie on it, each with a cause
+  and an end, two up or down at most. Cards put them on, known deeds by a table, hunger and sickness by themselves.
+  Yourself shows them.
+

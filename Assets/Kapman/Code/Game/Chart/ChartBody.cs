@@ -78,7 +78,28 @@ namespace Kapman.Game
                 return;                                               // (the game's clock steps her: KapmanGame.StepMinute calls Step)
             var clock = LevelClock.Current;
             float rate = clock != null ? clock.rate : 60f;
+            if (HeldNow())
+                return;
             Move(LevelClock.Paused ? 0f : Time.deltaTime * rate * LevelClock.Speed, Time.deltaTime * LevelClock.TimeFactor);
+        }
+
+        /// <summary>A pressing card holds her where she is (the user's ruling 10 of 7 Oct 2026: it "will just keep them
+        /// there until it automatically presses an option"). True while it does.</summary>
+        public bool Held { get; private set; }
+
+        /// <summary>Is she held now? Held, she keeps her course and her order and makes no way: the clock, the weather
+        /// and the other ships run on, and she goes on by herself when the card is answered or has answered itself.</summary>
+        bool HeldNow()
+        {
+            Held = EncounterRunner.ShipHeld;
+            if (!Held)
+                return false;
+            From = transform.position;                                // (her mark stands still: nothing to glide between)
+            FromHeading = motion.heading;
+            speed = 0f;
+            Knots = 0f;
+            motion.Publish(Vector3.zero, 0f, false);
+            return true;
         }
 
         /// <summary>Where she was when the last step began, and her heading then: her mark is drawn between that and
@@ -91,6 +112,8 @@ namespace Kapman.Game
         {
             if (!motion.Driven)
                 motion.Drive(true);
+            if (HeldNow())
+                return;
             Move((float)gameSeconds, (float)(gameSeconds / 60.0));
         }
 

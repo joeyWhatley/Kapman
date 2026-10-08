@@ -847,6 +847,14 @@ namespace Kapman.Tests
                     yield return null;
                 Assert.Greater(clock.GameHours, stopped, "the clock did not run after the player went on");
                 Assert.IsTrue(frame.FloatOpen("card") && cards.Current != null, "the card should wait, still open");
+                // (rulings 10 and 12 of 7 Oct 2026: left to wait, the card says under itself how long it will, and what
+                // it then does by itself. An ordinary card waits a week; the toll man does not hold her)
+                Assert.IsFalse(EncounterRunner.ShipHeld, "the toll man's card holds the ship");
+                string tollWaits = play.FrontFloat().Q<Label>("hint")?.text ?? "";
+                StringAssert.StartsWith("It waits 7 days more. Then: ", tollWaits, "the card left to wait does not say how long it waits and what it then does");
+                var tollRow = play.FrontFloat().Q<Label>("hint");
+                Assert.GreaterOrEqual(tollRow.worldBound.yMin + 0.5f, play.FrontFloat().Q<VisualElement>("body").worldBound.yMax, "the waiting line lies over the words of the card");
+                yield return play.Shot("23b_toll_man_left_to_wait");
                 yield return play.Press(Key.Escape);
                 Assert.IsTrue(frame.FloatOpen("card"), "Esc shut a card that must be answered");
                 Assert.IsFalse(menu.Open, "Esc on a card that must be answered opened the menu");
@@ -1165,6 +1173,64 @@ namespace Kapman.Tests
                 var before = Where(game);
                 yield return Frames(60);
                 Assert.Greater(WorldXZ.Distance(Where(game), before), 200.0, "she did not sail on after the happening");
+
+                // ---- 1b. A CARD LEFT UNANSWERED (rulings 10 and 12 of 7 Oct 2026; the road's step 5). A squall line is a
+                // pressing card: it holds the clock; with the clock let run it holds HER, says under itself how long it
+                // will wait and what it then does, and when its hour is up it takes that option by itself, the log says
+                // so, and she sails on. (Put in line by the test: a squall wants the weather for it.)
+                const string Squall = "sea.squall.line";
+                var deck = EncounterRunner.Director;
+                Assert.IsNotNull(deck.rules, "the cards have no rules");
+                Assert.IsTrue(deck.rules.For(Squall).holdsShip, "the squall's card is not one that holds the ship");
+                Assert.IsFalse(EncounterRunner.ShipHeld, "she is held with no card up");
+                deck.state.Enqueue(Squall, true);
+                yield return ChartPlay.Until(() => deck.Current != null && deck.Current.card.id == Squall && frame.FloatOpen("card"), 12f);
+                Assert.AreEqual(Squall, deck.Current?.card.id, "the squall's card did not open");
+                yield return Frames(10);
+                Assert.IsTrue(PanelClock.Holding, "the squall's card should hold the clock");
+                Assert.IsTrue(EncounterRunner.ShipHeld, "a pressing card should hold her where she is");
+                string squallTitle = Title(play.FrontFloat());
+                for (int i = 0; i < 30 && frame.FrontReveal != null && !frame.FrontReveal.Done; i++)
+                {
+                    yield return play.Press(Key.Enter);                    // (the lines are said through)
+                    yield return Frames(4);
+                }
+                Assert.AreEqual("", play.FrontFloat().Q<Label>("hint")?.text ?? "", "a card says how long it waits while the clock is held: no time passes then");
+                var squallPlace = Where(game);
+                double squallFrom = clock.GameHours;
+                int squallLog = FrameLog.Lines.Count;
+                // (speed 1 first: a speed chosen with a card up lets the clock run under it, and a picture takes real
+                // seconds, which at the test's fast clock would be the card's whole hour)
+                yield return play.Click(Small(play, "1"), "speed 1, with the squall's card up");
+                yield return Frames(5);
+                Assert.IsFalse(PanelClock.Holding, "a speed chosen did not let the clock run under the squall's card");
+                string squallWaits = play.FrontFloat().Q<Label>("hint")?.text ?? "";
+                StringAssert.StartsWith("She is held here. It waits 1 hour more. Then: ", squallWaits, "the pressing card left to wait does not say that she is held, how long, and what then");
+                var squallRow = play.FrontFloat().Q<Label>("hint");
+                Assert.GreaterOrEqual(squallRow.worldBound.yMin + 0.5f, play.FrontFloat().Q<VisualElement>("body").worldBound.yMax, "the waiting line lies over the words of the card");
+                yield return play.Shot("41b_a_squall_left_to_wait");
+                yield return play.Click(Small(play, "3"), "speed 3 again");
+                double driftedUnderIt = 0.0;
+                for (int i = 0; i < 6000 && deck.Current != null && deck.Current.card.id == Squall; i++)
+                {
+                    yield return null;
+                    driftedUnderIt = System.Math.Max(driftedUnderIt, WorldXZ.Distance(Where(game), squallPlace));
+                    yield return AnswerOthers(play, said, squallTitle);    // (a happening that came meanwhile would hold the clock)
+                }
+                double squallWaited = clock.GameHours - squallFrom;
+                Assert.IsFalse(deck.Current != null && deck.Current.card.id == Squall, $"the squall's card is still up after {squallWaited:0.0} game hours of running clock");
+                Assert.Less(driftedUnderIt, 50.0, "she sailed on under a pressing card: she should make no way until it is answered");
+                Assert.AreEqual(1.0, squallWaited, 0.1, "the squall's card should answer itself when its hour is up");
+                Assert.IsFalse(EncounterRunner.ShipHeld, "she is still held after the card answered itself");
+                Assert.IsTrue(FrameLog.Lines.Skip(squallLog).Any(l => l.text.Contains("no answer, so it went this way: ")),
+                              "the log does not say that the squall's card answered itself: " + string.Join(" / ", FrameLog.Lines.Skip(squallLog).Select(l => l.text)));
+                Debug.Log("Chart test (sea): the squall's card said: " + squallWaits + " | the log: " + string.Join(" / ", FrameLog.Lines.Skip(squallLog).Select(l => l.text)));
+                yield return Frames(5);
+                yield return AnswerAll(play, said);
+                yield return play.Shot("41c_the_squall_answered_itself");
+                before = Where(game);
+                yield return Frames(60);
+                Assert.Greater(WorldXZ.Distance(Where(game), before), 200.0, "she did not sail on after the squall's card answered itself");
 
                 // ---- 2. A GUARD BOAT: she is held; the clock is let run and no answer is given; when the king's men's
                 // time is up she heaves to by herself, the search is told, and she sails on
