@@ -1,0 +1,934 @@
+{
+ "about": "THE LENDER'S STICK (8 Oct 2026, night; Design/DECISIONS.md 104 and 105). The debt for the boat in a game begun through the opening (flag lender_opening), owed to Wursing, called the Wōkerer: his man who keeps turning up to ask for something on the stick (DECISIONS 33: the user's own idea; any sum may be paid, wherever he finds her), the day itself and the days after it (unpaid, she works for the lender: half of what she sells goes to the stick until it is clean), and the stick made clean. The count's old chain (chain_house_debt_793.json) sleeps in such a game. Flags: wk_met (he has been met), wk_wait_far / wk_wait_mid / wk_wait_near (lapsing: he does not come while the one for the season stands), wk_hid_grace (falls by four each time she hides: the odds of it being funny fall with it), wk_work (she works for him), wk_clean (the stick is given up). Words: Data/writing/wokerer.json. EVERY WORD IS A PLACEHOLDER for the user's own, and the man's name (Bubo) is the user's to give.",
+ "cards": [
+  {
+   "id": "harbour.wokerers_man.home",
+   "note": "The lender's man at the home berth (DECISIONS 33 and 104). He comes when she moors, no sooner than his last word allows (the three wk_wait flags: seldom while Michaelmas is far, often when it is near, sooner after he was put off), from ten days into the game. Any sum may be paid and he cuts the notch there (law debt_pay_N). Hiding wears thin: its odds fall each time (flag wk_hid_grace). He is never pressing and never angry.",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.id = dorestad and flag.lender_opening and debt > 0 and debt_due_days > 0 and debt_due_days <= 140 and ((debt_due_days >= 60 and not flag.wk_wait_far) or (debt_due_days < 60 and debt_due_days >= 21 and not flag.wk_wait_mid) or (debt_due_days < 21 and not flag.wk_wait_near))",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "man": {
+     "cast": "dorestad.wokerers_man",
+     "name": "Bubo",
+     "role": "factor",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      36,
+      36
+     ],
+     "fixed": true,
+     "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
+    }
+   },
+   "title_key": "wokerer.man.title",
+   "title": "The Wōkerer's man",
+   "intention_key": "wokerer.man.home.intention",
+   "intention": "The lender's man asks for something on the stick.",
+   "lines": [
+    {
+     "who": "man",
+     "key": "wokerer.man.home.first",
+     "when": "not npc.man.met"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.again",
+     "when": "npc.man.met"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.said_next_time",
+     "when": "npc.man.last = put_off"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.fed",
+     "when": "npc.man.last = feed"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.lied",
+     "when": "npc.man.last = lie.failure"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.hid",
+     "when": "npc.man.last = hide.success or npc.man.last = hide.failure"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.near",
+     "when": "debt_due_days < 21"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.ask",
+     "when": "npc.man.met"
+    }
+   ],
+   "options": [
+    {
+     "key": "pound",
+     "label_key": "wokerer.man.pound",
+     "label": "Count him out a pound (240 d)",
+     "check": "silver >= 240 and debt >= 240",
+     "effects": [
+      "law debt_pay_240",
+      "npc man feeling +4 paid",
+      "flag wk_met",
+      "flag wk_wait_far for 24",
+      "flag wk_wait_mid for 12",
+      "flag wk_wait_near for 6"
+     ]
+    },
+    {
+     "key": "sixty",
+     "label_key": "wokerer.man.sixty",
+     "label": "Count him out sixty pennies",
+     "check": "silver >= 60 and debt >= 60",
+     "effects": [
+      "law debt_pay_60",
+      "npc man feeling +2 paid",
+      "flag wk_met",
+      "flag wk_wait_far for 24",
+      "flag wk_wait_mid for 12",
+      "flag wk_wait_near for 6"
+     ]
+    },
+    {
+     "key": "all",
+     "label_key": "wokerer.man.all",
+     "label": "Pay him all that is on the stick",
+     "check": "debt_short = 0",
+     "effects": [
+      "law debt_paid",
+      "npc man feeling +8 clean",
+      "flag wk_met"
+     ]
+    },
+    {
+     "key": "feed",
+     "label_key": "wokerer.man.feed",
+     "label": "Sit him down and feed him (2 d)",
+     "check": "silver >= 2",
+     "cost": "silver 2",
+     "effects": [
+      "npc man feeling +6 fed",
+      "flag wk_met",
+      "flag wk_wait_far for 24",
+      "flag wk_wait_mid for 12",
+      "flag wk_wait_near for 6"
+     ]
+    },
+    {
+     "key": "put_off",
+     "label_key": "wokerer.man.put_off",
+     "label": "Not today. Tell him next time",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "npc man feeling -1 put_off",
+      "flag wk_met",
+      "flag wk_wait_far for 10",
+      "flag wk_wait_mid for 6",
+      "flag wk_wait_near for 3"
+     ]
+    },
+    {
+     "key": "lie",
+     "label_key": "wokerer.man.lie",
+     "label": "Tell him the purse is empty",
+     "check": "silver >= 60",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "me.tongue",
+       "success": [
+        "flag wk_met",
+        "flag wk_wait_far for 24",
+        "flag wk_wait_mid for 12",
+        "flag wk_wait_near for 6"
+       ],
+       "failure": [
+        "npc man feeling -6 lied",
+        "flag wk_met",
+        "flag wk_wait_far for 10",
+        "flag wk_wait_mid for 6",
+        "flag wk_wait_near for 3"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "hide",
+     "label_key": "wokerer.man.hide",
+     "label": "Get under the sail and have the men say you are ashore",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.9,
+       "by": "flag.wk_hid_grace",
+       "success": [
+        "morale +0.03",
+        "flag wk_hid_grace -4",
+        "flag wk_met",
+        "flag wk_wait_far for 10",
+        "flag wk_wait_mid for 6",
+        "flag wk_wait_near for 3"
+       ],
+       "failure": [
+        "morale -0.05",
+        "flag wk_hid_grace -4",
+        "npc man feeling -2 hid",
+        "flag wk_met",
+        "flag wk_wait_far for 10",
+        "flag wk_wait_mid for 6",
+        "flag wk_wait_near for 3"
+       ]
+      }
+     ]
+    }
+   ],
+   "memory": {
+    "pound": "paid a pound on the stick",
+    "sixty": "paid sixty pennies on the stick",
+    "all": "paid the stick clean",
+    "feed": "fed the Wōkerer's man",
+    "put_off": "put the Wōkerer's man off till next time",
+    "lie.success": "told the Wōkerer's man the purse was empty",
+    "lie.failure": "told the Wōkerer's man the purse was empty, and he saw that it was not",
+    "hide.success": "hid from the Wōkerer's man under the sail",
+    "hide.failure": "hid from the Wōkerer's man, and the men were ashamed of it"
+   }
+  },
+  {
+   "id": "harbour.wokerers_man.away",
+   "note": "The lender's man on a jetty he could not possibly have reached: where he turns up is the joke, and he never says how he got there (DECISIONS 33). The same choices as at home.",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.id != dorestad and flag.lender_opening and debt > 0 and debt_due_days > 0 and debt_due_days <= 140 and ((debt_due_days >= 60 and not flag.wk_wait_far) or (debt_due_days < 60 and debt_due_days >= 21 and not flag.wk_wait_mid) or (debt_due_days < 21 and not flag.wk_wait_near))",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "man": {
+     "cast": "dorestad.wokerers_man",
+     "name": "Bubo",
+     "role": "factor",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      36,
+      36
+     ],
+     "fixed": true,
+     "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
+    }
+   },
+   "title_key": "wokerer.man.title",
+   "title": "The Wōkerer's man",
+   "intention_key": "wokerer.man.away.intention",
+   "intention": "The lender's man has found you here too.",
+   "lines": [
+    {
+     "who": "man",
+     "key": "wokerer.man.away.first",
+     "when": "not npc.man.met"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.again",
+     "when": "npc.man.met"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.away.sick",
+     "when": "npc.man.met"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.away.foreign",
+     "when": "port.realm != franks"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.said_next_time",
+     "when": "npc.man.last = put_off"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.fed",
+     "when": "npc.man.last = feed"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.lied",
+     "when": "npc.man.last = lie.failure"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.hid",
+     "when": "npc.man.last = hide.success or npc.man.last = hide.failure"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.near",
+     "when": "debt_due_days < 21"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.man.ask",
+     "when": "npc.man.met"
+    }
+   ],
+   "options": [
+    {
+     "key": "pound",
+     "label_key": "wokerer.man.pound",
+     "label": "Count him out a pound (240 d)",
+     "check": "silver >= 240 and debt >= 240",
+     "effects": [
+      "law debt_pay_240",
+      "npc man feeling +4 paid",
+      "flag wk_met",
+      "flag wk_wait_far for 24",
+      "flag wk_wait_mid for 12",
+      "flag wk_wait_near for 6"
+     ]
+    },
+    {
+     "key": "sixty",
+     "label_key": "wokerer.man.sixty",
+     "label": "Count him out sixty pennies",
+     "check": "silver >= 60 and debt >= 60",
+     "effects": [
+      "law debt_pay_60",
+      "npc man feeling +2 paid",
+      "flag wk_met",
+      "flag wk_wait_far for 24",
+      "flag wk_wait_mid for 12",
+      "flag wk_wait_near for 6"
+     ]
+    },
+    {
+     "key": "all",
+     "label_key": "wokerer.man.all",
+     "label": "Pay him all that is on the stick",
+     "check": "debt_short = 0",
+     "effects": [
+      "law debt_paid",
+      "npc man feeling +8 clean",
+      "flag wk_met"
+     ]
+    },
+    {
+     "key": "feed",
+     "label_key": "wokerer.man.feed",
+     "label": "Sit him down and feed him (2 d)",
+     "check": "silver >= 2",
+     "cost": "silver 2",
+     "effects": [
+      "npc man feeling +6 fed",
+      "flag wk_met",
+      "flag wk_wait_far for 24",
+      "flag wk_wait_mid for 12",
+      "flag wk_wait_near for 6"
+     ]
+    },
+    {
+     "key": "put_off",
+     "label_key": "wokerer.man.put_off",
+     "label": "Not today. Tell him next time",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "npc man feeling -1 put_off",
+      "flag wk_met",
+      "flag wk_wait_far for 10",
+      "flag wk_wait_mid for 6",
+      "flag wk_wait_near for 3"
+     ]
+    },
+    {
+     "key": "lie",
+     "label_key": "wokerer.man.lie",
+     "label": "Tell him the purse is empty",
+     "check": "silver >= 60",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "me.tongue",
+       "success": [
+        "flag wk_met",
+        "flag wk_wait_far for 24",
+        "flag wk_wait_mid for 12",
+        "flag wk_wait_near for 6"
+       ],
+       "failure": [
+        "npc man feeling -6 lied",
+        "flag wk_met",
+        "flag wk_wait_far for 10",
+        "flag wk_wait_mid for 6",
+        "flag wk_wait_near for 3"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "hide",
+     "label_key": "wokerer.man.hide",
+     "label": "Get under the sail and have the men say you are ashore",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.9,
+       "by": "flag.wk_hid_grace",
+       "success": [
+        "morale +0.03",
+        "flag wk_hid_grace -4",
+        "flag wk_met",
+        "flag wk_wait_far for 10",
+        "flag wk_wait_mid for 6",
+        "flag wk_wait_near for 3"
+       ],
+       "failure": [
+        "morale -0.05",
+        "flag wk_hid_grace -4",
+        "npc man feeling -2 hid",
+        "flag wk_met",
+        "flag wk_wait_far for 10",
+        "flag wk_wait_mid for 6",
+        "flag wk_wait_near for 3"
+       ]
+      }
+     ]
+    }
+   ],
+   "memory": {
+    "pound": "paid a pound on the stick",
+    "sixty": "paid sixty pennies on the stick",
+    "all": "paid the stick clean",
+    "feed": "fed the Wōkerer's man",
+    "put_off": "put the Wōkerer's man off till next time",
+    "lie.success": "told the Wōkerer's man the purse was empty",
+    "lie.failure": "told the Wōkerer's man the purse was empty, and he saw that it was not",
+    "hide.success": "hid from the Wōkerer's man under the sail",
+    "hide.failure": "hid from the Wōkerer's man, and the men were ashamed of it"
+   }
+  },
+  {
+   "id": "sea.wokerers_man.fog",
+   "note": "Once, at sea, in fog: a boat alongside with the lender's man in her bow (DECISIONS 33: 'once in a boat alongside in fog'). Only after he has been met ashore.",
+   "stage": "sea",
+   "when": "under_way and fog >= 0.5 and flag.lender_opening and debt > 0 and debt_due_days > 0 and flag.wk_met",
+   "rate": 0.2,
+   "once": true,
+   "cooldown_days": 0,
+   "actors": {
+    "man": {
+     "cast": "dorestad.wokerers_man",
+     "name": "Bubo",
+     "role": "factor",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      36,
+      36
+     ],
+     "fixed": true,
+     "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
+    }
+   },
+   "title_key": "wokerer.man.fog.title",
+   "title": "Alongside, in the fog",
+   "intention_key": "wokerer.man.fog.intention",
+   "intention": "The lender's man, in a boat alongside.",
+   "lines": [
+    {
+     "who": "man",
+     "key": "wokerer.man.fog.hail"
+    }
+   ],
+   "options": [
+    {
+     "key": "pound",
+     "label_key": "wokerer.man.pound",
+     "label": "Count him out a pound (240 d)",
+     "check": "silver >= 240 and debt >= 240",
+     "effects": [
+      "law debt_pay_240",
+      "npc man feeling +4 paid",
+      "flag wk_wait_far for 24",
+      "flag wk_wait_mid for 12",
+      "flag wk_wait_near for 6"
+     ]
+    },
+    {
+     "key": "sixty",
+     "label_key": "wokerer.man.sixty",
+     "label": "Count him out sixty pennies",
+     "check": "silver >= 60 and debt >= 60",
+     "effects": [
+      "law debt_pay_60",
+      "npc man feeling +2 paid",
+      "flag wk_wait_far for 24",
+      "flag wk_wait_mid for 12",
+      "flag wk_wait_near for 6"
+     ]
+    },
+    {
+     "key": "feed",
+     "label_key": "wokerer.man.fog.feed",
+     "label": "Hand him the bread bag across",
+     "check": "true",
+     "effects": [
+      "npc man feeling +6 fed",
+      "flag wk_wait_far for 24",
+      "flag wk_wait_mid for 12",
+      "flag wk_wait_near for 6"
+     ]
+    },
+    {
+     "key": "put_off",
+     "label_key": "wokerer.man.fog.put_off",
+     "label": "Tell him this is no place for it",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "npc man feeling -1 put_off",
+      "flag wk_wait_far for 10",
+      "flag wk_wait_mid for 6",
+      "flag wk_wait_near for 3"
+     ]
+    }
+   ],
+   "memory": {
+    "pound": "paid a pound on the stick",
+    "sixty": "paid sixty pennies on the stick",
+    "feed": "handed the Wōkerer's man bread across the water",
+    "put_off": "sent the Wōkerer's man off into the fog"
+   }
+  },
+  {
+   "id": "harbour.wokerers_day.home",
+   "note": "MICHAELMAS, and every day after it while the stick is not clean and she does not yet work for him (DECISIONS 104, decided by me, the user's to overrule). The lender asks for all of it. Paid: the stick is clean (then: the clean stick). Not paid: he may ask back no more than the sum (the law of 789), so he takes the boat's work: from now half of what she sells goes to the stick before it reaches the purse (flag wk_work, Trade.WorkShare), until it is clean. Nothing is added to the debt, and the game does not end.",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.id = dorestad and flag.lender_opening and debt > 0 and debt_due_days <= 0 and not flag.wk_work",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "lender": {
+     "cast": "dorestad.wursing",
+     "name": "Wursing",
+     "role": "merchant",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      55,
+      55
+     ],
+     "fixed": true,
+     "note": "dorestad.wursing: the lender of the opening (Showtime). Cold, and eating (the user, 8 Oct 2026). His name and byname are placeholders."
+    },
+    "man": {
+     "cast": "dorestad.wokerers_man",
+     "name": "Bubo",
+     "role": "factor",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      36,
+      36
+     ],
+     "fixed": true,
+     "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
+    }
+   },
+   "title_key": "wokerer.day.title",
+   "title": "Two men and a rope",
+   "intention_key": "wokerer.day.home.intention",
+   "intention": "The lender has come for what is on the stick.",
+   "lines": [
+    {
+     "who": "lender",
+     "key": "wokerer.day.home.on_the_day",
+     "when": "debt_due_days = 0"
+    },
+    {
+     "who": "lender",
+     "key": "wokerer.day.home.after",
+     "when": "debt_due_days < 0"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.day.home.man"
+    }
+   ],
+   "options": [
+    {
+     "key": "all",
+     "label_key": "wokerer.day.all",
+     "label": "Count out all of it",
+     "check": "debt_short = 0",
+     "out": "wokerer.day.home.all.done",
+     "effects": [
+      "law debt_paid",
+      "npc lender feeling +4 paid"
+     ],
+     "then": "harbour.wokerers_stick.in_time"
+    },
+    {
+     "key": "short",
+     "label_key": "wokerer.day.short",
+     "label": "Tell him you have not got it",
+     "check": "debt_short > 0",
+     "default": true,
+     "out": "wokerer.day.home.short.done",
+     "effects": [
+      "flag wk_work",
+      "deed missed_the_day",
+      "npc lender feeling -8 missed",
+      "npc man feeling +2 sorry"
+     ]
+    }
+   ],
+   "memory": {
+    "all": "counted out all of it on the day",
+    "short": "had not got it on the day"
+   }
+  },
+  {
+   "id": "harbour.wokerers_day.away",
+   "note": "A week past the day with the stick not clean and the boat not come home: the lender's man finds her, with the two men and the rope, and says what the lender said (the same two ends as at home).",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.id != dorestad and flag.lender_opening and debt > 0 and debt_due_days < -6 and not flag.wk_work",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "man": {
+     "cast": "dorestad.wokerers_man",
+     "name": "Bubo",
+     "role": "factor",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      36,
+      36
+     ],
+     "fixed": true,
+     "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
+    }
+   },
+   "title_key": "wokerer.day.title",
+   "title": "Two men and a rope",
+   "intention_key": "wokerer.day.away.intention",
+   "intention": "The lender's man has come for what is on the stick.",
+   "lines": [
+    {
+     "who": "man",
+     "key": "wokerer.day.away.says"
+    }
+   ],
+   "options": [
+    {
+     "key": "all",
+     "label_key": "wokerer.day.all",
+     "label": "Count out all of it",
+     "check": "debt_short = 0",
+     "out": "wokerer.day.away.all.done",
+     "effects": [
+      "law debt_paid",
+      "npc man feeling +8 clean"
+     ]
+    },
+    {
+     "key": "short",
+     "label_key": "wokerer.day.short",
+     "label": "Tell him you have not got it",
+     "check": "debt_short > 0",
+     "default": true,
+     "out": "wokerer.day.away.short.done",
+     "effects": [
+      "flag wk_work",
+      "deed missed_the_day",
+      "npc man feeling +2 sorry"
+     ]
+    }
+   ],
+   "memory": {
+    "all": "counted out all of it to the Wōkerer's man",
+    "short": "had not got it when the Wōkerer's man came with the rope"
+   }
+  },
+  {
+   "id": "harbour.wokerers_stick.in_time",
+   "note": "The debt is paid and she never worked for him: the lender gives up the stick. The boat is the merchant's own (flag wk_clean; the deed paid_the_stick).",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.id = dorestad and flag.lender_opening and debt <= 0 and not flag.wk_clean and not flag.wk_work",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "lender": {
+     "cast": "dorestad.wursing",
+     "name": "Wursing",
+     "role": "merchant",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      55,
+      55
+     ],
+     "fixed": true,
+     "note": "dorestad.wursing: the lender of the opening (Showtime). Cold, and eating (the user, 8 Oct 2026). His name and byname are placeholders."
+    },
+    "ravn": {
+     "cast": "cast.crew.ravn",
+     "name": "Ravn",
+     "role": "crewman",
+     "people": "norse",
+     "faith": "old_gods",
+     "tongue": "port",
+     "age": [
+      43,
+      43
+     ],
+     "fixed": true,
+     "sex": "m",
+     "note": "dorestad.ravn (cast.crew.ravn)"
+    }
+   },
+   "title_key": "wokerer.stick.title",
+   "title": "A clean stick",
+   "intention_key": "wokerer.stick.in_time.intention",
+   "intention": "The stick is clean.",
+   "lines": [
+    {
+     "who": "lender",
+     "key": "wokerer.stick.in_time.clean"
+    },
+    {
+     "who": "lender",
+     "key": "wokerer.stick.in_time.yours"
+    },
+    {
+     "who": "ravn",
+     "key": "wokerer.stick.in_time.ravn"
+    }
+   ],
+   "options": [
+    {
+     "key": "take",
+     "label_key": "wokerer.stick.take",
+     "label": "Take your half of the stick",
+     "check": "true",
+     "default": true,
+     "out": "wokerer.stick.in_time.take.done",
+     "effects": [
+      "flag wk_clean",
+      "deed paid_the_stick",
+      "npc lender feeling +6 clean"
+     ]
+    },
+    {
+     "key": "leave",
+     "label_key": "wokerer.stick.leave",
+     "label": "Leave both halves on his table",
+     "check": "true",
+     "out": "wokerer.stick.in_time.leave.done",
+     "effects": [
+      "flag wk_clean",
+      "deed paid_the_stick",
+      "npc lender feeling +2 clean"
+     ]
+    }
+   ],
+   "memory": {
+    "take": "took your half of the clean stick",
+    "leave": "left both halves of the stick on his table"
+   }
+  },
+  {
+   "id": "harbour.wokerers_stick.late",
+   "note": "The debt is paid after she worked for him: the lender gives up the stick, and his man comes ashore (flag wk_clean; wk_work is put out).",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.id = dorestad and flag.lender_opening and debt <= 0 and not flag.wk_clean and flag.wk_work",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "lender": {
+     "cast": "dorestad.wursing",
+     "name": "Wursing",
+     "role": "merchant",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      55,
+      55
+     ],
+     "fixed": true,
+     "note": "dorestad.wursing: the lender of the opening (Showtime). Cold, and eating (the user, 8 Oct 2026). His name and byname are placeholders."
+    },
+    "man": {
+     "cast": "dorestad.wokerers_man",
+     "name": "Bubo",
+     "role": "factor",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      36,
+      36
+     ],
+     "fixed": true,
+     "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
+    }
+   },
+   "title_key": "wokerer.stick.title",
+   "title": "A clean stick",
+   "intention_key": "wokerer.stick.late.intention",
+   "intention": "The stick is clean.",
+   "lines": [
+    {
+     "who": "lender",
+     "key": "wokerer.stick.late.clean"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.stick.late.man"
+    }
+   ],
+   "options": [
+    {
+     "key": "take",
+     "label_key": "wokerer.stick.take",
+     "label": "Take your half of the stick",
+     "check": "true",
+     "default": true,
+     "out": "wokerer.stick.late.take.done",
+     "effects": [
+      "flag wk_clean",
+      "flag wk_work = 0",
+      "npc man feeling +6 parted"
+     ]
+    },
+    {
+     "key": "leave",
+     "label_key": "wokerer.stick.leave",
+     "label": "Leave both halves on his table",
+     "check": "true",
+     "out": "wokerer.stick.late.leave.done",
+     "effects": [
+      "flag wk_clean",
+      "flag wk_work = 0"
+     ]
+    }
+   ],
+   "memory": {
+    "take": "took your half of the clean stick",
+    "leave": "left both halves of the stick on his table"
+   }
+  },
+  {
+   "id": "crew.wokerers_man.aboard",
+   "note": "While she works for the lender his man sails with her and counts what she sells. He is not a good sailor.",
+   "stage": "crew",
+   "when": "under_way and flag.wk_work and debt > 0",
+   "rate": 0.02,
+   "cooldown_days": 25,
+   "actors": {
+    "man": {
+     "cast": "dorestad.wokerers_man",
+     "name": "Bubo",
+     "role": "factor",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      36,
+      36
+     ],
+     "fixed": true,
+     "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
+    },
+    "steersman": {
+     "cast": "cast.crew.aldger",
+     "name": "Aldger",
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      32,
+      32
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "wokerer.aboard.title",
+   "title": "The counter aboard",
+   "intention_key": "wokerer.aboard.intention",
+   "intention": "The lender's man is aboard, and ill.",
+   "lines": [
+    {
+     "who": "man",
+     "key": "wokerer.aboard.man"
+    },
+    {
+     "who": "steersman",
+     "key": "wokerer.aboard.steersman"
+    }
+   ],
+   "options": [
+    {
+     "key": "bow",
+     "label_key": "wokerer.aboard.bow",
+     "label": "Put him in the bow, out of the way, with a hide over him",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "npc man feeling +5 kind"
+     ]
+    },
+    {
+     "key": "oar",
+     "label_key": "wokerer.aboard.oar",
+     "label": "Give him an oar. Work is the cure",
+     "check": "true",
+     "effects": [
+      "morale +0.02",
+      "npc man feeling -2 rowed"
+     ]
+    }
+   ],
+   "memory": {
+    "bow": "put the Wōkerer's man in the bow under a hide",
+    "oar": "gave the Wōkerer's man an oar"
+   }
+  }
+ ]
+}

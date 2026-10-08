@@ -229,6 +229,9 @@ namespace Kapman.Game
         /// "law debt_cleared"). It is the same debt the bar shows (Trade.Debt), whatever has been paid toward it at a
         /// market already: paid in full by tale, by weight in the new penny, a quarter down on a surety, or struck off
         /// with no silver. Until 7 Oct 2026 the cards took a sum written in them (480 d) and the bar's debt never moved.
+        /// From 8 Oct 2026, for the lender's man who cuts a notch wherever he finds her: "law debt_pay_240" pays that
+        /// many pennies on the stick (or what is still owed, if less), and "law debt_all_aboard" pays all the silver
+        /// aboard toward it (the day itself, when she has not got it).
         /// </summary>
         string DebtLaw(string kind)
         {
@@ -244,6 +247,24 @@ namespace Kapman.Game
             {
                 Trade.Debt = 0.0;
                 return "You owe nothing for the boat now.";
+            }
+            if (kind == "debt_all_aboard" || kind.StartsWith("debt_pay_", StringComparison.Ordinal))
+            {
+                double want = owed;
+                if (kind != "debt_all_aboard"
+                    && (!double.TryParse(kind.Substring("debt_pay_".Length), System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture, out want) || want <= 0.0))
+                    return null;
+                want = Math.Min(Math.Round(want), owed);
+                var purse = Trade.Purse;
+                double given = want;
+                if (kind == "debt_all_aboard" || !purse.Pay(want, Zone, TradeRules.Current, out _))
+                    given = purse.PayUpTo(want, TradeRules.Current);
+                if (given <= 0.0)
+                    return "There was no silver aboard to give him.";
+                Trade.Debt = Math.Max(0.0, owed - given);
+                return Trade.Debt <= 0.01
+                    ? $"You paid {Show(given)} on the stick. You owe nothing for the boat now."
+                    : $"You paid {Show(given)} on the stick. Still owed: {Show(Trade.Debt)}.";
             }
             double due = Math.Round(owed * (kind == "debt_weight" ? DebtByWeight : kind == "debt_quarter" ? DebtSurety : 1.0));
             var rules = TradeRules.Current;

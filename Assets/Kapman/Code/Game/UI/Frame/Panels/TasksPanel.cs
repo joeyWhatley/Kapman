@@ -27,6 +27,7 @@ namespace Kapman.Game.Frame
             {
                 h = FrameUi.Mix(FrameUi.Mix(h, (int)Trade.Debt), (int)FrameGame.Silver);
                 h = FrameUi.Mix(h, game != null ? (int)Trade.DebtDaysLeft(game.Day) : 0);
+                h = FrameUi.Mix(h, Trade.Working ? 1 : 0);
                 h = FrameUi.Mix(h, FrameGame.HoldStamp());
             }
             foreach (var c in Commissions.All)
@@ -61,6 +62,13 @@ namespace Kapman.Game.Frame
                 string sunday = FrameGame.DebtDayWarning();
                 if (sunday.Length > 0)
                     body.Add(FrameUi.P(sunday));
+                // WHAT FOLLOWS (the critic's play of 8 Oct, B5: "after the opening, nothing on screen says what happens
+                // on the day"): the lender's own word before the day, and after it what he has made of her
+                if (Trade.Working)
+                    body.Add(FrameUi.P($"She works for {FrameGame.CreditorName()} until the stick is clean: {TradeRules.Current.workShare * 100f:0} pennies in every hundred she sells go to it before they reach you."));
+                else if (ContentFlags.Ready && ContentFlags.Has(Trade.LenderFlag))
+                    body.Add(FrameUi.P(days >= 0.0 ? "The day after, he comes with two men and a rope."
+                                                   : $"The day is past. {Trade.LenderName} is waiting at Dorestat with two men and a rope."));
                 if (here != null)
                 {
                     var market = Markets.Of(here, game.Year, game.Day);

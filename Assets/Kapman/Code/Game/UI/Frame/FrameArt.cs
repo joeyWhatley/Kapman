@@ -46,10 +46,15 @@ namespace Kapman.Game.Frame
         /// <summary>The picture of somebody who speaks on a card: one of the standing cast has a portrait of their own
         /// ("portrait/person.cast.crew.ravn.png"); anybody else has the portrait of their trade ("portrait/role.tollman.png").
         /// "" where there is no such picture (the plain shape stands).</summary>
+        public const string LenderId = "dorestad.wursing";
+
         public static string OfSpeaker(string id, string role)
         {
             // (a named person: their own portrait; one of the places who is of the story's cast had theirs issued
             // under the cast's id)
+            // (the lender of the opening is a person of Dorestat now, and his portrait was issued as the lender's)
+            if (id == LenderId && Load(Named("lender")) != null)
+                return Named("lender");
             if (Kapman.Encounters.NpcRegistry.IsCast(id))
             {
                 string own = Person(id);

@@ -935,4 +935,48 @@ and far fewer when usage is short).
    card on the crew were Aldger, Brunger and Beornwine, whom nobody had hired. Now those three are the men who
    look for a boat, each with a line of who he is from his sheet (FirstJobs.Crew; placeholders). There is no
    choosing among them any more: before, the choice changed nothing but a name.
+104. **THE DEBT HAS AN END** (8 Oct, night; the user: "Do what you think needs to be done"; the alpha's row 6: "a
+   debt with a day and an end (paid, or what follows if not)"). FOUND: in a game begun through the opening the
+   count's chain of debt cards sleeps (item 50), so nothing at all followed the day. The bar turned to "overdue"
+   and stayed so. The lender's man of item 33 (the user's own idea) had never been built. Now, in such a game
+   (Data/encounters/wokerer_793.json, eight cards; words Data/writing/wokerer.json):
+   - THE LENDER'S MAN (item 33, as the user sketched it). One man with a name and a memory, who carries the other
+     half of the stick. From the tenth day he is there when she moors: at home on the dam head, anywhere else on a
+     jetty he could not have reached, once in a boat alongside in fog. Seldom while Michaelmas is far (24 days
+     between), oftener as it nears (12, then 6), sooner after he was put off (10, 6, 3). ANY SUM MAY BE PAID to him,
+     wherever he finds her: a pound, sixty pennies, or all of it, and he cuts the notch there. Or: feed him (he likes
+     you and comes anyway), put him off, lie to him (a chance by your Tongue; he remembers), hide under the sail
+     (the men find it funny, and each time less so). He is polite, patient, seasick, fond of his food, never angry,
+     and never says how he got there. HIS NAME, "Bubo", IS A PLACEHOLDER (a Frisian name of the 730s from the game's
+     own list): THE USER NAMES HIM. His face is the stand-in of his trade until the user draws him: a picture named
+     portrait/person.dorestad.wokerers_man.png under Art/final is shown at once.
+   - THE DAY. From Michaelmas on, when she lies at Dorestat with the stick not clean, the lender is on the dam head
+     himself with two men and a rope, as he said in the opening. He asks for all of it. A week past the day his man
+     brings the rope to wherever she lies.
+   - PAID: the stick is given up ("A clean stick"). She is the merchant's own. The deed is known on the bank
+     (paid_the_stick).
+   - NOT PAID: **DECIDED BY ME, AND THE USER'S TO OVERRULE.** What follows a missed day had never been ruled
+     (Design/fixes/debt_day.md: "what the count does on Michaelmas is still to be ruled and written"). I chose the
+     mildest thing that is still a real loss and that the period's law allows. The lender may ask back no more
+     than the sum (the king's law of 789, item 93), so a late debtor pays in other coin, and the old chain's own
+     page names the coins: "the boat's work, a pledge, a gift, or himself". So: SHE WORKS FOR HIM. From the day he
+     says so, half of everything she sells goes to the stick before it reaches the purse
+     (trade_rules.json "work_share": 0.5; Trade.WorkShare), his man sails with her and counts, and the bank hears
+     of it (the deed missed_the_day). Nothing is added to the debt. He does not take her purse. The game does not
+     end, and there is no dead end: every sale still pays her the other half, and silver may be paid on the stick
+     at any market as before. When the stick is clean he gives it up and his man goes ashore.
+     WHAT I DID NOT CHOOSE, and why: taking the boat (the game has no way on from there yet: the house with heirs
+     of item "A house with heirs" is not built, nor is any end of the game); adding to the debt (forbidden, and
+     he says himself that he does not lend); the widow's surety or Thiadbod buying the stick (the old chain's ways
+     out: they want rules of their own, and the user has not said what becomes of that chain).
+   - Errands says what follows: before the day the lender's own word ("The day after, he comes with two men and a
+     rope": the critic's B5), after it what she owes of each sale. The bar says "she works for the Wokerer".
+   - Wursing is a person of Dorestat now (places/dorestad.json), with a line when the debt is spoken of. Dorestat's
+     own page no longer says the count holds the debt.
+   NOT DONE: the boat's work as a graph (the plan's step 3d: it is a sum in code, as every rule's fallback is);
+   the count's old chain is as it was; a home port other than Dorestat (the man's "home" card is Dorestat's).
+105. **A NAMED PERSON'S PORTRAIT** (with item 102). A picture named portrait/person.<their id>.png is theirs: the
+   id is the one their cards give ("dorestad.sigimar", "named.chain_black_stones.folkmar", "dorestad.wokerers_man").
+   The art list does not yet issue slots for the people the story cards name or for the lender's man: when it is
+   next made (Bake/art/make_art_list.py) they should be added to it with a description each.
 

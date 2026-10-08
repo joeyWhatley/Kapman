@@ -69,6 +69,10 @@ namespace Kapman.Game
         /// due on a day"). A month of 0: after <see cref="dueDays"/> instead.</summary>
         public int dueMonth = 9, dueDay = 29;
         public string dueName = "Michaelmas";
+        /// <summary>THE BOAT'S WORK (8 Oct 2026): the share of everything she sells that goes to the stick before it
+        /// reaches the purse, once the day has passed unpaid and the lender has said she works for him (the cards'
+        /// flag Trade.WorkFlag), until the stick is clean.</summary>
+        public float workShare = 0.5f;
         /// <summary>The month and day the world's traders and markets start (1 April: they have been at work for weeks
         /// before the player's first morning, so no market is untouched). A month of 0: they start with the player.</summary>
         public int worldFromMonth = 4, worldFromDay = 1;
@@ -181,6 +185,7 @@ namespace Kapman.Game
                     r.dueMonth = (int)Json.Num(st, "due_month", r.dueMonth);
                     r.dueDay = (int)Json.Num(st, "due_day", r.dueDay);
                     r.dueName = Json.Str(st, "due_name", r.dueName);
+                    r.workShare = Mathf.Clamp01((float)Json.Num(st, "work_share", r.workShare));
                     // "04-01": the month and the day; empty or unreadable: no pre-run
                     var from = (Json.Str(st, "world_from", $"{r.worldFromMonth:00}-{r.worldFromDay:00}") ?? "").Split('-');
                     if (from.Length == 2 && int.TryParse(from[0], out int fromMonth) && int.TryParse(from[1], out int fromDay))

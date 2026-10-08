@@ -330,6 +330,16 @@ namespace Kapman.Encounters
                     return $"Only while your standing here is {(op == Op.Lt ? "below" : "at most")} {shown}.";
                 if (name == "silver" && atLeast)
                     return $"You need {shown} d of silver.";
+                // (the debt for the boat, as the cards ask it: 8 Oct 2026, it read "Only when debt short = 0.")
+                if (name.StartsWith("debt_", StringComparison.Ordinal) && name.EndsWith("_short", StringComparison.Ordinal) && value == 0.0 && word == null)
+                {
+                    if (op == Op.Eq || op == Op.Le)
+                        return "You have not the silver for it aboard.";
+                    if (op == Op.Gt || op == Op.Ne)
+                        return "Only when the silver aboard falls short of it.";
+                }
+                if (name == "debt" && atLeast && word == null)
+                    return op == Op.Gt && value == 0.0 ? "Only while something is owed for the boat." : $"Only while {shown} d or more is owed for the boat.";
                 if (name.StartsWith("hold.", StringComparison.Ordinal) && op == Op.Gt && value == 0.0 && word == null)
                     return $"Only with {Human(name.Substring(5))} aboard.";
                 if (name.StartsWith("hold.", StringComparison.Ordinal) && (op == Op.Eq || op == Op.Le) && value == 0.0 && word == null)

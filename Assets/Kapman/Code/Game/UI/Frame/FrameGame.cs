@@ -85,6 +85,8 @@ namespace Kapman.Game.Frame
             var game = KapmanGame.Current;
             if (game == null)
                 return $"Owed {Trade.Debt:0} d";
+            if (Trade.Working)
+                return $"Owed {Trade.Debt:0} d: she works for {CreditorName()}";
             return DebtLine(Trade.Debt, DebtDayOfTheTime(), Trade.DebtDaysLeft(game.Day));
         }
 

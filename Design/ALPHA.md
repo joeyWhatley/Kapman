@@ -105,3 +105,17 @@ Built from the user's own script of the same evening (DECISIONS items 47 to 51; 
 Still to do here: the art slots for the lender's face, Ravn's face, the name as a drawn sign and the mark; the count's
 chain of cards (house_debt) sleeps in a game begun through the opening and wants rewriting to the lender or dropping;
 the crew as people (Ravn's own poor stats) waits for the crew system; the hold's 78 kg (see above) is still open.
+
+## 8 October, night: three rows moved (G:\KAPMAN; DECISIONS 101 to 105)
+
+- Row 6 (a debt with a day and an end): BUILT for a game begun through the opening. The lender's man who keeps
+  turning up and takes any sum on the stick; the day itself; paid, the stick is given up; unpaid, she works for the
+  lender (half of what she sells goes to the stick) until it is clean. What follows a missed day is my choice and the
+  user's to overrule (DECISIONS 104).
+- Row 7 (cards): "each choice has a written end" is BUILT as far as the script goes: the 1,990 ends and 233 pairs of
+  chance ends that were written and never shown are shown. 2,466 choices have none written yet. "The speaker has a
+  name and a face" is BUILT: 1,569 of the cards' 2,328 people are named people, the same on every card, and the
+  holders of offices are the ports' own. Still not built in this row: cards that wait a week, pressing ones that
+  hold her.
+- Row 10 (people): the men hired on the first morning are the crew the cards know.
+

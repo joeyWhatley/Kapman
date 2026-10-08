@@ -4,8 +4,8 @@
  "ports": [
   {
    "port": "dorestad",
-   "summary": "Dorestad is the Frankish king's toll port and mint in the north: three kilometres of timber houses and earth dams along the west bank of the Crooked Rhine, just below the fork where the Lek leaves it, with no wall round any of it. Frisian shippers bring Rhine wine, Mayen quernstones, Badorf pots and glass down the river and carry cloth, combs, salt and fish back up, and the king's men take a tenth of every sale. It is your home: the count holds your debt here, the widow on the dam holds your goods, and everybody on the bank knows whose boat yours is.",
-   "seasons": "No fair has a day here: ships lie between the dams and wait for a cargo, a wind or company. The winter and spring floods drown the low ground and in a hard winter the river carries ice; in high summer half the comb of dams stands dry and the big ships lie off the heads on the sand. The new wine comes down after the vintage, about Martinmas, and the reckoning with the count is at Michaelmas.",
+   "summary": "Dorestad is the Frankish king's toll port and mint in the north: three kilometres of timber houses and earth dams along the west bank of the Crooked Rhine, just below the fork where the Lek leaves it, with no wall round any of it. Frisian shippers bring Rhine wine, Mayen quernstones, Badorf pots and glass down the river and carry cloth, combs, salt and fish back up, and the king's men take a tenth of every sale. It is your home: the Wōkerer holds your stick here, the widow on the dam holds your goods, and everybody on the bank knows whose boat yours is.",
+   "seasons": "No fair has a day here: ships lie between the dams and wait for a cargo, a wind or company. The winter and spring floods drown the low ground and in a hard winter the river carries ice; in high summer half the comb of dams stands dry and the big ships lie off the heads on the sand. The new wine comes down after the vintage, about Martinmas, and the reckoning with the Wōkerer is at Michaelmas.",
    "history": [
     { "year": 695, "text": "In these years Pippin the mayor beat Radbod, king of the Frisians, at the fort of Dorestad, and the Franks kept the fork of the river. (The year is not exact.)", "source": "Fredegar's continuator, by L. van der Tuuk, http://www.dorestadonthuld.nl/A2.html (the year (?))" },
     { "year": 716, "text": "This year Winfrid, who was afterwards called Boniface, crossed from London to Dorestad with a fair wind and found Radbod at war with the Franks.", "source": "Willibald, Life of Boniface c. 4, by Design/content/ships.md" },
@@ -244,6 +244,52 @@
        "farewell": "Bring your measures at harvest. I shall be here."
       },
       "source": "invented: the spine's cast.hartwin. The prices are the Synod of Frankfurt's, 794 (chronicle_793.json). The split tally is the game's device (for the 790s (?))" },
+    {
+      "id": "dorestad.wursing",
+      "name": "Wursing",
+      "historical": false,
+      "role": "merchant",
+      "people": "frisian",
+      "faith": "christian",
+      "born": 738,
+      "died": 806,
+      "from": 793,
+      "to": 806,
+      "trait": "The lender, whom the quay calls the Wōkerer: cold, aloof, uninterested, and always eating; he cares for what he is owed and for nothing else about you.",
+      "want": "What is on the stick, on the day.",
+      "fear": "Nothing he would tell you.",
+      "voice": "Short flat sentences. He does not raise his voice and does not repeat himself. He does not look up from his food.",
+      "looks": "Lean, grey, clean-shaven or close-cropped; pale eyes that look at the tally in his hand and not at you. Good plain wool, well kept, no show: one silver pin, a bunch of split hazel tally sticks at his belt.",
+      "knows": [
+       "what every boat on the bank is worth, and what he could sell her for",
+       "who on the dams is late with what",
+       "that Thiadbod buys other men's sticks"
+      ],
+      "ties": [
+       {
+        "to": "dorestad.thiadbod",
+        "tie": "rival",
+        "note": "Thiadbod has asked the price of your stick; he does not sell a stick that pays"
+       },
+       {
+        "to": "dorestad.ravn",
+        "tie": "owes",
+        "note": "Ravn came with the boat, and neither of them says why"
+       }
+      ],
+      "lines": {
+       "greet": "You. Sit, or do not. I am eating.",
+       "greet_again": "The boat. Is she afloat? Then you have nothing to tell me.",
+       "rumour": [
+        "Thiadbod buys other men's sticks. He has asked the price of yours. I do not sell a stick that pays.",
+        "The king is making his penny heavier. I count pennies. I do not weigh them. We shall see who is right."
+       ],
+       "debt": "It is on the stick. Michaelmas. Bring it here, or give it to my man when he finds you. He finds people.",
+       "saying": "A stick does not forget and does not forgive. That is why I keep sticks.",
+       "farewell": "Shut the door."
+      },
+      "source": "invented: the lender of the opening (Design/DECISIONS.md 50 and 92 to 94). His name and byname are placeholders. His portrait is the lender's (Art: portrait/person.lender.png)."
+     },
     { "id": "dorestad.thiadbod", "name": "Thiadbod", "historical": false, "role": "skipper", "people": "frisian", "faith": "christian",
       "born": 755, "died": 825, "from": 793, "to": 825,
       "trait": "The rival: a bigger ship, a dam head of his own, a gift for every officer; never breaks a law where he can be seen.",

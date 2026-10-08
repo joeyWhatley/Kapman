@@ -40,6 +40,20 @@ namespace Kapman.Game
         /// Old Frisian woker, usury, and that word needs its source checked.</summary>
         public const string LenderName = "Wursing", LenderByname = "the W\u014dkerer";
 
+        /// <summary>
+        /// THE BOAT'S WORK (8 Oct 2026, night; decided by me while the user had said "Do what you think needs to be
+        /// done", and theirs to overrule: DECISIONS 104). What follows when the day passes unpaid had never been
+        /// ruled or built: the bar turned to "overdue" and nothing happened. The lender may ask back no more than
+        /// the sum (the king's law of 789), so a late debtor pays in other coin: the boat's work. From the day he says
+        /// so (the card harbour.wokerers_day sets this flag) a share of everything she sells goes to the stick before
+        /// it reaches the purse (TradeRules.workShare, a half), until the stick is clean. Nothing is added to the
+        /// debt and the game does not end.
+        /// </summary>
+        public const string WorkFlag = "wk_work";
+
+        /// <summary>She works for the lender now: a share of what she sells goes to the stick.</summary>
+        public static bool Working => Started && Debt > 0.01 && ContentFlags.Ready && ContentFlags.Has(WorkFlag);
+
         /// <summary>Who the debt is owed to, as it is said: the user's own writing for the creditor's key, else the
         /// lender of the opening, else the count.</summary>
         public static string CreditorSaid
@@ -197,8 +211,31 @@ namespace Kapman.Game
                                      ("goods", Units(good, d.count)), ("good", good.name.ToLowerInvariant()), ("price", m.zone.Show(d.deniers)),
                                      ("coins", Purse.LastCoins), ("toll_paid", m.zone.Show(d.toll))) +
                      SaleReckoned(m.zone, d, Hold.LastFree, Hold.LastOwed);
+            r.text += WorkShare(m.zone, d.deniers - d.toll);
             Traded?.Invoke(r);
             return r;
+        }
+
+        /// <summary>The stick's share of a sale while she works for the lender (see <see cref="WorkFlag"/>): taken from
+        /// the purse and off the debt, and said in a sentence after the sale's own (with a space before it, or "").</summary>
+        static string WorkShare(ZoneDef zone, double took)
+        {
+            if (!Working || took <= 0.0)
+                return "";
+            var rules = TradeRules.Current;
+            double share = Math.Min(Debt, Math.Floor(took * rules.workShare));
+            if (share < 1.0)
+                return "";
+            double given = share;
+            if (!Purse.Pay(share, zone, rules, out _))
+                given = Purse.PayUpTo(share, rules);
+            if (given <= 0.0)
+                return "";
+            Debt = Math.Max(0.0, Debt - given);
+            string who = CreditorSaid;
+            return Debt <= 0.01
+                ? $" Of that, {zone.Show(given)} went to the stick, and the stick is clean."
+                : $" Of that, {zone.Show(given)} went to the stick, for she works for {who}. Still owed: {zone.Show(Debt)}.";
         }
 
         /// <summary>

@@ -557,6 +557,84 @@ namespace Kapman.Tests
                 }
                 Assert.IsFalse(play.Frame.FloatOpen("card"), "the card could not be gone on from after its end was told");
 
+                // ---- 16. THE DEBT HAS AN END (8 Oct 2026, night; DECISIONS 33 and 104). The lender's man asks for
+                // something on the stick, and a part paid comes off it; on the day the lender asks for all of it, and
+                // unpaid she works for him. (Both cards are put in line by hand here: his man comes from the tenth day
+                // of a game, and the day is Michaelmas.)
+                Trade.Purse.Add("denier", 300.0);
+                director.state.Enqueue("harbour.wokerers_man.home", true);
+                yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
+                Assert.IsTrue(play.Frame.FloatOpen("card"), "the card of the lender's man did not open");
+                yield return ChartPlay.Settle(0.8f);
+                var hisCard = director.Current;
+                Assert.AreEqual("harbour.wokerers_man.home", hisCard.card.id);
+                string hisName = hisCard.People.First().name;
+                StringAssert.StartsWith(hisName + ", ", play.Frame.SpeakerShown, "the lender's man is not under his own name");
+                yield return play.Shot("open_25_the_lenders_man");
+                for (int i = 0; i < 30 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(4);
+                }
+                yield return ChartPlay.Settle(0.3f);
+                int pound = hisCard.card.Option("pound").index;
+                Assert.IsTrue(hisCard.options[pound].enabled, "a pound cannot be paid with three hundred pennies more in the purse: " + hisCard.options[pound].rule);
+                double owedBefore = Trade.Debt;
+                var hisChoices = play.Choices(play.FrontFloat());
+                yield return play.Shot("open_26_what_he_can_be_told");
+                yield return play.Click(hisChoices[pound].button, "the choice '" + hisChoices[pound].words + "'");
+                yield return ChartPlay.Settle(0.5f);
+                for (int i = 0; i < 3 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Waiting && !play.Frame.FrontReveal.Done; i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
+                Assert.AreEqual(owedBefore - 240.0, Trade.Debt, 0.01, "a pound paid to his man did not come off the stick");
+                yield return play.Shot("open_27_a_notch_cut");
+                for (int i = 0; i < 30 && play.Frame.FloatOpen("card"); i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
+                notes.AppendLine("Paid " + hisName + " a pound: owed " + Trade.Debt.ToString("0") + " d. The bar: " + FrameGame.DebtLine());
+                // the day (made today for this, by the back door: the game itself never moves it)
+                Assert.IsFalse(Trade.Working);
+                typeof(Trade).GetProperty(nameof(Trade.DebtDue)).GetSetMethod(true).Invoke(null, new object[] { System.Math.Floor(KapmanGame.Current.Day) });
+                Assert.AreEqual(0.0, Trade.DebtDaysLeft(KapmanGame.Current.Day), "the day was not made today");
+                director.state.Enqueue("harbour.wokerers_day.home", true);
+                yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
+                Assert.IsTrue(play.Frame.FloatOpen("card"), "the card of the day did not open");
+                yield return ChartPlay.Settle(0.8f);
+                var theDay = director.Current;
+                StringAssert.StartsWith(Trade.LenderName + ", ", play.Frame.SpeakerShown, "the lender is not under his own name on the day");
+                yield return play.Shot("open_28_two_men_and_a_rope");
+                for (int i = 0; i < 30 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(4);
+                }
+                yield return ChartPlay.Settle(0.3f);
+                int shortOfIt = theDay.card.Option("short").index;
+                var dayChoices = play.Choices(play.FrontFloat());
+                yield return play.Click(dayChoices[shortOfIt].button, "the choice '" + dayChoices[shortOfIt].words + "'");
+                yield return ChartPlay.Settle(0.5f);
+                for (int i = 0; i < 3 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Waiting && !play.Frame.FrontReveal.Done; i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
+                Assert.IsTrue(Trade.Working, "the day went unpaid and she does not work for the lender");
+                yield return play.Shot("open_29_she_works_for_him");
+                for (int i = 0; i < 30 && play.Frame.FloatOpen("card"); i++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
+                yield return ChartPlay.Settle(0.4f);
+                StringAssert.Contains("she works for", FrameGame.DebtLine(), "the bar does not say whom she works for");
+                notes.AppendLine("After the day: " + FrameGame.DebtLine());
+                yield return play.Shot("open_30_the_bar_after_the_day");
+
                 Debug.Log("The opening:\n" + notes);
                 File.WriteAllText(Path.Combine(Application.dataPath, "..", "Captures", "chart", "open.txt"), notes.ToString());
             }
