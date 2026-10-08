@@ -789,3 +789,31 @@ and far fewer when usage is short).
    errand or a talk greys the button.
    DECIDED BY ME, to be overruled: the name "To do"; that there are two tabs only, the other windows still being
    chosen by the buttons; that the two-tab head is there on the first morning only.
+88. **THE PLAYER'S FACE WHEN NONE IS CHOSEN** (the user, 8 Oct, of a picture from a test game that skips the opening:
+   "Why can I see the old ai generated portrait"; then, of the face I took from the pool by the people's name: "Use
+   one of the portraits I gave the one you were using earlier was fine"). A game with no face chosen shows the FIRST
+   face of the pool the opening offers (Art/final/portrait_pool, else the pictures the user gave in
+   Art/standin/portrait_pool), which is the one the opening's pictures had shown. The drawn portrait of the people
+   stands only on a machine with no pool at all (FrameArt.SelfUnchosen).
+89. **RAVN'S LINES ON THE STORY CARDS, IN THE ONE VOICE** (the user, 8 Oct, asked whether I should write the rest of
+   his lines again in the warm voice: "Yes"). This finishes item 86. His 75 spoken lines on the cards of eleven story
+   files (the old gods, the storm vow, the riddle trail, the barrow, the dirham hoard, the coast watch of 810, Reric,
+   the silver road, the pilgrim road, the sword smuggling, and the first question at Dorestad) are written again:
+   every fact, name, number, piece of advice and quoted riddle or verse kept, the scenes as grave as they were, the
+   man warmer and saying a little too much. Four narration texts and two sentences of the places that made him a
+   quiet man by nature are turned by a word or two ("for once"). Placeholders for the user's pen, as all of it is.
+   HOW IT WAS DONE: the session had ultracode on, so three writer agents, a checker for each (seven lines fixed), a
+   reader of the places and one editor over all (one line changed) did the writing from a voice brief of mine; I
+   read every line, trimmed one, and put them in by script (the scratchpad's ravn folder). The old and new lines
+   side by side: Design/content/ravn_one_voice_2026-10-08.md. One line was not yet written and still is not
+   (rhine_frisia.dorestad.godfred_is_dead.which).
+   LEFT AS FOUND, and noted by the checkers: on the wine ending of the storm vow nothing goes into the tarn, yet
+   his last line there speaks of a thing in the tarn; the barrow's cards 8 and 9 disagree on whether he has spoken
+   of the player's word since; two sentences at Birka say he "knew the answers and would not say them", which sits
+   oddly beside his having answered too much at Hleidr.
+90. **RAVN LOOKS LIKE HIS PORTRAIT** (the user, 8 Oct, by the picker, asked whether he is as the stand-in portrait
+   shows or as first written: "Like the portrait"). About forty-five, broad and weathered, a full dark beard going
+   grey at the chin, thick hair tied back, a ready grin. I had changed his sheet to this in the morning without
+   asking; now it is ruled. Brought into line: nine picture descriptions that drew him lean and grey-haired (in
+   the writing and in Art/art_list.csv), his portrait's note in the art list, the Book's page, and the design
+   spine (Design/content/spine.md and spine.json, with his nature and voice of item 86).
