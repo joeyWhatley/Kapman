@@ -1230,4 +1230,39 @@ and far fewer when usage is short).
    clock; news, markets and tongues learned in play do not reach Journey and Tongues; brackets in the
    calendar's texts. FOR THE USER (list 3, thirteen points): the season is winnable with 47 days to spare; the
    debt is paid by a button far from the lender; the men are paid twice; and ten more.
+116. **THE CHART'S ZOOM AND ITS FOG OF WAR, MENDED** (the user, 9 Oct: "Can you fix the map zoom and the fog of
+   war"). I looked first: a test zoomed the chart a notch at a time and sailed three days, a picture at each
+   step (Tests/PlayMode/MapLookTests.cs, pictures in Captures/maplook).
+   FOUND:
+   - THE FOG'S PICTURE NEVER MOVED OR SCALED WITH THE CHART. It stood on the screen as it was first drawn. The
+     clear round was not on the ship (at sea it lay 84 km west of her and twice too large), nor the known waters
+     round home. The cause: the fog is one picture larger than the view on every side, so it is cut to the view
+     and its place on the screen never changes, only the part of it shown; and UI Toolkit's Image is not drawn
+     again when only that part (its uv) changes. This is also why the fog was "just static" on 7 October: what I
+     built then (known, remembered, in sight) was right and could not be seen.
+   - THE WHEEL RAN OUT PAST THE PAINTED CHART, to 9 km a pixel: the chart a small square in the grey world of
+     the first build's bake, with no fog on the grey.
+   - EACH NOTCH WAS A JUMP of 18 in the hundred, and under the follow the view lurched off her by 40 pixels
+     and slid back.
+   - FAR OUT THE PORTS' NAMES LAY IN A HEAP.
+   MENDED (Code/Game/Map/MapView.cs):
+   - the fog's picture is drawn again whenever the part of it shown changes. Measured on the screen itself:
+     two marked squares of the fog land within a third of a pixel of their place at every scale;
+   - the wheel names a scale and the view closes on it in about a fifth of a second. While she is followed she
+     keeps her place on the screen; when the chart has been dragged, the place under the pointer stays under it;
+   - the view never leaves the painted chart: its widest is where the chart still fills what the frame leaves
+     free (about 2 km a pixel on a 1080 screen), and the hand cannot drag it off the edge;
+   - no port's name lies over another. Every port keeps its dot; names are written in this order: where she
+     lies, where she is bound, home, the ports she has seen, the ports only heard of. A port without its name
+     says it when the pointer rests on its dot.
+   DECIDED BY ME, the user's to overrule:
+   - THE WIDEST ZOOM STOPS AT THE PAINTED CHART (it showed 13,000 km across; it shows the chart's whole width,
+     2,970 km, now). The grey world beyond is no longer reachable on the chart.
+   - A NOTCH OF THE WHEEL IS A QUARTER (it was 18 in the hundred: 36 notches from the widest to the closest;
+     now 27).
+   NOT CHANGED: the fog's own rules (8 km squares, 30 km of sight, 160 km known round home, the fog 55 in the
+   hundred dark, what is remembered 24); the closest zoom (5 m a pixel) and the ship's own view past it.
+   SEEN AND NOT MENDED: at the closest zoom her mark stands some 500 m from the painted river at Dorestat (the
+   port's place against the picture); the ship's own view from above is all but black on a moonless night.
+   Tests: MapZoomTests (PlayMode; in the suite from now on), which holds all four mends on the real chart.
 

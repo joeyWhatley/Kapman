@@ -88,6 +88,38 @@ namespace Kapman.Game
         /// ship's own view comes into the middle of the screen: ShipStageHook).</summary>
         public event Action ZoomedPast;
 
+        /// <summary>Real metres to a pixel of the chart as it is drawn now, and the scale it is closing on.</summary>
+        public double Scale => mpp;
+        public double ScaleWanted => targetMpp;
+        /// <summary>Chart mode: the view stays on her.</summary>
+        public bool Following => follow;
+        /// <summary>The closest and the widest the chart zooms now (real metres to a pixel).</summary>
+        public double Closest => ClosestScale;
+        public double Widest => WidestFor(Free());
+        /// <summary>The part of the chart's layer that shows, in the layer's own pixels: what the frame leaves free when it
+        /// is up, else all of it.</summary>
+        public Rect FreePart => Free();
+        /// <summary>The world that shows in the free part (real metres).</summary>
+        public (double west, double north, double east, double south) Showing
+        {
+            get
+            {
+                float W = layer.resolvedStyle.width, H = layer.resolvedStyle.height;
+                var free = Free();
+                double west = cx + (free.xMin - W * centreFrac) * mpp, north = cz - (free.yMin - H * 0.5) * mpp;
+                return (west, north, west + free.width * mpp, north - free.height * mpp);
+            }
+        }
+        /// <summary>The painted chart's own bounds (real metres); false while there is none.</summary>
+        public bool Painted(out double west, out double north, out double east, out double south)
+        {
+            west = art != null ? art.West : 0.0;
+            north = art != null ? art.North : 0.0;
+            east = art != null ? art.East : 0.0;
+            south = art != null ? art.South : 0.0;
+            return art != null;
+        }
+
         /// <summary>Chart mode: the view goes back to her and stays on her ([F]), at the chart's own scale.</summary>
         public void Follow()
         {
@@ -95,6 +127,8 @@ namespace Kapman.Game
                 return;
             follow = true;
             targetMpp = chartScale;
+            wheelZoom = false;
+            anchored = false;
         }
 
         /// <summary>Chart mode: moves and zooms the view so that two places both lie in the chart's free middle (between
@@ -106,14 +140,17 @@ namespace Kapman.Game
             float W = layer.resolvedStyle.width, H = layer.resolvedStyle.height;
             if (float.IsNaN(W) || W < 2f || float.IsNaN(H) || H < 2f)
                 return;
-            double freeW = W * (Framed ? 0.56 : 0.8), freeH = H * (Framed ? 0.52 : 0.8);
+            // (both well inside what shows: with the frame up that is what it leaves free, a side on the left and the
+            // foot below taken off)
+            var free = Free();
+            double freeW = free.width * (Framed ? 0.74 : 0.8), freeH = free.height * (Framed ? 0.72 : 0.8);
             double need = Math.Max(Math.Abs(a.x - b.x) / freeW, Math.Abs(a.z - b.z) / freeH);
             follow = false;
-            mpp = targetMpp = Math.Max(ClosestScale, Math.Min(maxScale, Math.Max(need, 60.0)));
-            // (with the frame up the free middle lies right of the screen's own and above it: the side is on the left
-            // and the foot below. FramedRight and FramedUp, as shares of the screen)
-            cx = (a.x + b.x) * 0.5 - (Framed ? FramedRight * W * mpp : 0.0);
-            cz = (a.z + b.z) * 0.5 - (Framed ? FramedUp * H * mpp : 0.0);
+            anchored = false;
+            wheelZoom = false;
+            mpp = targetMpp = Math.Max(ClosestScale, Math.Min(WidestFor(free), Math.Max(need, 60.0)));
+            cx = (a.x + b.x) * 0.5 - (free.center.x - W * centreFrac) * mpp;
+            cz = (a.z + b.z) * 0.5 + (free.center.y - H * 0.5) * mpp;
         }
 
         enum State { Shut, Rising, Open, Falling }
@@ -190,6 +227,112 @@ namespace Kapman.Game
         }
 
         double zoomInPast;
+
+        // ---- THE ZOOM (9 Oct 2026; the user: "Can you fix the map zoom"). It went in jumps of a notch, lurched and
+        // slid back under the follow, and ran out past the painted chart into the grey world of the first build's
+        // bake. Now the wheel names a scale and the view closes on it within a few frames; the place under the pointer
+        // stays under it (or, while she is followed, she stays where she is); and in chart mode the view never
+        // leaves the painted chart: its widest is where the chart still fills what shows.
+        const double ZoomNotch = 1.25;                                // one notch of the wheel: a quarter wider or closer (it was 1.18: 36 notches from the widest to the closest)
+        const float WheelRate = 14f, SettleRate = 2.2f;               // how fast the view closes on its scale: after the wheel; settling on a place
+        bool wheelZoom, anchored;
+        double anchorWx, anchorWz;
+        Vector2 anchorPx;
+        VisualElement hole;                                           // the frame's line round the world in the middle
+
+        /// <summary>The part of the layer that shows, in its own pixels: the frame's hole when the frame is up (and the
+        /// chart lies behind it: swapped into the ship's window it has the window to itself), else all of it.</summary>
+        Rect Free()
+        {
+            float W = layer.resolvedStyle.width, H = layer.resolvedStyle.height;
+            if (float.IsNaN(W) || float.IsNaN(H) || W < 2f || H < 2f)
+                return new Rect(0f, 0f, 1f, 1f);
+            var all = new Rect(0f, 0f, W, H);
+            if (!Framed)
+                return all;
+            var frame = Kapman.Game.Frame.FrameRoot.Current;
+            if (frame != null && frame.Root != null && (hole == null || hole.panel == null))
+                hole = frame.Root.Q<VisualElement>("viewport");
+            if (hole == null || hole.panel == null)
+                // (no hole to be found: the shares the frame was laid out by)
+                return new Rect((float)(W * (0.5 + FramedRight) - W * 0.378), (float)(H * (0.5 - FramedUp) - H * 0.36), W * 0.756f, H * 0.72f);
+            var r = hole.worldBound;
+            if (float.IsNaN(r.width) || r.width < 8f || r.height < 8f)
+                return all;
+            Vector2 a = layer.WorldToLocal(r.min), b = layer.WorldToLocal(r.max);
+            float x0 = Mathf.Max(0f, a.x), y0 = Mathf.Max(0f, a.y), x1 = Mathf.Min(W, b.x), y1 = Mathf.Min(H, b.y);
+            return x1 - x0 < 8f || y1 - y0 < 8f ? all : Rect.MinMaxRect(x0, y0, x1, y1);
+        }
+
+        /// <summary>The widest the map zooms (real metres a pixel). In chart mode: where the painted chart still fills what
+        /// shows, so nothing of the grey world beyond it is ever seen.</summary>
+        double WidestFor(Rect free)
+        {
+            double widest = maxScale;
+            if (chartMode && art != null && free.width > 8f && free.height > 8f)
+                widest = Math.Min(widest, Math.Min((art.East - art.West) / free.width, (art.North - art.South) / free.height));
+            return Math.Max(widest, ClosestScale * 4.0);
+        }
+
+        /// <summary>
+        /// One frame of the open map's view: it closes on the scale that was asked for; what stays still meanwhile is
+        /// the place under the pointer (the wheel), or the middle of what shows (anything else: so she, followed, keeps
+        /// her place on the screen); then the follow; then, in chart mode, the view is kept on the painted chart.
+        /// </summary>
+        void ZoomAndFollow(float dt)
+        {
+            float W = layer.resolvedStyle.width, H = layer.resolvedStyle.height;
+            bool sized = !float.IsNaN(W) && !float.IsNaN(H) && W > 2f && H > 2f;
+            var free = sized ? Free() : default;
+            bool sea = chartMode && town == null;
+            // (where the middle of what shows lies from the layer's own centre point: the frame's side is on the left
+            // and its foot below)
+            double offX = sized && sea ? free.center.x - W * centreFrac : 0.0, offY = sized && sea ? free.center.y - H * 0.5 : 0.0;
+            if (sized && sea)
+                targetMpp = Math.Max(ClosestScale, Math.Min(WidestFor(free), targetMpp));
+            double was = mpp;
+            mpp += (targetMpp - mpp) * (1.0 - Math.Exp(-dt * (wheelZoom ? WheelRate : SettleRate)));
+            if (Math.Abs(targetMpp - mpp) <= targetMpp * 0.0005)
+            {
+                mpp = targetMpp;
+                wheelZoom = false;
+            }
+            if (mpp != was && sized)
+            {
+                if (anchored)
+                {
+                    cx = anchorWx - (anchorPx.x - W * centreFrac) * mpp;
+                    cz = anchorWz + (anchorPx.y - H * 0.5) * mpp;
+                }
+                else
+                {
+                    cx += offX * (was - mpp);
+                    cz -= offY * (was - mpp);
+                }
+            }
+            if (mpp == targetMpp)
+                anchored = false;
+            if (sea && follow && !dragging)
+            {
+                // the chart is the game: the view stays on her till the player drags it away ([F]: back to her); she
+                // is kept in the middle of what shows
+                var her = ShipWorld();
+                double k = 1.0 - Math.Exp(-dt * 4.0);
+                cx += (her.x - offX * mpp - cx) * k;
+                cz += (her.z + offY * mpp - cz) * k;
+            }
+            if (sized && sea && art != null)
+            {
+                // never off the painted chart
+                double halfW = free.width * 0.5 * mpp, halfH = free.height * 0.5 * mpp;
+                double mx = cx + offX * mpp, mz = cz - offY * mpp;
+                double loX = art.West + halfW, hiX = art.East - halfW, loZ = art.South + halfH, hiZ = art.North - halfH;
+                mx = loX > hiX ? (art.West + art.East) * 0.5 : Math.Max(loX, Math.Min(hiX, mx));
+                mz = loZ > hiZ ? (art.South + art.North) * 0.5 : Math.Max(loZ, Math.Min(hiZ, mz));
+                cx = mx - offX * mpp;
+                cz = mz + offY * mpp;
+            }
+        }
 
         void OnEnable()
         {
@@ -855,26 +998,7 @@ namespace Kapman.Game
                     break;
                 case State.Open:
                     camWeight = chartMode ? 0f : 1f;
-                    mpp += (targetMpp - mpp) * (1.0 - Math.Exp(-dt * 2.2));   // settling back to show the town
-                    if (chartMode && follow && town == null && !dragging)
-                    {
-                        // the chart is the game: the view stays on her till the player drags it away ([F]: back to her)
-                        var her = ShipWorld();
-                        double k = 1.0 - Math.Exp(-dt * 4.0);
-                        double hx = her.x, hz = her.z;
-                        if (Framed)
-                        {
-                            // (with the frame up she is kept in the middle of what it leaves free, not of the screen)
-                            float fw = layer.resolvedStyle.width, fh = layer.resolvedStyle.height;
-                            if (!float.IsNaN(fw) && !float.IsNaN(fh) && fw > 2f && fh > 2f)
-                            {
-                                hx -= FramedRight * fw * mpp;
-                                hz -= FramedUp * fh * mpp;
-                            }
-                        }
-                        cx += (hx - cx) * k;
-                        cz += (hz - cz) * k;
-                    }
+                    ZoomAndFollow(dt);
                     break;
                 case State.Falling:
                     t += dt / Mathf.Max(0.05f, fadeSeconds + riseSeconds);
@@ -1169,7 +1293,17 @@ namespace Kapman.Game
             }
             img.style.display = DisplayStyle.Flex;
             // (uv from the bottom left: the picture's rows run south first)
-            img.uv = new Rect((float)((cw - w) / (e - w)), (float)((cs - s) / (n - s)), (float)((ce - cw) / (e - w)), (float)((cn - cs) / (n - s)));
+            var uv = new Rect((float)((cw - w) / (e - w)), (float)((cs - s) / (n - s)), (float)((ce - cw) / (e - w)), (float)((cn - cs) / (n - s)));
+            if (img.uv != uv)
+            {
+                // THE PICTURE MUST BE DRAWN AGAIN FOR ITS NEW PART (9 Oct 2026). An Image does not ask to be drawn again
+                // when only its uv changes. A picture larger than the view on every side is cut to the view, so its
+                // place on the screen never changes, only the part of it shown: and it stood as it was first drawn.
+                // That was the fog of war: it never moved or scaled with the chart ("it's just static"), so the clear
+                // round was not on the ship, nor the known waters round home.
+                img.uv = uv;
+                img.MarkDirtyRepaint();
+            }
             Place(img, (cw - viewWest) / mpp, (viewNorth - cn) / mpp, (ce - cw) / mpp, (cn - cs) / mpp);
         }
 
@@ -1179,6 +1313,9 @@ namespace Kapman.Game
             int year = game != null ? game.Year : 793;
             string picked = MarketPanel.Current != null ? MarketPanel.Current.Picked : null;
             var good = GameData.Good(picked);
+            named.Clear();
+            string lyingAt = Port.LyingId(), boundFor = Course.IsSet ? Course.Destination : null;
+            string homeAt = ChartWorld.Current != null ? ChartWorld.Current.homePort : null;
             foreach (var def in GameData.Ports)
             {
                 if (!def.Exists(year))
@@ -1188,6 +1325,11 @@ namespace Kapman.Game
                 bool known = Exploration.Seen(x, z) > 0.35f;
                 bool heardOf = !known && Known.IsHeardOf(def);              // (heard of, never seen: faded through the fog)
                 bool show = (known || heardOf) && px > -200 && px < W + 200 && py > -60 && py < H + 60;
+                if (show)
+                    // (whose name is written first where two would lie over one another: where she lies or is bound,
+                    // home, the ports she has seen, the ports only heard of; then as the table has them)
+                    named.Add((def.id, (float)px, (float)py,
+                               def.id == lyingAt || def.id == boundFor || def.id == cardPort ? 0 : def.id == homeAt ? 1 : known ? 2 : 3, named.Count));
                 if (!ports.TryGetValue(def.id, out var p))
                 {
                     if (!show)
@@ -1245,8 +1387,71 @@ namespace Kapman.Game
                 p.note.text = note;
                 p.note.style.display = note.Length > 0 ? DisplayStyle.Flex : DisplayStyle.None;
             }
+            NameWhatFits();
             ModeKeyUpdate();
         }
+
+        readonly List<(string id, float x, float y, int rank, int order)> named = new List<(string, float, float, int, int)>();
+        readonly List<Rect> slips = new List<Rect>();
+        readonly Dictionary<string, Vector2> slipSize = new Dictionary<string, Vector2>();
+
+        /// <summary>
+        /// THE PORTS' NAMES, NONE OVER ANOTHER (9 Oct 2026: far out they lay in a heap nobody could read). Every port
+        /// that shows keeps its dot. Its name is written if its slip is clear of the slips already written and of the
+        /// other ports' dots: first where she lies and where she is bound, then home (these three whatever dots are
+        /// near), then the ports she has seen, then those only heard of. A port left without its name says it when the
+        /// pointer rests on its dot.
+        /// </summary>
+        void NameWhatFits()
+        {
+            // (the same order every frame, so no two names take turns: by their rank, then as the table has the ports)
+            named.Sort((a, b) => a.rank != b.rank ? a.rank.CompareTo(b.rank) : a.order.CompareTo(b.order));
+            slips.Clear();
+            foreach (var n in named)
+                slips.Add(new Rect(n.x - 6f, n.y - 6f, 12f, 12f));          // (every dot's own place is taken)
+            int dots = slips.Count;
+            for (int i = 0; i < named.Count; i++)
+            {
+                var n = named[i];
+                var p = ports[n.id];
+                var words = p.name.parent;
+                // the slip's size, as it was last laid out (while it is hidden it is not measured: guessed by its letters)
+                float w = p.name.resolvedStyle.width, h = p.name.resolvedStyle.height;
+                if (words.resolvedStyle.display != DisplayStyle.None && !float.IsNaN(w) && w > 6f && !float.IsNaN(h) && h > 6f)
+                    slipSize[n.id] = new Vector2(w, h);
+                else if (slipSize.TryGetValue(n.id, out var kept))
+                {
+                    w = kept.x;
+                    h = kept.y;
+                }
+                else
+                {
+                    w = 16f + 9.5f * p.name.text.Length;
+                    h = 24f;
+                }
+                // (the slip stands right of the dot and a little above it: MapView.uss .map-port-name)
+                var slip = new Rect(n.x + 9f, n.y - 12f, w + 2f, h + 1f);
+                bool clear = true;
+                // (where she lies, where she is bound and home are named whatever dots lie under their slips: far out
+                // the Rhine's mouths are a dozen dots in a thumb's breadth, and hers is the one name wanted there)
+                for (int k = n.rank <= 1 ? dots : 0; k < slips.Count && clear; k++)
+                    clear = (k < dots && k == i) || !slips[k].Overlaps(slip);
+                words.style.display = clear ? DisplayStyle.Flex : DisplayStyle.None;
+                p.mark.tooltip = clear ? null : p.name.text;
+                if (clear)
+                    slips.Add(slip);
+                // (a name written whatever dots are near lies over them, not under: its mark is drawn last)
+                if (n.rank <= 1 && clear)
+                {
+                    if (fronted.Add(n.id))
+                        p.mark.BringToFront();
+                }
+                else
+                    fronted.Remove(n.id);
+            }
+        }
+
+        readonly HashSet<string> fronted = new HashSet<string>();
 
         /// <summary>
         /// The world's other ships (the simulation): those within sight of yours (or all, with [G]), each a small hull turned
@@ -1474,6 +1679,7 @@ namespace Kapman.Game
                 return;
             }
             dragging = true;
+            anchored = false;                                          // (the hand has the chart now, not the wheel's place)
             // (a press that is let go where it was made is a click on the chart, unless it was on a mark with its own click)
             pressIsClick = e.button == 0 && tool == Tool.None && !onMark;
             if (!(Framed && pressIsClick))
@@ -1522,9 +1728,8 @@ namespace Kapman.Game
                 return;
             float W = layer.resolvedStyle.width, H = layer.resolvedStyle.height;
             var local = layer.WorldToLocal(e.mousePosition);
-            double wx = cx + (local.x - W * centreFrac) * mpp, wz = cz - (local.y - H * 0.5) * mpp;
             // scrolled on in at the map's closest: back down through the clouds to the ship
-            if (e.delta.y < 0 && mpp <= ClosestScale * 1.01)
+            if (e.delta.y < 0 && targetMpp <= ClosestScale * 1.01)
             {
                 zoomInPast += -e.delta.y / 3.0;
                 if (zoomInPast >= 2.0)
@@ -1540,10 +1745,20 @@ namespace Kapman.Game
             }
             else
                 zoomInPast = 0.0;
-            double next = Math.Max(ClosestScale, Math.Min(maxScale, mpp * Math.Pow(1.18, e.delta.y / 3.0)));
-            cx = wx - (local.x - W * centreFrac) * next;
-            cz = wz + (local.y - H * 0.5) * next;
-            mpp = targetMpp = next;
+            // (the wheel names the scale; the view closes on it over the next frames: ZoomAndFollow. Notches turned
+            // before it is there add up)
+            targetMpp = Math.Max(ClosestScale, Math.Min(WidestFor(Free()), targetMpp * Math.Pow(ZoomNotch, e.delta.y / 3.0)));
+            wheelZoom = true;
+            if (chartMode && follow && town == null)
+                anchored = false;                                          // (she is followed: she stays where she is on the screen)
+            else
+            {
+                // the place under the pointer stays under it
+                anchored = true;
+                anchorPx = local;
+                anchorWx = cx + (local.x - W * centreFrac) * mpp;
+                anchorWz = cz - (local.y - H * 0.5) * mpp;
+            }
             e.StopPropagation();
         }
 

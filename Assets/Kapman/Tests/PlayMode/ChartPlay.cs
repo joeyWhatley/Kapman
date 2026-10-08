@@ -541,6 +541,36 @@ namespace Kapman.Tests
             return tex;
         }
 
+        /// <summary>The screen as it is drawn now: its pixels, the rows top-down as a reader sees them (for a test that
+        /// measures where a thing is drawn).</summary>
+        public Color32[] ScreenPixels(out int width, out int height)
+        {
+            var tex = Pixels(rt);
+            width = tex.width;
+            height = tex.height;
+            var up = tex.GetPixels32();                                  // (the rows of a picture read back run bottom-up)
+            UnityEngine.Object.Destroy(tex);
+            var down = new Color32[up.Length];
+            for (int y = 0; y < height; y++)
+                Array.Copy(up, (height - 1 - y) * width, down, y * width, width);
+            return down;
+        }
+
+        /// <summary>The pointer pressed at one place, moved to another and let go there: a drag.</summary>
+        public IEnumerator Drag(Vector2 from, Vector2 to, int steps = 6)
+        {
+            Pointer(from, EventType.MouseMove);
+            Pointer(from, EventType.MouseDown);
+            yield return null;
+            for (int i = 1; i <= steps; i++)
+            {
+                Pointer(Vector2.Lerp(from, to, i / (float)steps), EventType.MouseMove);
+                yield return null;
+            }
+            Pointer(to, EventType.MouseUp);
+            yield return null;
+        }
+
         void Save(string name)
         {
             var tex = Pixels(rt);
