@@ -1038,4 +1038,23 @@ and far fewer when usage is short).
    - only the card on screen waits: one in line behind it does not count its time yet;
    - Esc still shuts an unanswered card that is not an arrival card, with no option taken;
    - a rest or a wait for wind is running clock: a card can answer itself meanwhile.
+110. **THE OARS, BUILT** (the road's step 2, the alpha's row 3; the user's ruling 8 of 7 Oct names the order:
+   "Oars (out oars, or sail)". Which of the three rules of Design/fixes/chart_tools.md part 4 it should be was
+   never answered: I TOOK (b), THE HARD PULL, the user's to overrule).
+   - Left to herself she goes as she always has: by the sail, and where the sail gives less the men take an easy
+     stroke by themselves. Nobody who never gives the order is worse off, and the other ships go the same way.
+   - OUT OARS: the sail comes down and the men row hard. Her class's full speed under oars (3.5 knots for the first
+     boat; the easy stroke is half that) whatever the wind: nothing lost with the wind abeam or aft, up to half
+     lost dead into a gale's wind, and in a gale she lies to. It lasts as long as the strength in the men: her
+     class's rowing hours, six for the first boat.
+   - It costs bread and strength. A full pull eats half a day's food on top of the day's. The hours come back only
+     with rest: whole again after 18 hours without hard rowing. Spent, the oars come in by themselves, it is said,
+     and their heart is a little the less. The order is refused with less than an hour in them, and says how long.
+   - Made fast the oars are in. The order and the men's strength are saved with the game.
+   - WHERE THE ORDER IS: beside her course in the Voyage window ("Out oars" / "Ship oars", and a line that says
+     what the men have left in them). NOT a button of the rack: the three rows of four the user chose by the picker
+     on 7 Oct have no place free. If it should be one of the twelve, say which it takes the place of.
+   - The view of the ship shows her under oars while the order stands.
+   What it is for: a foul wind or a calm, a day or a tide to make, a sail that is closing (the raiders close on
+   where she really is). THE NUMBERS ARE FIRST GUESSES (voyage_rules.json "oars").
 

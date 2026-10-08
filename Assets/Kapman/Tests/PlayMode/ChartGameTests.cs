@@ -1232,6 +1232,47 @@ namespace Kapman.Tests
                 yield return Frames(60);
                 Assert.Greater(WorldXZ.Distance(Where(game), before), 200.0, "she did not sail on after the squall's card answered itself");
 
+                // ---- 1c. THE OARS (the alpha's row 3; the road's step 2). The order stands beside her course in the
+                // Voyage window. Out, the sail is down and she makes her speed under oars whatever the wind, and the
+                // window says what the men have left in them; shipped, the order is there to give again.
+                var herClass = FramePassage.HerClass;
+                Assert.IsNotNull(herClass, "her class is not known");
+                Assert.IsFalse(Oars.Out, "the oars are out before the order");
+                Assert.AreEqual(herClass.rowingHours, Oars.Left(herClass), 1e-6, "the men are not fresh");
+                yield return play.Click(Small(play, "1"), "speed 1, to row a few minutes");
+                yield return play.ClickWhen(() => play.Button("Out oars", Window(play, "Voyage")), "the Voyage window's 'Out oars'");
+                yield return Frames(10);
+                Assert.IsTrue(Oars.Out, "the oars did not come out");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.text == "The sail comes down and the men take to the oars."), "the log does not say that the oars are out");
+                var hull = ChartBody.Current;
+                double rowedFrom = clock.GameHours, lowKnots = 0.0, highKnots = herClass.oarsKn + 0.05;
+                bool rowsAsSheShould = false;
+                for (int i = 0; i < 2400 && !rowsAsSheShould; i++)
+                {
+                    yield return null;
+                    if (play.FrontFloat() != null)
+                        yield return Answer(play, said);                   // (a card that came meanwhile would hold the clock)
+                    // (dead into the wind she loses most: between that and her full speed under oars, once she has her way)
+                    lowKnots = herClass.oarsKn * (1.0 - 0.5 * Mathf.Min(1f, hull.Wind / 17f)) - 0.15;
+                    rowsAsSheShould = clock.GameHours - rowedFrom > 3.0 / 60.0 && hull.Knots >= lowKnots && hull.Knots <= highKnots;
+                }
+                Assert.IsTrue(rowsAsSheShould, $"under oars she should make between {lowKnots:0.0} and {highKnots:0.0} knots: she makes {hull.Knots:0.0} (wind {hull.Wind:0.0} m/s from {hull.WindFrom:0})");
+                Assert.Less(Oars.Left(herClass), herClass.rowingHours, "rowing takes nothing out of the men");
+                yield return Frames(20);
+                string voyageNow = ChartPlay.Read(Window(play, "Voyage"));
+                StringAssert.Contains("Under oars", voyageNow, "the Voyage window does not say that she is under oars");
+                StringAssert.Contains("left in them", voyageNow, "the Voyage window does not say what the men have left in them");
+                Assert.IsNotNull(play.Button("Ship oars", Window(play, "Voyage")), "there is no way to ship the oars again");
+                Debug.Log($"Chart test (sea): under oars she makes {hull.Knots:0.0} knots in {hull.Wind:0.0} m/s from {hull.WindFrom:0}; the Voyage window: {ChartPlay.Short(voyageNow)}");
+                yield return play.Shot("41d_under_oars");
+                yield return play.ClickWhen(() => play.Button("Ship oars", Window(play, "Voyage")), "the Voyage window's 'Ship oars'");
+                yield return Frames(10);
+                Assert.IsFalse(Oars.Out, "the oars did not come in");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.text == "The oars come in and the sail goes up."), "the log does not say that the oars are in");
+                Assert.IsNotNull(play.Button("Out oars", Window(play, "Voyage")), "the order is gone from the Voyage window");
+                yield return play.Click(Small(play, "3"), "speed 3 again");
+                yield return Frames(5);
+
                 // ---- 2. A GUARD BOAT: she is held; the clock is let run and no answer is given; when the king's men's
                 // time is up she heaves to by herself, the search is told, and she sails on
                 Assert.AreEqual(PatrolStage.None, Patrols.Stage);

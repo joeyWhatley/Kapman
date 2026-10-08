@@ -140,6 +140,7 @@ namespace Kapman.Game
                 Wind = s.windSpeed;
                 WindFrom = s.windFrom;
             }
+            bool rowing = false;                                      // (under the order Out oars, and making way by it)
             var goal = motion.Goal;
             if (goal.HasValue)
             {
@@ -158,8 +159,14 @@ namespace Kapman.Game
                     float turn = through ? Mathf.Max(turnRate, courseTurnRate) : turnRate;
                     heading += Mathf.Clamp(delta, -turn * helm, turn * helm);
                     bool lying = false;
-                    double made = cls != null ? Travel.Speed(cls, Mathf.Repeat(want, 360f), WindFrom, Wind, out lying) : fallbackKnots * 0.5144;
+                    float course = Mathf.Repeat(want, 360f);
+                    // (THE OARS OUT by the player's order: the sail is down and the men row hard, whatever the wind.
+                    // Else as she has always gone: the sail, or the easy stroke where it gives less: Travel.Speed)
+                    double made = cls == null ? fallbackKnots * 0.5144
+                                : Oars.Out ? Oars.Speed(cls, course, WindFrom, Wind, out lying)
+                                           : Travel.Speed(cls, course, WindFrom, Wind, out lying);
                     Sheltering = lying;
+                    rowing = Oars.Out && cls != null && !lying;
                     // the last stretch in: she comes in slowly (the ports' graphs take her as arrived under 1.5)
                     target = (float)made * (Mathf.Abs(delta) > 70f ? 0.35f : 1f) * (through ? 1f : Mathf.Clamp01(dist / Mathf.Max(1f, slowWithin) + 0.2f));
                     if (lying)
@@ -177,6 +184,9 @@ namespace Kapman.Game
             float perSecond = 60f / Mathf.Max(0.001f, scale);
             motion.Publish(fwd * speed * perSecond, speed * perSecond, false);
             Knots = speed / 0.5144f;
+            // (an hour rowed hard is an hour out of the men; lying still or under sail they rest; made fast the oars are in)
+            var game = KapmanGame.Current;
+            Oars.Step(gameSeconds / 3600.0, rowing, game != null && game.ship != null && game.ship.anchored, cls);
         }
     }
 }

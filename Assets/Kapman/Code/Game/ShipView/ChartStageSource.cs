@@ -121,6 +121,8 @@ namespace Kapman.Game.ShipView
                 double rowed = cls.oarsKn * System.Math.Min(1.0, cls.rowingHours / 12.0) * SimUnits.KnotMs;
                 s.underOars = !gale && (!cls.hasSail || made <= rowed + 1e-4);
             }
+            if (Oars.Out && s.speed > 0.05f && !s.lyingTo)
+                s.underOars = true;                                      // (the oars out by the player's order: the sail is down)
 
             // the water she is on
             if (s.moored)

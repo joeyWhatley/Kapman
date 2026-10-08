@@ -24,6 +24,10 @@ namespace Kapman.Game
         public double rowOffMinutes = 30, pushReachLengths = 12, pushSpeed = 0.3, pushMargin = 1.3;
         public double rowHealth = -0.01, rowMorale = -0.01, pushHealth = -0.02, pushMorale = -0.03, pushColdHealth = -0.04;
         public double waitMorale = -0.01;
+        // the oars by the player's order (Oars.cs): the rest that brings the men's strength back whole, the share of a
+        // day's food a full pull eats on top of the day's, the least rowing in them for the order to be taken, the share
+        // of her speed lost dead into a gale's wind, and their heart when they have rowed until they could not
+        public double oarsRestHours = 18, oarsBread = 0.5, oarsLeastHours = 1, oarsHeadWind = 0.5, oarsSpentMorale = -0.02;
 
         public double WaterCapacityL => casks * litresPerCask;
 
@@ -74,6 +78,12 @@ namespace Kapman.Game
             r.pushMorale = Json.Num(a, "push_morale", r.pushMorale);
             r.pushColdHealth = Json.Num(a, "push_cold_health", r.pushColdHealth);
             r.waitMorale = Json.Num(a, "wait_morale", r.waitMorale);
+            var oars = Json.Obj(o, "oars");
+            r.oarsRestHours = Json.Num(oars, "rest_hours", r.oarsRestHours);
+            r.oarsBread = Json.Num(oars, "bread_share", r.oarsBread);
+            r.oarsLeastHours = Json.Num(oars, "least_hours", r.oarsLeastHours);
+            r.oarsHeadWind = Json.Num(oars, "head_wind_cost", r.oarsHeadWind);
+            r.oarsSpentMorale = Json.Num(oars, "spent_morale", r.oarsSpentMorale);
             return r;
         }
 
@@ -229,7 +239,8 @@ namespace Kapman.Game
                 return;
             var r = Rules;
             // eat
-            bool fed = Take(r.foodGoods, Men * r.foodKg, ref openFoodKg, 1.0, out _);
+            // (men who rowed hard eat more: a full pull is half a day's food on top of the day's)
+            bool fed = Take(r.foodGoods, Men * r.foodKg * (1.0 + Oars.TakeBread()), ref openFoodKg, 1.0, out _);
             // drink: water first, then ale
             double thirst = Men * r.drinkL;
             double fromWater = Math.Min(WaterL, thirst);

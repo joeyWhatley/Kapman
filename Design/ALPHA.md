@@ -128,4 +128,6 @@ the crew as people (Ravn's own poor stats) waits for the crew system; the hold's
 - Row 10 (people): BUILT. Events move the stats: a stat is a base and the marks that lie on it, each with a cause
   and an end, two up or down at most. Cards put them on, known deeds by a table, hunger and sickness by themselves.
   Yourself shows them.
+- Row 3 (sailing): the oars are BUILT (DECISIONS 110). The order Out oars stands beside her course in the Voyage
+  window: the hard pull, for the hours that are in the men, at the cost of bread and strength.
 

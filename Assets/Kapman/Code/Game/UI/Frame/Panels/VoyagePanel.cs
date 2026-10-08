@@ -165,6 +165,11 @@ namespace Kapman.Game.Frame
             h = FrameUi.Mix(h, FrameGame.PortHere != null);
             h = FrameUi.Mix(h, FirstJobs.Version);
             h = FrameUi.Mix(h, Course.IsSet ? (int)(Course.KmLeft(ChartWorld.ShipWorld()) / 5.0) : -1);
+            // (the oars: the order, the hours left in the men to the hour, and whether it can be given)
+            var cls = FramePassage.HerClass;
+            h = FrameUi.Mix(h, Oars.Version);
+            h = FrameUi.Mix(h, (int)System.Math.Ceiling(Oars.Left(cls)));
+            h = FrameUi.Mix(h, ChartBody.Current != null && ChartBody.Current.Sheltering);
             return h;
         }
 
@@ -185,12 +190,37 @@ namespace Kapman.Game.Frame
                 body.Add(FrameUi.H("Bound for " + (to != null ? to.name : Course.Destination)));
                 body.Add(FrameUi.Ln($"{left:0} km to go by water", here != null ? "The course is charted. Cast off when you will." : "",
                                     FrameUi.Num(FramePassage.DaysWords(left))));
-                body.Add(FrameUi.Row(FrameUi.Btn("Give up the course", () =>
+                var giveUp = FrameUi.Btn("Give up the course", () =>
                 {
                     Course.Clear();
                     FrameLog.Add(here != null ? "The course is given up." : "The course is given up: she lies to.");
                     Redraw();
-                })));
+                });
+                // THE OARS (the alpha's row 3; the user's ruling 8 of 7 Oct 2026: "Oars (out oars, or sail)"): under way,
+                // the order stands beside the course. Out, a line says so and what the men have left in them.
+                var cls = FramePassage.HerClass;
+                Button oars = null;
+                if (here == null && cls != null && cls.oarsKn > 0f)
+                {
+                    bool lying = ChartBody.Current != null && ChartBody.Current.Sheltering;
+                    if (Oars.Out)
+                    {
+                        // (one run of words, no figure at the right: the window is narrow)
+                        body.Add(FrameUi.Ln("Under oars", (cls.hasSail ? "The sail is down and the men row hard: " : "The men row hard: ") +
+                                                          Oars.Span(Oars.Left(cls)) + " left in them."));
+                        oars = FrameUi.Btn("Ship oars", () => OrderOars(false), cls.hasSail ? "The oars come in and the sail goes up." : "The men ease to their own stroke.");
+                    }
+                    else
+                    {
+                        bool can = Oars.Can(cls, false, lying, out string why);
+                        oars = FrameUi.Btn("Out oars", () => OrderOars(true),
+                                           $"The sail comes down and the men row hard: {cls.oarsKn:0.#} knots whatever the wind, for {Oars.Span(Oars.Left(cls)).Replace("about ", "")}. It eats bread and strength.");
+                        oars.SetEnabled(can);
+                        if (!can)
+                            body.Add(FrameUi.P(why));
+                    }
+                }
+                body.Add(FrameUi.Row(giveUp, oars));
             }
             body.Add(FrameUi.H("Where to"));
             var ports = KnownPorts();
@@ -248,6 +278,17 @@ namespace Kapman.Game.Frame
                 body.Add(FrameUi.P(inPort ? "This is your course. Cast off when you will." : "This is your course."));
             else if (w != null && w.reckoned && w.ok)
                 body.Add(FrameUi.Go("Set this course", () => SetCourse()));
+        }
+
+        /// <summary>The order Out oars (true) or Ship oars, by the window's button: given, and said in the log.</summary>
+        public void OrderOars(bool on)
+        {
+            bool moored = FrameGame.PortHere != null;
+            bool lying = ChartBody.Current != null && ChartBody.Current.Sheltering;
+            string said = Oars.Order(on, FramePassage.HerClass, moored, lying);
+            if (said.Length > 0)
+                FrameLog.Add(said);
+            Redraw();
         }
 
         /// <summary>Has the way to a port been reckoned (and is there one)?</summary>
