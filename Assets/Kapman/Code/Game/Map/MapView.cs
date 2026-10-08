@@ -663,10 +663,10 @@ namespace Kapman.Game
             if (Known.StandingAt(def, out double here, out double region, out double day))
             {
                 double ago = game != null ? game.Day - day : 0.0;
-                return $"Your standing here when you were last here ({(ago < 1.0 ? "today" : $"{ago:0} days ago")}): {Reputation.Word(here)}. " +
-                       $"In the region then: {Reputation.Word(region)}.";
+                return $"When you last lay here, {(ago < 1.0 ? "today" : $"{ago:0} days ago")}, you were {Reputation.Word(here)}. " +
+                       $"In the region: {Reputation.Word(region)}.";
             }
-            return "Your standing here: not known (you haven't been here).";
+            return "Nobody here knows you.";
         }
 
         void SetCourseToCard()

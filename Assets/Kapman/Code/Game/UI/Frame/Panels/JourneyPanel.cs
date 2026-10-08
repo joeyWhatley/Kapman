@@ -87,7 +87,7 @@ namespace Kapman.Game.Frame
             if (notes.Count > 0)
             {
                 var names = notes.Select(n => GameData.Port(n.port)?.name).Where(n => n != null).ToList();
-                body.Add(FrameUi.Ln(notes.Count == 1 ? "One market's prices" : $"{notes.Count} markets' prices", string.Join(", ", names.Take(10)) + (names.Count > 10 ? $" and {names.Count - 10} more" : "") + ". The Wares window has each ware."));
+                body.Add(FrameUi.Ln(notes.Count == 1 ? "One market's prices" : $"{notes.Count} markets' prices", string.Join(", ", names.Take(10)) + (names.Count > 10 ? $" and {names.Count - 10} more" : "") + "."));
             }
             // the people
             var met = new List<string>();

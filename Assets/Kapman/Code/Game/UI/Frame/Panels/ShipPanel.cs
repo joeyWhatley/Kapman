@@ -47,7 +47,6 @@ namespace Kapman.Game.Frame
                 if (cls.crew > 0f)
                     body.Add(FrameUi.Ln("Hands she wants", null, FrameUi.Num($"{cls.crew:0}")));
             }
-            body.Add(FrameUi.P("Her wear, her fittings and a yard to mend her at are not in the game yet."));
         }
     }
 }

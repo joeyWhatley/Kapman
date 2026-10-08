@@ -73,6 +73,12 @@ namespace Kapman.Game
         /// reaches the purse, once the day has passed unpaid and the lender has said she works for him (the cards'
         /// flag Trade.WorkFlag), until the stick is clean.</summary>
         public float workShare = 0.5f;
+        /// <summary>A STAKE WITH A DAY INSIDE THE FIRST HOUR (the alpha's row 17; 8 Oct 2026): the order offered on the
+        /// first morning, when Ravn has had his say: so many of a good wanted at a port within so many days, at the
+        /// market's price there and this share over it. Units 0: no such order.</summary>
+        public string firstOrderPort = "", firstOrderGood = "";
+        public int firstOrderUnits;
+        public double firstOrderDays = 10.0, firstOrderPremium = 0.3;
         /// <summary>The month and day the world's traders and markets start (1 April: they have been at work for weeks
         /// before the player's first morning, so no market is untouched). A month of 0: they start with the player.</summary>
         public int worldFromMonth = 4, worldFromDay = 1;
@@ -186,6 +192,14 @@ namespace Kapman.Game
                     r.dueDay = (int)Json.Num(st, "due_day", r.dueDay);
                     r.dueName = Json.Str(st, "due_name", r.dueName);
                     r.workShare = Mathf.Clamp01((float)Json.Num(st, "work_share", r.workShare));
+                    if (Json.Obj(st, "first_order") is Dictionary<string, object> first)
+                    {
+                        r.firstOrderPort = Json.Str(first, "port", "");
+                        r.firstOrderGood = Json.Str(first, "good", "");
+                        r.firstOrderUnits = (int)Json.Num(first, "units", 0);
+                        r.firstOrderDays = Json.Num(first, "days", r.firstOrderDays);
+                        r.firstOrderPremium = Json.Num(first, "premium", r.firstOrderPremium);
+                    }
                     // "04-01": the month and the day; empty or unreadable: no pre-run
                     var from = (Json.Str(st, "world_from", $"{r.worldFromMonth:00}-{r.worldFromDay:00}") ?? "").Split('-');
                     if (from.Length == 2 && int.TryParse(from[0], out int fromMonth) && int.TryParse(from[1], out int fromDay))

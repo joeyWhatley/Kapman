@@ -55,7 +55,7 @@ namespace Kapman.Encounters
         public static void SplitTag(string text, out string tag, out string label)
         {
             tag = "";
-            label = text ?? "";
+            label = Aside(text ?? "");
             string s = label.TrimStart();
             if (s.Length < 3 || s[0] != '[')
                 return;
@@ -68,6 +68,26 @@ namespace Kapman.Encounters
                 return;
             tag = inside;
             label = rest;
+        }
+
+        static readonly System.Text.RegularExpressions.Regex Priced = new System.Text.RegularExpressions.Regex(@"\s*\(([^()]*\d[^()]*)\)\s*");
+
+        /// <summary>
+        /// A price written into a choice in brackets is said as an aside by commas (the page's rule of 7 Oct 2026: no
+        /// number in brackets; 398 choices of the script carry one): "Give him something (12 d)" is "Give him
+        /// something, 12 d"; "Buy a brace of duck (4 d) and ask him the way in" is "Buy a brace of duck, 4 d, and ask
+        /// him the way in". Nothing else of the words is touched.
+        /// </summary>
+        public static string Aside(string label)
+        {
+            if (string.IsNullOrEmpty(label) || label.IndexOf('(') < 0)
+                return label ?? "";
+            return Priced.Replace(label, m =>
+            {
+                int after = m.Index + m.Length;
+                bool more = after < label.Length && char.IsLetterOrDigit(label[after]);
+                return (m.Index > 0 ? ", " : "") + m.Groups[1].Value.Trim() + (more ? ", " : "");
+            });
         }
     }
 

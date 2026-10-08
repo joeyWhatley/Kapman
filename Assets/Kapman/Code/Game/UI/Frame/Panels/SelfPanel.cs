@@ -68,8 +68,8 @@ namespace Kapman.Game.Frame
                     body.Add(FrameUi.P("More than two up or down such things cannot move it. The rest waits until one ends."));
             }
             body.Add(FrameUi.P(anyMark
-                ? "A stat rises for good by use: each check you win by it adds a little. What you do and what befalls you lies on it for a while."
-                : "A stat rises by use, never by spending: each check you win by it adds a little, more against someone who resisted. What you do and what befalls you can lie on it for a while."));
+                ? "These grow for good by use: each time one carries the day it grows a little. What you do and what befalls you lies on them for a while."
+                : "These grow by use, never by silver: each time one carries the day it grows a little, and more when someone stood against you. What you do and what befalls you can lie on them for a while."));
             var was = Self.Chosen ? book.Past(Self.Past) : null;
             if (was == null)
                 return;

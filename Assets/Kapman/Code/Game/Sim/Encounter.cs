@@ -209,7 +209,7 @@ namespace Kapman.Game.Sim
                 if (Trade.Ledger.Hear(snap, (witness ? "told by " : "heard from ") + who, witness ? How.Told : How.Talk, witness ? 0 : 1, w.Day,
                                       "skipper", s.home >= 0 && s.home < GameData.Ports.Count ? GameData.Ports[s.home].id : null))
                 {
-                    told.Add($"{GameData.Ports[snap.port].name} ({Old(w.Day - snap.day)})");
+                    told.Add($"{GameData.Ports[snap.port].name}, {Old(w.Day - snap.day)}");
                     Known.HearOf(GameData.Ports[snap.port]);
                 }
             }
@@ -217,7 +217,7 @@ namespace Kapman.Game.Sim
                 Known.HearNews(item, w.Day, "heard from " + who, How.Talk, from == "her own crew" ? 1 : 2);
             string riddle = Chest.GivenAtSea(s, w.Day);                    // (now and then a master has a riddle to give)
             return (told.Count == 0 ? "She knows nothing newer than what's in your ledger."
-                                    : $"Prices at {told.Count} {(told.Count == 1 ? "port" : "ports")}, now in your ledger: {string.Join(", ", told)}.")
+                                    : $"She tells you what {told.Count} {(told.Count == 1 ? "port was" : "ports were")} paying: {string.Join("; ", told)}.")
                    + (riddle.Length > 0 ? " " + riddle : "");
         }
 

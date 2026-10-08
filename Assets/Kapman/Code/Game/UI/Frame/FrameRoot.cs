@@ -806,7 +806,8 @@ namespace Kapman.Game.Frame
             {
                 double days = Voyage.FoodDays;
                 // (the user, 8 Oct 2026: a barrel, the word, "and it just says the days left")
-                bread.text = days < 0.25 ? "none left" : FrameUi.Days(days);
+                // (the bar is one line: past three days the stores are told in whole days, "28 days", not "28 and a half")
+                bread.text = days < 0.25 ? "none left" : days >= 3.0 ? $"{System.Math.Floor(days):0} days" : FrameUi.Days(days);
                 bread.EnableInClassList("warn", days < 2.0);
             }
             foreach (var b in speedButtons)
@@ -897,7 +898,7 @@ namespace Kapman.Game.Frame
                 look.rain = Mathf.Clamp01(air.rain / 4f);
                 from = air.windFrom;
                 look.windOffBow = Mathf.DeltaAngle(game.ship.Heading, from);
-                shipWind.text = FrameGame.WindWords(air.windSpeed, from);
+                shipWind.text = FrameGame.WindShort(air.windSpeed, from);   // (few words: the caption is narrow)
             }
             else
                 shipWind.text = "";

@@ -89,6 +89,46 @@ namespace Kapman.Game
             Version++;
         }
 
+        /// <summary>The first order has been offered (once a game).</summary>
+        public static bool OrderOffered { get; private set; }
+
+        /// <summary>
+        /// A STAKE WITH A DAY INSIDE THE FIRST HOUR (the alpha's row 17; 8 Oct 2026). On the first morning somebody down
+        /// the river wants some of what came with the boat by a near day (trade_rules.json "start.first_order"): an
+        /// order offered by name, which the game asks about when Ravn has had his say. True, with its parts, while
+        /// there is such an order still to offer: the jobs stand, she lies somewhere else than where it is wanted,
+        /// that port is there this year, and she has that many aboard.
+        /// </summary>
+        public static bool FirstOrder(out PortDef port, out GoodDef good, out int units, out double days, out double premium)
+        {
+            var r = TradeRules.Current;
+            port = null;
+            good = null;
+            units = 0;
+            days = premium = 0.0;
+            if (!Active || OrderOffered || r == null || r.firstOrderUnits <= 0 || !Trade.Started)
+                return false;
+            port = GameData.Port(r.firstOrderPort);
+            good = GameData.Good(r.firstOrderGood);
+            units = r.firstOrderUnits;
+            days = r.firstOrderDays;
+            premium = r.firstOrderPremium;
+            int year = KapmanGame.Current != null ? KapmanGame.Current.Year : 793;
+            return port != null && good != null && days > 0.0 && port.id != Port && port.Exists(year) && Trade.Hold.Count(good.id) >= units;
+        }
+
+        /// <summary>Offers the first order (Ravn has done speaking): the game then asks, take it or refuse it. The order,
+        /// or null where there was none to offer.</summary>
+        public static Commission OfferFirstOrder()
+        {
+            if (!FirstOrder(out var port, out var good, out int units, out double days, out double premium))
+                return null;
+            var game = KapmanGame.Current;
+            OrderOffered = true;
+            Version++;
+            return Commissions.Offer(port, good, units, days, premium, game != null ? game.Year : 793, game != null ? game.Month : 5, game != null ? game.Day : 0.0);
+        }
+
         /// <summary>She has cast off: the list is done with (Landings sees it).</summary>
         public static void Sailed()
         {
@@ -121,6 +161,7 @@ namespace Kapman.Game
         {
             Active = true;
             Listed = true;
+            OrderOffered = false;
             TipGood = TipPort = "";
             Port = port ?? "";
             SailWorn = true;
@@ -254,7 +295,7 @@ namespace Kapman.Game
             return new Dictionary<string, object>
             {
                 ["active"] = Active, ["port"] = Port, ["sail_worn"] = SailWorn, ["mend_done_at"] = MendDoneAt, ["hands"] = list,
-                ["listed"] = Listed, ["tip_good"] = TipGood, ["tip_port"] = TipPort,
+                ["listed"] = Listed, ["tip_good"] = TipGood, ["tip_port"] = TipPort, ["order"] = OrderOffered,
             };
         }
 
@@ -271,6 +312,8 @@ namespace Kapman.Game
             Listed = Json.Bool(d, "listed", Active);
             TipGood = Json.Str(d, "tip_good");
             TipPort = Json.Str(d, "tip_port");
+            // (a save from before the first order: not offered again in a game already under way)
+            OrderOffered = Json.Bool(d, "order", true);
             foreach (var o in Json.Arr(d, "hands") ?? new List<object>())
                 hands.Add(new Hand { name = Json.Str(o, "name"), line = Json.Str(o, "line"), hired = Json.Bool(o, "hired", false) });
             Version++;
@@ -280,6 +323,7 @@ namespace Kapman.Game
         {
             Active = false;
             Listed = false;
+            OrderOffered = false;
             TipGood = TipPort = "";
             Port = "";
             SailWorn = false;

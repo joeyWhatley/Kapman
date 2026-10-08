@@ -1110,4 +1110,34 @@ and far fewer when usage is short).
    that work today and the side window is narrow); the top bar's silver as what it buys here (the trade window
    says both figures in words); asking a named person for prices, and holding a teller's word against the market
    when she moors (Design/fixes/one_cast.md, parts 4 and 6).
+113. **A STAKE INSIDE THE FIRST HOUR, AND A CLEAN SCREEN, BUILT** (the road's step 8, the alpha's row 17).
+   - A STAKE WITH A DAY. On the first morning, when Ravn has had his say, an order is asked: two casks of the wine
+     that came with the boat, for Traiectum, inside ten days, at what that market pays and a little over. Taken,
+     it stands in Errands; refused, nothing is lost. Ravn says it in one line and points at Errands; whoever wants
+     it is that port's own cellarer (Hadda). The numbers are in trade_rules.json "start.first_order". RAVN'S LINE
+     IS A PLACEHOLDER, the user's to write. (Design/fixes/first_hour.md, the steward's first payment of 120 d, was
+     written before the user's own opening and is NOT built: the lender and Michaelmas stand as the user wrote
+     them.)
+   - THE PAGE'S RULE (Design/fixes/page_and_strings.md): nothing reaches the screen that was written for the
+     makers. PageWords.Fault names what is wrong with a string. The play tests read every word on every screen
+     they picture and fail on a fault. 43 texts were found and mended:
+     - what the game lacks: five windows no longer say what is not built (Ship, Crew, Bonds, Faith, House); the
+       Port window's 21 lines that ended "(to come)" say what the row does; a row whose errand is not built is
+       not shown;
+     - numbers and words in brackets: a standing is its word ("known", no "+25"); an order is "at 46 d each, 91 d
+       in all"; a choice's price is an aside by commas ("Give him something, 12 d": 398 choices of the script,
+       changed where they are shown, not in the script); "Saved: 1 May 793"; the talk of the waterfront and of a
+       ship met says its ages in words;
+     - ids and sums: a choice that cannot be taken says why in the world's words ("Only if you carry weapons, or
+       captives."; "Only at Dorestat."; a writing by its title; a role by its title), and "Not now." where the
+       reason is the makers' own (a flag, a sum);
+     - workshop words: no window names another window; the stats line reads "These grow by use ...".
+   - NOTHING COVERS ANYTHING, at full size, in the layouts a player has: the play tests measure every text
+     against its box and fail on one that runs out or breaks a word. Mended: a tab's word is not broken; the
+     boat's caption has room (and says the wind in few words: "light breeze, south-west"); the top bar's figures
+     have a rule between them and the stores are told in whole days.
+   NOT DONE, AND LISTED BY THE TESTS: a screen of 720 lines (55 texts run out or break there: the rack's words
+   above all); the tiled layouts of columns and tabs, which only the tests can reach. Of page_and_strings.md:
+   parts 3 to 6 (line length, a text-size setting, the chest, captives), modern measures (km, kg, knots, m/s),
+   and the talk's keys offered as questions.
 

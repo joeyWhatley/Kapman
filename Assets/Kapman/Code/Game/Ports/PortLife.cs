@@ -55,7 +55,7 @@ namespace Kapman.Game
                     continue;
                 Known.HearNews(item, today, from.StartsWith("the waterfront") ? "talk on the waterfront at " + port.name : from + ", told at " + port.name,
                                How.Talk, from.StartsWith("the waterfront") ? 1 : 2, port.index);
-                lines.Add($"{item.text} ({Age(w.Day - item.day)}; " + (from.StartsWith("the waterfront") ? "known here" : "brought by " + from) + ").");
+                lines.Add($"{item.text} " + (from.StartsWith("the waterfront") ? "Known here" : Cap("brought by " + from)) + $", {Age(w.Day - item.day)}.");
                 if (++told >= 8)
                     break;
             }
@@ -77,13 +77,13 @@ namespace Kapman.Game
                     if (Trade.Ledger.Hear(snap, (witness ? "told by the master who saw them, at " : "talk on the waterfront at ") + port.name,
                                           witness ? How.Told : How.Talk, witness ? 0 : 1, today, witness ? "skipper" : "quay", tellerOf))
                     {
-                        prices.Add($"{GameData.Ports[snap.port].name} ({Age(w.Day - snap.day)})");
+                        prices.Add($"{GameData.Ports[snap.port].name} {Age(w.Day - snap.day)}");
                         Known.HearOf(GameData.Ports[snap.port]);
                     }
                 }
             if (prices.Count > 0)
-                lines.Add($"Prices heard for {prices.Count} {(prices.Count == 1 ? "place" : "places")}, now in your ledger: " +
-                          string.Join(", ", prices.Take(8)) + (prices.Count > 8 ? $" and {prices.Count - 8} more" : "") + ".");
+                lines.Add($"You hear what {prices.Count} {(prices.Count == 1 ? "place was" : "places were")} paying: " +
+                          string.Join(", ", prices.Take(8)) + (prices.Count > 8 ? $", and {prices.Count - 8} more" : "") + ".");
             return lines.Count == 0 ? "Nobody here has news you haven't heard." : string.Join("\n", lines);
         }
 
@@ -139,7 +139,7 @@ namespace Kapman.Game
                     toTown = true;
                     return "The monastery trades through its market.";
                 default:
-                    return "Not built yet: it comes with its system.";
+                    return "Nobody will see you there.";
             }
         }
 
@@ -183,6 +183,10 @@ namespace Kapman.Game
         {
             return Frame.FrameGame.CreditorName();
         }
+
+        /// <summary>Is this row of the port's menu something the game does? (The hall, the reeve and the fort are not: such a
+        /// row is not shown.)</summary>
+        public static bool Built(string key) => key != "port.hall" && key != "port.reeve" && key != "port.fort";
 
         static string Age(double days) => days < 1.0 ? "today" : days < 2.0 ? "yesterday" : $"{days:0} days ago";
 

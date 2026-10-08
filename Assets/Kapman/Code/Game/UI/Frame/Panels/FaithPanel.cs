@@ -38,7 +38,7 @@ namespace Kapman.Game.Frame
             var clock = LevelClock.Current;
             if (!cal.FromFile || clock == null)
             {
-                body.Add(FrameUi.P("The year's days are not written yet."));
+                body.Add(FrameUi.P("No days are reckoned for this year."));
                 return;
             }
             GameDate today = clock.Date;
@@ -55,7 +55,6 @@ namespace Kapman.Game.Frame
                 body.Add(FrameUi.P("No day of your faith falls in the next two months."));
             foreach (var (name, when) in cal.Undated(Self.Faith, faith != null ? faith.countsAs : ""))
                 body.Add(FrameUi.P(name + ": " + when + "."));
-            body.Add(FrameUi.P("Keeping these days is not counted yet: nothing stops a sale on a feast, and Troth does not move by them."));
         }
     }
 }

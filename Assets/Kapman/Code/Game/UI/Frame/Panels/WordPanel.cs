@@ -58,7 +58,7 @@ namespace Kapman.Game.Frame
                 shown++;
                 double age = game.Day - n.day;
                 string how = HowWords(n) + (string.IsNullOrEmpty(n.source) || n.how == How.Seen ? "" : ": " + n.source);
-                body.Add(FrameUi.Ln(port.name + (n.port == here ? " (here)" : ""), how + ".", FrameUi.Tag(Age(age))));
+                body.Add(FrameUi.Ln(port.name + (n.port == here ? ", here" : ""), how + ".", FrameUi.Tag(Age(age))));
                 if (n.port == here)
                     continue;                                             // (the Trade window has this market in full)
                 foreach (var good in goods)

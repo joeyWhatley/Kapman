@@ -34,7 +34,7 @@ namespace Kapman.Sailing
     {
         [Header("The ship")]
         public string shipName = "Gislinge boat";
-        [TextArea] public string about = "A 7.7 m working boat for fishing and carrying goods (Denmark, c. 1130).";
+        [TextArea] public string about = "A 7.7 m working boat for fishing and carrying goods.";
         [Tooltip("Metres, stem to stern.")] public float length = 7.7f;
         [Tooltip("Metres, widest.")] public float beam = 1.5f;
         [Tooltip("Metres of water she draws, loaded.")] public float draught = 0.45f;

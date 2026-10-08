@@ -2961,3 +2961,37 @@
 .frame-root .frame-row.frame-lots {
     margin: 0 0 4px 10px;
 }
+
+/* ---- A CLEAN SCREEN (8 Oct 2026, the alpha's row 17; found by the play tests' own reading of every screen).
+   A TAB'S WORD IS NOT BROKEN: tabs were four equal quarters, and "Yourself" stood as "Yoursel" over "f". A tab is as
+   wide as its word; what does not fit the row goes to a second row of tabs. */
+.frame-root .frame-tabs {
+    flex-wrap: wrap;
+}
+
+.frame-root .frame-tab {
+    flex-basis: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-top: 2px;
+}
+
+/* THE BOAT'S CAPTION HAS ROOM for three rows under her picture (where she is, where she is bound, the wind): the last
+   row ran out under the box's foot. */
+.frame-root .frame-ship-view {
+    height: 124px;
+}
+
+/* THE TOP BAR IS NOT ONE RUN OF WORDS: a thin rule stands between its figures (silver, stores, what is owed). */
+.frame-root .frame-top-mid .frame-top-figure {
+    margin: 0 0 0 12px;
+    padding-left: 12px;
+    border-left-width: 1px;
+    border-left-color: rgba(255, 255, 255, 0.45);
+}
+
+.frame-root .frame-top-mid #figure-silver {
+    border-left-width: 0;
+    padding-left: 0;
+}
+

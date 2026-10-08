@@ -102,7 +102,7 @@ namespace Kapman.Game.Frame
             if (to == null || game == null || game.World == null)
             {
                 body.Add(FrameUi.H("No course set"));
-                body.Add(FrameUi.P("The field is the other ships bound where you are bound. Set a course in the Voyage window."));
+                body.Add(FrameUi.P("No course is set, so nobody is ahead of you or behind."));
                 return;
             }
             double mine = ToRunKm();

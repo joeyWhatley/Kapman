@@ -264,13 +264,13 @@ namespace Kapman.Game
             return clock != null ? Kapman.World.Calendar.At(clock.year, clock.startDay, day * 24.0).ToString() : $"day {day:0}";
         }
 
-        /// <summary>"5 casks of Rhenish wine for Lindisfarena by 3 August 793, at 76 d each (380 d)".</summary>
+        /// <summary>"5 casks of Rhenish wine for Lindisfarena by 3 August 793, at 76 d each, 380 d in all".</summary>
         public static string Describe(Commission c)
         {
             var good = GameData.Good(c.good);
             var p = GameData.Port(c.port);
             string what = good != null ? Trade.UnitsNamed(good, c.units) : c.units + " " + c.good;
-            return $"{what} for {p?.name} by {DateOf(c.deadline)}, at {Show(p, c.each)} each ({Show(p, c.each * c.units)})";
+            return $"{what} for {p?.name} by {DateOf(c.deadline)}, at {Show(p, c.each)} each, {Show(p, c.each * c.units)} in all";
         }
 
         // ------------------------------------------------------------------ offered, taken, refused

@@ -238,7 +238,7 @@ namespace Kapman.Game.Frame
                     {
                         name = "Cast off";
                         if (FirstJobs.Blocks(out string notYet)) { can = false; why = notYet; }
-                        else if (!Course.IsSet) { can = false; why = "No course is set. Pick a port in the Voyage window and set its course first."; }
+                        else if (!Course.IsSet) { can = false; why = "No course is set. Pick a port under Voyage and set its course first."; }
                         else if (!FrameGame.PortMenuOpen) { can = false; why = "Finish what is in front of you first."; }
                         else why = "Cast off for " + (GameData.Port(Course.Destination)?.name ?? "sea") + ".";
                     }

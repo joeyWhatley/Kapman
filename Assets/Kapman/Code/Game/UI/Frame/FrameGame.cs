@@ -66,6 +66,13 @@ namespace Kapman.Game.Frame
             return $"{name} from the {FrameUi.Airt(from)}";
         }
 
+        /// <summary>The same in few words, for the caption under the boat's picture: "light breeze, south-west".</summary>
+        public static string WindShort(float speed, float from)
+        {
+            int force = Kapman.Weather.Beaufort.Force(speed);
+            return force == 0 ? "calm" : $"{Kapman.Weather.Beaufort.Name(force)}, {FrameUi.Airt(from)}";
+        }
+
         /// <summary>The crew's health as a word.</summary>
         public static string HealthWord(double health) =>
             health >= 0.85 ? "sound" : health >= 0.6 ? "worn" : health >= 0.35 ? "ailing" : "sick";

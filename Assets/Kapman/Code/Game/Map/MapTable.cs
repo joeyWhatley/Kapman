@@ -58,7 +58,7 @@ namespace Kapman.Game
             var chestButton = new Button(ToggleChest) { text = "Chest  (I)" };
             chestButton.AddToClassList("map-button");
             chestButton.AddToClassList("map-topbar-button");
-            chestButton.tooltip = "Everything written you keep: your price notes, and (to come) texts, riddles and your own notes.";
+            chestButton.tooltip = "Everything written that you keep: price notes, texts, riddles and your own notes.";
             bar.Add(chestButton);
             root.Add(bar);
 

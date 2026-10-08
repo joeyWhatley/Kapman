@@ -55,7 +55,6 @@ namespace Kapman.Game.Frame
             body.Add(FrameUi.Ln(name != null ? name.name : "Name", name != null ? name.what : null,
                                 name != null && name.Level(Self.StatNow("name")).Length > 0 ? FrameUi.Tag(name.Level(Self.StatNow("name"))) : null,
                                 FrameUi.Pips(Self.StatNow("name"))));
-            body.Add(FrameUi.P("Plots, stores, other boats and an heir are not in the game yet."));
         }
     }
 }

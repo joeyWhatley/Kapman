@@ -73,11 +73,9 @@ namespace Kapman.Game.Frame
             }
             if (shown == 0)
             {
-                body.Add(FrameUi.P("You know nobody yet. The People here window has those you can talk to in a port."));
+                body.Add(FrameUi.P("You know nobody yet."));
                 return;
             }
-            if (spoken > 0)
-                body.Add(FrameUi.P("How the people of the towns feel about you is not kept yet: only that you have spoken."));
         }
 
         static string Cap(string s) => string.IsNullOrEmpty(s) ? "" : char.ToUpperInvariant(s[0]) + s.Substring(1);

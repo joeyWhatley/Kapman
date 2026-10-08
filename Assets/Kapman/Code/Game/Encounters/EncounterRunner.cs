@@ -102,6 +102,36 @@ namespace Kapman.Game
                 Instance.lastHours = double.NaN;                          // (the jump of a load is no waiting time)
         }
 
+        /// <summary>The game's own name for a thing a card's rule names, for the line under a choice that cannot be taken
+        /// (Cond.NameOf): a writing's title, a good's name, a port's, a role's title, a stat's level; null: none to show.</summary>
+        public static string NameOf(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+                return null;
+            if (key.StartsWith("text.", StringComparison.Ordinal))
+            {
+                var text = ChestData.Text(key.Substring(5));
+                return text != null && !string.IsNullOrEmpty(text.title) ? text.title : null;
+            }
+            if (key.StartsWith("hold.", StringComparison.Ordinal))
+            {
+                string id = key.Substring(5);
+                var good = GameData.Good(id);
+                return good != null ? Trade.Named(good) : id == "weapons" || id == "captives" ? id : null;
+            }
+            if (key.StartsWith("port:", StringComparison.Ordinal))
+                return GameData.Port(key.Substring(5))?.name;
+            if (key.StartsWith("role:", StringComparison.Ordinal))
+                return Book != null ? Book.roles.Role(key.Substring(5))?.title : null;
+            if (key.StartsWith("level:", StringComparison.Ordinal))
+            {
+                var parts = key.Split(':');
+                var stat = parts.Length == 3 ? SelfBook.Current.Stat(parts[1]) : null;
+                return stat != null && int.TryParse(parts[2], out int pips) && stat.Level(pips).Length > 0 ? stat.Level(pips) : null;
+            }
+            return null;
+        }
+
         /// <summary>A port's realm (ports_793.json) and people (the culture of its words), for the director.</summary>
         public static (string realm, string people) PortInfo(string id)
         {
@@ -304,6 +334,7 @@ namespace Kapman.Game
             ClockDrops.PressingCard = () => Director != null && Director.Pressing;
             // (a person's trade is said as the cards say it, wherever a person is named: "Aldgrim the toll man")
             PlaceBook.RoleTitle = id => Book != null ? Book.roles.Role(id)?.title : null;
+            Cond.NameOf = NameOf;
             d.CallBegun += port => Debug.Log($"Kapman encounters: moored at {port}; a call begins.");
             d.CallEnded += port => Debug.Log($"Kapman encounters: cast off from {port}.");
             Director = d;

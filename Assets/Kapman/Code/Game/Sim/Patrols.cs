@@ -339,7 +339,7 @@ namespace Kapman.Game.Sim
             if (judgement)
             {
                 Deeds.Record("taken_for_judgement", "taken for judgement", At);
-                return End(before + seized + " You are taken before the count for judgement (to come).");
+                return End(before + seized + " You are taken before the count for judgement.");
             }
             Deeds.Record("goods_seized", "goods seized by the king's men", At);
             return End(before + seized);

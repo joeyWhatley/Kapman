@@ -33,10 +33,9 @@ namespace Kapman.Game.Frame
             body.Add(FrameUi.Ln("Health", null, FrameUi.Tag(FrameGame.HealthWord(Voyage.Health))));
             body.Add(FrameUi.Ln("Heart", null, FrameUi.Tag(FrameGame.HeartWord(Voyage.Morale))));
             body.Add(FrameUi.Ln("Pay owed", null, FrameUi.Num($"{Voyage.PayOwed:0} d")));
-            body.Add(FrameUi.Ln("At sea", null, FrameUi.Num(Voyage.DaysAtSea <= 0 ? "not yet" : Voyage.DaysAtSea == 1 ? "1 day" : Voyage.DaysAtSea + " days")));
+            body.Add(FrameUi.Ln("At sea", null, FrameUi.Num(Voyage.DaysAtSea <= 0 ? "still in port" : Voyage.DaysAtSea == 1 ? "1 day" : Voyage.DaysAtSea + " days")));
             body.Add(FrameUi.Ln("Bread and other food", null, FrameUi.Num(Voyage.FoodDays < 0.25 ? "none" : FrameUi.Days(Voyage.FoodDays))));
             body.Add(FrameUi.Ln("Ale and water", null, FrameUi.Num(Voyage.DrinkDays < 0.25 ? "none" : FrameUi.Days(Voyage.DrinkDays))));
-            body.Add(FrameUi.P("The crew are not yet people with names, tongues and faiths of their own: that comes with hiring."));
         }
     }
 }

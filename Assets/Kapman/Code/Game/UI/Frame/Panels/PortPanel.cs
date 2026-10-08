@@ -33,7 +33,7 @@ namespace Kapman.Game.Frame
             if (here == null || text == null)
             {
                 body.Add(FrameUi.H("At sea"));
-                body.Add(FrameUi.P("She lies at no port. When she moors, what can be done there shows here."));
+                body.Add(FrameUi.P("She lies at no port."));
                 return;
             }
             body.Add(FrameUi.H(here.Title));
@@ -51,15 +51,14 @@ namespace Kapman.Game.Frame
             for (int i = 0; i < text.Options.Count; i++)
             {
                 var (key, label, tip) = text.Options[i];
-                if (key == "port.town" || key == "port.leave")
-                    continue;                                             // (the Trade window; the Cast off button)
+                if (key == "port.town" || key == "port.leave" || !PortLife.Built(key))
+                    continue;                                             // (the Trade window; the Cast off button; an errand not built has no row)
                 int index = i;
                 lines++;
                 body.Add(FrameUi.LnButton(label, tip != label ? tip : null, () => text.Pick(index)));
             }
             if (lines == 0)
                 body.Add(FrameUi.P("Nothing more to be done here but trade."));
-            body.Add(FrameUi.P("The market is the Trade window. Casting off is the button above the windows."));
         }
     }
 }

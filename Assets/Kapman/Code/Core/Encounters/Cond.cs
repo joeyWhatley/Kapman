@@ -189,7 +189,7 @@ namespace Kapman.Encounters
             public override bool Eval(IVars vars) => !inner.Eval(vars);
             public override void Names(List<string> into) => inner.Names(into);
             public override void TextWords(List<(string name, string word)> into) => inner.TextWords(into);
-            public override string Describe(WordTable words) => inner is Bare b ? b.DescribeNot() : "Not when: " + inner.Describe(words);
+            public override string Describe(WordTable words) => inner is Bare b ? b.DescribeNot() : NameOf != null ? "Not now." : "Not when: " + inner.Describe(words);
         }
 
         sealed class Join : Cond
@@ -236,6 +236,15 @@ namespace Kapman.Encounters
                 }
                 if (said.Count == 0)
                     return "";
+                if (!all && NameOf != null)
+                {
+                    // ("Only if you carry weapons, or captives."; where the parts do not begin alike: one, then "Or:" and the next)
+                    const string carry = "Only if you carry ";
+                    if (said.TrueForAll(x => x.StartsWith(carry, StringComparison.Ordinal)))
+                        return carry + string.Join(", or ", said.ConvertAll(x => x.Substring(carry.Length))) + ".";
+                    said.RemoveAll(x => x == "Not now");
+                    return said.Count == 0 ? "Not now." : string.Join(". Or: ", said) + ".";
+                }
                 return all ? string.Join("; ", said) + "." : "Either: " + string.Join("; or: ", said) + ".";
             }
         }
@@ -253,6 +262,19 @@ namespace Kapman.Encounters
             public override void Names(List<string> into) => into.Add(name);
             public override string Describe(WordTable words)
             {
+                if (NameOf != null)
+                {
+                    // (the page's rule: a writing by its title, a good by its name; a flag is the makers' name for a
+                    // thing that happened, and is never shown)
+                    if (name.StartsWith("text.", StringComparison.Ordinal))
+                    {
+                        string title = NameOf(name);
+                        return title != null ? $"Only with {title} in your chest." : "Only with a writing you have not got.";
+                    }
+                    if (name.StartsWith("hold.", StringComparison.Ordinal))
+                        return $"Only if you carry {NameOf(name) ?? Human(name.Substring(5))}.";
+                    return "Not now.";
+                }
                 if (name.StartsWith("text.", StringComparison.Ordinal))
                     return $"Only with the writing \"{Human(name.Substring(5))}\" in your chest.";
                 if (name.StartsWith("flag.", StringComparison.Ordinal))
@@ -263,6 +285,8 @@ namespace Kapman.Encounters
             }
             public string DescribeNot()
             {
+                if (NameOf != null)
+                    return name.StartsWith("hold.", StringComparison.Ordinal) ? $"Not while you carry {NameOf(name) ?? Human(name.Substring(5))}." : "Not now.";
                 if (name.StartsWith("flag.", StringComparison.Ordinal))
                     return $"Not after: {Human(name.Substring(5))}.";
                 if (name.StartsWith("hold.", StringComparison.Ordinal))
@@ -321,10 +345,12 @@ namespace Kapman.Encounters
                 bool atLeast = op == Op.Ge || op == Op.Gt, below = op == Op.Lt || op == Op.Le;
                 if (role != null && name.EndsWith(".feeling", StringComparison.Ordinal) && word != null)
                 {
+                    // (the role's title as the cards say it, "the toll man", where the game has given a name for it)
+                    string who = (NameOf != null ? NameOf("role:" + role) : null) ?? "the " + Human(role);
                     if (atLeast)
-                        return $"The {Human(role)} must be {(op == Op.Gt ? "better than" : "at least")} {shown} with you.";
+                        return $"{char.ToUpperInvariant(who[0]) + who.Substring(1)} must be {(op == Op.Gt ? "better than" : "at least")} {shown} with you.";
                     if (below)
-                        return $"Only while the {Human(role)} is {(op == Op.Lt ? "less than" : "no more than")} {shown} with you.";
+                        return $"Only while {who} is {(op == Op.Lt ? "less than" : "no more than")} {shown} with you.";
                 }
                 if (name == "port.best_feeling" && word != null && atLeast)
                     return $"You must know someone here who is {shown} with you.";
@@ -345,9 +371,9 @@ namespace Kapman.Encounters
                 if (name == "debt" && atLeast && word == null)
                     return op == Op.Gt && value == 0.0 ? "Only while something is owed for the boat." : $"Only while {shown} d or more is owed for the boat.";
                 if (name.StartsWith("hold.", StringComparison.Ordinal) && op == Op.Gt && value == 0.0 && word == null)
-                    return $"Only with {Human(name.Substring(5))} aboard.";
+                    return NameOf != null ? $"Only if you carry {NameOf(name) ?? Human(name.Substring(5))}." : $"Only with {Human(name.Substring(5))} aboard.";
                 if (name.StartsWith("hold.", StringComparison.Ordinal) && (op == Op.Eq || op == Op.Le) && value == 0.0 && word == null)
-                    return $"Only with no {Human(name.Substring(5))} aboard.";
+                    return NameOf != null ? $"Only if you carry no {NameOf(name) ?? Human(name.Substring(5))}." : $"Only with no {Human(name.Substring(5))} aboard.";
                 if (name == "year" && op == Op.Lt)
                     return $"Only before {shown}.";
                 if (name == "year" && op == Op.Ge)
@@ -356,12 +382,16 @@ namespace Kapman.Encounters
                 {
                     // one of the player's own stats: "Your Tongue must be 3 or more."
                     string stat = char.ToUpperInvariant(name[3]) + name.Substring(4);
+                    // (by the level's own word where the game gives one: "Your Tongue must be ready or better.")
+                    string level = NameOf != null && word == null && op == Op.Ge ? NameOf("level:" + name.Substring(3) + ":" + shown) : null;
+                    if (!string.IsNullOrEmpty(level))
+                        return $"Your {stat} must be {level} or better.";
                     if (atLeast)
                         return op == Op.Gt ? $"Your {stat} must be more than {shown}." : $"Your {stat} must be {shown} or more.";
                     if (below)
                         return $"Only while your {stat} is {(op == Op.Lt ? "below" : "at most")} {shown}.";
                 }
-                return $"Only when {Human(name)} {OpText(op)} {shown}.";
+                return NameOf != null ? "Not now." : $"Only when {Human(name)} {OpText(op)} {shown}.";
             }
         }
 
@@ -378,10 +408,20 @@ namespace Kapman.Encounters
             public override bool Eval(IVars vars) => string.Equals(vars.Text(name) ?? "", word, StringComparison.OrdinalIgnoreCase) == equal;
             public override void Names(List<string> into) => into.Add(name);
             public override void TextWords(List<(string name, string word)> into) => into.Add((name, word));
-            public override string Describe(WordTable words) =>
-                name == "port.id" ? $"Only {(equal ? "at" : "away from")} {Human(word)}."
-                : name.StartsWith("me.", StringComparison.Ordinal) ? $"Only if your {Human(name.Substring(3))} {(equal ? "is" : "is not")} {Human(word)}."
-                : $"Only where {Human(name)} {(equal ? "is" : "is not")} {Human(word)}.";
+            public override string Describe(WordTable words)
+            {
+                if (NameOf != null)
+                {
+                    // (a port by its name as it is spelt on the chart; a people and a faith are the player's own, and
+                    // need no naming; anything else is the makers' and is not said)
+                    if (name == "port.id")
+                        return $"Only {(equal ? "at" : "away from")} {NameOf("port:" + word) ?? Human(word)}.";
+                    return name == "me.people" ? "Not for your people." : name == "me.faith" ? "Not for your faith." : "Not now.";
+                }
+                return name == "port.id" ? $"Only {(equal ? "at" : "away from")} {Human(word)}."
+                     : name.StartsWith("me.", StringComparison.Ordinal) ? $"Only if your {Human(name.Substring(3))} {(equal ? "is" : "is not")} {Human(word)}."
+                     : $"Only where {Human(name)} {(equal ? "is" : "is not")} {Human(word)}.";
+            }
         }
 
         sealed class VarCompare : Cond
@@ -410,8 +450,17 @@ namespace Kapman.Encounters
                 into.Add(a);
                 into.Add(b);
             }
-            public override string Describe(WordTable words) => $"Only when {Human(a)} {OpText(op)} {Human(b)}.";
+            public override string Describe(WordTable words) => NameOf != null ? "Not now." : $"Only when {Human(a)} {OpText(op)} {Human(b)}.";
         }
+
+        /// <summary>
+        /// THE GAME'S OWN NAME FOR A THING A RULE NAMES (the page's rule of 7 Oct 2026, Design/fixes/page_and_strings.md
+        /// 2.3: an id is never shown). "text.charter_toll_dorestad" gives the writing's title, "hold.captives"
+        /// "captives", "port:dorestad" "Dorestat", "role:tollman" "the toll man", "level:tongue:3" the level's word;
+        /// null where it has none a player may read. Set by the game (the encounter runner). While it is null (a test
+        /// of the rules alone) a lock is described by its parts as it always was, ids and all.
+        /// </summary>
+        public static Func<string, string> NameOf;
 
         /// <summary>"npc.tollman.feeling" as "tollman feeling", "hid_goods_at_port" as "hid goods at port".</summary>
         static string Human(string name)

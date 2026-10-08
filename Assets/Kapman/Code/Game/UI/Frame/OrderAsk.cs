@@ -82,7 +82,7 @@ namespace Kapman.Game.Frame
                 var zone = TradeRules.Current.ZoneOf(port.region);
                 toll = zone != null ? zone.toll * EncounterRunner.TollFactor(port.id, game != null ? game.Day : c.posted) : 0.0;
             }
-            spec.lines.Add(((toll > 0.0 ? $"Each part is paid as it lands, less the toll there ({toll * 100.0:0} in the hundred today). " : "Each part is paid as it lands. ") +
+            spec.lines.Add(((toll > 0.0 ? $"Each part is paid as it lands, less the toll there: {toll * 100.0:0} in the hundred today. " : "Each part is paid as it lands. ") +
                             "Bring all of it by the day and they will think the better of you. Bring none and they will remember it; bring part and they will remember that a little.", true));
             spec.small = $"Unanswered, the offer stands {Commissions.OfferDays:0} days and then goes to another.";
             string why = Commissions.WhyNot(c);

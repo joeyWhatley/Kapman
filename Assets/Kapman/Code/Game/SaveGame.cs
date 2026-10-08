@@ -149,7 +149,7 @@ namespace Kapman.Game
                 Debug.LogWarning("Kapman: the game couldn't be saved: " + ex.Message);
                 return "The game couldn't be saved.";
             }
-            return $"Saved ({game.Date}).";
+            return $"Saved: {game.Date}.";
         }
 
         /// <summary>Loads a slot over the game running now; returns the fact.</summary>
@@ -236,7 +236,7 @@ namespace Kapman.Game
             ChartWorld.SaveLoaded = true;                                 // (this game was begun long ago: no call at home, no "who are you")
             Loaded?.Invoke(Json.Str(ship, "lying_at", null));
             // (said to the player, not only to the console: all of the game is back but her place)
-            return $"Loaded ({Json.Str(data, "date")})." + (elsewhere ? " It was saved in another place: she lies where she was, not where she was saved." : "");
+            return $"Loaded: {Json.Str(data, "date")}." + (elsewhere ? " It was saved in another place: she lies where she was, not where she was saved." : "");
         }
 
         /// <summary>A saved game in the lists: its slot, the game's date in it, where she lay, when it was saved.</summary>

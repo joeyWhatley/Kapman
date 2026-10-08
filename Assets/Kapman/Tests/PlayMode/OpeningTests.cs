@@ -351,6 +351,30 @@ namespace Kapman.Tests
                 Assert.AreEqual("", play.Frame.PointedAt, "Ravn has done and the pointer still stands");
                 Assert.IsFalse(Showtime.Busy);
 
+                // ---- 11b. A STAKE WITH A DAY INSIDE THE FIRST HOUR (the alpha's row 17; the road's step 8). He spoke of an
+                // order and pointed at Errands; now that he has done the game asks, with the terms: two casks of the
+                // wine that came with the boat, for Traiectum, inside ten days. Taken, it stands in Errands.
+                CollectionAssert.Contains(pointedAt, "verb-errands", "he spoke of the order and Errands was not pointed at");
+                yield return ChartPlay.Until(() => Commissions.OfferedToYou.Count > 0 && play.Frame.FloatOpen(OrderAsk.IdOf(Commissions.OfferedToYou[0])), 6f);
+                Assert.AreEqual(1, Commissions.OfferedToYou.Count, "Ravn has done and no order is offered");
+                var firstOrder = Commissions.OfferedToYou[0];
+                Assert.AreEqual("traiectum", firstOrder.port);
+                Assert.AreEqual("rhenish_wine", firstOrder.good);
+                Assert.AreEqual(2, firstOrder.units);
+                Assert.AreEqual(10.0, firstOrder.deadline - firstOrder.posted, 1e-6);
+                Assert.IsTrue(play.Frame.FloatOpen(OrderAsk.IdOf(firstOrder)), "the first order is offered and the game does not ask");
+                yield return ChartPlay.Frames(10);
+                string firstAsk = ChartPlay.Read(play.FrontFloat());
+                notes.AppendLine("The first order: " + ChartPlay.Short(firstAsk));
+                StringAssert.Contains("2 casks of Rhenish wine for Traiectum by ", firstAsk);
+                StringAssert.Contains(" in all", firstAsk);
+                yield return play.Shot("open_14b_the_first_order");
+                yield return play.Click(play.Choices(play.FrontFloat())[0].button, "Take the order");
+                yield return ChartPlay.Frames(10);
+                Assert.IsTrue(firstOrder.mine, "the first order was not taken");
+                Assert.IsFalse(play.Frame.FloatOpen(OrderAsk.IdOf(firstOrder)), "the ask did not shut when it was answered");
+                Assert.IsTrue(FirstJobs.OrderOffered);
+
                 // ---- 12. the first jobs: no casting off until the hands are hired and the sail is mended
                 play.Frame.Look(FrameIcon.Kind.CastOff, out _, out string why, out bool can, out _);
                 Assert.IsFalse(can, "she may cast off with one man and a rotten sail");
@@ -694,6 +718,8 @@ namespace Kapman.Tests
                 notes.AppendLine("Yourself, after the day: " + ChartPlay.Short(yourself));
                 yield return play.Shot("open_31_yourself_with_a_mark");
 
+                // (the page's rule holds on every screen of the opening too: no word written for the makers, nothing cut)
+                Assert.AreEqual(0, play.faults.Count, "faults a reader would see on screen:\n" + string.Join("\n", play.faults));
                 Debug.Log("The opening:\n" + notes);
                 File.WriteAllText(Path.Combine(Application.dataPath, "..", "Captures", "chart", "open.txt"), notes.ToString());
             }

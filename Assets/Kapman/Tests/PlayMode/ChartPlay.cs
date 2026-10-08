@@ -41,6 +41,20 @@ namespace Kapman.Tests
 
         /// <summary>Faults seen on screen in the frame's own windows (a test fails on any).</summary>
         public readonly List<string> faults = new List<string>();
+        /// <summary>Words on a screen that were written for the makers (PageWords.Fault: what the game lacks, an id, a
+        /// number in brackets, a workshop word), each once: the fault, the words, where first seen.</summary>
+        public readonly List<string> pageFaults = new List<string>();
+        readonly HashSet<string> pageSeen = new HashSet<string>();
+        /// <summary>Text that runs out of its box (cut by it, or lying over what is beside it), and a single word broken
+        /// over two lines: each once, with where it was first seen.</summary>
+        public readonly List<string> cuts = new List<string>();
+        /// <summary>The same on a screen smaller than 1080 lines, where the frame is drawn larger to keep its text
+        /// readable and has less room: known to be tight, listed, not yet held.</summary>
+        public readonly List<string> smallCuts = new List<string>();
+        readonly HashSet<string> cutSeen = new HashSet<string>();
+        /// <summary>Cuts in the tiled layouts that only the tests can reach (columns, tabs: the game has one window on the
+        /// side): listed, not held.</summary>
+        public readonly List<string> tiledCuts = new List<string>();
         /// <summary>Every size of text seen in the frame at full size (1920 x 1080), in panel pixels: there should be four.</summary>
         public readonly HashSet<int> frameSizes = new HashSet<int>();
         /// <summary>The smallest text seen on any screen, in true pixels, and where.</summary>
@@ -123,6 +137,15 @@ namespace Kapman.Tests
             if (ended)
                 return;
             ended = true;
+            // (the page's rule and the boxes: what the screens of this walk showed)
+            if (pageFaults.Count > 0)
+                Debug.Log($"Chart test (page): {pageFaults.Count} texts written for the makers reached a screen:\n" + string.Join("\n", pageFaults));
+            if (cuts.Count > 0)
+                Debug.Log($"Chart test (page): {cuts.Count} texts run out of their box or break a word:\n" + string.Join("\n", cuts));
+            if (smallCuts.Count > 0)
+                Debug.Log($"Chart test (page, small screen): {smallCuts.Count} texts run out of their box or break a word at 720 lines:\n" + string.Join("\n", smallCuts));
+            if (tiledCuts.Count > 0)
+                Debug.Log($"Chart test (page, tiled layouts): {tiledCuts.Count} texts run out of their box or break a word in the columns or the tabs:\n" + string.Join("\n", tiledCuts));
             if (active == this)
                 active = null;
             Time.captureFramerate = 0;
@@ -552,11 +575,14 @@ namespace Kapman.Tests
                 string text = l.text;
                 if (string.IsNullOrEmpty(text) || !Shown(l))
                     return;
-                bool inFloat = false, inFrame = false, sized = false;
+                bool inFloat = false, inFrame = false, sized = false, inLog = false, inMenu = false, inNotes = false;
                 for (var e = (VisualElement)l; e != null; e = e.hierarchy.parent)
                 {
                     inFloat |= e.ClassListContains("frame-float");
                     inFrame |= e.ClassListContains("frame-root");
+                    inLog |= e.name == "log" || e.ClassListContains("frame-log");
+                    inMenu |= e.ClassListContains("menu-root");
+                    inNotes |= e.name != null && e.name.StartsWith("note-", StringComparison.Ordinal);
                     sized |= e.ClassListContains("frame-root") || e.ClassListContains("menu-root") || e.ClassListContains("map-port") ||
                              e.ClassListContains("hover-card");
                 }
@@ -577,6 +603,21 @@ namespace Kapman.Tests
                     if (inFrame && Mathf.Abs(scale - 1f) < 0.001f)
                         frameSizes.Add(Mathf.RoundToInt(panelPx));
                 }
+                // THE PAGE'S RULE (Design/fixes/page_and_strings.md): nothing written for the makers. In a card, a talk
+                // and the log the world speaks (prose); in the frame's own windows every pattern holds.
+                // (the notes tool is the maker's own, and its words are whatever was typed: not held to the rule. The line
+                // under a choice that cannot be taken is the frame speaking, though it stands in a card)
+                if ((inFrame || inMenu) && !inNotes)
+                {
+                    string wrong = PageWords.Fault(text, false, (inFloat || inLog) && !l.ClassListContains("frame-option-rule"));
+                    if (wrong != null && pageSeen.Add(wrong + "|" + text))
+                    {
+                        pageFaults.Add($"{wrong}: '{Short(text)}' ({string.Join(".", l.GetClasses())}) first at {at}");
+                        // (THE RULE HOLDS: a test that asks for no faults fails on it)
+                        faults.Add($"{at}: written for the makers ({wrong}): '{Short(text)}'");
+                    }
+                    Measure(l, text, at);
+                }
                 if (text.Contains("[write:"))
                 {
                     string said = at + ": " + Short(text);
@@ -596,6 +637,62 @@ namespace Kapman.Tests
                             faults.Add(said);
                     }
             });
+        }
+
+        /// <summary>A text against its box. A single word broken over two lines ("Chronicl" and "e"). And a text that
+        /// runs out of a box it stands in: cut there, or lying over whatever is beside it. A scrolling window's own
+        /// edge is no fault: what is under it is reached by scrolling.</summary>
+        void Measure(TextElement l, string text, string at)
+        {
+            var box = l.worldBound;
+            float size = l.resolvedStyle.fontSize;
+            if (float.IsNaN(box.width) || box.width < 2f || size < 1f)
+                return;
+            string classes = string.Join(".", l.GetClasses());
+            // (not seen, not measured: the frame stands laid out under the opening's veil with nothing of it shown)
+            for (var e = (VisualElement)l; e != null; e = e.hierarchy.parent)
+                if (e.resolvedStyle.opacity < 0.05f)
+                    return;
+            // (at a small screen the frame is known to be too tight, and the columns and tabs of the tiled layouts are
+            // had only by the tests: those are listed apart, and are not a failure)
+            bool full = Scale > 0.98f;
+            var frame = FrameRoot.Current;
+            bool players = FrameWindows.OneWindow || frame == null || frame.Windows == null || frame.Windows.Space.layout == FrameLayout.Rows;
+            var into = !full ? smallCuts : players ? cuts : tiledCuts;
+            string held = full && players ? at + ": " : null;
+            if (text.IndexOf(' ') < 0 && text.IndexOf('\n') < 0 && text.Length > 2 && box.height > size * 2.3f)
+            {
+                if (cutSeen.Add("broken|" + full + players + "|" + text))
+                {
+                    into.Add($"a word broken over two lines: '{text}' ({classes}) first at {at}");
+                    if (held != null)
+                        faults.Add(held + $"a word is broken over two lines: '{text}' ({classes})");
+                }
+                return;
+            }
+            // (what is placed by hand, out of the flow, stands where it was put: the clock's word hung under the bar's end)
+            bool placed = l.resolvedStyle.position == Position.Absolute;
+            for (var e = l.hierarchy.parent; e != null && !placed; e = e.hierarchy.parent)
+            {
+                if (e.ClassListContains("unity-scroll-view__content-viewport") || e.ClassListContains("frame-root") || e.ClassListContains("menu-root"))
+                    break;
+                placed = e.resolvedStyle.position == Position.Absolute;
+                var outer = e.worldBound;
+                if (float.IsNaN(outer.width) || outer.width < 2f || outer.height < 2f)
+                    continue;
+                float over = Mathf.Max(Mathf.Max(box.xMax - outer.xMax, outer.xMin - box.xMin), Mathf.Max(box.yMax - outer.yMax, outer.yMin - box.yMin));
+                if (over > 2.5f)
+                {
+                    string where = string.IsNullOrEmpty(e.name) ? string.Join(".", e.GetClasses()) : e.name;
+                    if (cutSeen.Add("out|" + full + players + "|" + where + "|" + Short(text)))
+                    {
+                        into.Add($"runs {over:0} px out of its box '{where}': '{Short(text)}' ({classes}) first at {at}");
+                        if (held != null)
+                            faults.Add(held + $"text runs {over:0} px out of its box '{where}': '{Short(text)}' ({classes})");
+                    }
+                    return;
+                }
+            }
         }
 
         public static string Short(string text)

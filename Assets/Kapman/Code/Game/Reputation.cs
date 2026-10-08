@@ -187,7 +187,7 @@ namespace Kapman.Game
             if (p == null)
                 return "";
             double here = At(p), region = OfRegion(p.region);
-            return $"Your standing here: {Word(here)} ({here:+0;-0;0}). In the region: {Word(region)} ({region:+0;-0;0}).";
+            return $"Your standing here: {Word(here)}. In the region: {Word(region)}.";
         }
 
         static double Clamp(double v) => Math.Max(-100.0, Math.Min(100.0, v));

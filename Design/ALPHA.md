@@ -134,4 +134,6 @@ the crew as people (Ravn's own poor stats) waits for the crew system; the hold's
   sale, warned of and closed on their day.
 - Row 5 (trading): BUILT (DECISIONS 112). Deals by the lot with one settlement; the word on a good said against
   where she lies, by one of the port's own people.
+- Row 17 (the first hour): BUILT as far as it is mine (DECISIONS 113): a first order with a day, and a clean
+  screen held by the tests. A screen of 720 lines is still tight.
 

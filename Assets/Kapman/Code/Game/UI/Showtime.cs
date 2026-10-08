@@ -1562,6 +1562,15 @@ namespace Kapman.Game
             FirstJobs.Tip(tipGood, tipPort);                              // (his word stands on the list, in the market and by the port)
             if (tip.Length > 0)
                 spec.Say("[[>verb-trade]]" + tip);
+            // A STAKE WITH A DAY (the alpha's row 17; 8 Oct 2026): the first order, which the game asks about when he
+            // has done. A PLACEHOLDER LINE in his voice, the user's to write. Whoever wants it is the port's own
+            // cellarer where its page has one.
+            if (FirstJobs.FirstOrder(out var orderPort, out var orderGood, out int orderUnits, out double orderDays, out _))
+            {
+                var wants = PlaceBook.Current.People(orderPort.id, KapmanGame.Current != null ? KapmanGame.Current.Year : 793).Find(p => p.role == "cellarer");
+                string who = wants != null ? $"{wants.name} at {orderPort.name}, the bishop's {wants.Role}," : $"They at {orderPort.name}";
+                spec.Say($"[[>verb-errands]]One more. {who} wants {Spoken.Number(orderUnits)} of those {orderGood.unit.Split(' ', ',', '(')[0]}s inside {Spoken.Number(orderDays)} days. Pays over the market. Say yes or no when I've done.");
+            }
             // (what he has said stands on the screen when he stops: the list, FrameRoot.Jobs.cs. He points at it and does not say it over)
             spec.Say("[[>jobs]]It's all there, look. I forget things. That's how I know where it's kept.");
             spec.options.Add(new FloatOption { label = "Go on", isDefault = true, pick = () => RavnDone(frame) });
@@ -1576,6 +1585,7 @@ namespace Kapman.Game
         {
             ravnUp = false;
             frame.CloseFloat("ravn.first");
+            FirstJobs.OfferFirstOrder();                                  // (the order he spoke of: the game asks, take it or refuse it)
         }
 
         /// <summary>

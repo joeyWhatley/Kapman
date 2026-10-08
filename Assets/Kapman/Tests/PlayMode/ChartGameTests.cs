@@ -610,7 +610,7 @@ namespace Kapman.Tests
                 Assert.AreEqual("An order at " + orderPort.name, Title(play.FrontFloat()));
                 string orderAsk = ChartPlay.Read(play.FrontFloat());
                 StringAssert.Contains("2 casks of Rhenish wine for " + orderPort.name + " by ", orderAsk, "the ask does not say what is wanted, where and by what day");
-                StringAssert.Contains(" each (", orderAsk, "the ask does not say the price a cask and the whole");
+                StringAssert.Contains(" each, ", orderAsk, "the ask does not say the price a cask and the whole");
                 StringAssert.Contains("less the toll there", orderAsk, "the ask does not say that the toll comes off");
                 StringAssert.Contains("the offer stands 7 days", orderAsk, "the ask does not say how long the offer stands");
                 var orderAnswers = play.Choices(play.FrontFloat());

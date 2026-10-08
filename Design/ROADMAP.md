@@ -8,19 +8,19 @@ Made by `Bake/plan/roadmap.py` from counts taken in the project that night. To b
 
 | | Percent |
 |---|---|
-| **Now** | **44.7** |
+| **Now** | **45.3** |
 | The alpha | 49 |
 | The beta | 93 |
 | Released | 100 |
 
 - **100 is the first release**, as you ruled on 7 October: one life, 793 to about 805, on twelve ports (Dorestat, Traiectum, Walichrum, Witla, Medemelacha, Doccinga, Daventre, Quentovic, Lundenwic, Sarre, Fordwic and Ripa), with the whole world dim on the chart. The later ages are not in it.
-- 61 steps are left: 5 to the alpha, 49 more to the beta, 7 to the release.
-- Of the 55 points still to do, 22 are mine to build, 21 are yours alone and 13 need both of us.
-- My part is about 106 to 132 sittings. Yours is about 433 to 452 hours, and the hours of your own home waters on top. **The release date is set by your drawing and your reading, not by the building.**
+- 60 steps are left: 4 to the alpha, 49 more to the beta, 7 to the release.
+- Of the 55 points still to do, 21 are mine to build, 21 are yours alone and 13 need both of us.
+- My part is about 104 to 130 sittings. Yours is about 433 to 452 hours, and the hours of your own home waters on top. **The release date is set by your drawing and your reading, not by the building.**
 
 ## Done since the count of 8 October 2026
 
-The count stood at 42.3. 6 of the 67 steps are done since, worth 2.4 points.
+The count stood at 42.3. 7 of the 67 steps are done since, worth 3.0 points.
 
 | No. | Step | When | What came of it | Points |
 |---|---|---|---|---|
@@ -30,6 +30,7 @@ The count stood at 42.3. 6 of the 67 steps are done since, worth 2.4 points.
 | 5 | Cards that wait | 8 Oct, night | A card left unanswered with the clock running waits a week, then takes one of its own options and the log says which. A pressing card (44 of them) waits hours, and 36 of those hold her where she is meanwhile. Left to wait, the card says under itself how long and what then. A harbour card goes its own way when she casts off. | +0.26 |
 | 6 | Orders that work | 8 Oct, night | A card offers an order and the game asks: take it or refuse it. Taken, it stands in Errands with its day, is handed over there in parts, each part paid by the unit at the price fixed when it was given, less the toll. It pays the market plus at most a half, and at most 60 d over the market. A week before its day and on the last day the log says so and the clock drops. Past its day it is broken, or short. | +0.60 |
 | 7 | Events move the stats | 8 Oct, night | A stat is a base and the marks on it. Cards put them on with a verb, 18 kinds of known deed by a table, hunger and sickness by themselves. All marks together move a stat by no more than two. Yourself shows each with its cause and its end. | +0.24 |
+| 8 | A stake inside the first hour, and a clean screen | 8 Oct, night | When Ravn has had his say an order is asked: two casks of the wine for Traiectum inside ten days. No screen says what the game lacks, names a file or a key, or puts a number in brackets: 43 such texts are mended, and the play tests now read every word on every screen they picture and fail on one. At full size nothing runs out of its box and no word is broken. The top bar's figures stand apart. A screen of 720 lines is still too tight: listed, not mended. | +0.60 |
 
 ## Where the game is, part by part
 
@@ -42,7 +43,7 @@ The rules that run the world and the voyage.
 | The world that runs by itself | 3.5 | 92% | 138 other ships trade, carry news and reach the market first. Seasons, fairs, 582 dated events. | A twelve-year run on many seeds. The ten-year test is skipped today. |
 | Sailing on the chart | 3.0 | 94% | A course by water to every port of the release, tides, grounding, night, fog that lifts, five speeds, the measure. | Oars. Distances that jump while she sails. |
 | Trade | 3.5 | 90% | Markets, four coinages, the toll, the word on a good, the wares window. | Deals by the lot. A price told against where she lies. A hold that adds up. |
-| The debt | 1.5 | 88% | Owed to Wursing, due at Michaelmas; his man, the day, the boat's work, a clean stick (built tonight). | Your ruling on the missed day. Hard and easy terms. The count's old chain. |
+| The debt | 1.5 | 91% | Owed to Wursing, due at Michaelmas; his man, the day, the boat's work, a clean stick (built tonight). | Your ruling on the missed day. Hard and easy terms. The count's old chain. |
 | The card engine | 3.5 | 92% | 1,400 cards with chances and memory. Speakers under their own names and faces, written ends shown (both tonight). | Cards that wait a week, pressing cards that hold her, the list of what the release lets in. |
 | People and standing | 3.0 | 83% | Feelings, standing, deeds that travel as news, tongues that turn into English, five stats that events move. | One memory for a person in port and on a card. |
 | Meetings at sea | 1.5 | 85% | Traders hailed, the king's men, raiders. | The raid as an hour of its own. |
@@ -56,15 +57,15 @@ The rules that run the world and the voyage.
 | The chest | 1.0 | 80% | 267 readings, 137 riddles, 40 rune inscriptions. | Reading with the crew. |
 | The town | 0.5 | 40% | Alehouse, minster, rest. 53 acts written, some wired. | The rest of the acts. |
 
-### The screen: 8.8 of 12 points (73%)
+### The screen: 9.3 of 12 points (77%)
 
 What the player sees and presses.
 
 | Part | Points | Done | What stands | What is missing |
 |---|---|---|---|---|
-| The frame | 3.5 | 85% | The Byzantium frame: top bar, twelve buttons, one side window with tabs, talk in the foot, the log. | Small things that cover each other; labels that are catalogue words. |
-| The side windows | 2.0 | 70% | 22 windows. | Several still list what is not built. |
-| The opening and the first hour | 1.5 | 85% | Loader, title, the lender's questions, the boat, Ravn, the list of first jobs, the landing slip. | A stake with a day inside the first hour. |
+| The frame | 3.5 | 91% | The Byzantium frame: top bar, twelve buttons, one side window with tabs, talk in the foot, the log. | Small things that cover each other; labels that are catalogue words. |
+| The side windows | 2.0 | 80% | 22 windows. | Several still list what is not built. |
+| The opening and the first hour | 1.5 | 95% | Loader, title, the lender's questions, the boat, Ravn, the list of first jobs, the landing slip. | A stake with a day inside the first hour. |
 | The chart | 1.5 | 75% | The whole sailing world as placeholder tiles, tools, four ways to colour it. | Names by zoom; the dim world that inks as you hear of it. |
 | Menus and settings | 1.5 | 25% | A main menu and saves. | No settings window and no credits page. |
 | The ship window | 2.0 | 80% | Sea, sky and weather from the game, the jetty, the crew, three looks. | Its own sounds; the oars shown when she rows. |
@@ -165,16 +166,15 @@ A build, the tests by other people, the law, the shop.
 
 A sitting is one piece of work built, tested by the full suites, looked at in pictures from the game and committed. Tonight had five. The groups inside a phase can run side by side: your pictures and the Steam paperwork can begin today.
 
-### To the alpha: 44.7 to 48.6
+### To the alpha: 45.3 to 48.6
 
 Your own list of 7 October: the eighteen basics built and joined, in one build played from a new game to the first reckoning, with nothing in it that says “not yet”, and you have looked at the play-through.
 
-5 steps, 3.8 points. Mine: 9 to 12 sittings. Yours: 3 to 5 hours.
+4 steps, 3.2 points. Mine: 7 to 10 sittings. Yours: 3 to 5 hours.
 
 | No. | Step | Who | Size | Adds | Then at |
 |---|---|---|---|---|---|
-| 3 | **The boat can be hurt and lost.** Row 4, and the widest gap before the alpha. The plan is written: hull, water in her and the sail; warned first, wounded before she is lost; the same gale dice as the other ships. For the alpha a loss shows “She is lost” and the way back to a save. Your ruling: is that end enough for the alpha? | Mine | 5 to 7 sittings | +2.01 | 46.7 |
-| 8 | **A stake inside the first hour, and a clean screen.** Row 17. A first order with a day: wine wanted at a named port. The first window stops listing things that are not built. Nothing covers anything. The top bar is no longer one run of words. | Mine | 2 sittings | +0.60 | 47.3 |
+| 3 | **The boat can be hurt and lost.** Row 4, and the widest gap before the alpha. The plan is written: hull, water in her and the sail; warned first, wounded before she is lost; the same gale dice as the other ships. For the alpha a loss shows “She is lost” and the way back to a save. Your ruling: is that end enough for the alpha? | Mine | 5 to 7 sittings | +2.01 | 47.3 |
 | 9 | **The play-through, a picture at each step.** Row 18. The game played by the test's hands through the real buttons, from a new game to the Michaelmas reckoning. I look at every picture and write down what is wrong. | Mine | one sitting | +0.50 | 47.8 |
 | 10 | **You play it.** From a new game to the reckoning, with F2 for your notes. The alpha is reached when you have looked and said so. | Yours | 3 to 5 hours | +0.50 | 48.3 |
 | 11 | **Mend what your notes say.** Your notes, worked through line by line. | Mine | 1 to 2 sittings | +0.24 | 48.6 |
@@ -288,7 +288,7 @@ The first release is out on Steam: one life, 793 to about 805, on twelve ports, 
 
 ## What sets the pace
 
-- **My part:** about 106 to 132 sittings. This week ran at three to five a day while you were here. That is weeks.
+- **My part:** about 104 to 130 sittings. This week ran at three to five a day while you were here. That is weeks.
 - **Your part:** about 433 to 452 hours, and your home waters on top. At ten hours a week that is most of a year. At twenty it is five to six months.
 - **Steam's own waits:** 30 days after the fee, two weeks of “Coming soon”, two reviews. Six weeks at the least, even for a finished game.
 - The note on Steam of 7 October said spring to summer 2027 for the first release. This count agrees with it.
