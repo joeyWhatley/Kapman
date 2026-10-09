@@ -101,9 +101,18 @@ namespace Kapman.Game.Frame
         /// reckoned by the Kalends, Nones and Ides (PeriodDate). The bar says this; the plain date is in its tip.</summary>
         public static string DebtDayOfTheTime()
         {
-            if (Trade.DebtDueName.Length > 0)
-                return Trade.DebtDueName;
             var clock = LevelClock.Current;
+            if (Trade.DebtDueName.Length > 0)
+            {
+                // (the day is a year off or more, since 9 Oct 2026: "Michaelmas" alone would be taken for this year's)
+                if (clock != null)
+                {
+                    int dueYear = Calendar.At(clock.year, clock.startDay, Math.Floor(Trade.DebtDue) * 24.0).year;
+                    if (dueYear != clock.Date.year)
+                        return Trade.DebtDueName + " " + dueYear;
+                }
+                return Trade.DebtDueName;
+            }
             return clock == null ? $"day {Trade.DebtDue:0}" : PeriodDate.Day(Calendar.At(clock.year, clock.startDay, Math.Floor(Trade.DebtDue) * 24.0));
         }
 

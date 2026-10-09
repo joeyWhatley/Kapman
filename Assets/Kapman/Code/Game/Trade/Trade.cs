@@ -98,24 +98,25 @@ namespace Kapman.Game
         public static void Begin(TradeRules rules, float cargoKg, double today, int year, int startDay)
         {
             Begin(rules, cargoKg, today);
-            double due = DueDayOf(year, startDay, today, rules.dueMonth, rules.dueDay);
+            double due = DueDayOf(year, startDay, today, rules.dueMonth, rules.dueDay, rules.dueSkip);
             if (due < 0.0)
                 return;
             DebtDue = due;
             DebtDueName = rules.dueName ?? "";
         }
 
-        /// <summary>The game day (whole: its midnight) of the next `day` of `month` after `today`; -1 if there is none
-        /// within two years (a month of 0, or a day that month never has). Begun on the day itself: a year on.</summary>
-        public static double DueDayOf(int year, int startDay, double today, int month, int day)
+        /// <summary>The game day (whole: its midnight) of the next `day` of `month` after `today`, or with `skip` the one
+        /// that many years after it (1: the second summer); -1 if there is none (a month of 0, or a day that month never
+        /// has). Begun on the day itself: a year on.</summary>
+        public static double DueDayOf(int year, int startDay, double today, int month, int day, int skip = 0)
         {
             if (month < 1 || month > 12 || day < 1)
                 return -1.0;
             int from = (int)Math.Floor(today) + 1;
-            for (int i = from; i < from + 732; i++)
+            for (int i = from; i < from + 732 + 366 * Math.Max(0, skip); i++)
             {
                 var d = Kapman.World.Calendar.At(year, startDay, i * 24.0);
-                if (d.month == month && d.day == day)
+                if (d.month == month && d.day == day && skip-- <= 0)
                     return i;
             }
             return -1.0;

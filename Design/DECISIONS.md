@@ -1368,3 +1368,17 @@ and far fewer when usage is short).
      switch that a new game clears). ContentHoldTests (edit, 4): the table names real files and cards; the
      game's book is sound with the rest held and no file had to be shut; the cards the rules raise by name
      are in.
+120. **THE DEBT FALLS DUE AT THE SECOND MICHAELMAS** (the user, 9 Oct, asked "Do you think that debt repayment is
+   too short?"; my answer: a little: of three walks the same plain trader paid it once, and stood 340 d and
+   1136 d short in the others, and that with the whole delta known from the first morning; by the picker:
+   "A second summer"). A RULING.
+   - trade_rules.json "due_skip": 1: not the next Michaelmas after the start but the one after it, 29 September
+     794 for a game begun 1 May 793: 516 days (it was 151). The bar says the year when the day is not this
+     year's: "Owed 1920 d by Michaelmas 794: 516 days left". Michaelmas 794 is a Monday, so the Sunday warning
+     of 793 is gone with it.
+   - NOT CHANGED, AND NOW OUT OF STEP: the lender's man first comes within 140 days of the day (his cards), so
+     for a whole year nobody asks; and the first life now crosses a winter that no play-through has walked.
+     PlayThroughTests still walks to the debt's day, which is now three and a half times as far.
+   - THE NEXT RULING IS ALREADY ASKED FOR (the user, the same hour): "I want the debt mechanic to be more of a
+     constant cat and mouse game, you CAN just play the game and try and pay the debt asap", "Or you could idk
+     try different methods and comedic ways around it". Not built: a proposal comes first.

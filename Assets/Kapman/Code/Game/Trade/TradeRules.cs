@@ -69,6 +69,10 @@ namespace Kapman.Game
         /// due on a day"). A month of 0: after <see cref="dueDays"/> instead.</summary>
         public int dueMonth = 9, dueDay = 29;
         public string dueName = "Michaelmas";
+        /// <summary>How many such days pass first. 1: not the next Michaelmas, the one after (the user, 9 Oct 2026, asked
+        /// whether the debt's time was too short and chose "A second summer": due at Michaelmas 794, seventeen months
+        /// from a game begun on 1 May 793. It was the next one, 151 days.)</summary>
+        public int dueSkip = 1;
         /// <summary>THE BOAT'S WORK (8 Oct 2026): the share of everything she sells that goes to the stick before it
         /// reaches the purse, once the day has passed unpaid and the lender has said she works for him (the cards'
         /// flag Trade.WorkFlag), until the stick is clean.</summary>
@@ -190,6 +194,7 @@ namespace Kapman.Game
                     r.dueDays = (int)Json.Num(st, "due_days", r.dueDays);
                     r.dueMonth = (int)Json.Num(st, "due_month", r.dueMonth);
                     r.dueDay = (int)Json.Num(st, "due_day", r.dueDay);
+                    r.dueSkip = Mathf.Max(0, (int)Json.Num(st, "due_skip", r.dueSkip));
                     r.dueName = Json.Str(st, "due_name", r.dueName);
                     r.workShare = Mathf.Clamp01((float)Json.Num(st, "work_share", r.workShare));
                     if (Json.Obj(st, "first_order") is Dictionary<string, object> first)

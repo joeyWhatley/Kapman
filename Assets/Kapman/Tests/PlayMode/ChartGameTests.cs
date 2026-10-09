@@ -311,17 +311,18 @@ namespace Kapman.Tests
                 Assert.Less(System.Math.Abs(game.World.Hours - clock.GameHours), 1.01, "the world's hours are not the clock's after the pre-run");
                 Assert.AreEqual(1920.0, Trade.Debt, 0.5, "the debt should be eight pounds");
                 Assert.AreEqual("Michaelmas", Trade.DebtDueName);
-                Assert.AreEqual(151.0, Trade.DebtDaysLeft(game.Day), 0.01, "from 1 May to Michaelmas is 151 days");
+                // (a second summer, the user by the picker, 9 Oct 2026: due at Michaelmas 794, not this year)
+                Assert.AreEqual(516.0, Trade.DebtDaysLeft(game.Day), 0.01, "from 1 May 793 to Michaelmas 794 is 516 days");
                 yield return Settle();
                 string bar = ChartPlay.Read(frame.Root.Q<VisualElement>(className: "frame-top"));
-                StringAssert.Contains("Owed 1920 d by Michaelmas: 151 days left", bar, "the top bar does not say the debt's day and the days left");
+                StringAssert.Contains("Owed 1920 d by Michaelmas 794: 516 days left", bar, "the top bar does not say the debt's day and the days left");
                 // (the day as it was kept in 793: 1 May is the Kalends of May)
                 StringAssert.Contains("Kalends of May, 793", bar, "the top bar does not say the day as the time reckoned it");
                 Assert.AreEqual(4, Trade.Hold.Count("rhenish_wine"));
                 Assert.AreEqual(4, Trade.Hold.Owed("rhenish_wine"), "the four casks should be marked as the count's");
                 Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("She has aboard 4 casks of Rhenish wine that came with the boat and 1 sack of")),
                               "the log does not say what is aboard and whose: " + string.Join(" / ", FrameLog.Lines.Select(l => l.text)));
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text == "You owe the count 1920 d by Michaelmas, 29 September 793."), "the log does not say what is owed and by when");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.text == "You owe the count 1920 d by Michaelmas, 29 September 794."), "the log does not say what is owed and by when");
                 Debug.Log($"Chart test: the pre-run took {KapmanGame.PreRunMs} ms; Dorestat asks " +
                           $"{Markets.Of(home, game.Year, game.Day).Asks(Markets.Of(home, game.Year, game.Day).Get("rhenish_wine"), game.Month):0.0} d for a cask of Rhenish wine; " +
                           $"the purse is {FrameGame.Silver:0.0} d of silver and buys {FrameGame.SilverHere(home):0.0} d's worth here");
@@ -387,13 +388,13 @@ namespace Kapman.Tests
                     double daysLeft = Trade.DebtDaysLeft(game.Day);
                     if (panel.Id == "tasks")
                     {
-                        StringAssert.Contains($"Due at Michaelmas, 29 September 793: {daysLeft:0} days from now.", reads);
-                        StringAssert.Contains("Michaelmas is a Sunday in 793.", reads, "the Tasks window does not warn that the debt's day is a Sunday");
+                        StringAssert.Contains($"Due at Michaelmas, 29 September 794: {daysLeft:0} days from now.", reads);
+                        StringAssert.DoesNotContain("is a Sunday", reads, "Michaelmas 794 is a Monday: the Tasks window should not warn of a Sunday");
                     }
                     else if (panel.Id == "house")
                     {
-                        StringAssert.Contains($"The debt falls due at Michaelmas, 29 September 793: {daysLeft:0} days from now.", reads);
-                        StringAssert.Contains("have the silver in hand by Saturday, 28 September", reads, "the House window does not warn that the debt's day is a Sunday");
+                        StringAssert.Contains($"The debt falls due at Michaelmas, 29 September 794: {daysLeft:0} days from now.", reads);
+                        StringAssert.DoesNotContain("in hand by Saturday", reads, "Michaelmas 794 is a Monday: the House window should not warn of a Sunday");
                     }
                     else if (panel.Id == "hold")
                         StringAssert.Contains("Came with the boat. Yours to sell, and owed for already.", reads, "the Hold window does not say where the casks came from");

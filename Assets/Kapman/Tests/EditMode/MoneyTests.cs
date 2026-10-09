@@ -262,22 +262,31 @@ namespace Kapman.Tests
         [Test]
         public void TheDebtFallsDueAtMichaelmas()
         {
-            // a game begun 1 May 793 (day 121 of the year): due 29 September 793, 151 days on
+            // A SECOND SUMMER (the user, 9 Oct 2026, by the picker): a game begun 1 May 793 (day 121 of the year) owes at
+            // Michaelmas of the year after, 29 September 794, 516 days on. It was the next Michaelmas, 151 days.
+            Assert.AreEqual(1, rules.dueSkip, "the debt of the game should fall due at the second Michaelmas, not the next");
             Trade.Begin(rules, 900f, 0.29, 793, FirstOfMay);
             Assert.AreEqual(1920.0, Trade.Debt, 0.001);
-            Assert.AreEqual(151.0, Trade.DebtDue, 0.001);
+            Assert.AreEqual(516.0, Trade.DebtDue, 0.001);
             Assert.AreEqual("Michaelmas", Trade.DebtDueName);
             var due = Calendar.At(793, FirstOfMay, Trade.DebtDue * 24.0);
-            Assert.AreEqual(793, due.year);
+            Assert.AreEqual(794, due.year);
             Assert.AreEqual(9, due.month);
             Assert.AreEqual(29, due.day);
             // whole days, whatever the hour
-            Assert.AreEqual(151.0, Trade.DebtDaysLeft(0.9), 0.001);
-            Assert.AreEqual(1.0, Trade.DebtDaysLeft(150.99), 0.001);
-            Assert.AreEqual(0.0, Trade.DebtDaysLeft(151.5), 0.001);
-            Assert.AreEqual(-3.0, Trade.DebtDaysLeft(154.2), 0.001);
+            Assert.AreEqual(516.0, Trade.DebtDaysLeft(0.9), 0.001);
+            Assert.AreEqual(1.0, Trade.DebtDaysLeft(515.99), 0.001);
+            Assert.AreEqual(0.0, Trade.DebtDaysLeft(516.5), 0.001);
+            Assert.AreEqual(-3.0, Trade.DebtDaysLeft(519.2), 0.001);
+            // begun the day before Michaelmas: not tomorrow, a year from tomorrow
+            Trade.Begin(rules, 900f, 0.0, 793, 271);
+            Assert.AreEqual(366.0, Trade.DebtDue, 0.001);
 
-            // begun on Michaelmas itself (day 272): the next one, a year on; begun the day before: tomorrow
+            // THE NEXT SUCH DAY (due_skip 0, as it was): 151 days on; begun on Michaelmas itself (day 272): a year on;
+            // begun the day before: tomorrow
+            rules.dueSkip = 0;
+            Trade.Begin(rules, 900f, 0.29, 793, FirstOfMay);
+            Assert.AreEqual(151.0, Trade.DebtDue, 0.001);
             Trade.Begin(rules, 900f, 0.0, 793, 272);
             Assert.AreEqual(365.0, Trade.DebtDue, 0.001);
             Trade.Begin(rules, 900f, 0.0, 793, 271);
@@ -285,6 +294,7 @@ namespace Kapman.Tests
             // a start on 21 June (the 3D levels): 100 days
             Trade.Begin(rules, 900f, 0.8, 793, 172);
             Assert.AreEqual(100.0, Trade.DebtDue, 0.001);
+            rules.dueSkip = 1;
 
             // no calendar: the count of days, and no name
             Trade.Begin(rules, 900f, 10.0);
@@ -296,11 +306,11 @@ namespace Kapman.Tests
             var saved = Trade.Capture();
             Trade.Begin(rules, 900f, 0.0);
             Trade.Restore(saved);
-            Assert.AreEqual(151.0, Trade.DebtDue, 0.001);
+            Assert.AreEqual(516.0, Trade.DebtDue, 0.001);
             Assert.AreEqual("Michaelmas", Trade.DebtDueName);
             saved.Remove("due_name");
             Trade.Restore(saved);
-            Assert.AreEqual(151.0, Trade.DebtDue, 0.001);
+            Assert.AreEqual(516.0, Trade.DebtDue, 0.001);
             Assert.AreEqual("", Trade.DebtDueName);
         }
 
