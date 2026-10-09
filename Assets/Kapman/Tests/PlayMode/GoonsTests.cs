@@ -266,6 +266,10 @@ namespace Kapman.Tests
                 Assert.That(Collectors.State, Is.EqualTo(GoonState.Homing).Or.EqualTo(GoonState.Home), "given their answer at sea they did not go home");
                 Assert.IsFalse(EncounterRunner.ShipHeld, "they are gone and she is still held");
                 Assert.LessOrEqual(Trade.Debt, owed4);
+                // (THEIR MEETING IS A FLOW: every moment of theirs in this game was run by the graph, none by the code)
+                Assert.Greater(Collectors.ByGraph, 4, "the graph \"Encounter - the lender's men\" ran few of their moments");
+                Assert.AreEqual(0, Collectors.ByCode, "a moment of the lender's men was run by the code: no graph of the game's scene listened for it " +
+                    "(the Script Machine on '--- GAME ---'; Kapman > Make physical > 3d)");
             }
             finally
             {

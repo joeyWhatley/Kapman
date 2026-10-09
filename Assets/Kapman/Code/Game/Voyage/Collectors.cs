@@ -146,6 +146,15 @@ namespace Kapman.Game
     /// man; or kill one. His temper falls when she pays and rises when they come home with nothing or fooled.
     /// The day itself (the lender's own cards) is as it was. Plain state, saved whole; nothing here is random but one
     /// seeded throw for a killing a step early.
+    ///
+    /// THE MEETING IS A FLOW, AND ITS RULES ARE GRAPHS (the user's ruling of 7 Oct 2026). What happens when the lender's
+    /// day to send comes, when they catch her, when she answers them, and when they give up is the graph
+    /// "Encounter - the lender's men" (on the '--- GAME ---' object; its nodes are in Code/Graphs/GoonNodes.cs): each
+    /// is an event there, and what follows is a row of small parts (<see cref="Cools"/>, <see cref="SetsOut"/>,
+    /// <see cref="TheirCard"/>, <see cref="Takes"/> and the rest, below). Where no graph listens the same parts are
+    /// run in the same order from here (<see cref="AnsweredInCode"/>). What they come for, what they do when given
+    /// nothing, and how easy a way round them is are rule graphs (GameRules; Game/Graphs/Rules). What stays here is
+    /// their boat: sailing the lanes, asking round a quay, seeing her, rowing for her.
     /// </summary>
     public static class Collectors
     {
@@ -203,8 +212,64 @@ namespace Kapman.Game
         static readonly HashSet<string> toldAt = new HashSet<string>(StringComparer.Ordinal);
         static int next;
         static double outSince, until, debtMark = double.NaN, blindUntil, unseenHours;
-        static bool offered, sightTold, sendingTold, known;
+        static bool offered, sightTold, sendingTold, known, cardWanted;
         static string lastPort = "", bound = "";
+
+        // ------------------------------------------------------------------ THE MEETING IS A FLOW
+
+        /// <summary>Set by the graphs' side (Kapman.Graphs): runs the graph's flow for a moment of theirs ("due",
+        /// "caught", "answered", "gave_up") and returns true; false where no graph listens for that moment (the code
+        /// then runs the same parts itself).</summary>
+        public static Func<string, bool> Flow;
+        /// <summary>How many of their moments a graph has run since the game began, and how many the code ran itself.</summary>
+        public static int ByGraph { get; private set; }
+        public static int ByCode { get; private set; }
+        /// <summary>WHAT THE MOMENT THAT IS ON IS ABOUT (the graph's events read these). The lender's day to send: has she
+        /// paid a pound or more on the stick since the last time?</summary>
+        public static bool PaidLately { get; private set; }
+        /// <summary>They are answered: how ("paid", "paid_well", "done", "cargo", "astray", "drunk", "poured", "shaken",
+        /// "routed", "fooled", "nothing"); the way round them that worked, for "fooled" ("hide", "plead" ...); and
+        /// whether nothing is given after a way round them has just failed.</summary>
+        public static string Answer { get; private set; } = "";
+        public static string Trick { get; private set; } = "";
+        public static bool Angry { get; private set; }
+        /// <summary>They give up: why ("days": their days are out; "nobody": no quay knows where she is; "astray": they
+        /// were sent the wrong way and have found it out).</summary>
+        public static string Why { get; private set; } = "";
+        /// <summary>Given nothing, what they do (<see cref="GivenNothing"/>: 0 they only talk, 1 they take what they came
+        /// for, 2 and beat a man, 3 and kill a man, 4 and kill Ravn); and whether, taking, they got nothing.</summary>
+        public static int WhatTheyDo { get; private set; }
+        public static bool GotNothing { get; private set; }
+
+        static readonly List<string> said = new List<string>();
+        static Teeth pending;
+
+        /// <summary>A moment of theirs: the graph's flow where one listens; false where the code is to run the parts.</summary>
+        static bool Fire(string moment)
+        {
+            bool byGraph = false;
+            try
+            {
+                byGraph = Flow != null && Flow(moment);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Kapman, the lender's men: the graph's flow for \"" + moment + "\" failed (" + e.Message + ").");
+                byGraph = true;                                          // (it ran, in part: the code's own parts on top of that would do things twice)
+            }
+            if (byGraph)
+                ByGraph++;
+            else
+                ByCode++;
+            return byGraph;
+        }
+
+        /// <summary>What a part has to say of what happened: a plain fact for the card's end.</summary>
+        static void Say(string fact)
+        {
+            if (!string.IsNullOrEmpty(fact))
+                said.Add(fact);
+        }
 
         /// <summary>How many times a way round them has fooled them.</summary>
         public static int Used(string trick) => trick != null && used.TryGetValue(trick, out int n) ? n : 0;
@@ -318,16 +383,19 @@ namespace Kapman.Game
             }
             if (double.IsNaN(debtMark))
                 debtMark = Trade.Debt;
-            // a sending falls due
+            // a sending falls due (a moment of the flow: "On the lender's day to send comes")
             if (Due(r, day, Sent, Out))
             {
                 Sent++;
-                bool paid = debtMark - Trade.Debt >= r.paidLatelyD - 0.5;
+                PaidLately = debtMark - Trade.Debt >= r.paidLatelyD - 0.5;
                 debtMark = Trade.Debt;
-                if (paid)
-                    Cool(1.0);                                           // (he has had something of his own: he sends nobody)
-                else
-                    SetOut(day);
+                if (!Fire("due"))
+                {
+                    if (PaidLately)
+                        Cools(1.0);                                      // (he has had something of his own: he sends nobody)
+                    else
+                        SetsOut();
+                }
             }
             PortTalk(lying, day);
             if (State == GoonState.Home)
@@ -337,10 +405,7 @@ namespace Kapman.Game
             }
             // their days are out: home with nothing
             if (State != GoonState.Homing && !Caught && Visit >= 1 && Visit <= r.sendings.Count && day - outSince > r.sendings[Visit - 1].daysOut)
-            {
-                Heat(1.0);
-                GoHome();
-            }
+                GiveUp("days");
             switch (State)
             {
                 case GoonState.Sailing:
@@ -368,7 +433,7 @@ namespace Kapman.Game
                 case GoonState.Quay:
                     if (lying != InPort && !CardUp())
                         Follow(now);                                      // (she slipped her lines before they had their say)
-                    else
+                    else if (cardWanted)
                         Offer();
                     break;
                 case GoonState.Alongside:
@@ -379,7 +444,8 @@ namespace Kapman.Game
                         State = GoonState.Quay;
                         offered = false;
                     }
-                    Offer();
+                    if (cardWanted)
+                        Offer();
                     break;
                 case GoonState.Sleeping:
                     if (now >= until)
@@ -476,8 +542,7 @@ namespace Kapman.Game
             {
                 // nobody there has seen her: they know they were sent the wrong way, and go home to say so
                 asked.Add((InPort, day, r.home));
-                Heat(1.0);
-                GoHome();
+                GiveUp("astray");
                 return;
             }
             if (lying.Length > 0 && lying == InPort)
@@ -510,7 +575,16 @@ namespace Kapman.Game
             // nobody knows: they wait a few days for word of her, then go home
             if (now - until < r.waitDays * 24.0)
                 return;
-            Heat(1.0);
+            GiveUp("nobody");
+        }
+
+        /// <summary>THEY GIVE UP, and go home with nothing (a moment of the flow: "On the lender's men give up"; `why` is
+        /// "days", "nobody" or "astray"). What the lender makes of it is the flow's; that they go home is not.</summary>
+        static void GiveUp(string why)
+        {
+            Why = why;
+            if (!Fire("gave_up"))
+                Heats(1.0);
             GoHome();
         }
 
@@ -526,7 +600,7 @@ namespace Kapman.Game
         static void GoHome()
         {
             var r = Rules;
-            offered = false;
+            offered = cardWanted = false;
             Unqueue();
             if (State == GoonState.Home || Visit < 1)
             {
@@ -568,7 +642,7 @@ namespace Kapman.Game
             InPort = "";
             InSight = false;
             line.Clear();
-            offered = false;
+            offered = cardWanted = false;
             Version++;
         }
 
@@ -622,7 +696,7 @@ namespace Kapman.Game
         /// <summary>She is gone from them: they make for the port the word of her leads to, or go home if there is none.</summary>
         static void Follow(double now)
         {
-            offered = false;
+            offered = cardWanted = false;
             string word = LastWord();
             if (word.Length == 0)
                 word = bound;
@@ -635,15 +709,18 @@ namespace Kapman.Game
             GoHome();
         }
 
+        /// <summary>THEY HAVE CAUGHT HER, made fast at a quay or alongside at sea (a moment of the flow: "On the lender's
+        /// men catch her").</summary>
         static void Catch(GoonState how)
         {
             State = how;
-            offered = false;
+            offered = cardWanted = false;
             Met = true;
             known = true;
             line.Clear();
             Version++;
-            Offer();
+            if (!Fire("caught"))
+                TheirCard();
         }
 
         static bool CardUp()
@@ -841,102 +918,343 @@ namespace Kapman.Game
         /// </summary>
         public static string Law(string kind)
         {
+            offered = cardWanted = false;
+            said.Clear();
+            string answer = kind != null && kind.StartsWith("goons_", StringComparison.Ordinal) ? kind.Substring("goons_".Length) : kind ?? "";
+            Trick = "";
+            Angry = false;
+            if (answer == "teeth" || answer == "teeth_angry")
+            {
+                Angry = answer == "teeth_angry";
+                answer = "nothing";
+            }
+            else if (answer.StartsWith("fooled_", StringComparison.Ordinal))
+            {
+                Trick = answer.Substring("fooled_".Length);
+                answer = "fooled";
+            }
+            Answer = answer;
+            // (a moment of the flow: "On the lender's men are answered")
+            if (!Fire("answered"))
+                AnsweredInCode();
+            return said.Count > 0 ? string.Join(" ", said) : null;
+        }
+
+        /// <summary>WHAT EACH ANSWER DOES, where no graph does it: the same parts in the same order as the graph
+        /// "Encounter - the lender's men" has them as first made (a test holds the two alike).</summary>
+        static void AnsweredInCode()
+        {
+            switch (Answer)
+            {
+                case "paid":
+                    Cools(1.0);
+                    Paid(1);
+                    GoesHome();
+                    break;
+                case "paid_well":
+                    Cools(2.0);
+                    Paid(2);
+                    GoesHome();
+                    break;
+                case "done":
+                    Content();
+                    CalledOff();
+                    break;
+                case "cargo":
+                    CargoForAnInstalment();
+                    GoesHome();
+                    break;
+                case "astray":
+                    Tricked("lie");
+                    if (!RowsOffAstray())
+                    {
+                        Heats(1.0);
+                        GoesHome();
+                    }
+                    break;
+                case "drunk":
+                    CaskGone();
+                    Tricked("drink");
+                    Sleeps();
+                    break;
+                case "poured":
+                    CaskGone();
+                    break;
+                case "shaken":
+                    Tricked("run");
+                    LosesHer();
+                    break;
+                case "routed":
+                    // (she has killed the one of them who killed Ravn: the rest go home to say so, and he is the angrier)
+                    Heats(1.0);
+                    GoesHome();
+                    break;
+                case "fooled":
+                    Tricked(Trick);
+                    Heats(1.0);
+                    GoesHome();
+                    break;
+                case "nothing":
+                {
+                    int does = GivenNothing(Angry);
+                    if (does <= 0)
+                    {
+                        OnlyTalk();
+                        Heats(1.0);
+                        GoesHome();
+                        break;
+                    }
+                    Takes();
+                    if (does == 2)
+                        BeatsAMan();
+                    else if (does == 3)
+                        KillsAMan();
+                    else if (does >= 4)
+                        KillsRavn();
+                    if (GotNothing)
+                        Heats(1.0);
+                    GoesHome();
+                    break;
+                }
+            }
+        }
+
+        // ------------------------------------------------------------------ THE PARTS (each a node of the graph)
+
+        /// <summary>The lender's temper falls by so much (she has paid him something).</summary>
+        public static void Cools(double by) => Heat(-Math.Abs(by));
+
+        /// <summary>The lender is the angrier by so much (his men are home with nothing, or made fools of).</summary>
+        public static void Heats(double by) => Heat(Math.Abs(by));
+
+        /// <summary>The lender has all of it: his temper is spent, and nothing is counted against her any more.</summary>
+        public static void Content()
+        {
+            Temper = 0.0;
+            Unpaid = 0;
+            Version++;
+        }
+
+        /// <summary>A boat of his men sets out from home, as the sending that has just fallen due (nothing where a boat is
+        /// out already, or no sending has fallen due).</summary>
+        public static void SetsOut()
+        {
+            var game = KapmanGame.Current;
+            if (Out || Sent < 1 || Sent > Rules.sendings.Count)
+                return;
+            SetOut(game != null ? game.Day : 0.0);
+        }
+
+        /// <summary>Their card comes (the quay's, or the one alongside at sea): put first in line now, and asked for again
+        /// each minute while they stand there, until it can come. Nothing where they have not caught her.</summary>
+        public static void TheirCard()
+        {
+            if (!Caught)
+                return;
+            cardWanted = true;
+            Offer();
+        }
+
+        /// <summary>They go home to the lender, by the lanes, with what they got or with nothing.</summary>
+        public static void GoesHome() => GoHome();
+
+        /// <summary>The sending is called off for good: nobody is out.</summary>
+        public static void CalledOff() => Recall();
+
+        /// <summary>She has paid on the stick of her own will: so many of the visits that ended with nothing are forgiven
+        /// her, and the stick is read afresh (what she has paid "lately" is counted from now).</summary>
+        public static void Paid(int visits)
+        {
+            Unpaid = Math.Max(0, Unpaid - Math.Max(0, visits));
+            debtMark = Trade.Debt;
+            Version++;
+        }
+
+        /// <summary>A way round them has worked ("hide", "lie", "drink", "plead", "run"): it is counted (harder the next
+        /// time), she has made fools of them, and they went away with nothing.</summary>
+        public static void Tricked(string trick)
+        {
+            if (!string.IsNullOrEmpty(trick))
+                Count(trick);
+        }
+
+        /// <summary>She gives cargo for an instalment, at their price: the dearest lots first, counted on the stick.</summary>
+        public static void CargoForAnInstalment()
+        {
             var r = Rules;
+            if (!Trade.Started)
+                return;
+            string what = TakeCargo(r.instalmentD / Math.Max(0.05, r.cargoPrice), out double taken);
+            double counted = Math.Min(Trade.Debt, Math.Round(taken * r.cargoPrice));
+            Trade.Debt = Math.Max(0.0, Trade.Debt - counted);
+            debtMark = Trade.Debt;
+            if (counted > 0.5)
+                Unpaid = Math.Max(0, Unpaid - 1);
+            Say(what.Length == 0 ? "There was nothing in the hold they would carry." : $"They carry off {what}, which goes on the stick as {Show(counted)}. Still owed: {Show(Trade.Debt)}.");
+        }
+
+        /// <summary>Sent the wrong way, they row off for a port far from her. False: the lanes lead to no such port from
+        /// where they are (they go off to look for it, and that is said).</summary>
+        public static bool RowsOffAstray()
+        {
+            if (!Out)
+                return true;
+            string far = FarPort();
+            if (far.Length > 0 && Lay(far))
+            {
+                State = GoonState.Astray;
+                Version++;
+                Say($"They row off for {PortName(far)}.");
+                return true;
+            }
+            Say("They go off to look for him.");
+            return false;
+        }
+
+        /// <summary>The cheapest cask of drink aboard is gone (drunk by them, or poured out for nothing).</summary>
+        public static void CaskGone()
+        {
+            var cask = Drink();
+            if (cask == null)
+                return;
+            Trade.Hold.Remove(cask, 1);
+            Say($"{Cap(Trade.UnitsNamed(cask, 1))} is gone.");
+        }
+
+        /// <summary>They sleep, under her thwarts or on the quay, for so many hours (the table's sleepHours).</summary>
+        public static void Sleeps()
+        {
+            if (!Out)
+                return;
+            var game = KapmanGame.Current;
+            if (State == GoonState.Alongside)
+                InPort = "";
+            State = GoonState.Sleeping;
+            until = (game != null ? game.Hours : 0.0) + Rules.sleepHours;
+            Version++;
+            Say("They sleep.");
+        }
+
+        /// <summary>She has run from them at sea: they lose her for some hours (the table's blindHours), and go where the
+        /// word of her leads.</summary>
+        public static void LosesHer()
+        {
+            if (!Out)
+                return;
             var game = KapmanGame.Current;
             double now = game != null ? game.Hours : 0.0;
-            offered = false;
-            switch (kind)
+            blindUntil = now + Rules.blindHours;
+            Follow(now);
+        }
+
+        /// <summary>SHE GIVES THEM NOTHING (`angry`: after a way round them has just failed). The visit is counted as one
+        /// that ended with nothing paid, and what they do is reckoned by its two rules (GameRules.Instalment,
+        /// GameRules.GoonsDo): 0 they only talk, 1 they take what they came for, 2 and beat a man, 3 and kill a man,
+        /// 4 and kill Ravn. Nothing is done yet: the parts that follow do it.</summary>
+        public static int GivenNothing(bool angry)
+        {
+            var r = Rules;
+            var rules = TradeRules.Current;
+            var game = KapmanGame.Current;
+            double silver = Trade.Started ? Trade.Purse.Silver(rules) : 0.0, cargo = CargoValue();
+            int seed = game != null && game.World != null ? game.World.seed : 793;
+            Unpaid++;
+            pending = Bite(r, Temper, angry, silver + cargo, Voyage.Men, SimRandom.For(seed, "goons.kill." + Sent).Next(), Unpaid, !RavnGone);
+            GotNothing = false;
+            WhatTheyDo = pending.warned ? 0 : pending.ravn ? 4 : pending.kill ? 3 : pending.beat ? 2 : 1;
+            Version++;
+            return WhatTheyDo;
+        }
+
+        /// <summary>They only talk: they say what he told them to say, and stand about.</summary>
+        public static void OnlyTalk() =>
+            Say("They tell you what he told them to say, as far as they can remember it, and then they stand about, not sure what comes next, until Bubo leads them away.");
+
+        /// <summary>They take what they came for (reckoned by <see cref="GivenNothing"/>; an instalment where it was
+        /// not): silver first, then cargo for the rest; a share of it is for their trouble, and the rest is counted
+        /// on the stick. <see cref="GotNothing"/> says whether there was anything.</summary>
+        public static void Takes()
+        {
+            var r = Rules;
+            var rules = TradeRules.Current;
+            double want = pending.want > 0.5 ? pending.want : GameRules.Instalment(Temper, r.instalmentD, r.moreByTemper);
+            double silver = Trade.Started ? Trade.Purse.Silver(rules) : 0.0;
+            // silver first, then cargo for the rest; a share of it is for their trouble
+            double got = 0.0, counted = 0.0;
+            double s = Trade.Started ? Trade.Purse.PayUpTo(Math.Min(silver, want), rules) : 0.0;
+            if (s > 0.0)
             {
-                case "goons_paid":
-                    Cool(1.0);
-                    Unpaid = Math.Max(0, Unpaid - 1);
-                    debtMark = Trade.Debt;
-                    GoHome();
-                    return null;
-                case "goons_paid_well":
-                    Cool(2.0);
-                    Unpaid = Math.Max(0, Unpaid - 2);
-                    debtMark = Trade.Debt;
-                    GoHome();
-                    return null;
-                case "goons_done":
-                    Temper = 0.0;
-                    Unpaid = 0;
-                    Recall();
-                    return null;
-                case "goons_cargo":
-                {
-                    string what = TakeCargo(r.instalmentD / Math.Max(0.05, r.cargoPrice), out double taken);
-                    double counted = Math.Min(Trade.Debt, Math.Round(taken * r.cargoPrice));
-                    Trade.Debt = Math.Max(0.0, Trade.Debt - counted);
-                    debtMark = Trade.Debt;
-                    if (counted > 0.5)
-                        Unpaid = Math.Max(0, Unpaid - 1);
-                    GoHome();
-                    return what.Length == 0 ? "There was nothing in the hold they would carry." : $"They carry off {what}, which goes on the stick as {Show(counted)}. Still owed: {Show(Trade.Debt)}.";
-                }
-                case "goons_astray":
-                {
-                    Count("lie");
-                    if (!Out)
-                        return null;
-                    string far = FarPort();
-                    if (far.Length > 0 && Lay(far))
-                    {
-                        State = GoonState.Astray;
-                        Version++;
-                        return $"They row off for {PortName(far)}.";
-                    }
-                    Heat(1.0);
-                    GoHome();
-                    return "They go off to look for him.";
-                }
-                case "goons_drunk":
-                case "goons_poured":
-                {
-                    var cask = Drink();
-                    string gone = "";
-                    if (cask != null)
-                    {
-                        Trade.Hold.Remove(cask, 1);
-                        gone = $"{Cap(Trade.UnitsNamed(cask, 1))} is gone. ";
-                    }
-                    if (kind == "goons_poured")
-                        return gone.Trim();
-                    Count("drink");
-                    if (!Out)
-                        return gone.Trim();
-                    if (State == GoonState.Alongside)
-                        InPort = "";
-                    State = GoonState.Sleeping;
-                    until = now + r.sleepHours;
-                    Version++;
-                    return (gone + "They sleep.").Trim();
-                }
-                case "goons_shaken":
-                    Count("run");
-                    if (!Out)
-                        return null;
-                    blindUntil = now + r.blindHours;
-                    Follow(now);
-                    return null;
-                case "goons_routed":
-                    // (she has killed the one of them who killed Ravn: the rest go home to say so, and he is the angrier)
-                    Heat(1.0);
-                    GoHome();
-                    return null;
-                case "goons_teeth":
-                case "goons_teeth_angry":
-                    return Bitten(kind == "goons_teeth_angry");
+                got += s;
+                double on = Math.Round(s * (1.0 - r.troubleShare));
+                counted += on;
+                Say($"They turn out the purse and take {Show(s)}, of which {Show(on)} goes on the stick and the rest is for their trouble.");
             }
-            if (kind.StartsWith("goons_fooled_", StringComparison.Ordinal))
+            if (got < want - 0.5 && Trade.Started)
             {
-                Count(kind.Substring("goons_fooled_".Length));
-                Heat(1.0);
-                GoHome();
-                return null;
+                string what = TakeCargo(want - got, out double taken);
+                if (what.Length > 0)
+                {
+                    got += taken;
+                    double on = Math.Round(taken * r.cargoPrice * (1.0 - r.troubleShare));
+                    counted += on;
+                    Say($"They carry off {what}, and count it as {Show(on)} on the stick.");
+                }
             }
-            return null;
+            counted = Math.Min(Trade.Debt, counted);
+            Trade.Debt = Math.Max(0.0, Trade.Debt - counted);
+            if (got <= 0.5)
+                Say("They turn out the purse and the hold, and there is nothing in either worth carrying.");
+            // (what is still owed is said before what they do to a man: the card's end closes on him)
+            if (counted > 0.5)
+                Say($"Still owed: {Show(Trade.Debt)}.");
+            GotNothing = got <= 0.5;
+            debtMark = Trade.Debt;
+            pending.want = 0.0;
+            Version++;
+        }
+
+        /// <summary>One of them beats the nearest of her men with the rope's end.</summary>
+        public static void BeatsAMan()
+        {
+            Voyage.Affect(-0.12, -0.08);
+            Say("One of them beats the nearest of your men with the rope's end until the other tells him that is enough.");
+        }
+
+        /// <summary>One of them kills the nearest of her men (never the last man aboard).</summary>
+        public static void KillsAMan()
+        {
+            if (Voyage.Men <= 1)
+                return;
+            int lost = Voyage.LoseMen(1);
+            if (lost > 0)
+            {
+                Voyage.Affect(0.0, -0.15);
+                Say("Then one of them puts his knife in the nearest of your men, as carelessly as a man kicks a dog on his way out, and the man is dead before he reaches the planks.");
+            }
+        }
+
+        /// <summary>They kill Ravn (never when he is her last man, and not twice). The cards' engine keeps that he is dead;
+        /// his death has a scene of its own, played when their card is shut (Voyage/Feud.cs), and this card's end
+        /// only turns to him.</summary>
+        public static void KillsRavn()
+        {
+            var r = Rules;
+            if (RavnGone || Voyage.Men <= 1)
+                return;
+            // (the cards' engine keeps who of the standing cast is dead: he speaks no more, and a card that leans
+            // on him does not come)
+            ContentFlags.Set(EncounterState.GoneFlag(r.ravnCast));
+            Voyage.LoseMen(1);
+            // HIS DEATH HAS A SCENE OF ITS OWN (the user, 9 Oct 2026: "Ravn needs an impactful death scene as genuine
+            // punishment for not repaying the debt"). With that rule off he dies in a sentence, as any man does.
+            string lying = Port.LyingId();
+            if (Feud.RavnKilled(lying == null, lying ?? ""))
+                Say("Then the one with the rope looks at Ravn.");
+            else
+            {
+                Voyage.Affect(0.0, -0.2);
+                Say("Then one of them puts his knife in Ravn, as carelessly as a man kicks a dog on his way out, and Ravn is dead before he reaches the planks.");
+            }
         }
 
         /// <summary>A way round them has worked: it is counted (harder next time), and she has made fools of them.</summary>
@@ -968,90 +1286,6 @@ namespace Kapman.Game
                 best = def.id;
             }
             return best;
-        }
-
-        /// <summary>She gave them nothing (or made fools of them and was found out): what they do, done.</summary>
-        static string Bitten(bool fooled)
-        {
-            var r = Rules;
-            var rules = TradeRules.Current;
-            var game = KapmanGame.Current;
-            double silver = Trade.Started ? Trade.Purse.Silver(rules) : 0.0, cargo = CargoValue();
-            int seed = game != null && game.World != null ? game.World.seed : 793;
-            Unpaid++;
-            var bite = Bite(r, Temper, fooled, silver + cargo, Voyage.Men, SimRandom.For(seed, "goons.kill." + Sent).Next(), Unpaid, !RavnGone);
-            var said = new List<string>();
-            if (bite.warned)
-            {
-                Heat(1.0);
-                GoHome();
-                return "They tell you what he told them to say, as far as they can remember it, and then they stand about, not sure what comes next, until Bubo leads them away.";
-            }
-            // silver first, then cargo for the rest; a share of it is for their trouble
-            double got = 0.0, counted = 0.0;
-            double s = Trade.Started ? Trade.Purse.PayUpTo(Math.Min(silver, bite.want), rules) : 0.0;
-            if (s > 0.0)
-            {
-                got += s;
-                double on = Math.Round(s * (1.0 - r.troubleShare));
-                counted += on;
-                said.Add($"They turn out the purse and take {Show(s)}, of which {Show(on)} goes on the stick and the rest is for their trouble.");
-            }
-            if (got < bite.want - 0.5)
-            {
-                string what = TakeCargo(bite.want - got, out double taken);
-                if (what.Length > 0)
-                {
-                    got += taken;
-                    double on = Math.Round(taken * r.cargoPrice * (1.0 - r.troubleShare));
-                    counted += on;
-                    said.Add($"They carry off {what}, and count it as {Show(on)} on the stick.");
-                }
-            }
-            counted = Math.Min(Trade.Debt, counted);
-            Trade.Debt = Math.Max(0.0, Trade.Debt - counted);
-            if (got <= 0.5)
-                said.Add("They turn out the purse and the hold, and there is nothing in either worth carrying.");
-            // (what is still owed is said before what they do to a man: the card's end closes on him)
-            if (counted > 0.5)
-                said.Add($"Still owed: {Show(Trade.Debt)}.");
-            if (bite.ravn)
-            {
-                // (the cards' engine keeps who of the standing cast is dead: he speaks no more, and a card that leans
-                // on him does not come)
-                ContentFlags.Set(EncounterState.GoneFlag(r.ravnCast));
-                Voyage.LoseMen(1);
-                // HIS DEATH HAS A SCENE OF ITS OWN (the user, 9 Oct 2026: "Ravn needs an impactful death scene as genuine
-                // punishment for not repaying the debt"): this card's end only turns to him, and the scene is played
-                // when the card is shut (Voyage/Feud.cs). With that rule off he dies in a sentence, as any man does.
-                string lying = Port.LyingId();
-                if (Feud.RavnKilled(lying == null, lying ?? ""))
-                    said.Add("Then the one with the rope looks at Ravn.");
-                else
-                {
-                    Voyage.Affect(0.0, -0.2);
-                    said.Add("Then one of them puts his knife in Ravn, as carelessly as a man kicks a dog on his way out, and Ravn is dead before he reaches the planks.");
-                }
-            }
-            else if (bite.kill)
-            {
-                int lost = Voyage.LoseMen(1);
-                if (lost > 0)
-                {
-                    Voyage.Affect(0.0, -0.15);
-                    said.Add("Then one of them puts his knife in the nearest of your men, as carelessly as a man kicks a dog on his way out, and the man is dead before he reaches the planks.");
-                }
-            }
-            else if (bite.beat)
-            {
-                Voyage.Affect(-0.12, -0.08);
-                said.Add("One of them beats the nearest of your men with the rope's end until the other tells him that is enough.");
-            }
-            debtMark = Trade.Debt;
-            if (got <= 0.5)
-                Heat(1.0);
-            GoHome();
-            return string.Join(" ", said);
         }
 
         static string Cap(string s) => string.IsNullOrEmpty(s) ? s : char.ToUpperInvariant(s[0]) + s.Substring(1);
@@ -1151,6 +1385,7 @@ namespace Kapman.Game
             bound = Json.Str(saved, "bound");
             sendingTold = Json.Bool(saved, "sending_told");
             known = Json.Bool(saved, "known");
+            cardWanted = Caught;                                          // (they stand by her: their card is still to come)
             if (Visit < 1 || Visit > Rules.sendings.Count)
             {
                 State = GoonState.Home;                                   // (a table with fewer sendings than the save had)
@@ -1169,7 +1404,12 @@ namespace Kapman.Game
             At = default;
             Target = InPort = lastPort = bound = "";
             offeredAt = 0.0;
-            Met = InSight = offered = sightTold = sendingTold = known = false;
+            Met = InSight = offered = sightTold = sendingTold = known = cardWanted = false;
+            PaidLately = Angry = GotNothing = false;
+            Answer = Trick = Why = "";
+            WhatTheyDo = 0;
+            pending = default;
+            said.Clear();
             used.Clear();
             line.Clear();
             asked.Clear();
@@ -1185,6 +1425,7 @@ namespace Kapman.Game
         public static void Reset()
         {
             own = null;
+            ByGraph = ByCode = 0;
             Forget();
             ContentSave.Register("collectors", Capture, Restore);
         }

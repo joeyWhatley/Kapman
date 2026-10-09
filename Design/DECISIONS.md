@@ -1729,3 +1729,39 @@ and far fewer when usage is short).
    the game's scene names it), FeudTests (play: the scene was run by its graph; a scene told from code still works;
    a scene left standing is lifted; the mark is on the screen, in the box). EditMode 598 (596 pass, 2 skipped);
    PlayMode 33 of 33.
+
+127. **PUT RIGHT, AS ASKED (2): THE MEETING WITH THE LENDER'S MEN IS A FLOW, RUN BY A GRAPH**
+   (the repair of DECISIONS 126 goes on; the ruling is DECISIONS 72.)
+   - THE GRAPH "Encounter - the lender's men" (Game/Graphs), a Script Machine on the '--- GAME ---' object where the
+     game's other graphs are. FOUR MOMENTS of theirs are events in it, and what happens at each is a row of small
+     nodes ("The lender: ...", "The lender's men: ..."):
+       1. On the lender's day to send comes   -> has she paid him lately? he cools : his men set out
+       2. On the lender's men catch her       -> their card comes
+       3. On the lender's men are answered    -> a switch on the answer, a row to each of eleven answers
+            paid, paid_well, done, cargo, astray, drunk, poured, shaken, routed, fooled, nothing
+       4. (nothing) given nothing             -> what they do, by the two rule graphs: they only talk; or take;
+            or take and beat a man; or take and kill one; or take and kill Ravn; home, the lender the angrier
+            if they got nothing
+       5. On the lender's men give up         -> the lender is the angrier
+     So what an answer costs or buys can be changed in the graph: how much he cools for a pound, whether a trick
+     that worked angers him, what follows a refusal.
+   - THE FLOWS RUN AT ONCE: nothing in them waits, so a saved game holds nothing of them and a card's end has what
+     they say ("They carry off two casks of wine ...") the moment it is answered.
+   - THE CODE KEEPS their boat (sailing the lanes, asking round a quay, seeing her, rowing for her: Collectors.Step),
+     and each part the nodes run (Collectors.Cools, SetsOut, TheirCard, Paid, Tricked, GivenNothing, Takes,
+     BeatsAMan, KillsAMan, KillsRavn ...). Where no graph listens it runs the same parts in the same order
+     (Collectors.AnsweredInCode). That they go home when they give up is theirs and not the graph's (a graph that
+     left it out would have them give up every minute).
+   - HELD ALIKE: GoonsFlowEditTests plays the same game twice for each of 28 cases, once by the code's order and
+     once by the graph's flow run straight from its file, and the two must end the same to the last number and
+     word; every rung of what they do is climbed in them; every answer a card can order has its row.
+   - IN PLAY the game goes by the graph and never by the code: GoonsTests counts the moments (Collectors.ByGraph,
+     ByCode) and fails if one was run by the code.
+   - MINE: which things are a part (a node) and which stay inside one; the sizes on the nodes as first made (cools
+     by 1 for a pound, by 2 for two; angrier by 1) are the code's old numbers, unchanged.
+   - A DRAWING OF A GRAPH FROM ITS FILE (G:\kapman_unity\graphpic.py; not Unity's own window): made to check the
+     layouts without opening Unity. It showed long-titled nodes standing shoulder to shoulder, so both new flow
+     graphs were laid out again with more room (GoonsGraphMade.Remake, SceneGraphMade.Remake: only for a graph
+     nobody has changed by hand).
+   Tests: GoonsFlowEditTests (3), GoonsTests and FeudTests (play, by the graph). EditMode 601 (599 pass, 2 skipped);
+   PlayMode 33 of 33.

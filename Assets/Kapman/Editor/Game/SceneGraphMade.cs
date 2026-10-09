@@ -24,7 +24,7 @@ namespace Kapman.EditorTools
             var g = new GraphBuilder("Scene - Ravn is killed",
                 "The lender's men have killed Ravn and their card is shut: his scene, part by part and line by line, left to right. " +
                 "Each node is a part of the show (Code/Game/UI/Showtime.cs); the words of each line are in the writing, by the line's key.");
-            const float step = 340f, rowHeight = 420f;
+            const float step = 440f, rowHeight = 420f;
             // (two rows: up to the hit and its own line; then what follows)
             int turn = beats.FindIndex(b => b.hit);
             turn = turn >= 0 ? turn + 1 : (beats.Count + 1) / 2;
@@ -32,7 +32,7 @@ namespace Kapman.EditorTools
             ControlOutput from;
             var on = g.Add(new OnRavnIsKilled { coroutine = true }, x, y);
             from = on.trigger;
-            x += 300f;
+            x += 340f;
             var up = g.Add(new SceneThePurpleComesUp(), x, y);
             g.Flow(from, up.enter);
             from = up.exit;
@@ -43,7 +43,7 @@ namespace Kapman.EditorTools
                 if (i == turn)
                 {
                     widest = Mathf.Max(widest, x);
-                    x = 300f;
+                    x = 340f;
                     y += rowHeight;
                 }
                 var beat = beats[i];
@@ -52,7 +52,7 @@ namespace Kapman.EditorTools
                     var struck = g.Add(new SceneTheScreenIsStruck(), x, y);
                     g.Flow(from, struck.enter);
                     from = struck.exit;
-                    x += 280f;
+                    x += 360f;
                 }
                 var line = g.Add(new SceneSayALine(), x, y);
                 g.Flow(from, line.enter);
@@ -95,6 +95,22 @@ namespace Kapman.EditorTools
                 "Where no graph listens for his death (a batch run, a scene without this machine) the same parts are run from code, staged by the table " +
                 "(Game/Data/feud_rules_793.json, \"scene\"): keep the two alike.");
             return g.Save(Path);
+        }
+
+        /// <summary>Makes the graph again OVER the one that is there (into the same asset, so the machine that runs it keeps
+        /// it). Only for a graph nobody has changed by hand: what was changed in the graph window is lost.
+        /// Batch: -executeMethod Kapman.EditorTools.SceneGraphMade.Remake</summary>
+        public static void Remake()
+        {
+            GraphBuilder.ReplaceExisting = true;
+            try
+            {
+                Make();
+            }
+            finally
+            {
+                GraphBuilder.ReplaceExisting = false;
+            }
         }
 
         [MenuItem("Kapman/Make physical/3c. The graph of Ravn's scene")]
