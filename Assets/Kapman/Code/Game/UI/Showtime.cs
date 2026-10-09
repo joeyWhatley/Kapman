@@ -487,6 +487,7 @@ namespace Kapman.Game
             // (Ravn's death has a scene of its own, begun when the card of the rope men is shut: Voyage/Feud.cs)
             if (busy == 0 && !armed && !before)
                 Feud.Tick();
+            SceneWatch();
             // the backdrop is drawn only while it is seen, a dozen times a second (a console's pace)
             if (backdrop.resolvedStyle.display != DisplayStyle.None && Time.unscaledTime >= purpleNext)
             {
@@ -916,13 +917,16 @@ namespace Kapman.Game
         /// </summary>
         public static void Scene(IReadOnlyList<ToldLine> lines, string big, string small, Action done)
         {
-            if (Current == null || !On || Current.over == null || Current.busy > 0)
+            if (!CanTell)
             {
                 done?.Invoke();
                 return;
             }
             Current.StartCoroutine(Current.Told(lines, big, small, done));
         }
+
+        /// <summary>Can a scene be told now: the show is on, its screen is laid out, and no other part of it is on.</summary>
+        public static bool CanTell => Current != null && On && Current.over != null && Current.busy == 0;
 
         /// <summary>A scene is being told now (the music dies away for it).</summary>
         public static bool Telling => Current != null && Current.Stage == "scene";
@@ -997,12 +1001,77 @@ namespace Kapman.Game
 
         const string SceneHold = "scene";
 
-        IEnumerator Told(IReadOnlyList<ToldLine> lines, string big, string small, Action done)
+        // ------------------------------------------------------------------ A SCENE IS A FLOW
+        // (The user's ruling of 7 Oct 2026: flows are graphs; and on 9 Oct, of that day's work: "Btw is this all being
+        // built like I asked".) A scene told on the purple was one long sequence here. It is cut into its parts, each
+        // a thing that happens: the purple comes up; somebody says a line; the screen is struck; the name's card; the
+        // purple lifts. A GRAPH runs them: "Scene - Ravn is killed", on this object (its nodes are in
+        // Code/Graphs/SceneNodes.cs). Open the graph to read the scene left to right, to put a wait or a sound
+        // between two lines, to move the hit, or to leave a line out. Where no graph listens for it, the same parts
+        // are run in the same order from here (Told), staged by a table (feud_rules_793.json, "scene").
+        // Two things reach across the parts: the purple coming up takes the game in hand (the clock held, the keys
+        // the show's) and its lifting gives it back; and a line that breaks off leaves its last letters standing for
+        // what follows it.
+
+        /// <summary>How many scenes this run of the game has begun to tell.</summary>
+        public int ScenesTold { get; private set; }
+        /// <summary>Seconds a scene may stand with none of its parts running before the purple lifts by itself: a graph
+        /// that ends without "Scene: the purple lifts" would hold the game for ever.</summary>
+        public static float SceneIdleMost = 12f;
+
+        bool sceneOpen, sceneClosing, sceneBrokeOff, sceneCleared, sceneCardUp;
+        int sceneParts, sceneCount;
+        float sceneIdle;
+
+        /// <summary>A part of a scene, counted while it runs (a scene standing with none is lifted: SceneWatch).</summary>
+        IEnumerator ScenePart(IEnumerator part)
         {
+            sceneParts++;
+            try
+            {
+                yield return part;
+            }
+            finally
+            {
+                sceneParts--;
+            }
+        }
+
+        /// <summary>A scene left standing with none of its parts running (its graph ended without lifting the purple):
+        /// after a while the purple is lifted for it, and that is said in the Console.</summary>
+        void SceneWatch()
+        {
+            if (!sceneOpen || sceneParts > 0)
+            {
+                sceneIdle = 0f;
+                return;
+            }
+            sceneIdle += Time.unscaledDeltaTime;
+            if (sceneIdle < SceneIdleMost)
+                return;
+            sceneIdle = 0f;
+            Debug.LogWarning("Kapman show: a scene stood " + SceneIdleMost.ToString("0") + " seconds with none of its parts running, so the purple is lifted for it. " +
+                             "Does its graph end without \"Scene: the purple lifts\"?");
+            StartCoroutine(SceneCloses());
+        }
+
+        /// <summary>THE PURPLE COMES UP: the game is taken in hand (the clock held, the keys the show's, the music dying
+        /// away), the purple of the opening comes up over the whole screen, and it stands empty a moment. Nothing is
+        /// done where the show is off or another part of it is on.</summary>
+        public IEnumerator SceneOpens() => ScenePart(Opens());
+
+        IEnumerator Opens()
+        {
+            if (sceneOpen || !On || over == null || busy > 0)
+                yield break;
+            sceneOpen = true;
+            ScenesTold++;
             busy++;
             Stage = "scene";
             UiFocus.Take(this, false);
             GameSpeed.Hold(SceneHold);
+            sceneCount = 0;
+            sceneBrokeOff = sceneCleared = sceneCardUp = sceneClosing = false;
             Show(veil, 0f);                                              // (a click anywhere goes on, and none falls through to the game)
             // (the purple of the opening comes up over the game: its bands are drawn while it is seen, Update)
             Show(backdrop, 0f);
@@ -1010,103 +1079,170 @@ namespace Kapman.Game
             yield return Wait(SceneDark);
             sceneWords.text = "";
             sceneGo.style.visibility = Visibility.Hidden;
-            for (int i = 0; lines != null && i < lines.Count; i++)
+        }
+
+        /// <summary>SOMEBODY SAYS A LINE, in the one box of talk at the foot of the screen: over it the face and the name
+        /// of whoever speaks (nobody, for the teller), in it a sentence or two at a time, said a letter at a time, and
+        /// Enter or a click brings the next box. A line that BREAKS OFF (ToldLine.cut) is said to its last letter and
+        /// nobody is waited for. A HIT (ToldLine.hit, or the screen struck just before it: SceneStrikes) comes whole
+        /// at once under the red. With the purple not up yet, it comes up first.</summary>
+        public IEnumerator SceneSays(ToldLine line) => ScenePart(Says(line));
+
+        IEnumerator Says(ToldLine line)
+        {
+            if (line == null || string.IsNullOrEmpty(line.text))
+                yield break;
+            if (!sceneOpen)
+                yield return Opens();
+            if (!sceneOpen || sceneClosing)
+                yield break;
+            // (a hit begun just before this line, by its own part of a graph, is this line's)
+            bool struck = line.hit || SceneStruck;
+            if (sceneBrokeOff && !struck)
             {
-                var line = lines[i];
-                if (line == null || string.IsNullOrEmpty(line.text))
-                    continue;
-                // who speaks: the face and the name over the box; the teller has neither, and no balloon round the words
-                bool teller = string.IsNullOrEmpty(line.who);
-                sceneBox.EnableInClassList("teller", teller);
-                sceneSpeaker.style.visibility = teller ? Visibility.Hidden : Visibility.Visible;
-                if (!teller)
+                // (the line before broke off, and nothing struck: its last letters go, and the purple stands empty a moment)
+                Hide(scene);
+                SceneText = "";
+                yield return Wait(SceneCutDark);
+            }
+            sceneBrokeOff = sceneCleared = false;
+            clicked = false;
+            sceneCount++;
+            // who speaks: the face and the name over the box; the teller has neither, and no balloon round the words
+            bool teller = string.IsNullOrEmpty(line.who);
+            sceneBox.EnableInClassList("teller", teller);
+            sceneSpeaker.style.visibility = teller ? Visibility.Hidden : Visibility.Visible;
+            if (!teller)
+            {
+                sceneFace.Who = line.face.Length > 0 ? line.face : line.who;
+                if (line.slot.Length > 0)
+                    sceneFace.Slot = line.slot;
+                sceneWho.text = line.who;
+            }
+            var boxes = TextReveal.Pages(line.text, TextReveal.PageChars);
+            for (int b = 0; b < boxes.Count; b++)
+            {
+                bool breaksOff = line.cut && b == boxes.Count - 1, hit = struck && b == 0;
+                SceneLine = sceneCount;
+                SceneBox = b + 1;
+                SceneWaits = false;
+                SceneText = boxes[b];
+                SceneWho = line.who ?? "";
+                sceneWords.text = boxes[b];
+                Show(scene);
+                // (a hit: red, and the picture shaken, as this line comes up)
+                if (hit && !SceneStruck)
+                    StartCoroutine(Struck());
+                var reveal = new TextReveal();
+                reveal.Add(sceneWords);
+                reveal.StartAt(0);
+                // (a hit's own words stand whole at once, under the red: they are read as the screen is struck)
+                if (hit)
+                    reveal.Finish();
+                clicked = false;
+                yield return null;
+                // (and nothing is gone on from while the screen is still being struck)
+                while (hit && SceneStruck)
                 {
-                    sceneFace.Who = line.face.Length > 0 ? line.face : line.who;
-                    if (line.slot.Length > 0)
-                        sceneFace.Slot = line.slot;
-                    sceneWho.text = line.who;
-                }
-                var boxes = TextReveal.Pages(line.text, TextReveal.PageChars);
-                for (int b = 0; b < boxes.Count; b++)
-                {
-                    bool breaksOff = line.cut && b == boxes.Count - 1;
-                    SceneLine = i + 1;
-                    SceneBox = b + 1;
-                    SceneWaits = false;
-                    SceneText = boxes[b];
-                    SceneWho = line.who ?? "";
-                    sceneWords.text = boxes[b];
-                    Show(scene);
-                    // (a hit: red, and the picture shaken, as this line comes up)
-                    if (line.hit && b == 0)
-                        StartCoroutine(Struck());
-                    var reveal = new TextReveal();
-                    reveal.Add(sceneWords);
-                    reveal.StartAt(0);
-                    // (a hit's own words stand whole at once, under the red: they are read as the screen is struck)
-                    if (line.hit && b == 0)
-                        reveal.Finish();
                     clicked = false;
                     yield return null;
-                    // (and nothing is gone on from while the screen is still being struck)
-                    while (line.hit && b == 0 && SceneStruck)
-                    {
-                        clicked = false;
-                        yield return null;
-                    }
-                    while (!reveal.Done)
-                    {
-                        // (a line that breaks off cannot be hurried to its end: it ends when it ends)
-                        if (!breaksOff && Go())
-                            reveal.Finish();
-                        else
-                            reveal.Tick(Time.unscaledDeltaTime);
-                        yield return null;
-                    }
-                    if (breaksOff)
-                    {
-                        yield return Wait(SceneCutHold);
-                        // (what cut it off is a hit: it comes at once, with no empty moment between)
-                        bool struckNext = i + 1 < lines.Count && lines[i + 1] != null && lines[i + 1].hit;
-                        if (!struckNext)
-                        {
-                            Hide(scene);
-                            SceneText = "";
-                            yield return Wait(SceneCutDark);
-                        }
-                        clicked = false;
-                        continue;
-                    }
-                    sceneGo.style.visibility = Visibility.Visible;
-                    SceneWaits = true;
-                    yield return null;
-                    while (!Go())
-                        yield return null;
-                    SceneWaits = false;
-                    sceneGo.style.visibility = Visibility.Hidden;
                 }
+                while (!reveal.Done)
+                {
+                    // (a line that breaks off cannot be hurried to its end: it ends when it ends)
+                    if (!breaksOff && Go())
+                        reveal.Finish();
+                    else
+                        reveal.Tick(Time.unscaledDeltaTime);
+                    yield return null;
+                }
+                if (breaksOff)
+                {
+                    // (its last letters stand a moment, and what follows finds them standing: a hit comes at once, with
+                    // no empty moment between; anything else lets the purple stand empty first)
+                    yield return Wait(SceneCutHold);
+                    sceneBrokeOff = true;
+                    clicked = false;
+                    continue;
+                }
+                sceneGo.style.visibility = Visibility.Visible;
+                SceneWaits = true;
+                yield return null;
+                while (!Go())
+                    yield return null;
+                SceneWaits = false;
+                sceneGo.style.visibility = Visibility.Hidden;
             }
+        }
+
+        /// <summary>THE SCREEN IS STRUCK: a blood-red filter flashes over the whole screen and the picture is shaken, in
+        /// hard steps (Struck). Nothing is waited for: the line that follows comes up under it, whole at once.</summary>
+        public void SceneStrikes()
+        {
+            if (sceneOpen && !sceneClosing && !SceneStruck)
+                StartCoroutine(Struck());
+        }
+
+        /// <summary>The box of talk goes, and the purple stands empty a moment.</summary>
+        IEnumerator Clears()
+        {
             while (SceneStruck)
                 yield return null;
+            if (sceneBrokeOff)
+            {
+                Hide(scene);
+                SceneText = "";
+                sceneBrokeOff = false;
+                yield return Wait(SceneCutDark);
+            }
             SceneLine = SceneBox = 0;
             SceneText = SceneWho = "";
             Hide(scene);
+            sceneCleared = true;
             yield return Wait(0.6f);
-            // (the name and what stands under it, on the purple; the purple lifts on the game while they stand)
-            if (!string.IsNullOrEmpty(big))
+        }
+
+        /// <summary>THE NAME'S CARD: the box of talk goes, and a name and what stands under it come up on the purple and
+        /// stand ("Ravn", "Killed at Dorestat, 1 May 793"). With no name given, only the box goes.</summary>
+        public IEnumerator SceneCard(string big, string small) => ScenePart(Card(big, small));
+
+        IEnumerator Card(string big, string small)
+        {
+            if (!sceneOpen)
+                yield return Opens();
+            if (!sceneOpen || sceneClosing)
+                yield break;
+            if (!sceneCleared)
+                yield return Clears();
+            if (string.IsNullOrEmpty(big))
+                yield break;
+            cardBig.text = big;
+            cardSmall.text = small ?? "";
+            Show(card, 0f);
+            sceneCardUp = true;
+            yield return Fade(a => card.style.opacity = a, 0f, 1f, 0.6f);
+            yield return Wait(2.2f);
+        }
+
+        /// <summary>THE PURPLE LIFTS on the game (a name's card that is up stands a moment longer on the game, and goes),
+        /// and the game is given back: the clock runs, the keys are the game's.</summary>
+        public IEnumerator SceneCloses() => ScenePart(Closes());
+
+        IEnumerator Closes()
+        {
+            if (!sceneOpen || sceneClosing)
+                yield break;
+            sceneClosing = true;
+            if (!sceneCleared)
+                yield return Clears();
+            yield return Fade(a => backdrop.style.opacity = a, 1f, 0f, 1.4f);
+            if (sceneCardUp)
             {
-                cardBig.text = big;
-                cardSmall.text = small ?? "";
-                Show(card, 0f);
-                yield return Fade(a => card.style.opacity = a, 0f, 1f, 0.6f);
-                yield return Wait(2.2f);
-                yield return Fade(a => backdrop.style.opacity = a, 1f, 0f, 1.4f);
                 yield return Wait(0.7f);
                 yield return Fade(a => card.style.opacity = a, 1f, 0f, 0.8f);
                 Hide(card);
+                sceneCardUp = false;
             }
-            else
-                yield return Fade(a => backdrop.style.opacity = a, 1f, 0f, 1.4f);
             Hide(backdrop);
             backdrop.style.opacity = 1f;
             Hide(veil);
@@ -1114,6 +1250,18 @@ namespace Kapman.Game
             UiFocus.Release(this);
             Stage = "";
             busy--;
+            sceneOpen = sceneClosing = false;
+        }
+
+        /// <summary>The parts of a scene run in their order from code (where no graph does it): the purple comes up, each
+        /// line is said, the name's card, the purple lifts; then `done`.</summary>
+        IEnumerator Told(IReadOnlyList<ToldLine> lines, string big, string small, Action done)
+        {
+            yield return SceneOpens();
+            for (int i = 0; lines != null && i < lines.Count; i++)
+                yield return SceneSays(lines[i]);
+            yield return SceneCard(big, small);
+            yield return SceneCloses();
             done?.Invoke();
         }
 

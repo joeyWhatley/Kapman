@@ -143,7 +143,12 @@ namespace Kapman.Tests
                 Assert.AreEqual("", frame.SpeakerShown, "the scene's description is said by somebody");
                 yield return play.Press(Key.Enter);                         // (the first box, said in full)
                 yield return ChartPlay.Settle(0.4f);
-                yield return play.Shot("feud_0_their_card_the_scene_first");
+                // (the mark that the box stands whole and waits for the key: a part of the box's own UI file, and it blinks)
+                yield return ChartPlay.Until(() => frame.MoreMarkPlace.width > 4f, 3f);
+                var markAt = frame.MoreMarkPlace;
+                Assert.Greater(markAt.width, 4f, "a box of talk stands whole, and no mark shows that it waits for the key (the part \"more\" of Parts/Float.uxml)");
+                Assert.IsTrue(play.FrontFloat().worldBound.Contains(markAt.center), "the mark that the box waits is not in the box: " + markAt + " in " + play.FrontFloat().worldBound);
+                yield return play.Shot("feud_0_their_card_the_scene_first", 0.02f);
                 for (int i = 0; i < 6 && frame.SpeakerShown.Length == 0; i++)
                 {
                     yield return play.Press(Key.Enter);
@@ -152,7 +157,9 @@ namespace Kapman.Tests
                 yield return play.Press(Key.Enter);
                 yield return ChartPlay.Settle(0.4f);
                 StringAssert.StartsWith("The rope man", frame.SpeakerShown, "after the scene, the rope man does not speak");
-                yield return play.Shot("feud_0_their_card_then_who_speaks");
+                yield return ChartPlay.Until(() => frame.MoreMarkPlace.width > 4f, 3f);
+                Assert.Greater(frame.MoreMarkPlace.width, 4f, "the rope man's box stands whole, and no mark shows that it waits for the key");
+                yield return play.Shot("feud_0_their_card_then_who_speaks", 0.02f);
                 string said3 = "", end3 = "";
                 yield return Answer(play, "Tell them you have not got it", (s, e) => { said3 = s; end3 = e; });
                 told.AppendLine("the third time, end: " + ChartPlay.Short(end3));
@@ -240,6 +247,9 @@ namespace Kapman.Tests
                 Assert.IsFalse(Showtime.Busy, "the scene never ended");
                 Assert.AreEqual(hours, game.Hours, 0.05, "the clock ran under the scene");
                 Assert.AreEqual(FeudStage.Oath, Feud.Stage);
+                // (HIS SCENE IS A FLOW: it was run by its graph, part by part, and not by the code's own order)
+                Assert.IsTrue(Feud.SceneByGraph, "his scene ran from code: no graph of the game's scene listened for his death " +
+                    "(the Showtime object's Script Machine, \"Scene - Ravn is killed\"; Kapman > Make physical > 3c)");
                 Assert.IsTrue(FrameLog.Lines.Any(l => l.text.Contains("Ravn is dead")), "the log does not keep that Ravn is dead");
                 // the punishment, from that minute
                 Assert.LessOrEqual(Voyage.Morale, table.heartCeiling + 1e-9, "their heart is over its ceiling");
@@ -363,6 +373,59 @@ namespace Kapman.Tests
                 Assert.IsFalse(Feud.LiesAboard, "he was burned and lies aboard still");
                 Assert.AreEqual(2.0, Feud.Var("feud.buried"));
                 Assert.IsTrue(Self.HasMark("gave_ravn_his_fire"), "she gave him his fire and it left no mark on her");
+
+                // ======== 9. A SCENE TOLD FROM CODE: the same parts in the same order, where no graph runs them (a line
+                // of the teller's, a line that breaks off, and the hit that cuts it off; then a name's card)
+                yield return ChartPlay.Until(() => Showtime.CanTell, 15f);
+                Assert.IsTrue(Showtime.CanTell, "the show is not free for a scene after the last card");
+                bool over = false;
+                int toldWas = show.ScenesTold, hitsWas = show.SceneHits;
+                double hoursWas = game.Hours;
+                Showtime.Scene(new[]
+                {
+                    new ToldLine { text = "A line of the teller's, said from code." },
+                    new ToldLine { text = "A line that breaks o", who = "Aldger", cut = true },
+                    new ToldLine { text = "And what cut it off.", hit = true },
+                }, "A name", "and what stands under it", () => over = true);
+                yield return ChartPlay.Until(() => Showtime.Telling, 5f);
+                Assert.IsTrue(Showtime.Telling, "a scene told from code did not begin");
+                var fromCode = new List<string>();
+                float since = Time.realtimeSinceStartup;
+                string cardSeen = "";
+                while (!over && Time.realtimeSinceStartup - since < 60f)
+                {
+                    if (show.SceneText.Length > 0 && (fromCode.Count == 0 || fromCode[fromCode.Count - 1] != show.SceneText))
+                        fromCode.Add(show.SceneText);
+                    if (show.CardText.Length > 0)
+                        cardSeen = show.CardText;
+                    if (show.SceneWaits)
+                    {
+                        yield return play.Press(Key.Enter);
+                        yield return ChartPlay.Frames(3);
+                    }
+                    else
+                        yield return null;
+                }
+                Assert.IsTrue(over, "a scene told from code never ended");
+                Assert.AreEqual(toldWas + 1, show.ScenesTold);
+                Assert.AreEqual(hitsWas + 1, show.SceneHits, "the hit of a scene told from code did not strike the screen");
+                CollectionAssert.AreEqual(new[] { "A line of the teller's, said from code.", "A line that breaks o", "And what cut it off." }, fromCode, "a scene told from code lost a line");
+                Assert.AreEqual("A name / and what stands under it", cardSeen);
+                Assert.IsFalse(Showtime.Busy, "the game was not given back after a scene told from code");
+                Assert.AreEqual(hoursWas, game.Hours, 0.05, "the clock ran under a scene told from code");
+
+                // ======== 10. A SCENE LEFT STANDING (a graph that ends without "Scene: the purple lifts") is lifted by the show
+                float idleWas = Showtime.SceneIdleMost;
+                Showtime.SceneIdleMost = 0.8f;
+                UnityEngine.TestTools.LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex("the purple is lifted for it"));
+                double hoursLeft = game.Hours;
+                show.StartCoroutine(show.SceneOpens());
+                yield return ChartPlay.Until(() => Showtime.Telling, 5f);
+                Assert.IsTrue(Showtime.Telling, "the purple did not come up");
+                yield return ChartPlay.Until(() => !Showtime.Busy, 20f);
+                Showtime.SceneIdleMost = idleWas;
+                Assert.IsFalse(Showtime.Busy, "a scene left standing with nothing running held the game for ever");
+                Assert.AreEqual(hoursLeft, game.Hours, 0.05, "the clock ran under a scene left standing");
             }
             finally
             {

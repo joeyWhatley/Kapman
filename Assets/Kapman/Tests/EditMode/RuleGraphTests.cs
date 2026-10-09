@@ -50,6 +50,56 @@ namespace Kapman.Tests
         }
 
         [Test]
+        public void TheGraphsOfAFightAndOfTheLendersMenSayWhatTheCodeSays()
+        {
+            // (9 Oct 2026: the rules of that day's work were C# sums, and the user's ruling is that rules are graphs)
+            foreach (string rule in new[] { "fight", "trick", "instalment", "goons" })
+                Assert.IsTrue(RuleGraphs.Has(rule), "no graph of the book holds the rule \"" + rule + "\" (Kapman > Make physical > 3. The rules' graphs)");
+            var dice = new Random(794);
+            bool Coin(int oneIn) => dice.Next(oneIn) == 0;
+            var seen = new int[5];
+            for (int i = 0; i < 6000; i++)
+            {
+                int asked = GameRules.ByGraph;
+                // how a fight stands
+                double nerve = dice.Next(1, 6), place = Coin(2) ? 0.0 : -dice.Next(0, 4), perMan = Coin(4) ? dice.NextDouble() * 2.0 : 1.0, forWeapons = Coin(4) ? dice.NextDouble() * 2.0 : 1.0;
+                int herMen = dice.Next(1, 14), theirMen = dice.Next(1, 8);
+                bool weapons = Coin(3);
+                Assert.AreEqual(GameRules.FightByCode(nerve, herMen, theirMen, weapons, place, perMan, forWeapons), GameRules.Fight(nerve, herMen, theirMen, weapons, place, perMan, forWeapons), 0.0,
+                    $"a fight: nerve {nerve}, {herMen} men against {theirMen}, weapons {weapons}, place {place}");
+                // a way round them
+                double stat = dice.Next(1, 6), toldPenalty = Coin(4) ? dice.NextDouble() * 8.0 : 5.0, laterPenalty = Coin(4) ? dice.NextDouble() * 3.0 : 1.0;
+                int usedBefore = dice.Next(0, 4), visit = dice.Next(0, 6);
+                Assert.AreEqual(GameRules.TrickEaseByCode(stat, usedBefore, visit, toldPenalty, laterPenalty), GameRules.TrickEase(stat, usedBefore, visit, toldPenalty, laterPenalty), 0.0,
+                    $"a way round them: stat {stat}, used {usedBefore} times, sending {visit}");
+                // what they come for
+                double temper = Coin(3) ? dice.Next(0, 8) : Math.Round(dice.NextDouble() * 7.0, 2), instalment = Coin(3) ? 240.0 : Math.Round(dice.NextDouble() * 600.0), moreByTemper = Coin(3) ? 0.5 : dice.NextDouble();
+                double want = GameRules.Instalment(temper, instalment, moreByTemper);
+                Assert.AreEqual(GameRules.InstalmentByCode(temper, instalment, moreByTemper), want, 0.0, $"what they come for: temper {temper}, an instalment of {instalment}, {moreByTemper} more a step");
+                // what they do
+                bool fooled = Coin(3), ravnAlive = !Coin(4);
+                double aboard = Coin(3) ? 0.0 : Math.Round(dice.NextDouble() * 900.0), throwOf = dice.NextDouble();
+                int men = dice.Next(1, 7), unpaid = dice.Next(0, 5);
+                double warnUpTo = Coin(5) ? dice.Next(0, 3) : 1.0, beatFrom = Coin(5) ? dice.Next(1, 6) : 3.0, killFrom = Coin(5) ? dice.Next(2, 7) : 4.0, killEarly = Coin(5) ? dice.NextDouble() : 0.3, ravnAt = Coin(6) ? 0.0 : 3.0;
+                double byCode = GameRules.GoonsDoByCode(temper, fooled, aboard, men, throwOf, unpaid, ravnAlive, warnUpTo, beatFrom, killFrom, killEarly, ravnAt, want);
+                Assert.AreEqual(byCode, GameRules.GoonsDo(temper, fooled, aboard, men, throwOf, unpaid, ravnAlive, warnUpTo, beatFrom, killFrom, killEarly, ravnAt, want), 0.0,
+                    $"what they do: temper {temper}, fooled {fooled}, {aboard} aboard, {men} men, throw {throwOf}, unpaid {unpaid}, Ravn alive {ravnAlive}, " +
+                    $"talk up to {warnUpTo}, beat from {beatFrom}, kill from {killFrom}, early {killEarly}, Ravn at {ravnAt}, want {want}");
+                seen[(int)byCode]++;
+                Assert.AreEqual(asked + 4, GameRules.ByGraph, "one of the four was not reckoned by its graph (the code's sum stood in)");
+            }
+            // (every rung of the ladder was climbed in those cases: they talk, take, beat, kill, and kill Ravn)
+            for (int does = 0; does < seen.Length; does++)
+                Assert.Greater(seen[does], 20, "the cases never came to the answer " + does);
+            // and the plain cases, by hand
+            Assert.AreEqual(5.0, GameRules.Fight(3.0, 4, 2, false, 0.0, 1.0, 1.0), 1e-9, "nerve 3 and two men more is 5");
+            Assert.AreEqual(-2.0, GameRules.TrickEase(3.0, 1, 1, 5.0, 1.0), 1e-9, "a way that fooled them once before is five harder");
+            Assert.AreEqual(360.0, GameRules.Instalment(3.0, 240.0, 0.5), 1e-9, "at temper 3 they come for a pound and a half");
+            Assert.AreEqual(4.0, GameRules.GoonsDo(1.0, false, 500.0, 4, 0.9, 3, true, 1.0, 3.0, 4.0, 0.3, 3.0, 240.0), 0.0, "the third time, it is Ravn");
+            Assert.AreEqual(0.0, GameRules.GoonsDo(1.0, false, 500.0, 4, 0.9, 1, true, 1.0, 3.0, 4.0, 0.3, 3.0, 240.0), 0.0, "the first time, they only talk");
+        }
+
+        [Test]
         public void TheGraphsOfTheCrewsDaySayWhatTheCodeSays()
         {
             foreach (string rule in new[] { "pay", "health", "heart" })

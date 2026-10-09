@@ -244,6 +244,8 @@ MonoBehaviour:
   bakedWorldFolder: G:/kapman_unity/data/baked/world
   chartMode: 1
   chartScale: 120
+  nameLingerSeconds: 7
+  nameFadeSeconds: 0.8
 --- !u!114 &269418557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1446,6 +1448,7 @@ MonoBehaviour:
   runes: {fileID: 0}
   voyages: {fileID: 0}
   hoards: {fileID: 0}
+  boatRules: {fileID: 0}
   worldSeed: 793
   lanesFile: G:/kapman_unity/data/baked/world/lanes.bin
   shipsKeepClear: 0
@@ -1960,6 +1963,7 @@ GameObject:
   - component: {fileID: 1868071142}
   - component: {fileID: 1868071144}
   - component: {fileID: 1868071145}
+  - component: {fileID: 1868071146}
   m_Layer: 0
   m_Name: Showtime (the title and the opening)
   m_TagString: Untagged
@@ -2025,6 +2029,22 @@ MonoBehaviour:
     _json: '{"nest":{"source":"Macro","macro":0,"embed":null}}'
     _objectReferences:
     - {fileID: 11400000, guid: c5ec4222f5dee154088bb854b600eb9c, type: 2}
+--- !u!114 &1868071146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868071140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2fe5546f775c47d2820aa5e8a715f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.VisualScripting.Flow::Unity.VisualScripting.ScriptMachine
+  _data:
+    _json: '{"nest":{"source":"Macro","macro":0,"embed":null}}'
+    _objectReferences:
+    - {fileID: 11400000, guid: 38391e59d923b4c4ab6717fd1b363dd8, type: 2}
 --- !u!1 &2101439722
 GameObject:
   m_ObjectHideFlags: 0

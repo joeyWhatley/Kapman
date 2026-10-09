@@ -239,6 +239,32 @@ namespace Kapman.Tests
         }
 
         [Test]
+        public void TheGraphOfHisSceneStagesWhatTheTableStages()
+        {
+            // (9 Oct 2026: his scene is a flow, run by a graph on the Showtime object of the game's scene; the table
+            // stages what is told where no graph listens. The two are held alike: change one, and this says so.)
+            var asset = AssetDatabase.LoadAssetAtPath<Unity.VisualScripting.ScriptGraphAsset>(Kapman.EditorTools.SceneGraphMade.Path);
+            Assert.IsNotNull(asset, "no graph of Ravn's scene (Kapman > Make physical > 3c. The graph of Ravn's scene)");
+            var inGraph = Kapman.EditorTools.SceneGraphMade.Staged(asset, out var parts);
+            Assert.GreaterOrEqual(parts.Count, 5, "the graph's flow leads nowhere from \"On Ravn is killed\": " + string.Join(", ", parts));
+            Assert.AreEqual("OnRavnIsKilled", parts[0]);
+            Assert.AreEqual("SceneThePurpleComesUp", parts[1], "the scene does not begin with the purple coming up");
+            int card = parts.IndexOf("SceneTheNamesCard"), lifts = parts.IndexOf("SceneThePurpleLifts"), after = parts.IndexOf("RavnWhatFollowsHisDeath");
+            Assert.Greater(card, 1, "the scene has no card for his name");
+            Assert.Greater(lifts, card, "the purple does not lift after his name");
+            Assert.Greater(after, lifts, "nothing follows his scene in its graph");
+            string Say(IEnumerable<SceneBeat> beats) =>
+                string.Join("\n", beats.Select(b => (b.who.Length > 0 ? b.who : "(teller)") + " " + b.key + (b.cut ? " [breaks off]" : "") + (b.hit ? " [the screen is struck]" : "")));
+            Assert.AreEqual(Say(Feud.Rules.scene), Say(inGraph),
+                "the graph \"Scene - Ravn is killed\" and the table (feud_rules_793.json, \"scene\") do not stage the same scene. The graph is what is played; " +
+                "the table is what is told where no graph listens. Bring the table in line with the graph, or delete the graph to have it made again from the table.");
+            // and its machine is on the Showtime object of the game's scene (the scene's file names the graph)
+            string guid = AssetDatabase.AssetPathToGUID(Kapman.EditorTools.SceneGraphMade.Path);
+            StringAssert.Contains(guid, System.IO.File.ReadAllText(Kapman.EditorTools.KapmanPhysical.GameScene),
+                "the game's scene does not run the graph of Ravn's scene (Kapman > Make physical > 3c)");
+        }
+
+        [Test]
         public void HisDeathIsPunishedAndLiesOnHerUntilItIsAnswered()
         {
             TheThirdTime();

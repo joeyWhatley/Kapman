@@ -223,7 +223,7 @@ namespace Kapman.Game
         /// time that way has fooled them before; less for each sending after the first.
         /// </summary>
         public static double Ease(CollectorRules r, double stat, int usedBefore, int visit) =>
-            stat - r.toldPenalty * Math.Max(0, usedBefore) - r.laterPenalty * Math.Max(0, visit - 1);
+            GameRules.TrickEase(stat, usedBefore, visit, r.toldPenalty, r.laterPenalty);   // (the graph "Rule - a way round the lender's men")
 
         /// <summary>
         /// WHAT THEY DO WHEN THEY ARE GIVEN NOTHING: it depends. `temper`: the lender's. `fooled`: she has just tried a
@@ -237,31 +237,23 @@ namespace Kapman.Game
         /// </summary>
         public static Teeth Bite(CollectorRules r, double temper, bool fooled, double aboard, int men, double throwOf, int unpaid = 0, bool ravnAlive = false)
         {
-            double t = temper + (fooled ? 1.0 : 0.0);
+            // THE TWO RULES ARE GRAPHS (9 Oct 2026; the user's ruling of 7 Oct: "Rules as graphs too"): what they come for
+            // ("Rule - what the lender's men come for") and what they do ("Rule - what the lender's men do": 0 they only
+            // talk, 1 they take, 2 they take and beat a man, 3 they take and kill a man, 4 they take and kill Ravn).
+            // GameRules keeps the same sums in code beside them: the fallback, and what the test holds the graphs to.
+            double want = GameRules.Instalment(temper + (fooled ? 1.0 : 0.0), r.instalmentD, r.moreByTemper);
+            int does = (int)Math.Round(GameRules.GoonsDo(temper, fooled, aboard, men, throwOf, unpaid, ravnAlive,
+                                                         r.warnUpTo, r.beatFrom, r.killFrom, r.killEarly, r.ravnAtRefusal, want));
             var bite = new Teeth();
-            // the third time she does not pay, they kill Ravn (whatever else they take)
-            bool ravn = r.ravnAtRefusal >= 1.0 && unpaid >= r.ravnAtRefusal && ravnAlive && men > 1;
-            if (t <= r.warnUpTo && !ravn)
+            if (does <= 0)
             {
                 bite.warned = true;
                 return bite;
             }
-            bite.want = Math.Round(r.instalmentD * (1.0 + r.moreByTemper * Math.Max(0.0, t - 2.0)));
-            if (ravn)
-            {
-                bite.ravn = true;
-                return bite;
-            }
-            bool little = aboard < bite.want * 0.5;
-            if (men > 1 && (little || fooled))
-            {
-                if (t >= r.killFrom || (t >= r.killFrom - 1.0 && little && fooled && throwOf < r.killEarly))
-                    bite.kill = true;
-                else if (t >= r.beatFrom)
-                    bite.beat = true;
-            }
-            else if (t >= r.beatFrom && (little || fooled))
-                bite.beat = true;
+            bite.want = want;
+            bite.beat = does == 2;
+            bite.kill = does == 3;
+            bite.ravn = does >= 4;
             return bite;
         }
 

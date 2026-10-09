@@ -1695,3 +1695,37 @@ and far fewer when usage is short).
    Tests: FeudEditTests (the staging: who speaks, the one line cut off, the one hit after it), FeudTests (play, with
    the show on: a card's scene told first, the boxes of the scene by speaker, Ravn's line not waited for, the red and
    the picture of it), OpeningTests brought in step. EditMode 596 (594 pass, 2 skipped); PlayMode 33 of 33.
+
+126. **PUT RIGHT, AS ASKED: THE RULES OF THE LENDER'S MEN AND OF A FIGHT ARE GRAPHS, RAVN'S SCENE IS A FLOW, THE MARK IS IN THE UI FILE**
+   (the user, 9 Oct, late: "Btw is this all being built like I asked", and to my answer that the flows and rules of
+   that day were C# and not graphs: "Jeez man". The ruling is DECISIONS 72, of 7 Oct: screens as UI Builder files,
+   flows AND rules as visual scripting graphs. First part of the repair; the lender's men's own flow and the rules of
+   wind and tide follow.)
+   - FOUR RULE GRAPHS (Game/Graphs/Rules, named in Resources/GameRules; asked through GameRules, which keeps each sum
+     in code beside it as the fallback and as what a test holds the graph to):
+       "Rule - how a fight stands"               her nerve, a point a man either way (three at most), weapons, the place
+       "Rule - a way round the lender's men"     her stat, less for each time that way fooled them, less each later sending
+       "Rule - what the lender's men come for"   an instalment, more of it for each step of his temper over 2
+       "Rule - what the lender's men do"         0 they only talk, 1 take, 2 and beat a man, 3 and kill a man, 4 and kill Ravn
+     Feud.Fight, Collectors.Ease and Collectors.Bite ask them. New small nodes for such graphs: Keep between, To the
+     whole number, Is it so?, Both or either, If so this else that. RuleGraphTests runs each graph against its code
+     over 6,000 cases, to the last bit, and every rung of what they do is reached in them.
+   - RAVN'S SCENE IS A FLOW: the graph "Scene - Ravn is killed" (Game/Graphs), a Script Machine on the Showtime
+     object. It starts at "On Ravn is killed" and runs the show's parts left to right: the purple comes up; "Scene:
+     say a line" eleven times (who speaks, the key of the words, whether it breaks off); "Scene: the screen is
+     struck" before the knife's line; the name's card; the purple lifts; "Ravn: what follows his death". Showtime's
+     one long sequence is cut into those parts (SceneOpens, SceneSays, SceneStrikes, SceneCard, SceneCloses), and
+     where no graph listens the same parts run in the same order from code, staged by the table as before.
+     TWO SAFEGUARDS, MINE: a scene left standing with none of its parts running (a graph that ends without lifting
+     the purple) is lifted by the show after 12 seconds, and the Console says so; and what follows his death follows
+     by itself if the graph never comes to it. So a graph changed by hand cannot hold the game for ever.
+     THE TABLE'S STAGING STAYS (feud_rules_793.json "scene"): it is what is told where no graph listens, and
+     FeudEditTests holds the graph and the table alike, saying which to change when they part.
+   - THE MARK THAT A BOX OF TALK WAITS is the part "more" of Game/UI/Parts/Float.uxml (the frame's own drawn glyph),
+     found by name; the class that drew it in code is gone.
+   - STILL C#, AND SAID SO: the feud's own state and steps (when the oath is asked, the burial, the pyre, the fines)
+     and the lender's men's boat (its sailing, asking, seeing, chasing). Their meeting's flow is next.
+   Tests: RuleGraphTests (the four graphs against their code), FeudEditTests (the graph stages what the table stages;
+   the game's scene names it), FeudTests (play: the scene was run by its graph; a scene told from code still works;
+   a scene left standing is lifted; the mark is on the screen, in the box). EditMode 598 (596 pass, 2 skipped);
+   PlayMode 33 of 33.

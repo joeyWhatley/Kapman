@@ -232,26 +232,38 @@ namespace Kapman.Game
             return true;
         }
 
+        /// <summary>One line of his scene: the words the writing has for a key (at sea, the words of the key with ".sea"
+        /// after it stand in their place, where they are written), said by one of the scene's cast (the table's
+        /// "sceneCast": "brute", "man", "ravn", "aldger"; "" for the teller, who has no face). Null: no words are
+        /// written for the key.</summary>
+        public static ToldLine SceneLine(string who, string key, bool cut, bool hit)
+        {
+            if (string.IsNullOrEmpty(key))
+                return null;
+            string text = AtSea ? Written(key + ".sea") ?? Written(key) : Written(key);
+            if (string.IsNullOrEmpty(text))
+                return null;
+            var line = new ToldLine { text = text, cut = cut, hit = hit };
+            if (!string.IsNullOrEmpty(who) && Rules.sceneCast.TryGetValue(who, out var cast))
+            {
+                line.who = cast.name;
+                line.face = cast.cast;
+                line.slot = Kapman.Game.Frame.FrameArt.OfSpeaker(cast.cast, cast.role) ?? "";
+            }
+            return line;
+        }
+
         /// <summary>The lines of his scene, for where he died, as the table stages them (who says each, which breaks
-        /// off) and the writing words them (at sea a key with ".sea" after it stands in the place of the quay's, where
-        /// it is written). A line with no words written is left out.</summary>
+        /// off, which is a hit) and the writing words them. A line with no words written is left out. This is what is
+        /// told where no graph runs the scene; the graph "Scene - Ravn is killed" stages the played one.</summary>
         public static List<ToldLine> SceneLines()
         {
-            var r = Rules;
             var lines = new List<ToldLine>();
-            foreach (var beat in r.scene)
+            foreach (var beat in Rules.scene)
             {
-                string text = AtSea ? Written(beat.key + ".sea") ?? Written(beat.key) : Written(beat.key);
-                if (string.IsNullOrEmpty(text))
-                    continue;
-                var line = new ToldLine { text = text, cut = beat.cut, hit = beat.hit };
-                if (beat.who.Length > 0 && r.sceneCast.TryGetValue(beat.who, out var who))
-                {
-                    line.who = who.name;
-                    line.face = who.cast;
-                    line.slot = Kapman.Game.Frame.FrameArt.OfSpeaker(who.cast, who.role) ?? "";
-                }
-                lines.Add(line);
+                var line = SceneLine(beat.who, beat.key, beat.cut, beat.hit);
+                if (line != null)
+                    lines.Add(line);
             }
             if (lines.Count == 0)
                 lines.Add(new ToldLine { text = "Ravn is dead." });
@@ -271,40 +283,82 @@ namespace Kapman.Game
             return cards != null && (cards.Current != null || cards.Waiting);
         }
 
+        // ------------------------------------------------------------------ HIS SCENE IS A FLOW
+        // (The user's ruling of 7 Oct 2026: flows are graphs.) Where a graph of the game's scene listens for his death
+        // ("Scene - Ravn is killed", on the Showtime object; its nodes are in Code/Graphs/SceneNodes.cs), the graph
+        // runs the scene part by part and line by line, and ends with "Ravn: what follows his death" (AfterScene).
+        // Where none does (a batch run, a scene without the machine), the same parts are run from code, staged by the
+        // table (feud_rules_793.json, "scene").
+
+        /// <summary>Set by the graphs' side (Kapman.Graphs): starts the graph of his scene and returns true; false where no
+        /// graph of the scene listens for it.</summary>
+        public static Func<bool> SceneFlow;
+        /// <summary>The scene that last began was run by its graph (false: by the table's staging, from code).</summary>
+        public static bool SceneByGraph { get; private set; }
+        static int toldBefore;
+        static float graphGrace;
+
         /// <summary>His scene, now. Shown where the show is on; told to the log where it is not (a batch run).</summary>
         static void Play()
         {
             scenePlaying = true;
-            var lines = SceneLines();
-            bool shown = Showtime.On && Showtime.Current != null;
-            Showtime.Scene(lines, "Ravn", Plate(), () =>
-            {
-                scenePlaying = false;
-                if (Stage != FeudStage.Scene)
-                    return;                                              // (another game was begun under it)
-                // (the log keeps it: all of it where it could not be shown, one plain line where it was)
-                var at = GameData.Port(Port);
-                if (shown)
-                    Voyage.Say("Ravn is dead, killed by the lender's men" + (at != null ? " at " + at.name + "." : " at sea."));
-                else
-                    foreach (var line in lines)
-                        Voyage.Say(line.who.Length > 0 ? line.who + ": " + line.text : line.text);
-                // (and the mark that lies on her from now, as the log says every other mark)
-                var mark = Self.MarksOn((string)null).Find(m => m.id == Mark);
-                if (mark != null)
-                    Voyage.Say(Self.Said(mark, Self.Now));
-                Stage = FeudStage.Oath;
-                Version++;
-                EncounterRunner.Director?.Offer(OathCard);
-            });
+            toldBefore = Showtime.Current != null ? Showtime.Current.ScenesTold : 0;
+            graphGrace = 3f;
+            SceneByGraph = Showtime.CanTell && SceneFlow != null && SceneFlow();
+            if (!SceneByGraph)
+                Showtime.Scene(SceneLines(), "Ravn", Plate(), AfterScene);
         }
 
-        /// <summary>Each frame of the played game (Showtime's own): his scene begins when the rope men's card is shut,
-        /// whether the clock runs or not.</summary>
+        /// <summary>WHAT FOLLOWS HIS SCENE (the last part of its graph; called at the scene's end where code tells it):
+        /// the log keeps it, the mark that lies on her from now is said, and she stands over him to say what is to be
+        /// done (the card crew.feud.oath). Once for a death, whoever calls it.</summary>
+        public static void AfterScene()
+        {
+            if (!scenePlaying)
+                return;
+            scenePlaying = false;
+            if (Stage != FeudStage.Scene)
+                return;                                                  // (another game was begun under it)
+            // (the log keeps it: all of it where it could not be shown, one plain line where it was)
+            bool shown = Showtime.Current != null && Showtime.Current.ScenesTold != toldBefore;
+            var at = GameData.Port(Port);
+            if (shown)
+                Voyage.Say("Ravn is dead, killed by the lender's men" + (at != null ? " at " + at.name + "." : " at sea."));
+            else
+                foreach (var line in SceneLines())
+                    Voyage.Say(line.who.Length > 0 ? line.who + ": " + line.text : line.text);
+            // (and the mark that lies on her from now, as the log says every other mark)
+            var mark = Self.MarksOn((string)null).Find(m => m.id == Mark);
+            if (mark != null)
+                Voyage.Say(Self.Said(mark, Self.Now));
+            Stage = FeudStage.Oath;
+            Version++;
+            EncounterRunner.Director?.Offer(OathCard);
+        }
+
+        /// <summary>Each frame of the played game in which no part of the show is on (Showtime's own): his scene begins
+        /// when the rope men's card is shut, whether the clock runs or not.</summary>
         public static void Tick()
         {
-            if (Stage == FeudStage.Scene && !scenePlaying && !CardUp() && !Showtime.Busy)
-                Play();
+            if (Stage != FeudStage.Scene)
+                return;
+            if (!scenePlaying)
+            {
+                if (!CardUp() && !Showtime.Busy)
+                    Play();
+                return;
+            }
+            // (its graph was started, and the show stands idle with nothing having followed: the graph never came to
+            // "Ravn: what follows his death", or never told the scene at all. It follows all the same)
+            if (SceneByGraph && !Showtime.Busy)
+            {
+                graphGrace -= Time.unscaledDeltaTime;
+                if (graphGrace <= 0f)
+                {
+                    Debug.LogWarning("Kapman feud: the graph of Ravn's scene ended without \"Ravn: what follows his death\", so it follows here.");
+                    AfterScene();
+                }
+            }
         }
 
         /// <summary>One game minute (KapmanGame.StepMinute, after the lender's men).</summary>
@@ -414,7 +468,7 @@ namespace Kapman.Game
         /// point of this over 3): her nerve, a point for each man she has more than they (or fewer: three either way at
         /// the most), a point for weapons aboard, and what the place costs her.</summary>
         public static double Fight(FeudRules r, double nerve, int herMen, int theirMen, bool weapons, double place) =>
-            nerve + r.fightPerMan * Math.Max(-3, Math.Min(3, herMen - theirMen)) + (weapons ? r.fightWeapons : 0.0) + place;
+            GameRules.Fight(nerve, herMen, theirMen, weapons, place, r.fightPerMan, r.fightWeapons);   // (the graph "Rule - how a fight stands")
 
         /// <summary>It is over (1 his blood, 2 his price, 3 the lender's blood, 4 let lie): the ceiling and the mark lift.</summary>
         static void Settle(double how, double heart)

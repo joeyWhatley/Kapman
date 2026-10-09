@@ -180,6 +180,290 @@ namespace Kapman.Graphs
         }
     }
 
+    // ------------------------------------------------------------------ a fight, and the lender's men (9 Oct 2026)
+
+    /// <summary>How a fight stands, on her nerve's own scale. Given: her nerve, her men and theirs, whether there are
+    /// weapons aboard, what the place costs her, and what a man and weapons are worth. The answer: a number a card's
+    /// chance is carried by (each point over 3 is a twentieth on its odds).</summary>
+    [UnitTitle("Rule: how a fight stands")]
+    [UnitShortTitle("Rule: how a fight stands")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class FightRule : RuleUnit
+    {
+        public override string Rule => "fight";
+
+        [DoNotSerialize, PortLabel("Her nerve (1 to 5)")] public ValueOutput nerve { get; private set; }
+        [DoNotSerialize, PortLabel("Her men")] public ValueOutput herMen { get; private set; }
+        [DoNotSerialize, PortLabel("Their men")] public ValueOutput theirMen { get; private set; }
+        [DoNotSerialize, PortLabel("Weapons aboard")] public ValueOutput weapons { get; private set; }
+        [DoNotSerialize, PortLabel("What the place costs her")] public ValueOutput place { get; private set; }
+        [DoNotSerialize, PortLabel("A man is worth")] public ValueOutput perMan { get; private set; }
+        [DoNotSerialize, PortLabel("Weapons are worth")] public ValueOutput forWeapons { get; private set; }
+
+        protected override void Given()
+        {
+            nerve = ValueOutput<double>(nameof(nerve));
+            herMen = ValueOutput<double>(nameof(herMen));
+            theirMen = ValueOutput<double>(nameof(theirMen));
+            weapons = ValueOutput<bool>(nameof(weapons));
+            place = ValueOutput<double>(nameof(place));
+            perMan = ValueOutput<double>(nameof(perMan));
+            forWeapons = ValueOutput<double>(nameof(forWeapons));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(nerve, given[0]);
+            flow.SetValue(herMen, given[1]);
+            flow.SetValue(theirMen, given[2]);
+            flow.SetValue(weapons, given[3] != 0.0);
+            flow.SetValue(place, given[4]);
+            flow.SetValue(perMan, given[5]);
+            flow.SetValue(forWeapons, given[6]);
+        }
+    }
+
+    /// <summary>How easy a way round the lender's men is, on her stat's own scale. Given: the stat that carries the
+    /// trick, how often that way has fooled them before, which sending this is, and what each of those costs.</summary>
+    [UnitTitle("Rule: a way round the lender's men")]
+    [UnitShortTitle("Rule: a way round the lender's men")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class TrickRule : RuleUnit
+    {
+        public override string Rule => "trick";
+
+        [DoNotSerialize, PortLabel("Her stat (1 to 5)")] public ValueOutput stat { get; private set; }
+        [DoNotSerialize, PortLabel("Times it fooled them before")] public ValueOutput usedBefore { get; private set; }
+        [DoNotSerialize, PortLabel("Which sending (1 the first)")] public ValueOutput visit { get; private set; }
+        [DoNotSerialize, PortLabel("Each time before costs")] public ValueOutput toldPenalty { get; private set; }
+        [DoNotSerialize, PortLabel("Each later sending costs")] public ValueOutput laterPenalty { get; private set; }
+
+        protected override void Given()
+        {
+            stat = ValueOutput<double>(nameof(stat));
+            usedBefore = ValueOutput<double>(nameof(usedBefore));
+            visit = ValueOutput<double>(nameof(visit));
+            toldPenalty = ValueOutput<double>(nameof(toldPenalty));
+            laterPenalty = ValueOutput<double>(nameof(laterPenalty));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(stat, given[0]);
+            flow.SetValue(usedBefore, given[1]);
+            flow.SetValue(visit, given[2]);
+            flow.SetValue(toldPenalty, given[3]);
+            flow.SetValue(laterPenalty, given[4]);
+        }
+    }
+
+    /// <summary>What the lender's men come for, in deniers. Given: the lender's temper (a step more when a way round
+    /// them has just failed), the instalment, and how much more of it for each step of his temper over 2.</summary>
+    [UnitTitle("Rule: what the lender's men come for")]
+    [UnitShortTitle("Rule: what the lender's men come for")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class InstalmentRule : RuleUnit
+    {
+        public override string Rule => "instalment";
+
+        [DoNotSerialize, PortLabel("The lender's temper")] public ValueOutput temper { get; private set; }
+        [DoNotSerialize, PortLabel("An instalment (d)")] public ValueOutput instalment { get; private set; }
+        [DoNotSerialize, PortLabel("More of it for each step over 2")] public ValueOutput moreByTemper { get; private set; }
+
+        protected override void Given()
+        {
+            temper = ValueOutput<double>(nameof(temper));
+            instalment = ValueOutput<double>(nameof(instalment));
+            moreByTemper = ValueOutput<double>(nameof(moreByTemper));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(temper, given[0]);
+            flow.SetValue(instalment, given[1]);
+            flow.SetValue(moreByTemper, given[2]);
+        }
+    }
+
+    /// <summary>What the lender's men do when they are given nothing. The answer is one of five: 0 they only talk, 1
+    /// they take what they came for, 2 they take and beat a man, 3 they take and kill a man, 4 they take and kill
+    /// Ravn.</summary>
+    [UnitTitle("Rule: what the lender's men do")]
+    [UnitShortTitle("Rule: what the lender's men do")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class GoonsDoRule : RuleUnit
+    {
+        public override string Rule => "goons";
+
+        [DoNotSerialize, PortLabel("The lender's temper")] public ValueOutput temper { get; private set; }
+        [DoNotSerialize, PortLabel("A way round them has just failed")] public ValueOutput fooled { get; private set; }
+        [DoNotSerialize, PortLabel("Aboard to take (d)")] public ValueOutput aboard { get; private set; }
+        [DoNotSerialize, PortLabel("Her men")] public ValueOutput men { get; private set; }
+        [DoNotSerialize, PortLabel("A throw (0 to 1)")] public ValueOutput throwOf { get; private set; }
+        [DoNotSerialize, PortLabel("Visits with nothing paid")] public ValueOutput unpaid { get; private set; }
+        [DoNotSerialize, PortLabel("Ravn lives")] public ValueOutput ravnAlive { get; private set; }
+        [DoNotSerialize, PortLabel("They only talk up to")] public ValueOutput warnUpTo { get; private set; }
+        [DoNotSerialize, PortLabel("A man is beaten from")] public ValueOutput beatFrom { get; private set; }
+        [DoNotSerialize, PortLabel("A man is killed from")] public ValueOutput killFrom { get; private set; }
+        [DoNotSerialize, PortLabel("Chance of a killing a step early")] public ValueOutput killEarly { get; private set; }
+        [DoNotSerialize, PortLabel("It is Ravn at this count")] public ValueOutput ravnAt { get; private set; }
+        [DoNotSerialize, PortLabel("What they came for (d)")] public ValueOutput want { get; private set; }
+
+        protected override void Given()
+        {
+            temper = ValueOutput<double>(nameof(temper));
+            fooled = ValueOutput<bool>(nameof(fooled));
+            aboard = ValueOutput<double>(nameof(aboard));
+            men = ValueOutput<double>(nameof(men));
+            throwOf = ValueOutput<double>(nameof(throwOf));
+            unpaid = ValueOutput<double>(nameof(unpaid));
+            ravnAlive = ValueOutput<bool>(nameof(ravnAlive));
+            warnUpTo = ValueOutput<double>(nameof(warnUpTo));
+            beatFrom = ValueOutput<double>(nameof(beatFrom));
+            killFrom = ValueOutput<double>(nameof(killFrom));
+            killEarly = ValueOutput<double>(nameof(killEarly));
+            ravnAt = ValueOutput<double>(nameof(ravnAt));
+            want = ValueOutput<double>(nameof(want));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(temper, given[0]);
+            flow.SetValue(fooled, given[1] != 0.0);
+            flow.SetValue(aboard, given[2]);
+            flow.SetValue(men, given[3]);
+            flow.SetValue(throwOf, given[4]);
+            flow.SetValue(unpaid, given[5]);
+            flow.SetValue(ravnAlive, given[6] != 0.0);
+            flow.SetValue(warnUpTo, given[7]);
+            flow.SetValue(beatFrom, given[8]);
+            flow.SetValue(killFrom, given[9]);
+            flow.SetValue(killEarly, given[10]);
+            flow.SetValue(ravnAt, given[11]);
+            flow.SetValue(want, given[12]);
+        }
+    }
+
+    /// <summary>A number kept between a least and a most.</summary>
+    [UnitTitle("Keep between")]
+    [UnitShortTitle("Keep between")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class KeepBetween : Unit
+    {
+        [DoNotSerialize, PortLabelHidden] public ValueInput number { get; private set; }
+        [DoNotSerialize, PortLabel("At least")] public ValueInput least { get; private set; }
+        [DoNotSerialize, PortLabel("At most")] public ValueInput most { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput kept { get; private set; }
+
+        protected override void Definition()
+        {
+            number = ValueInput<double>(nameof(number), 0.0);
+            least = ValueInput<double>(nameof(least), 0.0);
+            most = ValueInput<double>(nameof(most), 1.0);
+            kept = ValueOutput(nameof(kept), flow => Math.Max(flow.GetValue<double>(least), Math.Min(flow.GetValue<double>(most), flow.GetValue<double>(number))));
+            Requirement(number, kept);
+            Requirement(least, kept);
+            Requirement(most, kept);
+        }
+    }
+
+    /// <summary>A sum to the whole number, as the game's own reckoning rounds it.</summary>
+    [UnitTitle("To the whole number")]
+    [UnitShortTitle("To the whole")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class ToTheWhole : Unit
+    {
+        [DoNotSerialize, PortLabelHidden] public ValueInput sum { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput rounded { get; private set; }
+
+        protected override void Definition()
+        {
+            sum = ValueInput<double>(nameof(sum), 0.0);
+            rounded = ValueOutput(nameof(rounded), flow => Math.Round(flow.GetValue<double>(sum)));
+            Requirement(sum, rounded);
+        }
+    }
+
+    /// <summary>Is one number at least another, over it, or under it? (Pick which with "How".)</summary>
+    [UnitTitle("Is it so?")]
+    [UnitShortTitle("Is it so?")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class IsIt : Unit
+    {
+        public enum How { AtLeast, Over, Under, AtMost }
+
+        /// <summary>Which question is asked of the two numbers.</summary>
+        [Serialize, Inspectable, UnitHeaderInspectable("How")] public How how = How.AtLeast;
+
+        [DoNotSerialize, PortLabel("This")] public ValueInput a { get; private set; }
+        [DoNotSerialize, PortLabel("That")] public ValueInput b { get; private set; }
+        [DoNotSerialize, PortLabel("So")] public ValueOutput so { get; private set; }
+
+        protected override void Definition()
+        {
+            a = ValueInput<double>(nameof(a), 0.0);
+            b = ValueInput<double>(nameof(b), 0.0);
+            so = ValueOutput(nameof(so), flow =>
+            {
+                double x = flow.GetValue<double>(a), y = flow.GetValue<double>(b);
+                return how == How.AtLeast ? x >= y : how == How.Over ? x > y : how == How.Under ? x < y : x <= y;
+            });
+            Requirement(a, so);
+            Requirement(b, so);
+        }
+    }
+
+    /// <summary>Are two things both so, or is either of them so? (Pick which with "How"; "Not" turns the answer round.)</summary>
+    [UnitTitle("Both, or either")]
+    [UnitShortTitle("Both, or either")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class BothOrEither : Unit
+    {
+        public enum How { Both, Either, FirstAndNotSecond }
+
+        [Serialize, Inspectable, UnitHeaderInspectable("How")] public How how = How.Both;
+
+        [DoNotSerialize, PortLabel("One")] public ValueInput one { get; private set; }
+        [DoNotSerialize, PortLabel("Other")] public ValueInput other { get; private set; }
+        [DoNotSerialize, PortLabel("So")] public ValueOutput so { get; private set; }
+
+        protected override void Definition()
+        {
+            one = ValueInput<bool>(nameof(one), false);
+            other = ValueInput<bool>(nameof(other), false);
+            so = ValueOutput(nameof(so), flow =>
+            {
+                bool x = flow.GetValue<bool>(one), y = flow.GetValue<bool>(other);
+                return how == How.Both ? x && y : how == How.Either ? x || y : x && !y;
+            });
+            Requirement(one, so);
+            Requirement(other, so);
+        }
+    }
+
+    /// <summary>One number or another, by whether a thing is so.</summary>
+    [UnitTitle("If so, this; else that")]
+    [UnitShortTitle("If so, this; else that")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class ThisOrThat : Unit
+    {
+        [DoNotSerialize, PortLabel("If")] public ValueInput when { get; private set; }
+        [DoNotSerialize, PortLabel("This")] public ValueInput yes { get; private set; }
+        [DoNotSerialize, PortLabel("Else that")] public ValueInput no { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput picked { get; private set; }
+
+        protected override void Definition()
+        {
+            when = ValueInput<bool>(nameof(when), false);
+            yes = ValueInput<double>(nameof(yes), 0.0);
+            no = ValueInput<double>(nameof(no), 0.0);
+            picked = ValueOutput(nameof(picked), flow => flow.GetValue<bool>(when) ? flow.GetValue<double>(yes) : flow.GetValue<double>(no));
+            Requirement(when, picked);
+            Requirement(yes, picked);
+            Requirement(no, picked);
+        }
+    }
+
     /// <summary>Takes an amount off a number, if a thing is so (with nothing joined to "If", always).</summary>
     [UnitTitle("If so, take off")]
     [UnitShortTitle("If so, take off")]

@@ -7,7 +7,9 @@
     <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 1100px; height: 300px;">
         <!-- WHAT IS SAID, AND A POP-UP WINDOW: a talk, a card, an alert (these stand in the foot, class "docked") or a
              window of the game (it floats). Its bar (its name, its cross where it may be shut); who speaks (face, who,
-             about); the words (the code puts the lines into "scroll"); the choices (put into "options"); a hint. -->
+             about); the words (the code puts the lines into "scroll"); the mark that a box of talk stands whole and
+             waits for the key ("more": shown only where talk is said a box at a time); the choices (put into
+             "options"); a hint. -->
         <ui:VisualElement name="float" class="frame-slip frame-float">
             <ui:VisualElement name="bar" class="frame-float-bar">
                 <ui:Label name="title" text="Title" class="frame-float-title" />
@@ -22,6 +24,7 @@
                         <ui:Label name="who" text="Who speaks" class="frame-float-who" />
                         <ui:Label name="about" text="What they are" class="frame-float-about" />
                         <ui:ScrollView name="scroll" mode="Vertical" horizontal-scroller-visibility="Hidden" class="frame-float-scroll" />
+                        <k:FrameGlyph name="more" kind="Down" class="frame-float-more" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="options" class="frame-float-options" />

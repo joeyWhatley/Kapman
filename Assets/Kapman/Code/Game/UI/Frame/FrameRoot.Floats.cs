@@ -16,34 +16,6 @@ namespace Kapman.Game.Frame
         public Action pick;
     }
 
-    /// <summary>The mark that a box of talk stands whole and waits for the key: a small point downward, as Pokémon has
-    /// it. Drawn, so it needs no letter of any font.</summary>
-    public sealed class MoreMark : VisualElement
-    {
-        public Color fill = new Color32(112, 41, 99, 255);                // (Byzantium, as the words on a pale ground)
-
-        public MoreMark()
-        {
-            pickingMode = PickingMode.Ignore;
-            generateVisualContent += Paint;
-        }
-
-        void Paint(MeshGenerationContext ctx)
-        {
-            var r = contentRect;
-            if (r.width < 2f || r.height < 2f)
-                return;
-            var p = ctx.painter2D;
-            p.fillColor = fill;
-            p.BeginPath();
-            p.MoveTo(new Vector2(0f, 0f));
-            p.LineTo(new Vector2(r.width, 0f));
-            p.LineTo(new Vector2(r.width * 0.5f, r.height));
-            p.ClosePath();
-            p.Fill();
-        }
-    }
-
     /// <summary>What a floating window shows. Open one with FrameRoot.OpenFloat; open the same id again to change it in place.</summary>
     /// <summary>Who says a line of a window: the line under the title ("Ravn, crewman \u00b7 easy"), who they are, whose
     /// face (an id or a name) and its picture. All "" for the teller: nobody's face, nobody's name.</summary>
@@ -187,8 +159,9 @@ namespace Kapman.Game.Frame
             /// <summary>Its choices (put away while there is more to be said), and whether there is.</summary>
             public VisualElement optionsBox;
             public bool more;
-            /// <summary>The mark that the box stands whole and waits for the key (null: nothing is said a box at a time).</summary>
-            public MoreMark moreMark;
+            /// <summary>The mark that the box stands whole and waits for the key (the part named "more" of Parts/Float.uxml;
+            /// null: nothing is said a box at a time).</summary>
+            public FrameGlyph moreMark;
             /// <summary>The face, the name and the nature shown for the one who speaks, and the line they were last set for.</summary>
             public FrameFace faceEl;
             public Label whoEl, aboutEl;
@@ -350,6 +323,19 @@ namespace Kapman.Game.Frame
 
         /// <summary>The front window's talking text, if it is still being said (for a test, a tool).</summary>
         public TextReveal FrontReveal => floats.Count > 0 ? floats[floats.Count - 1].reveal : null;
+
+        /// <summary>Where the mark that the front window's box of talk waits for the key stands on the screen now (the
+        /// part "more" of Parts/Float.uxml; it blinks). An empty place: it is not on the screen now.</summary>
+        public Rect MoreMarkPlace
+        {
+            get
+            {
+                var mark = floats.Count > 0 ? floats[floats.Count - 1].moreMark : null;
+                if (mark == null || mark.panel == null || mark.resolvedStyle.display == DisplayStyle.None || mark.resolvedStyle.visibility != Visibility.Visible)
+                    return default;
+                return mark.worldBound;
+            }
+        }
 
         VisualElement floatLayer;
         readonly List<Float> floats = new List<Float>();                 // in order of depth: the last is the front
@@ -729,14 +715,15 @@ namespace Kapman.Game.Frame
             // (the words and the choices in one body: one over the other in a window that floats, side by side in the foot)
             Speak(f, scroll);
             el.EnableInClassList("paged", f.reveal != null && f.reveal.OneAtATime);
-            // (the mark that the box waits for the key: Pokémon's own, at the foot of the words)
-            f.moreMark = null;
+            // (the mark that the box waits for the key: Pokémon's own, at the foot of the words. It is a part of the box's
+            // own UI file, named "more"; where nothing is said a box at a time it is taken out of this copy)
+            f.moreMark = FrameParts.In<FrameGlyph>(el, "more");
             if (f.reveal != null && f.reveal.OneAtATime)
-            {
-                f.moreMark = new MoreMark();
-                f.moreMark.AddToClassList("frame-float-more");
                 f.moreMark.style.visibility = Visibility.Hidden;
-                (scroll.parent ?? scroll).Add(f.moreMark);
+            else
+            {
+                f.moreMark.RemoveFromHierarchy();
+                f.moreMark = null;
             }
             f.optionsBox = null;
 
