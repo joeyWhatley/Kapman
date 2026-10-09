@@ -1985,3 +1985,33 @@ and far fewer when usage is short).
        (it never laid her course again when told she was off her line): the next run will show how many remain.
        NOTHING HAPPENS IN WINTER (the road's step 15). What the lender does when the debt is paid early was not
        seen: she paid it at Sarre and did not come home after.
+
+135. **SHE COULD CAST OFF AND NEVER MOVE: THE POINT SHE STEERED FOR WAS HER OWN PLACE**
+   (10 Oct, small hours. Found by the second whole walk.)
+   - WHAT HAPPENED. On 13 May 793, in the small hours, she cast off from Doccinga for Dorestat and stood still:
+     under way with her course, at no knots, nothing on the screen saying why. The clock ran; bread was eaten; the
+     men grumbled and one fell sick; she stood through the summer and the autumn at the berth, and on 4 December a
+     gale took her there ("She filled, and the sea came over the gunwale"). The last saved game, loaded, was of
+     that same mooring, and she stood still again. In the first whole walk she had left the same berth for the same
+     port 24 minutes later in the day and sailed.
+   - THE CAUSE. On the chart she steers for the point of her line 300 m ahead of her own place on it (Course.Aim,
+     7 Oct). A course out of a port begins with the stretch from where she lies to the berth's own point, and then
+     takes the lane. She is made fast on her way in, on that same lane, a little short of the berth's point. So
+     her course out goes on to the berth's point and comes back past her. Where she lay 150 m short of it, the
+     point 300 m on along the line was the very spot she lay on (150 m out, 150 m back), she "steered" for it at
+     no knots, and the same reckoning gave the same answer every minute of the game.
+     It needed her to lie within about half a metre of 150 m from the berth's point, which is chance: it came once
+     in the 292 calls at ports of the two whole walks. But it is every port's chance, not Doccinga's: a test that
+     lays her 150 m short of the berth at each port, with her course for each of the twelve, finds it on 371 of
+     372 courses. And the game saved at that mooring stood still both times it was loaded.
+   - THE MEND. The point she steers for is never her own place: where the point 300 m on stands nearer her than
+     30 m it is taken further on along the line, 30 m at a time, until it stands clear of her (Course.Aim,
+     Course.ClearOfHerM). Lying at Doccinga she now steers 30 m down the lane and is away. The saved game of that
+     mooring was loaded with the mend in a probe of its own: half an hour after casting off she had made 3 km.
+     Tests (ClickAndSailTests.ThePointSheSteersForIsNeverHerOwnPlace): a line made by hand that goes out 150 m and
+     comes back past her; a straight line (300 m on, as before); and the 372 courses.
+   - THE WALK STOPS FOR IT NOW. Six hours under way with no way made is written down with everything that could
+     hold her (a card, a meeting, the tide, the ground, the port's menu); a day and a night of it is a fault that
+     ends the walk. Before, it stood there for a quarter of an hour of the wall and half a year of the game.
+   - WHAT IS KEPT of that run outside the project: G:\kapman_unity\walk_runs\run2 (its journal, the three saved
+     games, the probe's source).

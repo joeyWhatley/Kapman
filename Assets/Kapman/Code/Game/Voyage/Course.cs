@@ -977,22 +977,37 @@ namespace Kapman.Game
             double ax = b.x - a.x, az = b.z - a.z, ll = ax * ax + az * az;
             double t = ll > 0.0 ? Math.Max(0.0, Math.Min(1.0, ((ship.x - a.x) * ax + (ship.z - a.z) * az) / ll)) : 1.0;
             double at = t * Math.Sqrt(ll) + Math.Max(0.0, ahead);
+            // NEVER HER OWN PLACE (10 Oct 2026). Where the line doubles back on itself, the point `ahead` metres on
+            // along it can be the very spot she stands on: a berth that lies on its lane 150 m from the lane's end has
+            // it 300 m on, along a course that goes out to that end and comes back past the berth. Steering for her
+            // own place she stood still for ever, under way, with nothing said (the long walk, at Doccinga: from 13 May
+            // 793 to the December gale that took her). So the point is taken further on along the line until it
+            // stands clear of her.
             for (; ; i++)
             {
                 a = Points[i - 1];
                 b = Points[i];
                 double len = WorldXZ.Distance(a, b);
-                if (at < len)
+                while (at < len)
                 {
                     double k = at / len;
-                    last = false;
-                    return new WorldXZ(a.x + (b.x - a.x) * k, a.z + (b.z - a.z) * k);
+                    var p = new WorldXZ(a.x + (b.x - a.x) * k, a.z + (b.z - a.z) * k);
+                    if (ahead <= 0.0 || WorldXZ.Distance(ship, p) >= ClearOfHerM)
+                    {
+                        last = false;
+                        return p;
+                    }
+                    at += ClearOfHerM;
                 }
                 if (i >= end)
                     return b;                                             // (the berth is nearer than `ahead`)
                 at -= len;
             }
         }
+
+        /// <summary>The point she steers for on the chart stands at least this far from her, real metres (unless it is
+        /// the end of her line).</summary>
+        public const double ClearOfHerM = 30.0;
 
         /// <summary>The leg (by its end point's index) of the line from `from` to `to` nearest a point, and how far.</summary>
         static int NearestLeg(WorldXZ ship, int from, int to, out double best)

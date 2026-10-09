@@ -1511,7 +1511,7 @@ namespace Kapman.Tests
             var was = Where();
             double hours = game.Hours, sixFrom = game.Hours, givenAt = -100.0;
             var sixAt = was;
-            int signs = Boat.Sign, logFrom = FrameLog.Version, given = 0;
+            int signs = Boat.Sign, logFrom = FrameLog.Version, given = 0, still = 0;
             // (what the log has said on this course: she has come to the place pointed at; she is set off her line)
             bool there = false, offLine = false;
             while (!ended)
@@ -1575,6 +1575,9 @@ namespace Kapman.Tests
                             yield return UntilTheAirClears();
                         yield return LayAgain("the steersman has lost his reckoning");
                         moved = Time.realtimeSinceStartup;
+                        sixFrom = game.Hours;
+                        sixAt = Where();
+                        still = 0;
                         if (Course.IsSet)
                             continue;
                     }
@@ -1612,12 +1615,18 @@ namespace Kapman.Tests
                         }
                     }
                     moved = Time.realtimeSinceStartup;
+                    sixFrom = game.Hours;
+                    sixAt = Where();
+                    still = 0;
                 }
                 else if (offLine && Course.IsSet && port == null)
                 {
                     offLine = false;
                     yield return LayAgain($"wind and tide have set her {Adrift.OffLine / 1000.0:0} km off her line");
                     moved = Time.realtimeSinceStartup;
+                    sixFrom = game.Hours;
+                    sixAt = Where();
+                    still = 0;
                 }
                 if (Boat.Sign != signs)
                 {
@@ -1645,17 +1654,37 @@ namespace Kapman.Tests
                 }
                 yield return null;
                 yield return null;
-                // (under way and next to no way made in six hours of the game: said, with what the sea is doing to her)
-                if (game.Hours - sixFrom >= 6.0)
+                // (under way and next to no way made in six hours of the game: said, with what the sea is doing to her.
+                // The six hours are hers under way: lying to, or with no course, they begin again.)
+                if (game.ship.anchored || !Course.IsSet)
+                {
+                    sixFrom = game.Hours;
+                    sixAt = Where();
+                    still = 0;
+                }
+                else if (game.Hours - sixFrom >= 6.0)
                 {
                     double made = WorldXZ.Distance(Where(), sixAt);
-                    if (made < 3000.0 && !game.ship.anchored && Course.IsSet)
+                    still = made < 50.0 ? still + 1 : 0;
+                    if (made < 3000.0)
                     {
                         var body = ChartBody.Current;
+                        var deck = EncounterRunner.Director;
+                        string holds = $" Held by a card: {EncounterRunner.ShipHeld}" +
+                                       (deck != null && deck.Current != null ? $" (the card open: {deck.Current.card.id}, answered: {deck.Current.Chosen}, hours it still waits: {deck.HoursLeft:0.0})" : " (no card open)") +
+                                       $"; cards in line: {(deck != null && deck.Waiting)}; windows up: {string.Join(",", Frame.FloatIds)}; lying at: {Port.LyingId() ?? "no port"}; " +
+                                       $"the port's menu open: {FrameGame.PortMenuOpen}; hold: {SeaHolds.Now}; tide wait: {TideWait.On}; aground: {Aground.Stage}; laid to by a card: {Boat.LyingTo}; " +
+                                       $"speed of the clock: {GameSpeed.Level + 1}, paused: {GameSpeed.Paused}.";
                         Say($"SHE MAKES NO WAY: {made / 1000.0:0.0} km in six hours, bound for {whereTo} with {Course.KmLeft(ChartWorld.ShipWorld()):0} km to go. {Adrift.Tells()}" +
-                            (body != null ? $" Her way {body.Knots:0.0} kn, the wind {body.Wind:0.0} m/s from {body.WindFrom:0}, oars out: {Oars.Out}." : ""));
+                            (body != null ? $" Her way {body.Knots:0.0} kn, the wind {body.Wind:0.0} m/s from {body.WindFrom:0}, oars out: {Oars.Out}." : "") + (made < 50.0 ? holds : ""));
                         if (Count("makes no way") < 3)
                             yield return Shot("she_makes_no_way");
+                        if (still >= 4)
+                        {
+                            yield return Shot("FAULT_she_stands_still_under_way");
+                            Fault($"she has stood still for a day and a night, under way with her course for {whereTo}, and nothing on the screen says why." + holds);
+                            Assert.Fail("she stands still under way");
+                        }
                     }
                     sixFrom = game.Hours;
                     sixAt = Where();

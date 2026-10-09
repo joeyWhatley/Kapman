@@ -134,6 +134,98 @@ namespace Kapman.Tests
             Assert.Less(WorldXZ.Distance(line[line.Count - 1], Of("lundenwic")), Exploration.NearSight, $"from Sarre she lies to out of sight of Lundenwic, after {up:0} km");
         }
 
+        /// <summary>
+        /// SHE NEVER STEERS FOR HER OWN PLACE (10 Oct 2026). The long walk cast off from Doccinga and she never moved
+        /// again: her course went 150 m up the lane to its end and came back past the berth, so the point 300 m ahead
+        /// along it was the spot she lay on. Held on a line made by hand that doubles back so, and for the courses out
+        /// of every port to each port of the first release, laid from where she lies made fast on her way in (150 m
+        /// short of the berth's own point): the point to steer for stands clear of her.
+        /// </summary>
+        [Test]
+        public void ThePointSheSteersForIsNeverHerOwnPlace()
+        {
+            try
+            {
+                // out 150 m, and back along the same water past where she lies
+                Course.Points.Clear();
+                foreach (double z in new[] { 0.0, 150.0, 54.0, -42.0, -138.0, -500.0, -2000.0 })
+                    Course.Points.Add(new WorldXZ(1000.0, z));
+                var ship = new WorldXZ(1000.0, 0.0);
+                var p = Course.Peek(ship, 300.0);
+                Assert.GreaterOrEqual(WorldXZ.Distance(ship, p), Course.ClearOfHerM - 0.01, "on a line that doubles back she is given her own place to steer for");
+                Assert.Less(p.z, 0.0, "the point to steer for is not on along the line, past where she lies");
+                Assert.Greater(p.z, -150.0, "the point to steer for is far on along the line: " + p.z);
+                // a line that does not double back: 300 m on, as it always was
+                Course.Points.Clear();
+                foreach (double z in new[] { 0.0, 100.0, 400.0, 2000.0 })
+                    Course.Points.Add(new WorldXZ(1000.0, z));
+                Assert.AreEqual(300.0, Course.Peek(ship, 300.0).z, 1e-6, "a straight line: the point 300 m on");
+            }
+            finally
+            {
+                Course.Points.Clear();
+            }
+
+            NeedLanes();
+            var line = new List<WorldXZ>();
+            var own = new List<string>();
+            int courses = 0;
+            foreach (var from in GameData.Ports)
+                foreach (string to in new[] { "dorestad", "traiectum", "walichrum", "witla", "medemelacha", "doccinga", "daventre", "quentovic", "lundenwic", "sarre", "fordwic", "ripa" })
+                {
+                    if (to == from.id || !Course.SetTo(to, Of(from.id), from.id) || Course.Points.Count < 4)
+                    {
+                        Course.Clear();
+                        continue;
+                    }
+                    // WHERE SHE LIES MADE FAST: on her way in, 150 m short of the berth's own point (the line's second),
+                    // on the water her course out runs over. Her course from there goes to the berth's point first
+                    // and comes back past her.
+                    var lies = Course.Points[Course.Points.Count - 1];
+                    double along = 150.0;
+                    for (int i = 2; i < Course.Points.Count; i++)
+                    {
+                        double len = WorldXZ.Distance(Course.Points[i - 1], Course.Points[i]);
+                        if (along < len)
+                        {
+                            double k = along / len;
+                            lies = new WorldXZ(Course.Points[i - 1].x + (Course.Points[i].x - Course.Points[i - 1].x) * k, Course.Points[i - 1].z + (Course.Points[i].z - Course.Points[i - 1].z) * k);
+                            break;
+                        }
+                        along -= len;
+                    }
+                    Course.Clear();
+                    if (!Course.SetTo(to, lies, from.id))
+                        continue;
+                    courses++;
+                    var berth = Course.Points[0];
+                    // (as it was before the mend: the point exactly 300 m on along the line from its beginning)
+                    double left = 300.0;
+                    var old = Course.Points[Course.Points.Count - 1];
+                    for (int i = 1; i < Course.Points.Count; i++)
+                    {
+                        double len = WorldXZ.Distance(Course.Points[i - 1], Course.Points[i]);
+                        if (left < len)
+                        {
+                            double k = left / len;
+                            old = new WorldXZ(Course.Points[i - 1].x + (Course.Points[i].x - Course.Points[i - 1].x) * k, Course.Points[i - 1].z + (Course.Points[i].z - Course.Points[i - 1].z) * k);
+                            break;
+                        }
+                        left -= len;
+                    }
+                    if (WorldXZ.Distance(berth, old) < 1.2)
+                        own.Add(from.name + " for " + GameData.Port(to).name);
+                    var steer = Course.Peek(berth, 300.0);
+                    Assert.GreaterOrEqual(WorldXZ.Distance(berth, steer), System.Math.Min(Course.ClearOfHerM, WorldXZ.Distance(berth, Course.Points[Course.Points.Count - 1])) - 0.01,
+                                          $"made fast at {from.name}, 150 m short of the berth's point, with her course for {GameData.Port(to).name}: the point she steers for is her own place");
+                    Course.Clear();
+                }
+            Assert.Greater(courses, 300, "too few courses were laid for this to be a test");
+            Debug.Log($"Click and sail: of {courses} courses out of a port, laid from 150 m short of its berth, {own.Count} had the point 300 m on along the line within 1.2 m of where she lay " +
+                      "(she would have stood still before the mend): " + string.Join("; ", own.Take(40)) + (own.Count > 40 ? "; and more" : ""));
+            Assert.Greater(own.Count, 0, "no course out of any port doubles back past where she lies: this test no longer lays her where the fault was");
+        }
+
         [Test]
         public void AShortHopAtSeaIsAShortHop()
         {
