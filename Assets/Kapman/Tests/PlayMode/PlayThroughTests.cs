@@ -1480,15 +1480,20 @@ namespace Kapman.Tests
         IEnumerator LayAgain(string why)
         {
             yield return Open("Voyage", "Voyage");
+            // (the clock is stopped while the button is found and pressed, as a careful player stops it: under way the
+            // window is drawn again as she moves, and a button found in one frame was gone in the next)
+            var pause = Small("Pause");
+            if (pause != null && !GameSpeed.PlayerPaused)
+                yield return play.Click(pause, "Pause");
             yield return ChartPlay.Frames(4);
+            if (laidAgain++ < 2)
+                yield return Shot("the_course_is_to_be_laid_again");
             var again = play.Button("Lay the course again", Win("Voyage"));
             if (again == null || !again.enabledSelf)
             {
                 Say(why + ": the Voyage window has no 'Lay the course again' now");
                 yield break;
             }
-            if (laidAgain++ < 2)
-                yield return Shot("the_course_is_to_be_laid_again");
             yield return play.Click(again, "Lay the course again");
             yield return ChartPlay.Frames(6);
             Say(why + ": the course is laid again" + (Course.IsSet ? $", {Course.KmLeft(ChartWorld.ShipWorld()):0} km to go" : " and she has none"));

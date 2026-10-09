@@ -2015,3 +2015,22 @@ and far fewer when usage is short).
      ends the walk. Before, it stood there for a quarter of an hour of the wall and half a year of the game.
    - WHAT IS KEPT of that run outside the project: G:\kapman_unity\walk_runs\run2 (its journal, the three saved
      games, the probe's source).
+
+136. **THE WHOLE FIRST LIFE, WALKED THROUGH: THE FOURTH PLAY-THROUGH**
+   (10 Oct, 03:47. Its record is Design/checks/playthrough_4.md, with its journal and faults beside it.)
+   - From a new game on 1 May 793 to the reckoning at Michaelmas 794: 516 days in 44 minutes on the wall, 200
+     calls at 13 ports, 206 passages, 377 cards answered, never lost, and no fault of the page on any of its 705
+     pictures. All twelve ports of the first release found, eight of them by pointing at their rings (Lundenwic
+     among them, in a day). The lender's men met three times at sea. The debt paid on 24 September 794, five days
+     before the day; "A clean stick" at home on the 25th; "nothing owed" on Michaelmas.
+   - Her course was laid again 483 times, 477 of them because the game said she was 8 km or more off her line.
+     The steersman lost his reckoning six times, each time in thick air.
+   - The walk itself was mended once more before it went through: it stops the clock before it presses "Lay the
+     course again" (under way the window is drawn again as she moves, and a button found in one frame was gone
+     in the next).
+   - THE USER'S TO RULE, as the record lists them: how often she is set off her line; the king's toll at every
+     Frankish call (117 times); the crew's heart "close to leaving" at 135 of 200 calls with nothing following;
+     standing still for a tide with nothing said (19 times); whether she takes up her course by herself when a fog
+     clears; nothing in winter and nothing after the debt is paid; a tall card covering the left end of the
+     chart's row of buttons.
+   - WHAT COMES NEXT is the user's own play (the road's step 10).
