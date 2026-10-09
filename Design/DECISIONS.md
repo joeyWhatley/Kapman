@@ -1885,7 +1885,7 @@ and far fewer when usage is short).
      ("Owed 1920 d by Michaelmas 794: 456 days left", pt_363). The bar already chooses shorter words by its room
      (FrameRoot.DebtWords); it was caught as the room changed. NOT MENDED.
    - IT IS OUT OF STEP WITH TWO RULINGS OF 9 OCT, AND I STOPPED IT:
-       the debt falls due at the SECOND Michaelmas (DECISIONS 119), so its "season" no longer ends on 29 September
+       the debt falls due at the SECOND Michaelmas (DECISIONS 120), so its "season" no longer ends on 29 September
        793: it would have walked 516 days, two hours on the wall;
        the chart's fog (DECISIONS 117, 121): she knows only the ports she has seen, the rest are "by hearsay" with no
        way laid to them, and the walk's trader takes its ports from "Where to". So it shuttled between Dorestat and
