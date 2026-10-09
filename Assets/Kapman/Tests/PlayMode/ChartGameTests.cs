@@ -328,6 +328,29 @@ namespace Kapman.Tests
                 StringAssert.Contains("Owed 1920 d by Michaelmas 794: 516 days left", bar, "the top bar does not say the debt's day and the days left");
                 // (the day as it was kept in 793: 1 May is the Kalends of May)
                 StringAssert.Contains("Kalends of May, 793", bar, "the top bar does not say the day as the time reckoned it");
+                // (the long walk of 9 Oct 2026, late: a longer date at midnight took the bar's room, and the debt's words
+                // ran on under the buttons until the bar was next filled. The bar's left end is made wider a little at a
+                // time, as a longer date makes it: in no frame may the words stand out of the bar's middle, and they
+                // are the shorter ones by the end. With the room given back, the whole words are back.)
+                var barLeft = frame.Root.Q<VisualElement>("top-left");
+                var barMid = frame.Root.Q<VisualElement>("top-mid");
+                var owedWords = frame.Root.Q<Label>("debt");
+                const string owedWhole = "Owed 1920 d by Michaelmas 794: 516 days left";
+                Assert.AreEqual(owedWhole, owedWords.text);
+                float leftWide = barLeft.layout.width;
+                int widened = 0;
+                while (owedWords.text == owedWhole && widened < 60)
+                {
+                    widened++;
+                    barLeft.style.minWidth = leftWide + 20f * widened;
+                    yield return null;
+                    Assert.LessOrEqual(owedWords.worldBound.xMax, barMid.worldBound.xMax + 2.5f,
+                                       $"with the bar's left end {20 * widened} px wider the debt's words stand out of the bar's middle: {owedWords.text}");
+                }
+                Assert.AreEqual("Owed 1920 d: 516 days left", owedWords.text, $"with less room ({20 * widened} px) the debt's words are not the shorter ones");
+                barLeft.style.minWidth = StyleKeyword.Null;
+                yield return null;
+                Assert.AreEqual(owedWhole, owedWords.text, "with the room given back the debt's whole words did not come back at once");
                 Assert.AreEqual(4, Trade.Hold.Count("rhenish_wine"));
                 Assert.AreEqual(4, Trade.Hold.Owed("rhenish_wine"), "the four casks should be marked as the count's");
                 Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("She has aboard 4 casks of Rhenish wine that came with the boat and 1 sack of")),

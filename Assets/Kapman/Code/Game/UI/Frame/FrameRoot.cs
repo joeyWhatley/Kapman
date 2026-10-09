@@ -236,6 +236,12 @@ namespace Kapman.Game.Frame
             silver = Part<Label>("silver");
             bread = Part<Label>("bread");
             debt = Part<Label>("debt");
+            // (the long walk of 9 Oct 2026, late: the bar is filled four times a second, and its room is known only when
+            // it has been laid out. At midnight a longer date took the room, and the debt's words ran on under the
+            // buttons until the next filling. So they are chosen again the moment anything beside them changes its
+            // width: within the same laying out, before a picture of it is drawn.)
+            foreach (var beside in BesideTheDebt())
+                beside.RegisterCallback<GeometryChangedEvent>(_ => DebtFits());
             // the coin and the barrel: pictures of the art folder (with no coin's picture, the word "silver" stands)
             var coin = Part<Image>("coin");
             var coinPicture = FrameArt.Load("hud/hud.coin.png");
@@ -951,6 +957,36 @@ namespace Kapman.Game.Frame
                     return words;
             }
             return least;
+        }
+
+        /// <summary>What the debt's words share the bar with: the bar itself, its two ends, and the other figures of its
+        /// middle. When one of them changes its width, the room for the words has changed.</summary>
+        IEnumerable<VisualElement> BesideTheDebt()
+        {
+            var figure = debt.parent;
+            var mid = figure != null ? figure.parent : null;
+            var bar = mid != null ? mid.parent : null;
+            if (bar == null)
+                yield break;
+            yield return bar;
+            foreach (var end in bar.Children())
+                if (end != mid)
+                    yield return end;
+            foreach (var other in mid.Children())
+                if (other != figure)
+                    yield return other;
+        }
+
+        /// <summary>The debt's words, chosen again for the room there is now (see where the bar's parts are found).
+        /// Nothing beside them is moved by which words stand there (the ends and the figures keep their widths), so
+        /// this cannot go round.</summary>
+        void DebtFits()
+        {
+            if (!Trade.Started)
+                return;
+            string words = DebtWords(FrameGame.DebtLine());
+            if (debt.text != words)
+                debt.text = words;
         }
 
         // ------------------------------------------------------------------ the log

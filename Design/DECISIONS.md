@@ -1883,7 +1883,13 @@ and far fewer when usage is short).
      (22 May and 10 September, the first and second sendings), by their graph, and were told she had not got it.
      ONE FAULT OF THE SCREEN, once: the debt's words ran 106 px out of the top bar at sea on a day with a long date
      ("Owed 1920 d by Michaelmas 794: 456 days left", pt_363). The bar already chooses shorter words by its room
-     (FrameRoot.DebtWords); it was caught as the room changed. NOT MENDED.
+     (FrameRoot.DebtWords); it was caught as the room changed: the bar is filled four times a second, and at midnight
+     a longer date took the room, so the words ran on under the buttons until the next filling.
+     MENDED the same night: the words are chosen again the moment anything beside them in the bar changes its width
+     (FrameRoot.BesideTheDebt, DebtFits: on the laying out itself, before a picture is drawn). Nothing beside them is
+     moved by which words stand there, so it cannot go round. Held by ChartGameTests.SheSailsTheChart: the bar's
+     left end is made wider 20 px at a time, and in no frame may the words stand out of the bar's middle; with the
+     room given back the whole words are back in one frame. (Checked that the test fails with the mend taken out.)
    - IT IS OUT OF STEP WITH TWO RULINGS OF 9 OCT, AND I STOPPED IT:
        the debt falls due at the SECOND Michaelmas (DECISIONS 120), so its "season" no longer ends on 29 September
        793: it would have walked 516 days, two hours on the wall;
