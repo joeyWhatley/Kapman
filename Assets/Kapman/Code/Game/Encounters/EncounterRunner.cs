@@ -59,6 +59,8 @@ namespace Kapman.Game
         public static Func<bool> Blocked;
         /// <summary>The card files shut for their faults when the book was read (each with its first fault).</summary>
         public static readonly List<string> ShutFiles = new List<string>();
+        /// <summary>The card files not read into this game: held back until they are polished (ContentHold, 9 Oct 2026).</summary>
+        public static readonly List<string> HeldFiles = new List<string>();
 
         /// <summary>The game's encounters (null until the cards have loaded without faults).</summary>
         public static EncounterDirector Director { get; private set; }
@@ -345,6 +347,9 @@ namespace Kapman.Game
                 Book = LoadBook(cardFiles);
                 foreach (string shut in ShutFiles)
                     Debug.LogError("Kapman encounters: a card file has faults and is shut (the rest of the book plays): " + shut);
+                if (Book != null && (HeldFiles.Count > 0 || Book.heldBack > 0))
+                    Debug.Log($"Kapman encounters: held back until polished ({ContentHold.File}): {HeldFiles.Count} card files, and {Book.heldBack} cards of the files that are in. " +
+                              $"{Book.cards.Count} cards are in the game.");
                 if (Book != null && Book.warnings.Count > 0)
                     Debug.LogWarning("Kapman encounters: the cards load, with things to look at:\n" + string.Join("\n", Book.warnings));
             }
@@ -394,9 +399,13 @@ namespace Kapman.Game
 
         /// <summary>The cards and their tables, read as KapmanGame reads its tables (GameFiles), and checked. A card file
         /// with faults is shut alone and the book read again without it (<see cref="LoadWithout"/>).</summary>
+        /// <summary>The book as a new game reads it, with what is held back left out (a test).</summary>
+        public static EncounterBook LoadBookAsTheGameDoes() => LoadBook(null);
+
         static EncounterBook LoadBook(TextAsset[] files)
         {
             ShutFiles.Clear();
+            HeldFiles.Clear();
             var src = new EncounterSources
             {
                 roles = Table("encounters/npc_roles_793"),
@@ -412,7 +421,12 @@ namespace Kapman.Game
             {
                 foreach (var f in files)
                     if (f != null)
-                        src.cards.Add(("encounters/" + f.name + ".json", f.text));
+                    {
+                        if (ContentHold.FileIn(f.name + ".json"))
+                            src.cards.Add(("encounters/" + f.name + ".json", f.text));
+                        else
+                            HeldFiles.Add(f.name + ".json");
+                    }
             }
             else
             {
@@ -423,6 +437,11 @@ namespace Kapman.Game
                     string name = Path.GetFileName(file);
                     if (name == "npc_roles_793.json" || name == "names_placeholder.json")
                         continue;
+                    if (!ContentHold.FileIn(name))
+                    {
+                        HeldFiles.Add(name);                               // (held back until it is polished: not read at all)
+                        continue;
+                    }
                     string text = ContentFiles.Read(file);
                     if (text != null)
                         src.cards.Add((file, text));
@@ -434,6 +453,8 @@ namespace Kapman.Game
                         src.cards.Add(("encounters/harbour_793.json", harbour.text));
                 }
             }
+            if (ContentHold.On)
+                src.take = ContentHold.CardIn;
             return LoadWithout(src, ShutFiles);
         }
 
@@ -598,6 +619,7 @@ namespace Kapman.Game
             bookReported = false;
             Blocked = null;
             ShutFiles.Clear();
+            HeldFiles.Clear();
         }
     }
 }

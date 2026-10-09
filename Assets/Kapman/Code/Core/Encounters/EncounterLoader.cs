@@ -14,6 +14,10 @@ namespace Kapman.Encounters
         public string roles, names, reputation, knowing, writing;
         /// <summary>Optional cross-check tables: goods_793.json, ports_793.json; traffic_793.json for the port factor.</summary>
         public string goods, ports, traffic;
+        /// <summary>Which cards of a file are read (the file as named in <see cref="cards"/>, the id of the card); null: all.
+        /// The game holds back what is not polished yet (Game/Content/ContentHold, 9 Oct 2026): a card not taken is
+        /// not read at all, so the faults of a held card shut nothing.</summary>
+        public Func<string, string, bool> take;
     }
 
     /// <summary>All the cards, checked, with the tables they need: roles, names, words, the writing, the ports' traffic.</summary>
@@ -35,6 +39,9 @@ namespace Kapman.Encounters
         public readonly List<string> missingKeys = new List<string>();
         /// <summary>Hulls at each port's landing by month (traffic_793.json harbours.ports.&lt;id&gt;.present).</summary>
         public readonly Dictionary<string, double[]> present = new Dictionary<string, double[]>(StringComparer.Ordinal);
+
+        /// <summary>The cards of the files read that were not taken (<see cref="EncounterSources.take"/>).</summary>
+        public int heldBack;
 
         public bool Ok => errors.Count == 0;
 
@@ -138,6 +145,11 @@ namespace Kapman.Encounters
                 }
                 foreach (var o in list)
                 {
+                    if (src.take != null && o is Dictionary<string, object> raw && !src.take(name, Json.Str(raw, "id")))
+                    {
+                        book.heldBack++;
+                        continue;
+                    }
                     var card = ParseCard(o as Dictionary<string, object>, name, book, errors);
                     if (card != null && !book.Add(card))
                         errors.Add($"{name}: two cards with the id '{card.id}'.");

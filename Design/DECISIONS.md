@@ -1344,3 +1344,27 @@ and far fewer when usage is short).
    time, fading, gone; a port heard of and a water named the same way; the name left of its dot at the edge;
    no name up at the widest). A fault found on the way and mended: the chart's picture was destroyed the wrong
    way outside play (MapArt). EditMode 557 (555 pass, 2 skipped), PlayMode 26 of 26.
+119. **WHAT IS IN THE GAME FOR NOW, AND WHAT IS HELD BACK** (the user, 9 Oct: "I think for now we don't include
+   any fully fleshed out quests/ cards until they're polished, only keep in the good polished stuff for now and
+   we will add in the other content when it's all done"). A RULING, and the cut by the picker the same day.
+   - HOW. Game/Data/content_hold.json names the card files that are IN. A card file it does not name is not read
+     into the game (Code/Game/Content/ContentHold.cs; EncounterRunner.LoadBook): its quests and cards never come
+     up. A file may be in whole, or by a list of its cards. NOTHING IS DELETED: the files lie in
+     Game/Data/encounters as before, and the card tests go on reading every one of them off the disk
+     (EncounterData), so what waits is still checked. To let a file in when it is polished, name it in the
+     table. A new card file is held until it is named.
+   - THE CUT (the user, by the picker: "Sea cards back in"). IN, 72 cards: the toll at a Frankish port (1), the
+     lender's reminders, his day and the clean stick (8), and the sea's 63 (calms, swell and gales, squalls,
+     fog, wrecks, whales, ice, sickness, a quarrel at the oars; they are my drafts, not polished by the user).
+     HELD, 1,328 cards: the 43 quests (595 cards), the ports' own cards (548), the dated cards (73), the crew's
+     (112). I had first built it with only the 13 cards the game's own rules raise (the toll, the lender, the
+     boat's four); the user asked "So do we also have events that just happen while sailing?" and took the
+     sea's cards back in.
+   - NOT TOUCHED: the nine simple happenings (events_793.json), the chest's riddles and readings, the ports'
+     people and talk, the Book.
+   - THE TESTS. HeldContentTests (play) plays a new game as it is now: 72 cards in its book, a held card cannot
+     be asked for, two days down the Lek and every card that comes is one that is in. OpeningTests shows the
+     cards' machinery on the ports' cards and a quest, so it has the whole book (ContentHold.AllIn, a test's
+     switch that a new game clears). ContentHoldTests (edit, 4): the table names real files and cards; the
+     game's book is sound with the rest held and no file had to be shut; the cards the rules raise by name
+     are in.

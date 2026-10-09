@@ -137,6 +137,7 @@ namespace Kapman.Tests
             if (ended)
                 return;
             ended = true;
+            Kapman.Game.ContentHold.AllIn = false;                       // (a test that had the whole book of cards gives it back)
             // (the page's rule and the boxes: what the screens of this walk showed)
             if (pageFaults.Count > 0)
                 Debug.Log($"Chart test (page): {pageFaults.Count} texts written for the makers reached a screen:\n" + string.Join("\n", pageFaults));

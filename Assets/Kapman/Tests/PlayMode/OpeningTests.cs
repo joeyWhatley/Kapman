@@ -32,6 +32,9 @@ namespace Kapman.Tests
                 if (SceneManager.GetActiveScene().name == "L_Chart")
                     go.SetActive(false);
             MainMenu.ClearAllState();
+            // (the cards of this walk are shown on the ports' cards and a quest, which the game holds back for now:
+            // this test has the whole book. HeldContentTests plays the game as it is.)
+            ContentHold.AllIn = true;
             Showtime.ForceOn = true;
             FrameWindows.OneWindow = true;                                // (the side as a new player has it, whatever a test before left)
             Showtime.LoadingSeconds = 6.5f;

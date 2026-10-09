@@ -1,0 +1,21 @@
+{
+ "about": "WHAT IS IN THE GAME FOR NOW, AND WHAT IS HELD BACK (Code/Game/Content/ContentHold.cs; the user, 9 Oct 2026: \"for now we don't include any fully fleshed out quests/ cards until they're polished, only keep in the good polished stuff for now and we will add in the other content when it's all done\"). NOTHING IS DELETED. A card file of Game/Data/encounters that is not named under 'in' is not read into the game: its quests and cards never come up. TO LET A FILE IN when it is polished, add its name under 'in' with \"all\"; or with a list of the ids of its cards that are polished, and the rest of that file stays held. A new card file is held until it is named here. \"hold\": false lets everything in, as it was before. The tests go on reading every card file off the disk, so what is held is still checked while it waits.",
+ "hold": true,
+ "in": {
+  "harbour_793.json": "all",
+  "wokerer_793.json": "all",
+  "sea_793.json": "all"
+ },
+ "the_cut": "The user's, by the picker, 9 Oct 2026: 'Sea cards back in'. In: the toll, the lender, and the 63 everyday cards at sea (my drafts, not yet polished by the user). Held: all 43 quests, the ports' own cards, the dated cards, and the crew's 112.",
+ "why_these": {
+  "harbour_793.json": "the toll at a Frankish port (1 card): the toll is a rule of the game, and this card is how it is asked and paid",
+  "wokerer_793.json": "the lender (8 cards): the debt is the first life's goal; these are his reminders, his day and the clean stick",
+  "sea_793.json": "what happens at sea (63 cards): calms, swell and gales, squalls, fog, wrecks, whales and birds, ice, sickness and thirst, a quarrel at the oars. Four of them the boat herself raises (Voyage/BoatWatch.cs): the swell before a gale, the gale, the leak that gains, the sail that splits"
+ },
+ "held_on_9_oct_2026": {
+  "the quests": "43 files chain_*.json, 595 cards",
+  "the ports' cards": "baltic_east, danes_norway, england_south_east, neustria_west, northumbria_irish_sea, rhine_frisia, rhineland_flanders: 548 cards",
+  "the dated cards": "long_793.json, 73 cards",
+  "the crew's cards": "crew_793.json, 112 cards"
+ }
+}
