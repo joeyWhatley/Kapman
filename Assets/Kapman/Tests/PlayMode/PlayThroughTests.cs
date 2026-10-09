@@ -22,14 +22,22 @@ namespace Kapman.Tests
     /// <summary>
     /// THE PLAY-THROUGH, A PICTURE AT EACH STEP (the alpha's row 18; the road's step 9). The game played by the test's
     /// hands through the real buttons, from a new game to the Michaelmas reckoning: the opening, the first jobs, and
-    /// then a season of trade by a plain trader (it sells what it brought, buys what the next port pays most for, keeps
+    /// then the trade of a plain trader (it sells what it brought, buys what the next port pays most for, keeps
     /// bread aboard, rests the men, answers every card, and is home for the day). Every step is a picture in
     /// Captures/playthrough, and the walk is told in journal.txt beside them, with every fault the page's rule found
-    /// (faults.txt). It is LONG (a season is 151 days) and is not part of the suites: run it by its name.
+    /// (faults.txt). It is LONG and is not part of the suites: run it by its name. Since 9 Oct 2026 the debt falls due
+    /// at the SECOND Michaelmas, so the whole walk is 516 days of the game (about two hours on the wall).
     ///   -runTests -testPlatform PlayMode -testFilter PlayThroughTests     (with graphics: no -nographics)
-    /// KAPMAN_PT_DAYS in the environment stops the season after that many days (a short walk to try it).
+    /// KAPMAN_PT_DAYS in the environment stops the walk after that many days (a short walk to try it).
     /// The trader decides from the markets as they are (a player has only the word on them): it is there to carry the
     /// hands through every window, not to play well.
+    /// THE PORTS ONLY HEARD OF (10 Oct 2026). The chart has a fog since 9 Oct: she knows the ports she has seen, and
+    /// the rest are rings of hearsay with no way laid to them. So the trader goes to look, as a player does: the
+    /// port's line under "By hearsay" brings its ring on the chart, the pointer clicks the water in the ring, "Set
+    /// this course", Cast off; when its harbour comes in sight it is a port like any other. It looks where cargo
+    /// aboard was bought for such a port (Ravn's word on the first morning), and otherwise for one new port every
+    /// fourth call, of the twelve of the first release. And where the game says wind and tide have set her off her
+    /// line, it lays her course again by the Voyage window's own button.
     /// </summary>
     [PrebuildSetup(typeof(ShipStageTests))]
     public class PlayThroughTests
@@ -47,6 +55,23 @@ namespace Kapman.Tests
         double silverAtStart, bestSilver;
         bool ended;
         string endedHow = "";
+
+        /// <summary>The twelve ports of the first release: the trader goes to look for these and for no others (what
+        /// else she comes on by the way, she has found).</summary>
+        static readonly string[] Release = { "dorestad", "traiectum", "walichrum", "witla", "medemelacha", "doccinga", "daventre", "quentovic",
+                                             "lundenwic", "sarre", "fordwic", "ripa" };
+
+        /// <summary>How a passage ended: made fast at a port; the port looked for came in sight; she came to the place
+        /// pointed at and lies to there; the game ended; the boat was lost and a saved game loaded; none of these.</summary>
+        enum Came { Nowhere, Fast, Sighted, There, Ended, Lost }
+
+        // (looking for the ports only heard of: which were looked for and not found, how often she went to look, the
+        // call at which she last did, how often her course was laid again, and how the last passage ended)
+        readonly HashSet<string> gaveUp = new HashSet<string>();
+        readonly List<string> foundByLooking = new List<string>();
+        int looks, lookedAtCall = -100, laidAgain, leftAtSea;
+        bool coursePointed, underWay;
+        Came came;
 
         static FrameRoot Frame => FrameRoot.Current;
         static KapmanGame Game => KapmanGame.Current;
@@ -100,6 +125,13 @@ namespace Kapman.Tests
         void Say(string line)
         {
             journal.AppendLine("[" + Now() + "] " + line);
+        }
+
+        /// <summary>What Unity's log says of the sea (a reckoning lost, and why) goes in the journal too.</summary>
+        void Heard(string line, string stack, LogType type)
+        {
+            if (line != null && line.StartsWith("Kapman sea:"))
+                Say(line);
         }
 
         void Fault(string line)
@@ -826,10 +858,12 @@ namespace Kapman.Tests
             public readonly List<(GoodDef good, int count)> buys = new List<(GoodDef, int)>();
         }
 
-        /// <summary>The ports the Voyage window lists, with the way to each as it says it.</summary>
-        IEnumerator Reach(List<(PortDef port, double km)> reach)
+        /// <summary>The ports the Voyage window lists, with the way to each as it says it; and those it lists under "By
+        /// hearsay", which have no way (the nearest first, as the window has them).</summary>
+        IEnumerator Reach(List<(PortDef port, double km)> reach, List<PortDef> heard = null)
         {
             reach.Clear();
+            heard?.Clear();
             yield return Open("Voyage", "Voyage");
             float from = Time.realtimeSinceStartup;
             bool reckoning = true;
@@ -851,7 +885,13 @@ namespace Kapman.Tests
                 var small = b.Q<Label>("small");
                 var way = name != null && small != null ? System.Text.RegularExpressions.Regex.Match(small.text, @"^(\d+) km by water") : null;
                 if (way == null || !way.Success)
+                {
+                    var only = heard != null && name != null && small != null && small.text.Contains("off, they say")
+                             ? GameData.Ports.FirstOrDefault(p => p.name == name.text) : null;
+                    if (only != null)
+                        heard.Add(only);
                     return;
+                }
                 var def = GameData.Ports.FirstOrDefault(p => p.name == name.text);
                 if (def != null && double.TryParse(way.Groups[1].Value, out double km))
                     reach.Add((def, km));
@@ -1019,7 +1059,8 @@ namespace Kapman.Tests
                         continue;                                        // (kept for the order it is promised to)
                     var quote = FrameDeal.Quote(market, good.id, false, LotSize.All);
                     boughtFor.TryGetValue(good.id, out string meant);
-                    bool sell = quote.ok && (meant == here.id || meant == null || quote.deniers - quote.toll >= quote.cost * 1.02);
+                    // (what was bought for a port she then looked for and did not find is sold where it can be)
+                    bool sell = quote.ok && (meant == here.id || meant == null || gaveUp.Contains(meant) || quote.deniers - quote.toll >= quote.cost * 1.02);
                     if (sell)
                         yield return SellAll(good);
                     else
@@ -1152,11 +1193,23 @@ namespace Kapman.Tests
         }
 
         /// <summary>She sails to a port: the course, Cast off, the clock at its fastest, and whatever comes on the way
-        /// answered. Ends made fast somewhere (where she was bound, or where a gale or a card took her).</summary>
+        /// answered. Ends made fast somewhere (where she was bound, or where a gale or a card took her). A port she has
+        /// only heard of is looked for first (<see cref="Seek"/>): its harbour in sight, it is a port like any other.</summary>
         IEnumerator SailTo(string dest)
         {
             var game = Game;
             var def = GameData.Port(dest);
+            if (Hearsay.Ringed(def))
+            {
+                if (gaveUp.Contains(dest))
+                {
+                    Say($"{def.name} was looked for and not found: she does not go again");
+                    yield break;
+                }
+                yield return Seek(def);
+                if (ended || came != Came.Sighted)
+                    yield break;                                         // (made fast somewhere, the boat lost, or not found)
+            }
             string fromName = FrameGame.PortHere != null ? FrameGame.PortHere.name : "the sea";
             yield return SetCourse(dest);
             if (!Course.IsSet || Course.Destination != dest)
@@ -1165,48 +1218,293 @@ namespace Kapman.Tests
                 yield break;
             }
             double km = Course.Km, fromDay = game.Day;
-            if (FrameGame.PortHere != null)
-            {
-                var cast = Verb("Cast off");
-                if (cast == null || !cast.enabledSelf)
-                {
-                    Frame.Look(FrameIcon.Kind.CastOff, out _, out string why, out _, out _);
-                    yield return Shot("FAULT_cannot_cast_off");
-                    Fault("she cannot cast off: " + why);
-                    yield break;
-                }
-                if (legs < 2)
-                    yield return Shot("ready_to_cast_off_for_" + def.name);
-                yield return play.Click(cast, "the Cast off button");
-                yield return ChartPlay.Frames(10);
-                if (game.ship.anchored)
-                {
-                    yield return HandleFloats();
-                    yield return ChartPlay.Frames(10);
-                }
-                if (game.ship.anchored)
-                {
-                    yield return Shot("FAULT_cast_off_did_nothing");
-                    Fault("the Cast off button was pressed and she is still made fast");
-                    Assert.Fail("Cast off did not unmoor her");
-                }
-            }
+            yield return CastOff(def.name);
+            if (!underWay)
+                yield break;
             legs++;
             Say($"cast off from {fromName} for {def.name}: {km:0} km");
-            bool half = false;
+            yield return Passage(def, null, km, fromDay);
+            if (ended || came == Came.Lost)
+                yield break;
+            var at = FrameGame.PortHere;
+            double took = game.Day - fromDay;
+            Say($"made fast at {(at != null ? at.name : "?")} after {took:0.0} days ({(took > 0.01 ? km / took : 0.0):0} km a day)" +
+                (at != null && at.id != dest ? $": NOT where she was bound ({def.name})" : ""));
+        }
+
+        /// <summary>Cast off by its button, where she lies made fast at a port (underWay says whether she is off; at sea
+        /// she is under way as soon as she has a course).</summary>
+        IEnumerator CastOff(string forWhere)
+        {
+            var game = Game;
+            underWay = FrameGame.PortHere == null;
+            if (underWay)
+                yield break;
+            var cast = Verb("Cast off");
+            if (cast == null || !cast.enabledSelf)
+            {
+                Frame.Look(FrameIcon.Kind.CastOff, out _, out string why, out _, out _);
+                yield return Shot("FAULT_cannot_cast_off");
+                Fault("she cannot cast off: " + why);
+                yield break;
+            }
+            if (legs < 2)
+                yield return Shot("ready_to_cast_off_for_" + forWhere);
+            yield return play.Click(cast, "the Cast off button");
+            yield return ChartPlay.Frames(10);
+            if (game.ship.anchored)
+            {
+                yield return HandleFloats();
+                yield return ChartPlay.Frames(10);
+            }
+            if (game.ship.anchored)
+            {
+                yield return Shot("FAULT_cast_off_did_nothing");
+                Fault("the Cast off button was pressed and she is still made fast");
+                Assert.Fail("Cast off did not unmoor her");
+            }
+            underWay = true;
+        }
+
+        /// <summary>
+        /// SHE GOES TO LOOK FOR A PORT SHE HAS ONLY HEARD OF (the user's rulings of 9 Oct 2026: click and sail, the rings
+        /// of hearsay), as a player does it. The pointer is put on the middle of its ring first: she sees 30 km round her
+        /// by day and the port lies within 8 km of that middle. Come to the place with no harbour in sight, the pointer
+        /// is put elsewhere in the ring. Ends with its harbour in sight (came: Sighted; she is still under way or lies
+        /// to), or made fast somewhere, or with the looking given up (a fault).
+        /// </summary>
+        IEnumerator Seek(PortDef def)
+        {
+            var game = Game;
+            looks++;
+            string fromName = FrameGame.PortHere != null ? FrameGame.PortHere.name : "the sea";
+            double fromDay = game.Day;
+            Say($"she goes to look for {def.name}, which she has heard of and not found");
+            var middle = Hearsay.RingMiddle(def);
+            var points = new List<WorldXZ> { middle };
+            for (int i = 0; i < 6; i++)
+            {
+                double turn = i * System.Math.PI / 3.0;
+                points.Add(new WorldXZ(middle.x + System.Math.Sin(turn) * Hearsay.RingRadius * 0.5, middle.z + System.Math.Cos(turn) * Hearsay.RingRadius * 0.5));
+            }
+            came = Came.Nowhere;
+            int pointed = 0;
+            foreach (var point in points)
+            {
+                if (ended || !Hearsay.Ringed(def))
+                    break;
+                yield return PointAt(def, point);
+                if (!coursePointed)
+                    continue;                                            // (no water leads to that place: the next)
+                pointed++;
+                yield return CastOff(def.name);
+                if (!underWay)
+                    yield break;
+                if (pointed == 1)
+                {
+                    legs++;
+                    Say($"cast off from {fromName} to look for {def.name}");
+                }
+                yield return Passage(def, point, 0.0, game.Day);
+                if (came != Came.There)
+                    break;                                               // (in sight, made fast somewhere, lost, or the game ended)
+                if (Hearsay.Ringed(def))
+                    Say($"she lies to at the place pointed at and {def.name} is not in sight: the pointer is put elsewhere in its ring");
+            }
+            if (ended || came == Came.Lost)
+                yield break;
+            if (!Hearsay.Ringed(def))
+            {
+                came = Came.Sighted;
+                foundByLooking.Add(def.name);
+                Say($"A HARBOUR IN SIGHT: {def.name} is found, {game.Day - fromDay:0.0} days after she went to look ({pointed} {(pointed == 1 ? "place" : "places")} pointed at)");
+                if (foundByLooking.Count <= 4)
+                    yield return Shot("found_" + def.name);
+            }
+            else if (came == Came.Fast && Count("looked for " + def.id) < 2)
+                Say($"she is made fast at {FrameGame.PortHere?.name} and {def.name} is not found yet");
+            else
+            {
+                gaveUp.Add(def.id);
+                yield return Shot("FAULT_not_found_" + def.name);
+                Fault(came == Came.Fast ? $"three times she went to look for {def.name} and was made fast somewhere else each time: given up"
+                                        : $"she looked for {def.name} in its ring ({pointed} places pointed at, {game.Day - fromDay:0.0} days) and did not find it");
+            }
+        }
+
+        /// <summary>The pointer put on a place in a port's ring: the port's line under "By hearsay" (the chart then shows
+        /// her and its ring), a click on the chart there, and "Set this course". coursePointed says whether her course
+        /// is now to that place.</summary>
+        IEnumerator PointAt(PortDef def, WorldXZ point)
+        {
+            coursePointed = false;
+            yield return Open("Voyage", "Voyage");
+            var voyage = FramePanels.Get("voyage") as VoyagePanel;
+            var map = MapView.Current;
+            var viewport = Frame.Root.Q<VisualElement>("viewport");
+            if (voyage == null || map == null || viewport == null)
+            {
+                Fault("there is no Voyage window, or no chart, to point at");
+                yield break;
+            }
+            // in port the place's picture stands where the chart is: the chart is had by its button
+            var view = PortView.Current;
+            if (view != null && view.Shown)
+            {
+                yield return play.Click(view.Flip, "Chart, over the port's picture");
+                yield return ChartPlay.Frames(6);
+            }
+            Vector2 at = default;
+            bool onChart = false;
+            for (int round = 0; round < 3 && !onChart; round++)
+            {
+                // (picked already, its line is put down by the click and picked by the next: the chart shows both again)
+                Button line = null;
+                float from = Time.realtimeSinceStartup;
+                while (line == null && Time.realtimeSinceStartup - from < 6f)
+                {
+                    var win = Win("Voyage");
+                    if (win != null)
+                        win.Query<Button>().ForEach(b =>
+                        {
+                            var name = b.Q<Label>("name");
+                            if (line == null && name != null && name.text == def.name && ChartPlay.Shown(b))
+                                line = b;
+                        });
+                    if (line == null)
+                        yield return null;
+                }
+                if (line == null)
+                {
+                    Fault($"the Voyage window does not list {def.name} under By hearsay");
+                    yield break;
+                }
+                yield return play.Click(line, def.name + ", under By hearsay");
+                yield return ChartPlay.Frames(4);
+                if (voyage.HearsayPicked != def.id)
+                    continue;
+                yield return ChartPlay.Until(() => System.Math.Abs(map.Scale - map.ScaleWanted) <= map.ScaleWanted * 0.002, 4f);
+                yield return ChartPlay.Settle(0.6f);
+                at = map.ChartOverlays.LocalToWorld(map.ChartPx(point));
+                onChart = viewport.worldBound.Contains(at);
+            }
+            if (!onChart)
+            {
+                yield return Shot("FAULT_ring_not_on_the_chart_" + def.name);
+                Fault($"the line of {def.name} under By hearsay was picked and its ring is not on the chart: the place would be at {at}, the chart is {viewport.worldBound}");
+                yield break;
+            }
+            if (looks <= 3)
+                yield return Shot("the_ring_of_" + def.name);
+            play.ClickAt(at);
+            yield return ChartPlay.Settle(0.8f);
+            if (!voyage.PlacePicked)
+            {
+                // (something stood under the pointer, a mark or a slip: beside it)
+                play.ClickAt(at + new Vector2(11f, 8f));
+                yield return ChartPlay.Settle(0.8f);
+            }
+            if (!voyage.PlacePicked)
+            {
+                yield return Shot("FAULT_the_chart_was_clicked_and_no_place_is_picked");
+                Fault($"a click on the chart in the ring of {def.name} did not point at a place");
+                yield break;
+            }
+            var set = play.Button("Set this course", Win("Voyage"));
+            if (set == null)
+            {
+                Say($"no water she can sail leads to that place in the ring of {def.name}");
+                yield break;
+            }
+            if (looks <= 3)
+                yield return Shot("pointed_at_the_ring_of_" + def.name);
+            yield return play.Click(set, "Set this course, for the place pointed at");
+            yield return ChartPlay.Frames(6);
+            coursePointed = Course.IsSet && Course.ToPlace;
+            if (!coursePointed)
+                Fault($"'Set this course' did not chart her course to the place pointed at in the ring of {def.name}");
+        }
+
+        /// <summary>She lies to while the air is thick (a reckoning lost in fog: a course laid then is lost again), for a
+        /// day and a night at the most.</summary>
+        IEnumerator UntilTheAirClears()
+        {
+            var game = Game;
+            double from = game.Hours;
+            if (Count("waits for the air") < 2)
+            {
+                yield return Open("Voyage", "Voyage");
+                yield return Shot("the_reckoning_lost_in_thick_air");
+            }
+            yield return Speed(5);
+            float t = Time.realtimeSinceStartup;
+            while (Adrift.Blind && Adrift.LostBound.Length > 0 && game.Hours - from < 24.0 && Time.realtimeSinceStartup - t < 240f && !ended && FrameGame.PortHere == null)
+            {
+                if (Boat.IsLost || Frame.FloatOpen(FrameRoot.LostId))
+                    yield break;                                         // (the passage's own loop reads the last page)
+                if (Showtime.Telling)
+                    yield return ASceneToldThrough();
+                else if (play.FrontFloat() != null && !Chased)
+                    yield return HandleFloat();
+                else if (GameSpeed.Level < 4)
+                    yield return Speed(5);
+                yield return null;
+            }
+            Say($"the air was thick and she lay to for {game.Hours - from:0.0} hours until the steersman could see ({Adrift.Sight():0} m now)");
+        }
+
+        /// <summary>Her course laid again from where she truly is, by the Voyage window's own button (the sea moves her,
+        /// 9 Oct 2026: the game has said she is off her line, or the steersman has lost his reckoning).</summary>
+        IEnumerator LayAgain(string why)
+        {
+            yield return Open("Voyage", "Voyage");
+            yield return ChartPlay.Frames(4);
+            var again = play.Button("Lay the course again", Win("Voyage"));
+            if (again == null || !again.enabledSelf)
+            {
+                Say(why + ": the Voyage window has no 'Lay the course again' now");
+                yield break;
+            }
+            if (laidAgain++ < 2)
+                yield return Shot("the_course_is_to_be_laid_again");
+            yield return play.Click(again, "Lay the course again");
+            yield return ChartPlay.Frames(6);
+            Say(why + ": the course is laid again" + (Course.IsSet ? $", {Course.KmLeft(ChartWorld.ShipWorld()):0} km to go" : " and she has none"));
+        }
+
+        /// <summary>
+        /// UNDER WAY: the clock at its fastest and whatever comes on the way answered, until she is made fast at a port
+        /// (came says how it ended). When she goes to look for a port only heard of (point: the place pointed at in its
+        /// ring) it ends too when that port's harbour comes in sight, and when she has come to the place and lies to
+        /// there. Where the game says wind and tide have set her off her line, or the steersman has lost his reckoning,
+        /// her course is laid again as the game tells a player to.
+        /// </summary>
+        IEnumerator Passage(PortDef def, WorldXZ? point, double km, double fromDay)
+        {
+            var game = Game;
+            came = Came.Nowhere;
+            bool half = false, seeking = point.HasValue;
+            string whereTo = seeking ? "the ring of " + def.name : def.name;
             float began = Time.realtimeSinceStartup, moved = began;
             var was = Where();
-            double hours = game.Hours;
-            int signs = Boat.Sign;
+            double hours = game.Hours, sixFrom = game.Hours;
+            var sixAt = was;
+            int signs = Boat.Sign, logFrom = FrameLog.Lines.Count;
+            // (what the log has said on this course: she has come to the place pointed at; she is set off her line)
+            bool there = false, offLine = false;
             while (!ended)
             {
                 var port = FrameGame.PortHere;
                 if (port != null && game.ship.anchored && game.Day - fromDay > 0.02)
+                {
+                    came = Came.Fast;
                     break;
+                }
                 if (Boat.IsLost || Frame.FloatOpen(FrameRoot.LostId))
                 {
                     yield return TheLastPage();
-                    yield break;                                         // (the loaded game is somewhere else: the season goes on from there)
+                    came = Came.Lost;
+                    yield break;                                         // (the loaded game is somewhere else: the walk goes on from there)
                 }
                 if (Showtime.Telling)
                 {
@@ -1221,21 +1519,71 @@ namespace Kapman.Tests
                     moved = Time.realtimeSinceStartup;
                     continue;
                 }
+                if (seeking && !Hearsay.Ringed(def))
+                {
+                    came = Came.Sighted;
+                    break;
+                }
+                for (int i = logFrom; i < FrameLog.Lines.Count; i++)
+                {
+                    string text = FrameLog.Lines[i].text;
+                    there |= text == VoyagePlanner.PlaceThereWords || text == VoyagePlanner.PlaceShortWords || text == Adrift.PlaceReckonedWords;
+                    offLine |= text.StartsWith("Wind and tide have set her ");
+                }
+                logFrom = FrameLog.Lines.Count;
                 if (Chased && Count("a chase") < 2)
                     yield return Shot("running_from_raiders");
                 if (!Course.IsSet && !Chased)
                 {
-                    // (a card or the weather took her course: where she lies now, she is given it again)
+                    // (a card or the weather took her course, the steersman lost his reckoning, or she has come to the
+                    // place pointed at: where she lies now, she is given it again)
                     if (FrameGame.PortHere != null)
-                        break;
-                    Say("she has no course: given it again");
-                    yield return SetCourse(dest);
-                    if (!Course.IsSet)
                     {
-                        yield return Shot("FAULT_no_course_at_sea");
-                        Fault("at sea with no course and none could be set for " + def.name);
-                        Assert.Fail("at sea with no course");
+                        came = Came.Fast;
+                        break;
                     }
+                    if (seeking && there)
+                    {
+                        came = Came.There;
+                        break;
+                    }
+                    if (Adrift.LostBound.Length > 0)
+                    {
+                        // (in thick air he would only lose it again: she lies to until he can see, as the game's words advise)
+                        if (Adrift.Blind)
+                            yield return UntilTheAirClears();
+                        yield return LayAgain("the steersman has lost his reckoning");
+                        moved = Time.realtimeSinceStartup;
+                        if (Course.IsSet)
+                            continue;
+                    }
+                    if (seeking)
+                    {
+                        Say("she has no course: the pointer is put on the place again");
+                        yield return PointAt(def, point.Value);
+                        if (!coursePointed)
+                            break;                                       // (came: Nowhere)
+                    }
+                    else
+                    {
+                        Say("she has no course: given it again");
+                        yield return SetCourse(def.id);
+                        if (!Course.IsSet)
+                        {
+                            yield return Shot("FAULT_no_course_at_sea");
+                            Fault("at sea with no course and none could be set for " + def.name);
+                            Assert.Fail("at sea with no course");
+                        }
+                    }
+                    moved = Time.realtimeSinceStartup;
+                    logFrom = FrameLog.Lines.Count;
+                    there = offLine = false;
+                }
+                else if (offLine && Course.IsSet && port == null)
+                {
+                    offLine = false;
+                    yield return LayAgain($"wind and tide have set her {Adrift.OffLine / 1000.0:0} km off her line");
+                    moved = Time.realtimeSinceStartup;
                 }
                 if (Boat.Sign != signs)
                 {
@@ -1255,14 +1603,27 @@ namespace Kapman.Tests
                 }
                 if (GameSpeed.Level < 4 || GameSpeed.PlayerPaused)
                     yield return Speed(5);
-                if (!half && Course.IsSet && Course.KmLeft(ChartWorld.ShipWorld()) < km * 0.5)
+                if (!half && (seeking ? game.Day - fromDay > 0.25 : Course.IsSet && Course.KmLeft(ChartWorld.ShipWorld()) < km * 0.5))
                 {
                     half = true;
-                    if (legs <= 3 || legs % 6 == 0)
-                        yield return Shot("at_sea_for_" + def.name);
+                    if (legs <= 3 || legs % 6 == 0 || (seeking && looks <= 3))
+                        yield return Shot(seeking ? "at_sea_looking_for_" + def.name : "at_sea_for_" + def.name);
                 }
                 yield return null;
                 yield return null;
+                // (under way and next to no way made in six hours of the game: said, with what the sea is doing to her)
+                if (game.Hours - sixFrom >= 6.0)
+                {
+                    double made = WorldXZ.Distance(Where(), sixAt);
+                    if (made < 3000.0 && !game.ship.anchored && Course.IsSet)
+                    {
+                        Say($"SHE MAKES NO WAY: {made / 1000.0:0.0} km in six hours, bound for {whereTo} with {Course.KmLeft(ChartWorld.ShipWorld()):0} km to go. {Adrift.Tells()}");
+                        if (Count("makes no way") < 3)
+                            yield return Shot("she_makes_no_way");
+                    }
+                    sixFrom = game.Hours;
+                    sixAt = Where();
+                }
                 if (game.Hours > hours + 0.01 || WorldXZ.Distance(Where(), was) > 5.0)
                 {
                     moved = Time.realtimeSinceStartup;
@@ -1272,31 +1633,45 @@ namespace Kapman.Tests
                 else if (Time.realtimeSinceStartup - moved > 45f)
                 {
                     yield return Shot("FAULT_nothing_moves");
-                    Fault($"nothing moves on the way to {def.name}: paused {GameSpeed.Paused}, held {EncounterRunner.ShipHeld}, anchored {game.ship.anchored}, " +
+                    Fault($"nothing moves on the way to {whereTo}: paused {GameSpeed.Paused}, held {EncounterRunner.ShipHeld}, anchored {game.ship.anchored}, " +
                           $"course {Course.IsSet}, aground {Aground.Stage}, tide wait {TideWait.On}, windows {string.Join(",", Frame.FloatIds)}");
                     Assert.Fail("nothing moves at sea");
                 }
                 if (Time.realtimeSinceStartup - began > 1500f)
                 {
                     yield return Shot("FAULT_a_leg_without_end");
-                    Fault($"the leg to {def.name} ({km:0} km) did not end in 25 minutes of the clock on the wall: {game.Day - fromDay:0.0} days of the game");
+                    Fault($"the leg to {whereTo} ({km:0} km) did not end in 25 minutes of the clock on the wall: {game.Day - fromDay:0.0} days of the game");
                     Assert.Fail("a leg without end");
                 }
             }
             if (ended)
-                yield break;
-            var at = FrameGame.PortHere;
-            double took = game.Day - fromDay;
-            Say($"made fast at {(at != null ? at.name : "?")} after {took:0.0} days ({(took > 0.01 ? km / took : 0.0):0} km a day)" +
-                (at != null && at.id != dest ? $": NOT where she was bound ({def.name})" : ""));
+                came = Came.Ended;
         }
 
         // ------------------------------------------------------------------ the season
+
+        /// <summary>The port she goes to look for now, or none: one that cargo aboard was bought for (Ravn's word on the
+        /// first morning); else, with the days to spare and no more than once in four calls, the nearest of the first
+        /// release's ports that she has heard of and not found.</summary>
+        PortDef WhereToLook(List<PortDef> heard, double daysLeft)
+        {
+            foreach (var (good, count) in Trade.Hold.Contents)
+                if (count > 0 && boughtFor.TryGetValue(good.id, out string meant))
+                {
+                    var bound = heard.FirstOrDefault(p => p.id == meant);
+                    if (bound != null && !gaveUp.Contains(bound.id))
+                        return bound;
+                }
+            if (daysLeft < 40.0 || calls - lookedAtCall < 4)
+                return null;
+            return heard.FirstOrDefault(p => System.Array.IndexOf(Release, p.id) >= 0 && !gaveUp.Contains(p.id));
+        }
 
         IEnumerator TheSeason(double mostDays)
         {
             var game = Game;
             var reach = new List<(PortDef port, double km)>();
+            var heard = new List<PortDef>();
             double began = game.Day;
             bool first = true;
             string next = null;
@@ -1309,9 +1684,16 @@ namespace Kapman.Tests
                 if (here == null)
                 {
                     // (at sea after a load, or left lying to: make for home)
-                    yield return SailTo(next ?? Home);
+                    if (++leftAtSea > 4)
+                    {
+                        yield return Shot("FAULT_left_at_sea");
+                        Fault("she lies at sea and no course brings her to a port: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 4)).Select(l => l.text)));
+                        Assert.Fail("left at sea");
+                    }
+                    yield return SailTo(next != null && !gaveUp.Contains(next) ? next : Home);
                     continue;
                 }
+                leftAtSea = 0;
                 double daysLeft = Trade.DebtDaysLeft(game.Day);
                 if (!first)
                     yield return PortCall();
@@ -1325,8 +1707,8 @@ namespace Kapman.Tests
                 if (daysLeft <= 0.0 && here.id == Home)
                     break;                                               // (the day: the reckoning)
                 // ---- where next
-                yield return Reach(reach);
-                if (reach.Count == 0)
+                yield return Reach(reach, heard);
+                if (reach.Count == 0 && heard.Count == 0)
                 {
                     yield return Shot("FAULT_nowhere_to_go");
                     Fault("the Voyage window lists nowhere to go from " + here.name);
@@ -1369,11 +1751,18 @@ namespace Kapman.Tests
                 }
                 else
                 {
+                    // (a port she has only heard of is looked for first, where there is one to look for now)
+                    var look = WhereToLook(heard, daysLeft);
+                    if (look != null)
+                    {
+                        lookedAtCall = calls;
+                        Say($"the plan: to look for {look.name}, which she has heard of and not found");
+                    }
                     // (cargo aboard that was bought for a port: go there unless the day forbids)
-                    plan = Choose(here, reach, daysLeft);
+                    plan = look != null ? new Plan { dest = look.id } : Choose(here, reach, daysLeft);
                     if (plan == null)
                         plan = new Plan { dest = Home };                  // (nowhere she could be home from in time)
-                    else if (plan.gain <= 0.0)
+                    else if (look == null && plan.gain <= 0.0)
                     {
                         // nothing worth carrying from here: home if the day is near, else the nearest other market
                         var near = reach.Where(r => r.port.id != here.id).OrderBy(r => r.km).FirstOrDefault();
@@ -1398,7 +1787,8 @@ namespace Kapman.Tests
                         if (calls <= 4 || calls % 5 == 0)
                             yield return Shot("bought_at_" + here.name);
                     }
-                    Say($"the plan: {GameData.Port(plan.dest)?.name}, {plan.km:0} km, about {plan.days:0.#} days, hoping for {plan.gain:0} d");
+                    if (look == null)
+                        Say($"the plan: {GameData.Port(plan.dest)?.name}, {plan.km:0} km, about {plan.days:0.#} days, hoping for {plan.gain:0} d");
                 }
                 yield return HandleFloats();
                 if (ended)
@@ -1406,6 +1796,8 @@ namespace Kapman.Tests
                 next = plan.dest;
                 Keep();
                 yield return SailTo(plan.dest);
+                if (gaveUp.Contains(plan.dest))
+                    next = null;                                         // (looked for and not found: from the sea she makes for home)
             }
         }
 
@@ -1489,7 +1881,7 @@ namespace Kapman.Tests
 
         // ------------------------------------------------------------------ the walk
 
-        [UnityTest, Timeout(10800000)]
+        [UnityTest, Timeout(18000000)]
         public IEnumerator FromANewGameToTheMichaelmasReckoning()
         {
             Directory.CreateDirectory(Folder);
@@ -1498,6 +1890,7 @@ namespace Kapman.Tests
             yield return FreshTitle();
             play = ChartPlay.Begin(true, "playthrough");
             float wall = Time.realtimeSinceStartup;
+            Application.logMessageReceived += Heard;
             try
             {
                 yield return TheOpening();
@@ -1509,12 +1902,15 @@ namespace Kapman.Tests
                 var game = Game;
                 Say($"== THE END: {endedHow}. {calls} calls at ports, {legs} passages, {cardsAnswered} cards answered, lost {lost} times, " +
                     $"{pictures} pictures, {play.clicks} clicks and {play.keys} keys, {(Time.realtimeSinceStartup - wall) / 60f:0} minutes on the wall. " +
-                    $"The purse began at {silverAtStart:0} d and stood highest at {bestSilver:0} d; it ends at {FrameGame.Silver:0} d with {Trade.Debt:0} d owed.");
+                    $"The purse began at {silverAtStart:0} d and stood highest at {bestSilver:0} d; it ends at {FrameGame.Silver:0} d with {Trade.Debt:0} d owed. " +
+                    $"Ports looked for: {looks}; found by looking: {(foundByLooking.Count > 0 ? string.Join(", ", foundByLooking) : "none")}; given up: {(gaveUp.Count > 0 ? string.Join(", ", gaveUp) : "none")}; " +
+                    $"her course laid again {laidAgain} times. Of the first release's twelve ports she has found {Release.Count(id => Hearsay.Found(GameData.Port(id)))}.");
                 Debug.Log("The play-through:\n" + journal);
                 Assert.IsFalse(ended && lost >= 4, endedHow);
             }
             finally
             {
+                Application.logMessageReceived -= Heard;
                 Keep();
                 play.End();
                 Showtime.ForceOn = false;

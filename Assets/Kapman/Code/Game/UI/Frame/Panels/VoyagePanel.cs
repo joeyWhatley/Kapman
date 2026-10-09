@@ -260,6 +260,8 @@ namespace Kapman.Game.Frame
             // (her set off her line, to the km; and a reckoning lost)
             h = FrameUi.Mix(h, Adrift.Version);
             h = FrameUi.Mix(h, (int)(Adrift.OffLine / 1000.0));
+            // (and whether the air is still thick over a reckoning lost)
+            h = FrameUi.Mix(h, Adrift.LostBound.Length > 0 && Adrift.Blind);
             return h;
         }
 
@@ -333,6 +335,10 @@ namespace Kapman.Game.Frame
                 string bound = Adrift.LostBound == Course.PlaceId ? Course.PlaceWords : GameData.Port(Adrift.LostBound)?.name ?? Adrift.LostBound;
                 body.Add(FrameUi.H("The reckoning is lost"));
                 body.Add(FrameUi.P("She has run her distance for " + bound + " and the steersman cannot make it out. She lies to. The chart shows where she is."));
+                // (10 Oct 2026, the long walk: in a fog he lost it four times in four hours, and nothing said that laying
+                // her course again was no use until it cleared. PLACEHOLDER WORDS.)
+                if (Adrift.Blind)
+                    body.Add(FrameUi.P("The air is still thick. A course laid now may well be lost again before it clears."));
                 body.Add(FrameUi.Go("Lay the course again", () => LayAgain()));
             }
             // ---- the place pointed at on the chart (click and sail)

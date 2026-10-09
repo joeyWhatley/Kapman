@@ -201,6 +201,22 @@ namespace Kapman.Tests
             Assert.AreEqual("a knot", SeaPush.Runs(0.5144, 0.0));
         }
 
+        /// <summary>A reckoning lost in thick air says that it is the air, and that he would wait for it to clear (10 Oct
+        /// 2026: the long walk saw him lose it four times in four hours of fog, and nothing said why).</summary>
+        [Test]
+        public void AReckoningLostInThickAirSaysThatItIsTheAir()
+        {
+            string clear = Adrift.LostWords("Witla"), thick = Adrift.LostWords("Witla", true);
+            StringAssert.Contains("off Witla", clear);
+            StringAssert.Contains("and he cannot make it out", clear);
+            StringAssert.DoesNotContain("thick", clear);
+            StringAssert.Contains("off Witla", thick);
+            StringAssert.Contains("and he cannot make it out", thick, "the tests that look for a lost reckoning in the log know it by these words");
+            StringAssert.Contains("thick", thick);
+            StringAssert.Contains("wait for it to clear", thick);
+            StringAssert.Contains("in with the land", Adrift.LostWords(null, true), "a place pointed at has no name to be off");
+        }
+
         [Test]
         public void TheTableOfItsNumbersHoldsOnlyNamesTheCodeReads()
         {

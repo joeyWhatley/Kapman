@@ -322,8 +322,10 @@ namespace Kapman.Game
                 if (lostReckoning)
                 {
                     // he has run his distance and his landfall is not in sight: she lies to for the next order
+                    // (for the makers, in Unity's log: what the sea was doing to her when he lost it)
+                    Debug.Log($"Kapman sea: the steersman lost his reckoning, bound for {Course.BoundName}. {Adrift.Tells()} Her way {body.Knots:0.0} kn, the wind {body.Wind:0.0} m/s from {body.WindFrom:0}.");
                     string bound = Course.Destination;
-                    string lostWords = Adrift.LostWords(Course.ToPlace ? null : Course.BoundName);
+                    string lostWords = Adrift.LostWords(Course.ToPlace ? null : Course.BoundName, Adrift.Blind);
                     Course.Clear();
                     Adrift.Lost(bound);
                     ship.anchored = true;

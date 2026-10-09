@@ -1899,3 +1899,41 @@ and far fewer when usage is short).
      TO BE DONE before it is a fair check again: the trader must point at a port only heard of (as
      SailByPointingTests does), and the walk must end where it is told to (KAPMAN_PT_DAYS, or the day itself).
    - Stopping it by ending its Unity did no harm: the project opened and the edit suite ran clean straight after.
+
+133. **READIED FOR THE USER'S OWN PLAY: RIPA'S PEOPLE, AND THE LONG WALK BROUGHT UP TO DATE**
+   (the user, 10 Oct, small hours: "Good work what next"; by the picker: "Ready it for your play".)
+   - A CORRECTION OF ITEM 131. It said "the eleven port pages of the first release" and "the 39 ports outside the
+     first release". The first release has TWELVE ports: Ripa was miscounted out and its ten people still spoke in
+     the old clipped way. Done now: 73 of their 88 lines and one voice note said again as whole sentences
+     (words_tools/talk_people_ripa.py; mean 16 words a sentence). Still owed: the people of the 38 ports outside
+     the first release, and the 1,300 held cards.
+   - THE LONG WALK LOOKS FOR PORTS AS A PLAYER DOES (PlayThroughTests). It was written before the chart's fog
+     (items 117, 121): its trader took its ports from the Voyage window's "Where to", so it knew two and shuttled
+     between them (item 132). Now:
+       a port only heard of is looked for by its line under "By hearsay" (the chart shows her and its ring), a
+       click on the water at the ring's middle, "Set this course", Cast off; its harbour in sight, it is charted
+       by its name like any port (Seek, PointAt, Passage);
+       it looks where cargo aboard was bought for such a port (Ravn's word on the first morning: bar iron for
+       Medemelacha), and otherwise for one new port every fourth call, of the first release's twelve;
+       where the game says wind and tide have set her off her line, or the steersman has lost his reckoning, it
+       lays her course again by the Voyage window's own button; in thick air it lies to until he can see;
+       its journal has what Unity's log says of the sea, and notes six hours under way with next to no way made;
+       it may take five hours on the wall now (the debt's day is 516 days off: item 120).
+     A short walk of 24 days (5 minutes): Medemelacha, Daventre, Doccinga and Walichrum found by pointing, 7 of
+     the twelve ports known, the order handed over, Ravn's iron sold at Medemelacha for 66 d against 43, the purse
+     from 86 d to 425 d at its best, no fault of the screen.
+   - WHAT THE SHORT WALK FOUND IN THE GAME, AND ITS MENDING: A RECKONING LOST IN A FOG SAID NOTHING OF THE FOG.
+     Looking for Doccinga, on the evening of 10 May 793 in the narrows north of Medemelacha, the steersman lost
+     his reckoning four times in four hours at one spot. Unity's log (a new line for the makers, written at that
+     moment: Adrift.Tells) gave the cause: he saw 300 m (thick air), the tide ran against her at 0.8 to 0.9 m/s
+     and she made 1.6 knots, so she stood still, his error grew to 2 km in half an hour, and at the end of each
+     short open run he could not see his mark. The rule is right. But the game said only "he cannot make it
+     out" and offered "Lay the course again", which could do nothing until the fog lifted, and said nothing of
+     that. MENDED IN ITS WORDS, the rule as it was: lost in thick air (he sees under a kilometre: Adrift.Blind)
+     the log says "... and he cannot make it out in air as thick as this. She lies to, and he would wait for it
+     to clear before a course is laid again."; and for as long as it is thick the Voyage window says under "The
+     reckoning is lost": "The air is still thick. A course laid now may well be lost again before it clears."
+     PLACEHOLDER WORDS, the user's to write.
+   - NOT DONE, THE USER'S TO RULE: whether she should take up her course again BY HERSELF when the air clears
+     (today the player lays it again: the ruling of item 122, "you correct it by pointing again"); and whether a
+     foul tide that holds her still should be told as such ("she makes no way against the tide").

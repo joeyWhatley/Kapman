@@ -123,6 +123,11 @@ namespace Kapman.Game
         /// further than the air lets him see.</summary>
         public static double Sight() => Sight(ChartWorld.ShipWorld());
 
+        /// <summary>Is the air so thick now (fog, heavy rain) that he makes out a landfall no further than
+        /// <see cref="BlindM"/>? A reckoning lost then is lost until it clears, and the words say so.</summary>
+        public static bool Blind => Sight() < BlindM;
+        public const double BlindM = 1000.0;
+
         static double Sight(WorldXZ here)
         {
             var r = SeaPush.Rules;
@@ -262,10 +267,24 @@ namespace Kapman.Game
             Version++;
         }
 
-        /// <summary>What the log says then. PLACEHOLDER WORDS, the user's to write.</summary>
-        public static string LostWords(string boundName) =>
+        /// <summary>For the makers, in Unity's log: the helm, his error and how far he sees, what carries her, whether a
+        /// shore holds her, and the water the leg of her course lies in.</summary>
+        public static string Tells()
+        {
+            int end = Course.Points.Count - 1;
+            int leg = Course.IsSet && end >= 1 ? Math.Max(1, Math.Min(end, Course.Next)) : 0;
+            string water = leg == 0 ? "no course" : !Course.LegIsOpen(leg) ? "narrow water" : Course.LegIsCoastal(leg) ? "along a coast" : "open sea";
+            double tide = Math.Sqrt(Tide.east * Tide.east + Tide.north * Tide.north), blow = Math.Sqrt(Blow.east * Blow.east + Blow.north * Blow.north);
+            return $"Helm {Helm}; his error {SetM:0} m; he sees {Sight():0} m; off her line {OffLine:0} m; the tide {tide:0.00} m/s, the wind's push {blow:0.00} m/s; " +
+                   $"held off a shore: {OnShore}; leg {leg} of {end}, {water}.";
+        }
+
+        /// <summary>What the log says then; in thick air (`thick`), that it is the air, and that he would wait for it to
+        /// clear. PLACEHOLDER WORDS, the user's to write.</summary>
+        public static string LostWords(string boundName, bool thick = false) =>
             "By the steersman's reckoning she should be " + (string.IsNullOrEmpty(boundName) ? "in with the land" : "off " + boundName) +
-            " by now, and he cannot make it out. She lies to.";
+            (thick ? " by now, and he cannot make it out in air as thick as this. She lies to, and he would wait for it to clear before a course is laid again."
+                   : " by now, and he cannot make it out. She lies to.");
 
         /// <summary>What the log says when she comes, by reckoning, to a place pointed at that she is truly well off.</summary>
         public const string PlaceReckonedWords = "She lies to where the steersman reckons the place you pointed at to be.";
