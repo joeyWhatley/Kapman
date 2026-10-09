@@ -298,7 +298,7 @@ namespace Kapman.Game.Frame
         /// opening's joke over again.)</summary>
         public static string RavnAtLanding(Landings.Landing l, int landings)
         {
-            if (l == null || landings != 1 || FirstJobs.Port.Length == 0 || l.from == l.to)
+            if (l == null || landings != 1 || FirstJobs.Port.Length == 0 || l.from == l.to || Collectors.RavnGone)
                 return "";
             string line = l.cost >= 0.5 && l.fetch > l.cost * 1.1
                               ? "Look at that! It's worth more here than it was there. Sell before you eat."

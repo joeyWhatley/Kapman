@@ -834,6 +834,9 @@ namespace Kapman.Game
             if (ship != null && body != null)
                 RoughWaters.Step(ChartWorld.ShipWorld(), body.Wind, body.WindFrom, Kapman.Game.Sim.SimStage.JulianDay,
                                  Port.LyingId() == null && !ChartWorld.OnRiver(), seconds / 3600.0);
+            // (9 Oct 2026: the lender's men, when a boat of them is out after her)
+            if (ship != null && body != null)
+                Collectors.Step(seconds / 3600.0);
             ClockDrops.Step(minute);
             StepSeconds = 0.0;
             Stepped?.Invoke(minute);

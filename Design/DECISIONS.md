@@ -1511,3 +1511,60 @@ and far fewer when usage is short).
    the reckoning lost and the course laid again from the window; carried lying to in deep water, at anchor in
    shallow; rough water on the long sands; held off a shore and never on the land). Bake/world/
    check_rough_waters.py checks every rough water against the world bake, the lanes and the tide model.
+123. **THE LENDER SENDS HIS MEN** (the user, 9 Oct: "I want the debt mechanic to be more of a constant cat and mouse
+   game, you CAN just play the game and try and pay the debt asap", "Or you could idk try different methods and
+   comedic ways around it"; by the picker: "Sends his goons to collect", "A handful of times", "Ports and at sea",
+   "Fools first, sharper later", and of what they do when she does not pay: "Dependant"; then, while it was being
+   built: "It'll be dynamic you know", "Maybe you can pay them off in installments, maybe you can give them cargo
+   maybe they kill a crew member ect", "It'll be comedic but also shockingly brutal at times", "Just clueless
+   brutes", "Maybe it you don't pay up for the 3rd time they kill Ravn?"). RULINGS, with what I chose inside them.
+   - A HANDFUL OF TIMES. Four sendings in the life of the debt (game days 21, 130, 335, 445; Michaelmas 794 is
+     day 516). On its day the lender sends a boat of his men from Dorestat, UNLESS she has paid a pound on the
+     stick since the last one: then he sends nobody and his temper cools. So she can simply pay as she goes (the
+     Errands window takes a pound now) and never see them.
+   - THEY FOLLOW THE WORD OF HER (Voyage/Collectors.cs). They sail to the port she last made, ask round the quay
+     six hours, and go on to the next she made after it, or to where she said she was bound. If she lingers they
+     find her at her berth. If they see her at sea by day (6 km; less by night and in fog; not up a river, and not
+     with land between) they row for her, and alongside they hold her. They give up when their days are out (40
+     to 50) and go home with nothing. A quay she comes back to tells her they were there, how long since, and
+     where they went on to; their boat has its own mark on the chart while she has it in sight, the log says so,
+     and the clock drops back (a new reason, with its switch).
+   - CAUGHT, A CARD (the quay's, or alongside at sea). She may pay a pound, two, or all of it; give cargo off
+     the hold at their price (six tenths of its worth); or try a way round them: say there is no silver aboard
+     (it is under the ballast stones), send them down the coast after nothing, broach a cask for them, plead a
+     bad season, and at sea pull away. Each way is carried by one of her stats, is a quarter less likely for each
+     time it has fooled them before ("He said look under the stones this time"), and a little less for each
+     later sending.
+   - WHAT THEY DO WHEN THEY ARE GIVEN NOTHING DEPENDS: on the lender's temper (it starts at 1, falls by one when
+     she pays a pound and by two for two, rises by one each time they come home with nothing or fooled), on what
+     there is aboard, and on whether she has just made fools of them. At 1 they only talk. From 2 they turn out
+     the purse and then the hold for an instalment (more as his temper climbs), a quarter of it for their
+     trouble. When there is little to take, or a way round them has just failed, a man is beaten from 3 and
+     killed from 4. Never the last man aboard.
+   - THE THIRD TIME SHE DOES NOT PAY, THEY KILL RAVN (the user's own idea; "ravnAtRefusal": 3 in the table, 0 for
+     never). Counted: every visit that ended with nothing paid of her own will, fooled or not, less one for each
+     pound she has paid since. It is said before it is done: the Errands window says "Twice now you have paid
+     his men nothing of your own will. The next time, they kill Ravn.", and on that visit's card the rope man
+     says it himself. It is told flat, in one sentence.
+   - THE DEAD IN THE CARDS (Core/Encounters). One of the standing cast can be dead: a flag says so
+     ("gone_cast_crew_ravn"). He does not speak; a card that leans on him does not come (he speaks half of it or
+     more, or its own words name him); and a text may be written for when he is gone, under its own key with
+     ".without_ravn" after it. Of the 63 sea cards in the game, those that lean on Ravn stop coming when he is
+     dead. The clean stick's card still comes, with its end written for it.
+   - THE CAST. The men are the two with the rope who already stand behind the lender on the day, and his man
+     Bubo comes with them to count. The rope men have no names and no faces: both are the user's. In the user's
+     words they are just clueless brutes: they say what they were told to say as far as they have kept it.
+   - THE LENDER'S MAN'S OWN THREE CARDS ARE GONE (at home, away, alongside in fog: he kept turning up inside the
+     last 140 days). His words are kept in the writing. The day itself and the clean stick are as they were.
+   - EVERY NUMBER IS IN Game/Data/collectors_793.json. EVERY WORD IS A PLACEHOLDER (43 new texts).
+   - MINE, the user's to overrule: the four days; that a pound paid stops a sending; how they follow her; the
+     ways round them and which stat carries each; the whole ladder of his temper; that a visit she fooled them
+     on counts toward the third; that Ravn is not killed while he is the only man aboard; that a card which
+     names a dead man does not come unless it is written again; every word.
+   - NOT DONE: nothing of this is in the opening's own talk (the lender does not say he will send men). Ravn's
+     death has no card of its own, no burial, no word from the crew after. The other 1,300 held cards will need
+     their ".without_ravn" texts, or they will not come once he is dead. The long play-through walk has not met
+     them. The Errands window says his temper in one word and nothing of what they took last time.
+   Tests: CollectorsTests (edit, 7), WokererTests (their card, what it orders), GoonsTests (play: the first
+   sending at the quay, given nothing three times, Ravn killed and the cards that lean on him shut; their boat
+   in sight at sea, alongside, the ship held).

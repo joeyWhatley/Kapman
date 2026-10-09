@@ -235,6 +235,8 @@ namespace Kapman.Tests
             string[] want = null;
             if (id.Contains("wokerers_man"))
                 want = FrameGame.Silver >= Trade.Debt ? new[] { "all", "feed", "put_off" } : new[] { "feed", "put_off" };
+            else if (id.Contains(".goons."))
+                want = FrameGame.Silver >= Trade.Debt ? new[] { "all" } : FrameGame.Silver >= 240.0 ? new[] { "pound", "cargo", "nothing" } : new[] { "cargo", "nothing" };
             else if (id.Contains("wokerers_day"))
                 want = new[] { "all", "short" };
             else if (id.Contains("wokerers_stick"))

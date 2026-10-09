@@ -123,6 +123,8 @@ namespace Kapman.Game
                 case "chest.riddles_solved":
                     return Chest.Items.Count(i => i.kind == "riddle" && i.solved);
             }
+            if (name.StartsWith("goons.", StringComparison.Ordinal))
+                return Collectors.Var(name);                              // (the lender's men: Voyage/Collectors.cs)
             if (name.StartsWith("hold.from_", StringComparison.Ordinal))
                 return 0.0;                                               // (where a lot was bought: not kept by the hold yet)
             if (name.StartsWith("hold.", StringComparison.Ordinal))

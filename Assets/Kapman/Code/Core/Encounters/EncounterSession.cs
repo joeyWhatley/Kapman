@@ -138,7 +138,41 @@ namespace Kapman.Encounters
         public string Title => world.book.Written(card.titleKey) ?? (card.title.Length > 0 ? card.title : world.book.Shown(card.titleKey));
 
         /// <summary>What this step is, in plain words: the user's for the intention key, else the card's plain intention.</summary>
-        public string Intention => world.book.Written(card.intentionKey) ?? card.intention;
+        public string Intention => world.book.Written(Without(card.intentionKey)) ?? card.intention;
+
+        /// <summary>
+        /// A text's key as it is to be read NOW: where one of the card's standing cast is dead or gone and the text is
+        /// written again for that ("x.y.without_ravn"), that key; else the key itself. (9 Oct 2026: the lender's men
+        /// can kill Ravn, and a paragraph that has him ask to hold the stick must have another to stand in for it.)
+        /// </summary>
+        public string Without(string key)
+        {
+            if (string.IsNullOrEmpty(key) || world == null || world.state == null)
+                return key;
+            foreach (var spec in card.actors)
+                if (spec.cast.Length > 0 && world.state.Gone(spec.cast, world.day))
+                {
+                    string other = key + ".without_" + EncounterState.ShortName(spec.cast);
+                    if (world.book.Written(other) != null)
+                        return other;
+                }
+            return key;
+        }
+
+        /// <summary>The written end of a choice as it is to be read now (Outcomes.Text, and a text written for when one
+        /// of the card's people is gone before it).</summary>
+        string WrittenEnd(OptionDef o, string branch)
+        {
+            foreach (string key in Outcomes.Keys(o, branch ?? ""))
+            {
+                string other = Without(key);
+                if (other != key)
+                    return world.book.Written(other);
+                if (world.book.Written(key) != null)
+                    break;
+            }
+            return Outcomes.Text(world.book, o, branch);
+        }
 
         /// <summary>The option Enter chooses (-1: none): the default, on a return, if it can be chosen.</summary>
         public int DefaultIndex
@@ -191,10 +225,15 @@ namespace Kapman.Encounters
             {
                 if (!l.when.Eval(vars))
                     continue;
+                // (the dead do not speak: a line of one of the standing cast who is gone is left out)
+                var by = l.who.Length > 0 ? card.Actor(l.who) : null;
+                if (by != null && by.cast.Length > 0 && world.state.Gone(by.cast, world.day))
+                    continue;
                 var who = l.who.Length > 0 && s.actors.TryGetValue(l.who, out var n) ? n : null;
+                string key = s.Without(l.key);
                 s.lines.Add(new ShownLine
                 {
-                    def = l, who = who, text = world.book.Shown(l.key), written = world.book.Written(l.key) != null,
+                    def = l, who = who, text = world.book.Shown(key), written = world.book.Written(key) != null,
                     tongue = l.tongue.Length > 0 ? l.tongue : who?.tongue ?? "", turns = l.turns,
                 });
             }
@@ -268,7 +307,7 @@ namespace Kapman.Encounters
             r.branch = ctx.branch;
             r.then = shown.def.then;
             r.told = !string.IsNullOrEmpty(note) ? LogProse.YouDid(note) : LogProse.Answered(shown.label);
-            r.written = Outcomes.Text(world.book, shown.def, ctx.branch);
+            r.written = WrittenEnd(shown.def, ctx.branch);
             r.facts.AddRange(ctx.facts);
             if (r.facts.Count == 0 && r.written.Length == 0)
                 r.facts.Add("Nothing more came of it.");

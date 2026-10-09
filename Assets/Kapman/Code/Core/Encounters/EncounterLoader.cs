@@ -194,8 +194,44 @@ namespace Kapman.Encounters
                     foreach (var v in o.cost.Concat(o.effects).SelectMany(e => e.Verbs()))
                         CheckVerb(v, c, $"{where} option {o.key}", book, deeds, goods, ports, errors);
                 }
+                LeansByName(c, book);
             }
             return book;
+        }
+
+        /// <summary>
+        /// A CARD WHOSE OWN WORDS NAME ONE OF ITS STANDING CAST leans on him too (9 Oct 2026: the lender's men can kill
+        /// Ravn, and no card may show a dead man alive): its scene, another's line, a choice or its written end has his
+        /// name in it. Unless every such text is written again for when he is gone, under its own key with
+        /// ".without_ravn" after it (EncounterSession.Without): then the card comes, and reads those.
+        /// </summary>
+        static void LeansByName(EncounterDef c, EncounterBook book)
+        {
+            foreach (var spec in c.actors)
+            {
+                if (spec.cast.Length == 0 || spec.name.Length < 3 || c.leans.Contains(spec.cast))
+                    continue;
+                string tail = ".without_" + EncounterState.ShortName(spec.cast);
+                var keys = new List<string> { c.titleKey, c.intentionKey };
+                foreach (var l in c.lines)
+                    if (l.who != spec.key)
+                        keys.Add(l.key);                                 // (his own lines are simply left out when he is gone)
+                foreach (var o in c.options)
+                {
+                    keys.Add(o.labelKey);
+                    foreach (string branch in new[] { "", "success", "failure" })
+                        keys.AddRange(Outcomes.Keys(o, branch));
+                }
+                foreach (string key in keys)
+                {
+                    string text = book.Written(key);
+                    if (text != null && text.IndexOf(spec.name, StringComparison.Ordinal) >= 0 && book.Written(key + tail) == null)
+                    {
+                        c.leans.Add(spec.cast);
+                        break;
+                    }
+                }
+            }
         }
 
         static void CheckVerb(VerbEffect v, EncounterDef c, string where, EncounterBook book, HashSet<string> deeds, HashSet<string> goods,
@@ -373,6 +409,22 @@ namespace Kapman.Encounters
                     errors.Add($"{where} line {line.key}: '{line.who}' is not one of the card's actors.");
                 Key(book, line.key);
                 c.lines.Add(line);
+            }
+            // (9 Oct 2026) the standing cast this card cannot do without: who speaks half its spoken lines or more
+            int spoken = 0;
+            foreach (var l in c.lines)
+                if (l.who.Length > 0)
+                    spoken++;
+            foreach (var spec in c.actors)
+            {
+                if (spec.cast.Length == 0 || spoken == 0)
+                    continue;
+                int his = 0;
+                foreach (var l in c.lines)
+                    if (l.who == spec.key)
+                        his++;
+                if (his * 2 >= spoken)
+                    c.leans.Add(spec.cast);
             }
 
             int defaults = 0;

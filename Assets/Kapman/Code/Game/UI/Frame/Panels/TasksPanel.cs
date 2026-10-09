@@ -30,6 +30,7 @@ namespace Kapman.Game.Frame
                 h = FrameUi.Mix(FrameUi.Mix(h, (int)Trade.Debt), (int)FrameGame.Silver);
                 h = FrameUi.Mix(h, game != null ? (int)Trade.DebtDaysLeft(game.Day) : 0);
                 h = FrameUi.Mix(h, Trade.Working ? 1 : 0);
+                h = FrameUi.Mix(h, Collectors.Version);                     // (the lender's temper, his men out, Ravn next)
                 h = FrameUi.Mix(h, FrameGame.HoldStamp());
                 h = FrameUi.Mix(h, (int)Trade.Hold.capacity);
             }
@@ -79,14 +80,25 @@ namespace Kapman.Game.Frame
                 else if (ContentFlags.Ready && ContentFlags.Has(Trade.LenderFlag))
                     body.Add(FrameUi.P(days >= 0.0 ? "The day after, he comes with two men and a rope."
                                                    : $"The day is past. {Trade.LenderName} is waiting at Dorestat with two men and a rope."));
+                // THE LENDER SENDS HIS MEN (9 Oct 2026): how he stands to her, that they are out when she knows it, and,
+                // BEFORE it happens, that the next time she gives them nothing they kill Ravn. PLACEHOLDER WORDS.
+                if (ContentFlags.Ready && ContentFlags.Has(Trade.LenderFlag) && !Trade.Working)
+                {
+                    body.Add(FrameUi.Ln(Trade.LenderName, "He is " + Collectors.TemperWord + "." + (Collectors.KnownOut ? " His men are out after you." : "") +
+                                                          " A pound on the stick before he sends them, and he sends nobody."));
+                    if (Collectors.RavnNext)
+                        body.Add(FrameUi.P((Collectors.Unpaid == 2 ? "Twice" : Collectors.Unpaid + " times") + " now you have paid his men nothing of your own will. The next time, they kill Ravn."));
+                }
                 if (here != null)
                 {
                     var market = Markets.Of(here, game.Year, game.Day);
                     var part = FrameUi.Btn("Pay 20 d", () => Pay(market, 20.0));
+                    var pound = FrameUi.Btn("Pay a pound", () => Pay(market, System.Math.Min(240.0, Trade.Debt)), "240 d on the stick.");
                     var all = FrameUi.Btn("Pay it all", () => Pay(market, Trade.Debt));
                     part.SetEnabled(silver >= System.Math.Min(20.0, Trade.Debt));
+                    pound.SetEnabled(silver >= System.Math.Min(240.0, Trade.Debt));
                     all.SetEnabled(silver >= Trade.Debt);
-                    body.Add(FrameUi.Row(part, all));
+                    body.Add(FrameUi.Row(part, pound, all));
                 }
                 else
                     body.Add(FrameUi.P("It is paid at a market, in port."));

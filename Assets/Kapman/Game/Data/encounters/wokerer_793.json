@@ -1,15 +1,29 @@
 {
- "about": "THE LENDER'S STICK (8 Oct 2026, night; Design/DECISIONS.md 104 and 105). The debt for the boat in a game begun through the opening (flag lender_opening), owed to Wursing, called the Wōkerer: his man who keeps turning up to ask for something on the stick (DECISIONS 33: the user's own idea; any sum may be paid, wherever he finds her), the day itself and the days after it (unpaid, she works for the lender: half of what she sells goes to the stick until it is clean), and the stick made clean. The count's old chain (chain_house_debt_793.json) sleeps in such a game. Flags: wk_met (he has been met), wk_wait_far / wk_wait_mid / wk_wait_near (lapsing: he does not come while the one for the season stands), wk_hid_grace (falls by four each time she hides: the odds of it being funny fall with it), wk_work (she works for him), wk_clean (the stick is given up). Words: Data/writing/wokerer.json. EVERY WORD IS A PLACEHOLDER for the user's own, and the man's name (Bubo) is the user's to give.",
+ "about": "THE LENDER'S STICK (8 Oct 2026, night; Design/DECISIONS.md 104 and 105). The debt for the boat in a game begun through the opening (flag lender_opening), owed to Wursing, called the Wōkerer: his man who keeps turning up to ask for something on the stick (DECISIONS 33: the user's own idea; any sum may be paid, wherever he finds her), the day itself and the days after it (unpaid, she works for the lender: half of what she sells goes to the stick until it is clean), and the stick made clean. The count's old chain (chain_house_debt_793.json) sleeps in such a game. Flags: wk_met (he has been met), wk_wait_far / wk_wait_mid / wk_wait_near (lapsing: he does not come while the one for the season stands), wk_hid_grace (falls by four each time she hides: the odds of it being funny fall with it), wk_work (she works for him), wk_clean (the stick is given up). Words: Data/writing/wokerer.json. EVERY WORD IS A PLACEHOLDER for the user's own, and the man's name (Bubo) is the user's to give. FROM 9 OCT 2026 THE LENDER SENDS HIS MEN (Code/Game/Voyage/Collectors.cs, Game/Data/collectors_793.json; the user: 'Sends his goons to collect', 'A handful of times', 'Just clueless brutes'): the man's own three cards (at home, away, alongside in fog) are gone, his words kept in the writing for the user, and two cards stand in their place: the rope men at the quay and alongside at sea (harbour.goons.quay, sea.goons.alongside), never drawn, put first in line when their boat has caught her.",
  "cards": [
   {
-   "id": "harbour.wokerers_man.home",
-   "note": "The lender's man at the home berth (DECISIONS 33 and 104). He comes when she moors, no sooner than his last word allows (the three wk_wait flags: seldom while Michaelmas is far, often when it is near, sooner after he was put off), from ten days into the game. Any sum may be paid and he cuts the notch there (law debt_pay_N). Hiding wears thin: its odds fall each time (flag wk_hid_grace). He is never pressing and never angry.",
+   "id": "harbour.goons.quay",
+   "note": "THE LENDER'S MEN HAVE FOUND HER AT A QUAY (the user, 9 Oct 2026: 'Sends his goons to collect'; Code/Game/Voyage/Collectors.cs puts this card first in line when they catch her: it is never drawn). She may pay a pound, two, or all; give cargo at their price; or try a way round them. Each way is carried by one of her stats (goons.ease_X), is harder each time it has fooled them and for each later sending. Given nothing, what they do DEPENDS (law goons_teeth: the lender's temper, what is aboard, whether she has just made fools of them): they talk, or take silver and cargo, or beat a man, or kill one; and the third time she does not pay it is Ravn (they say so the time before). The rope men are clueless brutes, in the user's own words; Bubo is with them to count. EVERY WORD IS A PLACEHOLDER.",
    "stage": "harbour",
-   "arrival": true,
-   "when": "moored and port.id = dorestad and flag.lender_opening and debt > 0 and debt_due_days > 0 and debt_due_days <= 140 and ((debt_due_days >= 60 and not flag.wk_wait_far) or (debt_due_days < 60 and debt_due_days >= 21 and not flag.wk_wait_mid) or (debt_due_days < 21 and not flag.wk_wait_near))",
+   "when": "moored and flag.lender_opening and debt > 0 and goons.caught = 1 and goons.sea = 0",
    "weight": 0,
    "cooldown_days": 0,
    "actors": {
+    "brute": {
+     "cast": "dorestad.wokerers_rope_man",
+     "name": "The rope man",
+     "role": "warrior",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      30,
+      30
+     ],
+     "fixed": true,
+     "note": "One of the two men with the rope who stand behind the lender on the day (the day's own card). The user, 9 Oct 2026: 'Just clueless brutes'. HE HAS NO NAME AND NO FACE: both are the user's. He says what he was told to say, as far as he has kept it. He is not cruel and not clever: what he does, he does as he would shut a door."
+    },
     "man": {
      "cast": "dorestad.wokerers_man",
      "name": "Bubo",
@@ -26,416 +40,229 @@
      "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
     }
    },
-   "title_key": "wokerer.man.title",
-   "title": "The Wōkerer's man",
-   "intention_key": "wokerer.man.home.intention",
-   "intention": "The lender's man asks for something on the stick.",
+   "title_key": "wokerer.goons.title",
+   "title": "The rope men",
+   "intention_key": "wokerer.goons.quay.intention",
+   "intention": "The lender's men have found her.",
    "lines": [
     {
-     "who": "man",
-     "key": "wokerer.man.home.first",
-     "when": "not npc.man.met"
+     "who": "brute",
+     "key": "wokerer.goons.quay.first",
+     "when": "not npc.brute.met"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.again",
+     "when": "npc.brute.met"
     },
     {
      "who": "man",
-     "key": "wokerer.man.again",
-     "when": "npc.man.met"
+     "key": "wokerer.goons.bubo"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.told_stones",
+     "when": "goons.used_hide >= 1"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.told_coast",
+     "when": "goons.used_lie >= 1"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.told_drink",
+     "when": "goons.used_drink >= 1"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.angry",
+     "when": "goons.temper >= 3"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.ravn_next",
+     "when": "goons.ravn_next = 1"
     },
     {
      "who": "man",
-     "key": "wokerer.man.said_next_time",
-     "when": "npc.man.last = put_off"
+     "key": "wokerer.goons.ravn_next_bubo",
+     "when": "goons.ravn_next = 1"
     },
     {
      "who": "man",
-     "key": "wokerer.man.fed",
-     "when": "npc.man.last = feed"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.lied",
-     "when": "npc.man.last = lie.failure"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.hid",
-     "when": "npc.man.last = hide.success or npc.man.last = hide.failure"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.near",
-     "when": "debt_due_days < 21"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.ask",
-     "when": "npc.man.met"
+     "key": "wokerer.goons.ask"
     }
    ],
    "options": [
     {
      "key": "pound",
-     "label_key": "wokerer.man.pound",
-     "label": "Count him out a pound (240 d)",
+     "label_key": "wokerer.goons.pound",
+     "label": "Count out a pound (240 d)",
      "check": "silver >= 240 and debt >= 240",
      "effects": [
       "law debt_pay_240",
-      "npc man feeling +4 paid",
-      "flag wk_met",
-      "flag wk_wait_far for 24",
-      "flag wk_wait_mid for 12",
-      "flag wk_wait_near for 6"
+      "law goons_paid",
+      "npc man feeling +4 paid"
      ]
     },
     {
-     "key": "sixty",
-     "label_key": "wokerer.man.sixty",
-     "label": "Count him out sixty pennies",
-     "check": "silver >= 60 and debt >= 60",
+     "key": "two",
+     "label_key": "wokerer.goons.two",
+     "label": "Count out two pounds (480 d)",
+     "check": "silver >= 480 and debt >= 480",
      "effects": [
-      "law debt_pay_60",
-      "npc man feeling +2 paid",
-      "flag wk_met",
-      "flag wk_wait_far for 24",
-      "flag wk_wait_mid for 12",
-      "flag wk_wait_near for 6"
+      "law debt_pay_480",
+      "law goons_paid_well",
+      "npc man feeling +6 paid"
      ]
     },
     {
      "key": "all",
-     "label_key": "wokerer.man.all",
-     "label": "Pay him all that is on the stick",
+     "label_key": "wokerer.goons.all",
+     "label": "Pay all that is on the stick",
      "check": "debt_short = 0",
      "effects": [
       "law debt_paid",
-      "npc man feeling +8 clean",
-      "flag wk_met"
+      "law goons_done",
+      "npc man feeling +8 clean"
      ]
     },
     {
-     "key": "feed",
-     "label_key": "wokerer.man.feed",
-     "label": "Sit him down and feed him (2 d)",
-     "check": "silver >= 2",
-     "cost": "silver 2",
+     "key": "cargo",
+     "label_key": "wokerer.goons.cargo",
+     "label": "Let them take cargo for it",
+     "check": "goons.cargo = 1",
      "effects": [
-      "npc man feeling +6 fed",
-      "flag wk_met",
-      "flag wk_wait_far for 24",
-      "flag wk_wait_mid for 12",
-      "flag wk_wait_near for 6"
-     ]
-    },
-    {
-     "key": "put_off",
-     "label_key": "wokerer.man.put_off",
-     "label": "Not today. Tell him next time",
-     "check": "true",
-     "default": true,
-     "effects": [
-      "npc man feeling -1 put_off",
-      "flag wk_met",
-      "flag wk_wait_far for 10",
-      "flag wk_wait_mid for 6",
-      "flag wk_wait_near for 3"
-     ]
-    },
-    {
-     "key": "lie",
-     "label_key": "wokerer.man.lie",
-     "label": "Tell him the purse is empty",
-     "check": "silver >= 60",
-     "effects": [
-      {
-       "chance": 0.5,
-       "by": "me.tongue",
-       "success": [
-        "flag wk_met",
-        "flag wk_wait_far for 24",
-        "flag wk_wait_mid for 12",
-        "flag wk_wait_near for 6"
-       ],
-       "failure": [
-        "npc man feeling -6 lied",
-        "mark troth -1 lied_to_the_lenders_man for 30",
-        "flag wk_met",
-        "flag wk_wait_far for 10",
-        "flag wk_wait_mid for 6",
-        "flag wk_wait_near for 3"
-       ]
-      }
+      "law goons_cargo"
      ]
     },
     {
      "key": "hide",
-     "label_key": "wokerer.man.hide",
-     "label": "Get under the sail and have the men say you are ashore",
-     "check": "true",
+     "label_key": "wokerer.goons.hide",
+     "label": "Say there is no silver aboard (it is under the ballast stones)",
+     "check": "silver >= 60",
      "effects": [
       {
-       "chance": 0.9,
-       "by": "flag.wk_hid_grace",
+       "chance": 0.75,
+       "by": "goons.ease_hide",
        "success": [
-        "morale +0.03",
-        "flag wk_hid_grace -4",
-        "flag wk_met",
-        "flag wk_wait_far for 10",
-        "flag wk_wait_mid for 6",
-        "flag wk_wait_near for 3"
+        "law goons_fooled_hide",
+        "morale +0.03"
        ],
        "failure": [
-        "morale -0.05",
-        "mark nerve -1 hid_under_the_sail for 14",
-        "flag wk_hid_grace -4",
-        "npc man feeling -2 hid",
-        "flag wk_met",
-        "flag wk_wait_far for 10",
-        "flag wk_wait_mid for 6",
-        "flag wk_wait_near for 3"
+        "mark nerve -1 silver_under_the_stones for 20",
+        "law goons_teeth_angry"
        ]
       }
-     ]
-    }
-   ],
-   "memory": {
-    "pound": "paid a pound on the stick",
-    "sixty": "paid sixty pennies on the stick",
-    "all": "paid the stick clean",
-    "feed": "fed the Wōkerer's man",
-    "put_off": "put the Wōkerer's man off till next time",
-    "lie.success": "told the Wōkerer's man the purse was empty",
-    "lie.failure": "told the Wōkerer's man the purse was empty, and he saw that it was not",
-    "hide.success": "hid from the Wōkerer's man under the sail",
-    "hide.failure": "hid from the Wōkerer's man, and the men were ashamed of it"
-   }
-  },
-  {
-   "id": "harbour.wokerers_man.away",
-   "note": "The lender's man on a jetty he could not possibly have reached: where he turns up is the joke, and he never says how he got there (DECISIONS 33). The same choices as at home.",
-   "stage": "harbour",
-   "arrival": true,
-   "when": "moored and port.id != dorestad and flag.lender_opening and debt > 0 and debt_due_days > 0 and debt_due_days <= 140 and ((debt_due_days >= 60 and not flag.wk_wait_far) or (debt_due_days < 60 and debt_due_days >= 21 and not flag.wk_wait_mid) or (debt_due_days < 21 and not flag.wk_wait_near))",
-   "weight": 0,
-   "cooldown_days": 0,
-   "actors": {
-    "man": {
-     "cast": "dorestad.wokerers_man",
-     "name": "Bubo",
-     "role": "factor",
-     "people": "frisian",
-     "faith": "christian",
-     "tongue": "port",
-     "sex": "m",
-     "age": [
-      36,
-      36
-     ],
-     "fixed": true,
-     "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
-    }
-   },
-   "title_key": "wokerer.man.title",
-   "title": "The Wōkerer's man",
-   "intention_key": "wokerer.man.away.intention",
-   "intention": "The lender's man has found you here too.",
-   "lines": [
-    {
-     "who": "man",
-     "key": "wokerer.man.away.first",
-     "when": "not npc.man.met"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.again",
-     "when": "npc.man.met"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.away.sick",
-     "when": "npc.man.met"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.away.foreign",
-     "when": "port.realm != franks"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.said_next_time",
-     "when": "npc.man.last = put_off"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.fed",
-     "when": "npc.man.last = feed"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.lied",
-     "when": "npc.man.last = lie.failure"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.hid",
-     "when": "npc.man.last = hide.success or npc.man.last = hide.failure"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.near",
-     "when": "debt_due_days < 21"
-    },
-    {
-     "who": "man",
-     "key": "wokerer.man.ask",
-     "when": "npc.man.met"
-    }
-   ],
-   "options": [
-    {
-     "key": "pound",
-     "label_key": "wokerer.man.pound",
-     "label": "Count him out a pound (240 d)",
-     "check": "silver >= 240 and debt >= 240",
-     "effects": [
-      "law debt_pay_240",
-      "npc man feeling +4 paid",
-      "flag wk_met",
-      "flag wk_wait_far for 24",
-      "flag wk_wait_mid for 12",
-      "flag wk_wait_near for 6"
-     ]
-    },
-    {
-     "key": "sixty",
-     "label_key": "wokerer.man.sixty",
-     "label": "Count him out sixty pennies",
-     "check": "silver >= 60 and debt >= 60",
-     "effects": [
-      "law debt_pay_60",
-      "npc man feeling +2 paid",
-      "flag wk_met",
-      "flag wk_wait_far for 24",
-      "flag wk_wait_mid for 12",
-      "flag wk_wait_near for 6"
-     ]
-    },
-    {
-     "key": "all",
-     "label_key": "wokerer.man.all",
-     "label": "Pay him all that is on the stick",
-     "check": "debt_short = 0",
-     "effects": [
-      "law debt_paid",
-      "npc man feeling +8 clean",
-      "flag wk_met"
-     ]
-    },
-    {
-     "key": "feed",
-     "label_key": "wokerer.man.feed",
-     "label": "Sit him down and feed him (2 d)",
-     "check": "silver >= 2",
-     "cost": "silver 2",
-     "effects": [
-      "npc man feeling +6 fed",
-      "flag wk_met",
-      "flag wk_wait_far for 24",
-      "flag wk_wait_mid for 12",
-      "flag wk_wait_near for 6"
-     ]
-    },
-    {
-     "key": "put_off",
-     "label_key": "wokerer.man.put_off",
-     "label": "Not today. Tell him next time",
-     "check": "true",
-     "default": true,
-     "effects": [
-      "npc man feeling -1 put_off",
-      "flag wk_met",
-      "flag wk_wait_far for 10",
-      "flag wk_wait_mid for 6",
-      "flag wk_wait_near for 3"
      ]
     },
     {
      "key": "lie",
-     "label_key": "wokerer.man.lie",
-     "label": "Tell him the purse is empty",
-     "check": "silver >= 60",
+     "label_key": "wokerer.goons.lie",
+     "label": "Say your silver lies with a man down the coast",
+     "check": "true",
      "effects": [
       {
-       "chance": 0.5,
-       "by": "me.tongue",
+       "chance": 0.7,
+       "by": "goons.ease_lie",
        "success": [
-        "flag wk_met",
-        "flag wk_wait_far for 24",
-        "flag wk_wait_mid for 12",
-        "flag wk_wait_near for 6"
+        "law goons_astray"
        ],
        "failure": [
-        "npc man feeling -6 lied",
-        "mark troth -1 lied_to_the_lenders_man for 30",
-        "flag wk_met",
-        "flag wk_wait_far for 10",
-        "flag wk_wait_mid for 6",
-        "flag wk_wait_near for 3"
+        "mark troth -1 lied_to_the_lenders_men for 30",
+        "law goons_teeth_angry"
        ]
       }
      ]
     },
     {
-     "key": "hide",
-     "label_key": "wokerer.man.hide",
-     "label": "Get under the sail and have the men say you are ashore",
-     "check": "true",
+     "key": "drink",
+     "label_key": "wokerer.goons.drink",
+     "label": "Broach a cask for them",
+     "check": "goons.drink = 1",
      "effects": [
       {
-       "chance": 0.9,
-       "by": "flag.wk_hid_grace",
+       "chance": 0.7,
+       "by": "goons.ease_drink",
        "success": [
-        "morale +0.03",
-        "flag wk_hid_grace -4",
-        "flag wk_met",
-        "flag wk_wait_far for 10",
-        "flag wk_wait_mid for 6",
-        "flag wk_wait_near for 3"
+        "law goons_drunk"
        ],
        "failure": [
-        "morale -0.05",
-        "mark nerve -1 hid_under_the_sail for 14",
-        "flag wk_hid_grace -4",
-        "npc man feeling -2 hid",
-        "flag wk_met",
-        "flag wk_wait_far for 10",
-        "flag wk_wait_mid for 6",
-        "flag wk_wait_near for 3"
+        "law goons_poured",
+        "law goons_teeth_angry"
        ]
       }
+     ]
+    },
+    {
+     "key": "plead",
+     "label_key": "wokerer.goons.plead",
+     "label": "Plead a bad season",
+     "check": "goons.used_plead = 0",
+     "effects": [
+      {
+       "chance": 0.6,
+       "by": "goons.ease_plead",
+       "success": [
+        "law goons_fooled_plead"
+       ],
+       "failure": [
+        "law goons_teeth_angry"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "nothing",
+     "label_key": "wokerer.goons.nothing",
+     "label": "Tell them you have not got it",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "law goons_teeth"
      ]
     }
    ],
    "memory": {
-    "pound": "paid a pound on the stick",
-    "sixty": "paid sixty pennies on the stick",
-    "all": "paid the stick clean",
-    "feed": "fed the Wōkerer's man",
-    "put_off": "put the Wōkerer's man off till next time",
-    "lie.success": "told the Wōkerer's man the purse was empty",
-    "lie.failure": "told the Wōkerer's man the purse was empty, and he saw that it was not",
-    "hide.success": "hid from the Wōkerer's man under the sail",
-    "hide.failure": "hid from the Wōkerer's man, and the men were ashamed of it"
+    "pound": "paid a pound to the rope men",
+    "two": "paid two pounds to the rope men",
+    "all": "paid the stick clean to the rope men",
+    "cargo": "let the rope men take cargo for the stick",
+    "hide.success": "hid the silver under the stones from the rope men",
+    "hide.failure": "hid the silver under the stones, and the rope men found it",
+    "lie.success": "sent the rope men down the coast after nothing",
+    "lie.failure": "tried to send the rope men down the coast",
+    "drink.success": "drank the rope men under the thwarts",
+    "drink.failure": "gave the rope men a cask for nothing",
+    "plead.success": "pleaded a bad season to the rope men",
+    "plead.failure": "pleaded a bad season to the rope men, who had been told not to listen",
+    "nothing": "gave the rope men nothing"
    }
   },
   {
-   "id": "sea.wokerers_man.fog",
-   "note": "Once, at sea, in fog: a boat alongside with the lender's man in her bow (DECISIONS 33: 'once in a boat alongside in fog'). Only after he has been met ashore.",
+   "id": "sea.goons.alongside",
+   "note": "THE LENDER'S MEN ARE ALONGSIDE AT SEA (the user, by the picker: 'Ports and at sea'; Collectors puts this card first in line when their boat has come up with her: it is never drawn, and it holds her). As at the quay, without hiding or pleading; and she may pull away from them. EVERY WORD IS A PLACEHOLDER.",
    "stage": "sea",
-   "when": "under_way and fog >= 0.5 and flag.lender_opening and debt > 0 and debt_due_days > 0 and flag.wk_met",
-   "rate": 0.2,
-   "once": true,
+   "when": "flag.lender_opening and debt > 0 and goons.caught = 1 and goons.sea = 1",
+   "rate": 0,
    "cooldown_days": 0,
    "actors": {
+    "brute": {
+     "cast": "dorestad.wokerers_rope_man",
+     "name": "The rope man",
+     "role": "warrior",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      30,
+      30
+     ],
+     "fixed": true,
+     "note": "One of the two men with the rope who stand behind the lender on the day (the day's own card). The user, 9 Oct 2026: 'Just clueless brutes'. HE HAS NO NAME AND NO FACE: both are the user's. He says what he was told to say, as far as he has kept it. He is not cruel and not clever: what he does, he does as he would shut a door."
+    },
     "man": {
      "cast": "dorestad.wokerers_man",
      "name": "Bubo",
@@ -452,74 +279,151 @@
      "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
     }
    },
-   "title_key": "wokerer.man.fog.title",
-   "title": "Alongside, in the fog",
-   "intention_key": "wokerer.man.fog.intention",
-   "intention": "The lender's man, in a boat alongside.",
+   "title_key": "wokerer.goons.sea.title",
+   "title": "Alongside",
+   "intention_key": "wokerer.goons.sea.intention",
+   "intention": "The lender's men are alongside.",
    "lines": [
     {
+     "who": "brute",
+     "key": "wokerer.goons.sea.first",
+     "when": "not npc.brute.met"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.again",
+     "when": "npc.brute.met"
+    },
+    {
      "who": "man",
-     "key": "wokerer.man.fog.hail"
+     "key": "wokerer.goons.bubo"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.told_stones",
+     "when": "goons.used_hide >= 1"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.told_coast",
+     "when": "goons.used_lie >= 1"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.told_drink",
+     "when": "goons.used_drink >= 1"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.angry",
+     "when": "goons.temper >= 3"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.ravn_next",
+     "when": "goons.ravn_next = 1"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.goons.ravn_next_bubo",
+     "when": "goons.ravn_next = 1"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.goons.ask"
     }
    ],
    "options": [
     {
      "key": "pound",
-     "label_key": "wokerer.man.pound",
-     "label": "Count him out a pound (240 d)",
+     "label_key": "wokerer.goons.pound",
+     "label": "Count out a pound (240 d)",
      "check": "silver >= 240 and debt >= 240",
      "effects": [
       "law debt_pay_240",
-      "npc man feeling +4 paid",
-      "flag wk_wait_far for 24",
-      "flag wk_wait_mid for 12",
-      "flag wk_wait_near for 6"
+      "law goons_paid",
+      "npc man feeling +4 paid"
      ]
     },
     {
-     "key": "sixty",
-     "label_key": "wokerer.man.sixty",
-     "label": "Count him out sixty pennies",
-     "check": "silver >= 60 and debt >= 60",
+     "key": "all",
+     "label_key": "wokerer.goons.all",
+     "label": "Pay all that is on the stick",
+     "check": "debt_short = 0",
      "effects": [
-      "law debt_pay_60",
-      "npc man feeling +2 paid",
-      "flag wk_wait_far for 24",
-      "flag wk_wait_mid for 12",
-      "flag wk_wait_near for 6"
+      "law debt_paid",
+      "law goons_done",
+      "npc man feeling +8 clean"
      ]
     },
     {
-     "key": "feed",
-     "label_key": "wokerer.man.fog.feed",
-     "label": "Hand him the bread bag across",
+     "key": "cargo",
+     "label_key": "wokerer.goons.cargo",
+     "label": "Let them take cargo for it",
+     "check": "goons.cargo = 1",
+     "effects": [
+      "law goons_cargo"
+     ]
+    },
+    {
+     "key": "drink",
+     "label_key": "wokerer.goons.drink",
+     "label": "Broach a cask for them",
+     "check": "goons.drink = 1",
+     "effects": [
+      {
+       "chance": 0.7,
+       "by": "goons.ease_drink",
+       "success": [
+        "law goons_drunk"
+       ],
+       "failure": [
+        "law goons_poured",
+        "law goons_teeth_angry"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "run",
+     "label_key": "wokerer.goons.run",
+     "label": "Out oars and pull away",
      "check": "true",
      "effects": [
-      "npc man feeling +6 fed",
-      "flag wk_wait_far for 24",
-      "flag wk_wait_mid for 12",
-      "flag wk_wait_near for 6"
+      {
+       "chance": 0.5,
+       "by": "goons.ease_run",
+       "success": [
+        "law goons_shaken",
+        "boat weary +0.15"
+       ],
+       "failure": [
+        "boat weary +0.15",
+        "law goons_teeth_angry"
+       ]
+      }
      ]
     },
     {
-     "key": "put_off",
-     "label_key": "wokerer.man.fog.put_off",
-     "label": "Tell him this is no place for it",
+     "key": "nothing",
+     "label_key": "wokerer.goons.nothing",
+     "label": "Tell them you have not got it",
      "check": "true",
      "default": true,
      "effects": [
-      "npc man feeling -1 put_off",
-      "flag wk_wait_far for 10",
-      "flag wk_wait_mid for 6",
-      "flag wk_wait_near for 3"
+      "law goons_teeth"
      ]
     }
    ],
    "memory": {
-    "pound": "paid a pound on the stick",
-    "sixty": "paid sixty pennies on the stick",
-    "feed": "handed the Wōkerer's man bread across the water",
-    "put_off": "sent the Wōkerer's man off into the fog"
+    "pound": "paid a pound to the rope men",
+    "all": "paid the stick clean to the rope men",
+    "cargo": "let the rope men take cargo for the stick",
+    "drink.success": "drank the rope men under the thwarts",
+    "drink.failure": "gave the rope men a cask for nothing",
+    "nothing": "gave the rope men nothing",
+    "run.success": "pulled away from the rope men at sea",
+    "run.failure": "tried to pull away from the rope men"
    }
   },
   {

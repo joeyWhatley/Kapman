@@ -47,6 +47,8 @@ namespace Kapman.Game
         LeeShore,
         /// <summary>She is in rough water: a race, a bar, the sea standing up against the tide (9 Oct 2026).</summary>
         RoughWater,
+        /// <summary>The lender's men are in sight, or have found her (9 Oct 2026).</summary>
+        Goons,
     }
 
     /// <summary>The switches for the clock's own drops (kept on this machine, not in the saved game).</summary>
@@ -139,6 +141,7 @@ namespace Kapman.Game
                 case ClockReason.OffLine: return "off her line";
                 case ClockReason.LeeShore: return "a lee shore";
                 case ClockReason.RoughWater: return "rough water";
+                case ClockReason.Goons: return "the lender's men";
                 default: return "";
             }
         }
@@ -168,6 +171,7 @@ namespace Kapman.Game
                 case ClockReason.OffLine: return "Set well off her line by wind and tide, or the reckoning lost: slow to speed 1";
                 case ClockReason.LeeShore: return "Set down on a shore she cannot keep clear of: slow to speed 1";
                 case ClockReason.RoughWater: return "Rough water: a race, a bar, the sea against the tide: slow to speed 1";
+                case ClockReason.Goons: return "The lender's men in sight, or come to collect: slow to speed 1";
                 default: return why.ToString();
             }
         }

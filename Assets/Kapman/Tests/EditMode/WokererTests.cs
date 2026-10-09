@@ -18,10 +18,11 @@ namespace Kapman.Tests
     public class WokererTests
     {
         const string Data = "Assets/Kapman/Game/Data/";
-        const string Home = "harbour.wokerers_man.home", Away = "harbour.wokerers_man.away", Fog = "sea.wokerers_man.fog";
+        /// <summary>(9 Oct 2026: the lender sends his men. The man's own three cards are gone and these two have come.)</summary>
+        const string Quay = "harbour.goons.quay", Sea = "sea.goons.alongside";
         const string DayHome = "harbour.wokerers_day.home", DayAway = "harbour.wokerers_day.away";
         const string CleanInTime = "harbour.wokerers_stick.in_time", CleanLate = "harbour.wokerers_stick.late", Aboard = "crew.wokerers_man.aboard";
-        static readonly string[] All = { Home, Away, Fog, DayHome, DayAway, CleanInTime, CleanLate, Aboard };
+        static readonly string[] All = { Quay, Sea, DayHome, DayAway, CleanInTime, CleanLate, Aboard };
 
         static TextAsset File(string name) => AssetDatabase.LoadAssetAtPath<TextAsset>(Data + name);
 
@@ -67,9 +68,9 @@ namespace Kapman.Tests
                 }
             }
             // the man is one man wherever he turns up, and the lender is the Wursing of Dorestat's own page
-            var man = book.Card(Home).actors.First(a => a.key == "man");
+            var man = book.Card(Quay).actors.First(a => a.key == "man");
             Assert.IsNotEmpty(man.name);
-            foreach (string id in new[] { Away, Fog, DayHome, DayAway, CleanLate, Aboard })
+            foreach (string id in new[] { Sea, DayHome, DayAway, CleanLate, Aboard })
                 Assert.AreEqual(man.cast, book.Card(id).actors.First(a => a.key == "man").cast, id + " has another man");
             Assert.AreEqual(FrameArt.LenderId, book.Card(DayHome).actors.First(a => a.key == "lender").cast);
             var wursing = PlaceBook.Current.Person(FrameArt.LenderId);
@@ -84,8 +85,8 @@ namespace Kapman.Tests
                 book = book, state = new EncounterState(), npcs = npcs, game = new FakeGame(), vars = new EncounterVars(),
                 port = new PortFacts { id = port, realm = port == "ripa" ? "danes" : "franks", faith = "christian", peoples = { "frisian" } }, year = 793, day = 20.0,
             };
-            var atHome = EncounterSession.Open(book.Card(Home), At("dorestad")).People.First();
-            var farOff = EncounterSession.Open(book.Card(Away), At("ripa")).People.First();
+            var atHome = EncounterSession.Open(book.Card(Quay), At("dorestad")).People.First(p => p.id == man.cast);
+            var farOff = EncounterSession.Open(book.Card(Sea), At("ripa")).People.First(p => p.id == man.cast);
             Assert.AreSame(atHome, farOff, "the lender's man at Ripa is another man than at Dorestat");
             Assert.AreEqual(man.name, atHome.name);
         }
@@ -127,70 +128,99 @@ namespace Kapman.Tests
         }
 
         [Test]
-        public void HisManComesInHisOwnTimeAndSoonerWhenHeWasPutOff()
+        public void TheRopeMensCardComesOnlyWhenTheyHaveCaughtHerAndSaysWhoIsNext()
         {
             var (d, game) = Director();
-            // the first ten days of the game: nobody
-            d.vars.nums["debt_due_days"] = 150.0;
-            d.SetTime(1.0, 793, 5, 24);
-            CollectionAssert.DoesNotContain(Call(d, "dorestad"), Home, "he is on the dam head on the first morning");
-            Leave(d);
-            // then he is there when she moors at home
-            d.vars.nums["debt_due_days"] = 130.0;
+            d.vars.nums["debt_due_days"] = 400.0;
             d.SetTime(21.0, 793, 5, 21 * 24);
-            CollectionAssert.Contains(Call(d, "dorestad"), Home);
+            // nobody has caught her: their card does not come with her mooring, and cannot be asked for
+            CollectionAssert.DoesNotContain(Call(d, "dorestad"), Quay, "the rope men are on the quay with nobody sent");
+            Assert.IsFalse(d.CanOffer(Quay), "their card can be put in line with nobody sent");
+            // caught at the quay: it is put first in line (Collectors does that), and the sea's card cannot come there
+            d.vars.nums["goons.caught"] = 1.0;
+            Assert.IsFalse(d.CanOffer(Sea), "the card of the sea can come at a quay");
+            Assert.IsTrue(d.Offer(Quay), "caught at the quay, and their card cannot be put in line");
             var s = d.OpenNext();
-            Assert.AreEqual(Home, s.card.id);
-            StringAssert.Contains("I carry the other half", string.Join(" ", s.lines.Select(l => l.text)), "he does not say who he is the first time");
-            // a pound cannot be paid with 300 d aboard? it can: 240
-            Assert.IsTrue(s.options[s.card.Option("pound").index].enabled);
-            Assert.IsFalse(s.options[s.card.Option("all").index].enabled, "all of it can be paid with 300 d aboard");
+            Assert.AreEqual(Quay, s.card.id);
+            string said = string.Join(" ", s.lines.Select(l => l.text));
+            StringAssert.Contains("He says pay", said, "the rope man does not say what he was told to say");
+            StringAssert.DoesNotContain("the Dane", said, "they speak of Ravn the first time they come");
+            StringAssert.DoesNotContain("angry", said);
+            // what she can do with 300 d aboard, no cargo to speak of and no drink
+            bool Can(string key) => s.options[s.card.Option(key).index].enabled;
+            Assert.IsTrue(Can("pound"), "a pound cannot be paid with 300 d aboard");
+            Assert.IsFalse(Can("two"));
+            Assert.IsFalse(Can("all"));
+            Assert.IsFalse(Can("cargo"), "cargo can be given with none aboard");
+            Assert.IsTrue(Can("hide"));
+            Assert.IsTrue(Can("lie"));
+            Assert.IsFalse(Can("drink"), "a cask can be broached with none aboard");
+            Assert.IsTrue(Can("plead"));
+            Assert.IsTrue(Can("nothing"));
             var r = d.Choose(s.card.Option("pound").index);
             Assert.IsTrue(r.ok, r.Text);
-            CollectionAssert.Contains(game.laws.Select(l => l.kind).ToList(), "debt_pay_240");
+            var laws = game.laws.Select(l => l.kind).ToList();
+            CollectionAssert.Contains(laws, "debt_pay_240");
+            CollectionAssert.Contains(laws, "goons_paid", "a pound paid does not send them home");
             Assert.IsNotEmpty(r.written, "a pound paid has no written end");
             d.Continue();
             Leave(d);
-            // he has had his word: not the next day, nor ten days on; after twenty-four days, again
-            d.SetTime(22.0, 793, 5, 22 * 24);
-            CollectionAssert.DoesNotContain(Call(d, "dorestad"), Home, "he asks again the day after he was paid");
-            Leave(d);
-            d.vars.nums["debt_due_days"] = 110.0;
-            d.SetTime(41.0, 793, 6, 41 * 24);
-            CollectionAssert.DoesNotContain(Call(d, "ripa"), Away, "he is at Ripa twenty days after he was paid at home");
-            Leave(d);
-            d.vars.nums["debt_due_days"] = 100.0;
-            d.SetTime(51.0, 793, 6, 51 * 24);
-            CollectionAssert.Contains(Call(d, "ripa"), Away, "thirty days on he has not found her at Ripa");
+
+            // a later time, the lender angry, a way round them used before, and Ravn next: they say all of it
+            d.vars.nums["goons.temper"] = 3.0;
+            d.vars.nums["goons.used_hide"] = 1.0;
+            d.vars.nums["goons.ravn_next"] = 1.0;
+            d.vars.nums["goons.drink"] = 1.0;
+            d.vars.nums["goons.cargo"] = 1.0;
+            d.SetTime(140.0, 793, 9, 140 * 24);
+            d.roll = () => 0.99;                                          // (the dice of a card are taken when it opens)
+            Call(d, "dorestad");
+            Assert.IsTrue(d.Offer(Quay));
             s = d.OpenNext();
-            Assert.AreEqual(Away, s.card.id);
-            StringAssert.Contains("again", string.Join(" ", s.lines.Select(l => l.text)), "he does not know her the second time");
-            // put off: he comes sooner
-            r = d.Choose(s.card.Option("put_off").index);
-            Assert.IsTrue(r.ok);
+            Assert.AreEqual(Quay, s.card.id);
+            said = string.Join(" ", s.lines.Select(l => l.text));
+            StringAssert.Contains("You again", said, "the rope man does not know her the second time");
+            StringAssert.Contains("it is the Dane", said, "the time before they kill Ravn they do not say so");
+            StringAssert.Contains("He is angry", said);
+            StringAssert.Contains("under the stones", said, "they were not told where to look after the silver was hidden from them");
+            Assert.IsTrue(s.options[s.card.Option("drink").index].enabled);
+            Assert.IsTrue(s.options[s.card.Option("cargo").index].enabled);
+            // a way round them that fails: the angrier order goes to the game; one that works: its own
+            game.laws.Clear();
+            r = d.Choose(s.card.Option("lie").index);
+            Assert.IsTrue(r.ok, r.Text);
+            Assert.AreEqual("failure", r.branch);
+            CollectionAssert.Contains(game.laws.Select(l => l.kind).ToList(), "goons_teeth_angry", "a lie that fails does not anger them");
             d.Continue();
             Leave(d);
-            d.vars.nums["debt_due_days"] = 95.0;
-            d.SetTime(56.0, 793, 6, 56 * 24);
-            CollectionAssert.DoesNotContain(Call(d, "dorestad"), Home, "five days after he was put off he is back");
-            Leave(d);
-            d.vars.nums["debt_due_days"] = 88.0;
-            d.SetTime(63.0, 793, 7, 63 * 24);
-            CollectionAssert.Contains(Call(d, "dorestad"), Home, "twelve days after he was put off he has not come");
+            d.SetTime(141.0, 793, 9, 141 * 24);
+            d.roll = () => 0.0;
+            Call(d, "dorestad");
+            Assert.IsTrue(d.Offer(Quay));
             s = d.OpenNext();
-            StringAssert.Contains("next time", string.Join(" ", s.lines.Select(l => l.text)), "he does not remember being put off");
-            Assert.IsTrue(d.Choose(s.card.Option("put_off").index).ok);
+            game.laws.Clear();
+            r = d.Choose(s.card.Option("lie").index);
+            Assert.AreEqual("success", r.branch);
+            CollectionAssert.Contains(game.laws.Select(l => l.kind).ToList(), "goons_astray", "a lie that works does not send them the wrong way");
             d.Continue();
             Leave(d);
-            // close to the day he is there every few days
-            d.vars.nums["debt_due_days"] = 12.0;
-            d.SetTime(139.0, 793, 9, 139 * 24);
-            CollectionAssert.Contains(Call(d, "dorestad"), Home);
+            // given nothing: what they do is the game's to say
+            d.SetTime(142.0, 793, 9, 142 * 24);
+            Call(d, "dorestad");
+            Assert.IsTrue(d.Offer(Quay));
+            s = d.OpenNext();
+            game.laws.Clear();
+            Assert.IsTrue(s.options[s.card.Option("nothing").index].enabled);
+            r = d.Choose(s.card.Option("nothing").index);
+            CollectionAssert.Contains(game.laws.Select(l => l.kind).ToList(), "goons_teeth");
+            d.Continue();
             Leave(d);
-            d.vars.nums["debt_due_days"] = 8.0;
-            d.SetTime(143.0, 793, 9, 143 * 24);
-            CollectionAssert.Contains(Call(d, "dorestad"), Home, "four days on, with Michaelmas near, he has not come back");
-            Leave(d);
+
+            // alongside at sea: the sea's card, and she may pull away
+            d.vars.nums["goons.sea"] = 1.0;
+            Assert.IsTrue(d.CanOffer(Sea), "alongside at sea, and their card cannot come");
+            Assert.IsNotNull(EncounterData.Book().Card(Sea).Option("run"), "at sea she cannot pull away from them");
+            Assert.IsNull(EncounterData.Book().Card(Sea).Option("hide"));
         }
 
         [Test]
@@ -201,7 +231,7 @@ namespace Kapman.Tests
             d.SetTime(151.0, 793, 9, 151 * 24);
             var came = Call(d, "dorestad");
             CollectionAssert.Contains(came, DayHome, "Michaelmas, at home, with the stick not clean: nobody is on the dam head");
-            CollectionAssert.DoesNotContain(came, Home, "his man asks for a part on the day itself");
+            CollectionAssert.DoesNotContain(came, Quay, "the rope men's own card comes on the day itself");
             var s = d.OpenNext();
             Assert.AreEqual(DayHome, s.card.id);
             Assert.AreEqual(2, s.People.Count(), "the lender and his man");
@@ -219,7 +249,7 @@ namespace Kapman.Tests
             d.SetTime(160.0, 793, 10, 160 * 24);
             came = Call(d, "dorestad");
             CollectionAssert.DoesNotContain(came, DayHome);
-            CollectionAssert.DoesNotContain(came, Home);
+            CollectionAssert.DoesNotContain(came, Quay);
             Leave(d);
             CollectionAssert.DoesNotContain(Call(d, "ripa"), DayAway);
             Leave(d);

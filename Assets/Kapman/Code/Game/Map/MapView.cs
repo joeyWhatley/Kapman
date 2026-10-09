@@ -2182,7 +2182,45 @@ namespace Kapman.Game
             }
             for (int i = used; i < simMarks.Count; i++)
                 simMarks[i].style.display = DisplayStyle.None;
+            GoonsMark(viewWest, viewNorth, W, H);
             ShipCard(world);
+        }
+
+        VisualElement goonsMark;
+
+        /// <summary>Is the mark of the lender's men on the chart now (a test's eyes)?</summary>
+        public bool GoonsShown => goonsMark != null && goonsMark.resolvedStyle.display != DisplayStyle.None && goonsMark.panel != null;
+
+        /// <summary>THE BOAT OF THE LENDER'S MEN (9 Oct 2026), while she has it in sight: a mark like another ship's, of
+        /// its own colour, with a word under the pointer. (A plain shape until the user draws it.)</summary>
+        void GoonsMark(double viewWest, double viewNorth, float W, float H)
+        {
+            bool show = Collectors.InSight || (showAllShips && Collectors.Out);
+            if (!show)
+            {
+                if (goonsMark != null)
+                    goonsMark.style.display = DisplayStyle.None;
+                return;
+            }
+            if (goonsMark == null || goonsMark.panel == null)
+            {
+                goonsMark = new VisualElement { name = "map-goons" };
+                goonsMark.AddToClassList("map-sim-ship");
+                goonsMark.AddToClassList("map-goons");
+                (sailLayer ?? overlays).Add(goonsMark);
+            }
+            var at = Collectors.At;
+            double px = (at.x - viewWest) / mpp, py = (viewNorth - at.z) / mpp;
+            if (px < -20 || px > W + 20 || py < -20 || py > H + 20)
+            {
+                goonsMark.style.display = DisplayStyle.None;
+                return;
+            }
+            goonsMark.style.display = DisplayStyle.Flex;
+            goonsMark.style.left = (float)px - 7f;
+            goonsMark.style.top = (float)py - 3f;
+            goonsMark.style.rotate = new Rotate(new Angle((float)Collectors.Heading - 90f, AngleUnit.Degree));
+            goonsMark.tooltip = Collectors.Met ? "The lender's men" : "A boat, rowing hard";
         }
 
         /// <summary>The clicked ship's facts, as far as they're known: a sail only sighted is just a sail; made out, her

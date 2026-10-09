@@ -191,9 +191,9 @@ namespace Kapman.Tests
             Assert.AreEqual(0.0, EncounterGameVars.Num("mark.never_put_on", null));
             var words = new WordTable();
             Assert.DoesNotThrow(() => Cond.Parse("me.nerve >= 3 and me.nerve.base < 3 and mark.stood_at_the_bar", words));
-            // and the lender's man's cards use the verb
-            var card = EncounterData.Book().Card("harbour.wokerers_man.home");
-            Assert.IsTrue(card.Option("lie").Chance.failure.SelectMany(x => x.Verbs()).Any(v => v.verb == "mark" && v.a == "troth"), "lying to the lender's man and being seen leaves no mark");
+            // and the cards of the lender's men use the verb
+            var card = EncounterData.Book().Card("harbour.goons.quay");
+            Assert.IsTrue(card.Option("lie").Chance.failure.SelectMany(x => x.Verbs()).Any(v => v.verb == "mark" && v.a == "troth"), "lying to the lender's men and being seen leaves no mark");
         }
 
         [Test]

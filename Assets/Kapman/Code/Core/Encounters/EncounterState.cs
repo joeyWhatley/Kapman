@@ -170,11 +170,46 @@ namespace Kapman.Encounters
 
         // ------------------------------------------------------------------ cards
 
-        /// <summary>Can this card come today: not a "once" card already shown, and past its cool-down.</summary>
+        // ------------------------------------------------------------------ the dead
+
+        /// <summary>
+        /// ONE OF THE STANDING CAST IS DEAD, OR GONE FOR GOOD (the user, 9 Oct 2026: "Maybe it you don't pay up for the
+        /// 3rd time they kill Ravn?"). A flag says so: "gone_cast_crew_ravn" for "cast.crew.ravn". It is a flag so that
+        /// it is saved with the deck, and a card's own conditions can ask it. What follows from it, for every card:
+        /// he does not speak (EncounterSession.Open leaves his lines out); a card that leans on him does not come
+        /// (<see cref="Ready"/>: EncounterDef.leans); and a text may be written for when he is gone, under its own key
+        /// with ".without_ravn" after it (EncounterSession.Without).
+        /// </summary>
+        public static string GoneFlag(string castId)
+        {
+            var name = new System.Text.StringBuilder("gone_");
+            foreach (char c in castId ?? "")
+                name.Append(char.IsLetterOrDigit(c) ? c : '_');
+            return name.ToString();
+        }
+
+        /// <summary>The last part of a cast id ("ravn" of "cast.crew.ravn"): what a text written for when he is gone is
+        /// named by.</summary>
+        public static string ShortName(string castId)
+        {
+            if (string.IsNullOrEmpty(castId))
+                return "";
+            int dot = castId.LastIndexOf('.');
+            return dot >= 0 ? castId.Substring(dot + 1) : castId;
+        }
+
+        /// <summary>Is that one of the standing cast dead, or gone for good?</summary>
+        public bool Gone(string castId, double day) => !string.IsNullOrEmpty(castId) && Flag(GoneFlag(castId), day) != 0.0;
+
+        /// <summary>Can this card come today: not a "once" card already shown, past its cool-down, and nobody it leans
+        /// on is dead.</summary>
         public bool Ready(EncounterDef card, double day)
         {
             if (card == null || (card.once && done.Contains(card.id)))
                 return false;
+            foreach (string cast in card.leans)
+                if (Gone(cast, day))
+                    return false;
             return card.cooldownDays <= 0.0 || !lastShown.TryGetValue(card.id, out double last) || day - last >= card.cooldownDays;
         }
 

@@ -1,0 +1,70 @@
+{
+ "about": "THE LENDER'S MEN (Code/Game/Voyage/Collectors.cs; the user, 9 Oct 2026: 'Sends his goons to collect', 'A handful of times', 'Ports and at sea', 'Fools first, sharper later'; and of what they do: 'It'll be dynamic you know', 'Maybe you can pay them off in installments, maybe you can give them cargo maybe they kill a crew member ect', 'It'll be comedic but also shockingly brutal at times', 'Just clueless brutes', 'Maybe it you don't pay up for the 3rd time they kill Ravn?'). EVERY NUMBER IS A STARTING GUESS TO TUNE. on: false and nobody is ever sent. home: the port they are sent from. sendings: the game day each sets out (the game begins on day 0; Michaelmas 794 is day 516), how many men, and the days they stay out before they give up. paidLatelyD: a sending is not made if she has paid this much on the stick since the last one. speedKn, chaseKn: their speed between ports, and when they have her in sight. askHours: how long they ask round a quay; waitDays: how long they wait there when nobody knows where she went. sightKm, sightNightKm: how far they see her at sea; loseKm: how far off she is lost again; alongsideM: how near is alongside; seenKm: how far off she knows their boat. instalmentD: what they come for; moreByTemper: how much more of it for each step of the lender's temper over 2. cargoPrice: the share of its value cargo is counted at on the stick; troubleShare: the share of what they take by force that they keep. temperStart, temperMost: the lender's temper; warnUpTo: up to this they only talk; beatFrom, killFrom: from these a man is beaten, a man is killed, when they are given little or made fools of; killEarly: the chance of a killing one step short of that. ravnAtRefusal: the count of visits with nothing paid of her own will at which, the next time she gives them nothing, it is Ravn they kill (0: never); ravnCast: who he is. sleepHours: how long they sleep drunk; blindHours: how long they cannot see her after she has run from them. toldPenalty: how much harder a way round them is for each time it has fooled them (on her stat's scale of 1 to 5: five is a quarter off its odds); laterPenalty: the same for each sending after the first. tricks: which of her stats carries each way round them (its odds are in the card).",
+ "on": true,
+ "home": "dorestad",
+ "paidLatelyD": 240,
+ "speedKn": 3.0,
+ "chaseKn": 3.8,
+ "askHours": 6,
+ "waitDays": 3,
+ "sightKm": 6,
+ "sightNightKm": 1.5,
+ "loseKm": 12,
+ "alongsideM": 300,
+ "seenKm": 10,
+ "instalmentD": 240,
+ "moreByTemper": 0.5,
+ "cargoPrice": 0.6,
+ "troubleShare": 0.25,
+ "temperStart": 1,
+ "temperMost": 6,
+ "warnUpTo": 1,
+ "beatFrom": 3,
+ "killFrom": 4,
+ "killEarly": 0.3,
+ "ravnAtRefusal": 3,
+ "ravnCast": "cast.crew.ravn",
+ "sleepHours": 30,
+ "blindHours": 12,
+ "toldPenalty": 5,
+ "laterPenalty": 1,
+ "sendings": [
+  {
+   "day": 21,
+   "men": 2,
+   "days_out": 40
+  },
+  {
+   "day": 130,
+   "men": 2,
+   "days_out": 40
+  },
+  {
+   "day": 335,
+   "men": 3,
+   "days_out": 45
+  },
+  {
+   "day": 445,
+   "men": 4,
+   "days_out": 50
+  }
+ ],
+ "tricks": {
+  "hide": {
+   "stat": "nerve"
+  },
+  "lie": {
+   "stat": "tongue"
+  },
+  "drink": {
+   "stat": "nerve"
+  },
+  "plead": {
+   "stat": "troth"
+  },
+  "run": {
+   "stat": "nerve"
+  }
+ }
+}

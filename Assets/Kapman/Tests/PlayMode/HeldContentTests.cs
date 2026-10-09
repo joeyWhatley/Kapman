@@ -105,7 +105,7 @@ namespace Kapman.Tests
                 Assert.IsNotNull(director, "with the rest held back the cards have no director: the book has faults");
                 Assert.IsEmpty(EncounterRunner.ShutFiles);
                 string inNow = string.Join(", ", book.cards.Select(c => c.id));
-                Assert.AreEqual(72, book.cards.Count, "the cards in a new game (the toll, the lender's eight, the sea's 63): " + inNow);
+                Assert.AreEqual(71, book.cards.Count, "the cards in a new game (the toll, the lender's seven, the sea's 63): " + inNow);
                 Assert.GreaterOrEqual(EncounterRunner.HeldFiles.Count, 50, "the card files held back");
                 foreach (var c in book.cards)
                     Assert.IsTrue(ContentHold.CardIn(c.file, c.id), c.id + " is in the game and the table does not name it");

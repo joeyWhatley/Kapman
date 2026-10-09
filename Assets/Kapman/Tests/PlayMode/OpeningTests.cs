@@ -638,12 +638,14 @@ namespace Kapman.Tests
                 // unpaid she works for him. (His man's card is put in line by hand here: he comes from the tenth day
                 // of a game. The day is made today by the back door, and its card then comes by itself.)
                 Trade.Purse.Add("denier", 300.0);
-                director.state.Enqueue("harbour.wokerers_man.home", true);
+                // (9 Oct 2026: the lender sends his men now, a handful of times; their card at the quay is the one a part
+                // is paid through)
+                director.state.Enqueue(Collectors.QuayCard, true);
                 yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
-                Assert.IsTrue(play.Frame.FloatOpen("card"), "the card of the lender's man did not open");
+                Assert.IsTrue(play.Frame.FloatOpen("card"), "the card of the lender's men did not open");
                 yield return ChartPlay.Settle(0.8f);
                 var hisCard = director.Current;
-                Assert.AreEqual("harbour.wokerers_man.home", hisCard.card.id);
+                Assert.AreEqual(Collectors.QuayCard, hisCard.card.id);
                 string hisName = hisCard.People.First().name;
                 StringAssert.StartsWith(hisName + ", ", play.Frame.SpeakerShown, "the lender's man is not under his own name");
                 yield return play.Shot("open_25_the_lenders_man");

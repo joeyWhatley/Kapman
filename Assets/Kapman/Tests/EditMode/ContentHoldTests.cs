@@ -81,8 +81,8 @@ namespace Kapman.Tests
             // (the user's cut, by the picker, 9 Oct 2026: "Sea cards back in")
             foreach (string sea in new[] { "sea.calm.falls", "sea.squall.line", "sea.whale.blow", "sea.wreck.mast" })
                 Assert.IsNotNull(book.Card(sea), sea + " is held back: the sea's cards are in");
-            Assert.AreEqual(72, book.cards.Count, "the cards in the game for now are the toll, the lender's eight and the sea's 63: " + ids);
-            Assert.AreEqual(all.cards.Count - 72, HeldCards(all), "what is held and what is in do not make the whole");
+            Assert.AreEqual(71, book.cards.Count, "the cards in the game for now are the toll, the lender's seven and the sea's 63: " + ids);
+            Assert.AreEqual(all.cards.Count - 71, HeldCards(all), "what is held and what is in do not make the whole");
             Assert.GreaterOrEqual(EncounterRunner.HeldFiles.Count, 50, "the files held back: " + string.Join(", ", EncounterRunner.HeldFiles));
             Assert.AreEqual(43, EncounterRunner.HeldFiles.Count(f => f.StartsWith("chain_")), "the quests held back");
             Assert.AreEqual(0, book.heldBack, "no file is in by a list of its cards now");

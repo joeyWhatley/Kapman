@@ -77,6 +77,7 @@ namespace Kapman.Encounters
             ("riddle.", "", VarType.Text, null),
             ("flag.", "", VarType.Number, null),
             ("mark.", "", VarType.Number, null),                         // (is this mark on the player now: 1 or 0)
+            ("goons.", "", VarType.Number, null),                        // (the lender's men: Game/Voyage/Collectors.Var)
         };
 
         /// <summary>Is this a name a condition may use, and of what type (and kind of word)?</summary>

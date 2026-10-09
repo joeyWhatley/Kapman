@@ -95,6 +95,9 @@ namespace Kapman.Encounters
         /// <summary>"good_name": likelier where the merchant is well regarded; "bad_name": where he is not; "": neither.</summary>
         public string wants = "";
         public readonly List<RoleSpec> actors = new List<RoleSpec>();
+        /// <summary>The standing cast this card cannot do without (their cast ids): whoever speaks half of its spoken
+        /// lines or more. With one of them dead the card does not come (EncounterState.Ready). Worked out at load.</summary>
+        public readonly List<string> leans = new List<string>();
         public readonly List<LineDef> lines = new List<LineDef>();
         public readonly List<OptionDef> options = new List<OptionDef>();
         /// <summary>What the people remember of a choice: option key (or "option.success" / "option.failure") to a note.</summary>

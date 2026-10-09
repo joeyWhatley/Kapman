@@ -283,6 +283,8 @@ namespace Kapman.Game
         {
             if (kind != null && kind.StartsWith("debt_", StringComparison.Ordinal))
                 return DebtLaw(kind);
+            if (kind != null && kind.StartsWith("goons_", StringComparison.Ordinal))
+                return Collectors.Law(kind);                              // (the lender's men: Voyage/Collectors.cs)
             if (kind != "seizure" || !Trade.Started)
                 return null;
             var taken = new List<string>();

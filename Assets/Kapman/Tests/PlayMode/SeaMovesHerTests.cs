@@ -58,7 +58,7 @@ namespace Kapman.Tests
         }
 
         /// <summary>A new game on the chart, the first questions answered, the chart shown, the clock paused.</summary>
-        internal static IEnumerator NewGame(string savesName, System.Action<ChartPlay> got)
+        internal static IEnumerator NewGame(string savesName, System.Action<ChartPlay> got, string pictures = "sea")
         {
             FrameRoot.FreshLayout = true;
             FrameWindows.OneWindow = true;
@@ -80,7 +80,7 @@ namespace Kapman.Tests
             float from = Time.realtimeSinceStartup;
             while ((FrameRoot.Current == null || !FrameRoot.Current.AskingSelf) && Time.realtimeSinceStartup - from < 30f)
                 yield return null;
-            var play = ChartPlay.Begin(false, "sea");
+            var play = ChartPlay.Begin(false, pictures);
             got(play);
             yield return ChartPlay.Frames(120);
             yield return play.Click(play.Choices(play.FrontFloat())[0].button, "Begin");
