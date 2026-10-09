@@ -168,6 +168,7 @@ namespace Kapman.Game
                     double made = cls == null ? fallbackKnots * 0.5144
                                 : Oars.Out && !Boat.IsLost && !Boat.LyingTo ? Oars.Speed(cls, course, WindFrom, Wind, out lying) * Boat.OarFactor * Boat.WaterFactor
                                                                             : Boat.Speed(cls, course, WindFrom, Wind, out lying);
+                    made *= RoughWaters.Slow;                             // (9 Oct 2026: rough water takes her way off)
                     Sheltering = lying;
                     rowing = Oars.Out && cls != null && !lying;
                     // the last stretch in: she comes in slowly (the ports' graphs take her as arrived under 1.5)
@@ -180,7 +181,9 @@ namespace Kapman.Game
                 Sheltering = false;
             speed = Mathf.MoveTowards(speed, target, 0.6f * helm);
             Vector3 fwd = Quaternion.Euler(0f, heading, 0f) * Vector3.forward;
-            pos += fwd * speed * step;
+            // (9 Oct 2026: and the tide, the wind and the sea carry her besides her own way: Voyage/Adrift.cs)
+            bool sailing = !rowing && !Sheltering && speed > 0.05f && Boat.EffectiveSet != SailSet.Down;
+            pos = Adrift.Carry(pos, fwd * speed * step, heading, speed, gameSeconds, Wind, WindFrom, sailing, Sheltering);
             pos.y = 0f;
             transform.SetPositionAndRotation(pos, Quaternion.Euler(0f, heading, 0f));
             // her way over the ground in game metres a real second at 1x (the world's ships read it an hour ahead)

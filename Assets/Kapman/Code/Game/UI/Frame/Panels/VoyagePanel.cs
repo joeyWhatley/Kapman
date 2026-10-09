@@ -257,6 +257,9 @@ namespace Kapman.Game.Frame
             h = FrameUi.Mix(h, Oars.Version);
             h = FrameUi.Mix(h, (int)System.Math.Ceiling(Oars.Left(cls)));
             h = FrameUi.Mix(h, ChartBody.Current != null && ChartBody.Current.Sheltering);
+            // (her set off her line, to the km; and a reckoning lost)
+            h = FrameUi.Mix(h, Adrift.Version);
+            h = FrameUi.Mix(h, (int)(Adrift.OffLine / 1000.0));
             return h;
         }
 
@@ -280,6 +283,16 @@ namespace Kapman.Game.Frame
                 else
                     body.Add(FrameUi.Ln($"{left:0} km to go by water", here != null ? "The course is charted. Cast off when you will." : "",
                                         FrameUi.Num(FramePassage.DaysWords(left))));
+                // THE SEA MOVES HER (9 Oct 2026; by the picker: "you correct it by pointing again"): how far wind and tide
+                // have set her off her line, and her course laid again from where she is. PLACEHOLDER WORDS.
+                Button again = null;
+                if (here == null && Adrift.OffLine > OffLineShownM && (Adrift.Helm == Helm.Reckoning || Adrift.Helm == Helm.Coasting))
+                {
+                    string airt = SeaPush.Sets(Adrift.Set.x, Adrift.Set.z);
+                    body.Add(FrameUi.Ln("Off her line", $"Wind and tide have set her {System.Math.Max(1.0, System.Math.Round(Adrift.OffLine / 1000.0)):0} km" +
+                                                        (airt.Length > 0 ? " to the " + airt : "") + ". The steersman keeps to his reckoning."));
+                    again = FrameUi.Btn("Lay the course again", () => LayAgain(), "A new course to where she is bound, from where she truly is.");
+                }
                 var giveUp = FrameUi.Btn("Give up the course", () =>
                 {
                     Course.Clear();
@@ -311,6 +324,16 @@ namespace Kapman.Game.Frame
                     }
                 }
                 body.Add(FrameUi.Row(giveUp, oars));
+                if (again != null)
+                    body.Add(FrameUi.Row(again));
+            }
+            else if (here == null && Adrift.LostBound.Length > 0)
+            {
+                // the steersman has lost his reckoning: she lies to until she is given a course from where she is
+                string bound = Adrift.LostBound == Course.PlaceId ? Course.PlaceWords : GameData.Port(Adrift.LostBound)?.name ?? Adrift.LostBound;
+                body.Add(FrameUi.H("The reckoning is lost"));
+                body.Add(FrameUi.P("She has run her distance for " + bound + " and it is not in sight. She lies to. The chart shows where she is."));
+                body.Add(FrameUi.Go("Lay the course again", () => LayAgain()));
             }
             // ---- the place pointed at on the chart (click and sail)
             if (place.HasValue)
@@ -427,6 +450,25 @@ namespace Kapman.Game.Frame
             if (said.Length > 0)
                 FrameLog.Add(said);
             Redraw();
+        }
+
+        /// <summary>Real metres off her line from which the window says so and offers to lay the course again.</summary>
+        public const double OffLineShownM = 1000.0;
+
+        /// <summary>
+        /// "Lay the course again": a new course to where she is bound (or was, when the steersman lost his reckoning),
+        /// from where she truly is. False when no water she can sail leads there from here.
+        /// </summary>
+        public bool LayAgain()
+        {
+            string bound = Course.IsSet ? Course.Destination : Adrift.LostBound;
+            if (string.IsNullOrEmpty(bound))
+                return false;
+            bool set = Course.SetTo(bound, ChartWorld.ShipWorld(), Port.LyingId());
+            FrameLog.Add(set ? $"The course is laid again from where she is: {Course.Km:0} km to go for {Course.BoundName}."
+                             : "No water she can sail leads there from here.");
+            Redraw();
+            return set;
         }
 
         /// <summary>Has the way to a port been reckoned (and is there one)?</summary>

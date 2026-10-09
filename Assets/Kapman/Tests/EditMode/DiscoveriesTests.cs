@@ -67,7 +67,7 @@ namespace Kapman.Tests
             var book = Discoveries.Book;
             Assert.AreEqual(rows, book.things.Count, "a row of the table was left out: it has no id, no name, no place, or an id used twice");
             Assert.GreaterOrEqual(book.things.Count, 60, "there is little to find");
-            var kinds = new HashSet<string> { "water", "river", "island", "headland", "shore", "bank", "landmark", "holy" };   // (the marks the style sheet has: MapView.uss, .find-*)
+            var kinds = new HashSet<string> { "water", "river", "island", "headland", "shore", "bank", "landmark", "holy", "race" };   // (the marks the style sheet has: MapView.uss, .find-*)
             var art = MapArt.Shared();
             foreach (var d in book.things)
             {

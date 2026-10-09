@@ -60,7 +60,7 @@ namespace Kapman.Game
             bool along = Course.IsSet && metresAnHour > 1.0;
             for (int k = 1; k <= (int)look; k++)
             {
-                var p = along ? Course.Aim(at, metresAnHour * k, out _) : at;
+                var p = along ? Course.Peek(at, metresAnHour * k) : at;
                 var (lat, lon) = WorldFrame.ToLatLon(p.x, p.z);
                 if (world.weather.Sample(lat, lon, world.WeatherHours + k, true).windSpeed > GaleDice.GaleWind)
                     return k;
@@ -108,6 +108,7 @@ namespace Kapman.Game
                 men = Voyage.Men, hands = Mathf.Max(1, Mathf.RoundToInt(cls.crew)),
                 length = cls.length, beam = cls.beam, fragility = cls.galeFragility, lossPerHour = world.rules.galeLossPerHour,
                 seed = world.seed,
+                rough = moored ? 0.0 : RoughWaters.RoughNow,
             });
             // WHAT HAS BEFALLEN HER IS TOLD AND ASKED AT ONCE, as the gale's signs are (the play-through of 9 Oct 2026: her
             // sail split on 1 August and its card, left to the deck's own chance, had not come by the 13th: she crawled

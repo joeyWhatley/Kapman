@@ -41,6 +41,12 @@ namespace Kapman.Game
         Sighted,
         /// <summary>She has come to a place pointed at on the chart, and lies to there (9 Oct 2026).</summary>
         AtPlace,
+        /// <summary>Wind and tide have set her well off her line, or the steersman has lost his reckoning (9 Oct 2026).</summary>
+        OffLine,
+        /// <summary>She is set down on a shore she cannot keep clear of (9 Oct 2026).</summary>
+        LeeShore,
+        /// <summary>She is in rough water: a race, a bar, the sea standing up against the tide (9 Oct 2026).</summary>
+        RoughWater,
     }
 
     /// <summary>The switches for the clock's own drops (kept on this machine, not in the saved game).</summary>
@@ -130,6 +136,9 @@ namespace Kapman.Game
                 case ClockReason.WeatherNear: return "a gale near";
                 case ClockReason.Sighted: return "new in sight";
                 case ClockReason.AtPlace: return "at the place pointed at";
+                case ClockReason.OffLine: return "off her line";
+                case ClockReason.LeeShore: return "a lee shore";
+                case ClockReason.RoughWater: return "rough water";
                 default: return "";
             }
         }
@@ -156,6 +165,9 @@ namespace Kapman.Game
                 case ClockReason.WeatherNear: return "A gale within the watch, or within the hour: slow to speed 1";
                 case ClockReason.Sighted: return "A harbour, a water or a landmark not seen before: slow to speed 1";
                 case ClockReason.AtPlace: return "Come to a place you pointed at on the chart: slow to speed 1";
+                case ClockReason.OffLine: return "Set well off her line by wind and tide, or the reckoning lost: slow to speed 1";
+                case ClockReason.LeeShore: return "Set down on a shore she cannot keep clear of: slow to speed 1";
+                case ClockReason.RoughWater: return "Rough water: a race, a bar, the sea against the tide: slow to speed 1";
                 default: return why.ToString();
             }
         }

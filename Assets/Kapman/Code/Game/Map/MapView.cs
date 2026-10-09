@@ -181,6 +181,7 @@ namespace Kapman.Game
         string cardPort;
         readonly List<Kapman.Game.Sim.WorldXZ> planLine = new List<Kapman.Game.Sim.WorldXZ>();
         CourseLine courseLine;
+        DriftLayer driftLayer;
         double drawWest, drawNorth;                                   // the view the overlays were last drawn for
         bool showAllShips;                                            // [G]: every ship of the world, through the fog (dev)
         int chronicleShown = -1;                                      // how many entries the list was filled with
@@ -422,6 +423,9 @@ namespace Kapman.Game
             courseLine.style.position = Position.Absolute;
             courseLine.style.left = courseLine.style.top = courseLine.style.right = courseLine.style.bottom = 0;
             overlays.Add(courseLine);
+            // (9 Oct 2026: what carries her, and how far she is from where the steersman reckons her)
+            driftLayer = new DriftLayer(this);
+            overlays.Add(driftLayer);
             // THE OTHER SHIPS' MARKS LIE UNDER THE PORTS' DOTS (9 Oct 2026). A port's mark is its dot alone now, and a trader
             // lying at the quay lay over it: the dot of Dorestat could not be pointed at or clicked (found by the play
             // test's measure, which clicks it). A ship lying on a port's dot gives way to the port.
@@ -781,6 +785,111 @@ namespace Kapman.Game
             return new Kapman.Game.Sim.WorldXZ(w.x, w.z);
         }
 
+        /// <summary>Where the steersman reckons her to be (real metres): her own place, but on open water where wind and
+        /// tide have carried her since her course was laid (Voyage/Adrift.cs).</summary>
+        static Kapman.Game.Sim.WorldXZ Reckoned()
+        {
+            var at = ShipWorld();
+            if (Adrift.Helm != Helm.Reckoning && Adrift.Helm != Helm.Coasting)
+                return at;
+            return new Kapman.Game.Sim.WorldXZ(at.x - Adrift.Set.x, at.z - Adrift.Set.z);
+        }
+
+        /// <summary>Real metres of set from which the chart draws it; m/s of push from which it draws the arrow.</summary>
+        public const double SetDrawnM = 1500.0, PushDrawn = 0.12;
+
+        /// <summary>Is the line of her set drawn on the chart now, and the arrow of what carries her (a test's eyes)?</summary>
+        public bool SetShown => driftLayer != null && driftLayer.Set;
+        public bool PushShown => driftLayer != null && driftLayer.Arrow;
+
+        /// <summary>
+        /// WHAT CARRIES HER, ON THE CHART (the user, 9 Oct 2026: "an intelligent realistic current and weather system that
+        /// can blow and push the ship off course"; by the picker: "Always adrift"). Two small things by her own mark, and
+        /// only at sea:
+        ///   - a short arrow from her mark, the way the tide and the wind carry her now, longer as they carry her harder
+        ///     (some sixteen pixels a knot);
+        ///   - when she is off the place the steersman reckons her at by more than a km and a half: a small ring at
+        ///     that place, where her drawn course begins, and a thin line from it to her.
+        /// Nothing is drawn on a river, made fast, or lying to her anchor.
+        /// </summary>
+        sealed class DriftLayer : VisualElement
+        {
+            readonly MapView map;
+            public bool Set, Arrow;
+
+            public DriftLayer(MapView map)
+            {
+                this.map = map;
+                pickingMode = PickingMode.Ignore;
+                style.position = Position.Absolute;
+                style.left = style.top = style.right = style.bottom = 0;
+                generateVisualContent += Paint;
+            }
+
+            void Paint(MeshGenerationContext ctx)
+            {
+                Set = Arrow = false;
+                var game = KapmanGame.Current;
+                if (map.mpp <= 0.0 || game == null || game.ship == null)
+                    return;
+                var helm = Adrift.Helm;
+                if (helm != Helm.Reckoning && helm != Helm.Coasting && helm != Helm.Drifting)
+                    return;
+                var her = ShipWorld();
+                Vector2 at = map.ChartPx(her);
+                var p = ctx.painter2D;
+                p.lineCap = LineCap.Round;
+                p.lineJoin = LineJoin.Round;
+                var pale = new Color(0.86f, 0.89f, 0.8f, 0.8f);
+                var ink = new Color(0.08f, 0.08f, 0.1f, 0.9f);
+                // her set: from where he reckons her to where she is
+                if (helm != Helm.Drifting && Course.IsSet && Adrift.SetM > SetDrawnM)
+                {
+                    Vector2 from = map.ChartPx(Reckoned());
+                    if ((at - from).sqrMagnitude > 64f)
+                    {
+                        Set = true;
+                        for (int pass = 0; pass < 2; pass++)
+                        {
+                            p.strokeColor = pass == 0 ? pale : ink;
+                            p.lineWidth = pass == 0 ? 3f : 1.25f;
+                            p.BeginPath();
+                            p.MoveTo(from);
+                            p.LineTo(at);
+                            p.Stroke();
+                            p.BeginPath();
+                            p.MoveTo(from + new Vector2(4.5f, 0f));
+                            p.Arc(from, 4.5f, 0f, 360f);
+                            p.Stroke();
+                        }
+                    }
+                }
+                // what carries her now
+                var (east, north) = Adrift.Push;
+                double speed = System.Math.Sqrt(east * east + north * north);
+                if (speed >= PushDrawn)
+                {
+                    Arrow = true;
+                    float len = Mathf.Clamp((float)(speed / 0.5144) * 16f, 9f, 64f);
+                    var dir = new Vector2((float)(east / speed), (float)(-north / speed));
+                    var side = new Vector2(-dir.y, dir.x);
+                    Vector2 a = at + dir * 7f, b = at + dir * (7f + len);
+                    for (int pass = 0; pass < 2; pass++)
+                    {
+                        p.strokeColor = pass == 0 ? pale : ink;
+                        p.lineWidth = pass == 0 ? 4.5f : 2f;
+                        p.BeginPath();
+                        p.MoveTo(a);
+                        p.LineTo(b);
+                        p.MoveTo(b - dir * 5f + side * 3.5f);
+                        p.LineTo(b);
+                        p.LineTo(b - dir * 5f - side * 3.5f);
+                        p.Stroke();
+                    }
+                }
+            }
+        }
+
         /// <summary>The port she lies at (moored inside its reach), or null.</summary>
         static string LyingAt() => Port.LyingId();
 
@@ -915,8 +1024,10 @@ namespace Kapman.Game
                 // lines like -  -  -"). The strokes are counted from the berth back to her, so they lie still on the
                 // water and she comes up to them one by one; only what is on the screen is drawn. The line is her
                 // course without its small jogs (DrawnCourse).
+                // (9 Oct 2026: it begins where the steersman reckons her to be. On open water that is not always where
+                // she is: the drift layer draws how far off)
                 line.Clear();
-                line.Add(Px(ShipWorld()));
+                line.Add(Px(Reckoned()));
                 map.DrawnCourse(line);
                 const float stroke = 9f, space = 11f, period = stroke + space, edge = 24f;
                 float wide = contentRect.width, high = contentRect.height;
@@ -1230,6 +1341,7 @@ namespace Kapman.Game
             drawWest = viewWest;
             drawNorth = viewNorth;
             courseLine.MarkDirtyRepaint();
+            driftLayer?.MarkDirtyRepaint();
             ringLayer?.MarkDirtyRepaint();
             pointedMark = PointedMark();
             markNow = Time.realtimeSinceStartup;

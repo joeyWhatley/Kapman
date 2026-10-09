@@ -104,6 +104,84 @@ namespace Kapman.Weather
             return (float)sum;
         }
 
+        /// <summary>
+        /// THE STREAM OF THE TIDE (9 Oct 2026; the user: "an intelligent realistic current and weather system that can blow
+        /// and push the ship off course"). The model holds the height of the tide, not its stream. The stream is
+        /// reckoned from it as for a wave that travels: the crest of each constituent moves the way its high water
+        /// comes later (the gradient of its phase, taken with no unwrapping from the two grids), and the water under
+        /// it runs that way at the height times the square root of g over the depth, in step with the height: with
+        /// the wave while the water stands above its mean, against it below. Where the tide stands and does not
+        /// travel (the phase hardly changes from place to place: the head of a bay) the stream is let fall to nothing
+        /// and not guessed at. So it runs hardest where the water is shallow and the range large, turns when the
+        /// real tide turns, and is no survey: a narrows may run harder than this says.
+        /// East and north, real metres a second. `depth`: real metres of water (kept between 4 and 400).
+        /// </summary>
+        public void StreamAt(double lat, double lon, Moment m, double depth, out double east, out double north)
+        {
+            east = north = 0.0;
+            double fx = (lon - west) / step, fy = (lat - south) / step;
+            if (fx < 0 || fy < 0 || fx > nx - 1 || fy > ny - 1 || m.cos == null)
+                return;
+            int x0 = Math.Min(nx - 2, (int)fx), y0 = Math.Min(ny - 2, (int)fy);
+            double tx = fx - x0, ty = fy - y0;
+            int i00 = y0 * nx + x0, i10 = i00 + 1, i01 = i00 + nx, i11 = i01 + 1;
+            double h = Math.Max(4.0, Math.Min(400.0, depth));
+            double celerity = Math.Sqrt(9.81 * h), perHeight = Math.Sqrt(9.81 / h);
+            // real metres a cell, east and north
+            double mx = step * 111320.0 * Math.Max(0.05, Math.Cos(lat * Math.PI / 180.0)), my = step * 110574.0;
+            for (int c = 0; c < names.Length; c++)
+            {
+                double w = Speed(names[c]);
+                if (w <= 0.0)
+                    continue;
+                var r = re[c];
+                var q = im[c];
+                double a00 = r[i00], a10 = r[i10], a01 = r[i01], a11 = r[i11];
+                double b00 = q[i00], b10 = q[i10], b01 = q[i01], b11 = q[i11];
+                // (a corner on the land has no tide: across the shore there is no gradient to take)
+                if (Dry(a00, b00) || Dry(a10, b10) || Dry(a01, b01) || Dry(a11, b11))
+                    continue;
+                double a = (a00 * (1 - tx) + a10 * tx) * (1 - ty) + (a01 * (1 - tx) + a11 * tx) * ty;
+                double b = (b00 * (1 - tx) + b10 * tx) * (1 - ty) + (b01 * (1 - tx) + b11 * tx) * ty;
+                double amp2 = a * a + b * b;
+                if (amp2 < 1e-6)
+                    continue;
+                double ax = ((a10 - a00) * (1 - ty) + (a11 - a01) * ty) / mx, ay = ((a01 - a00) * (1 - tx) + (a11 - a10) * tx) / my;
+                double bx = ((b10 - b00) * (1 - ty) + (b11 - b01) * ty) / mx, by = ((b01 - b00) * (1 - tx) + (b11 - b10) * tx) / my;
+                // the gradient of the phase, radians a metre: (a grad b - b grad a) / (a2 + b2)
+                double gx = (a * bx - b * ax) / amp2, gy = (a * by - b * ay) / amp2;
+                double g = Math.Sqrt(gx * gx + gy * gy);
+                if (g < 1e-12)
+                    continue;
+                double travelling = Math.Min(1.0, g * celerity / w);         // (1: a wave that travels at the speed its depth gives)
+                double height = a * m.cos[c] + b * m.sin[c];
+                double run = height * perHeight * travelling;
+                east += run * gx / g;
+                north += run * gy / g;
+            }
+        }
+
+        static bool Dry(double a, double b) => double.IsNaN(a) || double.IsNaN(b) || (a == 0.0 && b == 0.0);
+
+        /// <summary>The speed of a constituent, radians a second (0: not one we know).</summary>
+        static double Speed(string name)
+        {
+            switch (name)
+            {
+                case "M2": return 1.405189e-4;
+                case "S2": return 1.454441e-4;
+                case "N2": return 1.378797e-4;
+                case "K2": return 1.458423e-4;
+                case "2N2": return 1.352405e-4;
+                case "K1": return 7.292117e-5;
+                case "O1": return 6.759774e-5;
+                case "P1": return 7.252295e-5;
+                case "Q1": return 6.495854e-5;
+                case "M4": return 2.810378e-4;
+                default: return 0.0;
+            }
+        }
+
         /// <summary>A moment's astronomical arguments, per constituent: f cos(V + u) and f sin(V + u).</summary>
         public struct Moment
         {

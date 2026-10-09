@@ -908,7 +908,8 @@ namespace Kapman.Game.Frame
             string bound = Course.IsSet ? Course.BoundName : null;
             shipWhere.text = here != null ? "At " + here.name
                            : body != null && body.Sheltering && body.Wind > Kapman.Game.Sim.GaleDice.GaleWind ? "Lying to in the gale"
-                           : look.lying ? (river ? "Lying to on the river" : "Lying to")
+                           : look.lying ? (river ? "Lying to on the river" : Adrift.Helm == Helm.Drifting ? "Lying to, adrift"
+                                                                             : Adrift.Helm == Helm.Anchored ? "Lying to her anchor" : "Lying to")
                            : (river ? "On the river" : "At sea") + (bound != null ? ", bound for " + bound : "");
         }
 

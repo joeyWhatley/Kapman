@@ -828,6 +828,12 @@ namespace Kapman.Game
                 if (newInSight)
                     ClockDrops.Raise(ClockReason.Sighted);
             }
+            // (9 Oct 2026: the rough water she is in, and how rough it is this minute. After the finds, so that a race
+            // found in this same minute is said by its name)
+            var body = ChartBody.Current;
+            if (ship != null && body != null)
+                RoughWaters.Step(ChartWorld.ShipWorld(), body.Wind, body.WindFrom, Kapman.Game.Sim.SimStage.JulianDay,
+                                 Port.LyingId() == null && !ChartWorld.OnRiver(), seconds / 3600.0);
             ClockDrops.Step(minute);
             StepSeconds = 0.0;
             Stepped?.Invoke(minute);

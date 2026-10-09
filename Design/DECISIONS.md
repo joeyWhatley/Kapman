@@ -1424,3 +1424,90 @@ and far fewer when usage is short).
    Tests: ClickAndSailTests (edit, 5), SailByPointingTests (play: a click in the dark, the course only where
    she knows, Witla sighted, the clock dropped, lying to at the place, Witla charted by name), MapZoomTests
    (the ring on the screen, its word, no dot for a port only heard of).
+122. **THE SEA MOVES HER: WIND, TIDE, THE STEERSMAN'S RECKONING, ROUGH WATERS** (the user, 9 Oct: "We need an
+   intelligent realistic current and weather system that can blow and push the ship off course and rough ocean
+   areas ect"; by the picker: wind and tide before the lender; "Always adrift" ("She never quite holds a line
+   anywhere. Every passage wanders and you correct it by pointing again. More to do on every voyage"); a shore:
+   "Strained and held off"). RULINGS, with what I chose inside them.
+   - WHAT CARRIES HER, each game minute, besides her own way (Voyage/SeaPush.cs):
+     the TIDE'S STREAM, reckoned from the tide model the game has had since the first build (it held the height
+     of the tide only). Each constituent's wave travels the way its high water comes later, and the water under
+     it runs that way at the height times the square root of g over the depth, with the wave above mean level
+     and against it below; where the tide stands and does not travel the stream is let fall to nothing. So it
+     turns with the real tide of the day, runs hardest in shallow water with a large range, and hardly in the
+     Baltic. As the game reckons it: the narrows off Dover 2.7 knots at their hardest, off the Maas mouth 1.5,
+     the middle of the southern North Sea 0.7, the Baltic none. It is no survey: a true narrows (the Picts'
+     firth) runs far harder than this says.
+     the WIND'S DRIFT: under sail her leeway, sideways to leeward (10 degrees beating, 6 on a reach, 2 running,
+     at 8 m/s of wind; more in more wind); with no sail drawing (oars, lying to) she is blown bodily downwind
+     at 2 to 3.5 hundredths of the wind's speed.
+     the TOP OF THE SEA, which a steady wind sets running at 1.5 hundredths of its speed, a little to its right.
+   - NOBODY STEERS AGAINST IT ON OPEN WATER (Voyage/Adrift.cs). The steersman keeps the headings of her course
+     as it was laid, from where he RECKONS her to be; she is truly somewhere else by all that has carried her.
+     What he knows of it:
+       on a river nothing carries her (the banks);
+       in a sound, over the flats, on the way in to a berth he steers by eye, and the stream with her or against
+         her is her speed;
+       along a coast he steers by reckoning and finds out half of his error each hour by the land (a tenth by
+         night, none in thick fog);
+       on the open sea by reckoning alone;
+       when the end of her open water (his landfall: a river's mouth, a sound, the berth) comes in sight, he
+         knows where he is, and her course is laid again from there by itself. In sight is as far as the chart
+         shows her what is round her, 30 km (two fifths of that by night; no further than the air lets him
+         see): he sees what the player sees. (It was 12 km as first built: the picture of a lost reckoning
+         showed the haven plain on the chart under the words "should be in sight, and it is not".)
+       when he has run his distance and cannot make out his landfall he has LOST HIS RECKONING: "By the
+         steersman's reckoning she should be off Walichrum by now, and he cannot make it out. She lies to.",
+         and the clock drops back. The Voyage window says "The reckoning is lost" and lays the course again.
+     A place pointed at on open water has nothing to see: she comes to it by his reckoning, and the log says so
+     when that is not where it is.
+   - THE PLAYER SETS HER RIGHT BY POINTING AGAIN. Eight km off her line the log says "Wind and tide have set
+     her 8 km to the north of her line." and the clock drops back (a new reason, with its switch). The Voyage
+     window says how far and which way, with "Lay the course again": a new course to where she is bound, from
+     where she truly is. Any course set or place pointed at does the same.
+   - ON THE CHART, by her own mark and only at sea: a short arrow, the way she is carried now and longer as it
+     is harder; and when she is more than a km and a half from where he reckons her, a small ring at that place
+     (where her drawn course begins) with a thin line from it to her.
+   - LYING TO with no course she is carried too ("The water is too deep to anchor in: lying to, she goes where
+     wind and tide carry her."), unless the water is 12 m deep or less and it blows no gale: then she lies to
+     her anchor. The ship's caption says which.
+   - A SHORE. She is never put on the land (the world bake says what is water; the tidal flats are not). Where
+     the push would set her on a shore she is held off it and slides along it. When she has not the way on to
+     keep clear (lying to, a gale, a stream faster than she goes) it works her hull: a hundredth an hour, three
+     in a gale. The log says so and the clock drops back. In a gale on a lee shore that is how she is lost, by
+     the rules a gale loses her by already. Out oars, and she keeps clear.
+   - ROUGH WATERS (Voyage/RoughWaters.cs, Game/Data/rough_waters_793.json): 33 real places where the sea is
+     worse than the wind makes it. A RACE is rough while the stream runs, worst with the wind against the tide,
+     quiet at slack water (the Picts' firth, the narrows, the race of Sena, Brecan's cauldron); a BAR with the
+     wind blowing on to it (the Maas mouth, the Fli, the bar of the Quantia below Quentovic); a SHOAL in any
+     fresh wind (the long sands, the Horn reef); an open CAPE in a fresh wind (the Naze, the Stad). In it she
+     takes water over the gunwale, her hull works as in a gale, and she keeps six tenths of her speed. The log
+     names it when she comes into the rough of it, the clock drops back, and the Wind and tide window says how
+     rough. Each is tied to a thing to find; seven of those are new (89 things to find now), with a new kind
+     "tide race" that has the mark of a water.
+   - THE WIND AND TIDE WINDOW says the stream where she is, the wind's drift, how the steersman knows her place,
+     how far she is off her line, and the rough water she is in.
+   - A COURSE LAID FROM OPEN WATER (she is off the lanes most of the time now) takes up the lanes at their own
+     nearest point that open water leads to, of the lanes that lead somewhere, and goes straight for a later
+     point of its way where open water lies between: it does not begin by sailing back.
+   - EVERY NUMBER IS IN Game/Data/sea_push.json (24 of them; "on": false and nothing carries her, as before).
+   - MINE, the user's to overrule: every word of it (placeholders); every number; that the chart shows where
+     she truly is and not where he reckons her; that he finds his error along a coast and not on the open sea;
+     that she anchors in 12 m; the 33 places and how rough each is; the seven new finds' names and words (the
+     race off the long bill, the race of Sena, the south roost, Brecan's cauldron, the race off Cenn Tire, the
+     Stad, the bar of the Quantia); that resting and waiting for light, wind or tide she is not carried.
+   - FAULTS OF MY OWN MAKING, FOUND BY THE TESTS AND THE PICTURES, AND MENDED: a course laid again at sea began
+     by sailing 13 km back to the lanes' nearest point (seen in the first picture of it); driven into the old
+     Rhine mouth behind its spit of dunes, her course was laid again and its first stretch took her across the
+     spit for three minutes (her own way is trusted only on a lane of her course now); whether it was night
+     was read from the last frame drawn, so the same game ended a metre apart at speed 1 and at speed 5 (the
+     test that holds the two together caught it: it is reckoned from the clock and her place now); the
+     weather watch's look ahead moved her on along her line (it asks without moving her now).
+   - NOT DONE: the other ships are not carried (they keep to the lanes as they did). The stream does not run up
+     the rivers' tidal reaches. Resting at sea in deep water she is not carried. The cards do not yet know of
+     any of it (no card for a lee shore or a race). The long play-through walk has not sailed with it.
+   Tests: SeaMovesHerEditTests (edit, 11), SeaMovesHerTests and SeaReckoningTests (play, 3: carried off her
+   line, the log, the clock, the chart's marks, the two windows, the course laid again; the landfall in sight;
+   the reckoning lost and the course laid again from the window; carried lying to in deep water, at anchor in
+   shallow; rough water on the long sands; held off a shore and never on the land). Bake/world/
+   check_rough_waters.py checks every rough water against the world bake, the lanes and the tide model.

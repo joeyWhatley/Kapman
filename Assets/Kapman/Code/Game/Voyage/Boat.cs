@@ -76,6 +76,9 @@ namespace Kapman.Game
         public int men, hands;
         public double length, beam, fragility, lossPerHour;
         public int seed;
+        /// <summary>How rough the water she is in is, beyond what the wind makes it (Voyage/RoughWaters.cs: a tide race,
+        /// a bar, a shoal, an open head): 0 none, 1 as a man bailing and the hull working as in a gale.</summary>
+        public double rough;
     }
 
     /// <summary>
@@ -386,6 +389,9 @@ namespace Kapman.Game
             // the hull works
             if (gale)
                 HullBy(-R.galeWearPerHour * (carrying ? R.carryWear : running ? R.reefedWear : 1.0) * (Tarred(day) ? 1.0 : R.untarredWear));
+            // (9 Oct 2026: and in rough water, a race or a bar or a shoal, whatever the wind)
+            if (h.rough > 0.0 && !h.moored)
+                HullBy(-SeaPush.Rules.roughWear * h.rough * (Tarred(day) ? 1.0 : R.untarredWear));
 
             // the sail's own dice
             bool sailUp = gale ? running : EffectiveSet != SailSet.Down;
@@ -406,6 +412,8 @@ namespace Kapman.Game
                 double before = Water;
                 bool wasAllHands = AllHands;
                 double seas = gale ? (carrying ? R.seasCarry : running ? R.seasReefed : R.seasLieTo) : h.wind >= R.freshWind && !h.river ? R.freshSeas : 0.0;
+                if (h.rough > 0.0)
+                    seas += SeaPush.Rules.roughSeas * h.rough;             // (rough water comes over the gunwale too)
                 double into = Leak(h.wind) + seas, after = Water + into;
                 // the fewest men that keep it down this hour: none, one, two, then all hands at a pace they cannot hold;
                 // weary men lift less

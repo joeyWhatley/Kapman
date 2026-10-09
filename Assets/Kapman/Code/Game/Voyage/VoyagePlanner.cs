@@ -313,9 +313,29 @@ namespace Kapman.Game
             bool last;
             Kapman.Game.Sim.WorldXZ p;
             var body = ChartBody.Current;
+            // (9 Oct 2026: THE SEA MOVES HER. On open water the steersman keeps the headings of her course from where
+            // he reckons her to be; she is truly somewhere else by all that has carried her: Voyage/Adrift.cs)
+            var by = here;
             if (body != null)
             {
-                p = Course.Aim(here, chartAheadM, out last);
+                by = Adrift.SteersBy(here, stepHours, out bool lostReckoning);
+                if (lostReckoning)
+                {
+                    // he has run his distance and his landfall is not in sight: she lies to for the next order
+                    string bound = Course.Destination;
+                    Voyage.Say(Adrift.LostWords(Course.ToPlace ? null : Course.BoundName));
+                    Course.Clear();
+                    Adrift.Lost(bound);
+                    ship.anchored = true;
+                    Hold();
+                    held = true;
+                    wasMoored = false;
+                    ClockDrops.Raise(ClockReason.OffLine);
+                    return;
+                }
+                p = Course.Aim(by, chartAheadM, out last);
+                // (the same heading from where she truly is)
+                p = new Kapman.Game.Sim.WorldXZ(p.x + here.x - by.x, p.z + here.z - by.z);
                 body.Through = !last;
             }
             else
@@ -332,10 +352,13 @@ namespace Kapman.Game
             Steer(FloatingOrigin.ToUnity(new WorldPos(p.x, 0.0, p.z)), river || (last && toBerth < rowInGameM), river ? "down the river" : "in to the berth");
             // A PLACE POINTED AT (9 Oct 2026) has no berth and nobody to take her lines: come to the end of her line, she
             // lies to there, and the clock drops back for the next order.
-            if (Course.ToPlace && toBerth < arrivedGameM)
+            // (she comes to it by the steersman's reckoning: on open water that is not always where it is)
+            double toPlace = Kapman.Game.Sim.WorldXZ.Distance(by, Course.Points[Course.Points.Count - 1]) / scale;
+            if (Course.ToPlace && toPlace < arrivedGameM)
             {
                 bool shortOf = Kapman.Game.Sim.WorldXZ.Distance(Course.Points[Course.Points.Count - 1], Course.Place) > 3000.0;
-                Voyage.Say(shortOf ? PlaceShortWords : PlaceThereWords);
+                bool astray = Kapman.Game.Sim.WorldXZ.Distance(by, here) > 2000.0;
+                Voyage.Say(astray ? Adrift.PlaceReckonedWords : shortOf ? PlaceShortWords : PlaceThereWords);
                 Course.Clear();
                 ship.anchored = true;
                 Hold();
