@@ -356,8 +356,47 @@ namespace Kapman.Tests
             yield return ChartPlay.Frames(4);
         }
 
+        /// <summary>A scene is being told over the game (Ravn's death, 9 Oct 2026): it is read through a box at a time, as a
+        /// player would, with a picture of its first box and of the name it ends on. The clock is held under it.</summary>
+        IEnumerator ASceneToldThrough()
+        {
+            var show = Showtime.Current;
+            if (show == null || !Showtime.Telling)
+                yield break;
+            Say("a scene is told over the game");
+            float until = Time.realtimeSinceStartup + 240f;
+            int boxes = 0;
+            bool named = false;
+            while (Showtime.Telling && Time.realtimeSinceStartup < until)
+            {
+                if (!named && show.CardText.Length > 0)
+                {
+                    named = true;
+                    yield return Shot("scene_the_name_it_ends_on");
+                    Say("the scene ends on: " + show.CardText);
+                }
+                if (show.SceneWaits)
+                {
+                    if (boxes == 0)
+                        yield return Shot("scene_its_first_box");
+                    boxes++;
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(3);
+                }
+                else
+                    yield return null;
+            }
+            if (Showtime.Telling)
+            {
+                Fault("a scene told over the game did not end in four minutes on the wall");
+                Assert.Fail("a scene that does not end");
+            }
+            Say($"the scene was read through: {boxes} boxes of talk");
+        }
+
         IEnumerator HandleFloats(int most = 12)
         {
+            yield return ASceneToldThrough();
             for (int i = 0; i < most && play.FrontFloat() != null && !Chased && !ended; i++)
             {
                 yield return HandleFloat();
@@ -1169,6 +1208,12 @@ namespace Kapman.Tests
                     yield return TheLastPage();
                     yield break;                                         // (the loaded game is somewhere else: the season goes on from there)
                 }
+                if (Showtime.Telling)
+                {
+                    yield return ASceneToldThrough();                    // (the lender's men have killed Ravn: his scene)
+                    moved = Time.realtimeSinceStartup;
+                    continue;
+                }
                 if (play.FrontFloat() != null && !Chased)
                 {
                     yield return HandleFloat();
@@ -1373,7 +1418,9 @@ namespace Kapman.Tests
             float t = Time.realtimeSinceStartup;
             while (game.Day < until && Time.realtimeSinceStartup - t < 240f && !ended)
             {
-                if (play.FrontFloat() != null)
+                if (Showtime.Telling)
+                    yield return ASceneToldThrough();
+                else if (play.FrontFloat() != null)
                     yield return HandleFloat();
                 else if (GameSpeed.Level < 4)
                     yield return Speed(5);

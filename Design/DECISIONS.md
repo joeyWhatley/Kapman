@@ -1822,7 +1822,7 @@ and far fewer when usage is short).
      not a rule's own, and every word. Code: the lender's men's boat on the chart, the tide's stream and the
      reckoning of where she is, keeping her off the land, when each of the feud's cards is offered, and the parts
      the nodes run. Each graph has its code beside it for a game with no graph, and a test that holds the two alike.
-   - NINE GRAPHS IN ALL from this repair, and where they are: Game/Graphs ("Scene - Ravn is killed", "Encounter -
+   - TWENTY GRAPHS IN ALL from this repair (four flows and sixteen rules), and where they are: Game/Graphs ("Scene - Ravn is killed", "Encounter -
      the lender's men", "Feud - what she does about Ravn's death", "Voyage - the sea moves her") and
      Game/Graphs/Rules (sixteen of the twenty). Made by Kapman > Make physical > 3, 3c, 3d, 3e, 3f; drawings of each
      from its file in G:\kapman_unity\graph_pics (not Unity's own window).
@@ -1873,3 +1873,23 @@ and far fewer when usage is short).
    - STILL OWED: the 1,300 held cards (not in the game), and the people of the 39 ports outside the first release.
      The short facts of the screen are left as they are (my reading of the rule: DECISIONS 130).
    Tests: EditMode 607 (605 pass, 2 skipped).
+
+132. **THE LONG WALK, RUN AFTER THE NIGHT'S WORK: WHAT IT SHOWED, AND THAT IT IS OUT OF STEP**
+   (PlayThroughTests, run by its name on 9 Oct, late, with every graph and every rewritten word in the game.)
+   - IT READS A TOLD SCENE THROUGH NOW (ASceneToldThrough): the walk was written before the game had a scene told over
+     it, and such a scene takes the keys and holds the clock, so the walk would have stood until its own time ran out.
+   - WHAT IT SHOWED in 217 days of the game (1 May to 4 December 793, 944 pictures): no fault of its own finding, no
+     word written for the makers on a screen, no writing missing. The lender's men caught her twice at Traiectum
+     (22 May and 10 September, the first and second sendings), by their graph, and were told she had not got it.
+     ONE FAULT OF THE SCREEN, once: the debt's words ran 106 px out of the top bar at sea on a day with a long date
+     ("Owed 1920 d by Michaelmas 794: 456 days left", pt_363). The bar already chooses shorter words by its room
+     (FrameRoot.DebtWords); it was caught as the room changed. NOT MENDED.
+   - IT IS OUT OF STEP WITH TWO RULINGS OF 9 OCT, AND I STOPPED IT:
+       the debt falls due at the SECOND Michaelmas (DECISIONS 119), so its "season" no longer ends on 29 September
+       793: it would have walked 516 days, two hours on the wall;
+       the chart's fog (DECISIONS 117, 121): she knows only the ports she has seen, the rest are "by hearsay" with no
+       way laid to them, and the walk's trader takes its ports from "Where to". So it shuttled between Dorestat and
+       Traiectum (300 calls by July), poor, with six bars of iron it would not sell at a loss.
+     TO BE DONE before it is a fair check again: the trader must point at a port only heard of (as
+     SailByPointingTests does), and the walk must end where it is told to (KAPMAN_PT_DAYS, or the day itself).
+   - Stopping it by ending its Unity did no harm: the project opened and the edit suite ran clean straight after.
