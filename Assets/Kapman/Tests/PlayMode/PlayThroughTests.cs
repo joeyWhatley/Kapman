@@ -44,6 +44,7 @@ namespace Kapman.Tests
     {
         const string Home = "dorestad";
         const double Reserve = 14.0;              // silver kept back for bread and the men
+        const double Working = 200.0;             // silver kept to trade with when the debt is paid off
         const double KmADay = 75.0;               // what the trader reckons she makes in a day and a night, to be home in time
 
         ChartPlay play;
@@ -127,6 +128,17 @@ namespace Kapman.Tests
             journal.AppendLine("[" + Now() + "] " + line);
         }
 
+        /// <summary>The lines the game's log has been given since it stood at a version. (It keeps its newest 200: their
+        /// places in it change and its count stands still, but its version counts every line.)</summary>
+        static List<string> SaidSince(int version)
+        {
+            var said = new List<string>();
+            int added = System.Math.Min(FrameLog.Lines.Count, System.Math.Max(0, FrameLog.Version - version));
+            for (int i = FrameLog.Lines.Count - added; i < FrameLog.Lines.Count; i++)
+                said.Add(FrameLog.Lines[i].text);
+            return said;
+        }
+
         /// <summary>What Unity's log says of the sea (a reckoning lost, and why) goes in the journal too.</summary>
         void Heard(string line, string stack, LogType type)
         {
@@ -139,6 +151,7 @@ namespace Kapman.Tests
             found.Add("[" + Now() + "] " + line);
             journal.AppendLine("[" + Now() + "] FAULT: " + line);
             Debug.LogWarning("Play-through, a fault: " + line);
+            Keep();                                                      // (a fault is on the disk at once)
         }
 
         void Keep()
@@ -1097,7 +1110,9 @@ namespace Kapman.Tests
             }
 
             // ---- the debt, when the silver is there
-            if (Trade.Debt > 0.01 && FrameGame.Silver >= Trade.Debt + Reserve)
+            // (by what the purse buys where she lies, as the window reckons it since 10 Oct 2026; and with silver left
+            // to trade with: the first whole walk paid all it had in March 794 and could buy nothing after)
+            if (Trade.Debt > 0.01 && FrameGame.SilverHere(here) >= Trade.Debt + Working)
             {
                 yield return Open("Errands", "Errands");
                 yield return ChartPlay.Settle(0.3f);
@@ -1105,13 +1120,18 @@ namespace Kapman.Tests
                 var all = play.Button("Pay it all", Win("Errands"));
                 if (all != null && all.enabledSelf)
                 {
+                    double owed = Trade.Debt;
                     yield return play.Click(all, "Pay it all");
                     yield return ChartPlay.Settle(0.4f);
-                    Say($"THE DEBT IS PAID, with {Trade.DebtDaysLeft(game.Day):0} days to spare. The purse: {FrameGame.Silver:0} d");
+                    if (Trade.Debt > 0.01)
+                        Fault($"'Pay it all' was pressed at {here.name} with {owed:0} d owed and a purse that buys {FrameGame.SilverHere(here):0} d's worth here, and {Trade.Debt:0} d is still owed: " +
+                              ChartPlay.Short(ChartPlay.Read(Win("Errands"))));
+                    else
+                        Say($"THE DEBT IS PAID, with {Trade.DebtDaysLeft(game.Day):0} days to spare. The purse: {FrameGame.Silver:0} d");
                     yield return Shot("the_debt_is_paid");
                 }
                 else
-                    Fault("she has the silver for the debt and Errands will not take it");
+                    Fault("she has the silver for the debt where she lies and Errands will not take it");
                 yield return HandleFloats();
             }
 
@@ -1224,7 +1244,7 @@ namespace Kapman.Tests
             legs++;
             Say($"cast off from {fromName} for {def.name}: {km:0} km");
             yield return Passage(def, null, km, fromDay);
-            if (ended || came == Came.Lost)
+            if (ended || came == Came.Lost || came == Came.Nowhere)
                 yield break;
             var at = FrameGame.PortHere;
             double took = game.Day - fromDay;
@@ -1306,6 +1326,7 @@ namespace Kapman.Tests
                     Say($"cast off from {fromName} to look for {def.name}");
                 }
                 yield return Passage(def, point, 0.0, game.Day);
+                Keep();
                 if (came != Came.There)
                     break;                                               // (in sight, made fast somewhere, lost, or the game ended)
                 if (Hearsay.Ringed(def))
@@ -1450,6 +1471,7 @@ namespace Kapman.Tests
                     yield return Speed(5);
                 yield return null;
             }
+            yield return Speed(1);
             Say($"the air was thick and she lay to for {game.Hours - from:0.0} hours until the steersman could see ({Adrift.Sight():0} m now)");
         }
 
@@ -1487,9 +1509,9 @@ namespace Kapman.Tests
             string whereTo = seeking ? "the ring of " + def.name : def.name;
             float began = Time.realtimeSinceStartup, moved = began;
             var was = Where();
-            double hours = game.Hours, sixFrom = game.Hours;
+            double hours = game.Hours, sixFrom = game.Hours, givenAt = -100.0;
             var sixAt = was;
-            int signs = Boat.Sign, logFrom = FrameLog.Lines.Count;
+            int signs = Boat.Sign, logFrom = FrameLog.Version, given = 0;
             // (what the log has said on this course: she has come to the place pointed at; she is set off her line)
             bool there = false, offLine = false;
             while (!ended)
@@ -1524,13 +1546,12 @@ namespace Kapman.Tests
                     came = Came.Sighted;
                     break;
                 }
-                for (int i = logFrom; i < FrameLog.Lines.Count; i++)
+                foreach (string text in SaidSince(logFrom))
                 {
-                    string text = FrameLog.Lines[i].text;
                     there |= text == VoyagePlanner.PlaceThereWords || text == VoyagePlanner.PlaceShortWords || text == Adrift.PlaceReckonedWords;
                     offLine |= text.StartsWith("Wind and tide have set her ");
                 }
-                logFrom = FrameLog.Lines.Count;
+                logFrom = FrameLog.Version;
                 if (Chased && Count("a chase") < 2)
                     yield return Shot("running_from_raiders");
                 if (!Course.IsSet && !Chased)
@@ -1557,16 +1578,31 @@ namespace Kapman.Tests
                         if (Course.IsSet)
                             continue;
                     }
+                    // (what the log last said goes in the journal: it is the game's own word for why she has none.
+                    // Taken from her again and again with no six hours between, it is a fault and she is left as she lies)
+                    string lastSaid = string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 3)).Select(l => l.text));
+                    if (game.Hours - givenAt > 6.0)
+                        given = 0;
+                    givenAt = game.Hours;
+                    if (++given > 6)
+                    {
+                        yield return Shot("FAULT_her_course_is_taken_again_and_again");
+                        Fault($"on the way to {whereTo} her course was taken from her {given} times running. The log: {lastSaid}");
+                        break;                                           // (came: Nowhere)
+                    }
+                    // (what is said from here on belongs to the new course: the game may say at once that she is there)
+                    there = offLine = false;
+                    logFrom = FrameLog.Version;
                     if (seeking)
                     {
-                        Say("she has no course: the pointer is put on the place again");
+                        Say("she has no course: the pointer is put on the place again. The log: " + lastSaid);
                         yield return PointAt(def, point.Value);
                         if (!coursePointed)
                             break;                                       // (came: Nowhere)
                     }
                     else
                     {
-                        Say("she has no course: given it again");
+                        Say("she has no course: given it again. The log: " + lastSaid);
                         yield return SetCourse(def.id);
                         if (!Course.IsSet)
                         {
@@ -1576,8 +1612,6 @@ namespace Kapman.Tests
                         }
                     }
                     moved = Time.realtimeSinceStartup;
-                    logFrom = FrameLog.Lines.Count;
-                    there = offLine = false;
                 }
                 else if (offLine && Course.IsSet && port == null)
                 {
@@ -1617,7 +1651,9 @@ namespace Kapman.Tests
                     double made = WorldXZ.Distance(Where(), sixAt);
                     if (made < 3000.0 && !game.ship.anchored && Course.IsSet)
                     {
-                        Say($"SHE MAKES NO WAY: {made / 1000.0:0.0} km in six hours, bound for {whereTo} with {Course.KmLeft(ChartWorld.ShipWorld()):0} km to go. {Adrift.Tells()}");
+                        var body = ChartBody.Current;
+                        Say($"SHE MAKES NO WAY: {made / 1000.0:0.0} km in six hours, bound for {whereTo} with {Course.KmLeft(ChartWorld.ShipWorld()):0} km to go. {Adrift.Tells()}" +
+                            (body != null ? $" Her way {body.Knots:0.0} kn, the wind {body.Wind:0.0} m/s from {body.WindFrom:0}, oars out: {Oars.Out}." : ""));
                         if (Count("makes no way") < 3)
                             yield return Shot("she_makes_no_way");
                     }
@@ -1765,8 +1801,11 @@ namespace Kapman.Tests
                     else if (look == null && plan.gain <= 0.0)
                     {
                         // nothing worth carrying from here: home if the day is near, else the nearest other market
+                        // (with no silver to buy with and nothing aboard to sell she goes home and waits: else she plies
+                        // between the two nearest markets until her bread money is gone, as the first whole walk did)
                         var near = reach.Where(r => r.port.id != here.id).OrderBy(r => r.km).FirstOrDefault();
-                        plan = new Plan { dest = daysLeft < 20.0 || near.port == null ? Home : near.port.id };
+                        bool broke = FrameGame.Silver < Reserve + 30.0 && Trade.Hold.Contents.All(c => c.count <= 0 || Stores(c.good.id));
+                        plan = new Plan { dest = daysLeft < 20.0 || near.port == null || broke ? Home : near.port.id };
                     }
                     if (here.id == Home && plan.dest == Home)
                     {

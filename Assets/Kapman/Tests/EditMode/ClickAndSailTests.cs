@@ -95,6 +95,45 @@ namespace Kapman.Tests
             Debug.Log($"Click and sail: a place on the heath: she lies to {shortOf / 1000.0:0.0} km short of it, after {km:0} km");
         }
 
+        /// <summary>
+        /// POINTING AT THE MIDDLE OF A PORT'S RING BRINGS HER WITHIN SIGHT OF THE PORT (10 Oct 2026). The Voyage window
+        /// tells the player to "point at the water there", and a port is found only by being seen. The long walk pointed
+        /// at Lundenwic's ring from Sarre and she lay to in the Thames mouth, 50 km short: the deep lanes ended there,
+        /// and a course to a place never tried the flats. Held for every port of the game that has a way from Dorestat:
+        /// her course to the middle of its ring ends where the port lies within what she sees round her.
+        /// </summary>
+        [Test]
+        public void PointingAtTheMiddleOfAPortsRingBringsHerWithinSightOfIt()
+        {
+            NeedLanes();
+            var line = new List<WorldXZ>();
+            var way = new List<WorldXZ>();
+            var far = new List<string>();
+            int held = 0;
+            foreach (var def in GameData.Ports)
+            {
+                if (def.id == "dorestad" || !Course.Plan(def.id, Of("dorestad"), "dorestad", way, out _))
+                    continue;
+                var middle = Hearsay.RingMiddle(def);
+                if (!Course.PlanToPlace(middle, Of("dorestad"), "dorestad", line, null, null, out double km))
+                {
+                    far.Add(def.name + ": no water leads towards its ring");
+                    continue;
+                }
+                held++;
+                double off = WorldXZ.Distance(line[line.Count - 1], Of(def.id));
+                if (off > Exploration.NearSight)
+                    far.Add($"{def.name}: she lies to {off / 1000.0:0} km from it, after {km:0} km");
+            }
+            Debug.Log($"Click and sail: pointing at the middle of its ring brings her within sight of {held - far.Count} of {held} ports that have a way from Dorestat");
+            Assert.Greater(held, 30, "too few ports have a way from Dorestat for this to be a test");
+            Assert.IsEmpty(far, "pointing at the middle of these ports' rings leaves her out of sight of them:\n" + string.Join("\n", far));
+            // and as the walk had it: from Sarre, to the ring of Lundenwic
+            var london = GameData.Port("lundenwic");
+            Assert.IsTrue(Course.PlanToPlace(Hearsay.RingMiddle(london), Of("sarre"), "sarre", line, null, null, out double up));
+            Assert.Less(WorldXZ.Distance(line[line.Count - 1], Of("lundenwic")), Exploration.NearSight, $"from Sarre she lies to out of sight of Lundenwic, after {up:0} km");
+        }
+
         [Test]
         public void AShortHopAtSeaIsAShortHop()
         {

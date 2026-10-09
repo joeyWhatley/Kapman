@@ -1937,3 +1937,51 @@ and far fewer when usage is short).
    - NOT DONE, THE USER'S TO RULE: whether she should take up her course again BY HERSELF when the air clears
      (today the player lays it again: the ruling of item 122, "you correct it by pointing again"); and whether a
      foul tide that holds her still should be told as such ("she makes no way against the tide").
+
+134. **THE FIRST WHOLE WALK WITH THE CHART'S FOG, AND WHAT IT MENDED IN THE GAME**
+   (10 Oct, small hours. The walk of item 133, run from a new game: 1 May 793 to 30 March 794, 334 days of the
+   game, an hour on the wall, 282 calls at ports, 238 cards answered, 650 pictures. I stopped it there: its
+   trader had paid the whole debt, had 18 d left and was plying between Sarre and Fordwic. Its journal is kept in
+   G:\kapman_unity\walk_runs\run1.)
+   - WHAT WENT AS IT SHOULD. Seven ports found by pointing at their rings (Medemelacha, Daventre, Doccinga,
+     Walichrum, Sarre, Quentovic, Ripa) and others sighted by the way; the first order handed over; Ravn's iron
+     sold at a gain; the lender's men met twice (25 May on the quay at Winaldum, 21 September alongside at sea)
+     and paid a pound each time; the purse from 86 d to 1,500 d by March 794; she sailed through the winter (the
+     game has no winter yet: the road's step 15).
+   - FOUR FAULTS OF THE GAME, MENDED:
+     1. A PORT BEHIND THE FLATS COULD NOT BE FOUND BY POINTING. Pointed at Lundenwic's ring from Sarre, she lay
+        to in the Thames mouth, 50 km short, "as near the place you pointed at as the water lets her". A port's
+        course tries the deep lanes first and takes the flats only where there is no other way; to a PLACE the deep
+        lanes always give "a way", ending at their own point nearest it. Now the deep way is taken to a place only
+        where it brings her within 2 km as near as the way over the flats (Course.PlanToPlace, NearestToPlace,
+        FlatsWorthM). A test holds it for every port that has a way from Dorestat (31): pointing at the middle of
+        its ring brings her within sight of it. Without the mend that test names Lundenwic (50 km short), Hamwic,
+        Birka and Helgo.
+     2. THE DEBT'S WORDS AND BUTTONS WENT BY ALL HER SILVER, THE PAYMENT BY WHAT IT BUYS WHERE SHE LIES. With
+        1,477 d and 1,440 d owed, Errands at Sarre said "You have the silver for it"; "Pay it all", pressed, said
+        "not enough silver" (her Frankish coin goes at a tenth's loss in England). Four times at four ports. Now
+        the words and the three buttons go by what the purse buys where she lies ("All your silver would cover it,
+        but at Sarre your purse buys so much, and that is so much short."), and a payment that cannot be
+        made says so in a sentence that names the port. PLACEHOLDER WORDS. (TasksPanel, Trade.PayDebt.)
+     3. TWELVE NAMES OF THE CALENDAR CARRIED BRACKETS in the Faith and days window, which the page's rule forbids:
+        eight in the table ("Saint John the Baptist (midsummer)" and seven like it: the second name is joined by a
+        comma now) and the Jewish feasts' lengths, added by the code ("Passover (8 days)": "Passover, 8 days"). A
+        test holds every name of the calendar to the page's rule.
+     4. A RECKONING LOST IN A FOG SAID NOTHING OF THE FOG (item 133).
+   - THREE FAULTS OF THE WALK ITSELF, MENDED: it read the game's log by its count of lines, and the log keeps its
+     newest 200, so after some fifty days it saw nothing the game said (that she had come to a place; that she
+     was off her line: it never once laid her course again for that); looking for Lundenwic it therefore pointed
+     at one place 743 times in twenty minutes; and it paid the whole debt the moment it could and had nothing left
+     to trade with. It reads the log by its version now, takes a course lost six times running for a fault, keeps
+     200 d to trade with, looks whether "Pay it all" did pay, and goes home when it is broke.
+   - SEEN AND NOT MENDED: THE USER'S TO RULE.
+       THE KING'S TOLL CAME 71 TIMES: at every call at a Frankish port, the same card, to be answered each time.
+       THE CREW'S HEART fell to "close to leaving" in September 793 and stayed there to March; nobody left and
+       nothing came of it (the crew's cards are held: item 119).
+       SHE STANDS STILL FOR A WHOLE TIDE in narrow water (13 times in 334 days: under 3 km in six hours) with
+       nothing said of why: her easy stroke is 1.6 knots and the tide runs as hard against her. "Out oars" takes
+       her through; the Wind and tide window shows the stream; the log says nothing.
+       THE STEERSMAN LOST HIS RECKONING 13 TIMES, with errors up to 44 km. Most of those are the walk's own doing
+       (it never laid her course again when told she was off her line): the next run will show how many remain.
+       NOTHING HAPPENS IN WINTER (the road's step 15). What the lender does when the debt is paid early was not
+       seen: she paid it at Sarre and did not come home after.

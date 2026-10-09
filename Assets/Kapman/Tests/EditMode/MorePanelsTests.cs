@@ -257,6 +257,38 @@ namespace Kapman.Tests
             Assert.IsTrue(cal.Ahead("christian_greek", "christian", 793, 5, 1).Any(d => d.id == "sunday"));
         }
 
+        /// <summary>Every name the calendar has for a day keeps the page's rule (10 Oct 2026: eight of them carried a
+        /// second name in brackets, and the Faith and days window showed them as written).</summary>
+        [Test]
+        public void TheCalendarsNamesKeepThePagesRule()
+        {
+            var cal = FaithCalendar.Current;
+            Assert.IsTrue(cal.FromFile, "story/calendar_793.json was not read: " + string.Join("; ", ContentFiles.Warnings));
+            var wrong = new List<string>();
+            int names = 0;
+            foreach (string faith in new[] { "christian", "christian_irish", "old_gods", "prime_signed", "jewish" })
+            {
+                // (a year and a month of it, from two starts, so that every day of the year is come to)
+                foreach (int month in new[] { 1, 7 })
+                    foreach (var d in cal.Ahead(faith, faith, 793, month, 1, 400, 1000))
+                    {
+                        names++;
+                        string fault = PageWords.Fault(d.name);
+                        if (fault != null && !wrong.Contains(d.name + ": " + fault))
+                            wrong.Add(d.name + ": " + fault);
+                    }
+                foreach (var (name, _) in cal.Undated(faith, faith))
+                {
+                    names++;
+                    string fault = PageWords.Fault(name);
+                    if (fault != null && !wrong.Contains(name + ": " + fault))
+                        wrong.Add(name + ": " + fault);
+                }
+            }
+            Assert.Greater(names, 100, "too few days were looked at for this to be a test");
+            Assert.IsEmpty(wrong, "names of the calendar that break the page's rule:\n" + string.Join("\n", wrong));
+        }
+
         // ------------------------------------------------------------------ the field, the wind, the tongues
 
         [Test]

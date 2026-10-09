@@ -151,7 +151,7 @@ namespace Kapman.Game
                         jewishRules.TryGetValue(key, out var rule);
                         list.Add(new FaithDay
                         {
-                            id = key, name = JewishName(key) + (rule.days > 1 ? $" ({rule.days} days)" : ""), kind = "feast",
+                            id = key, name = JewishName(key) + (rule.days > 1 ? $", {rule.days} days" : ""), kind = "feast",
                             mayNot = rule.mayNot ?? Array.Empty<string>(), year = y, month = m, day = d, daysAhead = ahead,
                         });
                     }

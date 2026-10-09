@@ -68,8 +68,13 @@ namespace Kapman.Game.Frame
                 string when = days > 0.0 ? $"Due at {day}: {days:0} {(days == 1.0 ? "day" : "days")} from now."
                             : days == 0.0 ? $"Due today: {day}."
                             : $"It fell due at {day}: {-days:0} {(days == -1.0 ? "day" : "days")} ago.";
-                double silver = FrameGame.Silver;
-                string pace = silver >= Trade.Debt ? "You have the silver for it." : $"You are short of it by {Trade.Debt - silver:0} d.";
+                // (10 Oct 2026, the long walk: with the silver for it by all its worth she pressed "Pay it all" at Sarre
+                // and was told there was not enough. It is paid at the market where she lies, where coin of other lands
+                // goes at a loss: what the purse buys HERE is what these words and the buttons go by. PLACEHOLDER WORDS.)
+                double whole = FrameGame.Silver, silver = here != null ? FrameGame.SilverHere(here) : whole;
+                string pace = silver >= Trade.Debt ? "You have the silver for it."
+                            : here != null && whole >= Trade.Debt ? $"All your silver would cover it, but at {here.name} your purse buys {silver:0} d's worth, and that is {System.Math.Ceiling(Trade.Debt - silver):0} d short."
+                            : $"You are short of it by {System.Math.Ceiling(Trade.Debt - silver):0} d.";
                 body.Add(FrameUi.Ln("The debt", when + " " + pace, FrameUi.Num($"{Trade.Debt:0} d")));
                 string sunday = FrameGame.DebtDayWarning();
                 if (sunday.Length > 0)

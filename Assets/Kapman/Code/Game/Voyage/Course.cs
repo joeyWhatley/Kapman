@@ -363,7 +363,15 @@ namespace Kapman.Game
                 return true;
             }
             var router = new LaneRouter(g);
-            foreach (bool offFlats in new[] { true, false })
+            // KEEPING OFF THE FLATS, OR OVER THEM (10 Oct 2026). A port's course tries the deep way first and takes the
+            // flats only where there is no other. To a place the deep way always finds "a way": it ends at the deep
+            // lanes' point nearest the place, which may be far short of it. (The long walk: pointed at Lundenwic's ring
+            // from Sarre, she lay to in the Thames mouth with the river open before her, and the port could not be
+            // found.) So the deep way is taken only where it brings her about as near the place as the flats would.
+            var tries = new[] { true, false };
+            if (NearestToPlace(g, Profile(false), place, from, fromPort) + FlatsWorthM < NearestToPlace(g, Profile(true), place, from, fromPort))
+                tries = new[] { false };
+            foreach (bool offFlats in tries)
             {
                 var profile = Profile(offFlats);
                 // where it begins: her berth, or the lanes' own point nearest her
@@ -465,6 +473,27 @@ namespace Kapman.Game
                 return true;
             }
             return false;
+        }
+
+        /// <summary>The way over the flats is taken to a place where it brings her more than this nearer it than the deep
+        /// lanes do, real metres.</summary>
+        public const double FlatsWorthM = 2000.0;
+
+        /// <summary>How near a place the lanes of a profile bring her from where she is, real metres: to their point
+        /// nearest it, of those she can come to. double.MaxValue where they bring her nowhere.</summary>
+        static double NearestToPlace(LaneGraph g, LaneRouter.Profile profile, WorldXZ place, WorldXZ from, string fromPort)
+        {
+            int start;
+            if (fromPort != null && g.berths.TryGetValue(fromPort, out int berth))
+                start = berth;
+            else if (StartOnLanes(g, profile, from, out int lane, out _))
+                start = g.edgeA[lane];
+            else
+                return double.MaxValue;
+            if (!NearestOnLanes(g, profile, place, Reach(g, profile, start), out _, out int at))
+                return double.MaxValue;
+            double dx = g.px[at] - place.x, dz = g.pz[at] - place.z;
+            return Math.Sqrt(dx * dx + dz * dz);
         }
 
         /// <summary>The crossings of the lanes that can be come to from one of them, by the lanes a profile may use.</summary>

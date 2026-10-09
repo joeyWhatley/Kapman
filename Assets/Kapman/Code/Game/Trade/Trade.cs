@@ -294,7 +294,12 @@ namespace Kapman.Game
             if (deniers <= 0.0)
                 return Fail(r, "Nothing owed.");
             if (!Purse.Pay(deniers, m?.zone, rules, out string how))
-                return Fail(r, how);
+            {
+                // (10 Oct 2026: "not enough silver" was all that was said, and not as a sentence. PLACEHOLDER WORDS.)
+                if (m == null)
+                    return Fail(r, "You have not the silver for that.");
+                return Fail(r, $"Your purse buys {m.zone.Show(Purse.Worth(m.zone, rules))} at {m.port.name}, and that is not enough to pay {m.zone.Show(deniers)}.");
+            }
             Debt -= deniers;
             r.ok = true;
             r.deniers = deniers;

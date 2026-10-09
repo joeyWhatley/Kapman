@@ -257,6 +257,34 @@ namespace Kapman.Tests
             }
         }
 
+        /// <summary>THE DEBT IS PAID BY WHAT THE PURSE BUYS WHERE SHE LIES (10 Oct 2026, the long walk: with 1477 d of
+        /// silver and 1440 d owed she pressed "Pay it all" at Sarre and was told "not enough silver", four times). In
+        /// England the king's deniers go at a loss. A sum the purse covers at Dorestat and not at Sarre is refused at
+        /// Sarre in a sentence that names the port, with nothing taken; and is paid at Dorestat.</summary>
+        [Test]
+        public void TheDebtIsPaidByWhatThePurseBuysWhereSheLies()
+        {
+            MorningOf(1, 30);
+            Trade.Begin(rules, 660f, 0.29, 793, FirstOfMay);
+            var sarre = GameData.Port("sarre");
+            var dorestad = GameData.Port("dorestad");
+            double whole = Trade.Purse.Silver(rules), there = FrameGame.SilverHere(sarre), home = FrameGame.SilverHere(dorestad);
+            Assert.Less(there, home - 0.5, "at Sarre the purse of the first morning should buy less than at Dorestat (the king's deniers go at a loss there)");
+            double owed = (there + home) / 2.0;
+            Trade.Debt = owed;
+            var paid = Trade.PayDebt(Markets.Of(sarre, 793, SevenInTheMorning / 24.0), owed);
+            Assert.IsFalse(paid.ok, "the debt was paid at Sarre with less than it takes there");
+            Assert.AreEqual(owed, Trade.Debt, 1e-9, "a payment that could not be made took something off the debt");
+            Assert.AreEqual(whole, Trade.Purse.Silver(rules), 1e-9, "a payment that could not be made took silver");
+            StringAssert.Contains(sarre.name, paid.text, "it does not say where the purse falls short");
+            StringAssert.Contains("not enough", paid.text);
+            Assert.IsTrue(char.IsUpper(paid.text[0]) && paid.text.EndsWith("."), "what is said of it is not a sentence: " + paid.text);
+            Assert.IsNull(PageWords.Fault(paid.text), "what is said of it breaks the page's rule: " + paid.text);
+            paid = Trade.PayDebt(Markets.Of(dorestad, 793, SevenInTheMorning / 24.0), owed);
+            Assert.IsTrue(paid.ok, "the same sum could not be paid at Dorestat: " + paid.text);
+            Assert.AreEqual(0.0, Trade.Debt, 1e-6, "paid at Dorestat, something is still owed");
+        }
+
         // ------------------------------------------------------------------ the debt's day
 
         [Test]
