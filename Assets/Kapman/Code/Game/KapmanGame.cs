@@ -837,6 +837,8 @@ namespace Kapman.Game
             // (9 Oct 2026: the lender's men, when a boat of them is out after her)
             if (ship != null && body != null)
                 Collectors.Step(seconds / 3600.0);
+            // (9 Oct 2026: Ravn's death and what is done about it, when the lender's men have killed him)
+            Feud.Step(seconds / 3600.0);
             ClockDrops.Step(minute);
             StepSeconds = 0.0;
             Stepped?.Invoke(minute);

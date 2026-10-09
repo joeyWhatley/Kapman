@@ -19,6 +19,7 @@ namespace Kapman.Game.Frame
             h = FrameUi.Mix(h, Voyage.Men);
             h = FrameUi.Mix(h, (int)(Voyage.Health * 20));
             h = FrameUi.Mix(h, (int)(Voyage.Morale * 20));
+            h = FrameUi.Mix(h, Feud.Version);
             h = FrameUi.Mix(h, (int)Voyage.PayOwed);
             h = FrameUi.Mix(h, Boat.WearyWord);
             h = FrameUi.Mix(h, Boat.Bailers + (Boat.AllHands ? 10 : 0) + (Boat.OnShares ? 100 : 0) + (Boat.Bundles ? 1000 : 0));
@@ -36,7 +37,9 @@ namespace Kapman.Game.Frame
             }
             body.Add(FrameUi.H(Voyage.Men == 1 ? "One man" : Voyage.Men + " men"));
             body.Add(FrameUi.Ln("Health", null, FrameUi.Tag(FrameGame.HealthWord(Voyage.Health))));
-            body.Add(FrameUi.Ln("Heart", null, FrameUi.Tag(FrameGame.HeartWord(Voyage.Morale))));
+            // (9 Oct 2026: while Ravn lies unanswered their heart has a ceiling: Voyage/Feud.cs)
+            body.Add(FrameUi.Ln("Heart", Feud.Unanswered ? "They will not be in good heart while Ravn lies unanswered." : null,
+                                FrameUi.Tag(FrameGame.HeartWord(Voyage.Morale))));
             // (the alpha's row 4: weary men row slower, and the sea finds a weary boat sooner)
             body.Add(FrameUi.Ln("Weariness", "Oars, bailing and nights under way tire them; a mooring rests them. Weary men row slower, and the sea finds a weary boat sooner.",
                                 FrameUi.Tag(Boat.WearyWord)));

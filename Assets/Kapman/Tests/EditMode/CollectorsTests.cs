@@ -45,6 +45,7 @@ namespace Kapman.Tests
             Reputation.Load(File("reputation_793.json"));
             Markets.Clear();
             Collectors.Reset();
+            Feud.Reset();
             flags = new EncounterState();
             ContentFlags.Use(flags, () => 0.0);
         }
@@ -53,6 +54,9 @@ namespace Kapman.Tests
         public void Done()
         {
             Collectors.Reset();
+            // (a Ravn killed here must not lie unanswered over the tests that follow: Voyage/Feud.cs)
+            Feud.Reset();
+            Self.Unmark(Feud.Mark);
             ContentFlags.Use(null);
             Markets.Clear();
         }

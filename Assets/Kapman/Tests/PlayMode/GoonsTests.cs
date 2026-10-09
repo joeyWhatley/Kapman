@@ -29,21 +29,23 @@ namespace Kapman.Tests
     /// </summary>
     public class GoonsTests
     {
-        static WorldXZ At(double lat, double lon)
+        internal static WorldXZ At(double lat, double lon)
         {
             var (x, z) = WorldFrame.ToWorld(lat, lon);
             return new WorldXZ(x, z);
         }
 
-        /// <summary>The clock runs (speed 2) until `done`, a card that is not theirs answered on the way.</summary>
-        static IEnumerator Run(ChartPlay play, KapmanGame game, double hours, System.Func<bool> done, float wallSeconds = 120f)
+        /// <summary>The clock runs (speed 2) until `done`, a card that is not theirs answered on the way (nor one whose
+        /// id has `alsoLeave` in it: the feud's own test leaves the feud's cards to itself).</summary>
+        internal static IEnumerator Run(ChartPlay play, KapmanGame game, double hours, System.Func<bool> done, float wallSeconds = 120f, string alsoLeave = null)
         {
             double from = game.Hours;
             float wall = Time.realtimeSinceStartup;
             while (!done() && game.Hours - from < hours && Time.realtimeSinceStartup - wall < wallSeconds)
             {
                 var cards = EncounterRunner.Director;
-                bool theirs = cards != null && cards.Current != null && cards.Current.card.id.Contains(".goons.");
+                bool theirs = cards != null && cards.Current != null &&
+                              (cards.Current.card.id.Contains(".goons.") || (alsoLeave != null && cards.Current.card.id.Contains(alsoLeave)));
                 if (play.FrontFloat() != null && !theirs)
                     yield return SeaMovesHerTests.AnswerAll(play);
                 if (!done() && play.FrontFloat() == null && (GameSpeed.Level < 1 || GameSpeed.Paused))
@@ -52,7 +54,7 @@ namespace Kapman.Tests
             }
         }
 
-        static bool TheirCardUp(string id)
+        internal static bool TheirCardUp(string id)
         {
             var cards = EncounterRunner.Director;
             return cards != null && cards.Current != null && cards.Current.card.id == id;
@@ -60,7 +62,7 @@ namespace Kapman.Tests
 
         /// <summary>Their card, open: every line read out, then the choice whose words begin so is taken, and what came of
         /// it is read (into `end`). The card is then shut.</summary>
-        static IEnumerator Answer(ChartPlay play, string begins, System.Action<string, string> read)
+        internal static IEnumerator Answer(ChartPlay play, string begins, System.Action<string, string> read)
         {
             yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 15f);
             Assert.IsTrue(play.Frame.FloatOpen("card"), "their card is first in line and did not open");
@@ -148,7 +150,7 @@ namespace Kapman.Tests
                 yield return Answer(play, "Tell them you have not got it", (s, e) => { said1 = s; end1 = e; });
                 told.AppendLine("first, said: " + ChartPlay.Short(said1));
                 told.AppendLine("first, end: " + ChartPlay.Short(end1));
-                StringAssert.Contains("He says pay", said1, "the rope man does not say what he was told to say");
+                StringAssert.Contains("says you have to pay him", said1, "the rope man does not say what he was told to say");
                 StringAssert.DoesNotContain("the Dane", said1);
                 StringAssert.Contains("not sure what comes next", end1, "the first time, given nothing, they did more than talk");
                 Assert.AreEqual(owed0, Trade.Debt, 0.01);
@@ -197,6 +199,13 @@ namespace Kapman.Tests
                 Assert.IsTrue(Collectors.RavnGone, "Ravn is dead and no flag says so");
                 Assert.AreEqual(3, Voyage.Men, "Ravn is dead and as many men are aboard");
                 Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.text.Contains("Ravn")), "the log does not say what was done to Ravn");
+                // (9 Oct 2026, later: his death is a scene of its own and a matter that lies on her, Voyage/Feud.cs: held by
+                // FeudTests. Here only its beginning: it is owed, and the crew's heart has its ceiling from this minute)
+                Assert.AreNotEqual(FeudStage.None, Feud.Stage, "Ravn is dead and nothing follows");
+                Assert.AreEqual(Feud.Rules.heartCeiling, Feud.HeartCeiling, 1e-9);
+                Assert.LessOrEqual(Voyage.Morale, Feud.Rules.heartCeiling + 1e-9, "their heart is over its ceiling with Ravn dead on the quay");
+                Assert.IsTrue(Self.HasMark(Feud.Mark), "no mark lies on her for it");
+                Feud.Forget();                                                // (what follows of it is FeudTests' to hold: here, the rope men at sea)
                 yield return ChartPlay.Settle(0.4f);
                 yield return play.Shot("goons_3_after_ravn");
                 // no card that leans on him can come again

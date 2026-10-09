@@ -104,7 +104,9 @@ namespace Kapman.Game
         public static int Men { get; private set; }
         /// <summary>0-1: the crew's health and heart.</summary>
         public static double Health { get; private set; } = 1.0;
-        public static double Morale { get; private set; } = 0.8;
+        /// <summary>(Their heart cannot rise over Feud.HeartCeiling: while Ravn lies unanswered, 9 Oct 2026.)</summary>
+        public static double Morale { get => morale; private set => morale = Math.Min(value, Feud.HeartCeiling); }
+        static double morale = 0.8;
         public static double WaterL { get; private set; }
         public static double PayOwed { get; private set; }
         public static int DaysAtSea { get; private set; }

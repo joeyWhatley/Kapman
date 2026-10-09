@@ -125,6 +125,8 @@ namespace Kapman.Game
             }
             if (name.StartsWith("goons.", StringComparison.Ordinal))
                 return Collectors.Var(name);                              // (the lender's men: Voyage/Collectors.cs)
+            if (name.StartsWith("feud.", StringComparison.Ordinal))
+                return Feud.Var(name);                                    // (Ravn's death and the feud: Voyage/Feud.cs)
             if (name.StartsWith("hold.from_", StringComparison.Ordinal))
                 return 0.0;                                               // (where a lot was bought: not kept by the hold yet)
             if (name.StartsWith("hold.", StringComparison.Ordinal))

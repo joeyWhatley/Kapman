@@ -55,7 +55,7 @@ namespace Kapman.Game
         static readonly string[] SeaWords = { "sea", "scroll", "tape", "drift", "long" };
 
         AudioSource title, ost;
-        float titleShare, ostShare;
+        float titleShare, ostShare, hush = 1f;
         readonly List<string> tracks = new List<string>();
         readonly System.Random dice = new System.Random();              // (its own: the game's dice are not touched)
         string last = "";
@@ -181,7 +181,9 @@ namespace Kapman.Game
 
             // the game's music
             ostShare = Mathf.MoveTowards(ostShare, game ? 1f : 0f, dt / Mathf.Max(0.05f, game ? ComeUp : DieAway));
-            ost.volume = Mathf.Clamp01(OstLevel * setting * ostShare * ostShare);
+            // (a scene told over the black is told in quiet: the music dies away for it, and comes back after)
+            hush = Mathf.MoveTowards(hush, Showtime.Telling ? 0f : 1f, dt / (Showtime.Telling ? 1.2f : Mathf.Max(0.05f, ComeUp)));
+            ost.volume = Mathf.Clamp01(OstLevel * setting * ostShare * ostShare * hush);
             if (!game)
             {
                 if (ostShare <= 0f && ost.isPlaying)

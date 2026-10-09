@@ -45,6 +45,12 @@
             <ui:Label name="card-big" class="show-card-big" picking-mode="Ignore" />
             <ui:Label name="card-small" class="show-card-small" picking-mode="Ignore" />
         </ui:VisualElement>
+        <!-- a scene told over the black (Showtime.Scene): one line at a time in the middle of the screen, and the key
+             that goes on -->
+        <ui:VisualElement name="scene" class="show-scene" picking-mode="Ignore">
+            <ui:Label name="scene-words" class="show-scene-words" picking-mode="Ignore" />
+            <ui:Label name="scene-go" text="Enter" class="show-scene-go" picking-mode="Ignore" />
+        </ui:VisualElement>
         <!-- (the first click of the first morning) and the marks over the things to look at -->
         <ui:VisualElement name="first-click" class="show-fill" />
         <ui:VisualElement name="marks" class="show-fill" picking-mode="Ignore" />

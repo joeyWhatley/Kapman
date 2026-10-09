@@ -1,5 +1,5 @@
 {
- "about": "THE LENDER'S STICK (8 Oct 2026, night; Design/DECISIONS.md 104 and 105). The debt for the boat in a game begun through the opening (flag lender_opening), owed to Wursing, called the Wōkerer: his man who keeps turning up to ask for something on the stick (DECISIONS 33: the user's own idea; any sum may be paid, wherever he finds her), the day itself and the days after it (unpaid, she works for the lender: half of what she sells goes to the stick until it is clean), and the stick made clean. The count's old chain (chain_house_debt_793.json) sleeps in such a game. Flags: wk_met (he has been met), wk_wait_far / wk_wait_mid / wk_wait_near (lapsing: he does not come while the one for the season stands), wk_hid_grace (falls by four each time she hides: the odds of it being funny fall with it), wk_work (she works for him), wk_clean (the stick is given up). Words: Data/writing/wokerer.json. EVERY WORD IS A PLACEHOLDER for the user's own, and the man's name (Bubo) is the user's to give. FROM 9 OCT 2026 THE LENDER SENDS HIS MEN (Code/Game/Voyage/Collectors.cs, Game/Data/collectors_793.json; the user: 'Sends his goons to collect', 'A handful of times', 'Just clueless brutes'): the man's own three cards (at home, away, alongside in fog) are gone, his words kept in the writing for the user, and two cards stand in their place: the rope men at the quay and alongside at sea (harbour.goons.quay, sea.goons.alongside), never drawn, put first in line when their boat has caught her.",
+ "about": "THE LENDER'S STICK (8 Oct 2026, night; Design/DECISIONS.md 104 and 105). The debt for the boat in a game begun through the opening (flag lender_opening), owed to Wursing, called the Wōkerer: his man who keeps turning up to ask for something on the stick (DECISIONS 33: the user's own idea; any sum may be paid, wherever he finds her), the day itself and the days after it (unpaid, she works for the lender: half of what she sells goes to the stick until it is clean), and the stick made clean. The count's old chain (chain_house_debt_793.json) sleeps in such a game. Flags: wk_met (he has been met), wk_wait_far / wk_wait_mid / wk_wait_near (lapsing: he does not come while the one for the season stands), wk_hid_grace (falls by four each time she hides: the odds of it being funny fall with it), wk_work (she works for him), wk_clean (the stick is given up). Words: Data/writing/wokerer.json. EVERY WORD IS A PLACEHOLDER for the user's own, and the man's name (Bubo) is the user's to give. FROM 9 OCT 2026 THE LENDER SENDS HIS MEN (Code/Game/Voyage/Collectors.cs, Game/Data/collectors_793.json; the user: 'Sends his goons to collect', 'A handful of times', 'Just clueless brutes'): the man's own three cards (at home, away, alongside in fog) are gone, his words kept in the writing for the user, and two cards stand in their place: the rope men at the quay and alongside at sea (harbour.goons.quay, sea.goons.alongside), never drawn, put first in line when their boat has caught her. FROM 9 OCT 2026, RAVN'S DEATH AND THE FEUD (Code/Game/Voyage/Feud.cs, Game/Data/feud_rules_793.json; the user: 'Ravn needs an impactful death scene as genuine punishment for not repaying the debt but opens up a bloodfued opportunity'): seven cards more (crew.feud.oath, crew.feud.burial, crew.feud.pyre, crew.feud.killer, harbour.feud.door, harbour.feud.court, harbour.feud.outlaw), and the rope men's two cards have a line more for when he is dead. The one who did it has a card of his own, put before theirs, because a card holds nine choices at most and a choice that cannot be taken is still shown.",
  "cards": [
   {
    "id": "harbour.goons.quay",
@@ -88,6 +88,11 @@
      "who": "man",
      "key": "wokerer.goons.ravn_next_bubo",
      "when": "goons.ravn_next = 1"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.after_ravn",
+     "when": "flag.gone_cast_crew_ravn and feud.killer = 1"
     },
     {
      "who": "man",
@@ -327,6 +332,11 @@
      "who": "man",
      "key": "wokerer.goons.ravn_next_bubo",
      "when": "goons.ravn_next = 1"
+    },
+    {
+     "who": "brute",
+     "key": "wokerer.goons.after_ravn",
+     "when": "flag.gone_cast_crew_ravn and feud.killer = 1"
     },
     {
      "who": "man",
@@ -836,6 +846,539 @@
    "memory": {
     "bow": "put the Wōkerer's man in the bow under a hide",
     "oar": "gave the Wōkerer's man an oar"
+   }
+  },
+  {
+   "id": "crew.feud.oath",
+   "note": "OVER RAVN (Code/Game/Voyage/Feud.cs puts this card first in line when his scene is over: it is never drawn). She says what is to be done: swear his blood, take it to the count's court for his price, or say nothing. Aldger is the spine's steersman, Ravn's friend ('ten years in the same boat'), a Christian. EVERY WORD IS A PLACEHOLDER.",
+   "stage": "crew",
+   "when": "flag.gone_cast_crew_ravn and feud.oath = 1",
+   "rate": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "steersman": {
+     "cast": "cast.crew.aldger",
+     "name": "Aldger",
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      32,
+      32
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "feud.oath.title",
+   "title": "Over Ravn",
+   "intention_key": "feud.oath.intention",
+   "intention": "She stands over Ravn, and says what is to be done.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "feud.oath.aldger"
+    }
+   ],
+   "options": [
+    {
+     "key": "swear",
+     "label_key": "feud.oath.swear",
+     "label": "Swear his blood on the one who did it",
+     "check": "true",
+     "effects": [
+      "law feud_swear"
+     ],
+     "then": "crew.feud.burial"
+    },
+    {
+     "key": "law",
+     "label_key": "feud.oath.law",
+     "label": "Say the count shall hear of it",
+     "check": "true",
+     "effects": [
+      "law feud_law"
+     ],
+     "then": "crew.feud.burial"
+    },
+    {
+     "key": "quiet",
+     "label_key": "feud.oath.quiet",
+     "label": "Say nothing",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "law feud_quiet",
+      "mark troth -1 said_nothing_over_ravn for 120"
+     ],
+     "then": "crew.feud.burial"
+    }
+   ],
+   "memory": {
+    "swear": "swore Ravn's blood on the man who killed him",
+    "law": "said the count should have Ravn's killing",
+    "quiet": "stood over Ravn and said nothing"
+   }
+  },
+  {
+   "id": "crew.feud.burial",
+   "note": "WHERE RAVN LIES (it follows the oath). His sheet's fear is 'to die among Christians unable to speak, be signed with their cross and put in their ground': the first half has happened in his scene; this is the second. The priest's ground (only at a quay), a fire on a shore of his own (carried aboard: the fire's card comes some hours out), or the water. EVERY WORD IS A PLACEHOLDER.",
+   "stage": "crew",
+   "when": "flag.gone_cast_crew_ravn and feud.said = 1 and feud.buried = 0 and not flag.ravn_aboard",
+   "rate": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "steersman": {
+     "cast": "cast.crew.aldger",
+     "name": "Aldger",
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      32,
+      32
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "feud.burial.title",
+   "title": "Where he lies",
+   "intention_key": "feud.burial.intention",
+   "intention": "Where is Ravn to lie?",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "feud.burial.aldger.quay",
+     "when": "moored"
+    },
+    {
+     "who": "steersman",
+     "key": "feud.burial.aldger.sea",
+     "when": "not moored"
+    }
+   ],
+   "options": [
+    {
+     "key": "priest",
+     "label_key": "feud.burial.priest",
+     "label": "Let the priest have him (4 d)",
+     "check": "moored and silver >= 4",
+     "effects": [
+      "silver -4",
+      "law feud_bury_priest",
+      "mark troth -1 ravn_in_their_ground for 200",
+      "npc steersman feeling +6 buried"
+     ]
+    },
+    {
+     "key": "aboard",
+     "label_key": "feud.burial.aboard",
+     "label": "Carry him aboard: he shall have a fire on a shore of his own",
+     "check": "true",
+     "effects": [
+      "law feud_bury_aboard"
+     ]
+    },
+    {
+     "key": "water",
+     "label_key": "feud.burial.water",
+     "label": "Give him to the water",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "law feud_bury_water"
+     ]
+    }
+   ],
+   "memory": {
+    "priest": "let the priest put Ravn in holy ground",
+    "aboard": "carried Ravn aboard for a fire of his own",
+    "water": "gave Ravn to the water"
+   }
+  },
+  {
+   "id": "crew.feud.pyre",
+   "note": "A FIRE ON A SHORE OF HIS OWN (Feud.cs offers it when she has carried him aboard and is some hours out, in no gale: never drawn). It costs the men a night's work. He may lie aboard four days. EVERY WORD IS A PLACEHOLDER.",
+   "stage": "crew",
+   "when": "flag.gone_cast_crew_ravn and flag.ravn_aboard and not moored",
+   "rate": 0,
+   "cooldown_days": 1,
+   "actors": {
+    "steersman": {
+     "cast": "cast.crew.aldger",
+     "name": "Aldger",
+     "role": "steersman",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "old_frisian",
+     "age": [
+      32,
+      32
+     ],
+     "fixed": true
+    }
+   },
+   "title_key": "feud.pyre.title",
+   "title": "A shore of his own",
+   "intention_key": "feud.pyre.intention",
+   "intention": "A shore where Ravn could be burned.",
+   "lines": [
+    {
+     "who": "steersman",
+     "key": "feud.pyre.aldger"
+    }
+   ],
+   "options": [
+    {
+     "key": "burn",
+     "label_key": "feud.pyre.burn",
+     "label": "Put in, and burn him here",
+     "check": "true",
+     "default": true,
+     "effects": [
+      "law feud_pyre",
+      "boat weary +0.2",
+      "morale +0.06",
+      "mark nerve +1 gave_ravn_his_fire for 120"
+     ]
+    },
+    {
+     "key": "water",
+     "label_key": "feud.pyre.water",
+     "label": "Give him to the water after all",
+     "check": "true",
+     "effects": [
+      "law feud_bury_water"
+     ]
+    },
+    {
+     "key": "on",
+     "label_key": "feud.pyre.on",
+     "label": "Not here. Further on",
+     "check": "feud.aboard_days < 4",
+     "effects": []
+    }
+   ],
+   "memory": {
+    "burn": "burned Ravn on a shore of his own",
+    "water": "gave Ravn to the water",
+    "on": "carried Ravn further"
+   }
+  },
+  {
+   "id": "harbour.feud.door",
+   "note": "THE LENDER'S DOOR (she has sworn Ravn's blood, and has made fast at Dorestat). She may call the one who did it out of the yard (when no boat of them is out), or go in to the lender himself: he dead, nothing is owed, his men come no more, and she is an outlaw in the Franks' ports until his price is paid. A fight is carried by her nerve, her men against theirs, and weapons aboard (feud.door, feud.lender). Bubo is Bubo: polite, and never angry. EVERY WORD IS A PLACEHOLDER.",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.id = dorestad and flag.feud_sworn and feud.open = 1",
+   "weight": 0,
+   "cooldown_days": 6,
+   "actors": {
+    "man": {
+     "cast": "dorestad.wokerers_man",
+     "name": "Bubo",
+     "role": "factor",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      36,
+      36
+     ],
+     "fixed": true,
+     "note": "The lender's man, who carries the other half of the tally and keeps turning up (DECISIONS 33: the user's idea). Invented. HIS NAME IS A PLACEHOLDER: the user names him. Polite, patient, seasick, fond of his food, never angry; no threats. He never says how he got there: he has always just come on another ship."
+    }
+   },
+   "title_key": "feud.door.title",
+   "title": "The Wōkerer's door",
+   "intention_key": "feud.door.intention",
+   "intention": "She stands before the lender's house.",
+   "lines": [
+    {
+     "who": "man",
+     "key": "feud.door.bubo"
+    }
+   ],
+   "options": [
+    {
+     "key": "killer",
+     "label_key": "feud.door.killer",
+     "label": "Call the one who did it out into the yard",
+     "check": "feud.killer = 1 and goons.out = 0",
+     "effects": [
+      {
+       "chance": 0.45,
+       "by": "feud.door",
+       "success": [
+        "law feud_blood"
+       ],
+       "failure": [
+        "law feud_blood_lost",
+        "health -0.1"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "lender",
+     "label_key": "feud.door.lender",
+     "label": "Go in to him at his table",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.35,
+       "by": "feud.lender",
+       "success": [
+        "law feud_lender"
+       ],
+       "failure": [
+        "law feud_lender_lost",
+        "health -0.15",
+        "mark nerve -1 put_in_the_river for 30"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "leave",
+     "label_key": "feud.door.leave",
+     "label": "Not today",
+     "check": "true",
+     "default": true,
+     "effects": []
+    }
+   ],
+   "memory": {
+    "killer.success": "killed Ravn's killer in the lender's yard",
+    "killer.failure": "came for Ravn's killer and was driven off",
+    "lender.success": "killed the lender at his table",
+    "lender.failure": "came for the lender and was put in the river",
+    "leave": "stood before the lender's door and went away"
+   }
+  },
+  {
+   "id": "harbour.feud.court",
+   "note": "BEFORE THE COUNT (she said the count should have it, and has made fast at Dorestat). He may set Ravn's price on the lender: it comes off her stick and closes the matter (her name among the Northmen pays for it: the deed took_price_for_her_man). Carried by her Name. Or she may turn to blood after all. EVERY WORD IS A PLACEHOLDER.",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.id = dorestad and flag.feud_law and not flag.feud_sworn and feud.open = 1",
+   "weight": 0,
+   "cooldown_days": 10,
+   "actors": {
+    "count": {
+     "role": "count",
+     "people": "port",
+     "faith": "port",
+     "tongue": "port",
+     "age": [
+      35,
+      60
+     ],
+     "fixed": true,
+     "note": "The count who holds the court at Dorestat: whoever holds that role there. He has no name and no face of his own here."
+    }
+   },
+   "title_key": "feud.court.title",
+   "title": "Before the count",
+   "intention_key": "feud.court.intention",
+   "intention": "The count hears her plea for Ravn.",
+   "lines": [
+    {
+     "who": "count",
+     "key": "feud.court.count"
+    }
+   ],
+   "options": [
+    {
+     "key": "price",
+     "label_key": "feud.court.price",
+     "label": "Ask a free man's price for him",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.55,
+       "by": "feud.court",
+       "success": [
+        "law feud_price"
+       ],
+       "failure": [
+        "npc count feeling -2 pleaded"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "blood",
+     "label_key": "feud.court.blood",
+     "label": "Leave the hall. It will be blood",
+     "check": "true",
+     "effects": [
+      "law feud_swear"
+     ]
+    },
+    {
+     "key": "wait",
+     "label_key": "feud.court.wait",
+     "label": "Not today",
+     "check": "true",
+     "default": true,
+     "effects": []
+    }
+   ],
+   "memory": {
+    "price.success": "was given Ravn's price by the count",
+    "price.failure": "asked Ravn's price and was sent away",
+    "blood": "left the count's hall for blood",
+    "wait": "did not go in to the count"
+   }
+  },
+  {
+   "id": "harbour.feud.outlaw",
+   "note": "THE COUNT'S MEN (she has killed the lender: at every port of the Franks until his price is paid to the count). She may pay it (960 d), let them empty the hold, or talk. EVERY WORD IS A PLACEHOLDER.",
+   "stage": "harbour",
+   "arrival": true,
+   "when": "moored and port.realm = franks and flag.feud_outlaw",
+   "weight": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "man": {
+     "role": "lords_man",
+     "people": "port",
+     "faith": "port",
+     "tongue": "port",
+     "age": [
+      25,
+      50
+     ],
+     "fixed": true,
+     "note": "One of the count's sworn men, on the quay of a port of the Franks: whoever holds that role there."
+    }
+   },
+   "title_key": "feud.outlaw.title",
+   "title": "The count's men",
+   "intention_key": "feud.outlaw.intention",
+   "intention": "The count's men have come for the outlaw.",
+   "lines": [
+    {
+     "who": "man",
+     "key": "feud.outlaw.man"
+    }
+   ],
+   "options": [
+    {
+     "key": "pay",
+     "label_key": "feud.outlaw.pay",
+     "label": "Pay the count his price (960 d)",
+     "check": "silver >= 960",
+     "effects": [
+      "law feud_outlaw_paid"
+     ]
+    },
+    {
+     "key": "hold",
+     "label_key": "feud.outlaw.hold",
+     "label": "Let them take what is in the hold",
+     "check": "hold.value > 0",
+     "default": true,
+     "effects": [
+      "law feud_outlaw_seized"
+     ]
+    },
+    {
+     "key": "talk",
+     "label_key": "feud.outlaw.talk",
+     "label": "Tell them they have the wrong boat",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.4,
+       "by": "me.tongue",
+       "success": [],
+       "failure": [
+        "law feud_outlaw_seized",
+        "mark name -1 known_for_the_lender for 60"
+       ]
+      }
+     ]
+    }
+   ],
+   "memory": {
+    "pay": "paid the count the lender's price",
+    "hold": "let the count's men empty the hold",
+    "talk.success": "told the count's men they had the wrong boat",
+    "talk.failure": "told the count's men they had the wrong boat, and they had not"
+   }
+  },
+  {
+   "id": "crew.feud.killer",
+   "note": "THE ONE WHO DID IT (Feud.cs puts this card first in line, ahead of the rope men's own, each time they have caught her while the matter is open and he lives: never drawn). Kill him, or not now. A fight is carried by her nerve, her men against theirs, and weapons aboard (feud.fight). Won: it is answered, and the rest go home. Lost: a man of hers is dead, and they do what they do when they are angry. It is a card of its own because a card holds nine choices at most, and a choice that cannot be taken is still shown: on their own card it would have stood there, greyed, with Ravn alive. EVERY WORD IS A PLACEHOLDER.",
+   "stage": "crew",
+   "when": "flag.gone_cast_crew_ravn and feud.open = 1 and feud.killer = 1 and goons.caught = 1",
+   "rate": 0,
+   "cooldown_days": 0,
+   "actors": {
+    "brute": {
+     "cast": "dorestad.wokerers_rope_man",
+     "name": "The rope man",
+     "role": "warrior",
+     "people": "frisian",
+     "faith": "christian",
+     "tongue": "port",
+     "sex": "m",
+     "age": [
+      30,
+      30
+     ],
+     "fixed": true,
+     "note": "One of the two men with the rope who stand behind the lender on the day (the day's own card). The user, 9 Oct 2026: 'Just clueless brutes'. HE HAS NO NAME AND NO FACE: both are the user's. He says what he was told to say, as far as he has kept it. He is not cruel and not clever: what he does, he does as he would shut a door."
+    }
+   },
+   "title_key": "feud.killer.title",
+   "title": "The one who did it",
+   "intention_key": "feud.killer.intention",
+   "intention": "The man who killed Ravn stands before her.",
+   "lines": [
+    {
+     "who": "brute",
+     "key": "feud.killer.brute"
+    }
+   ],
+   "options": [
+    {
+     "key": "kill",
+     "label_key": "feud.killer.kill",
+     "label": "Kill him",
+     "check": "true",
+     "effects": [
+      {
+       "chance": 0.5,
+       "by": "feud.fight",
+       "success": [
+        "law feud_blood",
+        "law goons_routed"
+       ],
+       "failure": [
+        "law feud_blood_lost",
+        "law goons_teeth_angry"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "wait",
+     "label_key": "feud.killer.wait",
+     "label": "Not now",
+     "check": "true",
+     "default": true,
+     "effects": []
+    }
+   ],
+   "memory": {
+    "kill.success": "killed the rope man who killed Ravn",
+    "kill.failure": "went for the rope man who killed Ravn, and lost a man by it",
+    "wait": "let Ravn's killer stand"
    }
   }
  ]

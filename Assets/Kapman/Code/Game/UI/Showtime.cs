@@ -149,10 +149,10 @@ namespace Kapman.Game
         /// <summary>The first click of the game is waited for (then the marks, then Ravn).</summary>
         public bool Armed => armed;
 
-        VisualElement under, over, loader, box, row, col, list, card, veil, marks, plate, speaker;
+        VisualElement under, over, loader, box, row, col, list, card, veil, marks, plate, speaker, scene;
         BalloonTail tail;
         Image backdrop, loaderShip, shipFull;
-        Label loaderWord, who, words, small, go, cardBig, cardSmall;
+        Label loaderWord, who, words, small, go, cardBig, cardSmall, sceneWords, sceneGo;
         VisualElement nameRow, titleVeil;
         Image seaPicture;
         readonly List<VisualElement> letters = new List<VisualElement>();
@@ -216,6 +216,7 @@ namespace Kapman.Game
                 Current = null;
                 FrameRoot.AskedElsewhere = false;
                 GameSpeed.Release(Hold_);
+                GameSpeed.Release(SceneHold);
                 UiFocus.Release(this);
             }
             if (purple != null)
@@ -326,6 +327,10 @@ namespace Kapman.Game
             card = FrameParts.In<VisualElement>(over, "card");
             cardBig = FrameParts.In<Label>(over, "card-big");
             cardSmall = FrameParts.In<Label>(over, "card-small");
+            // (a scene told over the black, one line at a time: Scene)
+            scene = FrameParts.In<VisualElement>(over, "scene");
+            sceneWords = FrameParts.In<Label>(over, "scene-words");
+            sceneGo = FrameParts.In<Label>(over, "scene-go");
             veil = FrameParts.In<VisualElement>(over, "first-click");
             veil.RegisterCallback<PointerDownEvent>(e =>
             {
@@ -339,7 +344,7 @@ namespace Kapman.Game
             docRoot.Insert(0, under);
             docRoot.Add(over);
 
-            foreach (var v in new VisualElement[] { backdrop, seaPicture, nameRow, titleVeil, loader, shipFull, plate, box, tail, speaker, card, veil })
+            foreach (var v in new VisualElement[] { backdrop, seaPicture, nameRow, titleVeil, loader, shipFull, plate, box, tail, speaker, card, veil, scene })
                 Hide(v);
             Black(0f);
             if (purple == null)
@@ -414,6 +419,8 @@ namespace Kapman.Game
             go.style.fontSize = quiet;
             cardBig.style.fontSize = Mathf.Max(30f, h * 0.07f);
             cardSmall.style.fontSize = quiet;
+            sceneWords.style.fontSize = Mathf.Max(24f, h * 0.034f);
+            sceneGo.style.fontSize = quiet;
             list.style.fontSize = Mathf.Max(20f, h * 0.024f);
             plate.style.fontSize = body;
         }
@@ -469,6 +476,9 @@ namespace Kapman.Game
                 before = false;
                 return;
             }
+            // (Ravn's death has a scene of its own, begun when the card of the rope men is shut: Voyage/Feud.cs)
+            if (busy == 0 && !armed && !before)
+                Feud.Tick();
             // the backdrop is drawn only while it is seen, a dozen times a second (a console's pace)
             if (backdrop.resolvedStyle.display != DisplayStyle.None && Time.unscaledTime >= purpleNext)
             {
@@ -878,6 +888,100 @@ namespace Kapman.Game
             yield return Fade(Black, 1f, 0f, 0.7f);
             Stage = "";
             busy--;
+        }
+
+        // ------------------------------------------------------------------ a scene told over the black
+
+        /// <summary>
+        /// A SCENE TOLD OVER THE BLACK (the user, 9 Oct 2026: "Ravn needs an impactful death scene"). The game stops:
+        /// the clock is held, the keys are the show's, the music dies away. The screen closes to black, and the lines
+        /// are said in the middle of it one at a time, each waiting for Enter or a click (the user's rule of 7 Oct: a
+        /// paragraph at any one time). Then a card with a name and what stands under it, and the black lifts on the
+        /// game. Nothing is chosen in it. `done` is called when it is over. With the show off (a batch run), or
+        /// while another part of the show is on, nothing is shown and `done` is called at once.
+        /// </summary>
+        public static void Scene(IReadOnlyList<string> lines, string big, string small, Action done)
+        {
+            if (Current == null || !On || Current.over == null || Current.busy > 0)
+            {
+                done?.Invoke();
+                return;
+            }
+            Current.StartCoroutine(Current.Told(lines, big, small, done));
+        }
+
+        /// <summary>A scene is being told now (the music dies away for it).</summary>
+        public static bool Telling => Current != null && Current.Stage == "scene";
+        /// <summary>Which line of the scene is up (1 the first; 0: none), and is it said in full and waiting for the key.</summary>
+        public int SceneLine { get; private set; }
+        public bool SceneWaits { get; private set; }
+        /// <summary>The words of that line, whole ("" for none); and what stands on the name's card while it is up.</summary>
+        public string SceneText { get; private set; } = "";
+        public string CardText => card != null && card.resolvedStyle.display != DisplayStyle.None ? cardBig.text + " / " + cardSmall.text : "";
+        /// <summary>Seconds the black takes to close for a scene, the dark before its first line, and between two lines.</summary>
+        public static float SceneClose = 1.4f, SceneDark = 0.9f, SceneBetween = 0.45f;
+
+        const string SceneHold = "scene";
+
+        IEnumerator Told(IReadOnlyList<string> lines, string big, string small, Action done)
+        {
+            busy++;
+            Stage = "scene";
+            UiFocus.Take(this, false);
+            GameSpeed.Hold(SceneHold);
+            yield return Fade(Black, 0f, 1f, SceneClose);
+            Show(veil, 0f);                                              // (a click anywhere goes on)
+            yield return Wait(SceneDark);
+            sceneWords.text = "";
+            sceneGo.style.visibility = Visibility.Hidden;
+            Show(scene);
+            for (int i = 0; lines != null && i < lines.Count; i++)
+            {
+                if (string.IsNullOrEmpty(lines[i]))
+                    continue;
+                SceneLine = i + 1;
+                SceneWaits = false;
+                SceneText = lines[i];
+                sceneWords.text = lines[i];
+                sceneWords.style.opacity = 1f;
+                var reveal = new TextReveal();
+                reveal.Add(sceneWords);
+                reveal.StartAt(0);
+                clicked = false;
+                yield return null;
+                while (!reveal.Done)
+                {
+                    if (Go())
+                        reveal.Finish();
+                    else
+                        reveal.Tick(Time.unscaledDeltaTime);
+                    yield return null;
+                }
+                sceneGo.style.visibility = Visibility.Visible;
+                SceneWaits = true;
+                yield return null;
+                while (!Go())
+                    yield return null;
+                SceneWaits = false;
+                sceneGo.style.visibility = Visibility.Hidden;
+                yield return Fade(a => sceneWords.style.opacity = a, 1f, 0f, 0.25f);
+                sceneWords.text = "";
+                yield return Wait(SceneBetween);
+            }
+            SceneLine = 0;
+            SceneText = "";
+            Hide(scene);
+            Hide(veil);
+            // (the name and what stands under it; the black lifts while they stand)
+            if (!string.IsNullOrEmpty(big))
+                yield return PlaceCard(big, small, true);
+            else
+                yield return Fade(Black, 1f, 0f, 1.2f);
+            GameSpeed.Release(SceneHold);
+            UiFocus.Release(this);
+            Stage = "";
+            busy--;
+            done?.Invoke();
         }
 
         // ------------------------------------------------------------------ a new game: the talk with the lender

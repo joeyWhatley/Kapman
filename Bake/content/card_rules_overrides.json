@@ -1,6 +1,13 @@
 {
  "about": "HAND CORRECTIONS for Bake/content/card_rules.py (7 October 2026). 'cards': for a card id, any of: urgency (ordinary or pressing), patience_hours (a pressing card's own time, 1 to 72), holds_ship (true or false; a pressing card holds her unless this says false), default (the KEY of the option the card takes by itself), fallbacks (option keys to try next, in order, if the default's check does not hold), why (a few plain words), speaker (a person's id, or role:<role> to say the speaker is nobody of the places files), note. 'read_and_right': cards a person read and found the rule's answer right; they are marked by 'hand' in the output with nothing changed. Every card that could open in the first release on 7 October 2026 is in one list or the other. Edit this file by hand and run card_rules.py again; a card id or an option key that no longer exists is reported as a PROBLEM and skipped.",
  "cards": {
+  "crew.feud.killer": {"urgency": "pressing", "patience_hours": 2, "holds_ship": true, "default": "wait", "why": "Freeze, and nobody is killed: the rope men then say what they came to say."},
+  "crew.feud.oath": {"default": "quiet", "why": "Left unanswered, she has said nothing over him."},
+  "crew.feud.burial": {"default": "water", "why": "Left unanswered, the water has him: no cross and no fire."},
+  "crew.feud.pyre": {"default": "burn", "why": "It is what he was carried aboard for."},
+  "harbour.feud.door": {"default": "leave", "why": "Nobody is killed because the player looked away."},
+  "harbour.feud.court": {"default": "wait", "why": "The plea is hers to make."},
+  "harbour.feud.outlaw": {"default": "hold", "why": "Left unanswered, the count's men take what is in the hold."},
   "harbour.goons.quay": {"default": "nothing", "why": "Left unanswered (a week, or she casts off), the rope men do what they do when they are given nothing."},
   "sea.goons.alongside": {"urgency": "pressing", "patience_hours": 2, "holds_ship": true, "default": "nothing", "why": "Freeze, and the rope men do what they do when they are given nothing."},
   "harbour.chain_black_stones.s02_reeve": {
@@ -861,6 +868,13 @@
   "sea.river.mist",
   "harbour.goons.quay",
   "sea.goons.alongside",
+  "crew.feud.oath",
+  "crew.feud.burial",
+  "crew.feud.pyre",
+  "harbour.feud.door",
+  "harbour.feud.court",
+  "harbour.feud.outlaw",
+  "crew.feud.killer",
   "harbour.wokerers_day.home",
   "harbour.wokerers_day.away",
   "harbour.wokerers_stick.in_time",

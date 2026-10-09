@@ -522,10 +522,20 @@ namespace Kapman.Game
             GoHome();
         }
 
+        /// <summary>Their card is taken out of the line (they are gone before it could open: she has killed one of
+        /// them, or the fight went against her and they did what they do: Voyage/Feud.cs).</summary>
+        static void Unqueue()
+        {
+            var cards = EncounterRunner.Director;
+            if (cards != null && cards.state != null)
+                cards.state.queue.RemoveAll(id => id == QuayCard || id == SeaCard);
+        }
+
         static void GoHome()
         {
             var r = Rules;
             offered = false;
+            Unqueue();
             if (State == GoonState.Home || Visit < 1)
             {
                 // (nobody is out: their card was answered all the same, put in line by a test or left from a game before)
@@ -560,6 +570,7 @@ namespace Kapman.Game
         /// <summary>The sending is called off (the stick is clean, or a game with no lender): nobody is out.</summary>
         static void Recall()
         {
+            Unqueue();
             State = GoonState.Home;
             Visit = 0;
             InPort = "";
@@ -726,6 +737,13 @@ namespace Kapman.Game
 
         static void Cool(double by) => Heat(-by);
 
+        /// <summary>The lender is past patience (she came for him in his own house, and was thrown out: Voyage/Feud.cs).</summary>
+        public static void Rage()
+        {
+            Temper = Rules.temperMost;
+            Version++;
+        }
+
         // ------------------------------------------------------------------ what a card can ask of them
 
         /// <summary>A number for a card's conditions and odds: goons.caught, goons.sea, goons.visit, goons.men,
@@ -824,6 +842,7 @@ namespace Kapman.Game
         ///   goons_drunk       they sleep; a cask of her drink is gone
         ///   goons_poured      the cask is gone and they are not drunk (the way round them failed)
         ///   goons_shaken      she has run from them at sea: they lose her for some hours
+        ///   goons_routed      she has killed the one who killed Ravn: the rest go home (Voyage/Feud.cs)
         ///   goons_teeth       she gave nothing: what they do depends (Bite)
         ///   goons_teeth_angry the same, after a way round them has just failed
         /// PLACEHOLDER WORDS, every one: the user's to write.
@@ -908,6 +927,11 @@ namespace Kapman.Game
                         return null;
                     blindUntil = now + r.blindHours;
                     Follow(now);
+                    return null;
+                case "goons_routed":
+                    // (she has killed the one of them who killed Ravn: the rest go home to say so, and he is the angrier)
+                    Heat(1.0);
+                    GoHome();
                     return null;
                 case "goons_teeth":
                 case "goons_teeth_angry":
@@ -996,14 +1020,26 @@ namespace Kapman.Game
             Trade.Debt = Math.Max(0.0, Trade.Debt - counted);
             if (got <= 0.5)
                 said.Add("They turn out the purse and the hold, and there is nothing in either worth carrying.");
+            // (what is still owed is said before what they do to a man: the card's end closes on him)
+            if (counted > 0.5)
+                said.Add($"Still owed: {Show(Trade.Debt)}.");
             if (bite.ravn)
             {
                 // (the cards' engine keeps who of the standing cast is dead: he speaks no more, and a card that leans
                 // on him does not come)
                 ContentFlags.Set(EncounterState.GoneFlag(r.ravnCast));
                 Voyage.LoseMen(1);
-                Voyage.Affect(0.0, -0.2);
-                said.Add("One of them puts his knife in Ravn, the way a man kicks a dog on his way out. He is dead before he is down. They look as surprised as anyone.");
+                // HIS DEATH HAS A SCENE OF ITS OWN (the user, 9 Oct 2026: "Ravn needs an impactful death scene as genuine
+                // punishment for not repaying the debt"): this card's end only turns to him, and the scene is played
+                // when the card is shut (Voyage/Feud.cs). With that rule off he dies in a sentence, as any man does.
+                string lying = Port.LyingId();
+                if (Feud.RavnKilled(lying == null, lying ?? ""))
+                    said.Add("Then the one with the rope looks at Ravn.");
+                else
+                {
+                    Voyage.Affect(0.0, -0.2);
+                    said.Add("One of them puts his knife in Ravn, the way a man kicks a dog on his way out. He is dead before he is down. They look as surprised as anyone.");
+                }
             }
             else if (bite.kill)
             {
@@ -1019,8 +1055,6 @@ namespace Kapman.Game
                 Voyage.Affect(-0.12, -0.08);
                 said.Add("One of them beats the nearest of your men with the rope's end until the other tells him that is enough.");
             }
-            if (counted > 0.5)
-                said.Add($"Still owed: {Show(Trade.Debt)}.");
             debtMark = Trade.Debt;
             if (got <= 0.5)
                 Heat(1.0);
@@ -1052,6 +1086,13 @@ namespace Kapman.Game
             until = (game != null ? game.Hours : 0.0) + (InPort.Length > 0 ? Rules.askHours : 0.0);
             if (InPort.Length == 0)
                 Follow(game != null ? game.Hours : 0.0);
+            Version++;
+        }
+
+        /// <summary>A test's: so many visits have ended with nothing paid of her own will.</summary>
+        public static void Refused(int times)
+        {
+            Unpaid = Math.Max(0, times);
             Version++;
         }
 

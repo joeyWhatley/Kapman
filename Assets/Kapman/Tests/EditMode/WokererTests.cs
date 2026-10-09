@@ -143,7 +143,7 @@ namespace Kapman.Tests
             var s = d.OpenNext();
             Assert.AreEqual(Quay, s.card.id);
             string said = string.Join(" ", s.lines.Select(l => l.text));
-            StringAssert.Contains("He says pay", said, "the rope man does not say what he was told to say");
+            StringAssert.Contains("says you have to pay him", said, "the rope man does not say what he was told to say");
             StringAssert.DoesNotContain("the Dane", said, "they speak of Ravn the first time they come");
             StringAssert.DoesNotContain("angry", said);
             // what she can do with 300 d aboard, no cargo to speak of and no drink

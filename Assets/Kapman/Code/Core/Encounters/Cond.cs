@@ -78,6 +78,7 @@ namespace Kapman.Encounters
             ("flag.", "", VarType.Number, null),
             ("mark.", "", VarType.Number, null),                         // (is this mark on the player now: 1 or 0)
             ("goons.", "", VarType.Number, null),                        // (the lender's men: Game/Voyage/Collectors.Var)
+            ("feud.", "", VarType.Number, null),                         // (Ravn's death and the feud: Game/Voyage/Feud.Var)
         };
 
         /// <summary>Is this a name a condition may use, and of what type (and kind of word)?</summary>

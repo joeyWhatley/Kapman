@@ -285,6 +285,8 @@ namespace Kapman.Game
                 return DebtLaw(kind);
             if (kind != null && kind.StartsWith("goons_", StringComparison.Ordinal))
                 return Collectors.Law(kind);                              // (the lender's men: Voyage/Collectors.cs)
+            if (kind != null && kind.StartsWith("feud_", StringComparison.Ordinal))
+                return Feud.Law(kind);                                    // (Ravn's death and the feud: Voyage/Feud.cs)
             if (kind != "seizure" || !Trade.Started)
                 return null;
             var taken = new List<string>();

@@ -31,6 +31,7 @@ namespace Kapman.Game.Frame
                 h = FrameUi.Mix(h, game != null ? (int)Trade.DebtDaysLeft(game.Day) : 0);
                 h = FrameUi.Mix(h, Trade.Working ? 1 : 0);
                 h = FrameUi.Mix(h, Collectors.Version);                     // (the lender's temper, his men out, Ravn next)
+                h = FrameUi.Mix(h, Feud.Version);                           // (Ravn dead: how it stands)
                 h = FrameUi.Mix(h, FrameGame.HoldStamp());
                 h = FrameUi.Mix(h, (int)Trade.Hold.capacity);
             }
@@ -105,6 +106,16 @@ namespace Kapman.Game.Frame
             }
             else
                 body.Add(FrameUi.P("You owe nothing."));
+
+            // ---- Ravn (9 Oct 2026: Voyage/Feud.cs): how it stands since the lender's men killed him, and, while it is
+            // open and she has not sworn, the oath itself. PLACEHOLDER WORDS.
+            if (Feud.Stage != FeudStage.None)
+            {
+                body.Add(FrameUi.H("Ravn"));
+                body.Add(FrameUi.P(Feud.Words()));
+                if (Feud.CanSwear)
+                    body.Add(FrameUi.Row(FrameUi.Btn("Swear his blood", () => Say(Feud.Swear()), "On the one who killed him.")));
+            }
 
             // ---- orders offered to you by name, not yet answered (Design/fixes/orders.md)
             var offers = Commissions.OfferedToYou;

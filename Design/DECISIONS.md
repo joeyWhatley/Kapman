@@ -1568,3 +1568,83 @@ and far fewer when usage is short).
    Tests: CollectorsTests (edit, 7), WokererTests (their card, what it orders), GoonsTests (play: the first
    sending at the quay, given nothing three times, Ravn killed and the cards that lean on him shut; their boat
    in sight at sea, alongside, the ship held).
+124. **RAVN'S DEATH HAS A SCENE, AND OPENS A BLOOD FEUD** (the user, 9 Oct, evening: "Ravn needs an impactful death
+   scene as genuine punishment for not repaying the debt but opens up a bloodfued opportunity"; by the picker: the
+   feud is "You against the lender", it ends in "Blood or silver", and build "All of it, live"). RULINGS, with what
+   I chose inside them.
+   - THE SCENE (Showtime.Scene, Voyage/Feud.cs). When the rope men kill him, their card's end only turns to him
+     ("Then the one with the rope looks at Ravn."). When that card is shut the game stops (the clock held, the
+     keys the show's, the music let die away), the screen closes to black, and his death is told in the middle of
+     it one line at a time, each waiting for Enter or a click (the rule of 7 Oct: a paragraph at any one time).
+     Then his name and "Killed at Dorestat, 1 May 793" on the card the opening uses for a place and a day, and the
+     black lifts on the game. Nothing is chosen in it. Eight lines at a quay; two are written again for the sea.
+   - IT TURNS ON HIS OWN SHEET (Design/content/spine.json. His fear: "To die among Christians unable to speak, be
+     signed with their cross and put in their ground." His friend: Aldger the steersman, "ten years in the same
+     boat", a Christian). The knife goes in under his beard, so he cannot speak. Aldger, who loved him, makes the
+     cross over him; Ravn watches him do it and cannot tell him not to. That is the first half of what he feared.
+     The second half is the player's to prevent or to do (where he lies).
+   - THE PUNISHMENT. A man fewer. The crew's heart struck down at once (by 0.2) and held under a ceiling (0.6:
+     "steady" at best, never "in good heart") for as long as he lies unanswered. A mark on her (Name down by one)
+     until it is answered. A deed the peoples hear of (lost_a_man_to_a_debt: his own people mind it most). And
+     what was already so: every card that leaned on him is gone with him.
+   - OVER HIM (crew.feud.oath, first in line when the scene ends). Aldger asks what is to be done. She may swear
+     his blood on the one who did it; say the count shall hear of it; or say nothing, which is the card's own
+     answer if she leaves it. Saying nothing lies on the boat 120 days (the ceiling, the mark, and her Troth down
+     by one) and is then let lie. She may still swear it late, from the Errands window.
+   - WHERE HE LIES (crew.feud.burial, straight after). The priest's ground, at a quay, for 4 d: the other half of
+     what he feared; Aldger asks for it; her Troth is down by one for 200 days. Or carried aboard for a fire on a
+     shore of his own (crew.feud.pyre comes some hours out, WHERE THERE IS A SHORE: land within 4 km, or a river;
+     a night's work, the men's heart, her Nerve up by one for 120 days; he can lie aboard four days). Or the
+     water, which is the card's own answer.
+   - BLOOD. While the matter is open and the one who did it lives, each time the rope men catch her A CARD OF HIS
+     OWN COMES BEFORE THEIRS (crew.feud.killer): kill him, or not now. It could not be a choice on their own card:
+     a card holds nine choices at most, and a choice that cannot be taken is still shown greyed, so "Kill the one
+     who put his knife in Ravn" would have stood on their card from the first visit, with Ravn alive. A FIGHT is
+     reckoned on her Nerve, a point for each man she has more or fewer than they (three at most), a point for
+     weapons in the hold (Feud.Fight). Won: he is dead, it is answered, the rest go home and their own card is
+     taken out of the line; a port's lord fines blood shed on his quay (120 d). Lost: a man of hers is dead, and
+     they do what they do when they are angry. Sworn, at Dorestat (harbour.feud.door, on arrival, at most once in
+     six days): she may call him out of the lender's yard (when no boat of them is out), or go in to the lender
+     himself at his table, which is hard.
+   - THE LENDER KILLED. The stick burns with him: nothing is owed. His men come no more, and his own cards come
+     no more (a dead man hands nobody a stick). She is an outlaw in the Franks' ports (harbour.feud.outlaw at
+     every arrival there: the count's men take what is in the hold, the crew's own bread and ale left, unless she
+     talks them round) until his price, 960 d, is paid to the count. Her name among Franks and Frisians pays most
+     (killed_the_lender).
+   - SILVER (harbour.feud.court, at Dorestat, when she said the count should have it). Carried by her Name. The
+     count sets a free man's price on the lender, 640 d, against her own stick, and it is closed. Her name among
+     the Northmen pays for it (took_price_for_her_man). She may leave the hall for blood instead.
+   - WHERE IT SHOWS. The Errands window has a part "Ravn" (how it stands, in a sentence; the oath's button while
+     she has not sworn; the outlawry). The Crew window says under Heart why it is held down. The log says the mark.
+   - EVERY NUMBER IS IN Game/Data/feud_rules_793.json ("on": false and he dies in a sentence, as before). EVERY
+     WORD IS A PLACEHOLDER (85 new texts). Nobody new is named or drawn: Aldger is the spine's, the count and his
+     men are the holders of their roles, Bubo is Bubo, the one who did it is the rope man.
+   - MINE, the user's to overrule: that the scene turns on his written fear and on Aldger; every line of it; the
+     three things she can say and that silence is the default; the three places he can lie and what each costs;
+     the fight's reckoning and all the odds; the fines and prices (640 d is 53 shillings and 4 pence, about a free
+     man's price in the Frisians' law AS I REMEMBER IT: not checked); that killing the lender wipes the debt and
+     outlaws her; the weights of the four deeds; that the fire needs a shore within 4 km.
+   - TWO THINGS THE USER SAID OF A PICTURE THE SAME EVENING. (a) "Is all the dialogue spaced out like this? Why?"
+     It is not: in play a card says one line at a time. The picture was a test's, taken with the talking text off,
+     so every line stood stacked at once. PICTURES OF CARDS ARE TAKEN WITH THE SHOW ON from now (Showtime.ForceOn
+     once the test's game is up: FeudTests does it; Captures/feud/feud_0 is their card as it is played). (b)
+     "What's up with 'he says' what's the context of that it's not a good sentence": the rope man's first line
+     named nobody ("He says pay."). It reads "You are the one with the boat. The Wokerer says you have to pay
+     him." now, and the scene's first line names the lender too. A LINE MUST SAY WHO IS MEANT AND STAND AS A
+     SENTENCE, placeholder or not.
+   - THE SCRIPT DOES NOT LAND YET. The user, on reading the scene's lines the same evening: "I feel like the actual
+     script doesn't flow well enough, it reads far too AI written and just doesn't hit other than that good work".
+     So the machinery stands and the WORDS OF THE SCENE ARE TO BE DONE AGAIN (how, and by whom, is asked of the
+     user). What is wrong with mine, as I read it: a narrator at a distance making neat remarks, every line built
+     the same way, and nobody in the scene speaks.
+   - NOT DONE: the scene has no picture of its own (it is words on black) and no sound of its own (the music only
+     dies away). The lender's death has no scene. Nobody at Dorestat speaks of either death afterwards (the
+     port's talk, Bubo). The cards that lean on Ravn are still simply gone (their ".without_ravn" texts). The
+     opening warns of none of it. The count's court is one hearing, with no witnesses or oath-helpers. The long
+     play-through walk has not met any of it. The rope men's older lines still say "He said ..." after the first
+     line has named him.
+   Tests: FeudEditTests (edit, 10: the table, a fight, the words a paragraph at a time, the punishment and each
+   end, the rule off, and the cards by a director), FeudTests (play, with the show on: their card as it is played,
+   the scene line by line with the clock held, his name, the oath, where he lies, the two windows, the one who did
+   it killed and the rest gone, no shore in the open sea, his fire off a shore), CollectorsTests and GoonsTests as
+   mended.
