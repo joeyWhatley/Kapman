@@ -1828,3 +1828,26 @@ and far fewer when usage is short).
      from its file in G:\kapman_unity\graph_pics (not Unity's own window).
    Tests: FeudFlowEditTests (2), SeaFlowEditTests (3); FeudTests, GoonsTests, SeaMovesHerTests, SeaReckoningTests
    (play, by the graphs). EditMode 607 (605 pass, 2 skipped); PlayMode 33 of 33.
+
+130. **THE WORDS, SAID AGAIN (2): THE SEA'S CARDS, THE TOLL MAN, THE OPENING, AND THE PEOPLE OF DORESTAT**
+   (the user, 9 Oct, of all the dialogue: "It does this weird. Full stop. Thing." The rule is DECISIONS 125: one
+   thought, one whole sentence; nobody is made distinct by dropped words. The lender's side was done there.)
+   - THE 63 CARDS OF THE SEA AND THE TOLL MAN'S CARD: 293 texts said again (Game/Data/writing/sea.json,
+     rhine_frisia.json, and the merged writing.json), by the session's own three lists. Measured over those texts:
+     10.1 words to a sentence before, with 17 in a hundred sentences under five words; 18.8 words now, with one in a
+     hundred. Titles and choices stand as they were. What is said is the same: who speaks, what happens, the jokes.
+   - THE OPENING (code constants in Showtime.cs). The lender's seven lines were the most clipped words in the game,
+     and that was my way of making him cold ("{name}. One notch. There. Sit if you like. I am eating."). He is cold in
+     WHAT he says now: "So you are {name}, and I have cut one notch in the stick for you. You may sit down if you
+     like, though I am going to go on eating." His byname is still said once with what it means ("... they call me
+     {byname}, which means the usurer"). His questions, the plate under the boat, and Ravn's first morning likewise.
+     SpokenTests holds that no sentence of the lender's has fewer than five words.
+   - THE PEOPLE OF DORESTAT: 97 lines of its 17 people said again in the port's page (places/dorestad.json), and five
+     "voice" notes that prescribed short sentences changed to match (Ravn's "Many short sentences" is "Long loose
+     sentences that tumble on"). The pages are drafts for the user to overwrite, as before.
+   - STILL PLACEHOLDERS, every word. And MY READING OF THE RULE, for the user to overrule: I took it to cover
+     everything a person or the teller says, and not the short facts of the screen ("Not yet. She wants three more
+     to row her."), which I have left as they are.
+   - STILL OWED: the people of the other ten ports of the first release (about 780 lines, some 440 of them clipped);
+     the 1,300 held cards.
+   Tests: SpokenTests, OpeningTests (the opening as played, with the new lines), EditMode 607 (605 pass, 2 skipped).

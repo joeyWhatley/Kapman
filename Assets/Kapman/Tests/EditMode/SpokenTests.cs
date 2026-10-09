@@ -39,11 +39,17 @@ namespace Kapman.Tests
                 if (line.Contains("{byname}"))
                 {
                     said++;
-                    StringAssert.Contains("{byname}. The usurer.", line, "his byname is not followed by what it means");
+                    StringAssert.Contains("{byname}, which means the usurer", line, "his byname is not followed by what it means");
                 }
             Assert.AreEqual(1, said, "his byname is said once in his lines");
             foreach (string line in Showtime.LenderLines)
+            {
                 StringAssert.DoesNotContain(", mind", line, "\"mind\" is Ravn's word");
+                // (9 Oct 2026, the user of all the dialogue: "It does this weird. Full stop. Thing." No line of his is made of
+                // fragments: a sentence of his has five words or more)
+                foreach (string sentence in line.Split(new[] { ". ", "? ", "! " }, System.StringSplitOptions.RemoveEmptyEntries))
+                    Assert.GreaterOrEqual(sentence.Split(' ').Length, 5, "the lender speaks in fragments again: \"" + sentence + "\" in \"" + line + "\"");
+            }
         }
     }
 }

@@ -361,7 +361,7 @@ namespace Kapman.Tests
                 string ravn = ChartPlay.Read(play.FrontFloat());
                 notes.AppendLine("Ravn says: " + ravn);
                 // (he ends on himself, and does not say the five jobs over: the list holds them)
-                StringAssert.Contains("That's how I know where it's kept.", ravn);
+                StringAssert.Contains("which is how I come to know where it's kept.", ravn);
                 StringAssert.DoesNotContain("Mend the sail, find the men", ravn);
                 yield return play.Press(Key.Enter);                       // (Go on)
                 yield return ChartPlay.Until(() => !play.Frame.FloatOpen("ravn.first"), 4f);
