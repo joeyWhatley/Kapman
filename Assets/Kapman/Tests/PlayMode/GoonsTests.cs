@@ -246,7 +246,7 @@ namespace Kapman.Tests
                 File.WriteAllText(Path.Combine(dir, "goons.txt"), told.ToString());
                 Assert.IsTrue(seen, "their boat was five km astern and she never had it in sight:\n" + told);
                 Assert.IsTrue(marked, "their boat was in sight and had no mark on the chart");
-                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.text.Contains("rowing hard: the lender's men")), "the log does not say their boat is in sight:\n" + told);
+                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.text.Contains("rowing hard after you, and it is the lender's men")), "the log does not say their boat is in sight:\n" + told);
                 Assert.Contains(ClockReason.Goons, dropped, "the clock did not drop back when their boat came in sight");
                 Assert.IsTrue(TheirCardUp(Collectors.SeaCard), "their boat rows faster than she sails, and never came up with her:\n" + told);
                 Assert.AreEqual(GoonState.Alongside, Collectors.State);

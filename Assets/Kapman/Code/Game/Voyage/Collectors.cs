@@ -694,7 +694,7 @@ namespace Kapman.Game
                 sightTold = true;
                 known = true;
                 string airt = SeaWatch.Airt(her.x, her.z, At.x, At.z);
-                Voyage.Say(Met ? $"A boat to the {airt}, rowing hard: the lender's men." : $"A boat to the {airt}, rowing hard, and holding your course.");
+                Voyage.Say(Met ? $"There is a boat to the {airt}, rowing hard after you, and it is the lender's men." : $"There is a boat to the {airt}, rowing hard on your own course.");
                 ClockDrops.Raise(ClockReason.Goons);
             }
             if (!InSight && was)
@@ -725,7 +725,7 @@ namespace Kapman.Game
                 sendingTold = true;
                 known = true;
                 toldAt.Add(lying);
-                Voyage.Say("Word on the quay: the lender has sent men out after you.");
+                Voyage.Say("The word on the quay is that the lender has sent men out after you.");
             }
         }
 
@@ -881,7 +881,7 @@ namespace Kapman.Game
                     if (counted > 0.5)
                         Unpaid = Math.Max(0, Unpaid - 1);
                     GoHome();
-                    return what.Length == 0 ? "There was nothing in the hold they would carry." : $"They carry off {what}. It goes on the stick as {Show(counted)}. Still owed: {Show(Trade.Debt)}.";
+                    return what.Length == 0 ? "There was nothing in the hold they would carry." : $"They carry off {what}, which goes on the stick as {Show(counted)}. Still owed: {Show(Trade.Debt)}.";
                 }
                 case "goons_astray":
                 {
@@ -897,7 +897,7 @@ namespace Kapman.Game
                     }
                     Heat(1.0);
                     GoHome();
-                    return "They go.";
+                    return "They go off to look for him.";
                 }
                 case "goons_drunk":
                 case "goons_poured":
@@ -993,7 +993,7 @@ namespace Kapman.Game
             {
                 Heat(1.0);
                 GoHome();
-                return "They say what he told them to say, as far as they have kept it. Then they stand about, not sure what comes next, and go.";
+                return "They tell you what he told them to say, as far as they can remember it, and then they stand about, not sure what comes next, until Bubo leads them away.";
             }
             // silver first, then cargo for the rest; a share of it is for their trouble
             double got = 0.0, counted = 0.0;
@@ -1003,7 +1003,7 @@ namespace Kapman.Game
                 got += s;
                 double on = Math.Round(s * (1.0 - r.troubleShare));
                 counted += on;
-                said.Add($"They turn out the purse and take {Show(s)}: {Show(on)} of it for the stick, the rest for their trouble.");
+                said.Add($"They turn out the purse and take {Show(s)}, of which {Show(on)} goes on the stick and the rest is for their trouble.");
             }
             if (got < bite.want - 0.5)
             {
@@ -1013,7 +1013,7 @@ namespace Kapman.Game
                     got += taken;
                     double on = Math.Round(taken * r.cargoPrice * (1.0 - r.troubleShare));
                     counted += on;
-                    said.Add($"They carry off {what}, and call it {Show(on)}.");
+                    said.Add($"They carry off {what}, and count it as {Show(on)} on the stick.");
                 }
             }
             counted = Math.Min(Trade.Debt, counted);
@@ -1038,7 +1038,7 @@ namespace Kapman.Game
                 else
                 {
                     Voyage.Affect(0.0, -0.2);
-                    said.Add("One of them puts his knife in Ravn, the way a man kicks a dog on his way out. He is dead before he is down. They look as surprised as anyone.");
+                    said.Add("Then one of them puts his knife in Ravn, as carelessly as a man kicks a dog on his way out, and Ravn is dead before he reaches the planks.");
                 }
             }
             else if (bite.kill)
@@ -1047,7 +1047,7 @@ namespace Kapman.Game
                 if (lost > 0)
                 {
                     Voyage.Affect(0.0, -0.15);
-                    said.Add("One of them puts his knife in the nearest of your men, the way a man kicks a dog on his way out. He is dead before he is down. They look as surprised as anyone.");
+                    said.Add("Then one of them puts his knife in the nearest of your men, as carelessly as a man kicks a dog on his way out, and the man is dead before he reaches the planks.");
                 }
             }
             else if (bite.beat)

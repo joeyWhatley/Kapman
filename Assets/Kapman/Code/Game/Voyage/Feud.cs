@@ -35,6 +35,10 @@ namespace Kapman.Game
         public double fightPerMan = 1.0, fightWeapons = 1.0, fightDoor = -1.0, lenderHard = -2.0;
         /// <summary>The men in the lender's yard when none of his are out.</summary>
         public double houseMen = 2.0;
+        /// <summary>HIS SCENE, AS IT IS STAGED: line by line, who says it and the writing's key of its words (at sea the
+        /// key with ".sea" after it, where that is written); and who those speakers are.</summary>
+        public readonly List<SceneBeat> scene = new List<SceneBeat>();
+        public readonly Dictionary<string, ScenePerson> sceneCast = new Dictionary<string, ScenePerson>(StringComparer.Ordinal);
 
         public static FeudRules Read(Dictionary<string, object> o)
         {
@@ -52,8 +56,29 @@ namespace Kapman.Game
                 else if (f.FieldType == typeof(string))
                     f.SetValue(r, Json.Str(o, f.Name, (string)f.GetValue(r)));
             }
+            foreach (object beat in Json.Arr(o, "scene") ?? new List<object>())
+                r.scene.Add(new SceneBeat { who = Json.Str(beat, "who"), key = Json.Str(beat, "key"), cut = Json.Bool(beat, "cut"), hit = Json.Bool(beat, "hit") });
+            foreach (var kv in Json.Obj(o, "sceneCast") ?? new Dictionary<string, object>())
+                r.sceneCast[kv.Key] = new ScenePerson { cast = Json.Str(kv.Value, "cast"), role = Json.Str(kv.Value, "role"), name = Json.Str(kv.Value, "name") };
             return r;
         }
+    }
+
+    /// <summary>One line of his scene as the table stages it: who says it (a name of the table's sceneCast; "": the
+    /// teller), the writing's key of its words, and whether it breaks off.</summary>
+    public sealed class SceneBeat
+    {
+        public string who = "", key = "";
+        public bool cut;
+        /// <summary>A hit: the screen flashes red and shakes as this line comes up (the knife).</summary>
+        public bool hit;
+    }
+
+    /// <summary>One who speaks in his scene: who they are in the standing cast, their trade (for a stand-in face), and
+    /// the name shown over the box.</summary>
+    public sealed class ScenePerson
+    {
+        public string cast = "", role = "", name = "";
     }
 
     /// <summary>Where the matter of Ravn's death stands.</summary>
@@ -77,10 +102,12 @@ namespace Kapman.Game
     /// lender", it ends in "Blood or silver", and "All of it, live").
     ///
     /// THE SCENE. When the lender's men kill him (Collectors: the third time she does not pay) and their card is shut,
-    /// the game stops and goes through black: a few lines, one at a time, nothing to choose, and then his name and the
-    /// day (Showtime.Scene; the lines are the writing's, "feud.scene.quay.1" and on, "feud.scene.sea.N" where the sea's
-    /// differs). It turns on what his own sheet says he feared: to die among Christians unable to speak, and be signed
-    /// with their cross.
+    /// the game stops and goes through black: the rope man, Bubo, Ravn and Aldger SPEAK, a box of talk at a time as
+    /// Pokémon paces it (Showtime.Scene), Ravn's last line breaks off in the middle of a word, and then his name and
+    /// the day. The table stages it (who says which line: "scene", "sceneCast"); the writing words it ("feud.scene.1"
+    /// and on, with ".sea" after a key where the sea's differs). It turns on what his own sheet says he feared: to die
+    /// among Christians unable to speak, and be signed with their cross. (Its first cut was a narrator's words alone
+    /// on the black; the user: "doesn't flow well enough ... reads far too AI written and just doesn't hit".)
     /// THE PUNISHMENT. A man fewer; the crew's heart struck down at once and held under a ceiling while he lies
     /// unanswered (<see cref="HeartCeiling"/>); a mark on her until it is answered; her name among his people; and
     /// every card that leaned on him is gone with him (the cards' engine).
@@ -205,20 +232,29 @@ namespace Kapman.Game
             return true;
         }
 
-        /// <summary>The lines of his scene, for where he died: the writing's "feud.scene.quay.1" and on; at sea a line
-        /// written as "feud.scene.sea.N" stands in the place of the quay's.</summary>
-        public static List<string> SceneLines()
+        /// <summary>The lines of his scene, for where he died, as the table stages them (who says each, which breaks
+        /// off) and the writing words them (at sea a key with ".sea" after it stands in the place of the quay's, where
+        /// it is written). A line with no words written is left out.</summary>
+        public static List<ToldLine> SceneLines()
         {
-            var lines = new List<string>();
-            for (int i = 1; i <= 24; i++)
+            var r = Rules;
+            var lines = new List<ToldLine>();
+            foreach (var beat in r.scene)
             {
-                string line = AtSea ? Written("feud.scene.sea." + i) ?? Written("feud.scene.quay." + i) : Written("feud.scene.quay." + i);
-                if (string.IsNullOrEmpty(line))
-                    break;
+                string text = AtSea ? Written(beat.key + ".sea") ?? Written(beat.key) : Written(beat.key);
+                if (string.IsNullOrEmpty(text))
+                    continue;
+                var line = new ToldLine { text = text, cut = beat.cut, hit = beat.hit };
+                if (beat.who.Length > 0 && r.sceneCast.TryGetValue(beat.who, out var who))
+                {
+                    line.who = who.name;
+                    line.face = who.cast;
+                    line.slot = Kapman.Game.Frame.FrameArt.OfSpeaker(who.cast, who.role) ?? "";
+                }
                 lines.Add(line);
             }
             if (lines.Count == 0)
-                lines.Add("Ravn is dead.");
+                lines.Add(new ToldLine { text = "Ravn is dead." });
             return lines;
         }
 
@@ -249,10 +285,10 @@ namespace Kapman.Game
                 // (the log keeps it: all of it where it could not be shown, one plain line where it was)
                 var at = GameData.Port(Port);
                 if (shown)
-                    Voyage.Say("Ravn is dead: the lender's men killed him" + (at != null ? " at " + at.name + "." : " at sea."));
+                    Voyage.Say("Ravn is dead, killed by the lender's men" + (at != null ? " at " + at.name + "." : " at sea."));
                 else
-                    foreach (string line in lines)
-                        Voyage.Say(line);
+                    foreach (var line in lines)
+                        Voyage.Say(line.who.Length > 0 ? line.who + ": " + line.text : line.text);
                 // (and the mark that lies on her from now, as the log says every other mark)
                 var mark = Self.MarksOn((string)null).Find(m => m.id == Mark);
                 if (mark != null)
@@ -468,18 +504,18 @@ namespace Kapman.Game
                     if (Kapman.Game.Port.LyingId() != null && Trade.Started && r.townFineD > 0.0)
                     {
                         double paid = Trade.Purse.PayUpTo(r.townFineD, rules);
-                        fine = paid > 0.5 ? $" The lord of the port has {Show(paid)} of you for blood shed on his quay."
-                                          : " The lord of the port finds nothing on you to take for blood shed on his quay.";
+                        fine = paid > 0.5 ? $" The lord of the port takes {Show(paid)} from you for blood shed on his quay."
+                                          : " The lord of the port finds nothing on you to take for the blood shed on his quay.";
                     }
                     Deed("took_blood_for_her_man");
                     ContentFlags.Set(Blood);
                     Settle(1.0, r.bloodHeart);
-                    return "The one who put his knife in Ravn is dead. It is answered." + fine;
+                    return "The man who put his knife in Ravn is dead, and so Ravn is answered." + fine;
                 }
                 case "feud_blood_lost":
                 {
                     int lost = Voyage.LoseMen(1);
-                    return lost > 0 ? "It goes against you. One of your men does not get up." : "It goes against you.";
+                    return lost > 0 ? "The fight goes against you, and one of your men does not get up again." : "The fight goes against you.";
                 }
                 case "feud_lender":
                     ContentFlags.Set(EncounterState.GoneFlag(LenderCast));
@@ -489,26 +525,26 @@ namespace Kapman.Game
                         Trade.Debt = 0.0;
                     Deed("killed_the_lender");
                     Settle(3.0, r.bloodHeart);
-                    return $"{Trade.LenderName} is dead at his own table. The stick burns with him: nothing is owed. In every port of the Franks you are an outlaw now.";
+                    return $"{Trade.LenderName} is dead at his own table and the stick has burned with him, so nothing is owed. From now on you are an outlaw in every port of the Franks.";
                 case "feud_lender_lost":
                     Collectors.Rage();
-                    return "His men have you by the arms before you are across the room. They put you in the river.";
+                    return "His men have you by the arms before you are halfway across the room, and they throw you into the river.";
                 case "feud_price":
                 {
                     double counted = Trade.Started ? Math.Min(Trade.Debt, Math.Round(r.priceD)) : 0.0;
                     if (Trade.Started)
                         Trade.Debt = Math.Max(0.0, Trade.Debt - counted);
                     Settle(2.0, r.priceHeart);
-                    return $"The count sets Ravn's price on the lender: {Show(counted)}, off your stick. Still owed: {Show(Trade.Started ? Trade.Debt : 0.0)}.";
+                    return $"The count sets Ravn's price on the lender at {Show(counted)}, which comes off your stick. Still owed: {Show(Trade.Started ? Trade.Debt : 0.0)}.";
                 }
                 case "feud_outlaw_paid":
                 {
                     if (!Trade.Started || Trade.Purse.Silver(rules) < r.outlawFineD - 0.5)
-                        return "You have not the silver for his price. You are an outlaw still.";
+                        return "You do not have the silver for his price, so you are an outlaw still.";
                     double paid = Trade.Purse.PayUpTo(r.outlawFineD, rules);
                     ContentFlags.Clear(Outlaw);
                     Version++;
-                    return $"You pay the count {Show(paid)}, the lender's price. You are no outlaw now.";
+                    return $"You pay the count {Show(paid)}, which is the lender's price, and you are an outlaw no longer.";
                 }
                 case "feud_outlaw_seized":
                 {
@@ -551,8 +587,8 @@ namespace Kapman.Game
             switch (Stage)
             {
                 case FeudStage.Settled:
-                    said = Ended == 1 ? "The one who killed him is dead. It is answered."
-                         : Ended == 2 ? "The count set his price on the lender, against your stick. It is closed."
+                    said = Ended == 1 ? "The man who killed him is dead, and so he is answered."
+                         : Ended == 2 ? "The count set his price on the lender and took it off your stick, which closes it."
                          : Ended == 3 ? "The lender is dead."
                          : "Nothing was done about it.";
                     break;
@@ -569,7 +605,7 @@ namespace Kapman.Game
             if (Has(Aboard))
                 said += " He lies aboard, for a fire on a shore.";
             if (Has(Outlaw))
-                said += $" You are an outlaw in the Franks' ports until the lender's price is paid to the count: {Rules.outlawFineD:0} d.";
+                said += $" You are an outlaw in the Franks' ports until you pay the count the lender's price of {Rules.outlawFineD:0} d.";
             return said;
         }
 

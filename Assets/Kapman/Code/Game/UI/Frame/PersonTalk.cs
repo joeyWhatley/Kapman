@@ -118,6 +118,7 @@ namespace Kapman.Game.Frame
                 spec.lines.Add(("They have nothing to say to that.", true));
             if (IsGreeting(key) && p.looks.Length > 0)
                 spec.small = p.looks;
+                spec.sceneFirst = true;                                  // (what they look like is told first, where the talk is paced)
             if (key == "farewell")
             {
                 spec.options.Add(new FloatOption { label = "Go", isDefault = true, pick = leave });

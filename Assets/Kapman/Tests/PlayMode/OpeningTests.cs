@@ -70,6 +70,22 @@ namespace Kapman.Tests
 
         /// <summary>A card on the screen is said through, answered by its first choice that can be chosen, and gone on from
         /// until it is shut.</summary>
+        /// <summary>(9 Oct 2026, the talk is paced as in Pokemon.) A card that has just opened tells its scene first, a box
+        /// at a time and under nobody's name: the key is pressed until somebody speaks, and their first box is said whole.</summary>
+        static IEnumerator UntilSomebodySpeaks(ChartPlay play)
+        {
+            for (int press = 0; press < 12 && play.Frame.SpeakerShown.Length == 0 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; press++)
+            {
+                yield return play.Press(Key.Enter);
+                yield return ChartPlay.Frames(6);
+            }
+            if (play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Waiting && !play.Frame.FrontReveal.Done)
+            {
+                yield return play.Press(Key.Enter);
+                yield return ChartPlay.Frames(6);
+            }
+        }
+
         static IEnumerator AnswerCard(ChartPlay play, System.Text.StringBuilder notes)
         {
             for (int i = 0; i < 30 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; i++)
@@ -516,6 +532,14 @@ namespace Kapman.Tests
                 yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
                 Assert.IsTrue(play.Frame.FloatOpen("card"), "the card of the first question did not open");
                 yield return ChartPlay.Settle(0.8f);
+                // (9 Oct 2026, the talk is paced as in Pokemon: the scene is told first, a box at a time and under nobody's
+                // name; then whoever speaks)
+                Assert.AreEqual("", play.Frame.SpeakerShown, "the scene of a card is told under somebody's name");
+                for (int press = 0; press < 10 && play.Frame.SpeakerShown.Length == 0 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; press++)
+                {
+                    yield return play.Press(Key.Enter);
+                    yield return ChartPlay.Frames(6);
+                }
                 StringAssert.StartsWith("Ravn, ", play.Frame.SpeakerShown, "Ravn's own card is not said under his name");
                 notes.AppendLine("On his own card: " + play.Frame.SpeakerShown);
                 yield return play.Shot("open_20_ravn_on_his_card");
@@ -526,7 +550,7 @@ namespace Kapman.Tests
                 Assert.IsTrue(play.Frame.FloatOpen("card"), "the mint's card did not open");
                 yield return ChartPlay.Settle(0.8f);
                 var spoke = new List<string>();
-                for (int press = 0; press < 20; press++)
+                for (int press = 0; press < 60; press++)
                 {
                     string now = play.Frame.SpeakerShown;
                     if (now.Length > 0 && !spoke.Contains(now))
@@ -594,12 +618,8 @@ namespace Kapman.Tests
                 yield return ChartPlay.Until(() => play.Frame.FloatOpen("card"), 12f);
                 Assert.IsTrue(play.Frame.FloatOpen("card"), "the Baltic's card did not open");
                 yield return ChartPlay.Settle(0.8f);
-                // (his first line, said to its last letter: a press finishes the paragraph, and it waits)
-                if (play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Waiting && !play.Frame.FrontReveal.Done)
-                {
-                    yield return play.Press(Key.Enter);
-                    yield return ChartPlay.Frames(6);
-                }
+                // (the scene first; then his first line, said to its last letter)
+                yield return UntilSomebodySpeaks(play);
                 string baltic = ChartPlay.Read(play.FrontFloat());
                 StringAssert.DoesNotContain("[write:", baltic, "the Baltic's card still shows a placeholder for its words");
                 StringAssert.Contains("You lie where I say you lie", baltic, "the keeper of Birka does not say his own first line");
@@ -647,6 +667,7 @@ namespace Kapman.Tests
                 var hisCard = director.Current;
                 Assert.AreEqual(Collectors.QuayCard, hisCard.card.id);
                 string hisName = hisCard.People.First().name;
+                yield return UntilSomebodySpeaks(play);
                 StringAssert.StartsWith(hisName + ", ", play.Frame.SpeakerShown, "the lender's man is not under his own name");
                 yield return play.Shot("open_25_the_lenders_man");
                 for (int i = 0; i < 30 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; i++)
@@ -686,6 +707,7 @@ namespace Kapman.Tests
                 Assert.AreEqual(EncounterRunner.LenderDayHome, director.Current.card.id, "another card came in the lender's place");
                 yield return ChartPlay.Settle(0.8f);
                 var theDay = director.Current;
+                yield return UntilSomebodySpeaks(play);
                 StringAssert.StartsWith(Trade.LenderName + ", ", play.Frame.SpeakerShown, "the lender is not under his own name on the day");
                 yield return play.Shot("open_28_two_men_and_a_rope");
                 for (int i = 0; i < 30 && play.Frame.FrontReveal != null && !play.Frame.FrontReveal.Done; i++)

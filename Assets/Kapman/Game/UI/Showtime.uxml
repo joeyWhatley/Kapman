@@ -45,12 +45,21 @@
             <ui:Label name="card-big" class="show-card-big" picking-mode="Ignore" />
             <ui:Label name="card-small" class="show-card-small" picking-mode="Ignore" />
         </ui:VisualElement>
-        <!-- a scene told over the black (Showtime.Scene): one line at a time in the middle of the screen, and the key
-             that goes on -->
+        <!-- a scene (Showtime.Scene), on the purple of the opening: one box of talk at the foot of the screen, as
+             Pokémon has it. Over it, who speaks (face and name; hidden for the teller, whose words stand in the same
+             box: the box has the class "teller" then); in it a sentence or two, and the key that goes on. -->
         <ui:VisualElement name="scene" class="show-scene" picking-mode="Ignore">
-            <ui:Label name="scene-words" class="show-scene-words" picking-mode="Ignore" />
-            <ui:Label name="scene-go" text="Enter" class="show-scene-go" picking-mode="Ignore" />
+            <ui:VisualElement name="scene-speaker" class="show-scene-speaker" picking-mode="Ignore">
+                <k:FrameFace name="scene-face" class="show-scene-face" />
+                <ui:Label name="scene-who" class="show-scene-who" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <ui:VisualElement name="scene-box" class="show-scene-box" picking-mode="Ignore">
+                <ui:Label name="scene-words" class="show-scene-words" picking-mode="Ignore" />
+                <ui:Label name="scene-go" text="Enter" class="show-go show-scene-go" picking-mode="Ignore" />
+            </ui:VisualElement>
         </ui:VisualElement>
+        <!-- the red of a hit in a scene (Showtime.Struck): a blood-red filter over the whole screen, flashed in hard steps -->
+        <ui:VisualElement name="flash" class="show-fill show-flash" picking-mode="Ignore" />
         <!-- (the first click of the first morning) and the marks over the things to look at -->
         <ui:VisualElement name="first-click" class="show-fill" />
         <ui:VisualElement name="marks" class="show-fill" picking-mode="Ignore" />

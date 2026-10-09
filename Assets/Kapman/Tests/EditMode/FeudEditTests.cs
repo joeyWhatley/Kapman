@@ -15,7 +15,8 @@ namespace Kapman.Tests
     /// ends in "Blood or silver", and "All of it, live"). Held here, without the screen:
     ///   - the table is whole and holds only names the code reads;
     ///   - a fight is carried by her nerve, her men against theirs, and weapons aboard;
-    ///   - the scene and the six cards are written, a paragraph at a time, and order nothing the code does not know;
+    ///   - the scene is spoken (the table stages it, the writing words it, one line breaks off) and the seven cards are
+    ///     written, and order nothing the code does not know;
     ///   - his death is punished: a man fewer, the crew's heart struck and held under a ceiling, a mark on her, until it
     ///     is answered; she may say nothing, and that runs out; she may swear late;
     ///   - blood: the one who did it killed, and it is answered; at law: his price comes off the stick; the lender
@@ -155,20 +156,44 @@ namespace Kapman.Tests
         public void TheSceneAndTheCardsAreWrittenAParagraphAtATime()
         {
             var book = EncounterData.Book();
-            // the scene: its lines in order, each short enough to be read as one paragraph over the black
-            var scene = new List<string>();
-            for (int i = 1; i <= 24 && book.Written("feud.scene.quay." + i) != null; i++)
-                scene.Add(book.Written("feud.scene.quay." + i));
-            Assert.GreaterOrEqual(scene.Count, 5, "the scene of his death is a line or two");
-            Assert.LessOrEqual(scene.Count, 10, "the scene of his death is a wall of text");
-            foreach (string line in scene)
-                Assert.LessOrEqual(line.Length, 200, "a line of the scene is more than a paragraph: " + line);
-            StringAssert.Contains("Ravn", string.Join(" ", scene));
+            // THE SCENE IS SPOKEN, and staged in the table: who says each line, and the one line that breaks off
+            var staged = Feud.Rules.scene;
+            Assert.GreaterOrEqual(staged.Count, 6, "the scene of his death is a line or two");
+            Assert.LessOrEqual(staged.Count, 16, "the scene of his death is a wall of text");
+            var spoken = new List<string>();
+            foreach (var beat in staged)
+            {
+                string words = book.Written(beat.key);
+                Assert.IsNotNull(words, "a line of the scene has no words: " + beat.key);
+                spoken.Add(words);
+                if (beat.who.Length > 0)
+                    Assert.IsTrue(Feud.Rules.sceneCast.ContainsKey(beat.who), "a line of the scene is said by nobody the table knows: " + beat.who);
+                // (Pokémon pacing: a box holds a sentence or two, and no line of the scene is more than three boxes)
+                Assert.LessOrEqual(Kapman.Game.Frame.TextReveal.Pages(words, Kapman.Game.Frame.TextReveal.PageChars).Count, 3, "a line of the scene is a speech: " + words);
+            }
+            Assert.GreaterOrEqual(staged.Count(x => x.who.Length > 0), staged.Count / 2, "the scene is told, not spoken");
+            foreach (string who in new[] { "ravn", "aldger", "brute", "man" })
+            {
+                Assert.IsTrue(staged.Any(x => x.who == who), who + " says nothing in the scene");
+                var person = Feud.Rules.sceneCast[who];
+                Assert.IsNotEmpty(person.name);
+                Assert.IsTrue(person.cast.Length > 0 && person.role.Length > 0, who + " is nobody of the cast");
+            }
+            // the last thing Ravn says breaks off, in the middle of a word
+            var cuts = staged.Where(x => x.cut).ToList();
+            Assert.AreEqual(1, cuts.Count, "one line of the scene breaks off, and only one");
+            Assert.AreEqual("ravn", cuts[0].who, "it is Ravn who is cut off");
+            Assert.AreEqual(cuts[0], staged.Last(x => x.who == "ravn"), "Ravn speaks again after he is cut off");
+            string broken = book.Written(cuts[0].key);
+            Assert.IsTrue(char.IsLetter(broken[broken.Length - 1]), "the line that breaks off ends tidily: " + broken);
+            // what cuts him off is the one hit of the scene: red, and the screen shaken, as the next line comes up
+            var hits = staged.Where(x => x.hit).ToList();
+            Assert.AreEqual(1, hits.Count, "the scene has one hit, and only one");
+            Assert.AreEqual(staged.IndexOf(cuts[0]) + 1, staged.IndexOf(hits[0]), "the hit does not follow the line it cuts off");
+            StringAssert.Contains("knife", book.Written(hits[0].key), "the hit is not the line that says what was done to him");
             // (the two halves of what his sheet says he feared: he cannot speak, and the cross is made over him)
-            StringAssert.Contains("cross", string.Join(" ", scene));
-            for (int i = 1; i <= 24; i++)
-                if (book.Written("feud.scene.sea." + i) != null)
-                    Assert.LessOrEqual(i, scene.Count, "the sea's scene has a line the quay's has no place for: " + i);
+            StringAssert.Contains("Ravn", string.Join(" ", spoken));
+            StringAssert.Contains("cross", string.Join(" ", spoken));
             Assert.IsNotNull(book.Written("mark." + Feud.Mark), "the mark that lies on her has no words");
             Assert.IsNotNull(book.Written("mark." + Feud.Mark + ".until"));
 
@@ -243,7 +268,7 @@ namespace Kapman.Tests
             Assert.AreEqual(2, Self.StatNow(r.markStat), "the mark takes nothing from her " + r.markStat);
             StringAssert.Contains("killed him for your debt", Feud.Words());
             // (with no game running there is no writing: the scene falls back to its last line)
-            CollectionAssert.AreEqual(new[] { "Ravn is dead." }, Feud.SceneLines());
+            CollectionAssert.AreEqual(new[] { "Ravn is dead." }, Feud.SceneLines().Select(l => l.text).ToArray());
             StringAssert.StartsWith("Killed at sea", Feud.Plate());
 
             // over him: nothing can be done about it until the scene is over
@@ -556,7 +581,7 @@ namespace Kapman.Tests
             Assert.IsFalse(d.CanOffer(Feud.KillerCard), "the one who did it can be killed for Ravn while Ravn lives");
             Assert.IsTrue(d.Offer(Quay));
             var s = d.OpenNext();
-            StringAssert.DoesNotContain("sorry", string.Join(" ", s.lines.Select(l => l.text)));
+            StringAssert.DoesNotContain("sorry about the Dane", string.Join(" ", s.lines.Select(l => l.text)));
             d.Choose(s.card.Option("pound").index);
             d.Continue();
             Leave(d);
@@ -624,7 +649,7 @@ namespace Kapman.Tests
             d.vars.nums["feud.killer"] = 0.0;
             Assert.IsTrue(d.Offer(Sea));
             s = d.OpenNext();
-            StringAssert.DoesNotContain("sorry", string.Join(" ", s.lines.Select(l => l.text)));
+            StringAssert.DoesNotContain("sorry about the Dane", string.Join(" ", s.lines.Select(l => l.text)));
         }
 
         [Test]

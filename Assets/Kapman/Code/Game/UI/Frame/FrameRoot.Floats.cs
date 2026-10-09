@@ -16,6 +16,34 @@ namespace Kapman.Game.Frame
         public Action pick;
     }
 
+    /// <summary>The mark that a box of talk stands whole and waits for the key: a small point downward, as Pokémon has
+    /// it. Drawn, so it needs no letter of any font.</summary>
+    public sealed class MoreMark : VisualElement
+    {
+        public Color fill = new Color32(112, 41, 99, 255);                // (Byzantium, as the words on a pale ground)
+
+        public MoreMark()
+        {
+            pickingMode = PickingMode.Ignore;
+            generateVisualContent += Paint;
+        }
+
+        void Paint(MeshGenerationContext ctx)
+        {
+            var r = contentRect;
+            if (r.width < 2f || r.height < 2f)
+                return;
+            var p = ctx.painter2D;
+            p.fillColor = fill;
+            p.BeginPath();
+            p.MoveTo(new Vector2(0f, 0f));
+            p.LineTo(new Vector2(r.width, 0f));
+            p.LineTo(new Vector2(r.width * 0.5f, r.height));
+            p.ClosePath();
+            p.Fill();
+        }
+    }
+
     /// <summary>What a floating window shows. Open one with FrameRoot.OpenFloat; open the same id again to change it in place.</summary>
     /// <summary>Who says a line of a window: the line under the title ("Ravn, crewman \u00b7 easy"), who they are, whose
     /// face (an id or a name) and its picture. All "" for the teller: nobody's face, nobody's name.</summary>
@@ -99,6 +127,9 @@ namespace Kapman.Game.Frame
         }
         /// <summary>Small print under the words; and what came of the choice, once made.</summary>
         public string small = "", result = "";
+        /// <summary>Its small print is the scene's own description (a card's, the looks of somebody spoken to): where
+        /// the talk is paced, it is said first, as the teller's own boxes, and nothing stands under the words.</summary>
+        public bool sceneFirst;
         public readonly List<FloatOption> options = new List<FloatOption>();
         /// <summary>It cannot be shut without an answer (a card; a talk with no way back).</summary>
         public bool mustAnswer;
@@ -156,6 +187,8 @@ namespace Kapman.Game.Frame
             /// <summary>Its choices (put away while there is more to be said), and whether there is.</summary>
             public VisualElement optionsBox;
             public bool more;
+            /// <summary>The mark that the box stands whole and waits for the key (null: nothing is said a box at a time).</summary>
+            public MoreMark moreMark;
             /// <summary>The face, the name and the nature shown for the one who speaks, and the line they were last set for.</summary>
             public FrameFace faceEl;
             public Label whoEl, aboutEl;
@@ -477,6 +510,73 @@ namespace Kapman.Game.Frame
                 HintShown(f);
         }
 
+        /// <summary>
+        /// THE LINES OF A WINDOW AS BOXES (Pokémon pacing): the scene's description first where the window has one
+        /// (<see cref="FloatSpec.sceneFirst"/>), as the teller's; then each line cut into boxes of a sentence or two
+        /// (TextReveal.Pages). Who says a box, whether it is plain or an ending, and what it points at are the line's
+        /// own, carried over to each of its boxes.
+        /// </summary>
+        static List<(string text, bool written)> Paced(FloatSpec spec)
+        {
+            var boxes = new List<(string, bool)>();
+            int most = TextReveal.PageChars;
+            if (spec.sceneFirst)
+                foreach (string box in TextReveal.Pages(spec.small ?? "", most))
+                {
+                    boxes.Add((box, true));
+                    spec.voices[box] = new FloatVoice();                  // (the teller: no face, no name)
+                }
+            foreach (var (text, written) in spec.lines)
+            {
+                if (string.IsNullOrEmpty(text) || !written || text == spec.chose)
+                {
+                    boxes.Add((text, written));
+                    continue;
+                }
+                var cut = TextReveal.Pages(text, most);
+                if (cut.Count <= 1)
+                {
+                    boxes.Add((text, written));
+                    continue;
+                }
+                spec.voices.TryGetValue(text, out var voice);
+                spec.points.TryGetValue(text, out var cues);
+                bool plain = spec.plain.Contains(text), ending = spec.ending.Contains(text);
+                int at = 0;
+                foreach (string box in cut)
+                {
+                    boxes.Add((box, true));
+                    if (voice != null)
+                        spec.voices[box] = voice;
+                    if (plain)
+                        spec.plain.Add(box);
+                    if (ending)
+                        spec.ending.Add(box);
+                    int start = text.IndexOf(box, at, StringComparison.Ordinal);
+                    if (start < 0)
+                        start = at;
+                    at = start + box.Length;
+                    if (cues == null)
+                        continue;
+                    // (what the line points at as it is said: the cue standing when this box begins, and its own)
+                    var own = new List<(int at, string parts)>();
+                    string standing = null;
+                    foreach (var cue in cues)
+                    {
+                        if (cue.at <= start)
+                            standing = cue.parts;
+                        else if (cue.at < start + box.Length)
+                            own.Add((cue.at - start, cue.parts));
+                    }
+                    if (standing != null)
+                        own.Insert(0, (0, standing));
+                    if (own.Count > 0)
+                        spec.points[box] = own;
+                }
+            }
+            return boxes;
+        }
+
         static void Said(Float f)
         {
             var r = f.reveal;
@@ -562,7 +662,13 @@ namespace Kapman.Game.Frame
             // line somebody says has the class "spoken" (a pale block with a bar down its left: Frame.uss); a line of the
             // teller's has "teller" and is plain and pale, as the description under the lines is.
             bool somebody = spec.face != null || !string.IsNullOrEmpty(spec.who) || !string.IsNullOrEmpty(spec.speaker);
-            foreach (var (text, written) in spec.lines)
+            // POKEMON PACING (the user, 9 Oct 2026: "have it more Pokémon paced with dialogue"): where the words are said
+            // (the show is on), the box holds a sentence or two at a time and the key brings the next: the scene's
+            // description first, as the teller's own boxes; then each line; then what came of a choice.
+            bool paced = Showtime.On && spec.content == null && somebody;
+            var lines = paced ? Paced(spec) : spec.lines;
+            string resultNow = paced ? "" : spec.result ?? "", smallNow = paced && spec.sceneFirst ? "" : spec.small ?? "";
+            foreach (var (text, written) in lines)
             {
                 if (string.IsNullOrEmpty(text))
                     continue;
@@ -598,21 +704,40 @@ namespace Kapman.Game.Frame
                 line.EnableInClassList("ending", ending);
                 scroll.Add(line);
             }
-            if (!string.IsNullOrEmpty(spec.result))
+            if (paced)
+            {
+                // (what came of it, in facts: boxes too, in the result's own dress)
+                foreach (string box in TextReveal.Pages(spec.result ?? "", TextReveal.PageChars))
+                {
+                    var result = Text("frame-float-result");
+                    result.text = box;
+                    scroll.Add(result);
+                }
+            }
+            else if (resultNow.Length > 0)
             {
                 var result = Text("frame-float-result");
-                result.text = spec.result;
+                result.text = resultNow;
                 scroll.Add(result);
             }
-            if (!string.IsNullOrEmpty(spec.small))
+            if (smallNow.Length > 0)
             {
                 var small = Text("frame-float-small");
-                small.text = spec.small;
+                small.text = smallNow;
                 scroll.Add(small);
             }
             // (the words and the choices in one body: one over the other in a window that floats, side by side in the foot)
             Speak(f, scroll);
             el.EnableInClassList("paged", f.reveal != null && f.reveal.OneAtATime);
+            // (the mark that the box waits for the key: Pokémon's own, at the foot of the words)
+            f.moreMark = null;
+            if (f.reveal != null && f.reveal.OneAtATime)
+            {
+                f.moreMark = new MoreMark();
+                f.moreMark.AddToClassList("frame-float-more");
+                f.moreMark.style.visibility = Visibility.Hidden;
+                (scroll.parent ?? scroll).Add(f.moreMark);
+            }
             f.optionsBox = null;
 
             var list = FrameParts.In<VisualElement>(el, "options");
@@ -817,6 +942,9 @@ namespace Kapman.Game.Frame
                     f.reveal.Tick(Time.unscaledDeltaTime);
                     Said(f);
                     Paging(f);
+                    // (the mark blinks while a box stands whole and another is to come)
+                    if (f.moreMark != null)
+                        f.moreMark.style.visibility = f.reveal.Waiting && Time.unscaledTime % 0.9f < 0.6f ? Visibility.Visible : Visibility.Hidden;
                 }
             PointerUpdate();
             foreach (var f in floats)
@@ -1179,6 +1307,7 @@ namespace Kapman.Game.Frame
                         spec.tongue = l.tongue;                           // (the first speaker's tongue: its words in the lines are set apart)
                 }
                 spec.small = s.Intention ?? "";
+                spec.sceneFirst = true;                                  // (the scene is told first, a box at a time, where the talk is paced)
                 for (int i = 0; i < s.options.Count; i++)
                 {
                     var o = s.options[i];

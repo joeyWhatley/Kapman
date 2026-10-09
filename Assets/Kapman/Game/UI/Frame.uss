@@ -1940,6 +1940,16 @@
     min-height: 128px;
 }
 
+/* the mark that a box of talk stands whole and waits for the key (Pokémon's own): a small point downward at the foot
+   of the words, drawn by the code (MoreMark) */
+.frame-root .frame-float-more {
+    position: absolute;
+    right: 14px;
+    bottom: 8px;
+    width: 14px;
+    height: 9px;
+}
+
 /* ================================================================================================================
    THE TALL FOOT, AND TEXTURE AND DEPTH (the user, 7 Oct 2026, late).
    The layout, by the picker: nothing stands on the right; the portrait, the log and the boat's view stand side by
@@ -2896,6 +2906,13 @@
 .frame-root .frame-float-line.teller {
     color: rgba(112, 41, 99, 0.86);
     padding: 0 0 0 2px;
+}
+
+/* (where the talk is paced, a box of the teller's stands alone on the screen: in the full ink, as what is said is) */
+.frame-root .frame-float.paged .frame-float-line.teller {
+    color: rgb(84, 28, 76);
+    padding: 6px 10px 7px 2px;
+    margin: 3px 0 8px 0;
 }
 
 .frame-root .frame-float-small {

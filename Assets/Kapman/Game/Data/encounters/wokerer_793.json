@@ -57,7 +57,13 @@
     },
     {
      "who": "man",
-     "key": "wokerer.goons.bubo"
+     "key": "wokerer.goons.bubo.first",
+     "when": "not npc.man.met"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.goons.bubo",
+     "when": "npc.man.met"
     },
     {
      "who": "brute",
@@ -301,7 +307,13 @@
     },
     {
      "who": "man",
-     "key": "wokerer.goons.bubo"
+     "key": "wokerer.goons.bubo.first",
+     "when": "not npc.man.met"
+    },
+    {
+     "who": "man",
+     "key": "wokerer.goons.bubo",
+     "when": "npc.man.met"
     },
     {
      "who": "brute",
@@ -835,7 +847,7 @@
     {
      "key": "oar",
      "label_key": "wokerer.aboard.oar",
-     "label": "Give him an oar. Work is the cure",
+     "label": "Give him an oar, since work is the cure",
      "check": "true",
      "effects": [
       "morale +0.02",
@@ -974,7 +986,7 @@
     {
      "key": "aboard",
      "label_key": "feud.burial.aboard",
-     "label": "Carry him aboard: he shall have a fire on a shore of his own",
+     "label": "Carry him aboard, so that he can have a fire on a shore of his own",
      "check": "true",
      "effects": [
       "law feud_bury_aboard"
@@ -1055,7 +1067,7 @@
     {
      "key": "on",
      "label_key": "feud.pyre.on",
-     "label": "Not here. Further on",
+     "label": "Not here, we will carry him further on",
      "check": "feud.aboard_days < 4",
      "effects": []
     }
@@ -1212,7 +1224,7 @@
     {
      "key": "blood",
      "label_key": "feud.court.blood",
-     "label": "Leave the hall. It will be blood",
+     "label": "Leave the hall and settle it in blood",
      "check": "true",
      "effects": [
       "law feud_swear"

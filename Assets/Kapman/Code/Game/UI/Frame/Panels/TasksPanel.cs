@@ -85,10 +85,10 @@ namespace Kapman.Game.Frame
                 // BEFORE it happens, that the next time she gives them nothing they kill Ravn. PLACEHOLDER WORDS.
                 if (ContentFlags.Ready && ContentFlags.Has(Trade.LenderFlag) && !Trade.Working)
                 {
-                    body.Add(FrameUi.Ln(Trade.LenderName, "He is " + Collectors.TemperWord + "." + (Collectors.KnownOut ? " His men are out after you." : "") +
-                                                          " A pound on the stick before he sends them, and he sends nobody."));
+                    body.Add(FrameUi.Ln(Trade.LenderName, "He is " + Collectors.TemperWord + (Collectors.KnownOut ? ", and his men are out after you." : ".") +
+                                                          " If you pay a pound on the stick before he sends them, he sends nobody."));
                     if (Collectors.RavnNext)
-                        body.Add(FrameUi.P((Collectors.Unpaid == 2 ? "Twice" : Collectors.Unpaid + " times") + " now you have paid his men nothing of your own will. The next time, they kill Ravn."));
+                        body.Add(FrameUi.P("You have paid his men nothing of your own will " + (Collectors.Unpaid == 2 ? "twice" : Collectors.Unpaid + " times") + " now, and the next time they will kill Ravn."));
                 }
                 if (here != null)
                 {

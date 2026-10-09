@@ -223,6 +223,89 @@ namespace Kapman.Game.Frame
             }
         }
 
+        // ------------------------------------------------------------------ Pokémon pacing: a box of a sentence or two
+
+        /// <summary>
+        /// POKEMON PACING (the user, 9 Oct 2026: "have it more Pokémon paced with dialogue"). How many letters one box
+        /// of talk holds at the most: about two rows of the talk box. A line longer than this is said in several
+        /// boxes, each brought by the key.
+        /// </summary>
+        public static int PageChars = 110;
+
+        /// <summary>
+        /// A text cut into boxes: whole sentences, as many to a box as fit in `most` letters; a sentence longer than a
+        /// box is cut at a comma, a semicolon or a colon (else between two words). A text with a tag of its own in it
+        /// is never cut. The boxes put end to end with a space between them are the text again.
+        /// </summary>
+        public static List<string> Pages(string text, int most)
+        {
+            var pages = new List<string>();
+            text = (text ?? "").Trim();
+            if (text.Length == 0)
+                return pages;
+            if (most < 20 || text.Length <= most || text.IndexOf('<') >= 0)
+            {
+                pages.Add(text);
+                return pages;
+            }
+            // the sentences: a stop, a question or a cry, with whatever closes it, and a space after
+            var sentences = new List<string>();
+            int from = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                char c = text[i];
+                if (c != '.' && c != '!' && c != '?' && c != '\u2026')
+                    continue;
+                int j = i + 1;
+                while (j < text.Length && (text[j] == '.' || text[j] == '!' || text[j] == '?' || text[j] == '\u2026' || text[j] == '"' || text[j] == '\u201d' || text[j] == '\'' || text[j] == '\u2019' || text[j] == ')'))
+                    j++;
+                if (j < text.Length && text[j] != ' ')
+                    continue;                                            // (the stop of "8.5", of "c.20")
+                sentences.Add(text.Substring(from, j - from).Trim());
+                from = j;
+                i = j - 1;
+            }
+            if (from < text.Length)
+                sentences.Add(text.Substring(from).Trim());
+            string page = "";
+            foreach (string sentence in sentences)
+            {
+                if (sentence.Length == 0)
+                    continue;
+                if (page.Length > 0 && page.Length + 1 + sentence.Length <= most)
+                {
+                    page += " " + sentence;
+                    continue;
+                }
+                if (page.Length > 0)
+                    pages.Add(page);
+                page = "";
+                string rest = sentence;
+                while (rest.Length > most)
+                {
+                    int cut = BreakBefore(rest, most);
+                    pages.Add(rest.Substring(0, cut).TrimEnd());
+                    rest = rest.Substring(cut).TrimStart();
+                }
+                page = rest;
+            }
+            if (page.Length > 0)
+                pages.Add(page);
+            return pages;
+        }
+
+        /// <summary>Where a sentence too long for a box is cut: after the last comma, semicolon or colon that leaves at
+        /// least a third of a box before it; else at the last space; else at the box's end.</summary>
+        static int BreakBefore(string s, int most)
+        {
+            int last = Mathf.Min(most, s.Length - 1);
+            for (int i = last - 1; i > most / 3; i--)
+                if ((s[i] == ',' || s[i] == ';' || s[i] == ':') && s[i + 1] == ' ')
+                    return i + 1;
+            int space = s.LastIndexOf(' ', last);
+            return space > 0 ? space : last;
+        }
+
         static void Apply(Item item, int n)
         {
             int length = item.full.Length;

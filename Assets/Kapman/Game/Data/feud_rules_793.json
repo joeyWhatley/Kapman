@@ -1,5 +1,5 @@
 {
- "about": "RAVN'S DEATH AND THE FEUD (Code/Game/Voyage/Feud.cs; the user, 9 Oct 2026: 'Ravn needs an impactful death scene as genuine punishment for not repaying the debt but opens up a bloodfued opportunity'; by the picker: 'You against the lender', 'Blood or silver', 'All of it, live'). EVERY NUMBER IS A STARTING GUESS TO TUNE. on: false and he dies in a sentence, as any man of hers does, and nothing follows. deathHeart: what his death takes from the crew's heart at once, besides the man. heartCeiling: the height their heart cannot rise over while he lies unanswered (0.75 and over is 'in good heart'). quietDays: how long that lasts when she says nothing over him. markStat, markSize: the mark on her until it is answered. swornHeart, bloodHeart, priceHeart: what their heart gets back when she swears, when the one who did it is dead, when his price is paid. priceD: the price the count's court sets on the lender, taken off the stick (640 d is 53 shillings and 4 pence, about a free man's price in the Frisians' law as I remember it: to check (?)). townFineD: the fine of a port's lord for blood shed on his quay. outlawFineD: the lender's own price to the count, which lifts the outlawry of whoever killed him. pyreAfterHours: hours under way before the men look for a shore to burn him on; shoreKm: how near land must lie for there to be one. A FIGHT is reckoned on her nerve's scale of 1 to 5 (each point over 3 is a twentieth on the card's odds): fightPerMan for each man she has more or fewer than they (three either way at most), fightWeapons for weapons in the hold, fightDoor for their own yard at the lender's house, lenderHard for going in to him alone at his table. houseMen: the men in his yard when none are out. The odds themselves are in the cards.",
+ "about": "RAVN'S DEATH AND THE FEUD (Code/Game/Voyage/Feud.cs; the user, 9 Oct 2026: 'Ravn needs an impactful death scene as genuine punishment for not repaying the debt but opens up a bloodfued opportunity'; by the picker: 'You against the lender', 'Blood or silver', 'All of it, live'). EVERY NUMBER IS A STARTING GUESS TO TUNE. on: false and he dies in a sentence, as any man of hers does, and nothing follows. deathHeart: what his death takes from the crew's heart at once, besides the man. heartCeiling: the height their heart cannot rise over while he lies unanswered (0.75 and over is 'in good heart'). quietDays: how long that lasts when she says nothing over him. markStat, markSize: the mark on her until it is answered. swornHeart, bloodHeart, priceHeart: what their heart gets back when she swears, when the one who did it is dead, when his price is paid. priceD: the price the count's court sets on the lender, taken off the stick (640 d is 53 shillings and 4 pence, about a free man's price in the Frisians' law as I remember it: to check (?)). townFineD: the fine of a port's lord for blood shed on his quay. outlawFineD: the lender's own price to the count, which lifts the outlawry of whoever killed him. pyreAfterHours: hours under way before the men look for a shore to burn him on; shoreKm: how near land must lie for there to be one. A FIGHT is reckoned on her nerve's scale of 1 to 5 (each point over 3 is a twentieth on the card's odds): fightPerMan for each man she has more or fewer than they (three either way at most), fightWeapons for weapons in the hold, fightDoor for their own yard at the lender's house, lenderHard for going in to him alone at his table. houseMen: the men in his yard when none are out. The odds themselves are in the cards. scene: HIS SCENE AS IT IS STAGED, line by line: who says it (a name of sceneCast; none: the teller, who has no face), the writing's key of its words (at sea the key with .sea after it stands in its place where that is written), cut: true for a line that breaks off (it is said to its last letter and gone, and nobody is waited for), and hit: true for a line that is a blow (a blood-red filter flashes over the screen and the picture is shaken as it comes up, in the hard steps of an old console). sceneCast: who they are in the standing cast, their trade (for a stand-in face) and the name shown over the box of talk.",
  "on": true,
  "deathHeart": -0.2,
  "heartCeiling": 0.6,
@@ -18,5 +18,75 @@
  "fightWeapons": 1,
  "fightDoor": -1,
  "lenderHard": -2,
- "houseMen": 2
+ "houseMen": 2,
+ "scene": [
+  {
+   "who": "brute",
+   "key": "feud.scene.1"
+  },
+  {
+   "who": "man",
+   "key": "feud.scene.2"
+  },
+  {
+   "who": "ravn",
+   "key": "feud.scene.3",
+   "cut": true
+  },
+  {
+   "who": "",
+   "key": "feud.scene.4",
+   "hit": true
+  },
+  {
+   "who": "aldger",
+   "key": "feud.scene.5"
+  },
+  {
+   "who": "",
+   "key": "feud.scene.6"
+  },
+  {
+   "who": "aldger",
+   "key": "feud.scene.7"
+  },
+  {
+   "who": "",
+   "key": "feud.scene.8"
+  },
+  {
+   "who": "brute",
+   "key": "feud.scene.9"
+  },
+  {
+   "who": "man",
+   "key": "feud.scene.10"
+  },
+  {
+   "who": "",
+   "key": "feud.scene.11"
+  }
+ ],
+ "sceneCast": {
+  "brute": {
+   "cast": "dorestad.wokerers_rope_man",
+   "role": "warrior",
+   "name": "The rope man"
+  },
+  "man": {
+   "cast": "dorestad.wokerers_man",
+   "role": "factor",
+   "name": "Bubo"
+  },
+  "ravn": {
+   "cast": "cast.crew.ravn",
+   "role": "crewman",
+   "name": "Ravn"
+  },
+  "aldger": {
+   "cast": "cast.crew.aldger",
+   "role": "steersman",
+   "name": "Aldger"
+  }
+ }
 }

@@ -371,26 +371,64 @@
     color: rgb(241, 232, 214);
 }
 
-/* a scene told over the black (Showtime.Scene): one line at a time, pale on the dark, in the middle of the screen */
+/* a scene (Showtime.Scene), on the purple of the opening: one box of talk at the foot of the screen, as Pokémon has
+   it; over it the face and name of whoever speaks. The teller's words stand in the same box, with nobody over it. */
 .show-scene {
     position: absolute;
-    left: 20%;
-    right: 20%;
-    top: 0;
-    bottom: 0;
-    align-items: center;
-    justify-content: center;
+    left: 21%;
+    right: 21%;
+    bottom: 9%;
+}
+
+.show-scene-speaker {
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+.show-scene-face {
+    width: 120px;
+    height: 150px;
+    flex-shrink: 0;
+    margin-right: 16px;
+    border-width: 3px;
+    border-color: rgb(246, 239, 224);
+    border-radius: 0;
+    background-color: rgb(74, 28, 74);
+}
+
+.show-scene-who {
+    color: rgb(246, 239, 224);
+    -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 0 rgb(20, 8, 22);
+}
+
+.show-scene-box {
+    min-height: 168px;
+    padding: 20px 24px 14px 24px;
+    background-color: rgb(203, 213, 189);
+    background-image: url("Xp/grain.png");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    border-width: 3px;
+    border-color: rgb(46, 18, 51);
+    border-radius: 0;
+    justify-content: space-between;
 }
 
 .show-scene-words {
     white-space: normal;
-    color: rgb(241, 232, 214);
-    -unity-text-align: middle-center;
+    color: rgb(112, 41, 99);
 }
 
 .show-scene-go {
-    margin-top: 28px;
-    color: rgb(148, 178, 142);
+    align-self: flex-end;
+}
+
+/* the red of a hit in a scene: how much of it shows is set by the code, in hard steps */
+.show-flash {
+    background-color: rgb(158, 10, 22);
 }
 
 /* the marks of the first morning: the picture title/title.mark.png, of the same making as the name's letters; without

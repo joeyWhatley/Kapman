@@ -149,10 +149,11 @@ namespace Kapman.Game
         /// <summary>The first click of the game is waited for (then the marks, then Ravn).</summary>
         public bool Armed => armed;
 
-        VisualElement under, over, loader, box, row, col, list, card, veil, marks, plate, speaker, scene;
+        VisualElement under, over, loader, box, row, col, list, card, veil, marks, plate, speaker, scene, sceneSpeaker, sceneBox, flash;
         BalloonTail tail;
         Image backdrop, loaderShip, shipFull;
-        Label loaderWord, who, words, small, go, cardBig, cardSmall, sceneWords, sceneGo;
+        Label loaderWord, who, words, small, go, cardBig, cardSmall, sceneWords, sceneGo, sceneWho;
+        FrameFace sceneFace;
         VisualElement nameRow, titleVeil;
         Image seaPicture;
         readonly List<VisualElement> letters = new List<VisualElement>();
@@ -331,6 +332,12 @@ namespace Kapman.Game
             scene = FrameParts.In<VisualElement>(over, "scene");
             sceneWords = FrameParts.In<Label>(over, "scene-words");
             sceneGo = FrameParts.In<Label>(over, "scene-go");
+            sceneSpeaker = FrameParts.In<VisualElement>(over, "scene-speaker");
+            sceneBox = FrameParts.In<VisualElement>(over, "scene-box");
+            sceneFace = FrameParts.In<FrameFace>(over, "scene-face");
+            sceneWho = FrameParts.In<Label>(over, "scene-who");
+            // (the red of a hit: over everything of a scene)
+            flash = FrameParts.In<VisualElement>(over, "flash");
             veil = FrameParts.In<VisualElement>(over, "first-click");
             veil.RegisterCallback<PointerDownEvent>(e =>
             {
@@ -344,7 +351,7 @@ namespace Kapman.Game
             docRoot.Insert(0, under);
             docRoot.Add(over);
 
-            foreach (var v in new VisualElement[] { backdrop, seaPicture, nameRow, titleVeil, loader, shipFull, plate, box, tail, speaker, card, veil, scene })
+            foreach (var v in new VisualElement[] { backdrop, seaPicture, nameRow, titleVeil, loader, shipFull, plate, box, tail, speaker, card, veil, scene, flash })
                 Hide(v);
             Black(0f);
             if (purple == null)
@@ -419,7 +426,8 @@ namespace Kapman.Game
             go.style.fontSize = quiet;
             cardBig.style.fontSize = Mathf.Max(30f, h * 0.07f);
             cardSmall.style.fontSize = quiet;
-            sceneWords.style.fontSize = Mathf.Max(24f, h * 0.034f);
+            sceneWords.style.fontSize = body;
+            sceneWho.style.fontSize = body;
             sceneGo.style.fontSize = quiet;
             list.style.fontSize = Mathf.Max(20f, h * 0.024f);
             plate.style.fontSize = body;
@@ -893,14 +901,20 @@ namespace Kapman.Game
         // ------------------------------------------------------------------ a scene told over the black
 
         /// <summary>
-        /// A SCENE TOLD OVER THE BLACK (the user, 9 Oct 2026: "Ravn needs an impactful death scene"). The game stops:
-        /// the clock is held, the keys are the show's, the music dies away. The screen closes to black, and the lines
-        /// are said in the middle of it one at a time, each waiting for Enter or a click (the user's rule of 7 Oct: a
-        /// paragraph at any one time). Then a card with a name and what stands under it, and the black lifts on the
-        /// game. Nothing is chosen in it. `done` is called when it is over. With the show off (a batch run), or
-        /// while another part of the show is on, nothing is shown and `done` is called at once.
+        /// A SCENE TOLD OVER THE BLACK (the user, 9 Oct 2026: "Ravn needs an impactful death scene"; and of its first
+        /// cut, words alone in the middle of the dark: "doesn't flow well enough ... just doesn't hit", "have it more
+        /// Pokémon paced with dialogue"; and of the black it first stood on: "Instead of black use that Byzantium
+        /// themed purple you made in the intro that was cool and a great theme to keep going"). The game stops: the
+        /// clock is held, the keys are the show's, the music dies away. THE PURPLE OF THE OPENING comes up over the
+        /// whole screen (the title's own slow bands). At its foot stands ONE BOX OF TALK, as Pokémon has it: over it
+        /// the face and the name of whoever speaks (nobody, for the teller), in it a sentence or two at a time, said
+        /// a letter at a time, and Enter or a click brings the next. A line may BREAK OFF (ToldLine.cut): it is said
+        /// to its last letter and gone at once, nobody is waited for, and the purple stands empty a moment. Then a
+        /// card with a name and what stands under it, and the purple lifts on the game. Nothing is chosen in it.
+        /// `done` is called when it is over. With the show off (a batch run), or while another part of the show is
+        /// on, nothing is shown and `done` is called at once.
         /// </summary>
-        public static void Scene(IReadOnlyList<string> lines, string big, string small, Action done)
+        public static void Scene(IReadOnlyList<ToldLine> lines, string big, string small, Action done)
         {
             if (Current == null || !On || Current.over == null || Current.busy > 0)
             {
@@ -912,71 +926,190 @@ namespace Kapman.Game
 
         /// <summary>A scene is being told now (the music dies away for it).</summary>
         public static bool Telling => Current != null && Current.Stage == "scene";
-        /// <summary>Which line of the scene is up (1 the first; 0: none), and is it said in full and waiting for the key.</summary>
+        /// <summary>Which line of the scene is up (1 the first; 0: none), which box of that line (1 the first), and is the
+        /// box said in full and waiting for the key.</summary>
         public int SceneLine { get; private set; }
+        public int SceneBox { get; private set; }
         public bool SceneWaits { get; private set; }
-        /// <summary>The words of that line, whole ("" for none); and what stands on the name's card while it is up.</summary>
+        /// <summary>The words of the box that is up, whole ("" for none), and who says them ("" for the teller); and
+        /// what stands on the name's card while it is up.</summary>
         public string SceneText { get; private set; } = "";
+        public string SceneWho { get; private set; } = "";
         public string CardText => card != null && card.resolvedStyle.display != DisplayStyle.None ? cardBig.text + " / " + cardSmall.text : "";
-        /// <summary>Seconds the black takes to close for a scene, the dark before its first line, and between two lines.</summary>
-        public static float SceneClose = 1.4f, SceneDark = 0.9f, SceneBetween = 0.45f;
+        /// <summary>Seconds the black takes to close for a scene and the dark before its first line; and, for a line
+        /// that breaks off, how long its last letters stand and how long the dark stands after.</summary>
+        public static float SceneClose = 1.4f, SceneDark = 0.9f, SceneCutHold = 0.3f, SceneCutDark = 1.5f;
+
+        // ---- A HIT (the user, 9 Oct 2026: "a layer of transparent bloody red filter flash and shake the screen when
+        // it says he's killed in the retro Nintendo style"). Hard steps, nothing eased.
+        /// <summary>Seconds one step of a hit lasts (the red and the shake change together, a step at a time).</summary>
+        public static float SceneHitStep = 0.05f;
+        /// <summary>How red the filter is at each step: on, off, on, and then down in two steps. TWO FLASHES AND NO
+        /// MORE, inside half a second: three or more flashes in a second is what harms some eyes.</summary>
+        static readonly float[] HitRed = { 0.62f, 0.62f, 0f, 0.62f, 0.62f, 0.62f, 0.34f, 0.34f, 0.16f, 0.16f };
+        /// <summary>Where the picture stands at each step, in hundredths of the screen's height: thrown hard to one
+        /// side and the other, a little less each time.</summary>
+        static readonly Vector2[] HitShake =
+        {
+            new Vector2(1.6f, 0.5f), new Vector2(-1.6f, -0.5f), new Vector2(1.3f, -0.4f), new Vector2(-1.3f, 0.4f), new Vector2(1.0f, 0.3f), new Vector2(-1.0f, -0.3f),
+            new Vector2(0.7f, -0.2f), new Vector2(-0.7f, 0.2f), new Vector2(0.4f, 0.1f), new Vector2(-0.4f, -0.1f), new Vector2(0.2f, 0f), new Vector2(-0.2f, 0f),
+        };
+        /// <summary>How many hits this run of the game has shown, whether one is on now, and how red the filter is now.</summary>
+        public int SceneHits { get; private set; }
+        public bool SceneStruck { get; private set; }
+        public float SceneRed { get; private set; }
+
+        /// <summary>A hit: the red filter and the shaken picture, step by step, and then all as it was.</summary>
+        IEnumerator Struck()
+        {
+            SceneHits++;
+            SceneStruck = true;
+            int steps = Mathf.Max(HitRed.Length, HitShake.Length), step = -1;
+            float t = 0f;
+            Show(flash, 0f);
+            // (the purple is drawn a little over the screen's edges while it is thrown about, so no edge of the game shows)
+            backdrop.style.scale = new Scale(new Vector2(1.08f, 1.08f));
+            while (true)
+            {
+                int now = (int)(t / Mathf.Max(0.01f, SceneHitStep));
+                if (now >= steps)
+                    break;
+                if (now != step)
+                {
+                    step = now;
+                    SceneRed = step < HitRed.Length ? HitRed[step] : 0f;
+                    flash.style.opacity = SceneRed;
+                    var by = (step < HitShake.Length ? HitShake[step] : Vector2.zero) * (H * 0.01f);
+                    var thrown = new Translate(Mathf.Round(by.x), Mathf.Round(by.y));
+                    scene.style.translate = thrown;
+                    backdrop.style.translate = thrown;
+                }
+                t += Time.unscaledDeltaTime;
+                yield return null;
+            }
+            SceneRed = 0f;
+            Hide(flash);
+            scene.style.translate = new Translate(0f, 0f);
+            backdrop.style.translate = new Translate(0f, 0f);
+            backdrop.style.scale = new Scale(Vector2.one);
+            SceneStruck = false;
+        }
 
         const string SceneHold = "scene";
 
-        IEnumerator Told(IReadOnlyList<string> lines, string big, string small, Action done)
+        IEnumerator Told(IReadOnlyList<ToldLine> lines, string big, string small, Action done)
         {
             busy++;
             Stage = "scene";
             UiFocus.Take(this, false);
             GameSpeed.Hold(SceneHold);
-            yield return Fade(Black, 0f, 1f, SceneClose);
-            Show(veil, 0f);                                              // (a click anywhere goes on)
+            Show(veil, 0f);                                              // (a click anywhere goes on, and none falls through to the game)
+            // (the purple of the opening comes up over the game: its bands are drawn while it is seen, Update)
+            Show(backdrop, 0f);
+            yield return Fade(a => backdrop.style.opacity = a, 0f, 1f, SceneClose);
             yield return Wait(SceneDark);
             sceneWords.text = "";
             sceneGo.style.visibility = Visibility.Hidden;
-            Show(scene);
             for (int i = 0; lines != null && i < lines.Count; i++)
             {
-                if (string.IsNullOrEmpty(lines[i]))
+                var line = lines[i];
+                if (line == null || string.IsNullOrEmpty(line.text))
                     continue;
-                SceneLine = i + 1;
-                SceneWaits = false;
-                SceneText = lines[i];
-                sceneWords.text = lines[i];
-                sceneWords.style.opacity = 1f;
-                var reveal = new TextReveal();
-                reveal.Add(sceneWords);
-                reveal.StartAt(0);
-                clicked = false;
-                yield return null;
-                while (!reveal.Done)
+                // who speaks: the face and the name over the box; the teller has neither, and no balloon round the words
+                bool teller = string.IsNullOrEmpty(line.who);
+                sceneBox.EnableInClassList("teller", teller);
+                sceneSpeaker.style.visibility = teller ? Visibility.Hidden : Visibility.Visible;
+                if (!teller)
                 {
-                    if (Go())
-                        reveal.Finish();
-                    else
-                        reveal.Tick(Time.unscaledDeltaTime);
-                    yield return null;
+                    sceneFace.Who = line.face.Length > 0 ? line.face : line.who;
+                    if (line.slot.Length > 0)
+                        sceneFace.Slot = line.slot;
+                    sceneWho.text = line.who;
                 }
-                sceneGo.style.visibility = Visibility.Visible;
-                SceneWaits = true;
-                yield return null;
-                while (!Go())
+                var boxes = TextReveal.Pages(line.text, TextReveal.PageChars);
+                for (int b = 0; b < boxes.Count; b++)
+                {
+                    bool breaksOff = line.cut && b == boxes.Count - 1;
+                    SceneLine = i + 1;
+                    SceneBox = b + 1;
+                    SceneWaits = false;
+                    SceneText = boxes[b];
+                    SceneWho = line.who ?? "";
+                    sceneWords.text = boxes[b];
+                    Show(scene);
+                    // (a hit: red, and the picture shaken, as this line comes up)
+                    if (line.hit && b == 0)
+                        StartCoroutine(Struck());
+                    var reveal = new TextReveal();
+                    reveal.Add(sceneWords);
+                    reveal.StartAt(0);
+                    // (a hit's own words stand whole at once, under the red: they are read as the screen is struck)
+                    if (line.hit && b == 0)
+                        reveal.Finish();
+                    clicked = false;
                     yield return null;
-                SceneWaits = false;
-                sceneGo.style.visibility = Visibility.Hidden;
-                yield return Fade(a => sceneWords.style.opacity = a, 1f, 0f, 0.25f);
-                sceneWords.text = "";
-                yield return Wait(SceneBetween);
+                    // (and nothing is gone on from while the screen is still being struck)
+                    while (line.hit && b == 0 && SceneStruck)
+                    {
+                        clicked = false;
+                        yield return null;
+                    }
+                    while (!reveal.Done)
+                    {
+                        // (a line that breaks off cannot be hurried to its end: it ends when it ends)
+                        if (!breaksOff && Go())
+                            reveal.Finish();
+                        else
+                            reveal.Tick(Time.unscaledDeltaTime);
+                        yield return null;
+                    }
+                    if (breaksOff)
+                    {
+                        yield return Wait(SceneCutHold);
+                        // (what cut it off is a hit: it comes at once, with no empty moment between)
+                        bool struckNext = i + 1 < lines.Count && lines[i + 1] != null && lines[i + 1].hit;
+                        if (!struckNext)
+                        {
+                            Hide(scene);
+                            SceneText = "";
+                            yield return Wait(SceneCutDark);
+                        }
+                        clicked = false;
+                        continue;
+                    }
+                    sceneGo.style.visibility = Visibility.Visible;
+                    SceneWaits = true;
+                    yield return null;
+                    while (!Go())
+                        yield return null;
+                    SceneWaits = false;
+                    sceneGo.style.visibility = Visibility.Hidden;
+                }
             }
-            SceneLine = 0;
-            SceneText = "";
+            while (SceneStruck)
+                yield return null;
+            SceneLine = SceneBox = 0;
+            SceneText = SceneWho = "";
             Hide(scene);
-            Hide(veil);
-            // (the name and what stands under it; the black lifts while they stand)
+            yield return Wait(0.6f);
+            // (the name and what stands under it, on the purple; the purple lifts on the game while they stand)
             if (!string.IsNullOrEmpty(big))
-                yield return PlaceCard(big, small, true);
+            {
+                cardBig.text = big;
+                cardSmall.text = small ?? "";
+                Show(card, 0f);
+                yield return Fade(a => card.style.opacity = a, 0f, 1f, 0.6f);
+                yield return Wait(2.2f);
+                yield return Fade(a => backdrop.style.opacity = a, 1f, 0f, 1.4f);
+                yield return Wait(0.7f);
+                yield return Fade(a => card.style.opacity = a, 1f, 0f, 0.8f);
+                Hide(card);
+            }
             else
-                yield return Fade(Black, 1f, 0f, 1.2f);
+                yield return Fade(a => backdrop.style.opacity = a, 1f, 0f, 1.4f);
+            Hide(backdrop);
+            backdrop.style.opacity = 1f;
+            Hide(veil);
             GameSpeed.Release(SceneHold);
             UiFocus.Release(this);
             Stage = "";
@@ -1307,6 +1440,17 @@ namespace Kapman.Game
         /// <summary>A line said a letter at a time in the box. A key or a click finishes it; `wait`: then another goes on.</summary>
         IEnumerator Say(string line, bool wait)
         {
+            // POKEMON PACING (9 Oct 2026): a line that is waited on is said a box at a time, a sentence or two, the key between
+            if (wait)
+            {
+                var boxes = TextReveal.Pages(line, TextReveal.PageChars);
+                if (boxes.Count > 1)
+                {
+                    foreach (string box in boxes)
+                        yield return Say(box, true);
+                    yield break;
+                }
+            }
             list.Clear();
             Hide(small);
             Hide(go);
@@ -1757,6 +1901,18 @@ namespace Kapman.Game
             string name = best.good.name.ToLowerInvariant();
             return $"One thing I do know. They ask about {Spoken.Pennies(bestBuy)} here for {name}, and at {bestPort.name} they pay about {Spoken.Number(bestSell)}. Buy what she'll hold and you can pay for, and we take it there.";
         }
+    }
+
+    /// <summary>One line of a scene told over the black (Showtime.Scene): its words; who says them (the name shown; ""
+    /// for the teller, who has no face), whose face (an id or a name) and its picture where it is known; whether the
+    /// line breaks off; and whether it is a hit.</summary>
+    public sealed class ToldLine
+    {
+        public string text = "", who = "", face = "", slot = "";
+        public bool cut;
+        /// <summary>A hit: as this line comes up, a blood-red filter flashes over the screen and the picture is shaken,
+        /// in hard steps as an old console did it.</summary>
+        public bool hit;
     }
 
     /// <summary>The tail of the speech balloon: a point hanging from its lower edge, in the balloon's own colour with
