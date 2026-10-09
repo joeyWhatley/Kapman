@@ -1765,3 +1765,32 @@ and far fewer when usage is short).
      nobody has changed by hand).
    Tests: GoonsFlowEditTests (3), GoonsTests and FeudTests (play, by the graph). EditMode 601 (599 pass, 2 skipped);
    PlayMode 33 of 33.
+
+128. **PUT RIGHT, AS ASKED (3): THE RULES OF WIND AND TIDE ARE GRAPHS**
+   (the repair of DECISIONS 126 and 127 goes on; the ruling is DECISIONS 72, "Rules as graphs too".)
+   - TWELVE MORE RULE GRAPHS in Game/Graphs/Rules (twenty in all now), each asked through GameRules with its sum in
+     code beside it:
+       "Rule - her leeway under sail"                      degrees off her heading, by where the wind is and how hard
+       "Rule - blown downwind with no sail"                a share of the wind's speed, under oars or lying to
+       "Rule - the top of the sea runs"                    a share of the wind's speed
+       "Rule - how far he makes out a landfall"            less by night; no further than thick air; never under 300 m
+       "Rule - what he keeps of his error along a coast"   the land tells him a share of it an hour; none in fog
+       "Rule - can she lie to her anchor"                  no gale, and water shallow enough
+       "Rule - what a lee shore costs her hull"            when she lies to or has not the way on to keep clear
+       "Rule - how rough a tide race is", "... a river's bar is", "... a shoal is", "... an open cape is"
+       "Rule - her speed in rough water"
+     The four of the rough waters hold numbers that were written into the code (a race is a third of itself at the
+     least, the wind counts from 2 m/s to 10, ...): they are on the nodes now, to be changed there.
+   - WHAT STAYS IN CODE, AND WHY: the tide's stream itself (an astronomical model of ten constituents), the adding up
+     of the pushes as directions, the steersman's bookkeeping of where he thinks she is, and keeping her off the
+     land (geometry against the baked coast). "Heavy inner work stays inside single named nodes" (the game map's own
+     words): here it stays inside Adrift and SeaPush, and the graphs hold the numbers that decide how much.
+   - PLAINER NODES for all the rule graphs of 9 Oct: "Times", "Divided by", "Share between", "What is left after",
+     "No more than", "No less than". (The first cut of the graphs said "at least -1000000000" where it meant "no
+     more than": seen in the drawing, and mended. The sixteen graphs of 9 Oct were made again over themselves; the
+     four of 8 Oct were not touched.)
+   - HELD ALIKE: RuleGraphTests runs each of the twelve against its code over 5,000 cases, to the last bit. The
+     game's own long runs (ChartGameTests, which holds that a game ends the same at every speed of the clock;
+     SeaMovesHerTests; SeaReckoningTests) pass with the graphs asked every game minute.
+   Tests: EditMode 602 (600 pass, 2 skipped); PlayMode ChartGameTests, SeaMovesHerTests, SeaReckoningTests,
+   GoonsTests 10 of 10.

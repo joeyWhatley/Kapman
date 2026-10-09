@@ -193,8 +193,8 @@ namespace Kapman.Game
             {
                 // leeway: sideways off her heading, to the side the wind blows to
                 double off = Math.Abs(((heading - windFrom) % 360.0 + 540.0) % 360.0 - 180.0);   // 0: the wind dead ahead; 180: dead astern
-                double angle = off < 60.0 ? r.leewayBeating : off < 120.0 ? r.leewayReaching : r.leewayRunning;
-                angle = Math.Min(r.leewayMost, angle * Math.Max(0.4, Math.Min(2.2, windSpeed / Math.Max(0.1, r.leewayWind))));
+                // (how many degrees: the graph "Rule - her leeway under sail")
+                double angle = GameRules.Leeway(off, windSpeed, r.leewayBeating, r.leewayReaching, r.leewayRunning, r.leewayWind, r.leewayMost);
                 double h = heading * Math.PI / 180.0;
                 double rightE = Math.Cos(h), rightN = -Math.Sin(h);          // (her starboard beam)
                 double across = rightE * downE + rightN * downN;
@@ -206,15 +206,16 @@ namespace Kapman.Game
             }
             else
             {
-                // no sail drawing: she is blown bodily downwind
-                double share = lyingTo ? r.windageLyingTo : r.windageBare;
-                east += downE * windSpeed * share;
-                north += downN * windSpeed * share;
+                // no sail drawing: she is blown bodily downwind (how fast: the graph "Rule - blown downwind with no sail")
+                double blown = GameRules.Blown(windSpeed, lyingTo, r.windageBare, r.windageLyingTo);
+                east += downE * blown;
+                north += downN * blown;
             }
-            // the top of the sea itself, a little to the right of the wind
+            // the top of the sea itself, a little to the right of the wind (how fast: the graph "Rule - the top of the sea runs")
             double sea = (windFrom + 180.0 + r.seaTurn) * Math.PI / 180.0;
-            east += Math.Sin(sea) * windSpeed * r.seaShare;
-            north += Math.Cos(sea) * windSpeed * r.seaShare;
+            double runs = GameRules.SeaRuns(windSpeed, r.seaShare);
+            east += Math.Sin(sea) * runs;
+            north += Math.Cos(sea) * runs;
             return (east, north);
         }
 

@@ -20,7 +20,11 @@ namespace Kapman.EditorTools
         [MenuItem("Kapman/Make physical/3. The rules' graphs")]
         public static void Make()
         {
-            var made = new List<ScriptGraphAsset> { Toll(), Pay(), Health(), Heart(), Fight(), Trick(), Instalment(), GoonsDo() };
+            var made = new List<ScriptGraphAsset>
+            {
+                Toll(), Pay(), Health(), Heart(), Fight(), Trick(), Instalment(), GoonsDo(),
+                Leeway(), Blown(), SeaRuns(), Landfall(), ErrorKept(), Anchor(), LeeShore(), RoughRace(), RoughBar(), RoughShoal(), RoughCape(), RoughSlow(),
+            };
             var book = AssetDatabase.LoadAssetAtPath<RuleBook>(BookPath);
             if (book == null)
             {
@@ -34,6 +38,415 @@ namespace Kapman.EditorTools
             EditorUtility.SetDirty(book);
             AssetDatabase.SaveAssets();
             Debug.Log("Kapman, made physical, step 3: " + BookPath + " names " + book.graphs.Count + " graph(s) of rules in " + Folder + ".");
+        }
+
+        /// <summary>The sixteen rule graphs of 9 Oct 2026 (a fight, the lender's men, wind and tide) made again OVER the
+        /// ones that are there, into the same assets. Only while nobody has changed them by hand: what was changed in
+        /// the graph window is lost. The four of 8 Oct (the toll, and the crew's day) are not touched.
+        /// Batch: -executeMethod Kapman.EditorTools.RuleGraphsMade.RemakeOfNinthOctober</summary>
+        public static void RemakeOfNinthOctober()
+        {
+            GraphBuilder.ReplaceExisting = true;
+            try
+            {
+                Fight();
+                Trick();
+                Instalment();
+                GoonsDo();
+                Leeway();
+                Blown();
+                SeaRuns();
+                Landfall();
+                ErrorKept();
+                Anchor();
+                LeeShore();
+                RoughRace();
+                RoughBar();
+                RoughShoal();
+                RoughCape();
+                RoughSlow();
+            }
+            finally
+            {
+                GraphBuilder.ReplaceExisting = false;
+            }
+            Make();
+        }
+
+        // ------------------------------------------------------------------ wind and tide (9 Oct 2026)
+
+        const string SeaTable = "Game/Data/sea_push.json";
+
+        /// <summary>Her leeway under sail: the table's angle by where the wind is, more in more wind, never over the most.</summary>
+        public static ScriptGraphAsset Leeway()
+        {
+            var g = new GraphBuilder("Rule - her leeway under sail",
+                "How many degrees off her heading she is set under sail, to the side the wind blows to. The game asks this graph each minute she sails (GameRules.Leeway, from SeaPush.Wind).");
+            g.Group(-40, -80, 2500, 640, "Her leeway under sail",
+                "The table's angle for where the wind is: forward of 60 degrees off her bow she beats, to 120 she reaches, abaft that she runs. More in more wind and less in less, and never over the most.",
+                GraphBuilder.Change);
+            var start = g.Add(new LeewayRule(), 0, 0);
+            var ahead = g.Add(new IsIt { how = IsIt.How.Under }, 520, 0);
+            g.Data(start.off, ahead.a);
+            g.Set(ahead.b, 60.0);
+            var beam = g.Add(new IsIt { how = IsIt.How.Under }, 520, 150);
+            g.Data(start.off, beam.a);
+            g.Set(beam.b, 120.0);
+            var reachOrRun = g.Add(new ThisOrThat(), 820, 200);
+            g.Data(beam.so, reachOrRun.when);
+            g.Data(start.reaching, reachOrRun.yes);
+            g.Data(start.running, reachOrRun.no);
+            var angle = g.Add(new ThisOrThat(), 1120, 60);
+            g.Data(ahead.so, angle.when);
+            g.Data(start.beating, angle.yes);
+            g.Data(reachOrRun.picked, angle.no);
+            var atLeast = g.Add(new NoLessThan(), 520, 380);
+            g.Data(start.atWind, atLeast.number);
+            g.Set(atLeast.least, 0.1);
+            var ratio = g.Add(new DividedBy(), 820, 380);
+            g.Data(start.wind, ratio.a);
+            g.Data(atLeast.kept, ratio.b);
+            var byWind = g.Add(new KeepBetween(), 1120, 380);
+            g.Data(ratio.quotient, byWind.number);
+            g.Set(byWind.least, 0.4);
+            g.Set(byWind.most, 2.2);
+            var times = g.Add(new Times(), 1420, 160);
+            g.Data(angle.picked, times.a);
+            g.Data(byWind.kept, times.b);
+            var capped = g.Add(new NoMoreThan(), 1700, 160);
+            g.Data(times.product, capped.number);
+            g.Data(start.most, capped.most);
+            var answer = g.Add(new RuleAnswer(), 2000, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(capped.kept, answer.number);
+            g.Note(-20, 420, 480, 120, "Where the numbers come from",
+                "leewayBeating, leewayReaching, leewayRunning, leewayWind and leewayMost in " + SeaTable + ". Which side she is set to, and how far that carries her at her speed, is the code's (SeaPush.Wind).");
+            return g.Save($"{Folder}/Rule - her leeway under sail.asset");
+        }
+
+        /// <summary>Blown downwind with no sail drawing: a share of the wind's speed.</summary>
+        public static ScriptGraphAsset Blown()
+        {
+            var g = new GraphBuilder("Rule - blown downwind with no sail",
+                "How fast she is blown bodily downwind with no sail drawing, in m/s. The game asks this graph each minute she is under oars, has the sail down, or lies to (GameRules.Blown, from SeaPush.Wind).");
+            g.Group(-40, -80, 1500, 420, "Blown downwind with no sail", "A share of the wind's speed: one under oars or with the sail down, another lying to.", GraphBuilder.Change);
+            var start = g.Add(new BlownRule(), 0, 0);
+            var share = g.Add(new ThisOrThat(), 480, 120);
+            g.Data(start.lyingTo, share.when);
+            g.Data(start.lyingToShare, share.yes);
+            g.Data(start.bare, share.no);
+            var times = g.Add(new Times(), 780, 60);
+            g.Data(start.wind, times.a);
+            g.Data(share.picked, times.b);
+            var answer = g.Add(new RuleAnswer(), 1060, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(times.product, answer.number);
+            g.Note(-20, 240, 480, 90, "Where the numbers come from", "windageBare and windageLyingTo in " + SeaTable + ".");
+            return g.Save($"{Folder}/Rule - blown downwind with no sail.asset");
+        }
+
+        /// <summary>The top of the sea itself runs at a share of the wind's speed.</summary>
+        public static ScriptGraphAsset SeaRuns()
+        {
+            var g = new GraphBuilder("Rule - the top of the sea runs",
+                "How fast the top of the sea itself runs before a steady wind, in m/s. The game asks this graph each minute she is at sea (GameRules.SeaRuns, from SeaPush.Wind).");
+            g.Group(-40, -80, 1200, 380, "The top of the sea runs", "A share of the wind's speed. It runs a little to the right of where the wind blows (the table's seaTurn, in degrees: the code's).", GraphBuilder.Change);
+            var start = g.Add(new SeaRunsRule(), 0, 0);
+            var times = g.Add(new Times(), 420, 60);
+            g.Data(start.wind, times.a);
+            g.Data(start.share, times.b);
+            var answer = g.Add(new RuleAnswer(), 720, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(times.product, answer.number);
+            g.Note(-20, 200, 480, 90, "Where the numbers come from", "seaShare (and seaTurn) in " + SeaTable + ".");
+            return g.Save($"{Folder}/Rule - the top of the sea runs.asset");
+        }
+
+        /// <summary>How far the steersman makes out a landfall: less by night, no further than thick air lets him see.</summary>
+        public static ScriptGraphAsset Landfall()
+        {
+            var g = new GraphBuilder("Rule - how far he makes out a landfall",
+                "How far the steersman makes out his landfall, in real metres. The game asks this graph each minute she runs for one over open water (GameRules.Landfall, from Adrift.Sight).");
+            g.Group(-40, -80, 2200, 520, "How far he makes out a landfall",
+                "So far by day in clear air; a share of that by night; in thick weather no further than the air lets him see; never under 300 m.", GraphBuilder.Change);
+            var start = g.Add(new LandfallRule(), 0, 0);
+            var byNight = g.Add(new ThisOrThat(), 480, 120);
+            g.Data(start.night, byNight.when);
+            g.Data(start.nightShare, byNight.yes);
+            g.Set(byNight.no, 1.0);
+            var far = g.Add(new Times(), 780, 60);
+            g.Data(start.far, far.a);
+            g.Data(byNight.picked, far.b);
+            var inAir = g.Add(new NoMoreThan(), 1060, 220);
+            g.Data(far.product, inAir.number);
+            g.Data(start.air, inAir.most);
+            var seen = g.Add(new ThisOrThat(), 1340, 120);
+            g.Data(start.thick, seen.when);
+            g.Data(inAir.kept, seen.yes);
+            g.Data(far.product, seen.no);
+            var least = g.Add(new NoLessThan(), 1620, 120);
+            g.Data(seen.picked, least.number);
+            g.Set(least.least, 300.0);
+            var answer = g.Add(new RuleAnswer(), 1900, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(least.kept, answer.number);
+            g.Note(-20, 320, 480, 110, "Where the numbers come from",
+                "landfallM and landfallNight in " + SeaTable + ". Thick weather is fog or hard rain where she is; how far the air lets him see is the weather's own.");
+            return g.Save($"{Folder}/Rule - how far he makes out a landfall.asset");
+        }
+
+        /// <summary>What the steersman keeps of his error along a coast: the land tells him a share of it an hour.</summary>
+        public static ScriptGraphAsset ErrorKept()
+        {
+            var g = new GraphBuilder("Rule - what he keeps of his error along a coast",
+                "Along a coast the land tells the steersman a share of his error each hour. The answer is the share he still has after the step (1: all of it). " +
+                "The game asks this graph each minute she coasts by reckoning (GameRules.ErrorKept, from Adrift.SteersBy).");
+            g.Group(-40, -80, 1800, 500, "What he keeps of his error along a coast",
+                "By day the land tells him so much of it an hour, by night less, in thick fog nothing. On the open sea he is told nothing at all (this is not asked there).", GraphBuilder.Change);
+            var start = g.Add(new ErrorKeptRule(), 0, 0);
+            var byNight = g.Add(new ThisOrThat(), 480, 160);
+            g.Data(start.night, byNight.when);
+            g.Data(start.eyeNight, byNight.yes);
+            g.Data(start.eyeDay, byNight.no);
+            var inFog = g.Add(new ThisOrThat(), 780, 120);
+            g.Data(start.thick, inFog.when);
+            g.Set(inFog.yes, 0.0);
+            g.Data(byNight.picked, inFog.no);
+            var left = g.Add(new WhatIsLeftAfter(), 1080, 80);
+            g.Data(inFog.picked, left.rate);
+            g.Data(start.hours, left.hours);
+            var answer = g.Add(new RuleAnswer(), 1400, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(left.left, answer.number);
+            g.Note(-20, 320, 480, 90, "Where the numbers come from", "coastEye and coastEyeNight in " + SeaTable + ".");
+            return g.Save($"{Folder}/Rule - what he keeps of his error along a coast.asset");
+        }
+
+        /// <summary>Can she lie to her anchor: no gale, and water shallow enough.</summary>
+        public static ScriptGraphAsset Anchor()
+        {
+            var g = new GraphBuilder("Rule - can she lie to her anchor",
+                "Lying to with no course, can she lie to her anchor and not be carried? 1 she can, 0 she cannot. The game asks this graph each minute she lies to at sea (GameRules.CanAnchor, from Adrift.Carry).");
+            g.Group(-40, -80, 1700, 460, "Can she lie to her anchor", "It does not blow a gale, and the water is no deeper than she can anchor in.", GraphBuilder.Change);
+            var start = g.Add(new AnchorRule(), 0, 0);
+            var calm = g.Add(new IsIt { how = IsIt.How.AtMost }, 480, 20);
+            g.Data(start.wind, calm.a);
+            g.Data(start.gale, calm.b);
+            var shallow = g.Add(new IsIt { how = IsIt.How.AtMost }, 480, 180);
+            g.Data(start.depth, shallow.a);
+            g.Data(start.anchorDepth, shallow.b);
+            var both = g.Add(new BothOrEither { how = BothOrEither.How.Both }, 780, 100);
+            g.Data(calm.so, both.one);
+            g.Data(shallow.so, both.other);
+            var can = g.Add(new ThisOrThat(), 1060, 100);
+            g.Data(both.so, can.when);
+            g.Set(can.yes, 1.0);
+            g.Set(can.no, 0.0);
+            var answer = g.Add(new RuleAnswer(), 1340, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(can.picked, answer.number);
+            g.Note(-20, 300, 480, 90, "Where the numbers come from", "anchorDepthM in " + SeaTable + "; the wind of a gale is the weather's own (GaleDice.GaleWind).");
+            return g.Save($"{Folder}/Rule - can she lie to her anchor.asset");
+        }
+
+        /// <summary>What a lee shore costs her hull in a step, or nothing when she keeps clear of it.</summary>
+        public static ScriptGraphAsset LeeShore()
+        {
+            var g = new GraphBuilder("Rule - what a lee shore costs her hull",
+                "Held off a shore that wind and tide would set her on: the share of her hull it costs in this step, or nothing when she has the way on to keep clear. " +
+                "The game asks this graph each minute she is held off a shore (GameRules.LeeShore, from Adrift.Carry).");
+            g.Group(-40, -80, 2000, 560, "What a lee shore costs her hull",
+                "It works her when she lies to, or when her own way is not so many times the push onto the shore. Then it costs so much of the hull an hour, and more in a gale.", GraphBuilder.Change);
+            var start = g.Add(new LeeShoreRule(), 0, 0);
+            var need = g.Add(new Times(), 480, 100);
+            g.Data(start.push, need.a);
+            g.Data(start.clawOff, need.b);
+            var slow = g.Add(new IsIt { how = IsIt.How.Under }, 760, 60);
+            g.Data(start.speed, slow.a);
+            g.Data(need.product, slow.b);
+            var helpless = g.Add(new BothOrEither { how = BothOrEither.How.Either }, 1040, 20);
+            g.Data(start.lyingTo, helpless.one);
+            g.Data(slow.so, helpless.other);
+            var rate = g.Add(new ThisOrThat(), 480, 300);
+            g.Data(start.gale, rate.when);
+            g.Data(start.strainGale, rate.yes);
+            g.Data(start.strainHour, rate.no);
+            var cost = g.Add(new Times(), 780, 320);
+            g.Data(rate.picked, cost.a);
+            g.Data(start.hours, cost.b);
+            var costs = g.Add(new ThisOrThat(), 1320, 160);
+            g.Data(helpless.so, costs.when);
+            g.Data(cost.product, costs.yes);
+            g.Set(costs.no, 0.0);
+            var answer = g.Add(new RuleAnswer(), 1620, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(costs.picked, answer.number);
+            g.Note(-20, 380, 440, 90, "Where the numbers come from", "clawOff, shoreStrainHour and shoreStrainGale in " + SeaTable + ".");
+            return g.Save($"{Folder}/Rule - what a lee shore costs her hull.asset");
+        }
+
+        /// <summary>How rough a tide race is now: by how hard the stream runs, worst with the wind against it.</summary>
+        public static ScriptGraphAsset RoughRace()
+        {
+            var g = new GraphBuilder("Rule - how rough a tide race is",
+                "How rough a tide race is now, from 0 (quiet) to its own roughness and a fifth over. The game asks this graph each minute she is in one (GameRules.RoughRace, from RoughWaters.Roughness).");
+            g.Group(-40, -80, 2500, 620, "How rough a tide race is",
+                "Its own roughness, by how hard the stream runs (nothing at slack water). A third of that at the least; more with the wind against the stream (from 2 m/s, all of it at 10); " +
+                "more again in a hard wind (from 8 to 16); a fifth over at the most.", GraphBuilder.Change);
+            var start = g.Add(new RoughRaceRule(), 0, 0);
+            var fresh = g.Add(new ShareBetween(), 520, 140);
+            g.Data(start.wind, fresh.number);
+            g.Set(fresh.from, 2.0);
+            g.Set(fresh.upTo, 10.0);
+            var hard = g.Add(new ShareBetween(), 520, 400);
+            g.Data(start.wind, hard.number);
+            g.Set(hard.from, 8.0);
+            g.Set(hard.upTo, 16.0);
+            var against = g.Add(new Times(), 520, 280);
+            g.Set(against.a, 0.65);
+            g.Data(start.against, against.b);
+            var againstWind = g.Add(new Times(), 820, 200);
+            g.Data(against.product, againstWind.a);
+            g.Data(fresh.share, againstWind.b);
+            var atLeast = g.Add(new AddIf(), 1100, 160);
+            g.Set(atLeast.to, 0.35);
+            g.Data(againstWind.product, atLeast.amount);
+            var hardWind = g.Add(new Times(), 820, 400);
+            g.Set(hardWind.a, 0.2);
+            g.Data(hard.share, hardWind.b);
+            var sum = g.Add(new AddIf(), 1380, 220);
+            g.Data(atLeast.sum, sum.to);
+            g.Data(hardWind.product, sum.amount);
+            var capped = g.Add(new NoMoreThan(), 1660, 220);
+            g.Data(sum.sum, capped.number);
+            g.Set(capped.most, 1.2);
+            var running = g.Add(new Times(), 1380, 40);
+            g.Data(start.rough, running.a);
+            g.Data(start.run, running.b);
+            var rough = g.Add(new Times(), 1940, 100);
+            g.Data(running.product, rough.a);
+            g.Data(capped.kept, rough.b);
+            var answer = g.Add(new RuleAnswer(), 2200, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(rough.product, answer.number);
+            g.Note(-20, 300, 480, 150, "Where the numbers come from",
+                "The water's own roughness is in Game/Data/rough_waters_793.json. How hard the stream runs is the tide model's, against its own hardest there in a fortnight. " +
+                "The shares on the nodes (0.35, 0.65, 0.2; 2 to 10, 8 to 16; 1.2) are this rule's own: change them here.");
+            return g.Save($"{Folder}/Rule - how rough a tide race is.asset");
+        }
+
+        /// <summary>How rough a river's bar is now: by the wind, by how squarely it blows on to the bar, worse while the tide runs.</summary>
+        public static ScriptGraphAsset RoughBar()
+        {
+            var g = new GraphBuilder("Rule - how rough a river's bar is",
+                "How rough the bar of a river mouth is now, from 0 (quiet) to its own roughness. The game asks this graph each minute she is on one (GameRules.RoughBar, from RoughWaters.Roughness).");
+            g.Group(-40, -80, 2300, 560, "How rough a river's bar is",
+                "Its own roughness, by the wind (from 3 m/s, all of it at 12), by how squarely the wind blows on to it (a quarter with none of it, all with it square on), and worse while the tide runs.",
+                GraphBuilder.Change);
+            var start = g.Add(new RoughBarRule(), 0, 0);
+            var fresh = g.Add(new ShareBetween(), 520, 100);
+            g.Data(start.wind, fresh.number);
+            g.Set(fresh.from, 3.0);
+            g.Set(fresh.upTo, 12.0);
+            var byWind = g.Add(new Times(), 820, 40);
+            g.Data(start.rough, byWind.a);
+            g.Data(fresh.share, byWind.b);
+            var on = g.Add(new Times(), 520, 260);
+            g.Set(on.a, 0.75);
+            g.Data(start.onshore, on.b);
+            var onTo = g.Add(new AddIf(), 820, 240);
+            g.Set(onTo.to, 0.25);
+            g.Data(on.product, onTo.amount);
+            var byShore = g.Add(new Times(), 1120, 120);
+            g.Data(byWind.product, byShore.a);
+            g.Data(onTo.sum, byShore.b);
+            var tide = g.Add(new Times(), 820, 400);
+            g.Set(tide.a, 0.4);
+            g.Data(start.run, tide.b);
+            var byTide = g.Add(new AddIf(), 1120, 360);
+            g.Set(byTide.to, 0.6);
+            g.Data(tide.product, byTide.amount);
+            var rough = g.Add(new Times(), 1420, 200);
+            g.Data(byShore.product, rough.a);
+            g.Data(byTide.sum, rough.b);
+            var answer = g.Add(new RuleAnswer(), 1720, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(rough.product, answer.number);
+            g.Note(-20, 300, 460, 130, "Where the numbers come from",
+                "The water's own roughness, and the bearing its bar lies open to, are in Game/Data/rough_waters_793.json. The shares on the nodes are this rule's own: change them here.");
+            return g.Save($"{Folder}/Rule - how rough a river's bar is.asset");
+        }
+
+        /// <summary>How rough a shoal (or an open cape) is now: by the wind, a little worse while the tide runs.</summary>
+        static ScriptGraphAsset RoughInWind<T>(string title, string name, T start, System.Func<T, (ValueOutput rough, ValueOutput run, ValueOutput wind)> given,
+                                               double from, double upTo, double atSlack, double byTide, string about, string asked) where T : RuleUnit
+        {
+            var g = new GraphBuilder(title, about + " The game asks this graph each minute she is in one (" + asked + ", from RoughWaters.Roughness).");
+            g.Group(-40, -80, 1900, 460, name, "Its own roughness, by the wind (from " + from + " m/s, all of it at " + upTo + "), and by the tide: " + atSlack + " of it at slack water, all of it with the stream at its hardest.",
+                GraphBuilder.Change);
+            g.Add(start, 0, 0);
+            // (a node's ports are made when it is put into a graph: they are asked for after that)
+            var (roughOf, runOf, windOf) = given(start);
+            var fresh = g.Add(new ShareBetween(), 520, 100);
+            g.Data(windOf, fresh.number);
+            g.Set(fresh.from, from);
+            g.Set(fresh.upTo, upTo);
+            var byWind = g.Add(new Times(), 820, 40);
+            g.Data(roughOf, byWind.a);
+            g.Data(fresh.share, byWind.b);
+            var tide = g.Add(new Times(), 520, 260);
+            g.Set(tide.a, byTide);
+            g.Data(runOf, tide.b);
+            var withTide = g.Add(new AddIf(), 820, 240);
+            g.Set(withTide.to, atSlack);
+            g.Data(tide.product, withTide.amount);
+            var rough = g.Add(new Times(), 1120, 120);
+            g.Data(byWind.product, rough.a);
+            g.Data(withTide.sum, rough.b);
+            var answer = g.Add(new RuleAnswer(), 1420, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(rough.product, answer.number);
+            g.Note(-20, 260, 460, 110, "Where the numbers come from",
+                "The water's own roughness is in Game/Data/rough_waters_793.json. The shares on the nodes are this rule's own: change them here.");
+            return g.Save($"{Folder}/{title}.asset");
+        }
+
+        public static ScriptGraphAsset RoughShoal()
+        {
+            return RoughInWind("Rule - how rough a shoal is", "How rough a shoal is", new RoughShoalRule(), s => (s.rough, s.run, s.wind), 4.0, 13.0, 0.7, 0.3,
+                               "How rough shoal water is now, from 0 (quiet) to its own roughness: the sea breaks on it in any fresh wind.", "GameRules.RoughShoal");
+        }
+
+        public static ScriptGraphAsset RoughCape()
+        {
+            return RoughInWind("Rule - how rough an open cape is", "How rough an open cape is", new RoughCapeRule(), s => (s.rough, s.run, s.wind), 5.0, 14.0, 0.6, 0.4,
+                               "How rough the water off a cape with no shelter is now, from 0 (quiet) to its own roughness: a steep confused sea in a fresh wind.", "GameRules.RoughCape");
+        }
+
+        /// <summary>The share of her speed she keeps in rough water.</summary>
+        public static ScriptGraphAsset RoughSlow()
+        {
+            var g = new GraphBuilder("Rule - her speed in rough water",
+                "The share of her speed she keeps in rough water (1: all of it). The game asks this graph each step she makes way in one (GameRules.RoughSlow, from RoughWaters.Slow).");
+            g.Group(-40, -80, 1900, 440, "Her speed in rough water", "All of it in quiet water; where the roughness is 1 or more, the table's share; between, between.", GraphBuilder.Change);
+            var start = g.Add(new RoughSlowRule(), 0, 0);
+            var lost = g.Add(new TakeOffIf(), 480, 180);
+            g.Set(lost.from, 1.0);
+            g.Data(start.kept, lost.amount);
+            var most = g.Add(new NoMoreThan(), 480, 40);
+            g.Data(start.rough, most.number);
+            g.Set(most.most, 1.0);
+            var off = g.Add(new Times(), 780, 120);
+            g.Data(lost.left, off.a);
+            g.Data(most.kept, off.b);
+            var keeps = g.Add(new TakeOffIf(), 1060, 120);
+            g.Set(keeps.from, 1.0);
+            g.Data(off.product, keeps.amount);
+            var answer = g.Add(new RuleAnswer(), 1340, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(keeps.left, answer.number);
+            g.Note(-20, 260, 440, 90, "Where the numbers come from", "roughSlow in " + SeaTable + "; how rough it is now is the four rules of the rough waters.");
+            return g.Save($"{Folder}/Rule - her speed in rough water.asset");
         }
 
         // ------------------------------------------------------------------ a fight, and the lender's men (9 Oct 2026)
@@ -54,7 +467,7 @@ namespace Kapman.EditorTools
             g.Data(more.left, three.number);
             g.Set(three.least, -3.0);
             g.Set(three.most, 3.0);
-            var worth = g.Add(new GenericMultiply(), 980, 220);
+            var worth = g.Add(new Times(), 980, 220);
             g.Data(start.perMan, worth.a);
             g.Data(three.kept, worth.b);
             var men = g.Add(new AddIf(), 1220, 120);
@@ -86,11 +499,10 @@ namespace Kapman.EditorTools
             g.Group(-40, -80, 2040, 560, "A way round the lender's men",
                 "The stat that carries the trick; less for each time that way has fooled them before; less for each sending after the first.", GraphBuilder.Change);
             var start = g.Add(new TrickRule(), 0, 0);
-            var used = g.Add(new KeepBetween(), 420, 160);
+            var used = g.Add(new NoLessThan(), 420, 160);
             g.Data(start.usedBefore, used.number);
             g.Set(used.least, 0.0);
-            g.Set(used.most, 999.0);
-            var told = g.Add(new GenericMultiply(), 680, 200);
+            var told = g.Add(new Times(), 680, 200);
             g.Data(start.toldPenalty, told.a);
             g.Data(used.kept, told.b);
             var afterTold = g.Add(new TakeOffIf(), 920, 100);
@@ -99,11 +511,10 @@ namespace Kapman.EditorTools
             var sendings = g.Add(new TakeOffIf(), 420, 340);
             g.Data(start.visit, sendings.from);
             g.Set(sendings.amount, 1.0);
-            var later = g.Add(new KeepBetween(), 680, 340);
+            var later = g.Add(new NoLessThan(), 680, 340);
             g.Data(sendings.left, later.number);
             g.Set(later.least, 0.0);
-            g.Set(later.most, 999.0);
-            var laterCost = g.Add(new GenericMultiply(), 940, 340);
+            var laterCost = g.Add(new Times(), 940, 340);
             g.Data(start.laterPenalty, laterCost.a);
             g.Data(later.kept, laterCost.b);
             var ease = g.Add(new TakeOffIf(), 1220, 160);
@@ -128,17 +539,16 @@ namespace Kapman.EditorTools
             var over = g.Add(new TakeOffIf(), 420, 160);
             g.Data(start.temper, over.from);
             g.Set(over.amount, 2.0);
-            var steps = g.Add(new KeepBetween(), 680, 160);
+            var steps = g.Add(new NoLessThan(), 680, 160);
             g.Data(over.left, steps.number);
             g.Set(steps.least, 0.0);
-            g.Set(steps.most, 999.0);
-            var more = g.Add(new GenericMultiply(), 940, 200);
+            var more = g.Add(new Times(), 940, 200);
             g.Data(start.moreByTemper, more.a);
             g.Data(steps.kept, more.b);
             var share = g.Add(new AddIf(), 1180, 200);
             g.Set(share.to, 1.0);
             g.Data(more.product, share.amount);
-            var sum = g.Add(new GenericMultiply(), 1440, 120);
+            var sum = g.Add(new Times(), 1440, 120);
             g.Data(start.instalment, sum.a);
             g.Data(share.sum, sum.b);
             var whole = g.Add(new ToTheWhole(), 1680, 120);
@@ -194,9 +604,9 @@ namespace Kapman.EditorTools
             g.Data(calm.so, talk.one);
             g.Data(ravn.so, talk.other);
             // IS THERE LITTLE TO TAKE: under half of what they came for; and is it hard on her (little, or fools made of them)
-            var half = g.Add(new GenericMultiply(), 520, 660);
+            var half = g.Add(new Times(), 520, 660);
             g.Data(start.want, half.a);
-            g.Value(half.b, 0.5, 340, 720);
+            g.Set(half.b, 0.5);
             var little = g.Add(new IsIt { how = IsIt.How.Under }, 820, 620);
             g.Data(start.aboard, little.a);
             g.Data(half.product, little.b);

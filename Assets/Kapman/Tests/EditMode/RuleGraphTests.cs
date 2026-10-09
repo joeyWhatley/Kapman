@@ -100,6 +100,85 @@ namespace Kapman.Tests
         }
 
         [Test]
+        public void TheGraphsOfWindAndTideSayWhatTheCodeSays()
+        {
+            // (9 Oct 2026: the sea's rules were C# sums, and the user's ruling is that rules are graphs)
+            string[] rules = { "leeway", "blown", "sea_runs", "landfall", "error_kept", "anchor", "lee_shore", "rough_race", "rough_bar", "rough_shoal", "rough_cape", "rough_slow" };
+            foreach (string rule in rules)
+                Assert.IsTrue(RuleGraphs.Has(rule), "no graph of the book holds the rule \"" + rule + "\" (Kapman > Make physical > 3. The rules' graphs)");
+            var dice = new Random(795);
+            bool Coin(int oneIn) => dice.Next(oneIn) == 0;
+            double Up(double most) => dice.NextDouble() * most;
+            int canAnchor = 0, strained = 0;
+            for (int i = 0; i < 5000; i++)
+            {
+                int asked = GameRules.ByGraph;
+                // her leeway: the table's own angles most of the time, any at all the rest
+                double off = Coin(8) ? new[] { 0.0, 59.999, 60.0, 119.999, 120.0, 180.0 }[dice.Next(6)] : Up(180.0), wind = Coin(10) ? 0.0 : Up(30.0);
+                double beating = Coin(3) ? Up(25.0) : 10.0, reaching = Coin(3) ? Up(15.0) : 6.0, running = Coin(3) ? Up(8.0) : 2.0, atWind = Coin(6) ? Up(0.2) : Coin(2) ? 8.0 : Up(20.0), most = Coin(3) ? Up(40.0) : 25.0;
+                Assert.AreEqual(GameRules.LeewayByCode(off, wind, beating, reaching, running, atWind, most), GameRules.Leeway(off, wind, beating, reaching, running, atWind, most), 0.0,
+                    $"leeway: the wind {off} off her bow at {wind} m/s; {beating}, {reaching}, {running} at {atWind}, {most} at most");
+                // blown downwind, and the top of the sea
+                bool lyingTo = Coin(2);
+                double bare = Coin(3) ? Up(0.1) : 0.02, lying = Coin(3) ? Up(0.1) : 0.035, seaShare = Coin(3) ? Up(0.05) : 0.015;
+                Assert.AreEqual(GameRules.BlownByCode(wind, lyingTo, bare, lying), GameRules.Blown(wind, lyingTo, bare, lying), 0.0, $"blown: {wind} m/s, lying to {lyingTo}");
+                Assert.AreEqual(GameRules.SeaRunsByCode(wind, seaShare), GameRules.SeaRuns(wind, seaShare), 0.0, $"the sea runs: {wind} m/s at {seaShare}");
+                // his landfall
+                bool night = Coin(2), thick = Coin(3);
+                double far = Coin(4) ? Up(60000.0) : 30000.0, nightShare = Coin(3) ? Up(1.0) : 0.4, air = Coin(6) ? Up(250.0) : Up(40000.0);
+                Assert.AreEqual(GameRules.LandfallByCode(far, night, nightShare, thick, air), GameRules.Landfall(far, night, nightShare, thick, air), 0.0,
+                    $"landfall: {far} m, night {night} ({nightShare}), thick {thick}, the air {air} m");
+                // what he keeps of his error
+                double hours = Coin(8) ? 0.0 : Up(3.0), eyeDay = Coin(4) ? Up(2.0) - 0.2 : 0.5, eyeNight = Coin(4) ? Up(1.0) - 0.1 : 0.1;
+                Assert.AreEqual(GameRules.ErrorKeptByCode(hours, night, thick, eyeDay, eyeNight), GameRules.ErrorKept(hours, night, thick, eyeDay, eyeNight), 0.0,
+                    $"error kept: {hours} h, night {night}, thick {thick}, {eyeDay} by day, {eyeNight} by night");
+                // her anchor
+                double gale = Coin(5) ? Up(30.0) : 17.2, depth = Coin(6) ? 12.0 : Up(40.0), anchorDepth = Coin(4) ? Up(30.0) : 12.0;
+                bool can = GameRules.CanAnchor(wind, gale, depth, anchorDepth);
+                Assert.AreEqual(GameRules.CanAnchorByCode(wind, gale, depth, anchorDepth), can, $"anchor: {wind} m/s (a gale from {gale}), {depth} m deep (to {anchorDepth})");
+                canAnchor += can ? 1 : 0;
+                // a lee shore
+                double speed = Coin(5) ? 0.0 : Up(5.0), push = Up(2.5), clawOff = Coin(4) ? Up(3.0) : 1.2, strainHour = Coin(4) ? Up(0.05) : 0.01, strainGale = Coin(4) ? Up(0.1) : 0.03;
+                bool blowsGale = Coin(3);
+                double costs = GameRules.LeeShore(lyingTo, speed, push, clawOff, blowsGale, strainHour, strainGale, hours);
+                Assert.AreEqual(GameRules.LeeShoreByCode(lyingTo, speed, push, clawOff, blowsGale, strainHour, strainGale, hours), costs, 0.0,
+                    $"a lee shore: lying to {lyingTo}, her way {speed}, the push {push} (x{clawOff}), a gale {blowsGale}, {hours} h");
+                strained += costs > 0.0 ? 1 : 0;
+                // the rough waters
+                double rough = Coin(4) ? Up(2.0) : 1.0, run = Coin(6) ? 0.0 : Coin(6) ? 1.0 : Up(1.0), against = Coin(4) ? 0.0 : Up(1.0), onshore = Coin(4) ? 0.6 : Up(1.0);
+                Assert.AreEqual(GameRules.RoughRaceByCode(rough, run, wind, against), GameRules.RoughRace(rough, run, wind, against), 0.0, $"a race: {rough}, the stream {run}, {wind} m/s, against {against}");
+                Assert.AreEqual(GameRules.RoughBarByCode(rough, run, wind, onshore), GameRules.RoughBar(rough, run, wind, onshore), 0.0, $"a bar: {rough}, the stream {run}, {wind} m/s, on to it {onshore}");
+                Assert.AreEqual(GameRules.RoughShoalByCode(rough, run, wind), GameRules.RoughShoal(rough, run, wind), 0.0, $"a shoal: {rough}, the stream {run}, {wind} m/s");
+                Assert.AreEqual(GameRules.RoughCapeByCode(rough, run, wind), GameRules.RoughCape(rough, run, wind), 0.0, $"a cape: {rough}, the stream {run}, {wind} m/s");
+                double now = Coin(5) ? 0.0 : Up(1.6), kept = Coin(4) ? Up(1.0) : 0.6;
+                Assert.AreEqual(GameRules.RoughSlowByCode(now, kept), GameRules.RoughSlow(now, kept), 0.0, $"her speed in rough water: {now} rough, {kept} kept");
+                Assert.AreEqual(asked + rules.Length, GameRules.ByGraph, "one of the twelve was not reckoned by its graph (the code's sum stood in)");
+            }
+            Assert.Greater(canAnchor, 200, "the cases hardly ever let her anchor");
+            Assert.Greater(5000 - canAnchor, 200, "the cases always let her anchor");
+            Assert.Greater(strained, 200, "the cases hardly ever strain her on a lee shore");
+            Assert.Greater(5000 - strained, 200, "the cases always strain her on a lee shore");
+            // and the plain cases, by hand
+            Assert.AreEqual(10.0, GameRules.Leeway(45.0, 8.0, 10.0, 6.0, 2.0, 8.0, 25.0), 1e-9, "beating in the table's own wind she makes the table's own leeway");
+            Assert.AreEqual(3.0, GameRules.Leeway(170.0, 12.0, 10.0, 6.0, 2.0, 8.0, 25.0), 1e-9, "running in half as much wind again she makes half as much leeway again");
+            Assert.AreEqual(25.0, GameRules.Leeway(10.0, 40.0, 20.0, 6.0, 2.0, 8.0, 25.0), 1e-9, "never more than the most");
+            Assert.AreEqual(0.35, GameRules.Blown(10.0, true, 0.02, 0.035), 1e-9);
+            Assert.AreEqual(12000.0, GameRules.Landfall(30000.0, true, 0.4, false, 0.0), 1e-6, "by night he sees four tenths as far");
+            Assert.AreEqual(2000.0, GameRules.Landfall(30000.0, false, 0.4, true, 2000.0), 1e-6, "in thick weather no further than the air lets him");
+            Assert.AreEqual(300.0, GameRules.Landfall(30000.0, false, 0.4, true, 50.0), 1e-6, "never under 300 m");
+            Assert.AreEqual(1.0, GameRules.ErrorKept(1.0, false, true, 0.5, 0.1), 1e-12, "in thick fog the land tells him nothing");
+            Assert.AreEqual(Math.Exp(-0.5), GameRules.ErrorKept(1.0, false, false, 0.5, 0.1), 1e-12);
+            Assert.IsTrue(GameRules.CanAnchor(8.0, 17.2, 10.0, 12.0));
+            Assert.IsFalse(GameRules.CanAnchor(8.0, 17.2, 20.0, 12.0), "she anchors in water too deep for it");
+            Assert.IsFalse(GameRules.CanAnchor(20.0, 17.2, 10.0, 12.0), "she lies to her anchor in a gale");
+            Assert.AreEqual(0.0, GameRules.LeeShore(false, 3.0, 1.0, 1.2, false, 0.01, 0.03, 1.0), 0.0, "with the way on to keep clear, a shore costs her nothing");
+            Assert.AreEqual(0.03, GameRules.LeeShore(true, 3.0, 1.0, 1.2, true, 0.01, 0.03, 1.0), 1e-12, "lying to on a lee shore in a gale");
+            Assert.AreEqual(0.0, GameRules.RoughRace(1.0, 0.0, 12.0, 1.0), 0.0, "a race is quiet at slack water");
+            Assert.AreEqual(1.0, GameRules.RoughSlow(0.0, 0.6), 0.0);
+            Assert.AreEqual(0.6, GameRules.RoughSlow(1.5, 0.6), 1e-12, "where it is very rough she keeps the table's share and no less");
+        }
+
+        [Test]
         public void TheGraphsOfTheCrewsDaySayWhatTheCodeSays()
         {
             foreach (string rule in new[] { "pay", "health", "heart" })

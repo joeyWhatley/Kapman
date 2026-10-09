@@ -176,6 +176,130 @@ namespace Kapman.Game
             Ask("goons", GoonsDoByCode(temper, fooled, aboard, men, throwOf, unpaid, ravnAlive, warnUpTo, beatFrom, killFrom, killEarly, ravnAt, want),
                 temper, fooled ? 1.0 : 0.0, aboard, men, throwOf, unpaid, ravnAlive ? 1.0 : 0.0, warnUpTo, beatFrom, killFrom, killEarly, ravnAt, want);
 
+        // ------------------------------------------------------------------ wind and tide (9 Oct 2026)
+        // The numbers that decide how much the sea moves her are graphs. What stays in code: the tide's stream itself
+        // (an astronomical model), the adding up of the pushes as directions, and keeping her off the land.
+
+        static double Share(double value, double from, double upTo) => Math.Max(0.0, Math.Min(1.0, (value - from) / Math.Max(1e-6, upTo - from)));
+
+        /// <summary>Her leeway under sail, as the code reckons it.</summary>
+        public static double LeewayByCode(double off, double wind, double beating, double reaching, double running, double atWind, double most)
+        {
+            double angle = off < 60.0 ? beating : off < 120.0 ? reaching : running;
+            return Math.Min(most, angle * Math.Max(0.4, Math.Min(2.2, wind / Math.Max(0.1, atWind))));
+        }
+
+        /// <summary>HER LEEWAY UNDER SAIL (the graph "Rule - her leeway under sail"), degrees off her heading: the table's
+        /// angle for the wind forward of 60 degrees off her bow, on the beam (to 120), or abaft that; more in more
+        /// wind and less in less (between four tenths and 2.2 times, the angles being those at `atWind` m/s); never
+        /// more than `most`. sea_push.json holds the numbers.</summary>
+        public static double Leeway(double off, double wind, double beating, double reaching, double running, double atWind, double most) =>
+            Ask("leeway", LeewayByCode(off, wind, beating, reaching, running, atWind, most), off, wind, beating, reaching, running, atWind, most);
+
+        /// <summary>How fast she is blown downwind with no sail drawing, as the code reckons it.</summary>
+        public static double BlownByCode(double wind, bool lyingTo, double bare, double lyingToShare) => wind * (lyingTo ? lyingToShare : bare);
+
+        /// <summary>BLOWN DOWNWIND WITH NO SAIL (the graph "Rule - blown downwind with no sail"), m/s: a share of the
+        /// wind's speed, one under oars or with the sail down, another lying to.</summary>
+        public static double Blown(double wind, bool lyingTo, double bare, double lyingToShare) =>
+            Ask("blown", BlownByCode(wind, lyingTo, bare, lyingToShare), wind, lyingTo ? 1.0 : 0.0, bare, lyingToShare);
+
+        /// <summary>How fast the top of the sea runs, as the code reckons it.</summary>
+        public static double SeaRunsByCode(double wind, double share) => wind * share;
+
+        /// <summary>THE TOP OF THE SEA RUNS (the graph "Rule - the top of the sea runs"), m/s: a share of the wind's speed.</summary>
+        public static double SeaRuns(double wind, double share) => Ask("sea_runs", SeaRunsByCode(wind, share), wind, share);
+
+        /// <summary>How far the steersman makes out a landfall, as the code reckons it.</summary>
+        public static double LandfallByCode(double far, bool night, double nightShare, bool thick, double air)
+        {
+            double m = far * (night ? nightShare : 1.0);
+            if (thick)
+                m = Math.Min(m, air);
+            return Math.Max(300.0, m);
+        }
+
+        /// <summary>HOW FAR HE MAKES OUT A LANDFALL (the graph "Rule - how far he makes out a landfall"), real metres:
+        /// `far` by day in clear air; a share of that by night; in thick weather no further than the `air` lets him
+        /// see; never under 300 m.</summary>
+        public static double Landfall(double far, bool night, double nightShare, bool thick, double air) =>
+            Ask("landfall", LandfallByCode(far, night, nightShare, thick, air), far, night ? 1.0 : 0.0, nightShare, thick ? 1.0 : 0.0, air);
+
+        /// <summary>What he keeps of his error along a coast, as the code reckons it.</summary>
+        public static double ErrorKeptByCode(double hours, bool night, bool thick, double eyeDay, double eyeNight)
+        {
+            double eye = thick ? 0.0 : night ? eyeNight : eyeDay;
+            return Math.Exp(-Math.Max(0.0, eye) * hours);
+        }
+
+        /// <summary>WHAT HE KEEPS OF HIS ERROR ALONG A COAST (the graph "Rule - what he keeps of his error along a
+        /// coast"): the share of it he still has after so many hours, the land telling him `eyeDay` of it an hour by
+        /// day, `eyeNight` by night, and nothing in thick fog.</summary>
+        public static double ErrorKept(double hours, bool night, bool thick, double eyeDay, double eyeNight) =>
+            Ask("error_kept", ErrorKeptByCode(hours, night, thick, eyeDay, eyeNight), hours, night ? 1.0 : 0.0, thick ? 1.0 : 0.0, eyeDay, eyeNight);
+
+        /// <summary>Can she lie to her anchor, as the code reckons it.</summary>
+        public static bool CanAnchorByCode(double wind, double gale, double depth, double anchorDepth) => wind <= gale && depth <= anchorDepth;
+
+        /// <summary>CAN SHE LIE TO HER ANCHOR (the graph "Rule - can she lie to her anchor"): it does not blow a gale, and
+        /// the water is no deeper than she can anchor in.</summary>
+        public static bool CanAnchor(double wind, double gale, double depth, double anchorDepth) =>
+            Ask("anchor", CanAnchorByCode(wind, gale, depth, anchorDepth) ? 1.0 : 0.0, wind, gale, depth, anchorDepth) >= 0.5;
+
+        /// <summary>What a lee shore costs her hull in a step, as the code reckons it.</summary>
+        public static double LeeShoreByCode(bool lyingTo, double speed, double push, double clawOff, bool gale, double strainHour, double strainGale, double hours) =>
+            lyingTo || speed < push * clawOff ? (gale ? strainGale : strainHour) * hours : 0.0;
+
+        /// <summary>WHAT A LEE SHORE COSTS HER HULL (the graph "Rule - what a lee shore costs her hull"): the share of
+        /// the hull lost in this step of so many hours, when she lies to or has not `clawOff` times the push in her
+        /// own way; more in a gale; nothing when she keeps clear.</summary>
+        public static double LeeShore(bool lyingTo, double speed, double push, double clawOff, bool gale, double strainHour, double strainGale, double hours) =>
+            Ask("lee_shore", LeeShoreByCode(lyingTo, speed, push, clawOff, gale, strainHour, strainGale, hours),
+                lyingTo ? 1.0 : 0.0, speed, push, clawOff, gale ? 1.0 : 0.0, strainHour, strainGale, hours);
+
+        /// <summary>How rough a tide race is now, as the code reckons it.</summary>
+        public static double RoughRaceByCode(double rough, double run, double wind, double against)
+        {
+            double f = 0.35 + 0.65 * against * Share(wind, 2.0, 10.0) + 0.2 * Share(wind, 8.0, 16.0);
+            return rough * run * Math.Min(1.2, f);
+        }
+
+        /// <summary>HOW ROUGH A TIDE RACE IS NOW (the graph "Rule - how rough a tide race is"): its own roughness, by how
+        /// hard the stream runs (nothing at slack water), by a third of itself at the least and more with the wind
+        /// against the stream (from 2 m/s, all of it at 10) and in a hard wind (from 8 to 16), a fifth over at the most.</summary>
+        public static double RoughRace(double rough, double run, double wind, double against) =>
+            Ask("rough_race", RoughRaceByCode(rough, run, wind, against), rough, run, wind, against);
+
+        /// <summary>How rough a river's bar is now, as the code reckons it.</summary>
+        public static double RoughBarByCode(double rough, double run, double wind, double onshore) =>
+            rough * Share(wind, 3.0, 12.0) * (0.25 + 0.75 * onshore) * (0.6 + 0.4 * run);
+
+        /// <summary>HOW ROUGH A RIVER'S BAR IS NOW (the graph "Rule - how rough a river's bar is"): its own roughness, by
+        /// the wind (from 3 m/s, all of it at 12), by how squarely the wind blows on to it, and worse while the tide runs.</summary>
+        public static double RoughBar(double rough, double run, double wind, double onshore) =>
+            Ask("rough_bar", RoughBarByCode(rough, run, wind, onshore), rough, run, wind, onshore);
+
+        /// <summary>How rough a shoal is now, as the code reckons it.</summary>
+        public static double RoughShoalByCode(double rough, double run, double wind) => rough * Share(wind, 4.0, 13.0) * (0.7 + 0.3 * run);
+
+        /// <summary>HOW ROUGH A SHOAL IS NOW (the graph "Rule - how rough a shoal is"): its own roughness, by the wind (from
+        /// 4 m/s, all of it at 13), a little worse while the tide runs.</summary>
+        public static double RoughShoal(double rough, double run, double wind) => Ask("rough_shoal", RoughShoalByCode(rough, run, wind), rough, run, wind);
+
+        /// <summary>How rough an open cape is now, as the code reckons it.</summary>
+        public static double RoughCapeByCode(double rough, double run, double wind) => rough * Share(wind, 5.0, 14.0) * (0.6 + 0.4 * run);
+
+        /// <summary>HOW ROUGH AN OPEN CAPE IS NOW (the graph "Rule - how rough an open cape is"): its own roughness, by the
+        /// wind (from 5 m/s, all of it at 14), worse while the tide runs.</summary>
+        public static double RoughCape(double rough, double run, double wind) => Ask("rough_cape", RoughCapeByCode(rough, run, wind), rough, run, wind);
+
+        /// <summary>The share of her speed she keeps in rough water, as the code reckons it.</summary>
+        public static double RoughSlowByCode(double rough, double kept) => 1.0 - (1.0 - kept) * Math.Min(1.0, rough);
+
+        /// <summary>HER SPEED IN ROUGH WATER (the graph "Rule - her speed in rough water"): the share of it she keeps, all
+        /// of it in quiet water and `kept` of it where the roughness is 1 or more.</summary>
+        public static double RoughSlow(double rough, double kept) => Ask("rough_slow", RoughSlowByCode(rough, kept), rough, kept);
+
         [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Reset()
         {

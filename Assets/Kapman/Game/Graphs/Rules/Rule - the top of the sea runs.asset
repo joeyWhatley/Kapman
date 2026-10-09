@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: Rule - the top of the sea runs
+  m_EditorClassIdentifier: Unity.VisualScripting.Flow::Unity.VisualScripting.ScriptGraphAsset
+  _data:
+    _json: '{"graph":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":"Rule - the top of the sea runs","summary":"How fast the top of the sea itself runs before a steady wind, in m/s. The game asks this graph each minute she is at sea (GameRules.SeaRuns, from SeaPush.Wind).","pan":{"x":0.0,"y":0.0},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":0.0,"y":0.0},"guid":"fe552611-ca61-4220-a1e9-441a66debbb2","$version":"A","$type":"Kapman.Graphs.SeaRunsRule","$id":"9"},{"defaultValues":{"a":{"$content":0.0,"$type":"System.Double"},"b":{"$content":1.0,"$type":"System.Double"}},"position":{"x":420.0,"y":60.0},"guid":"2b3ca767-3c7d-4045-94ce-7e8164a22270","$version":"A","$type":"Kapman.Graphs.Times","$id":"11"},{"defaultValues":{"number":{"$content":0.0,"$type":"System.Double"}},"position":{"x":720.0,"y":0.0},"guid":"4b0d46bf-63a2-4816-9933-980ae8291c47","$version":"A","$type":"Kapman.Graphs.RuleAnswer","$id":"13"},{"sourceUnit":{"$ref":"9"},"sourceKey":"trigger","destinationUnit":{"$ref":"13"},"destinationKey":"enter","guid":"555ba6ae-c444-441f-a8c3-fadc5f5201b8","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"9"},"sourceKey":"wind","destinationUnit":{"$ref":"11"},"destinationKey":"a","guid":"73e466b4-48cb-4801-a69f-f8aa84650c97","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"9"},"sourceKey":"share","destinationUnit":{"$ref":"11"},"destinationKey":"b","guid":"d8d42288-443a-48a1-8bad-ab9bb5b4068a","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"product","destinationUnit":{"$ref":"13"},"destinationKey":"number","guid":"9a5c5afa-c772-4a96-bd3a-bc3c3e7e7ae4","$type":"Unity.VisualScripting.ValueConnection"},{"position":{"xMin":-40.0,"yMin":-80.0,"xMax":1160.0,"yMax":300.0},"label":"The top of the sea runs","comment":"A share of the wind''s speed. It runs a little to the right of where the wind blows (the table''s seaTurn, in degrees: the code''s).","color":{"r":0.32,"g":0.55,"b":0.32,"a":1.0},"guid":"7043495b-3685-43a5-8161-e49e136664c9","$version":"A","$type":"Unity.VisualScripting.GraphGroup"},{"position":{"xMin":-20.0,"yMin":200.0,"xMax":460.0,"yMax":290.0},"title":"Where the numbers come from","body":"seaShare (and seaTurn) in Game/Data/sea_push.json.","colorTheme":"Classic","guid":"dcc8e90f-6afc-4a55-b487-7e0c32c682e4","$type":"Unity.VisualScripting.StickyNote"}],"$version":"A"}}'
+    _objectReferences: []

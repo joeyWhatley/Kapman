@@ -344,6 +344,506 @@ namespace Kapman.Graphs
         }
     }
 
+    // ------------------------------------------------------------------ wind and tide (9 Oct 2026)
+
+    /// <summary>Her leeway under sail: how many degrees off her heading she is set, to the side the wind blows to. Given: how far the wind is off her bow, the wind, and the table's angles.</summary>
+    [UnitTitle("Rule: her leeway under sail")]
+    [UnitShortTitle("Rule: her leeway under sail")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class LeewayRule : RuleUnit
+    {
+        public override string Rule => "leeway";
+
+        [DoNotSerialize, PortLabel("The wind off her bow (0 ahead, 180 astern)")] public ValueOutput off { get; private set; }
+        [DoNotSerialize, PortLabel("The wind (m/s)")] public ValueOutput wind { get; private set; }
+        [DoNotSerialize, PortLabel("Leeway beating")] public ValueOutput beating { get; private set; }
+        [DoNotSerialize, PortLabel("Leeway reaching")] public ValueOutput reaching { get; private set; }
+        [DoNotSerialize, PortLabel("Leeway running")] public ValueOutput running { get; private set; }
+        [DoNotSerialize, PortLabel("Those are at a wind of (m/s)")] public ValueOutput atWind { get; private set; }
+        [DoNotSerialize, PortLabel("Never more than")] public ValueOutput most { get; private set; }
+
+        protected override void Given()
+        {
+            off = ValueOutput<double>(nameof(off));
+            wind = ValueOutput<double>(nameof(wind));
+            beating = ValueOutput<double>(nameof(beating));
+            reaching = ValueOutput<double>(nameof(reaching));
+            running = ValueOutput<double>(nameof(running));
+            atWind = ValueOutput<double>(nameof(atWind));
+            most = ValueOutput<double>(nameof(most));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(off, given[0]);
+            flow.SetValue(wind, given[1]);
+            flow.SetValue(beating, given[2]);
+            flow.SetValue(reaching, given[3]);
+            flow.SetValue(running, given[4]);
+            flow.SetValue(atWind, given[5]);
+            flow.SetValue(most, given[6]);
+        }
+    }
+
+    /// <summary>How fast she is blown bodily downwind with no sail drawing (under oars, the sail down, lying to), in m/s. Given: the wind, whether she lies to, and the table's two shares of the wind's speed.</summary>
+    [UnitTitle("Rule: blown downwind with no sail")]
+    [UnitShortTitle("Rule: blown downwind with no sail")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class BlownRule : RuleUnit
+    {
+        public override string Rule => "blown";
+
+        [DoNotSerialize, PortLabel("The wind (m/s)")] public ValueOutput wind { get; private set; }
+        [DoNotSerialize, PortLabel("She lies to")] public ValueOutput lyingTo { get; private set; }
+        [DoNotSerialize, PortLabel("Share of the wind, under oars")] public ValueOutput bare { get; private set; }
+        [DoNotSerialize, PortLabel("Share of the wind, lying to")] public ValueOutput lyingToShare { get; private set; }
+
+        protected override void Given()
+        {
+            wind = ValueOutput<double>(nameof(wind));
+            lyingTo = ValueOutput<bool>(nameof(lyingTo));
+            bare = ValueOutput<double>(nameof(bare));
+            lyingToShare = ValueOutput<double>(nameof(lyingToShare));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(wind, given[0]);
+            flow.SetValue(lyingTo, given[1] != 0.0);
+            flow.SetValue(bare, given[2]);
+            flow.SetValue(lyingToShare, given[3]);
+        }
+    }
+
+    /// <summary>How fast the top of the sea itself runs before a steady wind, in m/s (it runs a little to the right of the wind: the table's seaTurn). Given: the wind and the table's share of it.</summary>
+    [UnitTitle("Rule: the top of the sea runs")]
+    [UnitShortTitle("Rule: the top of the sea runs")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class SeaRunsRule : RuleUnit
+    {
+        public override string Rule => "sea_runs";
+
+        [DoNotSerialize, PortLabel("The wind (m/s)")] public ValueOutput wind { get; private set; }
+        [DoNotSerialize, PortLabel("Share of the wind")] public ValueOutput share { get; private set; }
+
+        protected override void Given()
+        {
+            wind = ValueOutput<double>(nameof(wind));
+            share = ValueOutput<double>(nameof(share));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(wind, given[0]);
+            flow.SetValue(share, given[1]);
+        }
+    }
+
+    /// <summary>How far the steersman makes out his landfall, in real metres: less by night, and in thick weather no further than the air lets him see; never under 300 m.</summary>
+    [UnitTitle("Rule: how far he makes out a landfall")]
+    [UnitShortTitle("Rule: how far he makes out a landfall")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class LandfallRule : RuleUnit
+    {
+        public override string Rule => "landfall";
+
+        [DoNotSerialize, PortLabel("By day, in clear air (m)")] public ValueOutput far { get; private set; }
+        [DoNotSerialize, PortLabel("It is night")] public ValueOutput night { get; private set; }
+        [DoNotSerialize, PortLabel("The share of that by night")] public ValueOutput nightShare { get; private set; }
+        [DoNotSerialize, PortLabel("Thick weather")] public ValueOutput thick { get; private set; }
+        [DoNotSerialize, PortLabel("As far as the air lets him see (m)")] public ValueOutput air { get; private set; }
+
+        protected override void Given()
+        {
+            far = ValueOutput<double>(nameof(far));
+            night = ValueOutput<bool>(nameof(night));
+            nightShare = ValueOutput<double>(nameof(nightShare));
+            thick = ValueOutput<bool>(nameof(thick));
+            air = ValueOutput<double>(nameof(air));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(far, given[0]);
+            flow.SetValue(night, given[1] != 0.0);
+            flow.SetValue(nightShare, given[2]);
+            flow.SetValue(thick, given[3] != 0.0);
+            flow.SetValue(air, given[4]);
+        }
+    }
+
+    /// <summary>Along a coast the land tells the steersman a share of his error each hour. The answer: the share of his error he still has after so many hours (1: all of it). In thick fog the land tells him nothing.</summary>
+    [UnitTitle("Rule: what he keeps of his error along a coast")]
+    [UnitShortTitle("Rule: what he keeps of his error along a coast")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class ErrorKeptRule : RuleUnit
+    {
+        public override string Rule => "error_kept";
+
+        [DoNotSerialize, PortLabel("Hours")] public ValueOutput hours { get; private set; }
+        [DoNotSerialize, PortLabel("It is night")] public ValueOutput night { get; private set; }
+        [DoNotSerialize, PortLabel("Thick fog")] public ValueOutput thick { get; private set; }
+        [DoNotSerialize, PortLabel("Found out in an hour, by day")] public ValueOutput eyeDay { get; private set; }
+        [DoNotSerialize, PortLabel("Found out in an hour, by night")] public ValueOutput eyeNight { get; private set; }
+
+        protected override void Given()
+        {
+            hours = ValueOutput<double>(nameof(hours));
+            night = ValueOutput<bool>(nameof(night));
+            thick = ValueOutput<bool>(nameof(thick));
+            eyeDay = ValueOutput<double>(nameof(eyeDay));
+            eyeNight = ValueOutput<double>(nameof(eyeNight));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(hours, given[0]);
+            flow.SetValue(night, given[1] != 0.0);
+            flow.SetValue(thick, given[2] != 0.0);
+            flow.SetValue(eyeDay, given[3]);
+            flow.SetValue(eyeNight, given[4]);
+        }
+    }
+
+    /// <summary>Lying to, can she lie to her anchor and not be carried? The answer: 1 she can, 0 she cannot. Given: the wind, the wind of a gale, the depth of the water, and the table's deepest water to anchor in.</summary>
+    [UnitTitle("Rule: can she lie to her anchor")]
+    [UnitShortTitle("Rule: can she lie to her anchor")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class AnchorRule : RuleUnit
+    {
+        public override string Rule => "anchor";
+
+        [DoNotSerialize, PortLabel("The wind (m/s)")] public ValueOutput wind { get; private set; }
+        [DoNotSerialize, PortLabel("A gale blows from (m/s)")] public ValueOutput gale { get; private set; }
+        [DoNotSerialize, PortLabel("The water's depth (m)")] public ValueOutput depth { get; private set; }
+        [DoNotSerialize, PortLabel("Deepest to anchor in (m)")] public ValueOutput anchorDepth { get; private set; }
+
+        protected override void Given()
+        {
+            wind = ValueOutput<double>(nameof(wind));
+            gale = ValueOutput<double>(nameof(gale));
+            depth = ValueOutput<double>(nameof(depth));
+            anchorDepth = ValueOutput<double>(nameof(anchorDepth));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(wind, given[0]);
+            flow.SetValue(gale, given[1]);
+            flow.SetValue(depth, given[2]);
+            flow.SetValue(anchorDepth, given[3]);
+        }
+    }
+
+    /// <summary>Held off a shore the push would set her on: the share of her hull it costs in this step, or nothing when she has the way on to keep clear of it.</summary>
+    [UnitTitle("Rule: what a lee shore costs her hull")]
+    [UnitShortTitle("Rule: what a lee shore costs her hull")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class LeeShoreRule : RuleUnit
+    {
+        public override string Rule => "lee_shore";
+
+        [DoNotSerialize, PortLabel("She lies to")] public ValueOutput lyingTo { get; private set; }
+        [DoNotSerialize, PortLabel("Her way through the water (m/s)")] public ValueOutput speed { get; private set; }
+        [DoNotSerialize, PortLabel("The push onto the shore (m/s)")] public ValueOutput push { get; private set; }
+        [DoNotSerialize, PortLabel("Her way must be so many times the push")] public ValueOutput clawOff { get; private set; }
+        [DoNotSerialize, PortLabel("It blows a gale")] public ValueOutput gale { get; private set; }
+        [DoNotSerialize, PortLabel("The hull's share an hour")] public ValueOutput strainHour { get; private set; }
+        [DoNotSerialize, PortLabel("The hull's share an hour, in a gale")] public ValueOutput strainGale { get; private set; }
+        [DoNotSerialize, PortLabel("Hours")] public ValueOutput hours { get; private set; }
+
+        protected override void Given()
+        {
+            lyingTo = ValueOutput<bool>(nameof(lyingTo));
+            speed = ValueOutput<double>(nameof(speed));
+            push = ValueOutput<double>(nameof(push));
+            clawOff = ValueOutput<double>(nameof(clawOff));
+            gale = ValueOutput<bool>(nameof(gale));
+            strainHour = ValueOutput<double>(nameof(strainHour));
+            strainGale = ValueOutput<double>(nameof(strainGale));
+            hours = ValueOutput<double>(nameof(hours));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(lyingTo, given[0] != 0.0);
+            flow.SetValue(speed, given[1]);
+            flow.SetValue(push, given[2]);
+            flow.SetValue(clawOff, given[3]);
+            flow.SetValue(gale, given[4] != 0.0);
+            flow.SetValue(strainHour, given[5]);
+            flow.SetValue(strainGale, given[6]);
+            flow.SetValue(hours, given[7]);
+        }
+    }
+
+    /// <summary>How rough a tide race is now: 0 quiet, up to its own roughness and a fifth over. Rough while the tide's stream runs, worst with the wind against the stream, quiet at slack water.</summary>
+    [UnitTitle("Rule: how rough a tide race is")]
+    [UnitShortTitle("Rule: how rough a tide race is")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class RoughRaceRule : RuleUnit
+    {
+        public override string Rule => "rough_race";
+
+        [DoNotSerialize, PortLabel("The water's own roughness")] public ValueOutput rough { get; private set; }
+        [DoNotSerialize, PortLabel("How hard the stream runs (0 slack, 1 its hardest)")] public ValueOutput run { get; private set; }
+        [DoNotSerialize, PortLabel("The wind (m/s)")] public ValueOutput wind { get; private set; }
+        [DoNotSerialize, PortLabel("The wind against the stream (0 to 1)")] public ValueOutput against { get; private set; }
+
+        protected override void Given()
+        {
+            rough = ValueOutput<double>(nameof(rough));
+            run = ValueOutput<double>(nameof(run));
+            wind = ValueOutput<double>(nameof(wind));
+            against = ValueOutput<double>(nameof(against));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(rough, given[0]);
+            flow.SetValue(run, given[1]);
+            flow.SetValue(wind, given[2]);
+            flow.SetValue(against, given[3]);
+        }
+    }
+
+    /// <summary>How rough the bar of a river mouth is now: 0 quiet, up to its own roughness. Rough with the wind blowing on to it, worse while the tide runs.</summary>
+    [UnitTitle("Rule: how rough a river's bar is")]
+    [UnitShortTitle("Rule: how rough a river's bar is")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class RoughBarRule : RuleUnit
+    {
+        public override string Rule => "rough_bar";
+
+        [DoNotSerialize, PortLabel("The water's own roughness")] public ValueOutput rough { get; private set; }
+        [DoNotSerialize, PortLabel("How hard the stream runs (0 slack, 1 its hardest)")] public ValueOutput run { get; private set; }
+        [DoNotSerialize, PortLabel("The wind (m/s)")] public ValueOutput wind { get; private set; }
+        [DoNotSerialize, PortLabel("The wind blowing on to it (0 to 1)")] public ValueOutput onshore { get; private set; }
+
+        protected override void Given()
+        {
+            rough = ValueOutput<double>(nameof(rough));
+            run = ValueOutput<double>(nameof(run));
+            wind = ValueOutput<double>(nameof(wind));
+            onshore = ValueOutput<double>(nameof(onshore));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(rough, given[0]);
+            flow.SetValue(run, given[1]);
+            flow.SetValue(wind, given[2]);
+            flow.SetValue(onshore, given[3]);
+        }
+    }
+
+    /// <summary>How rough shoal water is now: 0 quiet, up to its own roughness. It breaks in any fresh wind, a little worse while the tide runs.</summary>
+    [UnitTitle("Rule: how rough a shoal is")]
+    [UnitShortTitle("Rule: how rough a shoal is")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class RoughShoalRule : RuleUnit
+    {
+        public override string Rule => "rough_shoal";
+
+        [DoNotSerialize, PortLabel("The water's own roughness")] public ValueOutput rough { get; private set; }
+        [DoNotSerialize, PortLabel("How hard the stream runs (0 slack, 1 its hardest)")] public ValueOutput run { get; private set; }
+        [DoNotSerialize, PortLabel("The wind (m/s)")] public ValueOutput wind { get; private set; }
+
+        protected override void Given()
+        {
+            rough = ValueOutput<double>(nameof(rough));
+            run = ValueOutput<double>(nameof(run));
+            wind = ValueOutput<double>(nameof(wind));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(rough, given[0]);
+            flow.SetValue(run, given[1]);
+            flow.SetValue(wind, given[2]);
+        }
+    }
+
+    /// <summary>How rough the water off a cape with no shelter is now: 0 quiet, up to its own roughness. Rough in a fresh wind, worse while the tide runs.</summary>
+    [UnitTitle("Rule: how rough an open cape is")]
+    [UnitShortTitle("Rule: how rough an open cape is")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class RoughCapeRule : RuleUnit
+    {
+        public override string Rule => "rough_cape";
+
+        [DoNotSerialize, PortLabel("The water's own roughness")] public ValueOutput rough { get; private set; }
+        [DoNotSerialize, PortLabel("How hard the stream runs (0 slack, 1 its hardest)")] public ValueOutput run { get; private set; }
+        [DoNotSerialize, PortLabel("The wind (m/s)")] public ValueOutput wind { get; private set; }
+
+        protected override void Given()
+        {
+            rough = ValueOutput<double>(nameof(rough));
+            run = ValueOutput<double>(nameof(run));
+            wind = ValueOutput<double>(nameof(wind));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(rough, given[0]);
+            flow.SetValue(run, given[1]);
+            flow.SetValue(wind, given[2]);
+        }
+    }
+
+    /// <summary>The share of her speed she keeps in rough water (1: all of it). Given: how rough it is now, and the table's share kept where the roughness is 1.</summary>
+    [UnitTitle("Rule: her speed in rough water")]
+    [UnitShortTitle("Rule: her speed in rough water")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class RoughSlowRule : RuleUnit
+    {
+        public override string Rule => "rough_slow";
+
+        [DoNotSerialize, PortLabel("How rough it is now")] public ValueOutput rough { get; private set; }
+        [DoNotSerialize, PortLabel("Share of her speed kept at 1")] public ValueOutput kept { get; private set; }
+
+        protected override void Given()
+        {
+            rough = ValueOutput<double>(nameof(rough));
+            kept = ValueOutput<double>(nameof(kept));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(rough, given[0]);
+            flow.SetValue(kept, given[1]);
+        }
+    }
+
+    /// <summary>One number times another.</summary>
+    [UnitTitle("Times")]
+    [UnitShortTitle("Times")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class Times : Unit
+    {
+        [DoNotSerialize, PortLabelHidden] public ValueInput a { get; private set; }
+        [DoNotSerialize, PortLabel("Times")] public ValueInput b { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput product { get; private set; }
+
+        protected override void Definition()
+        {
+            a = ValueInput<double>(nameof(a), 0.0);
+            b = ValueInput<double>(nameof(b), 1.0);
+            product = ValueOutput(nameof(product), flow => flow.GetValue<double>(a) * flow.GetValue<double>(b));
+            Requirement(a, product);
+            Requirement(b, product);
+        }
+    }
+
+    /// <summary>One number divided by another.</summary>
+    [UnitTitle("Divided by")]
+    [UnitShortTitle("Divided by")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class DividedBy : Unit
+    {
+        [DoNotSerialize, PortLabelHidden] public ValueInput a { get; private set; }
+        [DoNotSerialize, PortLabel("Divided by")] public ValueInput b { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput quotient { get; private set; }
+
+        protected override void Definition()
+        {
+            a = ValueInput<double>(nameof(a), 0.0);
+            b = ValueInput<double>(nameof(b), 1.0);
+            quotient = ValueOutput(nameof(quotient), flow => flow.GetValue<double>(a) / flow.GetValue<double>(b));
+            Requirement(a, quotient);
+            Requirement(b, quotient);
+        }
+    }
+
+    /// <summary>Where a number stands between two others, as a share: 0 at "from" and under it, 1 at "up to" and over it
+    /// (a wind of 6 between 2 and 10 is a half).</summary>
+    [UnitTitle("Share between")]
+    [UnitShortTitle("Share between")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class ShareBetween : Unit
+    {
+        [DoNotSerialize, PortLabelHidden] public ValueInput number { get; private set; }
+        [DoNotSerialize, PortLabel("From")] public ValueInput from { get; private set; }
+        [DoNotSerialize, PortLabel("Up to")] public ValueInput upTo { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput share { get; private set; }
+
+        protected override void Definition()
+        {
+            number = ValueInput<double>(nameof(number), 0.0);
+            from = ValueInput<double>(nameof(from), 0.0);
+            upTo = ValueInput<double>(nameof(upTo), 1.0);
+            share = ValueOutput(nameof(share), flow =>
+            {
+                double lo = flow.GetValue<double>(from), hi = flow.GetValue<double>(upTo);
+                return Math.Max(0.0, Math.Min(1.0, (flow.GetValue<double>(number) - lo) / Math.Max(1e-6, hi - lo)));
+            });
+            Requirement(number, share);
+            Requirement(from, share);
+            Requirement(upTo, share);
+        }
+    }
+
+    /// <summary>What is left of a thing that goes at a steady share an hour, after so many hours (1: all of it): at a half
+    /// an hour, six tenths is left after one hour and a little over a third after two.</summary>
+    [UnitTitle("What is left after")]
+    [UnitShortTitle("What is left after")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class WhatIsLeftAfter : Unit
+    {
+        [DoNotSerialize, PortLabel("Going, a share an hour")] public ValueInput rate { get; private set; }
+        [DoNotSerialize, PortLabel("Hours")] public ValueInput hours { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput left { get; private set; }
+
+        protected override void Definition()
+        {
+            rate = ValueInput<double>(nameof(rate), 0.0);
+            hours = ValueInput<double>(nameof(hours), 1.0);
+            left = ValueOutput(nameof(left), flow => Math.Exp(-Math.Max(0.0, flow.GetValue<double>(rate)) * flow.GetValue<double>(hours)));
+            Requirement(rate, left);
+            Requirement(hours, left);
+        }
+    }
+
+    /// <summary>A number, or the most it may be if it is over that.</summary>
+    [UnitTitle("No more than")]
+    [UnitShortTitle("No more than")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class NoMoreThan : Unit
+    {
+        [DoNotSerialize, PortLabelHidden] public ValueInput number { get; private set; }
+        [DoNotSerialize, PortLabel("No more than")] public ValueInput most { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput kept { get; private set; }
+
+        protected override void Definition()
+        {
+            number = ValueInput<double>(nameof(number), 0.0);
+            most = ValueInput<double>(nameof(most), 1.0);
+            kept = ValueOutput(nameof(kept), flow => Math.Min(flow.GetValue<double>(most), flow.GetValue<double>(number)));
+            Requirement(number, kept);
+            Requirement(most, kept);
+        }
+    }
+
+    /// <summary>A number, or the least it may be if it is under that.</summary>
+    [UnitTitle("No less than")]
+    [UnitShortTitle("No less than")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class NoLessThan : Unit
+    {
+        [DoNotSerialize, PortLabelHidden] public ValueInput number { get; private set; }
+        [DoNotSerialize, PortLabel("No less than")] public ValueInput least { get; private set; }
+        [DoNotSerialize, PortLabelHidden] public ValueOutput kept { get; private set; }
+
+        protected override void Definition()
+        {
+            number = ValueInput<double>(nameof(number), 0.0);
+            least = ValueInput<double>(nameof(least), 0.0);
+            kept = ValueOutput(nameof(kept), flow => Math.Max(flow.GetValue<double>(least), flow.GetValue<double>(number)));
+            Requirement(number, kept);
+            Requirement(least, kept);
+        }
+    }
+
     /// <summary>A number kept between a least and a most.</summary>
     [UnitTitle("Keep between")]
     [UnitShortTitle("Keep between")]

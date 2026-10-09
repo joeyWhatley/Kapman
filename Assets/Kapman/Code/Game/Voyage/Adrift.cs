@@ -126,10 +126,9 @@ namespace Kapman.Game
         static double Sight(WorldXZ here)
         {
             var r = SeaPush.Rules;
-            double m = r.landfallM * (Night(here) ? r.landfallNight : 1.0);
-            if (ChartWorld.TryWeather(out var air) && (air.fog > 0.3f || air.rain > 2f))
-                m = Math.Min(m, air.VisibilityKm * 1000.0);
-            return Math.Max(300.0, m);
+            // (the graph "Rule - how far he makes out a landfall")
+            bool thick = ChartWorld.TryWeather(out var air) && (air.fog > 0.3f || air.rain > 2f);
+            return GameRules.Landfall(r.landfallM, Night(here), r.landfallNight, thick, thick ? air.VisibilityKm * 1000.0 : 0.0);
         }
 
         /// <summary>
@@ -208,9 +207,9 @@ namespace Kapman.Game
             if (coast && hours > 0.0)
             {
                 // along a coast the land tells him a share of his error each hour
+                // (how much of it: the graph "Rule - what he keeps of his error along a coast")
                 bool thick = ChartWorld.TryWeather(out var air) && air.fog > 0.6f;
-                double eye = thick ? 0.0 : Night(here) ? r.coastEyeNight : r.coastEye;
-                double keep = Math.Exp(-Math.Max(0.0, eye) * hours);
+                double keep = GameRules.ErrorKept(hours, Night(here), thick, r.coastEye, r.coastEyeNight);
                 Set = new WorldXZ(Set.x * keep, Set.z * keep);
             }
             if (Helm != (coast ? Helm.Coasting : Helm.Reckoning))
@@ -314,7 +313,8 @@ namespace Kapman.Game
                     Know(Helm.River);
                     return pos + own;
                 }
-                if (wind <= GaleDice.GaleWind && SeaPush.Depth(at) <= r.anchorDepthM)
+                // (the graph "Rule - can she lie to her anchor")
+                if (GameRules.CanAnchor(wind, GaleDice.GaleWind, SeaPush.Depth(at), r.anchorDepthM))
                 {
                     Know(Helm.Anchored);
                     return pos + own;
@@ -412,10 +412,12 @@ namespace Kapman.Game
                 shoreClear = 0.0;
                 double push = Math.Sqrt(Push.east * Push.east + Push.north * Push.north);
                 bool gale = wind > GaleDice.GaleWind;
-                if (lyingTo || anchored || speed < push * r.clawOff)
+                // (what it costs her hull, or nothing when she keeps clear: the graph "Rule - what a lee shore costs her hull")
+                double strain = GameRules.LeeShore(lyingTo || anchored, speed, push, r.clawOff, gale, r.shoreStrainHour, r.shoreStrainGale, hours);
+                if (strain > 0.0)
                 {
                     Strained = true;
-                    Boat.HullBy(-(gale ? r.shoreStrainGale : r.shoreStrainHour) * hours);
+                    Boat.HullBy(-strain);
                     if (!shoreTold)
                     {
                         shoreTold = true;

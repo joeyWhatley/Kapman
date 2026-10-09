@@ -102,8 +102,6 @@ namespace Kapman.Game
             return best;
         }
 
-        static double Share(double value, double from, double upTo) => Math.Max(0.0, Math.Min(1.0, (value - from) / Math.Max(1e-6, upTo - from)));
-
         /// <summary>The hardest the tide model runs at a water in a fortnight, m/s: found once, by asking every half hour.</summary>
         static double StreamMost(RoughWater w)
         {
@@ -143,19 +141,18 @@ namespace Kapman.Game
                         double to = (windFrom + 180.0) * Math.PI / 180.0;
                         against = Math.Max(0.0, -(Math.Sin(to) * east + Math.Cos(to) * north) / speed);
                     }
-                    double f = 0.35 + 0.65 * against * Share(wind, 2.0, 10.0) + 0.2 * Share(wind, 8.0, 16.0);
-                    return w.rough * run * Math.Min(1.2, f);
+                    return GameRules.RoughRace(w.rough, run, wind, against);         // (the graph "Rule - how rough a tide race is")
                 }
                 case "bar":
                 {
                     // the wind blowing on to it
                     double onshore = double.IsNaN(w.openTo) ? 0.6 : Math.Max(0.0, Math.Cos((windFrom - w.openTo) * Math.PI / 180.0));
-                    return w.rough * Share(wind, 3.0, 12.0) * (0.25 + 0.75 * onshore) * (0.6 + 0.4 * run);
+                    return GameRules.RoughBar(w.rough, run, wind, onshore);          // (the graph "Rule - how rough a river's bar is")
                 }
                 case "shoal":
-                    return w.rough * Share(wind, 4.0, 13.0) * (0.7 + 0.3 * run);
+                    return GameRules.RoughShoal(w.rough, run, wind);                 // (the graph "Rule - how rough a shoal is")
                 default:                                                     // a cape
-                    return w.rough * Share(wind, 5.0, 14.0) * (0.6 + 0.4 * run);
+                    return GameRules.RoughCape(w.rough, run, wind);                  // (the graph "Rule - how rough an open cape is")
             }
         }
 
@@ -171,7 +168,7 @@ namespace Kapman.Game
         static double quietHours;
 
         /// <summary>The share of her speed she keeps in the water she is in.</summary>
-        public static double Slow => 1.0 - (1.0 - SeaPush.Rules.roughSlow) * Math.Min(1.0, RoughNow);
+        public static double Slow => RoughNow <= 0.0 ? 1.0 : GameRules.RoughSlow(RoughNow, SeaPush.Rules.roughSlow);   // (the graph "Rule - her speed in rough water")
 
         /// <summary>The name she has for a water: the name of the thing found that it is, else what it plainly is.
         /// PLACEHOLDER WORDS, the user's to write.</summary>
