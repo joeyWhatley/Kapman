@@ -332,7 +332,7 @@ namespace Kapman.Game.Frame
                 // the steersman has lost his reckoning: she lies to until she is given a course from where she is
                 string bound = Adrift.LostBound == Course.PlaceId ? Course.PlaceWords : GameData.Port(Adrift.LostBound)?.name ?? Adrift.LostBound;
                 body.Add(FrameUi.H("The reckoning is lost"));
-                body.Add(FrameUi.P("She has run her distance for " + bound + " and it is not in sight. She lies to. The chart shows where she is."));
+                body.Add(FrameUi.P("She has run her distance for " + bound + " and the steersman cannot make it out. She lies to. The chart shows where she is."));
                 body.Add(FrameUi.Go("Lay the course again", () => LayAgain()));
             }
             // ---- the place pointed at on the chart (click and sail)
