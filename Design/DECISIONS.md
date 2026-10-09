@@ -1851,3 +1851,25 @@ and far fewer when usage is short).
    - STILL OWED: the people of the other ten ports of the first release (about 780 lines, some 440 of them clipped);
      the 1,300 held cards.
    Tests: SpokenTests, OpeningTests (the opening as played, with the new lines), EditMode 607 (605 pass, 2 skipped).
+
+131. **THE WORDS, SAID AGAIN (3): THE PEOPLE OF THE OTHER TEN PORTS OF THE FIRST RELEASE**
+   (the user's rule of 9 Oct, DECISIONS 125 and 130. With this the live talk of the game is done: the lender's side,
+   the sea's cards, the toll man, the opening, and the people of the eleven port pages of the first release.)
+   - 458 MORE LINES said again in the port pages (Game/Data/places: traiectum, walichrum, witla, medemelacha,
+     doccinga, daventre, quentovic, lundenwic, sarre, fordwic), and 17 "voice" notes that prescribed short or clipped
+     speech changed to match. With Dorestat (130) that is 555 of the 879 lines of 108 people.
+     Measured over all 879: 7.9 words to a sentence before, with 23 in a hundred sentences under five words and 525
+     lines in the clipped style; 12.7 words now, 5 in a hundred, and 11 lines my count still marks (each a short
+     greeting before a long sentence: "It is you.", "There he is!").
+   - WHAT IS KEPT: who each person is, what they know, every riddle's own wording where its answer hangs on it, every
+     joke. A JOKE THAT WAS MADE OF SHORT SENTENCES is told another way ("That one is sold. That one is sold. That one
+     you cannot afford." is "That one is sold, and so is that one, and that one you cannot afford."). Wicga the
+     hayward, whose whole character is that he says about one sentence a day, says one whole sentence now where he
+     said three fragments.
+   - HOW IT WAS PUT IN: each old line found as it is written inside its own person's entry and only those letters
+     changed; each page read again afterwards and held to differ in those lines and in nothing else (the session's
+     repeople.py). No test and no code quoted any of the old words.
+   - STILL PLACEHOLDERS, drafts for the user to overwrite, as the pages say of themselves.
+   - STILL OWED: the 1,300 held cards (not in the game), and the people of the 39 ports outside the first release.
+     The short facts of the screen are left as they are (my reading of the rule: DECISIONS 130).
+   Tests: EditMode 607 (605 pass, 2 skipped).
