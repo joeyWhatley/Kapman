@@ -240,7 +240,7 @@ namespace Kapman.Game.Frame
                         if (FirstJobs.Blocks(out string notYet)) { can = false; why = notYet; }
                         else if (!Course.IsSet) { can = false; why = "No course is set. Pick a port under Voyage and set its course first."; }
                         else if (!FrameGame.PortMenuOpen) { can = false; why = "Finish what is in front of you first."; }
-                        else why = "Cast off for " + (GameData.Port(Course.Destination)?.name ?? "sea") + ".";
+                        else why = "Cast off for " + (Course.IsSet ? Course.BoundName : "sea") + ".";
                     }
                     else if (Course.IsSet)
                     {
@@ -367,7 +367,7 @@ namespace Kapman.Game.Frame
                 case FrameIcon.Kind.CastOff:
                     if (here != null)
                     {
-                        string to = GameData.Port(Course.Destination)?.name;
+                        string to = Course.IsSet ? Course.BoundName : null;
                         if (Course.IsSet && FrameGame.CastOff())
                             FrameLog.Add($"You cast off from {here.name}" + (to != null ? " for " + to : "") + ".");
                     }
@@ -384,7 +384,7 @@ namespace Kapman.Game.Frame
                         string to = lieTo;
                         lieTo = "";
                         if (Course.SetTo(to, ChartWorld.ShipWorld(), null))
-                            FrameLog.Add("She sails on for " + (GameData.Port(to)?.name ?? to) + ".");
+                            FrameLog.Add("She sails on for " + (to == Course.PlaceId ? Course.PlaceWords : GameData.Port(to)?.name ?? to) + ".");
                     }
                     break;
                 case FrameIcon.Kind.Wait:

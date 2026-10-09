@@ -330,6 +330,20 @@ namespace Kapman.Game
             // 3D HAND-OFF: a point of the line (world metres) -> the scene; the beating corridor (helm.lineFrom/hasLine)
             // went with the sailing model
             Steer(FloatingOrigin.ToUnity(new WorldPos(p.x, 0.0, p.z)), river || (last && toBerth < rowInGameM), river ? "down the river" : "in to the berth");
+            // A PLACE POINTED AT (9 Oct 2026) has no berth and nobody to take her lines: come to the end of her line, she
+            // lies to there, and the clock drops back for the next order.
+            if (Course.ToPlace && toBerth < arrivedGameM)
+            {
+                bool shortOf = Kapman.Game.Sim.WorldXZ.Distance(Course.Points[Course.Points.Count - 1], Course.Place) > 3000.0;
+                Voyage.Say(shortOf ? PlaceShortWords : PlaceThereWords);
+                Course.Clear();
+                ship.anchored = true;
+                Hold();
+                held = true;
+                wasMoored = false;
+                ClockDrops.Raise(ClockReason.AtPlace);
+                return;
+            }
             // there: moored at her destination by the port's graph
             if (ship.anchored && toBerth < arrivedGameM)
             {
@@ -339,6 +353,11 @@ namespace Kapman.Game
             }
             wasMoored = ship.anchored && !held;
         }
+
+        /// <summary>What the log says when she comes to a place pointed at, and when the water let her no nearer. PLACEHOLDER
+        /// WORDS, the user's to write.</summary>
+        public const string PlaceThereWords = "She lies to at the place you pointed at.",
+                            PlaceShortWords = "She lies to: this is as near the place you pointed at as the water lets her.";
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ClearState()

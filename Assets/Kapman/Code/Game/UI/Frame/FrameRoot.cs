@@ -905,7 +905,7 @@ namespace Kapman.Game.Frame
                 shipWind.text = "";
             shipView.State = look;
             var body = ChartBody.Current;
-            string bound = Course.IsSet ? GameData.Port(Course.Destination)?.name : null;
+            string bound = Course.IsSet ? Course.BoundName : null;
             shipWhere.text = here != null ? "At " + here.name
                            : body != null && body.Sheltering && body.Wind > Kapman.Game.Sim.GaleDice.GaleWind ? "Lying to in the gale"
                            : look.lying ? (river ? "Lying to on the river" : "Lying to")

@@ -1382,3 +1382,45 @@ and far fewer when usage is short).
    - THE NEXT RULING IS ALREADY ASKED FOR (the user, the same hour): "I want the debt mechanic to be more of a
      constant cat and mouse game, you CAN just play the game and try and pay the debt asap", "Or you could idk
      try different methods and comedic ways around it". Not built: a proposal comes first.
+121. **CLICK AND SAIL, AND THE RINGS OF HEARSAY** (the user, 9 Oct: "We need a more intuitive sailing system for
+   navigating unknown waters", "Cause right now the path is just set straight to the location and weaves ect",
+   "Maybe don't even show dots for unfound locations, needs to be more vague"; by the picker: "Click and sail"
+   and "A wide hazy ring"). RULINGS, with what I chose inside them.
+   - POINT AND SHE SAILS. A click on the open chart, in known water or in the dark, points at a place. The
+     Voyage window shows it at its head ("The place you pointed at": which way; the km and the days where the
+     whole way is known, else "Through waters you do not know") with "Set this course"; a second click on the
+     same place sets it at once. She goes by the lanes to their own point nearest the place, of the lanes she
+     can come to, and on to the place itself where open water lies between (the world bake says); else she lies
+     to as near as the water lets her. Come there, she lies to, the log says so, and the clock drops back.
+     Course.PlanToPlace / SetToPlace; a short hop at sea no longer begins by sailing back to the lanes' last
+     crossing.
+   - NOTHING IS DRAWN THROUGH THE DARK. Her course, a planned course and the measure are drawn only where the
+     water is known to her. A place pointed at has her own small cross, seen in the dark too. The measure
+     says "Part of that way lies in waters you do not know: it cannot be reckoned."
+   - A PORT HAS ITS DOT WHEN SHE HAS FOUND IT (seen where it lies). One only heard of is a ring some 24 km
+     across in the dark (it was 80 km as first built; the user, on seeing it: "make the rings much smaller
+     pls"), three rings of pale strokes each fainter than the last: the place lies inside it,
+     between a quarter and two thirds of the way out from the middle, never in the middle, the same in every
+     game (by the port's name: Hearsay.RingMiddle). With the pointer in a ring a slip says whose it is. The
+     Voyage window lists the ports found under "Where to" with their ways, and those only heard of under "By
+     hearsay" with a rough bearing to the ring and rough days ("to the west, half a day to 2 days off, they
+     say"), and no way: she is sent to look by pointing at the water in the ring.
+   - A HARBOUR COMES IN SIGHT. When the fog lifts from a port's place: "A harbour in sight to the west: Witla,
+     that you had heard of.", its dot stands on the chart, its ring is gone, and the clock drops back to speed 1
+     (a new reason, with its switch in the settings; so does a water or landmark found, and coming to a place
+     pointed at). Found, a port is charted by its name as before.
+   - THE DRAWN COURSE has lost its smallest jogs: points that stand off the straight by less than six pixels
+     of the chart as shown (less along a coast, next to nothing on a river) are left out of the drawing. She
+     sails the lanes as before.
+   - MINE, the user's to overrule: every word of it (placeholders); how far off its ring's middle a port may
+     lie; that the fog knows land from water when she is sent on beyond the lanes; that "run for the nearest
+     port" in a gale now runs only for a port she has found.
+   - A FAULT OF MY OWN MAKING, FOUND AND MENDED: since a port's mark is its dot alone (item 118), a trader
+     lying at the quay lay over it, and the dot could not be pointed at or clicked. The other ships' marks
+     lie under the ports' dots now.
+   - NOT DONE: PlayThroughTests still picks ports only heard of by their names in the Voyage window, which is
+     gone: the long walk must learn to point. The lanes still turn where they turn: a course over known water
+     is the lanes' way, kinks larger than six pixels and all.
+   Tests: ClickAndSailTests (edit, 5), SailByPointingTests (play: a click in the dark, the course only where
+   she knows, Witla sighted, the clock dropped, lying to at the place, Witla charted by name), MapZoomTests
+   (the ring on the screen, its word, no dot for a port only heard of).

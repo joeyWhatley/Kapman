@@ -259,7 +259,7 @@ namespace Kapman.Game
             outShip.text = kind + (Voyage.Started ? "\n" + MapView.CrewLine() : "");
             var w = MapWorld.ToWorld(game.ShipPosition);                      // ported 4 Oct: the level's place in the world, not the floating origin's
             var here = new Kapman.Game.Sim.WorldXZ(w.x, w.z);
-            outCourse.text = Course.IsSet ? $"Bound for {GameData.Port(Course.Destination)?.name}: {Course.KmLeft(here):0} km to go, about {Course.Days(Course.KmLeft(here)):0.#} days"
+            outCourse.text = Course.IsSet ? $"Bound for {Course.BoundName}: {Course.KmLeft(here):0} km to go, about {Course.Days(Course.KmLeft(here)):0.#} days"
                                           : "No course set: click a port.";
             if (Trade.Started)
             {

@@ -252,7 +252,7 @@ namespace Kapman.Game.Frame
 
             // ---- a course
             if (Course.IsSet)
-                Set(jobCourse, true, "Course: " + (GameData.Port(Course.Destination)?.name ?? Course.Destination), null, null);
+                Set(jobCourse, true, "Course: " + Course.BoundName, null, null);
             else
                 Set(jobCourse, false, "No course set", null, "Voyage", true, "Pick a port and set its course.");
 

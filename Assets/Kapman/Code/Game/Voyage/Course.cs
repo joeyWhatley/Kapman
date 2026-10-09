@@ -40,6 +40,26 @@ namespace Kapman.Game
         /// <summary>Raised when a course is set, cleared or reached.</summary>
         public static event Action Changed;
 
+        /// <summary>
+        /// A COURSE TO A PLACE POINTED AT ON THE CHART (the user, 9 Oct 2026, by the picker: "Click and sail ... Click any
+        /// water on the chart, also in the dark, and she sails there by water"). Its end is not a port: Destination is
+        /// <see cref="PlaceId"/> and <see cref="Place"/> is what was pointed at. She goes by the lanes to their own point
+        /// nearest the place, and on to the place itself where open water lies between (the world bake says); else she
+        /// lies to at the lanes' nearest point: as near the place as the water lets her.
+        /// </summary>
+        public const string PlaceId = "@place";
+        /// <summary>The place last pointed at (kept when the course is given up, so a course laid by for a wait or a
+        /// lying-to is taken up again: <see cref="SetTo"/> with <see cref="PlaceId"/>).</summary>
+        public static WorldXZ Place { get; private set; }
+        public static bool ToPlace => Destination == PlaceId;
+        /// <summary>What a place pointed at is called. PLACEHOLDER WORDS, the user's to write.</summary>
+        public const string PlaceWords = "the place you pointed at";
+        /// <summary>Where she is bound, in words ("" with no course): a port's name, or the words for a place pointed at.</summary>
+        public static string BoundName => !IsSet ? "" : ToPlace ? PlaceWords : GameData.Port(Destination)?.name ?? Destination;
+        /// <summary>Real metres beyond the lanes' nearest point that she will stand on to a place over open water (the
+        /// lanes leave no open sea farther than some 32 km from one of them).</summary>
+        public const double BeyondLanesM = 45000.0;
+
         /// <summary>Knots she makes good on average over a passage (for the days a course will take).</summary>
         public const double PlanKnots = 3.5;
 
@@ -179,6 +199,8 @@ namespace Kapman.Game
         /// <summary>Charts a course to a port from where she is; false (and the old course kept) if there's no way.</summary>
         public static bool SetTo(string portId, WorldXZ from, string fromPort)
         {
+            if (portId == PlaceId)
+                return SetToPlace(Place, from, fromPort);              // (a course to a place, laid by and taken up again)
             var line = new List<WorldXZ>();
             var water = new List<float>();
             var kinds = new List<byte>();
@@ -194,6 +216,263 @@ namespace Kapman.Game
             Next = 1;
             Km = km;
             Changed?.Invoke();
+            return true;
+        }
+
+        /// <summary>Charts a course to a place pointed at; false (and the old course kept) if no water she can sail leads
+        /// towards it.</summary>
+        public static bool SetToPlace(WorldXZ place, WorldXZ from, string fromPort)
+        {
+            var line = new List<WorldXZ>();
+            var water = new List<float>();
+            var kinds = new List<byte>();
+            if (!PlanToPlace(place, from, fromPort, line, water, kinds, out double km))
+                return false;
+            Points.Clear();
+            Points.AddRange(line);
+            Depths.Clear();
+            Depths.AddRange(water);
+            Kinds.Clear();
+            Kinds.AddRange(kinds);
+            Destination = PlaceId;
+            Place = place;
+            Next = 1;
+            Km = km;
+            Changed?.Invoke();
+            return true;
+        }
+
+        /// <summary>
+        /// Works out a course to a place that is not a port, without setting it. From her berth if she lies at a port
+        /// (`fromPort`), else from the lanes' own point nearest her (not their nearest crossing: at sea that can lie
+        /// thirty km astern, and a short hop would begin by sailing back to it); along the lanes to their point nearest
+        /// the place; and on to the place itself where open water lies between. False if the lanes do not join the two.
+        /// </summary>
+        public static bool PlanToPlace(WorldXZ place, WorldXZ from, string fromPort, List<WorldXZ> line, List<float> depths, List<byte> kinds, out double km)
+        {
+            line.Clear();
+            depths?.Clear();
+            kinds?.Clear();
+            km = 0.0;
+            var g = SimRoutes.Graph();
+            line.Add(from);
+            depths?.Add(float.PositiveInfinity);
+            kinds?.Add(LaneGraph.Sea);
+            if (g == null)
+            {
+                line.Add(place);                                         // (no lanes baked: straight there)
+                depths?.Add(float.PositiveInfinity);
+                kinds?.Add(LaneGraph.Sea);
+                km = WorldXZ.Distance(from, place) / 1000.0;
+                return true;
+            }
+            var router = new LaneRouter(g);
+            foreach (bool offFlats in new[] { true, false })
+            {
+                var profile = Profile(offFlats);
+                // where it begins: her berth, or the lanes' own point nearest her
+                int berth = -1, startLane = -1, startAt = -1;
+                if (fromPort != null && g.berths.TryGetValue(fromPort, out int fb))
+                    berth = fb;
+                else if (!NearestOnLanes(g, profile, from, null, out startLane, out startAt))
+                    continue;
+                // where the way ends: the point nearest the place of the lanes SHE CAN COME TO (a pond's or a brook's own
+                // lane may lie nearer and join nothing: found by the first test of a place on dry land, where the
+                // nearest water was a river of the heath that no boat reaches)
+                var reached = Reach(g, profile, berth >= 0 ? berth : g.edgeA[startLane]);
+                if (!NearestOnLanes(g, profile, place, reached, out int endLane, out int endAt))
+                    continue;
+                var pts = new List<(double x, double z)>();
+                var ptWater = new List<float>();
+                var ptKind = new List<byte>();
+                void Lane(int lane, int a, int b)                        // (along one lane from its point a to its point b)
+                {
+                    int step = b >= a ? 1 : -1;
+                    for (int i = a; ; i += step)
+                    {
+                        if (pts.Count == 0 || pts[pts.Count - 1].x != g.px[i] || pts[pts.Count - 1].z != g.pz[i])
+                        {
+                            pts.Add((g.px[i], g.pz[i]));
+                            ptWater.Add(LaneWater(g, lane));
+                            ptKind.Add(g.edgeKind[lane]);
+                        }
+                        if (i == b)
+                            break;
+                    }
+                }
+                int First(int lane, int node) => g.edgeA[lane] == node ? g.edgePoint[lane] : g.edgePoint[lane] + g.edgePoints[lane] - 1;
+                if (berth < 0 && startLane == endLane)
+                    Lane(startLane, startAt, endAt);                     // (the same lane: along it, never round by its end)
+                else
+                {
+                    // by which ends of the two lanes: the shortest of the ways
+                    double least = double.MaxValue;
+                    List<int> way = null;
+                    int outBy = -1, inBy = -1;
+                    var starts = berth >= 0 ? new[] { berth } : new[] { g.edgeA[startLane], g.edgeB[startLane] };
+                    foreach (int a in starts)
+                        foreach (int b in new[] { g.edgeA[endLane], g.edgeB[endLane] })
+                        {
+                            var edges = new List<int>();
+                            double m = 0.0;
+                            if (a != b && !router.Route(a, b, profile, edges, out m))
+                                continue;
+                            double total = m + (berth >= 0 ? 0.0 : Along(g, startAt, First(startLane, a))) + Along(g, First(endLane, b), endAt);
+                            if (total < least)
+                            {
+                                least = total;
+                                way = edges;
+                                outBy = a;
+                                inBy = b;
+                            }
+                        }
+                    if (way == null)
+                        continue;
+                    if (berth < 0)
+                        Lane(startLane, startAt, First(startLane, outBy));
+                    int n = outBy;
+                    foreach (int e in way)
+                    {
+                        int before = pts.Count;
+                        g.AppendCourse(e, n, pts);
+                        n = g.Other(e, n);
+                        for (int k = before; k < pts.Count; k++)
+                        {
+                            ptWater.Add(LaneWater(g, e));
+                            ptKind.Add(g.edgeKind[e]);
+                        }
+                    }
+                    Lane(endLane, First(endLane, inBy), endAt);
+                }
+                for (int k = 0; k < pts.Count; k++)
+                {
+                    line.Add(new WorldXZ(pts[k].x, pts[k].z));
+                    depths?.Add(ptWater[k]);
+                    kinds?.Add(ptKind[k]);
+                }
+                // and on to the place itself, where open water lies between the lanes and it
+                var last = line[line.Count - 1];
+                double off = WorldXZ.Distance(last, place);
+                if (off > 50.0 && off <= BeyondLanesM && OpenWater(last, place))
+                {
+                    line.Add(place);
+                    depths?.Add(float.PositiveInfinity);
+                    kinds?.Add(LaneGraph.Sea);
+                }
+                for (int i = 0; i + 1 < line.Count; i++)
+                    km += WorldXZ.Distance(line[i], line[i + 1]) / 1000.0;
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>The crossings of the lanes that can be come to from one of them, by the lanes a profile may use.</summary>
+        static bool[] Reach(LaneGraph g, LaneRouter.Profile profile, int from)
+        {
+            var reached = new bool[g.NodeCount];
+            var open = new Stack<int>();
+            reached[from] = true;
+            open.Push(from);
+            while (open.Count > 0)
+            {
+                int u = open.Pop();
+                for (int k = g.adjStart[u]; k < g.adjStart[u + 1]; k++)
+                {
+                    int e = g.adjEdge[k];
+                    if (float.IsInfinity(profile.cost[g.edgeKind[e]]) || profile.Avoids(g, e))
+                        continue;
+                    int v = g.Other(e, u);
+                    if (!reached[v])
+                    {
+                        reached[v] = true;
+                        open.Push(v);
+                    }
+                }
+            }
+            return reached;
+        }
+
+        /// <summary>The point of the lanes nearest a place, of the lanes a profile may use (and, with `reached`, only of
+        /// those that join the crossings marked there): the lane, and the point's index among all the lanes' points.
+        /// False if there is none.</summary>
+        static bool NearestOnLanes(LaneGraph g, LaneRouter.Profile profile, WorldXZ place, bool[] reached, out int lane, out int at)
+        {
+            lane = at = -1;
+            double nearest = double.MaxValue;
+            for (int e = 0; e < g.EdgeCount; e++)
+            {
+                if (float.IsInfinity(profile.cost[g.edgeKind[e]]) || profile.Avoids(g, e))
+                    continue;
+                if (reached != null && !reached[g.edgeA[e]])
+                    continue;
+                for (int k = g.edgePoint[e], end = k + g.edgePoints[e]; k < end; k++)
+                {
+                    double dx = g.px[k] - place.x, dz = g.pz[k] - place.z, d = dx * dx + dz * dz;
+                    if (d < nearest)
+                    {
+                        nearest = d;
+                        lane = e;
+                        at = k;
+                    }
+                }
+            }
+            return lane >= 0;
+        }
+
+        /// <summary>Real metres along a lane between two of its points (their indices among all the lanes' points).</summary>
+        static double Along(LaneGraph g, int a, int b)
+        {
+            double m = 0.0;
+            for (int i = Math.Min(a, b); i < Math.Max(a, b); i++)
+            {
+                double dx = g.px[i + 1] - g.px[i], dz = g.pz[i + 1] - g.pz[i];
+                m += Math.Sqrt(dx * dx + dz * dz);
+            }
+            return m;
+        }
+
+        static bool[] waterSurface;
+        static MapLand waterOf;
+
+        /// <summary>Is the straight water between two places open: every 300 m of it sea or inland water, by the world
+        /// bake (MapLand)? False where the bake is not there to ask: then she keeps to the lanes.</summary>
+        public static bool OpenWater(WorldXZ a, WorldXZ b)
+        {
+            MapLand land;
+            try
+            {
+                land = MapLand.Shared();
+            }
+            catch (Exception)
+            {
+                land = null;
+            }
+            if (land == null)
+                return false;
+            if (waterSurface == null || !ReferenceEquals(waterOf, land))
+            {
+                waterSurface = new bool[256];
+                for (int i = 0; i < 256; i++)
+                {
+                    string name = land.SurfaceNames[i] ?? "";
+                    waterSurface[i] = name == "Sea" || name == "Inland water";
+                }
+                waterOf = land;
+            }
+            int steps = Math.Max(1, (int)Math.Ceiling(WorldXZ.Distance(a, b) / 300.0));
+            try
+            {
+                for (int i = 0; i <= steps; i++)
+                {
+                    double k = (double)i / steps;
+                    if (!waterSurface[land.SurfaceAt(a.x + (b.x - a.x) * k, a.z + (b.z - a.z) * k)])
+                        return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;                                            // (a tile that cannot be read: keep to the lanes)
+            }
             return true;
         }
 
@@ -213,10 +492,13 @@ namespace Kapman.Game
             var kinds = new List<object>();
             foreach (byte k in Kinds)
                 kinds.Add((double)k);
-            return new Dictionary<string, object>
+            var saved = new Dictionary<string, object>
             {
                 ["dest"] = Destination, ["next"] = Next, ["km"] = Km, ["points"] = pts, ["water"] = water, ["kinds"] = kinds,
             };
+            if (ToPlace)
+                saved["place"] = new List<object> { Place.x, Place.z };
+            return saved;
         }
 
         public static void Restore(Dictionary<string, object> d)
@@ -245,6 +527,10 @@ namespace Kapman.Game
                 if (Points.Count >= 2)
                 {
                     Destination = Json.Str(d, "dest", null);
+                    if (Json.Arr(d, "place") is List<object> pl && pl.Count >= 2 && pl[0] is double plx && pl[1] is double plz)
+                        Place = new WorldXZ(plx, plz);
+                    else if (Destination == PlaceId)
+                        Place = Points[Points.Count - 1];
                     Next = Math.Max(1, Math.Min(Points.Count - 1, (int)Json.Num(d, "next", 1)));
                     Km = Json.Num(d, "km");
                     if (Kinds.Count == 0)
@@ -266,7 +552,7 @@ namespace Kapman.Game
         /// taken for a river until a new course is set.</summary>
         static void RebuildKinds()
         {
-            if (Destination == null || Points.Count < 2)
+            if (Destination == null || Destination == PlaceId || Points.Count < 2)
                 return;
             try
             {

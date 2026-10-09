@@ -219,7 +219,7 @@ namespace Kapman.Game
         readonly Dictionary<string, ChartMark> ports = new Dictionary<string, ChartMark>();
         readonly Dictionary<string, ChartMark> finds = new Dictionary<string, ChartMark>();
         readonly List<ChartMark> namesUp = new List<ChartMark>();
-        VisualElement findLayer, nameLayer;
+        VisualElement findLayer, nameLayer, sailLayer;
         int findsSeen = -1;
 
         [Header("Names on the chart (9 Oct 2026)")]
@@ -400,6 +400,21 @@ namespace Kapman.Game
             ports.Clear();
             finds.Clear();
             findsSeen = -1;
+            // THE RINGS of the places only heard of lie under every mark (9 Oct 2026: a place not found has no dot)
+            ringLayer = new RingLayer(this);
+            overlays.Add(ringLayer);
+            hearsaySlip = new VisualElement { pickingMode = PickingMode.Ignore, name = "map-hearsay" };
+            hearsaySlip.AddToClassList("map-name");
+            hearsayLabel = new Label { pickingMode = PickingMode.Ignore };
+            hearsayLabel.AddToClassList("map-port-note");
+            hearsaySlip.Add(hearsayLabel);
+            hearsaySlip.style.display = DisplayStyle.None;
+            nameLayer.Add(hearsaySlip);
+            hearsayShown = hearsayOver = false;
+            hearsayText = "";
+            Course.Changed -= CourseChanged;
+            Course.Changed += CourseChanged;
+            drawnStale = true;
             // the waters and landmarks found lie under the course, her own mark and the ports
             findLayer = Layer("map-finds");
             overlays.Add(findLayer);
@@ -407,6 +422,12 @@ namespace Kapman.Game
             courseLine.style.position = Position.Absolute;
             courseLine.style.left = courseLine.style.top = courseLine.style.right = courseLine.style.bottom = 0;
             overlays.Add(courseLine);
+            // THE OTHER SHIPS' MARKS LIE UNDER THE PORTS' DOTS (9 Oct 2026). A port's mark is its dot alone now, and a trader
+            // lying at the quay lay over it: the dot of Dorestat could not be pointed at or clicked (found by the play
+            // test's measure, which clicks it). A ship lying on a port's dot gives way to the port.
+            sailLayer = Layer("map-sails");
+            overlays.Add(sailLayer);
+            simMarks.Clear();
             shipMark = new VisualElement { pickingMode = PickingMode.Ignore };
             shipMark.AddToClassList("map-ship");
             overlays.Add(shipMark);
@@ -521,6 +542,7 @@ namespace Kapman.Game
 
         void OnDisable()
         {
+            Course.Changed -= CourseChanged;
             WatchPointer(null);
             UiFocus.Release(this);
             table?.Dispose();
@@ -874,11 +896,16 @@ namespace Kapman.Game
                 if (!Course.IsSet)
                     return "No course set: click a port.";
                 double left = Course.KmLeft(ship);
-                return $"Bound for {GameData.Port(Course.Destination)?.name}: {left:0} km to go, about {Course.Days(left):0.#} days";
+                return $"Bound for {Course.BoundName}: {left:0} km to go, about {Course.Days(left):0.#} days";
             }
+
+            /// <summary>The strokes of her course drawn at the last painting, and those left out because they lie in waters
+            /// she does not know (a test's eyes).</summary>
+            public int Drawn, Hidden;
 
             void Paint(MeshGenerationContext ctx)
             {
+                Drawn = Hidden = 0;
                 if (!Course.IsSet || Course.Points.Count < 2 || map.mpp <= 0.0)
                     return;
                 var p = ctx.painter2D;
@@ -886,11 +913,11 @@ namespace Kapman.Game
                 p.lineCap = LineCap.Butt;
                 // THE WAY AHEAD IN SPACED STROKES (the user, 8 Oct 2026: "make the map trail for the ship icon to be spaced
                 // lines like -  -  -"). The strokes are counted from the berth back to her, so they lie still on the
-                // water and she comes up to them one by one; only what is on the screen is drawn.
+                // water and she comes up to them one by one; only what is on the screen is drawn. The line is her
+                // course without its small jogs (DrawnCourse).
                 line.Clear();
                 line.Add(Px(ShipWorld()));
-                for (int i = Mathf.Max(1, Course.Next); i < Course.Points.Count; i++)
-                    line.Add(Px(Course.Points[i]));
+                map.DrawnCourse(line);
                 const float stroke = 9f, space = 11f, period = stroke + space, edge = 24f;
                 float wide = contentRect.width, high = contentRect.height;
                 double along = 0.0;                                       // pixels from the berth, along the line
@@ -912,15 +939,32 @@ namespace Kapman.Game
                         for (int guard = 0; k * (double)period < s1 && guard < 4000; k++, guard++)
                         {
                             double a0 = System.Math.Max(s0, k * (double)period), a1 = System.Math.Min(s1, k * (double)period + stroke);
-                            if (a1 - a0 > 0.25)
-                                strokes.Add((from + dir * (float)(a0 - along), from + dir * (float)(a1 - along)));
+                            if (a1 - a0 <= 0.25)
+                                continue;
+                            // NOTHING OF HER COURSE IS DRAWN THROUGH THE DARK (the user, 9 Oct 2026, by the picker: "Click and
+                            // sail ... Nothing of her course is drawn through the dark"): a stroke shows where its water
+                            // is known to her, and not otherwise
+                            Vector2 sa = from + dir * (float)(a0 - along), sb = from + dir * (float)(a1 - along);
+                            var (wx, wz) = map.PxToWorld((sa + sb) * 0.5f);
+                            if (Exploration.Seen(wx, wz) > 0.35f)
+                            {
+                                strokes.Add((sa, sb));
+                                Drawn++;
+                            }
+                            else
+                                Hidden++;
                         }
                     }
                     along += len;
                 }
-                // THE STROKES READ ON THE DARK OF THE UNKNOWN AS ON THE CHART (9 Oct 2026: the fog hides what it covers,
-                // and a course runs through it to a port only heard of): each dark stroke has a pale edge under it.
-                var end = Px(Course.Points[Course.Points.Count - 1]);
+                // (each dark stroke has a pale edge under it, so it reads on dark water as on pale land)
+                bool toPlace = Course.ToPlace;
+                var berth = Course.Points[Course.Points.Count - 1];
+                var end = Px(berth);
+                // the berth's ring: where she is bound for a port she has found
+                bool ring = !toPlace && Exploration.Seen(berth.x, berth.z) > 0.35f;
+                // the place pointed at: a small cross, seen in the dark too (she put it there herself)
+                Vector2 cross = toPlace ? Px(Course.Place) : default;
                 for (int pass = 0; pass < 2; pass++)
                 {
                     p.strokeColor = pass == 0 ? new Color(0.86f, 0.89f, 0.8f, 0.85f) : new Color(0.08f, 0.08f, 0.1f, 0.9f);
@@ -933,11 +977,21 @@ namespace Kapman.Game
                         p.MoveTo(a - d);
                         p.LineTo(b + d);
                     }
+                    if (toPlace)
+                    {
+                        float arm = pass == 0 ? 7.5f : 6.5f;
+                        p.MoveTo(cross + new Vector2(-arm, -arm));
+                        p.LineTo(cross + new Vector2(arm, arm));
+                        p.MoveTo(cross + new Vector2(-arm, arm));
+                        p.LineTo(cross + new Vector2(arm, -arm));
+                    }
                     p.Stroke();
-                    // the berth: a ring
-                    p.BeginPath();
-                    p.Arc(end, 6f, 0f, 360f);
-                    p.Stroke();
+                    if (ring)
+                    {
+                        p.BeginPath();
+                        p.Arc(end, 6f, 0f, 360f);
+                        p.Stroke();
+                    }
                 }
             }
 
@@ -1176,12 +1230,14 @@ namespace Kapman.Game
             drawWest = viewWest;
             drawNorth = viewNorth;
             courseLine.MarkDirtyRepaint();
+            ringLayer?.MarkDirtyRepaint();
             pointedMark = PointedMark();
             markNow = Time.realtimeSinceStartup;
             markFree = Free();
             Finds(viewWest, viewNorth, W, H);
             Ports(viewWest, viewNorth, W, H);
             OneNameAtAPlace();
+            HearsayUnderPointer();
             SimShipMarks(viewWest, viewNorth, W, H);
             NotePins(viewWest, viewNorth, W, H);
             HuntLandmarks(viewWest, viewNorth, W, H);
@@ -1414,12 +1470,305 @@ namespace Kapman.Game
         {
             var panel = root != null ? root.panel : null;
             WatchPointer(panel);
+            pointerOnChart = false;
             if (panel == null || !pointerOn || dragging)
                 return null;
-            for (var e = panel.Pick(pointerAt); e != null; e = e.hierarchy.parent)
+            var hit = panel.Pick(pointerAt);
+            // (on the chart itself, not on a window of the frame that lies over it there)
+            pointerOnChart = hit != null && layer != null && (hit == layer || layer.Contains(hit));
+            for (var e = hit; e != null; e = e.hierarchy.parent)
                 if (e.ClassListContains("map-mark"))
                     return e;
             return null;
+        }
+
+        // ------------------------------------------------------------------ the places only heard of: rings, and a word
+
+        RingLayer ringLayer;
+        VisualElement hearsaySlip;
+        Label hearsayLabel;
+        bool pointerOnChart, hearsayOver, hearsayShown;
+        float hearsayLeftAt = float.NegativeInfinity;
+        string hearsayText = "";
+        int hearsayFor = int.MinValue;
+        readonly List<PortDef> ringsHere = new List<PortDef>();
+
+        /// <summary>A test's eyes: the rings drawn at the last painting; the words up for the ring or rings under the pointer
+        /// ("" none); and the strokes of her course drawn, and left out because they lie in waters she does not know.</summary>
+        public int RingsShown => ringLayer != null ? ringLayer.Shown : 0;
+        public string HearsayShown => hearsayShown ? hearsayText : "";
+        public (int drawn, int hidden) CourseStrokes => courseLine != null ? (courseLine.Drawn, courseLine.Hidden) : (0, 0);
+
+        /// <summary>
+        /// A PLACE ONLY HEARD OF IS A WIDE RING IN THE DARK (the user, 9 Oct 2026: "Maybe don't even show dots for unfound
+        /// locations, needs to be more vague"; by the picker: "A wide hazy ring"). Three rings of pale strokes, each
+        /// fainter than the one outside it, some 24 km across (Hearsay): the place lies somewhere inside, not in the
+        /// middle. A ring takes no click and no pointer: the chart under it is pointed at as anywhere else.
+        /// </summary>
+        sealed class RingLayer : VisualElement
+        {
+            readonly MapView map;
+            public int Shown;
+
+            public RingLayer(MapView map)
+            {
+                this.map = map;
+                pickingMode = PickingMode.Ignore;
+                style.position = Position.Absolute;
+                style.left = style.top = style.right = style.bottom = 0;
+                generateVisualContent += Paint;
+            }
+
+            void Paint(MeshGenerationContext ctx)
+            {
+                Shown = 0;
+                if (map.mpp <= 0.0 || !Exploration.Ready)
+                    return;
+                var game = KapmanGame.Current;
+                int year = game != null ? game.Year : 793;
+                float r = (float)(Hearsay.RingRadius / map.mpp);
+                if (r < 4f)
+                    return;
+                float wide = contentRect.width, high = contentRect.height;
+                var p = ctx.painter2D;
+                p.lineCap = LineCap.Butt;
+                foreach (var def in GameData.Ports)
+                {
+                    if (!def.Exists(year) || !Hearsay.Ringed(def))
+                        continue;
+                    Vector2 c = map.ChartPx(Hearsay.RingMiddle(def));
+                    if (c.x < -r || c.x > wide + r || c.y < -r || c.y > high + r)
+                        continue;
+                    Shown++;
+                    // (three rings of strokes, each fainter and broader than the one outside it: an edge that is not a line)
+                    Strokes(p, c, r, new Color(0.86f, 0.89f, 0.8f, 0.36f), 2f);
+                    Strokes(p, c, r * 0.955f, new Color(0.86f, 0.89f, 0.8f, 0.19f), 3f);
+                    Strokes(p, c, r * 0.91f, new Color(0.86f, 0.89f, 0.8f, 0.09f), 4f);
+                }
+            }
+
+            /// <summary>A ring in spaced strokes (the painter draws none of its own): 13 px on, 11 off, or fewer and longer
+            /// when the ring is small.</summary>
+            static void Strokes(Painter2D p, Vector2 c, float r, Color colour, float width)
+            {
+                p.strokeColor = colour;
+                p.lineWidth = width;
+                int n = Mathf.Clamp(Mathf.RoundToInt(2f * Mathf.PI * r / 24f), 8, 120);
+                float step = 360f / n, sweep = step * 13f / 24f;
+                p.BeginPath();
+                for (int i = 0; i < n; i++)
+                {
+                    float a = i * step * Mathf.Deg2Rad;
+                    p.MoveTo(c + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * r);
+                    p.Arc(c, r, i * step, i * step + sweep);
+                }
+                p.Stroke();
+            }
+        }
+
+        /// <summary>
+        /// THE WORD OF A RING: with the pointer inside a ring (and on no dot), a slip beside the pointer says whose it
+        /// is: "Witla, by hearsay: somewhere in this ring"; inside several, their names. It stays and fades as a
+        /// place's name does (NameUnderPointer), where the pointer left it.
+        /// </summary>
+        void HearsayUnderPointer()
+        {
+            if (hearsaySlip == null)
+                return;
+            // (a harbour found has no ring: the word of its ring, if it still stands where the pointer left it, goes at once)
+            int rings = Sightings.Version * 31 + Known.Version;
+            if (rings != hearsayFor)
+            {
+                hearsayFor = rings;
+                if (!hearsayOver)
+                    hearsayLeftAt = float.NegativeInfinity;
+                hearsayText = "";
+            }
+            ringsHere.Clear();
+            if (pointerOnChart && pointedMark == null && Exploration.Ready)
+            {
+                var game = KapmanGame.Current;
+                var (wx, wz) = PxToWorld(layer.WorldToLocal(pointerAt));
+                Hearsay.RingsAt(new Kapman.Game.Sim.WorldXZ(wx, wz), game != null ? game.Year : 793, ringsHere);
+            }
+            bool over = ringsHere.Count > 0;
+            if (over)
+            {
+                string words = Hearsay.Words(ringsHere);
+                if (words != hearsayText)
+                {
+                    hearsayText = words;
+                    hearsayLabel.text = words;
+                }
+                Vector2 at = layer.WorldToLocal(pointerAt);
+                float w = hearsaySlip.resolvedStyle.width;
+                bool left = !float.IsNaN(w) && w > 1f && at.x + 16f + w > markFree.xMax - 2f && at.x - 12f - w > markFree.xMin;
+                hearsaySlip.style.left = left ? at.x - 12f - w : at.x + 16f;
+                hearsaySlip.style.top = at.y + 14f;
+            }
+            if (!over && hearsayOver)
+                hearsayLeftAt = markNow;
+            hearsayOver = over;
+            float gone = markNow - hearsayLeftAt - nameLingerSeconds;
+            float alpha = over || gone <= 0f ? 1f : Mathf.Clamp01(1f - gone / Mathf.Max(0.01f, nameFadeSeconds));
+            bool shown = alpha > 0.004f && hearsayText.Length > 0;
+            if (shown != hearsayShown)
+            {
+                hearsayShown = shown;
+                hearsaySlip.style.display = shown ? DisplayStyle.Flex : DisplayStyle.None;
+                if (shown)
+                    hearsaySlip.BringToFront();
+            }
+            if (shown)
+                hearsaySlip.style.opacity = alpha;
+        }
+
+        // ------------------------------------------------------------------ what she knows of the water, for what is drawn
+
+        /// <summary>Has she seen this water (the fog has lifted there)? With no fog at all: yes.</summary>
+        public static bool KnownWater(Kapman.Game.Sim.WorldXZ at) => Exploration.Seen(at.x, at.z) > 0.35f;
+
+        /// <summary>Does a line lie wholly in waters she knows? (Looked at every two km of it.)</summary>
+        public static bool AllKnown(IList<Kapman.Game.Sim.WorldXZ> line)
+        {
+            if (line == null)
+                return true;
+            for (int i = 0; i < line.Count; i++)
+            {
+                if (!KnownWater(line[i]))
+                    return false;
+                if (i + 1 < line.Count)
+                {
+                    double m = Kapman.Game.Sim.WorldXZ.Distance(line[i], line[i + 1]);
+                    int steps = (int)(m / 2000.0);
+                    for (int k = 1; k <= steps; k++)
+                    {
+                        double t = k * 2000.0 / m;
+                        if (!KnownWater(new Kapman.Game.Sim.WorldXZ(line[i].x + (line[i + 1].x - line[i].x) * t, line[i].z + (line[i + 1].z - line[i].z) * t)))
+                            return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        /// <summary>The parts of a line that lie in waters she knows, each a line of its own (a line through the dark is
+        /// drawn only where she has been): long legs are looked at every two km.</summary>
+        public static void KnownRuns(IList<Kapman.Game.Sim.WorldXZ> line, List<List<Kapman.Game.Sim.WorldXZ>> runs)
+        {
+            runs.Clear();
+            if (line == null)
+                return;
+            List<Kapman.Game.Sim.WorldXZ> run = null;
+            void Take(Kapman.Game.Sim.WorldXZ at)
+            {
+                if (KnownWater(at))
+                    (run ??= new List<Kapman.Game.Sim.WorldXZ>()).Add(at);
+                else if (run != null)
+                {
+                    if (run.Count > 1)
+                        runs.Add(run);
+                    run = null;
+                }
+            }
+            for (int i = 0; i < line.Count; i++)
+            {
+                Take(line[i]);
+                if (i + 1 >= line.Count)
+                    break;
+                double m = Kapman.Game.Sim.WorldXZ.Distance(line[i], line[i + 1]);
+                int steps = (int)(m / 2000.0);
+                for (int k = 1; k <= steps; k++)
+                {
+                    double t = k * 2000.0 / m;
+                    if (t < 0.999)
+                        Take(new Kapman.Game.Sim.WorldXZ(line[i].x + (line[i + 1].x - line[i].x) * t, line[i].z + (line[i + 1].z - line[i].z) * t));
+                }
+            }
+            if (run != null && run.Count > 1)
+                runs.Add(run);
+        }
+
+        // ------------------------------------------------------------------ the drawn course, without its small jogs
+
+        readonly List<Kapman.Game.Sim.WorldXZ> drawn = new List<Kapman.Game.Sim.WorldXZ>();
+        readonly List<int> drawnIndex = new List<int>();
+        bool drawnStale = true;
+        int drawnCount = -1;
+        double drawnMpp;
+
+        void CourseChanged() => drawnStale = true;
+
+        /// <summary>
+        /// THE DRAWN COURSE IS HER COURSE WITHOUT ITS SMALL JOGS (the user, 9 Oct 2026: "the path ... weaves"). The lanes
+        /// she sails by turn a little at every crossing; drawn as they are, her course is a line of small kinks. What is
+        /// drawn keeps only the points that stand off the straight by more than a few pixels of the chart as it is
+        /// shown (six at sea, less along a coast, next to nothing on a river, where the line must keep to the water).
+        /// She sails the lanes as before: this is the drawing only. Adds the points still ahead of her, as pixels.
+        /// </summary>
+        void DrawnCourse(List<Vector2> line)
+        {
+            int n = Course.Points.Count;
+            if (drawnStale || drawnCount != n || System.Math.Abs(mpp - drawnMpp) > drawnMpp * 0.15)
+            {
+                drawnStale = false;
+                drawnCount = n;
+                drawnMpp = mpp;
+                drawn.Clear();
+                drawnIndex.Clear();
+                if (n >= 2)
+                {
+                    var keep = new bool[n];
+                    keep[0] = keep[n - 1] = true;
+                    var open = new Stack<(int from, int to)>();
+                    open.Push((0, n - 1));
+                    while (open.Count > 0)
+                    {
+                        var (i0, i1) = open.Pop();
+                        if (i1 - i0 < 2)
+                            continue;
+                        var a = Course.Points[i0];
+                        var b = Course.Points[i1];
+                        double ax = b.x - a.x, az = b.z - a.z, ll = ax * ax + az * az, worst = 1.0;
+                        int at = -1;
+                        for (int i = i0 + 1; i < i1; i++)
+                        {
+                            var q = Course.Points[i];
+                            double t = ll > 0.0 ? System.Math.Max(0.0, System.Math.Min(1.0, ((q.x - a.x) * ax + (q.z - a.z) * az) / ll)) : 0.0;
+                            double dx = a.x + ax * t - q.x, dz = a.z + az * t - q.z;
+                            double off = System.Math.Sqrt(dx * dx + dz * dz) / Allowed(i);
+                            if (off > worst)
+                            {
+                                worst = off;
+                                at = i;
+                            }
+                        }
+                        if (at < 0)
+                            continue;
+                        keep[at] = true;
+                        open.Push((i0, at));
+                        open.Push((at, i1));
+                    }
+                    for (int i = 0; i < n; i++)
+                        if (keep[i])
+                        {
+                            drawn.Add(Course.Points[i]);
+                            drawnIndex.Add(i);
+                        }
+                }
+            }
+            int next = Mathf.Max(1, Course.Next);
+            for (int i = 0; i < drawn.Count; i++)
+                if (drawnIndex[i] >= next)
+                    line.Add(ChartPx(drawn[i]));
+        }
+
+        /// <summary>Real metres a point of her course may stand off the straight and still be left out of the drawing.</summary>
+        double Allowed(int point)
+        {
+            byte kind = point < Course.Kinds.Count ? Course.Kinds[point] : LaneGraph.River;
+            double px = kind == LaneGraph.Sea ? 6.0 : kind == LaneGraph.Coastal ? 4.0 : kind == LaneGraph.Sound ? 2.5 : 0.5;
+            return System.Math.Max(1.0, px * mpp);
         }
 
         /// <summary>A new mark: its box and dot among the marks, its name (hidden) in the layer of names.</summary>
@@ -1541,9 +1890,9 @@ namespace Kapman.Game
                     continue;
                 var (x, z) = WorldFrame.ToWorld(def.lat, def.lon);
                 double px = (x - viewWest) / mpp, py = (viewNorth - z) / mpp;
-                bool known = Exploration.Seen(x, z) > 0.35f;
-                bool heardOf = !known && Known.IsHeardOf(def);              // (heard of, never seen: a hollow dot in the dark)
-                bool show = (known || heardOf) && px > -200 && px < W + 200 && py > -60 && py < H + 60;
+                // A PORT HAS ITS DOT WHEN SHE HAS FOUND IT (9 Oct 2026, later; the user: "Maybe don't even show dots for
+                // unfound locations, needs to be more vague"): one only heard of is a wide ring in the dark (RingLayer)
+                bool show = Hearsay.Found(def) && px > -200 && px < W + 200 && py > -60 && py < H + 60;
                 if (!ports.TryGetValue(def.id, out var p))
                 {
                     if (!show)
@@ -1570,12 +1919,11 @@ namespace Kapman.Game
                 bool here = town != null && town.id == def.id;
                 p.mark.EnableInClassList("here", here);
                 p.words.EnableInClassList("here", here);
-                p.mark.EnableInClassList("heard", heardOf);
                 ModePaint(def, p.name, p.dot);                            // (the chart's other readings: MapView.Modes.cs)
                 if (!NameUnderPointer(p, (float)px, (float)py))
                     continue;
                 // under the name: the good picked in the market (where it is made and wanted, and what it fetched where
-                // seen); or that the place is only heard of. PLACEHOLDER WORDS, the user's to write.
+                // seen). PLACEHOLDER WORDS, the user's to write.
                 string note = "";
                 if (good != null)
                 {
@@ -1591,15 +1939,10 @@ namespace Kapman.Game
                                 break;
                             }
                 }
-                if (note.Length == 0 && heardOf)
-                    note = HeardOfWords;
                 SetNote(p, note);
             }
             ModeKeyUpdate();
         }
-
-        /// <summary>Under the name of a port she has heard of and never seen. PLACEHOLDER WORDS.</summary>
-        public const string HeardOfWords = "heard of, not seen";
 
         /// <summary>
         /// THE WATERS AND LANDMARKS SHE HAS FOUND (Discoveries; the user, 9 Oct 2026): each a small mark where it lies,
@@ -1713,7 +2056,7 @@ namespace Kapman.Game
                             portCard.style.display = DisplayStyle.None;
                             e.StopPropagation();
                         });
-                        overlays.Add(mark);
+                        (sailLayer ?? overlays).Add(mark);
                         simMarks.Add(mark);
                     }
                     var m = simMarks[used++];

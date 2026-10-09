@@ -112,6 +112,7 @@ namespace Kapman.Tests
         {
             FrameRoot.FreshLayout = true;
             FrameWindows.OneWindow = false;                              // (these tests are of the tiled windows)
+            ClockDrops.Quiet = true;                                      // (the clock is not dropped back under this test: it had been left so by whichever test ran before)
             SaveGame.FolderOverride = TestSaves();
             ShipStageHook.TurnOn();                                       // (a test before may have left it off; these are about the view)
             if (SceneManager.GetActiveScene().name != "L_Chart")
@@ -123,6 +124,7 @@ namespace Kapman.Tests
             SaveGame.FolderOverride = TestSaves();                        // (a new game forgets the folder a test named: named again)
             FrameRoot.FreshLayout = true;
             FrameWindows.OneWindow = false;                              // (these tests are of the tiled windows)
+            ClockDrops.Quiet = true;                                      // (the clock is not dropped back under this test: it had been left so by whichever test ran before)
             float from = Time.realtimeSinceStartup;
             while ((FrameRoot.Current == null || !FrameRoot.Current.AskingSelf) && Time.realtimeSinceStartup - from < 30f)
                 yield return null;
@@ -239,6 +241,7 @@ namespace Kapman.Tests
         {
             FrameRoot.FreshLayout = true;
             FrameWindows.OneWindow = false;                              // (these tests are of the tiled windows)
+            ClockDrops.Quiet = true;                                      // (the clock is not dropped back under this test: it had been left so by whichever test ran before)
             SaveGame.FolderOverride = TestSaves();
             foreach (string old in Directory.GetFiles(SaveGame.FolderOverride))
                 File.Delete(old);

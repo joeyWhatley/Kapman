@@ -290,6 +290,8 @@ namespace Kapman.Game
             }
             Exploration.Apply();
             Discoveries.KnowAtStart(year, new Kapman.Game.Sim.WorldXZ(hx, hz));
+            Sightings.Forget();
+            Sightings.KnowAtStart(year);
             StartKnows = (home.id, near != null ? near.id : "");
             Debug.Log($"Kapman: on the first morning she knows {home.name}" + (near != null ? $" and {near.name}, the port nearest it" : "") +
                       $", and {Discoveries.Count} of the {Discoveries.Total(year)} waters and landmarks.");
@@ -809,9 +811,22 @@ namespace Kapman.Game
                 // (each game minute: what is in sight goes with her; it was looked for every half hour)
                 var w = Kapman.World.FloatingOrigin.ToWorld(ship.transform.position);
                 Exploration.See(w.x, w.z, Exploration.Sight);
-                // (and the waters and landmarks she has come to are found: the log says each, once)
-                foreach (var found in Discoveries.Step(new Kapman.Game.Sim.WorldXZ(w.x, w.z), Day, Year))
+                // (and the waters and landmarks she has come to are found, and the harbours that have come in sight:
+                // the log says each, once, and the clock drops back for it)
+                var at = new Kapman.Game.Sim.WorldXZ(w.x, w.z);
+                bool newInSight = false;
+                foreach (var found in Discoveries.Step(at, Day, Year))
+                {
                     Voyage.Say(Discoveries.Line(found));
+                    newInSight = true;
+                }
+                foreach (var port in Sightings.Step(Year))
+                {
+                    Voyage.Say(Sightings.Line(port, at));
+                    newInSight = true;
+                }
+                if (newInSight)
+                    ClockDrops.Raise(ClockReason.Sighted);
             }
             ClockDrops.Step(minute);
             StepSeconds = 0.0;

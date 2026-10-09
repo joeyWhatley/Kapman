@@ -69,7 +69,7 @@
     align-items: center;
     justify-content: center;
 }
-.map-names, .map-finds {
+.map-names, .map-finds, .map-sails {
     position: absolute;
     left: 0;
     top: 0;
@@ -153,11 +153,7 @@
     font-size: var(--t-body);
 }
 
-/* heard of and never seen: a hollow dot, quieter than the ports she knows (its name, under the pointer, is whole) */
-.map-port.heard .map-port-dot {
-    background-color: rgba(0, 0, 0, 0);
-    border-color: rgba(236, 235, 230, 0.6);
-}
+/* (a port only heard of has no dot since 9 Oct 2026: it is a ring in the dark, drawn by MapView.RingLayer) */
 
 .map-port-note {
     font-size: var(--t-quiet);

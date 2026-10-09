@@ -37,6 +37,10 @@ namespace Kapman.Game
         WeatherFar,
         /// <summary>The sky says it will blow hard before the watch is out; or it is on her within the hour.</summary>
         WeatherNear,
+        /// <summary>Something not seen before comes in sight: a harbour, a water, a landmark (9 Oct 2026).</summary>
+        Sighted,
+        /// <summary>She has come to a place pointed at on the chart, and lies to there (9 Oct 2026).</summary>
+        AtPlace,
     }
 
     /// <summary>The switches for the clock's own drops (kept on this machine, not in the saved game).</summary>
@@ -124,6 +128,8 @@ namespace Kapman.Game
                 case ClockReason.OrderDay: return "an order's last day";
                 case ClockReason.WeatherFar: return "weather coming";
                 case ClockReason.WeatherNear: return "a gale near";
+                case ClockReason.Sighted: return "new in sight";
+                case ClockReason.AtPlace: return "at the place pointed at";
                 default: return "";
             }
         }
@@ -148,6 +154,8 @@ namespace Kapman.Game
                 case ClockReason.OrderDay: return "The last day of an order you have taken: slow to speed 1";
                 case ClockReason.WeatherFar: return "A swell that says weather is coming: slow to speed 2";
                 case ClockReason.WeatherNear: return "A gale within the watch, or within the hour: slow to speed 1";
+                case ClockReason.Sighted: return "A harbour, a water or a landmark not seen before: slow to speed 1";
+                case ClockReason.AtPlace: return "Come to a place you pointed at on the chart: slow to speed 1";
                 default: return why.ToString();
             }
         }

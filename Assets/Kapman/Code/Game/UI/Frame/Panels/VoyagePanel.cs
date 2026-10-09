@@ -7,11 +7,16 @@ using UnityEngine.UIElements;
 namespace Kapman.Game.Frame
 {
     /// <summary>
-    /// VOYAGE - where she can go: the ports she knows (seen, or heard of), each with the days to it for this boat as a low
-    /// and a high figure (the course planner's way by water, her own speeds: FramePassage). Picking one shows its course
-    /// on the chart and what is known of the place; "Set this course" charts it. It sets, it does not sail: casting off
-    /// is the function button's above the windows (at sea she takes a new course up at once).
-    /// The ways are reckoned a few at a time, and again when she has moved or moored.
+    /// VOYAGE - where she can go. The ports she has FOUND (seen where they lie), each with the days to it for this boat
+    /// as a low and a high figure (the course planner's way by water, her own speeds: FramePassage): picking one shows
+    /// its course on the chart and what is known of the place; "Set this course" charts it. It sets, it does not sail:
+    /// casting off is the function button's above the windows (at sea she takes a new course up at once). The ways are
+    /// reckoned a few at a time, and again when she has moved or moored.
+    ///
+    /// CLICK AND SAIL (the user, 9 Oct 2026, by the picker): a place pointed at on the chart, in known water or in the
+    /// dark, stands at the head of the window and is charted the same way (<see cref="PickPlace"/>). The ports only
+    /// HEARD OF stand under "By hearsay" with a rough bearing and no way: on the chart each is a wide ring, and she is
+    /// sent to look by pointing at the water in it.
     /// </summary>
     public sealed class VoyagePanel : FramePanel
     {
@@ -32,6 +37,19 @@ namespace Kapman.Game.Frame
         string waysLying = "?";
         string picked;
         int waysVersion;
+        /// <summary>A place pointed at on the chart: where; whether water she can sail leads towards it; its km; and whether
+        /// the whole way lies in waters she knows.</summary>
+        WorldXZ? place;
+        bool placeOk, placeKnown;
+        double placeKm;
+        /// <summary>A port only heard of, picked in the list: the chart shows its ring.</summary>
+        string hearsay;
+
+        /// <summary>Is a place pointed at picked; does its whole way lie in waters she knows; the port picked under "By
+        /// hearsay" ("" none).</summary>
+        public bool PlacePicked => place.HasValue;
+        public bool PlaceKnown => place.HasValue && placeKnown;
+        public string HearsayPicked => hearsay ?? "";
 
         /// <summary>The port picked in the list ("" none).</summary>
         public string Picked => picked ?? "";
@@ -39,6 +57,8 @@ namespace Kapman.Game.Frame
         /// <summary>Picks a port (from the list, or a click on its mark on the chart): its course is shown on the chart.</summary>
         public void Pick(string portId)
         {
+            place = null;
+            hearsay = null;
             picked = GameData.Port(portId) != null && portId != FrameGame.PortHere?.id ? portId : null;
             ShowPicked();
             // the chart shows the whole of the way picked; with none picked it goes back to her
@@ -62,14 +82,64 @@ namespace Kapman.Game.Frame
             frame?.ShowPlanned(pickedLine);
         }
 
+        /// <summary>
+        /// CLICK AND SAIL: a place pointed at on the chart is picked as a port is. Its way is shown where the water is
+        /// known, and "Set this course" charts it. Pointed at again (within a km and a half): the course is set at once.
+        /// </summary>
+        public void PickPlace(WorldXZ at)
+        {
+            if (place.HasValue && placeOk && WorldXZ.Distance(place.Value, at) < 1500.0)
+            {
+                SetCourse();
+                return;
+            }
+            picked = null;
+            hearsay = null;
+            place = at;
+            ShowPlace();
+            Redraw();
+        }
+
+        void ShowPlace()
+        {
+            var frame = Frame != null ? Frame : FrameRoot.Current;
+            if (!place.HasValue)
+                return;
+            placeOk = Course.PlanToPlace(place.Value, ChartWorld.ShipWorld(), Port.LyingId(), pickedLine, null, null, out placeKm);
+            placeKnown = placeOk && MapView.AllKnown(pickedLine);
+            if (!placeOk)
+                pickedLine.Clear();
+            frame?.ShowPlanned(placeOk ? pickedLine : null, place);
+        }
+
+        /// <summary>A port only heard of, picked under "By hearsay" (again: put down): the chart shows her and its ring.</summary>
+        public void PickHearsay(string portId)
+        {
+            var def = GameData.Port(portId);
+            picked = null;
+            place = null;
+            pickedLine.Clear();
+            (Frame != null ? Frame : FrameRoot.Current)?.ShowPlanned(null);
+            hearsay = def != null && hearsay != portId ? portId : null;
+            if (hearsay != null)
+                MapView.Current?.ShowBoth(ChartWorld.ShipWorld(), Hearsay.RingMiddle(def));
+            else
+                MapView.Current?.Follow();
+            Redraw();
+        }
+
         protected override void OnShown()
         {
             if (picked != null)
                 ShowPicked();
+            else if (place.HasValue)
+                ShowPlace();
         }
 
         protected override void OnLoaded()
         {
+            place = null;
+            hearsay = null;
             picked = null;                                               // (picked in the game before)
             pickedLine.Clear();
             ways.Clear();
@@ -82,22 +152,32 @@ namespace Kapman.Game.Frame
             (Frame != null ? Frame : FrameRoot.Current)?.ShowPlanned(null);
         }
 
-        static List<PortDef> KnownPorts()
+        /// <summary>The ports she has found (seen where they lie): those a course can be charted to by name.</summary>
+        static List<PortDef> FoundPorts()
         {
             var list = new List<PortDef>();
             var game = KapmanGame.Current;
             int year = game != null ? game.Year : 793;
             string lying = FrameGame.PortHere?.id;                        // (the port she is moored at is not somewhere to go)
             foreach (var def in GameData.Ports)
-            {
-                if (!def.Exists(year) || def.id == lying)
-                    continue;
-                var (x, z) = WorldFrame.ToWorld(def.lat, def.lon);
-                if (Exploration.Seen(x, z) > 0.35f || Known.IsHeardOf(def))
+                if (def.Exists(year) && def.id != lying && Hearsay.Found(def))
                     list.Add(def);
-            }
             return list;
         }
+
+        /// <summary>The ports she has heard of and not found: rings on the chart, and no way to them by name.</summary>
+        static List<PortDef> HeardPorts()
+        {
+            var list = new List<PortDef>();
+            var game = KapmanGame.Current;
+            int year = game != null ? game.Year : 793;
+            foreach (var def in GameData.Ports)
+                if (def.Exists(year) && Hearsay.Ringed(def))
+                    list.Add(def);
+            return list;
+        }
+
+        static string Cap(string s) => string.IsNullOrEmpty(s) ? "" : char.ToUpperInvariant(s[0]) + s.Substring(1);
 
         /// <summary>The ways are from where she was when they were reckoned: thrown away when she has moved 5 km or has
         /// moored or cast off.</summary>
@@ -115,6 +195,8 @@ namespace Kapman.Game.Frame
                 picked = null;
             if (picked != null)
                 ShowPicked();
+            else if (place.HasValue)
+                ShowPlace();
         }
 
         /// <summary>Reckons the ways not reckoned yet, three a look (each is a search over the lanes).</summary>
@@ -122,7 +204,7 @@ namespace Kapman.Game.Frame
         {
             int done = 0;
             bool more = false;
-            foreach (var def in KnownPorts())
+            foreach (var def in FoundPorts())
             {
                 if (ways.TryGetValue(def.id, out var w) && w.reckoned)
                     continue;
@@ -161,7 +243,12 @@ namespace Kapman.Game.Frame
             int h = FrameUi.Mix(17, waysVersion);
             h = FrameUi.Mix(h, Course.Destination);
             h = FrameUi.Mix(h, picked);
-            h = FrameUi.Mix(h, KnownPorts().Count);
+            h = FrameUi.Mix(h, FoundPorts().Count);
+            h = FrameUi.Mix(h, HeardPorts().Count);
+            h = FrameUi.Mix(h, hearsay);
+            h = FrameUi.Mix(h, place.HasValue ? 1 + (int)(place.Value.x * 0.01) * 31 + (int)(place.Value.z * 0.01) : 0);
+            h = FrameUi.Mix(h, placeOk);
+            h = FrameUi.Mix(h, placeKnown);
             h = FrameUi.Mix(h, FrameGame.PortHere != null);
             h = FrameUi.Mix(h, FirstJobs.Version);
             h = FrameUi.Mix(h, Course.IsSet ? (int)(Course.KmLeft(ChartWorld.ShipWorld()) / 5.0) : -1);
@@ -185,11 +272,14 @@ namespace Kapman.Game.Frame
             var here = FrameGame.PortHere;
             if (Course.IsSet)
             {
-                var to = GameData.Port(Course.Destination);
                 double left = Course.KmLeft(ChartWorld.ShipWorld());
-                body.Add(FrameUi.H("Bound for " + (to != null ? to.name : Course.Destination)));
-                body.Add(FrameUi.Ln($"{left:0} km to go by water", here != null ? "The course is charted. Cast off when you will." : "",
-                                    FrameUi.Num(FramePassage.DaysWords(left))));
+                body.Add(FrameUi.H("Bound for " + Course.BoundName));
+                // (a place pointed at in the dark: how far it is by water is not known until she has sailed it)
+                if (Course.ToPlace && !MapView.AllKnown(Course.Points))
+                    body.Add(FrameUi.Ln("Into waters you do not know", here != null ? "The course is charted. Cast off when you will." : "She finds the way as she goes."));
+                else
+                    body.Add(FrameUi.Ln($"{left:0} km to go by water", here != null ? "The course is charted. Cast off when you will." : "",
+                                        FrameUi.Num(FramePassage.DaysWords(left))));
                 var giveUp = FrameUi.Btn("Give up the course", () =>
                 {
                     Course.Clear();
@@ -222,8 +312,28 @@ namespace Kapman.Game.Frame
                 }
                 body.Add(FrameUi.Row(giveUp, oars));
             }
+            // ---- the place pointed at on the chart (click and sail)
+            if (place.HasValue)
+            {
+                var me = ChartWorld.ShipWorld();
+                body.Add(FrameUi.H(Cap(Course.PlaceWords)));
+                string where = "To the " + SeaWatch.Airt(me.x, me.z, place.Value.x, place.Value.z);
+                if (!placeOk)
+                    body.Add(FrameUi.P("No water she can sail leads that way."));
+                else
+                {
+                    if (placeKnown)
+                        body.Add(FrameUi.Ln(where, $"{placeKm:0} km by water", FrameUi.Num(FramePassage.DaysWords(placeKm))));
+                    else
+                        body.Add(FrameUi.Ln(where, "Through waters you do not know. She finds the way as she goes."));
+                    if (Course.ToPlace && WorldXZ.Distance(Course.Place, place.Value) < 1.0)
+                        body.Add(FrameUi.P(here != null ? "This is your course. Cast off when you will." : "This is your course."));
+                    else
+                        body.Add(FrameUi.Go("Set this course", () => SetCourse()));
+                }
+            }
             body.Add(FrameUi.H("Where to"));
-            var ports = KnownPorts();
+            var ports = FoundPorts();
             ports.Sort((a, b) =>
             {
                 double ka = ways.TryGetValue(a.id, out var wa) && wa.ok ? wa.km : double.MaxValue;
@@ -231,7 +341,7 @@ namespace Kapman.Game.Frame
                 return ka != kb ? ka.CompareTo(kb) : string.CompareOrdinal(a.name, b.name);
             });
             if (ports.Count == 0)
-                body.Add(FrameUi.P("You know of no other port yet."));
+                body.Add(FrameUi.P("You have found no other port yet. Point at the chart to sail there and look."));
             foreach (var def in ports)
             {
                 string id = def.id;
@@ -254,6 +364,32 @@ namespace Kapman.Game.Frame
                 body.Add(line);
                 if (id == picked)
                     Details(body, def, w, here != null);
+            }
+            // ---- the ports only heard of: no way by name; a ring on the chart, and a rough word of where
+            var heard = HeardPorts();
+            if (heard.Count > 0)
+            {
+                var me = ChartWorld.ShipWorld();
+                heard.Sort((a, b) =>
+                {
+                    double ka = WorldXZ.Distance(me, Hearsay.RingMiddle(a)), kb = WorldXZ.Distance(me, Hearsay.RingMiddle(b));
+                    return ka != kb ? ka.CompareTo(kb) : string.CompareOrdinal(a.name, b.name);
+                });
+                body.Add(FrameUi.H("By hearsay"));
+                foreach (var def in heard)
+                {
+                    string id = def.id;
+                    var middle = Hearsay.RingMiddle(def);
+                    // (by its ring, not by where it lies: a rough bearing and a rough time, as the crow flies and half as much again)
+                    string small = "to the " + SeaWatch.Airt(me.x, me.z, middle.x, middle.z) + ", " + FramePassage.DaysWords(WorldXZ.Distance(me, middle) / 1000.0 * 1.5) + " off, they say";
+                    if (FirstJobs.Listed && FirstJobs.TipPort == id)
+                        small += ". Ravn's word";
+                    var line = FrameUi.LnButton(def.name, small, () => PickHearsay(id), null);
+                    line.EnableInClassList("sel", id == hearsay);
+                    body.Add(line);
+                    if (id == hearsay)
+                        body.Add(FrameUi.P("Heard of, not found. It lies somewhere in its ring on the chart: point at the water there, and set that course."));
+                }
             }
         }
 
@@ -300,10 +436,29 @@ namespace Kapman.Game.Frame
         /// cast off; at sea she takes it up at once. False when no port is picked or the water does not reach it.</summary>
         public bool SetCourse()
         {
+            bool inPort = FrameGame.PortHere != null;
+            if (place.HasValue)
+            {
+                // a place pointed at on the chart
+                bool there = Course.SetToPlace(place.Value, ChartWorld.ShipWorld(), Port.LyingId());
+                if (there)
+                {
+                    FrameLog.Add((MapView.AllKnown(Course.Points)
+                                      ? $"Course set for {Course.PlaceWords}: {Course.Km:0} km by water, about {FramePassage.DaysWords(Course.Km)}."
+                                      : $"Course set for {Course.PlaceWords}, through waters you do not know.") + (inPort ? " Cast off when you will." : ""));
+                    (Frame != null ? Frame : FrameRoot.Current)?.ShowPlanned(null);
+                    MapView.Current?.Follow();
+                    place = null;
+                    pickedLine.Clear();
+                }
+                else
+                    FrameLog.Add("No water she can sail leads that way.");
+                Redraw();
+                return there;
+            }
             var def = GameData.Port(picked);
             if (def == null)
                 return false;
-            bool inPort = FrameGame.PortHere != null;
             bool set = Course.SetTo(def.id, ChartWorld.ShipWorld(), Port.LyingId());
             if (set)
             {

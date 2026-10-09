@@ -201,6 +201,9 @@ namespace Kapman.Game
             {
                 if (def == null || string.IsNullOrEmpty(def.id))
                     continue;
+                // (a port she has found: she does not run for a harbour she has only heard of, 9 Oct 2026)
+                if (!Hearsay.Found(def))
+                    continue;
                 var (x, z) = WorldFrame.ToWorld(def.lat, def.lon);
                 if (WorldXZ.Distance(at, new WorldXZ(x, z)) > 150000.0)     // (a day's run at the most: no need to plan to them all)
                     continue;

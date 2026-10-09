@@ -34,6 +34,9 @@ namespace Kapman.Tests
     ///     let it linger for a few seconds when the mouse is removed say 7 seconds then it fades away again to just a
     ///     dot"); near the chart's edge it stands on the other side of its dot; a water she knows is a mark with its
     ///     name under the pointer in the same way;
+    ///   - a port only heard of has no dot at all ("Maybe don't even show dots for unfound locations, needs to be more
+    ///     vague"; by the picker: "A wide hazy ring"): it is a wide ring of pale strokes in the dark, the place inside
+    ///     it and not in its middle, and with the pointer in the ring a slip says whose ring it is;
     ///   - scrolled on in past the closest, the ship's own view is asked for once.
     /// Pictures in Captures/chart (zoom_*.png).
     /// </summary>
@@ -211,7 +214,9 @@ namespace Kapman.Tests
                 yield return play.Shot("zoom_0_the_first_morning");
                 // (the test does not wait seven seconds: the same rule with a shorter stay)
                 map.nameLingerSeconds = 1.5f;
-                var openChart = middle + new Vector2(260f, 190f);
+                // (off the chart, on the frame's top bar: in the dark nearly every place lies in some port's ring, and a
+                // ring has a word of its own under the pointer)
+                var openChart = new Vector2(middle.x, 20f);
                 play.MoveTo(homeMark.worldBound.center);
                 yield return ChartPlay.Frames(5);
                 Assert.IsTrue(ChartPlay.Shown(homeName), "the pointer on Dorestat's dot did not bring its name up");
@@ -240,31 +245,59 @@ namespace Kapman.Tests
                 Assert.AreEqual(0f, map.NameShown("dorestad"), "the name is still up after its time and its fade");
                 Assert.IsFalse(ChartPlay.Shown(homeName), "after its time the place is not just its dot again");
                 Assert.AreEqual(0, NamesUp(play));
-                // a port only heard of is a hollow dot in the dark, and its name says so
-                VisualElement heardMark = null;
-                string heardId = null;
-                foreach (var def in GameData.Ports)
+                // A PORT ONLY HEARD OF HAS NO DOT (later the same day: "Maybe don't even show dots for unfound locations,
+                // needs to be more vague"; by the picker: "A wide hazy ring"). It is a wide ring in the dark; the place
+                // lies inside it and not in its middle; with the pointer in the ring a slip says whose ring it is.
+                var witla = GameData.Port("witla");
+                Assert.IsTrue(Known.IsHeardOf(witla) && !Hearsay.Found(witla) && Hearsay.Ringed(witla), "Witla should be heard of and not found on the first morning");
+                Assert.IsNull(play.Screen.Q<VisualElement>("map-port-witla"), "a port only heard of has a dot on the chart");
+                int marks = 0;
+                play.Screen.Query<VisualElement>(className: "map-port").ForEach(m =>
                 {
-                    var m = play.Screen.Q<VisualElement>("map-port-" + def.id);
-                    if (heardMark == null && m != null && m.ClassListContains("heard") && ChartPlay.Shown(m) && hole.Contains(m.worldBound.center)
-                        && Seen(def.id) == 0f && play.Reachable(m))
-                    {
-                        heardMark = m;
-                        heardId = def.id;
-                    }
-                }
-                Assert.IsNotNull(heardMark, "no port she has only heard of has a dot on the first morning's chart");
+                    if (ChartPlay.Shown(m))
+                        marks++;
+                });
+                Assert.AreEqual(2, marks, "on the first morning the ports with a dot should be home and the port nearest it");
+                Assert.Greater(map.RingsShown, 0, "no ring is drawn for the ports only heard of");
+                var ringMiddle = Hearsay.RingMiddle(witla);
+                var (witlaX, witlaZ) = WorldFrame.ToWorld(witla.lat, witla.lon);
+                Assert.That(WorldXZ.Distance(ringMiddle, new WorldXZ(witlaX, witlaZ)), Is.InRange(Hearsay.RingRadius * 0.2, Hearsay.RingRadius * 0.7),
+                            "Witla should lie inside its ring and not in its middle");
                 {
+                    // the ring is on the screen: pale strokes on the dark, where its edge runs
                     var px = play.ScreenPixels(out int width, out int height);
-                    var beside = MiddleOf(px, width, height, heardMark.worldBound.center + new Vector2(0f, 26f));
-                    Assert.LessOrEqual(Apart(beside, Exploration.Dark), 12, $"round the dot of {heardId}, only heard of, the chart shows: drawn {beside}");
+                    int pale = 0, looked = 0;
+                    for (int deg = 0; deg < 360; deg++)
+                    {
+                        var edge = new WorldXZ(ringMiddle.x + System.Math.Cos(deg * System.Math.PI / 180.0) * Hearsay.RingRadius,
+                                               ringMiddle.z + System.Math.Sin(deg * System.Math.PI / 180.0) * Hearsay.RingRadius);
+                        Vector2 at = Px(edge);
+                        if (!hole.Contains(at) || Exploration.Seen(edge.x, edge.z) > 0f)
+                            continue;                                       // (where the dark is, and inside the chart's frame)
+                        looked++;
+                        bool stroke = false;
+                        for (int dy = -1; dy <= 1 && !stroke; dy++)
+                            for (int dx = -1; dx <= 1 && !stroke; dx++)
+                                stroke = Apart(px[Mathf.Clamp((int)at.y + dy, 0, height - 1) * width + Mathf.Clamp((int)at.x + dx, 0, width - 1)], Exploration.Dark) > 25;
+                        if (stroke)
+                            pale++;
+                    }
+                    Assert.Greater(looked, 30, "the edge of Witla's ring is not on the chart to be looked at");
+                    Assert.Greater(pale, looked / 4, $"no ring of pale strokes stands in the dark round where Witla is said to lie: {pale} of {looked} places on its edge are not dark");
+                    Debug.Log($"Map zoom: {map.RingsShown} rings on the first morning's chart; of {looked} places on the edge of Witla's, {pale} are pale strokes");
                 }
-                play.MoveTo(heardMark.worldBound.center);
-                yield return ChartPlay.Frames(5);
-                var heardName = play.Screen.Q<VisualElement>("map-port-name-" + heardId);
-                Assert.IsTrue(heardName != null && ChartPlay.Shown(heardName), "the pointer on the dot of a port only heard of did not bring its name up");
-                Assert.AreEqual(GameData.Port(heardId).name, heardName.Q<Label>(className: "map-port-name").text);
-                Assert.AreEqual(MapView.HeardOfWords, heardName.Q<Label>(className: "map-port-note").text, "a port only heard of does not say so under its name");
+                // the pointer in the ring, half way from its middle towards her: the slip says whose it is
+                {
+                    double dx = her.x - ringMiddle.x, dz = her.z - ringMiddle.z, far = System.Math.Sqrt(dx * dx + dz * dz);
+                    Vector2 inRing = Px(new WorldXZ(ringMiddle.x + dx / far * Hearsay.RingRadius * 0.5, ringMiddle.z + dz / far * Hearsay.RingRadius * 0.5));
+                    Assert.IsTrue(hole.Contains(inRing), "the test's place inside Witla's ring is not on the chart: " + inRing);
+                    Assert.AreEqual("", map.HearsayShown, "a word of hearsay is up with the pointer off the chart");
+                    play.MoveTo(inRing);
+                    yield return ChartPlay.Frames(5);
+                    StringAssert.Contains(witla.name, map.HearsayShown, "with the pointer inside Witla's ring no slip says whose ring it is");
+                    Assert.IsTrue(ChartPlay.Shown(play.Screen.Q<VisualElement>("map-hearsay")), "the slip of hearsay is not on the screen");
+                    yield return play.Shot("zoom_0_a_ring_and_its_word");
+                }
                 // a water she knows from the start is a mark on the chart, named under the pointer as a port is
                 var rhine = play.Screen.Q<VisualElement>("map-find-rhenus");
                 Assert.IsNotNull(rhine, "the Rhine at her own quay has no mark on the chart");
@@ -276,8 +309,8 @@ namespace Kapman.Tests
                 Assert.IsTrue(rhineName != null && ChartPlay.Shown(rhineName), "the pointer on the Rhine's mark did not bring its name up");
                 Assert.AreEqual(Discoveries.Book.Get("rhenus").name, rhineName.Q<Label>(className: "map-port-name").text);
                 Assert.AreEqual("river", rhineName.Q<Label>(className: "map-port-note").text, "a water does not say what it is under its name");
-                Assert.AreEqual(1f, map.NameShown(heardId), 0.01f, "the name the pointer left a moment ago should still be up");
-                yield return play.Shot("zoom_0_a_water_and_a_port_heard_of");
+                StringAssert.Contains(witla.name, map.HearsayShown, "the word of the ring the pointer left a moment ago should still be up");
+                yield return play.Shot("zoom_0_a_water_she_knows");
                 // near the chart's edge the name stands on the other side of its dot, where it can be read
                 play.MoveTo(openChart);
                 yield return play.Drag(new Vector2(hole.xMin + 150f, hole.yMax - 120f), new Vector2(hole.xMin + 150f + (hole.xMax - 34f - homeMark.worldBound.center.x), hole.yMax - 120f));
@@ -464,7 +497,7 @@ namespace Kapman.Tests
                     Assert.LessOrEqual(Apart(land, dark), 12, $"the land she has never seen shows through the fog: drawn {land}, the fog is {dark}");
                     Assert.LessOrEqual(Apart(coast, dark), 12, $"the sea off Frisia, 150 km from home, shows on the first morning: drawn {coast}, the fog is {dark}");
                 }
-                // far out too a place is only its dot: the ports she has heard of are dots in the dark, and no name is up
+                // far out too: the ports she has found are dots, those only heard of are rings, and no name is up
                 play.MoveTo(new Vector2(middle.x, 20f));
                 yield return ChartPlay.Settle(map.nameLingerSeconds + map.nameFadeSeconds + 0.4f);
                 Assert.AreEqual(0, NamesUp(play), "at its widest names stand on the chart with no pointer on a dot");
@@ -474,7 +507,8 @@ namespace Kapman.Tests
                     if (ChartPlay.Shown(m) && hole.Contains(m.worldBound.center))
                         dots++;
                 });
-                Assert.Greater(dots, 5, "at its widest the chart shows next to no port");
+                Assert.AreEqual(2, dots, "at its widest the ports with a dot should still be the two she has found");
+                Assert.Greater(map.RingsShown, 20, "at its widest the rings of the ports heard of are not on the chart");
                 foreach (var to in new[] { new Vector2(700f, 0f), new Vector2(-700f, 0f), new Vector2(0f, 500f), new Vector2(0f, -500f) })
                 {
                     for (int i = 0; i < 3; i++)

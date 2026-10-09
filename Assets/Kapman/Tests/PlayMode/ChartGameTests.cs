@@ -191,6 +191,16 @@ namespace Kapman.Tests
         }
 
         // =====================================================================================================
+        /// <summary>For a mark that cannot be clicked: where it is and what the pointer meets there instead.</summary>
+        static string WhatCovers(ChartPlay play, string name)
+        {
+            var mark = play.Screen.Q<VisualElement>(name);
+            if (mark == null)
+                return ": the chart has no such mark";
+            var hit = play.Panel.Pick(mark.worldBound.center);
+            return $": at {mark.worldBound.center}, shown {ChartPlay.Shown(mark)}, the pointer meets [{(hit != null ? hit.name + " " + string.Join(" ", hit.GetClasses()) : "nothing")}]";
+        }
+
         [UnityTest]
         public IEnumerator SheSailsTheChart()
         {
@@ -667,7 +677,7 @@ namespace Kapman.Tests
                 Assert.IsTrue(frame.Measuring, "the Measure button did not take the measure up");
                 // (the marks of two ports she knows, by the names beside them: Dorestat where she lies, and Witla at the
                 // river's mouth. The wheel, to see farther, if one of them is under a window.)
-                string nameA = GameData.Port("dorestad").name, nameB = GameData.Port("witla").name;
+                string nameA = GameData.Port("dorestad").name, nameB = GameData.Port("traiectum").name;   // (the two ports she has found: one only heard of has no mark, 9 Oct 2026)
                 VisualElement one = null, other = null;
                 for (int tries = 0; tries < 8; tries++)
                 {
@@ -675,7 +685,7 @@ namespace Kapman.Tests
                     // (a place on the chart is its dot since 9 Oct 2026, its name shown only under the pointer: the marks
                     // are found by the ports they are of)
                     var markA = play.Screen.Q<VisualElement>("map-port-dorestad");
-                    var markB = play.Screen.Q<VisualElement>("map-port-witla");
+                    var markB = play.Screen.Q<VisualElement>("map-port-traiectum");
                     if (markA != null && play.Reachable(markA))
                         one = markA;
                     if (markB != null && play.Reachable(markB))
@@ -685,8 +695,8 @@ namespace Kapman.Tests
                     play.WheelAt(new Vector2(1100f, 520f), 3f);
                     yield return Settle(0.6f);
                 }
-                Assert.IsNotNull(one, "the mark of " + nameA + " cannot be clicked on the chart");
-                Assert.IsNotNull(other, "the mark of " + nameB + " cannot be clicked on the chart");
+                Assert.IsNotNull(one, "the mark of " + nameA + " cannot be clicked on the chart" + WhatCovers(play, "map-port-dorestad"));
+                Assert.IsNotNull(other, "the mark of " + nameB + " cannot be clicked on the chart" + WhatCovers(play, "map-port-traiectum"));
                 var rule = frame.Root.Q<VisualElement>(className: "frame-rule");
                 int clicksHeard = play.clickEvents;
                 yield return play.Click(one, "the mark of " + nameA + " on the chart");
@@ -722,8 +732,8 @@ namespace Kapman.Tests
                 yield return Settle(1.0f);
                 Debug.Log($"Chart test: the measure, {nameA} to {nameB}: {frame.MeasuredKm:0} km by water, '{frame.MeasuredWords}'; by the marks {marksTake}; " +
                           $"the slip said '{ChartPlay.Short(afterOne)}' after the first click and says '{ChartPlay.Short(ChartPlay.Read(rule))}'");
-                Assert.Greater(frame.MeasuredKm, 50.0, "the measure found no way by water from " + nameA + " to " + nameB + ": the slip says '" + ChartPlay.Short(ChartPlay.Read(rule)) + "'");
-                Assert.Less(frame.MeasuredKm, 200.0, "Dorestat to Witla is about 112 km by the Lek");
+                Assert.Greater(frame.MeasuredKm, 15.0, "the measure found no way by water from " + nameA + " to " + nameB + ": the slip says '" + ChartPlay.Short(ChartPlay.Read(rule)) + "'");
+                Assert.Less(frame.MeasuredKm, 60.0, "Dorestat to Traiectum is about 30 km by the old Rhine");
                 StringAssert.Contains("day", frame.MeasuredWords, "the measure does not say the days");
                 yield return play.Shot("19_measure");
                 Assert.IsTrue(marksTake, "a click on a port's mark on the chart is not taken (the chart's layer took the pointer, and the click with it)");
@@ -735,7 +745,7 @@ namespace Kapman.Tests
                 Assert.IsFalse(menu.Open, "Esc with the measure in hand also opened the menu");
                 // with the measure down, a port clicked on the chart is picked in the Voyage window
                 yield return play.Click(other, "the mark of " + nameB + " on the chart");
-                Assert.AreEqual("witla", voyage.Picked, "a port clicked on the chart was not picked in the Voyage window");
+                Assert.AreEqual("traiectum", voyage.Picked, "a port clicked on the chart was not picked in the Voyage window");
                 yield return play.Shot("19_port_clicked_on_the_chart");
                 yield return play.Press(Key.F);                           // ([F]: follow her again, if the chart was moved or zoomed)
                 yield return Frames(30);

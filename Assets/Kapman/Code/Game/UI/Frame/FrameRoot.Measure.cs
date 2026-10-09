@@ -25,8 +25,12 @@ namespace Kapman.Game.Frame
         readonly List<WorldXZ> measurePoints = new List<WorldXZ>();
         readonly List<WorldXZ> measureLine = new List<WorldXZ>();
         readonly List<WorldXZ> plannedLine = new List<WorldXZ>();
+        readonly List<List<WorldXZ>> knownRuns = new List<List<WorldXZ>>();
+        /// <summary>Where the ring of a planned course stands when it is not the line's end: the place the player pointed
+        /// at (click and sail, 9 Oct 2026), which the water may not reach.</summary>
+        WorldXZ? plannedMark;
         double measureKm;
-        bool measureFailed;
+        bool measureFailed, measureKnown = true;
 
         /// <summary>The measure is in hand.</summary>
         public bool Measuring { get; private set; }
@@ -61,8 +65,13 @@ namespace Kapman.Game.Frame
                 measureFailed = false;
             }
             measurePoints.Add(place);
+            measureKnown = true;
             if (measurePoints.Count == 2)
+            {
                 measureFailed = !FramePassage.Between(measurePoints[0], measurePoints[1], measureLine, out measureKm);
+                // (a way through waters she does not know is not reckoned: she has not sailed it)
+                measureKnown = measureFailed || MapView.AllKnown(measureLine);
+            }
             RuleWords();
             overlay?.MarkDirtyRepaint();
         }
@@ -70,12 +79,14 @@ namespace Kapman.Game.Frame
         /// <summary>How many points the course drawn for a window has (0: none is drawn).</summary>
         public int PlannedCount => plannedLine.Count;
 
-        /// <summary>A course drawn on the chart for a window (null or empty: none).</summary>
-        public void ShowPlanned(IList<WorldXZ> line)
+        /// <summary>A course drawn on the chart for a window (null or empty: none). `mark`: where its ring stands, when that
+        /// is not the line's end (a place pointed at).</summary>
+        public void ShowPlanned(IList<WorldXZ> line, WorldXZ? mark = null)
         {
             plannedLine.Clear();
             if (line != null)
                 plannedLine.AddRange(line);
+            plannedMark = line != null ? mark : null;
             overlay?.MarkDirtyRepaint();
         }
 
@@ -93,6 +104,8 @@ namespace Kapman.Game.Frame
                 ruleText.text = "And the second place.";
             else if (measureFailed || measureLine.Count < 2)
                 ruleText.text = "No way between them by water that she can sail.";
+            else if (!measureKnown)
+                ruleText.text = "Part of that way lies in waters you do not know: it cannot be reckoned.";
             else
             {
                 ruleFigure.text = "About " + FramePassage.DaysWords(measureKm);
@@ -179,7 +192,17 @@ namespace Kapman.Game.Frame
         void ChartClicked(WorldXZ place)
         {
             if (Measuring)
+            {
                 MeasureAt(place);
+                return;
+            }
+            // CLICK AND SAIL (the user, 9 Oct 2026, by the picker): with the measure down, a click on the open chart points
+            // at a place to sail to, in known water or in the dark. The Voyage window shows it and charts the course.
+            if (FramePanels.Get("voyage") is VoyagePanel voyage)
+            {
+                Show("voyage");
+                voyage.PickPlace(place);
+            }
         }
 
         void PortClicked(string id)
@@ -223,16 +246,29 @@ namespace Kapman.Game.Frame
                 p.lineJoin = LineJoin.Round;
                 p.lineCap = LineCap.Round;
                 Color gold = FrameColours.Gold, ink = new Color(0.08f, 0.05f, 0.1f, 0.9f);
+                // (a way is drawn where its water is known to her, and not through the dark: 9 Oct 2026)
                 if (frame.plannedLine.Count > 1)
                 {
-                    Dashes(p, frame.plannedLine, ink, 5f, 12f, 8f);
-                    Dashes(p, frame.plannedLine, gold, 2.5f, 12f, 8f);
-                    Ring(p, map.ChartPx(frame.plannedLine[frame.plannedLine.Count - 1]), 7f, gold, ink);
+                    MapView.KnownRuns(frame.plannedLine, frame.knownRuns);
+                    foreach (var run in frame.knownRuns)
+                    {
+                        Dashes(p, run, ink, 5f, 12f, 8f);
+                        Dashes(p, run, gold, 2.5f, 12f, 8f);
+                    }
+                    var end = frame.plannedLine[frame.plannedLine.Count - 1];
+                    if (frame.plannedMark.HasValue)
+                        Ring(p, map.ChartPx(frame.plannedMark.Value), 7f, gold, ink);   // (the place pointed at: where the player put it)
+                    else if (MapView.KnownWater(end))
+                        Ring(p, map.ChartPx(end), 7f, gold, ink);
                 }
                 if (frame.measureLine.Count > 1 && !frame.measureFailed)
                 {
-                    Line(p, frame.measureLine, ink, 6f);
-                    Line(p, frame.measureLine, gold, 3f);
+                    MapView.KnownRuns(frame.measureLine, frame.knownRuns);
+                    foreach (var run in frame.knownRuns)
+                    {
+                        Line(p, run, ink, 6f);
+                        Line(p, run, gold, 3f);
+                    }
                 }
                 foreach (var place in frame.measurePoints)
                     Ring(p, map.ChartPx(place), 6f, gold, ink);

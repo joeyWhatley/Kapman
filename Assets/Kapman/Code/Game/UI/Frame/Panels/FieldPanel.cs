@@ -101,8 +101,9 @@ namespace Kapman.Game.Frame
             var to = Course.IsSet ? GameData.Port(Course.Destination) : null;
             if (to == null || game == null || game.World == null)
             {
-                body.Add(FrameUi.H("No course set"));
-                body.Add(FrameUi.P("No course is set, so nobody is ahead of you or behind."));
+                // (a place pointed at on the chart is nobody's port: no other ship is bound for it)
+                body.Add(FrameUi.H(Course.ToPlace ? "Bound for " + Course.PlaceWords : "No course set"));
+                body.Add(FrameUi.P(Course.ToPlace ? "No other ship is bound there: it is a place, not a port." : "No course is set, so nobody is ahead of you or behind."));
                 return;
             }
             double mine = ToRunKm();
