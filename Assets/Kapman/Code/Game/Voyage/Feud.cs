@@ -393,7 +393,7 @@ namespace Kapman.Game
                         break;
                     }
                     if (!Has(Sworn) && !Has(AtLaw) && !Has(Quiet))
-                        Settle(4.0, 0.0);                                  // (she said nothing, and the days of that have run out)
+                        Answered("let_lie");                               // (she said nothing, and the days of that have run out)
                     break;
             }
             // THE ONE WHO DID IT is with the rope men who have caught her: put before her once each time they come, ahead
@@ -506,116 +506,277 @@ namespace Kapman.Game
         ///   feud_outlaw_paid    the lender's price paid to the count: the outlawry is lifted
         ///   feud_outlaw_seized  the count's men take the cargo
         /// </summary>
-        public static string Law(string kind)
+        public static string Law(string kind) =>
+            Answered(kind != null && kind.StartsWith("feud_", StringComparison.Ordinal) ? kind.Substring("feud_".Length) : kind);
+
+        // ------------------------------------------------------------------ WHAT SHE DOES ABOUT IT IS A FLOW
+        // (The user's ruling of 7 Oct 2026: flows are graphs.) What each answer does is the graph "Feud - what she does
+        // about Ravn's death" (on the '--- GAME ---' object; its nodes are in Code/Graphs/FeudNodes.cs): it starts at
+        // "On Ravn's death is answered" and has a row of small parts for each answer. Where no graph listens the same
+        // parts are run in the same order from here (AnsweredInCode); a test holds the two alike. The flow runs at
+        // once (nothing in it waits), so a saved game holds nothing of it.
+        // WHEN each of the feud's cards is put before her (over him; the one who did it; where he lies; a shore for
+        // his fire) is still Step's, above: four things looked at each minute, by the table's own numbers.
+
+        /// <summary>Set by the graphs' side (Kapman.Graphs): runs the graph's flow for the answer that is on and returns
+        /// true; false where no graph listens for it.</summary>
+        public static Func<bool> AnswerFlow;
+        /// <summary>How many answers a graph has run since the game began, and how many the code ran itself.</summary>
+        public static int ByGraph { get; private set; }
+        public static int ByCode { get; private set; }
+        /// <summary>THE ANSWER THAT IS ON (the graph's event reads it): "swear", "law", "quiet" (what she said over him);
+        /// "bury_priest", "pyre", "bury_water", "bury_aboard" (where he lies); "blood", "blood_lost"; "lender",
+        /// "lender_lost"; "price"; "outlaw_paid", "outlaw_seized"; "let_lie".</summary>
+        public static string Answer { get; private set; } = "";
+
+        static readonly List<string> said = new List<string>();
+
+        /// <summary>What a part has to say of what happened: a plain fact for the card's end.</summary>
+        static void Say(string fact)
+        {
+            if (!string.IsNullOrEmpty(fact))
+                said.Add(fact);
+        }
+
+        static string Answered(string answer)
+        {
+            said.Clear();
+            Answer = answer ?? "";
+            bool byGraph = false;
+            try
+            {
+                byGraph = AnswerFlow != null && AnswerFlow();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Kapman, the feud: the graph's flow for the answer \"" + Answer + "\" failed (" + e.Message + ").");
+                byGraph = true;                                          // (it ran, in part: the code's own parts on top of that would do things twice)
+            }
+            if (byGraph)
+                ByGraph++;
+            else
+            {
+                ByCode++;
+                AnsweredInCode();
+            }
+            return said.Count > 0 ? string.Join(" ", said) : null;
+        }
+
+        /// <summary>WHAT EACH ANSWER DOES, where no graph does it: the same parts in the same order as the graph has them
+        /// as first made.</summary>
+        static void AnsweredInCode()
+        {
+            switch (Answer)
+            {
+                case "swear":
+                    Swears();
+                    break;
+                case "law":
+                    TakesItToTheCount();
+                    break;
+                case "quiet":
+                    SaysNothing();
+                    break;
+                case "bury_priest":
+                    LaidToRest(1);
+                    break;
+                case "pyre":
+                    LaidToRest(2);
+                    break;
+                case "bury_water":
+                    LaidToRest(3);
+                    break;
+                case "bury_aboard":
+                    CarriedAboard();
+                    break;
+                case "blood":
+                    KillerIsDead();
+                    LordFinesTheBlood();
+                    WordGoesRound("took_blood_for_her_man");
+                    Over(1);
+                    break;
+                case "blood_lost":
+                    FightLost();
+                    break;
+                case "lender":
+                    LenderIsDead();
+                    WordGoesRound("killed_the_lender");
+                    Over(3);
+                    break;
+                case "lender_lost":
+                    ThrownOut();
+                    Collectors.Rage();
+                    break;
+                case "price":
+                    PriceOffTheStick();
+                    Over(2);
+                    break;
+                case "outlaw_paid":
+                    PaysTheLendersPrice();
+                    break;
+                case "outlaw_seized":
+                    CargoSeized();
+                    break;
+                case "let_lie":
+                    Over(4);
+                    break;
+            }
+        }
+
+        // ------------------------------------------------------------------ THE PARTS (each a node of the graph)
+
+        static bool Dead => Stage != FeudStage.None && Stage != FeudStage.Settled;
+
+        /// <summary>She swears his blood: the crew's heart rises a little the first time, and the matter is open.</summary>
+        public static void Swears()
+        {
+            if (!Dead)
+                return;
+            if (!Has(Sworn))
+                Voyage.Affect(0.0, Rules.swornHeart);
+            ContentFlags.Set(Sworn);
+            ContentFlags.Clear(AtLaw);
+            ContentFlags.Clear(Quiet);
+            Stage = FeudStage.Open;
+            Version++;
+        }
+
+        /// <summary>She takes it to the count's court, for his price: the matter is open.</summary>
+        public static void TakesItToTheCount()
+        {
+            if (!Dead)
+                return;
+            ContentFlags.Set(AtLaw);
+            ContentFlags.Clear(Quiet);
+            Stage = FeudStage.Open;
+            Version++;
+        }
+
+        /// <summary>She says nothing: the matter is open for the table's quietDays, and then it is let lie.</summary>
+        public static void SaysNothing()
+        {
+            if (!Dead)
+                return;
+            ContentFlags.Set(Quiet, 1.0, Math.Max(1.0, Rules.quietDays));
+            Stage = FeudStage.Open;
+            Version++;
+        }
+
+        /// <summary>He is laid to rest: 1 the priest's ground, 2 the fire, 3 the water. He lies aboard no longer.</summary>
+        public static void LaidToRest(int place)
+        {
+            ContentFlags.Set(Buried, Math.Max(1, Math.Min(3, place)));
+            ContentFlags.Clear(Aboard);
+            Version++;
+        }
+
+        /// <summary>He is carried aboard, for a fire on a shore of his own (asked for some hours out, off a shore).</summary>
+        public static void CarriedAboard()
+        {
+            var game = KapmanGame.Current;
+            ContentFlags.Set(Aboard);
+            aboardSince = game != null ? game.Hours : 0.0;
+            Version++;
+        }
+
+        /// <summary>The one who put his knife in Ravn is dead.</summary>
+        public static void KillerIsDead()
+        {
+            ContentFlags.Set(Blood);
+            Version++;
+            Say("The man who put his knife in Ravn is dead, and so Ravn is answered.");
+        }
+
+        /// <summary>Blood shed in a port is its lord's to fine (the table's townFineD); at sea there is nobody to.</summary>
+        public static void LordFinesTheBlood()
         {
             var r = Rules;
-            var game = KapmanGame.Current;
+            if (Kapman.Game.Port.LyingId() == null || !Trade.Started || r.townFineD <= 0.0)
+                return;
+            double paid = Trade.Purse.PayUpTo(r.townFineD, TradeRules.Current);
+            Say(paid > 0.5 ? $"The lord of the port takes {Show(paid)} from you for blood shed on his quay."
+                           : "The lord of the port finds nothing on you to take for the blood shed on his quay.");
+        }
+
+        /// <summary>The word of a deed goes round from the port she lies at (at sea, from the lender's own: his men carry
+        /// it home): a deed of Game/Data/reputation_793.json, by its name.</summary>
+        public static void WordGoesRound(string deed)
+        {
+            if (!string.IsNullOrEmpty(deed))
+                Deed(deed);
+        }
+
+        /// <summary>IT IS OVER: 1 his blood, 2 his price, 3 the lender's blood, 4 let lie. The ceiling on the crew's heart
+        /// and the mark on her lift, and their heart rises by the table's share for how it ended.</summary>
+        public static void Over(int how)
+        {
+            var r = Rules;
+            Settle(how, how == 1 || how == 3 ? r.bloodHeart : how == 2 ? r.priceHeart : 0.0);
+        }
+
+        /// <summary>The fight goes against her: a man of hers is dead (never her last).</summary>
+        public static void FightLost()
+        {
+            int lost = Voyage.LoseMen(1);
+            Say(lost > 0 ? "The fight goes against you, and one of your men does not get up again." : "The fight goes against you.");
+        }
+
+        /// <summary>The lender is dead by her hand: the stick burns with him (nothing is owed, and she works for nobody),
+        /// his cards come no more, and she is an outlaw in every port of the Franks.</summary>
+        public static void LenderIsDead()
+        {
+            ContentFlags.Set(EncounterState.GoneFlag(LenderCast));
+            ContentFlags.Set(Outlaw);
+            ContentFlags.Clear(Trade.WorkFlag);
+            if (Trade.Started)
+                Trade.Debt = 0.0;
+            Version++;
+            Say($"{Trade.LenderName} is dead at his own table and the stick has burned with him, so nothing is owed. From now on you are an outlaw in every port of the Franks.");
+        }
+
+        /// <summary>She is thrown out of the lender's house.</summary>
+        public static void ThrownOut() => Say("His men have you by the arms before you are halfway across the room, and they throw you into the river.");
+
+        /// <summary>The count sets Ravn's price on the lender (the table's priceD): it comes off her stick.</summary>
+        public static void PriceOffTheStick()
+        {
+            double counted = Trade.Started ? Math.Min(Trade.Debt, Math.Round(Rules.priceD)) : 0.0;
+            if (Trade.Started)
+                Trade.Debt = Math.Max(0.0, Trade.Debt - counted);
+            Say($"The count sets Ravn's price on the lender at {Show(counted)}, which comes off your stick. Still owed: {Show(Trade.Started ? Trade.Debt : 0.0)}.");
+        }
+
+        /// <summary>She pays the lender's price to the count (the table's outlawFineD), where she has it: the outlawry is
+        /// lifted. Short of it, nothing is taken and she is an outlaw still.</summary>
+        public static void PaysTheLendersPrice()
+        {
+            var r = Rules;
             var rules = TradeRules.Current;
-            switch (kind)
+            if (!Trade.Started || Trade.Purse.Silver(rules) < r.outlawFineD - 0.5)
             {
-                case "feud_swear":
-                    if (Stage == FeudStage.None || Stage == FeudStage.Settled)
-                        return null;
-                    if (!Has(Sworn))
-                        Voyage.Affect(0.0, r.swornHeart);
-                    ContentFlags.Set(Sworn);
-                    ContentFlags.Clear(AtLaw);
-                    ContentFlags.Clear(Quiet);
-                    Stage = FeudStage.Open;
-                    Version++;
-                    return null;
-                case "feud_law":
-                    if (Stage == FeudStage.None || Stage == FeudStage.Settled)
-                        return null;
-                    ContentFlags.Set(AtLaw);
-                    ContentFlags.Clear(Quiet);
-                    Stage = FeudStage.Open;
-                    Version++;
-                    return null;
-                case "feud_quiet":
-                    if (Stage == FeudStage.None || Stage == FeudStage.Settled)
-                        return null;
-                    ContentFlags.Set(Quiet, 1.0, Math.Max(1.0, r.quietDays));
-                    Stage = FeudStage.Open;
-                    Version++;
-                    return null;
-                case "feud_bury_priest":
-                case "feud_bury_water":
-                case "feud_pyre":
-                    ContentFlags.Set(Buried, kind == "feud_bury_priest" ? 1.0 : kind == "feud_pyre" ? 2.0 : 3.0);
-                    ContentFlags.Clear(Aboard);
-                    Version++;
-                    return null;
-                case "feud_bury_aboard":
-                    ContentFlags.Set(Aboard);
-                    aboardSince = game != null ? game.Hours : 0.0;
-                    Version++;
-                    return null;
-                case "feud_blood":
-                {
-                    string fine = "";
-                    // (blood shed in a port is its lord's to fine; at sea there is nobody to)
-                    if (Kapman.Game.Port.LyingId() != null && Trade.Started && r.townFineD > 0.0)
-                    {
-                        double paid = Trade.Purse.PayUpTo(r.townFineD, rules);
-                        fine = paid > 0.5 ? $" The lord of the port takes {Show(paid)} from you for blood shed on his quay."
-                                          : " The lord of the port finds nothing on you to take for the blood shed on his quay.";
-                    }
-                    Deed("took_blood_for_her_man");
-                    ContentFlags.Set(Blood);
-                    Settle(1.0, r.bloodHeart);
-                    return "The man who put his knife in Ravn is dead, and so Ravn is answered." + fine;
-                }
-                case "feud_blood_lost":
-                {
-                    int lost = Voyage.LoseMen(1);
-                    return lost > 0 ? "The fight goes against you, and one of your men does not get up again." : "The fight goes against you.";
-                }
-                case "feud_lender":
-                    ContentFlags.Set(EncounterState.GoneFlag(LenderCast));
-                    ContentFlags.Set(Outlaw);
-                    ContentFlags.Clear(Trade.WorkFlag);
-                    if (Trade.Started)
-                        Trade.Debt = 0.0;
-                    Deed("killed_the_lender");
-                    Settle(3.0, r.bloodHeart);
-                    return $"{Trade.LenderName} is dead at his own table and the stick has burned with him, so nothing is owed. From now on you are an outlaw in every port of the Franks.";
-                case "feud_lender_lost":
-                    Collectors.Rage();
-                    return "His men have you by the arms before you are halfway across the room, and they throw you into the river.";
-                case "feud_price":
-                {
-                    double counted = Trade.Started ? Math.Min(Trade.Debt, Math.Round(r.priceD)) : 0.0;
-                    if (Trade.Started)
-                        Trade.Debt = Math.Max(0.0, Trade.Debt - counted);
-                    Settle(2.0, r.priceHeart);
-                    return $"The count sets Ravn's price on the lender at {Show(counted)}, which comes off your stick. Still owed: {Show(Trade.Started ? Trade.Debt : 0.0)}.";
-                }
-                case "feud_outlaw_paid":
-                {
-                    if (!Trade.Started || Trade.Purse.Silver(rules) < r.outlawFineD - 0.5)
-                        return "You do not have the silver for his price, so you are an outlaw still.";
-                    double paid = Trade.Purse.PayUpTo(r.outlawFineD, rules);
-                    ContentFlags.Clear(Outlaw);
-                    Version++;
-                    return $"You pay the count {Show(paid)}, which is the lender's price, and you are an outlaw no longer.";
-                }
-                case "feud_outlaw_seized":
-                {
-                    // (the crew's own bread and ale are left: they are not sent to starve anybody)
-                    var gone = new List<string>();
-                    if (Trade.Started)
-                        foreach (var (good, count) in new List<(GoodDef good, int count)>(Trade.Hold.Contents))
-                        {
-                            if (count <= 0 || Array.IndexOf(Voyage.Rules.foodGoods, good.id) >= 0 || Array.IndexOf(Voyage.Rules.drinkGoods, good.id) >= 0)
-                                continue;
-                            Trade.Hold.Remove(good, count);
-                            gone.Add(Trade.UnitsNamed(good, count));
-                        }
-                    return gone.Count == 0 ? "The count's men turn out the hold and find nothing." : "The count's men take the cargo: " + string.Join(", ", gone) + ".";
-                }
+                Say("You do not have the silver for his price, so you are an outlaw still.");
+                return;
             }
-            return null;
+            double paid = Trade.Purse.PayUpTo(r.outlawFineD, rules);
+            ContentFlags.Clear(Outlaw);
+            Version++;
+            Say($"You pay the count {Show(paid)}, which is the lender's price, and you are an outlaw no longer.");
+        }
+
+        /// <summary>The count's men take the cargo of an outlaw (the crew's own bread and ale are left: they are not sent
+        /// to starve anybody).</summary>
+        public static void CargoSeized()
+        {
+            var gone = new List<string>();
+            if (Trade.Started)
+                foreach (var (good, count) in new List<(GoodDef good, int count)>(Trade.Hold.Contents))
+                {
+                    if (count <= 0 || Array.IndexOf(Voyage.Rules.foodGoods, good.id) >= 0 || Array.IndexOf(Voyage.Rules.drinkGoods, good.id) >= 0)
+                        continue;
+                    Trade.Hold.Remove(good, count);
+                    gone.Add(Trade.UnitsNamed(good, count));
+                }
+            Say(gone.Count == 0 ? "The count's men turn out the hold and find nothing." : "The count's men take the cargo: " + string.Join(", ", gone) + ".");
         }
 
         // ------------------------------------------------------------------ how it stands, for a window
@@ -713,6 +874,7 @@ namespace Kapman.Game
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         public static void Reset()
         {
+            ByGraph = ByCode = 0;
             own = null;
             Forget();
             ContentSave.Register("feud", Capture, Restore);

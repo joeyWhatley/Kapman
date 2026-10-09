@@ -24,7 +24,8 @@ namespace Kapman.Graphs
         /// parts itself).</summary>
         public static int Listening(Type of) => listening.TryGetValue(of, out int n) ? n : 0;
 
-        /// <summary>The event of a moment of theirs ("due", "caught", "answered", "gave_up"); null for no such moment.</summary>
+        /// <summary>The event of a moment of theirs ("due", "caught", "answered", "gave_up", "sighted", "word"); null for no
+        /// such moment.</summary>
         public static Type Of(string moment)
         {
             switch (moment)
@@ -33,6 +34,8 @@ namespace Kapman.Graphs
                 case "caught": return typeof(OnTheLendersMenCatchHer);
                 case "answered": return typeof(OnTheLendersMenAreAnswered);
                 case "gave_up": return typeof(OnTheLendersMenGiveUp);
+                case "sighted": return typeof(OnTheLendersMenAreSighted);
+                case "word": return typeof(OnAQuayTellsOfTheLendersMen);
             }
             return null;
         }
@@ -148,6 +151,42 @@ namespace Kapman.Graphs
         }
     }
 
+    /// <summary>The lookout has their boat in sight at sea, rowing after her (said once for each time it comes in sight).
+    /// THE WORDS the game has for it (placeholders, the user's to write): she knows the boat if she has met them.</summary>
+    [UnitTitle("On the lender's men are sighted")]
+    [UnitCategory("Events/Kapman")]
+    public sealed class OnTheLendersMenAreSighted : LendersMenEvent
+    {
+        protected override string hookName => "Kapman.LendersMen.sighted";
+
+        [DoNotSerialize, PortLabel("The words")] public ValueOutput words { get; private set; }
+        [DoNotSerialize, PortLabel("She knows their boat")] public ValueOutput known { get; private set; }
+
+        protected override void Definition()
+        {
+            base.Definition();
+            words = ValueOutput<string>(nameof(words), flow => Collectors.Words);
+            known = ValueOutput<bool>(nameof(known), flow => Collectors.Met);
+        }
+    }
+
+    /// <summary>A quay she has made fast at tells her of them: that men with a rope were there asking for her, and where
+    /// they went on to; or that the lender has sent men out. THE WORDS the game has for it (placeholders).</summary>
+    [UnitTitle("On a quay tells of the lender's men")]
+    [UnitCategory("Events/Kapman")]
+    public sealed class OnAQuayTellsOfTheLendersMen : LendersMenEvent
+    {
+        protected override string hookName => "Kapman.LendersMen.word";
+
+        [DoNotSerialize, PortLabel("The words")] public ValueOutput words { get; private set; }
+
+        protected override void Definition()
+        {
+            base.Definition();
+            words = ValueOutput<string>(nameof(words), flow => Collectors.Words);
+        }
+    }
+
     /// <summary>Runs the flow of a moment of theirs straight from a graph asset, with no scene and no machine: for a test
     /// that holds the graph to the code, and for a game without the scene's machine that still wants the graph.</summary>
     public static class LendersMenFlow
@@ -235,6 +274,14 @@ namespace Kapman.Graphs
         }
 
         protected override void Do(Flow flow) => Collectors.Heats(flow.GetValue<double>(by));
+    }
+
+    /// <summary>The lender is past patience: his temper is at the table's temperMost (she came for him in his own house).</summary>
+    [UnitTitle("The lender: he is past patience")]
+    [UnitCategory("Kapman/The lender's men")]
+    public sealed class LenderIsPastPatience : LendersMenPart
+    {
+        protected override void Do(Flow flow) => Collectors.Rage();
     }
 
     /// <summary>The lender has all of it: his temper is spent, and nothing is counted against her any more.</summary>

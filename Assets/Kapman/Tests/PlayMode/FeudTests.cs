@@ -373,6 +373,10 @@ namespace Kapman.Tests
                 Assert.IsFalse(Feud.LiesAboard, "he was burned and lies aboard still");
                 Assert.AreEqual(2.0, Feud.Var("feud.buried"));
                 Assert.IsTrue(Self.HasMark("gave_ravn_his_fire"), "she gave him his fire and it left no mark on her");
+                // (WHAT SHE DOES ABOUT IT IS A FLOW: every answer of this game was run by the graph, none by the code)
+                Assert.Greater(Feud.ByGraph, 3, "the graph \"Feud - what she does about Ravn's death\" ran few of her answers");
+                Assert.AreEqual(0, Feud.ByCode, "an answer of the feud was run by the code: no graph of the game's scene listened for it " +
+                    "(the Script Machine on '--- GAME ---'; Kapman > Make physical > 3e)");
 
                 // ======== 9. A SCENE TOLD FROM CODE: the same parts in the same order, where no graph runs them (a line
                 // of the teller's, a line that breaks off, and the hit that cuts it off; then a name's card)

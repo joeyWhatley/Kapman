@@ -211,6 +211,8 @@ namespace Kapman.Tests
                 Assert.IsTrue(game.ship.anchored, "the reckoning is lost and she does not lie to");
                 Assert.Greater(WorldXZ.Distance(astray, mark), Adrift.Sight(), "the reckoning was called lost with her landfall in sight:\n" + told);
                 Assert.Contains(ClockReason.OffLine, dropped, "the clock did not drop back when the reckoning was lost");
+                Assert.Greater(SeaMoments.ByGraph, 0, "the graph \"Voyage - the sea moves her\" ran none of the sea's moments");
+                Assert.AreEqual(0, SeaMoments.ByCode, "a moment of the sea was run by the code: no graph of the game's scene listened for it");
                 Assert.AreEqual(0, GameSpeed.Level, "the clock did not drop to speed 1");
                 yield return play.Click(SeaMovesHerTests.Small(play, "Pause"), "Pause");
                 yield return play.Click(SeaMovesHerTests.Verb(play, "Voyage"), "Voyage");
@@ -390,6 +392,8 @@ namespace Kapman.Tests
                 Assert.IsTrue(strained && said, "driven on a shore harder than she can keep clear of, nothing was said and nothing worked her:\n" + told);
                 Assert.Less(Boat.Hull, hull0, "the shore did not work her hull");
                 Assert.Contains(ClockReason.LeeShore, dropped, "the clock did not drop back on a lee shore");
+                Assert.Greater(SeaMoments.ByGraph, 1, "the graph \"Voyage - the sea moves her\" ran neither the rough water nor the lee shore");
+                Assert.AreEqual(0, SeaMoments.ByCode, "a moment of the sea was run by the code: no graph of the game's scene listened for it");
                 Assert.IsFalse(Boat.IsLost, "an hour on a shore in fair weather lost her");
                 yield return play.Click(SeaMovesHerTests.Small(play, "Pause"), "Pause");
                 map.Follow();

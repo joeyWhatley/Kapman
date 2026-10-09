@@ -219,6 +219,10 @@ namespace Kapman.Tests
                 Assert.Less(System.Math.Abs(Adrift.Set.x), 2500.0, "she was carried east or west by a sea setting north:\n" + track);
                 Assert.Greater(Adrift.OffLine, 6000.0, "she is not off her line:\n" + track);
                 Assert.Contains(ClockReason.OffLine, dropped, "the clock did not drop back when she was set off her line");
+                // (WHAT THE SEA TELLS HER IS A FLOW: it was the graph that told the log and dropped the clock, not the code)
+                Assert.Greater(SeaMoments.ByGraph, 0, "the graph \"Voyage - the sea moves her\" ran none of the sea's moments");
+                Assert.AreEqual(0, SeaMoments.ByCode, "a moment of the sea was run by the code: no graph of the game's scene listened for it " +
+                    "(the Script Machine on '--- GAME ---'; Kapman > Make physical > 3f)");
                 Assert.AreEqual(0, GameSpeed.Level, "the clock did not drop to speed 1");
                 Assert.IsTrue(Course.IsWater(off.x, off.z), "she was carried onto the land");
                 yield return play.Click(Small(play, "Pause"), "Pause");

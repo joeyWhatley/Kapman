@@ -1794,3 +1794,37 @@ and far fewer when usage is short).
      SeaMovesHerTests; SeaReckoningTests) pass with the graphs asked every game minute.
    Tests: EditMode 602 (600 pass, 2 skipped); PlayMode ChartGameTests, SeaMovesHerTests, SeaReckoningTests,
    GoonsTests 10 of 10.
+
+129. **PUT RIGHT, AS ASKED (4): WHAT SHE DOES ABOUT RAVN'S DEATH, AND WHAT THE SEA TELLS HER, ARE FLOWS RUN BY GRAPHS**
+   (the last of the repair begun in DECISIONS 126; the ruling is DECISIONS 72.)
+   - THE GRAPH "Feud - what she does about Ravn's death" (on '--- GAME ---'). It starts at "On Ravn's death is
+     answered" and switches on the answer, a row of small nodes to each of FIFTEEN ANSWERS: swear, law, quiet (what
+     she says over him); bury_priest, pyre, bury_water, bury_aboard (where he lies); blood (his killer is dead, the
+     port's lord fines the blood, the word goes round, it is over), blood_lost; lender (the lender is dead, the word
+     goes round, it is over), lender_lost (thrown out of his house, and he is past patience); price (his price comes
+     off the stick, it is over); outlaw_paid, outlaw_seized; and let_lie, when she said nothing and the days ran out.
+     Feud keeps each part the nodes run and runs them in the same order where no graph listens. The numbers are the
+     table's (feud_rules_793.json). FeudFlowEditTests plays 26 cases twice, by the code and by the graph run from its
+     file, and they must end alike; FeudTests fails if an answer of the played game was run by the code.
+     STILL THE CODE'S, AND SAID SO IN THE GRAPH: when each of the feud's cards is put before her (four things looked
+     at each minute, by the table's numbers), and the punishment that falls at his death.
+   - THE GRAPH "Voyage - the sea moves her" (on '--- GAME ---'). Wind and tide had rule graphs and no flow: what is
+     said, and whether the clock drops back, was decided in five places of C#. FIVE MOMENTS are one event now, "On
+     the sea moves her": off_line (set well off her line), lee_shore, adrift (lying to in water too deep to anchor
+     in), lost (the steersman has lost his reckoning), rough (she comes into rough water). As first made the graph
+     tells the log the moment's words and drops the clock back where the moment calls for it, for its own reason.
+     Two nodes anybody can use: "Log: say" and "Clock: drop back".
+   - THE LENDER'S MEN'S GRAPH has two more events in the same way: "On the lender's men are sighted" (the log says
+     so, and the clock drops back) and "On a quay tells of the lender's men" (the log says so).
+   - SO THE THREE SYSTEMS OF 9 OCT STAND LIKE THIS NOW. Graphs: Ravn's scene; what each answer to the lender's men
+     and to the feud does; when the lender sends, what his men do when they catch her and when they give up; what
+     the sea tells her; and twenty rules (a fight, the lender's men, wind and tide). Tables: every number that is
+     not a rule's own, and every word. Code: the lender's men's boat on the chart, the tide's stream and the
+     reckoning of where she is, keeping her off the land, when each of the feud's cards is offered, and the parts
+     the nodes run. Each graph has its code beside it for a game with no graph, and a test that holds the two alike.
+   - NINE GRAPHS IN ALL from this repair, and where they are: Game/Graphs ("Scene - Ravn is killed", "Encounter -
+     the lender's men", "Feud - what she does about Ravn's death", "Voyage - the sea moves her") and
+     Game/Graphs/Rules (sixteen of the twenty). Made by Kapman > Make physical > 3, 3c, 3d, 3e, 3f; drawings of each
+     from its file in G:\kapman_unity\graph_pics (not Unity's own window).
+   Tests: FeudFlowEditTests (2), SeaFlowEditTests (3); FeudTests, GoonsTests, SeaMovesHerTests, SeaReckoningTests
+   (play, by the graphs). EditMode 607 (605 pass, 2 skipped); PlayMode 33 of 33.

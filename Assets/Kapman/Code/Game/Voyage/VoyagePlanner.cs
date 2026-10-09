@@ -323,14 +323,15 @@ namespace Kapman.Game
                 {
                     // he has run his distance and his landfall is not in sight: she lies to for the next order
                     string bound = Course.Destination;
-                    Voyage.Say(Adrift.LostWords(Course.ToPlace ? null : Course.BoundName));
+                    string lostWords = Adrift.LostWords(Course.ToPlace ? null : Course.BoundName);
                     Course.Clear();
                     Adrift.Lost(bound);
                     ship.anchored = true;
                     Hold();
                     held = true;
                     wasMoored = false;
-                    ClockDrops.Raise(ClockReason.OffLine);
+                    // (a moment of the flow: "On the sea moves her"; the log is told, and the clock drops back)
+                    SeaMoments.Raise("lost", lostWords, ClockReason.OffLine);
                     return;
                 }
                 p = Course.Aim(by, chartAheadM, out last);

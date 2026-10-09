@@ -323,7 +323,7 @@ namespace Kapman.Game
                 if (Helm != Helm.Drifting && !driftTold)
                 {
                     driftTold = true;
-                    Voyage.Say(DriftWords);
+                    SeaMoments.Raise("adrift", DriftWords);                   // (a moment of the flow: "On the sea moves her")
                 }
                 Know(Helm.Drifting);
             }
@@ -421,8 +421,7 @@ namespace Kapman.Game
                     if (!shoreTold)
                     {
                         shoreTold = true;
-                        Voyage.Say(gale ? LeeShoreGaleWords : LeeShoreWords);
-                        ClockDrops.Raise(ClockReason.LeeShore);
+                        SeaMoments.Raise("lee_shore", gale ? LeeShoreGaleWords : LeeShoreWords, ClockReason.LeeShore);
                         Version++;
                     }
                 }
@@ -452,8 +451,7 @@ namespace Kapman.Game
                 if (!warned && OffLine > r.offLineWarnM && (Helm == Helm.Reckoning || Helm == Helm.Coasting))
                 {
                     warned = true;
-                    Voyage.Say(OffLineWords(OffLine, Set));
-                    ClockDrops.Raise(ClockReason.OffLine);
+                    SeaMoments.Raise("off_line", OffLineWords(OffLine, Set), ClockReason.OffLine);
                     Version++;
                 }
                 else if (warned && OffLine < r.offLineWarnM * 0.5)

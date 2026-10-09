@@ -239,6 +239,26 @@ namespace Kapman.EditorTools
             var upAngrier = g.Add(new LenderIsTheAngrier(), 420, y5);
             g.Flow(gaveUp.trigger, upAngrier.enter);
             g.Set(upAngrier.by, 1.0);
+
+            // ---- 6. word of them comes to her
+            float y6 = y5 + 360f;
+            g.Group(-40, y6 - 90, 1900, 520, "6. Word of them comes to her",
+                "The lookout has their boat in sight at sea: the log says so, and the clock drops back. A quay she makes fast at tells her they were there asking, or that they are out after her: the log says so.",
+                GraphBuilder.Talk);
+            var sighted = g.Add(new OnTheLendersMenAreSighted(), 0, y6);
+            var sightSaid = g.Add(new LogSay(), 460, y6);
+            g.Flow(sighted.trigger, sightSaid.enter);
+            g.Data(sighted.words, sightSaid.words);
+            var sightDrop = g.Add(new ClockDropBack(), 860, y6);
+            g.Flow(sightSaid.exit, sightDrop.enter);
+            g.Set(sightDrop.why, ClockReason.Goons);
+            var word = g.Add(new OnAQuayTellsOfTheLendersMen(), 0, y6 + 220);
+            var wordSaid = g.Add(new LogSay(), 460, y6 + 220);
+            g.Flow(word.trigger, wordSaid.enter);
+            g.Data(word.words, wordSaid.words);
+            g.Note(1240, y6 - 40, 600, 220, "The words",
+                "The words come with the event: \"There is a boat to the north-east, rowing hard after you, and it is the lender's men.\" PLACEHOLDER WORDS, in Collectors.cs: the user's to write. " +
+                "Join a line of your own to 'Log: say' in their place, or put a sound before it.");
             return g.Save(Path);
         }
 

@@ -236,6 +236,9 @@ namespace Kapman.Game
         /// <summary>They give up: why ("days": their days are out; "nobody": no quay knows where she is; "astray": they
         /// were sent the wrong way and have found it out).</summary>
         public static string Why { get; private set; } = "";
+        /// <summary>Word of them comes to her (their boat sighted at sea; a quay telling her they were there, or that
+        /// they are out after her): the words the game has for it. PLACEHOLDER WORDS, the user's to write.</summary>
+        public static string Words { get; private set; } = "";
         /// <summary>Given nothing, what they do (<see cref="GivenNothing"/>: 0 they only talk, 1 they take what they came
         /// for, 2 and beat a man, 3 and kill a man, 4 and kill Ravn); and whether, taking, they got nothing.</summary>
         public static int WhatTheyDo { get; private set; }
@@ -763,8 +766,13 @@ namespace Kapman.Game
                 sightTold = true;
                 known = true;
                 string airt = SeaWatch.Airt(her.x, her.z, At.x, At.z);
-                Voyage.Say(Met ? $"There is a boat to the {airt}, rowing hard after you, and it is the lender's men." : $"There is a boat to the {airt}, rowing hard on your own course.");
-                ClockDrops.Raise(ClockReason.Goons);
+                // (a moment of the flow: "On the lender's men are sighted")
+                Words = Met ? $"There is a boat to the {airt}, rowing hard after you, and it is the lender's men." : $"There is a boat to the {airt}, rowing hard on your own course.";
+                if (!Fire("sighted"))
+                {
+                    SeaMoments.Told(Words);
+                    SeaMoments.ClockDropsBack(ClockReason.Goons);
+                }
             }
             if (!InSight && was)
                 sightTold = false;
@@ -785,8 +793,8 @@ namespace Kapman.Game
                     toldAt.Add(lying);
                     known = true;
                     double since = Math.Max(0.0, Math.Round(day - a.day));
-                    Voyage.Say($"The quay says {Men} men with a rope were here asking for you{(since < 1.0 ? " today" : since < 2.0 ? " yesterday" : $", {since:0} days since")}." +
-                               (a.on.Length > 0 && a.on != lying ? $" They went on to {PortName(a.on)}." : ""));
+                    Word($"The quay says {Men} men with a rope were here asking for you{(since < 1.0 ? " today" : since < 2.0 ? " yesterday" : $", {since:0} days since")}." +
+                         (a.on.Length > 0 && a.on != lying ? $" They went on to {PortName(a.on)}." : ""));
                     return;
                 }
             if (!sendingTold && day - outSince >= 3.0)
@@ -794,8 +802,16 @@ namespace Kapman.Game
                 sendingTold = true;
                 known = true;
                 toldAt.Add(lying);
-                Voyage.Say("The word on the quay is that the lender has sent men out after you.");
+                Word("The word on the quay is that the lender has sent men out after you.");
             }
+        }
+
+        /// <summary>A quay tells her of them (a moment of the flow: "On a quay tells of the lender's men").</summary>
+        static void Word(string words)
+        {
+            Words = words;
+            if (!Fire("word"))
+                SeaMoments.Told(Words);
         }
 
         static void Heat(double by)
@@ -1406,7 +1422,7 @@ namespace Kapman.Game
             offeredAt = 0.0;
             Met = InSight = offered = sightTold = sendingTold = known = cardWanted = false;
             PaidLately = Angry = GotNothing = false;
-            Answer = Trick = Why = "";
+            Answer = Trick = Why = Words = "";
             WhatTheyDo = 0;
             pending = default;
             said.Clear();
