@@ -215,9 +215,9 @@ namespace Kapman.Game
             line.Add(end);
             depths?.Add(float.PositiveInfinity);
             kinds?.Add(LaneGraph.Sea);
-            // (from open water to the lanes: that stretch is the sea's, whatever lane it comes to)
+            // (from open water to the lanes: that stretch is open water, whatever lane it comes to)
             if (startLane >= 0 && kinds != null && kinds.Count > 1 && WorldXZ.Distance(line[0], line[1]) > OwnLaneM)
-                kinds[1] = LaneGraph.Sea;
+                kinds[1] = Joining(FirstLane(line, kinds, true));
             if (startLane >= 0)
                 TakeUp(line, depths, kinds, true);
             km = 0.0;
@@ -454,9 +454,9 @@ namespace Kapman.Game
                     depths?.Add(ptWater[k]);
                     kinds?.Add(ptKind[k]);
                 }
-                // (from open water to the lanes: that stretch is the sea's, whatever lane it comes to)
+                // (from open water to the lanes: that stretch is open water, whatever lane it comes to)
                 if (berth < 0 && kinds != null && kinds.Count > 1 && line.Count > 1 && WorldXZ.Distance(line[0], line[1]) > OwnLaneM)
-                    kinds[1] = LaneGraph.Sea;
+                    kinds[1] = Joining(FirstLane(line, kinds, false));
                 // and on to the place itself, where open water lies between the lanes and it
                 var last = line[line.Count - 1];
                 double off = WorldXZ.Distance(last, place);
@@ -528,12 +528,34 @@ namespace Kapman.Game
         /// <summary>Real metres ahead within which a course laid from open water goes straight for a later point of its way.</summary>
         public const double TakeUpM = 60000.0;
 
+        /// <summary>The kind of the open water between her and the lane she makes for: a coast's where that lane is a
+        /// coast's (the land he coasts by is the same land), else the open sea's (a river's, a sound's, the flats': she
+        /// is not yet in them, and wind and tide set her).</summary>
+        static byte Joining(byte lane) => lane == LaneGraph.Coastal ? LaneGraph.Coastal : LaneGraph.Sea;
+
+        /// <summary>The kind of the lane her way first runs along: of the first leg after the lanes' own point she makes
+        /// for that has any length. (That point is often a crossing, where two or three lanes meet: which of them it
+        /// was found on says nothing of the way she takes from it.) `berth`: the line ends with a berth's own last leg,
+        /// which is no lane.</summary>
+        static byte FirstLane(List<WorldXZ> line, List<byte> kinds, bool berth)
+        {
+            int end = Math.Min(kinds.Count, line.Count - (berth ? 1 : 0));
+            for (int i = 2; i < end; i++)
+                if (WorldXZ.Distance(line[i - 1], line[i]) > 1.0)
+                    return kinds[i];
+            return kinds.Count > 1 ? kinds[1] : LaneGraph.Sea;
+        }
+
         /// <summary>
         /// A COURSE LAID FROM OPEN WATER GOES STRAIGHT FOR ITS WAY AHEAD (9 Oct 2026: the first picture of a course laid
         /// again at sea showed it sailing 13 km back to the lanes' own nearest point before it went on: on the open sea
         /// a lane has a point every forty km or so). The first points of the lanes are left out as far as open water
         /// lies between her and a later one: along her first run of open water only, never past the last point before
         /// a berth, and no further ahead than <see cref="TakeUpM"/>.
+        /// THAT STRETCH IS A COAST'S WHERE EVERY LANE IT STANDS FOR IS A COAST'S (10 Oct 2026), and the open sea's
+        /// otherwise. It was always the sea's: so after any course was laid again under the land she went by reckoning
+        /// alone for as far as sixty km, the land told the steersman nothing of his error there, and he could not lay
+        /// her course again himself (the user's ruling of that day: "He corrects along a coast").
         /// </summary>
         static void TakeUp(List<WorldXZ> line, List<float> depths, List<byte> kinds, bool endsAtBerth)
         {
@@ -553,9 +575,15 @@ namespace Kapman.Game
             }
             if (best <= 1)
                 return;
+            // (the legs of the lanes it stands for that have any length: the leg from her to the lanes' own point has
+            // none when she is on it, and its kind is that of whichever lane the point was found on)
+            bool coast = true;
+            for (int i = 2; i <= best; i++)
+                if (WorldXZ.Distance(line[i - 1], line[i]) > 1.0)
+                    coast &= kinds[i] == LaneGraph.Coastal;
             line.RemoveRange(1, best - 1);
             kinds.RemoveRange(1, best - 1);
-            kinds[1] = LaneGraph.Sea;
+            kinds[1] = coast ? LaneGraph.Coastal : LaneGraph.Sea;
             if (depths != null && depths.Count >= best)
             {
                 depths.RemoveRange(1, best - 1);
@@ -715,7 +743,8 @@ namespace Kapman.Game
             return m;
         }
 
-        static bool[] waterSurface;
+        static bool[] waterSurface, drySurface;
+        static byte[] sightCells = new byte[0];
         static MapLand waterOf;
 
         /// <summary>The world bake, with its kinds of water made ready: the sea, inland water, the rivers of 800 AD
@@ -736,10 +765,15 @@ namespace Kapman.Game
             if (waterSurface == null || !ReferenceEquals(waterOf, land))
             {
                 waterSurface = new bool[256];
+                drySurface = new bool[256];
                 for (int i = 0; i < 256; i++)
                 {
                     string name = land.SurfaceNames[i] ?? "";
                     waterSurface[i] = name == "Sea" || name == "Inland water" || name == "Rivers of 800 AD";
+                    // (land that is seen from the water: not the sands and the bars, which the tide covers, and not
+                    // what lies beyond the map)
+                    drySurface[i] = name.Length > 0 && !waterSurface[i] && !name.StartsWith("Tidal flats") && !name.StartsWith("Sand and mud bars")
+                                    && !name.StartsWith("Beyond");
                 }
                 waterOf = land;
             }
@@ -764,6 +798,52 @@ namespace Kapman.Game
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// DOES DRY LAND LIE WITHIN SO MANY REAL METRES OF A PLACE, by the world bake (10 Oct 2026: "land in sight", for
+        /// the steersman who lays her course again himself)? Asked of the bake's level of about half a kilometre to a
+        /// cell: a coast or an island, not a rock; the sands and the bars are not land to see. False where the bake is
+        /// not there to ask, or cannot be read.
+        /// </summary>
+        public static bool LandWithin(WorldXZ at, double reach)
+        {
+            var land = Land();
+            if (land == null || reach <= 0.0)
+                return false;
+            reach = Math.Min(reach, 60000.0);
+            // (the coarsest level of the bake that is no coarser than 500 m and covers everywhere)
+            int level = land.FinestLevel;
+            for (int i = land.FinestLevel; i < land.LevelCount; i++)
+                if (land.Levels[i].cell <= 500.0)
+                    level = i;
+            var lv = land.Levels[level];
+            int col0 = (int)Math.Floor((at.x - reach - lv.west) / lv.cell), row0 = (int)Math.Floor((lv.north - (at.z + reach)) / lv.cell);
+            int n = (int)Math.Ceiling(2.0 * reach / lv.cell) + 1;
+            try
+            {
+                if (sightCells.Length < n * n)
+                    sightCells = new byte[n * n];
+                land.ReadSurfaces(level, col0, row0, n, n, sightCells);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            double r2 = reach * reach;
+            for (int r = 0; r < n; r++)
+            {
+                double dz = lv.north - (row0 + r + 0.5) * lv.cell - at.z;
+                for (int c = 0; c < n; c++)
+                {
+                    if (!drySurface[sightCells[r * n + c]])
+                        continue;
+                    double dx = lv.west + (col0 + c + 0.5) * lv.cell - at.x;
+                    if (dx * dx + dz * dz <= r2)
+                        return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>Is the straight water between two places open: every 300 m of it sea or inland water, by the world

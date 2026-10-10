@@ -26234,7 +26234,7 @@
     "key": "declare",
     "label": "Declare the cargo"
    },
-   "default_why": "The card's own usual answer; no silver or goods change hands; no deed; no one harmed.",
+   "default_why": "Declare the cargo: the card's own usual answer. Since 10 Oct 2026 (the user's ruling: as you answered last time) a toll man who remembers that she declared, or showed a charter, takes it the same way with nothing asked; with swords or captives aboard he comes to her.",
    "fallbacks": [
     3,
     2,
@@ -26266,7 +26266,14 @@
    },
    "picture": "card/card.harbour.tollman.frankish.png",
    "picture_stand_in": "card/card.any.harbour.png",
-   "by": "hand"
+   "by": "hand",
+   "as_before": [
+    "charter",
+    "declare"
+   ],
+   "meets": [
+    "hide"
+   ]
   },
   {
    "id": "long.offa_quarrel.ports_shut",
@@ -38199,90 +38206,63 @@
    "by": "hand"
   },
   {
-   "id": "harbour.wokerers_man.home",
-   "open": true,
+   "id": "harbour.goons.quay",
+   "open": false,
    "urgency": "ordinary",
    "holds_ship": false,
    "patience_hours": 168,
    "default": {
-    "index": 4,
-    "key": "put_off",
-    "label": "Not today. Tell him next time"
+    "index": 8,
+    "key": "nothing",
+    "label": "Tell them you have not got it"
    },
-   "default_why": "The card's own usual answer; no silver or goods change hands; no one harmed.",
+   "default_why": "Left unanswered (a week, or she casts off), the rope men do what they do when they are given nothing.",
    "fallbacks": [
-    6,
-    3,
     5,
-    2,
+    3,
+    7,
+    4,
+    6,
+    0,
     1,
-    0
+    2
    ],
-   "speaker": "factor",
-   "speaker_name": "",
-   "speaker_role": "factor",
-   "speaker_actor": "man",
-   "speaker_how": "no person of the places files holds this role here",
-   "portrait": "portrait/role.factor.png",
+   "speaker": "warrior",
+   "speaker_name": "One",
+   "speaker_role": "warrior",
+   "speaker_actor": "brute",
+   "speaker_how": "the card's own person, One: no one of the places files",
+   "portrait": "portrait/role.warrior.png",
    "face": "stand-in",
    "picture": null,
    "picture_stand_in": "card/card.any.harbour.png",
    "by": "hand"
   },
   {
-   "id": "harbour.wokerers_man.away",
-   "open": true,
-   "urgency": "ordinary",
-   "holds_ship": false,
-   "patience_hours": 168,
-   "default": {
-    "index": 4,
-    "key": "put_off",
-    "label": "Not today. Tell him next time"
-   },
-   "default_why": "The card's own usual answer; no silver or goods change hands; no one harmed.",
-   "fallbacks": [
-    6,
-    3,
-    5,
-    2,
-    1,
-    0
-   ],
-   "speaker": "factor",
-   "speaker_name": "",
-   "speaker_role": "factor",
-   "speaker_actor": "man",
-   "speaker_how": "no person of the places files holds this role here",
-   "portrait": "portrait/role.factor.png",
-   "face": "stand-in",
-   "picture": null,
-   "picture_stand_in": "card/card.any.harbour.png",
-   "by": "hand"
-  },
-  {
-   "id": "sea.wokerers_man.fog",
-   "open": true,
+   "id": "sea.goons.alongside",
+   "open": false,
    "urgency": "pressing",
    "holds_ship": true,
-   "patience_hours": 3,
+   "patience_hours": 2,
    "default": {
-    "index": 3,
-    "key": "put_off",
-    "label": "Tell him this is no place for it"
+    "index": 5,
+    "key": "nothing",
+    "label": "Tell them you have not got it"
    },
-   "default_why": "The card's own usual answer; no silver or goods change hands; no one harmed.",
+   "default_why": "Freeze, and the rope men do what they do when they are given nothing.",
    "fallbacks": [
+    4,
+    3,
     2,
-    1,
-    0
+    0,
+    1
    ],
-   "speaker": "factor",
-   "speaker_name": "",
-   "speaker_role": "factor",
-   "speaker_actor": "man",
-   "speaker_how": "no person of the places files holds this role here",
-   "portrait": "portrait/role.factor.png",
+   "speaker": "warrior",
+   "speaker_name": "One",
+   "speaker_role": "warrior",
+   "speaker_actor": "brute",
+   "speaker_how": "the card's own person, One: no one of the places files",
+   "portrait": "portrait/role.warrior.png",
    "face": "stand-in",
    "picture": null,
    "picture_stand_in": "card/card.any.sea.png",
@@ -38413,6 +38393,194 @@
    "speaker_actor": "man",
    "speaker_how": "no person of the places files holds this role here",
    "portrait": "portrait/role.factor.png",
+   "face": "stand-in",
+   "picture": null,
+   "picture_stand_in": "card/card.any.crew.png",
+   "by": "hand"
+  },
+  {
+   "id": "crew.feud.oath",
+   "open": false,
+   "urgency": "ordinary",
+   "holds_ship": false,
+   "patience_hours": 168,
+   "default": {
+    "index": 2,
+    "key": "quiet",
+    "label": "Say nothing"
+   },
+   "default_why": "Left unanswered, she has said nothing over him.",
+   "fallbacks": [
+    1,
+    0
+   ],
+   "speaker": "doccinga.aldger",
+   "speaker_name": "Aldger",
+   "speaker_role": "steersman",
+   "speaker_actor": "steersman",
+   "speaker_how": "a seat aboard: Aldger sits there on the first day (another man if he is paid off)",
+   "portrait": "portrait/person.cast.crew.aldger.png",
+   "face": "named",
+   "picture": null,
+   "picture_stand_in": "card/card.any.crew.png",
+   "by": "hand"
+  },
+  {
+   "id": "crew.feud.burial",
+   "open": false,
+   "urgency": "ordinary",
+   "holds_ship": false,
+   "patience_hours": 168,
+   "default": {
+    "index": 2,
+    "key": "water",
+    "label": "Give him to the water"
+   },
+   "default_why": "Left unanswered, the water has him: no cross and no fire.",
+   "fallbacks": [
+    1,
+    0
+   ],
+   "speaker": "doccinga.aldger",
+   "speaker_name": "Aldger",
+   "speaker_role": "steersman",
+   "speaker_actor": "steersman",
+   "speaker_how": "a seat aboard: Aldger sits there on the first day (another man if he is paid off)",
+   "portrait": "portrait/person.cast.crew.aldger.png",
+   "face": "named",
+   "picture": null,
+   "picture_stand_in": "card/card.any.crew.png",
+   "by": "hand"
+  },
+  {
+   "id": "crew.feud.pyre",
+   "open": false,
+   "urgency": "ordinary",
+   "holds_ship": false,
+   "patience_hours": 168,
+   "default": {
+    "index": 0,
+    "key": "burn",
+    "label": "Put in, and burn him here"
+   },
+   "default_why": "It is what he was carried aboard for.",
+   "fallbacks": [
+    1,
+    2
+   ],
+   "speaker": "doccinga.aldger",
+   "speaker_name": "Aldger",
+   "speaker_role": "steersman",
+   "speaker_actor": "steersman",
+   "speaker_how": "a seat aboard: Aldger sits there on the first day (another man if he is paid off)",
+   "portrait": "portrait/person.cast.crew.aldger.png",
+   "face": "named",
+   "picture": null,
+   "picture_stand_in": "card/card.any.crew.png",
+   "by": "hand"
+  },
+  {
+   "id": "harbour.feud.door",
+   "open": true,
+   "urgency": "ordinary",
+   "holds_ship": false,
+   "patience_hours": 168,
+   "default": {
+    "index": 2,
+    "key": "leave",
+    "label": "Not today"
+   },
+   "default_why": "Nobody is killed because the player looked away.",
+   "fallbacks": [
+    1,
+    0
+   ],
+   "speaker": "factor",
+   "speaker_name": "",
+   "speaker_role": "factor",
+   "speaker_actor": "man",
+   "speaker_how": "no person of the places files holds this role here",
+   "portrait": "portrait/role.factor.png",
+   "face": "stand-in",
+   "picture": null,
+   "picture_stand_in": "card/card.any.harbour.png",
+   "by": "hand"
+  },
+  {
+   "id": "harbour.feud.court",
+   "open": true,
+   "urgency": "ordinary",
+   "holds_ship": false,
+   "patience_hours": 168,
+   "default": {
+    "index": 2,
+    "key": "wait",
+    "label": "Not today"
+   },
+   "default_why": "The plea is hers to make.",
+   "fallbacks": [
+    0,
+    1
+   ],
+   "speaker": "dorestad.folcbert",
+   "speaker_name": "Folcbert",
+   "speaker_role": "count",
+   "speaker_actor": "count",
+   "speaker_how": "the count at dorestad in those years",
+   "portrait": "portrait/person.cast.folcbert.png",
+   "face": "named",
+   "picture": null,
+   "picture_stand_in": "card/card.any.harbour.png",
+   "by": "hand"
+  },
+  {
+   "id": "harbour.feud.outlaw",
+   "open": true,
+   "urgency": "ordinary",
+   "holds_ship": false,
+   "patience_hours": 168,
+   "default": {
+    "index": 1,
+    "key": "hold",
+    "label": "Let them take what is in the hold"
+   },
+   "default_why": "Left unanswered, the count's men take what is in the hold.",
+   "fallbacks": [
+    2,
+    0
+   ],
+   "speaker": "lords_man",
+   "speaker_name": "One",
+   "speaker_role": "lords_man",
+   "speaker_actor": "man",
+   "speaker_how": "the card's own person, One: no one of the places files",
+   "portrait": "portrait/role.lords_man.png",
+   "face": "stand-in",
+   "picture": null,
+   "picture_stand_in": "card/card.any.harbour.png",
+   "by": "hand"
+  },
+  {
+   "id": "crew.feud.killer",
+   "open": false,
+   "urgency": "pressing",
+   "holds_ship": true,
+   "patience_hours": 2,
+   "default": {
+    "index": 1,
+    "key": "wait",
+    "label": "Not now"
+   },
+   "default_why": "Freeze, and nobody is killed: the rope men then say what they came to say.",
+   "fallbacks": [
+    0
+   ],
+   "speaker": "warrior",
+   "speaker_name": "One",
+   "speaker_role": "warrior",
+   "speaker_actor": "brute",
+   "speaker_how": "the card's own person, One: no one of the places files",
+   "portrait": "portrait/role.warrior.png",
    "face": "stand-in",
    "picture": null,
    "picture_stand_in": "card/card.any.crew.png",

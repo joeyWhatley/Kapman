@@ -248,6 +248,237 @@ namespace Kapman.Tests
             }
         }
 
+        /// <summary>
+        /// FEWER PROMPTS AT SEA (the user by the picker, 10 Oct 2026: "He corrects along a coast", "Sail on by herself").
+        /// With a sea the test has made, on a long stretch of her way to Ripa that lies along a coast:
+        ///   - ALONG A COAST, set off her line, the steersman lays her course again himself: the log says so, the clock
+        ///     is not dropped back, and nothing is asked of her (on open sea she is told, as she was: SeaMovesHerTests);
+        ///   - IN THICK AIR along that same coast he cannot see the land: he tells her, and the clock drops back;
+        ///   - A RECKONING LOST IN THICK AIR: she lies to and the Voyage window says what will happen; an hour on,
+        ///     with the air still thick, she lies there yet; when it clears he lays her course from where she is, she
+        ///     sails on, the log says so, and the clock drops back once.
+        /// Thick air is made by the test's own number for how far he sees (under a kilometre), not by the weather.
+        /// </summary>
+        [UnityTest, Timeout(1200000)]
+        public IEnumerator AlongACoastHeLaysHerCourseAgainAndWhenAFogLiftsSheSailsOn()
+        {
+            ChartPlay play = null;
+            yield return SeaMovesHerTests.NewGame("kapman_fewer_prompts_saves", p => play = p);
+            bool quietWas = ClockDrops.Quiet;
+            ClockDrops.Quiet = false;
+            var dropped = new List<ClockReason>();
+            System.Action<ClockReason> onDrop = why => dropped.Add(why);
+            ClockDrops.Dropped += onDrop;
+            var told = new StringBuilder();
+            try
+            {
+                var game = KapmanGame.Current;
+                var map = MapView.Current;
+                var frame = play.Frame;
+                var body = ChartBody.Current;
+                const string Far = "ripa";
+
+                // ---- the longest stretch of her way to Ripa that lies along a coast
+                var home = GameData.Port("dorestad");
+                var line = new List<WorldXZ>();
+                var kinds = new List<byte>();
+                Assert.IsTrue(Course.Plan(Far, At(home.lat, home.lon), "dorestad", line, null, kinds, out double km), "no way to Ripa");
+                int runFrom = -1, runTo = -1;
+                double best = 0.0;
+                for (int i = 1; i < line.Count; i++)
+                {
+                    if (kinds[i] != LaneGraph.Coastal)
+                        continue;
+                    int j = i;
+                    double m = 0.0;
+                    while (j < line.Count && kinds[j] == LaneGraph.Coastal)
+                    {
+                        m += WorldXZ.Distance(line[j - 1], line[j]);
+                        j++;
+                    }
+                    if (m > best)
+                    {
+                        best = m;
+                        runFrom = i - 1;
+                        runTo = j - 1;
+                    }
+                    i = j;
+                }
+                told.AppendLine($"the way to Ripa: {km:0} km, {line.Count} points; its longest stretch along a coast {best / 1000.0:0} km, points {runFrom}..{runTo}");
+                Assert.Greater(best, 45000.0, "the way to Ripa has no long stretch along a coast:\n" + told);
+                int startAt = runFrom + 1;
+                double into = 0.0;
+                for (int i = runFrom + 1; i < runTo && into < 6000.0; i++)
+                {
+                    into += WorldXZ.Distance(line[i - 1], line[i]);
+                    startAt = i;
+                }
+                var start = line[startAt];
+                float heading = Mathf.Atan2((float)(line[startAt + 1].x - start.x), (float)(line[startAt + 1].z - start.z)) * Mathf.Rad2Deg;
+
+                // ---- she casts off, and is put there, bound for Ripa
+                Assert.IsTrue(Course.SetTo("traiectum", ChartWorld.ShipWorld(), Port.LyingId()), "no course to Traiectum");
+                yield return play.Click(SeaMovesHerTests.Verb(play, "Cast off"), "Cast off");
+                yield return ChartPlay.Frames(10);
+                yield return SeaMovesHerTests.AnswerAll(play);
+                Put(game, start, heading);
+                game.ship.anchored = false;
+                for (int i = startAt; i <= runTo; i += 3)
+                    Exploration.See(line[i].x, line[i].z, 45000.0);
+                Exploration.Apply();
+                Assert.IsTrue(Course.SetTo(Far, ChartWorld.ShipWorld(), null), "no course to Ripa from the coast");
+                Adrift.Forget();
+                // (the test's own numbers: she is off her line at a kilometre and a half; he sees a landfall at 12 km)
+                SeaPush.Use(new SeaPushRules { offLineWarnM = 1500.0, landfallM = 12000.0 });
+                Assert.IsFalse(Adrift.Blind, "the day's own air is thick where the test begins: it cannot show what he does in clear air");
+                System.Func<WorldXZ, (double, double)> onHerBeam = at =>
+                {
+                    double h = game.ship.Heading * System.Math.PI / 180.0, v = System.Math.Max(0.3, body.Knots * 0.5144) * 0.5;
+                    return (System.Math.Cos(h) * v, -System.Math.Sin(h) * v);       // (on her starboard beam, half of her way)
+                };
+                SeaPush.Fixed = onHerBeam;
+                yield return ChartPlay.Frames(6);
+
+                // ======== ALONG A COAST HE LAYS HER COURSE AGAIN HIMSELF
+                int logFrom = FrameLog.Lines.Count, codes = SeaMoments.ByCode;
+                bool relaid = false, toldOff = false, coasting = false;
+                double mostOff = 0.0;
+                dropped.Clear();
+                System.Func<bool> said = () =>
+                {
+                    coasting |= Adrift.Helm == Helm.Coasting;
+                    mostOff = System.Math.Max(mostOff, Adrift.OffLine);
+                    for (int i = logFrom; i < FrameLog.Lines.Count; i++)
+                    {
+                        relaid |= FrameLog.Lines[i].text.StartsWith("Wind and tide had set her");
+                        toldOff |= FrameLog.Lines[i].text.StartsWith("Wind and tide have set her");
+                    }
+                    return relaid || toldOff;
+                };
+                yield return Sail(play, game, 10.0, said);
+                var here = ChartWorld.ShipWorld();
+                told.AppendLine($"along a coast: laid again by himself {relaid}, told {toldOff}; coasting {coasting}; the most she was off her line {mostOff:0} m; now helm {Adrift.Helm}, off her line {Adrift.OffLine:0} m, " +
+                                $"his error {Adrift.SetM:0} m; her course begins {WorldXZ.Distance(Course.Points[0], here):0} m from her; dropped [{string.Join(", ", dropped)}]");
+                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.text)));
+                File.WriteAllText(Path.Combine(play.dir, "sea_fewer_prompts.txt"), told.ToString());
+                Assert.IsTrue(coasting, "on a coasting stretch of her course the steersman never coasted:\n" + told);
+                Assert.IsTrue(relaid, "set off her line along a coast, the steersman did not lay her course again himself:\n" + told);
+                Assert.IsFalse(toldOff, "along a coast she was told she was off her line, and the course left to her:\n" + told);
+                CollectionAssert.DoesNotContain(dropped, ClockReason.OffLine, "the clock dropped back though he laid her course again himself");
+                Assert.IsTrue(Course.IsSet && Course.Destination == Far, "laying her course again lost it");
+                Assert.Less(WorldXZ.Distance(Course.Points[0], here), 2500.0, "her course was not laid again from where she is:\n" + told);
+                Assert.Less(Adrift.OffLine, 800.0, "her course is laid again and she is still off it:\n" + told);
+                Assert.AreEqual(codes, SeaMoments.ByCode, "the moment was run by the code: no graph of the game's scene listened for it");
+                yield return play.Click(SeaMovesHerTests.Small(play, "Pause"), "Pause");
+                map.Follow();
+                yield return ChartPlay.Settle(0.6f);
+                yield return play.Shot("sea_10_along_a_coast_he_lays_it_again_himself");
+
+                // ======== IN THICK AIR ALONG THAT COAST HE TELLS HER
+                SeaPush.Use(new SeaPushRules { offLineWarnM = 1500.0, landfallM = 900.0 });
+                Assert.IsTrue(Adrift.Blind, "he sees 900 m and the air does not count as thick");
+                logFrom = FrameLog.Lines.Count;
+                relaid = toldOff = false;
+                dropped.Clear();
+                yield return Sail(play, game, 10.0, said);
+                told.AppendLine($"in thick air: laid again by himself {relaid}, told {toldOff}; helm {Adrift.Helm}; off her line {Adrift.OffLine:0} m; dropped [{string.Join(", ", dropped)}]");
+                File.WriteAllText(Path.Combine(play.dir, "sea_fewer_prompts.txt"), told.ToString());
+                Assert.IsTrue(toldOff, "in thick air along a coast she was not told that she was off her line:\n" + told);
+                Assert.IsFalse(relaid, "in thick air he laid her course again himself, by land he could not see:\n" + told);
+                Assert.Contains(ClockReason.OffLine, dropped, "the clock did not drop back when she was told");
+
+                // ======== A RECKONING LOST IN THICK AIR, AND THE AIR CLEARS
+                // (as the reckoning test loses it: 15 km before the end of her open water, a sea dead against her)
+                SeaPush.Fixed = at => (0.0, 0.0);
+                Assert.IsTrue(Course.SetTo(Far, ChartWorld.ShipWorld(), null));
+                int end = Course.OpenRunEnd(1);
+                var near = Before(Course.Points, end, 15000.0);
+                var mark = Course.Points[end];
+                Put(game, near, heading);
+                game.ship.anchored = false;
+                Assert.IsTrue(Course.SetTo(Far, ChartWorld.ShipWorld(), null), "no course to Ripa from 15 km before the end of her open water");
+                Adrift.Forget();
+                SeaPush.Use(new SeaPushRules { landfallM = 900.0 });
+                SeaPush.Fixed = at =>
+                {
+                    double h = game.ship.Heading * System.Math.PI / 180.0, v = System.Math.Max(0.3, body.Knots * 0.5144) * 0.9;
+                    return (-System.Math.Sin(h) * v, -System.Math.Cos(h) * v);      // (dead against her, nine tenths of her way)
+                };
+                dropped.Clear();
+                logFrom = FrameLog.Lines.Count;
+                string lostLine = "";
+                yield return Sail(play, game, 40.0, () =>
+                {
+                    for (int i = logFrom; i < FrameLog.Lines.Count && lostLine.Length == 0; i++)
+                        if (FrameLog.Lines[i].text.Contains("and he cannot make it out"))
+                            lostLine = FrameLog.Lines[i].text;
+                    return lostLine.Length > 0;
+                }, 300f);
+                SeaPush.Fixed = at => (0.0, 0.0);
+                yield return ChartPlay.Frames(6);
+                var astray = ChartWorld.ShipWorld();
+                told.AppendLine($"lost in thick air: '{lostLine}'; {WorldXZ.Distance(astray, mark) / 1000.0:0.0} km from her landfall; course set {Course.IsSet}; bound {Adrift.LostBound}; lost in thick air {Adrift.LostBlind}; he sees {Adrift.Sight():0} m");
+                File.WriteAllText(Path.Combine(play.dir, "sea_fewer_prompts.txt"), told.ToString());
+                Assert.IsNotEmpty(lostLine, "held back by a sea dead against her, in thick air, she ran her distance and nobody said the landfall was missing:\n" + told);
+                StringAssert.Contains("in air as thick as this", lostLine, "the log does not say that it is the air");
+                StringAssert.Contains("until it clears", lostLine);
+                Assert.IsFalse(Course.IsSet, "the reckoning is lost and she still has her course");
+                Assert.AreEqual(Far, Adrift.LostBound);
+                Assert.IsTrue(Adrift.LostBlind, "it is not kept that the reckoning was lost in thick air");
+                Assert.IsTrue(game.ship.anchored, "the reckoning is lost and she does not lie to");
+                yield return play.Click(SeaMovesHerTests.Small(play, "Pause"), "Pause");
+                yield return play.Click(SeaMovesHerTests.Verb(play, "Voyage"), "Voyage");
+                yield return ChartPlay.Settle(0.8f);
+                string reads = ChartPlay.Read(frame.Root);
+                StringAssert.Contains("The reckoning is lost", reads);
+                StringAssert.Contains("When it clears he lays her course again himself and she sails on", reads, "the Voyage window does not say what will happen when the air clears");
+                map.Follow();
+                yield return ChartPlay.Settle(0.5f);
+                yield return play.Shot("sea_11_lost_in_thick_air");
+                // an hour on, the air still thick: she lies there yet
+                yield return Sail(play, game, 1.0, () => false);
+                Assert.IsFalse(Course.IsSet, "the air is still thick and she has sailed on");
+                Assert.IsTrue(game.ship.anchored);
+                // the air clears: he lays her course from where she is, and she sails on
+                dropped.Clear();
+                logFrom = FrameLog.Lines.Count;
+                codes = SeaMoments.ByCode;
+                SeaPush.Use(new SeaPushRules { landfallM = 12000.0 });
+                yield return Sail(play, game, 2.0, () => Course.IsSet);
+                yield return ChartPlay.Frames(10);
+                var after = ChartWorld.ShipWorld();
+                told.AppendLine($"the air clears: course set {Course.IsSet} for {Course.Destination}; bound kept '{Adrift.LostBound}'; anchored {game.ship.anchored}; dropped [{string.Join(", ", dropped)}]");
+                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.text)));
+                File.WriteAllText(Path.Combine(play.dir, "sea_fewer_prompts.txt"), told.ToString());
+                Assert.IsTrue(Course.IsSet && Course.Destination == Far, "the air cleared and she did not sail on by herself:\n" + told);
+                Assert.AreEqual("", Adrift.LostBound, "she sails on and the reckoning still counts as lost");
+                Assert.IsFalse(Adrift.LostBlind);
+                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.text.StartsWith("The air has cleared")), "the log does not say that the air cleared and she sails on:\n" + told);
+                Assert.Contains(ClockReason.WaitOver, dropped, "the clock did not drop back when she sailed on");
+                Assert.AreEqual(1, dropped.Count(r => r == ClockReason.WaitOver), "the clock dropped back more than once for it");
+                Assert.IsFalse(game.ship.anchored, "her course is laid again and she still lies to");
+                Assert.AreEqual(codes, SeaMoments.ByCode, "the moment was run by the code: no graph of the game's scene listened for it");
+                yield return play.Click(SeaMovesHerTests.Small(play, "Pause"), "Pause");
+                map.Follow();
+                yield return ChartPlay.Settle(0.5f);
+                yield return play.Shot("sea_12_the_air_clears_and_she_sails_on");
+            }
+            finally
+            {
+                SeaPush.Fixed = null;
+                SeaPush.Use(null);
+                ClockDrops.Dropped -= onDrop;
+                ClockDrops.Quiet = quietWas;
+                ClockSettings.AsNew = false;
+                SaveGame.FolderOverride = null;
+                if (told.Length > 0 && play != null)
+                    File.WriteAllText(Path.Combine(play.dir, "sea_fewer_prompts.txt"), told.ToString());
+                play?.End();
+                FrameRoot.FreshLayout = false;
+                GameSpeed.SetLevel(0);
+            }
+        }
+
         [UnityTest, Timeout(1200000)]
         public IEnumerator LyingToSheIsCarriedAShoreHoldsHerOffAndRoughWaterIsRough()
         {

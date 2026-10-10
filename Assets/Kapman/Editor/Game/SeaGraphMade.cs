@@ -24,7 +24,8 @@ namespace Kapman.EditorTools
                 "When that does something she should know of, it comes here: the log says it, and the clock drops back where the moment calls for it. " +
                 "How much the sea moves her is the rule graphs' (Game/Graphs/Rules: her leeway, blown downwind, a lee shore, the rough waters ...).");
             g.Group(-40, -90, 2100, 420, "The sea moves her",
-                "Five moments: she is set well off her line; she is held off a lee shore; lying to in deep water, she is carried; the steersman has lost his reckoning; she comes into rough water.",
+                "Seven moments: she is set well off her line; she is held off a lee shore; lying to in deep water, she is carried; the steersman has lost his reckoning; she comes into rough water; " +
+                "along a coast he has laid her course again himself; a fog has cleared and she sails on.",
                 GraphBuilder.Talk);
             var on = g.Add(new OnTheSeaMovesHer(), 0, 0);
             var say = g.Add(new LogSay(), 460, 0);
@@ -39,14 +40,32 @@ namespace Kapman.EditorTools
             g.Note(-20, 200, 560, 260, "The moments",
                 "off_line: wind and tide have set her well off her line (the table's offLineWarnM).\nlee_shore: she is set down on a shore she has not the way on to keep clear of.\n" +
                 "adrift: lying to in water too deep to anchor in, she goes where wind and tide carry her.\nlost: the steersman has run his distance and cannot make out his landfall; she lies to.\n" +
-                "rough: she comes into rough water (a race, a bar, a shoal, an open cape).");
+                "rough: she comes into rough water (a race, a bar, a shoal, an open cape).\n" +
+                "relaid: set well off her line along a coast, the steersman has laid her course again himself (your ruling of 10 October 2026).\n" +
+                "cleared: the air has cleared over a reckoning lost in it, and she sails on (the same day).");
             g.Note(580, 200, 560, 260, "The words, and the clock",
                 "The words come with the event (\"Wind and tide have set her 9 km to the north-east of her line.\"): PLACEHOLDER WORDS, in Adrift.cs and RoughWaters.cs, the user's to write. " +
-                "The clock drops back for all but 'adrift'; each reason has its own switch in the settings. To treat one moment otherwise, put a Switch on 'What' after the event.");
+                "The clock drops back for all but 'adrift' and 'relaid'; each reason has its own switch in the settings. To treat one moment otherwise, put a Switch on 'What' after the event.");
             g.Note(1180, 200, 560, 260, "What is not here",
                 "What moves her and how much: the tide's stream (a model of the real tides), her leeway, the wind's drift, the steersman's reckoning, keeping her off the land. " +
                 "Their numbers are rule graphs (Game/Graphs/Rules) and the table (Game/Data/sea_push.json); the rest is the code's (Adrift.Carry, SeaPush).");
             return g.Save(Path);
+        }
+
+        /// <summary>The graph made again OVER the one that is there, into the same asset (10 Oct 2026: its notes name
+        /// seven moments now). Only while nobody has changed it by hand: what was changed in the graph window is lost.
+        /// Batch: -executeMethod Kapman.EditorTools.SeaGraphMade.Remake</summary>
+        public static void Remake()
+        {
+            GraphBuilder.ReplaceExisting = true;
+            try
+            {
+                Make();
+            }
+            finally
+            {
+                GraphBuilder.ReplaceExisting = false;
+            }
         }
 
         [MenuItem("Kapman/Make physical/3f. The graph of the sea's moments")]

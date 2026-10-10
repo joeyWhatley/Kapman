@@ -9,7 +9,9 @@ namespace Kapman.Graphs
     /// something to her that she should know of: the graph "Voyage - the sea moves her" (on the '--- GAME ---' object)
     /// starts here. WHAT: "off_line" (set well off her line), "lee_shore" (held off a shore she cannot keep clear of),
     /// "adrift" (lying to in water too deep to anchor in), "lost" (the steersman has lost his reckoning, and she lies
-    /// to), "rough" (she comes into rough water). THE WORDS the game has for it (placeholders, the user's to write).
+    /// to), "rough" (she comes into rough water), "relaid" (along a coast the steersman has laid her course again
+    /// himself), "cleared" (a fog has cleared and she sails on). THE WORDS the game has for it (placeholders, the
+    /// user's to write).
     /// Whether THE CLOCK DROPS BACK for it, and WHY (a reason the player can switch off in the settings).
     /// </summary>
     [UnitTitle("On the sea moves her")]

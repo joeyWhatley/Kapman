@@ -505,6 +505,84 @@ namespace Kapman.Graphs
         }
     }
 
+    /// <summary>Set well off her line, does the steersman lay her course again himself (the user's ruling of 10 Oct 2026)? The answer: 1 he does, 0 he tells her. Given: is land in sight, and is the air thick (each 1 or 0).</summary>
+    [UnitTitle("Rule: does the steersman lay her course again himself")]
+    [UnitShortTitle("Rule: does he lay her course again himself")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class LaysAgainRule : RuleUnit
+    {
+        public override string Rule => "lays_again";
+
+        [DoNotSerialize, PortLabel("Land is in sight (1 or 0)")] public ValueOutput land { get; private set; }
+        [DoNotSerialize, PortLabel("The air is thick (1 or 0)")] public ValueOutput thick { get; private set; }
+
+        protected override void Given()
+        {
+            land = ValueOutput<double>(nameof(land));
+            thick = ValueOutput<double>(nameof(thick));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(land, given[0]);
+            flow.SetValue(thick, given[1]);
+        }
+    }
+
+    /// <summary>Lying to with a reckoning lost, does she sail on by herself now (the user's ruling of 10 Oct 2026)? The answer: 1 she does, 0 she waits for her course to be laid. Given: was it lost in thick air (1 or 0), how far the steersman sees now, and from how far the air counts as clear.</summary>
+    [UnitTitle("Rule: does she sail on when the air clears")]
+    [UnitShortTitle("Rule: does she sail on when the air clears")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class SailsOnRule : RuleUnit
+    {
+        public override string Rule => "sails_on";
+
+        [DoNotSerialize, PortLabel("Lost in thick air (1 or 0)")] public ValueOutput lost { get; private set; }
+        [DoNotSerialize, PortLabel("He sees now (m)")] public ValueOutput sees { get; private set; }
+        [DoNotSerialize, PortLabel("Clear from (m)")] public ValueOutput clearFrom { get; private set; }
+
+        protected override void Given()
+        {
+            lost = ValueOutput<double>(nameof(lost));
+            sees = ValueOutput<double>(nameof(sees));
+            clearFrom = ValueOutput<double>(nameof(clearFrom));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(lost, given[0]);
+            flow.SetValue(sees, given[1]);
+            flow.SetValue(clearFrom, given[2]);
+        }
+    }
+
+    /// <summary>Is a card answered as she answered it the last time, with nothing asked of her (the user's ruling of 10 Oct 2026, of the king's toll)? The answer: 1 it is, 0 the card comes. Given, each 1 or 0: her last answer may stand and can be given today; a better answer is open to her today; a choice is open that brings its people to her in person.</summary>
+    [UnitTitle("Rule: is a card answered as before")]
+    [UnitShortTitle("Rule: is a card answered as before")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class AsBeforeRule : RuleUnit
+    {
+        public override string Rule => "as_before";
+
+        [DoNotSerialize, PortLabel("Her last answer stands (1 or 0)")] public ValueOutput stands { get; private set; }
+        [DoNotSerialize, PortLabel("A better answer is open (1 or 0)")] public ValueOutput better { get; private set; }
+        [DoNotSerialize, PortLabel("Something brings them (1 or 0)")] public ValueOutput meets { get; private set; }
+
+        protected override void Given()
+        {
+            stands = ValueOutput<double>(nameof(stands));
+            better = ValueOutput<double>(nameof(better));
+            meets = ValueOutput<double>(nameof(meets));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(stands, given[0]);
+            flow.SetValue(better, given[1]);
+            flow.SetValue(meets, given[2]);
+        }
+    }
+
     /// <summary>Lying to, can she lie to her anchor and not be carried? The answer: 1 she can, 0 she cannot. Given: the wind, the wind of a gale, the depth of the water, and the table's deepest water to anchor in.</summary>
     [UnitTitle("Rule: can she lie to her anchor")]
     [UnitShortTitle("Rule: can she lie to her anchor")]

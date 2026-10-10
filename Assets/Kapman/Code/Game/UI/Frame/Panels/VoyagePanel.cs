@@ -262,6 +262,7 @@ namespace Kapman.Game.Frame
             h = FrameUi.Mix(h, (int)(Adrift.OffLine / 1000.0));
             // (and whether the air is still thick over a reckoning lost)
             h = FrameUi.Mix(h, Adrift.LostBound.Length > 0 && Adrift.Blind);
+            h = FrameUi.Mix(h, Adrift.LostBlind);
             return h;
         }
 
@@ -337,8 +338,11 @@ namespace Kapman.Game.Frame
                 body.Add(FrameUi.P("She has run her distance for " + bound + " and the steersman cannot make it out. She lies to. The chart shows where she is."));
                 // (10 Oct 2026, the long walk: in a fog he lost it four times in four hours, and nothing said that laying
                 // her course again was no use until it cleared. PLACEHOLDER WORDS.)
-                if (Adrift.Blind)
-                    body.Add(FrameUi.P("The air is still thick. A course laid now may well be lost again before it clears."));
+                // (and since the user's ruling of the same day: lost in thick air, she sails on by herself when it clears)
+                if (Adrift.LostBlind)
+                    body.Add(FrameUi.P("The air is too thick for him. When it clears he lays her course again himself and she sails on. A course laid now may well be lost again."));
+                else if (Adrift.Blind)
+                    body.Add(FrameUi.P("The air is thick now. A course laid now may well be lost again before it clears."));
                 body.Add(FrameUi.Go("Lay the course again", () => LayAgain()));
             }
             // ---- the place pointed at on the chart (click and sail)

@@ -213,7 +213,15 @@ namespace Kapman.Tests
             StringAssert.Contains("off Witla", thick);
             StringAssert.Contains("and he cannot make it out", thick, "the tests that look for a lost reckoning in the log know it by these words");
             StringAssert.Contains("thick", thick);
-            StringAssert.Contains("wait for it to clear", thick);
+            StringAssert.Contains("until it clears", thick, "since 10 Oct 2026 she sails on by herself when it clears: nothing is asked of the player");
+            // (the two new moments' words: whole sentences, and nothing the page's rule forbids)
+            foreach (string words in new[] { Adrift.RelaidWords(9400.0), Adrift.ClearedWords("Witla"), Adrift.ClearedWords(null) })
+            {
+                Assert.IsNull(PageWords.Fault(words), "the page's rule: " + words);
+                Assert.IsTrue(char.IsUpper(words[0]) && words.EndsWith("."), "not a sentence: " + words);
+            }
+            StringAssert.Contains("9 km", Adrift.RelaidWords(9400.0));
+            StringAssert.Contains("for Witla", Adrift.ClearedWords("Witla"));
             StringAssert.Contains("in with the land", Adrift.LostWords(null, true), "a place pointed at has no name to be off");
         }
 
@@ -305,6 +313,128 @@ namespace Kapman.Tests
             Assert.AreEqual(5000.0, Course.OffLine(new WorldXZ(off.x - (again[1].z - off.z) / WorldXZ.Distance(off, again[1]) * 5000.0,
                                                                off.z + (again[1].x - off.x) / WorldXZ.Distance(off, again[1]) * 5000.0)), 50.0,
                             "five km abeam of her first leg she is five km off her line");
+        }
+
+        /// <summary>
+        /// A COURSE LAID AGAIN ALONG A COAST IS STILL ALONG THAT COAST (10 Oct 2026). A course laid from open water goes
+        /// straight for a later point of its way, and that stretch was always the open sea's: under the land too, so
+        /// that the steersman went by reckoning alone there and could not lay her course again himself (the user's
+        /// ruling of that day: "He corrects along a coast"). On the long stretch of coast on the way to Ripa: laid from
+        /// a point of the coast's own lane, and laid from three km off it, her first stretch is a coast's, and he
+        /// coasts. (Across the open sea it is the sea's as it was: the test above holds that.)
+        /// </summary>
+        /// <summary>
+        /// LAND IN SIGHT (the user's ruling of 10 Oct 2026: with the land in sight the steersman lays her course again
+        /// himself; "out of sight of land it stays as now"). The world bake is asked whether dry land lies within so
+        /// many metres: off the Kinnem shore it does, in the middle of the North Sea it does not, the sands of the
+        /// Wadden are not land to see, and no reach is no land.
+        /// </summary>
+        [Test]
+        public void TheWorldKnowsWhetherLandLiesWithinSight()
+        {
+            if (!Course.KnowsWater)
+                Assert.Ignore("no world bake to ask what is land");
+            // five km off the Kinnem shore (the dunes of Holland), abreast of Egmond
+            var off = At(52.62, 4.55);
+            Assert.IsTrue(Course.IsWater(off.x, off.z), "the test's place off the Kinnem shore is not water");
+            Assert.IsTrue(Course.LandWithin(off, 12000.0), "five km off the dunes no land lies within twelve km");
+            Assert.IsFalse(Course.LandWithin(off, 1500.0), "five km off the dunes land lies within a kilometre and a half");
+            Assert.IsFalse(Course.LandWithin(off, 0.0), "no reach, and land in it");
+            // the middle of the North Sea, on the Dogger: nothing within thirty km
+            var dogger = At(54.9, 2.6);
+            Assert.IsTrue(Course.IsWater(dogger.x, dogger.z), "the Dogger is not water");
+            Assert.IsFalse(Course.LandWithin(dogger, 30000.0), "on the Dogger land lies within thirty km");
+            // on Dorestat's own bank land lies within a kilometre
+            var dorestat = GameData.Port("dorestad");
+            Assert.IsTrue(Course.LandWithin(At(dorestat.lat, dorestat.lon), 1000.0), "at Dorestat no land lies within a kilometre");
+        }
+
+        /// <summary>The kind of the first leg of a line that has any length (a course laid from a lane's own point
+        /// begins with a leg of none).</summary>
+        static byte FirstLegWithLength(List<WorldXZ> line, List<byte> kinds)
+        {
+            for (int i = 1; i < line.Count; i++)
+                if (WorldXZ.Distance(line[i - 1], line[i]) > 1.0)
+                    return kinds[i];
+            return LaneGraph.River;
+        }
+
+        [Test]
+        public void ACourseLaidAgainAlongACoastIsStillAlongThatCoast()
+        {
+            NeedLanes();
+            if (!Course.KnowsWater)
+                Assert.Ignore("no world bake to ask what is water");
+            Adrift.Reset();
+            var line = new List<WorldXZ>();
+            var kinds = new List<byte>();
+            var dorestat = GameData.Port("dorestad");
+            Assert.IsTrue(Course.Plan("ripa", At(dorestat.lat, dorestat.lon), "dorestad", line, null, kinds, out _), "no way from Dorestat to Ripa");
+            // the longest stretch of the way that lies along a coast
+            int from = -1, to = -1;
+            double best = 0.0;
+            for (int i = 1; i < line.Count; i++)
+            {
+                if (kinds[i] != LaneGraph.Coastal)
+                    continue;
+                int j = i;
+                double m = 0.0;
+                while (j < line.Count && kinds[j] == LaneGraph.Coastal)
+                {
+                    m += WorldXZ.Distance(line[j - 1], line[j]);
+                    j++;
+                }
+                if (m > best)
+                {
+                    best = m;
+                    from = i - 1;
+                    to = j - 1;
+                }
+                i = j;
+            }
+            Assert.Greater(best, 45000.0, "the way to Ripa has no long stretch along a coast");
+            // laid from a point of the coast's own lane, a little way into the stretch
+            int at = from + 2;
+            Assert.Less(at, to - 3, "the stretch along the coast has too few points to test with");
+            var again = new List<WorldXZ>();
+            var againKinds = new List<byte>();
+            Assert.IsTrue(Course.Plan("ripa", line[at], null, again, null, againKinds, out _), "no way to Ripa from the coast");
+            Assert.AreEqual(LaneGraph.Coastal, FirstLegWithLength(again, againKinds), "a course laid from a coast's own lane begins with a stretch of the open sea");
+            // and from three km off it, to one side or the other, where open water lies between
+            WorldXZ off = default;
+            bool found = false;
+            for (int p = at; p < to - 2 && !found; p++)
+            {
+                var a = line[p];
+                var b = line[p + 1];
+                double len = WorldXZ.Distance(a, b);
+                if (len < 1.0)
+                    continue;
+                double dx = (b.x - a.x) / len, dz = (b.z - a.z) / len;
+                foreach (double side in new[] { 3000.0, -3000.0 })
+                {
+                    off = new WorldXZ((a.x + b.x) * 0.5 - dz * side, (a.z + b.z) * 0.5 + dx * side);
+                    if (Course.IsWater(off.x, off.z) && Course.OpenWater(off, b))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            Assert.IsTrue(found, "no open water three km off the coast's lane on the way to Ripa");
+            Assert.IsTrue(Course.Plan("ripa", off, null, again, null, againKinds, out _), "no way to Ripa from three km off the coast's lane");
+            Assert.Less(WorldXZ.Distance(again[0], off), 1.0, "the course does not begin where she is");
+            Assert.AreEqual(LaneGraph.Coastal, againKinds[1], "a course laid again along a coast begins with a stretch of the open sea: he goes by reckoning alone there");
+            Assert.Greater(WorldXZ.Distance(again[0], again[1]), 3000.0, "the course begins with a hop to the lanes' nearest point");
+            // set, he coasts on it
+            Assert.IsTrue(Course.SetTo("ripa", off, null));
+            Assert.IsTrue(Course.LegIsOpen(1), "her first leg is open water");
+            Assert.IsTrue(Course.LegIsCoastal(1), "her first leg is not along a coast");
+            Adrift.SteersBy(Course.Points[0], 1.0 / 60.0, out bool lost);
+            Assert.IsFalse(lost);
+            Assert.AreEqual(Helm.Coasting, Adrift.Helm, "on a course laid again along a coast the steersman does not coast");
+            Adrift.Reset();
+            Course.Clear();
         }
 
         [Test]

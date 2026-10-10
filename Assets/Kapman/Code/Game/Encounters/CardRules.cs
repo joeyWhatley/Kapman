@@ -17,6 +17,13 @@ namespace Kapman.Game
         public bool holdsShip;
         public double patienceHours = CardRules.OrdinaryHours;
         public readonly List<string> take = new List<string>();
+        /// <summary>AS SHE ANSWERED THE LAST TIME (the user's ruling of 10 Oct 2026, of the king's toll): the answers that
+        /// are given again by themselves when the card's people remember that she gave them the last time, the best
+        /// first ("charter", then "declare"). Empty: the card always comes up.</summary>
+        public readonly List<string> asBefore = new List<string>();
+        /// <summary>Choices whose being open today brings the card up all the same ("hide": with something to hide the
+        /// toll man is met in person).</summary>
+        public readonly List<string> meets = new List<string>();
     }
 
     /// <summary>
@@ -70,6 +77,12 @@ namespace Kapman.Game
                 foreach (var k in Json.Arr(row, "take") ?? new List<object>())
                     if (k is string key && key.Length > 0)
                         r.take.Add(key);
+                foreach (var k in Json.Arr(row, "as_before") ?? new List<object>())
+                    if (k is string again && again.Length > 0)
+                        r.asBefore.Add(again);
+                foreach (var k in Json.Arr(row, "meets") ?? new List<object>())
+                    if (k is string brings && brings.Length > 0)
+                        r.meets.Add(brings);
                 if (r.id.Length > 0)
                     rules.byId[r.id] = r;
             }

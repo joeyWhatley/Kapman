@@ -71,6 +71,10 @@ namespace Kapman.Tests
         readonly HashSet<string> gaveUp = new HashSet<string>();
         readonly List<string> foundByLooking = new List<string>();
         int looks, lookedAtCall = -100, laidAgain, leftAtSea;
+        // (fewer prompts, 10 Oct 2026: how often the steersman laid her course again himself, how often she was told she
+        // was off her line, how often she sailed on by herself when the air cleared, how often the king's toll went as
+        // it went the last time, and how often its card was answered by hand)
+        int himself, toldOff, sailedOn, tollAsBefore, tollByHand, tallied;
         bool coursePointed, underWay;
         Came came;
 
@@ -137,6 +141,24 @@ namespace Kapman.Tests
             for (int i = FrameLog.Lines.Count - added; i < FrameLog.Lines.Count; i++)
                 said.Add(FrameLog.Lines[i].text);
             return said;
+        }
+
+        /// <summary>The log's new lines since the last count, counted (fewer prompts, 10 Oct 2026). Asked often: the log
+        /// keeps its newest 200 lines only.</summary>
+        void Tally()
+        {
+            foreach (string text in SaidSince(tallied))
+            {
+                if (text.StartsWith("Wind and tide had set her "))
+                    himself++;
+                else if (text.StartsWith("Wind and tide have set her "))
+                    toldOff++;
+                else if (text.StartsWith("The air has cleared"))
+                    sailedOn++;
+                else if (text.Contains("it goes as it went the last time"))
+                    tollAsBefore++;
+            }
+            tallied = FrameLog.Version;
         }
 
         /// <summary>What Unity's log says of the sea (a reckoning lost, and why) goes in the journal too.</summary>
@@ -278,6 +300,8 @@ namespace Kapman.Tests
         {
             string id = s.card.id;
             string[] want = null;
+            if (id == "harbour.tollman.frankish")
+                tollByHand++;
             if (id.Contains("wokerers_man"))
                 want = FrameGame.Silver >= Trade.Debt ? new[] { "all", "feed", "put_off" } : new[] { "feed", "put_off" };
             else if (id.Contains(".goons."))
@@ -1007,6 +1031,15 @@ namespace Kapman.Tests
             yield return HandleFloats();
             if (ended)
                 yield break;
+            Tally();
+            // (the king's toll went as it went the last time: the log says so, and the Port window has its line)
+            var deck = EncounterRunner.Director;
+            if (deck != null && deck.AsBeforeThisCall.Count > 0 && Count("the toll as before") < 3)
+            {
+                Frame.Show("port");
+                yield return ChartPlay.Settle(0.5f);
+                yield return Shot("the_toll_went_as_before_at_" + here.name);
+            }
             bestSilver = System.Math.Max(bestSilver, FrameGame.Silver);
             Say($"== call {calls}: {here.name}. Purse {FrameGame.Silver:0} d, owed {Trade.Debt:0} d ({Trade.DebtDaysLeft(game.Day):0} days left). " +
                 $"Men {Voyage.Men}, {FrameGame.HealthWord(Voyage.Health)}, {FrameGame.HeartWord(Voyage.Morale)}, {Boat.WearyWord}. " +
@@ -1472,7 +1505,8 @@ namespace Kapman.Tests
                 yield return null;
             }
             yield return Speed(1);
-            Say($"the air was thick and she lay to for {game.Hours - from:0.0} hours until the steersman could see ({Adrift.Sight():0} m now)");
+            Say($"the air was thick and she lay to for {game.Hours - from:0.0} hours until the steersman could see ({Adrift.Sight():0} m now)" +
+                (Course.IsSet ? ": she sails on by herself" : ""));
         }
 
         /// <summary>Her course laid again from where she truly is, by the Voyage window's own button (the sea moves her,
@@ -1557,6 +1591,7 @@ namespace Kapman.Tests
                     offLine |= text.StartsWith("Wind and tide have set her ");
                 }
                 logFrom = FrameLog.Version;
+                Tally();
                 if (Chased && Count("a chase") < 2)
                     yield return Shot("running_from_raiders");
                 if (!Course.IsSet && !Chased)
@@ -1577,8 +1612,13 @@ namespace Kapman.Tests
                     {
                         // (in thick air he would only lose it again: she lies to until he can see, as the game's words advise)
                         if (Adrift.Blind)
+                        {
                             yield return UntilTheAirClears();
-                        yield return LayAgain("the steersman has lost his reckoning");
+                            yield return ChartPlay.Frames(6);
+                        }
+                        // (since 10 Oct 2026 she sails on by herself when the air clears: nothing to press)
+                        if (!Course.IsSet)
+                            yield return LayAgain("the steersman has lost his reckoning");
                         moved = Time.realtimeSinceStartup;
                         sixFrom = game.Hours;
                         sixAt = Where();
@@ -1978,6 +2018,9 @@ namespace Kapman.Tests
                     $"The purse began at {silverAtStart:0} d and stood highest at {bestSilver:0} d; it ends at {FrameGame.Silver:0} d with {Trade.Debt:0} d owed. " +
                     $"Ports looked for: {looks}; found by looking: {(foundByLooking.Count > 0 ? string.Join(", ", foundByLooking) : "none")}; given up: {(gaveUp.Count > 0 ? string.Join(", ", gaveUp) : "none")}; " +
                     $"her course laid again {laidAgain} times. Of the first release's twelve ports she has found {Release.Count(id => Hearsay.Found(GameData.Port(id)))}.");
+                Tally();
+                Say($"== FEWER PROMPTS: the steersman laid her course again himself {himself} times, and she was told she was off her line {toldOff} times; " +
+                    $"she sailed on by herself when the air cleared {sailedOn} times; the king's toll went as it went the last time {tollAsBefore} times, and its card was answered by hand {tollByHand} times.");
                 Debug.Log("The play-through:\n" + journal);
                 Assert.IsFalse(ended && lost >= 4, endedHow);
             }

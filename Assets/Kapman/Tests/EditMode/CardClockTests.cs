@@ -106,6 +106,160 @@ namespace Kapman.Tests
             Assert.AreEqual(100.0, hand.For("never").patienceHours);
         }
 
+        // ------------------------------------------------------------------ as she answered the last time (10 Oct 2026)
+
+        static int At(EncounterSession s, string key) => s.options.FindIndex(o => o.def.key == key);
+
+        /// <summary>She lies at the toll again, some days on, with nothing to hide unless the test says so.</summary>
+        static void CallsAgain(EncounterDirector d, double day, double weapons = 0.0)
+        {
+            if (d.InCall)
+                d.EndCall();
+            d.vars.nums["hold.weapons"] = weapons;
+            d.SetTime(day, 793, 6, (long)(day * 24.0));
+            d.BeginCall("dorestad");
+        }
+
+        /// <summary>THE USER'S RULING OF 10 OCT 2026 (the picker: "As you answered last time"). The first time at a port
+        /// she answers the card. After that, if she declared, the toll is taken the same way with nothing asked, by the
+        /// card's own choice and effects, and it is said. The long walk had answered this card 117 times.</summary>
+        [Test]
+        public void TheTollIsTakenAsSheAnsweredTheLastTime()
+        {
+            var rules = Real();
+            CollectionAssert.AreEqual(new[] { "charter", "declare" }, rules.For(Toll).asBefore, "the toll's rule does not name the answers that may stand again: run Bake/content/card_rules.py");
+            CollectionAssert.AreEqual(new[] { "hide" }, rules.For(Toll).meets);
+            var d = AtTheToll();
+            d.vars.nums["hold.weapons"] = 0.0;
+            var asBefore = new List<string>();
+            var chose = new List<string>();
+            d.AnsweredAsBefore += (s, r) => asBefore.Add(r.option + ": " + r.Text);
+            d.Chose += (s, r) => chose.Add(r.option);
+            // the first time at a port: the card comes, and she answers it
+            var first = d.OpenNext();
+            Assert.IsNotNull(first, "the first time at a port the toll man's card did not come");
+            Assert.AreEqual(Toll, first.card.id);
+            var man = first.People.First();
+            Assert.IsTrue(d.Choose(At(first, "declare")).ok);
+            Assert.IsTrue(d.Continue());
+            double feeling = d.npcs.Feeling(man.id, d.merchant);
+            Assert.IsEmpty(asBefore);
+            Assert.IsEmpty(d.AsBeforeThisCall);
+            // the next call: he remembers, and takes it the same way with nothing asked
+            CallsAgain(d, 14.0);
+            Assert.IsNull(d.OpenNext(), "she declared the last time, and the card came up again");
+            Assert.IsNull(d.Current, "a card is left open");
+            Assert.AreEqual(1, asBefore.Count, "it was not said that the toll went as before");
+            StringAssert.StartsWith("declare: ", asBefore[0]);
+            Assert.AreEqual(2, chose.Count, "the card's own choice was not made (its effects are the toll)");
+            Assert.AreEqual(feeling + 2.0, d.npcs.Feeling(man.id, d.merchant), 1e-9, "the choice's effects did not run: the toll man thinks no better of her for declaring");
+            Assert.AreEqual(1, d.AsBeforeThisCall.Count);
+            Assert.AreEqual(Toll, d.AsBeforeThisCall[0].id);
+            Assert.IsNotEmpty(d.AsBeforeThisCall[0].title);
+            Assert.IsNull(d.OpenNext(), "the card came a second time at one call");
+            // and the call after that, the same
+            CallsAgain(d, 20.0);
+            Assert.IsNull(d.OpenNext());
+            Assert.AreEqual(2, asBefore.Count);
+            // the frame's line for the log: whole sentences, and the page's rule kept
+            var again = AtTheToll();
+            again.vars.nums["hold.weapons"] = 0.0;
+            var shown = again.OpenNext();
+            var result = again.Choose(At(shown, "declare"));
+            string line = FrameRoot.AsBeforeLine(shown, result);
+            StringAssert.StartsWith("With " + shown.People.First().name + " it goes as it went the last time. ", line);
+            StringAssert.Contains(result.Text, line);
+            Assert.IsNull(PageWords.Fault(line), "the page's rule: " + line);
+        }
+
+        /// <summary>The card comes back if she gave a gift the last time (the ruling's own words), and it comes all the
+        /// same when something is different today: there is something to hide, or she holds a charter that she did not
+        /// show the last time (those two are mine, the user's to overrule). A charter shown stands again.</summary>
+        [Test]
+        public void TheTollManComesAgainWhenSomethingIsDifferent()
+        {
+            var d = AtTheToll();
+            d.vars.nums["hold.weapons"] = 0.0;
+            int asBefore = 0;
+            d.AnsweredAsBefore += (s, r) => asBefore++;
+            var s1 = d.OpenNext();
+            Assert.IsTrue(d.Choose(At(s1, "declare")).ok);
+            d.Continue();
+            // swords aboard: with something to hide he is met in person
+            CallsAgain(d, 14.0, 2.0);
+            var s2 = d.OpenNext();
+            Assert.IsNotNull(s2, "with swords aboard the toll was taken as before: she could not choose to hide them");
+            Assert.IsTrue(s2.options[At(s2, "hide")].enabled);
+            Assert.IsTrue(d.Choose(At(s2, "gift")).ok, "the gift could not be given");
+            d.Continue();
+            // she gave a gift the last time: the card comes back
+            CallsAgain(d, 20.0);
+            var s3 = d.OpenNext();
+            Assert.IsNotNull(s3, "she gave a gift the last time, and the toll was taken by itself");
+            Assert.IsTrue(d.Choose(At(s3, "declare")).ok);
+            d.Continue();
+            Assert.AreEqual(0, asBefore);
+            // declared the last time, and now she holds the charter: the better answer is hers to give
+            CallsAgain(d, 26.0);
+            d.vars.nums["text.charter_toll_dorestad"] = 1.0;
+            var s4 = d.OpenNext();
+            Assert.IsNotNull(s4, "she holds a charter now, and the toll was taken as when she had none");
+            Assert.IsTrue(s4.options[At(s4, "charter")].enabled, "the charter cannot be shown");
+            Assert.IsTrue(d.Choose(At(s4, "charter")).ok);
+            d.Continue();
+            // the charter shown: the next time it stands by itself
+            CallsAgain(d, 32.0);
+            string gave = "";
+            d.AnsweredAsBefore += (s, r) => gave = r.option;
+            Assert.IsNull(d.OpenNext(), "she showed her charter the last time, and the card came up again");
+            Assert.AreEqual("charter", gave);
+            // the charter gone (the answer cannot be given today): the card comes
+            CallsAgain(d, 38.0);
+            d.vars.nums["text.charter_toll_dorestad"] = 0.0;
+            Assert.IsNotNull(d.OpenNext(), "her last answer cannot be given today, and no card came");
+        }
+
+        /// <summary>A card that went by itself at this call can be had again, once, and answered by her own hand; and a
+        /// card whose rule names no answers that may stand again always comes.</summary>
+        [Test]
+        public void ACardThatWentAsBeforeCanBeHadAgainAndAnsweredByHerOwnHand()
+        {
+            var d = AtTheToll();
+            d.vars.nums["hold.weapons"] = 0.0;
+            var s1 = d.OpenNext();
+            d.Choose(At(s1, "declare"));
+            d.Continue();
+            CallsAgain(d, 14.0);
+            Assert.IsNull(d.OpenNext());
+            int version = d.AsBeforeVersion;
+            Assert.IsFalse(d.AskAgain("no.such.card"));
+            Assert.IsTrue(d.AskAgain(Toll), "the toll that went by itself could not be had again");
+            Assert.Greater(d.AsBeforeVersion, version, "the window that shows it is not told");
+            Assert.IsEmpty(d.AsBeforeThisCall);
+            var again = d.OpenNext();
+            Assert.IsNotNull(again, "asked for, the card did not come up");
+            Assert.AreEqual(Toll, again.card.id);
+            Assert.IsFalse(again.Chosen, "asked for, the card answered itself again");
+            Assert.IsTrue(d.Choose(At(again, "gift")).ok);
+            d.Continue();
+            Assert.IsFalse(d.AskAgain(Toll), "it can be had again more than once at one call");
+            // casting off empties the list
+            CallsAgain(d, 20.0);
+            Assert.IsNotNull(d.OpenNext(), "after a gift the card should come");
+            d.Choose(0);
+            d.Continue();
+            d.EndCall();
+            Assert.IsEmpty(d.AsBeforeThisCall);
+            // with no such rule (the rules of 7 Oct alone) the card always comes
+            var plain = AtTheToll(rules: CardRules.Read("{\"cards\":[{\"id\":\"" + Toll + "\",\"take\":[\"declare\"]}]}"));
+            plain.vars.nums["hold.weapons"] = 0.0;
+            var p1 = plain.OpenNext();
+            plain.Choose(At(p1, "declare"));
+            plain.Continue();
+            CallsAgain(plain, 14.0);
+            Assert.IsNotNull(plain.OpenNext(), "a card with no answers that may stand again was answered by itself");
+        }
+
         [Test]
         public void AnOrdinaryCardWaitsAWeekOfRunningClockThenTakesItsOwnOption()
         {

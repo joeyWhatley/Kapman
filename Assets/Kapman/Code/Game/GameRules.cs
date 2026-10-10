@@ -246,6 +246,40 @@ namespace Kapman.Game
         public static bool CanAnchor(double wind, double gale, double depth, double anchorDepth) =>
             Ask("anchor", CanAnchorByCode(wind, gale, depth, anchorDepth) ? 1.0 : 0.0, wind, gale, depth, anchorDepth) >= 0.5;
 
+        // ------------------------------------------------------------------ fewer prompts (the user's rulings of 10 Oct 2026)
+
+        /// <summary>Does the steersman lay her course again himself, as the code reckons it.</summary>
+        public static bool LaysAgainHimselfByCode(bool landInSight, bool thick) => landInSight && !thick;
+
+        /// <summary>DOES THE STEERSMAN LAY HER COURSE AGAIN HIMSELF (the graph "Rule - does the steersman lay her course
+        /// again himself"; the user by the picker, 10 Oct 2026: "He corrects along a coast ... Out of sight of land it
+        /// stays as now"). Set well off her line: with the land in sight, and air he can see it through, he lays her
+        /// course again from where she is and the clock runs on. Out of sight of land, or in thick air, he tells her
+        /// and it is hers to lay.</summary>
+        public static bool LaysAgainHimself(bool landInSight, bool thick) =>
+            Ask("lays_again", LaysAgainHimselfByCode(landInSight, thick) ? 1.0 : 0.0, landInSight ? 1.0 : 0.0, thick ? 1.0 : 0.0) >= 0.5;
+
+        /// <summary>Does she sail on when the air clears, as the code reckons it.</summary>
+        public static bool SailsOnWhenClearByCode(bool lostInThickAir, double sees, double clearFrom) => lostInThickAir && sees >= clearFrom;
+
+        /// <summary>DOES SHE SAIL ON WHEN THE AIR CLEARS (the graph "Rule - does she sail on when the air clears"; the
+        /// user by the picker, 10 Oct 2026: "Sail on by herself"). Lying to with a reckoning that was lost in thick air:
+        /// when he makes out a landfall at `clearFrom` metres or more he lays her course from where she is. A reckoning
+        /// lost in clear air waits for her.</summary>
+        public static bool SailsOnWhenClear(bool lostInThickAir, double sees, double clearFrom) =>
+            Ask("sails_on", SailsOnWhenClearByCode(lostInThickAir, sees, clearFrom) ? 1.0 : 0.0, lostInThickAir ? 1.0 : 0.0, sees, clearFrom) >= 0.5;
+
+        /// <summary>Is a card answered as she answered it the last time, as the code reckons it.</summary>
+        public static bool AsBeforeByCode(bool stands, bool better, bool meets) => stands && !better && !meets;
+
+        /// <summary>IS A CARD ANSWERED AS BEFORE (the graph "Rule - is a card answered as before"; the user by the
+        /// picker, 10 Oct 2026, of the king's toll: "As you answered last time"). `stands`: its people remember an
+        /// answer of hers that may stand again (the card's rule names those), and it can be given today. `better`: an
+        /// answer the rule ranks above that one is open to her today (a charter she did not hold then). `meets`: a
+        /// choice is open that brings them to her in person (something to hide).</summary>
+        public static bool AsBefore(bool stands, bool better, bool meets) =>
+            Ask("as_before", AsBeforeByCode(stands, better, meets) ? 1.0 : 0.0, stands ? 1.0 : 0.0, better ? 1.0 : 0.0, meets ? 1.0 : 0.0) >= 0.5;
+
         /// <summary>What a lee shore costs her hull in a step, as the code reckons it.</summary>
         public static double LeeShoreByCode(bool lyingTo, double speed, double push, double clawOff, bool gale, double strainHour, double strainGale, double hours) =>
             lyingTo || speed < push * clawOff ? (gale ? strainGale : strainHour) * hours : 0.0;

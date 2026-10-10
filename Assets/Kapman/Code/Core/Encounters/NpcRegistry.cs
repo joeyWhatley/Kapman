@@ -487,6 +487,18 @@ namespace Kapman.Encounters
         public string LastOption(string npc, string merchant) =>
             rels.TryGetValue(Key(npc, merchant), out var r) && r.memory.Count > 0 ? r.memory[r.memory.Count - 1].option : "";
 
+        /// <summary>The option the merchant chose the last time ON ONE CARD with this person ("" if none is remembered):
+        /// what a card answered "as before" goes by (10 Oct 2026).</summary>
+        public string LastOptionOn(string npc, string merchant, string card)
+        {
+            if (!rels.TryGetValue(Key(npc, merchant), out var r))
+                return "";
+            for (int i = r.memory.Count - 1; i >= 0; i--)
+                if (r.memory[i].card == card)
+                    return r.memory[i].option;
+            return "";
+        }
+
         /// <summary>Have they met before?</summary>
         public bool Met(string npc, string merchant) => rels.TryGetValue(Key(npc, merchant), out var r) && r.met;
 

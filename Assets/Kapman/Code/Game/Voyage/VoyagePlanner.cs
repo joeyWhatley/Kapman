@@ -244,6 +244,10 @@ namespace Kapman.Game
                 wasMoored = false;
             }
 
+            // (a reckoning lost in thick air: when it clears the steersman lays her course again himself and she sails
+            // on. The user's ruling of 10 Oct 2026; Adrift says whether, by its rule graph)
+            if (!Course.IsSet && Adrift.SailsOnNowItIsClear(here))
+                wasMoored = false;
             if (!Course.IsSet)
             {
                 // no course: the planner gives no orders (the player's click orders stand, as in a river place)
@@ -325,9 +329,10 @@ namespace Kapman.Game
                     // (for the makers, in Unity's log: what the sea was doing to her when he lost it)
                     Debug.Log($"Kapman sea: the steersman lost his reckoning, bound for {Course.BoundName}. {Adrift.Tells()} Her way {body.Knots:0.0} kn, the wind {body.Wind:0.0} m/s from {body.WindFrom:0}.");
                     string bound = Course.Destination;
-                    string lostWords = Adrift.LostWords(Course.ToPlace ? null : Course.BoundName, Adrift.Blind);
+                    bool thick = Adrift.Blind;
+                    string lostWords = Adrift.LostWords(Course.ToPlace ? null : Course.BoundName, thick);
                     Course.Clear();
-                    Adrift.Lost(bound);
+                    Adrift.Lost(bound, thick);
                     ship.anchored = true;
                     Hold();
                     held = true;

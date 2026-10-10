@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Kapman.Game
 {
     /// <summary>
-    /// WHAT THE SEA TELLS HER IS A FLOW (the user's ruling of 7 Oct 2026: flows are graphs). Five moments of wind and
+    /// WHAT THE SEA TELLS HER IS A FLOW (the user's ruling of 7 Oct 2026: flows are graphs). Seven moments of wind and
     /// tide come to her as one event, "On the sea moves her", of the graph "Voyage - the sea moves her" (on the
     /// '--- GAME ---' object; its nodes are in Code/Graphs/SeaNodes.cs):
     ///   "off_line"   wind and tide have set her well off her line                 (Adrift)
@@ -12,6 +12,9 @@ namespace Kapman.Game
     ///   "adrift"     lying to in water too deep to anchor in, she is carried       (Adrift)
     ///   "lost"       the steersman has run his distance and cannot make out his landfall: she lies to (VoyagePlanner)
     ///   "rough"      she comes into rough water: a race, a bar, a shoal, an open cape   (RoughWaters)
+    ///   "relaid"     set well off her line along a coast, the steersman has laid her course again himself: the log
+    ///                says so and the clock runs on (10 Oct 2026)                              (Adrift)
+    ///   "cleared"    the air has cleared over a reckoning lost in it, and she sails on (10 Oct 2026)   (Adrift)
     /// The graph says what the log says and whether the clock drops back. Where no graph listens the code does as it
     /// always did: the log is told the words, and the clock drops back where the moment calls for it. The flow runs at
     /// once (nothing in it waits). What moves her, and how much, is Adrift's and the rule graphs' (GameRules).

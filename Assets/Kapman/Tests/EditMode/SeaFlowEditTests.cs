@@ -77,6 +77,8 @@ namespace Kapman.Tests
                 ("adrift", Adrift.DriftWords, null),
                 ("lost", Adrift.LostWords("Dorestat"), ClockReason.OffLine),
                 ("rough", "A tide race: the tide runs hard here, and the water boils.", ClockReason.RoughWater),
+                ("relaid", Adrift.RelaidWords(9000.0), null),
+                ("cleared", Adrift.ClearedWords("Dorestat"), ClockReason.WaitOver),
                 ("nothing to say", "", null),
             };
             foreach (var m in moments)

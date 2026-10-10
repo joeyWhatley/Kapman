@@ -24,6 +24,7 @@ namespace Kapman.EditorTools
             {
                 Toll(), Pay(), Health(), Heart(), Fight(), Trick(), Instalment(), GoonsDo(),
                 Leeway(), Blown(), SeaRuns(), Landfall(), ErrorKept(), Anchor(), LeeShore(), RoughRace(), RoughBar(), RoughShoal(), RoughCape(), RoughSlow(),
+                LaysAgain(), SailsOn(), AsBefore(),
             };
             var book = AssetDatabase.LoadAssetAtPath<RuleBook>(BookPath);
             if (book == null)
@@ -71,6 +72,123 @@ namespace Kapman.EditorTools
                 GraphBuilder.ReplaceExisting = false;
             }
             Make();
+        }
+
+        /// <summary>The three rule graphs of 10 Oct 2026 (fewer prompts) made again OVER the ones that are there, into the
+        /// same assets. Only while nobody has changed them by hand.
+        /// Batch: -executeMethod Kapman.EditorTools.RuleGraphsMade.RemakeOfTenthOctober</summary>
+        public static void RemakeOfTenthOctober()
+        {
+            GraphBuilder.ReplaceExisting = true;
+            try
+            {
+                LaysAgain();
+                SailsOn();
+                AsBefore();
+            }
+            finally
+            {
+                GraphBuilder.ReplaceExisting = false;
+            }
+            Make();
+        }
+
+        // ------------------------------------------------------------------ fewer prompts (10 Oct 2026)
+
+        /// <summary>Is a number of the game a yes (1) or a no (0)? The yes-or-no the graph's nodes go on with.</summary>
+        static ValueOutput Yes(GraphBuilder g, ValueOutput number, float x, float y)
+        {
+            var yes = g.Add(new IsIt { how = IsIt.How.AtLeast }, x, y);
+            g.Data(number, yes.a);
+            g.Set(yes.b, 0.5);
+            return yes.so;
+        }
+
+        /// <summary>Set well off her line: does the steersman lay her course again himself?</summary>
+        public static ScriptGraphAsset LaysAgain()
+        {
+            var g = new GraphBuilder("Rule - does the steersman lay her course again himself",
+                "Wind and tide have set her well off her line. Does the steersman lay her course again himself, with the clock running on, or does he tell her and leave it to her? " +
+                "The game asks this graph the moment she is set that far off (GameRules.LaysAgainHimself, from Adrift.Carry).");
+            g.Group(-40, -80, 2000, 520, "Does he lay her course again himself",
+                "Your ruling of 10 October 2026: with the land in sight he does. Out of sight of land it is yours to lay. In thick air he cannot see the land, so there too he tells you.", GraphBuilder.Change);
+            var start = g.Add(new LaysAgainRule(), 0, 0);
+            var coast = Yes(g, start.land, 520, 20);
+            var thick = Yes(g, start.thick, 520, 200);
+            var seen = g.Add(new BothOrEither { how = BothOrEither.How.FirstAndNotSecond }, 840, 100);
+            g.Data(coast, seen.one);
+            g.Data(thick, seen.other);
+            var does = g.Add(new ThisOrThat(), 1280, 100);
+            g.Data(seen.so, does.when);
+            g.Set(does.yes, 1.0);
+            g.Set(does.no, 0.0);
+            var answer = g.Add(new RuleAnswer(), 1600, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(does.picked, answer.number);
+            g.Note(-20, 320, 620, 130, "What the game gives",
+                "Land is in sight: she is on a coast's own lane, or dry land lies within as far as he makes out a landfall now (30 km by day, 12 km by night). " +
+                "The air is thick: he makes out a landfall at under a kilometre (fog, heavy rain).");
+            return g.Save($"{Folder}/Rule - does the steersman lay her course again himself.asset");
+        }
+
+        /// <summary>Lying to with a reckoning lost: does she sail on by herself now?</summary>
+        public static ScriptGraphAsset SailsOn()
+        {
+            var g = new GraphBuilder("Rule - does she sail on when the air clears",
+                "She lies to because the steersman lost his reckoning. Does he lay her course again by himself now, so that she sails on? " +
+                "The game asks this graph each minute she lies so (GameRules.SailsOnWhenClear, from Adrift.SailsOnNowItIsClear).");
+            g.Group(-40, -80, 2000, 520, "Does she sail on when the air clears",
+                "Your ruling of 10 October 2026: when a fog clears she sails on by herself. A reckoning lost in clear air is not a matter of waiting: that one stays yours to lay.", GraphBuilder.Change);
+            var start = g.Add(new SailsOnRule(), 0, 0);
+            var lost = Yes(g, start.lost, 520, 20);
+            var clear = g.Add(new IsIt { how = IsIt.How.AtLeast }, 520, 200);
+            g.Data(start.sees, clear.a);
+            g.Data(start.clearFrom, clear.b);
+            var both = g.Add(new BothOrEither { how = BothOrEither.How.Both }, 840, 100);
+            g.Data(lost, both.one);
+            g.Data(clear.so, both.other);
+            var does = g.Add(new ThisOrThat(), 1280, 100);
+            g.Data(both.so, does.when);
+            g.Set(does.yes, 1.0);
+            g.Set(does.no, 0.0);
+            var answer = g.Add(new RuleAnswer(), 1600, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(does.picked, answer.number);
+            g.Note(-20, 320, 560, 110, "Where the numbers come from",
+                "How far he sees is the graph \"Rule - how far he makes out a landfall\". The air counts as clear from a kilometre (Adrift.BlindM).");
+            return g.Save($"{Folder}/Rule - does she sail on when the air clears.asset");
+        }
+
+        /// <summary>A card whose people remember her last answer: is it answered the same way, with nothing asked?</summary>
+        public static ScriptGraphAsset AsBefore()
+        {
+            var g = new GraphBuilder("Rule - is a card answered as before",
+                "A card comes whose people remember how she answered it the last time. Is it answered the same way by itself, with a line in the log, or does the card come up for her? " +
+                "The game asks this graph as the card is about to open (GameRules.AsBefore, from EncounterDirector.OpenNext). Which cards, and which of their answers may stand, is in Game/Data/card_rules_793.json.");
+            g.Group(-40, -80, 2440, 760, "Is a card answered as before",
+                "Your ruling of 10 October 2026, of the king's toll: \"As you answered last time\". It is, when her last answer may stand; unless a better answer is open to her today, or something brings them to her in person.",
+                GraphBuilder.Change);
+            var start = g.Add(new AsBeforeRule(), 0, 0);
+            var stands = Yes(g, start.stands, 520, 0);
+            var better = Yes(g, start.better, 520, 180);
+            var meets = Yes(g, start.meets, 520, 360);
+            var first = g.Add(new BothOrEither { how = BothOrEither.How.FirstAndNotSecond }, 840, 80);
+            g.Data(stands, first.one);
+            g.Data(better, first.other);
+            var second = g.Add(new BothOrEither { how = BothOrEither.How.FirstAndNotSecond }, 1280, 180);
+            g.Data(first.so, second.one);
+            g.Data(meets, second.other);
+            var does = g.Add(new ThisOrThat(), 1720, 180);
+            g.Data(second.so, does.when);
+            g.Set(does.yes, 1.0);
+            g.Set(does.no, 0.0);
+            var answer = g.Add(new RuleAnswer(), 2040, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(does.picked, answer.number);
+            g.Note(-20, 500, 620, 150, "What the game gives, for the king's toll",
+                "Her last answer stands: the toll man remembers that she declared her cargo, or showed a charter, and she can do the same today. " +
+                "A better answer is open: she declared the last time and holds a charter now. Something brings them: there are swords or captives aboard, which she might hide.");
+            return g.Save($"{Folder}/Rule - is a card answered as before.asset");
         }
 
         // ------------------------------------------------------------------ wind and tide (9 Oct 2026)

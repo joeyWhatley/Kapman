@@ -71,6 +71,9 @@ namespace Kapman.Game
         /// <summary>Where she was bound when the steersman lost his reckoning (a port's id, or <see cref="Course.PlaceId"/>;
         /// "" none). The Voyage window offers to lay that course again from where she is.</summary>
         public static string LostBound { get; private set; } = "";
+        /// <summary>That reckoning was lost in thick air (fog, heavy rain): when it clears he lays her course again
+        /// himself and she sails on (the user's ruling of 10 Oct 2026).</summary>
+        public static bool LostBlind { get; private set; }
         /// <summary>Counts up when something the windows show of this has changed.</summary>
         public static int Version { get; private set; }
 
@@ -109,6 +112,7 @@ namespace Kapman.Game
             if (Course.IsSet)
             {
                 LostBound = "";
+                LostBlind = false;
                 // (a saved game: the set she had on this same course)
                 if (keptSet.HasValue && keptFor == Key())
                     Set = keptSet.Value;
@@ -127,6 +131,13 @@ namespace Kapman.Game
         /// <see cref="BlindM"/>? A reckoning lost then is lost until it clears, and the words say so.</summary>
         public static bool Blind => Sight() < BlindM;
         public const double BlindM = 1000.0;
+
+        /// <summary>
+        /// IS LAND IN SIGHT from where she truly is (the user's ruling of 10 Oct 2026, in the picker's words: "Out of
+        /// sight of land it stays as now")? Dry land lies within as far as he makes out a landfall now: less by night,
+        /// and in thick air no further than the air lets him see.
+        /// </summary>
+        public static bool LandInSight(WorldXZ here) => Course.LandWithin(here, Sight(here));
 
         static double Sight(WorldXZ here)
         {
@@ -240,28 +251,31 @@ namespace Kapman.Game
 
         /// <summary>Her course laid again from where she truly is, to where she was bound (kept as it was if no way is
         /// found from here).</summary>
-        static void Relay(WorldXZ here)
+        static bool Relay(WorldXZ here)
         {
             if (relaying || !Course.IsSet)
-                return;
+                return false;
             relaying = true;
             sinceRelay = 0.0;
+            bool laid;
             try
             {
-                Course.SetTo(Course.Destination, here, null);
+                laid = Course.SetTo(Course.Destination, here, null);
             }
             finally
             {
                 relaying = false;
             }
             Set = default;
+            return laid;
         }
 
         /// <summary>The steersman has lost his reckoning on the way to a port (the planner says so and lays her to):
         /// kept, so the Voyage window can offer that course again from where she is.</summary>
-        public static void Lost(string bound)
+        public static void Lost(string bound, bool thick = false)
         {
             LostBound = bound ?? "";
+            LostBlind = thick && LostBound.Length > 0;
             Helm = Helm.Drifting;
             driftTold = true;
             Version++;
@@ -283,8 +297,41 @@ namespace Kapman.Game
         /// clear. PLACEHOLDER WORDS, the user's to write.</summary>
         public static string LostWords(string boundName, bool thick = false) =>
             "By the steersman's reckoning she should be " + (string.IsNullOrEmpty(boundName) ? "in with the land" : "off " + boundName) +
-            (thick ? " by now, and he cannot make it out in air as thick as this. She lies to, and he would wait for it to clear before a course is laid again."
+            (thick ? " by now, and he cannot make it out in air as thick as this. She lies to until it clears."
                    : " by now, and he cannot make it out. She lies to.");
+
+        /// <summary>What the log says when he has laid her course again himself, along a coast (the user's ruling of
+        /// 10 Oct 2026). PLACEHOLDER WORDS, the user's to write.</summary>
+        public static string RelaidWords(double metres) =>
+            "Wind and tide had set her " + Math.Round(metres / 1000.0) + " km off her line. With the land in sight, the steersman has laid her course again from where she is.";
+
+        /// <summary>What the log says when the air has cleared over a reckoning lost in it, and she sails on (the user's
+        /// ruling of 10 Oct 2026). PLACEHOLDER WORDS, the user's to write.</summary>
+        public static string ClearedWords(string boundName) =>
+            "The air has cleared, and the steersman has his marks again. She sails on" + (string.IsNullOrEmpty(boundName) ? "." : " for " + boundName + ".");
+
+        /// <summary>
+        /// THE AIR HAS CLEARED OVER A RECKONING LOST IN IT (the user by the picker, 10 Oct 2026: "Sail on by herself").
+        /// The planner asks each minute she lies to with no course. Where the graph "Rule - does she sail on when the
+        /// air clears" says so, her course is laid again from where she is to where she was bound, the log says it, and
+        /// the clock drops back once. False: nothing was done. Where no water leads there from here she waits, as she
+        /// did, for her course to be laid.
+        /// </summary>
+        public static bool SailsOnNowItIsClear(WorldXZ here)
+        {
+            if (LostBound.Length == 0 || Course.IsSet)
+                return false;
+            if (!GameRules.SailsOnWhenClear(LostBlind, Sight(here), BlindM))
+                return false;
+            if (!Course.SetTo(LostBound, here, null))
+            {
+                LostBlind = false;                                       // (no way from here: asked once, not every minute)
+                Version++;
+                return false;
+            }
+            SeaMoments.Raise("cleared", ClearedWords(Course.BoundName), ClockReason.WaitOver);
+            return true;
+        }
 
         /// <summary>What the log says when she comes, by reckoning, to a place pointed at that she is truly well off.</summary>
         public const string PlaceReckonedWords = "She lies to where the steersman reckons the place you pointed at to be.";
@@ -469,8 +516,23 @@ namespace Kapman.Game
                 OffLine = Course.OffLine(to);
                 if (!warned && OffLine > r.offLineWarnM && (Helm == Helm.Reckoning || Helm == Helm.Coasting))
                 {
-                    warned = true;
-                    SeaMoments.Raise("off_line", OffLineWords(OffLine, Set), ClockReason.OffLine);
+                    // WITH THE LAND IN SIGHT HE LAYS HER COURSE AGAIN HIMSELF (the user by the picker, 10 Oct 2026: "He
+                    // corrects along a coast": the log says so and the clock runs on. The long walk had been told 477
+                    // times in one life that she was off her line). Whether he does is the graph "Rule - does the
+                    // steersman lay her course again himself". Out of sight of land, in thick air, or where no way is
+                    // found from where she is, it is as it was: he tells her, the clock drops back, and the course is
+                    // hers to lay. LAND IN SIGHT: she is on a coast's own lane, or dry land lies within as far as he
+                    // makes out a landfall now. (By the lane's kind alone he laid it himself 23 times in a walked life
+                    // and told her 419 times: most lanes of the southern North Sea are the open sea's, under the land too.)
+                    double was = OffLine;
+                    string told = OffLineWords(OffLine, Set);
+                    if (GameRules.LaysAgainHimself(Helm == Helm.Coasting || LandInSight(to), Blind) && Relay(to))
+                        SeaMoments.Raise("relaid", RelaidWords(was));
+                    else
+                    {
+                        warned = true;
+                        SeaMoments.Raise("off_line", told, ClockReason.OffLine);
+                    }
                     Version++;
                 }
                 else if (warned && OffLine < r.offLineWarnM * 0.5)
@@ -526,7 +588,7 @@ namespace Kapman.Game
 
         static object Capture() => new Dictionary<string, object>
         {
-            ["east"] = Set.x, ["north"] = Set.z, ["for"] = Key(), ["warned"] = warned, ["lost"] = LostBound,
+            ["east"] = Set.x, ["north"] = Set.z, ["for"] = Key(), ["warned"] = warned, ["lost"] = LostBound, ["lost_blind"] = LostBlind,
         };
 
         static void Restore(object saved)
@@ -536,12 +598,14 @@ namespace Kapman.Game
             keptFor = null;
             warned = false;
             LostBound = "";
+            LostBlind = false;
             if (saved != null)
             {
                 var set = new WorldXZ(Json.Num(saved, "east"), Json.Num(saved, "north"));
                 string key = Json.Str(saved, "for");
                 warned = Json.Bool(saved, "warned");
                 LostBound = Json.Str(saved, "lost");
+                LostBlind = LostBound.Length > 0 && Json.Bool(saved, "lost_blind");
                 // (her course is restored before or after this part, whichever: the set is hers on that same course)
                 if (key.Length > 0 && key == Key())
                     Set = set;
@@ -563,6 +627,7 @@ namespace Kapman.Game
             OffLine = 0.0;
             OnShore = Strained = false;
             LostBound = "";
+            LostBlind = false;
             steered = wantFix = warned = shoreTold = relaying = driftTold = false;
             shoreClear = 0.0;
             sinceRelay = 1e9;

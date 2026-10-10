@@ -23,6 +23,7 @@ namespace Kapman.Game.Frame
             int h = FrameUi.Mix(17, here != null ? here.id : "");
             h = FrameUi.Mix(h, text != null ? text.Version : 0);
             h = FrameUi.Mix(FrameUi.Mix(h, FirstJobs.Version), (int)FrameGame.Silver);
+            h = FrameUi.Mix(h, EncounterRunner.Director != null ? EncounterRunner.Director.AsBeforeVersion : 0);
             return FrameUi.Mix(h, here != null ? (int)Reputation.At(here) : 0);
         }
 
@@ -57,6 +58,16 @@ namespace Kapman.Game.Frame
                 lines++;
                 body.Add(FrameUi.LnButton(label, tip != label ? tip : null, () => text.Pick(index)));
             }
+            // AS SHE ANSWERED THE LAST TIME (the user's ruling of 10 Oct 2026, of the king's toll): what went by itself at
+            // this call, as it went the last time, can be had again, once, and answered by her own hand. PLACEHOLDER WORDS.
+            var deck = EncounterRunner.Director;
+            if (deck != null)
+                foreach (var (id, title) in deck.AsBeforeThisCall)
+                {
+                    string card = id;
+                    lines++;
+                    body.Add(FrameUi.LnButton(title, "It went as it went the last time. Press this to answer it yourself.", () => deck.AskAgain(card)));
+                }
             if (lines == 0)
                 body.Add(FrameUi.P("Nothing more to be done here but trade."));
         }

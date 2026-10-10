@@ -1176,12 +1176,14 @@ namespace Kapman.Game.Frame
                 {
                     hooked.Chose -= CardChose;
                     hooked.TookItself -= CardTookItself;
+                    hooked.AnsweredAsBefore -= CardAsBefore;
                 }
                 hooked = d;
                 if (d != null)
                 {
                     d.Chose += CardChose;
                     d.TookItself += CardTookItself;
+                    d.AnsweredAsBefore += CardAsBefore;
                 }
             }
             var s = d != null ? d.Current : null;
@@ -1339,8 +1341,8 @@ namespace Kapman.Game.Frame
         void CardChose(EncounterSession s, ChoiceResult r)
         {
             var d = EncounterRunner.Director;
-            if (d != null && d.TakingItself)
-                return;                                                  // (the card answered itself: CardTookItself writes it)
+            if (d != null && (d.TakingItself || d.AnsweringAsBefore))
+                return;                                                  // (the card answered itself: CardTookItself or CardAsBefore writes it)
             if (s != null && r != null && r.ok)
                 FrameLog.Add(r.Text);                                    // (what you did and what came of it, in sentences: no title and colon)
         }
@@ -1351,6 +1353,26 @@ namespace Kapman.Game.Frame
         {
             if (s != null && r != null)
                 FrameLog.Add(TookItselfLine(s, r, castOff));
+        }
+
+        /// <summary>A card was answered as she answered it the last time (the user's ruling of 10 Oct 2026, of the king's
+        /// toll): nothing came up, and the log says how it went.</summary>
+        void CardAsBefore(EncounterSession s, ChoiceResult r)
+        {
+            if (s != null && r != null)
+                FrameLog.Add(AsBeforeLine(s, r));
+        }
+
+        /// <summary>The log's line for it. PLACEHOLDER WORDS, the user's to write.</summary>
+        public static string AsBeforeLine(EncounterSession s, ChoiceResult r)
+        {
+            string who = "";
+            foreach (var p in s.People)
+            {
+                who = p.name ?? "";
+                break;
+            }
+            return ((who.Length > 0 ? "With " + who + " it goes as it went the last time. " : "It goes as it went the last time. ") + r.Text).Trim();
         }
 
         /// <summary>The log's line for it. PLACEHOLDER WORDS, the user's to write.</summary>

@@ -99,6 +99,48 @@ namespace Kapman.Tests
             Assert.AreEqual(0.0, GameRules.GoonsDo(1.0, false, 500.0, 4, 0.9, 1, true, 1.0, 3.0, 4.0, 0.3, 3.0, 240.0), 0.0, "the first time, they only talk");
         }
 
+        /// <summary>The three rules of 10 Oct 2026 (the user by the picker: fewer prompts): each has its graph, and the
+        /// graph says what the code says in every case there is.</summary>
+        [Test]
+        public void TheGraphsOfFewerPromptsSayWhatTheCodeSays()
+        {
+            string[] rules = { "lays_again", "sails_on", "as_before" };
+            foreach (string rule in rules)
+                Assert.IsTrue(RuleGraphs.Has(rule), "no graph of the book holds the rule \"" + rule + "\" (Kapman > Make physical > 3. The rules' graphs)");
+            var dice = new Random(1010);
+            int asked = GameRules.ByGraph, cases = 0;
+            foreach (bool a in new[] { false, true })
+                foreach (bool b in new[] { false, true })
+                {
+                    Assert.AreEqual(GameRules.LaysAgainHimselfByCode(a, b), GameRules.LaysAgainHimself(a, b), $"lays again: land in sight {a}, thick {b}");
+                    cases++;
+                    foreach (bool c in new[] { false, true })
+                    {
+                        Assert.AreEqual(GameRules.AsBeforeByCode(a, b, c), GameRules.AsBefore(a, b, c), $"as before: stands {a}, better {b}, meets {c}");
+                        cases++;
+                    }
+                    for (int i = 0; i < 500; i++)
+                    {
+                        double sees = dice.Next(4) == 0 ? new[] { 300.0, 999.999, 1000.0, 12000.0 }[dice.Next(4)] : dice.NextDouble() * 30000.0;
+                        double clearFrom = dice.Next(3) == 0 ? dice.NextDouble() * 5000.0 : 1000.0;
+                        Assert.AreEqual(GameRules.SailsOnWhenClearByCode(a, sees, clearFrom), GameRules.SailsOnWhenClear(a, sees, clearFrom), $"sails on: lost in thick air {a}, he sees {sees} m, clear from {clearFrom} m");
+                        cases++;
+                    }
+                }
+            Assert.AreEqual(asked + cases, GameRules.ByGraph, "one of the three was not reckoned by its graph (the code's answer stood in)");
+            // and the plain cases, by hand: the user's rulings
+            Assert.IsTrue(GameRules.LaysAgainHimself(true, false), "with the land in sight he lays her course again himself");
+            Assert.IsFalse(GameRules.LaysAgainHimself(false, false), "out of sight of land it is hers to lay");
+            Assert.IsFalse(GameRules.LaysAgainHimself(true, true), "in thick air he cannot see the land he would lay it by");
+            Assert.IsTrue(GameRules.SailsOnWhenClear(true, 1000.0, 1000.0), "the air has cleared: she sails on");
+            Assert.IsFalse(GameRules.SailsOnWhenClear(true, 999.0, 1000.0), "the air is still thick");
+            Assert.IsFalse(GameRules.SailsOnWhenClear(false, 30000.0, 1000.0), "a reckoning lost in clear air waits for her");
+            Assert.IsTrue(GameRules.AsBefore(true, false, false), "she declared the last time: the toll is taken the same way");
+            Assert.IsFalse(GameRules.AsBefore(false, false, false), "the first time at a port, or after a gift, the card comes");
+            Assert.IsFalse(GameRules.AsBefore(true, true, false), "she holds a charter now that she did not show the last time");
+            Assert.IsFalse(GameRules.AsBefore(true, false, true), "with something to hide the toll man is met in person");
+        }
+
         [Test]
         public void TheGraphsOfWindAndTideSayWhatTheCodeSays()
         {

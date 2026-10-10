@@ -220,6 +220,76 @@ namespace Kapman.Game
         /// <summary>True while the director itself is choosing (Chose fires too: the log must not write it twice).</summary>
         public bool TakingItself { get; private set; }
 
+        // ------------------------------------------------------------------ as she answered the last time (10 Oct 2026)
+
+        /// <summary>A card was answered as she answered it the last time, with nothing asked of her (the user by the
+        /// picker, 10 Oct 2026, of the king's toll: "As you answered last time"): the card, and what came of it.</summary>
+        public event Action<EncounterSession, ChoiceResult> AnsweredAsBefore;
+        /// <summary>True while the director is giving that answer (Chose fires too: the log must not write it twice).</summary>
+        public bool AnsweringAsBefore { get; private set; }
+        readonly List<(string id, string title)> asBeforeThisCall = new List<(string, string)>();
+        readonly HashSet<string> askedAgain = new HashSet<string>();
+        /// <summary>The cards of this call that went so (the id, the title): each can be had again, once, to be answered
+        /// by her own hand (<see cref="AskAgain"/>).</summary>
+        public IReadOnlyList<(string id, string title)> AsBeforeThisCall => asBeforeThisCall;
+        /// <summary>Counts up when that list changes (the window that shows it).</summary>
+        public int AsBeforeVersion { get; private set; }
+
+        /// <summary>
+        /// Is the card that has just been opened answered as she answered it the last time? Its rule names the answers
+        /// that may stand again (CardRule.asBefore); its people remember her last answer to this card; and the graph
+        /// "Rule - is a card answered as before" says whether it stands today. `option`: the choice to give.
+        /// </summary>
+        bool StandsAsBefore(EncounterSession s, out int option)
+        {
+            option = -1;
+            var rule = rules != null ? rules.For(s.card.id) : null;
+            if (rule == null || rule.asBefore.Count == 0)
+                return false;
+            string last = "";
+            foreach (var who in s.People)
+            {
+                last = npcs.LastOptionOn(who.id, merchant, s.card.id);
+                if (last.Length > 0)
+                    break;
+            }
+            int rank = rule.asBefore.IndexOf(last);
+            if (rank >= 0)
+                option = s.options.FindIndex(o => o.def.key == last);
+            bool stands = option >= 0 && s.options[option].enabled, better = false, meets = false;
+            foreach (var o in s.options)
+            {
+                if (!o.enabled)
+                    continue;
+                int ranked = rule.asBefore.IndexOf(o.def.key);
+                better |= rank >= 0 && ranked >= 0 && ranked < rank;
+                meets |= rule.meets.Contains(o.def.key);
+            }
+            return GameRules.AsBefore(stands, better, meets);
+        }
+
+        /// <summary>A card of this call that went as it went the last time is had again, to be answered by her own hand:
+        /// it goes first in line and comes up as any card does. Once for each card of a call. False: no such card.</summary>
+        public bool AskAgain(string cardId)
+        {
+            int at = asBeforeThisCall.FindIndex(c => c.id == cardId);
+            if (at < 0 || book.Card(cardId) == null)
+                return false;
+            asBeforeThisCall.RemoveAt(at);
+            askedAgain.Add(cardId);
+            state.Enqueue(cardId, true);
+            AsBeforeVersion++;
+            return true;
+        }
+
+        void NoneAsBefore()
+        {
+            if (asBeforeThisCall.Count > 0 || askedAgain.Count > 0)
+                AsBeforeVersion++;
+            asBeforeThisCall.Clear();
+            askedAgain.Clear();
+        }
+
         /// <summary>The rule of the card on screen (null: none is open).</summary>
         public CardRule RuleNow => Current == null ? null : rules != null ? rules.For(Current.card.id) : new CardRule { id = Current.card.id };
         /// <summary>Running hours it will still wait (0 when none is open or it is answered).</summary>
@@ -353,6 +423,7 @@ namespace Kapman.Game
                 return new List<EncounterDef>();
             if (InCall)
                 EndCall();
+            NoneAsBefore();
             Prepare(port, Day, true);
             var info = Info(port, Day, true, 0.0);
             var queued = scheduler.Arrive(vars, info, Hour);
@@ -411,6 +482,7 @@ namespace Kapman.Game
             });
             state.EndCall();
             vars.nums["moored"] = 0.0;
+            NoneAsBefore();
             CallEnded?.Invoke(was);
         }
 
@@ -467,6 +539,34 @@ namespace Kapman.Game
             savedWaitCard = "";
             savedWaitHours = 0.0;
             nextTry = 0.0;
+            // AS SHE ANSWERED THE LAST TIME (the user's ruling of 10 Oct 2026, of the king's toll). Not a card that comes
+            // back from a saved game as it stood, and not one she has asked to answer by her own hand.
+            bool asked = askedAgain.Remove(card.id);
+            if (!back && !asked && StandsAsBefore(Current, out int stands))
+            {
+                var s = Current;
+                ChoiceResult r;
+                AnsweringAsBefore = true;
+                try
+                {
+                    r = Choose(stands);
+                }
+                finally
+                {
+                    AnsweringAsBefore = false;
+                }
+                if (r != null && r.ok)
+                {
+                    if (InCall && !asBeforeThisCall.Exists(c => c.id == card.id))
+                    {
+                        asBeforeThisCall.Add((card.id, s.Title));
+                        AsBeforeVersion++;
+                    }
+                    AnsweredAsBefore?.Invoke(s, r);
+                    Continue();
+                    return null;                                         // (nothing came up for her to answer)
+                }
+            }
             Opened?.Invoke(Current);
             return Current;
         }
