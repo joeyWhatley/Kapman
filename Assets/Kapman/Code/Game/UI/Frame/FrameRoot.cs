@@ -1028,13 +1028,30 @@ namespace Kapman.Game.Frame
                 row.EnableInClassList("slip", l.kind == "slip");          // (a landing's slip: framed)
                 string when = (int)System.Math.Floor(l.day) == today ? l.part : l.date;
                 FrameParts.In<Label>(row, "stamp").text = when.Length > 0 ? char.ToUpperInvariant(when[0]) + when.Substring(1) : "";
-                FrameParts.In<Label>(row, "text").text = l.text;
+                FrameParts.In<Label>(row, "text").text = FrameLog.Shown(l.text);
+                // (10 Oct 2026, the short form: the number that changed at the line's end, signed; and the rest in a box
+                // that comes up when the pointer rests on the line)
+                var figure = FrameParts.In<Label>(row, "figure");
+                if (string.IsNullOrEmpty(l.figure))
+                    figure.RemoveFromHierarchy();
+                else
+                {
+                    figure.text = l.figure;
+                    figure.EnableInClassList("plus", l.figure.Contains("+"));
+                    figure.EnableInClassList("minus", l.figure.Contains("-"));
+                }
+                if (l.box != null)
+                {
+                    row.userData = l.box;
+                    row.AddToClassList("boxed");
+                }
                 logScroll.Add(row);
             }
             if (FrameLog.Lines.Count == 0)
             {
                 var row = FrameParts.Make<VisualElement>(logParts != null ? logParts.logLine : null, "log-line");
                 FrameParts.In<Label>(row, "stamp").RemoveFromHierarchy();
+                FrameParts.In<Label>(row, "figure").RemoveFromHierarchy();
                 FrameParts.In<Label>(row, "text").text = "Nothing said yet.";
                 logScroll.Add(row);
             }

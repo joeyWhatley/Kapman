@@ -606,8 +606,10 @@
     -unity-font: url("project://database/Assets/HearthPixelFont/Hearth/Hearth.ttf");
     /* (the card hangs on the panel itself, under none of the roots: it has the quiet size of its own, and its own floor) */
     --t-quiet: 18px;
-    max-width: 480px;
-    background-color: rgba(34, 22, 40, 0.96);
+    max-width: 500px;
+    /* (10 Oct 2026: no longer see-through. At 0.96 the frame's pale ground came through in this colour space, and with it
+       the words that lay under the card, as ghosts between the card's own) */
+    background-color: rgb(34, 22, 40);
     border-radius: 10px;
     border-width: 3px;
     border-top-color: rgb(140, 106, 142); border-left-color: rgb(140, 106, 142); border-right-color: rgb(26, 15, 29); border-bottom-color: rgb(26, 15, 29);
@@ -618,6 +620,82 @@
     font-size: var(--t-quiet);
     color: rgb(232, 231, 226);
     white-space: normal;
+}
+
+/* (10 Oct 2026) THE BOX THAT COMES UP OVER A LINE OF THE LOG: a heading, then rows: what it is, how much, what it changed
+   by (reed light for a gain, rust for a loss, both of the game's palette). Laid out in Game/UI/Parts/HoverBox.uxml. */
+.hover-box {
+    flex-direction: column;
+    width: 460px;
+}
+
+.hover-box-head {
+    font-size: var(--t-quiet);
+    color: rgb(240, 210, 122);
+    white-space: normal;
+    margin-bottom: 4px;
+    padding-bottom: 3px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(213, 174, 206, 0.4);
+}
+
+.hover-box-row {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.hover-box-row.sub {
+    padding-left: 18px;
+}
+
+.hover-box-label {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: auto;
+    font-size: var(--t-quiet);
+    color: rgb(232, 231, 226);
+    white-space: normal;
+}
+
+/* (a whole sentence across the box is the one label that wraps) */
+.hover-box-row.words {
+    margin-bottom: 3px;
+}
+
+.hover-box-row.words .hover-box-label {
+    flex-shrink: 1;
+    flex-basis: 0;
+}
+
+.hover-box-row.sub .hover-box-label {
+    color: rgba(232, 231, 226, 0.78);
+}
+
+.hover-box-value {
+    flex-shrink: 1;
+    margin-left: 18px;
+    font-size: var(--t-quiet);
+    color: rgb(232, 231, 226);
+    -unity-text-align: upper-right;
+    white-space: normal;
+}
+
+.hover-box-change {
+    flex-shrink: 0;
+    min-width: 40px;
+    margin-left: 12px;
+    font-size: var(--t-quiet);
+    color: rgb(232, 231, 226);
+    -unity-text-align: upper-right;
+    white-space: nowrap;
+}
+
+.hover-box-change.plus {
+    color: rgb(182, 194, 106);
+}
+
+.hover-box-change.minus {
+    color: rgb(201, 85, 58);
 }
 
 /* ---------------------------------------------------------------- THE CHEST'S PAGES (ChestPanel): texts, riddles, notes */

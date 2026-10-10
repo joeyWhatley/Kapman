@@ -268,7 +268,20 @@ namespace Kapman.Game.Frame
             var named = GameData.Good(good);
             if (named != null)
                 said = said.Replace(named.name.ToLowerInvariant(), Trade.Named(named));
-            FrameLog.Add(said);
+            // (10 Oct 2026, the log's short form: what was dealt on the line, what the purse gained or lost at its end,
+            // and the deal's own words in the box)
+            if (r.ok && named != null && r.count > 0)
+            {
+                double purse = r.bought ? -r.deniers : r.deniers - r.toll;
+                var box = new LogBox((r.bought ? "Bought: " : "Sold: ") + Trade.UnitsNamed(named, r.count));
+                box.Row(r.bought ? "Paid" : "Price", $"{r.deniers:0.#} d", r.toll > 0.0 ? "" : LogBox.Signed(purse));
+                if (r.toll > 0.0)
+                    box.Sub("less the toll", $"{r.toll:0.#} d", LogBox.Signed(purse));
+                box.SayEach(said);
+                FrameLog.Short((r.bought ? "Bought " : "Sold ") + Trade.UnitsNamed(named, r.count), LogBox.Signed(purse), box, said);
+            }
+            else
+                FrameLog.Add(said);
             Redraw();
             return r;
         }

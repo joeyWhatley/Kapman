@@ -29,6 +29,8 @@ namespace Kapman.Game.Frame
         public VisualTreeAsset lineButton;
         [Tooltip("A line of the log (Game/UI/Parts/LogLine.uxml, the element \"log-line\").")]
         public VisualTreeAsset logLine;
+        [Tooltip("The box that comes up over a line of the log: its heading and one row (Game/UI/Parts/HoverBox.uxml, the elements \"head\" and \"box-row\").")]
+        public VisualTreeAsset hoverBox;
 
         [Header("The menu and the opening")]
         [Tooltip("One choice of the menu (Game/UI/Parts/MenuOption.uxml, the element \"option\").")]

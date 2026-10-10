@@ -329,7 +329,9 @@ namespace Kapman.Game
                 Version++;
                 return false;
             }
-            SeaMoments.Raise("cleared", ClearedWords(Course.BoundName), ClockReason.WaitOver);
+            SeaMoments.Raise("cleared", ClearedWords(Course.BoundName), ClockReason.WaitOver,
+                             "The air has cleared" + (Course.BoundName.Length > 0 ? ": on for " + Course.BoundName : ""), "",
+                             new LogBox("The air has cleared").SayEach(ClearedWords(Course.BoundName)));
             return true;
         }
 
@@ -389,7 +391,8 @@ namespace Kapman.Game
                 if (Helm != Helm.Drifting && !driftTold)
                 {
                     driftTold = true;
-                    SeaMoments.Raise("adrift", DriftWords);                   // (a moment of the flow: "On the sea moves her")
+                    // (a moment of the flow: "On the sea moves her")
+                    SeaMoments.Raise("adrift", DriftWords, null, "Too deep to anchor: she drifts", "", new LogBox("Adrift").SayEach(DriftWords));
                 }
                 Know(Helm.Drifting);
             }
@@ -487,7 +490,9 @@ namespace Kapman.Game
                     if (!shoreTold)
                     {
                         shoreTold = true;
-                        SeaMoments.Raise("lee_shore", gale ? LeeShoreGaleWords : LeeShoreWords, ClockReason.LeeShore);
+                        SeaMoments.Raise("lee_shore", gale ? LeeShoreGaleWords : LeeShoreWords, ClockReason.LeeShore,
+                                         gale ? "A lee shore in a gale" : "Set down on a lee shore", "",
+                                         new LogBox("A lee shore").SayEach(gale ? LeeShoreGaleWords : LeeShoreWords));
                         Version++;
                     }
                 }
@@ -527,11 +532,18 @@ namespace Kapman.Game
                     double was = OffLine;
                     string told = OffLineWords(OffLine, Set);
                     if (GameRules.LaysAgainHimself(Helm == Helm.Coasting || LandInSight(to), Blind) && Relay(to))
-                        SeaMoments.Raise("relaid", RelaidWords(was));
+                        SeaMoments.Raise("relaid", RelaidWords(was), null, "The steersman lays her course again", Km(was),
+                                         new LogBox("The steersman lays her course again").Row("Set off her line", Km(was))
+                                             .Say("With the land in sight he has laid her course again from where she is."));
                     else
                     {
                         warned = true;
-                        SeaMoments.Raise("off_line", told, ClockReason.OffLine);
+                        string airt = SeaPush.Sets(Set.x, Set.z);
+                        var box = new LogBox("Off her line").Row("Set by wind and tide", Km(was));
+                        if (airt.Length > 0)
+                            box.Row("Which way", "to the " + airt);
+                        box.Say("The clock has dropped back.").Say("Lay her course again by pointing on the chart, or under Voyage.");
+                        SeaMoments.Raise("off_line", told, ClockReason.OffLine, "Off her line", Km(was), box);
                     }
                     Version++;
                 }
@@ -543,6 +555,9 @@ namespace Kapman.Game
             var u = FloatingOrigin.ToUnity(new WorldPos(to.x, 0.0, to.z));
             return new Vector3(u.x, pos.y + own.y, u.z);
         }
+
+        /// <summary>So many metres as whole kilometres, for a figure of the log: "8 km".</summary>
+        static string Km(double metres) => Math.Round(metres / 1000.0) + " km";
 
         /// <summary>What the log says when she is well off her line. PLACEHOLDER WORDS, the user's to write.</summary>
         public static string OffLineWords(double metres, WorldXZ set)

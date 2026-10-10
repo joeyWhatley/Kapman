@@ -216,7 +216,9 @@ namespace Kapman.Game
                         double to = (windFrom + 180.0) * Math.PI / 180.0;
                         against = wind > 4.0 && Math.Sin(to) * east + Math.Cos(to) * north < 0.0;
                     }
-                    SeaMoments.Raise("rough", Words(Now, against), ClockReason.RoughWater);   // (a moment of the flow: "On the sea moves her")
+                    // (a moment of the flow: "On the sea moves her")
+                    SeaMoments.Raise("rough", Words(Now, against), ClockReason.RoughWater, "Rough water: " + NameOf(Now), "",
+                                     new LogBox(NameOf(Now)).SayEach(Words(Now, against)));
                 }
             }
             else if (toldOf != null && (Now == null || RoughNow < OverUnder))

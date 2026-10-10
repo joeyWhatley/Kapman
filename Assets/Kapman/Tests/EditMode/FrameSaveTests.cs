@@ -100,7 +100,7 @@ namespace Kapman.Tests
             FrameLog.Restore(saved);
             Assert.Greater(FrameLog.Version, version, "the frame is told to draw the log again");
             Assert.AreEqual(3, FrameLog.Lines.Count, "the lines of the game that was running are gone, the saved ones are back");
-            Assert.AreEqual("You cast off from Dorestat for Traiectum.", FrameLog.Lines[0].text);
+            Assert.AreEqual("You cast off from Dorestat for Traiectum.", FrameLog.Lines[0].Whole);
             Assert.AreEqual(0.25, FrameLog.Lines[1].day, 1e-9);
             Assert.AreEqual("1 May", FrameLog.Lines[2].date);
             Assert.AreEqual("morning", FrameLog.Lines[2].part);
@@ -139,7 +139,7 @@ namespace Kapman.Tests
             {
                 FrameSave.Restore(Saved(part));
                 Assert.AreEqual(1, FrameLog.Lines.Count);
-                Assert.AreEqual("You wait for a fair wind.", FrameLog.Lines[0].text);
+                Assert.AreEqual("You wait for a fair wind.", FrameLog.Lines[0].Whole);
                 StringAssert.Contains("trade:2", FrameSave.Layout);
                 Assert.AreEqual("witla", FrameSave.LieTo);
                 Assert.AreEqual(1, FrameSave.Full.Count, "a full window that stood open is carried, though nothing opens it yet");

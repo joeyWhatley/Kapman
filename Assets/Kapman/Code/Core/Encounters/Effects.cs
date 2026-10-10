@@ -29,6 +29,9 @@ namespace Kapman.Encounters
         /// <summary>What happened, as plain facts, in order.</summary>
         public readonly List<string> facts = new List<string>();
 
+        /// <summary>Silver the effects gave (over 0) or took, in pennies: the log's signed number (10 Oct 2026).</summary>
+        public double silver;
+
         /// <summary>The option as the people remember it: "hide.failure" after a failed chance, else "hide".</summary>
         public string Remembered => branch.Length > 0 ? option + "." + branch : option;
 
@@ -122,7 +125,7 @@ namespace Kapman.Encounters
             var g = ctx.game;
             switch (verb)
             {
-                case "silver": ctx.Say(g?.Silver(n)); break;
+                case "silver": ctx.silver += n; ctx.Say(g?.Silver(n)); break;
                 case "goods": ctx.Say(g?.Goods(a, (int)n)); break;
                 case "health": ctx.Say(g?.Health(n)); break;
                 case "morale": ctx.Say(g?.Morale(n)); break;

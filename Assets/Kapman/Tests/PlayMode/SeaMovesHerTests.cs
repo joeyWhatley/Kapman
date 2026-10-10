@@ -200,7 +200,7 @@ namespace Kapman.Tests
                                          $"{ChartBody.Current.Knots:0.0} kn; wind {ChartBody.Current.Wind:0} m/s from {ChartBody.Current.WindFrom:0}; course leg {Course.Next} of {Course.Points.Count - 1}; speed {GameSpeed.Level + 1}");
                     }
                     for (int i = logFrom; i < FrameLog.Lines.Count; i++)
-                        if (FrameLog.Lines[i].text.StartsWith("Wind and tide have set her"))
+                        if (FrameLog.Lines[i].Whole.StartsWith("Wind and tide have set her"))
                             told = true;
                     // (the harbours that come in sight drop the clock too: back to speed 5 until she is told of her set)
                     if (!told && play.FrontFloat() == null && GameSpeed.Level < 4)
@@ -212,7 +212,7 @@ namespace Kapman.Tests
                 }
                 var off = ChartWorld.ShipWorld();
                 track.AppendLine($"told {told} after {game.Hours - hour0:0.0} h: at {off.x:0} {off.z:0}; helm {Adrift.Helm}; set {Adrift.SetM / 1000.0:0.0} km; off her line {Adrift.OffLine / 1000.0:0.0} km; speed {GameSpeed.Level + 1}; drops {string.Join(" ", dropped)}");
-                track.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.text)));
+                track.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.Whole)));
                 File.WriteAllText(Path.Combine(play.dir, "sea_track.txt"), track.ToString());
                 Assert.IsTrue(told, "twelve hours in a sea setting north and the log never said she was off her line:\n" + track);
                 Assert.Greater(Adrift.Set.z, 6000.0, "she was not carried north:\n" + track);
@@ -255,8 +255,8 @@ namespace Kapman.Tests
                 int laidFrom = FrameLog.Lines.Count;
                 yield return play.ClickWhen(() => play.Button("Lay the course again", frame.Root), "Lay the course again");
                 yield return ChartPlay.Frames(6);
-                Assert.IsTrue(FrameLog.Lines.Skip(laidFrom).Any(l => l.text.StartsWith("The course is laid again from where she is")),
-                              "the log does not say the course was laid again: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Assert.IsTrue(FrameLog.Lines.Skip(laidFrom).Any(l => l.Whole.StartsWith("The course is laid again from where she is")),
+                              "the log does not say the course was laid again: " + FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
                 Assert.IsTrue(Course.IsSet && Course.Destination == "lundenwic", "laying the course again lost where she was bound");
                 Assert.Less(Adrift.SetM, 1.0, "a course laid from where she is leaves her set");
                 Assert.Less(WorldXZ.Distance(Course.Points[0], off), 200.0, "the course laid again does not start where she is");

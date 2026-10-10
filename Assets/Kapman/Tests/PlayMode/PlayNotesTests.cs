@@ -93,7 +93,7 @@ namespace Kapman.Tests
                 Assert.AreEqual("New words for the test", Json.Str(one, "should_say"));
                 Assert.AreEqual(1.0, Json.Num(one, "n"));
                 Assert.IsTrue(Json.Str(one, "thing").Length > 0, "the note does not say which thing it is about");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("Note 1 is written down")), "the log does not say the note was kept");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole.StartsWith("Note 1 is written down")), "the log does not say the note was kept");
 
                 // ---- F2 twice: a note on the whole screen, with no words to change; saved by its own call
                 yield return play.Press(Key.F2);

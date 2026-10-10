@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Kapman.Encounters;
 using Kapman.Game;
 using Kapman.Game.Frame;
 using NUnit.Framework;
@@ -155,6 +156,120 @@ namespace Kapman.Tests
                 play.End();
                 FrameRoot.FreshLayout = false;
                 ClockSettings.AsNew = false;
+                GameSpeed.SetLevel(0);
+            }
+        }
+
+        /// <summary>
+        /// THE KING'S TOLL AS SHE ANSWERED THE LAST TIME, IN THE FRAME (the user by the picker, 10 Oct 2026: "The first
+        /// time at a port you answer the card. After that, if you declared your cargo or showed a charter last time, the
+        /// toll is taken the same way and the log says what was paid."). She lies at Dorestat in a new game, and the
+        /// test brings her in twice more (it ends the call and begins it again, as an arrival does):
+        ///   - the first time the toll man's card comes up, and she declares her cargo;
+        ///   - the second time no card comes: the log says with whom it went as it went the last time, and the Port
+        ///     window has a line for it;
+        ///   - pressed, that line brings the card up, and she answers it by her own hand; the line is gone, and
+        ///     nothing a reader would fault is on the screen.
+        /// (The director's side, and when the card comes all the same, are CardClockTests'. Pictures in Captures/toll.)
+        /// </summary>
+        [UnityTest, Timeout(900000)]
+        public IEnumerator TheTollGoesAsItWentAndItsLineBringsTheCardBack()
+        {
+            const string Toll = "harbour.tollman.frankish";
+            ChartPlay play = null;
+            yield return SeaMovesHerTests.NewGame("kapman_toll_saves", p => play = p, "toll");
+            EncounterDirector cards = null;
+            int asBefore = 0;
+            System.Action<EncounterSession, ChoiceResult> onAsBefore = (s, r) => asBefore++;
+            try
+            {
+                var frame = play.Frame;
+                cards = EncounterRunner.Director;
+                Assert.IsNotNull(cards, "no cards in the game");
+                Assert.IsNotNull(EncounterRunner.Book.Card(Toll), "the toll man's card is not in the game");
+                var here = FrameGame.PortHere;
+                Assert.IsNotNull(here, "a new game does not lie at a port");
+                yield return AnswerAll(play);
+                cards.AnsweredAsBefore += onAsBefore;
+
+                // ---- she comes in: the first time the toll man's card comes up, and she declares her cargo
+                if (cards.InCall)
+                    cards.EndCall();
+                cards.BeginCall(here.id);
+                yield return ChartPlay.Until(() => GoonsTests.TheirCardUp(Toll) && frame.FloatOpen("card"), 15f);
+                Assert.IsTrue(GoonsTests.TheirCardUp(Toll), "the first time at " + here.name + " the toll man's card did not come up: " +
+                                                            (cards.Current != null ? cards.Current.card.id : "no card is open"));
+                string who = cards.Current.People.First().name;
+                string said = "", end = "";
+                yield return GoonsTests.Answer(play, "Declare the cargo", (a, b) => { said = a; end = b; });
+                yield return AnswerAll(play);
+                Assert.AreEqual(0, asBefore, "the first time at a port the toll was taken as before");
+                Assert.IsEmpty(cards.AsBeforeThisCall);
+                Assert.IsNull(play.ButtonStarting("It went as it went the last time", frame.Root), "the Port window has the line before anything went by itself");
+
+                // ---- she comes in again: no card, the log says how it went, and the Port window has its line
+                cards.EndCall();
+                cards.BeginCall(here.id);
+                yield return ChartPlay.Frames(40);
+                yield return ChartPlay.Settle(0.5f);
+                Assert.IsNull(cards.Current, "she declared the last time, and a card came up again: " + (cards.Current != null ? cards.Current.card.id : ""));
+                Assert.IsFalse(frame.FloatOpen("card"), "a card's window is open");
+                Assert.AreEqual(1, asBefore, "the toll was not taken as she answered the last time");
+                string line = FrameLog.Lines.Select(l => l.Whole).LastOrDefault(t => t.Contains("it goes as it went the last time")) ?? "";
+                StringAssert.StartsWith("With " + who + " it goes as it went the last time. ", line, "the log does not say with whom the toll went as it went the last time");
+                // (10 Oct 2026, the log's short form: the line is a few words and the number that changed; its whole
+                // telling comes up in a box when the pointer rests on it)
+                var logged = FrameLog.Lines.Last(l => l.Whole.Contains("it goes as it went the last time"));
+                StringAssert.EndsWith(" as before", logged.text, "the log's line for it is not the short one: " + logged.text);
+                Assert.IsNotNull(logged.box, "the short line has no box");
+                StringAssert.Contains("With " + who + " it goes as it went the last time.", logged.box.Text());
+                var logRow = frame.Root.Query<VisualElement>(className: "frame-log-line").ToList()
+                                  .LastOrDefault(r => r.Q<Label>("text") != null && r.Q<Label>("text").text == FrameLog.Shown(logged.text));
+                Assert.IsNotNull(logRow, "the log does not show the line '" + logged.text + "'");
+                if (logged.figure.Length > 0)
+                    Assert.AreEqual(logged.figure, logRow.Q<Label>("figure")?.text, "the number that changed is not at the line's end");
+                play.MoveTo(logRow.worldBound.center);
+                yield return ChartPlay.Settle(1.0f);
+                StringAssert.Contains("With " + who + " it goes as it went the last time.", HoverCards.Shown, "resting the pointer on the line did not bring up its box");
+                StringAssert.Contains(logged.box.head, HoverCards.Shown);
+                yield return play.Shot("toll_1b_the_box_over_the_line_of_the_log");
+                play.MoveTo(new Vector2(700f, 420f));
+                yield return ChartPlay.Settle(0.3f);
+                Assert.AreEqual(1, cards.AsBeforeThisCall.Count);
+                frame.Show("port");
+                yield return ChartPlay.Settle(0.6f);
+                var row = play.ButtonStarting("It went as it went the last time", frame.Root);
+                Assert.IsNotNull(row, "the Port window has no line for the toll that went by itself:\n" + ChartPlay.Read(frame.Root));
+                StringAssert.Contains(cards.AsBeforeThisCall[0].title, ChartPlay.Words(row), "the line does not name the card");
+                yield return play.Shot("toll_1_it_went_as_it_went_the_last_time");
+
+                // ---- pressed, the line brings the card up, and she answers it by her own hand
+                yield return play.Click(row, "the toll's line");
+                yield return ChartPlay.Until(() => GoonsTests.TheirCardUp(Toll) && frame.FloatOpen("card"), 15f);
+                Assert.IsTrue(GoonsTests.TheirCardUp(Toll), "pressed, the toll's line did not bring the card up");
+                Assert.IsFalse(cards.Current.Chosen, "asked for, the card answered itself again");
+                Assert.IsEmpty(cards.AsBeforeThisCall, "the line's card is still listed after it was asked for");
+                yield return ChartPlay.Settle(0.5f);
+                yield return play.Shot("toll_2_the_card_had_again");
+                yield return GoonsTests.Answer(play, "Declare the cargo", (a, b) => { said = a; end = b; });
+                yield return AnswerAll(play);
+                Assert.AreEqual(1, asBefore, "answered by her own hand, it was counted as answered by itself");
+                Assert.IsNotEmpty(said, "the card that was had again said nothing");
+                frame.Show("port");
+                yield return ChartPlay.Settle(0.5f);
+                Assert.IsNull(play.ButtonStarting("It went as it went the last time", frame.Root), "the toll's line stands in the Port window after it was pressed");
+                Assert.IsNull(cards.Current, "a card is left open");
+                yield return play.Shot("toll_3_answered_by_her_own_hand");
+                Assert.AreEqual(0, play.faults.Count, "faults a reader would see on screen:\n" + string.Join("\n", play.faults));
+            }
+            finally
+            {
+                if (cards != null)
+                    cards.AnsweredAsBefore -= onAsBefore;
+                ClockSettings.AsNew = false;
+                SaveGame.FolderOverride = null;
+                play?.End();
+                FrameRoot.FreshLayout = false;
                 GameSpeed.SetLevel(0);
             }
         }

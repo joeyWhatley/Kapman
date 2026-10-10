@@ -157,7 +157,7 @@ namespace Kapman.Game.Frame
                     date = l.date;
                     body.Add(FrameUi.H(string.IsNullOrEmpty(date) ? "Before the first day" : date));
                 }
-                body.Add(FrameUi.Ln(l.text, string.IsNullOrEmpty(l.part) ? null : Cap(l.part)));
+                body.Add(FrameUi.Ln(l.Whole, string.IsNullOrEmpty(l.part) ? null : Cap(l.part)));   // (the whole words: the log shows the short)
             }
             if (lines.Count > shown)
                 body.Add(FrameUi.P($"And {lines.Count - shown} lines before that."));

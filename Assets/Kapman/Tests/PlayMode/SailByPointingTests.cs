@@ -149,8 +149,8 @@ namespace Kapman.Tests
                 yield return ChartPlay.Frames(6);
                 Assert.IsTrue(Course.IsSet && Course.ToPlace, "the button did not chart the course to the place pointed at");
                 Assert.Less(WorldXZ.Distance(Course.Place, pointed), 400.0, "the course is not to the place the pointer pointed at");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("Course set for the place you pointed at, through waters you do not know.")),
-                              "the log does not say the course into the dark: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole.StartsWith("Course set for the place you pointed at, through waters you do not know.")),
+                              "the log does not say the course into the dark: " + FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
                 Assert.IsTrue(game.ship.anchored, "setting a course in port cast her off");
                 yield return ChartPlay.Frames(6);
                 var strokes = map.CourseStrokes;
@@ -197,7 +197,7 @@ namespace Kapman.Tests
                         yield return AnswerAll(play);
                     for (int i = logFrom; i < FrameLog.Lines.Count; i++)
                     {
-                        string text = FrameLog.Lines[i].text;
+                        string text = FrameLog.Lines[i].Whole;
                         if (!sighted && text.StartsWith("A harbour in sight") && text.Contains(witla.name))
                         {
                             sighted = true;
@@ -228,10 +228,10 @@ namespace Kapman.Tests
                     yield return null;
                 }
                 Assert.IsTrue(sighted, "she sailed for " + (game.Day - day0).ToString("0.0") + " days towards Witla and no harbour came in sight. The log: " +
-                                       string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 8)).Select(l => l.text)));
+                                       string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 8)).Select(l => l.Whole)));
                 Assert.AreEqual(0, levelAtSight, "the clock did not drop back to speed 1 when a harbour came in sight");
                 CollectionAssert.Contains(dropped, ClockReason.Sighted, "the clock gave no reason for dropping back at the sighting");
-                Assert.IsTrue(there, "she never came to the place pointed at. The log: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 8)).Select(l => l.text)));
+                Assert.IsTrue(there, "she never came to the place pointed at. The log: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 8)).Select(l => l.Whole)));
                 Assert.AreEqual(0, levelThere, "the clock did not drop back to speed 1 when she came to the place");
                 CollectionAssert.Contains(dropped, ClockReason.AtPlace);
                 yield return play.Click(Small(play, "Pause"), "Pause");

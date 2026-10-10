@@ -358,7 +358,7 @@ namespace Kapman.Tests
                         string id = Discoveries.FoundIds[had];
                         had++;
                         var thing = Discoveries.Book.Get(id);
-                        var line = FrameLog.Lines.LastOrDefault(l => l.text.StartsWith("New to you: " + thing.name));
+                        var line = FrameLog.Lines.LastOrDefault(l => l.Whole.StartsWith("New to you: " + thing.name));
                         Note($"day {game.Day - day0:0.00}: found {id} ({thing.kindName}); the log: '{(line.text ?? "NOTHING")}'");
                         if (shots < 4)
                         {

@@ -283,7 +283,8 @@ namespace Kapman.Game.Frame
             var made = Landings.Look(at, game.Day, FrameGame.Silver, () => FrameGame.LandingFigures(here, game));
             if (made == null)
                 return;
-            FrameLog.Add(FrameGame.LandingWords(made), "slip");
+            // (10 Oct 2026: the slip is one short line; the purse, the cargo and the debt are in its box)
+            FrameLog.Short(FrameGame.LandingShort(made), "", FrameGame.LandingBox(made), FrameGame.LandingWords(made), "slip");
             string ravn = FrameGame.RavnAtLanding(made, Landings.All.Count);
             if (ravn.Length > 0)
                 FrameLog.Add(ravn);

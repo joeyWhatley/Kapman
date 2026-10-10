@@ -338,7 +338,9 @@ namespace Kapman.Game
                     held = true;
                     wasMoored = false;
                     // (a moment of the flow: "On the sea moves her"; the log is told, and the clock drops back)
-                    SeaMoments.Raise("lost", lostWords, ClockReason.OffLine);
+                    SeaMoments.Raise("lost", lostWords, ClockReason.OffLine,
+                                     thick ? "Reckoning lost in thick air: she lies to" : "Reckoning lost: she lies to", "",
+                                     new LogBox("The reckoning is lost").SayEach(lostWords));
                     return;
                 }
                 p = Course.Aim(by, chartAheadM, out last);

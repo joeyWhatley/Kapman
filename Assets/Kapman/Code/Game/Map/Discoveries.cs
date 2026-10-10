@@ -173,6 +173,11 @@ namespace Kapman.Game
         /// <summary>What the log says of a find. PLACEHOLDER WORDS, the user's to write.</summary>
         public static string Line(DiscoveryDef d) => d == null ? "" : $"New to you: {d.name}. {d.note}".Trim();
 
+        /// <summary>The same in the log's short form (10 Oct 2026): its name on the line, what it is in the box.</summary>
+        public static string Short(DiscoveryDef d) => d == null ? "" : "New to you: " + d.name;
+
+        public static LogBox Box(DiscoveryDef d) => d == null ? null : new LogBox(d.name).SayEach(d.note);
+
         /// <summary>Nothing is found (a new game).</summary>
         public static void Forget()
         {

@@ -1142,7 +1142,7 @@ namespace Kapman.Game.Frame
         {
             var last = new List<string>();
             for (int i = Math.Max(0, FrameLog.Lines.Count - 8); i < FrameLog.Lines.Count; i++)
-                last.Add(FrameLog.Lines[i].text);
+                last.Add(FrameLog.Lines[i].Whole);                         // (the whole words: the last page has no boxes to open)
             OpenFloat(LostSpec(how, last, SaveGame.Slots().Count > 0, LoadLast, ToTitle));
         }
 
@@ -1343,8 +1343,42 @@ namespace Kapman.Game.Frame
             var d = EncounterRunner.Director;
             if (d != null && (d.TakingItself || d.AnsweringAsBefore))
                 return;                                                  // (the card answered itself: CardTookItself or CardAsBefore writes it)
+            // (what you did and what came of it. 10 Oct 2026, the log's short form: what you did on the line, the
+            // number that changed at its end, and what came of it in the box)
             if (s != null && r != null && r.ok)
-                FrameLog.Add(r.Text);                                    // (what you did and what came of it, in sentences: no title and colon)
+                FrameLog.Short(r.told.Length > 0 ? r.told : s.Title, CardFigure(r), CardBox(s, r, ""), r.Text);
+        }
+
+        /// <summary>The number at the end of a card's line in the log: the silver it gave or took; else, where it moved
+        /// one person's feeling, who and which way ("Maurus +").</summary>
+        public static string CardFigure(ChoiceResult r)
+        {
+            if (r == null)
+                return "";
+            if (System.Math.Round(r.silver) != 0.0)
+                return LogBox.Signed(r.silver);
+            return r.felt.Count == 1 && r.felt[0].n != 0.0 ? r.felt[0].name + (r.felt[0].n > 0.0 ? " +" : " -") : "";
+        }
+
+        /// <summary>The box of a card's line in the log: the card's title; `lead` (how it came to be answered, where it
+        /// was not by her own hand); what she did; what came of it, a fact a row; whose feeling it moved; the silver.</summary>
+        public static LogBox CardBox(EncounterSession s, ChoiceResult r, string lead)
+        {
+            var box = new LogBox(s != null ? s.Title : "");
+            box.Say(lead);
+            if (r == null)
+                return box;
+            box.Say(r.told);
+            string feelings = LogProse.Felt(r.felt);
+            foreach (string fact in r.facts)
+                if (fact != feelings)
+                    box.Say(fact);
+            foreach (var (name, n) in r.felt)
+                if (n != 0.0)
+                    box.Row(name, n > 0.0 ? "thinks better of you" : "thinks worse of you", n > 0.0 ? "+" : "-");
+            if (System.Math.Round(r.silver) != 0.0)
+                box.Row("Silver", "", LogBox.Signed(r.silver));
+            return box;
         }
 
         /// <summary>A card left unanswered took an option by itself (rulings 10 and 12 of 7 Oct 2026: "and says so in the
@@ -1352,7 +1386,9 @@ namespace Kapman.Game.Frame
         void CardTookItself(EncounterSession s, ChoiceResult r, bool castOff)
         {
             if (s != null && r != null)
-                FrameLog.Add(TookItselfLine(s, r, castOff));
+                FrameLog.Short(s.Title + ": no answer given", CardFigure(r),
+                               CardBox(s, r, castOff ? "You cast off and left it unanswered, so it went its own way." : "You gave it no answer, so it went its own way."),
+                               TookItselfLine(s, r, castOff));
         }
 
         /// <summary>A card was answered as she answered it the last time (the user's ruling of 10 Oct 2026, of the king's
@@ -1360,7 +1396,19 @@ namespace Kapman.Game.Frame
         void CardAsBefore(EncounterSession s, ChoiceResult r)
         {
             if (s != null && r != null)
-                FrameLog.Add(AsBeforeLine(s, r));
+                FrameLog.Short(s.Title + " as before", CardFigure(r), CardBox(s, r, AsBeforeLead(s)), AsBeforeLine(s, r));
+        }
+
+        /// <summary>The first sentence of that line: with whom it went as it went the last time. PLACEHOLDER WORDS.</summary>
+        public static string AsBeforeLead(EncounterSession s)
+        {
+            string who = "";
+            foreach (var p in s.People)
+            {
+                who = p.name ?? "";
+                break;
+            }
+            return who.Length > 0 ? "With " + who + " it goes as it went the last time." : "It goes as it went the last time.";
         }
 
         /// <summary>The log's line for it. PLACEHOLDER WORDS, the user's to write.</summary>

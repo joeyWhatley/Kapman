@@ -2113,3 +2113,51 @@ and far fewer when usage is short).
    - MY SLIP: I ran that script a second time while the sixth walk was running. It wrote
      the game's table again, the same bytes. Unity's log shows no import of it, and the hang came nineteen minutes
      later; but the rule is that nothing under Assets is written while a test run is going, and I broke it.
+
+138. **THE LOG IS SHORT, AND ITS LINES OPEN A BOX**
+   (10 Oct, noon. The user: "I feel like there's too much info at the bottom maybe have just a much more simplified
+   snappier version of information and if you hover over it has an info box pop up with the more key details but laid
+   out like / Plus however many days / Ect", "Know what I mean? Like how ck does it"; by the picker: "The log's
+   lines", "Short, with signed numbers", "Next, before the helm". A RULING.)
+   - A LINE of the log shows a few words and, at its right end, the number that changed, signed and coloured (forest
+     for a gain, blood for a loss, both of the game's palette). Its last full stop is left off. Resting the pointer
+     on it brings up ITS BOX: a heading and rows, one fact a row: what it is, how much, and what it changed by.
+   - THE WHOLE WORDS ARE KEPT under every short line (FrameLog.Line.full and .Whole). The Journey window's days, the
+     last page, saved games and the tests read those. Nothing that was said is lost.
+   - BY HAND, the lines that come most often: an arrival ("Quentovic, 1 day from Serrae"; its box: the passage, the
+     purse, what the cargo cost, what it would fetch here and the difference, what is owed, the days left: the
+     mock-up the user picked); what came of a card (what she did on the line; the silver, or whose feeling it moved,
+     at its end; the card's title and what came of it in the box); a card that answered itself, or went as before;
+     the seven moments of the sea ("Off her line" and how far, "The steersman lays her course again", "Reckoning lost
+     in thick air: she lies to", "The air has cleared: on for Ripa", rough water by its name, a lee shore, adrift); a
+     harbour in sight; a find; a ship made out; the men's pay and the casks; a course set or laid again; a deal
+     ("Sold 4 casks of Frankish wine" and what the purse gained).
+   - EVERYTHING ELSE BY ONE RULE: a telling of more than one sentence shows its first, and the whole of it, a sentence
+     a row, is in its box. What somebody says is not cut: nothing is cut between quote marks.
+   - HOW IT IS BUILT. Screens: the line's figure is a new part of Game/UI/Parts/LogLine.uxml; the box is a new part
+     file, Game/UI/Parts/HoverBox.uxml (its heading and one row, copied for each row), named in Resources/FrameParts;
+     the looks are in Frame.uss and MapView.uss. Code: LogBox (the rows), FrameLog (the short line, the
+     first-sentence rule, the saved game), HoverCards (a box in place of words), Voyage.Say with four arguments (the
+     whole words still reach every listener, and the log takes the short form), SeaMoments.Raise with a moment's
+     short form (the graph's node "Log: say" is as it was). No new flow and no new rule graph: nothing here decides
+     anything in the game.
+   - A card's result now says what silver it gave or took and whose feeling it moved (ChoiceResult.silver, .felt),
+     for the number at the line's end.
+   - EVERY HOVER CARD IS SOLID NOW (its ground was 96 in 100). In this colour space the frame's pale ground came
+     through it, and the words that lay under it stood as ghosts between its own.
+   - TESTS. Edit: SnappyLogTests (the first sentence and the whole; a short line with its figure, its box and its
+     whole words; a notice with its short form, and the whole words to every listener; the saved game; the arrival
+     exactly as the mock-up has it; the page's rule). 82 lines of older tests now read a line's whole words, which
+     are what they were. Play: the toll's test and the sea's rest the pointer on a line and read the box that comes
+     up (Captures/toll/toll_1b, Captures/sea/sea_10b). Also new: HeldContentTests.TheTollGoesAsItWentAndItsLine
+     BringsTheCardBack, which presses the Port window's line for the toll (item 137) and answers the card by hand.
+     At this commit: edit 623 (621 pass, 2 skipped as before), play 35 of 35. That is also the whole play suite
+     which item 137 owed.
+   - FOUND BY READING IT OVER BEFORE IT EVER RAN: a notice told with an empty short form would have called itself for
+     ever; and Ravn's saying at the first landing would have been cut after "Look at that!". FOUND BY THE FIRST
+     PICTURE: the box stood from the top of the screen to its foot and a row's name ran down it a letter a line,
+     because the box had no width of its own; and it was see-through.
+   - ALL THE SHORT WORDS ARE PLACEHOLDERS, the user's to write.
+   - NOT DONE: the long walk has not been run on it. The box comes up beside the pointer, and so lies over the log's
+     other lines while it is up. A line that is one long sentence is still long (what is aboard on the first morning;
+     the officers' search).

@@ -104,6 +104,11 @@ namespace Kapman.Encounters
         /// written. The card shows it; the log keeps to the short telling.</summary>
         public string written = "";
         public string Text => told.Length > 0 ? (told + " " + string.Join(" ", facts)).Trim() : string.Join(" ", facts);
+        /// <summary>Silver the choice gave (over 0) or took, in pennies; and whose feeling toward the merchant it moved,
+        /// and which way. For the log's short form (10 Oct 2026): the signed number at the line's end, and the rows of
+        /// its box.</summary>
+        public double silver;
+        public readonly List<(string name, double n)> felt = new List<(string name, double n)>();
         /// <summary>What the effects did, in their own sentences ("" for none).</summary>
         public string Facts => string.Join(" ", facts);
     }
@@ -302,6 +307,8 @@ namespace Kapman.Encounters
             }
             if (shown.def.then.Length > 0)
                 world.state.Enqueue(shown.def.then, true);
+            r.felt.AddRange(ctx.felt);
+            r.silver = ctx.silver;
             ctx.CloseFeelings();
             r.ok = true;
             r.branch = ctx.branch;

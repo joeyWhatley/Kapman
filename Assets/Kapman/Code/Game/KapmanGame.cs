@@ -817,12 +817,12 @@ namespace Kapman.Game
                 bool newInSight = false;
                 foreach (var found in Discoveries.Step(at, Day, Year))
                 {
-                    Voyage.Say(Discoveries.Line(found));
+                    Voyage.Say(Discoveries.Line(found), Discoveries.Short(found), "", Discoveries.Box(found));
                     newInSight = true;
                 }
                 foreach (var port in Sightings.Step(Year))
                 {
-                    Voyage.Say(Sightings.Line(port, at));
+                    Voyage.Say(Sightings.Line(port, at), Sightings.Short(port, at), "", Sightings.Box(port, at));
                     newInSight = true;
                 }
                 if (newInSight)

@@ -282,6 +282,44 @@ namespace Kapman.Game.Frame
             return said;
         }
 
+        /// <summary>A landing in the log's short form (the user's ruling of 10 Oct 2026; the mock-up they picked:
+        /// "Quentovic, 1 day from Serrae"). PLACEHOLDER WORDS, the user's to write.</summary>
+        public static string LandingShort(Landings.Landing l)
+        {
+            if (l == null)
+                return "";
+            string to = GameData.Port(l.to)?.name ?? l.to, from = GameData.Port(l.from)?.name ?? l.from;
+            return l.from.Length == 0 ? $"Made fast at {to}" : l.from == l.to ? $"{to} again, {FrameUi.Days(l.Took)} out" : $"{to}, {FrameUi.Days(l.Took)} from {from}";
+        }
+
+        /// <summary>And its box, a fact a row: the passage, the purse, what the cargo cost and would fetch here (and the
+        /// difference, signed), what is owed and the days left.</summary>
+        public static LogBox LandingBox(Landings.Landing l)
+        {
+            if (l == null)
+                return null;
+            string to = GameData.Port(l.to)?.name ?? l.to, from = GameData.Port(l.from)?.name ?? l.from;
+            var box = new LogBox(l.from.Length == 0 ? to : l.from == l.to ? $"Out from {to} and back" : $"{from} to {to}");
+            if (l.from.Length > 0)
+                box.Row("Passage", FrameUi.Days(l.Took));
+            box.Row("Purse", $"{l.silver:0} d");
+            if (l.cost >= 0.5)
+                box.Row("Cargo cost", $"{l.cost:0} d").Sub("would fetch here", $"{l.fetch:0} d", LogBox.Signed(l.fetch - l.cost));
+            else if (l.fetch >= 0.5)
+                box.Row("Cargo would fetch here", $"{l.fetch:0} d");
+            else
+                box.Row("Cargo", "nothing to sell");
+            if (l.debt > 0.01)
+            {
+                box.Row("Owed", $"{l.debt:0} d");
+                if (l.daysLeft > 0.0)
+                    box.Sub("days left", $"{l.daysLeft:0}");
+                else
+                    box.Sub("the day has come");
+            }
+            return box;
+        }
+
         /// <summary>The purse and the cargo of a landing, as a sentence or two.</summary>
         public static string LandingPurse(Landings.Landing l)
         {
@@ -344,6 +382,15 @@ namespace Kapman.Game.Frame
             public string date, part;
             /// <summary>"" a plain line; "slip" a landing's slip, which the log frames.</summary>
             public string kind;
+            /// <summary>The number that changed, signed, at the line's right end ("-1 d", "Maurus +"; "" none).</summary>
+            public string figure;
+            /// <summary>The box that comes up over the line: its details, a row each (null none).</summary>
+            public LogBox box;
+            /// <summary>The whole words, as they were said, where `text` is the short form of them ("" where the text is
+            /// all there is). The Journey window, a saved game and the tests read the whole words.</summary>
+            public string full;
+            /// <summary>The whole words of the line: the full telling where the line is a short form, else its text.</summary>
+            public string Whole => string.IsNullOrEmpty(full) ? text : full;
         }
 
         public const int Keep = 200;
@@ -355,19 +402,106 @@ namespace Kapman.Game.Frame
         /// the same hour are said once.</summary>
         public static void Add(string text) => Add(text, "");
 
-        /// <summary>The same, of a kind the log shows in its own way ("slip": a landing, framed).</summary>
+        /// <summary>The same, of a kind the log shows in its own way ("slip": a landing, framed). THE LOG IS SHORT (the
+        /// user's ruling of 10 Oct 2026: "a much more simplified snappier version of information and if you hover over
+        /// it has an info box"): a notice that comes with its short form (Voyage.Say with four arguments) is shown by
+        /// it; any other telling of more than one sentence shows its first sentence, and the whole of it, a sentence
+        /// a row, is in the box that comes up over the line.</summary>
         public static void Add(string text, string kind)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return;
+            if (!string.IsNullOrWhiteSpace(Voyage.SaidShort))
+            {
+                Put(Voyage.SaidShort, kind, Voyage.SaidFigure, Voyage.SaidBox, text);
+                return;
+            }
+            Telling(text, kind);
+        }
+
+        /// <summary>A telling with no short form of its own: its first sentence on the line, and the whole of it, a
+        /// sentence a row, in its box; one sentence is the line, with no box.</summary>
+        static void Telling(string text, string kind)
+        {
+            var sentences = Sentences(text);
+            if (sentences.Count < 2)
+            {
+                Put(text, kind, "", null, "");
+                return;
+            }
+            var box = new LogBox();
+            foreach (string s in sentences)
+                box.Say(s);
+            Put(sentences[0], kind, "", box, text);
+        }
+
+        /// <summary>A LINE IN THE LOG'S SHORT FORM (the ruling's own choice: "Short, with signed numbers"): a few words,
+        /// the number that changed at the line's end (`figure`, signed; "" none), everything else in the box that comes
+        /// up over the line, and the whole words as they would be said in full (`full`; "" none).</summary>
+        public static void Short(string shortLine, string figure, LogBox box, string full = "", string kind = "")
+        {
+            if (string.IsNullOrWhiteSpace(shortLine))
+            {
+                if (!string.IsNullOrWhiteSpace(full))
+                    Telling(full, kind);
+                return;
+            }
+            Put(shortLine, kind, figure, box, full);
+        }
+
+        /// <summary>A telling as its sentences: cut where a full stop, a question mark or a mark of exclamation is
+        /// followed by a space and then a capital letter, a figure or an opening quote mark (so "1.5 d" stays whole).
+        /// WHAT SOMEBODY SAYS IS NOT CUT: nothing is cut between quote marks.</summary>
+        public static List<string> Sentences(string text)
+        {
+            var list = new List<string>();
+            text = (text ?? "").Trim();
+            int from = 0;
+            bool said = false;
+            for (int i = 0; i + 2 < text.Length; i++)
+            {
+                char c = text[i];
+                if (c == '"')
+                    said = !said;
+                else if (c == '\u201c')
+                    said = true;
+                else if (c == '\u201d')
+                    said = false;
+                if (said || (c != '.' && c != '!' && c != '?') || text[i + 1] != ' ')
+                    continue;
+                char next = text[i + 2];
+                if (!char.IsUpper(next) && !char.IsDigit(next) && next != '"' && next != '\u201c' && next != '[')
+                    continue;
+                list.Add(text.Substring(from, i + 1 - from).Trim());
+                from = i + 2;
+            }
+            if (from < text.Length)
+                list.Add(text.Substring(from).Trim());
+            return list;
+        }
+
+        /// <summary>A line as the log shows it: its last full stop is left off (the log is not prose).</summary>
+        public static string Shown(string text)
+        {
+            text = text ?? "";
+            return text.EndsWith(".", System.StringComparison.Ordinal) && !text.EndsWith("..", System.StringComparison.Ordinal) ? text.Substring(0, text.Length - 1) : text;
+        }
+
+        static void Put(string text, string kind, string figure, LogBox box, string full)
+        {
             var game = KapmanGame.Current;
             var clock = LevelClock.Current;
             double day = game != null ? game.Day : 0.0;
-            if (Lines.Count > 0 && Lines[Lines.Count - 1].text == text && day - Lines[Lines.Count - 1].day < 1.0 / 24.0)
+            text = text.Trim();
+            full = (full ?? "").Trim();
+            if (full == text)
+                full = "";
+            string whole = full.Length > 0 ? full : text;
+            if (Lines.Count > 0 && Lines[Lines.Count - 1].Whole == whole && day - Lines[Lines.Count - 1].day < 1.0 / 24.0)
                 return;
             Lines.Add(new Line
             {
-                text = text.Trim(), day = day, kind = kind ?? "",
+                text = text, day = day, kind = kind ?? "", figure = figure ?? "", box = box != null && !box.Empty ? box : null, full = full,
                 date = clock != null ? $"{clock.Date.day} {clock.Date.MonthName}" : "",
                 part = clock != null ? FrameUi.PartOfDay(clock.HourOfDay) : "",
             });
@@ -381,7 +515,16 @@ namespace Kapman.Game.Frame
         {
             var saved = new List<object>(Lines.Count);
             foreach (var l in Lines)
-                saved.Add(new Dictionary<string, object> { ["text"] = l.text, ["day"] = l.day, ["date"] = l.date ?? "", ["part"] = l.part ?? "", ["kind"] = l.kind ?? "" });
+            {
+                var line = new Dictionary<string, object> { ["text"] = l.text, ["day"] = l.day, ["date"] = l.date ?? "", ["part"] = l.part ?? "", ["kind"] = l.kind ?? "" };
+                if (!string.IsNullOrEmpty(l.figure))
+                    line["figure"] = l.figure;
+                if (!string.IsNullOrEmpty(l.full))
+                    line["full"] = l.full;
+                if (l.box != null)
+                    line["box"] = l.box.Capture();
+                saved.Add(line);
+            }
             return saved;
         }
 
@@ -395,7 +538,11 @@ namespace Kapman.Game.Frame
                 {
                     string text = Json.Str(o, "text");
                     if (text.Length > 0)
-                        Lines.Add(new Line { text = text, day = Json.Num(o, "day"), date = Json.Str(o, "date"), part = Json.Str(o, "part"), kind = Json.Str(o, "kind") });
+                        Lines.Add(new Line
+                        {
+                            text = text, day = Json.Num(o, "day"), date = Json.Str(o, "date"), part = Json.Str(o, "part"), kind = Json.Str(o, "kind"),
+                            figure = Json.Str(o, "figure"), full = Json.Str(o, "full"), box = LogBox.Restore(Json.Obj(o, "box")),
+                        });
                 }
             if (Lines.Count > Keep)
                 Lines.RemoveRange(0, Lines.Count - Keep);

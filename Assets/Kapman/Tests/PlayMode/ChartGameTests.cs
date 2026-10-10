@@ -353,9 +353,9 @@ namespace Kapman.Tests
                 Assert.AreEqual(owedWhole, owedWords.text, "with the room given back the debt's whole words did not come back at once");
                 Assert.AreEqual(4, Trade.Hold.Count("rhenish_wine"));
                 Assert.AreEqual(4, Trade.Hold.Owed("rhenish_wine"), "the four casks should be marked as the count's");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("She has aboard 4 casks of Rhenish wine that came with the boat and 1 sack of")),
-                              "the log does not say what is aboard and whose: " + string.Join(" / ", FrameLog.Lines.Select(l => l.text)));
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text == "You owe the count 1920 d by Michaelmas, 29 September 794."), "the log does not say what is owed and by when");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole.StartsWith("She has aboard 4 casks of Rhenish wine that came with the boat and 1 sack of")),
+                              "the log does not say what is aboard and whose: " + string.Join(" / ", FrameLog.Lines.Select(l => l.Whole)));
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole == "You owe the count 1920 d by Michaelmas, 29 September 794."), "the log does not say what is owed and by when");
                 Debug.Log($"Chart test: the pre-run took {KapmanGame.PreRunMs} ms; Dorestat asks " +
                           $"{Markets.Of(home, game.Year, game.Day).Asks(Markets.Of(home, game.Year, game.Day).Get("rhenish_wine"), game.Month):0.0} d for a cask of Rhenish wine; " +
                           $"the purse is {FrameGame.Silver:0.0} d of silver and buys {FrameGame.SilverHere(home):0.0} d's worth here");
@@ -601,17 +601,17 @@ namespace Kapman.Tests
                 double silverBefore = FrameGame.Silver;
                 int heldBefore = Trade.Hold.Count("rhenish_wine");
                 yield return play.ClickWhen(() => LineButton(play, "Trade", wine, "Sell"), "Sell, beside the wine");
-                Assert.AreEqual(heldBefore - 1, Trade.Hold.Count("rhenish_wine"), "one cask should have gone ashore: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Assert.AreEqual(heldBefore - 1, Trade.Hold.Count("rhenish_wine"), "one cask should have gone ashore: " + FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
                 Assert.Greater(FrameGame.Silver, silverBefore, "selling brought no silver");
                 // (the critic's B3, 8 Oct 2026: the cask is the player's to sell, so the sale says nothing of "his stake")
-                StringAssert.DoesNotContain("stake", FrameLog.Lines[FrameLog.Lines.Count - 1].text, "the sale of a cask that came with the boat still reads as another man's money");
-                StringAssert.DoesNotContain("more than", FrameLog.Lines[FrameLog.Lines.Count - 1].text, "the count's cask was told as gain");
+                StringAssert.DoesNotContain("stake", FrameLog.Lines[FrameLog.Lines.Count - 1].Whole, "the sale of a cask that came with the boat still reads as another man's money");
+                StringAssert.DoesNotContain("more than", FrameLog.Lines[FrameLog.Lines.Count - 1].Whole, "the count's cask was told as gain");
                 yield return play.Shot("16_sold_at_dorestat");
                 yield return play.SmallShot("16_sold_at_dorestat");
                 yield return play.ClickWhen(() => LineButton(play, "Trade", wine, "Sell"), "Sell, beside the wine, again");
                 double silverMid = FrameGame.Silver;
                 yield return play.ClickWhen(() => LineButton(play, "Trade", wine, "Buy"), "Buy, beside the wine");
-                Assert.AreEqual(heldBefore - 1, Trade.Hold.Count("rhenish_wine"), "one cask should have come back aboard: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Assert.AreEqual(heldBefore - 1, Trade.Hold.Count("rhenish_wine"), "one cask should have come back aboard: " + FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
                 Assert.Less(FrameGame.Silver, silverMid, "buying cost no silver");
                 yield return play.Shot("16_bought_at_dorestat");
                 // ---- BY THE LOT (the alpha's row 5; the road's step 4): under the wine's line stand the lots she could sell,
@@ -628,7 +628,7 @@ namespace Kapman.Tests
                 Assert.IsNotNull(Known.Here(GameData.Good("rhenish_wine"), Known.AskNow()).port, "she lies at a market and the word has nothing to be said against");
                 Debug.Log("Chart test: the lots at Dorestat: " + string.Join(" | ", lots.Where(t => t.Contains(" for "))));
                 Debug.Log($"Chart test: sold two casks and bought one back at Dorestat; silver {silverBefore:0} -> {silverMid:0} -> {FrameGame.Silver:0}; " +
-                          $"the log's last line '{FrameLog.Lines[FrameLog.Lines.Count - 1].text}'");
+                          $"the log's last line '{FrameLog.Lines[FrameLog.Lines.Count - 1].Whole}'");
 
                 // ---- AN ORDER IS OFFERED, ASKED AND TAKEN (the alpha's row 9; the road's step 6; Design/fixes/orders.md).
                 // Somebody offers her an order by name (a card would; here the test does). The game asks with the terms:
@@ -655,8 +655,8 @@ namespace Kapman.Tests
                 yield return Frames(10);
                 Assert.IsTrue(ordered.mine, "the order was not taken");
                 Assert.IsFalse(frame.FloatOpen(OrderAsk.IdOf(ordered)), "the ask did not shut when it was answered");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("You took the order: 2 casks of Rhenish wine for " + orderPort.name)),
-                              "the log does not say that the order was taken: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole.StartsWith("You took the order: 2 casks of Rhenish wine for " + orderPort.name)),
+                              "the log does not say that the order was taken: " + FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
                 Debug.Log("Chart test: an order offered and taken: " + ChartPlay.Short(orderAsk));
 
                 // ---- THE VOYAGE WINDOW: the ports she knows with their days; one picked draws its course; the course is set there
@@ -827,7 +827,7 @@ namespace Kapman.Tests
                         int logWas = FrameLog.Lines.Count;
                         yield return play.Click(Verb(play, "Sound"), "the Sound button");
                         Assert.Greater(FrameLog.Lines.Count, logWas, "the lead said nothing in the log");
-                        StringAssert.StartsWith("The lead", FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                        StringAssert.StartsWith("The lead", FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
                         yield return play.Click(Small(play, "3"), "the fastest speed again");
                         Assert.AreEqual(2, GameSpeed.Level, "the speed button did not set the speed again");
                     }
@@ -963,8 +963,8 @@ namespace Kapman.Tests
                 Assert.IsTrue(ordered.mine && Commissions.All.Contains(ordered), "the order taken at Dorestat is gone before it was brought");
                 int wineAboard = Trade.Hold.Count("rhenish_wine");
                 Assert.GreaterOrEqual(wineAboard, 2, "she has not two casks aboard for the order");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.StartsWith("Aboard for your order here: 2 casks of Rhenish wine")),
-                              "the landing does not say what is aboard for her order here; the log: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 8)).Select(l => l.text)));
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole.StartsWith("Aboard for your order here: 2 casks of Rhenish wine")),
+                              "the landing does not say what is aboard for her order here; the log: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 8)).Select(l => l.Whole)));
                 yield return play.Click(Verb(play, "Errands"), "the Errands button");
                 yield return ChartPlay.Until(() => play.Button("Hand over 2", Window(play, "Errands")) != null, 8f);
                 Assert.IsNotNull(play.Button("Hand over 2", Window(play, "Errands")), "Errands has no button to hand the order over: " + ChartPlay.Short(ChartPlay.Read(Window(play, "Errands"))));
@@ -981,7 +981,7 @@ namespace Kapman.Tests
                 Assert.IsFalse(Commissions.All.Contains(ordered), "all of it was brought and the order still stands");
                 Assert.AreEqual(2 * ordered.each * (1.0 - orderToll), FrameGame.Silver - orderSilver, 1.5, "the order should pay two casks at its price, less the toll of the place");
                 Assert.Greater(Reputation.At(orderPort), orderStanding, "the order was kept and nobody here thinks the better of her");
-                string orderSaid = FrameLog.Lines.Last(l => l.text.StartsWith("Delivered")).text;
+                string orderSaid = FrameLog.Lines.Last(l => l.Whole.StartsWith("Delivered")).Whole;
                 StringAssert.StartsWith("Delivered 2 casks of Rhenish wine as ordered, for ", orderSaid);
                 yield return Frames(10);
                 StringAssert.DoesNotContain("Hand over", ChartPlay.Read(Window(play, "Errands")), "the order is kept and Errands still offers to hand it over");
@@ -1014,11 +1014,11 @@ namespace Kapman.Tests
                     soldName = name;
                     if (Trade.Hold.Count(good.id) == had - 1)
                     {
-                        sold = new TradeResult { ok = true, text = FrameLog.Lines[FrameLog.Lines.Count - 1].text };
+                        sold = new TradeResult { ok = true, text = FrameLog.Lines[FrameLog.Lines.Count - 1].Whole };
                         break;
                     }
                 }
-                Assert.IsNotNull(sold, "nothing she carries sold at Traiectum; the log's last line: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Assert.IsNotNull(sold, "nothing she carries sold at Traiectum; the log's last line: " + FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
                 Assert.Greater(FrameGame.Silver, silver, "selling brought no silver");
                 yield return play.Shot("26_sold_at_traiectum");
                 // (the toll of the merchant's sales is reckoned by its graph, "Rule - the toll on a sale", not by the code's sum)
@@ -1073,12 +1073,12 @@ namespace Kapman.Tests
                 yield return play.Click(lotButton, "the lot '" + lotWords + "' under " + lotGoodName);
                 yield return Frames(10);
                 Assert.AreEqual(lotHad + (lotBuys ? lotCount : -lotCount), Trade.Hold.Count(lotGood.id),
-                                "the lot '" + lotWords + "' did not deal its count; the log: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
-                Assert.AreEqual(1, FrameLog.Lines.Skip(lotLog).Count(l => l.text.StartsWith(lotBuys ? "Bought" : "Sold")), "a lot should be one deal, said once");
+                                "the lot '" + lotWords + "' did not deal its count; the log: " + FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
+                Assert.AreEqual(1, FrameLog.Lines.Skip(lotLog).Count(l => l.Whole.StartsWith(lotBuys ? "Bought" : "Sold")), "a lot should be one deal, said once");
                 Assert.IsTrue(lotBuys ? FrameGame.Silver < lotSilver : FrameGame.Silver > lotSilver, "the lot moved no silver");
                 yield return Frames(10);
                 yield return play.Shot("30_a_lot_dealt_at_traiectum");
-                Debug.Log($"Chart test: a lot dealt at Traiectum: '{lotWords}' under {lotGoodName}; '{FrameLog.Lines[FrameLog.Lines.Count - 1].text}'; silver {lotSilver:0} -> {FrameGame.Silver:0}");
+                Debug.Log($"Chart test: a lot dealt at Traiectum: '{lotWords}' under {lotGoodName}; '{FrameLog.Lines[FrameLog.Lines.Count - 1].Whole}'; silver {lotSilver:0} -> {FrameGame.Silver:0}");
                 NoFaults(play);
             }
             finally
@@ -1137,8 +1137,8 @@ namespace Kapman.Tests
             Assert.IsNotNull(frame, "no frame after a new game");
             Assert.IsTrue(frame.AskingSelf, "a new game from the menu did not ask who the player is");
             Assert.IsFalse(Self.Chosen);
-            Assert.IsFalse(FrameLog.Lines.Any(l => l.text.StartsWith("You begin", System.StringComparison.Ordinal) || l.text.StartsWith("Course set", System.StringComparison.Ordinal)),
-                           "the log of the game before was carried into the new one: " + string.Join(" / ", FrameLog.Lines.Select(l => l.text)));
+            Assert.IsFalse(FrameLog.Lines.Any(l => l.Whole.StartsWith("You begin", System.StringComparison.Ordinal) || l.Whole.StartsWith("Course set", System.StringComparison.Ordinal)),
+                           "the log of the game before was carried into the new one: " + string.Join(" / ", FrameLog.Lines.Select(l => l.Whole)));
             play = ChartPlay.Begin(false);                                // (the scene is new: its screen is taken again)
             try
             {
@@ -1363,9 +1363,9 @@ namespace Kapman.Tests
                 Assert.Less(driftedUnderIt, 50.0, "she sailed on under a pressing card: she should make no way until it is answered");
                 Assert.AreEqual(1.0, squallWaited, 0.1, "the squall's card should answer itself when its hour is up");
                 Assert.IsFalse(EncounterRunner.ShipHeld, "she is still held after the card answered itself");
-                Assert.IsTrue(FrameLog.Lines.Skip(squallLog).Any(l => l.text.Contains("no answer, so it went this way: ")),
-                              "the log does not say that the squall's card answered itself: " + string.Join(" / ", FrameLog.Lines.Skip(squallLog).Select(l => l.text)));
-                Debug.Log("Chart test (sea): the squall's card said: " + squallWaits + " | the log: " + string.Join(" / ", FrameLog.Lines.Skip(squallLog).Select(l => l.text)));
+                Assert.IsTrue(FrameLog.Lines.Skip(squallLog).Any(l => l.Whole.Contains("no answer, so it went this way: ")),
+                              "the log does not say that the squall's card answered itself: " + string.Join(" / ", FrameLog.Lines.Skip(squallLog).Select(l => l.Whole)));
+                Debug.Log("Chart test (sea): the squall's card said: " + squallWaits + " | the log: " + string.Join(" / ", FrameLog.Lines.Skip(squallLog).Select(l => l.Whole)));
                 yield return Frames(5);
                 yield return AnswerAll(play, said);
                 yield return play.Shot("41c_the_squall_answered_itself");
@@ -1377,7 +1377,7 @@ namespace Kapman.Tests
                     $"the boat: lying to {Boat.LyingTo}, lost {Boat.IsLost}, weary {Boat.Weary:0.00}, oars {Boat.OarFactor:0.00}, water {Boat.WaterFactor:0.00}, sail {Boat.EffectiveSet} {Boat.Cloth}; " +
                     $"course {Course.IsSet}, held {EncounterRunner.ShipHeld}, aground {Aground.Stage}, tide wait {TideWait.On}, paused {GameSpeed.Paused}, " +
                     $"the clock ran {clock.GameHours - squallOver:0.00} h, windows up: {string.Join(", ", frame.FloatIds)}; the log: " +
-                    string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 4)).Select(l => l.text)));
+                    string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 4)).Select(l => l.Whole)));
 
                 // ---- 1c. THE OARS (the alpha's row 3; the road's step 2). The order stands beside her course in the
                 // Voyage window. Out, the sail is down and she makes her speed under oars whatever the wind, and the
@@ -1390,7 +1390,7 @@ namespace Kapman.Tests
                 yield return play.ClickWhen(() => play.Button("Out oars", Window(play, "Voyage")), "the Voyage window's 'Out oars'");
                 yield return Frames(10);
                 Assert.IsTrue(Oars.Out, "the oars did not come out");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text == "The sail comes down and the men take to the oars."), "the log does not say that the oars are out");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole == "The sail comes down and the men take to the oars."), "the log does not say that the oars are out");
                 var hull = ChartBody.Current;
                 double rowedFrom = clock.GameHours, lowKnots = 0.0, highKnots = herClass.oarsKn + 0.05;
                 bool rowsAsSheShould = false;
@@ -1419,7 +1419,7 @@ namespace Kapman.Tests
                 yield return play.ClickWhen(() => play.Button("Ship oars", Window(play, "Voyage")), "the Voyage window's 'Ship oars'");
                 yield return Frames(10);
                 Assert.IsFalse(Oars.Out, "the oars did not come in");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text == "The oars come in and the sail goes up."), "the log does not say that the oars are in");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole == "The oars come in and the sail goes up."), "the log does not say that the oars are in");
                 Assert.IsNotNull(play.Button("Out oars", Window(play, "Voyage")), "the order is gone from the Voyage window");
                 yield return play.Click(Small(play, "3"), "speed 3 again");
                 yield return Frames(5);
@@ -1453,8 +1453,8 @@ namespace Kapman.Tests
                 Assert.AreEqual(PatrolStage.None, Patrols.Stage, $"the guard boat still holds her after {waited:0.0} game hours of running clock");
                 Assert.IsFalse(movedWhileHeld, "she sailed on under the guard boat's signal: she should be held until it is answered");
                 Assert.AreEqual(Patrols.PressHours, waited, 0.5, "the guard boat should be answered for her when its time is up");
-                Assert.IsTrue(FrameLog.Lines.Skip(logAt).Any(l => l.text.StartsWith("No answer was given to the guard boat", System.StringComparison.Ordinal)),
-                              "the log does not say that the guard boat was answered for her: " + string.Join(" / ", FrameLog.Lines.Skip(logAt).Select(l => l.text)));
+                Assert.IsTrue(FrameLog.Lines.Skip(logAt).Any(l => l.Whole.StartsWith("No answer was given to the guard boat", System.StringComparison.Ordinal)),
+                              "the log does not say that the guard boat was answered for her: " + string.Join(" / ", FrameLog.Lines.Skip(logAt).Select(l => l.Whole)));
                 yield return Frames(5);
                 yield return play.Shot("43_guard_boat_answered_itself");
                 yield return AnswerAll(play, said);                        // (what came of it: Go on)
@@ -1467,7 +1467,7 @@ namespace Kapman.Tests
                 Assert.Greater(WorldXZ.Distance(Where(game), before), 200.0,
                                "she did not sail on after the guard boat (the clock held: " + PanelClock.Holding + "; the patrol: " + Patrols.Stage
                                + "; in front: " + (play.FrontFloat() != null ? Title(play.FrontFloat()) : "nothing") + "; said: " + string.Join(" / ", said) + ")");
-                Debug.Log($"Chart test (sea): the guard boat held her {waited:0.00} game hours and was then answered for her; log: {string.Join(" / ", FrameLog.Lines.Skip(logAt).Select(l => l.text))}");
+                Debug.Log($"Chart test (sea): the guard boat held her {waited:0.00} game hours and was then answered for her; log: {string.Join(" / ", FrameLog.Lines.Skip(logAt).Select(l => l.Whole))}");
 
                 // ---- 3. A GUARD BOAT WHOSE TALK IS LOST (the case that held her for ever: a stage set, nothing to answer):
                 // let go in seconds
@@ -1527,7 +1527,7 @@ namespace Kapman.Tests
                 yield return play.Shot("44_a_sail_to_hail");
                 yield return play.Click(hail, "the Hail button");
                 yield return Frames(5);
-                Assert.AreEqual(EncounterStage.Offered, Encounter.Stage, "hailing her offered no meeting; the log says: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Assert.AreEqual(EncounterStage.Offered, Encounter.Stage, "hailing her offered no meeting; the log says: " + FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
                 Assert.IsTrue(frame.FloatOpen("talk"), "the meeting did not come up as a window");
                 yield return play.Press(Key.Space);                        // (the pause is lifted: the offer itself holds the clock now)
                 Assert.IsFalse(GameSpeed.PlayerPaused);
@@ -1715,8 +1715,8 @@ namespace Kapman.Tests
                 Boat.Hour(hourAtSea);
                 Assert.AreEqual(1, Boat.Sign, "a gale ten hours off is the first sign");
                 yield return Frames(5);
-                Assert.IsTrue(FrameLog.Lines.Skip(signLog).Any(l => l.text.StartsWith("A long swell")),
-                              "the first sign of weather is not told in the log: " + string.Join(" / ", FrameLog.Lines.Skip(signLog).Select(l => l.text)));
+                Assert.IsTrue(FrameLog.Lines.Skip(signLog).Any(l => l.Whole.StartsWith("A long swell")),
+                              "the first sign of weather is not told in the log: " + string.Join(" / ", FrameLog.Lines.Skip(signLog).Select(l => l.Whole)));
                 yield return AnswerAll(play, said);
                 // a save first: the last saved game is what a loss leaves her
                 StringAssert.StartsWith("Saved", SaveGame.Save("quick"), "she could not be saved at sea with nothing holding her");
@@ -1998,13 +1998,13 @@ namespace Kapman.Tests
                 Assert.AreEqual("traiectum", Landings.All[0].to);
                 Assert.Greater(Landings.All[0].fetch, 1.0, "the casks aboard would fetch nothing at Traiectum");
                 var slip = FrameLog.Lines.LastOrDefault(l => l.kind == "slip");
-                Assert.IsNotNull(slip.text, "the log has no slip of the landing: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 4)).Select(l => l.text)));
-                StringAssert.StartsWith("Dorestat to Traiectum, ", slip.text);
-                StringAssert.Contains("The purse holds ", slip.text);
-                StringAssert.Contains("would fetch about ", slip.text);
-                StringAssert.Contains("Owed 1920 d, with ", slip.text);
-                said.Add("the landing: " + slip.text);
-                Debug.Log("Chart test (clock): the landing's slip: " + slip.text);
+                Assert.IsNotNull(slip.Whole, "the log has no slip of the landing: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 4)).Select(l => l.Whole)));
+                StringAssert.StartsWith("Dorestat to Traiectum, ", slip.Whole);
+                StringAssert.Contains("The purse holds ", slip.Whole);
+                StringAssert.Contains("would fetch about ", slip.Whole);
+                StringAssert.Contains("Owed 1920 d, with ", slip.Whole);
+                said.Add("the landing: " + slip.Whole);
+                Debug.Log("Chart test (clock): the landing's slip: " + slip.Whole);
                 for (int i = 0; i < 30 && GameSpeed.Level != 0; i++)
                     yield return null;                                     // (the port's graph lays her to after the clock's turn of the frame)
                 Assert.AreEqual(0, GameSpeed.Level, "made fast the clock should have dropped to speed 1");
@@ -2337,8 +2337,8 @@ namespace Kapman.Tests
                 saved = Seen.Now(frame);
                 Assert.AreEqual(Toll, saved.card, "the toll man's card should be open and unanswered at the save");
                 yield return play.Press(Key.F5);
-                Assert.IsTrue(SaveThere("quick"), "[F5] did not save the game: " + FrameLog.Lines[FrameLog.Lines.Count - 1].text);
-                StringAssert.StartsWith("Saved", FrameLog.Lines[FrameLog.Lines.Count - 1].text);
+                Assert.IsTrue(SaveThere("quick"), "[F5] did not save the game: " + FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
+                StringAssert.StartsWith("Saved", FrameLog.Lines[FrameLog.Lines.Count - 1].Whole);
 
                 // ---- the game goes on and changes: the card answered, a cask sold, the windows moved, the course given up
                 string declare = cards.Current.options.First(o => o.def.key == "declare").label;
@@ -2361,7 +2361,7 @@ namespace Kapman.Tests
                 // ---- [F9]: the moment of the save comes back
                 yield return play.Press(Key.F9);
                 yield return Frames(30);
-                StringAssert.StartsWith("Loaded", FrameLog.Lines.Last(l => l.text.StartsWith("Loaded", System.StringComparison.Ordinal) || l.text.StartsWith("Not now", System.StringComparison.Ordinal)).text);
+                StringAssert.StartsWith("Loaded", FrameLog.Lines.Last(l => l.Whole.StartsWith("Loaded", System.StringComparison.Ordinal) || l.Whole.StartsWith("Not now", System.StringComparison.Ordinal)).Whole);
                 yield return Settle(1.0f);
                 var back = Seen.Now(frame);
                 Assert.AreEqual(saved.hours, back.hours, 0.25, "the clock did not come back to the hour of the save");

@@ -95,7 +95,7 @@ namespace Kapman.Tests
                     }
                     for (int i = logFrom; i < FrameLog.Lines.Count; i++)
                     {
-                        string text = FrameLog.Lines[i].text;
+                        string text = FrameLog.Lines[i].Whole;
                         bool off = text.StartsWith("Wind and tide have set her"), gone = text.Contains("he cannot make it out");
                         if (off || gone || text.Contains("shore") || text.Contains("lies to") || text.Contains("too deep") || text.Contains(": the "))
                             told.AppendLine($"   {game.Hours - hour0:0.0} h: {text}");

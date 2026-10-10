@@ -35,11 +35,25 @@ namespace Kapman.Game
         public static bool Drops { get; private set; }
         public static ClockReason Why { get; private set; }
 
+        /// <summary>The moment's short form for the log (10 Oct 2026): a few words, the number at the line's end, and the
+        /// box that comes up over the line ("" and null: none, and the words are said as they are).</summary>
+        public static string Short { get; private set; } = "";
+        public static string Figure { get; private set; } = "";
+        public static LogBox Box { get; private set; }
+
         /// <summary>A moment comes: the graph's flow where one listens, else the log is told and the clock drops back.</summary>
-        public static void Raise(string what, string words, ClockReason? drop = null)
+        public static void Raise(string what, string words, ClockReason? drop = null) => Raise(what, words, drop, "", "", null);
+
+        /// <summary>The same, with the moment's short form for the log: its line, the number at the line's end, and its
+        /// box (null: the words themselves, a sentence a row). The graph's node "Log: say" says the moment's words as
+        /// before: the short form goes with them (<see cref="Told"/>).</summary>
+        public static void Raise(string what, string words, ClockReason? drop, string shortLine, string figure, LogBox box)
         {
             What = what ?? "";
             Words = words ?? "";
+            Short = shortLine ?? "";
+            Figure = figure ?? "";
+            Box = box;
             Drops = drop.HasValue;
             Why = drop ?? ClockReason.Pressing;
             bool byGraph = false;
@@ -66,7 +80,12 @@ namespace Kapman.Game
         /// <summary>The log is told a plain fact (the notices line).</summary>
         public static void Told(string words)
         {
-            if (!string.IsNullOrEmpty(words))
+            if (string.IsNullOrEmpty(words))
+                return;
+            // (the moment's own words go to the log in its short form, and are kept whole in its box)
+            if (Short.Length > 0 && words == Words)
+                Voyage.Say(words, Short, Figure, Box ?? new LogBox().SayEach(words));
+            else
                 Voyage.Say(words);
         }
 
@@ -77,7 +96,8 @@ namespace Kapman.Game
         static void Reset()
         {
             ByGraph = ByCode = 0;
-            What = Words = "";
+            What = Words = Short = Figure = "";
+            Box = null;
             Drops = false;
         }
     }

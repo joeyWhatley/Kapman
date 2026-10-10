@@ -93,7 +93,12 @@ namespace Kapman.Game.Sim
                     {
                         seen[s.index] = Seen.MadeOut;
                         var fact = Known.Sighted(s, true, x, z, game.Day);
-                        Write(game, MadeOutStart + $"{Label(s)}, {Off(km, Airt(me.x, me.z, x, z))}" + Bound(s, fact) + ".", notice: true);
+                        string where = Off(km, Airt(me.x, me.z, x, z)), more = Bound(s, fact).TrimStart(',', ' ');
+                        var box = new LogBox("The lookout makes out a ship").Row("Her kind", ShortName(s.cls)).Row("Of", GameData.Ports[s.home].name).Row("Where", where);
+                        if (more.Length > 0)
+                            box.Say(char.ToUpperInvariant(more[0]) + more.Substring(1) + ".");
+                        Write(game, MadeOutStart + $"{Label(s)}, {where}" + Bound(s, fact) + ".", notice: true,
+                              shortLine: (s.raider ? "Raiders" : "A ship of " + GameData.Ports[s.home].name) + ", " + where, box: box);
                         MadeOut?.Invoke(s);
                     }
                 }
@@ -112,15 +117,21 @@ namespace Kapman.Game.Sim
         /// <summary>How the line for a ship made out begins (the frame leaves those lines to the game's own notice).</summary>
         public const string MadeOutStart = "The lookout makes out ";
 
-        void Write(KapmanGame game, string text, bool notice = false)
+        void Write(KapmanGame game, string text, bool notice = false, string shortLine = null, LogBox box = null)
         {
             Log.Add((game.Date, text));
             if (Log.Count > logLength)
                 Log.RemoveAt(0);
             // (not while she lies in a port: the ships of the harbour she is in are no news. 7 Oct 2026: moored at
             // Dorestat the log filled with sails "made out, 0 km to the east")
+            // (sightings and losses go to the log only)
             if (notice && Port.LyingId() == null)
-                Voyage.Say(text);                                        // (sightings and losses go to the log only)
+            {
+                if (shortLine != null)
+                    Voyage.Say(text, shortLine, "", box);                // (10 Oct 2026: the log's short form, the rest in its box)
+                else
+                    Voyage.Say(text);
+            }
         }
 
         /// <summary>How far off and which way, as it is said: "6 km to the west"; under a kilometre, "close by".</summary>

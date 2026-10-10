@@ -198,7 +198,7 @@ namespace Kapman.Tests
                 StringAssert.Contains("Ravn", end3, "the third time she gave them nothing, and Ravn lives");
                 Assert.IsTrue(Collectors.RavnGone, "Ravn is dead and no flag says so");
                 Assert.AreEqual(3, Voyage.Men, "Ravn is dead and as many men are aboard");
-                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.text.Contains("Ravn")), "the log does not say what was done to Ravn");
+                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.Whole.Contains("Ravn")), "the log does not say what was done to Ravn");
                 // (9 Oct 2026, later: his death is a scene of its own and a matter that lies on her, Voyage/Feud.cs: held by
                 // FeudTests. Here only its beginning: it is owed, and the crew's heart has its ceiling from this minute)
                 Assert.AreNotEqual(FeudStage.None, Feud.Stage, "Ravn is dead and nothing follows");
@@ -242,11 +242,11 @@ namespace Kapman.Tests
                 }, 240f);
                 var her = ChartWorld.ShipWorld();
                 told.AppendLine($"at sea: state {Collectors.State}; {WorldXZ.Distance(her, Collectors.At):0} m apart; seen {seen}; marked {marked}; card {(cards.Current != null ? cards.Current.card.id : "none")}; drops {string.Join(" ", dropped)}");
-                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.text)));
+                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.Whole)));
                 File.WriteAllText(Path.Combine(dir, "goons.txt"), told.ToString());
                 Assert.IsTrue(seen, "their boat was five km astern and she never had it in sight:\n" + told);
                 Assert.IsTrue(marked, "their boat was in sight and had no mark on the chart");
-                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.text.Contains("rowing hard after you, and it is the lender's men")), "the log does not say their boat is in sight:\n" + told);
+                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.Whole.Contains("rowing hard after you, and it is the lender's men")), "the log does not say their boat is in sight:\n" + told);
                 Assert.Contains(ClockReason.Goons, dropped, "the clock did not drop back when their boat came in sight");
                 Assert.IsTrue(TheirCardUp(Collectors.SeaCard), "their boat rows faster than she sails, and never came up with her:\n" + told);
                 Assert.AreEqual(GoonState.Alongside, Collectors.State);

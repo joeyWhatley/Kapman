@@ -475,10 +475,30 @@ namespace Kapman.Game.Frame
             if (string.IsNullOrEmpty(bound))
                 return false;
             bool set = Course.SetTo(bound, ChartWorld.ShipWorld(), Port.LyingId());
-            FrameLog.Add(set ? $"The course is laid again from where she is: {Course.Km:0} km to go for {Course.BoundName}."
-                             : "No water she can sail leads there from here.");
+            if (set)
+                FrameLog.Short("Course laid again for " + Course.BoundName, $"{Course.Km:0} km",
+                               new LogBox("The course is laid again").Row("From", "where she is").Row("For", Course.BoundName).Row("To go", $"{Course.Km:0} km"),
+                               $"The course is laid again from where she is: {Course.Km:0} km to go for {Course.BoundName}.");
+            else
+                FrameLog.Add("No water she can sail leads there from here.");
             Redraw();
             return set;
+        }
+
+        /// <summary>The log's line for a course that has been set (10 Oct 2026, the short form: where for on the line, how
+        /// far at its end, the rest in its box). `known`: the whole way lies in waters she knows. PLACEHOLDER WORDS.</summary>
+        static void SaidCourse(string name, bool known, bool inPort)
+        {
+            string full = (known ? $"Course set for {name}: {Course.Km:0} km by water, about {FramePassage.DaysWords(Course.Km)}."
+                                 : $"Course set for {name}, through waters you do not know.") + (inPort ? " Cast off when you will." : "");
+            var box = new LogBox("Course set for " + name);
+            if (known)
+                box.Row("By water", $"{Course.Km:0} km").Row("About", FramePassage.DaysWords(Course.Km));
+            else
+                box.Say("Through waters you do not know.");
+            if (inPort)
+                box.Say("Cast off when you will.");
+            FrameLog.Short("Course set for " + name, known ? $"{Course.Km:0} km" : "", box, full);
         }
 
         /// <summary>Has the way to a port been reckoned (and is there one)?</summary>
@@ -495,9 +515,7 @@ namespace Kapman.Game.Frame
                 bool there = Course.SetToPlace(place.Value, ChartWorld.ShipWorld(), Port.LyingId());
                 if (there)
                 {
-                    FrameLog.Add((MapView.AllKnown(Course.Points)
-                                      ? $"Course set for {Course.PlaceWords}: {Course.Km:0} km by water, about {FramePassage.DaysWords(Course.Km)}."
-                                      : $"Course set for {Course.PlaceWords}, through waters you do not know.") + (inPort ? " Cast off when you will." : ""));
+                    SaidCourse(Course.PlaceWords, MapView.AllKnown(Course.Points), inPort);
                     (Frame != null ? Frame : FrameRoot.Current)?.ShowPlanned(null);
                     MapView.Current?.Follow();
                     place = null;
@@ -514,8 +532,7 @@ namespace Kapman.Game.Frame
             bool set = Course.SetTo(def.id, ChartWorld.ShipWorld(), Port.LyingId());
             if (set)
             {
-                FrameLog.Add($"Course set for {def.name}: {Course.Km:0} km by water, about {FramePassage.DaysWords(Course.Km)}." +
-                             (inPort ? " Cast off when you will." : ""));
+                SaidCourse(def.name, true, inPort);
                 (Frame != null ? Frame : FrameRoot.Current)?.ShowPlanned(null);
                 MapView.Current?.Follow();
                 picked = null;

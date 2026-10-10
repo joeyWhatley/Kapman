@@ -276,8 +276,8 @@ namespace Kapman.Tests
                 Assert.AreEqual("dorestad", portView.Port);
                 Assert.IsNotNull(portView.Picture.image, "the port's picture has no picture");
                 yield return play.Shot("open_11_free");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.Contains(Trade.LenderByname)), "the log does not say whom the debt is owed to: " +
-                              string.Join(" / ", FrameLog.Lines.Select(l => l.text)));
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole.Contains(Trade.LenderByname)), "the log does not say whom the debt is owed to: " +
+                              string.Join(" / ", FrameLog.Lines.Select(l => l.Whole)));
 
                 // ---- 11. the first click: the marks, then Ravn
                 Rect all = play.Frame.Root.worldBound;

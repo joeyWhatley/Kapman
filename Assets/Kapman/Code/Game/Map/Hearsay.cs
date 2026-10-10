@@ -147,6 +147,27 @@ namespace Kapman.Game
             return $"A harbour in sight to the {SeaWatch.Airt(ship.x, ship.z, x, z)}: {port.name}" + (heard ? ", that you had heard of." : ".");
         }
 
+        /// <summary>The same in the log's short form (10 Oct 2026): "Witla in sight, to the south". PLACEHOLDER WORDS.</summary>
+        public static string Short(PortDef port, WorldXZ ship)
+        {
+            if (port == null)
+                return "";
+            var (x, z) = WorldFrame.ToWorld(port.lat, port.lon);
+            return $"{port.name} in sight, to the {SeaWatch.Airt(ship.x, ship.z, x, z)}";
+        }
+
+        /// <summary>And its box: what it is, where it lies, and whether she had heard of it.</summary>
+        public static LogBox Box(PortDef port, WorldXZ ship)
+        {
+            if (port == null)
+                return null;
+            var (x, z) = WorldFrame.ToWorld(port.lat, port.lon);
+            var box = new LogBox(port.name).Row("A harbour in sight", "to the " + SeaWatch.Airt(ship.x, ship.z, x, z));
+            if (Known.IsHeardOf(port))
+                box.Say("You had heard of it.");
+            return box;
+        }
+
         /// <summary>Nothing has been told (a new game).</summary>
         public static void Forget()
         {

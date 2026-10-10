@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../MapView.uss" />
+    <!-- A PART OF THE HOVER CARD that is made many times over: THE BOX THAT COMES UP OVER A LINE OF THE LOG. The code takes
+         a copy of the element named "head" for the box's heading and a copy of "box-row" for each of its rows, and fills
+         in the words; a part of a row that is not wanted is taken out of the copy. Move, restyle or reorder the parts as
+         you like, but keep their names. The element "preview" is only here so the part looks right in UI Builder (the
+         card's look hangs on the class hover-card): the game does not use it. -->
+    <ui:VisualElement name="preview" class="hover-card" style="position: relative; width: 420px;">
+        <ui:VisualElement name="hover-box" class="hover-box">
+            <!-- THE HEADING: what the line is about. -->
+            <ui:Label name="head" text="Serrae to Quentovic" class="hover-box-head" />
+            <!-- A ROW: what it is, how much, and what it changed by (signed). -->
+            <ui:VisualElement name="box-row" class="hover-box-row">
+                <ui:Label name="label" text="Purse" class="hover-box-label" />
+                <ui:Label name="value" text="30 d" class="hover-box-value" />
+                <ui:Label name="change" text="-37 d" class="hover-box-change" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -174,7 +174,7 @@ namespace Kapman.Tests
                 Assert.LessOrEqual(WorldXZ.Distance(seen, mark), Adrift.Sight() + 600.0, "he knew his place before his landfall was in sight:\n" + told);
                 Assert.IsTrue(Course.IsSet && Course.Destination == Bound, "the landfall lost her course");
                 Assert.Less(WorldXZ.Distance(Course.Points[0], seen), 1500.0, "with the landfall in sight her course was not laid again from where she is:\n" + told);
-                Assert.IsFalse(FrameLog.Lines.Skip(logFrom).Any(l => l.text.Contains("cannot make it out")), "the reckoning was called lost with the landfall in sight");
+                Assert.IsFalse(FrameLog.Lines.Skip(logFrom).Any(l => l.Whole.Contains("cannot make it out")), "the reckoning was called lost with the landfall in sight");
                 yield return play.Click(SeaMovesHerTests.Small(play, "Pause"), "Pause");
                 map.Follow();
                 yield return ChartPlay.Settle(0.6f);
@@ -196,12 +196,12 @@ namespace Kapman.Tests
                 yield return Sail(play, game, 30.0, () =>
                 {
                     for (int i = logFrom; i < FrameLog.Lines.Count && !lost; i++)
-                        lost = FrameLog.Lines[i].text.Contains("and he cannot make it out");
+                        lost = FrameLog.Lines[i].Whole.Contains("and he cannot make it out");
                     return lost;
                 }, 300f);
                 var astray = ChartWorld.ShipWorld();
                 told.AppendLine($"lost {lost}: at {astray.x:0} {astray.z:0}, {WorldXZ.Distance(astray, mark) / 1000.0:0.0} km from her landfall; helm {Adrift.Helm}; course set {Course.IsSet}; bound {Adrift.LostBound}; anchored {game.ship.anchored}; speed {GameSpeed.Level + 1}; drops {string.Join(" ", dropped)}");
-                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.text)));
+                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.Whole)));
                 File.WriteAllText(Path.Combine(play.dir, "sea_reckoning.txt"), told.ToString());
                 Assert.IsTrue(lost, "held back by a sea dead against her she ran her distance and nobody said the landfall was missing:\n" + told);
                 SeaPush.Fixed = at => (0.0, 0.0);
@@ -350,8 +350,8 @@ namespace Kapman.Tests
                     mostOff = System.Math.Max(mostOff, Adrift.OffLine);
                     for (int i = logFrom; i < FrameLog.Lines.Count; i++)
                     {
-                        relaid |= FrameLog.Lines[i].text.StartsWith("Wind and tide had set her");
-                        toldOff |= FrameLog.Lines[i].text.StartsWith("Wind and tide have set her");
+                        relaid |= FrameLog.Lines[i].Whole.StartsWith("Wind and tide had set her");
+                        toldOff |= FrameLog.Lines[i].Whole.StartsWith("Wind and tide have set her");
                     }
                     return relaid || toldOff;
                 };
@@ -359,7 +359,7 @@ namespace Kapman.Tests
                 var here = ChartWorld.ShipWorld();
                 told.AppendLine($"along a coast: laid again by himself {relaid}, told {toldOff}; coasting {coasting}; the most she was off her line {mostOff:0} m; now helm {Adrift.Helm}, off her line {Adrift.OffLine:0} m, " +
                                 $"his error {Adrift.SetM:0} m; her course begins {WorldXZ.Distance(Course.Points[0], here):0} m from her; dropped [{string.Join(", ", dropped)}]");
-                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.text)));
+                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.Whole)));
                 File.WriteAllText(Path.Combine(play.dir, "sea_fewer_prompts.txt"), told.ToString());
                 Assert.IsTrue(coasting, "on a coasting stretch of her course the steersman never coasted:\n" + told);
                 Assert.IsTrue(relaid, "set off her line along a coast, the steersman did not lay her course again himself:\n" + told);
@@ -386,6 +386,24 @@ namespace Kapman.Tests
                 Assert.IsTrue(toldOff, "in thick air along a coast she was not told that she was off her line:\n" + told);
                 Assert.IsFalse(relaid, "in thick air he laid her course again himself, by land he could not see:\n" + told);
                 Assert.Contains(ClockReason.OffLine, dropped, "the clock did not drop back when she was told");
+                // (10 Oct 2026, the log's short form: "Off her line" and how far, and the rest in the box under the pointer)
+                {
+                    var offLine = FrameLog.Lines.Last(l => l.Whole.StartsWith("Wind and tide have set her "));
+                    Assert.AreEqual("Off her line", offLine.text, "the log's line is not the short one");
+                    StringAssert.EndsWith(" km", offLine.figure, "how far she is off is not at the line's end");
+                    yield return play.Click(SeaMovesHerTests.Small(play, "Pause"), "Pause");
+                    yield return ChartPlay.Settle(0.4f);
+                    var offRow = frame.Root.Query<VisualElement>(className: "frame-log-line").ToList()
+                                      .LastOrDefault(r => r.Q<Label>("text") != null && r.Q<Label>("text").text == "Off her line");
+                    Assert.IsNotNull(offRow, "the log does not show the line 'Off her line'");
+                    play.MoveTo(offRow.worldBound.center);
+                    yield return ChartPlay.Settle(1.0f);
+                    StringAssert.Contains("Set by wind and tide", HoverCards.Shown, "resting the pointer on the line did not bring up its box");
+                    StringAssert.Contains("Lay her course again by pointing on the chart", HoverCards.Shown);
+                    yield return play.Shot("sea_10b_the_box_over_off_her_line");
+                    play.MoveTo(new Vector2(900f, 400f));
+                    yield return ChartPlay.Settle(0.3f);
+                }
 
                 // ======== A RECKONING LOST IN THICK AIR, AND THE AIR CLEARS
                 // (as the reckoning test loses it: 15 km before the end of her open water, a sea dead against her)
@@ -410,8 +428,8 @@ namespace Kapman.Tests
                 yield return Sail(play, game, 40.0, () =>
                 {
                     for (int i = logFrom; i < FrameLog.Lines.Count && lostLine.Length == 0; i++)
-                        if (FrameLog.Lines[i].text.Contains("and he cannot make it out"))
-                            lostLine = FrameLog.Lines[i].text;
+                        if (FrameLog.Lines[i].Whole.Contains("and he cannot make it out"))
+                            lostLine = FrameLog.Lines[i].Whole;
                     return lostLine.Length > 0;
                 }, 300f);
                 SeaPush.Fixed = at => (0.0, 0.0);
@@ -448,12 +466,12 @@ namespace Kapman.Tests
                 yield return ChartPlay.Frames(10);
                 var after = ChartWorld.ShipWorld();
                 told.AppendLine($"the air clears: course set {Course.IsSet} for {Course.Destination}; bound kept '{Adrift.LostBound}'; anchored {game.ship.anchored}; dropped [{string.Join(", ", dropped)}]");
-                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.text)));
+                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.Whole)));
                 File.WriteAllText(Path.Combine(play.dir, "sea_fewer_prompts.txt"), told.ToString());
                 Assert.IsTrue(Course.IsSet && Course.Destination == Far, "the air cleared and she did not sail on by herself:\n" + told);
                 Assert.AreEqual("", Adrift.LostBound, "she sails on and the reckoning still counts as lost");
                 Assert.IsFalse(Adrift.LostBlind);
-                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.text.StartsWith("The air has cleared")), "the log does not say that the air cleared and she sails on:\n" + told);
+                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.Whole.StartsWith("The air has cleared")), "the log does not say that the air cleared and she sails on:\n" + told);
                 Assert.Contains(ClockReason.WaitOver, dropped, "the clock did not drop back when she sailed on");
                 Assert.AreEqual(1, dropped.Count(r => r == ClockReason.WaitOver), "the clock dropped back more than once for it");
                 Assert.IsFalse(game.ship.anchored, "her course is laid again and she still lies to");
@@ -565,18 +583,18 @@ namespace Kapman.Tests
                 yield return Sail(play, game, 2.0, () =>
                 {
                     for (int i = logFrom; i < FrameLog.Lines.Count && !rough; i++)
-                        rough = FrameLog.Lines[i].text.Contains("the sea breaks on the shoals");
+                        rough = FrameLog.Lines[i].Whole.Contains("the sea breaks on the shoals");
                     return rough;
                 });
                 told.AppendLine($"rough water: said {rough}; now {(RoughWaters.Now != null ? RoughWaters.Now.id : "none")} at {RoughWaters.RoughNow:0.00}; slow {RoughWaters.Slow:0.00}; drops {string.Join(" ", dropped)}");
-                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.text)));
+                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.Whole)));
                 File.WriteAllText(Path.Combine(play.dir, "sea_shore.txt"), told.ToString());
                 Assert.IsTrue(rough, "on the long sands, with the sea made rough, the log never said so:\n" + told);
                 Assert.IsNotNull(RoughWaters.Now, "she is on the long sands and in no rough water");
                 Assert.AreEqual(1.0, RoughWaters.RoughNow, 1e-6);
                 Assert.AreEqual(SeaPush.Rules.roughSlow, RoughWaters.Slow, 1e-6, "rough water does not take her way off");
                 Assert.Contains(ClockReason.RoughWater, dropped, "the clock did not drop back in rough water");
-                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.text.StartsWith("The long sands: the sea breaks on the shoals")),
+                Assert.IsTrue(FrameLog.Lines.Skip(logFrom).Any(l => l.Whole.StartsWith("The long sands: the sea breaks on the shoals")),
                               "the rough water is not said by the name of the thing found there:\n" + told);
                 yield return play.Click(SeaMovesHerTests.Small(play, "Pause"), "Pause");
                 frame.Show("sky");
@@ -610,12 +628,12 @@ namespace Kapman.Tests
                 yield return Sail(play, game, 4.0, () =>
                 {
                     for (int i = logFrom; i < FrameLog.Lines.Count && !said; i++)
-                        said = FrameLog.Lines[i].text == Adrift.LeeShoreWords || FrameLog.Lines[i].text == Adrift.LeeShoreGaleWords;
+                        said = FrameLog.Lines[i].Whole == Adrift.LeeShoreWords || FrameLog.Lines[i].Whole == Adrift.LeeShoreGaleWords;
                     return said && Boat.Hull < hull0 - 0.002;
                 });
                 var ashore = ChartWorld.ShipWorld();
                 told.AppendLine($"a shore: said {said}; on shore {onShore}; strained {strained}; hull {hull0:0.0000} -> {Boat.Hull:0.0000}; at {ashore.x:0} {ashore.z:0} (water {Course.IsWater(ashore.x, ashore.z)}); helm {Adrift.Helm}; drops {string.Join(" ", dropped)}; dry {dry.Count}");
-                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.text)));
+                told.AppendLine("the log: " + string.Join(" | ", FrameLog.Lines.Skip(logFrom).Select(l => l.Whole)));
                 File.WriteAllText(Path.Combine(play.dir, "sea_shore.txt"), told.ToString());
                 Assert.IsEmpty(dry, "she was put on the land: " + string.Join("; ", dry.Take(5)) + "\n" + told);
                 Assert.IsTrue(Course.IsWater(ashore.x, ashore.z), "she lies on the land:\n" + told);

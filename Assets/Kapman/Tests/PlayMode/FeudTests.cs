@@ -250,7 +250,7 @@ namespace Kapman.Tests
                 // (HIS SCENE IS A FLOW: it was run by its graph, part by part, and not by the code's own order)
                 Assert.IsTrue(Feud.SceneByGraph, "his scene ran from code: no graph of the game's scene listened for his death " +
                     "(the Showtime object's Script Machine, \"Scene - Ravn is killed\"; Kapman > Make physical > 3c)");
-                Assert.IsTrue(FrameLog.Lines.Any(l => l.text.Contains("Ravn is dead")), "the log does not keep that Ravn is dead");
+                Assert.IsTrue(FrameLog.Lines.Any(l => l.Whole.Contains("Ravn is dead")), "the log does not keep that Ravn is dead");
                 // the punishment, from that minute
                 Assert.LessOrEqual(Voyage.Morale, table.heartCeiling + 1e-9, "their heart is over its ceiling");
                 Assert.IsTrue(Self.HasMark(Feud.Mark), "no mark lies on her");

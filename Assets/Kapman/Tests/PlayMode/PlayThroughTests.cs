@@ -139,7 +139,7 @@ namespace Kapman.Tests
             var said = new List<string>();
             int added = System.Math.Min(FrameLog.Lines.Count, System.Math.Max(0, FrameLog.Version - version));
             for (int i = FrameLog.Lines.Count - added; i < FrameLog.Lines.Count; i++)
-                said.Add(FrameLog.Lines[i].text);
+                said.Add(FrameLog.Lines[i].Whole);
             return said;
         }
 
@@ -1628,7 +1628,7 @@ namespace Kapman.Tests
                     }
                     // (what the log last said goes in the journal: it is the game's own word for why she has none.
                     // Taken from her again and again with no six hours between, it is a fault and she is left as she lies)
-                    string lastSaid = string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 3)).Select(l => l.text));
+                    string lastSaid = string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 3)).Select(l => l.Whole));
                     if (game.Hours - givenAt > 6.0)
                         given = 0;
                     givenAt = game.Hours;
@@ -1797,7 +1797,7 @@ namespace Kapman.Tests
                     if (++leftAtSea > 4)
                     {
                         yield return Shot("FAULT_left_at_sea");
-                        Fault("she lies at sea and no course brings her to a port: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 4)).Select(l => l.text)));
+                        Fault("she lies at sea and no course brings her to a port: " + string.Join(" / ", FrameLog.Lines.Skip(System.Math.Max(0, FrameLog.Lines.Count - 4)).Select(l => l.Whole)));
                         Assert.Fail("left at sea");
                     }
                     yield return SailTo(next != null && !gaveUp.Contains(next) ? next : Home);

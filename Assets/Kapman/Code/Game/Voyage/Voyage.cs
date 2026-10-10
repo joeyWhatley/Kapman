@@ -119,6 +119,32 @@ namespace Kapman.Game
         /// <summary>Tells a plain fact to the notices line (the course, the voyage planner).</summary>
         public static void Say(string fact) => Notice?.Invoke(fact);
 
+        /// <summary>The short form of the fact that is being told now (the log takes it: FrameLog.Add); null at every
+        /// other time.</summary>
+        public static string SaidShort { get; private set; }
+        public static string SaidFigure { get; private set; }
+        public static LogBox SaidBox { get; private set; }
+
+        /// <summary>Tells a fact with its short form for the log (the user's ruling of 10 Oct 2026). `fact` is the whole
+        /// words, as every listener has them. The log shows `shortLine` (a few words), the number that changed at the
+        /// line's end (`figure`, signed; "" none), and the rest in the box that comes up over the line.</summary>
+        public static void Say(string fact, string shortLine, string figure, LogBox box)
+        {
+            SaidShort = shortLine ?? "";
+            SaidFigure = figure;
+            SaidBox = box;
+            try
+            {
+                Notice?.Invoke(fact);
+            }
+            finally
+            {
+                SaidShort = null;
+                SaidFigure = null;
+                SaidBox = null;
+            }
+        }
+
         /// <summary>The crew and their stores as plain data (a saved game).</summary>
         public static Dictionary<string, object> Capture() => new Dictionary<string, object>
         {
@@ -290,7 +316,7 @@ namespace Kapman.Game
             double before = WaterL;
             WaterL = Rules.WaterCapacityL;
             if (WaterL - before > 1.0)
-                Notice?.Invoke("The water casks are filled.");
+                Say("The water casks are filled.", "Casks filled", "", null);
             if (DaysAtSea > 0)
                 DaysAtSea = Math.Max(0, DaysAtSea - 3);              // (sea legs fade ashore)
             if (PayOwed <= 0.01 || !Trade.Started)
@@ -299,7 +325,10 @@ namespace Kapman.Game
             if (can > 0.01 && Trade.Purse.Pay(Math.Round(can, 2), m.zone, TradeRules.Current, out _))
             {
                 PayOwed -= can;
-                Notice?.Invoke($"The men are paid {m.zone.Show(can)}." + (PayOwed > 0.01 ? $" Still owed {m.zone.Show(PayOwed)}." : ""));
+                var paid = new LogBox("The men's pay").Row("Paid", m.zone.Show(can), LogBox.Signed(-can));
+                if (PayOwed > 0.01)
+                    paid.Row("Still owed", m.zone.Show(PayOwed));
+                Say($"The men are paid {m.zone.Show(can)}." + (PayOwed > 0.01 ? $" Still owed {m.zone.Show(PayOwed)}." : ""), "The men paid", LogBox.Signed(-can), paid);
             }
             if (PayOwed > Men * Rules.pay * Rules.leaveIfOwedDays && Men > 1)
             {
