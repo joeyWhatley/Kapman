@@ -1,0 +1,45 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="MarketPanel.uss" />
+    <!-- THE MARKET'S LAYOUT (KAPMAN_PLAN step 2d, 14 Oct 2026): the Source Asset of the Market panel's UI Document. The
+         code (Code/Game/UI/MarketPanel.cs, OnEnable) finds each part by its NAME and gives it its words and what a click
+         does; a part may be moved, resized or restyled here (the look is MarketPanel.uss), but must keep its name. The
+         rows of goods are copies of Parts/MarketRow.uxml; the tabs, the cards' lines and the writings' rows are the
+         code's. The market lies over the whole screen and lets clicks through while it is shut. -->
+    <ui:VisualElement name="market" class="market-root" picking-mode="Ignore" style="display: none;">
+        <ui:VisualElement name="box" class="market-box">
+            <!-- the head: the market's name, the season and the money of the place, your own writing, and the way out -->
+            <ui:VisualElement name="head" class="market-head">
+                <ui:VisualElement name="titles" class="market-titles">
+                    <ui:Label name="title" class="market-title" text="The market" />
+                    <ui:Label name="subtitle" class="market-subtitle" text="Summer 793 · prices in deniers" />
+                    <ui:Label name="writing" class="market-writing" style="display: none;" />
+                </ui:VisualElement>
+                <ui:Button name="leave" class="market-leave" text="Leave the market  (Esc)" />
+            </ui:VisualElement>
+            <ui:VisualElement name="body" class="market-body">
+                <!-- left: the goods, by kind; the head of the table; the rows (Parts/MarketRow.uxml, one a good) -->
+                <ui:VisualElement name="left" class="market-left">
+                    <ui:VisualElement name="tabs" class="market-tabs" />
+                    <ui:VisualElement name="head-row" class="market-row-head">
+                        <ui:Label name="head-good" class="c-name" text="Good" />
+                        <ui:Label name="head-unit" class="c-unit" text="Unit" />
+                        <ui:Label name="head-here" class="c-num" text="Here" />
+                        <ui:Label name="head-asks" class="c-num" text="They ask" />
+                        <ui:Label name="head-pays" class="c-num" text="They pay" />
+                        <ui:Label name="head-aboard" class="c-num" text="Aboard" />
+                        <ui:Label name="head-buttons" class="c-buttons" />
+                    </ui:VisualElement>
+                    <ui:ScrollView name="list" class="market-list" mode="Vertical" />
+                </ui:VisualElement>
+                <!-- right: your purse, your hold, and the good you have picked -->
+                <ui:VisualElement name="right" class="market-right">
+                    <ui:VisualElement name="purse" class="market-card" />
+                    <ui:VisualElement name="hold" class="market-card" />
+                    <ui:VisualElement name="details" class="market-card market-details" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <!-- what came of the last deal -->
+            <ui:Label name="outcome" class="market-outcome" text="See what's for sale and what they'll pay." />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

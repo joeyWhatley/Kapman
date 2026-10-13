@@ -15,6 +15,7 @@ namespace Kapman.EditorTools
     ///   Kapman > Make physical > 2. The frame's layout file
     ///   Kapman > Make physical > 2b. The frame's parts
     ///   Kapman > Make physical > 2d. The chart's layout file
+    ///   Kapman > Make physical > 2e. The market's layout file
     ///   Kapman > Make physical > 3. The 3D stage into the scene
     ///   Kapman > Make physical > 4. The ports into the scene
     /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame, .Step2Parts, .Step3Stage, .Step4Ports)
@@ -103,6 +104,30 @@ namespace Kapman.EditorTools
             Debug.Log("Kapman, made physical, step 2d: the Map view's UI Document has " + MapLayout + " as its Source Asset.");
         }
 
+        public const string MarketLayout = "Assets/Kapman/Game/UI/MarketPanel.uxml";
+
+        /// <summary>The market's UI Document is given its layout file as its Source Asset (Game/UI/MarketPanel.uxml), and
+        /// the parts asset its row of goods (Parts/MarketRow.uxml): the market is then laid out in UI Builder, and
+        /// MarketPanel only fills it in (KAPMAN_PLAN step 2d, 14 Oct 2026).</summary>
+        [MenuItem("Kapman/Make physical/2e. The market's layout file")]
+        public static void Step2Market()
+        {
+            var scene = EditorSceneManager.OpenScene(GameScene, OpenSceneMode.Single);
+            var layout = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(MarketLayout);
+            if (layout == null)
+                throw new System.InvalidOperationException(MarketLayout + " is missing or did not import.");
+            var market = Object.FindAnyObjectByType<MarketPanel>(FindObjectsInactive.Include);
+            if (market == null)
+                throw new System.InvalidOperationException(GameScene + " has no MarketPanel.");
+            var doc = market.GetComponent<UnityEngine.UIElements.UIDocument>();
+            doc.visualTreeAsset = layout;
+            EditorUtility.SetDirty(doc);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Step2Parts();
+            Debug.Log("Kapman, made physical, step 2e: the Market panel's UI Document has " + MarketLayout + " as its Source Asset.");
+        }
+
         public const string MenuLayout = "Assets/Kapman/Game/UI/MainMenu.uxml";
         public const string ShowLayout = "Assets/Kapman/Game/UI/Showtime.uxml";
 
@@ -149,6 +174,7 @@ namespace Kapman.EditorTools
             parts.hoverBox = Layout("HoverBox");
             parts.courseKnot = Layout("CourseKnot");
             parts.helmMark = Layout("HelmMark");
+            parts.marketRow = Layout("MarketRow");
             parts.menuOption = Layout("MenuOption");
             parts.showtime = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(ShowLayout);
             if (parts.showtime == null)

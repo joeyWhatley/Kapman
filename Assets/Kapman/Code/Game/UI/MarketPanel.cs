@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Kapman.Game.Frame;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,6 +15,7 @@ namespace Kapman.Game
     ///   bottom  what came of each deal, as facts
     /// No story is written here: the line under the title is your writing slot (market.{port}, in writing.json).
     /// The graphs open it (Market: Open) and wait for it to close (Esc or Leave).
+    /// Laid out in Game/UI/MarketPanel.uxml, a row of goods in Game/UI/Parts/MarketRow.uxml (14 Oct 2026).
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
     public class MarketPanel : MonoBehaviour
@@ -31,9 +33,9 @@ namespace Kapman.Game
         Market market;
         PortDef port;
         string category = "All", picked;
-        VisualElement root, tabs, details, purseBox, holdBox, left, headRow;
+        VisualElement root, tabs, details, purseBox, holdBox, headRow;
         ScrollView list;
-        Label title, writing, subtitle, outcome, holdBar, holdText;
+        Label title, writing, subtitle, outcome, holdBar, holdText, headHere, headAsks, headPays, headAboard;
         VisualElement holdFill;
         // the word on each good (Known.WordOn), asked once a redraw: the day, this port, the world's ships
         WordAsk wordAsk;
@@ -52,7 +54,6 @@ namespace Kapman.Game
         {
             var doc = GetComponent<UIDocument>();
             var docRoot = doc.rootVisualElement;
-            root?.RemoveFromHierarchy();                             // only our own elements
             if (style != null && !docRoot.styleSheets.Contains(style))
                 docRoot.styleSheets.Add(style);
             // this document nests in the game's (its object is a child of '--- GAME ---'): fill the screen, and let
@@ -63,68 +64,51 @@ namespace Kapman.Game
             docRoot.style.right = 0;
             docRoot.style.bottom = 0;
             docRoot.pickingMode = PickingMode.Ignore;
-            root = new VisualElement { pickingMode = PickingMode.Ignore };   // (docked, the map beside it takes the clicks)
-            root.AddToClassList("market-root");
-            var box = new VisualElement();
-            box.AddToClassList("market-box");
-            root.Add(box);
-
-            var head = new VisualElement();
-            head.AddToClassList("market-head");
-            var titles = new VisualElement();
-            titles.AddToClassList("market-titles");
-            title = new Label();
-            title.AddToClassList("market-title");
-            subtitle = new Label();
-            subtitle.AddToClassList("market-subtitle");
-            writing = new Label();
-            writing.AddToClassList("market-writing");
-            titles.Add(title);
-            titles.Add(subtitle);
-            titles.Add(writing);
-            head.Add(titles);
-            leaveButton = new Button(Close) { text = "Leave the market  (Esc)" };
-            leaveButton.AddToClassList("market-leave");
-            head.Add(leaveButton);
-            box.Add(head);
-
-            var body = new VisualElement();
-            body.AddToClassList("market-body");
-            box.Add(body);
-
-            left = new VisualElement();
-            left.AddToClassList("market-left");
-            tabs = new VisualElement();
-            tabs.AddToClassList("market-tabs");
-            left.Add(tabs);
-            left.Add(headRow = Row(true, null));
-            list = new ScrollView(ScrollViewMode.Vertical);
-            list.AddToClassList("market-list");
-            left.Add(list);
-            body.Add(left);
-
-            var right = new VisualElement();
-            right.AddToClassList("market-right");
-            purseBox = new VisualElement();
-            purseBox.AddToClassList("market-card");
-            right.Add(purseBox);
-            holdBox = new VisualElement();
-            holdBox.AddToClassList("market-card");
-            right.Add(holdBox);
-            details = new VisualElement();
-            details.AddToClassList("market-card");
-            details.AddToClassList("market-details");
-            right.Add(details);
-            body.Add(right);
-
-            outcome = new Label();
-            outcome.AddToClassList("market-outcome");
-            box.Add(outcome);
-
-            docRoot.Add(root);
+            // THE MARKET IS LAID OUT IN A FILE (KAPMAN_PLAN step 2d, 14 Oct 2026; the user, 7 Oct: "make it like people
+            // usually make it, not just all in script"). Game/UI/MarketPanel.uxml, the UI Document's own Source Asset,
+            // holds the market's head, the table of goods with its tabs and its head row, the three cards and the line
+            // of the outcome: open it in UI Builder to move, resize or restyle any part. Each part is found here by its
+            // NAME (anywhere under the root: it may stand anywhere in the file) and given its words and what a click on
+            // it does; one that is gone is said so in the Console, and a plain stand-in is made so the game still runs.
+            // The rows of goods are copies of Parts/MarketRow.uxml (Row); the tabs and the cards' lines stay the code's.
+            root = docRoot.Q<VisualElement>(RootName);
+            if (root == null || root.userData != null)
+            {
+                root?.RemoveFromHierarchy();                             // (our own of an earlier enabling)
+                root = doc.visualTreeAsset != null ? doc.visualTreeAsset.Instantiate().Q<VisualElement>(RootName) : null;
+                if (root == null)
+                {
+                    Debug.LogError("Kapman market: the UI Document of '" + name + "' has no Source Asset with an element named \"" + RootName +
+                                   "\" (it should be Assets/Kapman/Game/UI/MarketPanel.uxml). A bare market is made.");
+                    root = new VisualElement { name = RootName, pickingMode = PickingMode.Ignore };
+                    root.AddToClassList("market-root");
+                }
+                root.RemoveFromHierarchy();
+                docRoot.Add(root);
+            }
+            root.userData = this;                                         // (filled: it is not filled twice)
+            title = FrameParts.In<Label>(root, "title");
+            subtitle = FrameParts.In<Label>(root, "subtitle");
+            writing = FrameParts.In<Label>(root, "writing");
+            leaveButton = FrameParts.In<Button>(root, "leave");
+            leaveButton.clicked += Close;
+            tabs = FrameParts.In<VisualElement>(root, "tabs");
+            headRow = FrameParts.In<VisualElement>(root, "head-row");
+            headHere = FrameParts.In<Label>(headRow, "head-here");
+            headAsks = FrameParts.In<Label>(headRow, "head-asks");
+            headPays = FrameParts.In<Label>(headRow, "head-pays");
+            headAboard = FrameParts.In<Label>(headRow, "head-aboard");
+            list = FrameParts.In<ScrollView>(root, "list");
+            purseBox = FrameParts.In<VisualElement>(root, "purse");
+            holdBox = FrameParts.In<VisualElement>(root, "hold");
+            details = FrameParts.In<VisualElement>(root, "details");
+            outcome = FrameParts.In<Label>(root, "outcome");
             root.style.display = DisplayStyle.None;
             IsOpen = false;
         }
+
+        /// <summary>The name of the market's root element in Game/UI/MarketPanel.uxml.</summary>
+        public const string RootName = "market";
 
         void OnDisable()
         {
@@ -174,9 +158,11 @@ namespace Kapman.Game
             subtitle.text = $"{Cap(game.Season)} {game.Year} · prices in {market.zone.unit} ({market.zone.name})" +
                             (market.zone.toll > 0 ? " · " + tollLine.Replace("{toll}", (market.zone.toll * 100).ToString("0"))
                                                   : tollLine.Contains("{toll}") ? "" : " · " + tollLine);
-            int headAt = left.IndexOf(headRow);
-            headRow.RemoveFromHierarchy();
-            left.Insert(Mathf.Max(0, headAt), headRow = Row(true, null));
+            // the head of the table in the words of the place
+            headHere.text = W("here", "Here");
+            headAsks.text = W("asks", "They ask");
+            headPays.text = W("pays", "They pay");
+            headAboard.text = W("aboard", "Aboard");
             string key = "market." + port.id;
             // your writing for the market, if there is any (no placeholder on screen)
             string w = TextPanel.Current != null ? TextPanel.Current.Writing(key) : "";
@@ -247,7 +233,7 @@ namespace Kapman.Game
             else
             foreach (var g in shown.Where(g => category == "All" || g.good.cat == category ||
                                                (category == "Your hold" && Trade.Hold.Count(g.good.id) > 0)))
-                list.Add(Row(false, g, month));
+                list.Add(Row(g, month));
             if (list.childCount == 0)
                 list.Add(new Label("Nothing here.") { name = "empty" });
             list.schedule.Execute(() => list.scrollOffset = scroll);
@@ -336,48 +322,33 @@ namespace Kapman.Game
                          .ThenBy(g => g.good.name);
         }
 
-        VisualElement Row(bool header, MarketGood g, int month = 6)
+        /// <summary>One good of the table: a copy of Parts/MarketRow.uxml (the element "item") filled in, with the
+        /// buttons the good allows and, under the row, the word on it.</summary>
+        VisualElement Row(MarketGood g, int month)
         {
-            var row = new VisualElement();
-            row.AddToClassList(header ? "market-row-head" : "market-row");
-            if (header)
-            {
-                row.Add(Cell("Good", "c-name"));
-                row.Add(Cell("Unit", "c-unit"));
-                row.Add(Cell(W("here", "Here"), "c-num"));
-                row.Add(Cell(W("asks", "They ask"), "c-num"));
-                row.Add(Cell(W("pays", "They pay"), "c-num"));
-                row.Add(Cell(W("aboard", "Aboard"), "c-num"));
-                row.Add(Cell("", "c-buttons"));
-                return row;
-            }
+            var parts = FrameParts.Current;
+            var item = FrameParts.Make<VisualElement>(parts != null ? parts.marketRow : null, "item");
+            var row = FrameParts.In<VisualElement>(item, "row");
             var good = g.good;
             int held = Trade.Hold.Count(good.id);
-            var name = new VisualElement();
-            name.AddToClassList("c-name");
-            var n1 = new Label(good.name);
-            n1.AddToClassList("good-name");
-            name.Add(n1);
+            FrameParts.In<Label>(row, "good-name").text = good.name;
             string marks = (g.made > 0f ? "made here" : "") + (g.made > 0f && g.wanted > 0f ? " · " : "") + (g.wanted > 0f ? "wanted here" : "");
-            var n2 = new Label(marks);
-            n2.AddToClassList("good-marks");
+            var n2 = FrameParts.In<Label>(row, "good-marks");
+            n2.text = marks;
             n2.EnableInClassList("made", g.made > 0f);
             n2.EnableInClassList("wanted", g.wanted > 0f);
-            name.Add(n2);
+            var law = FrameParts.In<Label>(row, "good-law");
             if (!string.IsNullOrEmpty(good.law) && TradeRules.Current.LawsOn(good, market.zone, KapmanGame.Current.Year).Count > 0)
-            {
-                var law = new Label("the law forbids it");
-                law.AddToClassList("good-law");
-                name.Add(law);
-            }
-            row.Add(name);
-            row.Add(Cell(Short(good.unit) + $"\n{good.kg:0.#} kg", "c-unit"));
-            row.Add(Cell(g.OnOffer ? Mathf.FloorToInt(g.stock).ToString() : "-", "c-num"));
-            row.Add(Cell(g.OnOffer ? market.zone.Show(Deal.AsksFor(market, g, month, "player")) : "-", "c-num"));
-            row.Add(Cell(market.zone.Show(Deal.PaysFor(market, g, month, "player")), "c-num"));
-            row.Add(Cell(held > 0 ? held.ToString() : "", "c-num"));
-            var buttons = new VisualElement();
-            buttons.AddToClassList("c-buttons");
+                law.text = "the law forbids it";
+            else
+                law.RemoveFromHierarchy();                                // (not wanted this time)
+            FrameParts.In<Label>(row, "unit").text = Short(good.unit) + $"\n{good.kg:0.#} kg";
+            FrameParts.In<Label>(row, "here").text = g.OnOffer ? Mathf.FloorToInt(g.stock).ToString() : "-";
+            FrameParts.In<Label>(row, "asks").text = g.OnOffer ? market.zone.Show(Deal.AsksFor(market, g, month, "player")) : "-";
+            FrameParts.In<Label>(row, "pays").text = market.zone.Show(Deal.PaysFor(market, g, month, "player"));
+            FrameParts.In<Label>(row, "aboard").text = held > 0 ? held.ToString() : "";
+            var buttons = FrameParts.In<VisualElement>(row, "buttons");
+            buttons.Clear();
             if (g.OnOffer)
             {
                 buttons.Add(Act(W("buy", "Buy") + " 1", () => Buy(good.id, 1)));
@@ -388,11 +359,7 @@ namespace Kapman.Game
                 buttons.Add(Act(W("sell", "Sell") + " 1", () => Sell(good.id, 1), true));
                 buttons.Add(Act(W("sell_all", "Sell all"), () => Sell(good.id, held), true));
             }
-            row.Add(buttons);
             // the good and, under it, the word on it: what the merchant last saw or heard of it elsewhere
-            var item = new VisualElement();
-            item.AddToClassList("market-item");
-            item.Add(row);
             item.Add(new WordLine(WordOn(good)));
             item.EnableInClassList("picked", picked == good.id);
             item.RegisterCallback<ClickEvent>(e =>

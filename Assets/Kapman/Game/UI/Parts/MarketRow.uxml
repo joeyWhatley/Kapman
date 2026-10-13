@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="../MarketPanel.uss" />
+    <!-- A PART OF THE MARKET that is made many times over: ONE GOOD of the market's table. The code (MarketPanel.Row)
+         takes a copy of the element named "item" and fills in its words; the buttons (Buy 1, Buy 5, Sell 1, Sell all)
+         are put into "buttons" as the good allows, and the word on the good is put under the row. Move, restyle or
+         reorder the parts as you like, but keep their names. The element "preview" is only here so the part looks
+         right in UI Builder (the market's look hangs on the class market-root): the game does not use it. -->
+    <ui:VisualElement name="preview" class="market-root" style="position: relative; width: 1000px; height: 90px; align-items: stretch; justify-content: flex-start;">
+        <ui:VisualElement name="item" class="market-item">
+            <ui:VisualElement name="row" class="market-row">
+                <ui:VisualElement name="name" class="c-name">
+                    <ui:Label name="good-name" class="good-name" text="Wine" />
+                    <ui:Label name="good-marks" class="good-marks made" text="made here" />
+                    <ui:Label name="good-law" class="good-law" text="the law forbids it" />
+                </ui:VisualElement>
+                <ui:Label name="unit" class="c-unit" text="cask&#10;240 kg" />
+                <ui:Label name="here" class="c-num" text="12" />
+                <ui:Label name="asks" class="c-num" text="40 d" />
+                <ui:Label name="pays" class="c-num" text="32 d" />
+                <ui:Label name="aboard" class="c-num" text="" />
+                <ui:VisualElement name="buttons" class="c-buttons" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

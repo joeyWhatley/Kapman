@@ -2330,3 +2330,26 @@ and far fewer when usage is short).
      helm, the opening, the notes).
    - NEXT of 2d: the market panel, the old text panel, the notices, the chest, the port's picture; then each side
      window's own layout.
+
+144. **THE MARKET IS LAID OUT IN A FILE, ITS ROW OF GOODS A PART**
+   (14 Oct, night, unattended: "Do what you can". KAPMAN_PLAN step 2d, its second piece.)
+   - Game/UI/MarketPanel.uxml is the Source Asset of the Market panel's UI Document (Kapman > Make physical > 2e. The
+     market's layout file; KapmanPhysical.Step2Market, which also runs 2b for the parts asset). It holds the root
+     "market" (letting the pointer through while shut), the "box", the "head" (title, subtitle, your "writing", the
+     "leave" button), the "body" with its "left" (the "tabs", the "head-row" with its six named cells, the "list")
+     and its "right" (the cards "purse", "hold", "details"), and the "outcome" line.
+   - One good of the table is Game/UI/Parts/MarketRow.uxml (the element "item": "row" with "name" holding "good-name",
+     "good-marks" and "good-law"; "unit", "here", "asks", "pays", "aboard", "buttons"), named in Resources/FrameParts
+     as marketRow. MarketPanel.Row takes a copy and fills it (FrameParts.Make / In); the buttons the good allows and
+     the word on it are the code's, as are the tabs, the cards' lines and the writings' rows (a monastery's reading
+     and lessons). The head row's words of the place are set on the named cells at Open, no longer rebuilt.
+   - MarketPanel.OnEnable finds each part by NAME anywhere under the root (FrameParts.In), as the chart and the frame
+     do; a part gone from the file is said so in the Console and a plain stand-in is made. Nothing of the market's
+     dealing changed.
+   - TESTS. Edit: MarketLayoutTests (the two files hold all 24 and 12 named parts; the scene names the layout and the
+     parts asset the row; instantiated, the sides, the table's parts, the head row's cells and the cards stand in
+     their order, the root lets the pointer through, a row's copy comes without the file's preview). Play:
+     MarketLayoutPlayTests (a new game, the market of Dorestat opened beside the chart: the root on screen is the
+     file's, every good a row of the row file with its name and price, buttons to buy or sell, the purse and hold
+     cards filled, Leave shuts it; picture Captures/market/market_0_the_files_own.png).
+   - NEXT of 2d: the old text panel, the notices, the chest, the port's picture; then each side window's own layout.
