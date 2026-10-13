@@ -2353,3 +2353,29 @@ and far fewer when usage is short).
      file's, every good a row of the row file with its name and price, buttons to buy or sell, the purse and hold
      cards filled, Leave shuts it; picture Captures/market/market_0_the_files_own.png).
    - NEXT of 2d: the old text panel, the notices, the chest, the port's picture; then each side window's own layout.
+
+145. **THE TEXT PANEL, THE NOTICES AND THE PORT'S PICTURE ARE LAID OUT IN FILES**
+   (14 Oct, night, unattended: "I can't play ATM I'm at work do what you can". KAPMAN_PLAN step 2d, its third piece.)
+   - Game/UI/TextPanel.uxml is the Source Asset of the game's own UI Document (the object "--- GAME ---", which the
+     text panel sits on; the chart's and the market's documents nest in it and draw over it): the root "text", its
+     "box" with "title", "story", "intention", "options" and "outcome". One option is Parts/TextOption.uxml (the
+     button "option"), named in Resources/FrameParts as textOption. The panel's own box stays out of sight while the
+     frame is up, as before (TextPanel.External): the frame draws what it holds.
+   - Game/UI/Notices.uxml is the Source Asset of the Notices' document: the holder "notices". One notice is
+     Parts/Notice.uxml (the label "notice", carrying the glass look that was inline in the code), named as notice;
+     the font stays the component's field. Without the files the old look is made in code.
+   - The port's picture needs no document of its own: its parts are the frame's. Frame.uxml now holds the Image
+     "port-view" and the Label "place-ground" first under "frame" (behind everything), and the Button "port-flip"
+     among the "views" of the top bar. PortView finds them by name and fills them; a frame without them (a test's
+     bare frame) gets them made as before, and only those made are taken away when the view goes.
+   - Kapman > Make physical > 2f. The text panel's and the notices' layout files (KapmanPhysical.Step2Text, with the
+     shared SourceOf<T>; it runs 2b for the parts asset too).
+   - TESTS. Edit: PanelLayoutTests (the five files hold their parts; the scene names the two layouts and the parts
+     asset the option and the notice; instantiated, the text panel's parts stand in their order, the copies come
+     without their previews, the port's picture and ground are first and second under the frame and the button is
+     among the views). Play: PanelLayoutPlayTests (a new game: one text root, the port's menu's options are copies
+     of the option file and the box is hidden under the frame; a notice shown is a copy of the notice file in the
+     holder; the port's picture, ground and button are the frame's own, in their places; picture Captures/panels).
+   - NEXT of 2d: the chest (the chart's table in MapTable: the top bar, the right column, the outliner, the chest
+     with its tabs; the chest's pages themselves are all made from what is in it), the notes of F2, the places; then
+     each side window's own layout.

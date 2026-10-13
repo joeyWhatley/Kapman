@@ -16,10 +16,14 @@ namespace Kapman.Game
     ///   options     each a key and an intention ("Go to the market")
     ///   outcome     what happened, as facts ("Bought 2 casks of wine for 16 deniers")
     /// The graphs drive it (Text: Show, Text: Add option, Text: Wait for choice, Text: Show outcome, Text: Hide).
+    /// Laid out in Game/UI/TextPanel.uxml, an option in Game/UI/Parts/TextOption.uxml (14 Oct 2026).
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
     public class TextPanel : MonoBehaviour
     {
+        /// <summary>The name of the panel's root element in Game/UI/TextPanel.uxml.</summary>
+        public const string RootName = "text-panel";
+
         public StyleSheet style;
         [Tooltip("The user's writing: a JSON table of key -> text (Data/writing.json).")]
         public TextAsset writing;
@@ -140,31 +144,34 @@ namespace Kapman.Game
         {
             var doc = GetComponent<UIDocument>();
             var docRoot = doc.rootVisualElement;
-            // only our own elements go (the documents of child objects, like the market panel, nest in this root)
-            root?.RemoveFromHierarchy();
             if (style != null && !docRoot.styleSheets.Contains(style))
                 docRoot.styleSheets.Add(style);
-            root = new VisualElement { pickingMode = PickingMode.Ignore };
-            root.AddToClassList("text-root");
-            box = new VisualElement();
-            box.AddToClassList("text-box");
-            title = new Label();
-            title.AddToClassList("text-title");
-            story = new Label();
-            story.AddToClassList("text-story");
-            intention = new Label();
-            intention.AddToClassList("text-intention");
-            options = new VisualElement();
-            options.AddToClassList("text-options");
-            outcome = new Label();
-            outcome.AddToClassList("text-outcome");
-            box.Add(title);
-            box.Add(story);
-            box.Add(intention);
-            box.Add(options);
-            box.Add(outcome);
-            root.Add(box);
-            docRoot.Add(root);
+            // THE PANEL IS LAID OUT IN A FILE (KAPMAN_PLAN step 2d, 14 Oct 2026): Game/UI/TextPanel.uxml, this document's
+            // own Source Asset. Its parts are found by NAME and given their words; a part gone from the file is said so
+            // in the Console and a plain stand-in is made. The documents of child objects (the chart, the market) nest in
+            // this root and draw over it; only our own root is ours.
+            root = docRoot.Q<VisualElement>(RootName);
+            if (root == null || root.userData != null)
+            {
+                root?.RemoveFromHierarchy();                             // (our own of an earlier enabling)
+                root = doc.visualTreeAsset != null ? doc.visualTreeAsset.Instantiate().Q<VisualElement>(RootName) : null;
+                if (root == null)
+                {
+                    Debug.LogError("Kapman text panel: the UI Document of '" + name + "' has no Source Asset with an element named \"" + RootName +
+                                   "\" (it should be Assets/Kapman/Game/UI/TextPanel.uxml). A bare panel is made.");
+                    root = new VisualElement { name = RootName, pickingMode = PickingMode.Ignore };
+                    root.AddToClassList("text-root");
+                }
+                root.RemoveFromHierarchy();
+                docRoot.Add(root);
+            }
+            root.userData = this;                                         // (filled: it is not filled twice)
+            box = Kapman.Game.Frame.FrameParts.In<VisualElement>(root, "box");
+            title = Kapman.Game.Frame.FrameParts.In<Label>(root, "title");
+            story = Kapman.Game.Frame.FrameParts.In<Label>(root, "story");
+            intention = Kapman.Game.Frame.FrameParts.In<Label>(root, "intention");
+            options = Kapman.Game.Frame.FrameParts.In<VisualElement>(root, "options");
+            outcome = Kapman.Game.Frame.FrameParts.In<Label>(root, "outcome");
             Hide();
         }
 
@@ -249,9 +256,11 @@ namespace Kapman.Game
         {
             int index = buttons.Count;
             string written = texts.TryGetValue(key ?? "", out var t) && !string.IsNullOrWhiteSpace(t) ? t : null;
-            var b = new Button(() => Choose(index));
+            // (a copy of Parts/TextOption.uxml)
+            var parts = Kapman.Game.Frame.FrameParts.Current;
+            var b = Kapman.Game.Frame.FrameParts.Make<Button>(parts != null ? parts.textOption : null, "option");
+            b.clicked += () => Choose(index);
             b.tooltip = $"[{key}] {intentionText}";
-            b.AddToClassList("text-option");
             // just the label (the user's menu, 2026-10-01); what it means is in the tooltip
             string words = written ?? (string.IsNullOrEmpty(label) ? intentionText : label);
             b.text = $"{index + 1}. {words}";

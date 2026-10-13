@@ -5,6 +5,11 @@
          words and numbers, so a part may be moved anywhere and given any look, but must keep its name.
          Order matters: what is lower in this list is drawn over what is higher. -->
     <ui:VisualElement name="frame" class="frame-root" picking-mode="Ignore">
+        <!-- THE PORT'S PICTURE from above, behind everything, while she lies in port (Code/Game/UI/Frame/PortView.cs
+             fills it and lays the hour's light over it); under it a plain ground with a place's name, for a place that
+             has no picture yet -->
+        <ui:Image name="port-view" class="frame-port-view" style="display: none;" />
+        <ui:Label name="place-ground" class="frame-port-view frame-place-ground" picking-mode="Ignore" style="display: none;" />
         <!-- the body of the frame: a side down the left, a side down the right, and the foot -->
         <ui:VisualElement name="pane-left" class="frame-pane frame-pane-left" />
         <ui:VisualElement name="pane-right" class="frame-pane frame-pane-right" />
@@ -44,7 +49,10 @@
             </ui:VisualElement>
             <ui:VisualElement name="top-right" class="frame-top-group frame-top-right">
                 <!-- (the picture of the port and the view of the ship put their own buttons in here: Chart or Port, Swap, Look) -->
-                <ui:VisualElement name="views" class="frame-top-views" />
+                <ui:VisualElement name="views" class="frame-top-views">
+                    <!-- the chart in the port's place, and back (PortView) -->
+                    <ui:Button name="port-flip" text="Chart" tooltip="The chart in the port's place, and back." class="frame-k" style="display: none;" />
+                </ui:VisualElement>
                 <ui:Button name="speed-pause" text="Pause" tooltip="Pause and go on  [Space]" class="frame-k" />
                 <ui:Button name="speed-1" text="1" class="frame-k" />
                 <ui:Button name="speed-2" text="2" class="frame-k" />

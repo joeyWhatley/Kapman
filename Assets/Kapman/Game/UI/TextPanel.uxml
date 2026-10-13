@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="TextPanel.uss" />
+    <!-- THE TEXT PANEL'S LAYOUT (KAPMAN_PLAN step 2d, 14 Oct 2026): the Source Asset of the game's own UI Document (the
+         object "- - - GAME - - -"; the chart's and the market's documents nest in it and draw over this). The code
+         (Code/Game/UI/TextPanel.cs) finds each part by its NAME and gives it its words; a part may be moved, resized or
+         restyled here (the look is TextPanel.uss), but must keep its name. The options are copies of
+         Parts/TextOption.uxml. While the frame is up (always, in the game as played) this box stays out of sight and
+         the frame draws what it holds; it is seen on its own only in a scene without the frame. -->
+    <ui:VisualElement name="text-panel" class="text-root" picking-mode="Ignore" style="display: none;">
+        <ui:VisualElement name="box" class="text-box">
+            <ui:Label name="title" class="text-title" text="Dorestat" />
+            <ui:Label name="story" class="text-story" text="Your writing for the place, when there is any." style="display: none;" />
+            <ui:Label name="intention" class="text-intention" text="You come in to the jetties." />
+            <ui:VisualElement name="options" class="text-options" />
+            <ui:Label name="outcome" class="text-outcome" text="" style="display: none;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

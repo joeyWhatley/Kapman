@@ -37,6 +37,10 @@ namespace Kapman.Game.Frame
         public VisualTreeAsset helmMark;
         [Tooltip("One good of a market's table (Game/UI/Parts/MarketRow.uxml, the element \"item\").")]
         public VisualTreeAsset marketRow;
+        [Tooltip("One option of the text panel (Game/UI/Parts/TextOption.uxml, the button \"option\").")]
+        public VisualTreeAsset textOption;
+        [Tooltip("One notice at the top of the screen (Game/UI/Parts/Notice.uxml, the label \"notice\").")]
+        public VisualTreeAsset notice;
 
         [Header("The menu and the opening")]
         [Tooltip("One choice of the menu (Game/UI/Parts/MenuOption.uxml, the element \"option\").")]

@@ -16,6 +16,7 @@ namespace Kapman.EditorTools
     ///   Kapman > Make physical > 2b. The frame's parts
     ///   Kapman > Make physical > 2d. The chart's layout file
     ///   Kapman > Make physical > 2e. The market's layout file
+    ///   Kapman > Make physical > 2f. The text panel's and the notices' layout files
     ///   Kapman > Make physical > 3. The 3D stage into the scene
     ///   Kapman > Make physical > 4. The ports into the scene
     /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame, .Step2Parts, .Step3Stage, .Step4Ports)
@@ -128,6 +129,40 @@ namespace Kapman.EditorTools
             Debug.Log("Kapman, made physical, step 2e: the Market panel's UI Document has " + MarketLayout + " as its Source Asset.");
         }
 
+        public const string TextLayout = "Assets/Kapman/Game/UI/TextPanel.uxml";
+        public const string NoticesLayout = "Assets/Kapman/Game/UI/Notices.uxml";
+
+        /// <summary>The text panel's UI Document (the game's own) is given Game/UI/TextPanel.uxml as its Source Asset and
+        /// the notices' Game/UI/Notices.uxml, and the parts asset their option and notice (KAPMAN_PLAN step 2d, 14 Oct
+        /// 2026). The port's picture needs no step: its parts are in Frame.uxml, the frame's own file.</summary>
+        [MenuItem("Kapman/Make physical/2f. The text panel's and the notices' layout files")]
+        public static void Step2Text()
+        {
+            var scene = EditorSceneManager.OpenScene(GameScene, OpenSceneMode.Single);
+            SourceOf<TextPanel>(TextLayout);
+            SourceOf<Notices>(NoticesLayout);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Step2Parts();
+            Debug.Log("Kapman, made physical, step 2f: the text panel's UI Document has " + TextLayout + " and the notices' " + NoticesLayout + " as their Source Assets.");
+        }
+
+        /// <summary>The UI Document on the scene's one T is given the layout file as its Source Asset.</summary>
+        static void SourceOf<T>(string layoutPath) where T : Component
+        {
+            var layout = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(layoutPath);
+            if (layout == null)
+                throw new System.InvalidOperationException(layoutPath + " is missing or did not import.");
+            var part = Object.FindAnyObjectByType<T>(FindObjectsInactive.Include);
+            if (part == null)
+                throw new System.InvalidOperationException(GameScene + " has no " + typeof(T).Name + ".");
+            var doc = part.GetComponent<UnityEngine.UIElements.UIDocument>();
+            if (doc == null)
+                throw new System.InvalidOperationException(typeof(T).Name + " in " + GameScene + " has no UI Document.");
+            doc.visualTreeAsset = layout;
+            EditorUtility.SetDirty(doc);
+        }
+
         public const string MenuLayout = "Assets/Kapman/Game/UI/MainMenu.uxml";
         public const string ShowLayout = "Assets/Kapman/Game/UI/Showtime.uxml";
 
@@ -175,6 +210,8 @@ namespace Kapman.EditorTools
             parts.courseKnot = Layout("CourseKnot");
             parts.helmMark = Layout("HelmMark");
             parts.marketRow = Layout("MarketRow");
+            parts.textOption = Layout("TextOption");
+            parts.notice = Layout("Notice");
             parts.menuOption = Layout("MenuOption");
             parts.showtime = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(ShowLayout);
             if (parts.showtime == null)

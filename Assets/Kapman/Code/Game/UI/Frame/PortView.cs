@@ -40,6 +40,8 @@ namespace Kapman.Game.Frame
         Button flip;
         Label ground;                                                 // a place's name on a plain ground, where it has no picture yet
         FrameRoot framed;
+        Button wiredFlip;                                             // the button whose click is ours already
+        readonly System.Collections.Generic.List<VisualElement> made = new System.Collections.Generic.List<VisualElement>();   // parts made here, not the frame's file's
         string loadedFor = "";
         Texture2D texture;
 
@@ -79,8 +81,9 @@ namespace Kapman.Game.Frame
 
         void OnDestroy()
         {
-            picture?.RemoveFromHierarchy();
-            flip?.RemoveFromHierarchy();
+            foreach (var m in made)
+                m.RemoveFromHierarchy();                                 // (the frame's own parts stay)
+            made.Clear();
             if (Current == this)
                 Current = null;
         }
@@ -119,20 +122,46 @@ namespace Kapman.Game.Frame
             }
             if (frame != framed || picture == null || picture.panel == null)
             {
-                picture?.RemoveFromHierarchy();
-                flip?.RemoveFromHierarchy();
-                picture = new Image { name = "port-view", scaleMode = ScaleMode.ScaleAndCrop };
-                picture.AddToClassList("frame-port-view");
-                ground?.RemoveFromHierarchy();
-                ground = new Label { name = "place-ground", pickingMode = PickingMode.Ignore };
-                ground.AddToClassList("frame-port-view");
-                ground.AddToClassList("frame-place-ground");
+                // THE FRAME'S OWN PARTS (KAPMAN_PLAN step 2d, 14 Oct 2026): Game/UI/Frame.uxml holds the picture
+                // "port-view" and the ground "place-ground" first under the frame's root, and the button "port-flip"
+                // among the view buttons of the top bar (with the other buttons that change what is looked at: the
+                // user's ruling of 7 Oct 2026). They are found by name and filled here; a frame without them (gone from
+                // the file, or a test's bare frame) gets them made as before.
+                foreach (var m in made)
+                    m.RemoveFromHierarchy();
+                made.Clear();
+                picture = frame.Root.Q<Image>("port-view");
+                if (picture == null)
+                {
+                    picture = new Image { name = "port-view" };
+                    picture.AddToClassList("frame-port-view");
+                    frame.Root.Insert(0, picture);
+                    made.Add(picture);
+                }
+                picture.scaleMode = ScaleMode.ScaleAndCrop;
+                ground = frame.Root.Q<Label>("place-ground");
+                if (ground == null)
+                {
+                    ground = new Label { name = "place-ground", pickingMode = PickingMode.Ignore };
+                    ground.AddToClassList("frame-port-view");
+                    ground.AddToClassList("frame-place-ground");
+                    frame.Root.Insert(1, ground);
+                    made.Add(ground);
+                }
                 ground.style.display = DisplayStyle.None;
-                flip = FrameUi.Btn("Chart", () => ChartAsked = !ChartAsked, "The chart in the port's place, and back.");
-                frame.Root.Insert(0, picture);
-                frame.Root.Insert(1, ground);
-                // (in the top bar with the other buttons that change what is looked at: the user's ruling of 7 Oct 2026)
-                (frame.ViewButtons ?? frame.Root).Add(flip);
+                flip = (frame.ViewButtons ?? frame.Root).Q<Button>("port-flip");
+                if (flip == null)
+                {
+                    flip = new Button { name = "port-flip", text = "Chart", tooltip = "The chart in the port's place, and back." };
+                    flip.AddToClassList("frame-k");
+                    (frame.ViewButtons ?? frame.Root).Add(flip);
+                    made.Add(flip);
+                }
+                if (flip != wiredFlip)
+                {
+                    flip.clicked += () => ChartAsked = !ChartAsked;
+                    wiredFlip = flip;
+                }
                 framed = frame;
             }
             var here = FrameGame.PortHere;

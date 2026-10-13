@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="../TextPanel.uss" />
+    <!-- A PART OF THE TEXT PANEL that is made many times over: ONE OPTION of a place or a happening. The code
+         (TextPanel.AddOption) takes a copy of the button named "option" and gives it its number and words, and what it
+         means in its tooltip. Restyle it as you like, but keep its name. The element "preview" is only here so the part
+         looks right in UI Builder: the game does not use it. -->
+    <ui:VisualElement name="preview" class="text-root" style="position: relative; width: 660px; height: 60px; padding-bottom: 0; justify-content: center;">
+        <ui:Button name="option" class="text-option" text="1. Go to the market" />
+    </ui:VisualElement>
+</ui:UXML>
