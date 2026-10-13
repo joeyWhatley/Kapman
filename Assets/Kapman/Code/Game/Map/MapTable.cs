@@ -91,32 +91,24 @@ namespace Kapman.Game
             outliner.Add(fold);
             right.Add(outliner);
 
-            // ---- the chest
-            chest = Box("map-chest");
-            var head = Box("map-chest-head");
-            var title = Text("map-title");
-            title.text = "The chest";
-            head.Add(title);
-            var shut = new Button(ToggleChest) { text = "Close  (I)" };
-            shut.AddToClassList("map-button");
-            head.Add(shut);
-            chest.Add(head);
-            var tabs = Box("map-chest-tabs");
-            foreach (var (id, label) in new[] { ("riddles", "Riddles"), ("texts", "Texts"), ("mine", "Your notes"), ("notes", "Price notes") })   // (no hoards tab until the hunt is rebuilt)
+            // ---- THE CHEST IS LAID OUT IN THE CHART'S FILE (KAPMAN_PLAN step 2d, 14 Oct 2026): Game/UI/MapView.uxml
+            // holds "chest" with its head (the title, the Close button), its tabs (one button a tab, "chest-tab-<id>")
+            // and its area; each is found by name and wired here, and the pages are made into the area. A part gone
+            // from the file is said so in the Console and a plain stand-in is made (FrameParts.In).
+            chest = Kapman.Game.Frame.FrameParts.In<VisualElement>(root, "chest");
+            Kapman.Game.Frame.FrameParts.In<Button>(chest, "chest-close").clicked += ToggleChest;
+            var tabs = Kapman.Game.Frame.FrameParts.In<VisualElement>(chest, "chest-tabs");
+            foreach (string id in new[] { "riddles", "texts", "mine", "notes" })   // (no hoards tab until the hunt is rebuilt)
             {
                 string tab = id;
-                var b = new Button(() => { chestTab = tab; chestVersion = -1; FillChest(); }) { text = label };
-                b.AddToClassList("map-button");
-                b.AddToClassList("map-chest-tab");
+                var b = Kapman.Game.Frame.FrameParts.In<Button>(tabs, "chest-tab-" + id);
+                b.clicked += () => { chestTab = tab; chestVersion = -1; FillChest(); };
                 b.userData = id;
                 chestTabs.Add(b);
-                tabs.Add(b);
             }
-            chest.Add(tabs);
-            chestArea = Box("map-chest-area");
-            chest.Add(chestArea);
+            chestArea = Kapman.Game.Frame.FrameParts.In<VisualElement>(chest, "chest-area");
             chest.style.display = DisplayStyle.None;
-            root.Add(chest);
+            chest.BringToFront();                                         // (over the bar and the column, as it was)
             pages = new ChestPanel(chest)
             {
                 OpenTab = t => { chestTab = t; chestVersion = -1; FillChest(); },

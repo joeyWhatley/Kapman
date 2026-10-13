@@ -49,5 +49,21 @@
             <ui:Button name="port-card-clear" class="map-button" text="Clear course" />
             <ui:Button name="port-card-close" class="map-button" text="Close" />
         </ui:VisualElement>
+        <!-- THE CHEST (I): everything written that the merchant keeps. The frame stands down while it is open. Its
+             pages (the riddles, the texts, your notes, the price notes) are made by the code from what is in it
+             (Code/Game/Map/MapTable.cs, ChestPanel.cs); the head, the tabs and the area are laid out here. -->
+        <ui:VisualElement name="chest" class="map-chest" style="display: none;">
+            <ui:VisualElement name="chest-head" class="map-chest-head">
+                <ui:Label name="chest-title" class="map-title" text="The chest" />
+                <ui:Button name="chest-close" class="map-button" text="Close  (I)" />
+            </ui:VisualElement>
+            <ui:VisualElement name="chest-tabs" class="map-chest-tabs">
+                <ui:Button name="chest-tab-riddles" class="map-button map-chest-tab" text="Riddles" />
+                <ui:Button name="chest-tab-texts" class="map-button map-chest-tab" text="Texts" />
+                <ui:Button name="chest-tab-mine" class="map-button map-chest-tab" text="Your notes" />
+                <ui:Button name="chest-tab-notes" class="map-button map-chest-tab" text="Price notes" />
+            </ui:VisualElement>
+            <ui:VisualElement name="chest-area" class="map-chest-area" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

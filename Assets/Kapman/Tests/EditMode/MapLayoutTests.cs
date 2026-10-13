@@ -24,6 +24,7 @@ namespace Kapman.Tests
             "card", "title", "subtitle", "back", "foot", "scalebar", "scaletext", "hint", "chronicle", "save", "load",
             "chronicle-panel", "chronicle-list", "ship-card", "ship-card-text",
             "port-card", "port-card-text", "port-card-words", "port-card-set", "port-card-clear", "port-card-close",
+            "chest", "chest-head", "chest-title", "chest-close", "chest-tabs", "chest-tab-riddles", "chest-tab-texts", "chest-tab-mine", "chest-tab-notes", "chest-area",
         };
 
         [Test]
@@ -61,6 +62,11 @@ namespace Kapman.Tests
             Assert.IsInstanceOf<Image>(root.Q<VisualElement>("fog"));
             Assert.IsInstanceOf<Button>(root.Q<VisualElement>("back"));
             Assert.IsInstanceOf<ScrollView>(root.Q<VisualElement>("chronicle-list"));
+            CollectionAssert.AreEqual(new[] { "chest-head", "chest-tabs", "chest-area" }, root.Q<VisualElement>("chest").Children().Select(c => c.name).ToList(), "the chest's parts are not in their order");
+            CollectionAssert.AreEqual(new[] { "chest-tab-riddles", "chest-tab-texts", "chest-tab-mine", "chest-tab-notes" },
+                                      root.Q<VisualElement>("chest-tabs").Children().Select(c => c.name).ToList(), "the chest's tabs are not in their order");
+            Assert.IsInstanceOf<Button>(root.Q<VisualElement>("chest-close"));
+            Assert.AreEqual("chest", root.Children().Last().name, "the chest is not the last thing in the chart's file (it lies over all of it)");
 #endif
         }
     }

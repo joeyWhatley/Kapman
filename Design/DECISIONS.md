@@ -2379,3 +2379,16 @@ and far fewer when usage is short).
    - NEXT of 2d: the chest (the chart's table in MapTable: the top bar, the right column, the outliner, the chest
      with its tabs; the chest's pages themselves are all made from what is in it), the notes of F2, the places; then
      each side window's own layout.
+
+146. **THE CHEST IS LAID OUT IN THE CHART'S FILE**
+   (14 Oct, night, unattended. KAPMAN_PLAN step 2d, its fourth piece.)
+   - Game/UI/MapView.uxml now ends with "chest" (over all the rest of the chart): "chest-head" with "chest-title" and
+     the "chest-close" button, "chest-tabs" with one button a tab ("chest-tab-riddles", "-texts", "-mine", "-notes";
+     no hoards tab until the hunt is rebuilt), and "chest-area". MapTable finds them by name (FrameParts.In) and
+     wires the buttons; the pages are made into the area from what is in the chest, as before (ChestPanel and the
+     price notes). The chart's old top bar and right column (hidden while the frame is up) are still made by code.
+   - TESTS. Edit: MapLayoutTests holds the ten chest names and their order, and that the chest is the file's last
+     part. Play: ChestLayoutPlayTests (a new game: I opens the file's chest over the chart with the riddles' tab
+     marked and a page in the area, the price notes' tab turns the page, Close shuts it; picture Captures/chest).
+   - NEXT of 2d: the notes of F2, the places; the ship view's big picture and helm mark into Frame.uxml; then each
+     side window's own layout.
