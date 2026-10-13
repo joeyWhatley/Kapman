@@ -529,6 +529,32 @@ namespace Kapman.Graphs
         }
     }
 
+    /// <summary>Does a press on the chart take her line, so that the course can be pulled (13 Oct 2026)? Given: how far
+    /// the pointer is from the line, in pixels of the chart as shown, and how many pixels the line is held from. The
+    /// answer: 1 it takes the line, 0 the press is the chart's (a drag of the map, or a click to sail).</summary>
+    [UnitTitle("Rule: does the press take the line")]
+    [UnitShortTitle("Rule: does the press take the line")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class PressTakesLineRule : RuleUnit
+    {
+        public override string Rule => "press_takes_line";
+
+        [DoNotSerialize, PortLabel("Pixels from the line")] public ValueOutput distance { get; private set; }
+        [DoNotSerialize, PortLabel("Pixels the line is held from")] public ValueOutput hold { get; private set; }
+
+        protected override void Given()
+        {
+            distance = ValueOutput<double>(nameof(distance));
+            hold = ValueOutput<double>(nameof(hold));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(distance, given[0]);
+            flow.SetValue(hold, given[1]);
+        }
+    }
+
     /// <summary>Lying to with a reckoning lost, does she sail on by herself now (the user's ruling of 10 Oct 2026)? The answer: 1 she does, 0 she waits for her course to be laid. Given: was it lost in thick air (1 or 0), how far the steersman sees now, and from how far the air counts as clear.</summary>
     [UnitTitle("Rule: does she sail on when the air clears")]
     [UnitShortTitle("Rule: does she sail on when the air clears")]

@@ -41,6 +41,130 @@ namespace Kapman.Game
         public static event Action Changed;
 
         /// <summary>
+        /// THE KNOTS: THE POINTS THE COURSE IS PULLED THROUGH (the user, 13 Oct 2026: "you should want to be able to drag
+        /// and correct the course on the map with your mouse"; by the picker: pull the line anywhere, by the lanes through
+        /// your point). Each knot is a point of the line itself (where the lanes bring her through, or as near the point
+        /// pulled to as the water lets her); the course runs from her through every knot in order and on to the same
+        /// end. A knot she has passed drops away (<see cref="DropPassedKnots"/>). Kept across a course laid again to the
+        /// same end (the steersman's own laying again, a course taken up after a wait); dropped when a new end is set.
+        /// </summary>
+        public static readonly List<WorldXZ> Knots = new List<WorldXZ>();
+        /// <summary>For each knot, the index of its point in <see cref="Points"/>.</summary>
+        public static readonly List<int> KnotAt = new List<int>();
+
+        /// <summary>
+        /// Charts the course she is on again through these knots in order, from where she is, leg by leg: to each knot as
+        /// to a place pointed at (<see cref="PlanToPlace"/>), and from the last on to her end as before. False (and the
+        /// old course kept, knots and all) with no course set, or where no water she can sail joins one leg. Each knot
+        /// becomes the point of the line the leg to it ends at.
+        /// </summary>
+        public static bool SetThrough(List<WorldXZ> knots, WorldXZ from, string fromPort)
+        {
+            if (!IsSet)
+                return false;
+            var line = new List<WorldXZ>();
+            var water = new List<float>();
+            var kinds = new List<byte>();
+            var at = new List<int>();
+            var through = new List<WorldXZ>();
+            var legLine = new List<WorldXZ>();
+            var legWater = new List<float>();
+            var legKinds = new List<byte>();
+            double km = 0.0;
+            WorldXZ here = from;
+            string port = fromPort;
+            foreach (var knot in knots ?? new List<WorldXZ>())
+            {
+                if (!PlanToPlace(knot, here, port, legLine, legWater, legKinds, out double legKm))
+                    return false;
+                AppendLeg(line, water, kinds, legLine, legWater, legKinds);
+                km += legKm;
+                here = line[line.Count - 1];
+                at.Add(line.Count - 1);
+                through.Add(here);
+                port = null;
+            }
+            bool ok = ToPlace ? PlanToPlace(Place, here, port, legLine, legWater, legKinds, out double lastKm)
+                              : Plan(Destination, here, port, legLine, legWater, legKinds, out lastKm);
+            if (!ok)
+                return false;
+            AppendLeg(line, water, kinds, legLine, legWater, legKinds);
+            km += lastKm;
+            Points.Clear();
+            Points.AddRange(line);
+            Depths.Clear();
+            Depths.AddRange(water);
+            Kinds.Clear();
+            Kinds.AddRange(kinds);
+            Knots.Clear();
+            Knots.AddRange(through);
+            KnotAt.Clear();
+            KnotAt.AddRange(at);
+            Next = 1;
+            Km = km;
+            Changed?.Invoke();
+            return true;
+        }
+
+        /// <summary>One leg on to the line: its first point is the point the line ends with already (the leg was planned
+        /// from there), so that one is left out.</summary>
+        static void AppendLeg(List<WorldXZ> line, List<float> water, List<byte> kinds, List<WorldXZ> legLine, List<float> legWater, List<byte> legKinds)
+        {
+            int start = line.Count > 0 && legLine.Count > 0 && WorldXZ.Distance(line[line.Count - 1], legLine[0]) < 1.0 ? 1 : 0;
+            for (int i = start; i < legLine.Count; i++)
+            {
+                line.Add(legLine[i]);
+                water.Add(i < legWater.Count ? legWater[i] : float.PositiveInfinity);
+                kinds.Add(i < legKinds.Count ? legKinds[i] : LaneGraph.Sea);
+            }
+        }
+
+        /// <summary>A knot she has passed (the point she is making for lies beyond it) drops away.</summary>
+        static void DropPassedKnots()
+        {
+            bool dropped = false;
+            while (KnotAt.Count > 0 && Next > KnotAt[0])
+            {
+                Knots.RemoveAt(0);
+                KnotAt.RemoveAt(0);
+                dropped = true;
+            }
+            if (dropped)
+                Changed?.Invoke();
+        }
+
+        /// <summary>Real metres round a point let go on land within which the nearest water is looked for.</summary>
+        public const double ToWaterM = 8000.0;
+
+        /// <summary>The water nearest a place, by the world bake: the place itself if it is water, else the nearest point
+        /// of water on rings of 120 m out to `reach`. False (and the place given back) where none is found, or where
+        /// the bake is not there to ask.</summary>
+        public static bool NearestWater(WorldXZ at, double reach, out WorldXZ water)
+        {
+            water = at;
+            if (!KnowsWater)
+                return false;
+            if (IsWater(at.x, at.z))
+                return true;
+            const double step = 120.0;
+            for (double r = step; r <= reach; r += step)
+            {
+                int n = Math.Max(8, (int)(2.0 * Math.PI * r / step));
+                for (int i = 0; i < n; i++)
+                {
+                    double a = 2.0 * Math.PI * i / n;
+                    double x = at.x + r * Math.Sin(a), z = at.z + r * Math.Cos(a);
+                    if (IsWater(x, z))
+                    {
+                        water = new WorldXZ(x, z);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// A COURSE TO A PLACE POINTED AT ON THE CHART (the user, 9 Oct 2026, by the picker: "Click and sail ... Click any
         /// water on the chart, also in the dark, and she sails there by water"). Its end is not a port: Destination is
         /// <see cref="PlaceId"/> and <see cref="Place"/> is what was pointed at. She goes by the lanes to their own point
@@ -296,6 +420,8 @@ namespace Kapman.Game
         {
             if (portId == PlaceId)
                 return SetToPlace(Place, from, fromPort);              // (a course to a place, laid by and taken up again)
+            if (Knots.Count > 0 && portId == Destination)
+                return SetThrough(new List<WorldXZ>(Knots), from, fromPort);   // (laid again to the same end: through her knots)
             var line = new List<WorldXZ>();
             var water = new List<float>();
             var kinds = new List<byte>();
@@ -307,6 +433,8 @@ namespace Kapman.Game
             Depths.AddRange(water);
             Kinds.Clear();
             Kinds.AddRange(kinds);
+            Knots.Clear();
+            KnotAt.Clear();
             Destination = portId;
             Next = 1;
             Km = km;
@@ -318,6 +446,8 @@ namespace Kapman.Game
         /// towards it.</summary>
         public static bool SetToPlace(WorldXZ place, WorldXZ from, string fromPort)
         {
+            if (Knots.Count > 0 && ToPlace && WorldXZ.Distance(place, Place) < 1.0)
+                return SetThrough(new List<WorldXZ>(Knots), from, fromPort);   // (laid again to the same place: through her knots)
             var line = new List<WorldXZ>();
             var water = new List<float>();
             var kinds = new List<byte>();
@@ -329,6 +459,8 @@ namespace Kapman.Game
             Depths.AddRange(water);
             Kinds.Clear();
             Kinds.AddRange(kinds);
+            Knots.Clear();
+            KnotAt.Clear();
             Destination = PlaceId;
             Place = place;
             Next = 1;
@@ -892,6 +1024,18 @@ namespace Kapman.Game
             };
             if (ToPlace)
                 saved["place"] = new List<object> { Place.x, Place.z };
+            if (Knots.Count > 0)
+            {
+                // (13 Oct 2026: the knots the course is pulled through, and which point of the line each is)
+                var knots = new List<object>();
+                foreach (var k in Knots)
+                    knots.Add(new List<object> { k.x, k.z });
+                var at = new List<object>();
+                foreach (int i in KnotAt)
+                    at.Add((double)i);
+                saved["knots"] = knots;
+                saved["knot_at"] = at;
+            }
             return saved;
         }
 
@@ -901,6 +1045,8 @@ namespace Kapman.Game
             Points.Clear();
             Depths.Clear();
             Kinds.Clear();
+            Knots.Clear();
+            KnotAt.Clear();
             Next = 0;
             Km = 0.0;
             if (d != null)
@@ -929,6 +1075,21 @@ namespace Kapman.Game
                     Km = Json.Num(d, "km");
                     if (Kinds.Count == 0)
                         RebuildKinds();
+                    // (the knots, where each is a point of the line in its turn; else none, as in an older save)
+                    foreach (var x in Json.Arr(d, "knots") ?? new List<object>())
+                        if (x is List<object> l && l.Count >= 2 && l[0] is double kx && l[1] is double kz)
+                            Knots.Add(new WorldXZ(kx, kz));
+                    foreach (var x in Json.Arr(d, "knot_at") ?? new List<object>())
+                        if (x is double i)
+                            KnotAt.Add((int)i);
+                    bool sound = Knots.Count == KnotAt.Count;
+                    for (int i = 0; sound && i < KnotAt.Count; i++)
+                        sound = KnotAt[i] > 0 && KnotAt[i] < Points.Count - 1 && (i == 0 || KnotAt[i] > KnotAt[i - 1]);
+                    if (!sound)
+                    {
+                        Knots.Clear();
+                        KnotAt.Clear();
+                    }
                 }
                 else
                 {
@@ -977,6 +1138,8 @@ namespace Kapman.Game
             Points.Clear();
             Depths.Clear();
             Kinds.Clear();
+            Knots.Clear();
+            KnotAt.Clear();
             Next = 0;
             Km = 0.0;
         }
@@ -989,6 +1152,8 @@ namespace Kapman.Game
             Points.Clear();
             Depths.Clear();
             Kinds.Clear();
+            Knots.Clear();
+            KnotAt.Clear();
             Next = 0;
             Km = 0.0;
             Changed?.Invoke();
@@ -1008,6 +1173,7 @@ namespace Kapman.Game
             Next = Math.Max(Next, seg);
             while (Next < last && WorldXZ.Distance(ship, Points[Next]) < pass)
                 Next++;
+            DropPassedKnots();
             return Next >= last;
         }
 
@@ -1049,7 +1215,10 @@ namespace Kapman.Game
                 seg = NearestLeg(ship, from, end, out d);                 // (carried well off it: anywhere along the rest)
             int next = Math.Max(Next, seg);
             if (move)
+            {
                 Next = next;
+                DropPassedKnots();
+            }
             // her own place on that leg, and from it `ahead` metres on along the line
             int i = Math.Min(end, Math.Max(1, next));
             var a = Points[i - 1];

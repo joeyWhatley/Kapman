@@ -99,6 +99,26 @@ namespace Kapman.Tests
             Assert.AreEqual(0.0, GameRules.GoonsDo(1.0, false, 500.0, 4, 0.9, 1, true, 1.0, 3.0, 4.0, 0.3, 3.0, 240.0), 0.0, "the first time, they only talk");
         }
 
+        /// <summary>The rule of 13 Oct 2026 (the course pulled with the mouse): a press takes her line within the chart's
+        /// reach, and the graph says what the code says.</summary>
+        [Test]
+        public void TheGraphOfThePressThatTakesTheLineSaysWhatTheCodeSays()
+        {
+            Assert.IsTrue(RuleGraphs.Has("press_takes_line"), "no graph of the book holds the rule \"press_takes_line\" (Kapman > Make physical > 3. The rules' graphs)");
+            var dice = new Random(1013);
+            int asked = GameRules.ByGraph, cases = 0;
+            for (int i = 0; i < 2000; i++)
+            {
+                double dist = dice.Next(5) == 0 ? new[] { 0.0, 8.999, 9.0, 9.001 }[dice.Next(4)] : dice.NextDouble() * 40.0;
+                double hold = dice.Next(3) == 0 ? 9.0 : dice.NextDouble() * 20.0;
+                Assert.AreEqual(GameRules.PressTakesLineByCode(dist, hold), GameRules.PressTakesLine(dist, hold), $"the press takes the line: {dist} px from it, held from {hold} px");
+                cases++;
+            }
+            Assert.AreEqual(asked + cases, GameRules.ByGraph, "the rule was not reckoned by its graph (the code's answer stood in)");
+            Assert.IsTrue(GameRules.PressTakesLine(4.0, 9.0), "four pixels from the line: the press takes it");
+            Assert.IsFalse(GameRules.PressTakesLine(20.0, 9.0), "twenty pixels from the line: the press is the chart's");
+        }
+
         /// <summary>The three rules of 10 Oct 2026 (the user by the picker: fewer prompts): each has its graph, and the
         /// graph says what the code says in every case there is.</summary>
         [Test]

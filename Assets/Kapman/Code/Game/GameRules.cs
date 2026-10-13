@@ -249,6 +249,14 @@ namespace Kapman.Game
         // ------------------------------------------------------------------ fewer prompts (the user's rulings of 10 Oct 2026)
 
         /// <summary>Does the steersman lay her course again himself, as the code reckons it.</summary>
+        /// <summary>DOES A PRESS ON THE CHART TAKE HER LINE (13 Oct 2026: the course pulled with the mouse)? As the code
+        /// has it: when the pointer is within `holdPx` pixels of the line.</summary>
+        public static bool PressTakesLineByCode(double distancePx, double holdPx) => distancePx <= holdPx;
+
+        /// <summary>The same, by the graph "Rule - does the press take the line" where it is there.</summary>
+        public static bool PressTakesLine(double distancePx, double holdPx) =>
+            Ask("press_takes_line", PressTakesLineByCode(distancePx, holdPx) ? 1.0 : 0.0, distancePx, holdPx) >= 0.5;
+
         public static bool LaysAgainHimselfByCode(bool landInSight, bool thick) => landInSight && !thick;
 
         /// <summary>DOES THE STEERSMAN LAY HER COURSE AGAIN HIMSELF (the graph "Rule - does the steersman lay her course

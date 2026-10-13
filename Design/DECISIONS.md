@@ -2161,3 +2161,46 @@ and far fewer when usage is short).
    - NOT DONE: the long walk has not been run on it. The box comes up beside the pointer, and so lies over the log's
      other lines while it is up. A line that is one long sentence is still long (what is aboard on the first morning;
      the officers' search).
+
+139. **THE COURSE IS PULLED WITH THE MOUSE: KNOTS ON HER LINE**
+   (13 Oct, evening. The user: "you should want to be able to drag and correct the course on the map with your
+   mouse"; by the picker: "Pull the line anywhere", "By the lanes through your point", a point may be let go "in the
+   dark, as click and sail". A RULING. The same evening they asked for "a way to control while in 3d mode" and chose
+   by the picker "Steer her yourself in 3D": that is item 140, built next, and it overturns the no-steering rulings
+   of 26 September and 10 October.)
+   - A PRESS ON HER LINE AHEAD takes it (within nine pixels of the chart as shown, and only where the line is drawn:
+     in water she knows). The knot follows the hand, with the line it would make in thin dashes, and where it is let
+     go her course is laid again from where she is, BY THE LANES, through that point and on to the same end. The knot
+     is a point of the line itself: where the lanes bring her through, or as near the point as the water lets her.
+   - A POINT LET GO ON LAND goes to the water nearest it (rings of 120 m out to 8 km, by the world bake), and the log
+     says so. A point in the dark is taken as a click there is; the line still shows nothing through the dark.
+   - A KNOT SHE HAS is a pale diamond on the line (Game/UI/Parts/CourseKnot.uxml): dragged, it moves; a right click
+     takes it off. A knot she has passed drops away. The knots are saved with the course. A course laid again to
+     the same end (the steersman's own laying again, a course taken up after a wait, the same port set again) runs
+     through her knots still; a course to a new end drops them. "Clear course" clears them.
+   - THE SAME ON THE SMALL CHART in the 3D view: it is the same map. (Not pictured by a test.)
+   - HOW IT IS BUILT, by the rule of 7 October. Screen: the knot is a part file, CourseKnot.uxml, named in
+     Resources/FrameParts (courseKnot), styled in MapView.uss. Flow, as a graph: "Chart - the course is pulled" on the
+     '--- GAME ---' object (Editor/Game/PullGraphMade.cs makes it; Code/Graphs/PullNodes.cs holds its event "On the
+     course is pulled" and its parts "Course: take the knot to the water", "Course: lay her course again through her
+     knots", "Log: say of the course"); the code runs the same parts in the same order where no graph listens
+     (Code/Game/Voyage/CoursePulls.cs). Rule, as a graph: "Rule - does the press take the line"
+     (GameRules.PressTakesLine; the 24th rule of the book). CODE, said so here: the pointer on the chart (which press
+     takes the line, the knot under the hand, the right click: MapView.cs) and the laying itself by the lanes
+     (Course.SetThrough, Course.NearestWater, the knots dropped as she passes them in Advance and Aim).
+   - THE WORDS ("Her course is laid again through your knot: 113 km, about 0.7 days.", "Course pulled" with the km
+     at the line's end, "Knot moved", "Knot taken off", "No way through there") are PLACEHOLDERS, the user's to write,
+     in CoursePulls.cs. The clock does not drop back for a pull: it is the player's own hand.
+   - TESTS. Edit: PulledCourseTests (seven: through the knot and on to the same end, the longer for it; moved and
+     taken off; a knot on the dunes taken 2.5 km to the water; a passed knot drops; saved, and kept by a course laid
+     again to the same end; the graph is there and the scene runs it; the course laid by the graph as by the code,
+     for all four moments) and RuleGraphTests.TheGraphOfThePressThatTakesTheLineSaysWhatTheCodeSays (2,000 cases).
+     Play: PullTheCourseTests, a new game at Dorestat with a course for Witla: the line pressed four km down the river
+     and pulled west, the knot on the river, the log's line, the graph that ran it, the knot pulled again, and a
+     click away from the line still a click to sail (pictures in Captures/pull). SailByPointingTests still passes.
+   - FOUND BY THE PLAY TEST: the knot's layer had no size of its own, so its marks stood wherever the layout put them
+     (fixed: the layer fills the chart, as the other mark layers do); and a press on the knot's dot was the dot's,
+     not the knot's (the dot takes no press now). And, by its first pull towards Dorestat: a knot can land under a
+     port's own dot, which takes the press; it is then moved by pulling the line again, not the knot. Left so.
+   - NOT DONE: no picture of the pull on the small chart in the 3D view; the knot has no hover of its own on the
+     line (the line is taken anywhere within nine pixels, without a mark showing first).

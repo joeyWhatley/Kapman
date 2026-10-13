@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:k="Kapman.Game.Frame" editor-extension-mode="False">
+    <Style src="../MapView.uss" />
+    <!-- A PART OF THE CHART that is made many times over (13 Oct 2026). The code takes a copy of the element named "knot" for
+         each knot of her course: a point the course has been pulled through. It is dragged to move it; a right click takes
+         it off. Restyle it as you like, but keep its name. The element "preview" is only here so the part looks right in
+         UI Builder: the game does not use it. -->
+    <ui:VisualElement name="preview" style="position: relative; width: 60px; height: 60px; background-color: rgb(214, 196, 150);">
+        <ui:VisualElement name="knot" class="map-knot" style="left: 22px; top: 22px;">
+            <ui:VisualElement name="knot-dot" class="map-knot-dot" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

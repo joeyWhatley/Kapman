@@ -25,6 +25,7 @@ namespace Kapman.EditorTools
                 Toll(), Pay(), Health(), Heart(), Fight(), Trick(), Instalment(), GoonsDo(),
                 Leeway(), Blown(), SeaRuns(), Landfall(), ErrorKept(), Anchor(), LeeShore(), RoughRace(), RoughBar(), RoughShoal(), RoughCape(), RoughSlow(),
                 LaysAgain(), SailsOn(), AsBefore(),
+                PressTakesLine(),
             };
             var book = AssetDatabase.LoadAssetAtPath<RuleBook>(BookPath);
             if (book == null)
@@ -129,6 +130,33 @@ namespace Kapman.EditorTools
                 "Land is in sight: she is on a coast's own lane, or dry land lies within as far as he makes out a landfall now (30 km by day, 12 km by night). " +
                 "The air is thick: he makes out a landfall at under a kilometre (fog, heavy rain).");
             return g.Save($"{Folder}/Rule - does the steersman lay her course again himself.asset");
+        }
+
+        // ------------------------------------------------------------------ the course pulled (13 Oct 2026)
+
+        /// <summary>A press on the chart: does it take her line, so that the course can be pulled?</summary>
+        public static ScriptGraphAsset PressTakesLine()
+        {
+            var g = new GraphBuilder("Rule - does the press take the line",
+                "The pointer is pressed on the chart. Does the press take her charted line, so that it can be pulled through a new point, or is it the chart's (a drag of the map, a click to sail)? " +
+                "The game asks this graph at every press on the open chart with a course set (GameRules.PressTakesLine, from MapView).");
+            g.Group(-40, -80, 1800, 420, "Does the press take the line",
+                "Your ruling of 13 October 2026: pull the line anywhere. As first made, the line is taken when the pointer is within so many pixels of it (the chart gives nine).", GraphBuilder.Change);
+            var start = g.Add(new PressTakesLineRule(), 0, 0);
+            var near = g.Add(new IsIt { how = IsIt.How.AtMost }, 520, 40);
+            g.Data(start.distance, near.a);
+            g.Data(start.hold, near.b);
+            var does = g.Add(new ThisOrThat(), 960, 40);
+            g.Data(near.so, does.when);
+            g.Set(does.yes, 1.0);
+            g.Set(does.no, 0.0);
+            var answer = g.Add(new RuleAnswer(), 1360, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(does.picked, answer.number);
+            g.Note(-20, 220, 620, 130, "What the game gives",
+                "Pixels from the line: how far the pointer is from the nearest stroke of her course still ahead of her, on the chart as it is shown. " +
+                "Pixels the line is held from: the chart's own reach for a press (MapView.KnotHoldPx).");
+            return g.Save($"{Folder}/Rule - does the press take the line.asset");
         }
 
         /// <summary>Lying to with a reckoning lost: does she sail on by herself now?</summary>

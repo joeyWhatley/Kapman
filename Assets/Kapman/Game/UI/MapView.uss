@@ -69,7 +69,7 @@
     align-items: center;
     justify-content: center;
 }
-.map-names, .map-finds, .map-sails {
+.map-names, .map-finds, .map-sails, .map-knots {
     position: absolute;
     left: 0;
     top: 0;
@@ -1225,4 +1225,35 @@
 .map-mode-name {
     font-size: var(--t-quiet);
     color: rgb(112, 41, 99);
+}
+
+/* A KNOT OF HER COURSE (13 Oct 2026): a point the course has been pulled through. Dragged to move it; a right click takes
+   it off. Made from Game/UI/Parts/CourseKnot.uxml. */
+.map-knot {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-knot-dot {
+    width: 10px;
+    height: 10px;
+    rotate: 45deg;
+    background-color: rgb(214, 196, 150);
+    border-width: 2px;
+    border-color: rgb(26, 15, 29);
+}
+
+.map-knot:hover .map-knot-dot {
+    width: 13px;
+    height: 13px;
+    background-color: rgb(236, 222, 180);
+}
+
+.map-knot.pulling .map-knot-dot {
+    width: 13px;
+    height: 13px;
+    background-color: rgb(170, 60, 44);
 }

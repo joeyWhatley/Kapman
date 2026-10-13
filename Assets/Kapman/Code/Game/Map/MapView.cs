@@ -181,6 +181,26 @@ namespace Kapman.Game
         string cardPort;
         readonly List<Kapman.Game.Sim.WorldXZ> planLine = new List<Kapman.Game.Sim.WorldXZ>();
         CourseLine courseLine;
+
+        // THE COURSE PULLED WITH THE MOUSE (13 Oct 2026, the user: "drag and correct the course on the map with your
+        // mouse"). A press within KnotHoldPx of her line ahead takes the line (the rule graph "does the press take the
+        // line"); the knot follows the hand, and where it is let go CoursePulls raises the moment (the graph "Chart - the
+        // course is pulled" lays her course again through it). A knot she has is pulled the same way; a right click on
+        // one takes it off. The same on the small chart in the 3D view: it is this same map.
+        /// <summary>Pixels of the chart as shown within which a press takes her line.</summary>
+        public const float KnotHoldPx = 9f;
+        VisualElement knotLayer;
+        PullLayer pullLayer;
+        readonly List<VisualElement> knotMarks = new List<VisualElement>();
+        VisualElement knotGhost;                                         // (a new knot, while it is pulled)
+        bool pulling;
+        int pullKnot = -1;                                                 // (which knot is pulled; -1: a new one)
+        int pullLeg;                                                       // (a new knot: the point of her line the press was nearest)
+        Kapman.Game.Sim.WorldXZ pullAt;                                    // (where the hand is now, real metres)
+        /// <summary>A knot is being pulled now (a test's eyes).</summary>
+        public bool Pulling => pulling;
+        /// <summary>How many knot marks stand on the chart (a test's eyes).</summary>
+        public int KnotsShown { get { int n = 0; foreach (var m in knotMarks) if (m.style.display == DisplayStyle.Flex) n++; return n; } }
         DriftLayer driftLayer;
         double drawWest, drawNorth;                                   // the view the overlays were last drawn for
         bool showAllShips;                                            // [G]: every ship of the world, through the fog (dev)
@@ -426,6 +446,15 @@ namespace Kapman.Game
             // (9 Oct 2026: what carries her, and how far she is from where the steersman reckons her)
             driftLayer = new DriftLayer(this);
             overlays.Add(driftLayer);
+            // (13 Oct 2026: the line as it would run while a knot is pulled, and the knots themselves over everything else)
+            pullLayer = new PullLayer(this) { pickingMode = PickingMode.Ignore };
+            pullLayer.style.position = Position.Absolute;
+            pullLayer.style.left = pullLayer.style.top = pullLayer.style.right = pullLayer.style.bottom = 0;
+            overlays.Add(pullLayer);
+            knotLayer = Layer("map-knots");
+            knotMarks.Clear();
+            knotGhost = null;
+            pulling = false;
             // THE OTHER SHIPS' MARKS LIE UNDER THE PORTS' DOTS (9 Oct 2026). A port's mark is its dot alone now, and a trader
             // lying at the quay lay over it: the dot of Dorestat could not be pointed at or clicked (found by the play
             // test's measure, which clicks it). A ship lying on a port's dot gives way to the port.
@@ -435,6 +464,7 @@ namespace Kapman.Game
             shipMark = new VisualElement { pickingMode = PickingMode.Ignore };
             shipMark.AddToClassList("map-ship");
             overlays.Add(shipMark);
+            overlays.Add(knotLayer);
             root.Add(layer);
 
             card = new VisualElement();
@@ -547,6 +577,9 @@ namespace Kapman.Game
         void OnDisable()
         {
             Course.Changed -= CourseChanged;
+            pulling = false;
+            knotMarks.Clear();
+            knotGhost = null;
             WatchPointer(null);
             UiFocus.Release(this);
             table?.Dispose();
@@ -1131,6 +1164,203 @@ namespace Kapman.Game
                 new Vector2((float)((w.x - map.drawWest) / map.mpp), (float)((map.drawNorth - w.z) / map.mpp));
         }
 
+        // ------------------------------------------------------------------ the course pulled (13 Oct 2026)
+
+        /// <summary>
+        /// DOES A PRESS TAKE HER LINE: the pointer (pixels of the chart's layer) is near a stroke of her course still ahead
+        /// of her, where that water is known to her (the line is drawn nowhere else, so nothing unseen is taken hold of).
+        /// The rule graph "does the press take the line" has the reach. `leg`: the point of the line the stroke begins at;
+        /// `on`: the point of the line nearest the press.
+        /// </summary>
+        bool PressOnLine(Vector2 local, out int leg, out Kapman.Game.Sim.WorldXZ on)
+        {
+            leg = -1;
+            on = default;
+            if (!Course.IsSet || Course.Points.Count < 2 || mpp <= 0.0)
+                return false;
+            var (wx, wz) = PxToWorld(local);
+            if (Exploration.Seen(wx, wz) <= 0.35f)
+                return false;
+            // (the drawn line: her course without its small jogs, as the player sees it)
+            scratchLine.Clear();
+            DrawnCourse(scratchLine);
+            double best = double.MaxValue;
+            int at = -1;
+            double bx = 0.0, bz = 0.0;
+            int next = Mathf.Max(1, Course.Next);
+            for (int i = 0; i + 1 < drawn.Count; i++)
+            {
+                if (drawnIndex[i + 1] < next)
+                    continue;
+                var a = drawn[i];
+                var b = drawn[i + 1];
+                double ax = b.x - a.x, az = b.z - a.z, ll = ax * ax + az * az;
+                double t = ll > 0.0 ? System.Math.Max(0.0, System.Math.Min(1.0, ((wx - a.x) * ax + (wz - a.z) * az) / ll)) : 0.0;
+                double x = a.x + ax * t, z = a.z + az * t;
+                double d = System.Math.Sqrt((x - wx) * (x - wx) + (z - wz) * (z - wz));
+                if (d < best)
+                {
+                    best = d;
+                    at = System.Math.Max(next, drawnIndex[i]);
+                    bx = x;
+                    bz = z;
+                }
+            }
+            if (at < 0 || !GameRules.PressTakesLine(best / mpp, KnotHoldPx))
+                return false;
+            leg = at;
+            on = new Kapman.Game.Sim.WorldXZ(bx, bz);
+            return true;
+        }
+
+        readonly List<Vector2> scratchLine = new List<Vector2>();
+
+        void BeginPull(int knot, int leg, Kapman.Game.Sim.WorldXZ at, PointerDownEvent e)
+        {
+            pulling = true;
+            pullKnot = knot;
+            pullLeg = leg;
+            pullAt = at;
+            dragging = false;
+            pressIsClick = false;
+            layer.CapturePointer(e.pointerId);
+            pullLayer?.MarkDirtyRepaint();
+            e.StopPropagation();
+        }
+
+        /// <summary>The hand lets go: where it is, the knot is let go (a new one) or moved. `letGo` false: the pull is
+        /// given up (the chart closed under it) and nothing changes.</summary>
+        void EndPull(bool letGo)
+        {
+            if (!pulling)
+                return;
+            pulling = false;
+            if (letGo)
+                CoursePulls.Raise(pullKnot < 0 ? "pulled" : "moved", pullAt, pullKnot, pullLeg, ShipWorld(), LyingAt());
+            pullKnot = -1;
+            pullLayer?.MarkDirtyRepaint();
+        }
+
+        /// <summary>The knots of her course, each a mark the hand can take (Game/UI/Parts/CourseKnot.uxml); the one being
+        /// pulled stands under the hand, and a new one being pulled is a ghost of the same part.</summary>
+        void Knots(double viewWest, double viewNorth)
+        {
+            if (knotLayer == null)
+                return;
+            int n = Course.Knots.Count;
+            while (knotMarks.Count < n)
+            {
+                var m = NewKnotMark();
+                m.name = "map-knot-" + knotMarks.Count;
+                knotMarks.Add(m);
+                knotLayer.Add(m);
+            }
+            for (int i = 0; i < knotMarks.Count; i++)
+            {
+                var m = knotMarks[i];
+                if (i >= n)
+                {
+                    m.style.display = DisplayStyle.None;
+                    continue;
+                }
+                var w = pulling && pullKnot == i ? pullAt : Course.Knots[i];
+                m.style.display = DisplayStyle.Flex;
+                m.style.left = (float)((w.x - viewWest) / mpp) - 9f;
+                m.style.top = (float)((viewNorth - w.z) / mpp) - 9f;
+                m.EnableInClassList("pulling", pulling && pullKnot == i);
+            }
+            bool ghost = pulling && pullKnot < 0;
+            if (ghost && knotGhost == null)
+            {
+                knotGhost = NewKnotMark();
+                knotGhost.name = "map-knot-ghost";
+                knotGhost.pickingMode = PickingMode.Ignore;
+                knotGhost.AddToClassList("pulling");
+                knotLayer.Add(knotGhost);
+            }
+            if (knotGhost != null)
+            {
+                knotGhost.style.display = ghost ? DisplayStyle.Flex : DisplayStyle.None;
+                if (ghost)
+                {
+                    knotGhost.style.left = (float)((pullAt.x - viewWest) / mpp) - 9f;
+                    knotGhost.style.top = (float)((viewNorth - pullAt.z) / mpp) - 9f;
+                }
+            }
+        }
+
+        VisualElement NewKnotMark()
+        {
+            var parts = Kapman.Game.Frame.FrameParts.Current;
+            var m = Kapman.Game.Frame.FrameParts.Make<VisualElement>(parts != null ? parts.courseKnot : null, "knot");
+            m.AddToClassList("map-knot");
+            m.pickingMode = PickingMode.Position;
+            foreach (var child in m.Children())
+                child.pickingMode = PickingMode.Ignore;                  // (the knot takes the press, not its dot)
+            m.tooltip = "A knot of her course: drag it to move it, right-click to take it off.";
+            return m;
+        }
+
+        /// <summary>While a knot is pulled: the line as it would run, straight from the point before to the hand and on to
+        /// the point after (the lanes will bend it when it is let go), in thin dashes.</summary>
+        sealed class PullLayer : VisualElement
+        {
+            readonly MapView map;
+
+            public PullLayer(MapView map)
+            {
+                this.map = map;
+                generateVisualContent += Paint;
+            }
+
+            void Paint(MeshGenerationContext ctx)
+            {
+                if (!map.pulling || !Course.IsSet || Course.Points.Count < 2 || map.mpp <= 0.0)
+                    return;
+                Kapman.Game.Sim.WorldXZ before, after;
+                int next = Mathf.Max(1, Course.Next);
+                if (map.pullKnot >= 0 && map.pullKnot < Course.KnotAt.Count)
+                {
+                    before = map.pullKnot > 0 ? Course.Knots[map.pullKnot - 1] : Course.Points[next - 1];
+                    after = map.pullKnot + 1 < Course.Knots.Count ? Course.Knots[map.pullKnot + 1] : Course.Points[Course.Points.Count - 1];
+                }
+                else
+                {
+                    // (a new knot: from the knot before the pressed leg, or her, and on to the knot after, or the end)
+                    before = Course.Points[next - 1];
+                    after = Course.Points[Course.Points.Count - 1];
+                    for (int i = 0; i < Course.KnotAt.Count; i++)
+                        if (Course.KnotAt[i] <= map.pullLeg)
+                            before = Course.Knots[i];
+                        else
+                        {
+                            after = Course.Knots[i];
+                            break;
+                        }
+                }
+                var p = ctx.painter2D;
+                p.lineWidth = 1.5f;
+                p.strokeColor = new Color(0.08f, 0.08f, 0.1f, 0.7f);
+                Dashes(p, map.ChartPx(before), map.ChartPx(map.pullAt));
+                Dashes(p, map.ChartPx(map.pullAt), map.ChartPx(after));
+            }
+
+            static void Dashes(Painter2D p, Vector2 a, Vector2 b)
+            {
+                float len = Vector2.Distance(a, b);
+                if (len < 0.5f || float.IsNaN(len) || float.IsInfinity(len))
+                    return;
+                var dir = (b - a) / len;
+                p.BeginPath();
+                for (float s = 0f; s < len; s += 10f)
+                {
+                    p.MoveTo(a + dir * s);
+                    p.LineTo(a + dir * Mathf.Min(len, s + 5f));
+                }
+                p.Stroke();
+            }
+        }
+
         /// <summary>The crew and their stores, as facts: men, health, heart, days of food and drink, pay owed.</summary>
         public static string CrewLine() =>
             $"Crew {Voyage.Men} · health {Voyage.Health * 100:0}% · heart {Voyage.Morale * 100:0}% · food {Voyage.FoodDays:0.#} days · drink {Voyage.DrinkDays:0.#} days" +
@@ -1355,6 +1585,7 @@ namespace Kapman.Game
             HuntLandmarks(viewWest, viewNorth, W, H);
             ToolsDraw();
             Ship(viewWest, viewNorth);
+            Knots(viewWest, viewNorth);
             ScaleBar();
             if (town == null && Time.frameCount % 30 == 0)
                 Labels();
@@ -2381,6 +2612,31 @@ namespace Kapman.Game
                 pressIsClick = false;
                 return;
             }
+            // THE COURSE PULLED (13 Oct 2026): a press on a knot takes the knot (the right button takes it off); a press on
+            // her line ahead, within the rule's reach, takes the line at a new knot. Neither is a drag of the chart.
+            var knotOn = on;
+            while (knotOn != null && !knotOn.ClassListContains("map-knot"))
+                knotOn = knotOn.parent;                                  // (the press lands on the knot's dot: the knot is its parent)
+            if (tool == Tool.None && knotOn != null && knotOn.name.StartsWith("map-knot-") && int.TryParse(knotOn.name.Substring("map-knot-".Length), out int knotIndex) && knotIndex < Course.Knots.Count)
+            {
+                if (e.button == 1)
+                {
+                    CoursePulls.Raise("off", Course.Knots[knotIndex], knotIndex, -1, ShipWorld(), LyingAt());
+                    pressIsClick = false;
+                    e.StopPropagation();
+                    return;
+                }
+                if (e.button == 0)
+                {
+                    BeginPull(knotIndex, -1, Course.Knots[knotIndex], e);
+                    return;
+                }
+            }
+            if (tool == Tool.None && e.button == 0 && Course.IsSet && PressOnLine(layer.WorldToLocal(e.position), out int leg, out var pressed))
+            {
+                BeginPull(-1, leg, pressed, e);
+                return;
+            }
             dragging = true;
             anchored = false;                                          // (the hand has the chart now, not the wheel's place)
             // (a press that is let go where it was made is a click on the chart, unless it was on a mark with its own click)
@@ -2397,6 +2653,13 @@ namespace Kapman.Game
         {
             if (ToolMove(e))
                 return;
+            if (pulling)
+            {
+                var (px, pz) = PxToWorld(layer.WorldToLocal(e.position));
+                pullAt = new Kapman.Game.Sim.WorldXZ(px, pz);
+                pullLayer?.MarkDirtyRepaint();
+                return;
+            }
             if (!dragging)
                 return;
             bool still = pressIsClick && ((Vector2)e.position - dragFrom).sqrMagnitude < 25f;
@@ -2414,6 +2677,18 @@ namespace Kapman.Game
         void OnUp(PointerUpEvent e)
         {
             ToolUp(e);
+            if (pulling)
+            {
+                if (e.button == 0)
+                {
+                    var (px, pz) = PxToWorld(layer.WorldToLocal(e.position));
+                    pullAt = new Kapman.Game.Sim.WorldXZ(px, pz);
+                    EndPull(true);
+                }
+                if (layer.HasPointerCapture(e.pointerId))
+                    layer.ReleasePointer(e.pointerId);
+                return;
+            }
             if (dragging && pressIsClick && e.button == 0)
             {
                 var (x, z) = PxToWorld(layer.WorldToLocal(e.position));

@@ -31,6 +31,8 @@ namespace Kapman.Game.Frame
         public VisualTreeAsset logLine;
         [Tooltip("The box that comes up over a line of the log: its heading and one row (Game/UI/Parts/HoverBox.uxml, the elements \"head\" and \"box-row\").")]
         public VisualTreeAsset hoverBox;
+        [Tooltip("A knot of her course on the chart: a point the course has been pulled through (Game/UI/Parts/CourseKnot.uxml, the element \"knot\").")]
+        public VisualTreeAsset courseKnot;
 
         [Header("The menu and the opening")]
         [Tooltip("One choice of the menu (Game/UI/Parts/MenuOption.uxml, the element \"option\").")]
