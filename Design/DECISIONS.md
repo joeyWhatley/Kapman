@@ -2289,3 +2289,24 @@ and far fewer when usage is short).
      prefab's guid and the saved profile; MakeSaved run twice on one object makes nothing twice). Play:
      StageInScenePlayTests (a new game, the 3D view swapped in: the stage drawn is the scene's own under SYSTEMS,
      each part once, the volume on its own copy of the saved profile, the Sun woken; picture in Captures/stage).
+
+142. **THE PORTS STAND IN THE SCENE**
+   (14 Oct, afternoon, after 141. The user: "You do next". My choice: the next piece of KAPMAN_PLAN step 1b, the 50
+   ports as objects of the scene, built the same way as the stage: made once by the code into the scene, taken as
+   saved at play.)
+   - Kapman > Make physical > 4. The ports into the scene (KapmanPhysical.Step4Ports; headless -executeMethod
+     Kapman.EditorTools.KapmanPhysical.Step4Ports) reads Data/ports_793.json and puts an object "Port id" with its
+     Port and its Berth under "--- PORTS (the chart's) ---" for every trading place, placed where the table puts it
+     in the world frame (WorldFrame.ToWorld at the frame's 1:60, the origin at 56 N 5 E). 50 ports.
+   - AT PLAY the chart (ChartWorld.Start) goes through the same ChartWorld.PlacePorts: a port saved in the scene is
+     taken as it is (its place and its reach the Inspector's; Port.FromScene true); one missing is made where the
+     table puts it, as every one was before. So a port moved by hand in the Scene view stays moved, and a port
+     added to the table is made at play until the step is run again. Nothing else of the ports changed: the
+     table is still what names them, their goods, their people.
+   - IN THE SCENE VIEW every port draws a small mark with its id (Port.OnDrawGizmos, the label in the editor only),
+     selected or not, so the world can be seen at a glance.
+   - TESTS. Edit: PortsInSceneTests (the scene file holds the holder, a Port object for every id of the table and
+     no more; PlacePorts over an empty holder makes them all, over a full one makes none and keeps a port moved by
+     hand with its reach, and makes one taken away alone). Play: PortsInScenePlayTests (a new game: a port for
+     every trading place, every one from the scene, none made at play, all under the holder, she lies at Dorestat).
+   - STILL TO DO of step 1b: Boot, Title and Game as three scenes.

@@ -42,6 +42,9 @@ namespace Kapman.Game
         /// <summary>Every port in the world now.</summary>
         public static readonly List<Port> All = new List<Port>();
 
+        /// <summary>True when the port stood in the scene before play (Kapman > Make physical > 4) and was taken as saved.</summary>
+        [System.NonSerialized] public bool FromScene;
+
         public PortDef Def => GameData.Port(id);
         public string Title => Def != null ? Def.Title : id;
         public bool Placed { get; private set; }
@@ -194,6 +197,18 @@ namespace Kapman.Game
                 return;
             Gizmos.color = new Color(0.9f, 0.7f, 0.3f, 0.8f);
             Gizmos.DrawWireSphere(berth.position, arrivalRadius);
+        }
+
+        /// <summary>In the Scene view every port shows as a small mark with its id, selected or not (14 Oct 2026: the
+        /// ports stand in the scene, to be seen and moved by hand).</summary>
+        void OnDrawGizmos()
+        {
+            var at = berth != null ? berth.position : transform.position;
+            Gizmos.color = new Color(0.9f, 0.7f, 0.3f, 0.9f);
+            Gizmos.DrawSphere(at, 8f);
+#if UNITY_EDITOR
+            UnityEditor.Handles.Label(at + Vector3.up * 12f, id);
+#endif
         }
     }
 }

@@ -15,7 +15,8 @@ namespace Kapman.EditorTools
     ///   Kapman > Make physical > 2. The frame's layout file
     ///   Kapman > Make physical > 2b. The frame's parts
     ///   Kapman > Make physical > 3. The 3D stage into the scene
-    /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame, .Step2Parts, .Step3Stage)
+    ///   Kapman > Make physical > 4. The ports into the scene
+    /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame, .Step2Parts, .Step3Stage, .Step4Ports)
     /// </summary>
     public static class KapmanPhysical
     {
@@ -194,6 +195,37 @@ namespace Kapman.EditorTools
             EditorSceneManager.SaveScene(scene);
             Debug.Log("Kapman, made physical, step 3: " + ShipStage.ObjectName + (made ? " put into " : " found in ") + GameScene +
                       " with " + (after - before) + " parts made (" + (after - 1) + " in all); the sky and air's profile is " + StageProfile + ".");
+        }
+
+        /// <summary>
+        /// THE PORTS STAND IN THE SCENE (14 Oct 2026, KAPMAN_PLAN step 1b, after the stage). Every trading place of
+        /// Data/ports_793.json is an object "Port id" under "--- PORTS (the chart's) ---", with its Port and its Berth,
+        /// placed where the table puts it in the world frame (the frame's scale, the origin at 56 N 5 E). The chart at
+        /// play takes them as saved, so a port moved by hand in the Scene view stays moved (ChartWorld.PlacePorts).
+        /// Run again it finds them all and makes nothing; a port added to the table is made next time.
+        /// </summary>
+        [MenuItem("Kapman/Make physical/4. The ports into the scene")]
+        public static void Step4Ports()
+        {
+            var scene = EditorSceneManager.OpenScene(GameScene, OpenSceneMode.Single);
+            var table = GameFiles.Find("ports_793");
+            if (table == null)
+                throw new System.InvalidOperationException("no table ports_793.json in " + GameFiles.Folder + ".");
+            GameData.LoadPorts(table);
+            var frame = Object.FindAnyObjectByType<Kapman.World.FloatingOrigin>(FindObjectsInactive.Include);
+            double scale = frame != null ? Mathf.Max(0.001f, frame.horizontalScale) : 60.0;
+            var chart = Object.FindAnyObjectByType<ChartWorld>(FindObjectsInactive.Include);
+            float reach = chart != null ? chart.arrivalRadius : 30f;
+            var root = ChartWorld.PortsRoot();
+            int made = ChartWorld.PlacePorts(root, def =>
+            {
+                var (x, z) = Kapman.World.WorldFrame.ToWorld(def.lat, def.lon);
+                return new Vector3((float)(x / scale), 0f, (float)(z / scale));
+            }, reach, out int found);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("Kapman, made physical, step 4: " + (found + made) + " ports under " + ChartWorld.PortsRootName + " in " + GameScene +
+                      " (" + found + " there already, " + made + " made) at 1:" + scale + ".");
         }
 
         static UnityEngine.UIElements.VisualTreeAsset Layout(string file)

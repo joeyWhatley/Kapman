@@ -36,28 +36,21 @@ namespace Kapman.Game
                 Current = null;
         }
 
+        /// <summary>The name of the ports' holder in the scene.</summary>
+        public const string PortsRootName = "--- PORTS (the chart's) ---";
+
         void Start()
         {
-            // the trading places: one Port each, where the tables put it (KapmanGame's Awake has read them)
-            var root = new GameObject("--- PORTS (the chart's) ---").transform;
-            int made = 0;
-            foreach (var def in GameData.Ports)
+            // the trading places: one Port each, where the tables put it (KapmanGame's Awake has read them). THE PORTS
+            // STAND IN THE SCENE (14 Oct 2026, KAPMAN_PLAN step 1b; Kapman > Make physical > 4 puts them there): those
+            // saved in the scene are taken as they are, where the hand left them; one missing is made where the tables
+            // put it, as every one was before.
+            var root = PortsRoot();
+            int made = PlacePorts(root, def =>
             {
-                if (def == null || string.IsNullOrEmpty(def.id))
-                    continue;
                 var (x, z) = WorldFrame.ToWorld(def.lat, def.lon);
-                var go = new GameObject("Port " + def.id);
-                go.transform.SetParent(root, false);
-                go.transform.position = FloatingOrigin.ToUnity(new WorldPos(x, 0.0, z));
-                var berth = new GameObject("Berth").transform;
-                berth.SetParent(go.transform, false);
-                var port = go.AddComponent<Port>();
-                port.id = def.id;
-                port.berth = berth;
-                port.arrivalRadius = arrivalRadius;
-                port.autoPlace = false;
-                made++;
-            }
+                return FloatingOrigin.ToUnity(new WorldPos(x, 0.0, z));
+            }, arrivalRadius, out int found);
             // the ship: lying at home
             var game = KapmanGame.Current;
             var home = GameData.Port(homePort);
@@ -84,7 +77,55 @@ namespace Kapman.Game
                     if (take > 0)
                         Trade.Hold.Add(g, take, 0.0, game != null ? game.Day : 0.0, id == CountsGood ? CountsOwn : "");
                 }
-            Debug.Log($"Kapman chart: {made} ports in the world frame at 1:{FloatingOrigin.HorizontalScale:0}; she lies at {(home != null ? home.name : homePort)}.");
+            Debug.Log($"Kapman chart: {found + made} ports in the world frame at 1:{FloatingOrigin.HorizontalScale:0} ({found} saved in the scene, {made} made); she lies at {(home != null ? home.name : homePort)}.");
+        }
+
+        /// <summary>The ports' holder in the scene, found by its name, else made at the scene's root.</summary>
+        public static Transform PortsRoot()
+        {
+            var go = GameObject.Find(PortsRootName);
+            if (go == null)
+                go = new GameObject(PortsRootName);
+            return go.transform;
+        }
+
+        /// <summary>
+        /// One Port under `root` for every trading place of the tables. A port saved there (a Port with the id under the
+        /// root) is kept as it is, its place and its reach the Inspector's, and marked FromScene; a missing one is made
+        /// where `at` puts it, with its Berth and the reach given. Returns how many were made; `found` says how many
+        /// were there. The editor's step and the chart at play both go through this.
+        /// </summary>
+        public static int PlacePorts(Transform root, System.Func<PortDef, Vector3> at, float arrivalRadius, out int found)
+        {
+            found = 0;
+            int made = 0;
+            var have = new System.Collections.Generic.Dictionary<string, Port>();
+            foreach (var p in root.GetComponentsInChildren<Port>(true))
+                if (!string.IsNullOrEmpty(p.id) && !have.ContainsKey(p.id))
+                    have[p.id] = p;
+            foreach (var def in GameData.Ports)
+            {
+                if (def == null || string.IsNullOrEmpty(def.id))
+                    continue;
+                if (have.TryGetValue(def.id, out var saved))
+                {
+                    saved.FromScene = true;
+                    found++;
+                    continue;
+                }
+                var go = new GameObject("Port " + def.id);
+                go.transform.SetParent(root, false);
+                go.transform.position = at(def);
+                var berth = new GameObject("Berth").transform;
+                berth.SetParent(go.transform, false);
+                var port = go.AddComponent<Port>();
+                port.id = def.id;
+                port.berth = berth;
+                port.arrivalRadius = arrivalRadius;
+                port.autoPlace = false;
+                made++;
+            }
+            return made;
         }
 
         /// <summary>The good the creditor puts aboard at the start, and the mark its lots carry in the hold (Lot.whose).</summary>
