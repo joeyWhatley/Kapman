@@ -14,6 +14,7 @@ namespace Kapman.EditorTools
     ///   Kapman > Make physical > 1. Systems into the scene
     ///   Kapman > Make physical > 2. The frame's layout file
     ///   Kapman > Make physical > 2b. The frame's parts
+    ///   Kapman > Make physical > 2d. The chart's layout file
     ///   Kapman > Make physical > 3. The 3D stage into the scene
     ///   Kapman > Make physical > 4. The ports into the scene
     /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame, .Step2Parts, .Step3Stage, .Step4Ports)
@@ -78,6 +79,28 @@ namespace Kapman.EditorTools
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log("Kapman, made physical, step 2: the Frame's UI Document has " + FrameLayout + " as its Source Asset.");
+        }
+
+        public const string MapLayout = "Assets/Kapman/Game/UI/MapView.uxml";
+
+        /// <summary>The chart's UI Document is given its layout file as its Source Asset (Game/UI/MapView.uxml): the chart
+        /// is then laid out in UI Builder, and MapView only fills it in (KAPMAN_PLAN step 2d, 14 Oct 2026).</summary>
+        [MenuItem("Kapman/Make physical/2d. The chart's layout file")]
+        public static void Step2Map()
+        {
+            var scene = EditorSceneManager.OpenScene(GameScene, OpenSceneMode.Single);
+            var layout = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(MapLayout);
+            if (layout == null)
+                throw new System.InvalidOperationException(MapLayout + " is missing or did not import.");
+            var map = Object.FindAnyObjectByType<MapView>(FindObjectsInactive.Include);
+            if (map == null)
+                throw new System.InvalidOperationException(GameScene + " has no MapView.");
+            var doc = map.GetComponent<UnityEngine.UIElements.UIDocument>();
+            doc.visualTreeAsset = layout;
+            EditorUtility.SetDirty(doc);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("Kapman, made physical, step 2d: the Map view's UI Document has " + MapLayout + " as its Source Asset.");
         }
 
         public const string MenuLayout = "Assets/Kapman/Game/UI/MainMenu.uxml";

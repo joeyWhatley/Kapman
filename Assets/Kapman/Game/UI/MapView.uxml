@@ -1,0 +1,53 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <!-- THE CHART'S LAYOUT (KAPMAN_PLAN step 2d, 14 Oct 2026): the Source Asset of the Map view's UI Document. The code
+         (Code/Game/Map/MapView.cs, OnEnable) finds each part by its NAME and gives it its words and what a click does;
+         a part may be moved, resized or restyled here (the look is MapView.uss), but must keep its name. The layers that
+         DRAW (the rings of hearsay, the course, the drift, the pull) are the code's and are put in among these by their
+         order: rings under all, then "finds"; course, drift and pull over the finds; then "sails", "ship" and "knots". -->
+    <ui:VisualElement name="map" class="map-root" style="display: none;">
+        <ui:VisualElement name="layer" class="map-layer">
+            <ui:VisualElement name="under" class="map-tiles" picking-mode="Ignore" />
+            <ui:VisualElement name="over" class="map-tiles" picking-mode="Ignore" />
+            <ui:VisualElement name="paper" class="map-paper" picking-mode="Ignore" />
+            <ui:Image name="fog" class="map-fog" picking-mode="Ignore" />
+            <ui:VisualElement name="overlays" class="map-overlays" picking-mode="Ignore">
+                <ui:VisualElement name="finds" class="map-finds" picking-mode="Ignore" />
+                <ui:VisualElement name="sails" class="map-sails" picking-mode="Ignore" />
+                <ui:VisualElement name="ship" class="map-ship" picking-mode="Ignore" />
+                <ui:VisualElement name="knots" class="map-knots" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <ui:VisualElement name="names" class="map-names" picking-mode="Ignore">
+                <ui:VisualElement name="map-hearsay" class="map-name" picking-mode="Ignore" style="display: none;">
+                    <ui:Label name="hearsay-note" class="map-port-note" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="card" class="map-card">
+            <ui:Label name="title" class="map-title" />
+            <ui:Label name="subtitle" class="map-subtitle" />
+            <ui:Button name="back" class="map-button" text="Follow her  (F)" />
+        </ui:VisualElement>
+        <ui:VisualElement name="foot" class="map-foot">
+            <ui:VisualElement name="scalebar" class="map-scalebar" />
+            <ui:Label name="scaletext" class="map-scaletext" />
+            <ui:Label name="hint" class="map-hint" text="drag to move · wheel to zoom" />
+            <ui:Button name="chronicle" class="map-button map-foot-button" text="Chronicle  (C)" />
+            <ui:Button name="save" class="map-button map-foot-button" text="Save  (F5)" />
+            <ui:Button name="load" class="map-button map-foot-button" text="Load  (F9)" />
+        </ui:VisualElement>
+        <ui:VisualElement name="chronicle-panel" class="map-chronicle" style="display: none;">
+            <ui:Label class="map-title" text="Chronicle" />
+            <ui:ScrollView name="chronicle-list" class="map-chronicle-list" mode="Vertical" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ship-card" class="map-ship-card" style="display: none;">
+            <ui:Label name="ship-card-text" class="map-ship-card-text" />
+        </ui:VisualElement>
+        <ui:VisualElement name="port-card" class="map-ship-card" style="display: none;">
+            <ui:Label name="port-card-text" class="map-ship-card-text" />
+            <ui:VisualElement name="port-card-words" class="map-port-words" />
+            <ui:Button name="port-card-set" class="map-button" text="Set course" />
+            <ui:Button name="port-card-clear" class="map-button" text="Clear course" />
+            <ui:Button name="port-card-close" class="map-button" text="Close" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

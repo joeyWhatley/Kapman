@@ -2310,3 +2310,23 @@ and far fewer when usage is short).
      hand with its reach, and makes one taken away alone). Play: PortsInScenePlayTests (a new game: a port for
      every trading place, every one from the scene, none made at play, all under the holder, she lies at Dorestat).
    - STILL TO DO of step 1b: Boot, Title and Game as three scenes.
+
+143. **THE CHART IS LAID OUT IN A FILE**
+   (14 Oct, evening, unattended: "I'm at work you do it". KAPMAN_PLAN step 2d, its first piece: the chart itself.)
+   - Game/UI/MapView.uxml is the Source Asset of the Map view's UI Document (Kapman > Make physical > 2d. The chart's
+     layout file; KapmanPhysical.Step2Map). It holds the chart's root "map", its "layer" with the tile layers
+     "under" and "over", the "paper", the "fog", the "overlays" (with "finds", "sails", "ship" and "knots") and the
+     "names" (with the slip of hearsay); the "card" (title, subtitle, the Follow/Back button); the "foot" (the scale
+     bar and text, the hint, the Chronicle, Save and Load buttons; the tools are still added by code after them);
+     the chronicle panel and its list; the ship's card; the port's card with its words and its three buttons.
+   - MapView.OnEnable finds each part by its NAME (Part<T>(name, under)) and gives it its words and what a click
+     does, as FrameRoot does for the frame; a part gone from the file is said so in the Console and a plain stand-in
+     is made. The layers that DRAW (the rings of hearsay, the course, the drift, the pull) stay the code's: they
+     are put in among the named layers in their order (rings under all; course, drift and pull after "finds").
+     The look is MapView.uss as before; nothing of the chart's behaviour changed.
+   - TESTS. Edit: MapLayoutTests (the file holds all 35 named parts and the scene names the file; instantiated, the
+     layers stand in their order, the overlays and names let the pointer through, the layer takes it). Play: the
+     chart's suites as they were (zoom, look, the chart game, the pulled course, pointing, the sea, the goons, the
+     helm, the opening, the notes).
+   - NEXT of 2d: the market panel, the old text panel, the notices, the chest, the port's picture; then each side
+     window's own layout.

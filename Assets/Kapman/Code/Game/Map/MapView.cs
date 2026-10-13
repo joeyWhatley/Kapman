@@ -390,170 +390,128 @@ namespace Kapman.Game
             docRoot.style.bottom = 0;
             docRoot.pickingMode = PickingMode.Ignore;
 
-            root = new VisualElement();
-            root.AddToClassList("map-root");
+            // THE CHART IS LAID OUT IN A FILE (KAPMAN_PLAN step 2d, 14 Oct 2026; the user, 7 Oct: "make it like people
+            // usually make it, not just all in script"). Game/UI/MapView.uxml, the UI Document's own Source Asset, holds
+            // the chart's layers, its card, its foot, the chronicle, the ship's and the port's cards: open it in UI
+            // Builder to move, resize or restyle any part. Each part is found here by its NAME and given its words and
+            // what a click on it does; a part may stand anywhere in the file and look like anything, but must keep its
+            // name: one that is gone is said so in the Console, and a plain stand-in is made so the game still runs.
+            // The layers that DRAW (the rings of hearsay, the course, the drift, the pull) are the code's: they are put
+            // in among the named layers in their order.
+            root = docRoot.Q<VisualElement>(RootName);
+            if (root == null || root.userData != null)
+            {
+                root?.RemoveFromHierarchy();
+                root = doc.visualTreeAsset != null ? doc.visualTreeAsset.Instantiate().Q<VisualElement>(RootName) : null;
+                if (root == null)
+                {
+                    Debug.LogError("Kapman chart: the UI Document of '" + name + "' has no Source Asset with an element named \"" + RootName +
+                                   "\" (it should be Assets/Kapman/Game/UI/MapView.uxml). A bare chart is made.");
+                    root = new VisualElement { name = RootName };
+                    root.AddToClassList("map-root");
+                }
+                root.RemoveFromHierarchy();
+            }
+            root.userData = this;                                         // (filled: it is not filled twice)
             floorClass = null;                                            // (a new root has no floor class yet)
-            layer = new VisualElement();
-            layer.AddToClassList("map-layer");
-            under = Layer("map-tiles");
-            over = Layer("map-tiles");
+            layer = Part<VisualElement>("layer", root);
+            under = Part<VisualElement>("under", layer);
+            over = Part<VisualElement>("over", layer);
             // THE PAPER OF THE CHART (the user, 8 Oct 2026: "give the map more texture on the colours so they are not
             // so hard"): one clear tile of specks, patches and fibres over all the colours of the chart, under the fog,
             // the names and the marks (Game/UI/Map/paper.png, made by Bake/art/make_map_textures.py; laid by the style
             // sheet, .map-paper). It goes with the land as the chart is moved: Draw sets where its first tile begins.
-            paper = new VisualElement { pickingMode = PickingMode.Ignore };
-            paper.AddToClassList("map-paper");
-            fog = new Image { scaleMode = ScaleMode.StretchToFill, pickingMode = PickingMode.Ignore };
-            fog.AddToClassList("map-fog");
-            overlays = Layer("map-overlays");
-            // (the paper stays under the fog. Tried over it on 9 Oct 2026, when the fog was made to hide what it covers:
+            // (The paper stays under the fog. Tried over it on 9 Oct 2026, when the fog was made to hide what it covers:
             // on the dark its soft patches stood out as a lattice of smudges, one tile apart. The unknown is one plain dark.)
-            layer.Add(under);
-            layer.Add(over);
-            layer.Add(paper);
-            layer.Add(fog);
-            layer.Add(overlays);
+            paper = Part<VisualElement>("paper", layer);
+            fog = Part<Image>("fog", layer);
+            fog.scaleMode = ScaleMode.StretchToFill;
+            overlays = Part<VisualElement>("overlays", layer);
             // THE NAMES lie over every mark and are never in the pointer's way (9 Oct 2026: a place is its dot; its
             // name comes up beside it while the pointer is on the dot)
-            nameLayer = Layer("map-names");
-            layer.Add(nameLayer);
+            nameLayer = Part<VisualElement>("names", layer);
             // (the marks of the old root went with it)
             ports.Clear();
             finds.Clear();
             findsSeen = -1;
+            // the waters and landmarks found lie under the course, her own mark and the ports; THE OTHER SHIPS' MARKS LIE
+            // UNDER THE PORTS' DOTS (9 Oct 2026: a trader lying at the quay lay over Dorestat's dot, which could not be
+            // pointed at); the knots over everything else (13 Oct 2026)
+            findLayer = Part<VisualElement>("finds", overlays);
+            sailLayer = Part<VisualElement>("sails", overlays);
+            shipMark = Part<VisualElement>("ship", overlays);
+            knotLayer = Part<VisualElement>("knots", overlays);
             // THE RINGS of the places only heard of lie under every mark (9 Oct 2026: a place not found has no dot)
             ringLayer = new RingLayer(this);
-            overlays.Add(ringLayer);
-            hearsaySlip = new VisualElement { pickingMode = PickingMode.Ignore, name = "map-hearsay" };
-            hearsaySlip.AddToClassList("map-name");
-            hearsayLabel = new Label { pickingMode = PickingMode.Ignore };
-            hearsayLabel.AddToClassList("map-port-note");
-            hearsaySlip.Add(hearsayLabel);
+            overlays.Insert(0, ringLayer);
+            courseLine = new CourseLine(this) { pickingMode = PickingMode.Ignore };
+            courseLine.style.position = Position.Absolute;
+            courseLine.style.left = courseLine.style.top = courseLine.style.right = courseLine.style.bottom = 0;
+            overlays.Insert(overlays.IndexOf(findLayer) + 1, courseLine);
+            // (9 Oct 2026: what carries her, and how far she is from where the steersman reckons her)
+            driftLayer = new DriftLayer(this);
+            overlays.Insert(overlays.IndexOf(courseLine) + 1, driftLayer);
+            // (13 Oct 2026: the line as it would run while a knot is pulled)
+            pullLayer = new PullLayer(this) { pickingMode = PickingMode.Ignore };
+            pullLayer.style.position = Position.Absolute;
+            pullLayer.style.left = pullLayer.style.top = pullLayer.style.right = pullLayer.style.bottom = 0;
+            overlays.Insert(overlays.IndexOf(driftLayer) + 1, pullLayer);
+            knotMarks.Clear();
+            knotGhost = null;
+            pulling = false;
+            simMarks.Clear();
+            hearsaySlip = Part<VisualElement>("map-hearsay", nameLayer);
+            hearsayLabel = Part<Label>("hearsay-note", hearsaySlip);
             hearsaySlip.style.display = DisplayStyle.None;
-            nameLayer.Add(hearsaySlip);
             hearsayShown = hearsayOver = false;
             hearsayText = "";
             Course.Changed -= CourseChanged;
             Course.Changed += CourseChanged;
             drawnStale = true;
-            // the waters and landmarks found lie under the course, her own mark and the ports
-            findLayer = Layer("map-finds");
-            overlays.Add(findLayer);
-            courseLine = new CourseLine(this) { pickingMode = PickingMode.Ignore };
-            courseLine.style.position = Position.Absolute;
-            courseLine.style.left = courseLine.style.top = courseLine.style.right = courseLine.style.bottom = 0;
-            overlays.Add(courseLine);
-            // (9 Oct 2026: what carries her, and how far she is from where the steersman reckons her)
-            driftLayer = new DriftLayer(this);
-            overlays.Add(driftLayer);
-            // (13 Oct 2026: the line as it would run while a knot is pulled, and the knots themselves over everything else)
-            pullLayer = new PullLayer(this) { pickingMode = PickingMode.Ignore };
-            pullLayer.style.position = Position.Absolute;
-            pullLayer.style.left = pullLayer.style.top = pullLayer.style.right = pullLayer.style.bottom = 0;
-            overlays.Add(pullLayer);
-            knotLayer = Layer("map-knots");
-            knotMarks.Clear();
-            knotGhost = null;
-            pulling = false;
-            // THE OTHER SHIPS' MARKS LIE UNDER THE PORTS' DOTS (9 Oct 2026). A port's mark is its dot alone now, and a trader
-            // lying at the quay lay over it: the dot of Dorestat could not be pointed at or clicked (found by the play
-            // test's measure, which clicks it). A ship lying on a port's dot gives way to the port.
-            sailLayer = Layer("map-sails");
-            overlays.Add(sailLayer);
-            simMarks.Clear();
-            shipMark = new VisualElement { pickingMode = PickingMode.Ignore };
-            shipMark.AddToClassList("map-ship");
-            overlays.Add(shipMark);
-            overlays.Add(knotLayer);
-            root.Add(layer);
 
-            card = new VisualElement();
-            card.AddToClassList("map-card");
-            title = new Label();
-            title.AddToClassList("map-title");
-            subtitle = new Label();
-            subtitle.AddToClassList("map-subtitle");
-            card.Add(title);
-            card.Add(subtitle);
-            backButton = new Button(() =>
+            card = Part<VisualElement>("card", root);
+            title = Part<Label>("title", card);
+            subtitle = Part<Label>("subtitle", card);
+            backButton = Part<Button>("back", card);
+            backButton.text = chartMode ? "Follow her  (F)" : "Back to the ship  (Esc)";
+            backButton.clicked += () =>
             {
                 if (chartMode && town == null)
                     follow = true;                                         // (the chart is the game: back to her on the chart)
                 else
                     Close();
-            }) { text = chartMode ? "Follow her  (F)" : "Back to the ship  (Esc)" };
-            backButton.AddToClassList("map-button");
-            card.Add(backButton);
-            root.Add(card);
+            };
 
-            foot = new VisualElement();
-            foot.AddToClassList("map-foot");
-            scaleBar = new VisualElement();
-            scaleBar.AddToClassList("map-scalebar");
-            scaleText = new Label();
-            scaleText.AddToClassList("map-scaletext");
-            hint = new Label("drag to move · wheel to zoom");
-            hint.AddToClassList("map-hint");
-            foot.Add(scaleBar);
-            foot.Add(scaleText);
-            foot.Add(hint);
-            var chronicleButton = new Button(ToggleChronicle) { text = "Chronicle  (C)" };
-            chronicleButton.AddToClassList("map-button");
-            chronicleButton.AddToClassList("map-foot-button");
-            foot.Add(chronicleButton);
-            var saveButton = new Button(() => Voyage.Say(SaveGame.Save())) { text = "Save  (F5)" };
-            saveButton.AddToClassList("map-button");
-            saveButton.AddToClassList("map-foot-button");
-            foot.Add(saveButton);
-            var loadButton = new Button(() => Voyage.Say(SaveGame.Load())) { text = "Load  (F9)" };
-            loadButton.AddToClassList("map-button");
-            loadButton.AddToClassList("map-foot-button");
-            foot.Add(loadButton);
+            foot = Part<VisualElement>("foot", root);
+            scaleBar = Part<VisualElement>("scalebar", foot);
+            scaleText = Part<Label>("scaletext", foot);
+            hint = Part<Label>("hint", foot);
+            Part<Button>("chronicle", foot).clicked += ToggleChronicle;
+            Part<Button>("save", foot).clicked += () => Voyage.Say(SaveGame.Save());
+            Part<Button>("load", foot).clicked += () => Voyage.Say(SaveGame.Load());
             BuildTools(foot);
-            root.Add(foot);
 
             // the chronicle: what has happened so far, newest first (Data/chronicle_793.json)
-            chroniclePanel = new VisualElement();
-            chroniclePanel.AddToClassList("map-chronicle");
-            var chronicleTitle = new Label("Chronicle");
-            chronicleTitle.AddToClassList("map-title");
-            chroniclePanel.Add(chronicleTitle);
-            chronicleList = new ScrollView(ScrollViewMode.Vertical);
-            chronicleList.AddToClassList("map-chronicle-list");
-            chroniclePanel.Add(chronicleList);
+            chroniclePanel = Part<VisualElement>("chronicle-panel", root);
+            chronicleList = Part<ScrollView>("chronicle-list", chroniclePanel);
             chroniclePanel.style.display = DisplayStyle.None;
-            root.Add(chroniclePanel);
 
             // a ship's facts, when one is clicked
-            shipCard = new VisualElement();
-            shipCard.AddToClassList("map-ship-card");
-            shipCardText = new Label();
-            shipCardText.AddToClassList("map-ship-card-text");
-            shipCard.Add(shipCardText);
+            shipCard = Part<VisualElement>("ship-card", root);
+            shipCardText = Part<Label>("ship-card-text", shipCard);
             shipCard.RegisterCallback<ClickEvent>(_ => { cardShip = -1; shipCard.style.display = DisplayStyle.None; });
             shipCard.style.display = DisplayStyle.None;
-            root.Add(shipCard);
 
             // a port's card, when one is clicked: by water how far, and the course
-            portCard = new VisualElement();
-            portCard.AddToClassList("map-ship-card");
-            portCardText = new Label();
-            portCardText.AddToClassList("map-ship-card-text");
-            portCard.Add(portCardText);
-            portCardWords = new VisualElement();                     // the month there, and the word on the goods aboard
-            portCardWords.AddToClassList("map-port-words");
-            portCard.Add(portCardWords);
-            portCardSet = new Button(SetCourseToCard) { text = "Set course" };
-            portCardSet.AddToClassList("map-button");
-            portCardClear = new Button(() => { Course.Clear(); FillPortCard(); }) { text = "Clear course" };
-            portCardClear.AddToClassList("map-button");
-            var shut = new Button(() => { cardPort = null; portCard.style.display = DisplayStyle.None; }) { text = "Close" };
-            shut.AddToClassList("map-button");
-            portCard.Add(portCardSet);
-            portCard.Add(portCardClear);
-            portCard.Add(shut);
+            portCard = Part<VisualElement>("port-card", root);
+            portCardText = Part<Label>("port-card-text", portCard);
+            portCardWords = Part<VisualElement>("port-card-words", portCard);   // the month there, and the word on the goods aboard
+            portCardSet = Part<Button>("port-card-set", portCard);
+            portCardSet.clicked += SetCourseToCard;
+            portCardClear = Part<Button>("port-card-clear", portCard);
+            portCardClear.clicked += () => { Course.Clear(); FillPortCard(); };
+            Part<Button>("port-card-close", portCard).clicked += () => { cardPort = null; portCard.style.display = DisplayStyle.None; };
             portCard.style.display = DisplayStyle.None;
-            root.Add(portCard);
 
             table?.Dispose();
             table = new MapTable(root);
@@ -567,11 +525,23 @@ namespace Kapman.Game
             root.style.display = DisplayStyle.None;
         }
 
-        VisualElement Layer(string cls)
+        /// <summary>The name of the chart's root element in Game/UI/MapView.uxml.</summary>
+        public const string RootName = "map";
+
+        /// <summary>A part of the chart's layout by its name, under `under`; one that is gone from the file is said so,
+        /// and a plain stand-in is made there so the game still runs.</summary>
+        static T Part<T>(string partName, VisualElement under) where T : VisualElement, new()
         {
-            var v = new VisualElement { pickingMode = PickingMode.Ignore };
-            v.AddToClassList(cls);
-            return v;
+            var e = under.Q<T>(partName);
+            if (e != null)
+                return e;
+            Debug.LogError("Kapman chart: the layout (MapView.uxml) has no " + typeof(T).Name + " named \"" + partName + "\" under \"" + under.name +
+                           "\". A plain one is made so the game runs: put the part back in UI Builder (it may stand anywhere there, under that name).");
+            e = new T { name = partName };
+            if (!(e is Button))
+                e.pickingMode = PickingMode.Ignore;
+            under.Add(e);
+            return e;
         }
 
         void OnDisable()
