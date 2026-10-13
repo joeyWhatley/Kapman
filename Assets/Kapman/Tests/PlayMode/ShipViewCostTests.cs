@@ -18,7 +18,7 @@ namespace Kapman.Tests
 {
     /// <summary>
     /// WHAT THE 3D SHIP VIEW COSTS IN THE CHART GAME (explicit: run with -testFilter Kapman.Tests.ShipViewCostTests, with
-    /// graphics). L_Chart in Play, a new game at Dorestat, cast off on the river; the whole screen (the chart and the
+    /// graphics). the Kapman scene in Play, a new game at Dorestat, cast off on the river; the whole screen (the chart and the
     /// frame) drawn into a 1920 x 1080 texture and the chart's own camera into another, as on a real screen. The time
     /// of a frame is measured over a few hundred frames with the view off, on in the small window, and filling the
     /// screen, and for each look.

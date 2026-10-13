@@ -71,7 +71,7 @@ namespace Kapman.Tests
             foreach (string old in Directory.GetFiles(saves))
                 File.Delete(old);
             SaveGame.FolderOverride = saves;
-            var load = SceneManager.LoadSceneAsync("L_Chart", LoadSceneMode.Single);
+            var load = SceneManager.LoadSceneAsync("Kapman", LoadSceneMode.Single);
             while (!load.isDone)
                 yield return null;
             yield return ChartPlay.Frames(5);
@@ -285,7 +285,7 @@ namespace Kapman.Tests
             foreach (string old in Directory.GetFiles(saves))
                 File.Delete(old);
             SaveGame.FolderOverride = saves;
-            var load = SceneManager.LoadSceneAsync("L_Chart", LoadSceneMode.Single);
+            var load = SceneManager.LoadSceneAsync("Kapman", LoadSceneMode.Single);
             while (!load.isDone)
                 yield return null;
             yield return ChartPlay.Frames(5);

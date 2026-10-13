@@ -32,6 +32,16 @@ namespace Kapman.Game.ShipView
     {
         public static ShipStage Current { get; private set; }
 
+        /// <summary>The stage's object by name: the one saved in the Game scene (Kapman > Make physical > 3), or the one
+        /// made at play where a scene has none.</summary>
+        public const string ObjectName = "--- SHIP STAGE (the 3D view) ---";
+        /// <summary>True when the stage stood in the scene before play (made physical) and was taken up, not made from nothing.</summary>
+        public bool FromScene { get; private set; }
+        /// <summary>How a prefab of the kit is put on the stage. The editor sets it while it builds the stage into the scene,
+        /// so the boat's model stands there as a prefab instance; null: Object.Instantiate, as at play.</summary>
+        public static Func<GameObject, Transform, GameObject> PrefabInstantiator;
+        bool built;
+
         public ShipStageKit kit;
         /// <summary>Who fills the record (the chart game, a test).</summary>
         public IShipStageSource Source;
@@ -707,14 +717,32 @@ namespace Kapman.Game.ShipView
 
         // ------------------------------------------------------------------ making it
 
-        /// <summary>Makes the stage. One at a time: a second call gives the first back.</summary>
+        /// <summary>
+        /// Makes the stage. One at a time: a second call gives the first back.
+        /// THE STAGE STANDS IN THE SCENE (the user, 14 Oct 2026, by the picker: "Yes, both: frame and stage"; KAPMAN_PLAN
+        /// step 1b): the Game scene holds the stage's object with the boat's model, the Sun and the Moon, the sky and
+        /// air's volume, the camera with its rain and HDRP's sea saved on it (Kapman > Make physical > 3), to be seen in
+        /// the Scene view and tuned in the Inspector. That one is taken up here, and only what cannot be saved is made
+        /// (her fit-out and the lid of her hull, the jetty, the wake and the lines: meshes made from the game's state).
+        /// Where a scene has none (a test's own) the whole is made, as it always was.
+        /// </summary>
         public static ShipStage Build(ShipStageKit kit, IShipStageSource source)
         {
             if (Current != null)
                 return Current;
-            var go = new GameObject("--- SHIP STAGE (the 3D view) ---");
-            var stage = go.AddComponent<ShipStage>();
-            stage.kit = kit;
+            var stage = FindFirstObjectByType<ShipStage>(FindObjectsInactive.Include);
+            if (stage != null && !stage.built)
+            {
+                stage.FromScene = true;
+                if (stage.kit == null)
+                    stage.kit = kit;
+            }
+            else
+            {
+                var go = new GameObject(ObjectName);
+                stage = go.AddComponent<ShipStage>();
+                stage.kit = kit;
+            }
             stage.Source = source;
             stage.Make();
             return stage;
@@ -723,36 +751,89 @@ namespace Kapman.Game.ShipView
         void Make()
         {
             Current = this;
-            gameObject.layer = kit.layer;
-            transform.position = kit.origin;
+            MakeSaved();
             Sea = new StageSea();
             Water = new StageWater();
             Water.Build(transform, Lit(kit.water, new Color(0.05f, 0.14f, 0.18f), 0.86f), kit.layer);
-            if (kit.sea == StageSeaKind.HdrpWater && StageHdrpSea.Supported)
-            {
-                Hdrp = new StageHdrpSea();
-                Hdrp.Build(transform, kit.layer);
-            }
             if (Hdrp != null && kit.wakeFoam != null)
             {
                 FoamWake = new StageWake();
                 FoamWake.Build(this, kit.wakeFoam);
             }
-            Ship = new StageShip();
-            Ship.Build(this, kit, transform);
+            Ship.MakeLid();
             Dock = new StageDock();
-            View = new ShipStageView();
-            View.Build(transform, kit);
-            View.Drawing = on => Hdrp?.Drawing(on);                       // (HDRP is made to work its water out only for the stage: StageHdrpSea)
-            Lights();
-            Atmosphere();
-            Rain();
             Wake();
             bowLine = Line("Bow line");
             sternLine = Line("Stern line");
             Adopt(gameObject);
             SeaKind = kit.sea;
             KeepSeaFromOtherCameras();
+            built = true;
+        }
+
+        /// <summary>
+        /// WHAT IS SAVED IN THE SCENE when the stage is made physical: the stage itself at the kit's origin and on its
+        /// layer, HDRP's sea, the boat (her model, a prefab instance, and the empty holder of her fit-out), the camera,
+        /// the Sun and the Moon, the sky and air's volume with its profile, and the rain under the camera. Each is taken
+        /// as it is found under the stage by its name, with what was saved on it kept (the Inspector's word stands);
+        /// only one not found is made and set up by the code. Kapman > Make physical > 3 runs this alone, in the editor,
+        /// and saves what it made; at play Make runs it first and makes the rest.
+        /// </summary>
+        public void MakeSaved()
+        {
+            gameObject.layer = kit.layer;
+            transform.position = kit.origin;
+            Hdrp = null;
+            if (kit.sea == StageSeaKind.HdrpWater && StageHdrpSea.Supported)
+            {
+                Hdrp = new StageHdrpSea();
+                Hdrp.Build(transform, kit.layer);
+            }
+            Ship = new StageShip();
+            Ship.Build(this, kit, transform);
+            View = new ShipStageView();
+            View.Build(transform, kit);
+            View.Drawing = on => Hdrp?.Drawing(on);                       // (HDRP is made to work its water out only for the stage: StageHdrpSea)
+            Lights();
+            Atmosphere();
+            Rain();
+        }
+
+        /// <summary>A stage saved in the scene sleeps until Build takes it up: nothing of it lights, draws or costs while
+        /// the view is off, or not yet wanted. (Its lights and sea are woken by the stage's own step.)</summary>
+        void Awake()
+        {
+            if (built || !Application.isPlaying)
+                return;
+            foreach (var l in GetComponentsInChildren<Light>(true))
+                l.enabled = false;
+            foreach (var s in GetComponentsInChildren<WaterSurface>(true))
+                s.enabled = false;
+            foreach (var c in GetComponentsInChildren<Camera>(true))
+                c.enabled = false;
+        }
+
+        /// <summary>A child of `under` by its name, as saved in the scene; or made now under it, and `made` says so.</summary>
+        internal static GameObject Child(Transform under, string name, out bool made, params Type[] components)
+        {
+            var t = under.Find(name);
+            made = t == null;
+            if (!made)
+                return t.gameObject;
+            var go = new GameObject(name, components);
+            go.transform.SetParent(under, false);
+            return go;
+        }
+
+        /// <summary>Gone: at play in Unity's own time, in the editor at once (Destroy may not be called there).</summary>
+        internal static void Kill(UnityEngine.Object o)
+        {
+            if (o == null)
+                return;
+            if (Application.isPlaying)
+                Destroy(o);
+            else
+                DestroyImmediate(o);
         }
 
         /// <summary>
@@ -792,97 +873,160 @@ namespace Kapman.Game.ShipView
             foreach (var m in made.Values)
                 if (m != null)
                     Destroy(m);
-            if (Volume != null && Volume.profile != null)
+            // (at play the volume's profile is its own copy of the saved one, or new: it goes with the stage. The saved
+            // profile, an asset, is left alone.)
+            if (Application.isPlaying && Volume != null && Volume.HasInstantiatedProfile() && Volume.profile != null)
                 Destroy(Volume.profile);
             if (Current == this)
                 Current = null;
         }
 
-        /// <summary>The Sun and the Moon as the level clock makes them: real lux, drawn on the physically based sky.</summary>
+        /// <summary>The Sun and the Moon as the level clock makes them: real lux, drawn on the physically based sky. Saved
+        /// in the scene, they are taken as they are: the stage's step turns them and gives them their light each frame.</summary>
         void Lights()
         {
-            Sun = NewLight("Sun", out sunData);
-            Sun.useColorTemperature = true;
-            Sun.colorTemperature = 5778f;
-            Sun.color = Color.white;
-            sunData.interactsWithSky = true;
-            sunData.angularDiameter = 0.53f;
-            sunData.celestialBodyShadingSource = HDAdditionalLightData.CelestialBodyShadingSource.Emission;
-            sunData.flareMultiplier = 0.15f;
-            sunData.flareSize = 1.2f;
-            sunData.flareFalloff = 6f;
-            sunData.distance = 1.496e11f;
-            Moon = NewLight("Moon", out moonData);
-            Moon.useColorTemperature = false;
-            Moon.color = new Color(0.78f, 0.85f, 1f);
-            moonData.interactsWithSky = true;
-            moonData.celestialBodyShadingSource = HDAdditionalLightData.CelestialBodyShadingSource.ReflectSunLight;
+            Sun = FoundLight("Sun", out sunData, out bool sunMade);
+            if (sunMade)
+            {
+                Sun.useColorTemperature = true;
+                Sun.colorTemperature = 5778f;
+                Sun.color = Color.white;
+                sunData.interactsWithSky = true;
+                sunData.angularDiameter = 0.53f;
+                sunData.celestialBodyShadingSource = HDAdditionalLightData.CelestialBodyShadingSource.Emission;
+                sunData.flareMultiplier = 0.15f;
+                sunData.flareSize = 1.2f;
+                sunData.flareFalloff = 6f;
+                sunData.distance = 1.496e11f;
+            }
+            Moon = FoundLight("Moon", out moonData, out bool moonMade);
+            if (moonMade)
+            {
+                Moon.useColorTemperature = false;
+                Moon.color = new Color(0.78f, 0.85f, 1f);
+                moonData.interactsWithSky = true;
+                moonData.celestialBodyShadingSource = HDAdditionalLightData.CelestialBodyShadingSource.ReflectSunLight;
+                moonData.angularDiameter = 0.52f;
+                moonData.diameterMultiplerMode = false;
+                moonData.diameterOverride = 0.52f;
+                moonData.distance = 3.84e8f;
+                moonData.flareMultiplier = 0f;
+                moonData.earthshine = 1f;
+            }
             moonData.sunLightOverride = Sun;
-            moonData.angularDiameter = 0.52f;
-            moonData.diameterMultiplerMode = false;
-            moonData.diameterOverride = 0.52f;
-            moonData.distance = 3.84e8f;
-            moonData.flareMultiplier = 0f;
-            moonData.earthshine = 1f;
         }
 
-        Light NewLight(string name, out HDAdditionalLightData data)
+        Light FoundLight(string name, out HDAdditionalLightData data, out bool made)
         {
-            var go = new GameObject(name);
-            go.transform.SetParent(transform, false);
-            var l = go.AddComponent<Light>();
-            l.type = LightType.Directional;
-            l.lightUnit = LightUnit.Lux;
-            l.intensity = 0f;
-            l.shadows = LightShadows.None;
-            data = go.AddComponent<HDAdditionalLightData>();
+            var go = Child(transform, name, out made);
+            go.layer = kit.layer;
+            if (!go.TryGetComponent(out Light l))
+            {
+                l = go.AddComponent<Light>();
+                made = true;
+            }
+            if (made)
+            {
+                l.type = LightType.Directional;
+                l.lightUnit = LightUnit.Lux;
+                l.intensity = 0f;
+                l.shadows = LightShadows.None;
+            }
+            if (!go.TryGetComponent(out data))
+                data = go.AddComponent<HDAdditionalLightData>();
             return l;
         }
 
         /// <summary>The stage's own volume, on its own layer: only the stage's camera takes it (its volumeLayerMask), and
-        /// that camera takes no other but the project's defaults, which this overrides where it matters.</summary>
+        /// that camera takes no other but the project's defaults, which this overrides where it matters. Saved in the
+        /// scene its profile is an asset (Kapman > Make physical > 3 saves it), tunable; at play the volume works on its
+        /// own copy of it, and what the weather and the clock drive (SkyAndAir) is written there, never to the asset.
+        /// A part of the profile that is not there is added with the code's settings.</summary>
         void Atmosphere()
         {
-            var go = new GameObject("Sky and air");
-            go.transform.SetParent(transform, false);
-            Volume = go.AddComponent<Volume>();
-            Volume.isGlobal = true;
-            Volume.priority = 100f;
-            var profile = ScriptableObject.CreateInstance<VolumeProfile>();
-            profile.name = "Ship stage (runtime)";
-            profile.hideFlags = HideFlags.DontSave;
-            Volume.profile = profile;
-            environment = profile.Add<VisualEnvironment>(false);
-            environment.skyType.Override((int)SkyType.PhysicallyBased);
-            environment.cloudType.Override((int)CloudType.CloudLayer);
-            environment.skyAmbientMode.Override(SkyAmbientMode.Dynamic);
-            environment.renderingSpace.Override(RenderingSpace.Camera);   // (the sky goes with the camera: the stage may stand anywhere)
-            sky = profile.Add<PhysicallyBasedSky>(false);
-            sky.groundTint.Override(new Color(0.6f, 0.64f, 0.68f));
-            if (kit.stars != null)
+            var go = Child(transform, "Sky and air", out bool made);
+            go.layer = kit.layer;
+            if (!go.TryGetComponent(out Volume volume))
             {
-                sky.spaceEmissionTexture.Override(kit.stars);
-                sky.spaceEmissionMultiplier.Override(5f);
+                volume = go.AddComponent<Volume>();
+                made = true;
             }
-            clouds = profile.Add<CloudLayer>(false);
-            clouds.layerA.distortionMode.Override(CloudDistortionMode.Procedural);   // (they move: the Visual Environment's wind)
-            fog = profile.Add<Fog>(false);
-            fog.enabled.Override(true);
-            fog.enableVolumetricFog.Override(false);
-            fog.maxFogDistance.Override(20000f);
-            exposure = profile.Add<Exposure>(false);
-            exposure.mode.Override(ExposureMode.Fixed);
-            var vc = profile.Add<VolumetricClouds>(false);
-            vc.enable.Override(false);
+            Volume = volume;
+            if (made)
+            {
+                Volume.isGlobal = true;
+                Volume.priority = 100f;
+            }
+            VolumeProfile profile;
+            if (Application.isPlaying)
+                profile = Volume.profile;                                 // (the volume's own copy of the saved profile, or a new one)
+            else
+            {
+                profile = Volume.sharedProfile;
+                if (profile == null)
+                {
+                    profile = ScriptableObject.CreateInstance<VolumeProfile>();
+                    profile.name = "Ship stage sky and air";
+                    Volume.sharedProfile = profile;
+                }
+            }
+            environment = Part<VisualEnvironment>(profile, out bool fresh);
+            if (fresh)
+            {
+                environment.skyType.Override((int)SkyType.PhysicallyBased);
+                environment.cloudType.Override((int)CloudType.CloudLayer);
+                environment.skyAmbientMode.Override(SkyAmbientMode.Dynamic);
+                environment.renderingSpace.Override(RenderingSpace.Camera);   // (the sky goes with the camera: the stage may stand anywhere)
+            }
+            sky = Part<PhysicallyBasedSky>(profile, out fresh);
+            if (fresh)
+            {
+                sky.groundTint.Override(new Color(0.6f, 0.64f, 0.68f));
+                if (kit.stars != null)
+                {
+                    sky.spaceEmissionTexture.Override(kit.stars);
+                    sky.spaceEmissionMultiplier.Override(5f);
+                }
+            }
+            clouds = Part<CloudLayer>(profile, out fresh);
+            if (fresh)
+                clouds.layerA.distortionMode.Override(CloudDistortionMode.Procedural);   // (they move: the Visual Environment's wind)
+            fog = Part<Fog>(profile, out fresh);
+            if (fresh)
+            {
+                fog.enabled.Override(true);
+                fog.enableVolumetricFog.Override(false);
+                fog.maxFogDistance.Override(20000f);
+            }
+            exposure = Part<Exposure>(profile, out fresh);
+            if (fresh)
+                exposure.mode.Override(ExposureMode.Fixed);
+            var vc = Part<VolumetricClouds>(profile, out fresh);
+            if (fresh)
+                vc.enable.Override(false);
+        }
+
+        static T Part<T>(VolumeProfile profile, out bool fresh) where T : VolumeComponent
+        {
+            fresh = !profile.TryGet(out T part);
+            if (fresh)
+                part = profile.Add<T>(false);
+            return part;
         }
 
         void Rain()
         {
-            var go = new GameObject("Rain", typeof(ParticleSystem));
-            go.transform.SetParent(View.Camera.transform, false);
+            var go = Child(View.Camera.transform, "Rain", out bool made, typeof(ParticleSystem));
+            go.layer = kit.layer;
+            if (!go.TryGetComponent(out rain))
+            {
+                rain = go.AddComponent<ParticleSystem>();
+                made = true;
+            }
+            if (!made)
+                return;
             go.transform.localPosition = new Vector3(0f, 9f, 9f);
             go.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-            rain = go.GetComponent<ParticleSystem>();
             var main = rain.main;
             main.loop = true;
             // (the look lab's rain: TankBuilder.Precipitation, 13 m/s drops 2.5 cm wide, drawn stretched, with a lit material)
@@ -969,7 +1113,7 @@ namespace Kapman.Game.ShipView
         {
             GameObject go;
             if (prefab != null)
-                go = Instantiate(prefab, parent);
+                go = PrefabInstantiator != null ? PrefabInstantiator(prefab, parent) : Instantiate(prefab, parent);
             else
             {
                 go = new GameObject();
@@ -995,7 +1139,7 @@ namespace Kapman.Game.ShipView
             foreach (var t in go.GetComponentsInChildren<Transform>(true))
                 t.gameObject.layer = kit.layer;
             foreach (var c in go.GetComponentsInChildren<Collider>(true))
-                Destroy(c);
+                Kill(c);
             foreach (var r in go.GetComponentsInChildren<Renderer>(true))
             {
                 var mats = r.sharedMaterials;
@@ -1119,7 +1263,7 @@ namespace Kapman.Game.ShipView
         /// </summary>
         void LateUpdate()
         {
-            if (!Running)
+            if (!built || !Running)
             {
                 owed = 0f;
                 return;

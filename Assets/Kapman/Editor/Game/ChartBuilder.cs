@@ -13,7 +13,7 @@ namespace Kapman.EditorTools
 {
     /// <summary>
     /// THE CHART GAME'S SCENE (the user, 4 Oct 2026: "build the game via the 2D map aspect"; picker: "the chart is the
-    /// game") - L_Chart: no level, no terrain, no sea. The world frame at 1:60 (the clock's rate: ChartBody), the clock,
+    /// game") - the Kapman scene: no level, no terrain, no sea. The world frame at 1:60 (the clock's rate: ChartBody), the clock,
     /// a camera that draws nothing (the map is the screen), the merchant's ship as a ShipMotion driven by ChartBody, the
     /// chart's world (ChartWorld makes a Port for every trading place at Play), and the game as GameSetup adds it to any
     /// scene, with the map in chart mode and the parts that only make sense in 3D switched off (the voyage's beats, the
@@ -22,7 +22,7 @@ namespace Kapman.EditorTools
     /// </summary>
     public static class ChartBuilder
     {
-        public const string ScenePath = "Assets/Kapman/Scenes/L_Chart.unity";
+        public const string ScenePath = "Assets/Kapman/Scenes/Kapman.unity";
         /// <summary>Real metres to a game metre: the clock's game seconds a second, so real m/s are game m/s (ChartBody).</summary>
         public const float Scale = 60f;
         /// <summary>The frame's look.</summary>

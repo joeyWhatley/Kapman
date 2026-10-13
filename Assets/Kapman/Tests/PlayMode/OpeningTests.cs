@@ -29,7 +29,7 @@ namespace Kapman.Tests
         {
             // as MainMenu.NewGame clears a game, but back to the title, with the show on
             foreach (var go in SceneManager.GetActiveScene().GetRootGameObjects())
-                if (SceneManager.GetActiveScene().name == "L_Chart")
+                if (SceneManager.GetActiveScene().name == "Kapman")
                     go.SetActive(false);
             MainMenu.ClearAllState();
             // (the cards of this walk are shown on the ports' cards and a quest, which the game holds back for now:
@@ -46,8 +46,8 @@ namespace Kapman.Tests
                 File.Delete(old);
             SaveGame.FolderOverride = saves;
             ShipStageHook.TurnOn();
-            var load = SceneManager.LoadSceneAsync("L_Chart", LoadSceneMode.Single);
-            Assert.IsNotNull(load, "L_Chart is not in the build settings");
+            var load = SceneManager.LoadSceneAsync("Kapman", LoadSceneMode.Single);
+            Assert.IsNotNull(load, "the Kapman scene is not in the build settings");
             while (!load.isDone)
                 yield return null;
             Showtime.ForceOn = true;

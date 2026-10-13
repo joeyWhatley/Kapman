@@ -18,7 +18,7 @@ namespace Kapman.Game.ShipView
 
     /// <summary>
     /// THE STAGE'S KIT: the prefabs, materials and measures the 3D ship view is built from at run time. One small asset
-    /// in a Resources folder, so the stage needs no scene of its own and nothing in L_Chart (which ChartBuilder makes
+    /// in a Resources folder, so the stage needs no scene of its own and nothing in the Kapman scene (which ChartBuilder makes
     /// afresh): ShipStageHook loads it by name. Every prefab may be missing (the pack is bought and not in git): the
     /// stage then stands a plain box or post in its place, so a checkout without the pack still runs.
     /// The measures are the pack's own, read from its files on 7 Oct 2026 (Models/SMV_Ship.fbx and SMV_Environment_1.fbx

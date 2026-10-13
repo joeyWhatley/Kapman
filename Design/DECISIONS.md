@@ -2253,3 +2253,39 @@ and far fewer when usage is short).
    - NOT DONE: no picture of the mouse held on the picture's side (the keys are pictured; the mouse goes by the same
      hand); the small chart in the corner is not pulled in the helm's test; nothing of the helm is saved (a game
      loaded begins with the steersman's hand, by design).
+
+141. **THE SCENE IS NAMED KAPMAN, AND THE 3D STAGE STANDS IN IT**
+   (14 Oct, afternoon. The user opened the project and said "l chart is a bunch of scripts still", and asked "Is it
+   actually set up correctly in Unity" and "The entire thing built correctly with visual scripting ect?". By the
+   picker: "Yes, both: frame and stage" (the scene itself built in the editor, so the Scene and Game views show the
+   game before play); the scene's name: "Kapman" (over Game, Voyage, Chart); "You close it" for the open editor.)
+   - WHAT WAS TRUE: the scene held 20 objects, no meshes, no lights, no placed UI; the frame and chart are UI
+     Toolkit screens from the UXML files, and the 3D view built its whole stage by code at play. The frame WAS
+     already a UI Document with Game/UI/Frame.uxml as its Source Asset (step 2a of 8 Oct): I said it was not, and
+     took that back. So the frame half was done already; the stage half is this.
+   - THE SCENE: Assets/Kapman/Scenes/L_Chart.unity is Assets/Kapman/Scenes/Kapman.unity (the file and its meta
+     moved together, so its guid and the build settings' entry hold). Every string that named it in code and the
+     tests is changed (ChartBuilder.ScenePath, KapmanPhysical.GameScene, "Kapman" in the play tests' LoadScene).
+   - THE STAGE IN THE SCENE: Kapman > Make physical > 3. The 3D stage into the scene (KapmanPhysical.Step3Stage;
+     headless -executeMethod Kapman.EditorTools.KapmanPhysical.Step3Stage) puts the object "--- SHIP STAGE (the 3D
+     view) ---" under SYSTEMS with the kit on it, and the stage's own code builds on it, once, WHAT CAN BE SAVED
+     (ShipStage.MakeSaved): the boat's model as a prefab instance of the pack's ship (its layer and the kit's HDRP
+     materials as overrides), the empty holder of her fit-out, the Sun and the Moon, the volume "Sky and air" with
+     its profile saved as the asset Assets/Kapman/ShipView/Ship stage sky and air.asset, the camera with the rain
+     under it, and HDRP's sea. 119 transforms in all; the scene file grew from 69 KB to 204 KB.
+   - AT PLAY the stage is TAKEN UP, not made (ShipStage.Build finds the scene's ShipStage; FromScene is true): each
+     saved part is found by its name under the stage and kept as saved, the Inspector's word standing; a part not
+     found is made with the code's settings, as before. Only what cannot be saved is made at play: her fit-out
+     (from her class and crew), the lid that keeps the sea out of her hull, the jetty (per port), the wake, the
+     mooring lines, the mesh water of the fallback. What the clock and the weather drive (the Sun's and Moon's
+     place and light, the sky's tints, the fog, the exposure, the clouds, the rain) is written each frame as it
+     always was, to the volume's own copy of the profile, never to the asset. A stage saved in the scene SLEEPS
+     until it is taken up (ShipStage.Awake: its lights, sea and camera off), so a run with the view off costs
+     nothing for it. Where a scene has no stage (a test's own scene) the whole is made by code, as always.
+   - WHAT IS NOT IN THE SCENE, by design: the sea's state, the dock, the crew, the looks (PSX styles), the title's
+     letters: all computed from the game. The kit (Assets/Kapman/ShipView/Resources/ShipStageKit.asset) still holds
+     the models and the numbers.
+   - TESTS. Edit: StageInSceneTests (the scene file holds the stage, its eight named parts, the kit, the ship
+     prefab's guid and the saved profile; MakeSaved run twice on one object makes nothing twice). Play:
+     StageInScenePlayTests (a new game, the 3D view swapped in: the stage drawn is the scene's own under SYSTEMS,
+     each part once, the volume on its own copy of the saved profile, the Sun woken; picture in Captures/stage).

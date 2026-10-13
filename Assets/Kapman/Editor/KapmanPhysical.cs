@@ -14,11 +14,12 @@ namespace Kapman.EditorTools
     ///   Kapman > Make physical > 1. Systems into the scene
     ///   Kapman > Make physical > 2. The frame's layout file
     ///   Kapman > Make physical > 2b. The frame's parts
-    /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame, .Step2Parts)
+    ///   Kapman > Make physical > 3. The 3D stage into the scene
+    /// From a command line: -executeMethod Kapman.EditorTools.KapmanPhysical.Step1 (or .Step2Frame, .Step2Parts, .Step3Stage)
     /// </summary>
     public static class KapmanPhysical
     {
-        public const string GameScene = "Assets/Kapman/Scenes/L_Chart.unity";
+        public const string GameScene = "Assets/Kapman/Scenes/Kapman.unity";
         const string SystemsName = "--- SYSTEMS ---";
 
         /// <summary>The five parts that made themselves when the scene had loaded (the title and the opening, the music,
@@ -134,6 +135,65 @@ namespace Kapman.EditorTools
             EditorUtility.SetDirty(parts);
             AssetDatabase.SaveAssets();
             Debug.Log("Kapman, made physical, step 2b: " + PartsAsset + " names the files of " + PartsFolder + " and " + ShowLayout + ".");
+        }
+
+        public const string StageProfile = "Assets/Kapman/ShipView/Ship stage sky and air.asset";
+
+        /// <summary>
+        /// THE 3D STAGE STANDS IN THE SCENE (the user, 14 Oct 2026: "l chart is a bunch of scripts still"; by the picker,
+        /// "Yes, both: frame and stage"; KAPMAN_PLAN step 1b). The stage's object is put under SYSTEMS with its kit, and
+        /// the stage's own code builds on it, once, what can be saved (ShipStage.MakeSaved): the boat's model as a prefab
+        /// instance, the Sun and the Moon, the sky and air's volume with its profile (saved as an asset beside the kit),
+        /// the camera with its rain, and HDRP's sea. Seen in the Scene view, tuned in the Inspector; at play ShipStage
+        /// takes them up as they are and makes only the rest (ShipStage.Build). Run again it finds all of it there and
+        /// makes nothing.
+        /// </summary>
+        [MenuItem("Kapman/Make physical/3. The 3D stage into the scene")]
+        public static void Step3Stage()
+        {
+            var scene = EditorSceneManager.OpenScene(GameScene, OpenSceneMode.Single);
+            var kit = AssetDatabase.LoadAssetAtPath<ShipStageKit>(ShipStageKitBuilder.KitPath);
+            if (kit == null)
+                throw new System.InvalidOperationException("no kit at " + ShipStageKitBuilder.KitPath + " (Kapman > Ship view > Make the kit).");
+            var stage = Object.FindAnyObjectByType<ShipStage>(FindObjectsInactive.Include);
+            bool made = stage == null;
+            if (made)
+            {
+                var systems = GameObject.Find(SystemsName);
+                if (systems == null)
+                    systems = new GameObject(SystemsName);
+                var go = new GameObject(ShipStage.ObjectName);
+                go.transform.SetParent(systems.transform, false);
+                stage = go.AddComponent<ShipStage>();
+            }
+            stage.kit = kit;
+            int before = stage.GetComponentsInChildren<Transform>(true).Length;
+            // (the kit's prefabs go on as prefab instances, so the model in the scene is still the pack's prefab)
+            ShipStage.PrefabInstantiator = (prefab, parent) => (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent);
+            try
+            {
+                stage.MakeSaved();
+            }
+            finally
+            {
+                ShipStage.PrefabInstantiator = null;
+            }
+            // the sky and air's profile: an asset, with its parts inside it, so the scene can hold it and it can be tuned
+            var profile = stage.Volume != null ? stage.Volume.sharedProfile : null;
+            if (profile != null && !AssetDatabase.Contains(profile))
+            {
+                AssetDatabase.CreateAsset(profile, StageProfile);
+                foreach (var part in profile.components)
+                    if (part != null && !AssetDatabase.Contains(part))
+                        AssetDatabase.AddObjectToAsset(part, profile);
+                AssetDatabase.SaveAssets();
+            }
+            int after = stage.GetComponentsInChildren<Transform>(true).Length;
+            EditorUtility.SetDirty(stage);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("Kapman, made physical, step 3: " + ShipStage.ObjectName + (made ? " put into " : " found in ") + GameScene +
+                      " with " + (after - before) + " parts made (" + (after - 1) + " in all); the sky and air's profile is " + StageProfile + ".");
         }
 
         static UnityEngine.UIElements.VisualTreeAsset Layout(string file)

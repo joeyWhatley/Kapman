@@ -70,8 +70,8 @@ namespace Kapman.Tests
             foreach (string old in Directory.GetFiles(saves))
                 File.Delete(old);
             SaveGame.FolderOverride = saves;
-            var load = SceneManager.LoadSceneAsync("L_Chart", LoadSceneMode.Single);
-            Assert.IsNotNull(load, "L_Chart is not in the build settings");
+            var load = SceneManager.LoadSceneAsync("Kapman", LoadSceneMode.Single);
+            Assert.IsNotNull(load, "the Kapman scene is not in the build settings");
             while (!load.isDone)
                 yield return null;
             yield return ChartPlay.Frames(5);

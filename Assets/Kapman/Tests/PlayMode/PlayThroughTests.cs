@@ -87,7 +87,7 @@ namespace Kapman.Tests
         static IEnumerator FreshTitle()
         {
             foreach (var go in SceneManager.GetActiveScene().GetRootGameObjects())
-                if (SceneManager.GetActiveScene().name == "L_Chart")
+                if (SceneManager.GetActiveScene().name == "Kapman")
                     go.SetActive(false);
             MainMenu.ClearAllState();
             Showtime.ForceOn = true;
@@ -102,8 +102,8 @@ namespace Kapman.Tests
                 File.Delete(old);
             SaveGame.FolderOverride = saves;
             ShipStageHook.TurnOn();
-            var load = SceneManager.LoadSceneAsync("L_Chart", LoadSceneMode.Single);
-            Assert.IsNotNull(load, "L_Chart is not in the build settings");
+            var load = SceneManager.LoadSceneAsync("Kapman", LoadSceneMode.Single);
+            Assert.IsNotNull(load, "the Kapman scene is not in the build settings");
             while (!load.isDone)
                 yield return null;
             Showtime.ForceOn = true;

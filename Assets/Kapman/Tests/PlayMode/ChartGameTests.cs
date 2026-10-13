@@ -18,7 +18,7 @@ namespace Kapman.Tests
 {
     /// <summary>
     /// THE CHART GAME, PLAYED AS A PLAYER PLAYS IT (the user, 4 Oct 2026: "the chart is the game"; 7 Oct: it is run from
-    /// the command frame). L_Chart is opened in Play and played through the real controls (ChartPlay: a click is a
+    /// the command frame). the Kapman scene is opened in Play and played through the real controls (ChartPlay: a click is a
     /// pointer pressed on the screen where the thing is, a key is a key of the keyboard), with a picture at each step
     /// in Captures/chart. Open the pictures after a run: they are what the player sees.
     ///
@@ -72,8 +72,8 @@ namespace Kapman.Tests
 
         static IEnumerator OpenChart()
         {
-            var load = SceneManager.LoadSceneAsync("L_Chart", LoadSceneMode.Single);
-            Assert.IsNotNull(load, "L_Chart is not in the build settings (Kapman > Levels > Build the chart game)");
+            var load = SceneManager.LoadSceneAsync("Kapman", LoadSceneMode.Single);
+            Assert.IsNotNull(load, "the Kapman scene is not in the build settings (Kapman > Levels > Build the chart game)");
             while (!load.isDone)
                 yield return null;
             yield return Frames(5);
@@ -221,7 +221,7 @@ namespace Kapman.Tests
 
                 // ---- THE TITLE: New game
                 var menu = MainMenu.Current;
-                Assert.IsNotNull(menu, "no main menu in L_Chart");
+                Assert.IsNotNull(menu, "no main menu in the Kapman scene");
                 if (menu.OnTitle)
                 {
                     yield return play.Shot("00_title");
@@ -242,7 +242,7 @@ namespace Kapman.Tests
 
                 // ---- WHO ARE YOU: a new game asks the three choices in a floating window, and the clock waits for them
                 var frame = FrameRoot.Current;
-                Assert.IsNotNull(frame, "no frame in L_Chart (Kapman > Levels > Build the chart game adds it)");
+                Assert.IsNotNull(frame, "no frame in the Kapman scene (Kapman > Levels > Build the chart game adds it)");
                 Assert.IsFalse(Self.Chosen, "a new game has not chosen who it is yet");
                 Assert.IsTrue(frame.AskingSelf, "a new game did not ask who the player is");
                 Assert.AreEqual(1, frame.FloatCount, "only the creation window should be up: " + string.Join(", ", frame.FloatIds));
@@ -297,8 +297,8 @@ namespace Kapman.Tests
 
                 // ---- THE SOUND of the chart: the soundscape is there, fed by where she is; in this run it plays nothing
                 var sound = LevelSoundscape2.Current;
-                Assert.IsNotNull(sound, "no soundscape in L_Chart (Kapman > Levels > Build the chart game puts it on the listener)");
-                Assert.IsNotNull(ChartSound.Current, "no ChartSound in L_Chart");
+                Assert.IsNotNull(sound, "no soundscape in the Kapman scene (Kapman > Levels > Build the chart game puts it on the listener)");
+                Assert.IsNotNull(ChartSound.Current, "no ChartSound in the Kapman scene");
                 Assert.IsNotNull(LevelSoundscape2.Feed, "the chart does not feed the soundscape");
                 yield return Frames(5);
                 Assert.AreEqual(ChartSound.Ground.Port, ChartSound.Now, "made fast at Dorestat the ear should be in port");
@@ -1103,10 +1103,10 @@ namespace Kapman.Tests
             FrameWindows.OneWindow = false;                              // (these tests are of the tiled windows)
             ClockDrops.Quiet = true;
             SaveGame.FolderOverride = TestSaves();
-            if (SceneManager.GetActiveScene().name != "L_Chart")
+            if (SceneManager.GetActiveScene().name != "Kapman")
                 yield return OpenChart();
             var menu = MainMenu.Current;
-            Assert.IsNotNull(menu, "no main menu in L_Chart");
+            Assert.IsNotNull(menu, "no main menu in the Kapman scene");
             var play = ChartPlay.Begin(false);
             float from;
             try
@@ -1246,9 +1246,9 @@ namespace Kapman.Tests
             FrameWindows.OneWindow = false;                              // (these tests are of the tiled windows)
             ClockDrops.Quiet = true;
             SaveGame.FolderOverride = TestSaves();
-            if (SceneManager.GetActiveScene().name != "L_Chart")
+            if (SceneManager.GetActiveScene().name != "Kapman")
                 yield return OpenChart();
-            Assert.IsNotNull(MainMenu.Current, "no main menu in L_Chart");
+            Assert.IsNotNull(MainMenu.Current, "no main menu in the Kapman scene");
             MainMenu.Current.NewGame();                                   // (a game of its own: the state cleared, the scene again)
             SaveGame.FolderOverride = TestSaves();                        // (a new game forgets the folder a test named: named again)
             FrameRoot.FreshLayout = true;
@@ -1816,10 +1816,10 @@ namespace Kapman.Tests
             ClockDrops.Quiet = true;                                      // (until she has begun; then this test is of the drops)
             ClockSettings.AsNew = true;                                   // (the switches a new player has, whatever this machine keeps)
             SaveGame.FolderOverride = TestSaves();
-            if (SceneManager.GetActiveScene().name != "L_Chart")
+            if (SceneManager.GetActiveScene().name != "Kapman")
                 yield return OpenChart();
             var menu = MainMenu.Current;
-            Assert.IsNotNull(menu, "no main menu in L_Chart");
+            Assert.IsNotNull(menu, "no main menu in the Kapman scene");
             var play = ChartPlay.Begin(false);
             var said = new List<string>();
             float from;
@@ -2065,7 +2065,7 @@ namespace Kapman.Tests
             ClockDrops.Quiet = true;                                      // (until she has begun)
             ClockSettings.AsNew = true;
             SaveGame.FolderOverride = TestSaves();
-            if (SceneManager.GetActiveScene().name != "L_Chart")
+            if (SceneManager.GetActiveScene().name != "Kapman")
                 yield return OpenChart();
             var ends = new List<string>();
             try
@@ -2074,7 +2074,7 @@ namespace Kapman.Tests
                 {
                     // ---- a new game, from the title or from the game before
                     var menu = MainMenu.Current;
-                    Assert.IsNotNull(menu, "no main menu in L_Chart");
+                    Assert.IsNotNull(menu, "no main menu in the Kapman scene");
                     ClockDrops.Quiet = true;
                     var play = ChartPlay.Begin(false);
                     float from;
@@ -2231,9 +2231,9 @@ namespace Kapman.Tests
             SaveGame.FolderOverride = TestSaves();
             foreach (string old in Directory.GetFiles(SaveGame.FolderOverride))
                 File.Delete(old);
-            if (SceneManager.GetActiveScene().name != "L_Chart")
+            if (SceneManager.GetActiveScene().name != "Kapman")
                 yield return OpenChart();
-            Assert.IsNotNull(MainMenu.Current, "no main menu in L_Chart");
+            Assert.IsNotNull(MainMenu.Current, "no main menu in the Kapman scene");
             MainMenu.Current.NewGame();
             SaveGame.FolderOverride = TestSaves();
             FrameRoot.FreshLayout = true;

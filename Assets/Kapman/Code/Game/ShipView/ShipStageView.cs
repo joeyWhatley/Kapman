@@ -88,16 +88,27 @@ namespace Kapman.Game.ShipView
 
         public void Build(Transform parent, ShipStageKit kit)
         {
-            var go = new GameObject("Ship stage camera") { layer = kit.layer };       // (not tagged MainCamera: the chart's is)
-            go.transform.SetParent(parent, false);
-            Camera = go.AddComponent<Camera>();
-            Camera.enabled = false;
+            // (saved in the scene, the camera is taken as it is; else made. Not tagged MainCamera: the chart's is.)
+            var go = ShipStage.Child(parent, "Ship stage camera", out bool made);
+            go.layer = kit.layer;
+            if (!go.TryGetComponent(out Camera camera))
+            {
+                camera = go.AddComponent<Camera>();
+                made = true;
+            }
+            Camera = camera;
+            Camera.enabled = false;                                       // (it draws only when the stage asks: Render)
+            if (!go.TryGetComponent(out HDAdditionalCameraData data))
+                data = go.AddComponent<HDAdditionalCameraData>();
+            Data = data;
+            every = Mathf.Max(1, kit.smallEvery);
+            if (!made)
+                return;
             Camera.cullingMask = 1 << kit.layer;
             Camera.nearClipPlane = 0.2f;
             Camera.farClipPlane = 20000f;
             Camera.fieldOfView = 34f;
             Camera.allowMSAA = false;
-            Data = go.AddComponent<HDAdditionalCameraData>();
             Data.volumeLayerMask = 1 << kit.layer;
             Data.clearColorMode = HDAdditionalCameraData.ClearColorMode.Sky;
             Data.antialiasing = HDAdditionalCameraData.AntialiasingMode.None;
@@ -116,7 +127,6 @@ namespace Kapman.Game.ShipView
             }
             Data.renderingPathCustomFrameSettingsOverrideMask.mask[(uint)FrameSettingsField.LitShaderMode] = true;
             Data.renderingPathCustomFrameSettings.litShaderMode = LitShaderMode.Forward;
-            every = Mathf.Max(1, kit.smallEvery);
         }
 
         /// <summary>The picture's size in pixels. Makes the texture anew when it changes; true when it did.</summary>

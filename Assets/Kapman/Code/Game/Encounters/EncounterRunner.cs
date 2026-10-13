@@ -18,7 +18,7 @@ namespace Kapman.Game
     /// The effects go to the real game (GameEffects); the toll's ease or waiver is read by the sales through
     /// <see cref="TollFactor"/>.
     ///
-    /// ON THE CHART (7 Oct 2026: L_Chart has no level, so no berth of chain.json, and no card could open there): every
+    /// ON THE CHART (7 Oct 2026: the Kapman scene has no level, so no berth of chain.json, and no card could open there): every
     /// port ChartWorld makes is a mooring, and a call begins when the port's graph has laid her to at one (she is
     /// "anchored" inside its reach; the clock is held in port, so the dwell is counted in real seconds). A new game
     /// opens with her lying at home: that call is in progress from the start, quietly (nobody comes down to a boat that

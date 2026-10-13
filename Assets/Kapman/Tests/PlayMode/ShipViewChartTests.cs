@@ -23,7 +23,7 @@ namespace Kapman.Tests
     /// <summary>
     /// THE 3D SHIP VIEW IN THE CHART GAME, PLAYED AS A PLAYER PLAYS IT (the user, 7 Oct 2026: "start working on the 3D
     /// view for the ship"; "the map and the 3D sailing boat can be changed focus with a simple button on the ... top
-    /// left of the 3D sailing boat that switches place with the map and miniaturises the map"). L_Chart is opened in
+    /// left of the 3D sailing boat that switches place with the map and miniaturises the map"). the Kapman scene is opened in
     /// Play, a new game is begun at Dorestat, and the ship window of the frame is looked at through the real controls
     /// (ChartPlay), with a picture of the whole screen at each step in Captures/ship_view/chart, and the ship window
     /// alone, twice its size, beside each (..__window.png):
@@ -65,8 +65,8 @@ namespace Kapman.Tests
 
         static IEnumerator OpenChart()
         {
-            var load = SceneManager.LoadSceneAsync("L_Chart", LoadSceneMode.Single);
-            Assert.IsNotNull(load, "L_Chart is not in the build settings (Kapman > Levels > Build the chart game)");
+            var load = SceneManager.LoadSceneAsync("Kapman", LoadSceneMode.Single);
+            Assert.IsNotNull(load, "the Kapman scene is not in the build settings (Kapman > Levels > Build the chart game)");
             while (!load.isDone)
                 yield return null;
             yield return Frames(5);
@@ -115,9 +115,9 @@ namespace Kapman.Tests
             ClockDrops.Quiet = true;                                      // (the clock is not dropped back under this test: it had been left so by whichever test ran before)
             SaveGame.FolderOverride = TestSaves();
             ShipStageHook.TurnOn();                                       // (a test before may have left it off; these are about the view)
-            if (SceneManager.GetActiveScene().name != "L_Chart")
+            if (SceneManager.GetActiveScene().name != "Kapman")
                 yield return OpenChart();
-            Assert.IsNotNull(MainMenu.Current, "no main menu in L_Chart");
+            Assert.IsNotNull(MainMenu.Current, "no main menu in the Kapman scene");
             if (MainMenu.Current.OnTitle)
                 yield break;
             MainMenu.Current.NewGame();
@@ -135,12 +135,12 @@ namespace Kapman.Tests
         public static IEnumerator NewGameAtDorestat(ChartPlay play)
         {
             var menu = MainMenu.Current;
-            Assert.IsNotNull(menu, "no main menu in L_Chart");
+            Assert.IsNotNull(menu, "no main menu in the Kapman scene");
             if (menu.OnTitle)
                 yield return play.ClickButton("1. New game");
             yield return Frames(120);
             var frame = FrameRoot.Current;
-            Assert.IsNotNull(frame, "no frame in L_Chart");
+            Assert.IsNotNull(frame, "no frame in the Kapman scene");
             if (frame.AskingSelf)
                 yield return play.Click(play.Choices(play.FrontFloat())[0].button, "Begin");
             float from = Time.realtimeSinceStartup;

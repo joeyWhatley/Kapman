@@ -71,10 +71,11 @@ namespace Kapman.Game.ShipView
         {
             this.stage = stage;
             this.kit = kit;
-            Root = new GameObject("Ship").transform;
-            Root.SetParent(parent, false);
+            // (saved in the scene: "Ship", her "Model" under it, a prefab instance, and the empty holder of her fit-out; else made)
+            Root = ShipStage.Child(parent, "Ship", out _).transform;
+            var saved = Root.Find("Model");
             // (with no pack: a box of the longship's size, so the scale and the float can still be looked at)
-            var model = stage.Spawn(kit.ship, Root, "Model", PrimitiveType.Cube, new Vector3(kit.modelBeam * 0.8f, 1.6f, kit.modelLength));
+            var model = saved != null ? saved.gameObject : stage.Spawn(kit.ship, Root, "Model", PrimitiveType.Cube, new Vector3(kit.modelBeam * 0.8f, 1.6f, kit.modelLength));
             Model = model.transform;
             var all = model.GetComponentsInChildren<Transform>(true);
             foreach (var t in all)
@@ -87,9 +88,7 @@ namespace Kapman.Game.ShipView
                 else if (t.name == "Ship_Sail_Close") SailFurled = t;
                 else if (t.name == "ShipSteerOar_1") SteerOar = t;
             }
-            FitOut = new GameObject("Fit-out").transform;
-            FitOut.SetParent(Root, false);
-            MakeLid();
+            FitOut = ShipStage.Child(Root, "Fit-out", out _).transform;
         }
 
         GameObject lid;
@@ -101,11 +100,12 @@ namespace Kapman.Game.ShipView
         /// stands higher than her boards is drawn inside the hull. The look lab and the 3D levels do the same
         /// (HdrpWater.AddExcluder). Made in the model's own metres from the rail's measures (ShipRail), under the model,
         /// so it is scaled with her; tapered on to the stems beyond the measured rail, kept low there so it never cuts
-        /// the sea away outside her. Only shown while HDRP's water is the sea drawn.
+        /// the sea away outside her. Only shown while HDRP's water is the sea drawn. Made at play (its mesh is not saved),
+        /// never twice.
         /// </summary>
-        void MakeLid()
+        public void MakeLid()
         {
-            if (kit.waterExclusion == null || kit.ship == null)
+            if (kit.waterExclusion == null || kit.ship == null || lid != null)
                 return;
             const float inset = 0.10f, drop = 0.12f;
             var sections = new List<Vector3>();                              // (half-breadth, height, z), stern to bow

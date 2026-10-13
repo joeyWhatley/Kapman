@@ -114,11 +114,25 @@ namespace Kapman.Game.ShipView
 
         public void Build(Transform parent, int layer)
         {
-            // (DontSave: Object.FindAnyObjectByType does not return such objects, and WaterSampler looks for its surface
-            // with exactly that. Shown in the Hierarchy all the same.)
-            Object = new GameObject("Sea (HDRP water)") { layer = layer, hideFlags = HideFlags.DontSave };
-            Object.transform.SetParent(parent, false);
-            var s = Surface = Object.AddComponent<WaterSurface>();
+            // (saved in the scene the surface is taken as it is, its look the Inspector's; else made with the code's.
+            // DontSave at play: Object.FindAnyObjectByType does not return such objects, and WaterSampler looks for its
+            // surface with exactly that. Shown in the Hierarchy all the same.)
+            Object = ShipStage.Child(parent, "Sea (HDRP water)", out bool made);
+            Object.layer = layer;
+            if (Application.isPlaying)
+                Object.hideFlags = HideFlags.DontSave;
+            if (!Object.TryGetComponent(out WaterSurface s))
+            {
+                s = Object.AddComponent<WaterSurface>();
+                made = true;
+            }
+            Surface = s;
+            s.decalRegionAnchor = parent;
+            s.scriptInteractions = rideAbove <= 0f;                       // (Tick switches it on when there is a sea to ride)
+            if (onlyWhileDrawn && Application.isPlaying)
+                s.enabled = false;
+            if (!made)
+                return;
             s.surfaceType = WaterSurfaceType.OceanSeaLake;
             s.geometryType = WaterGeometryType.Infinite;
             s.scriptInteractions = true;                                  // (she floats on its own waves)
@@ -142,16 +156,12 @@ namespace Kapman.Game.ShipView
             // (her wake's foam is put into the water by decals: the patch of water they may mark is kept round her, not round
             // whichever camera HDRP draws first, which is the chart's, far away)
             s.decalRegionSize = new Vector2(64f, 64f);
-            s.decalRegionAnchor = parent;
             s.underWater = false;
             s.refractionColor = seaRefraction;
             s.scatteringColor = seaScattering;
             s.absorptionDistance = seaSeenInto;
             s.startSmoothness = smoothness;
             s.endSmoothness = Mathf.Max(0.5f, smoothness - 0.08f);
-            s.scriptInteractions = rideAbove <= 0f;                       // (Tick switches it on when there is a sea to ride)
-            if (onlyWhileDrawn)
-                s.enabled = false;
         }
 
         public void Destroy()
