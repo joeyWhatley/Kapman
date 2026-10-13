@@ -119,6 +119,39 @@ namespace Kapman.Tests
             Assert.IsFalse(GameRules.PressTakesLine(20.0, 9.0), "twenty pixels from the line: the press is the chart's");
         }
 
+        /// <summary>The two rules of the helm (13 Oct 2026: steer her yourself in 3D): how fast she answers it, and
+        /// whether the steersman lays her course again when it is given back; each graph says what the code says.</summary>
+        [Test]
+        public void TheGraphsOfTheHelmSayWhatTheCodeSays()
+        {
+            foreach (string rule in new[] { "helm_answer", "gives_back_laid" })
+                Assert.IsTrue(RuleGraphs.Has(rule), "no graph of the book holds the rule \"" + rule + "\" (Kapman > Make physical > 3. The rules' graphs)");
+            var dice = new Random(1313);
+            int asked = GameRules.ByGraph, cases = 0;
+            for (int i = 0; i < 2000; i++)
+            {
+                double rate = dice.Next(4) == 0 ? 40.0 : dice.NextDouble() * 120.0;
+                double way = dice.Next(4) == 0 ? new[] { -0.5, 0.0, 1.0, 1.5 }[dice.Next(4)] : dice.NextDouble() * 1.2 - 0.1;
+                double rudder = dice.Next(4) == 0 ? new[] { -1.0, 0.0, 1.0 }[dice.Next(3)] : dice.NextDouble() * 2.0 - 1.0;
+                Assert.AreEqual(GameRules.HelmAnswerByCode(rate, way, rudder), GameRules.HelmAnswer(rate, way, rudder), 0.0, $"she answers the helm: rate {rate}, way {way}, helm {rudder}");
+                cases++;
+            }
+            foreach (bool a in new[] { false, true })
+                foreach (bool b in new[] { false, true })
+                {
+                    Assert.AreEqual(GameRules.LaysAgainOnGiveBackByCode(a, b), GameRules.LaysAgainOnGiveBack(a, b), $"given back: course {a}, thick {b}");
+                    cases++;
+                }
+            Assert.AreEqual(asked + cases, GameRules.ByGraph, "one of the two was not reckoned by its graph (the code's answer stood in)");
+            // and the plain cases, by hand
+            Assert.AreEqual(40.0, GameRules.HelmAnswer(40.0, 1.0, 1.0), 1e-9, "at full speed, hard over, she turns at her rate");
+            Assert.AreEqual(-12.0, GameRules.HelmAnswer(40.0, 0.0, -1.0), 1e-9, "with no way on her the rudder bites at three tenths");
+            Assert.AreEqual(0.0, GameRules.HelmAnswer(40.0, 1.0, 0.0), 1e-9, "amidships she holds her heading");
+            Assert.IsTrue(GameRules.LaysAgainOnGiveBack(true, false), "with a course set he lays it again from where she is");
+            Assert.IsFalse(GameRules.LaysAgainOnGiveBack(false, false), "with no course she lies to");
+            Assert.IsFalse(GameRules.LaysAgainOnGiveBack(true, true), "in thick air he cannot see to lay it");
+        }
+
         /// <summary>The three rules of 10 Oct 2026 (the user by the picker: fewer prompts): each has its graph, and the
         /// graph says what the code says in every case there is.</summary>
         [Test]

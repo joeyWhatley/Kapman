@@ -142,7 +142,26 @@ namespace Kapman.Game
             }
             bool rowing = false;                                      // (under the order Out oars, and making way by it)
             var goal = motion.Goal;
-            if (goal.HasValue)
+            if (HandHelm.Held)
+            {
+                // YOUR HAND ON THE HELM (13 Oct 2026, the user by the picker: "Steer her yourself in 3D"): she turns as
+                // the helm is over, at the rate the rule graph gives for her way, and makes what way her sail or her
+                // oars give on the heading she has; the planner's point is not steered for while your hand is on it.
+                float share = Mathf.Clamp01(speed / 3.0f);               // (3 m/s is about her full six knots)
+                heading += (float)GameRules.HelmAnswer(turnRate, share, HandHelm.Rudder) * helm;
+                bool lying = false;
+                float course = Mathf.Repeat(heading, 360f);
+                double made = cls == null ? fallbackKnots * 0.5144
+                            : Oars.Out && !Boat.IsLost && !Boat.LyingTo ? Oars.Speed(cls, course, WindFrom, Wind, out lying) * Boat.OarFactor * Boat.WaterFactor
+                                                                        : Boat.Speed(cls, course, WindFrom, Wind, out lying);
+                made *= RoughWaters.Slow;
+                Sheltering = lying;
+                rowing = Oars.Out && cls != null && !lying;
+                target = (float)made;
+                if (lying)
+                    motion.Say(Boat.IsLost ? "She is lost." : Wind > GaleDice.GaleWind ? "A gale: she lies to." : "She lies to.");
+            }
+            else if (goal.HasValue)
             {
                 Vector3 to = goal.Value - pos;
                 to.y = 0f;

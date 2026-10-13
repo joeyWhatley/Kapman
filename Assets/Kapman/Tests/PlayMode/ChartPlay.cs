@@ -520,6 +520,19 @@ namespace Kapman.Tests
 
         // ------------------------------------------------------------------ the keyboard
 
+        /// <summary>A key held down for so many frames, then let go (the helm, 13 Oct 2026).</summary>
+        public IEnumerator Hold(Key key, int frames)
+        {
+            InputSystem.QueueStateEvent(keyboard, new KeyboardState(key));
+            yield return null;
+            Assert.IsTrue(keyboard[key].isPressed, $"the key {key} did not reach the game (the input system took no key from the test)");
+            for (int i = 1; i < frames; i++)
+                yield return null;
+            InputSystem.QueueStateEvent(keyboard, new KeyboardState());
+            yield return null;
+            keys++;
+        }
+
         /// <summary>A key pressed and let go: the game sees it pressed for one frame.</summary>
         public IEnumerator Press(Key key)
         {

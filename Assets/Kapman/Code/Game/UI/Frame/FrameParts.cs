@@ -33,6 +33,8 @@ namespace Kapman.Game.Frame
         public VisualTreeAsset hoverBox;
         [Tooltip("A knot of her course on the chart: a point the course has been pulled through (Game/UI/Parts/CourseKnot.uxml, the element \"knot\").")]
         public VisualTreeAsset courseKnot;
+        [Tooltip("The helm's mark at the foot of the 3D view: whose hand, the tiller, the keys (Game/UI/Parts/HelmMark.uxml, the element \"helm\").")]
+        public VisualTreeAsset helmMark;
 
         [Header("The menu and the opening")]
         [Tooltip("One choice of the menu (Game/UI/Parts/MenuOption.uxml, the element \"option\").")]

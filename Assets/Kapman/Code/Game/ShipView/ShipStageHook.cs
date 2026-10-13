@@ -104,6 +104,92 @@ namespace Kapman.Game.ShipView
                 return;                                                   // (over a window, a button, the small chart: theirs)
             Swapped = false;
         }
+        // ------------------------------------------------------------------ your hand on the helm (13 Oct 2026)
+
+        VisualElement helmMark, helmTiller;
+        Label helmWhose, helmKeys;
+        /// <summary>The helm's mark on the big picture (null before the frame is up): a test reads it.</summary>
+        public VisualElement HelmMark => helmMark;
+
+        public const string SteersmansHandWords = "The steersman's hand", YourHandWords = "Your hand on the helm";
+        public const string KeysWords = "A  D  the helm     H  give it back", TakeKeysWords = "A  D  take the helm";
+
+        /// <summary>
+        /// YOUR HAND ON THE HELM (the user, 13 Oct 2026, by the picker: "Steer her yourself in 3D"). With the 3D view
+        /// filling the screen: A or D, or the left button held on the left or right third of the picture, take the
+        /// helm and put it over; let go, it is amidships and she holds her heading; H gives the helm back. The swap
+        /// back to the chart gives it back too. The moments and the laying again are HandHelm's; the turning is
+        /// ChartBody.Move's.
+        /// </summary>
+        void HelmStep(FrameRoot frame, Keyboard kb, bool shown)
+        {
+            bool onScreen = Swapped && applied && shown && !Showroom && !TitleSea;
+            if (!onScreen)
+            {
+                if (HandHelm.Held)
+                    GiveHelmBack();                                       // (the chart has the screen again: the steersman's)
+                if (helmMark != null)
+                    helmMark.style.display = DisplayStyle.None;
+                return;
+            }
+            float rudder = 0f;
+            bool wants = false;
+            bool keysFree = kb != null && !UiTyping.Active && !UiFocus.Modal && !kb.ctrlKey.isPressed && !kb.altKey.isPressed;
+            if (keysFree)
+            {
+                if (kb.aKey.isPressed) { rudder -= 1f; wants = true; }
+                if (kb.dKey.isPressed) { rudder += 1f; wants = true; }
+                if (kb.hKey.wasPressedThisFrame && HandHelm.Held)
+                    GiveHelmBack();
+            }
+            // the mouse held on the picture's left or right third (not over a window or a button of the frame)
+            var mouse = Mouse.current;
+            if (mouse != null && mouse.leftButton.isPressed && frame != null && frame.Root != null && frame.Root.panel != null && !UiFocus.Modal)
+            {
+                Vector2 screen = mouse.position.ReadValue();
+                Vector2 at = RuntimePanelUtils.ScreenToPanel(frame.Root.panel, new Vector2(screen.x, Screen.height - screen.y));
+                var under = frame.Root.panel.Pick(at);
+                float width = frame.Root.resolvedStyle.width;
+                if ((under == null || under == frame.Root) && width > 0f)
+                {
+                    if (at.x < width / 3f) { rudder = -1f; wants = true; }
+                    else if (at.x > width * 2f / 3f) { rudder = 1f; wants = true; }
+                }
+            }
+            if (wants && !HandHelm.Held)
+                HandHelm.Take();
+            if (HandHelm.Held)
+                HandHelm.Steer(rudder);
+            // the mark: whose hand, and the tiller; at the foot of the viewport hole, where the picture shows through
+            // (the frame's windows lie over the big picture: at the foot of the whole screen it was under the log)
+            if (helmMark != null)
+            {
+                helmMark.style.display = DisplayStyle.Flex;
+                var hole = frame != null && frame.Root != null ? frame.Root.Q<VisualElement>("viewport") : null;
+                if (hole != null && hole.worldBound.width > 2f)
+                {
+                    var r = hole.worldBound;
+                    float high = helmMark.resolvedStyle.height > 0f ? helmMark.resolvedStyle.height : 70f;
+                    helmMark.style.left = r.center.x - 180f;
+                    helmMark.style.top = r.yMax - high - 16f;
+                }
+                if (helmWhose != null)
+                    helmWhose.text = HandHelm.Held ? YourHandWords : SteersmansHandWords;
+                if (helmKeys != null)
+                    helmKeys.text = HandHelm.Held ? KeysWords : TakeKeysWords;
+                if (helmTiller != null)
+                    helmTiller.style.left = new Length(50f + (HandHelm.Held ? HandHelm.Rudder : 0f) * 42f, LengthUnit.Percent);
+            }
+        }
+
+        /// <summary>The helm given back to the steersman: from where she is, lying where she lies, in the air there is.</summary>
+        public void GiveHelmBack()
+        {
+            if (!HandHelm.Held)
+                return;
+            HandHelm.GiveBack(ChartWorld.ShipWorld(), Port.LyingId(), Adrift.ThickAir);
+        }
+
         /// <summary>Swapped, the small chart is drawn at this many times the chart's own metres to a pixel.</summary>
         public float miniChartScale = 2.5f;
 
@@ -296,6 +382,7 @@ namespace Kapman.Game.ShipView
             if (kb != null && shown && !UiTyping.Active && !UiFocus.Modal && !kb.ctrlKey.isPressed && !kb.altKey.isPressed && kb.lKey.wasPressedThisFrame)
                 looks.Next();
             ZoomStep(frame);
+            HelmStep(frame, kb, shown);
             var map = MapView.Current;
             bool want = Swapped && shown && map != null && !map.ChestOpen;
             if (want != applied)
@@ -347,6 +434,18 @@ namespace Kapman.Game.ShipView
             big = Picture();
             big.style.display = DisplayStyle.None;
             frame.Root.Insert(0, big);
+            // THE HELM'S MARK (13 Oct 2026): whose hand is on the helm and how far it is over, at the foot of the big
+            // picture while the 3D view has the screen (Game/UI/Parts/HelmMark.uxml).
+            var parts = Kapman.Game.Frame.FrameParts.Current;
+            helmMark = Kapman.Game.Frame.FrameParts.Make<VisualElement>(parts != null ? parts.helmMark : null, "helm");
+            helmMark.pickingMode = PickingMode.Ignore;
+            foreach (var child in helmMark.Children())
+                child.pickingMode = PickingMode.Ignore;
+            helmMark.style.display = DisplayStyle.None;
+            frame.Root.Insert(1, helmMark);
+            helmWhose = helmMark.Q<Label>("whose");
+            helmKeys = helmMark.Q<Label>("keys");
+            helmTiller = helmMark.Q<VisualElement>("tiller");
             // the word that says which look is on: on each picture, so it goes with whichever is shown
             wordSmall = wordBig = null;                                  // (the look is named on its button, in the bar)
             if (looks != null)
@@ -397,6 +496,9 @@ namespace Kapman.Game.ShipView
         {
             small?.RemoveFromHierarchy();
             big?.RemoveFromHierarchy();
+            helmMark?.RemoveFromHierarchy();
+            helmMark = helmTiller = null;
+            helmWhose = helmKeys = null;
             swapSmall?.RemoveFromHierarchy();
             lookButton?.RemoveFromHierarchy();
             lookButton = null;

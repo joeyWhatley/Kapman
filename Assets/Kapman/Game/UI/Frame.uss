@@ -3041,3 +3041,49 @@
     align-items: flex-start;
     justify-content: flex-start;
 }
+
+/* THE HELM'S MARK (13 Oct 2026): at the foot of the 3D view while it fills the screen. Whose hand is on the helm, the
+   tiller on its track (left: port, right: starboard), and the keys. Game/UI/Parts/HelmMark.uxml. */
+.frame-helm {
+    position: absolute;
+    width: 360px;
+    padding: 6px 12px;
+    align-items: center;
+    background-color: rgba(34, 22, 40, 0.78);
+    border-radius: 8px;
+}
+
+.frame-helm-whose {
+    font-size: var(--t-quiet);
+    color: rgb(236, 235, 230);
+    -unity-text-align: middle-center;
+}
+
+.frame-helm-track {
+    position: relative;
+    width: 300px;
+    height: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    background-color: rgba(236, 235, 230, 0.25);
+    border-radius: 5px;
+}
+
+.frame-helm-tiller {
+    position: absolute;
+    left: 50%;
+    top: -4px;
+    width: 18px;
+    height: 18px;
+    margin-left: -9px;
+    border-radius: 9px;
+    background-color: rgb(214, 196, 150);
+    border-width: 2px;
+    border-color: rgb(26, 15, 29);
+}
+
+.frame-helm-keys {
+    font-size: var(--t-quiet);
+    color: rgba(236, 235, 230, 0.8);
+    -unity-text-align: middle-center;
+}

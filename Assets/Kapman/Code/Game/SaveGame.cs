@@ -235,6 +235,7 @@ namespace Kapman.Game
             }
             game.ship.anchored = Json.Bool(ship, "anchored");
             Course.Restore(Json.Obj(data, "course"));
+            HandHelm.Clear();                                            // (13 Oct 2026: a game loaded has no hand on the helm)
             Aground.Loaded();                                             // (its timers are of the game that was)
             TideWait.Loaded();
             Autosave.CastOff();                                           // (a mooring's save still held was of the game that was: loading is not mooring)

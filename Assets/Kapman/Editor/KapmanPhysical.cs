@@ -123,6 +123,7 @@ namespace Kapman.EditorTools
             parts.logLine = Layout("LogLine");
             parts.hoverBox = Layout("HoverBox");
             parts.courseKnot = Layout("CourseKnot");
+            parts.helmMark = Layout("HelmMark");
             parts.menuOption = Layout("MenuOption");
             parts.showtime = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(ShowLayout);
             if (parts.showtime == null)

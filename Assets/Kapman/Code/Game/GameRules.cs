@@ -257,6 +257,25 @@ namespace Kapman.Game
         public static bool PressTakesLine(double distancePx, double holdPx) =>
             Ask("press_takes_line", PressTakesLineByCode(distancePx, holdPx) ? 1.0 : 0.0, distancePx, holdPx) >= 0.5;
 
+        /// <summary>HOW FAST SHE ANSWERS THE HELM under your hand (13 Oct 2026): degrees a second (real seconds at speed 1).
+        /// Given her class's rate of turn, her way as a share of her full speed (0..1: with little way on her the rudder
+        /// bites less) and the helm over (-1..1). As the code has it: the share kept between 0 and 1, times 0.7, plus
+        /// 0.3, times the rate, times the helm.</summary>
+        public static double HelmAnswerByCode(double turnRate, double wayShare, double rudder) =>
+            ((Math.Max(0.0, Math.Min(1.0, wayShare)) * 0.7) + 0.3) * turnRate * rudder;
+
+        /// <summary>The same, by the graph "Rule - how fast she answers the helm" where it is there.</summary>
+        public static double HelmAnswer(double turnRate, double wayShare, double rudder) =>
+            Ask("helm_answer", HelmAnswerByCode(turnRate, wayShare, rudder), turnRate, wayShare, rudder);
+
+        /// <summary>THE HELM GIVEN BACK (13 Oct 2026): does the steersman lay her course again from where she is? As the
+        /// code has it: when a course is set and the air is not thick.</summary>
+        public static bool LaysAgainOnGiveBackByCode(bool courseSet, bool thick) => courseSet && !thick;
+
+        /// <summary>The same, by the graph "Rule - does the steersman lay her course again when the helm is given back".</summary>
+        public static bool LaysAgainOnGiveBack(bool courseSet, bool thick) =>
+            Ask("gives_back_laid", LaysAgainOnGiveBackByCode(courseSet, thick) ? 1.0 : 0.0, courseSet ? 1.0 : 0.0, thick ? 1.0 : 0.0) >= 0.5;
+
         public static bool LaysAgainHimselfByCode(bool landInSight, bool thick) => landInSight && !thick;
 
         /// <summary>DOES THE STEERSMAN LAY HER COURSE AGAIN HIMSELF (the graph "Rule - does the steersman lay her course

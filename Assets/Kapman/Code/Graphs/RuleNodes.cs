@@ -555,6 +555,60 @@ namespace Kapman.Graphs
         }
     }
 
+    /// <summary>How fast she answers the helm under your hand (13 Oct 2026): degrees a second. Given her class's rate
+    /// of turn (degrees a second), her way as a share of her full speed (0..1), and the helm over (-1 port .. 1
+    /// starboard). The answer: degrees a second, signed as the helm is.</summary>
+    [UnitTitle("Rule: how fast she answers the helm")]
+    [UnitShortTitle("Rule: how fast she answers the helm")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class HelmAnswerRule : RuleUnit
+    {
+        public override string Rule => "helm_answer";
+
+        [DoNotSerialize, PortLabel("Her rate of turn (deg/s)")] public ValueOutput turnRate { get; private set; }
+        [DoNotSerialize, PortLabel("Her way (share of full)")] public ValueOutput way { get; private set; }
+        [DoNotSerialize, PortLabel("The helm over (-1..1)")] public ValueOutput rudder { get; private set; }
+
+        protected override void Given()
+        {
+            turnRate = ValueOutput<double>(nameof(turnRate));
+            way = ValueOutput<double>(nameof(way));
+            rudder = ValueOutput<double>(nameof(rudder));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(turnRate, given[0]);
+            flow.SetValue(way, given[1]);
+            flow.SetValue(rudder, given[2]);
+        }
+    }
+
+    /// <summary>The helm given back (13 Oct 2026): does the steersman lay her course again from where she is? Given:
+    /// is a course set (1 or 0), is the air thick (1 or 0). The answer: 1 he lays it again, 0 she lies to.</summary>
+    [UnitTitle("Rule: does the steersman lay her course again when the helm is given back")]
+    [UnitShortTitle("Rule: does he lay her course again when the helm is given back")]
+    [UnitCategory("Kapman/Rules")]
+    public sealed class GiveBackRule : RuleUnit
+    {
+        public override string Rule => "gives_back_laid";
+
+        [DoNotSerialize, PortLabel("A course is set (1 or 0)")] public ValueOutput course { get; private set; }
+        [DoNotSerialize, PortLabel("The air is thick (1 or 0)")] public ValueOutput thick { get; private set; }
+
+        protected override void Given()
+        {
+            course = ValueOutput<double>(nameof(course));
+            thick = ValueOutput<double>(nameof(thick));
+        }
+
+        public override void Give(Flow flow, double[] given)
+        {
+            flow.SetValue(course, given[0]);
+            flow.SetValue(thick, given[1]);
+        }
+    }
+
     /// <summary>Lying to with a reckoning lost, does she sail on by herself now (the user's ruling of 10 Oct 2026)? The answer: 1 she does, 0 she waits for her course to be laid. Given: was it lost in thick air (1 or 0), how far the steersman sees now, and from how far the air counts as clear.</summary>
     [UnitTitle("Rule: does she sail on when the air clears")]
     [UnitShortTitle("Rule: does she sail on when the air clears")]

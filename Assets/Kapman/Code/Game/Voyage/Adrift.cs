@@ -56,6 +56,32 @@ namespace Kapman.Game
     {
         /// <summary>How the steersman knows her place this minute.</summary>
         public static Helm Helm { get; private set; } = Helm.Fast;
+
+        /// <summary>The air is thick: the steersman cannot see to lay her course (for the helm given back, 13 Oct 2026).</summary>
+        public static bool ThickAir => Blind;
+
+        /// <summary>THE HELM GIVEN BACK (13 Oct 2026): the steersman lays her course again from where she is (`here`,
+        /// lying at `fromPort` or null), through her knots and on to the same end, and knows his place again. False
+        /// with no course, or where no water he knows leads on from here.</summary>
+        public static bool LayAgain(WorldXZ here, string fromPort)
+        {
+            if (relaying || !Course.IsSet)
+                return false;
+            relaying = true;
+            sinceRelay = 0.0;
+            bool laid;
+            try
+            {
+                laid = Course.SetTo(Course.Destination, here, fromPort);
+            }
+            finally
+            {
+                relaying = false;
+            }
+            if (laid)
+                Set = default;
+            return laid;
+        }
         /// <summary>East (x) and north (z), real metres: how far she truly is from where the steersman reckons her.</summary>
         public static WorldXZ Set { get; private set; }
         public static double SetM => Math.Sqrt(Set.x * Set.x + Set.z * Set.z);
@@ -519,7 +545,7 @@ namespace Kapman.Game
             if (Course.IsSet && reckoned)
             {
                 OffLine = Course.OffLine(to);
-                if (!warned && OffLine > r.offLineWarnM && (Helm == Helm.Reckoning || Helm == Helm.Coasting))
+                if (!warned && OffLine > r.offLineWarnM && (Helm == Helm.Reckoning || Helm == Helm.Coasting) && !HandHelm.Held)   // (13 Oct 2026: off her line by your own hand is no news)
                 {
                     // WITH THE LAND IN SIGHT HE LAYS HER COURSE AGAIN HIMSELF (the user by the picker, 10 Oct 2026: "He
                     // corrects along a coast": the log says so and the clock runs on. The long walk had been told 477

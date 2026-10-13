@@ -25,7 +25,7 @@ namespace Kapman.EditorTools
                 Toll(), Pay(), Health(), Heart(), Fight(), Trick(), Instalment(), GoonsDo(),
                 Leeway(), Blown(), SeaRuns(), Landfall(), ErrorKept(), Anchor(), LeeShore(), RoughRace(), RoughBar(), RoughShoal(), RoughCape(), RoughSlow(),
                 LaysAgain(), SailsOn(), AsBefore(),
-                PressTakesLine(),
+                PressTakesLine(), HelmAnswer(), GiveBack(),
             };
             var book = AssetDatabase.LoadAssetAtPath<RuleBook>(BookPath);
             if (book == null)
@@ -157,6 +157,86 @@ namespace Kapman.EditorTools
                 "Pixels from the line: how far the pointer is from the nearest stroke of her course still ahead of her, on the chart as it is shown. " +
                 "Pixels the line is held from: the chart's own reach for a press (MapView.KnotHoldPx).");
             return g.Save($"{Folder}/Rule - does the press take the line.asset");
+        }
+
+        /// <summary>The helm's two rule graphs of 13 Oct 2026 made again over the ones that are there (their first cut
+        /// stood a node too close to the start's long title). Only while nobody has changed them by hand.
+        /// Batch: -executeMethod Kapman.EditorTools.RuleGraphsMade.RemakeOfThirteenthOctober</summary>
+        public static void RemakeOfThirteenthOctober()
+        {
+            GraphBuilder.ReplaceExisting = true;
+            try
+            {
+                HelmAnswer();
+                GiveBack();
+            }
+            finally
+            {
+                GraphBuilder.ReplaceExisting = false;
+            }
+            Make();
+        }
+
+        // ------------------------------------------------------------------ the helm (13 Oct 2026)
+
+        /// <summary>Your hand on the helm: how fast she answers it.</summary>
+        public static ScriptGraphAsset HelmAnswer()
+        {
+            var g = new GraphBuilder("Rule - how fast she answers the helm",
+                "Your hand has the helm over in the 3D view. How many degrees a second does she turn? " +
+                "The game asks this graph each step she moves under your hand (GameRules.HelmAnswer, from ChartBody.Move).");
+            g.Group(-40, -80, 2600, 520, "How fast she answers the helm",
+                "Your ruling of 13 October 2026: steer her yourself in the 3D view. As first made: with no way on her the rudder bites at three tenths of her rate of turn, at full speed all of it; and as far over as the helm is.", GraphBuilder.Change);
+            var start = g.Add(new HelmAnswerRule(), 0, 0);
+            var share = g.Add(new Between01(), 520, 40);
+            g.Data(start.way, share.number);
+            var bite = g.Add(new Times(), 860, 40);
+            g.Data(share.kept, bite.a);
+            g.Set(bite.b, 0.7);
+            var least = g.Add(new AddIf(), 1200, 40);
+            g.Data(bite.product, least.to);
+            g.Set(least.amount, 0.3);
+            g.Set(least.when, true);
+            var rate = g.Add(new Times(), 1540, 40);
+            g.Data(least.sum, rate.a);
+            g.Data(start.turnRate, rate.b);
+            var over = g.Add(new Times(), 1880, 40);
+            g.Data(rate.product, over.a);
+            g.Data(start.rudder, over.b);
+            var answer = g.Add(new RuleAnswer(), 2220, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(over.product, answer.number);
+            g.Note(-20, 320, 620, 130, "What the game gives",
+                "Her rate of turn: her class's, degrees a second at speed 1 (ChartBody.turnRate, 40). Her way: her speed made good as a share of her full speed, 0 to 1. " +
+                "The helm over: -1 hard to port, 1 hard to starboard, 0 amidships (then the answer is 0: she holds her heading).");
+            return g.Save($"{Folder}/Rule - how fast she answers the helm.asset");
+        }
+
+        /// <summary>The helm given back: does the steersman lay her course again from where she is?</summary>
+        public static ScriptGraphAsset GiveBack()
+        {
+            var g = new GraphBuilder("Rule - does the steersman lay her course again when the helm is given back",
+                "Your hand has left the helm (H, or the swap back to the chart). Does the steersman lay her course again from where she is, or does she lie to? " +
+                "The game asks this graph the moment the helm is given back (GameRules.LaysAgainOnGiveBack, from HandHelm).");
+            g.Group(-40, -80, 2200, 520, "Does he lay her course again when the helm is given back",
+                "Your ruling of 13 October 2026. As first made: he does when a course is set and the air is not thick; with no course, or blind, she lies to.", GraphBuilder.Change);
+            var start = g.Add(new GiveBackRule(), 0, 0);
+            // (the start node's long title: the next nodes stand well to its right)
+            var course = Yes(g, start.course, 680, 20);
+            var thick = Yes(g, start.thick, 680, 200);
+            var can = g.Add(new BothOrEither { how = BothOrEither.How.FirstAndNotSecond }, 1000, 100);
+            g.Data(course, can.one);
+            g.Data(thick, can.other);
+            var does = g.Add(new ThisOrThat(), 1440, 100);
+            g.Data(can.so, does.when);
+            g.Set(does.yes, 1.0);
+            g.Set(does.no, 0.0);
+            var answer = g.Add(new RuleAnswer(), 1760, 0);
+            g.Flow(start.trigger, answer.enter);
+            g.Data(does.picked, answer.number);
+            g.Note(-20, 320, 620, 130, "What the game gives",
+                "A course is set: she was bound somewhere when your hand took the helm (the course waited). The air is thick: the steersman makes out a landfall at under a kilometre (fog, heavy rain).");
+            return g.Save($"{Folder}/Rule - does the steersman lay her course again when the helm is given back.asset");
         }
 
         /// <summary>Lying to with a reckoning lost: does she sail on by herself now?</summary>

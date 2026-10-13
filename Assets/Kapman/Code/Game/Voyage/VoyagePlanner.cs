@@ -246,6 +246,19 @@ namespace Kapman.Game
 
             // (a reckoning lost in thick air: when it clears the steersman lays her course again himself and she sails
             // on. The user's ruling of 10 Oct 2026; Adrift says whether, by its rule graph)
+            // YOUR HAND ON THE HELM (13 Oct 2026): the planner gives no orders and her charted course waits (HandHelm;
+            // the turning is ChartBody.Move's). Stuck fast by your hand, the helm is let go and the getting off is as
+            // it always was.
+            if (HandHelm.Held)
+            {
+                ship.anchored = false;
+                held = false;
+                wasMoored = false;
+                Hold();
+                if (Aground.Tick(ship, helm, clock))
+                    HandHelm.RanAground();
+                return;
+            }
             if (!Course.IsSet && Adrift.SailsOnNowItIsClear(here))
                 wasMoored = false;
             if (!Course.IsSet)

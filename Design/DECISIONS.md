@@ -2204,3 +2204,52 @@ and far fewer when usage is short).
      port's own dot, which takes the press; it is then moved by pulling the line again, not the knot. Left so.
    - NOT DONE: no picture of the pull on the small chart in the 3D view; the knot has no hover of its own on the
      line (the line is taken anywhere within nine pixels, without a mark showing first).
+
+140. **THE HELM IS YOURS IN THE 3D VIEW: SHE IS STEERED BY HAND**
+   (13 Oct, evening. The user: "yeah need a way to control while in 3d mode"; by the picker, offered "Drag on the
+   small chart", "Steer her yourself in 3D (this bends the no-steering rule)", "Both", "Only a quicker way to the
+   chart": they chose "Steer her yourself in 3D". A RULING, and it OVERTURNS two: 26 September's "no steering, she
+   follows her charted line", and 10 October's "at the helm yourself you navigate by pointing; her bow is not turned
+   by keys" (the helm page, Design/helm.md, item 137's neighbour). The watches and the men's hands of that page are
+   NOT in this; they wait for their own nod.)
+   - WITH THE 3D VIEW FILLING THE SCREEN (the Swap button, or the scroll in past the chart's closest): A or D, or
+     the left button held on the left or right third of the picture, TAKE THE HELM and put it over. She answers at
+     her class's rate of turn, less with little way on her (the rule graph "how fast she answers the helm": three
+     tenths of the rate with no way, all of it at full speed), and makes what way her sail or her oars give on the
+     heading she has. Let go, the helm is amidships and she holds her heading. Wind and tide carry her as always.
+   - WHILE YOUR HAND IS ON IT her charted course WAITS: the planner gives no orders, and being off her line is no news
+     (no "off her line" moment). The helm may not be taken made fast in port, held by a card, or stuck fast.
+   - H, OR THE SWAP BACK TO THE CHART, GIVES THE HELM BACK: the steersman lays her course again from where she is,
+     through her knots (item 139) and on to the same end (the rule graph "does the steersman lay her course again
+     when the helm is given back": when a course is set and the air is not thick). With no course, in thick air, or
+     where no water he knows leads on from here, she lies to. Run aground by your hand, the helm is let go and the
+     getting off is as it always was (the Aground graph). A game loaded has no hand on the helm.
+   - THE HELM'S MARK at the foot of the 3D view (Game/UI/Parts/HelmMark.uxml): whose hand is on the helm, the tiller
+     on its track as the helm is over, and the keys.
+   - HOW IT IS BUILT, by the rule of 7 October. Screen: the mark is a part file, HelmMark.uxml, named in
+     Resources/FrameParts (helmMark), styled in Frame.uss (frame-helm*). Flow, as a graph: "Voyage - the helm is
+     yours" on the '--- GAME ---' object (Editor/Game/HelmGraphMade.cs makes it; Code/Graphs/HelmNodes.cs holds its
+     event "On the helm", with the moments taken, let_go, given_back, aground, and its parts "Helm: lay her course
+     again from here" and "Log: say of the helm"); the code runs the same parts where no graph listens
+     (Code/Game/Voyage/HandHelm.cs). Rules, as graphs: "Rule - how fast she answers the helm" (GameRules.HelmAnswer)
+     and "Rule - does the steersman lay her course again when the helm is given back" (GameRules.LaysAgainOnGiveBack):
+     the 25th and 26th rules of the book. CODE, said so here: the keys and the mouse (ShipStageHook.HelmStep), the
+     turning and the way under the hand (ChartBody.Move), the planner's standing by (VoyagePlanner.Step), the laying
+     by the lanes (Adrift.LayAgain).
+   - THE WORDS ("Your hand is on the helm: she answers it, and her charted course waits.", "The helm is the
+     steersman's again: her course is laid again from where she is, 163 km, about 2 days.", "...with no course set,
+     she lies to.", "...in this thick air he cannot see to lay her course: she lies to.", "Your hand has run her
+     aground.", the short lines "Helm taken", "Helm given back", "Aground by your hand", the mark's "The steersman's
+     hand", "Your hand on the helm", "A  D  the helm     H  give it back") are PLACEHOLDERS, the user's to write, in
+     HandHelm.cs and ShipStageHook.cs. The clock does not drop back for the helm: it is the player's own hand.
+   - TESTS. Edit: HelmEditTests (four: taken, over, let go, given back with the course laid again through her knot;
+     no course and thick air, and aground; the graph is there and the scene runs it; by the graph as by the code for
+     six moments) and RuleGraphTests.TheGraphsOfTheHelmSayWhatTheCodeSays (2,004 cases). Play: HelmPlayTests, a new
+     game cast off for Traiectum, the 3D view swapped in, D held ninety frames (she turned 61 degrees to starboard),
+     let go (she holds her heading), H (her course laid again from where she is), A and the swap back (the helm given
+     back by the swap); pictures in Captures/helm. ShipViewChartTests still passes.
+   - FOUND BY THE FIRST PICTURE: the helm's mark hung at the foot of the whole screen, under the frame's lower
+     windows, so a player would never have seen it; moved to the foot of the viewport hole.
+   - NOT DONE: no picture of the mouse held on the picture's side (the keys are pictured; the mouse goes by the same
+     hand); the small chart in the corner is not pulled in the helm's test; nothing of the helm is saved (a game
+     loaded begins with the steersman's hand, by design).
