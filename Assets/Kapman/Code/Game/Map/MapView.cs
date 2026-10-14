@@ -238,7 +238,15 @@ namespace Kapman.Game
         }
 
         readonly Dictionary<string, ChartMark> ports = new Dictionary<string, ChartMark>();
-        readonly Dictionary<string, ChartMark> finds = new Dictionary<string, ChartMark>();
+        /// <summary>A name inked on the chart (ChartInk): its lettering, its sign if it has one, where and how it lies.</summary>
+        sealed class Ink
+        {
+            public Label words;
+            public VisualElement sign;
+            public double x, z, reach;
+            public float angle;
+        }
+        readonly Dictionary<string, Ink> inks = new Dictionary<string, Ink>();
         readonly List<ChartMark> namesUp = new List<ChartMark>();
         VisualElement findLayer, nameLayer, sailLayer;
         int findsSeen = -1;
@@ -432,7 +440,7 @@ namespace Kapman.Game
             nameLayer = Part<VisualElement>("names", layer);
             // (the marks of the old root went with it)
             ports.Clear();
-            finds.Clear();
+            inks.Clear();
             findsSeen = -1;
             // the waters and landmarks found lie under the course, her own mark and the ports; THE OTHER SHIPS' MARKS LIE
             // UNDER THE PORTS' DOTS (9 Oct 2026: a trader lying at the quay lay over Dorestat's dot, which could not be
@@ -2187,7 +2195,7 @@ namespace Kapman.Game
         /// (0: it is only its dot).</summary>
         public float NameShown(string id)
         {
-            var m = ports.TryGetValue(id, out var p) ? p : finds.TryGetValue(id, out var f) ? f : null;
+            var m = ports.TryGetValue(id, out var p) ? p : null;
             return m == null || !m.shown ? 0f : m.words.resolvedStyle.opacity;
         }
 
@@ -2258,10 +2266,13 @@ namespace Kapman.Game
         }
 
         /// <summary>
-        /// THE WATERS AND LANDMARKS SHE HAS FOUND (Discoveries; the user, 9 Oct 2026): each a small mark where it lies,
-        /// its shape by its kind (a water or a river a pale bar, an island, a headland or a shoal a diamond, a thing
-        /// built a square), its name and its kind under the pointer as a port's name is. A click says in the log again
-        /// what it is. What is not found has no mark: there is nothing to see of it.
+        /// THE WATERS AND LANDMARKS SHE HAS FOUND ARE INKED ON THE CHART (Discoveries; the user, 14 Oct 2026, by the
+        /// picker: "Inked names on the chart"; before that each was a mark with its name under the pointer, which the
+        /// user did not love: "there has to be a better mechanic"). The name of a thing found is lettered on the paper
+        /// where it lies and stays: a river or a water along its water, the rest upright; a shoal or a tide race keeps
+        /// a small sign on the water with its name beside it. Nothing is clicked or hovered: the log said the thing's
+        /// note when it was found. A name shows only when the thing is big enough on the chart (ChartInk.MinPx), so
+        /// that far out the paper is not crowded. What is not found has no name: there is nothing to see of it.
         /// </summary>
         void Finds(double viewWest, double viewNorth, float W, float H)
         {
@@ -2269,19 +2280,19 @@ namespace Kapman.Game
                 return;
             if (findsSeen != Discoveries.Version)
             {
-                // (a new game, or a saved one loaded: the marks of what is no longer found go)
+                // (a new game, or a saved one loaded: the names of what is no longer found go)
                 findsSeen = Discoveries.Version;
                 List<string> gone = null;
-                foreach (var kv in finds)
+                foreach (var kv in inks)
                     if (!Discoveries.IsFound(kv.Key) || Discoveries.Book.Get(kv.Key) == null)
                     {
-                        kv.Value.mark.RemoveFromHierarchy();
                         kv.Value.words.RemoveFromHierarchy();
+                        kv.Value.sign?.RemoveFromHierarchy();
                         (gone ??= new List<string>()).Add(kv.Key);
                     }
                 if (gone != null)
                     foreach (string id in gone)
-                        finds.Remove(id);
+                        inks.Remove(id);
             }
             var book = Discoveries.Book;
             var found = Discoveries.FoundIds;
@@ -2290,34 +2301,49 @@ namespace Kapman.Game
                 var d = book.Get(found[i]);
                 if (d == null)
                     continue;
-                double px = (d.x - viewWest) / mpp, py = (viewNorth - d.z) / mpp;
-                bool show = px > -200 && px < W + 200 && py > -60 && py < H + 60;
-                if (!finds.TryGetValue(d.id, out var m))
+                if (!inks.TryGetValue(d.id, out var ink))
                 {
-                    if (!show)
-                        continue;
-                    var thing = d;
-                    m = NewMark(d.id, "map-find", d.name, findLayer, e =>
+                    if (!ChartInk.Place(d, Course.KnowsWater ? Course.IsWater : (System.Func<double, double, bool>)null, out double x, out double z, out float angle))
+                        continue;                                         // (a river with no water within its reach: nothing to letter)
+                    ink = new Ink { x = x, z = z, reach = d.reach, angle = angle };
+                    ink.words = new Label(d.name) { name = "map-ink-" + d.id, pickingMode = PickingMode.Ignore };
+                    ink.words.AddToClassList("map-ink");
+                    ink.words.AddToClassList("ink-" + d.kind);
+                    ink.words.style.rotate = new Rotate(new Angle(angle, AngleUnit.Degree));
+                    if (ChartInk.Signed(d.kind))
                     {
-                        if (tool == Tool.None)
-                            Voyage.Say($"{thing.name}. {thing.note}".Trim());
-                        e.StopPropagation();
-                    });
-                    m.mark.AddToClassList("find-" + d.kind);
-                    SetNote(m, d.kindName);
-                    finds[d.id] = m;
+                        ink.sign = new VisualElement { name = "map-sign-" + d.id, pickingMode = PickingMode.Ignore };
+                        ink.sign.AddToClassList("map-sign");
+                        ink.sign.AddToClassList("sign-" + d.kind);
+                        findLayer.Add(ink.sign);
+                    }
+                    findLayer.Add(ink.words);
+                    inks[d.id] = ink;
                 }
-                m.mark.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
+                double px = (ink.x - viewWest) / mpp, py = (viewNorth - ink.z) / mpp;
+                bool show = ink.reach / mpp >= ChartInk.MinPx && px > -300 && px < W + 300 && py > -100 && py < H + 100;
+                ink.words.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
+                if (ink.sign != null)
+                    ink.sign.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
                 if (!show)
-                {
-                    NameAway(m);
                     continue;
+                // (the lettering is laid with its middle on the place; a sign stands on the place and the name under it)
+                if (ink.sign != null)
+                {
+                    ink.sign.style.left = (float)px - SignHalf;
+                    ink.sign.style.top = (float)py - SignHalf;
+                    ink.words.style.left = (float)px;
+                    ink.words.style.top = (float)py + SignHalf + 10f;
                 }
-                m.mark.style.left = (float)px - MarkHalf;
-                m.mark.style.top = (float)py - MarkHalf;
-                NameUnderPointer(m, (float)px, (float)py);
+                else
+                {
+                    ink.words.style.left = (float)px;
+                    ink.words.style.top = (float)py;
+                }
             }
         }
+
+        const float SignHalf = 6f;
 
         /// <summary>
         /// The world's other ships (the simulation): those within sight of yours (or all, with [G]), each a small hull turned

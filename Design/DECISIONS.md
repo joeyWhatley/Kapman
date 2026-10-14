@@ -2448,3 +2448,28 @@ and far fewer when usage is short).
      fills, and is named in the parts asset; instantiated, the sections stand in the order the code fills them).
      Play: PanelFilesPlayTests (a new game: the Hold, Crew and Port panels picked by a window's title hold their file's
      copy as the body's one child, with lines in the sections; picture Captures/windows).
+
+150. **THE WATERS AND LANDMARKS FOUND ARE INKED ON THE CHART, NOT MARKED**
+   (14 Oct, night. The user, of a find's bar lying in the fields by Dorestat: "What're these again", "This one's on
+   land", "Do they move?", "I just don't know if I love this function there has to be a better mechanic to do
+   this". By the picker, over a rutter in the Book, marks only while in sight, and no finds at all: "Inked names on
+   the chart". Overturns the mark-with-a-note of item 118 for finds; the ports' dots and names under the pointer
+   stand.)
+   - A thing found is its NAME LETTERED ON THE PAPER where it lies, in the chart's ink, no box, no shadow, and it
+     stays (MapView.Finds; the look .map-ink in MapView.uss). A river or a water is lettered ALONG its water, wide
+     spaced and larger; an island, a headland, a shore, a thing built or a holy place stands upright and smaller.
+     A shoal keeps a small diamond and a tide race a small bar on the water, with the name under it: they matter to
+     sailing. Nothing on the chart is clicked or hovered: the log said the thing's note when it was found.
+   - WHERE AND HOW A NAME LIES is reckoned once, by the world's own water (ChartInk.Place, with Course.IsWater): a
+     point the table put on dry land (the Rhine's, 52.03 N 5.23 E, in the fields north-west of Dorestat) is brought
+     to the nearest water within the thing's reach, ring by ring; the lie of the water about the place is its long
+     axis (the water sampled round it, 1.5 km for a river, 6 km for a water), turned so the name reads up the chart
+     and never upside down. Without the bake a name goes at its point, level.
+   - A name shows only when the thing's reach is 24 px or more on the chart (ChartInk.MinPx): rivers from about
+     375 m a pixel in, seas from about a kilometre a pixel. Far out the paper is not crowded.
+   - The log line, the Journey window's list and the saved game are as they were (Discoveries unchanged).
+   - TESTS. Edit: ChartInkTests (a river running east reads level, north up the chart, north-east up to the right; a
+     point on land is brought to the water; no water within reach, nothing lettered; an island stands where it is;
+     a shoal and a race are signed; without the bake, level at the point). Play: MapZoomTests (the Rhine at her own
+     quay is lettered, shown, takes no pointer, has no mark or name of the old kind) and MapLookTests (the names
+     found along her track) as changed.

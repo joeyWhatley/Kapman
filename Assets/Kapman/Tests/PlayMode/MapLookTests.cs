@@ -365,7 +365,7 @@ namespace Kapman.Tests
                             shots++;
                             yield return play.Click(Small(play, "Pause"), "Pause");
                             yield return ChartPlay.Settle(0.6f);
-                            var mark = play.Screen.Q<VisualElement>("map-find-" + id);
+                            var mark = play.Screen.Q<VisualElement>("map-ink-" + id);   // (its name inked on the chart, 14 Oct 2026)
                             if (mark != null && ChartPlay.Shown(mark))
                             {
                                 play.MoveTo(mark.worldBound.center);
@@ -399,12 +399,12 @@ namespace Kapman.Tests
                 yield return ChartPlay.Settle(2.0f);
                 Note($"her track, from farther out: {Mpp:0.#} m a pixel");
                 yield return play.Shot("24_her_track", 0.5f);
-                // the pointer on one of the marks along it
+                // one of the names inked along it (14 Oct 2026: a name, not a mark; nothing comes up under the pointer)
                 VisualElement along = null;
                 foreach (string id in Discoveries.FoundIds)
                 {
-                    var m = play.Screen.Q<VisualElement>("map-find-" + id);
-                    if (m != null && ChartPlay.Shown(m) && Discoveries.DayFound(id) >= 0.0 && play.Reachable(m))
+                    var m = play.Screen.Q<VisualElement>("map-ink-" + id);
+                    if (m != null && ChartPlay.Shown(m) && Discoveries.DayFound(id) >= 0.0)
                         along = m;
                 }
                 if (along != null)

@@ -94,31 +94,48 @@
     font-size: var(--t-body);
 }
 
-/* a water or landmark found: its shape by its kind. A thing built (a light, a wall, a church): a square. */
-.map-find-dot {
-    width: 10px;
-    height: 10px;
-    background-color: rgb(203, 213, 189);
+/* THE NAMES INKED ON THE CHART (the user, 14 Oct 2026: "Inked names on the chart"): a water or a landmark found
+   is its name lettered on the paper, in the chart's ink, with no box and no shadow, its middle on the place
+   (MapView.Finds lays it; ChartInk reckons where and how it lies). A river or a water is lettered along its water,
+   spaced wide; the rest stand upright and smaller. */
+.map-ink {
+    position: absolute;
+    translate: -50% -50%;
+    color: rgba(46, 18, 51, 0.88);
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    font-size: var(--t-quiet);
+    letter-spacing: 2px;
+    white-space: nowrap;
+    -unity-text-align: middle-center;
+}
+.map-ink.ink-river,
+.map-ink.ink-water {
+    font-size: var(--t-name);
+    letter-spacing: 8px;
+    color: rgba(46, 18, 51, 0.84);
+}
+.map-ink.ink-holy,
+.map-ink.ink-landmark {
+    -unity-font-style: italic;
+}
+/* a shoal or a tide race keeps a small sign on the water, since it matters to sailing: a shoal a diamond, a race a bar */
+.map-sign {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: rgb(236, 208, 230);
     border-width: 2px;
     border-color: rgb(46, 18, 51);
 }
-/* land that the sea shows her (an island, a headland, a shore, a shoal): a diamond */
-.map-find.find-island .map-find-dot,
-.map-find.find-headland .map-find-dot,
-.map-find.find-shore .map-find-dot,
-.map-find.find-bank .map-find-dot {
+.map-sign.sign-bank {
     rotate: 45deg;
-    width: 9px;
-    height: 9px;
+    width: 10px;
+    height: 10px;
 }
-/* a water or a river: a pale bar, lying flat */
-.map-find.find-water .map-find-dot,
-.map-find.find-race .map-find-dot,
-.map-find.find-river .map-find-dot {
-    width: 12px;
+.map-sign.sign-race {
+    width: 14px;
     height: 6px;
     border-radius: 3px;
-    background-color: rgb(236, 208, 230);
 }
 
 .map-port-dot {

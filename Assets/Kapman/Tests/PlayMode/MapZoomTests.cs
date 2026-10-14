@@ -298,17 +298,18 @@ namespace Kapman.Tests
                     Assert.IsTrue(ChartPlay.Shown(play.Screen.Q<VisualElement>("map-hearsay")), "the slip of hearsay is not on the screen");
                     yield return play.Shot("zoom_0_a_ring_and_its_word");
                 }
-                // a water she knows from the start is a mark on the chart, named under the pointer as a port is
-                var rhine = play.Screen.Q<VisualElement>("map-find-rhenus");
-                Assert.IsNotNull(rhine, "the Rhine at her own quay has no mark on the chart");
+                // a water she knows from the start is its name inked on the chart (14 Oct 2026): no mark, nothing under
+                // the pointer, the lettering lying along the water
+                var rhine = play.Screen.Q<Label>("map-ink-rhenus");
+                Assert.IsNotNull(rhine, "the Rhine at her own quay is not lettered on the chart");
                 Assert.IsTrue(Discoveries.IsFound("rhenus") && Discoveries.DayFound("rhenus") < 0.0, "her own river should be known to her from the start");
-                Assert.IsTrue(play.Reachable(rhine), "the pointer cannot rest on the Rhine's mark");
+                Assert.IsTrue(ChartPlay.Shown(rhine), "the Rhine's name is not shown at the town's scale");
+                Assert.AreEqual(Discoveries.Book.Get("rhenus").name, rhine.text);
+                Assert.AreEqual(PickingMode.Ignore, rhine.pickingMode, "the inked name takes the pointer");
+                Assert.IsNull(play.Screen.Q<VisualElement>("map-find-rhenus"), "the Rhine still has a mark of the old kind");
                 play.MoveTo(rhine.worldBound.center);
                 yield return ChartPlay.Frames(5);
-                var rhineName = play.Screen.Q<VisualElement>("map-find-name-rhenus");
-                Assert.IsTrue(rhineName != null && ChartPlay.Shown(rhineName), "the pointer on the Rhine's mark did not bring its name up");
-                Assert.AreEqual(Discoveries.Book.Get("rhenus").name, rhineName.Q<Label>(className: "map-port-name").text);
-                Assert.AreEqual("river", rhineName.Q<Label>(className: "map-port-note").text, "a water does not say what it is under its name");
+                Assert.IsNull(play.Screen.Q<VisualElement>("map-find-name-rhenus"), "a name of the old kind came up under the pointer");
                 StringAssert.Contains(witla.name, map.HearsayShown, "the word of the ring the pointer left a moment ago should still be up");
                 yield return play.Shot("zoom_0_a_water_she_knows");
                 // near the chart's edge the name stands on the other side of its dot, where it can be read
