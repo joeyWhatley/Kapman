@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:k="Kapman.Game.Frame" editor-extension-mode="False">
+    <Style src="../Frame.uss" />
+    <!-- THE CREW WINDOW'S OWN LAYOUT (KAPMAN_PLAN step 2d, 14 Oct 2026): a copy of the element "panel" is put into the
+         side window's body, and the panel's code (Code/Game/UI/Frame/Panels/CrewPanel.cs) puts its lines into the
+         named sections below. Move, reorder or restyle the sections as you like, but keep their names: a section
+         gone from the file gets its lines in the body's end. The element "preview" is only here so the part looks
+         right in UI Builder: the game does not use it. -->
+    <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 440px; height: 420px;">
+        <ui:VisualElement name="panel" class="frame-panel">
+            <!-- how many -->
+            <ui:VisualElement name="men" class="frame-section" />
+            <!-- their health, their heart, their weariness, the bailing -->
+            <ui:VisualElement name="state" class="frame-section" />
+            <!-- what they are paid by, their bundles, what is owed -->
+            <ui:VisualElement name="pay" class="frame-section" />
+            <!-- how long at sea, and the stores -->
+            <ui:VisualElement name="sea" class="frame-section" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

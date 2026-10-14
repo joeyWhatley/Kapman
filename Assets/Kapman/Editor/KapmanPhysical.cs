@@ -187,6 +187,7 @@ namespace Kapman.EditorTools
         }
 
         public const string PartsFolder = "Assets/Kapman/Game/UI/Parts/";
+        public const string PanelsFolder = "Assets/Kapman/Game/UI/Panels/";
         public const string PartsAsset = "Assets/Kapman/Game/Resources/FrameParts.asset";
 
         /// <summary>The asset that names the files of the frame's repeated parts (Resources/FrameParts): made if it is not
@@ -214,6 +215,16 @@ namespace Kapman.EditorTools
             parts.notice = Layout("Notice");
             parts.notePicker = Layout("NotePicker");
             parts.noteSlip = Layout("NoteSlip");
+            // the side windows' own layouts: every file of Game/UI/Panels, by the panel's id (its file name)
+            var panelFiles = new System.Collections.Generic.List<UnityEngine.UIElements.VisualTreeAsset>();
+            foreach (string guid in AssetDatabase.FindAssets("t:VisualTreeAsset", new[] { PanelsFolder.TrimEnd('/') }))
+            {
+                var v = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(AssetDatabase.GUIDToAssetPath(guid));
+                if (v != null)
+                    panelFiles.Add(v);
+            }
+            panelFiles.Sort((a, b) => string.CompareOrdinal(a.name, b.name));
+            parts.panels = panelFiles.ToArray();
             parts.menuOption = Layout("MenuOption");
             parts.showtime = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(ShowLayout);
             if (parts.showtime == null)
@@ -223,7 +234,7 @@ namespace Kapman.EditorTools
             parts.showName = Layout("ShowName");
             EditorUtility.SetDirty(parts);
             AssetDatabase.SaveAssets();
-            Debug.Log("Kapman, made physical, step 2b: " + PartsAsset + " names the files of " + PartsFolder + " and " + ShowLayout + ".");
+            Debug.Log("Kapman, made physical, step 2b: " + PartsAsset + " names the files of " + PartsFolder + ", " + ShowLayout + " and the " + parts.panels.Length + " window files of " + PanelsFolder + ".");
         }
 
         public const string StageProfile = "Assets/Kapman/ShipView/Ship stage sky and air.asset";

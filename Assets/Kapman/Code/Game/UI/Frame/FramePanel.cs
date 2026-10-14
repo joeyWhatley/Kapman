@@ -37,6 +37,29 @@ namespace Kapman.Game.Frame
 
         int stamp;
         bool filled;
+        VisualElement layoutRoot;                                     // the copy of the panel's own file in the body, if it has one
+
+        /// <summary>
+        /// THE PANEL'S OWN LAYOUT (KAPMAN_PLAN step 2d, 14 Oct 2026): a file Game/UI/Panels/&lt;Id&gt;.uxml, named in
+        /// Resources/FrameParts, whose element "panel" is copied into the window's body before Fill; Fill puts its
+        /// lines into the file's named sections through this. A panel without a file, or a section gone from it, gets
+        /// its lines in the body itself as before. So the sections of a window can be moved, reordered or restyled in
+        /// UI Builder without touching the code. A section is an element with the class frame-section (or a child of
+        /// "panel") with the section's name.
+        /// </summary>
+        protected VisualElement Section(string name)
+        {
+            if (layoutRoot == null)
+                return Body;
+            // (a section carries the class frame-section; the lines put in earlier have parts of their own named
+            // "left" and "name", which a search by name alone would find first)
+            var e = layoutRoot.Q<VisualElement>(name, "frame-section");
+            if (e == null)
+                foreach (var c in layoutRoot.Children())
+                    if (c.name == name)
+                        return c;
+            return e ?? Body;
+        }
 
         internal void Attach(VisualElement body)
         {
@@ -71,6 +94,19 @@ namespace Kapman.Game.Frame
                 return;
             filled = true;
             Body.Clear();
+            layoutRoot = null;
+            var file = FrameParts.Panel(Id);
+            if (file != null)
+            {
+                layoutRoot = file.Instantiate().Q<VisualElement>("panel");
+                if (layoutRoot == null)
+                    Debug.LogError("Kapman frame: the window file of the panel \"" + Id + "\" (" + file.name + ".uxml) has no element named \"panel\": its lines go in the body as before.");
+                else
+                {
+                    layoutRoot.RemoveFromHierarchy();
+                    Body.Add(layoutRoot);
+                }
+            }
             try
             {
                 Fill(Body);

@@ -46,6 +46,22 @@ namespace Kapman.Game.Frame
         [Tooltip("The slip of a note of F2 (Game/UI/Parts/NoteSlip.uxml, the element \"note-slip\").")]
         public VisualTreeAsset noteSlip;
 
+        [Header("The side windows' own layouts")]
+        [Tooltip("One file a panel, named by the panel's id (Game/UI/Panels/<id>.uxml, the element \"panel\" with the panel's named sections). A panel without one fills its window's body as it always did.")]
+        public VisualTreeAsset[] panels = new VisualTreeAsset[0];
+
+        /// <summary>The window file of the panel with this id, or null when it has none.</summary>
+        public static VisualTreeAsset Panel(string id)
+        {
+            var c = Current;
+            if (c == null || c.panels == null || string.IsNullOrEmpty(id))
+                return null;
+            foreach (var v in c.panels)
+                if (v != null && v.name == id)
+                    return v;
+            return null;
+        }
+
         [Header("The menu and the opening")]
         [Tooltip("One choice of the menu (Game/UI/Parts/MenuOption.uxml, the element \"option\").")]
         public VisualTreeAsset menuOption;

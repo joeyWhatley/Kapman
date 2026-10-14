@@ -29,25 +29,29 @@ namespace Kapman.Game.Frame
 
         protected override void Fill(VisualElement body)
         {
+            // (the sections of Game/UI/Panels/port.uxml)
             var here = FrameGame.PortHere;
             var text = TextPanel.Current;
+            var place = Section("place");
             if (here == null || text == null)
             {
-                body.Add(FrameUi.H("At sea"));
-                body.Add(FrameUi.P("She lies at no port."));
+                place.Add(FrameUi.H("At sea"));
+                place.Add(FrameUi.P("She lies at no port."));
                 return;
             }
-            body.Add(FrameUi.H(here.Title));
-            body.Add(FrameUi.P(Reputation.Line(here)));
+            place.Add(FrameUi.H(here.Title));
+            place.Add(FrameUi.P(Reputation.Line(here)));
+            var words = Section("words");
             if (!FrameGame.PortMenuOpen)
             {
-                body.Add(FrameUi.P("Finish what is in front of you first."));
+                words.Add(FrameUi.P("Finish what is in front of you first."));
                 return;
             }
             if (!string.IsNullOrEmpty(text.StoryText))
-                body.Add(FrameUi.Text(text.StoryText));
+                words.Add(FrameUi.Text(text.StoryText));
             if (!string.IsNullOrEmpty(text.IntentionText))
-                body.Add(FrameUi.P(text.IntentionText));
+                words.Add(FrameUi.P(text.IntentionText));
+            var choices = Section("choices");
             int lines = 0;
             for (int i = 0; i < text.Options.Count; i++)
             {
@@ -56,7 +60,7 @@ namespace Kapman.Game.Frame
                     continue;                                             // (the Trade window; the Cast off button; an errand not built has no row)
                 int index = i;
                 lines++;
-                body.Add(FrameUi.LnButton(label, tip != label ? tip : null, () => text.Pick(index)));
+                choices.Add(FrameUi.LnButton(label, tip != label ? tip : null, () => text.Pick(index)));
             }
             // AS SHE ANSWERED THE LAST TIME (the user's ruling of 10 Oct 2026, of the king's toll): what went by itself at
             // this call, as it went the last time, can be had again, once, and answered by her own hand. PLACEHOLDER WORDS.
@@ -66,10 +70,10 @@ namespace Kapman.Game.Frame
                 {
                     string card = id;
                     lines++;
-                    body.Add(FrameUi.LnButton(title, "It went as it went the last time. Press this to answer it yourself.", () => deck.AskAgain(card)));
+                    choices.Add(FrameUi.LnButton(title, "It went as it went the last time. Press this to answer it yourself.", () => deck.AskAgain(card)));
                 }
             if (lines == 0)
-                body.Add(FrameUi.P("Nothing more to be done here but trade."));
+                Section("note").Add(FrameUi.P("Nothing more to be done here but trade."));
         }
     }
 }

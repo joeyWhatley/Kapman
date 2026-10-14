@@ -353,6 +353,15 @@
     padding: 10px 12px 8px 12px;
 }
 
+/* THE SIDE WINDOWS' OWN LAYOUT FILES (14 Oct 2026, Game/UI/Panels): the copy of a window's file and each of its
+   sections take the body's full width and stack, so the lines in them lie as they did loose in the body */
+.frame-root .frame-panel,
+.frame-root .frame-section {
+    width: 100%;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
 /* the tabs of a workspace laid out as tabs */
 .frame-root .frame-tabs {
     flex-direction: row;

@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:k="Kapman.Game.Frame" editor-extension-mode="False">
+    <Style src="../Frame.uss" />
+    <!-- THE PORT WINDOW'S OWN LAYOUT (KAPMAN_PLAN step 2d, 14 Oct 2026): a copy of the element "panel" is put into the
+         side window's body, and the panel's code (Code/Game/UI/Frame/Panels/PortPanel.cs) puts its lines into the
+         named sections below. Move, reorder or restyle the sections as you like, but keep their names: a section
+         gone from the file gets its lines in the body's end. The element "preview" is only here so the part looks
+         right in UI Builder: the game does not use it. -->
+    <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 440px; height: 420px;">
+        <ui:VisualElement name="panel" class="frame-panel">
+            <!-- the port and the standing here -->
+            <ui:VisualElement name="place" class="frame-section" />
+            <!-- the place's words -->
+            <ui:VisualElement name="words" class="frame-section" />
+            <!-- what can be done here, one line a choice -->
+            <ui:VisualElement name="choices" class="frame-section" />
+            <!-- a line when there is nothing more -->
+            <ui:VisualElement name="note" class="frame-section" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

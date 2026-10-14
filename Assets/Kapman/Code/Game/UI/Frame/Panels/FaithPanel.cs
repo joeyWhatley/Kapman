@@ -25,36 +25,39 @@ namespace Kapman.Game.Frame
 
         protected override void Fill(VisualElement body)
         {
+            // (the sections of Game/UI/Panels/faith.uxml)
             var book = SelfBook.Current;
             var faith = book.Faith(Self.Faith);
             var troth = book.Stat("troth");
-            body.Add(FrameUi.H(faith != null ? faith.name : Self.Faith));
-            body.Add(FrameUi.Ln(troth != null ? troth.name : "Troth", troth != null ? troth.what : null,
-                                troth != null && troth.Level(Self.StatNow("troth")).Length > 0 ? FrameUi.Tag(troth.Level(Self.StatNow("troth"))) : null,
-                                FrameUi.Pips(Self.StatNow("troth"))));
+            var own = Section("faith");
+            own.Add(FrameUi.H(faith != null ? faith.name : Self.Faith));
+            own.Add(FrameUi.Ln(troth != null ? troth.name : "Troth", troth != null ? troth.what : null,
+                               troth != null && troth.Level(Self.StatNow("troth")).Length > 0 ? FrameUi.Tag(troth.Level(Self.StatNow("troth"))) : null,
+                               FrameUi.Pips(Self.StatNow("troth"))));
             if (faith != null && faith.swears.Length > 0)
-                body.Add(FrameUi.P("You swear: " + faith.swears));
+                own.Add(FrameUi.P("You swear: " + faith.swears));
             var cal = FaithCalendar.Current;
             var clock = LevelClock.Current;
+            var days = Section("days");
             if (!cal.FromFile || clock == null)
             {
-                body.Add(FrameUi.P("No days are reckoned for this year."));
+                days.Add(FrameUi.P("No days are reckoned for this year."));
                 return;
             }
             GameDate today = clock.Date;
-            body.Add(FrameUi.H("The days ahead"));
+            days.Add(FrameUi.H("The days ahead"));
             var ahead = cal.Ahead(Self.Faith, faith != null ? faith.countsAs : "", today.year, today.month, today.day);
             foreach (var d in ahead)
             {
                 string when = d.daysAhead == 0 ? "today" : d.daysAhead == 1 ? "tomorrow" : $"in {d.daysAhead} days";
                 string date = d.weekly ? FaithCalendar.WeekdayWords[FaithCalendar.Weekday(d.year, d.month, d.day)] : $"{d.day} {Calendar.MonthNames[d.month - 1]}";
                 string small = date + (d.kind.Length > 0 ? ", a " + d.kind : "") + (d.mayNot.Length > 0 ? ". Not to be done: " + d.MayNot + "." : ".");
-                body.Add(FrameUi.Ln(d.name, small, FrameUi.Num(when)));
+                days.Add(FrameUi.Ln(d.name, small, FrameUi.Num(when)));
             }
             if (ahead.Count == 0)
-                body.Add(FrameUi.P("No day of your faith falls in the next two months."));
+                days.Add(FrameUi.P("No day of your faith falls in the next two months."));
             foreach (var (name, when) in cal.Undated(Self.Faith, faith != null ? faith.countsAs : ""))
-                body.Add(FrameUi.P(name + ": " + when + "."));
+                days.Add(FrameUi.P(name + ": " + when + "."));
         }
     }
 }

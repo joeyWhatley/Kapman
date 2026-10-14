@@ -2426,3 +2426,25 @@ and far fewer when usage is short).
    - Both are named in Resources/FrameParts (notePicker, noteSlip; Kapman > Make physical > 2b).
    - TESTS. Edit: PanelLayoutTests holds the two files' names, the parts asset's naming of them, the slip's order
      and the copies without their previews. Play: PlayNotesTests (as before, and that the box is the file's).
+
+149. **THE SIDE WINDOWS CAN HAVE THEIR OWN LAYOUT FILES; FIVE HAVE THEM**
+   (14 Oct, night, unattended: "Do what you can". KAPMAN_PLAN step 2d, its last kind of thing: the 22 panels fill a
+   window's body with lines; now a panel may have a file whose sections its lines go into.)
+   - THE MECHANISM (FramePanel): before Fill, the file Game/UI/Panels/<id>.uxml of the panel, if there is one, has
+     its element "panel" copied into the window's body; Fill puts its lines into the file's sections by name
+     (Section("stores")). A panel without a file, or a section gone from the file, gets its lines in the body as
+     before, so nothing breaks when a section is taken out in UI Builder. The files are named in Resources/FrameParts
+     (the field panels, filled by Kapman > Make physical > 2b from every file of the folder, by the panel's id).
+   - THE FIVE: hold (room, goods, room-left, stores), crew (men, state, pay, sea), faith (faith, days), house (silver,
+     boats, home, your-name), port (place, words, choices, note). The other seventeen fill their bodies as before and get
+     a file each as they are looked at; the pattern is these five.
+   - The copy and its sections carry the classes frame-panel and frame-section (Frame.uss: full width, stacked), so
+     the lines lie as they did loose in the body. TRAP MET: a section was first found by name among all descendants,
+     and the line part has parts of its own named "left" and "name", so the Hold's "left" and the House's "name"
+     sections resolved to the inside of a line already put in (the House window's Boats line broke). A section is
+     now found by name AND the class frame-section (else as a direct child of "panel"), and the two are named
+     room-left and your-name.
+   - TESTS. Edit: PanelFilesTests (every file of the folder is a panel's, holds "panel" and the sections its code
+     fills, and is named in the parts asset; instantiated, the sections stand in the order the code fills them).
+     Play: PanelFilesPlayTests (a new game: the Hold, Crew and Port panels picked by a window's title hold their file's
+     copy as the body's one child, with lines in the sections; picture Captures/windows).

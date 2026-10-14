@@ -26,37 +26,39 @@ namespace Kapman.Game.Frame
 
         protected override void Fill(VisualElement body)
         {
+            // (the sections of Game/UI/Panels/house.uxml)
+            var silver = Section("silver");
             if (!Trade.Started)
             {
-                body.Add(FrameUi.P("There is no house to reckon yet."));
+                silver.Add(FrameUi.P("There is no house to reckon yet."));
                 return;
             }
             var game = KapmanGame.Current;
-            body.Add(FrameUi.H(Trade.Debt > 0.01 ? $"Owed {Trade.Debt:0} d. In hand {FrameGame.Silver:0} d." : $"Nothing owed. In hand {FrameGame.Silver:0} d."));
+            silver.Add(FrameUi.H(Trade.Debt > 0.01 ? $"Owed {Trade.Debt:0} d. In hand {FrameGame.Silver:0} d." : $"Nothing owed. In hand {FrameGame.Silver:0} d."));
             if (Trade.Debt > 0.01 && game != null)
             {
                 double days = Trade.DebtDaysLeft(game.Day);
                 string day = FrameGame.DebtDay(true);
-                body.Add(FrameUi.Text(days > 0.0 ? $"The debt falls due at {day}: {days:0} {(days == 1.0 ? "day" : "days")} from now."
-                                      : days == 0.0 ? $"The debt falls due today: {day}."
-                                      : $"The debt fell due at {day}: {-days:0} {(days == -1.0 ? "day" : "days")} ago."));
+                silver.Add(FrameUi.Text(days > 0.0 ? $"The debt falls due at {day}: {days:0} {(days == 1.0 ? "day" : "days")} from now."
+                                        : days == 0.0 ? $"The debt falls due today: {day}."
+                                        : $"The debt fell due at {day}: {-days:0} {(days == -1.0 ? "day" : "days")} ago."));
                 string sunday = FrameGame.DebtDayWarning();
                 if (sunday.Length > 0)
-                    body.Add(FrameUi.Text(sunday));
+                    silver.Add(FrameUi.Text(sunday));
                 double short_ = Trade.Debt - FrameGame.Silver;
-                body.Add(FrameUi.P(short_ > 0.5 ? $"Short by {short_:0} d today." : "The silver in hand would cover it today."));
+                silver.Add(FrameUi.P(short_ > 0.5 ? $"Short by {short_:0} d today." : "The silver in hand would cover it today."));
             }
             var ship = game != null ? game.ship : null;
-            body.Add(FrameUi.Ln("Boats", ship != null && ship.shipClass != null ? "The " + ship.shipClass.shipName : null, FrameUi.Num("1")));
+            Section("boats").Add(FrameUi.Ln("Boats", ship != null && ship.shipClass != null ? "The " + ship.shipClass.shipName : null, FrameUi.Num("1")));
             var home = GameData.Port(ChartWorld.Current != null ? ChartWorld.Current.homePort : null);
             if (home != null)
                 // ("here" only where she lies there)
-                body.Add(FrameUi.Ln("Home: " + home.name, FrameGame.PortHere != null && FrameGame.PortHere.id == home.id
-                                                              ? Reputation.Line(home) : Reputation.Line(home).Replace("Your standing here", "Your standing there")));
+                Section("home").Add(FrameUi.Ln("Home: " + home.name, FrameGame.PortHere != null && FrameGame.PortHere.id == home.id
+                                                                         ? Reputation.Line(home) : Reputation.Line(home).Replace("Your standing here", "Your standing there")));
             var name = SelfBook.Current.Stat("name");
-            body.Add(FrameUi.Ln(name != null ? name.name : "Name", name != null ? name.what : null,
-                                name != null && name.Level(Self.StatNow("name")).Length > 0 ? FrameUi.Tag(name.Level(Self.StatNow("name"))) : null,
-                                FrameUi.Pips(Self.StatNow("name"))));
+            Section("your-name").Add(FrameUi.Ln(name != null ? name.name : "Name", name != null ? name.what : null,
+                                           name != null && name.Level(Self.StatNow("name")).Length > 0 ? FrameUi.Tag(name.Level(Self.StatNow("name"))) : null,
+                                           FrameUi.Pips(Self.StatNow("name"))));
         }
     }
 }
