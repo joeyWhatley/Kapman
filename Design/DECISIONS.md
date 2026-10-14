@@ -2473,3 +2473,19 @@ and far fewer when usage is short).
      a shoal and a race are signed; without the bake, level at the point). Play: MapZoomTests (the Rhine at her own
      quay is lettered, shown, takes no pointer, has no mark or name of the old kind) and MapLookTests (the names
      found along her track) as changed.
+
+151. **A BLUE SCREEN WITH SOUND: PLAY MODE RELOADS THE DOMAIN AGAIN**
+   (14 Oct, 23:00. The user, playing in the editor: "the game doesnt even launch", "i can hear it but its just a
+   blue screen". The editor's log: the game ran, Play was stopped, and from then on every repaint threw
+   "MissingReferenceException: The object of type 'UnityEngine.Material' has been destroyed" inside UI Toolkit's
+   text (TextUtilities.GetTextCoreSettingsForElement); the next four presses of Play gave the music and the
+   camera's blue and no UI at all.)
+   - THE CAUSE: ProjectSettings/EditorSettings.asset came from step 0 with Enter Play Mode Options on and both
+     reloads off (m_EnterPlayModeOptions: 3). Without a domain reload UI Toolkit's cache of the fonts made from the
+     Hearth .ttf (the uss's -unity-font url) keeps the font assets Unity destroyed when Play ended; the next Play
+     draws text with a dead material, throws at every repaint, and draws nothing. The headless test runs never saw
+     it: each is a fresh editor.
+   - THE MEND: Enter Play Mode Options off (the editor's default: domain and scene reloaded on Play; a few seconds
+     slower to start, and right). A sturdier mend for later: give the frame's font as a Font Asset
+     (Assets/HearthPixelFont/Hearth/Hearth TMP.asset, -unity-font-definition) rather than the raw .ttf, so no
+     font is made at play.
