@@ -68,6 +68,8 @@ namespace Kapman.Tests
                 yield return ChartPlay.Until(() => notes.NoteBox != null, 5f);
                 Assert.IsTrue(notes.Writing, "a click in the picker did not open the slip");
                 Assert.IsNotNull(notes.NoteBox, "the slip has no box to write in");
+                Assert.AreEqual("note-box", notes.NoteBox.name, "the slip is not a copy of Parts/NoteSlip.uxml");
+                Assert.AreEqual("note-slip", notes.NoteBox.parent.name, "the box is not in the slip of the file");
                 Assert.IsNotNull(notes.WordsBox, "the thing has words (" + says + ") but the slip offers none to change: " + notes.About);
                 StringAssert.StartsWith("the words \"", notes.About);
                 notes.NoteBox.value = "Make this plainer.\nA second line with \"quotes\" in it.";

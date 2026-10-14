@@ -22,6 +22,8 @@ namespace Kapman.Tests
         const string NoticesLayout = "Assets/Kapman/Game/UI/Notices.uxml";
         const string NoticeLayout = "Assets/Kapman/Game/UI/Parts/Notice.uxml";
         const string FrameLayout = "Assets/Kapman/Game/UI/Frame.uxml";
+        const string PickerLayout = "Assets/Kapman/Game/UI/Parts/NotePicker.uxml";
+        const string SlipLayout = "Assets/Kapman/Game/UI/Parts/NoteSlip.uxml";
         const string Scene = "Assets/Kapman/Scenes/Kapman.unity";
         const string PartsAsset = "Assets/Kapman/Game/Resources/FrameParts.asset";
 
@@ -48,6 +50,8 @@ namespace Kapman.Tests
             Holds(NoticeLayout, "notice");
             Holds(FrameLayout, PortParts);
             Holds(FrameLayout, ShipParts);
+            Holds(PickerLayout, "note-veil", "note-mark", "note-hint");
+            Holds(SlipLayout, "note-slip", "note-head", "note-about", "note-ask", "note-box", "note-words-ask", "note-words", "note-row", "note-leave", "note-save", "note-foot");
             Assert.AreEqual(TextPanel.RootName, "text-panel");
             Assert.AreEqual(Notices.RootName, "notices");
             string scene = File.ReadAllText(Scene);
@@ -56,6 +60,8 @@ namespace Kapman.Tests
             string parts = File.ReadAllText(PartsAsset);
             StringAssert.Contains("guid: " + Guid(OptionLayout), parts, PartsAsset + " does not name " + OptionLayout);
             StringAssert.Contains("guid: " + Guid(NoticeLayout), parts, PartsAsset + " does not name " + NoticeLayout);
+            StringAssert.Contains("guid: " + Guid(PickerLayout), parts, PartsAsset + " does not name " + PickerLayout);
+            StringAssert.Contains("guid: " + Guid(SlipLayout), parts, PartsAsset + " does not name " + SlipLayout);
         }
 
         [Test]
@@ -79,6 +85,17 @@ namespace Kapman.Tests
             var notice = FrameParts.Make<Label>(parts.notice, "notice");
             Assert.IsNull(notice.parent, "the notice's copy is still in the file's preview");
             Assert.AreEqual(PickingMode.Ignore, notice.pickingMode, "a notice takes the pointer");
+            Assert.IsNotNull(parts.notePicker, PartsAsset + " names no picker of the notes");
+            Assert.IsNotNull(parts.noteSlip, PartsAsset + " names no slip of a note");
+            var veil = FrameParts.Make<VisualElement>(parts.notePicker, "note-veil");
+            Assert.IsNull(veil.parent, "the veil's copy is still in the file's preview");
+            Assert.IsTrue(veil.ClassListContains("frame-note-veil"), "the veil has not the look of one");
+            var slip = FrameParts.Make<VisualElement>(parts.noteSlip, "note-slip");
+            Assert.IsNull(slip.parent, "the slip's copy is still in the file's preview");
+            CollectionAssert.AreEqual(new[] { "note-head", "note-about", "note-ask", "note-box", "note-words-ask", "note-words", "note-row", "note-foot" },
+                                      slip.Children().Select(c => c.name).ToList(), "the slip's parts are not in their order");
+            Assert.IsInstanceOf<TextField>(slip.Q<VisualElement>("note-box"));
+            Assert.IsInstanceOf<Button>(slip.Q<VisualElement>("note-save"));
 
             var notices = UnityEditor.AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(NoticesLayout);
             Assert.IsNotNull(notices, NoticesLayout + " did not import");

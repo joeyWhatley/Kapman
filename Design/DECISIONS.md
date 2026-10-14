@@ -2413,3 +2413,16 @@ and far fewer when usage is short).
      ShipLookTests, StageInScenePlayTests and OpeningTests 10 of 10.
    - NEXT of 2d: the notes of F2 (the picker's veil, mark and hint, and the slip, as parts); then each side window's
      own layout.
+
+148. **THE NOTES OF F2 ARE PARTS: THE PICKER AND THE SLIP**
+   (14 Oct, night, unattended. KAPMAN_PLAN step 2d, its sixth piece: every screen and repeated part of the game as
+   played is now a file. What is left of 2d is each side window's own layout.)
+   - Game/UI/Parts/NotePicker.uxml holds the picker's three parts: the veil "note-veil" over the whole frame, the
+     ring "note-mark" and the hint "note-hint" with its words; PlayNotes.StartPicking takes a copy of each and puts
+     them on the frame, wiring the veil's pointer as before.
+   - Game/UI/Parts/NoteSlip.uxml holds the slip "note-slip": "note-head", "note-about", "note-ask", the box
+     "note-box", "note-words-ask" and "note-words" (taken out of the copy when the thing has no words), "note-row"
+     with "note-leave" and "note-save", "note-foot". PlayNotes fills it, and Ctrl-Enter and Esc work as before.
+   - Both are named in Resources/FrameParts (notePicker, noteSlip; Kapman > Make physical > 2b).
+   - TESTS. Edit: PanelLayoutTests holds the two files' names, the parts asset's naming of them, the slip's order
+     and the copies without their previews. Play: PlayNotesTests (as before, and that the box is the file's).

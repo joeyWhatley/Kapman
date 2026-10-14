@@ -212,6 +212,8 @@ namespace Kapman.EditorTools
             parts.marketRow = Layout("MarketRow");
             parts.textOption = Layout("TextOption");
             parts.notice = Layout("Notice");
+            parts.notePicker = Layout("NotePicker");
+            parts.noteSlip = Layout("NoteSlip");
             parts.menuOption = Layout("MenuOption");
             parts.showtime = AssetDatabase.LoadAssetAtPath<UnityEngine.UIElements.VisualTreeAsset>(ShowLayout);
             if (parts.showtime == null)

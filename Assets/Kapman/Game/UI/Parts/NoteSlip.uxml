@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="../Frame.uss" />
+    <!-- THE SLIP OF A NOTE OF F2 (Code/Game/UI/Frame/PlayNotes.cs): what should change about the thing clicked, and,
+         where the thing has words, the words it should say instead. The code takes a copy of "note-slip", says what
+         it is about, takes out the words' ask and box when the thing has no words, and wires the two buttons. Move or
+         restyle the parts as you like, but keep their names. The element "preview" is only here so the part looks
+         right in UI Builder: the game does not use it. -->
+    <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 640px; height: 420px;">
+        <ui:VisualElement name="note-slip" class="frame-slip frame-note">
+            <ui:Label name="note-head" class="frame-h" text="A note" />
+            <ui:Label name="note-about" class="frame-p" text="About the words &quot;Cast off&quot; in the Voyage window." />
+            <ui:Label name="note-ask" class="frame-p frame-note-quiet" text="What should change?" />
+            <ui:TextField name="note-box" class="frame-note-field frame-note-tall" multiline="true" />
+            <ui:Label name="note-words-ask" class="frame-p frame-note-quiet" text="The words it should say instead (leave them as they are for no change)" />
+            <ui:TextField name="note-words" class="frame-note-field" multiline="true" />
+            <ui:VisualElement name="note-row" class="frame-note-row">
+                <ui:Button name="note-leave" class="frame-k" text="Leave it" />
+                <ui:Button name="note-save" class="frame-k" text="Save the note" />
+            </ui:VisualElement>
+            <ui:Label name="note-foot" class="frame-p frame-note-quiet" text="Ctrl and Enter saves. Esc leaves. Notes are kept in the project's Notes folder." />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

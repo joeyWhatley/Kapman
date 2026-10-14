@@ -41,6 +41,10 @@ namespace Kapman.Game.Frame
         public VisualTreeAsset textOption;
         [Tooltip("One notice at the top of the screen (Game/UI/Parts/Notice.uxml, the label \"notice\").")]
         public VisualTreeAsset notice;
+        [Tooltip("The picker of the notes of F2: its veil, its mark and its hint (Game/UI/Parts/NotePicker.uxml, the elements \"note-veil\", \"note-mark\", \"note-hint\").")]
+        public VisualTreeAsset notePicker;
+        [Tooltip("The slip of a note of F2 (Game/UI/Parts/NoteSlip.uxml, the element \"note-slip\").")]
+        public VisualTreeAsset noteSlip;
 
         [Header("The menu and the opening")]
         [Tooltip("One choice of the menu (Game/UI/Parts/MenuOption.uxml, the element \"option\").")]

@@ -136,23 +136,24 @@ namespace Kapman.Game.Frame
             Picking = true;
             GameSpeed.Hold(Why);
             UiFocus.Take(this, false);
-            veil = new VisualElement { name = "note-veil" };
-            veil.AddToClassList("frame-note-veil");
+            // THE PICKER'S PARTS ARE A FILE (KAPMAN_PLAN step 2d, 14 Oct 2026): copies of Game/UI/Parts/NotePicker.uxml
+            var parts = FrameParts.Current;
+            var picker = parts != null ? parts.notePicker : null;
+            veil = FrameParts.Make<VisualElement>(picker, "note-veil");
+            veil.pickingMode = PickingMode.Position;
             veil.RegisterCallback<PointerMoveEvent>(e => Ring(Under(e.position)));
             veil.RegisterCallback<PointerDownEvent>(e =>
             {
                 e.StopPropagation();
                 Open(Under(e.position), e.position);
             });
-            mark = new VisualElement { name = "note-mark", pickingMode = PickingMode.Ignore };
-            mark.AddToClassList("frame-note-mark");
+            mark = FrameParts.Make<VisualElement>(picker, "note-mark");
+            mark.pickingMode = PickingMode.Ignore;
             mark.style.display = DisplayStyle.None;
-            hint = new VisualElement { name = "note-hint", pickingMode = PickingMode.Ignore };
-            hint.AddToClassList("frame-slip");
-            hint.AddToClassList("frame-note-hint");
-            var words = FrameUi.P("Notes. Click the thing you want changed. Press F2 again for the whole screen, Esc to leave.");
-            words.pickingMode = PickingMode.Ignore;
-            hint.Add(words);
+            hint = FrameParts.Make<VisualElement>(picker, "note-hint");
+            hint.pickingMode = PickingMode.Ignore;
+            foreach (var child in hint.Children())
+                child.pickingMode = PickingMode.Ignore;
             frame.Root.Add(veil);
             frame.Root.Add(mark);
             frame.Root.Add(hint);
@@ -244,28 +245,26 @@ namespace Kapman.Game.Frame
             var frame = FrameRoot.Current;
             if (!Writing || frame == null || frame.Root == null)
                 yield break;
-            slip = new VisualElement { name = "note-slip" };
-            slip.AddToClassList("frame-slip");
-            slip.AddToClassList("frame-note");
-            slip.Add(FrameUi.H("A note"));
-            slip.Add(FrameUi.P("About " + About + "."));
-            slip.Add(Quiet("What should change?"));
-            NoteBox = Box(true);
-            slip.Add(NoteBox);
+            // THE SLIP IS A FILE (KAPMAN_PLAN step 2d, 14 Oct 2026): a copy of Game/UI/Parts/NoteSlip.uxml, filled in
+            var parts = FrameParts.Current;
+            slip = FrameParts.Make<VisualElement>(parts != null ? parts.noteSlip : null, "note-slip");
+            FrameParts.In<Label>(slip, "note-about").text = "About " + About + ".";
+            NoteBox = FrameParts.In<TextField>(slip, "note-box");
+            NoteBox.multiline = true;
             WordsBox = null;
             if (targetWords != null && targetText.Trim().Length > 0)
             {
-                slip.Add(Quiet("The words it should say instead (leave them as they are for no change)"));
-                WordsBox = Box(false);
+                WordsBox = FrameParts.In<TextField>(slip, "note-words");
+                WordsBox.multiline = true;
                 WordsBox.SetValueWithoutNotify(targetText);
-                slip.Add(WordsBox);
             }
-            var row = new VisualElement();
-            row.AddToClassList("frame-note-row");
-            row.Add(FrameUi.Btn("Leave it", Leave));
-            row.Add(FrameUi.Btn("Save the note", Save));
-            slip.Add(row);
-            slip.Add(Quiet("Ctrl and Enter saves. Esc leaves. Notes are kept in the project's Notes folder."));
+            else
+            {
+                slip.Q<VisualElement>("note-words-ask")?.RemoveFromHierarchy();   // (the thing has no words: not wanted this time)
+                slip.Q<VisualElement>("note-words")?.RemoveFromHierarchy();
+            }
+            FrameParts.In<Button>(slip, "note-leave").clicked += Leave;
+            FrameParts.In<Button>(slip, "note-save").clicked += Save;
             slip.RegisterCallback<KeyDownEvent>(e =>
             {
                 if (e.keyCode == KeyCode.Escape)

@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="../Frame.uss" />
+    <!-- THE PICKER OF THE NOTES OF F2 (Code/Game/UI/Frame/PlayNotes.cs): while the clock is held, a veil over the whole
+         frame takes the next click and names the thing a note is about, a ring marks what lies under the pointer, and
+         a hint says what to do. The code takes a copy of each of the three ("note-veil", "note-mark", "note-hint") and
+         puts them on the frame. Restyle them as you like, but keep their names. The element "preview" is only here so
+         the parts look right in UI Builder: the game does not use it. -->
+    <ui:VisualElement name="preview" class="frame-root" style="position: relative; width: 640px; height: 200px;">
+        <ui:VisualElement name="note-veil" class="frame-note-veil" />
+        <ui:VisualElement name="note-mark" class="frame-note-mark" picking-mode="Ignore" style="display: none;" />
+        <ui:VisualElement name="note-hint" class="frame-slip frame-note-hint" picking-mode="Ignore">
+            <ui:Label name="note-hint-words" class="frame-p" picking-mode="Ignore" text="Notes. Click the thing you want changed. Press F2 again for the whole screen, Esc to leave." />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
