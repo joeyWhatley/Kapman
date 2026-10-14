@@ -200,6 +200,13 @@ namespace Kapman.Game.ShipView
         VisualElement shipView, mapRoot;
         Image small, big;
         Button swapSmall, swapMini, lookButton;
+        Button wiredSwap, wiredLook;                                  // the frame's buttons whose clicks are ours already
+        readonly System.Collections.Generic.List<VisualElement> madeOnFrame = new System.Collections.Generic.List<VisualElement>();   // parts made here, not the frame's file's
+        /// <summary>The pictures and the buttons on the frame, for a test: the big one, the small one, Swap and Look.</summary>
+        public Image Big => big;
+        public Image Small => small;
+        public Button SwapKey => swapSmall;
+        public Button LookKey => lookButton;
         UIDocument mapDoc, frameDoc;
         MapView miniMap;
         float mapOrder, mapScale;
@@ -420,29 +427,69 @@ namespace Kapman.Game.ShipView
             shipView = frame.Root.Q(null, "frame-ship-view");
             if (shipView == null)
                 return;
-            small = Picture();
-            shipView.Add(small);
-            // Swap and Look stand in the top bar with the other buttons that change what is looked at (the user's ruling of
-            // 7 Oct 2026, late: "a good addition, just not well placed"); nothing is laid over the pictures.
-            swapSmall = Kapman.Game.Frame.FrameUi.Btn("Swap", () => Swapped = !Swapped, "The ship in the middle of the screen and the chart in her window, and back.");
-            swapSmall.focusable = false;
-            lookButton = Kapman.Game.Frame.FrameUi.Btn("Look", () => { if (looks != null) looks.Next(); }, "The ship's picture in another style  [L]");
-            lookButton.focusable = false;
+            // THE FRAME'S OWN PARTS (KAPMAN_PLAN step 2d, 14 Oct 2026): Game/UI/Frame.uxml holds the small picture
+            // "ship-small" in the ship's window, the big one "ship-big" first under the frame's root, and the buttons
+            // "ship-swap" and "ship-look" among the view buttons of the top bar (with the other buttons that change what
+            // is looked at: the user's ruling of 7 Oct 2026, late: "a good addition, just not well placed"; nothing is
+            // laid over the pictures). They are found by name and filled here; a frame without them (gone from the
+            // file, or a test's bare frame) gets them made as before, and only those made go when the view lets go.
+            small = shipView.Q<Image>("ship-small");
+            if (small == null)
+            {
+                small = Picture();
+                small.name = "ship-small";
+                shipView.Add(small);
+                madeOnFrame.Add(small);
+            }
+            small.scaleMode = ScaleMode.ScaleAndCrop;
             var bar = frame.ViewButtons ?? frame.Root;
-            bar.Add(swapSmall);
-            bar.Add(lookButton);
-            big = Picture();
+            swapSmall = bar.Q<Button>("ship-swap");
+            if (swapSmall == null)
+            {
+                swapSmall = Kapman.Game.Frame.FrameUi.Btn("Swap", null, "The ship in the middle of the screen and the chart in her window, and back.");
+                swapSmall.name = "ship-swap";
+                bar.Add(swapSmall);
+                madeOnFrame.Add(swapSmall);
+            }
+            swapSmall.focusable = false;
+            if (swapSmall != wiredSwap)
+            {
+                swapSmall.clicked += () => Swapped = !Swapped;
+                wiredSwap = swapSmall;
+            }
+            lookButton = bar.Q<Button>("ship-look");
+            if (lookButton == null)
+            {
+                lookButton = Kapman.Game.Frame.FrameUi.Btn("Look", null, "The ship's picture in another style  [L]");
+                lookButton.name = "ship-look";
+                bar.Add(lookButton);
+                madeOnFrame.Add(lookButton);
+            }
+            lookButton.focusable = false;
+            if (lookButton != wiredLook)
+            {
+                lookButton.clicked += () => { if (looks != null) looks.Next(); };
+                wiredLook = lookButton;
+            }
+            big = frame.Root.Q<Image>("ship-big");
+            if (big == null)
+            {
+                big = Picture();
+                big.name = "ship-big";
+                frame.Root.Insert(0, big);
+                madeOnFrame.Add(big);
+            }
+            big.scaleMode = ScaleMode.ScaleAndCrop;
             big.style.display = DisplayStyle.None;
-            frame.Root.Insert(0, big);
             // THE HELM'S MARK (13 Oct 2026): whose hand is on the helm and how far it is over, at the foot of the big
-            // picture while the 3D view has the screen (Game/UI/Parts/HelmMark.uxml).
+            // picture while the 3D view has the screen (Game/UI/Parts/HelmMark.uxml), right after the big picture.
             var parts = Kapman.Game.Frame.FrameParts.Current;
             helmMark = Kapman.Game.Frame.FrameParts.Make<VisualElement>(parts != null ? parts.helmMark : null, "helm");
             helmMark.pickingMode = PickingMode.Ignore;
             foreach (var child in helmMark.Children())
                 child.pickingMode = PickingMode.Ignore;
             helmMark.style.display = DisplayStyle.None;
-            frame.Root.Insert(1, helmMark);
+            frame.Root.Insert(frame.Root.IndexOf(big) + 1, helmMark);
             helmWhose = helmMark.Q<Label>("whose");
             helmKeys = helmMark.Q<Label>("keys");
             helmTiller = helmMark.Q<VisualElement>("tiller");
@@ -494,13 +541,19 @@ namespace Kapman.Game.ShipView
 
         void Detach()
         {
-            small?.RemoveFromHierarchy();
-            big?.RemoveFromHierarchy();
+            foreach (var m in madeOnFrame)
+                m.RemoveFromHierarchy();                                 // (the frame's own parts stay; they are hidden or cleared)
+            madeOnFrame.Clear();
+            if (small != null)
+                small.image = null;
+            if (big != null)
+            {
+                big.image = null;
+                big.style.display = DisplayStyle.None;
+            }
             helmMark?.RemoveFromHierarchy();
             helmMark = helmTiller = null;
             helmWhose = helmKeys = null;
-            swapSmall?.RemoveFromHierarchy();
-            lookButton?.RemoveFromHierarchy();
             lookButton = null;
             small = big = null;
             wordSmall = wordBig = null;

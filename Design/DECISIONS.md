@@ -2392,3 +2392,24 @@ and far fewer when usage is short).
      marked and a page in the area, the price notes' tab turns the page, Close shuts it; picture Captures/chest).
    - NEXT of 2d: the notes of F2, the places; the ship view's big picture and helm mark into Frame.uxml; then each
      side window's own layout.
+
+147. **THE SHIP VIEW'S PICTURES AND BUTTONS ARE THE FRAME'S OWN; TWO SMALL MENDS**
+   (14 Oct, night, unattended: "Fix and continue pls". KAPMAN_PLAN step 2d, its fifth piece.)
+   - Frame.uxml now holds the ship's big picture "ship-big" first under "frame" (before the port's picture: both lie
+     behind everything and are never up together), her small picture "ship-small" inside her window "ship-view",
+     and the buttons "ship-swap" and "ship-look" among the "views" of the top bar after the port's "port-flip".
+     ShipStageHook finds them by name, fills them and wires the clicks once; a frame without them (a test's bare
+     frame) gets them made as before, and only those made are taken away when the view lets go of the frame. The
+     helm's mark stays a copy of Parts/HelmMark.uxml put right after the big picture by code.
+   - MEND: a notice lay over the frame's top bar (54 px tall): the notices' holder now sits at 62 px whenever the
+     frame is up, not only when the chart has the screen alone.
+   - MEND: docked beside the chart, the market's head row ran "In stock", "They ask" and "They pay" into each other
+     at 66 px: the number columns are 76 px there (the unit column 96), and a head cell wraps its words rather than
+     overlap (MarketPanel.uss).
+   - TESTS. Edit: PanelLayoutTests holds the four ship names, their places (big first, port second, ground third;
+     small in the window; Swap and Look among the views). Play: PanelLayoutPlayTests finds them on the frame as
+     played, swaps the ship into the middle of the screen by the frame's own Swap and back (picture
+     Captures/panels/panels_1_swapped.png); with MarketLayoutPlayTests, ShipViewChartTests, HelmPlayTests,
+     ShipLookTests, StageInScenePlayTests and OpeningTests 10 of 10.
+   - NEXT of 2d: the notes of F2 (the picker's veil, mark and hint, and the slip, as parts); then each side window's
+     own layout.

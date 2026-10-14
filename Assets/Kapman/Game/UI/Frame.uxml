@@ -5,6 +5,9 @@
          words and numbers, so a part may be moved anywhere and given any look, but must keep its name.
          Order matters: what is lower in this list is drawn over what is higher. -->
     <ui:VisualElement name="frame" class="frame-root" picking-mode="Ignore">
+        <!-- THE SHIP'S 3D VIEW over the whole screen, when swapped in with the Swap button (Code/Game/ShipView/
+             ShipStageHook.cs fills it; the helm's mark, Parts/HelmMark.uxml, is put right after it by code) -->
+        <ui:Image name="ship-big" picking-mode="Ignore" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; display: none;" />
         <!-- THE PORT'S PICTURE from above, behind everything, while she lies in port (Code/Game/UI/Frame/PortView.cs
              fills it and lays the hour's light over it); under it a plain ground with a place's name, for a place that
              has no picture yet -->
@@ -52,6 +55,9 @@
                 <ui:VisualElement name="views" class="frame-top-views">
                     <!-- the chart in the port's place, and back (PortView) -->
                     <ui:Button name="port-flip" text="Chart" tooltip="The chart in the port's place, and back." class="frame-k" style="display: none;" />
+                    <!-- the ship in the middle of the screen and back, and her picture in another style (ShipStageHook) -->
+                    <ui:Button name="ship-swap" text="Swap" tooltip="The ship in the middle of the screen and the chart in her window, and back." class="frame-k" focusable="false" />
+                    <ui:Button name="ship-look" text="Look" tooltip="The ship's picture in another style  [L]" class="frame-k" focusable="false" />
                 </ui:VisualElement>
                 <ui:Button name="speed-pause" text="Pause" tooltip="Pause and go on  [Space]" class="frame-k" />
                 <ui:Button name="speed-1" text="1" class="frame-k" />
@@ -210,7 +216,10 @@
         </ui:VisualElement>
         <!-- the foot, right: the window of the ship (the 3D view is drawn into ship-view) and its two lines -->
         <ui:VisualElement name="ship" class="frame-slip frame-ship">
-            <k:FrameShipView name="ship-view" />
+            <k:FrameShipView name="ship-view">
+                <!-- the ship's picture in her window (ShipStageHook fills it) -->
+                <ui:Image name="ship-small" picking-mode="Ignore" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0;" />
+            </k:FrameShipView>
             <ui:VisualElement name="ship-cap" class="frame-ship-cap">
                 <ui:Label name="ship-where" class="frame-ship-where" />
                 <ui:Label name="ship-wind" class="frame-ship-wind" />

@@ -70,6 +70,30 @@ namespace Kapman.Tests
                 Assert.AreSame(frame.ViewButtons, view.Flip.parent, "the port's button is not among the view buttons");
                 Assert.AreEqual(1, frame.Root.Query<Image>("port-view").ToList().Count, "more than one port picture in the frame");
                 Assert.AreEqual(1, frame.Root.Query<Button>("port-flip").ToList().Count, "more than one port button in the frame");
+
+                // the ship's view: the frame's own pictures and buttons, in their places
+                var hook = Kapman.Game.ShipView.ShipStageHook.Current;
+                Assert.IsNotNull(hook, "no ship view");
+                Assert.IsNotNull(hook.Big, "the ship view has no big picture");
+                Assert.AreEqual("ship-big", hook.Big.name);
+                Assert.AreSame(frame.Root, hook.Big.parent, "the ship's big picture is not under the frame's root");
+                Assert.AreEqual(0, frame.Root.IndexOf(hook.Big), "the ship's big picture is not the first thing under the frame");
+                Assert.AreEqual("ship-small", hook.Small.name);
+                Assert.AreEqual("ship-view", hook.Small.parent.name, "the ship's small picture is not in her window");
+                Assert.IsNotNull(hook.Small.image, "the ship's small picture is empty");
+                Assert.AreEqual("ship-swap", hook.SwapKey.name);
+                Assert.AreEqual("ship-look", hook.LookKey.name);
+                Assert.AreSame(frame.ViewButtons, hook.SwapKey.parent, "Swap is not among the view buttons");
+                Assert.AreEqual(1, frame.Root.Query<Image>("ship-big").ToList().Count, "more than one big picture in the frame");
+                Assert.AreEqual(1, frame.Root.Query<Button>("ship-swap").ToList().Count, "more than one Swap in the frame");
+                yield return play.Click(hook.SwapKey, "Swap");
+                yield return ChartPlay.Settle(0.5f);
+                Assert.IsTrue(hook.Swapped, "Swap did not put the ship in the middle of the screen");
+                Assert.IsTrue(ChartPlay.Shown(hook.Big), "the big picture is not shown when swapped");
+                yield return play.Shot("panels_1_swapped");
+                yield return play.Click(hook.SwapKey, "Swap back");
+                yield return ChartPlay.Settle(0.5f);
+                Assert.IsFalse(hook.Swapped, "Swap did not put the chart back");
                 yield return play.Shot("panels_0_the_files_own");
                 Assert.AreEqual(0, play.faults.Count, string.Join("\n", play.faults));
             }

@@ -43,11 +43,12 @@
 }
 
 .market-root.docked .c-unit {
-    width: 104px;
+    width: 96px;
 }
 
+/* (14 Oct 2026: at 66 px the head's "In stock", "They ask" and "They pay" ran into each other) */
 .market-root.docked .c-num {
-    width: 66px;
+    width: 76px;
 }
 
 .market-root.docked .c-buttons {
@@ -165,6 +166,10 @@
     flex-direction: row;
     align-items: center;
     padding: 5px 8px;
+}
+
+.market-row-head .c-num {
+    white-space: normal;                                               /* (a long word of the place wraps, never overlaps) */
 }
 
 .market-row-head {

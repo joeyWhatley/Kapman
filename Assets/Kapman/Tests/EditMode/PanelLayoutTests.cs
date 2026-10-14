@@ -27,6 +27,7 @@ namespace Kapman.Tests
 
         static readonly string[] TextParts = { "text-panel", "box", "title", "story", "intention", "options", "outcome" };
         static readonly string[] PortParts = { "port-view", "place-ground", "port-flip" };
+        static readonly string[] ShipParts = { "ship-big", "ship-small", "ship-swap", "ship-look" };
 
         static string Guid(string asset) => Regex.Match(File.ReadAllText(asset + ".meta"), "guid: ([0-9a-f]{32})").Groups[1].Value;
 
@@ -46,6 +47,7 @@ namespace Kapman.Tests
             Holds(NoticesLayout, "notices");
             Holds(NoticeLayout, "notice");
             Holds(FrameLayout, PortParts);
+            Holds(FrameLayout, ShipParts);
             Assert.AreEqual(TextPanel.RootName, "text-panel");
             Assert.AreEqual(Notices.RootName, "notices");
             string scene = File.ReadAllText(Scene);
@@ -89,8 +91,14 @@ namespace Kapman.Tests
             var frameRoot = frame.Instantiate().Q<VisualElement>("frame");
             Assert.IsNotNull(frameRoot, "no element named \"frame\"");
             Assert.IsInstanceOf<Image>(frameRoot.Q<VisualElement>("port-view"));
-            Assert.AreEqual("port-view", frameRoot.ElementAt(0).name, "the port's picture is not the first thing under the frame (it lies behind everything)");
-            Assert.AreEqual("place-ground", frameRoot.ElementAt(1).name, "the place's ground is not second under the frame");
+            Assert.IsInstanceOf<Image>(frameRoot.Q<VisualElement>("ship-big"));
+            Assert.IsInstanceOf<Image>(frameRoot.Q<VisualElement>("ship-small"));
+            Assert.AreEqual("ship-big", frameRoot.ElementAt(0).name, "the ship's big picture is not the first thing under the frame");
+            Assert.AreEqual("port-view", frameRoot.ElementAt(1).name, "the port's picture is not right after the ship's big picture (both lie behind everything)");
+            Assert.AreEqual("place-ground", frameRoot.ElementAt(2).name, "the place's ground is not right after the port's picture");
+            Assert.AreEqual("ship-view", frameRoot.Q<VisualElement>("ship-small").parent.name, "the ship's small picture is not in her window");
+            Assert.AreEqual("views", frameRoot.Q<Button>("ship-swap").parent.name, "Swap is not among the view buttons of the top bar");
+            Assert.AreEqual("views", frameRoot.Q<Button>("ship-look").parent.name, "Look is not among the view buttons of the top bar");
             var flip = frameRoot.Q<Button>("port-flip");
             Assert.IsNotNull(flip, "no button named \"port-flip\"");
             Assert.AreEqual("views", flip.parent.name, "the port's button is not among the view buttons of the top bar");

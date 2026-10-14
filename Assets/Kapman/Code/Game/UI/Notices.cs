@@ -105,9 +105,10 @@ namespace Kapman.Game
 
         void Update()
         {
-            // at the map, under its top bar
+            // under the top bar of the frame, or of the chart when it has the screen alone (14 Oct 2026: a notice lay
+            // over the frame's top bar, which is 54 px tall)
             if (root != null)
-                root.style.top = MapView.Current != null && MapView.Current.IsOpen ? 62 : 14;
+                root.style.top = Kapman.Game.Frame.FrameRoot.Current != null || (MapView.Current != null && MapView.Current.IsOpen) ? 62 : 14;
             for (int i = shown.Count - 1; i >= 0; i--)
             {
                 float left = shown[i].until - Time.unscaledTime;
